@@ -1,0 +1,1368 @@
+<html>
+    <head>
+        <title>JUNGER Toolkit - Showcase</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        
+        <!-- MAIN STUFF -->
+        <script src="javascript/mootools-core-1.4.5.js"></script>
+        <script src="javascript/mootools-more-1.4.0.1.js"></script>
+        <script src="javascript/utils.js"></script>
+        <script src="javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/screen.css"/>
+        <link rel="stylesheet" type="text/css" href="css/toolkit.css"/>
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:300,500,300italic,500italic"/>
+        
+       <!-- LIBRARIES -->
+        <script src="javascript/event.resize.js"></script>
+        <script src="javascript/element.sizes.js"></script>
+        
+        <!-- BASE CLASSES -->
+        <script src="toolkit./Range/javascript/range.js"></script>
+        
+        <!-- BUTTON -->
+        <script src="toolkit./Button/javascript/button.js"></script>
+        <script src="toolkit./Button/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Button/css/button.css">
+        
+        <!-- TOGGLE -->
+        <script src="toolkit./Toggle/javascript/toggle.js"></script>
+        <script src="toolkit./Toggle/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Toggle/css/toggle.css">
+        
+        <!-- STATE -->
+        <script src="toolkit./State/javascript/state.js"></script>
+        <script src="toolkit./State/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./State/css/state.css">
+        
+        <!-- SCALE -->
+        <script src="toolkit./Scale/javascript/scale.js"></script>
+        <script src="toolkit./Scale/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Scale/css/scale.css">
+        
+        <!-- METER BASE -->
+        <script src="toolkit./MeterBase/javascript/meterbase.js"></script>
+        <script src="toolkit./MeterBase/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./MeterBase/css/meterbase.css">
+        
+        <!-- LEVEL METER -->
+        <script src="toolkit./LevelMeter/javascript/levelmeter.js"></script>
+        <script src="toolkit./LevelMeter/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./LevelMeter/css/levelmeter.css">
+        
+        <script type="text/javascript">
+            window.addEvent('load', function(){
+                
+            });
+        </script>
+        
+        <style type="text/css">
+            
+        </style>
+        
+    </head>
+    <body>
+        <div class="header">
+            <ul class="navigation">
+                <li><a href="/toolkit./index.html" title="Index">◂ Index</a></li>
+                <li><a href="#button">Button</a></li>
+                <li><a href="#toggle">Toggle</a></li>
+                <li><a href="#range">Range</a></li>
+                <li><a href="#state">State</a></li>
+                <li><a href="#scale">Scale</a></li>
+                <li><a href="#meterbase">MeterBase</a></li>
+                <li><a href="#levelmeter">LevelMeter</a></li>
+            </ul>
+            <a href="/" title="Junger Audio Homepage"><img src="images/logo_white.png" class="logo"/></a>
+        </div>
+        
+        
+        <ul class="wrapper">
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- MAIN -->
+                <!-- ########################################################### -->
+                
+                <h1><img style="float: right; margin-left: 20px;" src="images/junger_toolkit.png"/></h1>
+                <p>
+                    
+                    This page shows and describes the different widgets of the JUNGER toolkit. See some widgets in action,
+                    test things in a terminal (Chrome: CTL+SHIFT+J, FF: Firebug + F12) or just get some information about
+                    the different options of the API.
+                </p>
+                <p>
+                    <strong>Please note #1:</strong> Options marked with an anchor sign <i class="static">⚓</i> are only available on build time and remain
+                    static after the widget was created.
+                </p>
+                <p>
+                    <strong>Please note #2:</strong> This toolkit is in the origination process so it may contain some bugs.
+                    If you find any of them please send a mail to <a href="mail:schmidt@boomshop.net">schmidt@boomshop.net</a>.
+                    Thank you very much.
+                </p>
+            </li>
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- BUTTON WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="button"></a>Button</h2>
+                
+                <p class="description">
+                    Buttons are simple, clickable widgets to trigger funcions. They fire a couple
+                    of click-related events and consist of a label and an icon. Buttons are used
+                    as a base to build different other widgets from.
+                </p>
+                
+                <style type="text/css">
+                    
+                </style>
+                
+                <div class="showcase box">
+                    <div id="sc_button" style="text-align: center;">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>A text or HTML snipped used as a label for the button. Set to false to hide the label element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>icon</td>
+                        <td>A URL to an icon to show on the button. Set to false to hide the image element.</td>
+                        <td>false</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>button.element ("div.state")</td>
+                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
+                    </tr>
+                    <tr>
+                        <td>button._label ("div.label")</td>
+                        <td>The text label of the button</td>
+                    </tr>
+                    <tr>
+                        <td>button._icon ("img.icon")</td>
+                        <td>An icon to display</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>clicked</td>
+                        <td>This event is fired when the button was clicked.</td>
+                    </tr>
+                    <tr>
+                        <td>mousedown</td>
+                        <td>This event is fired when the mouse button was pressed.</td>
+                    </tr>
+                    <tr>
+                        <td>mouseup</td>
+                        <td>This event is fired when the mouse button was released.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- TOGGLE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="toggle"></a>Toggle</h2>
+                
+                <p class="description">
+                    Toggles are enhanced buttons that toggle between two states. They additionally
+                    consist of an "active" icon and an "active" label. The example below has press
+                    toggle enabled, so click and hold toggles for the duration of the mousedown.
+                </p>
+                <p class="description">
+                    Use t to play with the example in a terminal:
+                    <a href="javascript:t.toggle()">t.toggle()</a>
+                    <small>(toggles the state of the widget)</small>
+                </p>
+                <style type="text/css">
+                    
+                </style>
+                
+                <div class="showcase box">
+                    <div id="sc_toggle" style="text-align: center;">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr class="inherit">
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>label</td>
+                        <td>A text or HTML snipped used as a label for the button. Set to false to hide the label element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>icon</td>
+                        <td>A URL to an icon to show on the button. Set to false to hide the image element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>label_active</td>
+                        <td>A text or HTML snipped used as a label for the active toggle state. Set to false to use the default label.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>icon_active</td>
+                        <td>A URL to an icon to show on the active toggle. Set to false to use the default label.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>press</td>
+                        <td>To enable press toggle set a time in milliseconds after a press is interpreted as a toggle. Releasing the button
+                        after a press toggle resets to the original state.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>press_disable</td>
+                        <td>If press toggle is enabled, does it work with deactivating the state, too?</td>
+                        <td>false</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>button.element ("div.state")</td>
+                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>button._label ("div.label")</td>
+                        <td>The text label of the button</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>button._icon ("img.icon")</td>
+                        <td>An icon to display</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>clicked</td>
+                        <td>This event is fired when the button was clicked.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mousedown</td>
+                        <td>This event is fired when the mouse button was pressed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mouseup</td>
+                        <td>This event is fired when the mouse button was released.</td>
+                    </tr>
+                    <tr>
+                        <td>toggled</td>
+                        <td>This event is fired when the state of the button changed.</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>toggle()</td>
+                        <td>Toggle the button.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- RANGE CONTROL -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="range"></a>Range</h2>
+                
+                <p class="description">
+                    A Range is a simple, non-visual control to add a range of values to a widget.
+                    Ranges consist of a min and a max value and a function to calculate a position
+                    for a distinct value. Ranges don't provide any visible elements.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>min</td>
+                        <td>The minimum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max</td>
+                        <td>The maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>val2px(value)</td>
+                        <td>This function returns a percentual value between 0 and 1 for a distinct value
+                        according to the min and max settings. The scale defines the function to be used
+                        for this calculation.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- STATE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="state"></a>State</h2>
+                
+                <p class="description">
+                    The State widget is a multi-functional adaption of a traditional LED. It is able to show
+                    different colors as well as on/off states. The "brightness" can be set seamlessly. Classes
+                    can be used to display different styles.
+                </p>
+                <p class="description">
+                    Use s1 ... s8 to play with the examples in a terminal:
+                    <a href="javascript:s8.set('state', true)">s8.set("state", true)</a>
+                    <small>(sets the state of the "on air" state to inactive)</small>
+                </p>
+                
+                <style type="text/css">
+                    .state {
+                        float: left;
+                    }
+                    div.state.junger, div.state.junger div.mask {
+                        width: 12px;
+                        height: 12px;
+                        -webkit-border-radius: 6px;
+                        -moz-border-radius:    6px;
+                        border-radius:         6px;
+                        border: none;
+                    }
+                    div.state.junger div.mask {
+                        background: rgba(233,233,233,0.97);
+                    }
+                    div.state.junger div.over {
+                        display: none;
+                    }
+                    div.state.on_air {
+                        width: 250px;
+                        height: 70px;
+                    }
+                    div.state.on_air .over {
+                        background: url(images/on_air.png) no-repeat 50% 51%;
+                    }
+                </style>
+                
+                <div class="showcase box">
+                    <div id="sc_state">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>state</td>
+                        <td>The state of the element. Can be true or false or a float between 0 and 1 for seamless "brightness".</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>color</td>
+                        <td>The color of the element as a valid CSS string (e.g. "red", "#00f", "rgb(0, 0, 255)")</td>
+                        <td>"red"</td>
+                    </tr>
+                    <tr>
+                        <td>opacity</td>
+                        <td>The opacity of the mask when state = false or 0</td>
+                        <td>0.8</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>state.element ("div.state")</td>
+                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
+                    </tr>
+                    <tr>
+                        <td>state._over ("div.over")</td>
+                        <td>An element for designing purposes. It is drawn over the background of the base element and is used
+                        to show a semi-transparent PNG for faking some differences in the distribution of light.</td>
+                    </tr>
+                    <tr>
+                        <td>state._mask ("div.mask")</td>
+                        <td>The mask is used to darken, lighten or flatten the background colour depending on the CSS of it.
+                        Its opacity reacts directly on the state variable.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>statechanged</td>
+                        <td>This event is fired when the state was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>colorchanged</td>
+                        <td>This event is fired after the color changed.</td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+                <!-- ########################################################### -->
+                <!-- SCALE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="scale"></a>Scale</h2>
+                
+                <p class="description">
+                    Scales can be used to draw dots and labels as markers next to a meter,
+                    a fader or a frequency response graph. Depending on some parameters
+                    they try to decide on their own where to draw labels and dots depending
+                    on the available space and the scale. Scales can be drawn vertically
+                    and horizontally.
+                </p>
+                <p class="description">
+                    Use svl, svr, sht and shb to play with the examples in a terminal:
+                    <a href="javascript:svl.set('gap_labels', 20)">svl.set("gap_labels", 20)</a>
+                    <small>(doubles the amount of drawn labels in the vertical scale on the left)</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_scale_h_t {
+                        margin-left: 80px;
+                    }
+                    #sc_scale_h_t .scale {
+                        
+                    }
+                    #sc_scale_h_b {
+                        margin-left: 80px;
+                        margin-top: 170px;
+                    }
+                    #sc_scale_h_b .scale {
+                        
+                    }
+                    #sc_scale_v_l {
+                        float: left;
+                    }
+                    #sc_scale_v_l .scale {
+                        
+                    }
+                    #sc_scale_v_r {
+                        float: right;
+                    }
+                    #sc_scale_v_r .scale {
+                        
+                    }
+                </style>
+                
+                <div class="showcase box" style="height: 200px; padding: 20px">
+                    <div id="sc_scale_v_l">
+                        
+                    </div>
+                    <div id="sc_scale_v_r">
+                        
+                    </div>
+                    <div id="sc_scale_h_t">
+                        
+                    </div>
+                    <div id="sc_scale_h_b">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>layout <i class="static">⚓</i></td>
+                        <td>Layout of the widget.
+                            <ul>
+                                <li>1: vertical, labels on the left</li>
+                                <li>2: vertical, labels on the right</li>
+                                <li>3: horizontal, labels on top</li>
+                                <li>4: horizontal, labels on bottom</li>
+                            </ul>
+                        </td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>reverse</td>
+                        <td>Draw the scale from right to left or bottom to top.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>division</td>
+                        <td>Minimum step size (as value) between labels or dots.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>levels</td>
+                        <td>Array consisting of the multipliers labels and dots can be drawn.
+                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
+                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
+                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
+                        too, lower levels are only possible at the exact division.
+                        </td>
+                        <td>[1]</td>
+                    </tr>
+                    <tr>
+                        <td>base</td>
+                        <td>The base value where drawing of labels and dots starts. Every drawing position
+                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
+                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>labels</td>
+                        <td>A function to format the labels before they are drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr>
+                        <td>gap_dots</td>
+                        <td>Minimum gap (in pixels) between dots.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>gap_labels</td>
+                        <td>Minimum gap (in pixels) between labels.</td>
+                        <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>show_labels</td>
+                        <td>Draw labels</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td>The size in pixels</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min</td>
+                        <td>The minimum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max</td>
+                        <td>The maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>scale.element ("div.scale")</td>
+                        <td>The base element of the widget. It contains the dots and labels.</td>
+                    </tr>
+                    <tr>
+                        <td>[dots] ("div.dot")</td>
+                        <td>Dots are absolutely positioned divs. They can have different additional
+                        CSS classes depending on their position. These classes are:
+                        <ul>
+                            <li>".marker" - The dot belongs to a label</li>
+                            <li>".min" - the dot is drawn on the min value</li>
+                            <li>".max" - the dot is drawn on the max value</li>
+                            <li>".base" - the dot is drawn on the base value</li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>[labels] ("span.label")</td>
+                        <td>Labels are absolute positioned spans containing text. They can have the same
+                        additional classes as dots (except ".marker").</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- METER BASE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="meterbase"></a>MeterBase</h2>
+                
+                <p class="description">
+                    A MeterBase draws a horizontal or vertical bar with a colored background
+                    and some design and masking elements. It implements a <a href="#scale">Scale</a>
+                    to draw some labels and markers. MeterBases are used to build different metering
+                    elements from, e.g. LevelMeters, CorrelationMeters and the like.
+                </p>
+                <p class="description">
+                    Use mbvr, mbvl, mbhb and mbht to play with the examples in a terminal:
+                    <a href="javascript:mbvl.set('value', -12)">mbvl.set("value", -12)</a>
+                    <small>(sets the value of the vertical meter on the left to -12)</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_meterbase {
+                        height: 210px;
+                    }
+                    #sc_meterbase .meter-base.vertical.right {
+                    }
+                    #sc_meterbase .meter-base.vertical {
+                        height: 200px;
+                    }
+                    #sc_meterbase .meter-base.horizontal {
+                        width: 500px;
+                    }
+                    #sc_meterbase .meter-base.vertical .bar {
+                        width: 100px;
+                    }
+                    #sc_meterbase .meter-base.horizontal .bar {
+                        height: 50px;
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_meterbase">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>layout <i class="static">⚓</i></td>
+                        <td>Layout of the widget.
+                            <ul>
+                                <li>1: vertical, bar on the left</li>
+                                <li>2: vertical, bar on the right</li>
+                                <li>3: horizontal, bar on top</li>
+                                <li>4: horizontal, bar on bottom</li>
+                            </ul>
+                        </td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>reverse</td>
+                        <td>Draw the bar from right to left or bottom to top.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td>The value to show in the bar</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>base</td>
+                        <td>If base is set meters are "starting" at that value. Values are shown above and below this value.
+                        If set to false, base is set to the min value.
+                        (E.g. the horizontal meters in the showcase are set to base = 0)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>The value to show as the label. If set to false, the label is initially set to value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>The title of the meter.</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>gradient</td>
+                        <td>A gradient is an object containing values as keys and CSS colors as values.
+                        (E.g. {"-96":"blue", "-0.001":"green", "0":"orange", "24":"red"})</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>background</td>
+                        <td>If no gradient is used, set the background to a plain color.</td>
+                        <td>null</td>
+                    </tr>
+                    <tr>
+                        <td>show_title</td>
+                        <td>Show or hide the title (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_label</td>
+                        <td>Show or hide the label (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_scale</td>
+                        <td>Show or hide the scale (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>format_label</td>
+                        <td>A function to format the label before it is drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>division</td>
+                        <td>Minimum step size (as value) between labels or dots.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levels</td>
+                        <td>Array consisting of the multipliers labels and dots can be drawn.
+                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
+                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
+                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
+                        too, lower levels are only possible at the exact division.
+                        </td>
+                        <td>[1, 5, 10]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min</td>
+                        <td>The minimum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max</td>
+                        <td>The maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale_base</td>
+                        <td>The base value where drawing of labels and dots starts. Every drawing position
+                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
+                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>show_labels</td>
+                        <td>Show or hide the labels inside the scale (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>format_labels</td>
+                        <td>A function to format the labels before they are drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>gap_dots</td>
+                        <td>Minimum gap (in pixels) between dots.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>gap_labels</td>
+                        <td>Minimum gap (in pixels) between labels.</td>
+                        <td>40</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>meterbase.element ("div.meter-base")</td>
+                        <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._title ("div.title")</td>
+                        <td>The title div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._label ("div.label")</td>
+                        <td>The label div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._scale ("div.meter-scale")</td>
+                        <td>The scale container div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._bar ("div.bar")</td>
+                        <td>The bar container div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._base ("div.base")</td>
+                        <td>The base of the bar drawing the background color/gradient</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._over ("div.over")</td>
+                        <td>The overlay for designing purposes (e.g. fake-LED's)</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._mask1 ("div.mask.mask1")</td>
+                        <td>The mask for values above base</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._mask2 ("div.mask.mask2")</td>
+                        <td>The mask for values below base</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase.__scale</td>
+                        <td>The scale instance</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>valuechanged</td>
+                        <td>This event is fired when the value was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>basechanged</td>
+                        <td>This event is fired when the base value was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>labelchanged</td>
+                        <td>This event is fired when the label was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>titlechanged</td>
+                        <td>This event is fired when the title was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>scalechanged</td>
+                        <td>This event is fired when the scale was changed somehow.</td>
+                    </tr>
+                    <tr>
+                        <td>colorchanged</td>
+                        <td>This event is fired after the color of the bar changed.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- LVEL METER WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="levelmeter"></a>LevelMeter</h2>
+                
+                <p class="description">
+                    LevelMeters are fully functional displays of numerical values. They are enhanced
+                    <a href="#meterbase">MeterBases</a> containing a <a href="#state">clip LED</a>,
+                    a peak pin with value label and hold markers. LevelMeters
+                    have some automatically triggered functionality like falling and resetting all kinds
+                    of values after a time. All additional elements can be set automatically as soon as
+                    the value rises above them.
+                </p>
+                <p class="description">
+                    Use meters.[title] to play with the examples in a terminal:
+                    <a href="javascript:meters.mvr.set('value', 12)">meters.mvr.set("value", 12)</a>
+                    <small>(sets the value of the vertical meter on the left to 12)</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_levelmeter .meter-base.vertical {
+                        height: 354px;
+                    }
+                </style>
+                
+                <div class="showcase" style="margin-left: 80px">
+                    <div id="sc_levelmeter">
+                        
+                    </div>
+                    <div style="clear: both; text-align: right;margin-top: 30px;width: 700px;">
+                        <button class="button" onClick="run()">Run Demo</button>
+                        <button class="button" onClick="running=false">Stop Demo</button>
+                        <button class="button" onClick="reset()">Reset Peak</button>
+                        <button class="button" onClick="hold()">Toggle Hold</button>
+                    </div>
+                    <p style="text-align:right; width: 700px;"><small>Please don't expect too much performance with this poorly hacked demo on this overloaded page..</small></p>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>falling</td>
+                        <td>If falling is active set a step size (value) the meter falls per frame.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>falling_fps</td>
+                        <td>Frames per second for the falling loop</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td>peak</td>
+                        <td>The value for the peak pin, false = set to value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>top</td>
+                        <td>The value for the top hold, false = set to value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>bottom</td>
+                        <td>The value for the bottom hold, false = set to value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hold_size</td>
+                        <td>Amount of segments for the hold indicators (top and bottom)</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>show_peak</td>
+                        <td>Show or hide the peak marker (bool).</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_clip</td>
+                        <td>Show or hide the clipping state widget (bool).</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_hold</td>
+                        <td>Show or hide the hold indicators of top and bottom (bool).</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>clipping</td>
+                        <td>If auto clipping is active, set the value where clipping appears.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>auto_clip</td>
+                        <td>Activate auto clipping. Set this value to:
+                            <ul>
+                                <li>-1: value is never reset automatically</li>
+                                <li>n: Milliseconds after the value is reset automatically</li>
+                                <li>false: disable auto clipping</li>
+                            </ul>
+                        </td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>auto_peak</td>
+                        <td>Activate auto peak setting. Set this value to:
+                            <ul>
+                                <li>-1: value is never reset automatically</li>
+                                <li>n: Milliseconds after the value is reset automatically</li>
+                                <li>false: disable auto peak</li>
+                            </ul>
+                        </td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>peak_label</td>
+                        <td>Activate automatically setting the label. Set this value to:
+                            <ul>
+                                <li>-1: value is never reset automatically</li>
+                                <li>n: Milliseconds after the value is reset automatically</li>
+                                <li>false: disable automatically setting the label</li>
+                            </ul>
+                        </td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>auto_hold</td>
+                        <td>Activate auto hold (top and bottom). This is an indicator inside the bar.
+                            Set this value to:
+                            <ul>
+                                <li>-1: value is never reset automatically</li>
+                                <li>n: Milliseconds after the value is reset automatically</li>
+                                <li>false: disable auto hold</li>
+                            </ul>
+                        </td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>format_peak</td>
+                        <td>A function to format the peak label before it is drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (value) { return sprintf("%0.2f", value); }</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>layout <i class="static">⚓</i></td>
+                        <td>Layout of the widget.
+                            <ul>
+                                <li>1: vertical, bar on the left</li>
+                                <li>2: vertical, bar on the right</li>
+                                <li>3: horizontal, bar on top</li>
+                                <li>4: horizontal, bar on bottom</li>
+                            </ul>
+                        </td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>reverse</td>
+                        <td>Draw the bar from right to left or bottom to top.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>division</td>
+                        <td>Minimum step size (as value) between labels or dots.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levels</td>
+                        <td>Array consisting of the multipliers labels and dots can be drawn.
+                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
+                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
+                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
+                        too, lower levels are only possible at the exact division.
+                        </td>
+                        <td>[1, 5, 10]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min</td>
+                        <td>The minimum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max</td>
+                        <td>The maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale_base</td>
+                        <td>The base value where drawing of labels and dots starts. Every drawing position
+                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
+                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>format_labels</td>
+                        <td>A function to format the labels before they are drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>gap_dots</td>
+                        <td>Minimum gap (in pixels) between dots.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>gap_labels</td>
+                        <td>Minimum gap (in pixels) between labels.</td>
+                        <td>40</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>value</td>
+                        <td>The value to show in the bar</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>base</td>
+                        <td>If base is set meters are "starting" at that value. Values are shown above and below this value.
+                        If set to false, base is set to the min value.
+                        (E.g. the horizontal meters in the showcase are set to base = 0)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>label</td>
+                        <td>The value to show as the label. If set to false, the label is initially set to value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>title</td>
+                        <td>The title of the meter.</td>
+                        <td>""</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>gradient</td>
+                        <td>A gradient is an object containing values as keys and CSS colors as values.
+                        (E.g. {"-96":"blue", "-0.001":"green", "0":"orange", "24":"red"})</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>background</td>
+                        <td>If no gradient is used, set the background to a plain color.</td>
+                        <td>null</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>show_title</td>
+                        <td>Show or hide the title (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>show_label</td>
+                        <td>Show or hide the label (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>show_scale</td>
+                        <td>Show or hide the scale (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>show_labels</td>
+                        <td>Show or hide the labels inside the scale (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>format_label</td>
+                        <td>A function to format the label before it is drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>levelmeter.__state</td>
+                        <td>The instance of a state widget for clipping.</td>
+                    </tr>
+                    <tr>
+                        <td>levelmeter._clip ("div.clip")</td>
+                        <td>The base element of the state widget for clipping.</td>
+                    </tr>
+                    <tr>
+                        <td>levelmeter._peak ("div.peak")</td>
+                        <td>A small pin at the side of the bar pointing on a value.</td>
+                    </tr>
+                    <tr>
+                        <td>levelmeter._peak_label ("span.peak-label")</td>
+                        <td>The label inside the peak element.</td>
+                    </tr>
+                    <tr>
+                        <td>levelmeter._mask3 ("div.mask.mask3")</td>
+                        <td>The mask for top values.</td>
+                    </tr>
+                    <tr>
+                        <td>levelmeter._mask4 ("div.mask.mask4")</td>
+                        <td>The mask for bottom values.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter.element ("div.level-meter")</td>
+                        <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._title ("div.title")</td>
+                        <td>The title div</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._label ("div.label")</td>
+                        <td>The label div</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._scale ("div.meter-scale")</td>
+                        <td>The scale container div</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._bar ("div.bar")</td>
+                        <td>The bar container div</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._base ("div.base")</td>
+                        <td>The base of the bar drawing the background color/gradient</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._over ("div.over")</td>
+                        <td>The overlay for designing purposes (e.g. fake-LED's)</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._mask1 ("div.mask.mask1")</td>
+                        <td>The mask for values above base</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter._mask2 ("div.mask.mask2")</td>
+                        <td>The mask for values below base</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levelmeter.__scale</td>
+                        <td>The scale instance</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>peakchanged</td>
+                        <td>This event is fired after the peak pin was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>topchanged</td>
+                        <td>This event is fired after the peak pin was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>bottomchanged</td>
+                        <td>This event is fired after the peak pin was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>clipping</td>
+                        <td>This event is fired when the clip LED is triggered.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>valuechanged</td>
+                        <td>This event is fired when the value was changed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>basechanged</td>
+                        <td>This event is fired when the base value was changed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>labelchanged</td>
+                        <td>This event is fired when the label was changed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>titlechanged</td>
+                        <td>This event is fired when the title was changed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scalechanged</td>
+                        <td>This event is fired when the scale was changed somehow.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>colorchanged</td>
+                        <td>This event is fired after the color of the bar changed.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+        </ul>
+    </body>
+</html>

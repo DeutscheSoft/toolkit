@@ -1,0 +1,7 @@
+AuthName "Database Editor"
+AuthType Basic
+AuthUserFile /home/junger/passwd/.htpasswd
+AuthGroupFile /dev/null
+require valid-user
+
+AddType application/x-httpd-php .html

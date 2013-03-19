@@ -1,0 +1,147 @@
+
+/* UNIVERSAL */
+
+div.level-meter div.peak {
+    position: absolute;
+    z-index: 1000;
+    line-height: 16px;
+}
+div.level-meter div.peak div.peak-label {
+    color: white;
+    font-size: 8px;
+    line-height: 10px;
+    opacity: 0.9;
+    width:  25px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.5);
+}
+div.level-meter div.clip div.base {
+    background: rgb(255,123,13);
+}
+
+div.level-meter.clipping div.label {
+    color: #ff8000;
+    text-shadow: 0 0 3px white,0 0 3px white;
+}
+
+/* VERTICAL */
+
+div.level-meter.vertical div.peak {
+    top: 0;
+    margin-top: -7px;
+    width: 36px;
+    height: 16px;
+    padding-top: 2px;
+}
+div.level-meter.vertical div.peak div.peak-label {
+    text-shadow: 0 1px 2px black,0 1px 2px black;
+}
+
+div.level-meter.vertical div.clip {
+    height: 5px;
+    width: 30px;
+    margin: 2px 0px 0px 0px;
+}
+
+
+/* VERTICAL LEFT */
+
+div.level-meter.vertical.left div.clip {
+    float: left;
+}
+
+div.level-meter.vertical.left div.peak {
+    left: -1;
+    background: url(../images/peak_vertical_left.png) no-repeat;
+    padding-left: 13px;
+}
+div.level-meter.vertical.left div.peak div.peak-label {
+    float: left;
+}
+
+
+/* VERTICAL RIGHT */
+
+div.level-meter.vertical.right div.clip {
+    float: right;
+}
+
+div.level-meter.vertical.right div.peak {
+    right: -1px;
+    background: url(../images/peak_vertical_right.png) no-repeat 100% 0;
+    padding-right: 13px;
+    text-align: right;
+}
+div.level-meter.vertical.right div.peak div.peak-label {
+    float: right;
+}
+
+
+/* HORIZONTAL */
+
+div.level-meter.horizontal div.peak {
+    margin-left: -8px;
+    width: 16px;
+    height: 32px;
+    padding-top: 18px;
+    text-align: center;
+}
+div.level-meter.horizontal div.peak div.peak-label {
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
+
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+
+    /* IE */
+    -ms-transform: rotate(-90deg);
+
+    /* Opera */
+    -o-transform: rotate(-90deg);
+
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    text-shadow: -1px 0 2px black,-1px 0 2px black;
+}
+div.level-meter.horizontal div.clip {
+    width: 5px;
+    height: 30px;
+    margin: 0 0 0 2px;
+    float: right;
+}
+
+
+
+/* HORIZONTAL TOP */
+
+div.level-meter.horizontal.top div.clip {
+    
+}
+
+div.level-meter.horizontal.top div.peak {
+    top: -1px;
+    background: url(../images/peak_horizontal_top.png) no-repeat 0 0;
+    padding-top: 21px;
+}
+div.level-meter.horizontal.top div.peak div.peak-label {
+    float: right;
+    margin-right: -5px;
+    text-align: right;
+}
+
+
+/* HORIZONTAL BOTTOM */
+
+div.level-meter.horizontal.bottom div.clip {
+    
+}
+
+div.level-meter.horizontal.bottom div.peak {
+    bottom: -1px;
+    background: url(../images/peak_horizontal_bottom.png) no-repeat 0 100%;
+}
+div.level-meter.horizontal.bottom div.peak div.peak-label {
+    float: left;
+    margin-left: -6px;
+    text-align: left;
+}

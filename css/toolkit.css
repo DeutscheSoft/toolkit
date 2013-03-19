@@ -1,0 +1,30 @@
+body {
+    color: #666;
+    font-family: Ubuntu, sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    overflow-y: scroll;
+}
+
+.box,
+.meter-base {
+    background: #eee;
+    border: 1px solid #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius:    6px;
+    border-radius:         6px;
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+.inset,
+.state,
+.meter-base .bar {
+    border-top: 3px solid #ddd;
+    border-bottom: 3px solid #fff;
+    border-left: 2px solid #e8e8e8;
+    border-right: 2px solid #f3f3f3;
+    /*-webkit-border-radius: 6px;
+    -moz-border-radius:    6px;
+    border-radius:         6px;*/
+}
