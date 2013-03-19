@@ -364,7 +364,9 @@ var MeterBase = new Class({
     px2val: function (px) {
         return (parseFloat(px) / parseFloat(this.__size)) * (this.options.max - this.options.min) + this.options.min;
     },
-    
+    base_value: function () {
+        this.set("value", this.options.base);
+    },
     _bar_size: function () {
         var s = this.element[this.options.layout < 3 ? "innerHeight" : "innerWidth"]();
         if(this.options.show_label && this.options.layout < 3)

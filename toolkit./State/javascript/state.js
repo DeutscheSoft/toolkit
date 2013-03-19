@@ -12,7 +12,7 @@ State = new Class({
         this.setOptions(options);
         if(!this.options.id) this.options.id = String.uniqueID();
         this.element = new Element("div.meter-base", {
-            "id":    this.options.id,
+            "id":    this.options.id
         });
         this.element = new Element("div.state");
         this._over   = new Element("div.over").inject(this.element);
