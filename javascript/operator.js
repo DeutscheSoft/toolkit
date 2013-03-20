@@ -70,6 +70,9 @@ OperatorUI = new Class({
         this.set("state", this.options.state);
         this.set("hotkeys", this.options.hotkeys);
         this._resize();
+        
+        // fake ON-AIR
+        this.on_air.element.addEvent("click", function () { this.on_air.set("state", !this.on_air.get("state")) }.bind(this));
     },
     
     _resize: function () {
