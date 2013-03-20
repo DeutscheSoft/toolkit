@@ -39,7 +39,7 @@ Toggle = new Class({
     _mousedown: function (e) {
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
-        this.__tc = true;
+        //this.__tc = true;
     },
     _mouseup: function (e) {
         if(!this.__tc) return;
@@ -51,7 +51,7 @@ Toggle = new Class({
     _touchstart: function (e) {
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
-        //this.__tc = true;
+        this.__tc = true;
     },
     _touchend: function (e) {
         if(!this.__tc) return;
