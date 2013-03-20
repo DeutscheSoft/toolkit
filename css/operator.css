@@ -177,11 +177,11 @@ img.logo {
 #floatblock #stateblock {
     text-align: right;
     float: right;
+    clear: right;
 }
 #floatblock #stateblock .state {
     float: right;
     margin: 5px 10px;
-    clear: right;
 }
 #floatblock #hotkeys {
     margin: 10px;
