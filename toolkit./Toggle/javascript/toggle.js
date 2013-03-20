@@ -12,7 +12,7 @@ Toggle = new Class({
         this.parent(options, hold);
         this.element.addClass("toggle");
         //this.element.addEvent("click", this.toggle.bind(this));
-        //this.element.addEvent("mousedown", this._mousedown.bind(this));
+        this.element.addEvent("mousedown", this._mousedown.bind(this));
         //this.element.addEvent("mouseup", this._mouseup.bind(this));
         this.element.addEvent("touchstart", this._touchstart.bind(this));
         this.element.addEvent("touchend", this._touchend.bind(this));
