@@ -180,4 +180,14 @@ img.logo {
     float: right;
     margin: 5px 10px;
 }
+#floatblock #hotkeys {
+    margin: 10px;
+    max-width: 300px;
+}
+#floatblock #hotkeys .button {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 10px;
+    border-color: white;
 }

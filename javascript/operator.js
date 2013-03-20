@@ -1,6 +1,11 @@
 window.addEvent('domready', function(){
     operator = new OperatorUI({
-        title: "Microphone 1"
+        title: "Microphone 1",
+        hotkeys: [
+            {label: "Hotkey 1", click: function () {}},
+            {label: "Hotkey 2", click: function () {}},
+            {label: "Hotkey 3", click: function () {}}
+        ]
     });
 });
 OperatorUI = new Class({
@@ -11,7 +16,8 @@ OperatorUI = new Class({
         level:  -96,
         mute:   false,
         state:  false,
-        title:  ""
+        title:  "",
+        hotkeys: [],
     },
     initialize: function (options) {
         this.setOptions(options);
@@ -62,10 +68,9 @@ OperatorUI = new Class({
         }.bind(this));
         
         this.set("state", this.options.state);
-        
+        this.set("hotkeys", this.options.hotkeys);
         this._resize();
     },
-    
     
     _resize: function () {
         var wrap  = $("wrapper");
@@ -120,6 +125,18 @@ OperatorUI = new Class({
                 break;
             case "title":
                 this.title.set("html", value);
+                break;
+            case "hotkeys":
+                if(hold) return;
+                $("hotkeys").empty();
+                this.hotkeys = [];
+                for(var i = 0; i < this.options.hotkeys.length; i++) {
+                    console.log(this.options.hotkeys[i]);
+                    this.options.hotkeys[i]["container"] = $("hotkeys");
+                    var b = new Button(this.options.hotkeys[i]);
+                    b.addEvent("click", this.options.hotkeys[i].click);
+                    this.hotkeys.push(b);
+                }
                 break;
         }
     },
