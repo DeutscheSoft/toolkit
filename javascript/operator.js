@@ -35,7 +35,8 @@ OperatorUI = new Class({
             icon_active: "images/icons_big/microphone_muted.png",
             press: 400,
             press_disable: true,
-            state: this.options.mute
+            state: this.options.mute,
+            "class": "fastclick"
         });
         this.on_air = new State({
             "class": "on-air",
