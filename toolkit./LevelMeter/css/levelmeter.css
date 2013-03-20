@@ -15,8 +15,8 @@ div.level-meter div.peak div.peak-label {
     overflow: hidden;
     background: rgba(0,0,0,0.5);
 }
-div.level-meter div.clip div.base {
-    background: rgb(255,123,13);
+div.level-meter div.clip {
+    background: #f60 !important;
 }
 
 div.level-meter.clipping div.label {

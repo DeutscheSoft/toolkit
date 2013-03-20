@@ -1,17 +1,21 @@
 body {
-    padding: 0;
+    padding: 10px;
     margin: 0;
     overflow: hidden;
 }
 
 .wrapper {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     position: absolute;
-    top: 40px;
-    left: auto;
+    top: 50%;
+    left: 50%;
     margin: 0;
     margin-left: 0;
+    max-height: 1280px;
+    max-width: 1280px;
+    min-width: 800px;
+    min-height: 600px;
 }
 
 div.header {
@@ -24,22 +28,155 @@ div.header {
     width: 100%;
     margin: 0;
 }
-div.header img.logo {
-    margin-right: 18px;
+img.logo {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    opacity: 0.5;
 }
 
 
-.mainblock {
+#mainblock {
     float: left;
-    margin: 10px;
+    position: relative;
 }
-
-.floatblock {
-    float: right;
-    margin: 10px;
-}
-
-.box {
-    width: 100%;
+#mainblock #meter_container {
     height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    float: left;
+}
+#mainblock #control_container{
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -190px;
+    margin-left: -100px;
+}
+#mainblock h1#title {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    line-height: 1em;
+    color: #ddd;
+}
+#mainblock #control_container div.state.on-air {
+    width: 358px;
+    height: 70px;
+    margin: 0;
+    margin-bottom: 20px;
+}
+#mainblock #control_container div.state.on-air .over {
+    background: url(../images/on_air.png) no-repeat 50% 51%;
+}
+                    
+#mainblock #control_container .button {
+    
+}
+#mainblock #control_container .toggle {
+    width: 300px;
+    padding: 30px;
+    float: left;
+}
+#mainblock #control_container .button {
+    font-size: 18px !important;
+    line-height: 24px !important;
+}
+#mainblock #control_container .toggle .icon {
+    margin-bottom: 10px;
+}
+#mainblock #control_container .button.toggle.active .label {
+    background: #a00;
+}
+#mainblock #control_container .dropdown {
+    width: 209px;
+    clear: left;
+    float: left;
+    margin-top: 20px;
+}
+#mainblock #control_container .button.load {
+    margin-top: 20px;
+    margin-left: 10px;
+    float: left;
+    width: 75px;
+}
+#mainblock .level-meter {
+    padding: 6px 20px !important;
+    margin: 0 !important;
+    background: none !important;
+    border: none !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    float: left;
+}
+#mainblock .level-meter .bar {
+    width: 100px !important;
+}
+#mainblock .level-meter .clip {
+    width: 100px !important;
+    height: 10px !important;
+}
+#mainblock .level-meter .scale .label {
+    font-size: 10px;
+}
+#mainblock .level-meter>.label,
+#mainblock .level-meter>.title {
+    font-size: 14px;
+    padding: 5px;
+    width: 100px;
+}
+
+
+#floatblock {
+    float: right;
+    background-color: rgb(0, 56, 103);
+    background-image: url(../images/gradients/blue_in.png);
+    background-repeat: repeat-x;
+    background-size: 100% 100%;
+    background-position: 50% 50%;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/blue_in.png',sizingMethod='scale');
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+    border-left: 1px solid rgb(0, 56, 103);
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: white;
+}
+#wrapper.portrait #floatblock {
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    -webkit-border-top-right-radius: 0px;
+    -moz-border-radius-topright: 0px;
+    border-top-right-radius: 0px;
+}
+
+#floatblock h3 {
+    color: white !important;
+    font-weight: 300;
+    margin: 4px 8px;
+    text-align: right;
+    opacity: 0.5;
+}
+#floatblock strong {
+    color: white !important;
+}
+
+#floatblock #stateblock {
+    text-align: right;
+}
+#floatblock #stateblock .state {
+    float: right;
+    margin: 5px;
+}
 }

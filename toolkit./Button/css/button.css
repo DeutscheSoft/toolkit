@@ -21,6 +21,7 @@
     user-select: none;
     text-decoration: none;
     display: inline-block;
+    text-align: center;
 }
 .button:hover {
     border: 1px solid #00365f;
@@ -40,7 +41,9 @@
 }
 .button div.label {
     text-align: center;
+    margin: auto;
 }
 .button img.icon {
+    margin: auto;
     margin-bottom: 5px;
 }
