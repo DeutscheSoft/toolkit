@@ -40,6 +40,8 @@ Toggle = new Class({
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
         this.__tm = true;
+        e.stopPropagation();
+        e.preventDefault();
     },
     _mouseup: function (e) {
         if(!this.__tm) return;
@@ -47,11 +49,15 @@ Toggle = new Class({
         this._clear_to();
         this.__tp = false;
         this.__tc = false;
+        e.stopPropagation();
+        e.preventDefault();
     },
     _touchstart: function (e) {
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
         this.__tt = true;
+        e.stopPropagation();
+        e.preventDefault();
     },
     _touchend: function (e) {
         if(!this.__tt) return;
@@ -59,6 +65,8 @@ Toggle = new Class({
         this._clear_to();
         this.__tp = false;
         this.__tt = false;
+        e.stopPropagation();
+        e.preventDefault();
     },
     _togglepress: function () {
         this.toggle();
