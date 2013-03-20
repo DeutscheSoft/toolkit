@@ -41,6 +41,7 @@ Toggle = new Class({
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
     },
     _mouseup: function (e) {
+        this.toggle();
         this._clear_to();
         this.__tp = false;
     },
