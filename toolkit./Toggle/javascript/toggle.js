@@ -49,8 +49,7 @@ Toggle = new Class({
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
     },
     _touchend: function (e) {
-        if(!this.__toto)
-            this.toggle();
+        this.toggle();
         this._clear_to();
         this.__tp = false;
     },
