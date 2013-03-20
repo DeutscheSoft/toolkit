@@ -183,6 +183,7 @@ img.logo {
 #floatblock #hotkeys {
     margin: 10px;
     max-width: 300px;
+    float: left;
 }
 #floatblock #hotkeys .button {
     width: 100%;
