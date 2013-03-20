@@ -35,21 +35,22 @@ Toggle = new Class({
     },
     
     // HELPERS & STUFF
-    _mouseup: function (e) {
-        this._clear_to();
-        this.__tp = false;
-    },
+    
     _mousedown: function (e) {
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
     },
-    _touchstart: function (e) {
+    _mouseup: function (e) {
         this._clear_to();
         this.__tp = false;
     },
-    _touchend: function (e) {
+    _touchstart: function (e) {
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
+    },
+    _touchend: function (e) {
+        this._clear_to();
+        this.__tp = false;
         this.toggle();
     },
     _togglepress: function () {
