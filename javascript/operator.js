@@ -137,7 +137,7 @@ OperatorUI = new Class({
                     console.log(this.options.hotkeys[i]);
                     this.options.hotkeys[i]["container"] = $("hotkeys");
                     var b = new Button(this.options.hotkeys[i]);
-                    b.addEvent("click", this.options.hotkeys[i].click);
+                    b.addEvent("touchend mouseup", this.options.hotkeys[i].click);
                     this.hotkeys.push(b);
                 }
                 break;
