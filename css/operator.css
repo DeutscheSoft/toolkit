@@ -178,6 +178,7 @@ img.logo {
     text-align: right;
     float: right;
     clear: right;
+    margin-bottom: 10px;
 }
 #floatblock #stateblock .state {
     float: right;
