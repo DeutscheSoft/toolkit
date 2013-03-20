@@ -23,8 +23,6 @@ OperatorUI = new Class({
             levels: [1, 6, 12],
             container: $("meter_container"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
-            title: "Microphone Level",
-            show_title: true,
             show_label: true,
             show_clip: true
         });
