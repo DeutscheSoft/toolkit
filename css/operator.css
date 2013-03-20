@@ -168,6 +168,7 @@ img.logo {
     margin: 4px 8px;
     text-align: right;
     opacity: 0.5;
+    float: right;
 }
 #floatblock strong {
     color: white !important;
@@ -175,6 +176,7 @@ img.logo {
 
 #floatblock #stateblock {
     text-align: right;
+    float: right;
 }
 #floatblock #stateblock .state {
     float: right;
