@@ -69,6 +69,7 @@ img.logo {
 }
 #mainblock #control_container div.state.on-air .over {
     background: url(../images/on_air.png) no-repeat 50% 51%;
+    background-size: auto;
 }
                     
 #mainblock #control_container .button {
