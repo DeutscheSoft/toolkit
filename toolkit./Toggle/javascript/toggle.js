@@ -14,8 +14,8 @@ Toggle = new Class({
         this.element.addEvent("click", this.toggle.bind(this));
         this.element.addEvent("mousedown", this._mousedown.bind(this));
         this.element.addEvent("mouseup", this._mouseup.bind(this));
-        this.element.addEvent("touchstart", this._mousedown.bind(this));
-        this.element.addEvent("touchend", this._mouseup.bind(this));
+        this.element.addEvent("touchstart", this._touchstart.bind(this));
+        this.element.addEvent("touchend", this._touchend.bind(this));
         this.set("state", this.options.state, hold);
     },
     
@@ -38,12 +38,19 @@ Toggle = new Class({
     _mouseup: function (e) {
         this._clear_to();
         this.__tp = false;
-        this._label.set("html", "stop");
     },
     _mousedown: function (e) {
-        this._label.set("html", "start");
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
+    },
+    _touchstart: function (e) {
+        this._clear_to();
+        this.__tp = false;
+    },
+    _touchend: function (e) {
+        if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
+        this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
+        this.toggle();
     },
     _togglepress: function () {
         this.toggle();
