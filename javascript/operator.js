@@ -33,7 +33,7 @@ OperatorUI = new Class({
             label_active: "Mic Muted",
             icon: "images/icons_big/microphone.png",
             icon_active: "images/icons_big/microphone_muted.png",
-            press: 400,
+            press: 2000,
             press_disable: true,
             state: this.options.mute
         });
