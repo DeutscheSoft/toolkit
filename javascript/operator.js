@@ -35,8 +35,7 @@ OperatorUI = new Class({
             icon_active: "images/icons_big/microphone_muted.png",
             press: 400,
             press_disable: true,
-            state: this.options.mute,
-            "class": "fastclick"
+            state: this.options.mute
         });
         this.on_air = new State({
             "class": "on-air",
@@ -52,7 +51,7 @@ OperatorUI = new Class({
         this.toggle.element.inject($("control_container"), "top");
         this.on_air.element.inject($("control_container"), "top");
         this.state.element.inject($("stateblock"), "bottom");
-        
+        new FastClick(this.toggle.element);
         window.addEvent("resize", this._resize.bind(this));
         this.toggle.addEvent("toggled", function () {
             this.options.toggle = this.toggle.get("state");
