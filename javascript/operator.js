@@ -74,7 +74,6 @@ OperatorUI = new Class({
         var bw = wrap.innerWidth();
         var bh = wrap.innerHeight();
         var br = bw / bh;
-        console.log(bw, bh, bh / 4);
         if(br > 1) {
             // landscape
             main.outerWidth((bw / 4) * 3 - 1);

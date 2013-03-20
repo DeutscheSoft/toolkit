@@ -6,6 +6,8 @@ Button = new Class({
         container:        false,          // a container to use as the base object
         label:            "",             // text for the button
         icon:             "",             // URL to an icon for this button
+        state:            false,          // state of the button (bool)
+        state_color:      false           // background color of the state indication
     },
     
     initialize: function (options, hold) {
@@ -26,6 +28,8 @@ Button = new Class({
         this.element.addEvent("click", function (e) { this.fireEvent("click", e) }.bind(this));
         this.element.addEvent("mousedown", function (e) { this.fireEvent("mousedown", e) }.bind(this));
         this.element.addEvent("mouseup", function (e) { this.fireEvent("mouseup", e) }.bind(this));
+        this.set("state_color", this.options.state_color, hold);
+        this.set("state", this.options.state, hold);
     },
     // HELPERS & STUFF
     
@@ -60,6 +64,14 @@ Button = new Class({
                     }
                 }
                 break;
+            case "state":
+                if(!hold) {
+                    this.element[value ? "addClass" : "removeClass"]("active");
+                    this._label.setStyle("background-color", (this.options.state_color && this.options.state) ? this.options.state_color : null);
+                }
+                break;
+            case "state_color":
+                if(!hold) this.set("state", this.options.state);
         }
     },
     get: function (key) {

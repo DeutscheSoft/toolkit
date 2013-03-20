@@ -178,6 +178,6 @@ img.logo {
 }
 #floatblock #stateblock .state {
     float: right;
-    margin: 5px;
+    margin: 5px 10px;
 }
 }

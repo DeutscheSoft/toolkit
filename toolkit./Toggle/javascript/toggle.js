@@ -1,7 +1,6 @@
 Toggle = new Class({
     Extends: Button,
     options: {
-        state:         false, // the state of the toggle button
         label_active:  false, // the label for the active toggle, false for default label
         icon_active:   false, // this icon of the active toggle, false for default icon
         press:         0,     // time in milliseconds after a press is interpreted as a toggle, 0 to disable press toggle
@@ -16,12 +15,10 @@ Toggle = new Class({
         this.element.addEvent("mouseup", this._mouseup.bind(this));
         this.element.addEvent("touchstart", this._touchstart.bind(this));
         this.element.addEvent("touchend", this._touchend.bind(this));
-        this.set("state", this.options.state, hold);
     },
     
     redraw: function () {
         var value = this.options.state;
-        this.element[value ? "addClass" : "removeClass"]("active");
         var icon = this.options[value ? (this.options.icon_active ? "icon_active" : "icon") : "icon"];
         if(icon) this._icon.set("src", icon);
         var label = this.options[value ? (this.options.label_active ? "label_active" : "label") : "label"];
