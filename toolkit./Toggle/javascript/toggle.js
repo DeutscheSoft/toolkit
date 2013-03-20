@@ -41,9 +41,9 @@ Toggle = new Class({
         this._label.set("html", "stop");
     },
     _mousedown: function (e) {
+        this._label.set("html", "start");
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
-        this._label.set("html", "start");
     },
     _togglepress: function () {
         this.toggle();
