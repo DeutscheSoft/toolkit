@@ -37,10 +37,12 @@ Toggle = new Class({
     // HELPERS & STUFF
     
     _mousedown: function (e) {
+        this._label.set("html", "mousedown");
         if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
     },
     _mouseup: function (e) {
+        this._label.set("html", "mouseup");
         this.toggle();
         this._clear_to();
         this.__tp = false;
