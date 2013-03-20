@@ -43,7 +43,7 @@ OperatorUI = new Class({
         });
         this.on_air = new State({
             "class": "on-air",
-            color: "#a00",
+            color: "#008bea",
             state: this.options.on_air
         });
         this.state = new State({
