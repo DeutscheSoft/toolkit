@@ -72,7 +72,7 @@ OperatorUI = new Class({
         this._resize();
         
         // fake ON-AIR
-        this.on_air.element.addEvent("touchend mouseup", function () { this.on_air.set("state", !this.on_air.get("state")) }.bind(this));
+        this.on_air.element.addEvent("touchend mouseup", function (e) { e.preventDefault(); this.on_air.set("state", !this.on_air.get("state")) }.bind(this));
     },
     
     _resize: function () {
