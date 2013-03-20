@@ -1,0 +1,40 @@
+.wrapper {
+    position: absolute;
+    z-index: 1000;
+    width: 990px;
+    top: 50px;
+    left: 50%;
+    margin: 0;
+    margin-left: -495px;
+    width: 990px;
+}
+.wrapper li {
+    clear: both;
+    list-style: none;
+    margin: none;
+}
+.wrapper li li {
+    list-style: circle;
+    margin: 3px 20px 3px;
+}
+p.description {
+    
+}
+
+div.showcase {
+    clear: both;
+    margin: 10px 0;
+    padding: 20px;
+}
+
+div.toggle {
+    margin-right: 10px;
+}
+div.buttons {
+    height: 50px;
+    clear: both;
+    margin: 20px 0 0 0;
+}
+i.static {
+    color: #951c26;
+}
