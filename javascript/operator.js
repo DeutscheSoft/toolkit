@@ -137,7 +137,6 @@ OperatorUI = new Class({
                 $("hotkeys").empty();
                 this.hotkeys = [];
                 for(var i = 0; i < this.options.hotkeys.length; i++) {
-                    console.log(this.options.hotkeys[i]);
                     this.options.hotkeys[i]["container"] = $("hotkeys");
                     var b = new Button(this.options.hotkeys[i]);
                     b.addEvent("click", this.options.hotkeys[i].click);
