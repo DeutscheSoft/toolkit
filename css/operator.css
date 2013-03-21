@@ -67,6 +67,7 @@ img.logo {
     right: 5px;
     line-height: 1em;
     color: #ddd;
+    text-shadow: 0 1px 0 white;
 }
 #mainblock #control_container div.state.on-air {
     width: 358px;
