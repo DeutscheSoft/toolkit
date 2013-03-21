@@ -4,7 +4,10 @@ window.addEvent('domready', function(){
         hotkeys: [
             {label: "Hotkey 1", click: function () {}},
             {label: "Hotkey 2", click: function () {}},
-            {label: "Hotkey 3", click: function () {}}
+            {label: "Hotkey 3", click: function () {}},
+            {label: "Hotkey 4", click: function () {}},
+            {label: "Hotkey 5", click: function () {}},
+            {label: "Hotkey 6", click: function () {}}
         ]
     });
 });

@@ -194,7 +194,6 @@ img.logo {
 }
 #floatblock #hotkeys {
     margin: 10px;
-    max-width: 280px;
 }
 #floatblock #hotkeys .button {
     width: 100%;
@@ -202,4 +201,9 @@ img.logo {
     padding-right: 0;
     margin-bottom: 10px;
     border-color: white;
+    margin-right: 10px;
+    max-width: 260px;
+}
+#wrapper.landscape #floatblock #hotkeys .button {
+    max-width: 300px;
 }
