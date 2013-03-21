@@ -5,7 +5,7 @@
     background-color: rgb(245,245,245);
     background-image: url(../images/gradients/grey_out.png);
     background-repeat: repeat-x;
-    background-size: 100% 250%;
+    background-size: 100% 200%;
     background-position: 50% 0;
     border: 1px solid #aaa;
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/grey_out.png',sizingMethod='scale');
@@ -25,7 +25,7 @@
 }
 .button:hover {
     border: 1px solid #00365f;
-    background-size: 100% 150%;
+    background-size: 100% 12s0%;
     background-position: 50% 0;
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
@@ -33,7 +33,7 @@
 }
 .button:active {
     background-image: url(../images/gradients/grey_in.png);
-    background-size: 100% 300%;
+    background-size: 100% 250%;
     background-position: 50% 75%;
     -webkit-box-shadow: 0px 3px 0px rgba(255,255,255,0.5), 0px -3px 0px rgba(0,0,0,0.05), 2px 0px 0px rgba(255,255,255,0.3), 0px -2px 0px rgba(0,0,0,0.025);
     -moz-box-shadow: 0px 3px 0px rgba(255,255,255,0.5), 0px -3px 0px rgba(0,0,0,0.05), 2px 0px 0px rgba(255,255,255,0.3), 0px -2px 0px rgba(0,0,0,0.025);
