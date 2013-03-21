@@ -21,8 +21,8 @@ body {
     margin-left: 0;
     max-height: 1280px;
     max-width: 1280px;
-    min-width: 800px;
-    min-height: 600px;
+    min-width: 750px;
+    min-height: 500px;
 }
 
 div.header {
@@ -58,7 +58,7 @@ img.logo {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -190px;
+    margin-top: -170px;
     margin-left: -100px;
 }
 #mainblock h1#title {
