@@ -204,6 +204,11 @@ img.logo {
     margin-right: 10px;
     max-width: 260px;
 }
+#floatblock #hotkeys .button:active {
+    -webkit-box-shadow: 0px 3px 0px rgba(255,255,255,0.15), 0px -3px 0px rgba(0,0,0,0.1), 2px 0px 0px rgba(255,255,255,0.1), 0px -2px 0px rgba(0,0,0,0.05);
+    -moz-box-shadow: 0px 3px 0px rgba(255,255,255,0.15), 0px -3px 0px rgba(0,0,0,0.1), 2px 0px 0px rgba(255,255,255,0.1), 0px -2px 0px rgba(0,0,0,0.05);
+    box-shadow: 0px 3px 0px rgba(255,255,255,0.15), 0px -3px 0px rgba(0,0,0,0.1), 2px 0px 0px rgba(255,255,255,0.1), 0px -2px 0px rgba(0,0,0,0.05);
+}
 #wrapper.landscape #floatblock #hotkeys .button {
     max-width: 300px;
 }
