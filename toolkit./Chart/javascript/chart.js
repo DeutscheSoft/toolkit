@@ -73,6 +73,7 @@ var Chart = new Class({
         
         var g = new Graph(options);
         this.graphs.push(g);
+        this.fireEvent("pathadded");
         return g;
     },
     remove_graph: function (g) {
@@ -80,6 +81,7 @@ var Chart = new Class({
             if(this.graphs[i] == g) {
                 this.graphs[i].destroy();
                 this.graphs.splice(i, 1);
+                this.fireEvent("pathremoved");
                 break;
             }
         }
@@ -98,6 +100,7 @@ var Chart = new Class({
             case "width":
             case "height":
                 if(!hold) this.redraw(true);
+                this.fireEvent("resized");
                 break;
         }
     },

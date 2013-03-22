@@ -57,8 +57,6 @@ var Graph = new Class({
         var w = this.options.width;
         var h = this.options.height;
         var t = this.options.type;
-        var x = this._x2px;
-        var y = this._y2px;
         var s = "";
         var init;
         

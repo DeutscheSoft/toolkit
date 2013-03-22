@@ -55,6 +55,10 @@
         <script src="toolkit./Graph/javascript/graph.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./Graph/css/graph.css">
         
+        <!-- CHART -->
+        <script src="toolkit./Chart/javascript/chart.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Chart/css/chart.css">
+        
         <script type="text/javascript">
             window.addEvent('load', function(){
                 
@@ -77,6 +81,9 @@
                 <li><a href="#scale">Scale</a></li>
                 <li><a href="#meterbase">MeterBase</a></li>
                 <li><a href="#levelmeter">LevelMeter</a></li>
+                <li><a href="#graph">Graph</a></li>
+                <li><a href="#chart">Chart</a></li>
+                <li><a href="#frequencyresponse">FrequencyResponse</a></li>
             </ul>
             <a href="/" title="Junger Audio Homepage"><img src="images/logo_white.png" class="logo"/></a>
         </div>
@@ -1482,6 +1489,108 @@
                 </table>
             </li>
             
+            <li>
+                <!-- ########################################################### -->
+                <!-- CHART WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="chart"></a>Chart</h2>
+                
+                <p class="description">
+                    Charts are SVG images containing one or more graphs. There are functions to add and remove graphs.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the SVG into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>width</td>
+                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>chart.element ("svg.chart")</td>
+                        <td>The SVG image.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>pathadded</td>
+                        <td>This event is fired when a path was added.</td>
+                    </tr>
+                    <tr>
+                        <td>pathremoved</td>
+                        <td>This event is fired when a path was removed.</td>
+                    </tr>
+                    <tr>
+                        <td>resized</td>
+                        <td>This event is fired when the SVG was resized.</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>add_graph([options])</td>
+                        <td>Create a graph inside the chart. Options is an object containing
+                        options for the <a href="#graph">graph</a> element.
+                        <br/><br/>
+                        It returns the new graph instance.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>remove_graph(graph)</td>
+                        <td>Remove a graph from the chart.</td>
+                    </tr>
+                </table>
+            </li>
             
         </ul>
     </body>
