@@ -99,6 +99,10 @@ Scale = new Class({
             }
         }
     },
+    destroy: function () {
+        this.element.empty();
+        this.element.destroy();
+    },
     check_label: function (iter, step) {
         for(var i = this.options.levels.length - 1; i >= 0; i--) {
             var level = this.options.levels[i];

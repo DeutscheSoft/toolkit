@@ -231,6 +231,9 @@ div.header ul.navigation a:hover {
     background-size: 100% 250%;
     background-position: 50% 0%;
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/grey_in.png',sizingMethod='scale');
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
 }
 div.header ul.navigation a:active {
     color: rgb(0, 56, 103);

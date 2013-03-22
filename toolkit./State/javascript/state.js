@@ -40,7 +40,11 @@ State = new Class({
         if(this.element.getStyle("position") != "absolute" && this.element.getStyle("position") != "relative")
             this.element.setStyle("position", "relative");
     },
-    
+    destroy: function () {
+        this._over.destroy();
+        this._mask.destroy();
+        this.element.destroy();
+    },
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;

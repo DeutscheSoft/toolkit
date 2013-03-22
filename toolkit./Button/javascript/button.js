@@ -31,6 +31,11 @@ Button = new Class({
         this.set("state_color", this.options.state_color, hold);
         this.set("state", this.options.state, hold);
     },
+    destroy: function () {
+        this._icon.destroy();
+        this._label.destroy();
+        this.element.destroy();
+    },
     // HELPERS & STUFF
     
     

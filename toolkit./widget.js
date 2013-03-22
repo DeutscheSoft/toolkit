@@ -20,7 +20,9 @@ Widget = new Class({
     redraw: function () {
         
     },
-    
+    destroy: function () {
+        this.element.destroy();
+    },
     // HELPERS & STUFF
     
     

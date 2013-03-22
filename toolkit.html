@@ -6,7 +6,6 @@
         <!-- MAIN STUFF -->
         <script src="javascript/mootools-core-1.4.5.js"></script>
         <script src="javascript/mootools-more-1.4.0.1.js"></script>
-        <script src="javascript/utils.js"></script>
         <script src="javascript/showcase.js"></script>
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/toolkit.css"/>
@@ -16,6 +15,8 @@
        <!-- LIBRARIES -->
         <script src="javascript/event.resize.js"></script>
         <script src="javascript/element.sizes.js"></script>
+        <script src="javascript/sprintf.js"></script>
+        <script src="javascript/svgutils.js"></script>
         
         <!-- BASE CLASSES -->
         <script src="toolkit./Range/javascript/range.js"></script>
@@ -41,14 +42,18 @@
         <link rel="stylesheet" type="text/css" href="toolkit./Scale/css/scale.css">
         
         <!-- METER BASE -->
-        <script src="toolkit./MeterBase/javascript/meterbase.js"></script>
+        <!--<script src="toolkit./MeterBase/javascript/meterbase.js"></script>
         <script src="toolkit./MeterBase/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./MeterBase/css/meterbase.css">
+        <link rel="stylesheet" type="text/css" href="toolkit./MeterBase/css/meterbase.css">-->
         
         <!-- LEVEL METER -->
-        <script src="toolkit./LevelMeter/javascript/levelmeter.js"></script>
+        <!--<script src="toolkit./LevelMeter/javascript/levelmeter.js"></script>
         <script src="toolkit./LevelMeter/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./LevelMeter/css/levelmeter.css">
+        <link rel="stylesheet" type="text/css" href="toolkit./LevelMeter/css/levelmeter.css">-->
+        
+        <!-- GRAPH -->
+        <script src="toolkit./Graph/javascript/graph.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Graph/css/graph.css">
         
         <script type="text/javascript">
             window.addEvent('load', function(){
@@ -1383,6 +1388,100 @@
                 </table>
                 
             </li>
+            
+            
+            <li>
+                <!-- ########################################################### -->
+                <!-- GRAPH WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="graph"></a>Graph</h2>
+                
+                <p class="description">
+                    A graph is a single SVG path element. It provides some functions to easily draw
+                    paths inside Charts and other derivates.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the element into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>mode</td>
+                        <td>The drawing mode of the path:
+                            <ul>
+                                <li>0: simple line</li>
+                                <li>1: filled below the line</li>
+                                <li>2: filled above the line</li>
+                                <li>0.n: filled from a percentual position on the canvas
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>width</td>
+                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>path.element ("path.graph")</td>
+                        <td>The SVG path.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>pathchanged</td>
+                        <td>This event is fired when the path was changed.</td>
+                    </tr>
+                </table>
+            </li>
+            
             
         </ul>
     </body>

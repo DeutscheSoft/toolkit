@@ -229,7 +229,18 @@ var MeterBase = new Class({
         if(!hold)
             this.redraw();
     },
-    
+    destroy: function () {
+        this._label.destroy();
+        this._scale.destroy();
+        this._bar.destroy();
+        this._title.destroy();
+        this._base.destroy();
+        this._mark.destroy();
+        this._over.destroy();
+        this._mask1.destroy();
+        this._mask2.destroy();
+        this.element.destroy();
+    },
     redraw: function () {
         this.set("title", this.options.title);
         this.set("label", this.options.label);

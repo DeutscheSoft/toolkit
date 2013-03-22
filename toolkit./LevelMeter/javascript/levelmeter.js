@@ -137,7 +137,14 @@ LevelMeter = new Class({
         }
         this.set("peak", this.options.peak);
     },
-    
+    destroy: function () {
+        this.__state.destroy();
+        this._peak.destroy();
+        this._peak_label.destroy();
+        this._mask3.destroy();
+        this._mask4.destroy();
+        this.element.destroy();
+    },
     reset_peak: function () {
         this.set("peak", this.options.value);
     },

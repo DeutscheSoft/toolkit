@@ -1,0 +1,20 @@
+.graph {
+    stroke: #000;
+    fill: none;
+    stroke-width: 1px;
+    stroke-linecap: round;
+}
+
+.graph.filled {
+    stroke-width: 0px;
+    stroke: black;
+    fill: rgba(0, 0, 0, 0.8);
+}
+
+.graph.outline {
+    stroke-width: 1px;
+    stroke: black;
+    fill: none;
+}
+
+
