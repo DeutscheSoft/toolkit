@@ -19,46 +19,53 @@
         <script src="javascript/svgutils.js"></script>
         
         <!-- BASE CLASSES -->
-        <script src="toolkit./Range/javascript/range.js"></script>
+        <script src="toolkit./Implements/Range/javascript/range.js"></script>
         
         <!-- BUTTON -->
-        <script src="toolkit./Button/javascript/button.js"></script>
-        <script src="toolkit./Button/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Button/css/button.css">
+        <script src="toolkit./Widgets/Button/javascript/button.js"></script>
+        <script src="toolkit./Widgets/Button/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/Button/css/button.css">
         
         <!-- TOGGLE -->
-        <script src="toolkit./Toggle/javascript/toggle.js"></script>
-        <script src="toolkit./Toggle/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Toggle/css/toggle.css">
+        <script src="toolkit./Widgets/Toggle/javascript/toggle.js"></script>
+        <script src="toolkit./Widgets/Toggle/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/Toggle/css/toggle.css">
         
         <!-- STATE -->
-        <script src="toolkit./State/javascript/state.js"></script>
-        <script src="toolkit./State/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./State/css/state.css">
+        <script src="toolkit./Widgets/State/javascript/state.js"></script>
+        <script src="toolkit./Widgets/State/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/State/css/state.css">
         
         <!-- SCALE -->
-        <script src="toolkit./Scale/javascript/scale.js"></script>
-        <script src="toolkit./Scale/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Scale/css/scale.css">
+        <script src="toolkit./Modules/Scale/javascript/scale.js"></script>
+        <script src="toolkit./Modules/Scale/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Modules/Scale/css/scale.css">
         
         <!-- METER BASE -->
-        <!--<script src="toolkit./MeterBase/javascript/meterbase.js"></script>
-        <script src="toolkit./MeterBase/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./MeterBase/css/meterbase.css">-->
+        <!--<script src="toolkit./Widgets/MeterBase/javascript/meterbase.js"></script>
+        <script src="toolkit./Widgets/MeterBase/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./MWidgets/eterBase/css/meterbase.css">-->
         
         <!-- LEVEL METER -->
-        <!--<script src="toolkit./LevelMeter/javascript/levelmeter.js"></script>
-        <script src="toolkit./LevelMeter/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./LevelMeter/css/levelmeter.css">-->
+        <!--<script src="toolkit./Widgets/LevelMeter/javascript/levelmeter.js"></script>
+        <script src="toolkit./Widgets/LevelMeter/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/LevelMeter/css/levelmeter.css">-->
+        
+        <!-- COORDINATES -->
+        <script src="toolkit./Implements/Coordinates/javascript/coordinates.js"></script>
         
         <!-- GRAPH -->
-        <script src="toolkit./Graph/javascript/graph.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Graph/css/graph.css">
+        <script src="toolkit./Modules/Graph/javascript/graph.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Modules/Graph/css/graph.css">
+        
+        <!-- GRID -->
+        <script src="toolkit./Modules/Grid/javascript/grid.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Modules/Grid/css/grid.css">
         
         <!-- CHART -->
-        <script src="toolkit./Chart/javascript/chart.js"></script>
-        <script src="toolkit./Chart/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Chart/css/chart.css">
+        <script src="toolkit./Widgets/Chart/javascript/chart.js"></script>
+        <script src="toolkit./Widgets/Chart/javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/Chart/css/chart.css">
         
         <script type="text/javascript">
             window.addEvent('load', function(){
@@ -1397,6 +1404,56 @@
                 
             </li>
             
+            <li>
+                <!-- ########################################################### -->
+                <!-- COORDINATES CONTROL -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="coordinates"></a>Coordinates</h2>
+                
+                <p class="description">
+                    Coordinates provide simple options and functions for dealing with a two dimensional
+                    coordinates system. It is used mainly for SVG image drawing to switch between
+                    percentual and pixel-based values and turns the y axis upside-down.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>min</td>
+                        <td>The minimum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max</td>
+                        <td>The maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>val2px(value)</td>
+                        <td>This function returns a percentual value between 0 and 1 for a distinct value
+                        according to the min and max settings. The scale defines the function to be used
+                        for this calculation.</td>
+                    </tr>
+                </table>
+            </li>
             
             <li>
                 <!-- ########################################################### -->
@@ -1407,7 +1464,7 @@
                 
                 <p class="description">
                     A graph is a single SVG path element. It provides some functions to easily draw
-                    paths inside Charts and other derivates.
+                    paths inside Charts and other derivates. 
                 </p>
                 
                 <div class="buttons"></div>
@@ -1428,6 +1485,11 @@
                         <td>container</td>
                         <td>A container element to inject the element into</td>
                         <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>dots</td>
+                        <td>An array containing objects with x and y members: {x:0.1, y:0.5}</td>
+                        <td>[]</td>
                     </tr>
                     <tr>
                         <td>type</td>
@@ -1487,6 +1549,11 @@
                         <td>If positioning is percentual we better should know about the height</td>
                         <td>0</td>
                     </tr>
+                    <tr>
+                        <td>color</td>
+                        <td>A color for the curve</td>
+                        <td>""</td>
+                    </tr>
                 </table>
                 
                 <table class="elements collapse" title="⚛ Elements">
@@ -1514,7 +1581,8 @@
                 <h2><a name="chart"></a>Chart</h2>
                 
                 <p class="description">
-                    Charts are SVG images containing one or more graphs. There are functions to add and remove graphs.
+                    Charts are SVG images containing one or more graphs. There are functions to add and remove graphs. Use g1, g2 and c to play with the objects
+                    in a terminal: <a href="javascript:g2.set('color', '#c00')">g2.set("color", "#c00")</a>.
                 </p>
                 
                 <style type="text/css">
@@ -1523,7 +1591,7 @@
                     }
                 </style>
                 
-                <div class="showcase box" style="">
+                <div class="showcase" style="">
                     <div id="sc_chart">
                         
                     </div>

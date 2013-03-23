@@ -7,7 +7,8 @@ body {
 }
 
 .box,
-.meter-base {
+.meter-base,
+.chart {
     background: #eee;
     border: 1px solid #fff;
     -webkit-border-radius: 6px;
@@ -19,7 +20,7 @@ body {
 }
 .inset,
 .state,
-.meter-base .bar, .chart {
+.meter-base .bar {
     border-top: 3px solid #ddd;
     border-bottom: 3px solid #fff;
     border-left: 2px solid #e8e8e8;
