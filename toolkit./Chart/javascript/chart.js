@@ -1,5 +1,5 @@
 var Chart = new Class({
-    Implements: Options,
+    Implements: [Events, Options],
     options: {
         container: false, // a container the SVG should be injected to
         class:     "",    // a class to add in build process

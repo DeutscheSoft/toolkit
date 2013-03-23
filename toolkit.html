@@ -57,6 +57,7 @@
         
         <!-- CHART -->
         <script src="toolkit./Chart/javascript/chart.js"></script>
+        <script src="toolkit./Chart/javascript/showcase.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./Chart/css/chart.css">
         
         <script type="text/javascript">
@@ -1429,13 +1430,29 @@
                         <td>false</td>
                     </tr>
                     <tr>
+                        <td>type</td>
+                        <td>The curving mode of the path:
+                            <ul>
+                                <li>L = normal (needs x,y)</li>
+                                <li>T = smooth quadratic Bézier (needs x, y)</li>
+                                <li>Q = quadratic Bézier (needs: x1, y1, x, y)</li>
+                                <li>C = CurveTo (needs: x1, y1, x2, y2, x, y)</li>
+                                <li>S = SmoothCurve (needs: x1, y1, x, y)</li>
+                                <li>H[n] = smooth horizontal flat; It is like S with y1 = y and x1 between
+                                x and last x with a factor (smoothing) of [n]. [n] should be a int or float
+                                between 1 and 5. No [n] factor means 3.</li>
+                            </ul>
+                        </td>
+                        <td>L</td>
+                    </tr>
+                    <tr>
                         <td>mode</td>
                         <td>The drawing mode of the path:
                             <ul>
                                 <li>0: simple line</li>
                                 <li>1: filled below the line</li>
                                 <li>2: filled above the line</li>
-                                <li>0.n: filled from a percentual position on the canvas
+                                <li>0.n: filled from a percentual position on the canvas</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -1499,6 +1516,18 @@
                 <p class="description">
                     Charts are SVG images containing one or more graphs. There are functions to add and remove graphs.
                 </p>
+                
+                <style type="text/css">
+                    #sc_chart {
+                        
+                    }
+                </style>
+                
+                <div class="showcase box" style="">
+                    <div id="sc_chart">
+                        
+                    </div>
+                </div>
                 
                 <div class="buttons"></div>
                 

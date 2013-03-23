@@ -1,19 +1,19 @@
 .graph {
-    stroke: #000;
+    stroke: #fff;
     fill: none;
-    stroke-width: 1px;
+    stroke-width: 2px;
     stroke-linecap: round;
 }
 
 .graph.filled {
     stroke-width: 0px;
-    stroke: black;
-    fill: rgba(0, 0, 0, 0.8);
+    stroke: #fff;
+    fill: rgba(255,255,255,0.8);
 }
 
 .graph.outline {
-    stroke-width: 1px;
-    stroke: black;
+    stroke-width: 2px;
+    stroke: white;
     fill: none;
 }
 

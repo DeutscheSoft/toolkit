@@ -6,9 +6,10 @@ var Graph = new Class({
         type:      "L",   // type of the graph (needed values in the dots object):
                           //     L = normal (needs x,y)
                           //     T = smooth quadratic Bézier (needs x, y)
-                          //     Q = quadratic Bézier (needs: x1, y1, x, y) NOT IMPLEMENTED BY NOW!
-                          //     C = CurveTo (needs: x1, y1, x2, y2, x, y) NOT IMPLEMENTED BY NOW!
-                          //     S = SmoothCurve (needs: x1, y1, x, y) NOT IMPLEMENTED BY NOW!
+                          //     H[n] = smooth horizontal; [n] = smoothing factor between 1 (square) and 5 (nearly no smooth)
+                          //     Q = quadratic Bézier (needs: x1, y1, x, y)
+                          //     C = CurveTo (needs: x1, y1, x2, y2, x, y)
+                          //     S = SmoothCurve (needs: x1, y1, x, y)
         mode:      0,     // mode of the graph:
                           //     0: line
                           //     1: filled below the line
@@ -56,7 +57,7 @@ var Graph = new Class({
         var a = this._add;
         var w = this.options.width;
         var h = this.options.height;
-        var t = this.options.type;
+        
         var s = "";
         var init;
         
@@ -69,11 +70,50 @@ var Graph = new Class({
         }
         for(var _d = 0; _d < this.options.dots.length; _d ++) {
             var d  = this.options.dots[_d];
-            var _t = init ? " " + t : "M";
-            var _x = parseInt(this._x2px(d.x)) + a;
-            var _y = parseInt(this._y2px(d.y)) + a;
-            
-            s += _t + " " + _x + " " + _y;
+            var t = init ? this.options.type : "T";
+            switch(t.substr(0,1)){
+                case "L":
+                case "T":
+                    // line to and smooth quadric bezier
+                    var _t = init ? " " + t : "M";
+                    var _x = parseInt(this._x2px(d.x)) + a;
+                    var _y = parseInt(this._y2px(d.y)) + a;
+                    s += _t + " " + _x + " " + _y;
+                    break;
+                case "Q":
+                case "S":
+                    // cubic bezier with reflection (S)
+                    // and smooth quadratic bezier with reflection of beforehand
+                    var _x = parseInt(this._x2px(d.x)) + a;
+                    var _y = parseInt(this._y2px(d.y)) + a;
+                    var _x1 = parseInt(this._x2px(d.x1)) + a;
+                    var _y1 = parseInt(this._y2px(d.y1)) + a;
+                    s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
+                    break;
+                case "C":
+                    // cubic bezier
+                    var _x = parseInt(this._x2px(d.x)) + a;
+                    var _y = parseInt(this._y2px(d.y)) + a;
+                    var _x1 = parseInt(this._x2px(d.x1)) + a;
+                    var _y1 = parseInt(this._y2px(d.y1)) + a;
+                    var _x2 = parseInt(this._x2px(d.x2)) + a;
+                    var _y2 = parseInt(this._y2px(d.y2)) + a;
+                    s += " C" + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " " + _x + "," + _y;
+                    break;
+                case "H":
+                    var f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
+                    var _x = parseInt(this._x2px(d.x));
+                    var _y = _y1 = parseInt(this._y2px(d.y)) + a;
+                    if(_d && _d != (this.options.dots.length - 1)) {
+                        var _q = parseInt(this._x2px(this.options.dots[_d - 1].x));
+                        var _x1 =  (_x - Math.round((_x - _q) / f)) + a;
+                    } else {
+                        var _x1 = _x;
+                    }
+                    s += " S" + _x1 + "," + _y1 + " " + _x + "," + _y;
+                    break;
+            }
+            console.log(s)
             init = true;
         }
         if(typeof this.options.dots[this.options.dots.length - 1] != "undefined") {

@@ -19,7 +19,7 @@ body {
 }
 .inset,
 .state,
-.meter-base .bar {
+.meter-base .bar, .chart {
     border-top: 3px solid #ddd;
     border-bottom: 3px solid #fff;
     border-left: 2px solid #e8e8e8;
