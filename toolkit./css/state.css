@@ -1,0 +1,37 @@
+/*
+available overlays:
+circle.png
+square.png
+vertical.png
+horizontal.png
+*/
+
+div.toolkit-state {
+    width: 30px;
+    height: 5px;
+    margin: 10px;
+}
+
+div.toolkit-state div.toolkit-over {
+    background: transparent url(../images/state/circle.png) 50% 50%;
+    /* Safari and Chrome */
+    -webkit-background-size: 100% 100%;
+    /* Firefox */
+    -moz-background-size: 100% 100%;
+    /* Internet Explorer */
+    -ms-background-size: 100% 100%;
+    /* Opera */
+    -o-background-size: 100% 100%;
+    /* CSS3 */
+    background-size: 100% 100%;
+    -webkit-border-radius: 2px;
+    -moz-border-radius:    2px;
+    border-radius:         2px;
+}
+
+div.toolkit-state div.toolkit-mask {
+    background: black;
+    -webkit-border-radius: 2px;
+    -moz-border-radius:    2px;
+    border-radius:         2px;
+}

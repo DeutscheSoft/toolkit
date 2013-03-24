@@ -1,0 +1,23 @@
+.toolkit-grid-line {
+    stroke: rgba(255,255,255,0.166);
+}
+.toolkit-grid-line.toolkit-vertical {
+    
+}
+.toolkit-grid-line.toolkit-horizontal {
+    
+}
+
+.toolkit-grid-label {
+    fill: rgba(255,255,255,0.5);
+    /* ONLY USE PADDING FOR POSITIONING! */
+    padding: 0px 2px;
+    font-size: 9px;
+    font-weight: bold;
+}
+.toolkit-grid-label.toolkit-vertical {
+    
+}
+.toolkit-grid-label.toolkit-horizontal {
+    
+}

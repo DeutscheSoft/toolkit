@@ -1,0 +1,288 @@
+/*
+    AVAILABLE DEFAULT BACKGROUNDS
+    background: url(../images/meterbase/grid_soft.png);
+    background: url(../images/meterbase/grid_strong.png);
+    background: url(../images/meterbase/slim_soft_vertical.png);
+    background: url(../images/meterbase/slim_strong_vertical.png);
+    background: url(../images/meterbase/slim_soft_horizontal.png);
+    background: url(../images/meterbase/slim_strong_horizontal.png);
+    background: url(../images/meterbase/led_vertical.png);
+    background: url(../images/meterbase/led_horizontal.png);
+    background: url(../images/meterbase/bevel_soft_vertical.png);
+    background: url(../images/meterbase/bevel_strong_vertical.png);
+    background: url(../images/meterbase/bevel_soft_horizontal.png);
+    background: url(../images/meterbase/bevel_strong_horizontal.png);
+*/
+
+/* UNIVERSAL */
+
+div.toolkit-meter-base {
+    float: left;
+    padding: 6px;
+}
+div.toolkit-meter-base div.toolkit-label {
+    height: 16px;
+    line-height: 16px;
+}
+div.toolkit-meter-base div.toolkit-title {
+    height: 16px;
+    line-height: 16px;
+}
+div.toolkit-meter-base div.toolkit-meter-scale {
+    position: relative;
+}
+div.toolkit-meter-base div.toolkit-bar {
+    
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-base {
+    
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark {
+    
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-over {
+    opacity: 0.66;
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mask {
+    background: black;
+    opacity: 0.66;
+}
+
+
+div.toolkit-meter-base div.meter-scale div.toolkit-dot {
+    
+}
+
+/* VERTICAL */
+
+div.toolkit-meter-base.toolkit-vertical {
+    height: 250px;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-label {
+    text-align: center;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-title {
+    text-align: center;
+    clear: both;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-meter-scale {
+    margin: 5px 2px;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar {
+    width: 30px;
+    margin: 2px 0 2px 0;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-base {
+    
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark {
+    
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-over {
+    background: url(../images/meterbase/slim_soft_vertical.png);
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.reverse div.toolkit-bar div.toolkit-mask {
+    
+}
+
+/* VERTICAL LEFT */
+
+div.toolkit-meter-base.toolkit-vertical.toolkit-left {
+    margin: 10px 10px 10px 2px;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-label {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-title {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-meter-scale {
+    float: right;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar {
+    float: left;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-base {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-mark {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-over {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-mask {
+    
+}
+
+
+/* VERTICAL RIGHT */
+
+div.toolkit-meter-base.toolkit-vertical.toolkit-right {
+    margin: 10px 2px 10px 10px;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-label {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-title {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-meter-scale {
+    float: left;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar {
+    float: right;eft
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-base {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-mark {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-over {
+    
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-mask {
+    
+}
+
+
+/* HORIZONTAL */
+
+div.toolkit-meter-base.toolkit-horizontal {
+    width: 300px;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-title {
+    text-align: left;
+    float: left;
+    width: 49%;
+    margin-bottom: 2px;
+    padding: 0 3px;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-label {
+    text-align: right;
+    float: right;
+    width: 45%;
+    margin-bottom: 2px;
+    padding: 0 3px;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-meter-scale {
+    margin: 2px 2px;
+    clear: both;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar {
+    height: 30px;
+    float: left;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-base {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-over {
+    background: url(../images/meterbase/slim_soft_horizontal.png);
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.reverse div.toolkit-bar div.toolkit-mask {
+    
+}
+
+/* HORIZONTAL TOP */
+
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top {
+    margin: 2px 10px 10px 10px;
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-title {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-label {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-meter-scale {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-base {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-mark {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-over {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-mask {
+    
+}
+
+
+/* HORIZONTAL BOTTOM */
+
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom {
+    margin: 10px 10px 2px 10px;
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-title {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-label {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-meter-scale {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-base {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-mark {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-over {
+    
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-mask {
+    
+}
+
+
+/* SCALE */
+div.toolkit-meter-base div.toolkit-scale {
+    color: #aaa;
+}
+div.toolkit-meter-base div.toolkit-scale span.toolkit-label {
+    
+}
+div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-base {
+    color: #666;
+}
+div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-min {
+    
+}
+div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-max {
+    
+}
+div.toolkit-meter-base div.toolkit-scale div.toolkit-dot {
+    
+}
+div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-base {
+    
+}
+div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-min {
+    
+}
+div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-max {
+    
+}
+div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-marker {
+    
+}

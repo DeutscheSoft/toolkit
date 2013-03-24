@@ -1,0 +1,231 @@
+div.toolkit-scale {
+    font-size: 8px;
+}
+div.toolkit-scale span.toolkit-label {
+    height: 7px;
+    line-height: 7px;
+    color: #aaa;
+}
+div.toolkit-scale span.toolkit-label.toolkit-base {
+    color: #951c26;
+    font-weight: 500;
+}
+div.toolkit-scale span.toolkit-label.toolkit-min {
+    color: #666;
+}
+div.toolkit-scale span.toolkit-label.toolkit-max {
+    color: #666;
+}
+div.toolkit-scale div.toolkit-dot {
+    width: 1px;
+    height: 1px;
+    background: #aaa;
+}
+div.toolkit-scale div.toolkit-dot.toolkit-base {
+    background: #951c26;
+}
+div.toolkit-scale div.toolkit-dot.toolkit-min {
+    background: #666;
+}
+div.toolkit-scale div.toolkit-dot.toolkit-max {
+    background: #666;
+}
+div.toolkit-scale div.toolkit-dot.toolkit-marker {
+    background: #666;
+}
+/* VERTICAL */
+
+div.toolkit-scale.toolkit-vertical {
+    
+}
+div.toolkit-scale.toolkit-vertical span.toolkit-label {
+    
+}
+div.toolkit-scale.toolkit-vertical span.toolkit-label.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-vertical span.toolkit-label.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-vertical span.toolkit-label.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-vertical div.toolkit-dot {
+    width: 2px;
+}
+div.toolkit-scale.toolkit-vertical div.toolkit-dot.toolkit-base {
+    width: 4px;
+}
+div.toolkit-scale.toolkit-vertical div.toolkit-dot.toolkit-min {
+    width: 4px;
+}
+div.toolkit-scale.toolkit-vertical div.toolkit-dot.toolkit-max {
+    width: 4px;
+}
+div.toolkit-scale.toolkit-vertical div.toolkit-dot.toolkit-marker {
+    width: 4px;
+}
+/* VERTICAL sticked to LEFT */
+
+div.toolkit-scale.toolkit-vertical.toolkit-left {
+    text-align: left;
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left span.toolkit-label {
+    left: 6px;
+    margin-right: 6px;
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left span.toolkit-label.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left span.toolkit-label.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left span.toolkit-label.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left div.toolkit-dot {
+    left: 0;
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left div.toolkit-dot.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left div.toolkit-dot.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left div.toolkit-dot.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-left div.toolkit-dot.toolkit-marker {
+    
+}
+/* VERTICAL sticked to RIGHT */
+
+div.toolkit-scale.toolkit-vertical.toolkit-right {
+    text-align: right;
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right span.toolkit-label {
+    right: 6px;
+    margin-left: 6px;
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right span.toolkit-label.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right span.toolkit-label.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right span.toolkit-label.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right div.toolkit-dot {
+    right: 0;
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right div.toolkit-dot.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right div.toolkit-dot.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right div.toolkit-dot.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-vertical.toolkit-right div.toolkit-dot.toolkit-marker {
+    
+}
+/* HORIZONTAL */
+
+div.toolkit-scale.toolkit-horizontal {
+    
+}
+div.toolkit-scale.toolkit-horizontal span.toolkit-label {
+    
+}
+div.toolkit-scale.toolkit-horizontal span.toolkit-label.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-horizontal span.toolkit-label.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-horizontal span.toolkit-label.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-horizontal div.toolkit-dot {
+    height: 2px;
+}
+div.toolkit-scale.toolkit-horizontal div.toolkit-dot.toolkit-base {
+    height: 4px;
+}
+div.toolkit-scale.toolkit-horizontal div.toolkit-dot.toolkit-min {
+    height: 4px;
+}
+div.toolkit-scale.toolkit-horizontal div.toolkit-dot.toolkit-max {
+    height: 4px;
+}
+div.toolkit-scale.toolkit-horizontal div.toolkit-dot.toolkit-marker {
+    height: 4px;
+}
+/* HORIZONTAL sticked to BOTTOM */
+
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom span.toolkit-label {
+    margin-top: 8px;
+    bottom: 6px;
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom span.toolkit-label.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom span.toolkit-label.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom span.toolkit-label.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom div.toolkit-dot {
+    bottom: 0;
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom div.toolkit-dot.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom div.toolkit-dot.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom div.toolkit-dot.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-bottom div.toolkit-dot.toolkit-marker {
+    
+}
+/* HORIZONTAL sticked to TOP */
+
+div.toolkit-scale.toolkit-horizontal.toolkit-top {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top span.toolkit-label {
+    margin-bottom: 8px;
+    top: 6px;
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top span.toolkit-label.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top span.toolkit-label.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top span.toolkit-label.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top div.toolkit-dot {
+    top: 0;
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top div.toolkit-dot.toolkit-base {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top div.toolkit-dot.toolkit-min {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top div.toolkit-dot.toolkit-max {
+    
+}
+div.toolkit-scale.toolkit-horizontal.toolkit-top div.toolkit-dot.toolkit-marker {
+    
+}

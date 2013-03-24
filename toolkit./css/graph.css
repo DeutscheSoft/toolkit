@@ -1,0 +1,18 @@
+.toolkit-graph {
+    stroke: #fff;
+    fill: none;
+    stroke-width: 1.2px;
+    stroke-linecap: round;
+}
+
+.toolkit-graph.toolkit-filled {
+    stroke-width: 1.2px;
+    stroke: #fff;
+    fill: rgba(255,255,255,0.5);
+}
+
+.toolkit-graph.toolkit-outline {
+    stroke-width: 2px;
+    stroke: #002f42;
+    fill: none;
+}
