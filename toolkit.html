@@ -4,68 +4,61 @@
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         
         <!-- MAIN STUFF -->
-        <script src="javascript/mootools-core-1.4.5.js"></script>
-        <script src="javascript/mootools-more-1.4.0.1.js"></script>
+        <script src="toolkit./javascript/mootools-core-1.4.5.js"></script>
+        <script src="toolkit./javascript/mootools-more-1.4.0.1.js"></script>
         <script src="javascript/showcase.js"></script>
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
-        <link rel="stylesheet" type="text/css" href="css/toolkit.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/toolkit.css"/>
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:300,500,300italic,500italic"/>
         
        <!-- LIBRARIES -->
-        <script src="javascript/event.resize.js"></script>
-        <script src="javascript/element.sizes.js"></script>
-        <script src="javascript/sprintf.js"></script>
-        <script src="javascript/svgutils.js"></script>
+        <script src="toolkit./javascript/event.resize.js"></script>
+        <script src="toolkit./javascript/element.sizes.js"></script>
+        <script src="toolkit./javascript/sprintf.js"></script>
+        <script src="toolkit./javascript/svgutils.js"></script>
         
         <!-- BASE CLASSES -->
-        <script src="toolkit./Implements/Range/javascript/range.js"></script>
+        <script src="toolkit./implements/range.js"></script>
         
         <!-- BUTTON -->
-        <script src="toolkit./Widgets/Button/javascript/button.js"></script>
-        <script src="toolkit./Widgets/Button/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/Button/css/button.css">
+        <script src="toolkit./widgets/button.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/button.css">
         
         <!-- TOGGLE -->
-        <script src="toolkit./Widgets/Toggle/javascript/toggle.js"></script>
-        <script src="toolkit./Widgets/Toggle/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/Toggle/css/toggle.css">
+        <script src="toolkit./widgets/toggle.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/toggle.css">
         
         <!-- STATE -->
-        <script src="toolkit./Widgets/State/javascript/state.js"></script>
-        <script src="toolkit./Widgets/State/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/State/css/state.css">
+        <script src="toolkit./widgets/state.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/state.css">
         
         <!-- SCALE -->
-        <script src="toolkit./Modules/Scale/javascript/scale.js"></script>
-        <script src="toolkit./Modules/Scale/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Modules/Scale/css/scale.css">
+        <script src="toolkit./modules/scale.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/scale.css">
         
         <!-- METER BASE -->
-        <!--<script src="toolkit./Widgets/MeterBase/javascript/meterbase.js"></script>
-        <script src="toolkit./Widgets/MeterBase/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./MWidgets/eterBase/css/meterbase.css">-->
+        <script src="toolkit./widgets/meterbase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/meterbase.css">
         
         <!-- LEVEL METER -->
-        <!--<script src="toolkit./Widgets/LevelMeter/javascript/levelmeter.js"></script>
-        <script src="toolkit./Widgets/LevelMeter/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/LevelMeter/css/levelmeter.css">-->
+        <script src="toolkit./widgets/levelmeter.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/levelmeter.css">
         
         <!-- COORDINATES -->
-        <script src="toolkit./Implements/Coordinates/javascript/coordinates.js"></script>
+        <script src="toolkit./implements/coordinates.js"></script>
         
         <!-- GRAPH -->
-        <script src="toolkit./Modules/Graph/javascript/graph.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Modules/Graph/css/graph.css">
+        <script src="toolkit./modules/graph.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/graph.css">
         
         <!-- GRID -->
-        <script src="toolkit./Modules/Grid/javascript/grid.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Modules/Grid/css/grid.css">
+        <script src="toolkit./modules/grid.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/grid.css">
         
         <!-- CHART -->
-        <script src="toolkit./Widgets/Chart/javascript/chart.js"></script>
-        <script src="toolkit./Widgets/Chart/javascript/showcase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./Widgets/Chart/css/chart.css">
+        <script src="toolkit./widgets/chart.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/chart.css">
         
         <script type="text/javascript">
             window.addEvent('load', function(){
@@ -81,7 +74,7 @@
     <body>
         <div class="header">
             <ul class="navigation">
-                <li><a href="index.html" title="Index">◂ Index</a></li>
+                <li><a href="../index.html" title="Index">◂ Index</a></li>
                 <li><a href="#button">Button</a></li>
                 <li><a href="#toggle">Toggle</a></li>
                 <li><a href="#range">Range</a></li>
@@ -423,10 +416,10 @@
                 </p>
                 
                 <style type="text/css">
-                    .state {
+                    .toolkit-state {
                         float: left;
                     }
-                    div.state.junger, div.state.junger div.mask {
+                    div.toolkit-state.junger, div.toolkit-state.junger div.toolkit-mask {
                         width: 12px;
                         height: 12px;
                         -webkit-border-radius: 6px;
@@ -434,17 +427,17 @@
                         border-radius:         6px;
                         border: none;
                     }
-                    div.state.junger div.mask {
+                    div.toolkit-state.junger div.toolkit-mask {
                         background: rgba(233,233,233,0.97);
                     }
-                    div.state.junger div.over {
+                    div.toolkit-state.junger div.toolkit-over {
                         display: none;
                     }
-                    div.state.on_air {
+                    div.toolkit-state.on_air {
                         width: 250px;
                         height: 70px;
                     }
-                    div.state.on_air .over {
+                    div.toolkit-state.on_air .toolkit-over {
                         background: url(images/on_air.png) no-repeat 50% 51%;
                     }
                 </style>
@@ -545,26 +538,26 @@
                     #sc_scale_h_t {
                         margin-left: 80px;
                     }
-                    #sc_scale_h_t .scale {
+                    #sc_scale_h_t .toolkit-scale {
                         
                     }
                     #sc_scale_h_b {
                         margin-left: 80px;
                         margin-top: 170px;
                     }
-                    #sc_scale_h_b .scale {
+                    #sc_scale_h_b .toolkit-scale {
                         
                     }
                     #sc_scale_v_l {
                         float: left;
                     }
-                    #sc_scale_v_l .scale {
+                    #sc_scale_v_l .toolkit-scale {
                         
                     }
                     #sc_scale_v_r {
                         float: right;
                     }
-                    #sc_scale_v_r .scale {
+                    #sc_scale_v_r .toolkit-scale {
                         
                     }
                 </style>
@@ -741,18 +734,18 @@
                     #sc_meterbase {
                         height: 210px;
                     }
-                    #sc_meterbase .meter-base.vertical.right {
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
                     }
-                    #sc_meterbase .meter-base.vertical {
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical {
                         height: 200px;
                     }
-                    #sc_meterbase .meter-base.horizontal {
+                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal {
                         width: 500px;
                     }
-                    #sc_meterbase .meter-base.vertical .bar {
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical .toolkit-bar {
                         width: 100px;
                     }
-                    #sc_meterbase .meter-base.horizontal .bar {
+                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal .toolkit-bar {
                         height: 50px;
                     }
                 </style>
@@ -1015,7 +1008,7 @@
                 </p>
                 
                 <style type="text/css">
-                    #sc_levelmeter .meter-base.vertical {
+                    #sc_levelmeter .toolkit-meter-base.toolkit-vertical {
                         height: 354px;
                     }
                 </style>
@@ -1582,7 +1575,7 @@
                 
                 <p class="description">
                     Charts are SVG images containing one or more graphs. There are functions to add and remove graphs. Use g1, g2 and c to play with the objects
-                    in a terminal: <a href="javascript:g2.set('color', '#c00')">g2.set("color", "#c00")</a>.
+                    in a terminal: <a href="javascript:g2.set('color', '#f00')">g2.set("color", "#f00")</a>.
                 </p>
                 
                 <style type="text/css">
@@ -1591,7 +1584,7 @@
                     }
                 </style>
                 
-                <div class="showcase" style="">
+                <div class="showcase box" style="">
                     <div id="sc_chart">
                         
                     </div>

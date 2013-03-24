@@ -69,48 +69,48 @@ img.logo {
     color: #ddd;
     text-shadow: 0 1px 0 white;
 }
-#mainblock #control_container div.state.on-air {
+#mainblock #control_container div.toolkit-state.on-air {
     width: 358px;
     height: 70px;
     margin: 0;
     margin-bottom: 20px;
 }
-#mainblock #control_container div.state.on-air .over {
+#mainblock #control_container div.toolkit-state.on-air .toolkit-over {
     background: url(../images/on_air.png) no-repeat 50% 51%;
     background-size: auto;
 }
                     
-#mainblock #control_container .button {
+#mainblock #control_container .toolkit-button {
     
 }
-#mainblock #control_container .toggle {
+#mainblock #control_container .toolkit-toggle {
     width: 300px;
     padding: 30px;
     float: left;
 }
-#mainblock #control_container .button {
+#mainblock #control_container .toolkit-button {
     font-size: 18px !important;
     line-height: 24px !important;
 }
-#mainblock #control_container .toggle .icon {
+#mainblock #control_container .toolkit-toggle .toolkit-icon {
     margin-bottom: 10px;
 }
-#mainblock #control_container .button.toggle.active .label {
+#mainblock #control_container .toolkit-button.toolkit-toggle.toolkit-active .toolkit-label {
     background: #a00;
 }
-#mainblock #control_container .dropdown {
+#mainblock #control_container .toolkit-dropdown {
     width: 209px;
     clear: left;
     float: left;
     margin-top: 20px;
 }
-#mainblock #control_container .button.load {
+#mainblock #control_container .toolkit-button.load {
     margin-top: 20px;
     margin-left: 10px;
     float: left;
     width: 75px;
 }
-#mainblock .level-meter {
+#mainblock .toolkit-level-meter {
     padding: 6px 20px !important;
     margin: 0 !important;
     background: none !important;
@@ -120,18 +120,18 @@ img.logo {
     box-shadow: none;
     float: left;
 }
-#mainblock .level-meter .bar {
+#mainblock .toolkit-level-meter .toolkit-bar {
     width: 100px !important;
 }
-#mainblock .level-meter .clip {
+#mainblock .toolkit-level-meter .toolkit-clip {
     width: 100px !important;
     height: 10px !important;
 }
-#mainblock .level-meter .scale .label {
+#mainblock .toolkit-level-meter .toolkit-scale .toolkit-label {
     font-size: 10px;
 }
-#mainblock .level-meter>.label,
-#mainblock .level-meter>.title {
+#mainblock .toolkit-level-meter>.toolkit-label,
+#mainblock .toolkit-level-meter>.toolkit-title {
     font-size: 14px;
     padding: 5px;
     width: 100px;
@@ -188,14 +188,14 @@ img.logo {
     clear: right;
     margin-bottom: 10px;
 }
-#floatblock #stateblock .state {
+#floatblock #stateblock .toolkit-state {
     float: right;
     margin: 5px 10px;
 }
 #floatblock #hotkeys {
     margin: 10px;
 }
-#floatblock #hotkeys .button {
+#floatblock #hotkeys .toolkit-button {
     width: 100%;
     padding-left: 0;
     padding-right: 0;
@@ -204,15 +204,15 @@ img.logo {
     margin-right: 10px;
     max-width: 260px;
 }
-#floatblock #hotkeys .button .label{
+#floatblock #hotkeys .toolkit-button .toolkit-label{
     margin-left: 10px;
     margin-right: 10px;
 }
-#floatblock #hotkeys .button:active {
+#floatblock #hotkeys .toolkit-button:active {
     -webkit-box-shadow: 0px 3px 0px rgba(255,255,255,0.15), 0px -3px 0px rgba(0,0,0,0.1), 2px 0px 0px rgba(255,255,255,0.1), 0px -2px 0px rgba(0,0,0,0.05);
     -moz-box-shadow: 0px 3px 0px rgba(255,255,255,0.15), 0px -3px 0px rgba(0,0,0,0.1), 2px 0px 0px rgba(255,255,255,0.1), 0px -2px 0px rgba(0,0,0,0.05);
     box-shadow: 0px 3px 0px rgba(255,255,255,0.15), 0px -3px 0px rgba(0,0,0,0.1), 2px 0px 0px rgba(255,255,255,0.1), 0px -2px 0px rgba(0,0,0,0.05);
 }
-#wrapper.landscape #floatblock #hotkeys .button {
+#wrapper.landscape #floatblock #hotkeys .toolkit-button {
     max-width: 300px;
 }
