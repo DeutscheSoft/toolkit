@@ -1,5 +1,6 @@
 var Chart = new Class({
-    Implements: [Events, Options, Coordinates],
+    Extends: Coordinates,
+    Implements: [Events, Options],
     options: {
         container: false, // a container the SVG should be injected to
         class:     "",    // a class to add in build process
@@ -11,7 +12,7 @@ var Chart = new Class({
     _add: ".5",
     initialize: function (options) {
         this.setOptions(options);
-        
+        this.parent(options);
         // firefox? don't add pixels!
         if (Browser.firefox)
             this._add = "";
@@ -20,13 +21,16 @@ var Chart = new Class({
             width:  this.options.width,
             height: this.options.height,
         });
+        if(!this.options.id) this.options.id = String.uniqueID();
+        this.element.set("id", this.options.id);
         this.element.addClass("toolkit-chart");
+        if(this.options.class)
+            this.element.addClass(this.options.class);
         if(this.options.container)
             this.set("container", this.options.container);
         
         this._graphs = makeSVG("g", {class: "toolkit-graphs"});
         this._graphs.inject(this.element);
-        
         this.__grid = new Grid({
             grid_x: this.options.grid_x,
             grid_y: this.options.grid_y,
@@ -36,12 +40,6 @@ var Chart = new Class({
             height: this.options.height,
             container: this.element
         })
-        
-        if(this.options.class)
-            this.element.addClass(this.options.class);
-        
-        if(!this.options.id) this.options.id = String.uniqueID();
-        this.element.set("id", this.options.id);
     },
     redraw: function (graphs, grid) {
         if(!this.options.width)
@@ -54,15 +52,16 @@ var Chart = new Class({
             width: w,
             height: h,
         });
-        this.element.css({
-            width: w,
-            height: h,
-        });
+        this.element.set("style", "width: w; height: h;");
         if(grid) {
             this.__grid.set("width",  this.options.width, true);
             this.__grid.set("height", this.options.height, true);
             this.__grid.set("mode_x", this.options.mode_x, true);
             this.__grid.set("mode_y", this.options.mode_y, true);
+            this.__grid.set("min_x", this.options.min_x, true);
+            this.__grid.set("min_y", this.options.min_y, true);
+            this.__grid.set("max_x", this.options.max_x, true);
+            this.__grid.set("max_y", this.options.max_y, true);
             this.__grid.redraw();
         }
         if(graphs) {
@@ -71,6 +70,10 @@ var Chart = new Class({
                 this.graphs[i].set("height", this.options.height, true);
                 this.graphs[i].set("mode_x", this.options.mode_x, true);
                 this.graphs[i].set("mode_y", this.options.mode_y, true);
+                this.graphs[i].set("min_x", this.options.min_x, true);
+                this.graphs[i].set("min_y", this.options.min_y, true);
+                this.graphs[i].set("max_x", this.options.max_x, true);
+                this.graphs[i].set("max_y", this.options.max_y, true);
                 this.graphs[i].redraw();
             }
         }
@@ -88,11 +91,22 @@ var Chart = new Class({
             options["width"]  = this.options.width;
         if(typeof options["height"] == "undefined")
             options["height"] = this.options.height;
+        if(typeof options["min_x"] == "undefined")
+            options["min_x"] = this.options.min_x;
+        if(typeof options["min_y"] == "undefined")
+            options["min_y"] = this.options.min_y;
+        if(typeof options["max_x"] == "undefined")
+            options["max_x"] = this.options.max_x;
+        if(typeof options["max_y"] == "undefined")
+            options["max_y"] = this.options.max_y;
         if(typeof options["mode_x"] == "undefined")
-            options["mode_x"]  = this.options.mode_x;
+            options["mode_x"] = this.options.mode_x;
         if(typeof options["mode_y"] == "undefined")
             options["mode_y"] = this.options.mode_y;
-        
+        if(typeof options["width"] == "undefined")
+            options["width"] = this.options.width;
+        if(typeof options["height"] == "undefined")
+            options["height"] = this.options.height;
         var g = new Graph(options);
         this.graphs.push(g);
         this.fireEvent("pathadded");
@@ -112,6 +126,7 @@ var Chart = new Class({
     // GETTER & SETER
     set: function (key, value, hold) {
         this.options[key] = value;
+        this.parent(key, value, hold);
         switch(key) {
             case "container":
                 if(!hold) this.element.inject(value);
@@ -123,11 +138,16 @@ var Chart = new Class({
             case "height":
             case "mode_x":
             case "mode_y":
+            case "min_x":
+            case "max_x":
+            case "min_y":
+            case "max_y":
                 if(!hold) this.redraw(true, true);
                 this.fireEvent("resized");
                 break;
             case "grid_x":
             case "grid_y":
+                console.log("redraw chart")
                 if(!hold) this.redraw(true, true);
                 break;
         }

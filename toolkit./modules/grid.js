@@ -1,5 +1,6 @@
 Grid = new Class({
-    Implements: [Options, Events, Coordinates],
+    Extends: Coordinates,
+    Implements: [Options, Events],
     options: {
         "class":          "",
         id:               "",
@@ -10,6 +11,7 @@ Grid = new Class({
     _add: ".5",
     initialize: function (options, hold) {
         this.setOptions(options);
+        this.parent(options);
         // firefox? don't add pixels!
         if (Browser.firefox)
             this._add = "";
@@ -75,6 +77,7 @@ Grid = new Class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
+        this.parent(key, value, hold);
         switch(key) {
             case "width":
             case "height":

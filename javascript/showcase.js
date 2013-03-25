@@ -190,6 +190,35 @@ function run_chart () {
     });
 }
 
+// FREQUENCY RESPONSE
+
+function run_frequencyresponse () {
+    if(typeof fr != "undefined") {
+        fr.destroy();
+        fr = undefined;
+        $("sc_frequencyresponse").removeClass("box");
+        return;
+    }
+    $("sc_frequencyresponse").addClass("box");
+    fr = new FrequencyResponse({
+        width: 908,
+        height: 300,
+        container: $("sc_frequencyresponse"),
+        db_grid: 12
+    });
+    g3 = fr.add_graph({
+        dots: [{x:20, y:0.0},
+               {x:100, y:24},
+               {x:200, y:-12},
+               {x:500, y:0},
+               {x:1000, y:0},
+               {x:4000, y:30},
+               {x:20000, y:-36}
+        ],
+        type: "H4",
+        mode: 0
+    });
+}
 
 // STATE
 

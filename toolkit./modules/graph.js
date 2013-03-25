@@ -1,5 +1,6 @@
 var Graph = new Class({
-    Implements: [Events, Options, Coordinates],
+    Extends: Coordinates,
+    Implements: [Events, Options],
     options: {
         "class":          "",
         id:               "",
@@ -23,7 +24,7 @@ var Graph = new Class({
     _add: ".5",
     initialize: function (options) {
         this.setOptions(options);
-        
+        this.parent(options);
         // firefox? don't add pixels!
         if (Browser.firefox)
             this._add = "";
@@ -179,6 +180,7 @@ var Graph = new Class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
+        this.parent(key, value, hold);
         switch(key) {
             case "container":
                 if(!hold) this.element.inject(value);
@@ -191,6 +193,10 @@ var Graph = new Class({
             case "type":
             case "mode_x":
             case "mode_y":
+            case "min_x":
+            case "min_y":
+            case "max_x":
+            case "max_y":
                 if(!hold) this.redraw();
                 break;
             case "mode":

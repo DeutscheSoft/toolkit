@@ -4,13 +4,15 @@ Coordinates = new Class({
         mode_x:           0,              // what kind of x are we having?
                                           // 0: pixels
                                           // 1: percentual value (between 0 and 1)
-                                          // 2: dB values (needs min_x and max_x)
-                                          // 3: frequencies (needs min_x and max_x)
+                                          // 2: linear value
+                                          // 3: dB values (needs min_x and max_x)
+                                          // 4: frequencies (needs min_x and max_x)
         mode_y:           0,              // what kind of y are we having?
                                           // 0: pixels
                                           // 1: percentual value (between 0 and 1)
-                                          // 2: dB values (needs min_x and max_x)
-                                          // 3: frequencies (needs min_x and max_x)
+                                          // 2: linear value
+                                          // 3: dB values (needs min_x and max_x)
+                                          // 4: frequencies (needs min_x and max_x)
         width:            0,              // if x is a percentual value we better should know the real dimensions
         height:           0,              // if y is a percentual value we better should know the real dimensions
         min_x:            0,              // if mode_x is 2 or 3 or 4 we need to know about the range we see
@@ -24,6 +26,10 @@ Coordinates = new Class({
     _max_y: 0,
     
     initialize: function (options, hold) {
+        this.set("min_x", this.options.min_x, true);
+        this.set("min_y", this.options.min_y, true);
+        this.set("max_x", this.options.max_x, true);
+        this.set("max_y", this.options.max_y, true);
         this.setOptions(options);
     },
     
@@ -38,16 +44,16 @@ Coordinates = new Class({
                 // x is a percentual value
                 return this.options.width * x;
             case 2:
-                // x is a flat value
-                var gw = this.options.max - this.options.min;
-                var pw = (this.options.min - x) * -1;
-                return (pw / gw) || 0;
+                // x is a linear value
+                var gw = this.options.max_x - this.options.min_x;
+                var pw = (this.options.min_x - x) * -1;
+                return ((pw / gw) || 0) * this.options.width;
             case 3:
                 // x is a dB value
-                return db2px(x, this._min_x, this._max_x, this.options.width);
+                return this.db2px(x, this._min_x, this._max_x, this.options.width);
             case 4:
                 // x is a frequency
-                return freq2px(x, this._min_x, this._max_x, this.options.width);
+                return this.freq2px(x, this._min_x, this._max_x, this.options.width);
         }
     },
     y2px: function (y) {
@@ -63,18 +69,18 @@ Coordinates = new Class({
                 r = this.options.height * y;
                 break;
             case 2:
-                // y is a flat value
-                var gw = this.options.max - this.options.min;
-                var pw = (this.options.min - y) * -1;
-                r = (pw / gw) || 0;
+                // y is a linear value
+                var gw = this.options.max_y - this.options.min_y;
+                var pw = (this.options.min_y - y) * -1;
+                r = ((pw / gw) || 0) * this.options.height;
                 break;
             case 3:
-                // y is a flat value
-                r = db2px(y, this._min_y, this._max_y, this.options.height);
+                // y is a db value
+                r = this.db2px(y, this._min_y, this._max_y, this.options.height);
                 break;
             case 4:
                 // y is a frequency
-                r = freq2px(y, this._min_y, this._max_y, this.options.height);
+                r = this.freq2px(y, this._min_y, this._max_y, this.options.height);
                 break;
         }
         return -r + this.options.height;
@@ -82,7 +88,8 @@ Coordinates = new Class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.parent(key, value, hold);
+//         if(typeof this.parent == "function")
+//             this.parent(key, value, hold);
         switch(key) {
             case "mode_x":
             case "mode_y":
@@ -90,23 +97,23 @@ Coordinates = new Class({
             case "max_x":
             case "min_y":
             case "max_y":
-                if(this.options.mode_x == 2) {
-                    // precalc x values
-                    this._min_x = log10(this.options.min_x);
-                    this._max_x = log10(this.options.max_x);
+                if(this.options.mode_x == 4) {
+                    // precalc x values for freq
+                    this._min_x = this.log10(this.options.min_x);
+                    this._max_x = this.log10(this.options.max_x);
                 } else if(this.options.mode_x == 3) {
-                    // precalc x values
-                    this._min_x = log2(this.options.min_x);
-                    this._max_x = log2(this.options.max_x);
+                    // precalc x values for db
+                    this._min_x = this.log2(this.options.min_x);
+                    this._max_x = this.log2(this.options.max_x);
                 }
-                if(this.options.mode_y == 2) {
-                    // precalc y values
-                    this._min_y = log10(this.options.min_y);
-                    this._max_y = log10(this.options.max_y);
+                if(this.options.mode_y == 4) {
+                    // precalc y values for freq
+                    this._min_y = this.log10(this.options.min_y);
+                    this._max_y = this.log10(this.options.max_y);
                 } else if(this.options.mode_y == 3) {
-                    // precalc y values
-                    this._min_y = log2(this.options.min_y);
-                    this._max_y = log2(this.options.max_y);
+                    // precalc y values for db
+                    this._min_y = this.log2(this.options.min_y);
+                    this._max_y = this.log2(this.options.max_y);
                 }
                 break;
         }

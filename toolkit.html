@@ -61,6 +61,10 @@
         <script src="toolkit./widgets/chart.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./css/chart.css">
         
+        <!-- FREQUENCY RESPONSE -->
+        <script src="toolkit./widgets/frequencyresponse.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./css/frequencyresponse.css">
+        
         <script type="text/javascript">
             window.addEvent('load', function(){
                 
@@ -2096,6 +2100,11 @@
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>db_grid</td>
+                        <td>Draw a grid line every [n] dBs</td>
+                        <td>12</td>
+                    </tr>
                     <tr class="inherit">
                         <td>class <i class="static">⚓</i></td>
                         <td>A CSS class to add on build time</td>
