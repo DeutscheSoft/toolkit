@@ -176,12 +176,11 @@ li {
 .wrapper {
     position: absolute;
     z-index: 1000;
-    width: 990px;
+    width: 950px;
     top: 50px;
     left: 50%;
     margin: 0;
-    margin-left: -495px;
-    width: 990px;
+    margin-left: -425px;
 }
 
 div.header {
@@ -189,8 +188,8 @@ div.header {
     z-index: 10000;
     top: 0;
     left: 50%;
-    margin-left: -495px;
-    width: 970px;
+    margin-left: -425px;
+    width: 930px;
     padding: 0 10px;
     height: 40px;
     background-color: rgb(0, 56, 103);

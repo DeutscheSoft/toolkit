@@ -1,12 +1,11 @@
 .wrapper {
     position: absolute;
     z-index: 1000;
-    width: 990px;
+    width: 950px;
     top: 50px;
     left: 50%;
     margin: 0;
-    margin-left: -495px;
-    width: 990px;
+    margin-left: -425px;
 }
 .wrapper li {
     clear: both;
