@@ -1423,6 +1423,9 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -1433,18 +1436,41 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_y and max_y)</li>
+                                <li>3: dB value (needs width, height, min_y and max_y)</li>
+                                <li>4: frequency (needs width, height, min_y and max_y)</li>
                             </ul>
                         </td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <td>width</td>
-                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>If positioning is percentual we better should know about the real width</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <td>height</td>
-                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>min_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>min_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
                 </table>
@@ -1539,6 +1565,9 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -1549,18 +1578,41 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_y and max_y)</li>
+                                <li>3: dB value (needs width, height, min_y and max_y)</li>
+                                <li>4: frequency (needs width, height, min_y and max_y)</li>
                             </ul>
                         </td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>width</td>
-                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>If positioning is percentual we better should know about the real width</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>height</td>
-                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
                 </table>
@@ -1647,6 +1699,9 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -1657,18 +1712,41 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_y and max_y)</li>
+                                <li>3: dB value (needs width, height, min_y and max_y)</li>
+                                <li>4: frequency (needs width, height, min_y and max_y)</li>
                             </ul>
                         </td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>width</td>
-                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>If positioning is percentual we better should know about the real width</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>height</td>
-                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
                 </table>
@@ -1756,6 +1834,9 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -1766,18 +1847,41 @@
                             <ul>
                                 <li>0: pixels</li>
                                 <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_y and max_y)</li>
+                                <li>3: dB value (needs width, height, min_y and max_y)</li>
+                                <li>4: frequency (needs width, height, min_y and max_y)</li>
                             </ul>
                         </td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>width</td>
-                        <td>The width of the SVG image.</td>
+                        <td>If positioning is percentual we better should know about the real width</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>height</td>
-                        <td>The height of the SVG image.</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
@@ -1906,25 +2010,25 @@
                         <td>The height of the SVG image.</td>
                         <td>0</td>
                     </tr>
-                    <tr>
-                        <td>min_freq</td>
-                        <td>The minimum frequency</td>
-                        <td>0</td>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>Min frequency for this axis.</td>
+                        <td>20</td>
                     </tr>
-                    <tr>
-                        <td>max_freq</td>
-                        <td>The maximum frequency</td>
-                        <td>0</td>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>Max frequency for this axis.</td>
+                        <td>20000</td>
                     </tr>
-                    <tr>
-                        <td>min_db</td>
-                        <td>The minimum dB value</td>
-                        <td>0</td>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>Min dB for this axis.</td>
+                        <td>-36</td>
                     </tr>
-                    <tr>
-                        <td>max_db</td>
-                        <td>The maximum dB value</td>
-                        <td>0</td>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>Max dB for this axis.</td>
+                        <td>36</td>
                     </tr>
                 </table>
                 

@@ -1,12 +1,12 @@
 var FrequencyResponse = new Class({
     Extends: Chart,
     options: {
-        min_x: 20,            // the minimum x value (db or frequency)
-        max_x: 20000,         // the maximum x value (db or frequency)
-        min_y: 0.0009765625,  // the minimum y value (db or frequency)
-        max_y: 4,             // the maximum y value (db or frequency)
-        mode_x: 3,            // the default mode for the x axis (0: pixels, 1: percent, 2: dB, 3: frequency)
-        mode_y: 2,            // the default mode for the y axis (0: pixels, 1: percent, 2: dB, 3: frequency)
+        min_x: -36,
+        max_x: 36,
+        min_y: 20,
+        max_y: 20000,
+        mode_x: 4,
+        mode_y: 2
     },
     initialize: function (options) {
         this.setOptions(options);
