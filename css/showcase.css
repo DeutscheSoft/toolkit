@@ -24,16 +24,14 @@ p.description {
 div.showcase {
     clear: both;
     margin: 10px 0;
-    padding: 20px;
-}
-
-div.toolkit-toggle {
-    margin-right: 10px;
 }
 div.buttons {
     height: 50px;
     clear: both;
     margin: 20px 0 0 0;
+}
+div.buttons .toolkit-button {
+    margin-right: 10px;
 }
 i.static {
     color: #951c26;

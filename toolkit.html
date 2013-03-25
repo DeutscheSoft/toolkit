@@ -115,7 +115,7 @@
                 </p>
             </li>
             
-            <li>
+            <li id="button">
                 <!-- ########################################################### -->
                 <!-- BUTTON WIDGET -->
                 <!-- ########################################################### -->
@@ -127,12 +127,17 @@
                     of click-related events and consist of a label and an icon. Buttons are used
                     as a base to build different other widgets from.
                 </p>
+                <p class="description">
+                    Use b to play with the example in a terminal:
+                    <a href="javascript:b.set('state', true)">b.set("state", true)</a>
+                    <small>(toggles the state of the widget)</small>
+                </p>
                 
                 <style type="text/css">
                     
                 </style>
                 
-                <div class="showcase box">
+                <div class="showcase">
                     <div id="sc_button" style="text-align: center;">
                         
                     </div>
@@ -212,7 +217,7 @@
                 </table>
             </li>
             
-            <li>
+            <li id="toggle">
                 <!-- ########################################################### -->
                 <!-- TOGGLE WIDGET -->
                 <!-- ########################################################### -->
@@ -233,7 +238,7 @@
                     
                 </style>
                 
-                <div class="showcase box">
+                <div class="showcase">
                     <div id="sc_toggle" style="text-align: center;">
                         
                     </div>
@@ -346,7 +351,7 @@
                 </table>
             </li>
             
-            <li>
+            <li id="range">
                 <!-- ########################################################### -->
                 <!-- RANGE CONTROL -->
                 <!-- ########################################################### -->
@@ -397,7 +402,7 @@
                 </table>
             </li>
             
-            <li>
+            <li id="state">
                 <!-- ########################################################### -->
                 <!-- STATE WIDGET -->
                 <!-- ########################################################### -->
@@ -442,7 +447,7 @@
                     }
                 </style>
                 
-                <div class="showcase box">
+                <div class="showcase">
                     <div id="sc_state">
                         
                     </div>
@@ -514,7 +519,8 @@
                     </tr>
                 </table>
             </li>
-            <li>
+            
+            <li id="scale">
                 <!-- ########################################################### -->
                 <!-- SCALE WIDGET -->
                 <!-- ########################################################### -->
@@ -536,43 +542,38 @@
                 
                 <style type="text/css">
                     #sc_scale_h_t {
-                        margin-left: 80px;
+                        margin-left: 90px;
                     }
                     #sc_scale_h_t .toolkit-scale {
                         
                     }
                     #sc_scale_h_b {
-                        margin-left: 80px;
-                        margin-top: 170px;
+                        margin-left: 90px;
+                        margin-top: 185px;
                     }
                     #sc_scale_h_b .toolkit-scale {
                         
                     }
                     #sc_scale_v_l {
+                        height: 200px;
                         float: left;
                     }
                     #sc_scale_v_l .toolkit-scale {
                         
                     }
                     #sc_scale_v_r {
+                        height: 200px;
                         float: right;
                     }
                     #sc_scale_v_r .toolkit-scale {
                         
                     }
+                    #sc_scale {
+                    }
                 </style>
                 
-                <div class="showcase box" style="height: 200px; padding: 20px">
-                    <div id="sc_scale_v_l">
-                        
-                    </div>
-                    <div id="sc_scale_v_r">
-                        
-                    </div>
-                    <div id="sc_scale_h_t">
-                        
-                    </div>
-                    <div id="sc_scale_h_b">
+                <div class="showcase" style="">
+                    <div id="sc_scale">
                         
                     </div>
                 </div>
@@ -711,7 +712,7 @@
                 
             </li>
             
-            <li>
+            <li id="meterbase">
                 <!-- ########################################################### -->
                 <!-- METER BASE WIDGET -->
                 <!-- ########################################################### -->
@@ -732,12 +733,13 @@
                 
                 <style type="text/css">
                     #sc_meterbase {
-                        height: 210px;
+                        margin-left: 80px;
                     }
                     #sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
                     }
                     #sc_meterbase .toolkit-meter-base.toolkit-vertical {
                         height: 200px;
+                        margin-bottom: 30px;
                     }
                     #sc_meterbase .toolkit-meter-base.toolkit-horizontal {
                         width: 500px;
@@ -986,7 +988,7 @@
                 
             </li>
             
-            <li>
+            <li id="levelmeter">
                 <!-- ########################################################### -->
                 <!-- LVEL METER WIDGET -->
                 <!-- ########################################################### -->
@@ -1017,13 +1019,14 @@
                     <div id="sc_levelmeter">
                         
                     </div>
-                    <div style="clear: both; text-align: right;margin-top: 30px;width: 700px;">
+                    <div id="sc_levelmeter_buttons" style="clear: both; text-align: right;margin-top: 30px;width: 700px;display: none;">
                         <button class="button" onClick="run()">Run Demo</button>
                         <button class="button" onClick="running=false">Stop Demo</button>
                         <button class="button" onClick="reset()">Reset Peak</button>
                         <button class="button" onClick="hold()">Toggle Hold</button>
+                        <p style="text-align:right; width: 700px;"><small>Please don't expect too much performance with this poorly hacked demo on this overloaded page..</small></p>
                     </div>
-                    <p style="text-align:right; width: 700px;"><small>Please don't expect too much performance with this poorly hacked demo on this overloaded page..</small></p>
+                    
                 </div>
                 
                 <div class="buttons"></div>
@@ -1397,7 +1400,7 @@
                 
             </li>
             
-            <li>
+            <li id="coordinates">
                 <!-- ########################################################### -->
                 <!-- COORDINATES CONTROL -->
                 <!-- ########################################################### -->
@@ -1448,7 +1451,7 @@
                 </table>
             </li>
             
-            <li>
+            <li id="graph">
                 <!-- ########################################################### -->
                 <!-- GRAPH WIDGET -->
                 <!-- ########################################################### -->
@@ -1566,7 +1569,7 @@
                 </table>
             </li>
             
-            <li>
+            <li id="chart">
                 <!-- ########################################################### -->
                 <!-- CHART WIDGET -->
                 <!-- ########################################################### -->
@@ -1584,7 +1587,7 @@
                     }
                 </style>
                 
-                <div class="showcase box" style="">
+                <div class="showcase" style="">
                     <div id="sc_chart">
                         
                     </div>

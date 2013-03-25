@@ -1,12 +1,13 @@
 window.addEvent('domready', function(){
     $$(".collapse").each(function (e) {
-        var toggle = new Element("div", {"class":"toolkit-toggle toolkit-button", html:e.get("title") + " (" + (e.getChildren()[0].getChildren().length - 1) + ")"});
+        var toggle = new Element("div", {"class":"toolkit-button", html:e.get("title") + " (" + (e.getChildren()[0].getChildren().length - 1) + ")"});
         toggle.inject(e.getParent().getChildren(".buttons")[0]);
         var toggleFx = new Fx.Slide(e).hide();
         toggle.addEvent("click", function(){toggleFx.toggle()});
     });
     var c = 0;
     $$("ul.wrapper>li").each( function (e) {
+        var id = e.get("id");
         if (!c) {
             var hr = new Element("hr").inject(e, "bottom");
             c ++;
@@ -14,16 +15,26 @@ window.addEvent('domready', function(){
         }
         var up = new Element("a.button", {style:"float: right; margin: 0 0 24px 24px;", href: "#", html: "up ⤴"}).inject(e, "bottom");
         var hr = new Element("hr").inject(e, "bottom");
+        if(typeof window["run_" + id] != "undefined") {
+            var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0], "top");
+            but.addEvent("click", window["run_" + id]);
+        }
     });
+    var modex = window.location.hash.substring(1);
+    if(modex && typeof window["run_" + modex] != "undefined") {
+        window["run_" + modex]();
+    }
 });
-
-
-
 
 
 // TOGGLE
 
-window.addEvent('domready', function(){
+function run_toggle () {
+    if(typeof t != "undefined") {
+        t.destroy();
+        t = undefined;
+        return;
+    }
     t = new Toggle({
         container: $("sc_toggle"),
         label: "Mic Active",
@@ -33,57 +44,63 @@ window.addEvent('domready', function(){
         press: 200,
         press_disable: true
     });
-});
-
-
-
-
-
+}
 
 
 // BUTTON
 
-window.addEvent('domready', function(){
-    b1 = new Button({
+function run_button () {
+    if(typeof b != "undefined") {
+        b.destroy();
+        b = undefined;
+        return;
+    }
+    b = new Button({
         container: $("sc_button"),
         label: "Demo Button",
         icon: "images/icons_big/showcase.png"
     });
-    b1.addEvent("click", function () { alert("clicked") });
-});
-
-
-
-
-
-
+    b.addEvent("click", function () { alert("clicked") });
+}
 
 
 // SCALE
 
-window.addEvent('domready', function(){
+function run_scale () {
+    if(typeof svl != "undefined") {
+        svl.destroy();
+        svr.destroy();
+        sht.destroy();
+        shb.destroy();
+        svl = undefined;
+        $("sc_scale").removeClass("box");
+        return;
+    }
+    $("sc_scale").addClass("box");
     svl = new Scale({
-        container: $$("#sc_scale_v_l")[0],
+        container: $("sc_scale"),
         layout: 1,
         division: 1,
         levels: [1, 6, 12],
         min: -96,
         max: +24,
         base: 0,
-        size: 200
+        size: 200,
+        id: "sc_scale_v_l"
     })
     svr = new Scale({
-        container: $$("#sc_scale_v_r")[0],
+        container: $("sc_scale"),
         layout: 2,
         division: 1,
         levels: [1, 6, 12],
         min: -96,
         max: +24,
         base: 0,
-        size: 200
+        size: 200,
+        id: "sc_scale_v_r"
     })
     sht = new Scale({
-        container: $$("#sc_scale_h_t")[0],
+        container: $("sc_scale"),
         layout: 3,
         division: 1,
         levels: [1, 6, 12],
@@ -91,10 +108,11 @@ window.addEvent('domready', function(){
         max: +24,
         base: 0,
         size: 750,
-        gap_labels: 50
+        gap_labels: 50,
+        id: "sc_scale_h_t"
     })
     shb = new Scale({
-        container: $$("#sc_scale_h_b")[0],
+        container: $("sc_scale"),
         layout: 4,
         division: 1,
         levels: [1, 6, 12],
@@ -102,18 +120,22 @@ window.addEvent('domready', function(){
         max: +24,
         base: 0,
         size: 750,
-        gap_labels: 50
+        gap_labels: 50,
+        id: "sc_scale_h_b"
     })
-});
-
-
-
-
+}
 
 
 // CHART
 
-window.addEvent("domready", function () {
+function run_chart () {
+    if(typeof c != "undefined") {
+        c.destroy();
+        c = undefined;
+        $("sc_chart").removeClass("box");
+        return;
+    }
+    $("sc_chart").addClass("box");
     c = new Chart({
         width: 948,
         height: 300,
@@ -165,57 +187,65 @@ window.addEvent("domready", function () {
                {x:1.0, y:0.9}
         ],
     });
-});
-
-
-
-
-
-
-
+}
 
 
 // STATE
 
-window.addEvent('domready', function(){
+function run_state () {
+    if(typeof s1 != "undefined") {
+        s1.destroy();
+        s2.destroy();
+        s3.destroy();
+        s4.destroy();
+        s5.destroy();
+        s6.destroy();
+        s7.destroy();
+        s8.destroy();
+        s1 = undefined;
+        $("sc_state").empty();
+        $("sc_state").removeClass("box");
+        return;
+    }
+    $("sc_state").addClass("box");
     s1 = new State({
-        container: $$("#sc_state")[0]
+        container: $("sc_state")
     });
     s2 = new State({
-        container: $$("#sc_state")[0],
+        container: $("sc_state"),
         color: "#00ff00"
     });
     s3 = new State({
-        container: $$("#sc_state")[0],
+        container: $("sc_state"),
         color: "blue",
         state: 1
     });
     s4 = new State({
-        container: $$("#sc_state")[0],
+        container: $("sc_state"),
         color: "blue",
         state: 1,
         "class": "junger"
     });
     s5 = new State({
-        container: $$("#sc_state")[0],
+        container: $("sc_state"),
         color: "#cc0000",
         state: 1,
         "class": "junger"
     });
     s6 = new State({
-        container: $$("#sc_state")[0],
+        container: $("sc_state"),
         color: "#ff8800",
         state: 1,
         "class": "junger"
     });
     s7 = new State({
-        container: $$("#sc_state")[0],
+        container: $("sc_state"),
         color: "grey",
         state: 1,
         "class": "junger"
     });
     s8 = new State({
-        container: $$("#sc_state")[0],
+        container: $("sc_state"),
         color: "#d00",
         state: 0,
         "class": "on_air"
@@ -224,7 +254,7 @@ window.addEvent('domready', function(){
     __s1();
     __s2();
     __s3();
-});
+}
 var _s1 = 0;
 var _s2 = 0;
 var _s3 = 0;
@@ -251,16 +281,17 @@ function __s3 () {
 }
 
 
-
-
-
-
-
-
-
 // METER BASE
 
-window.addEvent('domready', function(){
+function run_meterbase () {
+    if(typeof mbvl != "undefined") {
+        mbvl.destroy();
+        mbvr.destroy();
+        mbhb.destroy();
+        mbht.destroy();
+        mbvl = undefined;
+        return;
+    }
     mbvl = new MeterBase({
         container: $$("#sc_meterbase")[0],
         layout: 2,
@@ -321,18 +352,21 @@ window.addEvent('domready', function(){
         gradient: {"-15": "#001f83", "0": "#008bea", "15": "#001f83"},
         levels: [1, 5]
     });
-});
-
-
-
-
-
-
+}
 
 
 // LEVEL METER
 
-window.addEvent('domready', function(){
+function run_levelmeter () {
+    if(typeof meters != "undefined" && typeof meters.mvr != "undefined") {
+        for(var i in meters) {
+            meters[i].destroy();
+            meters[i] = undefined;
+        }
+        $("sc_levelmeter_buttons").setStyle("display", "none");
+        return;
+    }
+    $("sc_levelmeter_buttons").setStyle("display", "block");
     meters = {
         mvr: new LevelMeter({
             layout: 2,
@@ -530,7 +564,7 @@ window.addEvent('domready', function(){
             levels: [1, 5, 10]
         })
     }
-});
+}
 
 running = false
 function run () {
