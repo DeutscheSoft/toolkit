@@ -10,11 +10,10 @@
 }
 
 .toolkit-grid-label {
-    fill: rgba(255,255,255,0.8);
+    fill: rgba(255,255,255,0.99);
     /* ONLY USE PADDING FOR POSITIONING! */
-    padding: 0px 2px;
+    padding: 1px 2px;
     font-size: 9px;
-    font-weight: bold;
 }
 .toolkit-grid-label.toolkit-vertical {
     

@@ -43,7 +43,7 @@ var Graph = new Class({
         this.set("mode",  this.options.mode,    true);
         this.set("mode_x", this.options.mode_x, true);
         this.set("mode_y", this.options.mode_y, true);
-        this.set("color",  this.options.color,  true);
+        this.set("color",  this.options.color);
         
         if(this.options.dots.length)
             this.redraw();

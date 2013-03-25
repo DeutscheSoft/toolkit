@@ -186,6 +186,7 @@ function run_chart () {
                {x:0.8, y:0.3},
                {x:1.0, y:0.9}
         ],
+        color: "#dd0000"
     });
 }
 
