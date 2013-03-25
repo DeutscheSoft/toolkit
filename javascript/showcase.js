@@ -137,7 +137,7 @@ function run_chart () {
     }
     $("sc_chart").addClass("box");
     c = new Chart({
-        width: 948,
+        width: 908,
         height: 300,
         container: $("sc_chart"),
         mode_x: 1,
