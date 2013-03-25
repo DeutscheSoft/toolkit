@@ -1,0 +1,11 @@
+.toolkit-frequency-response {
+    
+}
+
+.toolkit-frequency-response .toolkit-grid-line.toolkit-highlight {
+    stroke: rgba(255,0,0,0.66);
+}
+.toolkit-frequency-response .toolkit-grid-label.toolkit-highlight {
+    fill: rgb(255,255,255);
+    font-weight: bold;
+}
