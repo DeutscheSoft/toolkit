@@ -1,5 +1,5 @@
 Coordinates = new Class({
-    Implements: [Options],
+    Implements: [Options, AudioMath],
     options: {
         mode_x:           0,              // what kind of x are we having?
                                           // 0: pixels
@@ -39,7 +39,9 @@ Coordinates = new Class({
                 return this.options.width * x;
             case 2:
                 // x is a flat value
-                
+                var gw = this.options.max - this.options.min;
+                var pw = (this.options.min - x) * -1;
+                return (pw / gw) || 0;
             case 3:
                 // x is a dB value
                 return db2px(x, this._min_x, this._max_x, this.options.width);
@@ -61,10 +63,16 @@ Coordinates = new Class({
                 r = this.options.height * y;
                 break;
             case 2:
-                // y is a dB value
-                r = db2px(y, this._min_y, this._max_y, this.options.height);
+                // y is a flat value
+                var gw = this.options.max - this.options.min;
+                var pw = (this.options.min - y) * -1;
+                r = (pw / gw) || 0;
                 break;
             case 3:
+                // y is a flat value
+                r = db2px(y, this._min_y, this._max_y, this.options.height);
+                break;
+            case 4:
                 // y is a frequency
                 r = freq2px(y, this._min_y, this._max_y, this.options.height);
                 break;
@@ -100,7 +108,6 @@ Coordinates = new Class({
                     this._min_y = log2(this.options.min_y);
                     this._max_y = log2(this.options.max_y);
                 }
-                if(!hold) this.redraw();
                 break;
         }
     },

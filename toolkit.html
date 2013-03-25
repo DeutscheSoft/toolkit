@@ -20,6 +20,7 @@
         
         <!-- BASE CLASSES -->
         <script src="toolkit./implements/range.js"></script>
+        <script src="toolkit./implements/audiomath.js"></script>
         
         <!-- BUTTON -->
         <script src="toolkit./widgets/button.js"></script>
@@ -77,6 +78,7 @@
                 <li><a href="../index.html" title="Index">◂ Index</a></li>
                 <li><a href="#button">Button</a></li>
                 <li><a href="#toggle">Toggle</a></li>
+                <li><a href="#audiomath">AudioMath</a></li>
                 <li><a href="#range">Range</a></li>
                 <li><a href="#state">State</a></li>
                 <li><a href="#scale">Scale</a></li>
@@ -347,6 +349,43 @@
                     <tr>
                         <td>toggle()</td>
                         <td>Toggle the button.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li id="audiomath">
+                <!-- ########################################################### -->
+                <!-- AUDIO MATH -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="audiomath"></a>AudioMath</h2>
+                
+                <p class="description">
+                    AudioMath implements a couple of functions for calculating dB
+                    and frequency values.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr>
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr>
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr>
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
                     </tr>
                 </table>
             </li>
@@ -990,7 +1029,7 @@
             
             <li id="levelmeter">
                 <!-- ########################################################### -->
-                <!-- LVEL METER WIDGET -->
+                <!-- LEVEL METER WIDGET -->
                 <!-- ########################################################### -->
                 
                 <h2><a name="levelmeter"></a>LevelMeter</h2>
@@ -1410,7 +1449,8 @@
                 <p class="description">
                     Coordinates provide simple options and functions for dealing with a two dimensional
                     coordinates system. It is used mainly for SVG image drawing to switch between
-                    percentual and pixel-based values and turns the y axis upside-down.
+                    percentual and pixel-based values and turns the y axis upside-down. Coordinates
+                    implement <a href="#audiomath">AudioMath</a>.
                 </p>
                 
                 <div class="buttons"></div>
@@ -1486,6 +1526,24 @@
                         <td>y2px(value)</td>
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
                     </tr>
                 </table>
             </li>
@@ -1645,6 +1703,24 @@
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
                     </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
+                    </tr>
                 </table>
             </li>
             
@@ -1659,8 +1735,8 @@
                     A grid creates a couple of lines and labels in a SVG image on the x and y axis.
                     It is used in e.g. <a href="#graph">Graphs</a> and
                     <a href="frequencyresponse">FrequencyResponses</a> to draw markers and values.
-                    Graphs need a parent SVG image do draw into. The base element of a grid is a
-                    SVG group containing all the labels and lines. Grinds implement
+                    Graphs need a parent SVG image do draw into. The base element of a Grid is a
+                    SVG group containing all the labels and lines. Grids implement
                     <a href="#coordinates">Coordinates</a> for drawing the elements.
                 </p>
                 
@@ -1778,6 +1854,24 @@
                         <td>y2px(value)</td>
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
                     </tr>
                 </table>
                 
@@ -1952,6 +2046,24 @@
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
                     </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
+                    </tr>
                 </table>
             </li>
             
@@ -1964,8 +2076,7 @@
                 
                 <p class="description">
                     FrequencyResponse is a <a href="#graph">Graph</a> drawing frequencies 
-                    on the x axis and dB values on the y axis. It adds some functionality
-                    to x2px and y2px to take real values instead of pixel positions. This widget
+                    on the x axis and dB values on the y axis. This widget
                     automatically draws a <a href="#grid">Grid</a> depending on the ranges.
                 </p>
                 
@@ -2087,6 +2198,24 @@
                         <td>y2px(value)</td>
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
                     </tr>
                 </table>
             </li>
