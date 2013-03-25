@@ -126,6 +126,10 @@ var Chart = new Class({
                 if(!hold) this.redraw(true, true);
                 this.fireEvent("resized");
                 break;
+            case "grid_x":
+            case "grid_y":
+                if(!hold) this.redraw(true, true);
+                break;
         }
     },
     get: function (key) {

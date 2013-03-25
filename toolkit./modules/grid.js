@@ -80,6 +80,9 @@ Grid = new Class({
             case "height":
             case "mode_x":
             case "mode_y":
+            case "grid_x":
+            case "grid_y":
+                this.fireEvent("gridchanged");
                 if(!hold) this.redraw();
                 break;
             case "container":

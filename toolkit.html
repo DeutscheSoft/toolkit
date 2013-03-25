@@ -187,15 +187,15 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>button.element ("div.state")</td>
+                        <td>button.element ("div.toolkit-state")</td>
                         <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
                     </tr>
                     <tr>
-                        <td>button._label ("div.label")</td>
+                        <td>button._label ("div.toolkit-label")</td>
                         <td>The text label of the button</td>
                     </tr>
                     <tr>
-                        <td>button._icon ("img.icon")</td>
+                        <td>button._icon ("img.toolkit-icon")</td>
                         <td>An icon to display</td>
                     </tr>
                 </table>
@@ -309,15 +309,15 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr class="inherit">
-                        <td>button.element ("div.state")</td>
+                        <td>button.element ("div.toolkit-state")</td>
                         <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
                     </tr>
                     <tr class="inherit">
-                        <td>button._label ("div.label")</td>
+                        <td>button._label ("div.toolkit-label")</td>
                         <td>The text label of the button</td>
                     </tr>
                     <tr class="inherit">
-                        <td>button._icon ("img.icon")</td>
+                        <td>button._icon ("img.toolkit-icon")</td>
                         <td>An icon to display</td>
                     </tr>
                 </table>
@@ -492,16 +492,16 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>state.element ("div.state")</td>
+                        <td>state.element ("div.toolkit-state")</td>
                         <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
                     </tr>
                     <tr>
-                        <td>state._over ("div.over")</td>
+                        <td>state._over ("div.toolkit-over")</td>
                         <td>An element for designing purposes. It is drawn over the background of the base element and is used
                         to show a semi-transparent PNG for faking some differences in the distribution of light.</td>
                     </tr>
                     <tr>
-                        <td>state._mask ("div.mask")</td>
+                        <td>state._mask ("div.toolkit-mask")</td>
                         <td>The mask is used to darken, lighten or flatten the background colour depending on the CSS of it.
                         Its opacity reacts directly on the state variable.</td>
                     </tr>
@@ -688,25 +688,25 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>scale.element ("div.scale")</td>
+                        <td>scale.element ("div.toolkit-scale")</td>
                         <td>The base element of the widget. It contains the dots and labels.</td>
                     </tr>
                     <tr>
-                        <td>[dots] ("div.dot")</td>
+                        <td>[dots] ("div.toolkit-dot")</td>
                         <td>Dots are absolutely positioned divs. They can have different additional
                         CSS classes depending on their position. These classes are:
                         <ul>
-                            <li>".marker" - The dot belongs to a label</li>
-                            <li>".min" - the dot is drawn on the min value</li>
-                            <li>".max" - the dot is drawn on the max value</li>
-                            <li>".base" - the dot is drawn on the base value</li>
+                            <li>".toolkit-marker" - The dot belongs to a label</li>
+                            <li>".toolkit-min" - the dot is drawn on the min value</li>
+                            <li>".toolkit-max" - the dot is drawn on the max value</li>
+                            <li>".toolkit-base" - the dot is drawn on the base value</li>
                         </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td>[labels] ("span.label")</td>
+                        <td>[labels] ("span.toolkit-label")</td>
                         <td>Labels are absolute positioned spans containing text. They can have the same
-                        additional classes as dots (except ".marker").</td>
+                        additional classes as dots (except ".toolkit-marker").</td>
                     </tr>
                 </table>
                 
@@ -917,39 +917,39 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>meterbase.element ("div.meter-base")</td>
+                        <td>meterbase.element ("div.toolkit-meter-base")</td>
                         <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
                     </tr>
                     <tr>
-                        <td>meterbase._title ("div.title")</td>
+                        <td>meterbase._title ("div.toolkit-title")</td>
                         <td>The title div</td>
                     </tr>
                     <tr>
-                        <td>meterbase._label ("div.label")</td>
+                        <td>meterbase._label ("div.toolkit-label")</td>
                         <td>The label div</td>
                     </tr>
                     <tr>
-                        <td>meterbase._scale ("div.meter-scale")</td>
+                        <td>meterbase._scale ("div.toolkit-meter-scale")</td>
                         <td>The scale container div</td>
                     </tr>
                     <tr>
-                        <td>meterbase._bar ("div.bar")</td>
+                        <td>meterbase._bar ("div.toolkit-bar")</td>
                         <td>The bar container div</td>
                     </tr>
                     <tr>
-                        <td>meterbase._base ("div.base")</td>
+                        <td>meterbase._base ("div.toolkit-base")</td>
                         <td>The base of the bar drawing the background color/gradient</td>
                     </tr>
                     <tr>
-                        <td>meterbase._over ("div.over")</td>
+                        <td>meterbase._over ("div.toolkit-over")</td>
                         <td>The overlay for designing purposes (e.g. fake-LED's)</td>
                     </tr>
                     <tr>
-                        <td>meterbase._mask1 ("div.mask.mask1")</td>
+                        <td>meterbase._mask1 ("div.toolkit-mask.toolkit-mask1")</td>
                         <td>The mask for values above base</td>
                     </tr>
                     <tr>
-                        <td>meterbase._mask2 ("div.mask.mask2")</td>
+                        <td>meterbase._mask2 ("div.toolkit-mask.toolkit-mask2")</td>
                         <td>The mask for values below base</td>
                     </tr>
                     <tr>
@@ -1293,59 +1293,59 @@
                         <td>The instance of a state widget for clipping.</td>
                     </tr>
                     <tr>
-                        <td>levelmeter._clip ("div.clip")</td>
+                        <td>levelmeter._clip ("div.toolkit-clip")</td>
                         <td>The base element of the state widget for clipping.</td>
                     </tr>
                     <tr>
-                        <td>levelmeter._peak ("div.peak")</td>
+                        <td>levelmeter._peak ("div.toolkit-peak")</td>
                         <td>A small pin at the side of the bar pointing on a value.</td>
                     </tr>
                     <tr>
-                        <td>levelmeter._peak_label ("span.peak-label")</td>
+                        <td>levelmeter._peak_label ("span.toolkit-peak-label")</td>
                         <td>The label inside the peak element.</td>
                     </tr>
                     <tr>
-                        <td>levelmeter._mask3 ("div.mask.mask3")</td>
+                        <td>levelmeter._mask3 ("div.toolkit-mask.toolkit-mask3")</td>
                         <td>The mask for top values.</td>
                     </tr>
                     <tr>
-                        <td>levelmeter._mask4 ("div.mask.mask4")</td>
+                        <td>levelmeter._mask4 ("div.toolkit-mask.toolkit-mask4")</td>
                         <td>The mask for bottom values.</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter.element ("div.level-meter")</td>
+                        <td>levelmeter.element ("div.toolkit-level-meter")</td>
                         <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._title ("div.title")</td>
+                        <td>levelmeter._title ("div.toolkit-title")</td>
                         <td>The title div</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._label ("div.label")</td>
+                        <td>levelmeter._label ("div.toolkit-label")</td>
                         <td>The label div</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._scale ("div.meter-scale")</td>
+                        <td>levelmeter._scale ("div.toolkit-meter-scale")</td>
                         <td>The scale container div</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._bar ("div.bar")</td>
+                        <td>levelmeter._bar ("div.toolkit-bar")</td>
                         <td>The bar container div</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._base ("div.base")</td>
+                        <td>levelmeter._base ("div.toolkit-base")</td>
                         <td>The base of the bar drawing the background color/gradient</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._over ("div.over")</td>
+                        <td>levelmeter._over ("div.toolkit-over")</td>
                         <td>The overlay for designing purposes (e.g. fake-LED's)</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._mask1 ("div.mask.mask1")</td>
+                        <td>levelmeter._mask1 ("div.toolkit-mask.toolkit-mask1")</td>
                         <td>The mask for values above base</td>
                     </tr>
                     <tr class="inherit">
-                        <td>levelmeter._mask2 ("div.mask.mask2")</td>
+                        <td>levelmeter._mask2 ("div.toolkit-mask.toolkit-mask2")</td>
                         <td>The mask for values below base</td>
                     </tr>
                     <tr class="inherit">
@@ -1418,35 +1418,48 @@
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>min</td>
-                        <td>The minimum value</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>max</td>
-                        <td>The maximum value</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>scale</td>
-                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
                             <ul>
-                                <li>"Linear" - a linear scale</li>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
                             </ul>
-                            A function receives (value, min, max) and is supposed to return a percentual float
-                            between 0 and 1.
                         </td>
-                        <td>"linear"</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>width</td>
+                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>0</td>
                     </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
                     <tr>
-                        <td>val2px(value)</td>
-                        <td>This function returns a percentual value between 0 and 1 for a distinct value
-                        according to the min and max settings. The scale defines the function to be used
-                        for this calculation.</td>
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr>
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
                     </tr>
                 </table>
             </li>
@@ -1516,6 +1529,11 @@
                         <td>0</td>
                     </tr>
                     <tr>
+                        <td>color</td>
+                        <td>A color for the curve</td>
+                        <td>""</td>
+                    </tr>
+                    <tr class="inherit">
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
@@ -1525,7 +1543,7 @@
                         </td>
                         <td>0</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
@@ -1535,27 +1553,22 @@
                         </td>
                         <td>0</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>width</td>
                         <td>If positioning is percentual we better should know about the width</td>
                         <td>0</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>height</td>
                         <td>If positioning is percentual we better should know about the height</td>
                         <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>color</td>
-                        <td>A color for the curve</td>
-                        <td>""</td>
                     </tr>
                 </table>
                 
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>path.element ("path.graph")</td>
+                        <td>graph.element ("path.toolkit-graph")</td>
                         <td>The SVG path.</td>
                     </tr>
                 </table>
@@ -1569,6 +1582,100 @@
                 </table>
             </li>
             
+            <li id="grid">
+                <!-- ########################################################### -->
+                <!-- GRID WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="grid"></a>Grid</h2>
+                
+                <p class="description">
+                    A grid creates a couple of lines and labels in a SVG image on the x and y axis.
+                    It is used in e.g. <a href="#graph">Graphs</a> and
+                    <a href="frequencyresponse">FrequencyResponses</a> to draw markers and values.
+                    Graphs need a parent SVG image do draw into. The base element of a grid is a
+                    SVG group containing all the labels and lines. Grinds implement
+                    <a href="#coordinates">Coordinates</a> for drawing the elements.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the element into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>grid_x</td>
+                        <td>An array containing objects with the following members for the x axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>grid_y</td>
+                        <td>An array containing objects with the following members for the y axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>width</td>
+                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>height</td>
+                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>grid.element ("g.toolkit-grid")</td>
+                        <td>The SVG group containing all other elements.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>gridchanged</td>
+                        <td>This event is fired when the grid was changed.</td>
+                    </tr>
+                </table>
+            </li>
+            
             <li id="chart">
                 <!-- ########################################################### -->
                 <!-- CHART WIDGET -->
@@ -1577,8 +1684,10 @@
                 <h2><a name="chart"></a>Chart</h2>
                 
                 <p class="description">
-                    Charts are SVG images containing one or more graphs. There are functions to add and remove graphs. Use g1, g2 and c to play with the objects
+                    Charts are SVG images containing one or more <a href="#graph">Graphs</a>.
+                    There are functions to add and remove graphs. Use g1, g2 and c to play with the objects
                     in a terminal: <a href="javascript:g2.set('color', '#fff')">g2.set("color", "#fff")</a>.
+                    Charts implement a <a href="#grid">Grid</a> and use <a href="#coordinates">Coordinates</a>.
                 </p>
                 
                 <style type="text/css">
@@ -1612,7 +1721,7 @@
                         <td>A container element to inject the SVG into</td>
                         <td>false</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
@@ -1622,7 +1731,7 @@
                         </td>
                         <td>0</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
@@ -1632,23 +1741,41 @@
                         </td>
                         <td>0</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>width</td>
                         <td>If positioning is percentual we better should know about the width</td>
                         <td>0</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>height</td>
                         <td>If positioning is percentual we better should know about the height</td>
                         <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>grid_x</td>
+                        <td>An array containing objects with the following members for the x axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>grid_y</td>
+                        <td>An array containing objects with the following members for the y axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
                     </tr>
                 </table>
                 
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>chart.element ("svg.chart")</td>
+                        <td>chart.element ("svg.toolkit-chart")</td>
                         <td>The SVG image.</td>
+                    </tr>
+                    <tr>
+                        <td>chart._graphs ("g.toolkit-graphs")</td>
+                        <td>The SVG group element containing all Graphs.</td>
+                    </tr>
+                    <tr>
+                        <td>chart.__grid</td>
+                        <td>The Grid module</td>
                     </tr>
                 </table>
                 
@@ -1672,15 +1799,15 @@
                     <tr><th>Method</th><th>Description</th></tr>
                     <tr>
                         <td>add_graph([options])</td>
-                        <td>Create a graph inside the chart. Options is an object containing
-                        options for the <a href="#graph">graph</a> element.
+                        <td>Create a Graph inside the Chart. Options is an object containing
+                        options for the <a href="#graph">Graph</a> element.
                         <br/><br/>
-                        It returns the new graph instance.
+                        It returns the new Graph instance.
                         </td>
                     </tr>
                     <tr>
                         <td>remove_graph(graph)</td>
-                        <td>Remove a graph from the chart.</td>
+                        <td>Remove a Graph from the chart.</td>
                     </tr>
                 </table>
             </li>
