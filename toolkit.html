@@ -1580,6 +1580,20 @@
                         <td>This event is fired when the path was changed.</td>
                     </tr>
                 </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                </table>
             </li>
             
             <li id="grid">
@@ -1674,6 +1688,21 @@
                         <td>This event is fired when the grid was changed.</td>
                     </tr>
                 </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                </table>
+                
             </li>
             
             <li id="chart">
@@ -1743,12 +1772,12 @@
                     </tr>
                     <tr class="inherit">
                         <td>width</td>
-                        <td>If positioning is percentual we better should know about the width</td>
+                        <td>The width of the SVG image.</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>height</td>
-                        <td>If positioning is percentual we better should know about the height</td>
+                        <td>The height of the SVG image.</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
@@ -1808,6 +1837,152 @@
                     <tr>
                         <td>remove_graph(graph)</td>
                         <td>Remove a Graph from the chart.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li id="frequencyresponse">
+                <!-- ########################################################### -->
+                <!-- FREQUENCY RESPONSE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <h2><a name="frequencyresponse"></a>FrequencyResponse</h2>
+                
+                <p class="description">
+                    FrequencyResponse is a <a href="#graph">Graph</a> drawing frequencies 
+                    on the x axis and dB values on the y axis. It adds some functionality
+                    to x2px and y2px to take real values instead of pixel positions. This widget
+                    automatically draws a <a href="#grid">Grid</a> depending on the ranges.
+                </p>
+                
+                <style type="text/css">
+                    #sc_frequencyresponse {
+                        
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_frequencyresponse">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr class="inherit">
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>container</td>
+                        <td>A container element to inject the SVG into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>width</td>
+                        <td>The width of the SVG image.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>height</td>
+                        <td>The height of the SVG image.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>min_freq</td>
+                        <td>The minimum frequency</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max_freq</td>
+                        <td>The maximum frequency</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>min_db</td>
+                        <td>The minimum dB value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max_db</td>
+                        <td>The maximum dB value</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>frequencyresponse.element ("svg.toolkit-frequencyresponse")</td>
+                        <td>The SVG image.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>frequencyresponse._graphs ("g.toolkit-graphs")</td>
+                        <td>The SVG group element containing all Graphs.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>frequencyresponse.__grid</td>
+                        <td>The Grid module</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>pathadded</td>
+                        <td>This event is fired when a path was added.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>pathremoved</td>
+                        <td>This event is fired when a path was removed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>resized</td>
+                        <td>This event is fired when the SVG was resized.</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>add_graph([options])</td>
+                        <td>Create a Graph inside the Chart. Options is an object containing
+                        options for the <a href="#graph">Graph</a> element.
+                        <br/><br/>
+                        It returns the new Graph instance.
+                        </td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>remove_graph(graph)</td>
+                        <td>Remove a Graph from the chart.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
                     </tr>
                 </table>
             </li>
