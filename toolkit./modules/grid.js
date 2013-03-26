@@ -9,6 +9,7 @@ Grid = new Class({
         grid_y:           [],             // array containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
     },
     _add: ".5",
+    __last: 0,
     initialize: function (options, hold) {
         this.setOptions(options);
         this.parent(options);
@@ -27,9 +28,11 @@ Grid = new Class({
     
     redraw: function () {
         this.element.empty();
+        this.__last = 0;
         for(var i = 0; i < this.options.grid_x.length; i++) {
             this._draw_line(this.options.grid_x[i], 0);
         }
+        this.__last = this.options.height;
         for(var i = 0; i < this.options.grid_y.length; i++) {
             this._draw_line(this.options.grid_y[i], 1);
         }
@@ -56,9 +59,16 @@ Grid = new Class({
             var pr = p[1].toInt();
             var pb = p[2].toInt();
             var pl = p[3].toInt();
-            m      = mode ? tw + pl + pr : th + pt + pb;
-            label.set("x", mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl, this.x2px(obj.pos) - tw / 2)));
-            label.set("y", mode ? Math.max(th / 2, Math.min(h - th / 2 - pt, this.y2px(obj.pos))) : h - th / 2 - pt);
+            var x  = mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl, this.x2px(obj.pos) - tw / 2));
+            var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt, this.y2px(obj.pos))) : h - th / 2 - pt;
+            if(mode && y > this.__last || !mode && x < this.__last) {
+                label.destroy();
+            } else {
+                label.set("x", x);
+                label.set("y", y);
+                m = mode ? tw + pl + pr : th + pt + pb;
+                this.__last = mode ? y - th : x + tw;
+            }
         }
         var line = makeSVG("path");
         line.addClass("toolkit-grid-line " + (mode ? "toolkit-horizontal" : "toolkit-vertical"));

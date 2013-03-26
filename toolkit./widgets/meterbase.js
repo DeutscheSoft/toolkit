@@ -31,6 +31,7 @@ var MeterBase = new Class({
         show_label:      false,          // bool if the value label should be drawn
         show_scale:      true,           // bool if the scale should be drawn
         show_labels:     true,           // bool if labels in scale should be drawn
+        show_marker:     true,           // bool if marker should be drawn in bar
         
         format_label:     function (value) { return sprintf("%0.2f", value); },
             
@@ -271,7 +272,19 @@ var MeterBase = new Class({
                 break;
         }
         this._draw_meter();
-        this.__scale.redraw();
+        if(this.options.show_scale) {
+            this.__scale.redraw();
+            if(this.options.show_marker) {
+                this._mark.empty();
+                this.__scale.element.getChildren(".toolkit-dot").each(function (e) {
+                    var d = e.clone();
+                    var p = e.getPosition(this._scale)[this.options.layout < 3 ? "y" : "x"];
+                    d.setStyle(this.options.layout < 3 ? "width" : "height", "100%");
+                    d.setStyle(this.options.layout < 3 ? "top" : "left", p + p % this.options.segment);
+                    d.inject(this._mark);
+                }.bind(this));
+            }
+        }
         if(this.options.layout < 3)
             this.element.innerWidth(this._bar.outerWidth() + this._scale.outerWidth());
     },

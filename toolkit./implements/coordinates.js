@@ -88,8 +88,6 @@ Coordinates = new Class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-//         if(typeof this.parent == "function")
-//             this.parent(key, value, hold);
         switch(key) {
             case "mode_x":
             case "mode_y":

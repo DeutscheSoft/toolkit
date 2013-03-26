@@ -47,8 +47,16 @@ div.toolkit-meter-base div.toolkit-bar div.toolkit-mask {
     background: black;
     opacity: 0.66;
 }
-
-
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot {
+    display: none;
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-marker,
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-min,
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-max,
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-base {
+    background: rgba(0,0,0,0.33);
+    display: block;
+}
 div.toolkit-meter-base div.meter-scale div.toolkit-dot {
     
 }
@@ -86,6 +94,11 @@ div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
 }
 div.toolkit-meter-base.toolkit-vertical.reverse div.toolkit-bar div.toolkit-mask {
     
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark div.toolkit-dot {
+    width: 100%;
+    height: 1px;
+    margin-top: 0px;
 }
 
 /* VERTICAL LEFT */
@@ -134,7 +147,7 @@ div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-meter-scale {
     float: left;
 }
 div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar {
-    float: right;eft
+    float: right;
 }
 div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-base {
     
@@ -191,6 +204,11 @@ div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
 }
 div.toolkit-meter-base.toolkit-horizontal.reverse div.toolkit-bar div.toolkit-mask {
     
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark div.toolkit-dot {
+    width: 1px;
+    height: 100%;
+    margin-left: 0px;
 }
 
 /* HORIZONTAL TOP */
