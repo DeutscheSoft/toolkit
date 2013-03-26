@@ -139,6 +139,7 @@ img.logo {
 
 
 #floatblock {
+    position: relative;
     float: right;
     background-color: rgb(0, 56, 103);
     background-image: url(../images/gradients/blue_in.png);
