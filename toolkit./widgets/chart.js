@@ -109,7 +109,7 @@ var Chart = new Class({
             options["height"] = this.options.height;
         var g = new Graph(options);
         this.graphs.push(g);
-        this.fireEvent("pathadded");
+        this.fireEvent("graphadded");
         return g;
     },
     remove_graph: function (g) {
@@ -117,7 +117,7 @@ var Chart = new Class({
             if(this.graphs[i] == g) {
                 this.graphs[i].destroy();
                 this.graphs.splice(i, 1);
-                this.fireEvent("pathremoved");
+                this.fireEvent("graphremoved");
                 break;
             }
         }

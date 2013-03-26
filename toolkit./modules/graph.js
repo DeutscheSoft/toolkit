@@ -206,7 +206,7 @@ var Graph = new Class({
                 break;
             case "dots":
                 if(!hold) this.redraw();
-                this.fireEvent("pathchanged");
+                this.fireEvent("graphchanged");
                 break;
             case "color":
                 if(!hold) this.element.setStyle("stroke", value);
