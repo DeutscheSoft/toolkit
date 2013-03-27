@@ -23,6 +23,7 @@ body {
     max-width: 1280px;
     min-width: 720px;
     min-height: 500px;
+    padding: 0 !important;
 }
 
 div.header {
