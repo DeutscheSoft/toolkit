@@ -1,11 +1,11 @@
 .toolkit-chart {
     overflow: hidden;
     background-color: rgb(0, 56, 103);
-    background-image: url(../images/chart/background_dark.png);
+    background-image: url(../images/chart/background.png);
     background-repeat: repeat-x;
     background-size: 100% 100%;
     background-position: 50% 50%;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/blue_in.png',sizingMethod='scale');
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/chart/background.png',sizingMethod='scale');
     -webkit-box-shadow: inset 0px 4px 12px 0px rgba(0, 0, 0, 0.9);
     -moz-box-shadow: inset 0px 4px 12px 0px rgba(0, 0, 0, 0.9);
     box-shadow: inset 0px 4px 12px 0px rgba(0, 0, 0, 0.9);
