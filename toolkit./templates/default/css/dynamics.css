@@ -1,0 +1,17 @@
+.toolkit-dynamics {
+    background-image: url(../images/dynamics/background_dark.png);
+}
+
+.toolkit-dynamics .toolkit-grid-line.toolkit-highlight {
+    stroke: rgba(255,0,0,0.66);
+}
+.toolkit-dynamics .toolkit-grid-label.toolkit-highlight {
+    fill: rgb(255,255,255);
+    font-weight: bold;
+}
+
+.toolkit-dynamics .toolkit-steady {
+    stroke: rgba(255,255,255,0.5);
+    stroke-dasharray: 1.41421,1.41421;
+    stroke-width: 1px;
+}

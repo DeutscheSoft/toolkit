@@ -18,52 +18,36 @@
         <script src="toolkit./javascript/sprintf.js"></script>
         <script src="toolkit./javascript/svgutils.js"></script>
         
-        <!-- BASE CLASSES -->
+        <!-- IMPLEMENTS -->
         <script src="toolkit./implements/range.js"></script>
         <script src="toolkit./implements/audiomath.js"></script>
-        
-        <!-- BUTTON -->
-        <script src="toolkit./widgets/button.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/button.css">
-        
-        <!-- TOGGLE -->
-        <script src="toolkit./widgets/toggle.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toggle.css">
-        
-        <!-- STATE -->
-        <script src="toolkit./widgets/state.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/state.css">
-        
-        <!-- SCALE -->
-        <script src="toolkit./modules/scale.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/scale.css">
-        
-        <!-- METER BASE -->
-        <script src="toolkit./widgets/meterbase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/meterbase.css">
-        
-        <!-- LEVEL METER -->
-        <script src="toolkit./widgets/levelmeter.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/levelmeter.css">
-        
-        <!-- COORDINATES -->
         <script src="toolkit./implements/coordinates.js"></script>
         
-        <!-- GRAPH -->
+        <!-- MODULES -->
+        <script src="toolkit./modules/scale.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/scale.css">
         <script src="toolkit./modules/graph.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/graph.css">
-        
-        <!-- GRID -->
         <script src="toolkit./modules/grid.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/grid.css">
         
-        <!-- CHART -->
+        <!-- WIDGETS -->
+        <script src="toolkit./widgets/button.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/button.css">
+        <script src="toolkit./widgets/toggle.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toggle.css">
+        <script src="toolkit./widgets/state.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/state.css">
+        <script src="toolkit./widgets/meterbase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/meterbase.css">
+        <script src="toolkit./widgets/levelmeter.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/levelmeter.css">
         <script src="toolkit./widgets/chart.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/chart.css">
-        
-        <!-- FREQUENCY RESPONSE -->
         <script src="toolkit./widgets/frequencyresponse.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/frequencyresponse.css">
+        <script src="toolkit./widgets/dynamics.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/dynamics.css">
         
         <script type="text/javascript">
             window.addEvent('load', function(){
@@ -399,6 +383,174 @@
                 </table>
             </li>
             
+            <li id="dynamics" class="widget">
+                <!-- ########################################################### -->
+                <!-- DYNAMICS WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    Dynamics are based on <a href="#graph">Graphs</a> and display the characteristics of
+                    dynamic processors. They are square widgets drawing a <a href="#grid">Grid</a>
+                    automatically based on the range. Dynamics use the <a href="#coordinates">Coordinates</a>
+                    system.
+                </p>
+                
+                <style type="text/css">
+                    #sc_dynamics {
+                        
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_dynamics">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>db_grid</td>
+                        <td>Draw a grid line every [n] dBs</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>min</td>
+                        <td>The lowest value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max</td>
+                        <td>Maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td>The size of the widget in pixels</td>
+                        <td>400</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>container</td>
+                        <td>A container element to inject the SVG into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_y and max_y)</li>
+                                <li>3: dB value (needs width, height, min_y and max_y)</li>
+                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                            </ul>
+                        </td>
+                        <td>2</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>dynamics.element ("svg.toolkit-dynamics")</td>
+                        <td>The SVG image.</td>
+                    </tr>
+                    <tr>
+                        <td>dynamics._graphs ("g.toolkit-graphs")</td>
+                        <td>The SVG group element containing all Graphs.</td>
+                    </tr>
+                    <tr>
+                        <td>dynamics.__grid</td>
+                        <td>The Grid module</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>graphadded</td>
+                        <td>This event is fired when a path was added.</td>
+                    </tr>
+                    <tr>
+                        <td>pathremoved</td>
+                        <td>This event is fired when a path was removed.</td>
+                    </tr>
+                    <tr>
+                        <td>resized</td>
+                        <td>This event is fired when the SVG was resized.</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>add_graph([options])</td>
+                        <td>Create a Graph inside the Chart. Options is an object containing
+                        options for the <a href="#graph">Graph</a> element.
+                        <br/><br/>
+                        It returns the new Graph instance.
+                        </td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>remove_graph(graph)</td>
+                        <td>Remove a Graph from the chart.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
+                    </tr>
+                </table>
+            </li>
+            
             <li id="frequencyresponse" class="widget">
                 <!-- ########################################################### -->
                 <!-- FREQUENCY RESPONSE WIDGET -->
@@ -429,6 +581,19 @@
                     <tr>
                         <td>db_grid</td>
                         <td>Draw a grid line every [n] dBs</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>mode</td>
+                        <td>The mode of the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
                         <td>12</td>
                     </tr>
                     <tr class="inherit">

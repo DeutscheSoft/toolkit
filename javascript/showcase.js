@@ -239,6 +239,42 @@ function run_frequencyresponse () {
     });
 }
 
+// DYNAMICS
+
+function run_dynamics () {
+    if(typeof comp != "undefined") {
+        comp.destroy();
+        comp = undefined;
+        gate.destroy();
+        gate = undefined;
+        $("sc_dynamics").removeClass("box");
+        return;
+    }
+    $("sc_dynamics").addClass("box");
+    comp = new Dynamics({
+        size: 300,
+        container: $("sc_dynamics")
+    });
+    gcomp = comp.add_graph({
+        dots: [{x:-96, y:-72},
+               {x:-24, y:0},
+               {x:24, y: 12},
+        ],
+        mode: 0
+    });
+    gate = new Dynamics({
+        size: 300,
+        container: $("sc_dynamics")
+    });
+    ggate = gate.add_graph({
+        dots: [{x:-48, y:-96},
+               {x:-24, y:-24},
+               {x:24, y: 24},
+        ],
+        mode: 0
+    });
+}
+
 // STATE
 
 function run_state () {
