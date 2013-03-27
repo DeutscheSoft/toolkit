@@ -8,13 +8,32 @@ window.addEvent('domready', function(){
     var c = 0;
     $$("ul.wrapper>li").each( function (e) {
         var id = e.get("id");
-        if (!c) {
-            var hr = new Element("hr").inject(e, "bottom");
-            c ++;
-            return;
+        var cls   = e.get("class");
+        if(!cls || !id) return;
+        var title = id.charAt(0).toUpperCase() + id.substr(1);
+        var ctitle = cls.charAt(0).toUpperCase() + cls.substr(1);
+        
+        // SUBMENU
+        if(!$$("#navigation ul." + cls).length) {
+            var l = new Element("li").inject($("navigation"));
+            var t = new Element("span", {html: ctitle + "s"}).inject(l);
+            var m = new Element("ul." + cls, {id: cls}).inject(l);
+            var toggleFx = new Fx.Slide(m).hide();
+            t.addEvent("click", function(){toggleFx.toggle()});
+            m.addEvent("click", function(){toggleFx.toggle()});
         }
+        
+        // MENU
+        var l = new Element("a", {href: "#" + id, html: title}).inject(new Element("li").inject($(cls)));
+        
+        // HEADLINE
+        var h = new Element("h2", {html: "<a name=\"" + id + "\"></a>" + title}).inject(e, "top");
+        
+        // UP BUTTON
         var up = new Element("a.button", {style:"float: right; margin: 0 0 24px 24px;", href: "#", html: "up ⤴"}).inject(e, "bottom");
         var hr = new Element("hr").inject(e, "bottom");
+        
+        // EXAMPLE BUTTON
         if(typeof window["run_" + id] != "undefined") {
             var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0], "top");
             but.addEvent("click", window["run_" + id]);

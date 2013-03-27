@@ -16,6 +16,7 @@
     list-style: circle;
     margin: 3px 20px 3px;
 }
+
 p.description {
     
 }
@@ -34,4 +35,100 @@ div.buttons .toolkit-button {
 }
 i.static {
     color: #951c26;
+}
+
+
+div.header {
+    position: absolute;
+    z-index: 10000;
+    top: 0;
+    left: 50%;
+    margin-left: -475px;
+    width: 930px;
+    padding: 0 10px;
+    height: 40px;
+    background-color: rgb(0, 56, 103);
+    background-image: url(../toolkit./templates/default/images/gradients/blue_out.png);
+    background-repeat: repeat-x;
+    background-size: 100% 250%;
+    background-position: 50% 50%;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../toolkit./templates/default/images/gradients/blue_in.png',sizingMethod='scale');
+    -webkit-border-bottom-right-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+div.header img.logo {
+    float: right;
+    margin: 8px;
+    opacity: 0.25;
+}
+
+ul#navigation {
+    
+}
+ul#navigation a {
+    display: block;
+    float: left;
+    width: 100%;
+    line-height: 40px;
+    text-decoration: none;
+    color: white;
+    text-shadow: 0 -1px 0 black;
+    padding: 0 10px;
+    width: 150px;
+}
+ul#navigation a:hover,
+ul#navigation span:hover{
+    color: rgb(0, 56, 103);
+    text-decoration: none;
+    text-shadow: 0px 1px 0px white;
+    background-color: rgb(236,236,236);
+    background-image: url(../toolkit./templates/default/images/gradients/grey_out.png);
+    background-repeat: repeat-x;
+    background-size: 100% 250%;
+    background-position: 50% 0%;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../toolkit./templates/default/images/gradients/grey_in.png',sizingMethod='scale');
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+ul#navigation a:active {
+    color: rgb(0, 56, 103);
+    text-decoration: none;
+    text-shadow: 0px 1px 0px white;
+    background-color: rgb(236,236,236);
+    background-image: url(../toolkit./templates/default/images/gradients/grey_in.png);
+    background-repeat: repeat-x;
+    background-size: 100% 200%;
+    background-position: 50% 100%;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../toolkit./templates/default/images/gradients/grey_in.png',sizingMethod='scale');
+}
+
+ul#navigation>li {
+    float: left;
+    line-height: 40px;
+    text-decoration: none;
+    color: white;
+    text-shadow: 0 -1px 0 black;
+}
+ul#navigation>li>span {
+    display: block;
+    line-height: 40px;
+    cursor:pointer;
+    text-align: center;
+}
+ul#navigation>li>div {
+}
+ul#navigation>li ul {
+    
+}
+ul#navigation>li ul li {
+    clear: left;
+}
+ul#navigation>li ul li a {
+    background-color: rgba(0,42,66,0.999999999);
 }

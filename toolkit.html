@@ -78,19 +78,8 @@
     </head>
     <body>
         <div class="header">
-            <ul class="navigation">
+            <ul class="navigation" id="navigation">
                 <li><a href="../index.html" title="Index">◂ Index</a></li>
-                <li><a href="#button">Button</a></li>
-                <li><a href="#toggle">Toggle</a></li>
-                <li><a href="#audiomath">AudioMath</a></li>
-                <li><a href="#range">Range</a></li>
-                <li><a href="#state">State</a></li>
-                <li><a href="#scale">Scale</a></li>
-                <li><a href="#meterbase">MeterBase</a></li>
-                <li><a href="#levelmeter">LevelMeter</a></li>
-                <li><a href="#graph">Graph</a></li>
-                <li><a href="#chart">Chart</a></li>
-                <li><a href="#frequencyresponse">FrequencyResponse</a></li>
             </ul>
             <a href="/" title="Junger Audio Homepage"><img src="images/logo_white.png" class="logo"/></a>
         </div>
@@ -119,14 +108,13 @@
                     If you find any of them please send a mail to <a href="mail:schmidt@boomshop.net">schmidt@boomshop.net</a>.
                     Thank you very much.
                 </p>
+                <hr>
             </li>
             
-            <li id="button">
+            <li id="button" class="widget">
                 <!-- ########################################################### -->
                 <!-- BUTTON WIDGET -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="button"></a>Button</h2>
                 
                 <p class="description">
                     Buttons are simple, clickable widgets to trigger funcions. They fire a couple
@@ -223,29 +211,26 @@
                 </table>
             </li>
             
-            <li id="toggle">
+            <li id="chart" class="widget">
                 <!-- ########################################################### -->
-                <!-- TOGGLE WIDGET -->
+                <!-- CHART WIDGET -->
                 <!-- ########################################################### -->
                 
-                <h2><a name="toggle"></a>Toggle</h2>
+                <p class="description">
+                    Charts are SVG images containing one or more <a href="#graph">Graphs</a>.
+                    There are functions to add and remove graphs. Use g1, g2 and c to play with the objects
+                    in a terminal: <a href="javascript:g2.set('color', '#fff')">g2.set("color", "#fff")</a>.
+                    Charts implement a <a href="#grid">Grid</a> and use <a href="#coordinates">Coordinates</a>.
+                </p>
                 
-                <p class="description">
-                    Toggles are enhanced buttons that toggle between two states. They additionally
-                    consist of an "active" icon and an "active" label. The example below has press
-                    toggle enabled, so click and hold toggles for the duration of the mousedown.
-                </p>
-                <p class="description">
-                    Use t to play with the example in a terminal:
-                    <a href="javascript:t.toggle()">t.toggle()</a>
-                    <small>(toggles the state of the widget)</small>
-                </p>
                 <style type="text/css">
-                    
+                    #sc_chart {
+                        
+                    }
                 </style>
                 
-                <div class="showcase">
-                    <div id="sc_toggle" style="text-align: center;">
+                <div class="showcase" style="">
+                    <div id="sc_chart">
                         
                     </div>
                 </div>
@@ -254,794 +239,326 @@
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>class <i class="static">⚓</i></td>
                         <td>A CSS class to add on build time</td>
                         <td>[empty]</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>id <i class="static">⚓</i></td>
                         <td>An ID to add on build time</td>
                         <td>[empty]</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>container</td>
-                        <td>A container element to inject the state into</td>
+                        <td>A container element to inject the SVG into</td>
                         <td>false</td>
                     </tr>
                     <tr class="inherit">
-                        <td>label</td>
-                        <td>A text or HTML snipped used as a label for the button. Set to false to hide the label element.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>icon</td>
-                        <td>A URL to an icon to show on the button. Set to false to hide the image element.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>state</td>
-                        <td>Buttons can represent a state (like a toggle button) which is indicated by the class ".active"</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>state_color</td>
-                        <td>If the state is true, set a custom background color for the label.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>label_active</td>
-                        <td>A text or HTML snipped used as a label for the active toggle state. Set to false to use the default label.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>icon_active</td>
-                        <td>A URL to an icon to show on the active toggle. Set to false to use the default label.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>press</td>
-                        <td>To enable press toggle set a time in milliseconds after a press is interpreted as a toggle. Releasing the button
-                        after a press toggle resets to the original state.</td>
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
                         <td>0</td>
                     </tr>
-                    <tr>
-                        <td>press_disable</td>
-                        <td>If press toggle is enabled, does it work with deactivating the state, too?</td>
-                        <td>false</td>
+                    <tr class="inherit">
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_y and max_y)</li>
+                                <li>3: dB value (needs width, height, min_y and max_y)</li>
+                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>width</td>
+                        <td>If positioning is percentual we better should know about the real width</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>height</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>grid_x</td>
+                        <td>An array containing objects with the following members for the x axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>grid_y</td>
+                        <td>An array containing objects with the following members for the y axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
                     </tr>
                 </table>
                 
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr class="inherit">
-                        <td>button.element ("div.toolkit-state")</td>
-                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
+                    <tr>
+                        <td>chart.element ("svg.toolkit-chart")</td>
+                        <td>The SVG image.</td>
                     </tr>
-                    <tr class="inherit">
-                        <td>button._label ("div.toolkit-label")</td>
-                        <td>The text label of the button</td>
+                    <tr>
+                        <td>chart._graphs ("g.toolkit-graphs")</td>
+                        <td>The SVG group element containing all Graphs.</td>
                     </tr>
-                    <tr class="inherit">
-                        <td>button._icon ("img.toolkit-icon")</td>
-                        <td>An icon to display</td>
+                    <tr>
+                        <td>chart.__grid</td>
+                        <td>The Grid module</td>
                     </tr>
                 </table>
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
-                    <tr class="inherit">
-                        <td>clicked</td>
-                        <td>This event is fired when the button was clicked.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>mousedown</td>
-                        <td>This event is fired when the mouse button was pressed.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>mouseup</td>
-                        <td>This event is fired when the mouse button was released.</td>
+                    <tr>
+                        <td>graphadded</td>
+                        <td>This event is fired when a path was added.</td>
                     </tr>
                     <tr>
-                        <td>toggled</td>
-                        <td>This event is fired when the state of the button changed.</td>
+                        <td>pathremoved</td>
+                        <td>This event is fired when a path was removed.</td>
+                    </tr>
+                    <tr>
+                        <td>resized</td>
+                        <td>This event is fired when the SVG was resized.</td>
                     </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
                     <tr>
-                        <td>toggle()</td>
-                        <td>Toggle the button.</td>
+                        <td>add_graph([options])</td>
+                        <td>Create a Graph inside the Chart. Options is an object containing
+                        options for the <a href="#graph">Graph</a> element.
+                        <br/><br/>
+                        It returns the new Graph instance.
+                        </td>
                     </tr>
-                </table>
-            </li>
-            
-            <li id="audiomath">
-                <!-- ########################################################### -->
-                <!-- AUDIO MATH -->
-                <!-- ########################################################### -->
-                
-                <h2><a name="audiomath"></a>AudioMath</h2>
-                
-                <p class="description">
-                    AudioMath implements a couple of functions for calculating dB
-                    and frequency values.
-                </p>
-                
-                <div class="buttons"></div>
-                
-                <table class="methods collapse" title="⚒ Methods">
-                    <tr><th>Method</th><th>Description</th></tr>
                     <tr>
+                        <td>remove_graph(graph)</td>
+                        <td>Remove a Graph from the chart.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
                         <td>db2px(value, min, max, size)</td>
                         <td>This function returns a pixel value for a distinct dB value
                         according to the size, min and max settings.</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>freq2px(value, min, max, size)</td>
                         <td>This function returns a pixel value for a distinct frequency
                         according to the size, min and max settings.</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>log10(value)</td>
                         <td>This function returns the logarithmic of 10 for the value.</td>
                     </tr>
-                    <tr>
+                    <tr class="inherit">
                         <td>log2(value)</td>
                         <td>This function returns the logarithmic of 2 for the value.</td>
                     </tr>
                 </table>
             </li>
             
-            <li id="range">
+            <li id="frequencyresponse" class="widget">
                 <!-- ########################################################### -->
-                <!-- RANGE CONTROL -->
+                <!-- FREQUENCY RESPONSE WIDGET -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="range"></a>Range</h2>
                 
                 <p class="description">
-                    A Range is a simple, non-visual control to add a range of values to a widget.
-                    Ranges consist of a min and a max value and a function to calculate a position
-                    for a distinct value. Ranges don't provide any visible elements.
+                    FrequencyResponse is a <a href="#graph">Graph</a> drawing frequencies 
+                    on the x axis and dB values on the y axis. This widget
+                    automatically draws a <a href="#grid">Grid</a> depending on the ranges.
                 </p>
+                
+                <style type="text/css">
+                    #sc_frequencyresponse {
+                        
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_frequencyresponse">
+                        
+                    </div>
+                </div>
                 
                 <div class="buttons"></div>
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>min</td>
-                        <td>The minimum value</td>
+                        <td>db_grid</td>
+                        <td>Draw a grid line every [n] dBs</td>
+                        <td>12</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>container</td>
+                        <td>A container element to inject the SVG into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>width</td>
+                        <td>The width of the SVG image.</td>
                         <td>0</td>
                     </tr>
-                    <tr>
-                        <td>max</td>
-                        <td>The maximum value</td>
+                    <tr class="inherit">
+                        <td>height</td>
+                        <td>The height of the SVG image.</td>
                         <td>0</td>
                     </tr>
-                    <tr>
-                        <td>scale</td>
-                        <td>A string or a function calculating the position from a given value. Possible strings are:
-                            <ul>
-                                <li>"Linear" - a linear scale</li>
-                            </ul>
-                            A function receives (value, min, max) and is supposed to return a percentual float
-                            between 0 and 1.
-                        </td>
-                        <td>"linear"</td>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>Min frequency for this axis.</td>
+                        <td>20</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>Max frequency for this axis.</td>
+                        <td>20000</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>Min dB for this axis.</td>
+                        <td>-36</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>Max dB for this axis.</td>
+                        <td>36</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>frequencyresponse.element ("svg.toolkit-frequencyresponse")</td>
+                        <td>The SVG image.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>frequencyresponse._graphs ("g.toolkit-graphs")</td>
+                        <td>The SVG group element containing all Graphs.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>frequencyresponse.__grid</td>
+                        <td>The Grid module</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>graphadded</td>
+                        <td>This event is fired when a path was added.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>pathremoved</td>
+                        <td>This event is fired when a path was removed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>resized</td>
+                        <td>This event is fired when the SVG was resized.</td>
                     </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
-                    <tr>
-                        <td>val2px(value)</td>
-                        <td>This function returns a percentual value between 0 and 1 for a distinct value
-                        according to the min and max settings. The scale defines the function to be used
-                        for this calculation.</td>
+                    <tr class="inherit">
+                        <td>add_graph([options])</td>
+                        <td>Create a Graph inside the Chart. Options is an object containing
+                        options for the <a href="#graph">Graph</a> element.
+                        <br/><br/>
+                        It returns the new Graph instance.
+                        </td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>remove_graph(graph)</td>
+                        <td>Remove a Graph from the chart.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
                     </tr>
                 </table>
             </li>
             
-            <li id="state">
-                <!-- ########################################################### -->
-                <!-- STATE WIDGET -->
-                <!-- ########################################################### -->
-                
-                <h2><a name="state"></a>State</h2>
-                
-                <p class="description">
-                    The State widget is a multi-functional adaption of a traditional LED. It is able to show
-                    different colors as well as on/off states. The "brightness" can be set seamlessly. Classes
-                    can be used to display different styles.
-                </p>
-                <p class="description">
-                    Use s1 ... s8 to play with the examples in a terminal:
-                    <a href="javascript:s8.set('state', true)">s8.set("state", true)</a>
-                    <small>(sets the state of the "on air" state to inactive)</small>
-                </p>
-                
-                <style type="text/css">
-                    .toolkit-state {
-                        float: left;
-                    }
-                    div.toolkit-state.junger, div.toolkit-state.junger div.toolkit-mask {
-                        width: 12px;
-                        height: 12px;
-                        -webkit-border-radius: 6px;
-                        -moz-border-radius:    6px;
-                        border-radius:         6px;
-                        border: none;
-                    }
-                    div.toolkit-state.junger div.toolkit-mask {
-                        background: rgba(233,233,233,0.97);
-                    }
-                    div.toolkit-state.junger div.toolkit-over {
-                        display: none;
-                    }
-                    div.toolkit-state.on_air {
-                        width: 250px;
-                        height: 70px;
-                    }
-                    div.toolkit-state.on_air .toolkit-over {
-                        background: url(images/on_air.png) no-repeat 50% 51%;
-                    }
-                </style>
-                
-                <div class="showcase">
-                    <div id="sc_state">
-                        
-                    </div>
-                </div>
-                
-                <div class="buttons"></div>
-                
-                <table class="options collapse" title="⚙ Options">
-                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr>
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>id <i class="static">⚓</i></td>
-                        <td>An ID to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>container</td>
-                        <td>A container element to inject the state into</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>state</td>
-                        <td>The state of the element. Can be true or false or a float between 0 and 1 for seamless "brightness".</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>color</td>
-                        <td>The color of the element as a valid CSS string (e.g. "red", "#00f", "rgb(0, 0, 255)")</td>
-                        <td>"red"</td>
-                    </tr>
-                    <tr>
-                        <td>opacity</td>
-                        <td>The opacity of the mask when state = false or 0</td>
-                        <td>0.8</td>
-                    </tr>
-                </table>
-                
-                <table class="elements collapse" title="⚛ Elements">
-                    <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr>
-                        <td>state.element ("div.toolkit-state")</td>
-                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
-                    </tr>
-                    <tr>
-                        <td>state._over ("div.toolkit-over")</td>
-                        <td>An element for designing purposes. It is drawn over the background of the base element and is used
-                        to show a semi-transparent PNG for faking some differences in the distribution of light.</td>
-                    </tr>
-                    <tr>
-                        <td>state._mask ("div.toolkit-mask")</td>
-                        <td>The mask is used to darken, lighten or flatten the background colour depending on the CSS of it.
-                        Its opacity reacts directly on the state variable.</td>
-                    </tr>
-                </table>
-                
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr>
-                        <td>statechanged</td>
-                        <td>This event is fired when the state was changed.</td>
-                    </tr>
-                    <tr>
-                        <td>colorchanged</td>
-                        <td>This event is fired after the color changed.</td>
-                    </tr>
-                </table>
-            </li>
-            
-            <li id="scale">
-                <!-- ########################################################### -->
-                <!-- SCALE WIDGET -->
-                <!-- ########################################################### -->
-                
-                <h2><a name="scale"></a>Scale</h2>
-                
-                <p class="description">
-                    Scales can be used to draw dots and labels as markers next to a meter,
-                    a fader or a frequency response graph. Depending on some parameters
-                    they try to decide on their own where to draw labels and dots depending
-                    on the available space and the scale. Scales can be drawn vertically
-                    and horizontally.
-                </p>
-                <p class="description">
-                    Use svl, svr, sht and shb to play with the examples in a terminal:
-                    <a href="javascript:svl.set('gap_labels', 20)">svl.set("gap_labels", 20)</a>
-                    <small>(doubles the amount of drawn labels in the vertical scale on the left)</small>
-                </p>
-                
-                <style type="text/css">
-                    #sc_scale_h_t {
-                        margin-left: 90px;
-                    }
-                    #sc_scale_h_t .toolkit-scale {
-                        
-                    }
-                    #sc_scale_h_b {
-                        margin-left: 90px;
-                        margin-top: 185px;
-                    }
-                    #sc_scale_h_b .toolkit-scale {
-                        
-                    }
-                    #sc_scale_v_l {
-                        height: 200px;
-                        float: left;
-                    }
-                    #sc_scale_v_l .toolkit-scale {
-                        
-                    }
-                    #sc_scale_v_r {
-                        height: 200px;
-                        float: right;
-                    }
-                    #sc_scale_v_r .toolkit-scale {
-                        
-                    }
-                    #sc_scale {
-                    }
-                </style>
-                
-                <div class="showcase" style="">
-                    <div id="sc_scale">
-                        
-                    </div>
-                </div>
-                
-                <div class="buttons"></div>
-                
-                <table class="options collapse" title="⚙ Options">
-                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr>
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>id <i class="static">⚓</i></td>
-                        <td>An ID to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>container</td>
-                        <td>A container element to inject the state into</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>layout <i class="static">⚓</i></td>
-                        <td>Layout of the widget.
-                            <ul>
-                                <li>1: vertical, labels on the left</li>
-                                <li>2: vertical, labels on the right</li>
-                                <li>3: horizontal, labels on top</li>
-                                <li>4: horizontal, labels on bottom</li>
-                            </ul>
-                        </td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>reverse</td>
-                        <td>Draw the scale from right to left or bottom to top.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>division</td>
-                        <td>Minimum step size (as value) between labels or dots.</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>levels</td>
-                        <td>Array consisting of the multipliers labels and dots can be drawn.
-                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
-                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
-                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
-                        too, lower levels are only possible at the exact division.
-                        </td>
-                        <td>[1]</td>
-                    </tr>
-                    <tr>
-                        <td>base</td>
-                        <td>The base value where drawing of labels and dots starts. Every drawing position
-                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
-                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>labels</td>
-                        <td>A function to format the labels before they are drawn. Receives the actual value
-                        and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
-                    </tr>
-                    <tr>
-                        <td>gap_dots</td>
-                        <td>Minimum gap (in pixels) between dots.</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>gap_labels</td>
-                        <td>Minimum gap (in pixels) between labels.</td>
-                        <td>40</td>
-                    </tr>
-                    <tr>
-                        <td>show_labels</td>
-                        <td>Draw labels</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>size</td>
-                        <td>The size in pixels</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>min</td>
-                        <td>The minimum value</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>max</td>
-                        <td>The maximum value</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>scale</td>
-                        <td>A string or a function calculating the position from a given value. Possible strings are:
-                            <ul>
-                                <li>"Linear" - a linear scale</li>
-                            </ul>
-                            A function receives (value, min, max) and is supposed to return a percentual float
-                            between 0 and 1.
-                        </td>
-                        <td>"linear"</td>
-                    </tr>
-                </table>
-                
-                <table class="elements collapse" title="⚛ Elements">
-                    <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr>
-                        <td>scale.element ("div.toolkit-scale")</td>
-                        <td>The base element of the widget. It contains the dots and labels.</td>
-                    </tr>
-                    <tr>
-                        <td>[dots] ("div.toolkit-dot")</td>
-                        <td>Dots are absolutely positioned divs. They can have different additional
-                        CSS classes depending on their position. These classes are:
-                        <ul>
-                            <li>".toolkit-marker" - The dot belongs to a label</li>
-                            <li>".toolkit-min" - the dot is drawn on the min value</li>
-                            <li>".toolkit-max" - the dot is drawn on the max value</li>
-                            <li>".toolkit-base" - the dot is drawn on the base value</li>
-                        </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>[labels] ("span.toolkit-label")</td>
-                        <td>Labels are absolute positioned spans containing text. They can have the same
-                        additional classes as dots (except ".toolkit-marker").</td>
-                    </tr>
-                </table>
-                
-            </li>
-            
-            <li id="meterbase">
-                <!-- ########################################################### -->
-                <!-- METER BASE WIDGET -->
-                <!-- ########################################################### -->
-                
-                <h2><a name="meterbase"></a>MeterBase</h2>
-                
-                <p class="description">
-                    A MeterBase draws a horizontal or vertical bar with a colored background
-                    and some design and masking elements. It implements a <a href="#scale">Scale</a>
-                    to draw some labels and markers. MeterBases are used to build different metering
-                    elements from, e.g. LevelMeters, CorrelationMeters and the like.
-                </p>
-                <p class="description">
-                    Use mbvr, mbvl, mbhb and mbht to play with the examples in a terminal:
-                    <a href="javascript:mbvl.set('value', -12)">mbvl.set("value", -12)</a>
-                    <small>(sets the value of the vertical meter on the left to -12)</small>
-                </p>
-                
-                <style type="text/css">
-                    #sc_meterbase {
-                        margin-left: 80px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-vertical {
-                        height: 200px;
-                        margin-bottom: 30px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal {
-                        width: 500px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-vertical .toolkit-bar {
-                        width: 100px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal .toolkit-bar {
-                        height: 50px;
-                    }
-                </style>
-                
-                <div class="showcase" style="">
-                    <div id="sc_meterbase">
-                        
-                    </div>
-                </div>
-                
-                <div class="buttons"></div>
-                
-                <table class="options collapse" title="⚙ Options">
-                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr>
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>id <i class="static">⚓</i></td>
-                        <td>An ID to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>container</td>
-                        <td>A container element to inject the state into</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>layout <i class="static">⚓</i></td>
-                        <td>Layout of the widget.
-                            <ul>
-                                <li>1: vertical, bar on the left</li>
-                                <li>2: vertical, bar on the right</li>
-                                <li>3: horizontal, bar on top</li>
-                                <li>4: horizontal, bar on bottom</li>
-                            </ul>
-                        </td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>reverse</td>
-                        <td>Draw the bar from right to left or bottom to top.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>value</td>
-                        <td>The value to show in the bar</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>base</td>
-                        <td>If base is set meters are "starting" at that value. Values are shown above and below this value.
-                        If set to false, base is set to the min value.
-                        (E.g. the horizontal meters in the showcase are set to base = 0)</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>label</td>
-                        <td>The value to show as the label. If set to false, the label is initially set to value.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>title</td>
-                        <td>The title of the meter.</td>
-                        <td>""</td>
-                    </tr>
-                    <tr>
-                        <td>gradient</td>
-                        <td>A gradient is an object containing values as keys and CSS colors as values.
-                        (E.g. {"-96":"blue", "-0.001":"green", "0":"orange", "24":"red"})</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>background</td>
-                        <td>If no gradient is used, set the background to a plain color.</td>
-                        <td>null</td>
-                    </tr>
-                    <tr>
-                        <td>show_title</td>
-                        <td>Show or hide the title (bool)</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>show_label</td>
-                        <td>Show or hide the label (bool)</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>show_scale</td>
-                        <td>Show or hide the scale (bool)</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>show_marker</td>
-                        <td>Show or hide the marker in the bar (bool) - needs show_scale to be true.</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>format_label</td>
-                        <td>A function to format the label before it is drawn. Receives the actual value
-                        and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>division</td>
-                        <td>Minimum step size (as value) between labels or dots.</td>
-                        <td>1</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>levels</td>
-                        <td>Array consisting of the multipliers labels and dots can be drawn.
-                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
-                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
-                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
-                        too, lower levels are only possible at the exact division.
-                        </td>
-                        <td>[1, 5, 10]</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>min</td>
-                        <td>The minimum value</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>max</td>
-                        <td>The maximum value</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>scale</td>
-                        <td>A string or a function calculating the position from a given value. Possible strings are:
-                            <ul>
-                                <li>"Linear" - a linear scale</li>
-                            </ul>
-                            A function receives (value, min, max) and is supposed to return a percentual float
-                            between 0 and 1.
-                        </td>
-                        <td>"linear"</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>scale_base</td>
-                        <td>The base value where drawing of labels and dots starts. Every drawing position
-                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
-                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>show_labels</td>
-                        <td>Show or hide the labels inside the scale (bool)</td>
-                        <td>true</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>format_labels</td>
-                        <td>A function to format the labels before they are drawn. Receives the actual value
-                        and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>gap_dots</td>
-                        <td>Minimum gap (in pixels) between dots.</td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>gap_labels</td>
-                        <td>Minimum gap (in pixels) between labels.</td>
-                        <td>40</td>
-                    </tr>
-                </table>
-                
-                <table class="elements collapse" title="⚛ Elements">
-                    <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr>
-                        <td>meterbase.element ("div.toolkit-meter-base")</td>
-                        <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._title ("div.toolkit-title")</td>
-                        <td>The title div</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._label ("div.toolkit-label")</td>
-                        <td>The label div</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._scale ("div.toolkit-meter-scale")</td>
-                        <td>The scale container div</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._bar ("div.toolkit-bar")</td>
-                        <td>The bar container div</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._base ("div.toolkit-base")</td>
-                        <td>The base of the bar drawing the background color/gradient</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._over ("div.toolkit-over")</td>
-                        <td>The overlay for designing purposes (e.g. fake-LED's)</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._mask1 ("div.toolkit-mask.toolkit-mask1")</td>
-                        <td>The mask for values above base</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._mask2 ("div.toolkit-mask.toolkit-mask2")</td>
-                        <td>The mask for values below base</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase.__scale</td>
-                        <td>The scale instance</td>
-                    </tr>
-                </table>
-                
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr>
-                        <td>valuechanged</td>
-                        <td>This event is fired when the value was changed.</td>
-                    </tr>
-                    <tr>
-                        <td>basechanged</td>
-                        <td>This event is fired when the base value was changed.</td>
-                    </tr>
-                    <tr>
-                        <td>labelchanged</td>
-                        <td>This event is fired when the label was changed.</td>
-                    </tr>
-                    <tr>
-                        <td>titlechanged</td>
-                        <td>This event is fired when the title was changed.</td>
-                    </tr>
-                    <tr>
-                        <td>scalechanged</td>
-                        <td>This event is fired when the scale was changed somehow.</td>
-                    </tr>
-                    <tr>
-                        <td>colorchanged</td>
-                        <td>This event is fired after the color of the bar changed.</td>
-                    </tr>
-                </table>
-                
-            </li>
-            
-            <li id="levelmeter">
+            <li id="levelmeter" class="widget">
                 <!-- ########################################################### -->
                 <!-- LEVEL METER WIDGET -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="levelmeter"></a>LevelMeter</h2>
                 
                 <p class="description">
                     LevelMeters are fully functional displays of numerical values. They are enhanced
@@ -1453,121 +970,550 @@
                 
             </li>
             
-            <li id="coordinates">
+            <li id="meterbase" class="widget">
                 <!-- ########################################################### -->
-                <!-- COORDINATES CONTROL -->
+                <!-- METER BASE WIDGET -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="coordinates"></a>Coordinates</h2>
                 
                 <p class="description">
-                    Coordinates provide simple options and functions for dealing with a two dimensional
-                    coordinates system. It is used mainly for SVG image drawing to switch between
-                    percentual and pixel-based values and turns the y axis upside-down. Coordinates
-                    implement <a href="#audiomath">AudioMath</a>.
+                    A MeterBase draws a horizontal or vertical bar with a colored background
+                    and some design and masking elements. It implements a <a href="#scale">Scale</a>
+                    to draw some labels and markers. MeterBases are used to build different metering
+                    elements from, e.g. LevelMeters, CorrelationMeters and the like.
                 </p>
+                <p class="description">
+                    Use mbvr, mbvl, mbhb and mbht to play with the examples in a terminal:
+                    <a href="javascript:mbvl.set('value', -12)">mbvl.set("value", -12)</a>
+                    <small>(sets the value of the vertical meter on the left to -12)</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_meterbase {
+                        margin-left: 80px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical {
+                        height: 200px;
+                        margin-bottom: 30px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal {
+                        width: 500px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical .toolkit-bar {
+                        width: 100px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal .toolkit-bar {
+                        height: 50px;
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_meterbase">
+                        
+                    </div>
+                </div>
                 
                 <div class="buttons"></div>
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>mode_x</td>
-                        <td>The positioning on the x axis:
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>layout <i class="static">⚓</i></td>
+                        <td>Layout of the widget.
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>1: vertical, bar on the left</li>
+                                <li>2: vertical, bar on the right</li>
+                                <li>3: horizontal, bar on top</li>
+                                <li>4: horizontal, bar on bottom</li>
                             </ul>
                         </td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>reverse</td>
+                        <td>Draw the bar from right to left or bottom to top.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td>The value to show in the bar</td>
                         <td>0</td>
                     </tr>
                     <tr>
-                        <td>mode_y</td>
-                        <td>The positioning on the y axis:
-                            <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_y and max_y)</li>
-                                <li>3: dB value (needs width, height, min_y and max_y)</li>
-                                <li>4: frequency (needs width, height, min_y and max_y)</li>
-                            </ul>
+                        <td>base</td>
+                        <td>If base is set meters are "starting" at that value. Values are shown above and below this value.
+                        If set to false, base is set to the min value.
+                        (E.g. the horizontal meters in the showcase are set to base = 0)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>The value to show as the label. If set to false, the label is initially set to value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>The title of the meter.</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>gradient</td>
+                        <td>A gradient is an object containing values as keys and CSS colors as values.
+                        (E.g. {"-96":"blue", "-0.001":"green", "0":"orange", "24":"red"})</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>background</td>
+                        <td>If no gradient is used, set the background to a plain color.</td>
+                        <td>null</td>
+                    </tr>
+                    <tr>
+                        <td>show_title</td>
+                        <td>Show or hide the title (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_label</td>
+                        <td>Show or hide the label (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_scale</td>
+                        <td>Show or hide the scale (bool)</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show_marker</td>
+                        <td>Show or hide the marker in the bar (bool) - needs show_scale to be true.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>format_label</td>
+                        <td>A function to format the label before it is drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>division</td>
+                        <td>Minimum step size (as value) between labels or dots.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>levels</td>
+                        <td>Array consisting of the multipliers labels and dots can be drawn.
+                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
+                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
+                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
+                        too, lower levels are only possible at the exact division.
                         </td>
+                        <td>[1, 5, 10]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min</td>
+                        <td>The minimum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max</td>
+                        <td>The maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale_base</td>
+                        <td>The base value where drawing of labels and dots starts. Every drawing position
+                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
+                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>show_labels</td>
+                        <td>Show or hide the labels inside the scale (bool)</td>
+                        <td>true</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>format_labels</td>
+                        <td>A function to format the labels before they are drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>gap_dots</td>
+                        <td>Minimum gap (in pixels) between dots.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>gap_labels</td>
+                        <td>Minimum gap (in pixels) between labels.</td>
+                        <td>40</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>meterbase.element ("div.toolkit-meter-base")</td>
+                        <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._title ("div.toolkit-title")</td>
+                        <td>The title div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._label ("div.toolkit-label")</td>
+                        <td>The label div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._scale ("div.toolkit-meter-scale")</td>
+                        <td>The scale container div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._bar ("div.toolkit-bar")</td>
+                        <td>The bar container div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._base ("div.toolkit-base")</td>
+                        <td>The base of the bar drawing the background color/gradient</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._over ("div.toolkit-over")</td>
+                        <td>The overlay for designing purposes (e.g. fake-LED's)</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._mask1 ("div.toolkit-mask.toolkit-mask1")</td>
+                        <td>The mask for values above base</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._mask2 ("div.toolkit-mask.toolkit-mask2")</td>
+                        <td>The mask for values below base</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase.__scale</td>
+                        <td>The scale instance</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>valuechanged</td>
+                        <td>This event is fired when the value was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>basechanged</td>
+                        <td>This event is fired when the base value was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>labelchanged</td>
+                        <td>This event is fired when the label was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>titlechanged</td>
+                        <td>This event is fired when the title was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>scalechanged</td>
+                        <td>This event is fired when the scale was changed somehow.</td>
+                    </tr>
+                    <tr>
+                        <td>colorchanged</td>
+                        <td>This event is fired after the color of the bar changed.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            
+            <li id="state" class="widget">
+                <!-- ########################################################### -->
+                <!-- STATE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    The State widget is a multi-functional adaption of a traditional LED. It is able to show
+                    different colors as well as on/off states. The "brightness" can be set seamlessly. Classes
+                    can be used to display different styles.
+                </p>
+                <p class="description">
+                    Use s1 ... s8 to play with the examples in a terminal:
+                    <a href="javascript:s8.set('state', true)">s8.set("state", true)</a>
+                    <small>(sets the state of the "on air" state to inactive)</small>
+                </p>
+                
+                <style type="text/css">
+                    .toolkit-state {
+                        float: left;
+                    }
+                    div.toolkit-state.junger, div.toolkit-state.junger div.toolkit-mask {
+                        width: 12px;
+                        height: 12px;
+                        -webkit-border-radius: 6px;
+                        -moz-border-radius:    6px;
+                        border-radius:         6px;
+                        border: none;
+                    }
+                    div.toolkit-state.junger div.toolkit-mask {
+                        background: rgba(233,233,233,0.97);
+                    }
+                    div.toolkit-state.junger div.toolkit-over {
+                        display: none;
+                    }
+                    div.toolkit-state.on_air {
+                        width: 250px;
+                        height: 70px;
+                    }
+                    div.toolkit-state.on_air .toolkit-over {
+                        background: url(images/on_air.png) no-repeat 50% 51%;
+                    }
+                </style>
+                
+                <div class="showcase">
+                    <div id="sc_state">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>state</td>
+                        <td>The state of the element. Can be true or false or a float between 0 and 1 for seamless "brightness".</td>
                         <td>0</td>
                     </tr>
                     <tr>
-                        <td>width</td>
-                        <td>If positioning is percentual we better should know about the real width</td>
+                        <td>color</td>
+                        <td>The color of the element as a valid CSS string (e.g. "red", "#00f", "rgb(0, 0, 255)")</td>
+                        <td>"red"</td>
+                    </tr>
+                    <tr>
+                        <td>opacity</td>
+                        <td>The opacity of the mask when state = false or 0</td>
+                        <td>0.8</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>state.element ("div.toolkit-state")</td>
+                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
+                    </tr>
+                    <tr>
+                        <td>state._over ("div.toolkit-over")</td>
+                        <td>An element for designing purposes. It is drawn over the background of the base element and is used
+                        to show a semi-transparent PNG for faking some differences in the distribution of light.</td>
+                    </tr>
+                    <tr>
+                        <td>state._mask ("div.toolkit-mask")</td>
+                        <td>The mask is used to darken, lighten or flatten the background colour depending on the CSS of it.
+                        Its opacity reacts directly on the state variable.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>statechanged</td>
+                        <td>This event is fired when the state was changed.</td>
+                    </tr>
+                    <tr>
+                        <td>colorchanged</td>
+                        <td>This event is fired after the color changed.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li id="toggle" class="widget">
+                <!-- ########################################################### -->
+                <!-- TOGGLE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    Toggles are enhanced buttons that toggle between two states. They additionally
+                    consist of an "active" icon and an "active" label. The example below has press
+                    toggle enabled, so click and hold toggles for the duration of the mousedown.
+                </p>
+                <p class="description">
+                    Use t to play with the example in a terminal:
+                    <a href="javascript:t.toggle()">t.toggle()</a>
+                    <small>(toggles the state of the widget)</small>
+                </p>
+                <style type="text/css">
+                    
+                </style>
+                
+                <div class="showcase">
+                    <div id="sc_toggle" style="text-align: center;">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr class="inherit">
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>label</td>
+                        <td>A text or HTML snipped used as a label for the button. Set to false to hide the label element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>icon</td>
+                        <td>A URL to an icon to show on the button. Set to false to hide the image element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>state</td>
+                        <td>Buttons can represent a state (like a toggle button) which is indicated by the class ".active"</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>state_color</td>
+                        <td>If the state is true, set a custom background color for the label.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>label_active</td>
+                        <td>A text or HTML snipped used as a label for the active toggle state. Set to false to use the default label.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>icon_active</td>
+                        <td>A URL to an icon to show on the active toggle. Set to false to use the default label.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>press</td>
+                        <td>To enable press toggle set a time in milliseconds after a press is interpreted as a toggle. Releasing the button
+                        after a press toggle resets to the original state.</td>
                         <td>0</td>
                     </tr>
                     <tr>
-                        <td>height</td>
-                        <td>If positioning is percentual we better should know about the real height</td>
-                        <td>0</td>
+                        <td>press_disable</td>
+                        <td>If press toggle is enabled, does it work with deactivating the state, too?</td>
+                        <td>false</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>button.element ("div.toolkit-state")</td>
+                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>button._label ("div.toolkit-label")</td>
+                        <td>The text label of the button</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>button._icon ("img.toolkit-icon")</td>
+                        <td>An icon to display</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>clicked</td>
+                        <td>This event is fired when the button was clicked.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mousedown</td>
+                        <td>This event is fired when the mouse button was pressed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mouseup</td>
+                        <td>This event is fired when the mouse button was released.</td>
                     </tr>
                     <tr>
-                        <td>min_x</td>
-                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>max_x</td>
-                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>min_y</td>
-                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>max_y</td>
-                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
-                        <td>0</td>
+                        <td>toggled</td>
+                        <td>This event is fired when the state of the button changed.</td>
                     </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
                     <tr>
-                        <td>x2px(value)</td>
-                        <td>This function returns the amount of pixels from the left border of the
-                        widget for a given value.</td>
-                    </tr>
-                    <tr>
-                        <td>y2px(value)</td>
-                        <td>This function returns the amount of pixels from the top border of the
-                        widget for a given value.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>db2px(value, min, max, size)</td>
-                        <td>This function returns a pixel value for a distinct dB value
-                        according to the size, min and max settings.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>freq2px(value, min, max, size)</td>
-                        <td>This function returns a pixel value for a distinct frequency
-                        according to the size, min and max settings.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>log10(value)</td>
-                        <td>This function returns the logarithmic of 10 for the value.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>log2(value)</td>
-                        <td>This function returns the logarithmic of 2 for the value.</td>
+                        <td>toggle()</td>
+                        <td>Toggle the button.</td>
                     </tr>
                 </table>
             </li>
             
-            <li id="graph">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li id="graph" class="module">
                 <!-- ########################################################### -->
                 <!-- GRAPH WIDGET -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="graph"></a>Graph</h2>
                 
                 <p class="description">
                     A graph is a single SVG path element. It provides some functions to easily draw
@@ -1738,12 +1684,10 @@
                 </table>
             </li>
             
-            <li id="grid">
+            <li id="grid" class="module">
                 <!-- ########################################################### -->
                 <!-- GRID WIDGET -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="grid"></a>Grid</h2>
                 
                 <p class="description">
                     A grid creates a couple of lines and labels in a SVG image on the x and y axis.
@@ -1891,28 +1835,58 @@
                 
             </li>
             
-            <li id="chart">
+            <li id="scale" class="module">
                 <!-- ########################################################### -->
-                <!-- CHART WIDGET -->
+                <!-- SCALE WIDGET -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="chart"></a>Chart</h2>
                 
                 <p class="description">
-                    Charts are SVG images containing one or more <a href="#graph">Graphs</a>.
-                    There are functions to add and remove graphs. Use g1, g2 and c to play with the objects
-                    in a terminal: <a href="javascript:g2.set('color', '#fff')">g2.set("color", "#fff")</a>.
-                    Charts implement a <a href="#grid">Grid</a> and use <a href="#coordinates">Coordinates</a>.
+                    Scales can be used to draw dots and labels as markers next to a meter,
+                    a fader or a frequency response graph. Depending on some parameters
+                    they try to decide on their own where to draw labels and dots depending
+                    on the available space and the scale. Scales can be drawn vertically
+                    and horizontally.
+                </p>
+                <p class="description">
+                    Use svl, svr, sht and shb to play with the examples in a terminal:
+                    <a href="javascript:svl.set('gap_labels', 20)">svl.set("gap_labels", 20)</a>
+                    <small>(doubles the amount of drawn labels in the vertical scale on the left)</small>
                 </p>
                 
                 <style type="text/css">
-                    #sc_chart {
+                    #sc_scale_h_t {
+                        margin-left: 90px;
+                    }
+                    #sc_scale_h_t .toolkit-scale {
                         
+                    }
+                    #sc_scale_h_b {
+                        margin-left: 90px;
+                        margin-top: 185px;
+                    }
+                    #sc_scale_h_b .toolkit-scale {
+                        
+                    }
+                    #sc_scale_v_l {
+                        height: 200px;
+                        float: left;
+                    }
+                    #sc_scale_v_l .toolkit-scale {
+                        
+                    }
+                    #sc_scale_v_r {
+                        height: 200px;
+                        float: right;
+                    }
+                    #sc_scale_v_r .toolkit-scale {
+                        
+                    }
+                    #sc_scale {
                     }
                 </style>
                 
                 <div class="showcase" style="">
-                    <div id="sc_chart">
+                    <div id="sc_scale">
                         
                     </div>
                 </div>
@@ -1933,10 +1907,183 @@
                     </tr>
                     <tr>
                         <td>container</td>
-                        <td>A container element to inject the SVG into</td>
+                        <td>A container element to inject the state into</td>
                         <td>false</td>
                     </tr>
+                    <tr>
+                        <td>layout <i class="static">⚓</i></td>
+                        <td>Layout of the widget.
+                            <ul>
+                                <li>1: vertical, labels on the left</li>
+                                <li>2: vertical, labels on the right</li>
+                                <li>3: horizontal, labels on top</li>
+                                <li>4: horizontal, labels on bottom</li>
+                            </ul>
+                        </td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>reverse</td>
+                        <td>Draw the scale from right to left or bottom to top.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>division</td>
+                        <td>Minimum step size (as value) between labels or dots.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>levels</td>
+                        <td>Array consisting of the multipliers labels and dots can be drawn.
+                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
+                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
+                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
+                        too, lower levels are only possible at the exact division.
+                        </td>
+                        <td>[1]</td>
+                    </tr>
+                    <tr>
+                        <td>base</td>
+                        <td>The base value where drawing of labels and dots starts. Every drawing position
+                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
+                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>labels</td>
+                        <td>A function to format the labels before they are drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr>
+                        <td>gap_dots</td>
+                        <td>Minimum gap (in pixels) between dots.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>gap_labels</td>
+                        <td>Minimum gap (in pixels) between labels.</td>
+                        <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>show_labels</td>
+                        <td>Draw labels</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td>The size in pixels</td>
+                        <td>0</td>
+                    </tr>
                     <tr class="inherit">
+                        <td>min</td>
+                        <td>The minimum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max</td>
+                        <td>The maximum value</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>scale.element ("div.toolkit-scale")</td>
+                        <td>The base element of the widget. It contains the dots and labels.</td>
+                    </tr>
+                    <tr>
+                        <td>[dots] ("div.toolkit-dot")</td>
+                        <td>Dots are absolutely positioned divs. They can have different additional
+                        CSS classes depending on their position. These classes are:
+                        <ul>
+                            <li>".toolkit-marker" - The dot belongs to a label</li>
+                            <li>".toolkit-min" - the dot is drawn on the min value</li>
+                            <li>".toolkit-max" - the dot is drawn on the max value</li>
+                            <li>".toolkit-base" - the dot is drawn on the base value</li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>[labels] ("span.toolkit-label")</td>
+                        <td>Labels are absolute positioned spans containing text. They can have the same
+                        additional classes as dots (except ".toolkit-marker").</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li id="audiomath" class="implement">
+                <!-- ########################################################### -->
+                <!-- AUDIO MATH -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    AudioMath implements a couple of functions for calculating dB
+                    and frequency values.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr>
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr>
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr>
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li id="coordinates" class="implement">
+                <!-- ########################################################### -->
+                <!-- COORDINATES CONTROL -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    Coordinates provide simple options and functions for dealing with a two dimensional
+                    coordinates system. It is used mainly for SVG image drawing to switch between
+                    percentual and pixel-based values and turns the y axis upside-down. Coordinates
+                    implement <a href="#audiomath">AudioMath</a>.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
@@ -1949,7 +2096,7 @@
                         </td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
@@ -1962,100 +2109,46 @@
                         </td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>width</td>
                         <td>If positioning is percentual we better should know about the real width</td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>height</td>
                         <td>If positioning is percentual we better should know about the real height</td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>min_x</td>
                         <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>max_x</td>
                         <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>min_y</td>
                         <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>max_y</td>
                         <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>grid_x</td>
-                        <td>An array containing objects with the following members for the x axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
-                        <td>[]</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>grid_y</td>
-                        <td>An array containing objects with the following members for the y axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
-                        <td>[]</td>
-                    </tr>
-                </table>
-                
-                <table class="elements collapse" title="⚛ Elements">
-                    <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr>
-                        <td>chart.element ("svg.toolkit-chart")</td>
-                        <td>The SVG image.</td>
-                    </tr>
-                    <tr>
-                        <td>chart._graphs ("g.toolkit-graphs")</td>
-                        <td>The SVG group element containing all Graphs.</td>
-                    </tr>
-                    <tr>
-                        <td>chart.__grid</td>
-                        <td>The Grid module</td>
-                    </tr>
-                </table>
-                
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr>
-                        <td>graphadded</td>
-                        <td>This event is fired when a path was added.</td>
-                    </tr>
-                    <tr>
-                        <td>pathremoved</td>
-                        <td>This event is fired when a path was removed.</td>
-                    </tr>
-                    <tr>
-                        <td>resized</td>
-                        <td>This event is fired when the SVG was resized.</td>
                     </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
                     <tr>
-                        <td>add_graph([options])</td>
-                        <td>Create a Graph inside the Chart. Options is an object containing
-                        options for the <a href="#graph">Graph</a> element.
-                        <br/><br/>
-                        It returns the new Graph instance.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>remove_graph(graph)</td>
-                        <td>Remove a Graph from the chart.</td>
-                    </tr>
-                    <tr class="inherit">
                         <td>x2px(value)</td>
                         <td>This function returns the amount of pixels from the left border of the
                         widget for a given value.</td>
                     </tr>
-                    <tr class="inherit">
+                    <tr>
                         <td>y2px(value)</td>
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
@@ -2081,163 +2174,58 @@
                 </table>
             </li>
             
-            <li id="frequencyresponse">
+            <li id="range" class="implement">
                 <!-- ########################################################### -->
-                <!-- FREQUENCY RESPONSE WIDGET -->
+                <!-- RANGE CONTROL -->
                 <!-- ########################################################### -->
-                
-                <h2><a name="frequencyresponse"></a>FrequencyResponse</h2>
                 
                 <p class="description">
-                    FrequencyResponse is a <a href="#graph">Graph</a> drawing frequencies 
-                    on the x axis and dB values on the y axis. This widget
-                    automatically draws a <a href="#grid">Grid</a> depending on the ranges.
+                    A Range is a simple, non-visual control to add a range of values to a widget.
+                    Ranges consist of a min and a max value and a function to calculate a position
+                    for a distinct value. Ranges don't provide any visible elements.
                 </p>
-                
-                <style type="text/css">
-                    #sc_frequencyresponse {
-                        
-                    }
-                </style>
-                
-                <div class="showcase" style="">
-                    <div id="sc_frequencyresponse">
-                        
-                    </div>
-                </div>
                 
                 <div class="buttons"></div>
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>db_grid</td>
-                        <td>Draw a grid line every [n] dBs</td>
-                        <td>12</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>id <i class="static">⚓</i></td>
-                        <td>An ID to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>container</td>
-                        <td>A container element to inject the SVG into</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>width</td>
-                        <td>The width of the SVG image.</td>
+                        <td>min</td>
+                        <td>The minimum value</td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
-                        <td>height</td>
-                        <td>The height of the SVG image.</td>
+                    <tr>
+                        <td>max</td>
+                        <td>The maximum value</td>
                         <td>0</td>
                     </tr>
-                    <tr class="inherit">
-                        <td>min_x</td>
-                        <td>Min frequency for this axis.</td>
-                        <td>20</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>max_x</td>
-                        <td>Max frequency for this axis.</td>
-                        <td>20000</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>min_y</td>
-                        <td>Min dB for this axis.</td>
-                        <td>-36</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>max_y</td>
-                        <td>Max dB for this axis.</td>
-                        <td>36</td>
-                    </tr>
-                </table>
-                
-                <table class="elements collapse" title="⚛ Elements">
-                    <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr class="inherit">
-                        <td>frequencyresponse.element ("svg.toolkit-frequencyresponse")</td>
-                        <td>The SVG image.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>frequencyresponse._graphs ("g.toolkit-graphs")</td>
-                        <td>The SVG group element containing all Graphs.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>frequencyresponse.__grid</td>
-                        <td>The Grid module</td>
-                    </tr>
-                </table>
-                
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr class="inherit">
-                        <td>graphadded</td>
-                        <td>This event is fired when a path was added.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>pathremoved</td>
-                        <td>This event is fired when a path was removed.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>resized</td>
-                        <td>This event is fired when the SVG was resized.</td>
+                    <tr>
+                        <td>scale</td>
+                        <td>A string or a function calculating the position from a given value. Possible strings are:
+                            <ul>
+                                <li>"Linear" - a linear scale</li>
+                            </ul>
+                            A function receives (value, min, max) and is supposed to return a percentual float
+                            between 0 and 1.
+                        </td>
+                        <td>"linear"</td>
                     </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
-                    <tr class="inherit">
-                        <td>add_graph([options])</td>
-                        <td>Create a Graph inside the Chart. Options is an object containing
-                        options for the <a href="#graph">Graph</a> element.
-                        <br/><br/>
-                        It returns the new Graph instance.
-                        </td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>remove_graph(graph)</td>
-                        <td>Remove a Graph from the chart.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>x2px(value)</td>
-                        <td>This function returns the amount of pixels from the left border of the
-                        widget for a given value.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>y2px(value)</td>
-                        <td>This function returns the amount of pixels from the top border of the
-                        widget for a given value.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>db2px(value, min, max, size)</td>
-                        <td>This function returns a pixel value for a distinct dB value
-                        according to the size, min and max settings.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>freq2px(value, min, max, size)</td>
-                        <td>This function returns a pixel value for a distinct frequency
-                        according to the size, min and max settings.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>log10(value)</td>
-                        <td>This function returns the logarithmic of 10 for the value.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>log2(value)</td>
-                        <td>This function returns the logarithmic of 2 for the value.</td>
+                    <tr>
+                        <td>val2px(value)</td>
+                        <td>This function returns a percentual value between 0 and 1 for a distinct value
+                        according to the min and max settings. The scale defines the function to be used
+                        for this calculation.</td>
                     </tr>
                 </table>
             </li>
+            
+            
+            
+            
             
         </ul>
     </body>
