@@ -19,7 +19,7 @@ var Graph = new Class({
                           //     2: filled above the line
                           //     3: filled from the middle of the canvas
                           //     0.n: filled from a percentual position on the canvas
-        color:     "",    // set the color of the path
+        color:     ""     // set the color of the path
     },
     _add: ".5",
     initialize: function (options) {
@@ -35,8 +35,8 @@ var Graph = new Class({
         if(!this.options.id) this.options.id = String.uniqueID();
         this.element.set("id", this.options.id);
         
-        if(this.options.class)
-            this.element.addClass(this.options.class);
+        if(this.options["class"])
+            this.element.addClass(this.options["class"]);
         
         if(this.options.container)
             this.set("container", this.options.container);
@@ -215,5 +215,5 @@ var Graph = new Class({
     get: function (key) {
         if(typeof this.options[key] != "undefined")
             return this.options[key];
-    },
+    }
 });

@@ -27,7 +27,7 @@ LevelMeter = new Class({
                                 //     -1:    infinite positioning
                                 //     n:     in milliseconds to auto-reset
                                 //     false: no auto hold
-        format_peak: function (value) { return sprintf("%0.2f", value); },
+        format_peak: function (value) { return sprintf("%0.2f", value); }
     },
     
     initialize: function (options) {
@@ -35,7 +35,7 @@ LevelMeter = new Class({
         this.element.addClass("toolkit-level-meter");
         
         this.__state = new State({
-            "class": "toolkit-clip",
+            "class": "toolkit-clip"
         });
         this._clip = this.__state.element;
         

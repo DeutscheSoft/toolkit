@@ -115,6 +115,6 @@ Coordinates = new Class({
                 }
                 break;
         }
-    },
+    }
 });
  

@@ -6,7 +6,7 @@ Grid = new Class({
         id:               "",
         container:        false,          // a SVG container to inject the element into
         grid_x:           [],             // array containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
-        grid_y:           [],             // array containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
+        grid_y:           []              // array containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
     },
     _add: ".5",
     __last: 0,
@@ -17,7 +17,7 @@ Grid = new Class({
         if (Browser.firefox)
             this._add = "";
         if(!this.options.id) this.options.id = String.uniqueID();
-        this.element = makeSVG("g", {class: "toolkit-grid"});
+        this.element = makeSVG("g", {"class": "toolkit-grid"});
         this.element.set("id", this.options.id);
         if(this.options.container)
             this.set("container", this.options.container, hold);

@@ -411,7 +411,7 @@ var MeterBase = new Class({
                 if(!hold) this.element.set("id", this.options.id);
                 break;
             case "class":
-                if(!hold) this.element.addClass(this.options.class);
+                if(!hold) this.element.addClass(this.options["class"]);
                 break;
             case "gradient":
             case "background":

@@ -3,7 +3,7 @@ Widget = new Class({
     options: {
         "class":          "",
         id:               "",
-        container:        false,          // a container to use as the base object
+        container:        false           // a container to use as the base object
     },
     
     initialize: function (options, hold) {

@@ -17,8 +17,7 @@ var Dynamics = new Class({
         this.set("max", this.options.max, true);
         this._steady = this.add_graph({
             dots: [{x:this.options.min, y:this.options.min},
-               {x:this.options.max, y:this.options.max},
-            ],
+                   {x:this.options.max, y:this.options.max}],
             "class": "toolkit-steady",
             mode: 0
         });

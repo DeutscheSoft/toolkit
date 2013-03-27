@@ -3,7 +3,7 @@ Range = new Class({
     options: {
         min:              0,              // the minimum value
         max:              0,              // the maximum value
-        scale:            "linear",       // string as identifier for preset scale or callback function
+        scale:            "linear"        // string as identifier for preset scale or callback function
     },
     val2perc: function (val) {
         if(typeof this.options.scale == "function")

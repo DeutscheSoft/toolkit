@@ -87,6 +87,6 @@ Toggle = new Class({
                 if(!hold) this.redraw();
                 break;
         }
-    },
+    }
 });
  
