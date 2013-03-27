@@ -37,6 +37,7 @@ window.addEvent('domready', function(){
         if(typeof window["run_" + id] != "undefined") {
             var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0], "top");
             but.addEvent("click", window["run_" + id]);
+            l.addEvent("click", window["run_" + id]);
         }
     });
     var modex = window.location.hash.substring(1);
