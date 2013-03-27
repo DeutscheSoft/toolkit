@@ -10,7 +10,8 @@ window.addEvent('domready', function(){
         var id = e.get("id");
         var cls   = e.get("class");
         if(!cls || !id) return;
-        var title = id.charAt(0).toUpperCase() + id.substr(1);
+        id = id.toLowerCase();
+        var title = e.get("id");
         var ctitle = cls.charAt(0).toUpperCase() + cls.substr(1);
         
         // SUBMENU
