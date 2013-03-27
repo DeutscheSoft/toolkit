@@ -9,7 +9,7 @@ var Dynamics = new Class({
         mode_y:  2
     },
     initialize: function (options) {
-        this.setOptions(options);console.log(options)
+        this.setOptions(options);
         this.parent(options);
         this.element.addClass("toolkit-dynamics");
         this.set("size", this.options.size, true);

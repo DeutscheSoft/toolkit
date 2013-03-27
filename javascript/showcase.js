@@ -247,12 +247,14 @@ function run_dynamics () {
         comp = undefined;
         gate.destroy();
         gate = undefined;
+        comp2.destroy();
+        comp2 = undefined;
         $("sc_dynamics").removeClass("box");
         return;
     }
     $("sc_dynamics").addClass("box");
     comp = new Dynamics({
-        size: 300,
+        size: 298,
         container: $("sc_dynamics")
     });
     gcomp = comp.add_graph({
@@ -263,13 +265,26 @@ function run_dynamics () {
         mode: 0
     });
     gate = new Dynamics({
-        size: 300,
+        size: 298,
         container: $("sc_dynamics")
     });
     ggate = gate.add_graph({
         dots: [{x:-48, y:-96},
                {x:-24, y:-24},
                {x:24, y: 24},
+        ],
+        mode: 0
+    });
+    comp2 = new Dynamics({
+        size: 298,
+        container: $("sc_dynamics")
+    });
+    gcomp2 = comp2.add_graph({
+        dots: [{x:-60, y:-96},
+               {x:-48, y:-48},
+               {x:-36, y:-24},
+               {x:-12, y:-12},
+               {x:24, y:-8}
         ],
         mode: 0
     });
