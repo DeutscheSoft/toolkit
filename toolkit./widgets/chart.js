@@ -3,10 +3,10 @@ var Chart = new Class({
     Implements: [Events, Options],
     options: {
         container: false, // a container the SVG should be injected to
-        class:     "",    // a class to add in build process
+        "class":   "",    // a class to add in build process
         id:        "",    // an id to add in build process
         grid_x:    [],    // array containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
-        grid_y:    [],    // array containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
+        grid_y:    []     // array containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
     },
     graphs: [],
     _add: ".5",
@@ -19,17 +19,17 @@ var Chart = new Class({
         
         this.element = makeSVG("svg", {
             width:  this.options.width,
-            height: this.options.height,
+            height: this.options.height
         });
         if(!this.options.id) this.options.id = String.uniqueID();
         this.element.set("id", this.options.id);
         this.element.addClass("toolkit-chart");
-        if(this.options.class)
-            this.element.addClass(this.options.class);
+        if(this.options["class"])
+            this.element.addClass(this.options["class"]);
         if(this.options.container)
             this.set("container", this.options.container);
         
-        this._graphs = makeSVG("g", {class: "toolkit-graphs"});
+        this._graphs = makeSVG("g", {"class": "toolkit-graphs"});
         this._graphs.inject(this.element);
         this.__grid = new Grid({
             grid_x: this.options.grid_x,
@@ -50,7 +50,7 @@ var Chart = new Class({
         var h = this.options.height + "px";
         this.element.set({
             width: w,
-            height: h,
+            height: h
         });
         this.element.set("style", "width: w; height: h;");
         if(grid) {
@@ -123,6 +123,13 @@ var Chart = new Class({
         }
     },
     
+    empty: function () {
+        for(var i = 0; i < this.graphs.length; i++) {
+            this.remove_graph(this.graphs[i]);
+        }
+        this.graphs = [];
+    },
+    
     // GETTER & SETER
     set: function (key, value, hold) {
         this.options[key] = value;
@@ -155,5 +162,5 @@ var Chart = new Class({
     get: function (key) {
         if(typeof this.options[key] != "undefined")
             return this.options[key];
-    },
+    }
 });
