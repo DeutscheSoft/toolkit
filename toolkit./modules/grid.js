@@ -70,6 +70,13 @@ Grid = new Class({
                 this.__last = mode ? y - th : x + tw;
             }
         }
+        
+        if((mode && obj.pos == this.options.min_y)
+        || (mode && obj.pos == this.options.max_y)
+        || (!mode && obj.pos == this.options.min_x)
+        || (!mode && obj.pos == this.options.max_x))
+            return;
+            
         var line = makeSVG("path");
         line.addClass("toolkit-grid-line " + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
         if(obj["class"]) line.addClass(obj["class"]);
