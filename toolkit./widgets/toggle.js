@@ -29,6 +29,14 @@ Toggle = new Class({
         this.set("state", !this.options.state);
         this.fireEvent("toggled");
     },
+    cancel_press: function () {
+        if(!this.__tp)
+            return;
+        this.__tp = false;
+        this.__tt = false;
+        this.__tm = false;
+        this.set("state", !this.get("state"));
+    },
     
     // HELPERS & STUFF
     

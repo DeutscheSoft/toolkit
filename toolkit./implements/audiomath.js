@@ -10,13 +10,27 @@ AudioMath = new Class({
         // min: minimum frequency already sent through log10
         // max: maximum frequency already sent through log10
         // size: the size in pixels
-        return ((this.log10(freq + 1e-32) - min) / (max - min)) * size;
+        return ((this.log10(freq) - min) / (max - min)) * size;
     },
     db2px: function (db, min, max, size) {
         // freq: dB as float (1 = 0dB)
         // min: minimum dB already sent through log2
         // max: maximum dB already sent through log2
         // size: the size in pixels
-        return ((this.log2(db + 1e-32) - min) / (max - min)) * size;
+        return ((this.log2(db) - min) / (max - min)) * size;
+    },
+    px2freq: function (px, min, max, size) {
+        // px: pixel from left edge
+        // min: minimum frequency already sent through log10
+        // max: maximum frequency already sent through log10
+        // size: the size in pixels
+        return Math.pow(10, (px / size * (max - min) + min));
+    },
+    px2db: function (px, min, max, size) {
+        // px: pixel from left edge
+        // min: minimum dB already sent through log2
+        // max: maximum dB already sent through log2
+        // size: the size in pixels
+        return Math.pow(2, (px / size * (max - min) + min));
     }
 });

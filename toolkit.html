@@ -30,6 +30,8 @@
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/graph.css">
         <script src="toolkit./modules/grid.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/grid.css">
+        <script src="toolkit./modules/responsehandle.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/responsehandle.css">
         
         <!-- WIDGETS -->
         <script src="toolkit./widgets/button.js"></script>
@@ -48,6 +50,8 @@
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/frequencyresponse.css">
         <script src="toolkit./widgets/dynamics.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/dynamics.css">
+        <script src="toolkit./widgets/responsehandler.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/responsehandler.css">
         
         <script type="text/javascript">
             window.addEvent('load', function(){
@@ -326,11 +330,11 @@
                     <tr><th>Event</th><th>Description</th></tr>
                     <tr>
                         <td>graphadded</td>
-                        <td>This event is fired when a path was added.</td>
+                        <td>This event is fired when a Graph was added.</td>
                     </tr>
                     <tr>
                         <td>pathremoved</td>
-                        <td>This event is fired when a path was removed.</td>
+                        <td>This event is fired when a Graph was removed.</td>
                     </tr>
                     <tr>
                         <td>resized</td>
@@ -598,7 +602,7 @@
                                 <li>4: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>12</td>
+                        <td>2</td>
                     </tr>
                     <tr class="inherit">
                         <td>class <i class="static">⚓</i></td>
@@ -667,11 +671,11 @@
                     <tr><th>Event</th><th>Description</th></tr>
                     <tr class="inherit">
                         <td>graphadded</td>
-                        <td>This event is fired when a path was added.</td>
+                        <td>This event is fired when a Graph was added.</td>
                     </tr>
                     <tr class="inherit">
                         <td>pathremoved</td>
-                        <td>This event is fired when a path was removed.</td>
+                        <td>This event is fired when a Graph was removed.</td>
                     </tr>
                     <tr class="inherit">
                         <td>resized</td>
@@ -767,6 +771,11 @@
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>clip</td>
+                        <td>Set the state of the clipping LED</td>
+                        <td>false</td>
+                    </tr>
                     <tr>
                         <td>falling</td>
                         <td>If falling is active set a step size (value) the meter falls per frame.</td>
@@ -1418,6 +1427,208 @@
                 
             </li>
             
+            <li id="ResponseHandler" class="widget">
+                <!-- ########################################################### -->
+                <!-- RESPONSE HANDLER WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>ResponseHandler</strong> is a <a href="#frequencyresponse">FrequencyResponse</a>
+                    adding some <a href="#responsehandle">ResponseHandles</a>.
+                </p>
+                
+                <style type="text/css">
+                    #sc_responsehandler {
+                        
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_responsehandler">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr class="inherit">
+                        <td>db_grid</td>
+                        <td>Draw a grid line every [n] dBs</td>
+                        <td>12</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode</td>
+                        <td>The mode of the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_z</td>
+                        <td>The mode of the z axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_x and max_x)</li>
+                                <li>3: dB value (needs width, height, min_x and max_x)</li>
+                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>container</td>
+                        <td>A container element to inject the SVG into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>width</td>
+                        <td>The width of the SVG image.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>height</td>
+                        <td>The height of the SVG image.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>Min frequency for this axis.</td>
+                        <td>20</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>Max frequency for this axis.</td>
+                        <td>20000</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>Min dB for this axis.</td>
+                        <td>-36</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>Max dB for this axis.</td>
+                        <td>36</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_z</td>
+                        <td>Min value for this axis.</td>
+                        <td>-36</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_z</td>
+                        <td>Max value for this axis.</td>
+                        <td>36</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>responsehandler._handles ("g.toolkit-response-handles")</td>
+                        <td>The SVG group element containing all ResponseHandles.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>responsehandler.element ("svg.toolkit-frequencyresponse")</td>
+                        <td>The SVG image.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>responsehandler._graphs ("g.toolkit-graphs")</td>
+                        <td>The SVG group element containing all Graphs.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>responsehandler.__grid</td>
+                        <td>The Grid module</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>handleadded</td>
+                        <td>This event is fired when a ResponseHandle was added.</td>
+                    </tr>
+                    <tr>
+                        <td>handleremoved</td>
+                        <td>This event is fired when a ResponseHandle was removed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>graphadded</td>
+                        <td>This event is fired when a Graph was added.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>pathremoved</td>
+                        <td>This event is fired when a Graph was removed.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>resized</td>
+                        <td>This event is fired when the SVG was resized.</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>add_graph([options])</td>
+                        <td>Create a Graph inside the Chart. Options is an object containing
+                        options for the <a href="#graph">Graph</a> element.
+                        <br/><br/>
+                        It returns the new Graph instance.
+                        </td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>remove_graph(graph)</td>
+                        <td>Remove a Graph from the chart.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
+                    </tr>
+                </table>
+            </li>
             
             <li id="State" class="widget">
                 <!-- ########################################################### -->
@@ -2242,7 +2453,7 @@
                 <!-- ########################################################### -->
                 
                 <p class="description">
-                    <strong>Coordinates</strong> provide simple options and functions for dealing with a two dimensional
+                    <strong>Coordinates</strong> provide simple options and functions for dealing with a three dimensional
                     coordinates system. It is used mainly for SVG image drawing to switch between
                     percentual and pixel-based values and turns the y axis upside-down. Coordinates
                     implement <a href="#audiomath">AudioMath</a>.
@@ -2279,12 +2490,30 @@
                         <td>0</td>
                     </tr>
                     <tr>
+                        <td>mode_z</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>0: pixels</li>
+                                <li>1: percentual values between 0 and 1</li>
+                                <li>2: flat value (needs width, height, min_y and max_y)</li>
+                                <li>3: dB value (needs width, height, min_y and max_y)</li>
+                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                            </ul>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
                         <td>width</td>
                         <td>If positioning is percentual we better should know about the real width</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <td>height</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>depth</td>
                         <td>If positioning is percentual we better should know about the real height</td>
                         <td>0</td>
                     </tr>
@@ -2308,6 +2537,16 @@
                         <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
                         <td>0</td>
                     </tr>
+                    <tr>
+                        <td>min_z</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>max_z</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
@@ -2321,6 +2560,10 @@
                         <td>y2px(value)</td>
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
+                    </tr>
+                    <tr>
+                        <td>z2px(value)</td>
+                        <td>This function returns the amount of pixels for the z axis</td>
                     </tr>
                     <tr class="inherit">
                         <td>db2px(value, min, max, size)</td>

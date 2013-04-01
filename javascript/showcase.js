@@ -292,6 +292,30 @@ function run_dynamics () {
     });
 }
 
+// RESPONSE HANDLER
+function run_responsehandler () {
+    if(typeof rh != "undefined") {
+        rh.destroy();
+        rh = undefined;
+        $("sc_responsehandler").removeClass("box");
+        return;
+    }
+    $("sc_responsehandler").addClass("box");
+    rh = new ResponseHandler({
+        width: 908,
+        height: 300,
+        depth: 100,
+        container: $("sc_responsehandler"),
+        db_grid: 12,
+        min_z: 0,
+        max_z: 10
+    });
+    handles = [
+        rh.add_handle({x:1000, y:0, z: 5, mode:0, title:"handle 1"})
+    ]
+}
+
+
 // STATE
 
 function run_state () {

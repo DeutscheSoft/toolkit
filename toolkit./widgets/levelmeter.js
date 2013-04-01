@@ -1,6 +1,7 @@
 LevelMeter = new Class({
     Extends: MeterBase,
     options: {
+        clip:        false,     // state of the clipping LED
         falling:     0,         // if falling is active set a step size per frame
         falling_fps: 24,        // frames per second for falling
         peak:        false,     // peak value; false = value
@@ -117,6 +118,7 @@ LevelMeter = new Class({
         this.set("show_peak", this.options.show_peak);
         this.set("show_clip", this.options.show_clip);
         this.set("show_hold", this.options.show_hold);
+        this.set("clip", this.options.clip);
         
         this.redraw();
     },

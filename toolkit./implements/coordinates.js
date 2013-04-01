@@ -48,16 +48,33 @@ Coordinates = new Class({
     
     // HELPERS & STUFF
     x2px: function (x) {
-        return this.val2px(x, this.options.mode_x, this.options.min_x, this.options.max_x, this.options.width);
+        return this._val2px(x,
+                            this.options.mode_x,
+                            this.options.min_x,
+                            this.options.max_x,
+                            this._min_x,
+                            this._max_x,
+                            this.options.width);
     },
     y2px: function (y) {
-        return this.val2px(y, this.options.mode_y, this.options.min_y, this.options.max_y, this.options.height) * -1 + this.options.height;
+        return this._val2px(y,
+                            this.options.mode_y,
+                            this.options.min_y,
+                            this.options.max_y,
+                            this._min_y,
+                            this._max_y,
+                            this.options.height) * -1 + this.options.height;
     },
     z2px: function (z) {
-        return this.val2px(z, this.options.mode_z, this.options.min_z, this.options.max_z, this.options.depth);
+        return this._val2px(z,
+                            this.options.mode_z,
+                            this.options.min_z,
+                            this.options.max_z,
+                            this._min_z,
+                            this._max_z,
+                            this.options.depth);
     },
-    val2px: function (value, mode, min, max, size) {
-        console.log(value, mode, min, max, size);
+    _val2px: function (value, mode, min, max, minlog, maxlog, size) {
         switch(mode) {
             case 0:
             default:
@@ -68,17 +85,33 @@ Coordinates = new Class({
                 return size * value;
             case 2:
                 // value is a linear value
-                var gw = max - min;
-                var pw = (min - value) * -1;
-                return ((pw / gw) || 0) * size;
-                
                 return ((((min - value) * -1) / (max - min)) || 0) * size;
             case 3:
                 // value is a db value
-                return this.db2px(value, min, max, size);
+                return this.db2px(value, minlog, maxlog, size);
             case 4:
                 // value is a frequency
-                return this.freq2px(value, min, max, size);
+                return this.freq2px(value, minlog, maxlog, size);
+        }
+    },
+    _px2val: function (value, mode, min, max, minlog, maxlog, size) {
+        switch(mode) {
+            case 0:
+            default:
+                // value are ready-to-use pixels
+                return value;
+            case 1:
+                // value is a percentual value
+                return value / size;
+            case 2:
+                // value is a linear value
+                return (value / size) * (max - min) + min
+            case 3:
+                // value is a db value
+                return this.db2px(value, minlog, maxlog, size);
+            case 4:
+                // value is a frequency
+                return this.freq2px(value, minlog, maxlog, size);
         }
     },
     // GETTER & SETTER
@@ -86,6 +119,7 @@ Coordinates = new Class({
         switch(key) {
             case "mode_x":
             case "mode_y":
+            case "mode_z":
             case "min_x":
             case "max_x":
             case "min_y":
