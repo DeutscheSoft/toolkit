@@ -74,6 +74,33 @@ Coordinates = new Class({
                             this._max_z,
                             this.options.depth);
     },
+    px2x: function (x) {
+        return this._px2val(x,
+                            this.options.mode_x,
+                            this.options.min_x,
+                            this.options.max_x,
+                            this._min_x,
+                            this._max_x,
+                            this.options.width);
+    },
+    px2y: function (y) {
+        return this._px2val(y,
+                            this.options.mode_y,
+                            this.options.min_y,
+                            this.options.max_y,
+                            this._min_y,
+                            this._max_y,
+                            this.options.height) * -1 + this.options.max_y + this.options.min_y;
+    },
+    px2z: function (z) {
+        return this._px2val(z,
+                            this.options.mode_z,
+                            this.options.min_z,
+                            this.options.max_z,
+                            this._min_z,
+                            this._max_z,
+                            this.options.depth);
+    },
     _val2px: function (value, mode, min, max, minlog, maxlog, size) {
         switch(mode) {
             case 0:
@@ -108,10 +135,10 @@ Coordinates = new Class({
                 return (value / size) * (max - min) + min
             case 3:
                 // value is a db value
-                return this.db2px(value, minlog, maxlog, size);
+                return this.px2db(value, minlog, maxlog, size);
             case 4:
                 // value is a frequency
-                return this.freq2px(value, minlog, maxlog, size);
+                return this.px2freq(value, minlog, maxlog, size);
         }
     },
     // GETTER & SETTER
