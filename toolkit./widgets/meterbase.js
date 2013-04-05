@@ -286,7 +286,7 @@ var MeterBase = new Class({
             }
         }
         if(this.options.layout < 3)
-            this.element.innerWidth(this._bar.outerWidth() + this._scale.outerWidth());
+            this.element.innerWidth(this._bar.outerWidth() + (this.options.show_scale ? this._scale.outerWidth() : 0));
     },
     
     _draw_meter: function () {

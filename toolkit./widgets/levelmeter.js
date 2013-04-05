@@ -1,30 +1,31 @@
 LevelMeter = new Class({
     Extends: MeterBase,
     options: {
-        clip:        false,     // state of the clipping LED
-        falling:     0,         // if falling is active set a step size per frame
-        falling_fps: 24,        // frames per second for falling
-        peak:        false,     // peak value; false = value
-        top:         false,     // top hold value; false = value
-        bottom:      false,     // bottom hold value (if we have a base other than min)
+        clip:         false,    // state of the clipping LED
+        falling:      0,        // if falling is active set a step size per frame
+        falling_fps:  24,       // frames per second for falling
+        falling_init: 2,        // frames of the initial falling (avoid flickering while using external and internal falling)
+        peak:         false,    // peak value; false = value
+        top:          false,    // top hold value; false = value
+        bottom:       false,    // bottom hold value (if we have a base other than min)
         hold_size:    1,        // amount of segments for top hold
-        show_peak:   false,     // show the peak marker
-        show_clip:   false,     // show clipping LED
-        show_hold:   false,     // show peak hold LEDs
-        clipping:    0,         // if auto_clip is active, value when clipping appears
-        auto_clip:   false,     // set to a number when clipping appears or to false if disabled
+        show_peak:    false,    // show the peak marker
+        show_clip:    false,    // show clipping LED
+        show_hold:    false,    // show peak hold LEDs
+        clipping:     0,        // if auto_clip is active, value when clipping appears
+        auto_clip:    false,    // set to a number when clipping appears or to false if disabled
                                 //     -1:    infinite positioning
                                 //     n:     in milliseconds to auto-reset
                                 //     false: no auto peak
-        auto_peak:   false,     // if the peak automatically follows the program:
+        auto_peak:    false,    // if the peak automatically follows the program:
                                 //     -1:    infinite positioning
                                 //     n:     in milliseconds to auto-reset
                                 //     false: no auto peak
-        peak_label:  false,     // if the label automatically shows the max peak
+        peak_label:   false,    // if the label automatically shows the max peak
                                 //     -1:    infinite display
                                 //     n:     in milliseconds to auto-reset
                                 //     false: no peak label
-        auto_hold:  false,      // if the hold automatically follows the program:
+        auto_hold:    false,    // if the hold automatically follows the program:
                                 //     -1:    infinite positioning
                                 //     n:     in milliseconds to auto-reset
                                 //     false: no auto hold
@@ -170,18 +171,20 @@ LevelMeter = new Class({
         this.reset_bottom();
     },
     
-    _draw_meter: function () {
+    _draw_meter: function (value) {
         var _c = true;
         if(this.options.falling) {
             if(this.options.value > this._falling && this.options.value > this.options.base
             || this.options.value < this._falling && this.options.value < this.options.base) {
                 this._falling = this.options.value;
-            } else {
+                this.__falling = false;
+            } else if(typeof value == "undefined"){
                 if (this._falling > this.options.base)
                     this._falling -= Math.min(Math.abs(this._falling - this.options.base), Math.abs(this.options.falling));
                 else if (this._falling < this.options.base)
                     this._falling += Math.min(Math.abs(this.options.base - this._falling), Math.abs(this.options.falling));
                 _c = false;
+                this.__falling = true;
             }
             this.options.value = this._falling;
             this._falling_timeout();
@@ -331,7 +334,7 @@ LevelMeter = new Class({
         if(this.__fto) window.clearTimeout(this.__fto);
         if(this._falling > this.options.base && this.options.value > this.options.base
         || this._falling < this.options.base && this.options.value < this.options.base)
-            this.__fto = window.setTimeout(this._draw_meter.bind(this), 1000 / this.options.falling_fps);
+            this.__fto = window.setTimeout(this._draw_meter.bind(this), 1000 / this.options.falling_fps * (this.__falling ? 1 : this.options.falling_init));
         else
             this.__fto = null;
     },
