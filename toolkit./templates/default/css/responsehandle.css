@@ -1,0 +1,87 @@
+.toolkit-response-handle {
+    fill: rgba(255,255,255,0.2);
+}
+.toolkit-response-handle.toolkit-active {
+    fill: rgba(255,255,255,0.8);
+    cursor: move !important;
+}
+.toolkit-response-handle.toolkit-circular {
+    
+}
+.toolkit-response-handle.toolkit-line-vertical {
+    
+}
+.toolkit-response-handle.toolkit-line-horizontal {
+    
+}
+.toolkit-response-handle.toolkit-block-left {
+    
+}
+.toolkit-response-handle.toolkit-block-right {
+    
+}
+.toolkit-response-handle.toolkit-block-top {
+    
+}
+.toolkit-response-handle.toolkit-block-bottom {
+    
+}
+
+
+.toolkit-response-handle .toolkit-label {
+    font-size: 9px;
+}
+.toolkit-response-handle .toolkit-label tspan {
+    dominant-baseline: central;
+}
+.toolkit-response-handle.circle .toolkit-label {
+    
+}
+.toolkit-response-handle.line-vertical .toolkit-label {
+    
+}
+.toolkit-response-handle.line-horizontal .toolkit-label {
+    
+}
+.toolkit-response-handle.block-left .toolkit-label {
+    
+}
+.toolkit-response-handle.block-right .toolkit-label {
+    
+}
+.toolkit-response-handle.block-top .toolkit-label {
+    
+}
+.toolkit-response-handle.block-bottom .toolkit-label {
+    
+}
+
+
+
+.toolkit-response-handle .toolkit-handle {
+    cursor:pointer;
+}
+.toolkit-response-handle.toolkit-active .toolkit-handle {
+    cursor:move;
+}
+.toolkit-response-handle.circle .toolkit-handle {
+    
+}
+.toolkit-response-handle.line-vertical .toolkit-handle {
+    
+}
+.toolkit-response-handle.line-horizontal .toolkit-handle {
+    
+}
+.toolkit-response-handle.block-left .toolkit-handle {
+    
+}
+.toolkit-response-handle.block-right .toolkit-handle {
+    
+}
+.toolkit-response-handle.block-top .toolkit-handle {
+    
+}
+.toolkit-response-handle.block-bottom .toolkit-handle {
+    
+}
