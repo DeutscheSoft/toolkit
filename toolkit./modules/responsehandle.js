@@ -239,7 +239,7 @@ ResponseHandle = new Class({
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
-        this._label.getChildren()[3].set("text", e.event.offsetX + "-" + e.event.offsetY);
+        this._label.getChildren()[3].set("text", e.touches[0].offsetX + "-" + e.touches[0].offsetY);
     },
     
     // GETTER & SETTER
