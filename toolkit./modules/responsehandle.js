@@ -10,7 +10,7 @@ ResponseHandle = new Class({
                                         // intersections are weighted depending on the intersecting object. E.g. SVG borders have
                                         // a very high impact while intersecting in comparison with overlapping handle objects
                                         // that have a low impact on intersection
-        mode:0,                         // mode of the handle:
+        mode:             0,            // mode of the handle:
                                         // 0: circular handle
                                         // 1: x movement, line handle vertical
                                         // 2: y movement, line handle horizontal
@@ -23,10 +23,12 @@ ResponseHandle = new Class({
         x:                0,            // value for the x position depending on mode_x
         y:                0,            // value for y position depending on mode_y
         z:                0,            // value for the scale depending on mode_z
-        x1:               false,        // restrict x movement, min x value, false to disable
-        x2:               false,        // restrict x movement, max x value, false to disable
-        y1:               false,        // restrict y movement, min y value, false to disable
-        y2:               false,        // restrict y movement, max y value, false to disable
+        x_min:            false,        // restrict x movement, min x value, false to disable
+        x_max:            false,        // restrict x movement, max x value, false to disable
+        y_min:            false,        // restrict y movement, min y value, false to disable
+        y_max:            false,        // restrict y movement, max y value, false to disable
+        z_min:            false,        // restrict z values, min z value, false to disable
+        z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         16,           // minimum size of object
         margin:           4             // margin between label and border of handle
     },
@@ -81,14 +83,18 @@ ResponseHandle = new Class({
         var height = 0;
         
         // do we have to restrict movement?
-        if(this.options.x1 !== false)
-            this.options.x = Math.max(this.options.x1, this.options.x);
-        if(this.options.x2 !== false)
-            this.options.x = Math.min(this.options.x2, this.options.x);
-        if(this.options.y1 !== false)
-            this.options.y = Math.max(this.options.y1, this.options.y);
-        if(this.options.y2 !== false)
-            this.options.y = Math.min(this.options.y2, this.options.y);
+        if(this.options.x_min !== false)
+            this.options.x = Math.max(this.options.x_min, this.options.x);
+        if(this.options.x_max !== false)
+            this.options.x = Math.min(this.options.x_max, this.options.x);
+        if(this.options.y_min !== false)
+            this.options.y = Math.max(this.options.y_min, this.options.y);
+        if(this.options.y_max !== false)
+            this.options.y = Math.min(this.options.y_max, this.options.y);
+        if(this.options.z_min !== false)
+            this.options.z = Math.max(this.options.z_min, this.options.z);
+        if(this.options.z_max !== false)
+            this.options.z = Math.min(this.options.z_max, this.options.z);
         
         // calc coords for element and _handle
         switch(this.options.mode) {
@@ -216,7 +222,7 @@ ResponseHandle = new Class({
         e.stopPropagation();
         this._offsetX = e.event.offsetX - this.x;
         this._offsetY = e.event.offsetY - this.y;
-        this.fireEvent("startdrag", {x:this.x, y:this.y});
+        this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _mouseup: function (e) {
         this.__active = false;
@@ -224,7 +230,7 @@ ResponseHandle = new Class({
         this.element.getParent().getParent().removeClass("toolkit-dragging");
         e.event.preventDefault();
         e.stopPropagation();
-        this.fireEvent("stopdrag", {x:this.x, y:this.y});
+        this.fireEvent("stopdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _mousemove: function (e) {
         if(!this.__active) return;
@@ -232,7 +238,8 @@ ResponseHandle = new Class({
         this.set("y", this.px2y(e.event.offsetY - this._offsetY))
         e.event.preventDefault();
         e.stopPropagation();
-        this.fireEvent("dragging", {x:this.x, y:this.y});
+        this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
+        console.log(this._offsetX, this._offsetY)
     },
     
     // GETTER & SETTER
