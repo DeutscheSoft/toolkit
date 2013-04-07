@@ -4,11 +4,11 @@ Scale = new Class({
         "class":          "",
         id:               "",
         container:        false,          // a container to use as the base object
-        layout:           1,              // how to draw the scale:
-                                          // 1: vertical, labels on the left
-                                          // 2: vertical, labels on the right,
-                                          // 3: horizontal, labels on top
-                                          // 4: horizontal, labels on bottom
+        layout:           _TOOLKIT_LEFT,  // how to draw the scale:
+                                          // _TOOLKIT_LEFT: vertical, labels on the left
+                                          // _TOOLKIT_RIGHT: vertical, labels on the right,
+                                          // _TOOLKIT_TOP: horizontal, labels on top
+                                          // _TOOLKIT_BOTTOM: horizontal, labels on bottom
         division:         1,              // minimum step size
         levels:           [1],            // array of steps where to draw labels and marker
         base:             false,              // base where dots and labels are drawn from
@@ -28,16 +28,16 @@ Scale = new Class({
             "id":    this.options.id
         });
         switch(this.options.layout) {
-            case 1:
+            case _TOOLKIT_LEFT:
                 this.element.addClass("toolkit-vertical toolkit-left");
                 break;
-            case 2:
+            case _TOOLKIT_RIGHT:
                 this.element.addClass("toolkit-vertical toolkit-right");
                 break;
-            case 3:
+            case _TOOLKIT_TOP:
                 this.element.addClass("toolkit-horizontal toolkit-top");
                 break;
-            case 4:
+            case _TOOLKIT_BOTTOM:
                 this.element.addClass("toolkit-horizontal toolkit-bottom");
                 break;
         }
@@ -137,7 +137,7 @@ Scale = new Class({
         }
     },
     draw_dot: function (val, cls) {
-        var l = this.options.layout;
+        var v = this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT;
         var r = this.options.reverse;
         
         // create dot element
@@ -147,15 +147,15 @@ Scale = new Class({
         
         // position dot element
         var styles = { }
-        var pos = Math.round(r ? (l < 3 ? this.val2px(val) : this.options.size - this.val2px(val)) : (l < 3 ? this.options.size - this.val2px(val) : this.val2px(val)));
+        var pos = Math.round(r ? (v ? this.val2px(val) : this.options.size - this.val2px(val)) : (v ? this.options.size - this.val2px(val) : this.val2px(val)));
         pos = Math.min(Math.max(0, pos), this.options.size - 1);
-        styles[l < 3 ? "top" : "left"] = pos;
+        styles[v ? "top" : "left"] = pos;
         d.setStyles(styles);
     },
     draw_label: function (val, cls) {
         if(!this.options.show_labels) return;
         
-        var l = this.options.layout;
+        var v = this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT;
         var r = this.options.reverse;
         
         // create label element
@@ -165,19 +165,19 @@ Scale = new Class({
         
         // position label element
         var styles = { }
-        var pos = Math.round(r ? (l < 3 ? this.val2px(val) : this.options.size - this.val2px(val)) : (l < 3 ? this.options.size - this.val2px(val) : this.val2px(val)));
-        var size = label[l < 3 ? "outerHeight" : "outerWidth"]();
+        var pos = Math.round(r ? (v ? this.val2px(val) : this.options.size - this.val2px(val)) : (v ? this.options.size - this.val2px(val) : this.val2px(val)));
+        var size = label[v ? "outerHeight" : "outerWidth"]();
         
         pos = Math.min(Math.max(0, pos - size / 2), this.options.size - size);
-        styles[l < 3 ? "top" : "left"] = pos;
+        styles[v ? "top" : "left"] = pos;
         label.setStyles(styles);
         
         // resize the main element if labels are wider
         // because absolute positioning destroys dimensions
-        var s = label[l < 3 ? "outerWidth" : "outerHeight"]();
+        var s = label[v ? "outerWidth" : "outerHeight"]();
         if(s > this.__size) {
             this.__size = s;
-            this.element[l < 3 ? "outerWidth" : "outerHeight"](s);
+            this.element[v ? "outerWidth" : "outerHeight"](s);
         }
     },
     

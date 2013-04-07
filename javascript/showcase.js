@@ -100,7 +100,7 @@ function run_scale () {
     $("sc_scale").addClass("box");
     svl = new Scale({
         container: $("sc_scale"),
-        layout: 1,
+        layout: _TOOLKIT_LEFT,
         division: 1,
         levels: [1, 6, 12],
         min: -96,
@@ -111,7 +111,7 @@ function run_scale () {
     })
     svr = new Scale({
         container: $("sc_scale"),
-        layout: 2,
+        layout: _TOOLKIT_RIGHT,
         division: 1,
         levels: [1, 6, 12],
         min: -96,
@@ -122,7 +122,7 @@ function run_scale () {
     })
     sht = new Scale({
         container: $("sc_scale"),
-        layout: 3,
+        layout: _TOOLKIT_TOP,
         division: 1,
         levels: [1, 6, 12],
         min: -24,
@@ -134,7 +134,7 @@ function run_scale () {
     })
     shb = new Scale({
         container: $("sc_scale"),
-        layout: 4,
+        layout: _TOOLKIT_BOTTOM,
         division: 1,
         levels: [1, 6, 12],
         min: -24,
@@ -161,8 +161,8 @@ function run_chart () {
         width: 908,
         height: 300,
         container: $("sc_chart"),
-        mode_x: 1,
-        mode_y: 1,
+        mode_x: _TOOLKIT_PERC,
+        mode_y: _TOOLKIT_PERC,
         grid_x: [{pos:0.0, label:"0"},
                  {pos:0.1},
                  {pos:0.2, label:"20"},
@@ -197,7 +197,7 @@ function run_chart () {
                {x:1.0, y:0.0}
         ],
         type: "H3",
-        mode: 1
+        mode: _TOOLKIT_BOTTOM
     });
     g2 = c.add_graph({
         dots: [{x:0.0, y:0.5},
@@ -237,7 +237,7 @@ function run_frequencyresponse () {
                {x:20000, y:-36}
         ],
         type: "H4",
-        mode: 0
+        mode: _TOOLKIT_LINE
     });
 }
 
@@ -264,7 +264,7 @@ function run_dynamics () {
                {x:-24, y:0},
                {x:24, y: 12},
         ],
-        mode: 0
+        mode: _TOOLKIT_LINE
     });
     gate = new Dynamics({
         size: 298,
@@ -275,7 +275,7 @@ function run_dynamics () {
                {x:-24, y:-24},
                {x:24, y: 24},
         ],
-        mode: 0
+        mode: _TOOLKIT_LINE
     });
     comp2 = new Dynamics({
         size: 298,
@@ -288,7 +288,7 @@ function run_dynamics () {
                {x:-12, y:-12},
                {x:24, y:-8}
         ],
-        mode: 0
+        mode: _TOOLKIT_LINE
     });
 }
 
@@ -311,7 +311,9 @@ function run_responsehandler () {
         max_z: 10
     });
     handles = [
-        rh.add_handle({x:1000, y:0, z: 5, mode:0, title:"handle 1"})
+        rh.add_handle({x:1000, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, title:"handle 1"}),
+        rh.add_handle({x:4000, y:0, z: 7, mode:_TOOLKIT_CIRCULAR, title:"handle 2"}),
+        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 3"})
     ]
 }
 
@@ -420,7 +422,7 @@ function run_meterbase () {
     }
     mbvl = new MeterBase({
         container: $$("#sc_meterbase")[0],
-        layout: 2,
+        layout: _TOOLKIT_RIGHT,
         segment: 2,
         min: -96,
         max: 24,
@@ -435,7 +437,7 @@ function run_meterbase () {
     });
     mbvr = new MeterBase({
         container: $$("#sc_meterbase")[0],
-        layout: 1,
+        layout: _TOOLKIT_LEFT,
         segment: 2,
         min: -96,
         max: 24,
@@ -450,7 +452,7 @@ function run_meterbase () {
     });
     mbhb = new MeterBase({
         container: $$("#sc_meterbase")[0],
-        layout: 4,
+        layout: _TOOLKIT_BOTTOM,
         segment: 2,
         min: -15,
         max: 15,
@@ -465,7 +467,7 @@ function run_meterbase () {
     });
     mbht = new MeterBase({
         container: $$("#sc_meterbase")[0],
-        layout: 3,
+        layout: _TOOLKIT_TOP,
         segment: 2,
         min: -15,
         max: 15,
@@ -495,7 +497,7 @@ function run_levelmeter () {
     $("sc_levelmeter_buttons").setStyle("display", "block");
     meters = {
         mvr: new LevelMeter({
-            layout: 2,
+            layout: _TOOLKIT_RIGHT,
             reverse: false,
             segment: 2,
             min: -96,
@@ -547,7 +549,7 @@ function run_levelmeter () {
         }),
         
         mvrr: new LevelMeter({
-            layout: 2,
+            layout: _TOOLKIT_RIGHT,
             reverse: true,
             segment: 2,
             min: -24,
@@ -590,7 +592,7 @@ function run_levelmeter () {
         
         mhb: new LevelMeter({
             segment: 2,
-            layout: 4,
+            layout: _TOOLKIT_BOTTOM,
             min: -96,
             max: 24,
             value: -96,
@@ -615,7 +617,7 @@ function run_levelmeter () {
         }),
         mht: new LevelMeter({
             segment: 2,
-            layout: 3,
+            layout: _TOOLKIT_TOP,
             min: -96,
             max: 24,
             value: -96,
@@ -641,7 +643,7 @@ function run_levelmeter () {
         
         mhbr: new LevelMeter({
             segment: 2,
-            layout: 4,
+            layout: _TOOLKIT_BOTTOM,
             reverse: true,
             min: 0,
             max: 24,
@@ -667,7 +669,7 @@ function run_levelmeter () {
         mhtr: new LevelMeter({
             segment: 2,
             reverse: true,
-            layout: 3,
+            layout: _TOOLKIT_TOP,
             min: 0,
             max: 25,
             value: 0,

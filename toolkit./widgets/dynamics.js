@@ -5,8 +5,8 @@ var Dynamics = new Class({
         min:    -96,
         max:     24,
         size:    400,
-        mode_x:  2,
-        mode_y:  2
+        mode_x:  _TOOLKIT_FLAT,
+        mode_y:  _TOOLKIT_FLAT
     },
     initialize: function (options) {
         this.setOptions(options);
@@ -19,7 +19,7 @@ var Dynamics = new Class({
             dots: [{x:this.options.min, y:this.options.min},
                    {x:this.options.max, y:this.options.max}],
             "class": "toolkit-steady",
-            mode: 0
+            mode: _TOOLKIT_LINE
         });
         this.redraw();
     },

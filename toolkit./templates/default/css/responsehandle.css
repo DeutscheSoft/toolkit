@@ -85,3 +85,36 @@
 .toolkit-response-handle.block-bottom .toolkit-handle {
     
 }
+
+.toolkit-response-handle .toolkit-line {
+    opacity: 0;
+    stroke: white;
+    stroke-width: 1;
+}
+.toolkit-response-handle.toolkit-active .toolkit-line {
+    opacity: 0.5;
+}
+.toolkit-response-handle.toolkit-active .toolkit-line {
+    
+}
+.toolkit-response-handle.circle .toolkit-line {
+    
+}
+.toolkit-response-handle.line-vertical .toolkit-line {
+    
+}
+.toolkit-response-handle.line-horizontal .toolkit-line {
+    
+}
+.toolkit-response-handle.block-left .toolkit-line {
+    
+}
+.toolkit-response-handle.block-right .toolkit-line {
+    
+}
+.toolkit-response-handle.block-top .toolkit-line {
+    
+}
+.toolkit-response-handle.block-bottom .toolkit-line {
+    
+}

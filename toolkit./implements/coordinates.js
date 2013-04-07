@@ -1,33 +1,18 @@
 Coordinates = new Class({
     Implements: [Options, AudioMath],
     options: {
-        mode_x:           0,              // what kind of x are we having?
-                                          // 0: pixels
-                                          // 1: percentual value (between 0 and 1)
-                                          // 2: linear value
-                                          // 3: dB values (needs min_x and max_x)
-                                          // 4: frequencies (needs min_x and max_x)
-        mode_y:           0,              // what kind of y are we having?
-                                          // 0: pixels
-                                          // 1: percentual value (between 0 and 1)
-                                          // 2: linear value
-                                          // 3: dB values (needs min_x and max_x)
-                                          // 4: frequencies (needs min_x and max_x)
-        mode_z:           0,              // what kind of z are we having?
-                                          // 0: pixels
-                                          // 1: percentual value (between 0 and 1)
-                                          // 2: linear value
-                                          // 3: dB values (needs min_x and max_x)
-                                          // 4: frequencies (needs min_x and max_x)
-        width:            0,              // if x is a percentual value we better should know the real dimensions
-        height:           0,              // if y is a percentual value we better should know the real dimensions
-        depth:            0,              // if z is a percentual value we better should know the real dimensions
-        min_x:            0,              // if mode_x is 2 or 3 or 4 we need to know about the range we see
-        max_x:            0,              // if mode_x is 2 or 3 or 4 we need to know about the range we see
-        min_y:            0,              // if mode_y is 2 or 3 or 4 we need to know about the range we see
-        max_y:            0,              // if mode_y is 2 or 3 or 4 we need to know about the range we see
-        min_z:            0,              // if mode_z is 2 or 3 or 4 we need to know about the range we see
-        max_z:            0               // if mode_z is 2 or 3 or 4 we need to know about the range we see
+        mode_x:           _TOOLKIT_PIXEL, // what kind of x are we having? _TOOLKIT_[PIXEL, PERCENT, FLAT, DECIBEL, FREQUENCY]
+        mode_y:           _TOOLKIT_PIXEL, // what kind of y are we having? _TOOLKIT_[PIXEL, PERCENT, FLAT, DECIBEL, FREQUENCY]
+        mode_z:           _TOOLKIT_PIXEL, // what kind of z are we having? _TOOLKIT_[PIXEL, PERCENT, FLAT, DECIBEL, FREQUENCY]
+        width:            0,              // if x is not in pixel we better should know the real dimensions
+        height:           0,              // if y is not in pixel value we better should know the real dimensions
+        depth:            0,              // if z is not in pixel value we better should know the real dimensions
+        min_x:            0,              // if mode_x not in pixel we need to know about the range we see
+        max_x:            0,              // if mode_x not in pixel we need to know about the range we see
+        min_y:            0,              // if mode_y not in pixel we need to know about the range we see
+        max_y:            0,              // if mode_y not in pixel we need to know about the range we see
+        min_z:            0,              // if mode_z not in pixel we need to know about the range we see
+        max_z:            0               // if mode_z not in pixel we need to know about the range we see
     },
     _min_x: 0,
     _max_x: 0,
@@ -103,40 +88,40 @@ Coordinates = new Class({
     },
     _val2px: function (value, mode, min, max, minlog, maxlog, size) {
         switch(mode) {
-            case 0:
+            case _TOOLKIT_PX:
             default:
                 // value are ready-to-use pixels
                 return value;
-            case 1:
+            case _TOOLKIT_PERC:
                 // value is a percentual value
                 return size * value;
-            case 2:
+            case _TOOLKIT_FLAT:
                 // value is a linear value
                 return ((((min - value) * -1) / (max - min)) || 0) * size;
-            case 3:
+            case _TOOLKIT_DB:
                 // value is a db value
                 return this.db2px(value, minlog, maxlog, size);
-            case 4:
+            case _TOOLKIT_FREQ:
                 // value is a frequency
                 return this.freq2px(value, minlog, maxlog, size);
         }
     },
     _px2val: function (value, mode, min, max, minlog, maxlog, size) {
         switch(mode) {
-            case 0:
+            case _TOOLKIT_PX:
             default:
                 // value are ready-to-use pixels
                 return value;
-            case 1:
+            case _TOOLKIT_PERC:
                 // value is a percentual value
                 return value / size;
-            case 2:
+            case _TOOLKIT_FLAT:
                 // value is a linear value
                 return (value / size) * (max - min) + min
-            case 3:
+            case _TOOLKIT_DB:
                 // value is a db value
                 return this.px2db(value, minlog, maxlog, size);
-            case 4:
+            case _TOOLKIT_FREQ:
                 // value is a frequency
                 return this.px2freq(value, minlog, maxlog, size);
         }
@@ -153,29 +138,29 @@ Coordinates = new Class({
             case "max_y":
             case "min_z":
             case "max_z":
-                if(this.options.mode_x == 4) {
+                if(this.options.mode_x == _TOOLKIT_FREQ) {
                     // precalc x values for freq
                     this._min_x = this.log10(this.options.min_x);
                     this._max_x = this.log10(this.options.max_x);
-                } else if(this.options.mode_x == 3) {
+                } else if(this.options.mode_x == _TOOLKIT_DB) {
                     // precalc x values for db
                     this._min_x = this.log2(this.options.min_x);
                     this._max_x = this.log2(this.options.max_x);
                 }
-                if(this.options.mode_y == 4) {
+                if(this.options.mode_y == _TOOLKIT_FREQ) {
                     // precalc y values for freq
                     this._min_y = this.log10(this.options.min_y);
                     this._max_y = this.log10(this.options.max_y);
-                } else if(this.options.mode_y == 3) {
+                } else if(this.options.mode_y == _TOOLKIT_DB) {
                     // precalc y values for db
                     this._min_y = this.log2(this.options.min_y);
                     this._max_y = this.log2(this.options.max_y);
                 }
-                if(this.options.mode_z == 4) {
+                if(this.options.mode_z == _TOOLKIT_FREQ) {
                     // precalc y values for freq
                     this._min_z = this.log10(this.options.min_z);
                     this._max_z = this.log10(this.options.max_z);
-                } else if(this.options.mode_z == 3) {
+                } else if(this.options.mode_z == _TOOLKIT_DB) {
                     // precalc y values for db
                     this._min_z = this.log2(this.options.min_z);
                     this._max_z = this.log2(this.options.max_z);

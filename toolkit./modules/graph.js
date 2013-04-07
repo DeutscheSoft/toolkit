@@ -13,12 +13,13 @@ var Graph = new Class({
                           //     Q = quadratic Bézier (needs: x1, y1, x, y)
                           //     C = CurveTo (needs: x1, y1, x2, y2, x, y)
                           //     S = SmoothCurve (needs: x1, y1, x, y)
-        mode:      0,     // mode of the graph:
-                          //     0: line
-                          //     1: filled below the line
-                          //     2: filled above the line
-                          //     3: filled from the middle of the canvas
-                          //     0.n: filled from a percentual position on the canvas
+        mode:      _TOOLKIT_LINE,     // mode of the graph:
+                          //     _TOOLKIT_LINE: line
+                          //     _TOOLKIT_BOTTOM: filled below the line
+                          //     _TOOLKIT_TOP: filled above the line
+                          //     _TOOLKIT_CENTER: filled from the middle of the canvas
+                          //     _TOOLKIT_VARIABLE: filled from a percentual position on the canvas
+        base:      0,     // if mode is variable set the base line
         color:     ""     // set the color of the path
     },
     _add: ".5",
@@ -41,7 +42,7 @@ var Graph = new Class({
         if(this.options.container)
             this.set("container", this.options.container);
         
-        this.set("mode",  this.options.mode,    true);
+        this.set("mode",   this.options.mode,   true);
         this.set("mode_x", this.options.mode_x, true);
         this.set("mode_y", this.options.mode_y, true);
         this.set("color",  this.options.color);
@@ -132,25 +133,24 @@ var Graph = new Class({
         var m = this.options.mode;
         var s = "";
         switch(m) {
-            case 1:
+            case _TOOLKIT_BOTTOM:
                 // fill the lower part of the graph
                 s += "M " + (this.x2px(d.x) - 1) + " " + parseInt(h + 1) + a;
                 s += " " + t + " " + (this.x2px(d.x) - 1) + a + " " + parseInt(this.y2px(d.y)) + a;
                 return s;
-            case 2:
+            case _TOOLKIT_TOP:
                 // fill the upper part of the graph
                 s += "M " + (this.x2px(d.x) - 1) + " -1" + a;
                 s += " " + t + " " + (this.x2px(d.x) - 1) + a + " " + parseInt(this.y2px(d.y)) + a;
                 return s;
-            case 3:
+            case _TOOLKIT_CENTER:
                 // fill from the mid
                 s += "M " + (this.x2px(d.x) - 1) + a + " " + parseInt(0.5 * h) + a;
                 return s;
-        }
-        if(m > 0 && m < 1) {
-            // fill from variable point
-            s += "M " + (this.x2px(d.x) - 1) + a + " " + parseInt((-m + 1) * h) +a;
-            return s;
+            case _TOOLKIT_VARIABLE:
+                // fill from variable point
+                s += "M " + (this.x2px(d.x) - 1) + a + " " + parseInt((-this.options.base + 1) * h) +a;
+                return s;
         }
         return false;
     },
@@ -160,19 +160,18 @@ var Graph = new Class({
         var t = this.options.type;
         var m = this.options.mode;
         switch(m) {
-            case 1:
+            case _TOOLKIT_BOTTOM:
                 // fill the graph below
                 return " " + t + " " + this.x2px(d.x) + a + " " + parseInt(h + 1) + a + " Z";
-            case 2:
+            case _TOOLKIT_TOP:
                 // fill the upper part of the graph
                 return " " + t + " " + (this.x2px(d.x) + 1) + a + " -1" + a + " Z";
-            case 3:
+            case _TOOLKIT_CENTER:
                 // fill from mid
                 return " " + t + " " + (this.x2px(d.x) + 1) + a + " " + parseInt(0.5 * h) + a + " Z";
-        }
-        if(m > 0 && m < 1) {
-            // fill from variable point
-            return " " + t + " " + (this.x2px(d.x) + 1) + a + " " + parseInt((-m + 1) * h) + a + " Z";
+            case _TOOLKIT_VARIABLE:
+                // fill from variable point
+                return " " + t + " " + (this.x2px(d.x) + 1) + a + " " + parseInt((-m + 1) * h) + a + " Z";
         }
         return "";
     },
@@ -201,7 +200,7 @@ var Graph = new Class({
                 break;
             case "mode":
                 this.element.removeClass("toolkit-filled toolkit-outline");
-                this.element.addClass(value <= 0 ? "toolkit-outline" : "toolkit-filled");
+                this.element.addClass(value == _TOOLKIT_LINE ? "toolkit-outline" : "toolkit-filled");
                 if(!hold) this.redraw();
                 break;
             case "dots":

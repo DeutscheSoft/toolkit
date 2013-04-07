@@ -10,15 +10,15 @@ ResponseHandle = new Class({
                                         // intersections are weighted depending on the intersecting object. E.g. SVG borders have
                                         // a very high impact while intersecting in comparison with overlapping handle objects
                                         // that have a low impact on intersection
-        mode:             0,            // mode of the handle:
-                                        // 0: circular handle
-                                        // 1: x movement, line handle vertical
-                                        // 2: y movement, line handle horizontal
-                                        // 3: x movement, block lefthand
-                                        // 4: x movement, block righthand
-                                        // 5: y movement, block on top
-                                        // 6: y movement, block on bottom
-        preferations:     [3, 1, 0, 2], // 0=top, 1=right,2=bottom, 3=left; perferred position of the label (mode 0-2)
+        mode:             _TOOLKIT_CIRCULAR, // mode of the handle:
+                                        // _TOOLKIT_CIRCULAR: circular handle
+                                        // _TOOLKIT_LINE_VERTICAL: x movement, line handle vertical
+                                        // _TOOLKIT_LINE_HORIZONTAL: y movement, line handle horizontal
+                                        // _TOOLKIT_BLOCK_LEFT: x movement, block lefthand
+                                        // _TOOLKIT_BLOCK_RIGHT: x movement, block righthand
+                                        // _TOOLKIT_BLOCK_TOP: y movement, block on top
+                                        // _TOOLKIT_BLOCK_RIGHT: y movement, block on bottom
+        preferations:     [_TOOLKIT_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_TOP, _TOOLKIT_BOTTOM], // perferred position of the label
         label:            function (title, x, y, z) { return sprintf("%s\n%d Hz\n%.2f dB\nQ: %.2f", title, x, y, z); },
         x:                0,            // value for the x position depending on mode_x
         y:                0,            // value for y position depending on mode_y
@@ -29,41 +29,76 @@ ResponseHandle = new Class({
         y_max:            false,        // restrict y movement, max y value, false to disable
         z_min:            false,        // restrict z values, min z value, false to disable
         z_max:            false,        // restrict z values, max z value, false to disable
-        min_size:         16,           // minimum size of object
-        margin:           4             // margin between label and border of handle
+        min_size:         16,           // minimum size of object in pixels, values can be smaller
+        margin:           4,            // margin between label and handle
+        restrict:         true          // if restrict is true and restrictions in values are made, handles will be drawn
+                                        // in these dimensions at max.
     },
     
     x: 0,
     y: 0,
+    z: 0,
     label:  {x:0, y: 0, width: 0, height:0},
     handle: {x:0, y: 0, width: 0, height:0},
     __active: false,
-    
+    _add: .75,
     initialize: function (options, hold) {
         this.setOptions(options);
         this.parent(options);
         if(!this.options.id) this.options.id = String.uniqueID();
+        if (Browser.firefox)
+            this._add = 0;
         var cls = "toolkit-response-handle ";
         switch(this.options.mode) {
-            case 0: cls += "toolkit-circular";        break;
-            case 1: cls += "toolkit-line-vertical";   break;
-            case 2: cls += "toolkit-line-horizontal"; break;
-            case 3: cls += "toolkit-block-left";      break;
-            case 4: cls += "toolkit-block-right";     break;
-            case 5: cls += "toolkit-block-top";       break;
-            case 6: cls += "toolkit-block-bottom";    break;
+            case _TOOLKIT_CIRCULAR:        cls += "toolkit-circular";        break;
+            case _TOOLKIT_LINE_VERTICAL:   cls += "toolkit-line-vertical";   break;
+            case _TOOLKIT_LINE_HORIZONTAL: cls += "toolkit-line-horizontal"; break;
+            case _TOOLKIT_BLOCK_LEFT:      cls += "toolkit-block-left";      break;
+            case _TOOLKIT_BLOCK_RIGHT:     cls += "toolkit-block-right";     break;
+            case _TOOLKIT_BLOCK_TOP:       cls += "toolkit-block-top";       break;
+            case _TOOLKIT_BLOCK_BOTTOM:    cls += "toolkit-block-bottom";    break;
         }
         this.element = makeSVG("g", {
             "id":    this.options.id,
             "class": cls
         });
         this.element.addClass(cls);
+        
         this._label = makeSVG("text", {
             "class": "toolkit-label"
         }).inject(this.element);
-        this._handle = makeSVG(this.options.mode < 3 ? "circle" : "rect", {
+        
+        this._lineH = makeSVG("path", {
+            "class": "toolkit-line toolkit-horizontal"
+        }).inject(this.element);
+        this._lineV = makeSVG("path", {
+            "class": "toolkit-line toolkit-vertical"
+        }).inject(this.element);
+        
+        this._handle = makeSVG(this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
             "class": "toolkit-handle"
         }).inject(this.element);
+        
+        var opts = {}
+        switch(this.options.mode) {
+            case _TOOLKIT_BLOCK_LEFT:
+            case _TOOLKIT_BLOCK_RIGHT:
+                opts = {x1: "0%", y1: "0%", x2: "0%", y2: "100%"}; break;
+            case _TOOLKIT_BLOCK_TOP:
+            case _TOOLKIT_BLOCK_BOTTOM:
+                opts = {x1: "0%", y1: "0%", x2: "0%", y2: "100%"}; break;
+        }
+        opts["id"] = "grad_" + this.options.id;
+        this._gradient = makeSVG("linearGradient", opts).inject(this.element);
+        this._stop1 = makeSVG("stop", {
+            "offset": "0%",
+            "stop-color": ""
+        }).inject(this._gradient);
+        this._stop2 = makeSVG("stop", {
+            "offset": "100%",
+            "stop-color": ""
+        }).inject(this._gradient);
+        
         if(this.options.container) this.set("container", this.options.container, hold);
         if(this.options["class"]) this.set("class", this.options["class"], hold);
         this._handle.addEvents({
@@ -96,50 +131,56 @@ ResponseHandle = new Class({
         if(this.options.z_max !== false)
             this.options.z = Math.min(this.options.z_max, this.options.z);
         
-        // calc coords for element and _handle
+        // ELEMENT / HANDLE
         switch(this.options.mode) {
-            case 0:
+            case _TOOLKIT_CIRCULAR:
                 // circle
-                x      = this.x2px(this.options.x);
-                y      = this.y2px(this.options.y);
-                width  = height = Math.max(this.options.min_size, this.z2px(this.options.z));
+                x      = Math.round(this.x2px(this.options.x)) + this._add;
+                y      = Math.round(this.y2px(this.options.y)) + this._add;
+                width  = Math.max(this.options.min_size, this.z2px(this.options.z));
+                height = width;
+                this._handle.set("r", width / 2);
+                this.element.set({transform: "translate(" + x + "," + y + ")"});
+                this.handle = {x1: x - width / 2, y1: y - width / 2, x2: x + width / 2, y2: y + height / 2}
                 break;
-            case 1:
+            case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
                 x      = Math.min(this.options.width - this.options.min_size, Math.max(0, this.x2px(this.options.x) - this.options.min_size / 2));
                 y      = 0;
                 width  = this.options.min_size;
                 height = this.options.height;
+                this._handle.set({x:x,y:y,width:width, height:height});
+                this.element.set({transform: "translate(0,0)"});
                 break;
-            case 2:
+            case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
                 x      = 0;
                 y      = Math.min(this.options.height - this.options.min_size, Math.max(0, this.y2px(this.options.y) - this.options.min_size / 2));
                 width  = this.options.width;
                 height = this.options.min_size;
                 break;
-            case 3:
+            case _TOOLKIT_BLOCK_LEFT:
                 // rect lefthand
                 x      = 0;
                 y      = 0;
                 width  = Math.max(this.options.min_size, this.x2px(this.options.x));
                 height = this.options.height;
                 break;
-            case 4:
+            case _TOOLKIT_BLOCK_RIGHT:
                 // rect righthand
                 x      = Math.max(this.options.min_size, this.x2px(this.options.x));
                 y      = 0;
                 width  = this.options.width - x;
                 height = this.options.height;
                 break;
-            case 5:
+            case _TOOLKIT_BLOCK_TOP:
                 // rect top
                 x      = 0;
                 y      = 0;
                 width  = this.options.width;
                 height = Math.max(this.options.min_size, this.y2px(this.options.y));
                 break;
-            case 6:
+            case _TOOLKIT_BLOCK_BOTTOM:
                 // rect bottom
                 x      = 0;
                 y      = Math.max(this.options.min_size, this.y2px(this.options.y));
@@ -148,20 +189,7 @@ ResponseHandle = new Class({
                 break;
         }
         
-        // set coords on element and _handle
-        if(this.options.mode) {
-            // rectangles
-            this._handle.set({x:x,y:y,width:width, height:height});
-            this.element.set({transform: "translate(0,0)"});
-        } else {
-            // circles
-            this._handle.set("r", width / 2);
-            this.element.set({transform: "translate(" + x + "," + y + ")"});
-        }
-        this.x = this.x2px(this.options.x);
-        this.y = this.y2px(this.options.y);
-        
-        // set label
+        // LABEL
         this._label.empty();
         var t = this.options.label(this.options.title, this.options.x, this.options.y, this.options.z);
         var a = t.split("\n");
@@ -170,35 +198,76 @@ ResponseHandle = new Class({
             l.set("text", a[i]);
             if(i)
                 l.set({x:0, dy:"1.0em"});
+            else
+                l.set({x:0, dy:"0.7em"});
         }
         this._label.set("html", t);
+        
         switch(this.options.mode) {
-            case 0:
+            case _TOOLKIT_CIRCULAR:
                 // circles
-                this._label.set("x", width / 2 + this.options.margin);
-                this._label.set("y", this._label.getSize().y / -2 + 5);
-                this._label.getChildren().set("x", width / 2 + this.options.margin);
+                var _s = this._label.getSize();
+                var _x = width / 2 + this.options.margin;
+                var _y = _s.y / -2
+                this._label.set("x", _x);
+                this._label.set("y", _y);
+                this._label.getChildren().set("x", _x);
+                this.label = {x1: x + _x, y1: y + _y, x2: x + _x + _s.x, y2: y + _y + _s.y};
+                var i = this.options.intersect(this.label.x1, this.label.y1, this.label.x2, this.label.y2, this.options.id)
                 break;
-            case 1:
+            case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
                 
                 break;
-            case 2:
+            case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
                 break;
-            case 3:
+            case _TOOLKIT_BLOCK_LEFT:
                 // rect lefthand
                 break;
-            case 4:
+            case _TOOLKIT_BLOCK_RIGHT:
                 // rect righthand
                 break;
-            case 5:
+            case _TOOLKIT_BLOCK_TOP:
                 // rect top
                 break;
-            case 6:
+            case _TOOLKIT_BLOCK_BOTTOM:
                 // rect bottom
                 break;
         }
+        
+        // LINES
+        switch(this.options.mode) {
+            case _TOOLKIT_CIRCULAR:
+                // circle
+                var _x = Math.max(width / 2 + this.options.margin, this.label.x2 - this.x + this.options.margin);
+                var _y = Math.max(height / 2 + this.options.margin, this.label.y2 - this.y + this.options.margin);
+                this._lineH.set("d", "M" + _x + " 0" + this._add + " L" + (this.options.width - (x - _x)) + " 0" + this._add);
+                this._lineV.set("d", "M 0" + this._add + " " + _y + " L 0" + this._add + " " + (this.options.height - (y - _y)));
+                break;
+            case _TOOLKIT_LINE_VERTICAL:
+                // line vertical
+                break;
+            case _TOOLKIT_LINE_HORIZONTAL:
+                // line horizontal
+                break;
+            case _TOOLKIT_BLOCK_LEFT:
+                // rect lefthand
+                break;
+            case _TOOLKIT_BLOCK_RIGHT:
+                // rect righthand
+                break;
+            case _TOOLKIT_BLOCK_TOP:
+                // rect top
+                break;
+            case _TOOLKIT_BLOCK_BOTTOM:
+                // rect bottom
+                break;
+        }
+        
+        this.x = this.x2px(this.options.x);
+        this.y = this.y2px(this.options.y);
+        this.z = this.z2px(this.options.z);
     },
     destroy: function () {
         this._label.destroy();
@@ -239,7 +308,6 @@ ResponseHandle = new Class({
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
-        this._label.getChildren()[3].set("text", e.touches[0].pageX + "-" + e.touches[0].pageY);
     },
     
     // GETTER & SETTER

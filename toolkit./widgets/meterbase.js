@@ -6,11 +6,11 @@ var MeterBase = new Class({
     options: {
         "class":           "",
         id:              "",
-        layout:          1,              // how to draw the meter:
-                                         // 1: vertical, meter on the left
-                                         // 2: vertical, meter on the right,
-                                         // 3: horizontal, meter on top
-                                         // 4: horizontal, meter on bottom
+        layout:           _TOOLKIT_LEFT,  // how to draw the meter:
+                                          // _TOOLKIT_LEFT: vertical, meter on the left
+                                          // _TOOLKIT_RIGHT: vertical, meter on the right,
+                                          // _TOOLKIT_TOP: horizontal, meter on top
+                                          // _TOOLKIT_BOTTOM: horizontal, meter on bottom
         reverse:         false,          // if the scale/meter is reversed
         segment:         1,              // size of the segments (imagine as size of a single LED)
         container:       false,          // if there's already a container for injection
@@ -56,28 +56,28 @@ var MeterBase = new Class({
             this.element.setStyle("position", "relative");
         
         switch(this.options.layout) {
-            case 1:
+            case _TOOLKIT_LEFT:
                 this._label  = new Element("div.toolkit-label").inject(this.element);
                 this._scale  = new Element("div.toolkit-meter-scale").inject(this.element);
                 this._bar    = new Element("div.toolkit-bar").inject(this.element);
                 this._title  = new Element("div.toolkit-title").inject(this.element);
                 this.element.addClass("toolkit-vertical toolkit-left");
                 break;
-            case 2:
+            case _TOOLKIT_RIGHT:
                 this._label  = new Element("div.toolkit-label").inject(this.element);
                 this._scale  = new Element("div.toolkit-meter-scale").inject(this.element);
                 this._bar    = new Element("div.toolkit-bar").inject(this.element);
                 this._title  = new Element("div.toolkit-title").inject(this.element);
                 this.element.addClass("toolkit-vertical toolkit-right");
                 break;
-            case 3:
+            case _TOOLKIT_TOP:
                 this._bar    = new Element("div.toolkit-bar").inject(this.element);
                 this._scale  = new Element("div.toolkit-meter-scale").inject(this.element);
                 this._title  = new Element("div.toolkit-title").inject(this.element);
                 this._label  = new Element("div.toolkit-label").inject(this.element);
                 this.element.addClass("toolkit-horizontal toolkit-top");
                 break;
-            case 4:
+            case _TOOLKIT_BOTTOM:
                 this._title  = new Element("div.toolkit-title").inject(this.element);
                 this._label  = new Element("div.toolkit-label").inject(this.element);
                 this._scale  = new Element("div.toolkit-meter-scale").inject(this.element);
@@ -122,7 +122,7 @@ var MeterBase = new Class({
             position: "absolute",
             zIndex:   1000
         });
-        if(this.options.layout == 1) {
+        if(this.options.layout == _TOOLKIT_LEFT) {
             this._scale.setStyles({
                 "float": "right"
             });
@@ -130,7 +130,7 @@ var MeterBase = new Class({
                 "float": "left"
             });
         }
-        if(this.options.layout == 2) {
+        if(this.options.layout == _TOOLKIT_RIGHT) {
             this._scale.setStyles({
                 "float": "left"
             });
@@ -138,7 +138,7 @@ var MeterBase = new Class({
                 "float": "right"
             });
         }
-        if(this.options.layout < 3) {
+        if(this._vert()) {
             if(this.options.reverse) {
                 this._mask1.setStyles({
                     width:  "100%",
@@ -247,8 +247,8 @@ var MeterBase = new Class({
         this.set("label", this.options.label);
         this.set("value", this.options.value);
         switch(this.options.layout) {
-            case 1:
-            case 2:
+            case _TOOLKIT_LEFT:
+            case _TOOLKIT_RIGHT:
                 var s = this._bar_size(this.options.layout);
                 this._bar.outerHeight(s);
                 this._scale.outerHeight(s);
@@ -259,8 +259,8 @@ var MeterBase = new Class({
                 }
                 this._scale.innerHeight(i);
                 break;
-            case 3:
-            case 4:
+            case _TOOLKIT_TOP:
+            case _TOOLKIT_BOTTOM:
                 var s = this._bar_size(this.options.layout);
                 this._bar.outerWidth(s);
                 this._scale.outerWidth(s);
@@ -278,22 +278,22 @@ var MeterBase = new Class({
                 this._mark.empty();
                 this.__scale.element.getChildren(".toolkit-dot").each(function (e) {
                     var d = e.clone();
-                    var p = e.getPosition(this._scale)[this.options.layout < 3 ? "y" : "x"];
-                    d.setStyle(this.options.layout < 3 ? "width" : "height", "100%");
-                    d.setStyle(this.options.layout < 3 ? "top" : "left", p + p % this.options.segment);
+                    var p = e.getPosition(this._scale)[this._vert() ? "y" : "x"];
+                    d.setStyle(this._vert() ? "width" : "height", "100%");
+                    d.setStyle(this._vert()? "top" : "left", p + p % this.options.segment);
                     d.inject(this._mark);
                 }.bind(this));
             }
         }
-        if(this.options.layout < 3)
+        if(this._vert())
             this.element.innerWidth(this._bar.outerWidth() + (this.options.show_scale ? this._scale.outerWidth() : 0));
     },
     
     _draw_meter: function () {
-        this._mask1.setStyle(this.options.layout < 3 ? "height" : "width",
+        this._mask1.setStyle(this._vert() ? "height" : "width",
             Math.max(0, this.__size - this.val2seg(Math.max(this.options.base, this.options.value))));
         if(this.__based)
-            this._mask2.setStyle(this.options.layout < 3 ? "height" : "width",
+            this._mask2.setStyle(this._vert() ? "height" : "width",
                 Math.max(0, this.val2seg(Math.min(this.options.base, this.options.value))));
     },
     
@@ -321,10 +321,22 @@ var MeterBase = new Class({
         var c_svg      = "<stop offset='%s%%' stop-color='%s'/>";
         var c_regular  = "%s %s%%, ";
         var c_webkit   = "color-stop(%s%%, %s), ";
-        var d_w3c      = [["", ""], ["to top", "to bottom"], ["to top", "to bottom"], ["to right", "to left"], ["to right", "to left"]];
-        var d_regular  = [["", ""], ["bottom", "top"], ["bottom", "top"], ["left", "right"], ["left", "right"]];
-        var d_webkit   = [["", ""], ["left bottom, left top", "left top, left bottom"], ["left bottom, left top", "left top, left bottom"], ["left top, right top", "right top, left top"], ["left top, right top", "right top, left top"]];
-        var d_ms       = [["", ""], ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'], ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'], ['x1="0%" y1="0%" x2="100%" y2="0%"', 'x1="100%" y1="0%" x2="0%" y2="0%"']];
+        var d_w3c      = {_TOOLKIT_LEFT:  ["to top", "to bottom"],
+                          _TOOLKIT_RIGHT: ["to top", "to bottom"],
+                          _TOOLKIT_TOP:   ["to right", "to left"],
+                          _TOOLKIT_BOTTOM:["to right", "to left"]};
+        var d_regular  = {_TOOLKIT_LEFT:  ["bottom", "top"],
+                          _TOOLKIT_RIGHT: ["bottom", "top"],
+                          _TOOLKIT_TOP:   ["left", "right"],
+                          _TOOLKIT_BOTTOM:["left", "right"]};
+        var d_webkit   = {_TOOLKIT_LEFT:  ["left bottom, left top", "left top, left bottom"],
+                          _TOOLKIT_RIGHT: ["left bottom, left top", "left top, left bottom"],
+                          _TOOLKIT_TOP:   ["left top, right top", "right top, left top"],
+                          _TOOLKIT_BOTTOM:["left top, right top", "right top, left top"]};
+        var d_ms       = {_TOOLKIT_LEFT:  ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'],
+                          _TOOLKIT_RIGHT: ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'],
+                          _TOOLKIT_TOP:   ['x1="0%" y1="0%" x2="100%" y2="0%"', 'x1="100%" y1="0%" x2="0%" y2="0%"'],
+                          _TOOLKIT_BOTTOM:['x1="0%" y1="0%" x2="100%" y2="0%"', 'x1="100%" y1="0%" x2="0%" y2="0%"']};
         
         var keys = Object.keys(grad);
         for(var i = 0; i < keys.length; i++) {
@@ -347,9 +359,9 @@ var MeterBase = new Class({
         var background = "";
         if(Browser.ie && Browser.version <= 8)
             if(this.options.reverse)
-                background = (sprintf(s_ms, ms_first, ms_last, this.options.layout < 3 ? 0 : 1));
+                background = (sprintf(s_ms, ms_first, ms_last, this._vert() ? 0 : 1));
             else
-                background = (sprintf(s_ms, ms_last, ms_first, this.options.layout < 3 ? 0 : 1));
+                background = (sprintf(s_ms, ms_last, ms_first, this._vert() ? 0 : 1));
             
         else if(Browser.ie9)
             background = (sprintf(s_svg, this.options.id, d_ms[this.options.layout][this.options.reverse ? 1 : 0], m_svg, this.options.id));
@@ -392,12 +404,15 @@ var MeterBase = new Class({
         this.set("value", this.options.base);
     },
     _bar_size: function () {
-        var s = this.element[this.options.layout < 3 ? "innerHeight" : "innerWidth"]();
-        if(this.options.show_label && this.options.layout < 3)
+        var s = this.element[this._vert() ? "innerHeight" : "innerWidth"]();
+        if(this.options.show_label && this._vert())
             s -= this._label.outerHeight();
-        if(this.options.show_title && this.options.layout < 3)
+        if(this.options.show_title && this._vert())
             s -= this._title.outerHeight();
         return s;
+    },
+    _vert: function () {
+        return this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT;
     },
     
     // GETTER & SETTER

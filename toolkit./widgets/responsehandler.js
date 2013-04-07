@@ -1,7 +1,10 @@
 var ResponseHandler = new Class({
     Extends: FrequencyResponse,
     options: {
-        mode_z: 2,
+        mode_z: _TOOLKIT_FLAT,
+        importance_label:  4,   // multiplicator of square pixels on hit testing labels to gain importance
+        importance_handle: 1,   // multiplicator of square pixels on hit testing handles to gain importance
+        importance_border: 100, // multiplicator of square pixels on hit testing borders to gain importance
     },
     handles: [],
     
@@ -16,7 +19,6 @@ var ResponseHandler = new Class({
     
     redraw: function (graphs, grid) {
         this.parent(graphs, grid);
-        
     },
     
     add_handle: function (options, g) {
@@ -45,6 +47,7 @@ var ResponseHandler = new Class({
             options["height"] = this.options.height;
         if(typeof options["depth"] == "undefined")
             options["depth"] = this.options.depth;
+        options["intersect"] = this.intersect.bind(this);
         var h = new ResponseHandle(options);
         this.handles.push(h);
         this.element.addEvent("mousemove", h._mousemove.bind(h));
@@ -69,6 +72,27 @@ var ResponseHandler = new Class({
             this.remove_handle(this.handles[i]);
         }
         this.handles = [];
+    },
+    
+    intersect: function (x1, y1, x2, y2, id) {
+        var s = 0;
+        for(var i = 0; i < this.handles.length; i++) {
+            var h = this.handles[i];
+            if(h.options.id == id) continue;
+            
+            var x = Math.min(Math.max(0, h.label.x2 - x1), x2 - x1);
+            var y = Math.min(Math.max(0, h.label.y2 - y1), y2 - y1);
+            s += x * y + this.options.importance_label;
+            console.log(i, "label", x, y, s);
+            
+            var x = Math.min(Math.max(0, h.handle.x2 - x1), x2 - x1);
+            var y = Math.min(Math.max(0, h.handle.y2 - y1), y2 - y1);
+            s += x * y + this.options.importance_handle;
+            console.log(i, "handle", x, y, s);
+        }
+//         var x = Math.min(Math.max(0, -x1), x2 - x1);
+//         var y = Math.min(Math.max(0, -y1), y2 - y1);
+//         s += x * y + this.options.importance_border;
     },
     
     set: function (key, value, hold) {

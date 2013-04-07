@@ -41,7 +41,7 @@ LevelMeter = new Class({
         });
         this._clip = this.__state.element;
         
-        if(this.options.layout > 3) {
+        if(this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT) {
             this.__state.element.inject(this._bar, "after");
         } else {
             this.__state.element.inject(this._scale, "before");
@@ -66,7 +66,7 @@ LevelMeter = new Class({
             position: "absolute",
             zIndex:  1000
         });
-        if(this.options.layout < 3) {
+        if(this.options.layout = _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT) {
             if(this.options.reverse) {
                 this._mask3.setStyles({
                     width:  "100%",
@@ -127,14 +127,14 @@ LevelMeter = new Class({
     redraw: function () {
         this.parent();
         switch(this.options.layout) {
-            case 1:
-            case 2:
+            case _TOOLKIT_LEFT:
+            case _TOOLKIT_RIGHT:
                 this.__margin = this._bar.CSSSpace("margin", "border", "padding").top + this._bar.getPosition(this.element).y;
                 var m = (this.options.show_clip ? this._clip.outerHeight() : 0);
                 this._scale.setStyle("top", m);
                 break;
-            case 3:
-            case 4:
+            case _TOOLKIT_TOP:
+            case _TOOLKIT_BOTTOM:
                 this.__margin = this._bar.CSSSpace("margin", "border", "padding").left + this._bar.getPosition(this.element).x;
                 break;
         }
@@ -173,6 +173,7 @@ LevelMeter = new Class({
     
     _draw_meter: function (value) {
         var _c = true;
+        var vert = this.options.layout = _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT
         if(this.options.falling) {
             if(this.options.value > this._falling && this.options.value > this.options.base
             || this.options.value < this._falling && this.options.value < this.options.base) {
@@ -208,12 +209,13 @@ LevelMeter = new Class({
         if(this.options.auto_hold !== false && this.options.show_hold && this.options.value < this.options.bottom && this.__based) {
             this.set("bottom", this.options.value, true);
         }
+        
         if(!this.options.show_hold) {
             this.parent();
             if(!this.__tres) {
                 this.__tres = true;
-                this._mask3.setStyle(this.options.layout < 3 ? "height" : "width", 0);
-                this._mask4.setStyle(this.options.layout < 3 ? "height" : "width", 0);
+                this._mask3.setStyle(vert ? "height" : "width", 0);
+                this._mask4.setStyle(vert ? "height" : "width", 0);
             }
         } else {
             this.__tres = false;
@@ -223,7 +225,6 @@ LevelMeter = new Class({
             var m3 = {};
             var m4 = {};
             
-            var l        = this.options.layout;
             var r        = this.options.reverse;
             var base     = this.options.base;
             var top      = this.val2seg(Math.max(this.options.top, this.options.base));
@@ -233,9 +234,9 @@ LevelMeter = new Class({
             var top_size = Math.max(0, top - top_val - this.options.segment * this.options.hold_size);
             
             
-            m1[l < 3 ? "height" : "width"] = Math.max(0, this.__size - top_top);
-            m3[l < 3 ? "height" : "width"] = top_size;
-            m3[l < 3 ? (r ? "bottom" : "top") : (r ? "left" : "right")] = this.__size - top_bot;
+            m1[vert ? "height" : "width"] = Math.max(0, this.__size - top_top);
+            m3[vert ? "height" : "width"] = top_size;
+            m3[vert ? (r ? "bottom" : "top") : (r ? "left" : "right")] = this.__size - top_bot;
             
             this._mask1.setStyles(m1);
             this._mask3.setStyles(m3);
@@ -247,9 +248,9 @@ LevelMeter = new Class({
                 var bot_top  = bot_bot + this.options.segment * this.options.hold_size;
                 var bot_size = Math.max(0, bot_val - bot_top);
                 
-                m2[l < 3 ? "height" : "width"] = Math.max(0, bot_bot);
-                m4[l < 3 ? "height" : "width"] = bot_size;
-                m4[l < 3 ? (r ? "top" : "bottom") : (r ? "right" : "left")] = bot_top;
+                m2[vert ? "height" : "width"] = Math.max(0, bot_bot);
+                m4[vert ? "height" : "width"] = bot_size;
+                m4[vert ? (r ? "top" : "bottom") : (r ? "right" : "left")] = bot_top;
                 
                 this._mask2.setStyles(m2);
                 this._mask4.setStyles(m4);
@@ -263,13 +264,13 @@ LevelMeter = new Class({
         if(this.options.peak > this.options.min && this.options.peak < this.options.max && this.options.show_peak) {
             this._peak.setStyle("display", "block");
             switch(this.options.layout) {
-                case 1:
-                case 2:
+                case _TOOLKIT_LEFT:
+                case _TOOLKIT_RIGHT:
                     if(r) this._peak.setStyle("top", Math.min(this.__size + this.__margin, Math.max(this.__margin, this.val2px(this.options.peak) + this.__margin)));
                     else  this._peak.setStyle("top", Math.min(this.__size + this.__margin, Math.max(this.__margin, this.__size - this.val2px(this.options.peak) + this.__margin)));
                     break;
-                case 3:
-                case 4:
+                case _TOOLKIT_TOP:
+                case _TOOLKIT_BOTTOM:
                     if(r) this._peak.setStyle("left", Math.min(this.__size + this.__margin, Math.max(this.__margin, this.__size - this.val2px(this.options.peak) + this.__margin)));
                     else  this._peak.setStyle("left", Math.min(this.__size + this.__margin, Math.max(this.__margin, this.val2px(this.options.peak) + this.__margin)));
                     break;
@@ -283,7 +284,7 @@ LevelMeter = new Class({
     _bar_size: function () {
         var s = this.parent();
         if(this.options.show_clip)
-            s -= this._clip[this.options.layout < 3 ? "outerHeight" : "outerWidth"]();
+            s -= this._clip[this.options.layout = _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT ? "outerHeight" : "outerWidth"]();
         return s;
     },
     

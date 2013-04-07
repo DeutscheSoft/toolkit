@@ -6,9 +6,9 @@ var FrequencyResponse = new Class({
         max_x:   20000,
         min_y:   -36,
         max_y:   36,
-        mode_x:  4,
-        mode_y:  2,
-        mode: 2
+        mode_x:  _TOOLKIT_FREQ,
+        mode_y:  _TOOLKIT_FLAT,
+        mode:    _TOOLKIT_FLAT
     },
     initialize: function (options) {
         this.setOptions(options);

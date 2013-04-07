@@ -12,7 +12,8 @@
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toolkit.css"/>
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:300,500,300italic,500italic"/>
         
-       <!-- LIBRARIES -->
+        <!-- LIBRARIES -->
+        <script src="toolkit./javascript/constants.js"></script>
         <script src="toolkit./javascript/event.resize.js"></script>
         <script src="toolkit./javascript/element.sizes.js"></script>
         <script src="toolkit./javascript/sprintf.js"></script>
@@ -246,27 +247,27 @@
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>0</td>
+                        <td>_TOOLKIT_PIXEL</td>
                     </tr>
                     <tr class="inherit">
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_y and max_y)</li>
-                                <li>3: dB value (needs width, height, min_y and max_y)</li>
-                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>0</td>
+                        <td>_TOOLKIT_PIXEL</td>
                     </tr>
                     <tr class="inherit">
                         <td>width</td>
@@ -458,27 +459,27 @@
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>2</td>
+                        <td>_TOOLKIT_FLAT</td>
                     </tr>
                     <tr class="inherit">
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_y and max_y)</li>
-                                <li>3: dB value (needs width, height, min_y and max_y)</li>
-                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>2</td>
+                        <td>_TOOLKIT_FLAT</td>
                     </tr>
                 </table>
                 
@@ -595,11 +596,11 @@
                         <td>mode</td>
                         <td>The mode of the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>2</td>
@@ -901,10 +902,10 @@
                         <td>layout <i class="static">⚓</i></td>
                         <td>Layout of the widget.
                             <ul>
-                                <li>1: vertical, bar on the left</li>
-                                <li>2: vertical, bar on the right</li>
-                                <li>3: horizontal, bar on top</li>
-                                <li>4: horizontal, bar on bottom</li>
+                                <li>_TOOLKIT_LEFT: vertical, bar on the left</li>
+                                <li>_TOOLKIT_RIGHT: vertical, bar on the right</li>
+                                <li>_TOOLKIT_TOP: horizontal, bar on top</li>
+                                <li>_TOOLKIT_BOTTOM: horizontal, bar on bottom</li>
                             </ul>
                         </td>
                         <td>1</td>
@@ -1220,10 +1221,10 @@
                         <td>layout <i class="static">⚓</i></td>
                         <td>Layout of the widget.
                             <ul>
-                                <li>1: vertical, bar on the left</li>
-                                <li>2: vertical, bar on the right</li>
-                                <li>3: horizontal, bar on top</li>
-                                <li>4: horizontal, bar on bottom</li>
+                                <li>_TOOLKIT_LEFT: vertical, bar on the left</li>
+                                <li>_TOOLKIT_RIGHT: vertical, bar on the right</li>
+                                <li>_TOOLKIT_TOP: horizontal, bar on top</li>
+                                <li>_TOOLKIT_BOTTOM: horizontal, bar on bottom</li>
                             </ul>
                         </td>
                         <td>1</td>
@@ -1467,27 +1468,27 @@
                         <td>mode</td>
                         <td>The mode of the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>2</td>
+                        <td>_TOOLKIT_FLAT</td>
                     </tr>
                     <tr class="inherit">
                         <td>mode_z</td>
                         <td>The mode of the z axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>2</td>
+                        <td>_TOOLKIT_FREQUENCY</td>
                     </tr>
                     <tr class="inherit">
                         <td>class <i class="static">⚓</i></td>
@@ -1953,12 +1954,18 @@
                         <td>mode</td>
                         <td>The drawing mode of the path:
                             <ul>
-                                <li>0: simple line</li>
-                                <li>1: filled below the line</li>
-                                <li>2: filled above the line</li>
-                                <li>0.n: filled from a percentual position on the canvas</li>
+                                <li>_TOOLKIT_LINE: simple line</li>
+                                <li>_TOOLKIT_BOTTOM: filled below the line</li>
+                                <li>_TOOLKIT_TOP: filled above the line</li>
+                                <li>_TOOLKIT_CENTER: filled from center of the widget</li>
+                                <li>_TOOLKIT:VARIABLE: filled from a percentual position on the canvas, provide base option</li>
                             </ul>
                         </td>
+                        <td>_TOOLKIT_LINE</td>
+                    </tr>
+                    <tr>
+                        <td>base</td>
+                        <td>If the drawing mode is _TOOLKIT_VARIABLE provide a value to draw the fill from</td>
                         <td>0</td>
                     </tr>
                     <tr>
@@ -1970,11 +1977,11 @@
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -1983,11 +1990,11 @@
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_y and max_y)</li>
-                                <li>3: dB value (needs width, height, min_y and max_y)</li>
-                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -2120,11 +2127,11 @@
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -2133,11 +2140,11 @@
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_y and max_y)</li>
-                                <li>3: dB value (needs width, height, min_y and max_y)</li>
-                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -2303,10 +2310,10 @@
                         <td>layout <i class="static">⚓</i></td>
                         <td>Layout of the widget.
                             <ul>
-                                <li>1: vertical, labels on the left</li>
-                                <li>2: vertical, labels on the right</li>
-                                <li>3: horizontal, labels on top</li>
-                                <li>4: horizontal, labels on bottom</li>
+                                <li>_TOOLKIT_LEFT: vertical, bar on the left</li>
+                                <li>_TOOLKIT_RIGHT: vertical, bar on the right</li>
+                                <li>_TOOLKIT_TOP: horizontal, bar on top</li>
+                                <li>_TOOLKIT_BOTTOM: horizontal, bar on bottom</li>
                             </ul>
                         </td>
                         <td>1</td>
@@ -2476,11 +2483,11 @@
                         <td>mode_x</td>
                         <td>The positioning on the x axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_x and max_x)</li>
-                                <li>3: dB value (needs width, height, min_x and max_x)</li>
-                                <li>4: frequency (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -2489,11 +2496,11 @@
                         <td>mode_y</td>
                         <td>The positioning on the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_y and max_y)</li>
-                                <li>3: dB value (needs width, height, min_y and max_y)</li>
-                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
@@ -2502,11 +2509,11 @@
                         <td>mode_z</td>
                         <td>The positioning on the y axis:
                             <ul>
-                                <li>0: pixels</li>
-                                <li>1: percentual values between 0 and 1</li>
-                                <li>2: flat value (needs width, height, min_y and max_y)</li>
-                                <li>3: dB value (needs width, height, min_y and max_y)</li>
-                                <li>4: frequency (needs width, height, min_y and max_y)</li>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
                         <td>0</td>
