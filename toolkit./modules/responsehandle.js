@@ -217,11 +217,11 @@ ResponseHandle = new Class({
         this.element.addClass("toolkit-active");
         this.element.getParent().getParent().addClass("toolkit-dragging");
         this.__active = true;
-        this.__click = {x: e.event.offsetX, y: e.event.offsetY};
+        this.__click = {x: e.event.pageX, y: e.event.pageY};
         e.event.preventDefault();
-        e.stopPropagation();
-        this._offsetX = e.event.offsetX - this.x;
-        this._offsetY = e.event.offsetY - this.y;
+        e.event.stopPropagation();
+        this._offsetX = e.event.pageX - this.x;
+        this._offsetY = e.event.pageY - this.y;
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _mouseup: function (e) {
@@ -234,8 +234,8 @@ ResponseHandle = new Class({
     },
     _mousemove: function (e) {
         if(!this.__active) return;
-        this.set("x", this.px2x(e.event.offsetX - this._offsetX))
-        this.set("y", this.px2y(e.event.offsetY - this._offsetY))
+        this.set("x", this.px2x(e.event.pageX - this._offsetX))
+        this.set("y", this.px2y(e.event.pageY - this._offsetY))
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
