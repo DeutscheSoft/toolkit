@@ -338,7 +338,7 @@ ResponseHandle = new Class({
     },
     _mouseup: function (e) {
         this.__active = false;
-        if(e.touches && e.touches.length > 1) {
+        if(e.touches && e.touches.length == 1) {
             return;
         }
         this.element.removeClass("toolkit-active");
