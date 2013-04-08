@@ -389,10 +389,10 @@ ResponseHandle = new Class({
     },
     _touchmove: function (e) {
         if(this._gestureX === false && e.touches) {
-            this._gestureX  = e.touches[1].pageX;
-            this._gestureY  = e.touches[1].pageY;
+            this._gestureX = e.touches[1].pageX;
+            this._gestureY = e.touches[1].pageY;
         }
-        if(e.touches) {
+        if(e.touches && e.touches.length == 2) {
             var dx = e.touches[1].pageX - this._gestureX;
             var dy = e.touches[1].pageY - this._gestureY;
             this._label.set("text", dx + "-" + dy);
