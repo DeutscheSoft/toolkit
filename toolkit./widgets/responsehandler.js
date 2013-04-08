@@ -57,8 +57,8 @@ var ResponseHandler = new Class({
         this.handles.push(h);
         this.element.addEvent("mousemove", h._mousemove.bind(h));
         this.element.addEvent("mouseup",   h._mouseup.bind(h));
-        this.element.addEvent("touchmove", h._mousemove.bind(h));
-        this.element.addEvent("touchend",  h._mouseup.bind(h));
+        this.element.addEvent("touchmove", h._touchmove.bind(h));
+        this.element.addEvent("touchend",  h._touchend.bind(h));
         this.fireEvent("handleadded");
         return h;
     },

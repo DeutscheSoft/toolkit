@@ -368,17 +368,28 @@ ResponseHandle = new Class({
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _touchstart: function (e) {
-        if(e.touches && e.touches.length > 1)
-            return;
-        else
+        if(e.touches && e.touches.length == 2) {
+            this._gestureX  = e.touches[1].pageX;
+            this._gestureY  = e.touches[1].pageY;
+        } else {
             this._mousedown(e);
+        }
     },
     _touchend: function (e) {
-        if(e.touches && e.touches.length)
+        if(e.touches && e.touches.length > 1)
             return;
         else
             this._mouseup(e);
     },
+    _touchmove: function (e) {
+        if(e.touches && e.touches.length == 2) {
+            this._gestureX  = e.touches[1].pageX;
+            this._gestureY  = e.touches[1].pageY;
+        } else {
+            this._mousemove(e);
+        }
+    },
+    
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.parent(key, value, hold);
