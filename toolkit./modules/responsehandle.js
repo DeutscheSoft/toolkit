@@ -368,10 +368,7 @@ ResponseHandle = new Class({
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _touchstart: function (e) {
-        this._label.set("text", this._label.get("text") + e.touches.length)
         if(e.touches && e.touches.length == 2) {
-            this._gestureX  = e.touches[1].pageX;
-            this._gestureY  = e.touches[1].pageY;
             e.event.preventDefault();
             e.stopPropagation();
             return false;
@@ -380,6 +377,8 @@ ResponseHandle = new Class({
         }
     },
     _touchend: function (e) {
+        this._gestureX = false;
+        this._gestureY = false;
         if(e.touches && e.touches.length >= 1) {
             e.event.preventDefault();
             e.stopPropagation();
@@ -389,10 +388,14 @@ ResponseHandle = new Class({
         }
     },
     _touchmove: function (e) {
-        if(e.touches && e.touches.length == 2) {
+        if(this._gestureX === false && e.touches) {
+            this._gestureX  = e.touches[1].pageX;
+            this._gestureY  = e.touches[1].pageY;
+        }
+        if(e.touches) {
             var dx = e.touches[1].pageX - this._gestureX;
             var dy = e.touches[1].pageY - this._gestureY;
-            //this._label.set("text", dx + "-" + dy);
+            this._label.set("text", dx + "-" + dy);
             e.event.preventDefault();
             e.stopPropagation();
             return false;
