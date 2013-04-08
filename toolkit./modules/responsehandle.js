@@ -339,7 +339,6 @@ ResponseHandle = new Class({
         return false;
     },
     _mouseup: function (e) {
-        if(e.touches && e.touches.length) return;
         this.__active = false;
         this.element.removeClass("toolkit-active");
         this.element.getParent().getParent().removeClass("toolkit-dragging");
@@ -369,10 +368,16 @@ ResponseHandle = new Class({
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _touchstart: function () {
-        
+        if(e.touches && e.touches.length > 1)
+            return;
+        else
+            this._mousedown(e);
     },
     _touchend: function (e) {
-        
+        if(e.touches && e.touches.length)
+            return;
+        else
+            this._mouseup(e);
     },
     // GETTER & SETTER
     set: function (key, value, hold) {
