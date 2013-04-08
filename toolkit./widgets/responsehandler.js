@@ -58,7 +58,7 @@ var ResponseHandler = new Class({
         var h = new ResponseHandle(options);
         this.handles.push(h);
         h.addEvent("startdrag", function () { this._active ++ }.bind(this));
-        h.addEvent("stopdrag",  function () { this._active -- }.bind(this));
+        h.addEvent("stopdrag",  function () { this._active = Math.max(this._active-1, 0) }.bind(this));
         this.element.addEvent("mousemove", h._mousemove.bind(h));
         this.element.addEvent("mouseup",   h._mouseup.bind(h));
         this.element.addEvent("touchmove", h._touchmove.bind(h));
