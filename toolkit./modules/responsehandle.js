@@ -278,11 +278,10 @@ ResponseHandle = new Class({
                 if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
                 this._label.set({
                     "y": pos.yl - y,
-                    "x": pos.xl - x,
+                    "text-anchor": pos.align
                 });
                 this._label.getChildren().set({
-                    "x": pos.xl - x,
-                    "text-anchor": pos.align
+                    "x": pos.xl - x
                 });
                 this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
