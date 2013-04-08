@@ -452,9 +452,9 @@ ResponseHandle = new Class({
             var x = e.event.touches[1].pageX - (this.x + this._offsetX);
             var y = e.event.touches[1].pageY - (this.y + this._offsetY);
             var tdist = Math.sqrt(y*y + x*x);
-            var z = Math.min(this.__z * (tdist / this._tdist);
+            var z = Math.min(this.__z * (tdist / this._tdist));
             this._label.set("text", z);
-            this.set("z", Math.max(z, this.options.max_z), this.options.min_z));
+            this.set("z", Math.max(z, this.options.max_z), this.options.min_z);
             e.event.preventDefault();
             e.event.stopPropagation();
             return false;
