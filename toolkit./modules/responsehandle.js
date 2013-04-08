@@ -389,8 +389,9 @@ ResponseHandle = new Class({
     },
     _touchmove: function (e) {
         if(e.touches && e.touches.length == 2) {
-            this._gestureX  = e.touches[1].pageX;
-            this._gestureY  = e.touches[1].pageY;
+            var dx = e.touches[1].pageX - this._gestureX;
+            var dy = e.touches[1].pageY - this._gestureY;
+            this._label.set("text", dx + "-" + dy);
             e.event.preventDefault();
             e.stopPropagation();
             return false;
