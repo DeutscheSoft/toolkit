@@ -100,23 +100,23 @@ ResponseHandle = new Class({
         if(this.options.container) this.set("container", this.options.container, hold);
         if(this.options["class"]) this.set("class", this.options["class"], hold);
         this.element.addEvents({
-            "mouseenter":  function(e){this.element.addClass("toolkit-hover");}.bind(this),
-            "mouseleave":  function(e){this.element.removeClass("toolkit-hover");}.bind(this),
-            "mousedown":   this._mousedown.bind(this),
-            "mouseup":     this._mouseup.bind(this),
-            "touchstart":  this._mousedown.bind(this),
-            "touchend":    this._mouseup.bind(this)
+            "mouseenter": function(e){this.element.addClass("toolkit-hover");}.bind(this),
+            "mouseleave": function(e){this.element.removeClass("toolkit-hover");}.bind(this),
+            "mousedown":  this._mousedown.bind(this),
+            "mouseup":    this._mouseup.bind(this),
+            "touchstart": this._mousedown.bind(this),
+            "touchend":   this._mouseup.bind(this)
         });
         this._label.addEvents({
-            "mouseenter":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "touchstart":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "mousewheel":  this._scrollwheel.bind(this),
+            "mouseenter": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "touchstart": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "mousewheel": this._scrollwheel.bind(this),
             "contextmenu": function(){return false;}
         });
         this._handle.addEvents({
-            "mouseenter":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "touchstart":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "mousewheel":  this._scrollwheel.bind(this),
+            "mouseenter": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "touchstart": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "mousewheel": this._scrollwheel.bind(this),
             "contextmenu": function(){return false;}
         });
         
@@ -223,7 +223,7 @@ ResponseHandle = new Class({
                 var _s = this._label.getSize();
                 var _x = width / 2 + this.options.margin;
                 var _y = _s.y / -2
-                //this._label.set("x", _x);
+                this._label.set("x", _x);
                 this._label.set("y", _y);
                 this._label.getChildren().set("x", _x);
                 this.label = {x1: x + _x, y1: y + _y, x2: x + _x + _s.x, y2: y + _y + _s.y};
@@ -280,8 +280,6 @@ ResponseHandle = new Class({
         }
     },
     destroy: function () {
-        this._lineX.destroy();
-        this._lineY.destroy();
         this._label.destroy();
         this._handle.destroy();
         this.element.destroy();
@@ -334,13 +332,11 @@ ResponseHandle = new Class({
         this.__active = true;
         this._offsetX = ev.pageX - this.x;
         this._offsetY = ev.pageY - this.y;
-        this._clickX  = this.x;
-        this._clickY  = this.y;
+        
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
         return false;
     },
     _mouseup: function (e) {
-        if(e.touches && e.touches.length) return;
         this.__active = false;
         this.element.removeClass("toolkit-active");
         this.element.getParent().getParent().removeClass("toolkit-dragging");
@@ -355,16 +351,8 @@ ResponseHandle = new Class({
         } else {
             var ev = e.event;
         }
-        var mx = my = 1;
-        if(e.control && e.shift) {
-            mx = this.options.ctrl_x;
-            my = this.options.ctrl_y;
-        } else if(e.shift) {
-            mx = this.options.shift_x;
-            my = this.options.shift_y;
-        }
-        this.set("x", this.px2x(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx), true);
-        this.set("y", this.px2y(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my));
+        this.set("x", this.px2x(ev.pageX - this._offsetX))
+        this.set("y", this.px2y(ev.pageY - this._offsetY))
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
