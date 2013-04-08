@@ -379,6 +379,7 @@ ResponseHandle = new Class({
         }
     },
     _touchend: function (e) {
+        this._label.set("text", e.touches.length);
         if(e.touches && e.touches.length > 1) {
             e.event.preventDefault();
             e.stopPropagation();
