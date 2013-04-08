@@ -368,6 +368,7 @@ ResponseHandle = new Class({
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _touchstart: function (e) {
+        this._label.set("text", e.touches.length)
         if(e.touches && e.touches.length == 2) {
             this._gestureX  = e.touches[1].pageX;
             this._gestureY  = e.touches[1].pageY;
