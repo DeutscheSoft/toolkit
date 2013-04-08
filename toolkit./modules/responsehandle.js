@@ -221,6 +221,7 @@ ResponseHandle = new Class({
             l.set({x:0, dy:"1.0em"});
         }
         this._label.set("html", t);
+        $("log").set("text", a.length);
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
@@ -276,7 +277,6 @@ ResponseHandle = new Class({
                     }
                 }
                 if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
-                $("log").set("text", x + " - " + y + " - " + pos.xl + " - " + pos.yl + " - " + (pos.xl - x) + " - " + (pos.yl - y));
                 this._label.set({
                     "y": pos.yl - y,
                     "text-anchor": pos.align
