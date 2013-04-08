@@ -445,6 +445,7 @@ ResponseHandle = new Class({
             this._gestureY = e.event.touches[1].pageY;
             this.__z = this.z;
         }
+        this._label.set("text", e.event.touches.length);
         if(e.event.touches && e.event.touches.length >= 2) {
             var dx = e.event.touches[1].pageX - this._gestureX;
             var dy = e.event.touches[1].pageY - this._gestureY;
