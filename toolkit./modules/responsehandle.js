@@ -220,8 +220,6 @@ ResponseHandle = new Class({
             l.set("text", a[i]);
             l.set({x:0, dy:"1.0em"});
         }
-        this._label.set("html", t);
-        $("log").set("text", String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'));
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
