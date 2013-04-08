@@ -216,10 +216,12 @@ ResponseHandle = new Class({
         var t = this.options.label(this.options.title, this.options.x, this.options.y, this.options.z);
         var a = t.split("\n");
         for(var i = 0; i < a.length; i++) {
-            var l = makeSVG("tspan").inject(this._label);
+            var l = makeSVG("tspan");
             l.set("text", a[i]);
             l.set({x:0, dy:"1.0em"});
+            l.inject(this._label);
         }
+        //$("log").set("text", String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'));
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
