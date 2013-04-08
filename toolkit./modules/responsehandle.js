@@ -457,7 +457,6 @@ ResponseHandle = new Class({
             this.set("z", Math.max(Math.min(this.__z + s, this.options.max_z), this.options.min_z));
             e.event.preventDefault();
             e.stopPropagation();
-            this.set("z", 
             return false;
         } else {
             this._mousemove(e);
