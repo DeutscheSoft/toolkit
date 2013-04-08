@@ -367,7 +367,7 @@ ResponseHandle = new Class({
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
-    _touchstart: function () {
+    _touchstart: function (e) {
         if(e.touches && e.touches.length > 1)
             return;
         else
