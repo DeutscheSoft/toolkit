@@ -103,9 +103,9 @@ ResponseHandle = new Class({
             "mouseenter":  function(e){this.element.addClass("toolkit-hover");}.bind(this),
             "mouseleave":  function(e){this.element.removeClass("toolkit-hover");}.bind(this),
             "mousedown":   this._mousedown.bind(this),
-            "mouseup":     this._mouseup.bind(this),
+//             "mouseup":     this._mouseup.bind(this),
             "touchstart":  this._touchstart.bind(this),
-            "touchend":    this._touchend.bind(this)
+//             "touchend":    this._touchend.bind(this)
         });
         this._label.addEvents({
             "mouseenter":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
