@@ -221,7 +221,7 @@ ResponseHandle = new Class({
             l.set({x:0, dy:"1.0em"});
         }
         this._label.set("html", t);
-        $("log").set("text", this._label.getChildren()[1].get("dx"));
+        $("log").set("text", this._label.getChildren().length);
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
