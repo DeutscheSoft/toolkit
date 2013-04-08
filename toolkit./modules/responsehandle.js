@@ -18,7 +18,7 @@ ResponseHandle = new Class({
                                         // _TOOLKIT_BLOCK_RIGHT: x movement, block righthand
                                         // _TOOLKIT_BLOCK_TOP: y movement, block on top
                                         // _TOOLKIT_BLOCK_RIGHT: y movement, block on bottom
-        preferations:     [_TOOLKIT_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_TOP, _TOOLKIT_BOTTOM], // perferred position of the label
+        preferences:     [_TOOLKIT_LEFT, _TOOLKIT_TOP, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM], // perferred position of the label
         label:            function (title, x, y, z) { return sprintf("%s\n%d Hz\n%.2f dB\nQ: %.2f", title, x, y, z); },
         x:                0,            // value for the x position depending on mode_x
         y:                0,            // value for y position depending on mode_y
@@ -30,7 +30,8 @@ ResponseHandle = new Class({
         z_min:            false,        // restrict z values, min z value, false to disable
         z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         16,           // minimum size of object in pixels, values can be smaller
-        margin:           3             // margin between label and handle
+        margin:           3,            // margin between label and handle
+        gesture_distance: 10            // pixels to move while touchmove for setting 1 step
     },
     
     x: 0,
@@ -132,6 +133,7 @@ ResponseHandle = new Class({
         var y      = 0;
         var width  = 0;
         var height = 0;
+        var m      = this.options.margin;
         
         // do we have to restrict movement?
         if(this.options.x_min !== false)
@@ -223,13 +225,41 @@ ResponseHandle = new Class({
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
                 // circles
+                var intersects = [];
+                var pos = false;
                 var _s = this._label.getSize();
-                var _x = width / 2 + this.options.margin;
-                var _y = _s.y / -2
-                this._label.set("y", _y);
-                this._label.getChildren().set("x", _x);
-                this.label = {x1: x + _x, y1: y + _y, x2: x + _x + _s.x, y2: y + _y + _s.y};
-                var i = this.options.intersect(this.label.x1, this.label.y1, this.label.x2, this.label.y2, this.options.id)
+                for(var i = 0; i < this.options.preferences.length; i++) {
+                    switch(this.options.preferences[i]) {
+                        case _TOOLKIT_TOP:
+                            var x1 = x - _s.x / 2;
+                            var y1 = y - height / 2 - m - _s.y;
+                            break;
+                        case _TOOLKIT_RIGHT:
+                            var x1 = x + width / 2 + m;
+                            var y1 = y - _s.y / 2;
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            var x1 = x - _s.x / 2;
+                            var y1 = y + height / 2 + m
+                            break;
+                        case _TOOLKIT_LEFT:
+                            var x1 = x - width / 2 - m - _s.x;
+                            var y1 = y - _s.y / 2;
+                            break;
+                    }
+                    var x2 = x1 + _s.x;
+                    var y2 = y1 + _s.y;
+                    intersects[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
+                    intersects[i].x1 = x1;
+                    intersects[i].y1 = y1;
+                    intersects[i].x2 = x2;
+                    intersects[i].y2 = y2;
+                }
+                pos = intersects.sort(function (a, b) {return a.intersect - b.intersect});
+                pos = pos[0];
+                this._label.set("y", pos.y1 - y);
+                this._label.getChildren().set("x", pos.x1 - x);
+                this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
@@ -399,7 +429,7 @@ ResponseHandle = new Class({
             var dx = e.touches[1].pageX - this._gestureX;
             var dy = e.touches[1].pageY - this._gestureY;
             var r  = Math.sqrt(dx * dx + dy * dy);
-            this._label.set("text", dx + " - " + dy + " - " + r + " - " + this._gestureX + " - " + this._gestureY);
+            r / this.options.gesture_distance;
             e.event.preventDefault();
             e.stopPropagation();
             return false;

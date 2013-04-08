@@ -80,24 +80,51 @@ var ResponseHandler = new Class({
     },
     
     intersect: function (x1, y1, x2, y2, id) {
-        var s = 0;
+        var c = 0;
+        var a = 0;
         for(var i = 0; i < this.handles.length; i++) {
             var h = this.handles[i];
             if(h.options.id == id) continue;
             
-            var x = Math.min(Math.max(0, h.label.x2 - x1), x2 - x1);
-            var y = Math.min(Math.max(0, h.label.y2 - y1), y2 - y1);
-            s += x * y + this.options.importance_label;
-//             console.log(i, "label", x, y, s);
+            var _a = this._hit_test(x1, y1, x2, y2, h.handle.x1, h.handle.y1, h.handle.x2, h.handle.y2) * this.options.importance_handle;
+            if(_a) c ++;
+            a += _a;
             
-            var x = Math.min(Math.max(0, h.handle.x2 - x1), x2 - x1);
-            var y = Math.min(Math.max(0, h.handle.y2 - y1), y2 - y1);
-            s += x * y + this.options.importance_handle;
-//             console.log(i, "handle", x, y, s);
+            var _a = this._hit_test(x1, y1, x2, y2, h.label.x1, h.label.y1, h.label.x2, h.label.y2) * this.options.importance_label;
+            if(_a) c ++;
+            a += _a;
         }
-//         var x = Math.min(Math.max(0, -x1), x2 - x1);
-//         var y = Math.min(Math.max(0, -y1), y2 - y1);
-//         s += x * y + this.options.importance_border;
+        a += ((x2 - x1) * (y2 - y1) - this._hit_test(x1, y1, x2, y2, 0, 0, this.options.width, this.options.height)) * this.options.importance_border;
+        return {intersect: a, count: c};
+    },
+    
+    _hit_test: function (ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
+        var aw = ax2 - ax1;
+        var bw = bx2 - bx1;
+        var zw = bx1 - ax1;
+        var ow = 0;
+        if(zw < aw && -bw < zw) {
+            if(0 <= zw && zw <= aw) {
+                ow = aw - zw;
+            } else if(-bw <= zw && zw <= 0) {
+                ow = bw + zw;
+            }
+        }
+        if(!ow) return 0;
+                    
+        var ah = ay2 - ay1;
+        var bh = by2 - by1;
+        var zh = by1 - ay1;
+        var oh = 0;
+        if(zh < ah && -bh < zh) {
+            if(0 <= zh && zh <= ah) {
+                oh = ah - zh;
+            } else if(-bh <= zh && zh <= 0) {
+                oh = bh + zh;
+            }
+        }
+        if(!oh) return 0;
+        return Math.min(Math.min(aw, bw), ow) * Math.min(Math.min(ah, bh), oh);
     },
     
     set: function (key, value, hold) {
