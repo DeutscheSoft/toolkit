@@ -379,7 +379,7 @@ ResponseHandle = new Class({
         }
     },
     _touchend: function (e) {
-        if(e.touches && e.touches.length == 1) {
+        if(e.touches && e.touches.length >= 1) {
             e.event.preventDefault();
             e.stopPropagation();
             return false;
