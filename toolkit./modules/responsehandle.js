@@ -220,7 +220,7 @@ ResponseHandle = new Class({
             l.set("text", a[i]);
             l.set({x:0, dy:"1.0em"});
         }
-        this._label.set("html", t);
+        this._label.set("html", this._label.getChildren()[1].get("dx"));
         $("log").set("text", a.length);
         
         switch(this.options.mode) {
