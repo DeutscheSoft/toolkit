@@ -440,24 +440,24 @@ ResponseHandle = new Class({
         }
     },
     _touchmove: function (e) {
-        if(e.touches && e.touches.length > 1 && this._gestureX === false) {
-            this._gestureX = e.touches[1].pageX;
-            this._gestureY = e.touches[1].pageY;
+        if(e.event.touches && e.event.touches.length > 1 && this._gestureX === false) {
+            this._gestureX = e.event.touches[1].pageX;
+            this._gestureY = e.event.touches[1].pageY;
             this.__z = this.z;
         }
-        if(e.touches && e.touches.length >= 2) {
-            var dx = e.touches[1].pageX - this._gestureX;
-            var dy = e.touches[1].pageY - this._gestureY;
+        if(e.event.touches && e.event.touches.length >= 2) {
+            var dx = e.event.touches[1].pageX - this._gestureX;
+            var dy = e.event.touches[1].pageY - this._gestureY;
             var r  = Math.sqrt(dx * dx + dy * dy);
             var s = this.options.step_z * (r / this.options.gesture_distance);
-            if(this.touches.length == 3)
+            if(e.event.touches.length == 3)
                 s *= this.options.ctrl_z;
-            else if(this.touches.length == 4)
+            else if(e.event.touches.length == 4)
                 s *= this.options.shift_z;
             this._label.set("text", r + "-" + s);
             this.set("z", Math.max(Math.min(this.__z + s, this.options.max_z), this.options.min_z));
             e.event.preventDefault();
-            e.stopPropagation();
+            e.event.stopPropagation();
             return false;
         } else {
             this._mousemove(e);
