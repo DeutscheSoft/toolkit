@@ -276,6 +276,7 @@ ResponseHandle = new Class({
                     }
                 }
                 if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
+                $("log").set("text", x + " - " + y);
                 this._label.set({
                     "y": pos.yl - y,
                     "text-anchor": pos.align
