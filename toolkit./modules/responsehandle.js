@@ -110,12 +110,14 @@ ResponseHandle = new Class({
         this._label.addEvents({
             "mouseenter": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
             "touchstart": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "mousewheel": this._scrollwheel.bind(this)
+            "mousewheel": this._scrollwheel.bind(this),
+            "contextmenu": function(){return false;}
         });
         this._handle.addEvents({
             "mouseenter": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
             "touchstart": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "mousewheel": this._scrollwheel.bind(this)
+            "mousewheel": this._scrollwheel.bind(this),
+            "contextmenu": function(){return false;}
         });
         
         this._handle.onselectstart = function () { return false; };
@@ -304,16 +306,25 @@ ResponseHandle = new Class({
     
     // CALLBACKS / EVENT HANDLING
     _mousedown: function (e) {
-        if(this.options.container) this.element.inject(this.options.container);
+        console.log(e)
+        e.event.preventDefault();
+        e.event.stopPropagation();
+        if(this.options.container) {
+            if(e.rightClick) {
+                this.element.inject(this.options.container, "top");
+                return false;
+            } else {
+                this.element.inject(this.options.container);
+            }
+        }
         this.element.addClass("toolkit-active");
         this.element.getParent().getParent().addClass("toolkit-dragging");
         this.__active = true;
         this.__click = {x: e.event.pageX, y: e.event.pageY};
-        e.event.preventDefault();
-        e.event.stopPropagation();
         this._offsetX = e.event.pageX - this.x;
         this._offsetY = e.event.pageY - this.y;
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
+        return false;
     },
     _mouseup: function (e) {
         this.__active = false;
