@@ -1,10 +1,13 @@
 .toolkit-response-handle {
-    opacity: 0.33;
+    opacity: 0.3;
     fill: rgb(255,255,255);
+}
+.toolkit-response-handle.toolkit-hover {
+    opacity: 0.6;
 }
 .toolkit-response-handle.toolkit-active {
     cursor: move !important;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 .toolkit-response-handle.toolkit-circular {
     
@@ -92,15 +95,16 @@
 }
 
 .toolkit-response-handle .toolkit-line {
-    opacity: 0;
     stroke: white;
     stroke-width: 1;
+    display: none;
+    opacity: 0.5;
 }
-.toolkit-response-handle.toolkit-active .toolkit-line {
-    opacity: 1;
-}
-.toolkit-response-handle.toolkit-active .toolkit-line {
+.toolkit-response-handle.toolkit-hover .toolkit-line {
     
+}
+.toolkit-response-handle.toolkit-active .toolkit-line {
+    display: block;
 }
 .toolkit-response-handle.circle .toolkit-line {
     

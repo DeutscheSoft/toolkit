@@ -100,6 +100,8 @@ ResponseHandle = new Class({
         if(this.options.container) this.set("container", this.options.container, hold);
         if(this.options["class"]) this.set("class", this.options["class"], hold);
         this.element.addEvents({
+            "mouseenter": function(e){this.element.addClass("toolkit-hover");}.bind(this),
+            "mouseleave": function(e){this.element.removeClass("toolkit-hover");}.bind(this),
             "mousedown":  this._mousedown.bind(this),
             "mouseup":    this._mouseup.bind(this),
             "touchstart": this._mousedown.bind(this),
