@@ -41,8 +41,7 @@ ResponseHandle = new Class({
     handle: {x:0, y: 0, width: 0, height:0},
     __active: false,
     _add: .5,
-    _gestureX: false,
-    _gestureY: false,
+    _tdist: false,
     
     initialize: function (options, hold) {
         this.setOptions(options);
@@ -429,8 +428,7 @@ ResponseHandle = new Class({
         }
     },
     _touchend: function (e) {
-        this._gestureX = false;
-        this._gestureY = false;
+        this._tdist = false;
         if(e.touches && e.touches.length >= 1) {
             e.event.preventDefault();
             e.stopPropagation();
@@ -441,7 +439,7 @@ ResponseHandle = new Class({
     },
     _touchmove: function (e) {
         if(!this.__active) return;
-        if(e.event.touches && e.event.touches.length > 1 && this._gestureX === false) {
+        if(e.event.touches && e.event.touches.length > 1 && this._tdist === false) {
             var x = e.event.touches[1].pageX - (this.x + this._offsetX);
             var y = e.event.touches[1].pageY - (this.y + this._offsetY);
             this._tdist = Math.sqrt(y*y + x*x);
