@@ -452,7 +452,7 @@ ResponseHandle = new Class({
             var tdist = Math.sqrt(y*y + x*x);
             var z = Math.min(this.__z * (tdist / this._tdist));
             $("log").set("text", z + " - " + tdist + " - " + this._tdist + " - " + this.__z);
-            this.set("z", Math.max(z, this.options.max_z), this.options.min_z);
+            this.set("z", Math.max(Math.min(z, this.options.max_z), this.options.min_z));
             e.event.preventDefault();
             e.event.stopPropagation();
             return false;
