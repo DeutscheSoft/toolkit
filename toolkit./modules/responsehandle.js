@@ -320,7 +320,7 @@ ResponseHandle = new Class({
         }
         
         // touch
-        if(e.touches.length > 1) {
+        if(e.touches && e.touches.length > 1) {
             var ev = e.touches[0];
         } else {
             ev = e.event;
@@ -338,6 +338,9 @@ ResponseHandle = new Class({
     },
     _mouseup: function (e) {
         this.__active = false;
+        if(e.touches && e.touches.length > 1) {
+            return;
+        }
         this.element.removeClass("toolkit-active");
         this.element.getParent().getParent().removeClass("toolkit-dragging");
         e.event.preventDefault();
@@ -346,7 +349,7 @@ ResponseHandle = new Class({
     },
     _mousemove: function (e) {
         if(!this.__active) return;
-        if(e.touches.length > 1) {
+        if(e.touches && e.touches.length > 1) {
             var ev = e.touches[0];
         } else {
             var ev = e.event;
