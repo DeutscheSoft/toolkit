@@ -30,9 +30,7 @@ ResponseHandle = new Class({
         z_min:            false,        // restrict z values, min z value, false to disable
         z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         16,           // minimum size of object in pixels, values can be smaller
-        margin:           4,            // margin between label and handle
-        restrict:         true          // if restrict is true and restrictions in values are made, handles will be drawn
-                                        // in these dimensions at max.
+        margin:           4             // margin between label and handle
     },
     
     x: 0,
@@ -41,7 +39,7 @@ ResponseHandle = new Class({
     label:  {x:0, y: 0, width: 0, height:0},
     handle: {x:0, y: 0, width: 0, height:0},
     __active: false,
-    _add: .75,
+    _add: .5,
     initialize: function (options, hold) {
         this.setOptions(options);
         this.parent(options);
@@ -101,12 +99,19 @@ ResponseHandle = new Class({
         
         if(this.options.container) this.set("container", this.options.container, hold);
         if(this.options["class"]) this.set("class", this.options["class"], hold);
-        this._handle.addEvents({
+        this.element.addEvents({
             "mousedown":  this._mousedown.bind(this),
             "mouseup":    this._mouseup.bind(this),
             "touchstart": this._mousedown.bind(this),
             "touchend":   this._mouseup.bind(this)
         });
+        this._label.addEvents({
+            "mousedown":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "touchstart": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "mousewheel": this._scrollwheel.bind(this)
+        });
+        this._handle.addEvent("mousewheel", this._scrollwheel.bind(this));
+        
         this._handle.onselectstart = function () { return false; };
         if(!hold) this.redraw();
     },
@@ -131,13 +136,17 @@ ResponseHandle = new Class({
         if(this.options.z_max !== false)
             this.options.z = Math.min(this.options.z_max, this.options.z);
         
+        this.x = Math.round(this.x2px(this.options.x));
+        this.y = Math.round(this.y2px(this.options.y));
+        this.z = Math.round(this.z2px(this.options.z));
+        
         // ELEMENT / HANDLE
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
                 // circle
-                x      = Math.round(this.x2px(this.options.x)) + this._add;
-                y      = Math.round(this.y2px(this.options.y)) + this._add;
-                width  = Math.max(this.options.min_size, this.z2px(this.options.z));
+                x      = this.x;
+                y      = this.y;
+                width  = Math.max(this.options.min_size, this.z);
                 height = width;
                 this._handle.set("r", width / 2);
                 this.element.set({transform: "translate(" + x + "," + y + ")"});
@@ -196,10 +205,7 @@ ResponseHandle = new Class({
         for(var i = 0; i < a.length; i++) {
             var l = makeSVG("tspan").inject(this._label);
             l.set("text", a[i]);
-            if(i)
-                l.set({x:0, dy:"1.0em"});
-            else
-                l.set({x:0, dy:"0.7em"});
+            l.set({x:0, dy:"1.0em"});
         }
         this._label.set("html", t);
         
@@ -264,10 +270,6 @@ ResponseHandle = new Class({
                 // rect bottom
                 break;
         }
-        
-        this.x = this.x2px(this.options.x);
-        this.y = this.y2px(this.options.y);
-        this.z = this.z2px(this.options.z);
     },
     destroy: function () {
         this._label.destroy();
@@ -280,9 +282,20 @@ ResponseHandle = new Class({
             
         }
     },
+    _scrollwheel: function (e) {
+        e.event.preventDefault();
+        e.event.stopPropagation();
+        var s = this.options.step_z * e.wheel;
+        if(e.control && e.shift)
+            s *= this.options.ctrl_z;
+        else if(e.shift)
+            s *= this.options.shift_z;
+        this.set("z", Math.max(Math.min(this.get("z") + s, this.options.max_z), this.options.min_z));
+    },
     
     // CALLBACKS / EVENT HANDLING
     _mousedown: function (e) {
+        if(this.options.container) this.element.inject(this.options.container);
         this.element.addClass("toolkit-active");
         this.element.getParent().getParent().addClass("toolkit-dragging");
         this.__active = true;

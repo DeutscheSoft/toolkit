@@ -1,9 +1,10 @@
 .toolkit-response-handle {
-    fill: rgba(255,255,255,0.2);
+    opacity: 0.33;
+    fill: rgb(255,255,255);
 }
 .toolkit-response-handle.toolkit-active {
-    fill: rgba(255,255,255,0.8);
     cursor: move !important;
+    opacity: 0.8;
 }
 .toolkit-response-handle.toolkit-circular {
     
@@ -29,10 +30,14 @@
 
 
 .toolkit-response-handle .toolkit-label {
+    cursor:pointer;
     font-size: 9px;
 }
+.toolkit-response-handle.toolkit-active .toolkit-label {
+    cursor:move;
+}
 .toolkit-response-handle .toolkit-label tspan {
-    dominant-baseline: central;
+    
 }
 .toolkit-response-handle.circle .toolkit-label {
     
@@ -92,7 +97,7 @@
     stroke-width: 1;
 }
 .toolkit-response-handle.toolkit-active .toolkit-line {
-    opacity: 0.5;
+    opacity: 1;
 }
 .toolkit-response-handle.toolkit-active .toolkit-line {
     

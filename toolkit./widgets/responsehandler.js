@@ -14,6 +14,11 @@ var ResponseHandler = new Class({
         this.element.addClass("toolkit-response-handler");
         this._handles = makeSVG("g", {"class": "toolkit-response-handles"}).inject(this.element);
         this.element.onselectstart = function () { return false; };
+        this.element.addEvent('mousewheel', function(e){
+            e.event.preventDefault();
+            e.event.stopPropagation();
+            return false;
+        }.bind(this));
         this.redraw();
     },
     

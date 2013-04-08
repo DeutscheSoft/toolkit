@@ -304,16 +304,16 @@ function run_responsehandler () {
     rh = new ResponseHandler({
         width: 908,
         height: 300,
-        depth: 100,
+        depth: 120,
         container: $("sc_responsehandler"),
         db_grid: 12,
         min_z: 0,
-        max_z: 10
+        max_z: 20,
     });
     handles = [
-        rh.add_handle({x:1000, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, title:"handle 1"}),
-        rh.add_handle({x:4000, y:0, z: 7, mode:_TOOLKIT_CIRCULAR, title:"handle 2"}),
-        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 3"})
+        rh.add_handle({x:1000, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, title:"handle 1", step_z:0.1, shift_z:10, ctrl_z:0.2}),
+        rh.add_handle({x:4000, y:0, z: 7, mode:_TOOLKIT_CIRCULAR, title:"handle 2", step_z:0.1, shift_z:10, ctrl_z:0.2}),
+        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 3", step_z:0.1, shift_z:10, ctrl_z:0.2})
     ]
 }
 

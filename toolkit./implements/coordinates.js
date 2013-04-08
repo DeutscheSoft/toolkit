@@ -12,7 +12,16 @@ Coordinates = new Class({
         min_y:            0,              // if mode_y not in pixel we need to know about the range we see
         max_y:            0,              // if mode_y not in pixel we need to know about the range we see
         min_z:            0,              // if mode_z not in pixel we need to know about the range we see
-        max_z:            0               // if mode_z not in pixel we need to know about the range we see
+        max_z:            0,              // if mode_z not in pixel we need to know about the range we see
+        step_x:           0,              // step size on x axis
+        step_y:           0,              // step size on y axis
+        step_z:           0,              // step size on z axis
+        shift_x:          2,              // multiplier with SHIFT pressed while stepping
+        shift_y:          2,              // multiplier with SHIFT pressed while stepping
+        shift_z:          2,              // multiplier with SHIFT pressed while stepping
+        ctrl_x:           0.5,            // multiplier with CONTROL pressed while stepping
+        ctrl_y:           0.5,            // multiplier with CONTROL pressed while stepping
+        ctrl_z:           0.5,            // multiplier with CONTROL pressed while stepping
     },
     _min_x: 0,
     _max_x: 0,
