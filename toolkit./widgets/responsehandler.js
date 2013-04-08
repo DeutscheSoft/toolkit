@@ -7,6 +7,7 @@ var ResponseHandler = new Class({
         importance_border: 100, // multiplicator of square pixels on hit testing borders to gain importance
     },
     handles: [],
+    _active: 0,
     
     initialize: function (options) {
         this.setOptions(options);
@@ -53,8 +54,11 @@ var ResponseHandler = new Class({
         if(typeof options["depth"] == "undefined")
             options["depth"] = this.options.depth;
         options["intersect"] = this.intersect.bind(this);
+        options["active"] = function(){return this._active == 0}.bind(this);
         var h = new ResponseHandle(options);
         this.handles.push(h);
+        h.addEvent("startdrag", function () { this._active ++ }.bind(this));
+        h.addEvent("stopdrag",  function () { this._active -- }.bind(this));
         this.element.addEvent("mousemove", h._mousemove.bind(h));
         this.element.addEvent("mouseup",   h._mouseup.bind(h));
         this.element.addEvent("touchmove", h._touchmove.bind(h));

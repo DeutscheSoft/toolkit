@@ -31,7 +31,8 @@ ResponseHandle = new Class({
         z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         16,           // minimum size of object in pixels, values can be smaller
         margin:           3,            // margin between label and handle
-        gesture_distance: 10            // pixels to move while touchmove for setting 1 step
+        gesture_distance: 10,           // pixels to move while touchmove for setting 1 step
+        active:           function(){return true} // callback that returns true if handle is usable and false if not
     },
     
     x: 0,
@@ -347,7 +348,8 @@ ResponseHandle = new Class({
     _mousedown: function (e) {
         e.event.preventDefault();
         e.event.stopPropagation();
-
+        if(!this.options.active()) return false;
+        
         // order
         if(this.options.container) {
             if(e.rightClick) {
