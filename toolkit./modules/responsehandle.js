@@ -332,7 +332,8 @@ ResponseHandle = new Class({
         this.__active = true;
         this._offsetX = ev.pageX - this.x;
         this._offsetY = ev.pageY - this.y;
-        
+        this._clickX  = this.x;
+        this._clickY  = this.y;
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
         return false;
     },
@@ -351,8 +352,17 @@ ResponseHandle = new Class({
         } else {
             var ev = e.event;
         }
-        this.set("x", this.px2x(ev.pageX - this._offsetX))
-        this.set("y", this.px2y(ev.pageY - this._offsetY))
+        var mx = my = 1;
+        if(e.control && e.shift) {
+            mx = this.options.ctrl_x;
+            my = this.options.ctrl_y;
+        } else if(e.shift) {
+            mx = this.options.shift_x;
+            my = this.options.shift_y;
+        }
+        console.log(mx, my);
+        this.set("x", this.px2x(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx), true);
+        this.set("y", this.px2y(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my));
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});

@@ -88,12 +88,12 @@ var ResponseHandler = new Class({
             var x = Math.min(Math.max(0, h.label.x2 - x1), x2 - x1);
             var y = Math.min(Math.max(0, h.label.y2 - y1), y2 - y1);
             s += x * y + this.options.importance_label;
-            console.log(i, "label", x, y, s);
+//             console.log(i, "label", x, y, s);
             
             var x = Math.min(Math.max(0, h.handle.x2 - x1), x2 - x1);
             var y = Math.min(Math.max(0, h.handle.y2 - y1), y2 - y1);
             s += x * y + this.options.importance_handle;
-            console.log(i, "handle", x, y, s);
+//             console.log(i, "handle", x, y, s);
         }
 //         var x = Math.min(Math.max(0, -x1), x2 - x1);
 //         var y = Math.min(Math.max(0, -y1), y2 - y1);
