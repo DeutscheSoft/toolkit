@@ -395,8 +395,8 @@ ResponseHandle = new Class({
         if(e.touches && e.touches.length == 2) {
             var dx = e.touches[1].pageX - this._gestureX;
             var dy = e.touches[1].pageY - this._gestureY;
-            var r  = Math.sqrt(dx * dx + dy * dy)
-            this._label.set("text", r);
+            var r  = Math.sqrt(dx * dx + dy * dy);
+            this._label.set("text", dx + " - " + dy + " - " + r);
             e.event.preventDefault();
             e.stopPropagation();
             return false;
