@@ -104,8 +104,8 @@ ResponseHandle = new Class({
             "mouseleave":  function(e){this.element.removeClass("toolkit-hover");}.bind(this),
             "mousedown":   this._mousedown.bind(this),
             "mouseup":     this._mouseup.bind(this),
-            "touchstart":  this._mousedown.bind(this),
-            "touchend":    this._mouseup.bind(this)
+            "touchstart":  this._touchstart.bind(this),
+            "touchend":    this._touchend.bind(this)
         });
         this._label.addEvents({
             "mouseenter":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
@@ -368,7 +368,12 @@ ResponseHandle = new Class({
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
-    
+    _touchstart: function () {
+        
+    },
+    _touchend: function (e) {
+        
+    },
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.parent(key, value, hold);
