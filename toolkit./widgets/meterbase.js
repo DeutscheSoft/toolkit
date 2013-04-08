@@ -321,22 +321,30 @@ var MeterBase = new Class({
         var c_svg      = "<stop offset='%s%%' stop-color='%s'/>";
         var c_regular  = "%s %s%%, ";
         var c_webkit   = "color-stop(%s%%, %s), ";
-        var d_w3c      = {_TOOLKIT_LEFT:  ["to top", "to bottom"],
-                          _TOOLKIT_RIGHT: ["to top", "to bottom"],
-                          _TOOLKIT_TOP:   ["to right", "to left"],
-                          _TOOLKIT_BOTTOM:["to right", "to left"]};
-        var d_regular  = {_TOOLKIT_LEFT:  ["bottom", "top"],
-                          _TOOLKIT_RIGHT: ["bottom", "top"],
-                          _TOOLKIT_TOP:   ["left", "right"],
-                          _TOOLKIT_BOTTOM:["left", "right"]};
-        var d_webkit   = {_TOOLKIT_LEFT:  ["left bottom, left top", "left top, left bottom"],
-                          _TOOLKIT_RIGHT: ["left bottom, left top", "left top, left bottom"],
-                          _TOOLKIT_TOP:   ["left top, right top", "right top, left top"],
-                          _TOOLKIT_BOTTOM:["left top, right top", "right top, left top"]};
-        var d_ms       = {_TOOLKIT_LEFT:  ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'],
-                          _TOOLKIT_RIGHT: ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'],
-                          _TOOLKIT_TOP:   ['x1="0%" y1="0%" x2="100%" y2="0%"', 'x1="100%" y1="0%" x2="0%" y2="0%"'],
-                          _TOOLKIT_BOTTOM:['x1="0%" y1="0%" x2="100%" y2="0%"', 'x1="100%" y1="0%" x2="0%" y2="0%"']};
+        
+        var d_w3c = {};
+        d_w3c["s"+_TOOLKIT_LEFT]       = ["to top", "to bottom"];
+        d_w3c["s"+_TOOLKIT_RIGHT]      = ["to top", "to bottom"];
+        d_w3c["s"+_TOOLKIT_TOP]        = ["to right", "to left"];
+        d_w3c["s"+_TOOLKIT_BOTTOM]     = ["to right", "to left"];
+        
+        var d_regular = {};
+        d_regular["s"+_TOOLKIT_LEFT]   = ["bottom", "top"];
+        d_regular["s"+_TOOLKIT_RIGHT]  = ["bottom", "top"];
+        d_regular["s"+_TOOLKIT_TOP]    = ["left", "right"];
+        d_regular["s"+_TOOLKIT_BOTTOM] = ["left", "right"];
+        
+        var d_webkit = {};
+        d_webkit["s"+_TOOLKIT_LEFT]    = ["left bottom, left top", "left top, left bottom"];
+        d_webkit["s"+_TOOLKIT_RIGHT]   = ["left bottom, left top", "left top, left bottom"];
+        d_webkit["s"+_TOOLKIT_TOP]     = ["left top, right top", "right top, left top"];
+        d_webkit["s"+_TOOLKIT_BOTTOM]  = ["left top, right top", "right top, left top"];
+        
+        var d_ms = {};
+        d_ms["s"+_TOOLKIT_LEFT]        = ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'];
+        d_ms["s"+_TOOLKIT_RIGHT]       = ['x1="0%" y1="100%" x2="0%" y2="0%"', 'x1="0%" y1="0%" x2="0%" y2="100%"'];
+        d_ms["s"+_TOOLKIT_TOP]         = ['x1="0%" y1="0%" x2="100%" y2="0%"', 'x1="100%" y1="0%" x2="0%" y2="0%"'];
+        d_ms["s"+_TOOLKIT_BOTTOM]      = ['x1="0%" y1="0%" x2="100%" y2="0%"', 'x1="100%" y1="0%" x2="0%" y2="0%"'];
         
         var keys = Object.keys(grad);
         for(var i = 0; i < keys.length; i++) {
@@ -364,25 +372,25 @@ var MeterBase = new Class({
                 background = (sprintf(s_ms, ms_last, ms_first, this._vert() ? 0 : 1));
             
         else if(Browser.ie9)
-            background = (sprintf(s_svg, this.options.id, d_ms[this.options.layout][this.options.reverse ? 1 : 0], m_svg, this.options.id));
+            background = (sprintf(s_svg, this.options.id, d_ms["s"+this.options.layout][this.options.reverse ? 1 : 0], m_svg, this.options.id));
         
         else if(Browser.ie && Browser.version >= 10)
-            background = (sprintf(s_regular, "-ms-", d_regular[this.options.layout][this.options.reverse ? 1 : 0], m_regular));
+            background = (sprintf(s_regular, "-ms-", d_regular["s"+this.options.layout][this.options.reverse ? 1 : 0], m_regular));
         
         else if(Browser.firefox)
-            background = (sprintf(s_regular, "-moz-", d_regular[this.options.layout][this.options.reverse ? 1 : 0], m_regular));
+            background = (sprintf(s_regular, "-moz-", d_regular["s"+this.options.layout][this.options.reverse ? 1 : 0], m_regular));
         
         else if(Browser.opera && Browser.version >= 11)
-            background = (sprintf(s_regular, "-o-", d_regular[this.options.layout][this.options.reverse ? 1 : 0], m_regular));
+            background = (sprintf(s_regular, "-o-", d_regular["s"+this.options.layout][this.options.reverse ? 1 : 0], m_regular));
         
         else if(Browser.chrome && Browser.version < 10 || Browser.safari && Browser.version < 5.1)
-            background = (sprintf(s_webkit, d_webkit[this.options.layout][this.options.reverse ? 1 : 0], m_regular));
+            background = (sprintf(s_webkit, d_webkit["s"+this.options.layout][this.options.reverse ? 1 : 0], m_regular));
         
         else if(Browser.chrome || Browser.safari)
-            background = (sprintf(s_regular, "-webkit-", d_regular[this.options.layout][this.options.reverse ? 1 : 0], m_regular));
+            background = (sprintf(s_regular, "-webkit-", d_regular["s"+this.options.layout][this.options.reverse ? 1 : 0], m_regular));
         
         else
-            background = (sprintf(s_regular, "", d_w3c[this.options.layout][this.options.reverse ? 1 : 0], m_regular));
+            background = (sprintf(s_regular, "", d_w3c["s"+this.options.layout][this.options.reverse ? 1 : 0], m_regular));
         
         this._base.set("style", "width: 100%; height: 100%; z-index: 10; position: absolute; background: " + background);
     },
