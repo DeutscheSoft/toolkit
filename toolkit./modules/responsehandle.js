@@ -351,8 +351,8 @@ ResponseHandle = new Class({
         } else {
             var ev = e.event;
         }
-        this.set("x", this.px2x(ev.pageX - this._offsetX))
-        this.set("y", this.px2y(ev.pageY - this._offsetY))
+        this.set("x", this.px2x(ev.pageX - this._offsetX), true);
+        this.set("y", this.px2y(ev.pageY - this._offsetY));
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
