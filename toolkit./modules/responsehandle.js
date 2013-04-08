@@ -343,24 +343,6 @@ ResponseHandle = new Class({
         this.element.destroy();
     },
     // HELPERS & STUFF
-    _hits: function (x1, y1, x2, y2) {
-        for(var i = 0; i < this.handles.length; i++) {
-            
-        }
-    },
-    _scrollwheel: function (e) {
-        if(this.__sto) window.clearTimeout(this.__sto);
-        this.element.addClass("toolkit-active");
-        this.__sto = window.setTimeout(function(){this.element.removeClass("toolkit-active")}.bind(this), 250);
-        e.event.preventDefault();
-        e.event.stopPropagation();
-        var s = this.options.step_z * e.wheel;
-        if(e.control && e.shift)
-            s *= this.options.ctrl_z;
-        else if(e.shift)
-            s *= this.options.shift_z;
-        this.set("z", Math.max(Math.min(this.get("z") + s, this.options.max_z), this.options.min_z));
-    },
     
     // CALLBACKS / EVENT HANDLING
     _mousedown: function (e) {
@@ -424,6 +406,19 @@ ResponseHandle = new Class({
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
+    _scrollwheel: function (e) {
+        if(this.__sto) window.clearTimeout(this.__sto);
+        this.element.addClass("toolkit-active");
+        this.__sto = window.setTimeout(function(){this.element.removeClass("toolkit-active")}.bind(this), 250);
+        e.event.preventDefault();
+        e.event.stopPropagation();
+        var s = this.options.step_z * e.wheel;
+        if(e.control && e.shift)
+            s *= this.options.ctrl_z;
+        else if(e.shift)
+            s *= this.options.shift_z;
+        this.set("z", Math.max(Math.min(this.get("z") + s, this.options.max_z), this.options.min_z));
+    },
     _touchstart: function (e) {
         if(e.touches && e.touches.length == 2) {
             e.event.preventDefault();
@@ -448,14 +443,21 @@ ResponseHandle = new Class({
         if(e.touches && e.touches.length > 1 && this._gestureX === false) {
             this._gestureX = e.touches[1].pageX;
             this._gestureY = e.touches[1].pageY;
+            this.__z = this.z;
         }
-        if(e.touches && e.touches.length == 2) {
+        if(e.touches && e.touches.length >= 2) {
             var dx = e.touches[1].pageX - this._gestureX;
             var dy = e.touches[1].pageY - this._gestureY;
             var r  = Math.sqrt(dx * dx + dy * dy);
-            r / this.options.gesture_distance;
+            var s = this.options.step_z * (r / this.options.gesture_distance);
+            if(this.touches.length == 3)
+                s *= this.options.ctrl_z;
+            else if(this.touches.length == 4)
+                s *= this.options.shift_z;
+            this.set("z", Math.max(Math.min(this.__z + s, this.options.max_z), this.options.min_z));
             e.event.preventDefault();
             e.stopPropagation();
+            this.set("z", 
             return false;
         } else {
             this._mousemove(e);
