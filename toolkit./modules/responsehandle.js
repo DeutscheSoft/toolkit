@@ -454,6 +454,7 @@ ResponseHandle = new Class({
                 s *= this.options.ctrl_z;
             else if(this.touches.length == 4)
                 s *= this.options.shift_z;
+            this._label.set("text", r + "-" + s);
             this.set("z", Math.max(Math.min(this.__z + s, this.options.max_z), this.options.min_z));
             e.event.preventDefault();
             e.stopPropagation();
