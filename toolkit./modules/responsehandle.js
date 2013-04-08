@@ -440,6 +440,7 @@ ResponseHandle = new Class({
         }
     },
     _touchmove: function (e) {
+        if(!this.__active) return;
         if(e.event.touches && e.event.touches.length > 1 && this._gestureX === false) {
             this._gestureX = e.event.touches[1].pageX;
             this._gestureY = e.event.touches[1].pageY;
