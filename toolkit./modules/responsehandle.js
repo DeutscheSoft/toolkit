@@ -40,6 +40,9 @@ ResponseHandle = new Class({
     handle: {x:0, y: 0, width: 0, height:0},
     __active: false,
     _add: .5,
+    _gestureX: false,
+    _gestureY: false,
+    
     initialize: function (options, hold) {
         this.setOptions(options);
         this.parent(options);
