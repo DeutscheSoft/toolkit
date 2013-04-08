@@ -371,20 +371,29 @@ ResponseHandle = new Class({
         if(e.touches && e.touches.length == 2) {
             this._gestureX  = e.touches[1].pageX;
             this._gestureY  = e.touches[1].pageY;
+            e.event.preventDefault();
+            e.stopPropagation();
+            return false;
         } else {
             this._mousedown(e);
         }
     },
     _touchend: function (e) {
-        if(e.touches && e.touches.length > 1)
-            return;
-        else
+        if(e.touches && e.touches.length > 1) {
+            e.event.preventDefault();
+            e.stopPropagation();
+            return false;
+        } else {
             this._mouseup(e);
+        }
     },
     _touchmove: function (e) {
         if(e.touches && e.touches.length == 2) {
             this._gestureX  = e.touches[1].pageX;
             this._gestureY  = e.touches[1].pageY;
+            e.event.preventDefault();
+            e.stopPropagation();
+            return false;
         } else {
             this._mousemove(e);
         }
