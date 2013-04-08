@@ -30,7 +30,7 @@ ResponseHandle = new Class({
         z_min:            false,        // restrict z values, min z value, false to disable
         z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         16,           // minimum size of object in pixels, values can be smaller
-        margin:           4             // margin between label and handle
+        margin:           3             // margin between label and handle
     },
     
     x: 0,
@@ -106,11 +106,15 @@ ResponseHandle = new Class({
             "touchend":   this._mouseup.bind(this)
         });
         this._label.addEvents({
-            "mousedown":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "mouseenter": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
             "touchstart": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
             "mousewheel": this._scrollwheel.bind(this)
         });
-        this._handle.addEvent("mousewheel", this._scrollwheel.bind(this));
+        this._handle.addEvents({
+            "mouseenter": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "touchstart": function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "mousewheel": this._scrollwheel.bind(this)
+        });
         
         this._handle.onselectstart = function () { return false; };
         if(!hold) this.redraw();
@@ -283,6 +287,9 @@ ResponseHandle = new Class({
         }
     },
     _scrollwheel: function (e) {
+        if(this.__sto) window.clearTimeout(this.__sto);
+        this.element.addClass("toolkit-active");
+        this.__sto = window.setTimeout(function(){this.element.removeClass("toolkit-active")}.bind(this), 250);
         e.event.preventDefault();
         e.event.stopPropagation();
         var s = this.options.step_z * e.wheel;
