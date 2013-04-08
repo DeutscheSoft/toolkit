@@ -223,9 +223,9 @@ ResponseHandle = new Class({
                 var _s = this._label.getSize();
                 var _x = width / 2 + this.options.margin;
                 var _y = _s.y / -2
-//                 this._label.set("x", _x);
-//                 this._label.set("y", _y);
-//                 this._label.getChildren().set("x", _x);
+                //this._label.set("x", _x);
+                this._label.set("y", _y);
+                this._label.getChildren().set("x", _x);
                 this.label = {x1: x + _x, y1: y + _y, x2: x + _x + _s.x, y2: y + _y + _s.y};
                 var i = this.options.intersect(this.label.x1, this.label.y1, this.label.x2, this.label.y2, this.options.id)
                 break;
