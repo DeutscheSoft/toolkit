@@ -227,24 +227,37 @@ ResponseHandle = new Class({
                 // circles
                 var intersects = [];
                 var pos = false;
+                var align = "";
                 var _s = this._label.getSize();
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP:
                             var x1 = x - _s.x / 2;
                             var y1 = y - height / 2 - m - _s.y;
+                            var xl = x;
+                            var yl = y1;
+                            var align = "middle";
                             break;
                         case _TOOLKIT_RIGHT:
                             var x1 = x + width / 2 + m;
                             var y1 = y - _s.y / 2;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
                             break;
                         case _TOOLKIT_BOTTOM:
                             var x1 = x - _s.x / 2;
-                            var y1 = y + height / 2 + m
+                            var y1 = y + height / 2 + m;
+                            var xl = x;
+                            var yl = y1;
+                            var align = "middle";
                             break;
                         case _TOOLKIT_LEFT:
                             var x1 = x - width / 2 - m - _s.x;
                             var y1 = y - _s.y / 2;
+                            var xl = x1 + _s.x;
+                            var yl = y1;
+                            var align = "end";
                             break;
                     }
                     var x2 = x1 + _s.x;
@@ -254,11 +267,22 @@ ResponseHandle = new Class({
                     intersects[i].y1 = y1;
                     intersects[i].x2 = x2;
                     intersects[i].y2 = y2;
+                    intersects[i].xl = xl;
+                    intersects[i].yl = yl;
+                    intersects[i].align = align
+                    if(!intersects[i].intersect) {
+                        pos = intersects[i];
+                        break;
+                    }
                 }
-                pos = intersects.sort(function (a, b) {return a.intersect - b.intersect});
-                pos = pos[0];
-                this._label.set("y", pos.y1 - y);
-                this._label.getChildren().set("x", pos.x1 - x);
+                if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
+                this._label.set({
+                    "y": pos.yl - y
+                });
+                this._label.getChildren().set({
+                    "x": pos.xl - x,
+                    "text-anchor": pos.align
+                });
                 this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
             case _TOOLKIT_LINE_VERTICAL:
