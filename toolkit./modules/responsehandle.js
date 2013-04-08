@@ -373,6 +373,7 @@ ResponseHandle = new Class({
         this._offsetY = ev.pageY - this.y;
         this._clickX  = this.x;
         this._clickY  = this.y;
+        this.redraw();
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
         return false;
     },
