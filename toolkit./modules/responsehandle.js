@@ -306,9 +306,10 @@ ResponseHandle = new Class({
     
     // CALLBACKS / EVENT HANDLING
     _mousedown: function (e) {
-        console.log(e)
         e.event.preventDefault();
         e.event.stopPropagation();
+
+        // order
         if(this.options.container) {
             if(e.rightClick) {
                 this.element.inject(this.options.container, "top");
@@ -317,12 +318,21 @@ ResponseHandle = new Class({
                 this.element.inject(this.options.container);
             }
         }
+        
+        // touch
+        if(e.touches.length > 1) {
+            var ev = e.touches[0];
+        } else {
+            ev = e.event;
+        }
+        
+        // classes and stuff
         this.element.addClass("toolkit-active");
         this.element.getParent().getParent().addClass("toolkit-dragging");
         this.__active = true;
-        this.__click = {x: e.event.pageX, y: e.event.pageY};
-        this._offsetX = e.event.pageX - this.x;
-        this._offsetY = e.event.pageY - this.y;
+        this._offsetX = ev.pageX - this.x;
+        this._offsetY = ev.pageY - this.y;
+        
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
         return false;
     },
@@ -336,8 +346,13 @@ ResponseHandle = new Class({
     },
     _mousemove: function (e) {
         if(!this.__active) return;
-        this.set("x", this.px2x(e.event.pageX - this._offsetX))
-        this.set("y", this.px2y(e.event.pageY - this._offsetY))
+        if(e.touches.length > 1) {
+            var ev = e.touches[0];
+        } else {
+            var ev = e.event;
+        }
+        this.set("x", this.px2x(ev.pageX - this._offsetX))
+        this.set("y", this.px2y(ev.pageY - this._offsetY))
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
