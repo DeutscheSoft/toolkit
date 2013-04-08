@@ -311,9 +311,9 @@ function run_responsehandler () {
         max_z: 20,
     });
     handles = [
-        rh.add_handle({x:1000, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, title:"handle 1", step_z:0.1, shift_z:10, ctrl_z:0.2}),
-        rh.add_handle({x:4000, y:0, z: 7, mode:_TOOLKIT_CIRCULAR, title:"handle 2", step_z:0.1, shift_z:10, ctrl_z:0.2}),
-        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 3", step_z:0.1, shift_z:10, ctrl_z:0.2})
+        rh.add_handle({x:1000, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, title:"handle 1\n(only y)", step_z:0.1, shift_z:10, ctrl_z:0.2, x_min: 1000, x_max:1000}),
+        rh.add_handle({x:4000, y:12, z: 7, mode:_TOOLKIT_CIRCULAR, title:"handle 2\n(only x)", step_z:0.1, shift_z:10, ctrl_z:0.2, y_min: 12, y_max: 12}),
+        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 3", step_z:0.1, shift_z:10, ctrl_z:0.2, x_min: 30, x_max:10000, y_min:-24, y_max:24})
     ]
 }
 
