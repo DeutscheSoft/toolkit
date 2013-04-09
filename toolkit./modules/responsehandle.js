@@ -33,6 +33,7 @@ ResponseHandle = new Class({
         margin:           3,            // margin between label and handle
         gesture_distance: 10,           // pixels to move while touchmove for setting 1 step
         active:           function(){return true} // callback that returns true if handle is usable and false if not
+        
     },
     
     x: 0,
@@ -421,7 +422,7 @@ ResponseHandle = new Class({
             s *= this.options.shift_z;
         var z = Math.max(Math.min(this.get("z") + s, this.options.max_z), this.options.min_z);
         this.set("z", z);
-        if(z >= this.options.max_z || z < this.options.min_z) {
+        if(z >= this.options.max_z || z <= this.options.min_z) {
             this._set_warning();
         }
         
@@ -459,7 +460,7 @@ ResponseHandle = new Class({
             var y = e.event.touches[1].pageY - (this.y + this._offsetY);
             var tdist = Math.sqrt(y*y + x*x);
             var z = Math.min(this.__z * (tdist / this._tdist));
-            if(z >= this.options.max_z || z < this.options.min_z) {
+            if(z >= this.options.max_z || z <= this.options.min_z) {
                 var x = e.event.touches[1].pageX - (this.x + this._offsetX);
                 var y = e.event.touches[1].pageY - (this.y + this._offsetY);
                 this._tdist = Math.sqrt(y*y + x*x);

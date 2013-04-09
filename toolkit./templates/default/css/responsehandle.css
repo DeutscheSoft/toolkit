@@ -10,7 +10,7 @@
     opacity: 0.9;
 }
 .toolkit-response-handle.toolkit-warn {
-    fill: rgb(255,255,0);
+    
 }
 .toolkit-response-handle.toolkit-circular {
     
@@ -74,6 +74,10 @@
 }
 .toolkit-response-handle.toolkit-active .toolkit-handle {
     cursor:move;
+}
+.toolkit-response-handle.toolkit-warn .toolkit-handle {
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 20;
 }
 .toolkit-response-handle.circle .toolkit-handle {
     
