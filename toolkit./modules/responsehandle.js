@@ -264,6 +264,7 @@ ResponseHandle = new Class({
                         pos = intersects[i];
                         break;
                     }
+                    console.log(xl);
                 }
                 if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
                 this._label.set({
