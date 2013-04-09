@@ -315,7 +315,9 @@ function run_responsehandler () {
         rh.add_handle({x:4000, y:12, z: 7, mode:_TOOLKIT_CIRCULAR, title:"handle 2", step_z:0.1, shift_z:10, ctrl_z:0.2}),
         rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 3", step_z:0.1, shift_z:10, ctrl_z:0.2}),
         rh.add_handle({x:50, y:-12, z: 7, mode:_TOOLKIT_CIRCULAR, title:"handle 4", step_z:0.1, shift_z:10, ctrl_z:0.2}),
-        rh.add_handle({x:8000, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 5", step_z:0.1, shift_z:10, ctrl_z:0.2})
+        rh.add_handle({x:8000, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, title:"handle 5", step_z:0.1, shift_z:10, ctrl_z:0.2}),
+        rh.add_handle({x:10000, z: 3, mode:_TOOLKIT_LINE_VERTICAL, title:"handle 6", step_z:0.1, shift_z:10, ctrl_z:0.2}),
+        rh.add_handle({x:14000, z: 3, mode:_TOOLKIT_LINE_VERTICAL, title:"handle 7", step_z:0.1, shift_z:10, ctrl_z:0.2, y_min:-12, y_max:12})
     ]
 }
 

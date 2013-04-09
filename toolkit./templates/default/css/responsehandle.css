@@ -1,20 +1,25 @@
 .toolkit-response-handle {
-    opacity: 0.3;
     fill: rgb(255,255,255);
 }
 .toolkit-response-handle.toolkit-hover {
-    opacity: 0.6;
+    
 }
 .toolkit-response-handle.toolkit-active {
     cursor: move !important;
-    opacity: 0.9;
 }
 .toolkit-response-handle.toolkit-warn {
     
 }
 .toolkit-response-handle.toolkit-circular {
-    
+    opacity: 0.3;
 }
+.toolkit-response-handle.toolkit-circular.toolkit-hover {
+    opacity: 0.6;
+}
+.toolkit-response-handle.toolkit-circular.toolkit-active {
+    opacity: 0.9;
+}
+
 .toolkit-response-handle.toolkit-line-vertical {
     
 }
@@ -45,25 +50,25 @@
 .toolkit-response-handle .toolkit-label tspan {
     
 }
-.toolkit-response-handle.circle .toolkit-label {
+.toolkit-response-handle.toolkit-circular .toolkit-label {
     
 }
-.toolkit-response-handle.line-vertical .toolkit-label {
+.toolkit-response-handle.toolkit-line-vertical .toolkit-label {
     
 }
-.toolkit-response-handle.line-horizontal .toolkit-label {
+.toolkit-response-handle.toolkit-line-horizontal .toolkit-label {
     
 }
-.toolkit-response-handle.block-left .toolkit-label {
+.toolkit-response-handle.toolkit-block-left .toolkit-label {
     
 }
-.toolkit-response-handle.block-right .toolkit-label {
+.toolkit-response-handle.toolkit-block-right .toolkit-label {
     
 }
-.toolkit-response-handle.block-top .toolkit-label {
+.toolkit-response-handle.toolkit-block-top .toolkit-label {
     
 }
-.toolkit-response-handle.block-bottom .toolkit-label {
+.toolkit-response-handle.toolkit-block-bottom .toolkit-label {
     
 }
 
@@ -79,58 +84,85 @@
     stroke: rgba(255,255,255,0.2);
     stroke-width: 20;
 }
-.toolkit-response-handle.circle .toolkit-handle {
+.toolkit-response-handle.toolkit-circular .toolkit-handle {
     
 }
-.toolkit-response-handle.line-vertical .toolkit-handle {
+.toolkit-response-handle.toolkit-line-vertical .toolkit-handle {
+    opacity: 0.2;
+}
+.toolkit-response-handle.toolkit-line-vertical.toolkit-hover .toolkit-handle {
+    opacity: 0.33;
+}
+.toolkit-response-handle.toolkit-line-vertical.toolkit-active .toolkit-handle {
+    opacity: 0.5;
+}
+.toolkit-response-handle.toolkit-line-horizontal .toolkit-handle {
     
 }
-.toolkit-response-handle.line-horizontal .toolkit-handle {
+.toolkit-response-handle.toolkit-block-left .toolkit-handle {
     
 }
-.toolkit-response-handle.block-left .toolkit-handle {
+.toolkit-response-handle.toolkit-block-right .toolkit-handle {
     
 }
-.toolkit-response-handle.block-right .toolkit-handle {
+.toolkit-response-handle.toolkit-block-top .toolkit-handle {
     
 }
-.toolkit-response-handle.block-top .toolkit-handle {
-    
-}
-.toolkit-response-handle.block-bottom .toolkit-handle {
+.toolkit-response-handle.toolkit-block-bottom .toolkit-handle {
     
 }
 
 .toolkit-response-handle .toolkit-line {
-    stroke: white;
     stroke-width: 1;
-    display: none;
-    opacity: 0.5;
 }
 .toolkit-response-handle.toolkit-hover .toolkit-line {
     
 }
 .toolkit-response-handle.toolkit-active .toolkit-line {
+    
+}
+.toolkit-response-handle.toolkit-circular .toolkit-line {
+    stroke: white;
+/*     stroke-dasharray: 1,1; */
+    opacity: 0.5;
+    display: none;
+}
+.toolkit-response-handle.toolkit-circular.toolkit-active .toolkit-line {
     display: block;
 }
-.toolkit-response-handle.circle .toolkit-line {
+
+.toolkit-response-handle.toolkit-line-vertical .toolkit-line-1 {
+    stroke: #fff;
+    stroke-dasharray: 1,1;
+    opacity: 0.6;
+}
+.toolkit-response-handle.toolkit-line-vertical.toolkit-hover .toolkit-line-1 {
     
 }
-.toolkit-response-handle.line-vertical .toolkit-line {
+.toolkit-response-handle.toolkit-line-vertical.toolkit-active .toolkit-line-1 {
     
 }
-.toolkit-response-handle.line-horizontal .toolkit-line {
+.toolkit-response-handle.toolkit-line-vertical .toolkit-line-2 {
+    stroke: #fff;
+/*     stroke-dasharray: 1,1; */
+    opacity: 0;
+}
+.toolkit-response-handle.toolkit-line-vertical.toolkit-active .toolkit-line-2 {
+    opacity: 0.5;
+}
+
+.toolkit-response-handle.toolkit-line-horizontal .toolkit-line {
     
 }
-.toolkit-response-handle.block-left .toolkit-line {
+.toolkit-response-handle.toolkit-block-left .toolkit-line {
     
 }
-.toolkit-response-handle.block-right .toolkit-line {
+.toolkit-response-handle.toolkit-block-right .toolkit-line {
     
 }
-.toolkit-response-handle.block-top .toolkit-line {
+.toolkit-response-handle.toolkit-block-top .toolkit-line {
     
 }
-.toolkit-response-handle.block-bottom .toolkit-line {
+.toolkit-response-handle.toolkit-block-bottom .toolkit-line {
     
 }

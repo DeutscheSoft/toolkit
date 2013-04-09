@@ -29,7 +29,7 @@ ResponseHandle = new Class({
         y_max:            false,        // restrict y movement, max y value, false to disable
         z_min:            false,        // restrict z values, min z value, false to disable
         z_max:            false,        // restrict z values, max z value, false to disable
-        min_size:         16,           // minimum size of object in pixels, values can be smaller
+        min_size:         24,           // minimum size of object in pixels, values can be smaller
         margin:           3,            // margin between label and handle
         gesture_distance: 10,           // pixels to move while touchmove for setting 1 step
         active:           function(){return true} // callback that returns true if handle is usable and false if not
@@ -71,28 +71,18 @@ ResponseHandle = new Class({
             "class": "toolkit-label"
         }).inject(this.element);
         
-        this._lineH = makeSVG("path", {
-            "class": "toolkit-line toolkit-horizontal"
-        }).inject(this.element);
-        this._lineV = makeSVG("path", {
-            "class": "toolkit-line toolkit-vertical"
-        }).inject(this.element);
-        
         this._handle = makeSVG(this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
             "class": "toolkit-handle"
         }).inject(this.element);
         
-        var opts = {}
-        switch(this.options.mode) {
-            case _TOOLKIT_BLOCK_LEFT:
-            case _TOOLKIT_BLOCK_RIGHT:
-                opts = {x1: "0%", y1: "0%", x2: "0%", y2: "100%"}; break;
-            case _TOOLKIT_BLOCK_TOP:
-            case _TOOLKIT_BLOCK_BOTTOM:
-                opts = {x1: "0%", y1: "0%", x2: "0%", y2: "100%"}; break;
-        }
-        opts["id"] = "grad_" + this.options.id;
-        this._gradient = makeSVG("linearGradient", opts).inject(this.element);
+        this._line1 = makeSVG("path", {
+            "class": "toolkit-line toolkit-line-1"
+        }).inject(this.element);
+        this._line2 = makeSVG("path", {
+            "class": "toolkit-line toolkit-line-2"
+        }).inject(this.element);
+        
+        this._gradient = makeSVG("linearGradient", {id: "grad_" + this.options.id}).inject(this.element);
         this._stop1 = makeSVG("stop", {
             "offset": "0%",
             "stop-color": ""
@@ -168,10 +158,10 @@ ResponseHandle = new Class({
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
-                x      = Math.min(this.options.width - this.options.min_size, Math.max(0, this.x2px(this.options.x) - this.options.min_size / 2));
-                y      = 0;
-                width  = this.options.min_size;
-                height = this.options.height;
+                width  = Math.max(this.options.min_size, this.z);
+                x      = Math.min(this.options.width - width, Math.max(0, this.x - width / 2)) + this._add;
+                y      = Math.max(0, this.options.y_max === false ? 0 : this.y2px(this.options.y_max));
+                height = Math.min(this.options.height, this.options.y_min === false ? this.options.height : this.y2px(this.options.y_min)) - y;
                 this._handle.set({x:x,y:y,width:width, height:height});
                 this.element.set({transform: "translate(0,0)"});
                 break;
@@ -221,7 +211,7 @@ ResponseHandle = new Class({
             l.set("text", a[i]);
             l.set({x:0, dy:"1.0em"});
         }
-        $("log").set("text", String(this._label.get("html")).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'));
+        //$("log").set("text", String(this._label.get("html")).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'));
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
@@ -313,11 +303,13 @@ ResponseHandle = new Class({
                 // circle
                 var _x = Math.max(width / 2 + this.options.margin, this.label.x2 - this.x + this.options.margin);
                 var _y = Math.max(height / 2 + this.options.margin, this.label.y2 - this.y + this.options.margin);
-                this._lineH.set("d", "M" + _x + " 0" + this._add + " L" + (this.options.width - (x - _x)) + " 0" + this._add);
-                this._lineV.set("d", "M 0" + this._add + " " + _y + " L 0" + this._add + " " + (this.options.height - (y - _y)));
+                this._line1.set("d", "M " + _x + " 0" + this._add + " L" + (this.options.width - (x - _x)) + " 0" + this._add);
+                this._line2.set("d", "M 0" + this._add + " " + _y + " L 0" + this._add + " " + (this.options.height - (y - _y)));
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
+                this._line1.set("d", "M " + (this.x + this._add) + " " + y + " L " + (this.x + this._add) + " " + (y + height));
+                this._line2.set("d", "M " + (this.x + this._add) + " 0 L " + (this.x + this._add) + " " + this.options.height);
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
@@ -337,8 +329,9 @@ ResponseHandle = new Class({
         }
     },
     destroy: function () {
-        this._lineX.destroy();
-        this._lineY.destroy();
+        this._gradient.destroy();
+        this._line1.destroy();
+        this._line2.destroy();
         this._label.destroy();
         this._handle.destroy();
         this.element.destroy();
