@@ -219,7 +219,7 @@ ResponseHandle = new Class({
                 var pos = false;
                 var align = "";
                 var _s = this._label.getSize();
-                console.log(_s)
+                console.log(this._label)
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP:
