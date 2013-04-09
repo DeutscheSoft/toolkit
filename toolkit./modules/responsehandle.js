@@ -211,7 +211,6 @@ ResponseHandle = new Class({
             l.set("text", a[i]);
             l.set({x:0, dy:"1.0em"});
         }
-        //$("log").set("text", String(this._label.get("html")).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'));
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
@@ -272,10 +271,9 @@ ResponseHandle = new Class({
                     "y": (pos.yl - y) + "px",
                     "text-anchor": pos.align
                 });
-                console.log((pos.xl - x) + "px", (pos.yl - y) + "px");
-//                 this._label.getChildren().set({
-//                     "x": pos.xl - x
-//                 });
+                this._label.getChildren().set({
+                    "x": (pos.xl - x) + "px"
+                });
                 this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
             case _TOOLKIT_LINE_VERTICAL:
