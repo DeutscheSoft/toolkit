@@ -271,9 +271,9 @@ ResponseHandle = new Class({
                     "y": pos.yl - y,
                     "text-anchor": pos.align
                 });
-                this._label.getChildren().set({
-                    "x": pos.xl - x
-                });
+//                 this._label.getChildren().set({
+//                     "x": pos.xl - x
+//                 });
                 this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
             case _TOOLKIT_LINE_VERTICAL:

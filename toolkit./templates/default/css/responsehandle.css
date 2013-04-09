@@ -81,7 +81,7 @@
     cursor:move;
 }
 .toolkit-response-handle.toolkit-warn .toolkit-handle {
-    stroke: rgba(255,255,255,0.2);
+    stroke: rgba(255,255,255,0.3);
     stroke-width: 20;
 }
 .toolkit-response-handle.toolkit-circular .toolkit-handle {
