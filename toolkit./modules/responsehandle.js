@@ -206,10 +206,18 @@ ResponseHandle = new Class({
         this._label.empty();
         var t = this.options.label(this.options.title, this.options.x, this.options.y, this.options.z);
         var a = t.split("\n");
+        var c = this._label.getChildren().
+        var m = c.length;
+        while(m < a) {
+            makeSVG("tspan", {dy:"1.0em"}).inject(this._label);
+            m++;
+        }
+        while(m > a) {
+            this._label.getChildren()[m-1].destroy();
+            m--;
+        }
         for(var i = 0; i < a.length; i++) {
-            var l = makeSVG("tspan").inject(this._label);
-            l.set("text", a[i]);
-            l.set({x:0, dy:"1.0em"});
+            c[i].set("text", a[i]);
         }
         
         switch(this.options.mode) {
@@ -219,7 +227,6 @@ ResponseHandle = new Class({
                 var pos = false;
                 var align = "";
                 var _s = this._label.getBBox();
-                console.log(this._label)
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP:
@@ -261,7 +268,6 @@ ResponseHandle = new Class({
                     intersects[i].xl = xl;
                     intersects[i].yl = yl;
                     intersects[i].align = align;
-                    console.log(xl);
                     if(!intersects[i].intersect) {
                         pos = intersects[i];
                         break;
@@ -276,7 +282,6 @@ ResponseHandle = new Class({
                 this._label.getChildren().set({
                     "x": (pos.xl - x) + "px"
                 });
-                console.log(pos.xl,x)
                 this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
             case _TOOLKIT_LINE_VERTICAL:
