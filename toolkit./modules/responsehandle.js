@@ -218,35 +218,35 @@ ResponseHandle = new Class({
                 var intersects = [];
                 var pos = false;
                 var align = "";
-                var _s = this._label.getSize();
+                var _s = this._label.getBBox();
                 console.log(this._label)
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP:
-                            var x1 = x - _s.x / 2;
-                            var y1 = y - height / 2 - m - _s.y;
+                            var x1 = x - _s.width / 2;
+                            var y1 = y - height / 2 - m - _s.height;
                             var xl = x;
                             var yl = y1;
                             var align = "middle";
                             break;
                         case _TOOLKIT_RIGHT:
                             var x1 = x + width / 2 + m;
-                            var y1 = y - _s.y / 2;
+                            var y1 = y - _s.height / 2;
                             var xl = x1;
                             var yl = y1;
                             var align = "start";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = x - _s.x / 2;
+                            var x1 = x - _s.width / 2;
                             var y1 = y + height / 2 + m;
                             var xl = x;
                             var yl = y1;
                             var align = "middle";
                             break;
                         case _TOOLKIT_LEFT:
-                            var x1 = x - width / 2 - m - _s.x;
-                            var y1 = y - _s.y / 2;
-                            var xl = x1 + _s.x;
+                            var x1 = x - width / 2 - m - _s.width;
+                            var y1 = y - _s.height / 2;
+                            var xl = x1 + _s.width;
                             var yl = y1;
                             var align = "end";
                             break;
