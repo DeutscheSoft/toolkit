@@ -4,7 +4,7 @@ var ResponseHandler = new Class({
         mode_z: _TOOLKIT_FLAT,
         importance_label:  4,   // multiplicator of square pixels on hit testing labels to gain importance
         importance_handle: 1,   // multiplicator of square pixels on hit testing handles to gain importance
-        importance_border: 20, // multiplicator of square pixels on hit testing borders to gain importance
+        importance_border: 50,  // multiplicator of square pixels on hit testing borders to gain importance
     },
     handles: [],
     _active: 0,
