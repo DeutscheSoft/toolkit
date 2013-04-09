@@ -274,7 +274,7 @@ ResponseHandle = new Class({
                 this._label.getChildren().set({
                     "x": (pos.xl - x) + "px"
                 });
-                console.log((pos.xl - x) + "px")
+                console.log(pos.xl,x)
                 this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
             case _TOOLKIT_LINE_VERTICAL:
