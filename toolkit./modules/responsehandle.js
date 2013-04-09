@@ -268,9 +268,11 @@ ResponseHandle = new Class({
                 }
                 if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
                 this._label.set({
-                    "y": pos.yl - y,
+                    "x": (pos.xl - x) + "px",
+                    "y": (pos.yl - y) + "px",
                     "text-anchor": pos.align
                 });
+                console.log((pos.xl - x) + "px", (pos.yl - y) + "px");
 //                 this._label.getChildren().set({
 //                     "x": pos.xl - x
 //                 });
