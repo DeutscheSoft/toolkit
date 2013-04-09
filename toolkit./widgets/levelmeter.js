@@ -41,7 +41,7 @@ LevelMeter = new Class({
         });
         this._clip = this.__state.element;
         
-        if(this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT) {
+        if(this.options.layout == _TOOLKIT_TOP || this.options.layout == _TOOLKIT_BOTTOM) {
             this.__state.element.inject(this._bar, "after");
         } else {
             this.__state.element.inject(this._scale, "before");
@@ -66,7 +66,7 @@ LevelMeter = new Class({
             position: "absolute",
             zIndex:  1000
         });
-        if(this.options.layout = _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT) {
+        if(this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT) {
             if(this.options.reverse) {
                 this._mask3.setStyles({
                     width:  "100%",
@@ -173,7 +173,7 @@ LevelMeter = new Class({
     
     _draw_meter: function (value) {
         var _c = true;
-        var vert = this.options.layout = _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT
+        var vert = this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT
         if(this.options.falling) {
             if(this.options.value > this._falling && this.options.value > this.options.base
             || this.options.value < this._falling && this.options.value < this.options.base) {
@@ -284,7 +284,7 @@ LevelMeter = new Class({
     _bar_size: function () {
         var s = this.parent();
         if(this.options.show_clip)
-            s -= this._clip[this.options.layout = _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT ? "outerHeight" : "outerWidth"]();
+            s -= this._clip[this.options.layout == _TOOLKIT_LEFT || this.options.layout == _TOOLKIT_RIGHT ? "outerHeight" : "outerWidth"]();
         return s;
     },
     
