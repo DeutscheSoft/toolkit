@@ -259,12 +259,12 @@ ResponseHandle = new Class({
                     intersects[i].y2 = y2;
                     intersects[i].xl = xl;
                     intersects[i].yl = yl;
-                    intersects[i].align = align
+                    intersects[i].align = align;
+                    console.log(xl);
                     if(!intersects[i].intersect) {
                         pos = intersects[i];
                         break;
                     }
-                    console.log(xl);
                 }
                 if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
                 this._label.set({
