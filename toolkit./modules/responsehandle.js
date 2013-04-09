@@ -419,7 +419,12 @@ ResponseHandle = new Class({
             s *= this.options.ctrl_z;
         else if(e.shift)
             s *= this.options.shift_z;
-        this.set("z", Math.max(Math.min(this.get("z") + s, this.options.max_z), this.options.min_z));
+        var z = Math.max(Math.min(this.get("z") + s, this.options.max_z), this.options.min_z);
+        this.set("z", z);
+        if(z >= this.options.max_z || z < this.options.min_z) {
+            this._set_warning();
+        }
+        
     },
     _touchstart: function (e) {
         if(e.touches && e.touches.length == 2) {
@@ -454,6 +459,13 @@ ResponseHandle = new Class({
             var y = e.event.touches[1].pageY - (this.y + this._offsetY);
             var tdist = Math.sqrt(y*y + x*x);
             var z = Math.min(this.__z * (tdist / this._tdist));
+            if(z >= this.options.max_z || z < this.options.min_z) {
+                var x = e.event.touches[1].pageX - (this.x + this._offsetX);
+                var y = e.event.touches[1].pageY - (this.y + this._offsetY);
+                this._tdist = Math.sqrt(y*y + x*x);
+                this.__z = this.options.z;
+                this._set_warning();
+            }
             this.set("z", Math.max(Math.min(z, this.options.max_z), this.options.min_z));
             e.event.preventDefault();
             e.event.stopPropagation();
@@ -462,7 +474,12 @@ ResponseHandle = new Class({
             this._mousemove(e);
         }
     },
-    
+    _set_warning: function () {
+        if(this.__wto) window.clearTimeout(this.__wto);
+        this.__wto = null;
+        this.element.addClass("toolkit-warn");
+        this.__wto = window.setTimeout(function(){this.element.removeClass("toolkit-warn");}.bind(this), 250);
+    },
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.parent(key, value, hold);
