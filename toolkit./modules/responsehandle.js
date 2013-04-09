@@ -206,16 +206,17 @@ ResponseHandle = new Class({
         this._label.empty();
         var t = this.options.label(this.options.title, this.options.x, this.options.y, this.options.z);
         var a = t.split("\n");
-        var c = this._label.getChildren().
+        var c = this._label.getChildren();
         var m = c.length;
-        while(m < a) {
+        while(m < a.length) {
             makeSVG("tspan", {dy:"1.0em"}).inject(this._label);
             m++;
         }
-        while(m > a) {
+        while(m > a.length) {
             this._label.getChildren()[m-1].destroy();
             m--;
         }
+        var c = this._label.getChildren();
         for(var i = 0; i < a.length; i++) {
             c[i].set("text", a[i]);
         }
