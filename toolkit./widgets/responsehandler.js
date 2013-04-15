@@ -29,32 +29,65 @@ var ResponseHandler = new Class({
     
     add_handle: function (options, g) {
         options["container"] = this._handles;
+        
         if(typeof options["min_x"] == "undefined")
             options["min_x"] = this.options.min_x;
         if(typeof options["min_y"] == "undefined")
             options["min_y"] = this.options.min_y;
         if(typeof options["min_z"] == "undefined")
             options["min_z"] = this.options.min_z;
+        
         if(typeof options["max_x"] == "undefined")
             options["max_x"] = this.options.max_x;
         if(typeof options["max_y"] == "undefined")
             options["max_y"] = this.options.max_y;
         if(typeof options["max_z"] == "undefined")
             options["max_z"] = this.options.max_z;
+        
         if(typeof options["mode_x"] == "undefined")
             options["mode_x"] = this.options.mode_x;
         if(typeof options["mode_y"] == "undefined")
             options["mode_y"] = this.options.mode_y;
         if(typeof options["mode_z"] == "undefined")
             options["mode_z"] = this.options.mode_z;
+        
+        if(typeof options["step_x"] == "undefined")
+            options["step_x"] = this.options.step_x;
+        if(typeof options["step_y"] == "undefined")
+            options["step_y"] = this.options.step_y;
+        if(typeof options["step_z"] == "undefined")
+            options["step_z"] = this.options.step_z;
+        
+        if(typeof options["shift_x"] == "undefined")
+            options["shift_x"] = this.options.shift_x;
+        if(typeof options["shift_y"] == "undefined")
+            options["shift_y"] = this.options.shift_y;
+        if(typeof options["shift_z"] == "undefined")
+            options["shift_z"] = this.options.shift_z;
+        
+        if(typeof options["ctrl_x"] == "undefined")
+            options["ctrl_x"] = this.options.ctrl_x;
+        if(typeof options["ctrl_y"] == "undefined")
+            options["ctrl_y"] = this.options.ctrl_y;
+        if(typeof options["ctrl_z"] == "undefined")
+            options["ctrl_z"] = this.options.ctrl_z;
+        
+        if(typeof options["snap_x"] == "undefined")
+            options["snap_x"] = this.options.snap_x;
+        if(typeof options["snap_y"] == "undefined")
+            options["snap_y"] = this.options.snap_y;
+        if(typeof options["snap_z"] == "undefined")
+            options["snap_z"] = this.options.snap_z;
+        
         if(typeof options["width"] == "undefined")
             options["width"] = this.options.width;
         if(typeof options["height"] == "undefined")
             options["height"] = this.options.height;
         if(typeof options["depth"] == "undefined")
             options["depth"] = this.options.depth;
+        
         options["intersect"] = this.intersect.bind(this);
-        options["active"] = function(){return this._active == 0}.bind(this);
+        
         var h = new ResponseHandle(options);
         this.handles.push(h);
         h.addEvent("startdrag", function () { this._active ++ }.bind(this));

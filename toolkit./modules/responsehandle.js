@@ -5,7 +5,7 @@ ResponseHandle = new Class({
         "class":          "",
         id:               "",
         container:        false,        // a container to use as the base object
-        intersect:        function(){ return {intersect:0, c:0} }, // callback function for checking intersections: function (x1, y1, x2, y2, id) {}
+        intersect:        function(){ return {intersect:0, count:0} }, // callback function for checking intersections: function (x1, y1, x2, y2, id) {}
                                         // returns a value describing the amount of intersection with other handle elements.
                                         // intersections are weighted depending on the intersecting object. E.g. SVG borders have
                                         // a very high impact while intersecting in comparison with overlapping handle objects
@@ -31,7 +31,7 @@ ResponseHandle = new Class({
         z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         24,           // minimum size of object in pixels, values can be smaller
         margin:           3,            // margin between label and handle
-        active:           function(){return true} // callback that returns true if handle is usable and false if not
+        active:           true          // set to true if handle is usable and false if not
     },
     
     x: 0,
@@ -78,16 +78,6 @@ ResponseHandle = new Class({
             "class": "toolkit-handle"
         }).inject(this.element);
         
-        this._gradient = makeSVG("linearGradient", {id: "grad_" + this.options.id}).inject(this.element);
-        this._stop1 = makeSVG("stop", {
-            "offset": "0%",
-            "stop-color": ""
-        }).inject(this._gradient);
-        this._stop2 = makeSVG("stop", {
-            "offset": "100%",
-            "stop-color": ""
-        }).inject(this._gradient);
-        
         if(this.options.container) this.set("container", this.options.container, hold);
         if(this.options["class"]) this.set("class", this.options["class"], hold);
         this.element.addEvents({
@@ -114,6 +104,8 @@ ResponseHandle = new Class({
         $$("body")[0].addEvent("mouseup", this._mouseup.bind(this));
         
         this._handle.onselectstart = function () { return false; };
+        
+        this.set("active", this.options.active, true);
         if(!hold) this.redraw();
     },
     
@@ -718,7 +710,6 @@ ResponseHandle = new Class({
         }
     },
     destroy: function () {
-        this._gradient.destroy();
         this._line1.destroy();
         this._line2.destroy();
         this._label.destroy();
@@ -747,7 +738,7 @@ ResponseHandle = new Class({
     _mousedown: function (e) {
         e.event.preventDefault();
         e.event.stopPropagation();
-        if(!this.options.active()) return false;
+        if(!this.options.active) return false;
         
         // order
         if(this.options.container) {

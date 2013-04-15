@@ -603,7 +603,33 @@
                                 <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>2</td>
+                        <td>_TOOLKIT_FLAT</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_FREQUENCY</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_FLAT</td>
                     </tr>
                     <tr class="inherit">
                         <td>class <i class="static">⚓</i></td>
@@ -650,6 +676,17 @@
                         <td>Max dB for this axis.</td>
                         <td>36</td>
                     </tr>
+                    <tr class="inherit">
+                        <td>step_x</td>
+                        <td>Step size for x axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>step_y</td>
+                        <td>Step size for y axis</td>
+                        <td>0</td>
+                    </tr>
+                    
                 </table>
                 
                 <table class="elements collapse" title="⚛ Elements">
@@ -1440,9 +1477,15 @@
                 
                 <p class="description">
                     <strong>ResponseHandler</strong> is a <a href="#frequencyresponse">FrequencyResponse</a>
-                    adding some <a href="#responsehandle">ResponseHandles</a>.
+                    adding some <a href="#responsehandle">ResponseHandles</a>. Options depending on the implemented
+                    <a href="#coordinates">Coordinates</a> are handed over to added ResponseHandles if not
+                    explicitely set in the options of the ResponseHandle.
                 </p>
-                
+                <p class="description">
+                    Use handles[n] to play with the example handles in a terminal:
+                    <a href="javascript:handles[14].set('active', !handles[14].get('active'))">handles[14].set('active', !handles[14].get('active'))</a>
+                    <small>(toggles the active state of the bottom-blocked handle)</small>
+                </p>
                 <style type="text/css">
                     #sc_responsehandler {
                         
@@ -1509,7 +1552,7 @@
                                 <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>_TOOLKIT_FREQUENCY</td>
+                        <td>_TOOLKIT_FLAT</td>
                     </tr>
                     <tr class="inherit">
                         <td>class <i class="static">⚓</i></td>
@@ -1527,49 +1570,135 @@
                         <td>false</td>
                     </tr>
                     <tr class="inherit">
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_PIXEL</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_PIXEL</td>
+                    </tr>
+                    <tr class="inherit">
                         <td>width</td>
-                        <td>The width of the SVG image.</td>
+                        <td>If positioning is percentual we better should know about the real width</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>height</td>
-                        <td>The height of the SVG image.</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>depth</td>
-                        <td>The max size as pixels for depth parameter</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>min_x</td>
-                        <td>Min frequency for this axis.</td>
-                        <td>20</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>max_x</td>
-                        <td>Max frequency for this axis.</td>
-                        <td>20000</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>min_y</td>
-                        <td>Min dB for this axis.</td>
-                        <td>-36</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>max_y</td>
-                        <td>Max dB for this axis.</td>
-                        <td>36</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>min_z</td>
-                        <td>Min value for this axis.</td>
-                        <td>-36</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
                     </tr>
                     <tr class="inherit">
                         <td>max_z</td>
-                        <td>Max value for this axis.</td>
-                        <td>36</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>step_x</td>
+                        <td>Step size for x axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>step_y</td>
+                        <td>Step size for y axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>step_z</td>
+                        <td>Step size for z axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>shift_x</td>
+                        <td>Multiplicator for step_x if SHIFT is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>shift_y</td>
+                        <td>Multiplicator for step_y if SHIFT is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>shift_z</td>
+                        <td>Multiplicator for step_z if SHIFT is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>ctrl_x</td>
+                        <td>Multiplicator for step_x if CONTROL is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>ctrl_y</td>
+                        <td>Multiplicator for step_y if CONTROL is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>ctrl_z</td>
+                        <td>Multiplicator for step_z if CONTROL is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>snap_x</td>
+                        <td>Snap x axis to a virtual grid with this distance</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>snap_y</td>
+                        <td>Snap y axis to a virtual grid with this distance</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>snap_z</td>
+                        <td>Snap z axis to a virtual grid with this distance</td>
+                        <td>0</td>
                     </tr>
                 </table>
                 
@@ -1619,9 +1748,21 @@
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>add_handle([options])</td>
+                        <td>Create a ResponseHandle inside the ResponseHandler. Options is an object containing
+                        options for the <a href="#responsehandle">ResponseHandle</a> element.
+                        <br/><br/>
+                        It returns the new ResponseHandle instance.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>remove_handle(handle)</td>
+                        <td>Remove a ResponseHandle from the ResponseHandler.</td>
+                    </tr>
                     <tr class="inherit">
                         <td>add_graph([options])</td>
-                        <td>Create a Graph inside the Chart. Options is an object containing
+                        <td>Create a Graph inside the ResponseHandler. Options is an object containing
                         options for the <a href="#graph">Graph</a> element.
                         <br/><br/>
                         It returns the new Graph instance.
@@ -1629,7 +1770,7 @@
                     </tr>
                     <tr class="inherit">
                         <td>remove_graph(graph)</td>
-                        <td>Remove a Graph from the chart.</td>
+                        <td>Remove a Graph from the ResponseHandler.</td>
                     </tr>
                     <tr class="inherit">
                         <td>x2px(value)</td>
@@ -1932,7 +2073,7 @@
             
             <li id="Graph" class="module">
                 <!-- ########################################################### -->
-                <!-- GRAPH WIDGET -->
+                <!-- GRAPH MODULE -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
@@ -2112,7 +2253,7 @@
             
             <li id="Grid" class="module">
                 <!-- ########################################################### -->
-                <!-- GRID WIDGET -->
+                <!-- GRID MODULE -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
@@ -2261,9 +2402,378 @@
                 
             </li>
             
+            <li id="ResponseHandle" class="module">
+                <!-- ########################################################### -->
+                <!-- RESPONSE HANDLE MODULE -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>ResponseHandle</strong> is a controller inside a <a href="#graph">Graph</a> widget.
+                    ResponseHandles have various faces and functions to provide different controls for every
+                    application an alterable Graph may be used in:
+                    <ul>
+                        <li><strong>Circular handles:</strong> used for e.g. parametric EQ's, normally draggable
+                            in x and y direction. Able to show z axis via its size.</li>
+                        <li><strong>Lines:</strong> Vertical lines ca be used to e.g. modify a shelving filter
+                            while horizontal lines restricted in width may be used as handles for a graphical EQ
+                            with fixed bands. They are able to show the z axis via their size.</li>
+                        <li><strong>Blocks:</strong> Blocks roughly act like lines but draw themself as rectangles
+                            filling the space to their boundary. They can't show any z axis except as value in the label.</li>
+                    </ul>
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>id <i class="static">⚓</i></td>
+                        <td>An ID to add on build time</td>
+                        <td>[empty]</td>
+                    </tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A container element to inject the state into</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>mode <i class="static">⚓</i></td>
+                        <td>Mode of the ResponseHandle.
+                            <ul>
+                                <li>_TOOLKIT_CIRCULAR: a circular handle</li>
+                                <li>_TOOLKIT_LINE_VERTICAL: vertical bar</li>
+                                <li>_TOOLKIT_LINE_HORIZONAL: horizontal bar</li>
+                                <li>_TOOLKIT_BLOCK_LEFT: rectangle bound to the left edge</li>
+                                <li>_TOOLKIT_BLOCK_RIGHT: rectangle bound to the right edge</li>
+                                <li>_TOOLKIT_BLOCK_TOP: rectangle bound to the top edge</li>
+                                <li>_TOOLKIT_BLOCK_BOTTOM: rectangle bound to the bottom edge</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_CIRCULAR</td>
+                    </tr>
+                    <tr>
+                        <td>intersect</td>
+                        <td>callback function for checking intersections: function (x1, y1, x2, y2, id) {}<br />
+                        Returns a value describing the amount of intersection with other handle elements.
+                        Intersections are weighted depending on the intersecting object. E.g. SVG edges normally have
+                        a very high impact while intersecting in comparison with overlapping handle objects
+                        that have a low impact on intersection.
+                        </td>
+                        <td>function(){ return {intersect:0, count:0} }</td>
+                    </tr>
+                    <tr>
+                        <td>preferences</td>
+                        <td>Perferred position of the label. This options is an array containing positions
+                        with a descending priority - the first child will be the most preferred position.<br/>
+                        Possible positions depend on the chosen handle mode:
+                        <ul>
+                            <li><strong>_TOOLKIT_CIRCULAR</strong>: _TOOLKIT_TOP, _TOOLKIT_BOTTOM, _TOOLKIT_LEFT, _TOOLKIT_RIGHT</li>
+                            <li><strong>_TOOLKIT_LINE_VERTICAL</strong>: _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM_RIGHT</li>
+                            <li><strong>_TOOLKIT_LINE_HORIZONTAL</strong>: _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT</li>
+                            <li><strong>_TOOLKIT_BLOCK_[LEFT/RIGHT/TOP/BOTTOM]</strong>: _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT</li>
+                        </ul>
+                        </td>
+                        <td>[_TOOLKIT_LEFT, _TOOLKIT_TOP, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM]</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>A callback function layouting the label. "\n" creates line breaks.
+                        </td>
+                        <td>function (title, x, y, z) { return sprintf("%s\n%d Hz\n%.2f dB\nQ: %.2f", title, x, y, z); }</td>
+                    </tr>
+                    <tr>
+                        <td>x</td>
+                        <td>A value for the x position</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>y</td>
+                        <td>A value for the y position</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>z</td>
+                        <td>A value for the z axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>x_min</td>
+                        <td>Restrict x axis, minimum value, false to disable lower restriction</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>x_max</td>
+                        <td>Restrict x axis, maximum value, false to disable upper restriction</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>y_min</td>
+                        <td>Restrict y axis, minimum value, false to disable lower restriction</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>y_max</td>
+                        <td>Restrict y axis, maximum value, false to disable upper restriction</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>z_min</td>
+                        <td>Restrict z axis, minimum value, false to disable lower restriction</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>z_max</td>
+                        <td>Restrict z axis, maximum value, false to disable upper restriction</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>min_size</td>
+                        <td>Minimum size for drawing a handle.</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td>margin</td>
+                        <td>Space between labels and handle/image borders</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>active</td>
+                        <td>True if usable, false if not. Disables main actions and sets the css class
+                        "toolkit-inactive" on the element if set to false.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_x</td>
+                        <td>The positioning on the x axis:
+                            <ul>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_PIXEL</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_y</td>
+                        <td>The positioning on the y axis:
+                            <ul>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_PIXEL</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>mode_z</td>
+                        <td>The positioning on the z axis:
+                            <ul>
+                                <li>_TOOLKIT_PIXEL: pixels</li>
+                                <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
+                                <li>_TOOLKIT_FLAT: flat value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_DECIBEL: dB value (needs width, height, min_x and max_x)</li>
+                                <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_PIXEL</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>width</td>
+                        <td>If positioning is percentual we better should know about the real width</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>height</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>depth</td>
+                        <td>If positioning is percentual we better should know about the real height</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_x</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_y</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>min_z</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>max_z</td>
+                        <td>If positioning is not absolute (0 || 1), we need a range for this axis.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>step_x</td>
+                        <td>Step size for x axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>step_y</td>
+                        <td>Step size for y axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>step_z</td>
+                        <td>Step size for z axis</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>shift_x</td>
+                        <td>Multiplicator for step_x if SHIFT is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>shift_y</td>
+                        <td>Multiplicator for step_y if SHIFT is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>shift_z</td>
+                        <td>Multiplicator for step_z if SHIFT is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>ctrl_x</td>
+                        <td>Multiplicator for step_x if CONTROL is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>ctrl_y</td>
+                        <td>Multiplicator for step_y if CONTROL is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>ctrl_z</td>
+                        <td>Multiplicator for step_z if CONTROL is pressed while stepping</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>snap_x</td>
+                        <td>Snap x axis to a virtual grid with this distance</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>snap_y</td>
+                        <td>Snap y axis to a virtual grid with this distance</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>snap_z</td>
+                        <td>Snap z axis to a virtual grid with this distance</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>responsehandle.element ("g.toolkit-response-handle")</td>
+                        <td>The SVG group element containing all other elements.</td>
+                    </tr>
+                    <tr>
+                        <td>responsehandle._label ("text.toolkit-label")</td>
+                        <td>The SVG text element containing different tspans for each line.</td>
+                    </tr>
+                    <tr>
+                        <td>responsehandle._handle ("[circle/rect].toolkit-handle")</td>
+                        <td>The main SVG handle element.</td>
+                    </tr>
+                    <tr>
+                        <td>responsehandle._line1 ("path.toolkit-line")</td>
+                        <td>One of two lines for design/pointing purposes</td>
+                    </tr>
+                    <tr>
+                        <td>responsehandle._line2 ("path.toolkit-line")</td>
+                        <td>One of two lines for design/pointing purposes</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>startdrag</td>
+                        <td>This event is fired when a ResponseHandle was clicked.</td>
+                    </tr>
+                    <tr>
+                        <td>stopdrag</td>
+                        <td>This event is fired when a ResponseHandle was released.</td>
+                    </tr>
+                    <tr>
+                        <td>dragging</td>
+                        <td>This event is fired when a ResponseHandle is dragged.</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>x2px(value)</td>
+                        <td>This function returns the amount of pixels from the left border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>y2px(value)</td>
+                        <td>This function returns the amount of pixels from the top border of the
+                        widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>z2px(value)</td>
+                        <td>This function returns the amount of pixels for the z axis</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>db2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct dB value
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>freq2px(value, min, max, size)</td>
+                        <td>This function returns a pixel value for a distinct frequency
+                        according to the size, min and max settings.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log10(value)</td>
+                        <td>This function returns the logarithmic of 10 for the value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>log2(value)</td>
+                        <td>This function returns the logarithmic of 2 for the value.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
             <li id="Scale" class="module">
                 <!-- ########################################################### -->
-                <!-- SCALE WIDGET -->
+                <!-- SCALE MODULE -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
@@ -2460,7 +2970,7 @@
             
             <li id="AudioMath" class="implement">
                 <!-- ########################################################### -->
-                <!-- AUDIO MATH -->
+                <!-- AUDIO MATH IMPLEMENT -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
@@ -2495,7 +3005,7 @@
             
             <li id="Coordinates" class="implement">
                 <!-- ########################################################### -->
-                <!-- COORDINATES CONTROL -->
+                <!-- COORDINATES IMPLEMENT -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
@@ -2520,7 +3030,7 @@
                                 <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>0</td>
+                        <td>_TOOLKIT_PIXEL</td>
                     </tr>
                     <tr>
                         <td>mode_y</td>
@@ -2533,11 +3043,11 @@
                                 <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>0</td>
+                        <td>_TOOLKIT_PIXEL</td>
                     </tr>
                     <tr>
                         <td>mode_z</td>
-                        <td>The positioning on the y axis:
+                        <td>The positioning on the z axis:
                             <ul>
                                 <li>_TOOLKIT_PIXEL: pixels</li>
                                 <li>_TOOLKIT_PERCENT: percentual values between 0 and 1</li>
@@ -2546,7 +3056,7 @@
                                 <li>_TOOLKIT_FREQUENCY: frequency (needs width, height, min_x and max_x)</li>
                             </ul>
                         </td>
-                        <td>0</td>
+                        <td>_TOOLKIT_PIXEL</td>
                     </tr>
                     <tr>
                         <td>width</td>
@@ -2694,7 +3204,7 @@
             
             <li id="Range" class="implement">
                 <!-- ########################################################### -->
-                <!-- RANGE CONTROL -->
+                <!-- RANGE IMPLEMENT -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
