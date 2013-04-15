@@ -31,7 +31,8 @@ ResponseHandle = new Class({
         z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         24,           // minimum size of object in pixels, values can be smaller
         margin:           3,            // margin between label and handle
-        active:           true          // set to true if handle is usable and false if not
+        active:           true,         // set to true if handle is usable and false if not
+        z_handle:         true          // draw a tiny handle for changing the z axis
     },
     
     x: 0,
