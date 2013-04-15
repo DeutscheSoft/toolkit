@@ -2408,7 +2408,8 @@
                 <!-- ########################################################### -->
                 
                 <p class="description">
-                    <strong>ResponseHandle</strong> is a controller inside a <a href="#graph">Graph</a> widget.
+                    <strong>ResponseHandle</strong> is a controller inside a <a href="#responsehandler">ResponseHandler</a>,
+                    but can manually be used in <a href="#freqeuncyresponse">FrequencyResponse</a> or <a href="#graph">Graph</a>, too.
                     ResponseHandles have various faces and functions to provide different controls for every
                     application an alterable Graph may be used in:
                     <ul>
@@ -2420,6 +2421,7 @@
                         <li><strong>Blocks:</strong> Blocks roughly act like lines but draw themself as rectangles
                             filling the space to their boundary. They can't show any z axis except as value in the label.</li>
                     </ul>
+                    ResponseHandles are based on <a href="#coordinates">Coordinates</a>.
                 </p>
                 
                 <div class="buttons"></div>
@@ -2697,7 +2699,25 @@
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
                         <td>responsehandle.element ("g.toolkit-response-handle")</td>
-                        <td>The SVG group element containing all other elements.</td>
+                        <td>The SVG group element containing all other elements. It may have additional
+                        classes added depending on the state of the handle:
+                        <ul>
+                            <li>.toolkit-active - if the handle is about to change an axis</li>
+                            <li>.toolkit-inactive - when the option "active" is set to false</li>
+                            <li>.toolkit-warn - when a maximum of the z axis is reached</li>
+                        </ul>
+                        It may have additional
+                        classes added depending on the mode of the handle:
+                        <ul>
+                            <li>.toolkit-circular</li>
+                            <li>.toolkit-line.toolkit-line-vertical</li>
+                            <li>.toolkit-line.toolkit-line-horizontal</li>
+                            <li>.toolkit-block.toolkit-block-top</li>
+                            <li>.toolkit-block.toolkit-block-right</li>
+                            <li>.toolkit-block.toolkit-block-bottom</li>
+                            <li>.toolkit-block.toolkit-block-left</li>
+                        </ul>
+                        </td>
                     </tr>
                     <tr>
                         <td>responsehandle._label ("text.toolkit-label")</td>
@@ -2708,11 +2728,11 @@
                         <td>The main SVG handle element.</td>
                     </tr>
                     <tr>
-                        <td>responsehandle._line1 ("path.toolkit-line")</td>
+                        <td>responsehandle._line1 ("path.toolkit-line.toolkit-line-1")</td>
                         <td>One of two lines for design/pointing purposes</td>
                     </tr>
                     <tr>
-                        <td>responsehandle._line2 ("path.toolkit-line")</td>
+                        <td>responsehandle._line2 ("path.toolkit-line.toolkit-line-2")</td>
                         <td>One of two lines for design/pointing purposes</td>
                     </tr>
                 </table>
