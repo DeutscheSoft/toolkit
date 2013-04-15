@@ -26,9 +26,6 @@ var Graph = new Class({
     initialize: function (options) {
         this.setOptions(options);
         this.parent(options);
-        // firefox? don't add pixels!
-        if (Browser.firefox)
-            this._add = "";
         
         this.element = makeSVG("path");
         this.element.addClass("toolkit-graph");

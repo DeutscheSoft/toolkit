@@ -13,9 +13,6 @@ Grid = new Class({
     initialize: function (options, hold) {
         this.setOptions(options);
         this.parent(options);
-        // firefox? don't add pixels!
-        if (Browser.firefox)
-            this._add = "";
         if(!this.options.id) this.options.id = String.uniqueID();
         this.element = makeSVG("g", {"class": "toolkit-grid"});
         this.element.set("id", this.options.id);

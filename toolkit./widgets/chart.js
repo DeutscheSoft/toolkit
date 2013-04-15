@@ -13,9 +13,6 @@ var Chart = new Class({
     initialize: function (options) {
         this.setOptions(options);
         this.parent(options);
-        // firefox? don't add pixels!
-        if (Browser.firefox)
-            this._add = "";
         
         this.element = makeSVG("svg", {
             width:  this.options.width,

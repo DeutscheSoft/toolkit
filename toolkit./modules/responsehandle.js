@@ -5,7 +5,7 @@ ResponseHandle = new Class({
         "class":          "",
         id:               "",
         container:        false,        // a container to use as the base object
-        intersect:        false,        // callback function for checking intersections: function (x1, y1, x2, y2) {}
+        intersect:        function(){ return {intersect:0, c:0} }, // callback function for checking intersections: function (x1, y1, x2, y2, id) {}
                                         // returns a value describing the amount of intersection with other handle elements.
                                         // intersections are weighted depending on the intersecting object. E.g. SVG borders have
                                         // a very high impact while intersecting in comparison with overlapping handle objects
@@ -18,7 +18,7 @@ ResponseHandle = new Class({
                                         // _TOOLKIT_BLOCK_RIGHT: x movement, block righthand
                                         // _TOOLKIT_BLOCK_TOP: y movement, block on top
                                         // _TOOLKIT_BLOCK_RIGHT: y movement, block on bottom
-        preferences:     [_TOOLKIT_LEFT, _TOOLKIT_TOP, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM], // perferred position of the label
+        preferences:      [_TOOLKIT_LEFT, _TOOLKIT_TOP, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM], // perferred position of the label
         label:            function (title, x, y, z) { return sprintf("%s\n%d Hz\n%.2f dB\nQ: %.2f", title, x, y, z); },
         x:                0,            // value for the x position depending on mode_x
         y:                0,            // value for y position depending on mode_y
@@ -31,9 +31,7 @@ ResponseHandle = new Class({
         z_max:            false,        // restrict z values, max z value, false to disable
         min_size:         24,           // minimum size of object in pixels, values can be smaller
         margin:           3,            // margin between label and handle
-        gesture_distance: 10,           // pixels to move while touchmove for setting 1 step
         active:           function(){return true} // callback that returns true if handle is usable and false if not
-        
     },
     
     x: 0,
@@ -49,17 +47,15 @@ ResponseHandle = new Class({
         this.setOptions(options);
         this.parent(options);
         if(!this.options.id) this.options.id = String.uniqueID();
-        if (Browser.firefox)
-            this._add = 0;
         var cls = "toolkit-response-handle ";
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:        cls += "toolkit-circular";        break;
-            case _TOOLKIT_LINE_VERTICAL:   cls += "toolkit-line-vertical";   break;
-            case _TOOLKIT_LINE_HORIZONTAL: cls += "toolkit-line-horizontal"; break;
-            case _TOOLKIT_BLOCK_LEFT:      cls += "toolkit-block-left";      break;
-            case _TOOLKIT_BLOCK_RIGHT:     cls += "toolkit-block-right";     break;
-            case _TOOLKIT_BLOCK_TOP:       cls += "toolkit-block-top";       break;
-            case _TOOLKIT_BLOCK_BOTTOM:    cls += "toolkit-block-bottom";    break;
+            case _TOOLKIT_LINE_VERTICAL:   cls += "toolkit-line-vertical toolkit-line";   break;
+            case _TOOLKIT_LINE_HORIZONTAL: cls += "toolkit-line-horizontal toolkit-line"; break;
+            case _TOOLKIT_BLOCK_LEFT:      cls += "toolkit-block-left toolkit-block";      break;
+            case _TOOLKIT_BLOCK_RIGHT:     cls += "toolkit-block-right toolkit-block";     break;
+            case _TOOLKIT_BLOCK_TOP:       cls += "toolkit-block-top toolkit-block";       break;
+            case _TOOLKIT_BLOCK_BOTTOM:    cls += "toolkit-block-bottom toolkit-block";    break;
         }
         this.element = makeSVG("g", {
             "id":    this.options.id,
@@ -71,15 +67,15 @@ ResponseHandle = new Class({
             "class": "toolkit-label"
         }).inject(this.element);
         
-        this._handle = makeSVG(this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
-            "class": "toolkit-handle"
-        }).inject(this.element);
-        
         this._line1 = makeSVG("path", {
             "class": "toolkit-line toolkit-line-1"
         }).inject(this.element);
         this._line2 = makeSVG("path", {
             "class": "toolkit-line toolkit-line-2"
+        }).inject(this.element);
+        
+        this._handle = makeSVG(this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
+            "class": "toolkit-handle"
         }).inject(this.element);
         
         this._gradient = makeSVG("linearGradient", {id: "grad_" + this.options.id}).inject(this.element);
@@ -95,22 +91,22 @@ ResponseHandle = new Class({
         if(this.options.container) this.set("container", this.options.container, hold);
         if(this.options["class"]) this.set("class", this.options["class"], hold);
         this.element.addEvents({
-            "mouseenter":  function(e){this.element.addClass("toolkit-hover");}.bind(this),
-            "mouseleave":  function(e){this.element.removeClass("toolkit-hover");}.bind(this),
+            "mouseenter":  this._mouseenter.bind(this),
+            "mouseleave":  this._mouseleave.bind(this),
             "mousedown":   this._mousedown.bind(this),
 //             "mouseup":     this._mouseup.bind(this),
             "touchstart":  this._touchstart.bind(this),
 //             "touchend":    this._touchend.bind(this)
         });
         this._label.addEvents({
-            "mouseenter":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "touchstart":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "mouseenter":  this._mouseelement.bind(this),
+            "touchstart":  this._mouseelement.bind(this),
             "mousewheel":  this._scrollwheel.bind(this),
             "contextmenu": function(){return false;}
         });
         this._handle.addEvents({
-            "mouseenter":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
-            "touchstart":  function () { if(this.options.container) this.element.inject(this.options.container) }.bind(this),
+            "mouseenter":  this._mouseelement.bind(this),
+            "touchstart":  this._mouseelement.bind(this),
             "mousewheel":  this._scrollwheel.bind(this),
             "contextmenu": function(){return false;}
         });
@@ -158,47 +154,63 @@ ResponseHandle = new Class({
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
-                width  = Math.max(this.options.min_size, this.z);
-                x      = Math.min(this.options.width - width, Math.max(0, this.x - width / 2)) + this._add;
-                y      = Math.max(0, this.options.y_max === false ? 0 : this.y2px(this.options.y_max));
-                height = Math.min(this.options.height, this.options.y_min === false ? this.options.height : this.y2px(this.options.y_min)) - y;
+                width  = Math.round(Math.max(this.options.min_size, this.z));
+                x      = Math.round(Math.min(this.options.width - width / 2, Math.max(this.options.min_size / -2, this.x - width / 2)));
+                y      = Math.round(Math.max(0, this.options.y_max === false ? 0 : this.y2px(this.options.y_max)));
+                height = Math.round(Math.min(this.options.height, this.options.y_min === false ? this.options.height : this.y2px(this.options.y_min)) - y);
                 this._handle.set({x:x,y:y,width:width, height:height});
                 this.element.set({transform: "translate(0,0)"});
+                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
-                x      = 0;
-                y      = Math.min(this.options.height - this.options.min_size, Math.max(0, this.y2px(this.options.y) - this.options.min_size / 2));
-                width  = this.options.width;
-                height = this.options.min_size;
+                height = Math.round(Math.max(this.options.min_size, this.z));
+                y      = Math.round(Math.min(this.options.height - height / 2, Math.max(this.options.min_size / -2, this.y - height / 2)));
+                x      = Math.round(Math.max(0, this.options.x_min === false ? 0 : this.x2px(this.options.x_min)));
+                width  = Math.round(Math.min(this.options.width, this.options.x_max === false ? this.options.width : this.x2px(this.options.x_max)) - x);
+                this._handle.set({x:x,y:y,width:width, height:height});
+                this.element.set({transform: "translate(0,0)"});
+                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case _TOOLKIT_BLOCK_LEFT:
                 // rect lefthand
                 x      = 0;
-                y      = 0;
-                width  = Math.max(this.options.min_size, this.x2px(this.options.x));
-                height = this.options.height;
+                y      = Math.round(Math.max(0, this.options.y_max === false ? 0 : this.y2px(this.options.y_max)));
+                width  = Math.round(Math.max(this.options.min_size / 2, Math.min(this.x, this.options.width)));
+                height = Math.round(Math.min(this.options.height, this.options.y_min === false ? this.options.height : this.y2px(this.options.y_min)) - y);
+                this._handle.set({x:x,y:y,width:width, height:height});
+                this.element.set({transform: "translate(0,0)"});
+                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case _TOOLKIT_BLOCK_RIGHT:
                 // rect righthand
-                x      = Math.max(this.options.min_size, this.x2px(this.options.x));
-                y      = 0;
-                width  = this.options.width - x;
-                height = this.options.height;
+                x      = Math.max(0, Math.min(this.x, this.options.width - this.options.min_size / 2));
+                y      = Math.round(Math.max(0, this.options.y_max === false ? 0 : this.y2px(this.options.y_max)));
+                width  = Math.max(this.options.min_size / 2, this.options.width - x);
+                height = Math.round(Math.min(this.options.height, this.options.y_min === false ? this.options.height : this.y2px(this.options.y_min)) - y);
+                this._handle.set({x:x,y:y,width:width, height:height});
+                this.element.set({transform: "translate(0,0)"});
+                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case _TOOLKIT_BLOCK_TOP:
                 // rect top
-                x      = 0;
+                x      = Math.round(Math.max(0, this.options.x_min === false ? 0 : this.x2px(this.options.x_min)));
                 y      = 0;
-                width  = this.options.width;
-                height = Math.max(this.options.min_size, this.y2px(this.options.y));
+                width  = Math.round(Math.min(this.options.width, this.options.x_max === false ? this.options.width : this.x2px(this.options.x_max)) - x);
+                height = Math.round(Math.max(this.options.min_size / 2, Math.min(this.y, this.options.height)));
+                this._handle.set({x:x,y:y,width:width, height:height});
+                this.element.set({transform: "translate(0,0)"});
+                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case _TOOLKIT_BLOCK_BOTTOM:
                 // rect bottom
-                x      = 0;
-                y      = Math.max(this.options.min_size, this.y2px(this.options.y));
-                width  = this.options.width;
-                height = this.options.height - y;
+                x      = Math.round(Math.max(0, this.options.x_min === false ? 0 : this.x2px(this.options.x_min)));
+                y      = Math.max(0, Math.min(this.y, this.options.height - this.options.min_size / 2));
+                width  = Math.round(Math.min(this.options.width, this.options.x_max === false ? this.options.width : this.x2px(this.options.x_max)) - x);
+                height = Math.max(this.options.min_size / 2, this.options.height - y);
+                this._handle.set({x:x,y:y,width:width, height:height});
+                this.element.set({transform: "translate(0,0)"});
+                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
         }
         
@@ -207,104 +219,472 @@ ResponseHandle = new Class({
         var t = this.options.label(this.options.title, this.options.x, this.options.y, this.options.z);
         var a = t.split("\n");
         var c = this._label.getChildren();
-        var m = c.length;
-        while(m < a.length) {
-            makeSVG("tspan", {dy:"1.0em"}).inject(this._label);
-            m++;
-        }
-        while(m > a.length) {
-            this._label.getChildren()[m-1].destroy();
-            m--;
+        var n = c.length;
+        if(a.length != c.length) {
+            while(n < a.length) {
+                makeSVG("tspan", {dy:"1.0em"}).inject(this._label);
+                n++;
+            }
+            while(n > a.length) {
+                this._label.getChildren()[n-1].destroy();
+                n--;
+            }
         }
         var c = this._label.getChildren();
+        var w = 0;
         for(var i = 0; i < a.length; i++) {
             c[i].set("text", a[i]);
+            w = Math.max(w, c[i].getComputedTextLength());
         }
+        
+        var inter = [];
+        var pos = false;
+        var align = "";
+        var bbox = this._label.getBBox();
+        bbox.width = w;
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
                 // circles
-                var intersects = [];
-                var pos = false;
-                var align = "";
-                var _s = this._label.getBBox();
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP:
-                            var x1 = x - _s.width / 2;
-                            var y1 = y - height / 2 - m - _s.height;
+                            var x1 = x - bbox.width / 2;
+                            var y1 = y - height / 2 - m - bbox.height;
                             var xl = x;
                             var yl = y1;
                             var align = "middle";
                             break;
                         case _TOOLKIT_RIGHT:
                             var x1 = x + width / 2 + m;
-                            var y1 = y - _s.height / 2;
+                            var y1 = y - bbox.height / 2;
                             var xl = x1;
                             var yl = y1;
                             var align = "start";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = x - _s.width / 2;
+                            var x1 = x - bbox.height / 2;
                             var y1 = y + height / 2 + m;
                             var xl = x;
                             var yl = y1;
                             var align = "middle";
                             break;
                         case _TOOLKIT_LEFT:
-                            var x1 = x - width / 2 - m - _s.width;
-                            var y1 = y - _s.height / 2;
-                            var xl = x1 + _s.width;
+                            var x1 = x - width / 2 - m - bbox.width;
+                            var y1 = y - bbox.height / 2;
+                            var xl = x1 + bbox.width;
                             var yl = y1;
                             var align = "end";
                             break;
                     }
-                    var x2 = x1 + _s.x;
-                    var y2 = y1 + _s.y;
-                    intersects[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
-                    intersects[i].x1 = x1;
-                    intersects[i].y1 = y1;
-                    intersects[i].x2 = x2;
-                    intersects[i].y2 = y2;
-                    intersects[i].xl = xl;
-                    intersects[i].yl = yl;
-                    intersects[i].align = align;
-                    if(!intersects[i].intersect) {
-                        pos = intersects[i];
+                    var x2 = x1 + bbox.width;
+                    var y2 = y1 + bbox.height;
+                    inter[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
+                    inter[i].x1 = x1;
+                    inter[i].y1 = y1;
+                    inter[i].x2 = x2;
+                    inter[i].y2 = y2;
+                    inter[i].xl = xl - x;
+                    inter[i].yl = yl - y;
+                    inter[i].align = align;
+                    if(!inter[i].intersect) {
+                        pos = inter[i];
                         break;
                     }
                 }
-                if(pos === false) pos = intersects.sort(function (a, b) {return a.intersect - b.intersect})[0];
-                this._label.set({
-                    "x": (pos.xl - x) + "px",
-                    "y": (pos.yl - y) + "px",
-                    "text-anchor": pos.align
-                });
-                this._label.getChildren().set({
-                    "x": (pos.xl - x) + "px"
-                });
-                this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
-                
+                for(var i = 0; i < this.options.preferences.length; i++) {
+                    switch(this.options.preferences[i]) {
+                        case _TOOLKIT_TOP_LEFT:
+                            var x1 = x - m - bbox.width;
+                            var y1 = y + m;
+                            var xl = x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_TOP_RIGHT:
+                            var x1 = x + width + m;
+                            var y1 = y + m;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_BOTTOM_LEFT:
+                            var x1 = x - m - bbox.width;
+                            var y1 = y + height - bbox.height - m;
+                            var xl = x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_BOTTOM_RIGHT:
+                            var x1 = x + width + m;
+                            var y1 = y + height - bbox.height - m;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_LEFT:
+                            var x1 = x - m - bbox.width;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x1 + bbox.width;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_RIGHT:
+                            var x1 = x + width + m;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                    }
+                    var x2 = x1 + bbox.width;
+                    var y2 = y1 + bbox.height;
+                    inter[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
+                    inter[i].x1 = x1;
+                    inter[i].y1 = y1;
+                    inter[i].x2 = x2;
+                    inter[i].y2 = y2;
+                    inter[i].xl = xl;
+                    inter[i].yl = yl;
+                    inter[i].align = align;
+                    if(!inter[i].intersect) {
+                        pos = inter[i];
+                        break;
+                    }
+                }
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
+                for(var i = 0; i < this.options.preferences.length; i++) {
+                    switch(this.options.preferences[i]) {
+                        case _TOOLKIT_TOP_LEFT:
+                            var x1 = x + m;
+                            var y1 = y - m - bbox.height;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_TOP_RIGHT:
+                            var x1 = x + width - bbox.width - m;
+                            var y1 = y - m - bbox.height;
+                            var xl = x + width - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_BOTTOM_LEFT:
+                            var x1 = x + m;
+                            var y1 = y + height + m;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_BOTTOM_RIGHT:
+                            var x1 = x + width - bbox.width - m;
+                            var y1 = y - m - bbox.height;
+                            var xl = x + width - m;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_TOP:
+                            var x1 = x + width / 2 - bbox.width / 2;
+                            var y1 = y - m - bbox.height;
+                            var xl = x + width / 2;
+                            var yl = y1;
+                            var align = "middle";
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            var x1 = x + width / 2 - bbox.width / 2;
+                            var y1 = y + height + m;
+                            var xl = x + width / 2;
+                            var yl = y1;
+                            var align = "middle";
+                            break;
+                    }
+                    var x2 = x1 + bbox.width;
+                    var y2 = y1 + bbox.height;
+                    inter[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
+                    inter[i].x1 = x1;
+                    inter[i].y1 = y1;
+                    inter[i].x2 = x2;
+                    inter[i].y2 = y2;
+                    inter[i].xl = xl;
+                    inter[i].yl = yl;
+                    inter[i].align = align;
+                    if(!inter[i].intersect) {
+                        pos = inter[i];
+                        break;
+                    }
+                }
                 break;
             case _TOOLKIT_BLOCK_LEFT:
                 // rect lefthand
+                for(var i = 0; i < this.options.preferences.length; i++) {
+                    switch(this.options.preferences[i]) {
+                        case _TOOLKIT_TOP_LEFT:
+                            var x1 = m;
+                            var y1 = y + m;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_TOP:
+                            var x1 = this.x - m - bbox.width;
+                            var y1 = y + m;
+                            var xl = this.x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_TOP_RIGHT:
+                            var x1 = width + m;
+                            var y1 = y + m;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_LEFT:
+                            var x1 = m;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_CENTER:
+                            var x1 = this.x - m - bbox.width;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = this.x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_RIGHT:
+                            var x1 = width + m;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_BOTTOM_LEFT:
+                            var x1 = m;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            var x1 = this.x - m - bbox.width;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = this.x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_BOTTOM_RIGHT:
+                            var x1 = width + m;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                    }
+                    var x2 = x1 + bbox.width;
+                    var y2 = y1 + bbox.height;
+                    inter[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
+                    inter[i].x1 = x1;
+                    inter[i].y1 = y1;
+                    inter[i].x2 = x2;
+                    inter[i].y2 = y2;
+                    inter[i].xl = xl;
+                    inter[i].yl = yl;
+                    inter[i].align = align;
+                    if(!inter[i].intersect) {
+                        pos = inter[i];
+                        break;
+                    }
+                }
                 break;
             case _TOOLKIT_BLOCK_RIGHT:
                 // rect righthand
+                for(var i = 0; i < this.options.preferences.length; i++) {
+                    switch(this.options.preferences[i]) {
+                        case _TOOLKIT_TOP_LEFT:
+                            var x1 = x - m - bbox.width;
+                            var y1 = y + m;
+                            var xl = x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_TOP:
+                            var x1 = x + m;
+                            var y1 = y + m;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_TOP_RIGHT:
+                            var x1 = width + x - m - bbox.width;
+                            var y1 = y + m;
+                            var xl = width + x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_LEFT:
+                            var x1 = x - m - bbox.width;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_CENTER:
+                            var x1 = x + m;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_RIGHT:
+                            var x1 = width + x - m - bbox.width;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = width + x + m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_BOTTOM_LEFT:
+                            var x1 = x - m - bbox.width;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = x - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            var x1 = x + m;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_BOTTOM_RIGHT:
+                            var x1 = width + x - m - bbox.width;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = width + x + m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                    }
+                    var x2 = x1 + bbox.width;
+                    var y2 = y1 + bbox.height;
+                    inter[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
+                    inter[i].x1 = x1;
+                    inter[i].y1 = y1;
+                    inter[i].x2 = x2;
+                    inter[i].y2 = y2;
+                    inter[i].xl = xl;
+                    inter[i].yl = yl;
+                    inter[i].align = align;
+                    if(!inter[i].intersect) {
+                        pos = inter[i];
+                        break;
+                    }
+                }
                 break;
             case _TOOLKIT_BLOCK_TOP:
                 // rect top
-                break;
             case _TOOLKIT_BLOCK_BOTTOM:
                 // rect bottom
+                for(var i = 0; i < this.options.preferences.length; i++) {
+                    switch(this.options.preferences[i]) {
+                        case _TOOLKIT_TOP_LEFT:
+                            var x1 = x + m;
+                            var y1 = y + m;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_TOP:
+                            var x1 = x + width / 2 - bbox.width / 2;
+                            var y1 = y + m;
+                            var xl = x + width / 2;
+                            var yl = y1;
+                            var align = "middle";
+                            break;
+                        case _TOOLKIT_TOP_RIGHT:
+                            var x1 = x + width - m - bbox.width;
+                            var y1 = y + m;
+                            var xl = x + width - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_LEFT:
+                            var x1 = x + m;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_CENTER:
+                            var x1 = x + width / 2 - bbox.width / 2;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x + width / 2;
+                            var yl = y1;
+                            var align = "middle";
+                            break;start
+                        case _TOOLKIT_RIGHT:
+                            var x1 = x + width - m - bbox.width;
+                            var y1 = y + height / 2 - bbox.height / 2;
+                            var xl = x + width - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                        case _TOOLKIT_BOTTOM_LEFT:
+                            var x1 = x + m;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = x1;
+                            var yl = y1;
+                            var align = "start";
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            var x1 = x + width / 2 - bbox.width / 2;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = x + width / 2;
+                            var yl = y1;
+                            var align = "middle";
+                            break;
+                        case _TOOLKIT_BOTTOM_RIGHT:
+                            var x1 = x + width - m - bbox.width;
+                            var y1 = y + height - m - bbox.height;
+                            var xl = x + width - m;
+                            var yl = y1;
+                            var align = "end";
+                            break;
+                    }
+                    var x2 = x1 + bbox.width;
+                    var y2 = y1 + bbox.height;
+                    inter[i] = this.options.intersect(x1, y1, x2, y2, this.options.id);
+                    inter[i].x1 = x1;
+                    inter[i].y1 = y1;
+                    inter[i].x2 = x2;
+                    inter[i].y2 = y2;
+                    inter[i].xl = xl;
+                    inter[i].yl = yl;
+                    inter[i].align = align;
+                    if(!inter[i].intersect) {
+                        pos = inter[i];
+                        break;
+                    }
+                }
                 break;
         }
+        if(pos === false) pos = inter.sort(function (a, b) {return a.intersect - b.intersect})[0];
+        this._label.set({
+            "x": (pos.xl) + "px",
+            "y": (pos.yl) + "px",
+            "text-anchor": pos.align
+        });
+        this._label.getChildren().set({
+            "x": (pos.xl) + "px"
+        });
+        this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
+                
         
         // LINES
         switch(this.options.mode) {
@@ -317,23 +697,21 @@ ResponseHandle = new Class({
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
+            case _TOOLKIT_BLOCK_LEFT:
+                // rect lefthand
+            case _TOOLKIT_BLOCK_RIGHT:
+                // rect righthand
                 this._line1.set("d", "M " + (this.x + this._add) + " " + y + " L " + (this.x + this._add) + " " + (y + height));
                 this._line2.set("d", "M " + (this.x + this._add) + " 0 L " + (this.x + this._add) + " " + this.options.height);
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
-                break;
-            case _TOOLKIT_BLOCK_LEFT:
-                // rect lefthand
-                break;
-            case _TOOLKIT_BLOCK_RIGHT:
-                // rect righthand
-                break;
             case _TOOLKIT_BLOCK_TOP:
                 // rect top
-                break;
             case _TOOLKIT_BLOCK_BOTTOM:
                 // rect bottom
+                this._line1.set("d", "M " + x + " " + (this.y + this._add) + " L " + (x + width) + " " + (this.y + this._add));
+                this._line2.set("d", "M 0 " + (this.y + this._add) + " L " + this.options.width + " " + (this.y + this._add));
                 break;
         }
     },
@@ -348,6 +726,22 @@ ResponseHandle = new Class({
     // HELPERS & STUFF
     
     // CALLBACKS / EVENT HANDLING
+    _mouseenter: function (e) {
+        this.element.addClass("toolkit-hover");
+        e.stopPropagation();
+    },
+    _mouseleave: function (e) {
+        this._raised = false;
+        this.element.removeClass("toolkit-hover");
+        e.stopPropagation();
+    },
+    _mouseelement: function (e) {
+        if(this.options.container && !this._raised) {
+            this.element.inject(this.options.container);
+            this._raised = true;
+        }
+        e.stopPropagation();
+    },
     _mousedown: function (e) {
         e.event.preventDefault();
         e.event.stopPropagation();

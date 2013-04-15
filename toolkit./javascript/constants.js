@@ -21,6 +21,7 @@ _TOOLKIT_NW                          = 4;
 _TOOLKIT_NE                          = 5;
 _TOOLKIT_SE                          = 6;
 _TOOLKIT_SW                          = 7;
+_TOOLKIT_C                           = 8;
 
 _TOOLKIT_HORIZONTAL                  = 10;
 _TOOLKIT_HORIZ                       = 10;

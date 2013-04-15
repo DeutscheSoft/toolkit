@@ -22,6 +22,9 @@ Coordinates = new Class({
         ctrl_x:           0.5,            // multiplier with CONTROL pressed while stepping
         ctrl_y:           0.5,            // multiplier with CONTROL pressed while stepping
         ctrl_z:           0.5,            // multiplier with CONTROL pressed while stepping
+        snap_x:           0,              // snap x axis to a virtual grid with this distance
+        snap_y:           0,              // snap y axis to a virtual grid with this distance
+        snap_z:           0               // snap z axis to a virtual grid with this distance
     },
     _min_x: 0,
     _max_x: 0,
@@ -46,6 +49,7 @@ Coordinates = new Class({
                             this.options.mode_x,
                             this.options.min_x,
                             this.options.max_x,
+                            this.options.snap_x,
                             this._min_x,
                             this._max_x,
                             this.options.width);
@@ -55,6 +59,7 @@ Coordinates = new Class({
                             this.options.mode_y,
                             this.options.min_y,
                             this.options.max_y,
+                            this.options.snap_y,
                             this._min_y,
                             this._max_y,
                             this.options.height) * -1 + this.options.height;
@@ -64,6 +69,7 @@ Coordinates = new Class({
                             this.options.mode_z,
                             this.options.min_z,
                             this.options.max_z,
+                            this.options.snap_z,
                             this._min_z,
                             this._max_z,
                             this.options.depth);
@@ -73,6 +79,7 @@ Coordinates = new Class({
                             this.options.mode_x,
                             this.options.min_x,
                             this.options.max_x,
+                            this.options.snap_x,
                             this._min_x,
                             this._max_x,
                             this.options.width);
@@ -82,6 +89,7 @@ Coordinates = new Class({
                             this.options.mode_y,
                             this.options.min_y,
                             this.options.max_y,
+                            this.options.snap_y,
                             this._min_y,
                             this._max_y,
                             this.options.height) * -1 + this.options.max_y + this.options.min_y;
@@ -91,11 +99,12 @@ Coordinates = new Class({
                             this.options.mode_z,
                             this.options.min_z,
                             this.options.max_z,
+                            this.options.snap_z,
                             this._min_z,
                             this._max_z,
                             this.options.depth);
     },
-    _val2px: function (value, mode, min, max, minlog, maxlog, size) {
+    _val2px: function (value, mode, min, max, snap, minlog, maxlog, size) {
         switch(mode) {
             case _TOOLKIT_PX:
             default:
@@ -115,7 +124,7 @@ Coordinates = new Class({
                 return this.freq2px(value, minlog, maxlog, size);
         }
     },
-    _px2val: function (value, mode, min, max, minlog, maxlog, size) {
+    _px2val: function (value, mode, min, max, snap, minlog, maxlog, size) {
         switch(mode) {
             case _TOOLKIT_PX:
             default:
