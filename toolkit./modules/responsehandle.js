@@ -157,7 +157,7 @@ ResponseHandle = new Class({
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
                 width  = Math.round(Math.max(this.options.min_size, this.z));
-                x      = Math.round(Math.min(this.options.width - width / 2, Math.max(this.options.min_size / -2, this.x - width / 2)));
+                x      = Math.round(Math.min(this.options.width - width / 2, Math.max(width / -2, this.x - width / 2)));
                 y      = Math.round(Math.max(0, this.options.y_max === false ? 0 : this.y2px(this.options.y_max)));
                 height = Math.round(Math.min(this.options.height, this.options.y_min === false ? this.options.height : this.y2px(this.options.y_min)) - y);
                 this._handle.set({x:x,y:y,width:width, height:height});
@@ -167,7 +167,7 @@ ResponseHandle = new Class({
             case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
                 height = Math.round(Math.max(this.options.min_size, this.z));
-                y      = Math.round(Math.min(this.options.height - height / 2, Math.max(this.options.min_size / -2, this.y - height / 2)));
+                y      = Math.round(Math.min(this.options.height - height / 2, Math.max(height / -2, this.y - height / 2)));
                 x      = Math.round(Math.max(0, this.options.x_min === false ? 0 : this.x2px(this.options.x_min)));
                 width  = Math.round(Math.min(this.options.width, this.options.x_max === false ? this.options.width : this.x2px(this.options.x_max)) - x);
                 this._handle.set({x:x,y:y,width:width, height:height});
@@ -896,7 +896,6 @@ ResponseHandle = new Class({
                 if(!hold) this.element.addClass(value);
                 break;
             case "active":
-                console.log("haha")
                 if(value) this.element.removeClass("toolkit-inactive");
                      else this.element.addClass("toolkit-inactive");
                 break;
