@@ -1459,6 +1459,27 @@
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>importance_handle</td>
+                        <td>A multiplier for the label hit test. Defines the "weight" of handles to flee.<br/>
+                        Technicaly: The overlapping square pixels are multiplied with this factor to determine 
+                        the smallest overlapping region.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>importance_label</td>
+                        <td>A multiplier for the label hit test. Defines the "weight" of labels to flee.<br/>
+                        Technicaly: The overlapping square pixels are multiplied with this factor to determine 
+                        the smallest overlapping region.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>importance_border</td>
+                        <td>A multiplier for the label hit test. Defines the "weight" of the images boundaries to flee.<br/>
+                        Technicaly: The overlapping square pixels are multiplied with this factor to determine 
+                        the smallest overlapping region.</td>
+                        <td>50</td>
+                    </tr>
                     <tr class="inherit">
                         <td>db_grid</td>
                         <td>Draw a grid line every [n] dBs</td>
@@ -1513,6 +1534,11 @@
                     <tr class="inherit">
                         <td>height</td>
                         <td>The height of the SVG image.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>depth</td>
+                        <td>The max size as pixels for depth parameter</td>
                         <td>0</td>
                     </tr>
                     <tr class="inherit">
@@ -1614,6 +1640,10 @@
                         <td>y2px(value)</td>
                         <td>This function returns the amount of pixels from the top border of the
                         widget for a given value.</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>z2px(value)</td>
+                        <td>This function returns the amount of pixels for a given value.</td>
                     </tr>
                     <tr class="inherit">
                         <td>db2px(value, min, max, size)</td>

@@ -1,8 +1,12 @@
 .toolkit-response-handle {
     fill: rgb(255,255,255);
+    display: block;
 }
 .toolkit-response-handle:hover {
     
+}
+.toolkit-response-handle.toolkit-inactive {
+    display: none;
 }
 .toolkit-response-handle.toolkit-active {
     cursor: move !important;

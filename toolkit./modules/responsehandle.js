@@ -111,6 +111,8 @@ ResponseHandle = new Class({
             "contextmenu": function(){return false;}
         });
         
+        $$("body")[0].addEvent("mouseup", this._mouseup.bind(this));
+        
         this._handle.onselectstart = function () { return false; };
         if(!hold) this.redraw();
     },
@@ -728,12 +730,12 @@ ResponseHandle = new Class({
     // CALLBACKS / EVENT HANDLING
     _mouseenter: function (e) {
         this.element.addClass("toolkit-hover");
-        e.stopPropagation();
+        //e.stopPropagation();
     },
     _mouseleave: function (e) {
         this._raised = false;
         this.element.removeClass("toolkit-hover");
-        e.stopPropagation();
+        //e.stopPropagation();
     },
     _mouseelement: function (e) {
         if(this.options.container && !this._raised) {
@@ -774,15 +776,17 @@ ResponseHandle = new Class({
         this._clickY  = this.y;
         this.redraw();
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
+        document.addEvent("mouseup", this._mouseup.bind(this));
         return false;
     },
     _mouseup: function (e) {
         this.__active = false;
         this.element.removeClass("toolkit-active");
         this.element.getParent().getParent().removeClass("toolkit-dragging");
-        e.event.preventDefault();
-        e.stopPropagation();
+//         e.event.preventDefault();
+//         e.stopPropagation();
         this.fireEvent("stopdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
+        document.removeEvent("mouseup", this._mouseup.bind(this));
     },
     _mousemove: function (e) {
         if(!this.__active) return;
@@ -890,6 +894,11 @@ ResponseHandle = new Class({
                 break;
             case "class":
                 if(!hold) this.element.addClass(value);
+                break;
+            case "active":
+                console.log("haha")
+                if(value) this.element.removeClass("toolkit-inactive");
+                     else this.element.addClass("toolkit-inactive");
                 break;
         }
     },
