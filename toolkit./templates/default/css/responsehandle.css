@@ -15,13 +15,13 @@
     
 }
 .toolkit-response-handle.toolkit-circular {
-    opacity: 0.33;
+    
 }
 .toolkit-response-handle.toolkit-circular:hover {
-    opacity: 0.5;
+    
 }
 .toolkit-response-handle.toolkit-circular.toolkit-active {
-    opacity: 0.75;
+    
 }
 .toolkit-response-handle.toolkit-line {
     
@@ -48,6 +48,22 @@
     
 }
 
+.toolkit-response-handle .toolkit-z-handle {
+    fill: rgb(255,255,255);
+    opacity: 0.5;
+    cursor: pointer;
+}
+.toolkit-response-handle .toolkit-z-handle:hover {
+    opacity: 0.75;
+    stroke: rgb(255,255,255);
+    stroke-width: 4;
+}
+.toolkit-response-handle.toolkit-active .toolkit-z-handle {
+    opacity: 0.75;
+    cursor: move;
+    stroke: rgb(255,255,255);
+    stroke-width: 4;
+}
 
 .toolkit-response-handle .toolkit-label {
     cursor:pointer;
@@ -64,25 +80,31 @@
 }
 
 .toolkit-response-handle.toolkit-circular .toolkit-label {
-    
+    opacity: 0.5;
+}
+.toolkit-response-handle.toolkit-circular:hover .toolkit-label {
+    opacity: 0.66;
+}
+.toolkit-response-handle.toolkit-circular.toolkit-active .toolkit-label {
+    opacity: 0.8;
 }
 .toolkit-response-handle.toolkit-line .toolkit-label {
-    opacity: 0.33;
+    opacity: 0.5;
 }
 .toolkit-response-handle.toolkit-line:hover .toolkit-label {
-    opacity: 0.5
+    opacity: 0.66;
 }
 .toolkit-response-handle.toolkit-line.toolkit-active .toolkit-label {
-    opacity: 0.66
+    opacity: 0.8;
 }
 .toolkit-response-handle.toolkit-block .toolkit-label {
-    opacity: 0.33;
+    opacity: 0.5;
 }
 .toolkit-response-handle.toolkit-block:hover .toolkit-label {
-    opacity: 0.5
+    opacity: 0.66;
 }
 .toolkit-response-handle.toolkit-block.toolkit-active .toolkit-label {
-    opacity: 0.66
+    opacity: 0.8;
 }
 
 
@@ -98,7 +120,13 @@
     stroke-width: 20;
 }
 .toolkit-response-handle.toolkit-circular .toolkit-handle {
-    
+    opacity: 0.33;
+}
+.toolkit-response-handle.toolkit-circular:hover .toolkit-handle {
+    opacity: 0.5;
+}
+.toolkit-response-handle.toolkit-circular.toolkit-active .toolkit-handle {
+    opacity: 0.66;
 }
 .toolkit-response-handle.toolkit-line .toolkit-handle {
     opacity: 0.33;

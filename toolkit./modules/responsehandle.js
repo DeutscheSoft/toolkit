@@ -5,7 +5,7 @@ ResponseHandle = new Class({
         "class":          "",
         id:               "",
         container:        false,        // a container to use as the base object
-        intersect:        function(){ return {intersect:0, count:0} }, // callback function for checking intersections: function (x1, y1, x2, y2, id) {}
+        intersect:        function(){ return { intersect: 0, count: 0 } }, // callback function for checking intersections: function (x1, y1, x2, y2, id) {}
                                         // returns a value describing the amount of intersection with other handle elements.
                                         // intersections are weighted depending on the intersecting object. E.g. SVG borders have
                                         // a very high impact while intersecting in comparison with overlapping handle objects
@@ -32,7 +32,10 @@ ResponseHandle = new Class({
         min_size:         24,           // minimum size of object in pixels, values can be smaller
         margin:           3,            // margin between label and handle
         active:           true,         // set to true if handle is usable and false if not
-        z_handle:         true          // draw a tiny handle for changing the z axis
+        z_handle:         false,        // draw a tiny handle for changing the z axis
+        z_handle_size:    6,            // the size of the z handle in pixels if used.
+        z_handle_centered:0.1           // the width/height of the z handle if centered /top, right, bottom, left)
+                                        // values > 1 are interpreted as pixels, values < 1 declare a percentual value of the handles width/height
     },
     
     x: 0,
@@ -43,6 +46,8 @@ ResponseHandle = new Class({
     __active: false,
     _add: .5,
     _tdist: false,
+    _zinjected: false,
+    _zhandling: false,
     
     initialize: function (options, hold) {
         this.setOptions(options);
@@ -76,8 +81,16 @@ ResponseHandle = new Class({
         }).inject(this.element);
         
         this._handle = makeSVG(this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
-            "class": "toolkit-handle"
+            "class": "toolkit-handle",
+            "r":     this.options.z_handle_size
         }).inject(this.element);
+        
+        this._zhandle = makeSVG(this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
+            "class": "toolkit-z-handle",
+            "width":  this.options.z_handle_size,
+            "height": this.options.z_handle_size
+        });
+        
         
         if(this.options.container) this.set("container", this.options.container, hold);
         if(this.options["class"]) this.set("class", this.options["class"], hold);
@@ -101,7 +114,10 @@ ResponseHandle = new Class({
             "mousewheel":  this._scrollwheel.bind(this),
             "contextmenu": function(){return false;}
         });
-        
+        this._zhandle.addEvents({
+            "mousedown":  this._zhandledown.bind(this),
+            "touchstart":  this._zhandledown.bind(this),
+        });
         $$("body")[0].addEvent("mouseup", this._mouseup.bind(this));
         
         this._handle.onselectstart = function () { return false; };
@@ -116,6 +132,11 @@ ResponseHandle = new Class({
         var width  = 0;
         var height = 0;
         var m      = this.options.margin;
+        
+        if(this.options.z >= this.options.z_max && this.options.z_max !== false
+        || this.options.z <= this.options.z_min && this.options.z_min !== false) {
+            this._set_warning();
+        }
         
         // do we have to restrict movement?
         if(this.options.x_min !== false)
@@ -135,7 +156,7 @@ ResponseHandle = new Class({
         this.y = Math.round(this.y2px(this.options.y));
         this.z = Math.round(this.z2px(this.options.z));
         
-        // ELEMENT / HANDLE
+        // ELEMENT / HANDLE / MAIN COORDS
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
                 // circle
@@ -209,6 +230,163 @@ ResponseHandle = new Class({
                 break;
         }
         
+        
+        // Z-HANDLE
+        if(this.options.z_handle === false) {
+            if(this._zinjected) {
+                this._zhandle.dispose();
+                this._zinjected = false;
+            }
+        } else {
+            if(!this._zinjected) {
+                this._zhandle.inject(this.element);
+                this._zinjected = true;
+            }
+            switch(this.options.mode) {
+                // circular handles
+                case _TOOLKIT_CIRCULAR:
+                    switch(this.options.z_handle) {
+                        case _TOOLKIT_TOP_LEFT:
+                            this._zhandle.set({
+                                "cx": width / -2 + this.options.z_handle_size / 2,
+                                "cy": height / -2 + this.options.z_handle_size / 2,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                        case _TOOLKIT_TOP:
+                            this._zhandle.set({
+                                "cx": 0,
+                                "cy": height / -2 + this.options.z_handle_size / 2,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                        case _TOOLKIT_TOP_RIGHT:
+                            this._zhandle.set({
+                                "cx": width / 2 - this.options.z_handle_size / 2,
+                                "cy": height / -2 + this.options.z_handle_size / 2,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                        case _TOOLKIT_LEFT:
+                            this._zhandle.set({
+                                "cx": width / -2 + this.options.z_handle_size / 2,
+                                "cy": 0,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                        case _TOOLKIT_RIGHT:
+                        default:
+                            this._zhandle.set({
+                                "cx": width / 2 - this.options.z_handle_size / 2,
+                                "cy": 0,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                        case _TOOLKIT_BOTTOM_LEFT:
+                            this._zhandle.set({
+                                "cx": width / -2 + this.options.z_handle_size / 2,
+                                "cy": height / 2 - this.options.z_handle_size / 2,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            this._zhandle.set({
+                                "cx": 0,
+                                "cy": height / 2 - this.options.z_handle_size / 2,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                        case _TOOLKIT_BOTTOM_RIGHT:
+                            this._zhandle.set({
+                                "cx": width / 2 - this.options.z_handle_size / 2,
+                                "cy": height / 2 - this.options.z_handle_size / 2,
+                                "r":  this.options.z_handle_size / 2
+                            });
+                            break;
+                    }
+                    break;
+                default:
+                    // all other handle types (lines/blocks)
+                    switch(this.options.z_handle) {
+                        case _TOOLKIT_TOP_LEFT:
+                        default:
+                            this._zhandle.set({
+                                "x":      x,
+                                "y":      y,
+                                "width":  this.options.z_handle_size,
+                                "height": this.options.z_handle_size
+                            });
+                            break;
+                        case _TOOLKIT_TOP:
+                            var _s = this.options.z_handle_centered < 1 ? width * this.options.z_handle_centered : this.options.z_handle_centered
+                            Math.max(_s, this.options.z_handle_size);
+                            this._zhandle.set({
+                                "x":      x + width / 2 - _s / 2,
+                                "y":      y,
+                                "width":  _s,
+                                "height": this.options.z_handle_size
+                            });
+                            break;
+                        case _TOOLKIT_TOP_RIGHT:
+                            this._zhandle.set({
+                                "x":      x + width - this.options.z_handle_size,
+                                "y":      y,
+                                "width":  this.options.z_handle_size,
+                                "height": this.options.z_handle_size
+                            });
+                            break;
+                        case _TOOLKIT_LEFT:
+                            var _s = this.options.z_handle_centered < 1 ? height * this.options.z_handle_centered : this.options.z_handle_centered
+                            Math.max(_s, this.options.z_handle_size);
+                            this._zhandle.set({
+                                "x":      x,
+                                "y":      y + height / 2 - _s / 2,
+                                "width":  this.options.z_handle_size,
+                                "height": _s
+                            });
+                            break;
+                        case _TOOLKIT_RIGHT:
+                            var _s = this.options.z_handle_centered < 1 ? height * this.options.z_handle_centered : this.options.z_handle_centered
+                            Math.max(_s, this.options.z_handle_size);
+                            this._zhandle.set({
+                                "x":      x + width - this.options.z_handle_size,
+                                "y":      y + height / 2 - _s / 2,
+                                "width":  this.options.z_handle_size,
+                                "height": _s
+                            });
+                            break;
+                        case _TOOLKIT_BOTTOM_LEFT:
+                            this._zhandle.set({
+                                "x":      x,
+                                "y":      y + height - this.options.z_handle_size,
+                                "width":  this.options.z_handle_size,
+                                "height": this.options.z_handle_size
+                            });
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            var _s = this.options.z_handle_centered < 1 ? width * this.options.z_handle_centered : this.options.z_handle_centered
+                            Math.max(_s, this.options.z_handle_size);
+                            this._zhandle.set({
+                                "x":      x + width / 2 - _s / 2,
+                                "y":      y + height - this.options.z_handle_size,
+                                "width":  _s,
+                                "height": this.options.z_handle_size
+                            });
+                            break;
+                        case _TOOLKIT_BOTTOM_RIGHT:
+                            this._zhandle.set({
+                                "x":      x + width - this.options.z_handle_size,
+                                "y":      y + height - this.options.z_handle_size,
+                                "width":  this.options.z_handle_size,
+                                "height": this.options.z_handle_size
+                            });
+                            break;
+                    }
+                    break;
+            }
+        }
+        
+        
         // LABEL
         this._label.empty();
         var t = this.options.label(this.options.title, this.options.x, this.options.y, this.options.z);
@@ -240,7 +418,6 @@ ResponseHandle = new Class({
         
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
-                // circles
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP:
@@ -289,7 +466,6 @@ ResponseHandle = new Class({
                 }
                 break;
             case _TOOLKIT_LINE_VERTICAL:
-                // line vertical
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP_LEFT:
@@ -352,7 +528,6 @@ ResponseHandle = new Class({
                 }
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
-                // line horizontal
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP_LEFT:
@@ -415,7 +590,6 @@ ResponseHandle = new Class({
                 }
                 break;
             case _TOOLKIT_BLOCK_LEFT:
-                // rect lefthand
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP_LEFT:
@@ -499,7 +673,6 @@ ResponseHandle = new Class({
                 }
                 break;
             case _TOOLKIT_BLOCK_RIGHT:
-                // rect righthand
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP_LEFT:
@@ -583,9 +756,7 @@ ResponseHandle = new Class({
                 }
                 break;
             case _TOOLKIT_BLOCK_TOP:
-                // rect top
             case _TOOLKIT_BLOCK_BOTTOM:
-                // rect bottom
                 for(var i = 0; i < this.options.preferences.length; i++) {
                     switch(this.options.preferences[i]) {
                         case _TOOLKIT_TOP_LEFT:
@@ -684,27 +855,20 @@ ResponseHandle = new Class({
         // LINES
         switch(this.options.mode) {
             case _TOOLKIT_CIRCULAR:
-                // circle
                 var _x = Math.max(width / 2 + this.options.margin, this.label.x2 - this.x + this.options.margin);
                 var _y = Math.max(height / 2 + this.options.margin, this.label.y2 - this.y + this.options.margin);
                 this._line1.set("d", "M " + _x + " 0" + this._add + " L" + (this.options.width - (x - _x)) + " 0" + this._add);
                 this._line2.set("d", "M 0" + this._add + " " + _y + " L 0" + this._add + " " + (this.options.height - (y - _y)));
                 break;
             case _TOOLKIT_LINE_VERTICAL:
-                // line vertical
             case _TOOLKIT_BLOCK_LEFT:
-                // rect lefthand
             case _TOOLKIT_BLOCK_RIGHT:
-                // rect righthand
                 this._line1.set("d", "M " + (this.x + this._add) + " " + y + " L " + (this.x + this._add) + " " + (y + height));
                 this._line2.set("d", "M " + (this.x + this._add) + " 0 L " + (this.x + this._add) + " " + this.options.height);
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
-                // line horizontal
             case _TOOLKIT_BLOCK_TOP:
-                // rect top
             case _TOOLKIT_BLOCK_BOTTOM:
-                // rect bottom
                 this._line1.set("d", "M " + x + " " + (this.y + this._add) + " L " + (x + width) + " " + (this.y + this._add));
                 this._line2.set("d", "M 0 " + (this.y + this._add) + " L " + this.options.width + " " + (this.y + this._add));
                 break;
@@ -722,12 +886,12 @@ ResponseHandle = new Class({
     // CALLBACKS / EVENT HANDLING
     _mouseenter: function (e) {
         this.element.addClass("toolkit-hover");
-        //e.stopPropagation();
+        e.stopPropagation();
     },
     _mouseleave: function (e) {
         this._raised = false;
         this.element.removeClass("toolkit-hover");
-        //e.stopPropagation();
+        e.stopPropagation();
     },
     _mouseelement: function (e) {
         if(this.options.container && !this._raised) {
@@ -766,6 +930,7 @@ ResponseHandle = new Class({
         this._offsetY = ev.pageY - this.y;
         this._clickX  = this.x;
         this._clickY  = this.y;
+        this._clickZ  = this.z;
         this.redraw();
         this.fireEvent("startdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
         document.addEvent("mouseup", this._mouseup.bind(this));
@@ -773,10 +938,11 @@ ResponseHandle = new Class({
     },
     _mouseup: function (e) {
         this.__active = false;
+        this._zhandling = false;
         this.element.removeClass("toolkit-active");
         this.element.getParent().getParent().removeClass("toolkit-dragging");
-//         e.event.preventDefault();
-//         e.stopPropagation();
+         e.event.preventDefault();
+         e.stopPropagation();
         this.fireEvent("stopdrag", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
         document.removeEvent("mouseup", this._mouseup.bind(this));
     },
@@ -787,16 +953,58 @@ ResponseHandle = new Class({
         } else {
             var ev = e.event;
         }
-        var mx = my = 1;
+        var mx = my = mz = 1;
         if(e.control && e.shift) {
             mx = this.options.ctrl_x;
             my = this.options.ctrl_y;
+            mz = this.options.ctrl_z;
         } else if(e.shift) {
             mx = this.options.shift_x;
             my = this.options.shift_y;
+            mz = this.options.shift_z;
         }
-        this.set("x", this.px2x(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx));
-        this.set("y", this.px2y(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my));
+        if(this._zhandling) {
+            if(this.options.z_handle == _TOOLKIT_LEFT
+                || this.options.mode == _TOOLKIT_LINE_VERTICAL && this.options.z_handle == _TOOLKIT_TOP_LEFT
+                || this.options.mode == _TOOLKIT_LINE_VERTICAL && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_LEFT && this.options.z_handle == _TOOLKIT_TOP_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_LEFT && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_RIGHT && this.options.z_handle == _TOOLKIT_TOP_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_RIGHT && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT) {
+                // movement to left
+                this.set("z", this.px2z(this._clickZ + (this._clickX - (ev.pageX - this._offsetX)) * mz));
+            } else if(this.options.z_handle == _TOOLKIT_RIGHT
+                || this.options.mode == _TOOLKIT_LINE_VERTICAL && this.options.z_handle == _TOOLKIT_TOP_RIGHT
+                || this.options.mode == _TOOLKIT_LINE_VERTICAL && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_LEFT && this.options.z_handle == _TOOLKIT_TOP_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_LEFT && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_RIGHT && this.options.z_handle == _TOOLKIT_TOP_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_RIGHT && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
+                // movement to right
+                this.set("z", this.px2z(this._clickZ + ((ev.pageX - this._offsetX) - this._clickX) * mz));
+            } else if(this.options.z_handle == _TOOLKIT_TOP
+                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL && this.options.z_handle == _TOOLKIT_TOP_LEFT
+                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL && this.options.z_handle == _TOOLKIT_TOP_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_TOP && this.options.z_handle == _TOOLKIT_TOP_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_TOP && this.options.z_handle == _TOOLKIT_TOP_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM && this.options.z_handle == _TOOLKIT_TOP_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM && this.options.z_handle == _TOOLKIT_TOP_RIGHT) {
+                // movement to top
+                this.set("z", this.px2z(this._clickZ + (this._clickY - (ev.pageY - this._offsetY)) * mz));
+            } else if(this.options.z_handle == _TOOLKIT_BOTTOM
+                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
+                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_TOP && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_TOP && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
+                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
+                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
+                // movement to bottom
+                this.set("z", this.px2z(this._clickZ + ((ev.pageY - this._offsetY) - this._clickY) * mz));
+            }
+        } else {
+            this.set("x", this.px2x(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx));
+            this.set("y", this.px2y(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my));
+        }
         e.event.preventDefault();
         e.stopPropagation();
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
@@ -812,12 +1020,7 @@ ResponseHandle = new Class({
             s *= this.options.ctrl_z;
         else if(e.shift)
             s *= this.options.shift_z;
-        var z = Math.max(Math.min(this.get("z") + s, this.options.max_z), this.options.min_z);
-        this.set("z", z);
-        if(z >= this.options.max_z || z <= this.options.min_z) {
-            this._set_warning();
-        }
-        
+        this.set("z", this.get("z") + s);
     },
     _touchstart: function (e) {
         if(e.touches && e.touches.length == 2) {
@@ -867,6 +1070,10 @@ ResponseHandle = new Class({
             this._mousemove(e);
         }
     },
+    _zhandledown: function (e) {
+        this._zhandling = true;
+    },
+    
     _set_warning: function () {
         if(this.__wto) window.clearTimeout(this.__wto);
         this.__wto = null;
