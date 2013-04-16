@@ -52,17 +52,17 @@
     fill: rgb(255,255,255);
     opacity: 0.5;
     cursor: pointer;
+    stroke: rgba(255,255,255, 0.5);
+    stroke-width: 4;
 }
 .toolkit-response-handle .toolkit-z-handle:hover {
     opacity: 0.75;
     stroke: rgb(255,255,255);
-    stroke-width: 4;
 }
 .toolkit-response-handle.toolkit-active .toolkit-z-handle {
     opacity: 0.75;
     cursor: move;
     stroke: rgb(255,255,255);
-    stroke-width: 4;
 }
 
 .toolkit-response-handle .toolkit-label {
