@@ -34,8 +34,9 @@ ResponseHandle = new Class({
         active:           true,         // set to true if handle is usable and false if not
         z_handle:         false,        // draw a tiny handle for changing the z axis
         z_handle_size:    6,            // the size of the z handle in pixels if used.
-        z_handle_centered:0.1           // the width/height of the z handle if centered /top, right, bottom, left)
+        z_handle_centered:0.1,          // the width/height of the z handle if centered /top, right, bottom, left)
                                         // values > 1 are interpreted as pixels, values < 1 declare a percentual value of the handles width/height
+        min_drag:         0             // amount of pixels the handle has to be dragged before it starts to move
     },
     
     x: 0,
@@ -48,6 +49,8 @@ ResponseHandle = new Class({
     _tdist: false,
     _zinjected: false,
     _zhandling: false,
+    _zwheel: false,
+    _sticky: false,
     
     initialize: function (options, hold) {
         this.setOptions(options);
@@ -133,8 +136,9 @@ ResponseHandle = new Class({
         var height = 0;
         var m      = this.options.margin;
         
-        if(this.options.z >= this.options.z_max && this.options.z_max !== false
-        || this.options.z <= this.options.z_min && this.options.z_min !== false) {
+        if((this._zhandling || this._zwheel)
+        && (this.options.z >= this.options.z_max && this.options.z_max !== false
+        ||  this.options.z <= this.options.z_min && this.options.z_min !== false)) {
             this._set_warning();
         }
         
@@ -885,6 +889,7 @@ ResponseHandle = new Class({
     
     // CALLBACKS / EVENT HANDLING
     _mouseenter: function (e) {
+        this._zwheel = false;
         this.element.addClass("toolkit-hover");
         e.stopPropagation();
     },
@@ -901,6 +906,9 @@ ResponseHandle = new Class({
         e.stopPropagation();
     },
     _mousedown: function (e) {
+        this._zwheel = false;
+        if(this.options.min_drag)
+            this._sticky = true;
         e.event.preventDefault();
         e.event.stopPropagation();
         if(!this.options.active) return false;
@@ -1001,6 +1009,12 @@ ResponseHandle = new Class({
                 // movement to bottom
                 this.set("z", this.px2z(this._clickZ + ((ev.pageY - this._offsetY) - this._clickY) * mz));
             }
+        } else if(this._sticky) {
+            var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
+            var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
+            var dist = Math.sqrt(dx*dx + dy*dy);
+            if(dist > this.options.min_drag)
+                this._sticky = false;
         } else {
             this.set("x", this.px2x(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx));
             this.set("y", this.px2y(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my));
@@ -1010,6 +1024,7 @@ ResponseHandle = new Class({
         this.fireEvent("dragging", {x: this.options.x, y:this.options.y, pos_x:this.x, pos_y:this.y});
     },
     _scrollwheel: function (e) {
+        this._zwheel = true;
         if(this.__sto) window.clearTimeout(this.__sto);
         this.element.addClass("toolkit-active");
         this.__sto = window.setTimeout(function(){this.element.removeClass("toolkit-active")}.bind(this), 250);

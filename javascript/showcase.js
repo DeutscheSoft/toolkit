@@ -382,6 +382,7 @@ function run_responsehandler () {
                        x_max: 2000,
                        z_min: 1,
                        z_max: 20,
+                       min_drag: 5,
                        preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
                        label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } 
