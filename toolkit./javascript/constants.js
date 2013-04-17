@@ -53,16 +53,19 @@ _TOOLKIT_PIXEL                       = 50;
 _TOOLKIT_PX                          = 50;
 _TOOLKIT_PERCENT                     = 51;
 _TOOLKIT_PERC                        = 51;
-_TOOLKIT_FLAT                        = 52;
-_TOOLKIT_DECIBEL                     = 53;
-_TOOLKIT_DB                          = 53;
-_TOOLKIT_FREQUENCY                   = 54;
-_TOOLKIT_FREQ                        = 54;
+_TOOLKIT_COEF                        = 52;
+_TOOLKIT_COEFF                       = 52;
+_TOOLKIT_COEFFICIENT                 = 52;
 
-// SCALE MODES
-_TOOLKIT_LINEAR                      = 100;
-_TOOLKIT_LIN                         = 100;
-_TOOLKIT_LOGARITHMIC                 = 101;
-_TOOLKIT_LOG                         = 101;
-_TOOLKIT_LOG2                        = 102;
-_TOOLKIT_LOG10                       = 103;
+// SCALES
+_TOOLKIT_FLAT                        = 53;
+_TOOLKIT_LINEAR                      = 53;
+_TOOLKIT_LIN                         = 53;
+_TOOLKIT_DECIBEL                     = 54;
+_TOOLKIT_DB                          = 54;
+_TOOLKIT_LOG2                        = 54;
+_TOOLKIT_FREQUENCY                   = 55;
+_TOOLKIT_FREQ                        = 55;
+_TOOLKIT_LOG10                       = 55;
+_TOOLKIT_LOGARITHMIC                 = 55;
+_TOOLKIT_LOG                         = 55;

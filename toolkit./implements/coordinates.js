@@ -112,6 +112,9 @@ Coordinates = new Class({
                 return value;
             case _TOOLKIT_PERC:
                 // value is a percentual value
+                return (size / 100) * value;
+            case _TOOLKIT_COEF:
+                // value is a coefficient
                 return size * value;
             case _TOOLKIT_FLAT:
                 // value is a linear value
@@ -158,30 +161,30 @@ Coordinates = new Class({
             case "max_z":
                 if(this.options.mode_x == _TOOLKIT_FREQ) {
                     // precalc x values for freq
-                    this._min_x = this.log10(this.options.min_x);
-                    this._max_x = this.log10(this.options.max_x);
+                    this._min_x = Math.log10(this.options.min_x);
+                    this._max_x = Math.log10(this.options.max_x);
                 } else if(this.options.mode_x == _TOOLKIT_DB) {
                     // precalc x values for db
-                    this._min_x = this.log2(this.options.min_x);
-                    this._max_x = this.log2(this.options.max_x);
+                    this._min_x = Math.log2(this.options.min_x);
+                    this._max_x = Math.log2(this.options.max_x);
                 }
                 if(this.options.mode_y == _TOOLKIT_FREQ) {
                     // precalc y values for freq
-                    this._min_y = this.log10(this.options.min_y);
-                    this._max_y = this.log10(this.options.max_y);
+                    this._min_y = Math.log10(this.options.min_y);
+                    this._max_y = Math.log10(this.options.max_y);
                 } else if(this.options.mode_y == _TOOLKIT_DB) {
                     // precalc y values for db
-                    this._min_y = this.log2(this.options.min_y);
-                    this._max_y = this.log2(this.options.max_y);
+                    this._min_y = Math.log2(this.options.min_y);
+                    this._max_y = Math.log2(this.options.max_y);
                 }
                 if(this.options.mode_z == _TOOLKIT_FREQ) {
                     // precalc y values for freq
-                    this._min_z = this.log10(this.options.min_z);
-                    this._max_z = this.log10(this.options.max_z);
+                    this._min_z = Math.log10(this.options.min_z);
+                    this._max_z = Math.log10(this.options.max_z);
                 } else if(this.options.mode_z == _TOOLKIT_DB) {
                     // precalc y values for db
-                    this._min_z = this.log2(this.options.min_z);
-                    this._max_z = this.log2(this.options.max_z);
+                    this._min_z = Math.log2(this.options.min_z);
+                    this._max_z = Math.log2(this.options.max_z);
                 }
                 break;
         }
