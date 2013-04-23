@@ -25,7 +25,7 @@ var Equalizer = new Class({
     // simple ResponseHandles.
     Extends: ResponseHandler,
     options: {
-        accuracy: 3 // the distance between points of curves on the x axis
+        accuracy: 1 // the distance between points of curves on the x axis
     },
     bands: [],
     
@@ -35,7 +35,7 @@ var Equalizer = new Class({
         this._bands = makeSVG("g",
             {"class": "toolkit-eqbands"}).inject(this.element);
             
-        this._baseline = this.add_graph({
+        this.baseline = this.add_graph({
             range_x:   function () { return this.range_x; }.bind(this),
             range_y:   function () { return this.range_y; }.bind(this),
             container: this._bands,
@@ -52,12 +52,20 @@ var Equalizer = new Class({
     },
     
     redraw: function () {
-        for (var i = 0; i < this.range_x.get("basis"); i += this.options.accuracy) {
-            var gain = 1;
-            var freq = this.range_x.px2val(i);
-            for(var j = 0; j < this.bands.length; j++) {
-                console.log(j, i, freq, this.bands[j].freq2gain(freq));
+        if (this.baseline) {
+            var dots = [];
+            var c = 0;
+            for (var i = 0; i < this.range_x.get("basis"); i += this.options.accuracy) {
+                var gain = 1;
+                var freq = this.range_x.px2val(i);
+                dots[c] = {x: freq, y: 0};
+                for(var j = 0; j < this.bands.length; j++) {
+                    if(this.bands[j].get("active"))
+                        dots[c].y += this.bands[j].freq2gain(freq);
+                }
+                c ++;
             }
+            this.baseline.set("dots", dots);
         }
         this.parent();
     },
@@ -84,10 +92,8 @@ var Equalizer = new Class({
         this.element.addEvent("touchmove", b._touchmove.bind(b));
         this.element.addEvent("touchend",  b._touchend.bind(b));
         
-        b.addEvent("set_x", this.redraw.bind(this));
-        b.addEvent("set_y", this.redraw.bind(this));
-        b.addEvent("set_z", this.redraw.bind(this));
-        
+        b.addEvent("set", this.redraw.bind(this));
+        this.redraw();
         this.fireEvent("bandadded", [b, this]);
         return b;
     },
@@ -107,5 +113,16 @@ var Equalizer = new Class({
         }
         this.bands = [];
         this.fireEvent("emptied", this);
+    },
+    
+    // GETTER & SETTER
+    set: function (key, value, hold) {
+        //this.options[key] = value;
+        this.parent(key, value, hold);
+        switch (key) {
+            case "accuracy":
+                if(!hold) this.redraw();
+                break;
+        }
     }
 });

@@ -36,7 +36,7 @@ ResponseHandle = new Class({
         z_handle_size:    6,            // the size of the z handle in pixels if used.
         z_handle_centered:0.1,          // the width/height of the z handle if centered /top, right, bottom, left)
                                         // values > 1 are interpreted as pixels, values < 1 declare a percentual value of the handles width/height
-        min_drag:         0,             // amount of pixels the handle has to be dragged before it starts to move
+        min_drag:         0,            // amount of pixels the handle has to be dragged before it starts to move
         x_min:            false,        // restrict movement on x axis
         x_max:            false,        // restrict movement on x axis
         y_min:            false,        // restrict movement on y axis
@@ -1306,7 +1306,14 @@ ResponseHandle = new Class({
                 break;
             case "active":
                 if (value) this.element.removeClass("toolkit-inactive");
-                     else this.element.addClass("toolkit-inactive");
+                else this.element.addClass("toolkit-inactive");
+                break;
+            case "x":
+            case "y":
+            case "z":
+                this.fireEvent("set_" + key, [value, hold, this])
+                if (!hold) this.redraw();
+                key = false;
                 break;
         }
         this.parent(key, value, hold);

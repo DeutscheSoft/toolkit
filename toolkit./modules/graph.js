@@ -72,7 +72,7 @@ var Graph = new Class({
     },
     
     redraw: function () {
-        var a = ".5";
+        var a = 0.5;
         var w = this.range_x.options.basis;
         var h = this.range_y.options.basis;
         
@@ -94,39 +94,39 @@ var Graph = new Class({
                 case "T":
                     // line to and smooth quadric bezier
                     var _t = init ? " " + t : "M";
-                    var _x = parseInt(this.range_x.val2px(d.x)) + a;
-                    var _y = parseInt(this.range_y.val2px(d.y)) + a;
+                    var _x = (this.range_x.val2px(d.x) + a);
+                    var _y = (this.range_y.val2px(d.y) + a);
                     s += _t + " " + _x + " " + _y;
                     break;
                 case "Q":
                 case "S":
                     // cubic bezier with reflection (S)
                     // and smooth quadratic bezier with reflection of beforehand
-                    var _x = parseInt(this.range_x.val2px(d.x)) + a;
-                    var _y = parseInt(this.range_y.val2px(d.y)) + a;
-                    var _x1 = parseInt(this.range_x.val2px(d.x1)) + a;
-                    var _y1 = parseInt(this.range_y.val2px(d.y1)) + a;
+                    var _x = (this.range_x.val2px(d.x) + a);
+                    var _y = (this.range_y.val2px(d.y) + a);
+                    var _x1 = (this.range_x.val2px(d.x1) + a);
+                    var _y1 = (this.range_y.val2px(d.y1) + a);
                     s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
                     break;
                 case "C":
                     // cubic bezier
-                    var _x = parseInt(this.range_x.val2px(d.x)) + a;
-                    var _y = parseInt(this.range_y.val2px(d.y)) + a;
-                    var _x1 = parseInt(this.range_x.val2px(d.x1)) + a;
-                    var _y1 = parseInt(this.range_y.val2px(d.y1)) + a;
-                    var _x2 = parseInt(this.range_x.val2px(d.x2)) + a;
-                    var _y2 = parseInt(this.range_y.val2px(d.y2)) + a;
+                    var _x = (this.range_x.val2px(d.x) + a);
+                    var _y = (this.range_y.val2px(d.y) + a);
+                    var _x1 = (this.range_x.val2px(d.x1) + a);
+                    var _y1 = (this.range_y.val2px(d.y1) + a);
+                    var _x2 = (this.range_x.val2px(d.x2) + a);
+                    var _y2 = (this.range_y.val2px(d.y2) + a);
                     s += " C" + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
                          + _x + "," + _y;
                     break;
                 case "H":
                     var f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
-                    var _x = parseInt(this.range_x.val2px(d.x));
-                    var _y = _y1 = parseInt(this.range_y.val2px(d.y)) + a;
+                    var _x = (this.range_x.val2px(d.x));
+                    var _y = _y1 = (this.range_y.val2px(d.y) + a);
                     if (_d && _d != (this.options.dots.length - 1)) {
-                        var _q = parseInt(this.range_x.val2px(
+                        var _q = (this.range_x.val2px(
                                  this.options.dots[_d - 1].x));
-                        var _x1 =  (_x - Math.round((_x - _q) / f)) + a;
+                        var _x1 =  (_x - Math.round((_x - _q) / f) + a);
                     } else {
                         var _x1 = _x;
                     }
@@ -160,25 +160,25 @@ var Graph = new Class({
             case _TOOLKIT_BOTTOM:
                 // fill the lower part of the graph
                 s += "M " + (this.range_x.val2px(d.x) - 1) + " ";
-                s += parseInt(h + 1) + a + " " + t + " ";
-                s += (this.range_x.val2px(d.x) - 1) + a + " ";
-                s += parseInt(this.range_y.val2px(d.y)) + a;
+                s += (h + 1) + a + " " + t + " ";
+                s += (this.range_x.val2px(d.x) - 1 + a) + " ";
+                s += (this.range_y.val2px(d.y) + a);
                 return s;
             case _TOOLKIT_TOP:
                 // fill the upper part of the graph
-                s += "M " + (this.range_x.val2px(d.x) - 1) + " -1" + a;
-                s += " " + t + " " + (this.range_x.val2px(d.x) - 1) + a + " "
-                s += parseInt(this.range_y.val2px(d.y)) + a;
+                s += "M " + (this.range_x.val2px(d.x) - 1) + " " + (-1 + a);
+                s += " " + t + " " + (this.range_x.val2px(d.x) - 1 + a) + " "
+                s += (this.range_y.val2px(d.y) + a);
                 return s;
             case _TOOLKIT_CENTER:
                 // fill from the mid
-                s += "M " + (this.range_x.val2px(d.x) - 1) + a + " ";
-                s += parseInt(0.5 * h) + a;
+                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
+                s += (0.5 * h) + a;
                 return s;
             case _TOOLKIT_VARIABLE:
                 // fill from variable point
-                s += "M " + (this.range_x.val2px(d.x) - 1) + a + " ";
-                s += parseInt((-this.options.base + 1) * h) + a;
+                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
+                s += ((-this.options.base + 1) * h + a);
                 return s;
         }
         return false;
@@ -191,20 +191,20 @@ var Graph = new Class({
         switch (m) {
             case _TOOLKIT_BOTTOM:
                 // fill the graph below
-                return " " + t + " " + this.range_x.val2px(d.x) + a + " "
+                return " " + t + " " + (this.range_x.val2px(d.x) + a) + " "
                        + parseInt(h + 1) + a + " Z";
             case _TOOLKIT_TOP:
                 // fill the upper part of the graph
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1) + a
+                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a)
                        + " -1" + a + " Z";
             case _TOOLKIT_CENTER:
                 // fill from mid
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1) + a + " "
-                       + parseInt(0.5 * h) + a + " Z";
+                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
+                       + (0.5 * h) + a + " Z";
             case _TOOLKIT_VARIABLE:
                 // fill from variable point
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1) + a + " "
-                       + parseInt((-m + 1) * h) + a + " Z";
+                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
+                       + ((-m + 1) * h) + a + " Z";
         }
         return "";
     },

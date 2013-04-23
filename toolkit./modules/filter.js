@@ -4,7 +4,7 @@ Filter = new Class({
         type: _TOOLKIT_PARAMETRIC, // the type of the filter
         freq: 0,                   // the initial frequency
         gain: 0,                   // the initial gain of the filter
-        q: 0                       // the initial q of the filter
+        q:    1                    // the initial q of the filter
     },
     
     _flpf1:  { init: false },
@@ -126,7 +126,7 @@ Filter = new Class({
  
     hpf_order2: function (freq) {
         if (!this._fhpf2.init) {
-            this._fhpf2.wo  = 2 * Math.PI * freq;
+            this._fhpf2.wo  = 2 * Math.PI * this.options.freq;
             this._fhpf2.wo2 = this._fhpf2.wo * this._fhpf2.wo;
             this._fhpf2.Q2  = this.options.q * this.options.q;
             this._fhpf2.woQ = this._fhpf2.wo / this.options.q;
@@ -161,9 +161,9 @@ Filter = new Class({
             this._flosh.A           = Math.pow(10,((this.options.gain) / 40));
             this._flosh.wo2         = this._flosh.wo * this._flosh.wo;
             this._flosh.wo4         = this._flosh.wo2 * this._flosh.wo2;
-            this._flosh.Q2          = tihs.options.q * this.options.q;
+            this._flosh.Q2          = this.options.q * this.options.q;
             this._flosh.A2          = this._flosh.A * this._flosh.A;
-            this._flosh.AQ2         = this._flosh.A / Q2;
+            this._flosh.AQ2         = this._flosh.A / this._flosh.Q2;
             this._flosh.wo2AQ2_A2_1 = (this._flosh.AQ2 - this._flosh.A2 - 1)
                                     * this._flosh.wo2;
             this._flosh.ArAQ        = (1 - this._flosh.A)
@@ -211,7 +211,7 @@ Filter = new Class({
             this._fhish.wo3         = this._fhish.wo2 * this._fhish.wo;
             this._fhish.AQ2wo2      = this._fhish.AQ2 * this._fhish.wo2;
         }
-        this._fhish.w   = 2*Math.PI*f[i]; 
+        this._fhish.w   = 2 * Math.PI * freq; 
         this._fhish.w2  = this._fhish.w * this._fhish.w;
         this._fhish.Re  = this._fhish.A * (this._fhish.A
                         * (this._fhish.wo4 + this._fhish.w2 * this._fhish.w2)
@@ -235,16 +235,16 @@ Filter = new Class({
     },
  
     peak: function (freq) {
-        if (!this._fnotch.init) {
-            this._fnotch.wo    = 2 * Math.PI * this.options.freq; 
-            this._fnotch.A     = Math.pow(10, ((this.options.gain) / 40));
-            this._fnotch.A2    = this._fnotch.A * this._fnotch.A;
-            this._fnotch.wo2   = this._fnotch.wo * this._fnotch.wo;
-            this._fnotch.wo3   = this._fnotch.wo2 * this._fnotch.wo;
-            this._fnotch.Q2    = this.options.q * this.options.q;
-            this._fnotch.wo2Q2 = this._fnotch.wo2 / this._fnotch.Q2;
-            this._fnotch.gamma = (this._fnotch.A2 - 1)
-                               / (this._fnotch.A * this.options.q);
+        if (!this._fpeak.init) {
+            this._fpeak.wo    = 2 * Math.PI * this.options.freq; 
+            this._fpeak.A     = Math.pow(10, ((this.options.gain) / 40));
+            this._fpeak.A2    = this._fpeak.A * this._fpeak.A;
+            this._fpeak.wo2   = this._fpeak.wo * this._fpeak.wo;
+            this._fpeak.wo3   = this._fpeak.wo2 * this._fpeak.wo;
+            this._fpeak.Q2    = this.options.q * this.options.q;
+            this._fpeak.wo2Q2 = this._fpeak.wo2 / this._fpeak.Q2;
+            this._fpeak.gamma = (this._fpeak.A2 - 1)
+                               / (this._fpeak.A * this.options.q);
         }
         this._fpeak.w      = 2 * Math.PI * freq; 
         this._fpeak.w2     = this._fpeak.w * this._fpeak.w;

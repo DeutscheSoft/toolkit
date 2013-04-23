@@ -125,7 +125,7 @@ var ResponseHandler = new Class({
         var a = 0;
         for (var i = 0; i < this.handles.length; i++) {
             var h = this.handles[i];
-            if (h.options.id == id) continue;
+            if (h.options.id == id || !h.get("active")) continue;
             
             var _a = this._hit_test(
                      x1, y1, x2, y2,
@@ -139,6 +139,25 @@ var ResponseHandler = new Class({
                      * this.options.importance_label;
             if (_a) c ++;
             a += _a;
+        }
+        if(this.bands && this.bands.length) {
+            for (var i = 0; i < this.bands.length; i++) {
+                var b = this.bands[i];
+                if (b.options.id == id || !b.get("active")) continue;
+                
+                var _a = this._hit_test(
+                         x1, y1, x2, y2,
+                         b.handle.x1, b.handle.y1, b.handle.x2, b.handle.y2)
+                         * this.options.importance_handle;
+                if (_a) c ++;
+                a += _a;
+                
+                var _a = this._hit_test(x1, y1, x2, y2,
+                         b.label.x1, b.label.y1, b.label.x2, b.label.y2)
+                         * this.options.importance_label;
+                if (_a) c ++;
+                a += _a;
+            }
         }
         a += ((x2 - x1) * (y2 - y1) - this._hit_test(
              x1, y1, x2, y2, 0, 0,
