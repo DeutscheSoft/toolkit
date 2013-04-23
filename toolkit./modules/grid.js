@@ -1,54 +1,91 @@
+/*******************************************************************************
+ * toolkit. by Junger
+ * 
+ * This toolkit provides different widgets, implements and modules for building
+ * audio based applications in webbrowsers.
+ * 
+ * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
+ * 
+ * Jünger Audio GmbH
+ * Justus-von-Liebig-Straße 7
+ * 12489 Berlin · Germany
+ * Tel: +49 30 67 77 21 0
+ * http://junger-audio.com
+ * info@junger-audio.com
+ * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
+ * There is no license by now - all rights reserved. Hope we can fix this major
+ * bug soon.
+ ******************************************************************************/
+
 Grid = new Class({
-    Extends: Coordinates,
-    Implements: [Options, Events],
+    // A Grid creates a couple of lines and labels in a SVG image on the x and
+    // y axis. It is used in e.g. Graphs and FrequencyResponses to draw markers
+    // and values. Graphs need a parent SVG image do draw into. The base element
+    // of a Grid is a SVG group containing all the labels and lines. Grids
+    // extend Widget and implements Ranges.
+    Extends: Widget,
+    Implements: Ranges,
     options: {
-        "class":          "",
-        id:               "",
-        container:        false,          // a SVG container to inject the element into
-        grid_x:           [],             // array containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
-        grid_y:           []              // array containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
+        grid_x:  [],    // array containing {pos:x[, color: "colorstring"[,
+                        //       class: "classname"[, label:"labeltext"]]]}
+        grid_y:  [],    // array containing {pos:y[, color: "colorstring"[,
+                        //       class: "classname"[, label:"labeltext"]]]}
+        range_x: {},    // callback function returning a Range module for x axis
+        range_y: {},    // callback function returning a Range module for y axis
+        width:   0,     // the width of the Grid (only use it in set/get)
+        height:  0      // the height of the Grid (only use it in set/get)
     },
-    _add: ".5",
     __last: 0,
     initialize: function (options, hold) {
-        this.setOptions(options);
         this.parent(options);
-        if(!this.options.id) this.options.id = String.uniqueID();
-        this.element = makeSVG("g", {"class": "toolkit-grid"});
-        this.element.set("id", this.options.id);
-        if(this.options.container)
-            this.set("container", this.options.container, hold);
-        if(this.options["class"])
-            this.set("class", this.options["class"], hold);
-        if(!hold) this.redraw();
+        this.element = this.widgetize(
+                       makeSVG("g", {"class": "toolkit-grid"}), true, true);
+        if (this.options.container)
+            this.set("container", this.options.container);
+        this.add_range(this.options.range_x, "range_x");
+        this.add_range(this.options.range_y, "range_y");
+        this.range_x.addEvent("set", function (key, value, hold) {
+            if (!hold) this.redraw();
+        }.bind(this));
+        this.range_y.addEvent("set", function (key, value, hold) {
+            if (!hold) this.redraw();
+        }.bind(this));
+        if (!hold) this.redraw();
+        this.initialized();
     },
     
     redraw: function () {
         this.element.empty();
         this.__last = 0;
-        for(var i = 0; i < this.options.grid_x.length; i++) {
+        for (var i = 0; i < this.options.grid_x.length; i++) {
             this._draw_line(this.options.grid_x[i], 0);
         }
-        this.__last = this.options.height;
-        for(var i = 0; i < this.options.grid_y.length; i++) {
+        this.__last = this.range_y.options.basis;
+        for (var i = 0; i < this.options.grid_y.length; i++) {
             this._draw_line(this.options.grid_y[i], 1);
         }
+        this.parent();
     },
     destroy: function () {
         this.element.destroy();
+        this.parent();
     },
     // HELPERS & STUFF
     _draw_line: function (obj, mode) {
+        // draw a line with label. obj contains pos, class and label
         var m = 0;
-        if(obj.label) {
+        if (obj.label) {
             var label = makeSVG("text");
             label.set("text", obj.label);
             label.set("style", "dominant-baseline: central;");
-            label.addClass("toolkit-grid-label " + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
-            if(obj["class"]) label.addClass(obj["class"]);
+            label.addClass("toolkit-grid-label "
+                + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
+            if (obj["class"]) label.addClass(obj["class"]);
             label.inject(this.element);
-            var w  = this.options.width;
-            var h  = this.options.height;
+            var w  = this.range_x.options.basis;
+            var h  = this.range_y.options.basis;
             var tw = label.getBBox().width;
             var th = label.getBBox().height;
             var p  = label.getStyle("padding").split(" ");
@@ -56,9 +93,11 @@ Grid = new Class({
             var pr = p[1].toInt();
             var pb = p[2].toInt();
             var pl = p[3].toInt();
-            var x  = mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl, this.x2px(obj.pos) - tw / 2));
-            var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt, this.y2px(obj.pos))) : h - th / 2 - pt;
-            if(mode && y > this.__last || !mode && x < this.__last) {
+            var x  = mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl,
+                            this.range_x.val2px(obj.pos) - tw / 2));
+            var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt,
+                            this.range_y.val2px(obj.pos))) : h-th/2-pt;
+            if (mode && y > this.__last || !mode && x < this.__last) {
                 label.destroy();
             } else {
                 label.set("x", x);
@@ -68,22 +107,27 @@ Grid = new Class({
             }
         }
         
-        if((mode && obj.pos == this.options.min_y)
-        || (mode && obj.pos == this.options.max_y)
-        || (!mode && obj.pos == this.options.min_x)
-        || (!mode && obj.pos == this.options.max_x))
+        if ((mode && obj.pos == this.range_y.options.min)
+        || ( mode && obj.pos == this.range_y.options.max)
+        || (!mode && obj.pos == this.range_x.options.min)
+        || (!mode && obj.pos == this.range_x.options.max))
             return;
             
         var line = makeSVG("path");
-        line.addClass("toolkit-grid-line " + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
-        if(obj["class"]) line.addClass(obj["class"]);
-        if(obj.color) line.set("style", "stroke:" + obj.color);
-        if(mode) {
+        line.addClass("toolkit-grid-line "
+            + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
+        if (obj["class"]) line.addClass(obj["class"]);
+        if (obj.color) line.set("style", "stroke:" + obj.color);
+        if (mode) {
             // line from left to right
-            line.set("d", "M0 " + Math.round(this.y2px(obj.pos)) + this._add + " L"  + (this.options.width - m) + " " + Math.round(this.y2px(obj.pos)) + this._add);
+            line.set("d", "M0 " + Math.round(this.range_y.val2px(obj.pos))
+                + ".5 L"  + (this.range_x.options.basis - m) + " "
+                + Math.round(this.range_y.val2px(obj.pos)) + ".5");
         } else {
             // line from top to bottom
-            line.set("d", "M" + Math.round(this.x2px(obj.pos)) + this._add + " 0 L"  + Math.round(this.x2px(obj.pos)) + this._add + " " + (this.options.height - m));
+            line.set("d", "M" + Math.round(this.range_x.val2px(obj.pos))
+                + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos))
+                + ".5 " + (this.range_y.options.basis - m));
         }
         line.inject(this.element);
     },
@@ -91,28 +135,20 @@ Grid = new Class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
-        this.parent(key, value, hold);
-        switch(key) {
-            case "width":
-            case "height":
-            case "mode_x":
-            case "mode_y":
+        switch (key) {
             case "grid_x":
             case "grid_y":
                 this.fireEvent("gridchanged");
-                if(!hold) this.redraw();
+                if (!hold) this.redraw();
                 break;
-            case "container":
-                if(!hold) this.element.inject(value);
+            case "width":
+                this.range_x.set("basis", value, hold);
                 break;
-            case "class":
-                if(!hold) this.element.addClass(value);
+            case "height":
+                this.range_y.set("basis", value, hold);
                 break;
         }
-    },
-    get: function (key) {
-        if(typeof this.options[key] != "undefined")
-            return this.options[key];
+        this.parent(key, value, hold);
     }
 });
  

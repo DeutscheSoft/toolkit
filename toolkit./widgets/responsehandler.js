@@ -1,21 +1,57 @@
+/*******************************************************************************
+ * toolkit. by Junger
+ * 
+ * This toolkit provides different widgets, implements and modules for building
+ * audio based applications in webbrowsers.
+ * 
+ * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
+ * 
+ * Jünger Audio GmbH
+ * Justus-von-Liebig-Straße 7
+ * 12489 Berlin · Germany
+ * Tel: +49 30 67 77 21 0
+ * http://junger-audio.com
+ * info@junger-audio.com
+ * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
+ * There is no license by now - all rights reserved. Hope we can fix this major
+ * bug soon.
+ ******************************************************************************/
+
+
 var ResponseHandler = new Class({
+    // ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
+    // meant as a universal user interface for equalizers and the like.
     Extends: FrequencyResponse,
     options: {
-        mode_z: _TOOLKIT_FLAT,
-        importance_label:  4,   // multiplicator of square pixels on hit testing labels to gain importance
-        importance_handle: 1,   // multiplicator of square pixels on hit testing handles to gain importance
-        importance_border: 50,  // multiplicator of square pixels on hit testing borders to gain importance
+        importance_label:  4,   // multiplicator of square pixels on hit testing
+                                // labels to gain importance
+        importance_handle: 1,   // multiplicator of square pixels on hit testing
+                                // handles to gain importance
+        importance_border: 50,  // multiplicator of square pixels on hit testing
+                                // borders to gain importance
+        range_z:           { scale: _TOOLKIT_LINEAR }, // Range z options
+        depth:             0    // the depth of the z axis (basis of range_z)
     },
     handles: [],
     _active: 0,
     
     initialize: function (options) {
-        this.setOptions(options);
         this.parent(options);
+        
+        this.add_range(this.options.range_z, "range_z");
+        if(this.options.depth)
+            this.set("depth", this.options.depth, true);
+//         this.range_z.addEvent("set", function (key, value, hold) {
+//             if (!hold) this.redraw();
+//         }.bind(this));
+        
         this.element.addClass("toolkit-response-handler");
-        this._handles = makeSVG("g", {"class": "toolkit-response-handles"}).inject(this.element);
+        this._handles = makeSVG("g",
+            {"class": "toolkit-response-handles"}).inject(this.element);
         this.element.onselectstart = function () { return false; };
-        this.element.addEvent('mousewheel', function(e){
+        this.element.addEvent('mousewheel', function (e) {
             e.event.preventDefault();
             e.event.stopPropagation();
             return false;
@@ -27,111 +63,78 @@ var ResponseHandler = new Class({
         this.parent(graphs, grid);
     },
     
-    add_handle: function (options, g) {
+    destroy: function () {
+        this.empty();
+        this._handles.destroy();
+        this.parent();
+    },
+    
+    add_handle: function (options) {
         options["container"] = this._handles;
-        
-        if(typeof options["min_x"] == "undefined")
-            options["min_x"] = this.options.min_x;
-        if(typeof options["min_y"] == "undefined")
-            options["min_y"] = this.options.min_y;
-        if(typeof options["min_z"] == "undefined")
-            options["min_z"] = this.options.min_z;
-        
-        if(typeof options["max_x"] == "undefined")
-            options["max_x"] = this.options.max_x;
-        if(typeof options["max_y"] == "undefined")
-            options["max_y"] = this.options.max_y;
-        if(typeof options["max_z"] == "undefined")
-            options["max_z"] = this.options.max_z;
-        
-        if(typeof options["mode_x"] == "undefined")
-            options["mode_x"] = this.options.mode_x;
-        if(typeof options["mode_y"] == "undefined")
-            options["mode_y"] = this.options.mode_y;
-        if(typeof options["mode_z"] == "undefined")
-            options["mode_z"] = this.options.mode_z;
-        
-        if(typeof options["step_x"] == "undefined")
-            options["step_x"] = this.options.step_x;
-        if(typeof options["step_y"] == "undefined")
-            options["step_y"] = this.options.step_y;
-        if(typeof options["step_z"] == "undefined")
-            options["step_z"] = this.options.step_z;
-        
-        if(typeof options["shift_x"] == "undefined")
-            options["shift_x"] = this.options.shift_x;
-        if(typeof options["shift_y"] == "undefined")
-            options["shift_y"] = this.options.shift_y;
-        if(typeof options["shift_z"] == "undefined")
-            options["shift_z"] = this.options.shift_z;
-        
-        if(typeof options["ctrl_x"] == "undefined")
-            options["ctrl_x"] = this.options.ctrl_x;
-        if(typeof options["ctrl_y"] == "undefined")
-            options["ctrl_y"] = this.options.ctrl_y;
-        if(typeof options["ctrl_z"] == "undefined")
-            options["ctrl_z"] = this.options.ctrl_z;
-        
-        if(typeof options["snap_x"] == "undefined")
-            options["snap_x"] = this.options.snap_x;
-        if(typeof options["snap_y"] == "undefined")
-            options["snap_y"] = this.options.snap_y;
-        if(typeof options["snap_z"] == "undefined")
-            options["snap_z"] = this.options.snap_z;
-        
-        if(typeof options["width"] == "undefined")
-            options["width"] = this.options.width;
-        if(typeof options["height"] == "undefined")
-            options["height"] = this.options.height;
-        if(typeof options["depth"] == "undefined")
-            options["depth"] = this.options.depth;
+        if (typeof options["range_x"] == "undefined")
+            options["range_x"] = function () { return this.range_x; }.bind(this);
+        if (typeof options["range_y"] == "undefined")
+            options["range_y"] = function () { return this.range_y; }.bind(this);
+        if (typeof options["range_z"] == "undefined")
+            options["range_z"] = function () { return this.range_z; }.bind(this);
         
         options["intersect"] = this.intersect.bind(this);
         
         var h = new ResponseHandle(options);
         this.handles.push(h);
         h.addEvent("startdrag", function () { this._active ++ }.bind(this));
-        h.addEvent("stopdrag",  function () { this._active = Math.max(this._active-1, 0) }.bind(this));
+        h.addEvent("stopdrag",  function () {
+            this._active = Math.max(this._active-1, 0)
+        }.bind(this));
         this.element.addEvent("mousemove", h._mousemove.bind(h));
         this.element.addEvent("mouseup",   h._mouseup.bind(h));
         this.element.addEvent("touchmove", h._touchmove.bind(h));
         this.element.addEvent("touchend",  h._touchend.bind(h));
-        this.fireEvent("handleadded");
+        this.fireEvent("handleadded", [h, this]);
         return h;
     },
     remove_handle: function (h) {
-        for(var i = 0; i < this.handles.length; i++) {
-            if(this.handles[i] == h) {
+        for (var i = 0; i < this.handles.length; i++) {
+            if (this.handles[i] == h) {
                 this.handles[i].destroy();
                 this.handles.splice(i, 1);
-                this.fireEvent("handleremoved");
+                this.fireEvent("handleremoved", this);
                 break;
             }
         }
     },
     remove_handles: function () {
-        for(var i = 0; i < this.handles.length; i++) {
+        for (var i = 0; i < this.handles.length; i++) {
             this.remove_handle(this.handles[i]);
         }
         this.handles = [];
+        this.fireEvent("emptied", this)
     },
     
     intersect: function (x1, y1, x2, y2, id) {
         var c = 0;
         var a = 0;
-        for(var i = 0; i < this.handles.length; i++) {
+        for (var i = 0; i < this.handles.length; i++) {
             var h = this.handles[i];
-            if(h.options.id == id) continue;
+            if (h.options.id == id) continue;
             
-            var _a = this._hit_test(x1, y1, x2, y2, h.handle.x1, h.handle.y1, h.handle.x2, h.handle.y2) * this.options.importance_handle;
-            if(_a) c ++;
+            var _a = this._hit_test(
+                     x1, y1, x2, y2,
+                     h.handle.x1, h.handle.y1, h.handle.x2, h.handle.y2)
+                     * this.options.importance_handle;
+            if (_a) c ++;
             a += _a;
             
-            var _a = this._hit_test(x1, y1, x2, y2, h.label.x1, h.label.y1, h.label.x2, h.label.y2) * this.options.importance_label;
-            if(_a) c ++;
+            var _a = this._hit_test(x1, y1, x2, y2,
+                     h.label.x1, h.label.y1, h.label.x2, h.label.y2)
+                     * this.options.importance_label;
+            if (_a) c ++;
             a += _a;
         }
-        a += ((x2 - x1) * (y2 - y1) - this._hit_test(x1, y1, x2, y2, 0, 0, this.options.width, this.options.height)) * this.options.importance_border;
+        a += ((x2 - x1) * (y2 - y1) - this._hit_test(
+             x1, y1, x2, y2, 0, 0,
+             this.options.width, this.options.height))
+             * this.options.importance_border;
         return {intersect: a, count: c};
     },
     
@@ -140,36 +143,38 @@ var ResponseHandler = new Class({
         var bw = bx2 - bx1;
         var zw = bx1 - ax1;
         var ow = 0;
-        if(zw < aw && -bw < zw) {
-            if(0 <= zw && zw <= aw) {
+        if (zw < aw && -bw < zw) {
+            if (0 <= zw && zw <= aw) {
                 ow = aw - zw;
-            } else if(-bw <= zw && zw <= 0) {
+            } else if (-bw <= zw && zw <= 0) {
                 ow = bw + zw;
             }
         }
-        if(!ow) return 0;
+        if (!ow) return 0;
                     
         var ah = ay2 - ay1;
         var bh = by2 - by1;
         var zh = by1 - ay1;
         var oh = 0;
-        if(zh < ah && -bh < zh) {
-            if(0 <= zh && zh <= ah) {
+        if (zh < ah && -bh < zh) {
+            if (0 <= zh && zh <= ah) {
                 oh = ah - zh;
-            } else if(-bh <= zh && zh <= 0) {
+            } else if (-bh <= zh && zh <= 0) {
                 oh = bh + zh;
             }
         }
-        if(!oh) return 0;
+        if (!oh) return 0;
         return Math.min(Math.min(aw, bw), ow) * Math.min(Math.min(ah, bh), oh);
     },
     
+    // GETTER & SETER
     set: function (key, value, hold) {
-        this.parent(key, value, hold);
-        switch(key) {
-            default:
-                // if(!hold) this.redraw();
+        this.options[key] = value;
+        switch (key) {
+            case "depth":
+                this.range_z.set("basis", value, hold);
                 break;
         }
+        this.parent(key, value, hold);
     }
 });

@@ -13,11 +13,17 @@
  * http://junger-audio.com
  * info@junger-audio.com
  * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
  * There is no license by now - all rights reserved. Hope we can fix this major
  * bug soon.
  ******************************************************************************/
 
 AudioMath = new Class({
+    // AudioMath provides a couple of functions for turning linear values into
+    // logarithmic ones and vice versa. If you need an easy convertion between
+    // dB or Hz and a linear scale implement this class.
+    
     // DECIBEL CALCULATIONS
     db2coef: function (value, min, max) {
         // value: dB as float (1 = 0dB)
@@ -36,7 +42,7 @@ AudioMath = new Class({
         // min: minimum dB already sent through log2
         // max: maximum dB already sent through log2
         // scale: the size of the scale
-        return ((Math.log2(db) - min) / (max - min)) * scale;
+        return ((Math.log2(value) - min) / (max - min)) * scale;
     },
     scale2db: function (value, min, max, scale) {
         // value: position in the scale

@@ -12,12 +12,12 @@ Button = new Class({
     
     initialize: function (options, hold) {
         this.setOptions(options);
-        if(!this.options.id) this.options.id = String.uniqueID();
+        if (!this.options.id) this.options.id = String.uniqueID();
         this.element = new Element("div.toolkit-button", {
             "id":    this.options.id
         });
-        if(this.options.container) this.set("container", this.options.container, hold);
-        if(this.options["class"]) this.set("class", this.options["class"], hold);
+        if (this.options.container) this.set("container", this.options.container, hold);
+        if (this.options["class"]) this.set("class", this.options["class"], hold);
         
         this._icon = new Element("img.toolkit-icon").inject(this.element);
         this._label = new Element("div.toolkit-label").inject(this.element);
@@ -42,16 +42,16 @@ Button = new Class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
-        switch(key) {
+        switch (key) {
             case "container":
-                if(!hold) this.element.inject(value);
+                if (!hold) this.element.inject(value);
                 break;
             case "class":
-                if(!hold) this.element.addClass(value);
+                if (!hold) this.element.addClass(value);
                 break;
             case "label":
-                if(!hold) {
-                    if(value) {
+                if (!hold) {
+                    if (value) {
                         this._label.set("html", value);
                         this._label.setStyle("display", "block");
                     } else {
@@ -60,8 +60,8 @@ Button = new Class({
                 }
                 break;
             case "icon":
-                if(!hold) {
-                    if(value) {
+                if (!hold) {
+                    if (value) {
                         this._icon.set("src", value);
                         this._icon.setStyle("display", "block");
                     } else {
@@ -70,17 +70,17 @@ Button = new Class({
                 }
                 break;
             case "state":
-                if(!hold) {
+                if (!hold) {
                     this.element[value ? "addClass" : "removeClass"]("active");
                     this._label.setStyle("background-color", (this.options.state_color && this.options.state) ? this.options.state_color : null);
                 }
                 break;
             case "state_color":
-                if(!hold) this.set("state", this.options.state);
+                if (!hold) this.set("state", this.options.state);
         }
     },
     get: function (key) {
-        if(typeof this.options[key] != "undefined")
+        if (typeof this.options[key] != "undefined")
             return this.options[key];
     }
 });

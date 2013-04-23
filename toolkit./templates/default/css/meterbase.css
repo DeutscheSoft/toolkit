@@ -54,7 +54,7 @@ div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-min,
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-max,
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-base {
-    background: rgba(0,0,0,0.33);
+    background: rgba(0,0,0,0.5);
     display: block;
 }
 div.toolkit-meter-base div.meter-scale div.toolkit-dot {
@@ -88,6 +88,7 @@ div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark {
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-over {
     background: url(../images/meterbase/slim_soft_vertical.png);
+    opacity: 0.5;
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
     
@@ -198,6 +199,7 @@ div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark {
 }
 div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-over {
     background: url(../images/meterbase/slim_soft_horizontal.png);
+    opacity: 0.5;
 }
 div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
     

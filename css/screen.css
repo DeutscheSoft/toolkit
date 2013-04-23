@@ -59,7 +59,7 @@ body{
     background: #f2f2f2 url(../images/background.png) repeat-x fixed;
 }
 
-h1, h2 {
+h2 {
     font-weight: 300;
     font-size: 4.1em;
     text-align: right;
@@ -70,6 +70,15 @@ h1, h2 {
     padding: 0px 0 20px 0;
     float: right;
     margin-left: 50px;
+}
+h1 {
+    margin: 0px 0 20px 0;
+    font-weight: 300;
+    font-size: 3.1em;
+    color: #002f42;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
 }
 p {
     margin-bottom: 20px;
@@ -221,4 +230,8 @@ table tr.inherit {
 .launcher img {
     display: block;
     margin: 5px auto;
+}
+
+.class {
+    margin: 100px 0;
 }

@@ -102,7 +102,7 @@ sprintfWrapper = {
  
     },
  
-    convert : function(match, nosign){
+    convert : function (match, nosign) {
         if (nosign) {
             match.sign = '';
         } else {

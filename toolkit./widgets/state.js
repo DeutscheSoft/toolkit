@@ -10,15 +10,15 @@ State = new Class({
     },
     initialize: function (options) {
         this.setOptions(options);
-        if(!this.options.id) this.options.id = String.uniqueID();
+        if (!this.options.id) this.options.id = String.uniqueID();
         this.element = new Element("div.toolkit-state", {
             "id":    this.options.id
         });
         this._over   = new Element("div.toolkit-over").inject(this.element);
         this._mask   = new Element("div.toolkit-mask").inject(this.element);
         
-        if(this.options.container)  this.set("container",  this.options.container);
-        if(this.options["class"])   this.set("class",      this.options["class"]);
+        if (this.options.container)  this.set("container",  this.options.container);
+        if (this.options["class"])   this.set("class",      this.options["class"]);
         this.set("color", this.options.color);
         this.set("state", this.options.state);
         this.element.setStyles({
@@ -36,7 +36,7 @@ State = new Class({
             "width"  : "100%",
             "height" : "100%"
         });
-        if(this.element.getStyle("position") != "absolute" && this.element.getStyle("position") != "relative")
+        if (this.element.getStyle("position") != "absolute" && this.element.getStyle("position") != "relative")
             this.element.setStyle("position", "relative");
     },
     destroy: function () {
@@ -47,28 +47,28 @@ State = new Class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
-        switch(key) {
+        switch (key) {
             case "container":
-                if(!hold) this.element.inject(this.options.container);
+                if (!hold) this.element.inject(this.options.container);
                 break;
             case "id":
-                if(!hold) this.element.set("id", this.options.id);
+                if (!hold) this.element.set("id", this.options.id);
                 break;
             case "class":
-                if(!hold) this.element.addClass(this.options["class"]);
+                if (!hold) this.element.addClass(this.options["class"]);
                 break;
             case "color":
-                if(!hold) this.element.setStyle("background", value);
+                if (!hold) this.element.setStyle("background", value);
                 this.fireEvent("colorchanged", value);
                 break;
             case "state":
-                if(!hold) this._mask.setStyle("opacity", "" + ((1 - +value) * this.options.opacity));
+                if (!hold) this._mask.setStyle("opacity", "" + ((1 - +value) * this.options.opacity));
                 this.fireEvent("statechanged", value);
                 break;
         }
     },
     get: function (key) {
-        if(typeof this.options[key] != "undefined")
+        if (typeof this.options[key] != "undefined")
             return this.options[key];
     }
 });

@@ -7,7 +7,7 @@ repositionSVGs = function () {
 }
 repositionSVG = function (e) {
     // move svgs if their positions in viewport is not int
-    if(e.retrieve("margin-left") === null) {
+    if (e.retrieve("margin-left") === null) {
         e.store("margin-left", e.getStyle("margin-left").toInt());
     } else {
         e.setStyle("margin-left", e.retrieve("margin-left"));
@@ -15,13 +15,13 @@ repositionSVG = function (e) {
     var l = e.retrieve("margin-left");
     var b = e.getBoundingClientRect();
     var x = b.left % 1;
-    if(x) {
+    if (x) {
         
-        if(x < 0.5) l -= x;
+        if (x < 0.5) l -= x;
         else l += (1 - x);
     }
     e.setStyle("margin-left", l + "px");
-    if(e.retrieve("margin-top") === null) {
+    if (e.retrieve("margin-top") === null) {
         e.store("margin-top", e.getStyle("margin-top").toInt());
     } else {
         e.setStyle("margin-top", e.retrieve("margin-top"));
@@ -29,13 +29,13 @@ repositionSVG = function (e) {
     var t = e.retrieve("margin-top");
     var b = e.getBoundingClientRect();
     var y = b.top % 1;
-    if(y) {
-        if(x < 0.5) t -= y;
+    if (y) {
+        if (x < 0.5) t -= y;
         else t += (1 - y);
     }
     e.setStyle("margin-top", t + "px");
 }
-if(!Browser.firefox) {
+if (!Browser.firefox) {
     window.addEvent('load', repositionSVGs);
     window.addEvent('scroll', repositionSVGs);
     window.addEvent('resize', repositionSVGs);

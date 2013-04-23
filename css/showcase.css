@@ -33,10 +33,22 @@ div.buttons {
 div.buttons .toolkit-button {
     margin-right: 10px;
 }
-i.static {
+i.static,
+i.delegated,
+i.classified {
     color: #951c26;
+    font-style: normal;
+    font-weight: 800;
+    background: rgba(255,255,255,0.5);
+    padding: 1px 3px;
+    border: 1px solid white;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
-
 
 div.header {
     position: absolute;
@@ -79,7 +91,7 @@ ul#navigation a {
     color: white;
     text-shadow: 0 -1px 0 black;
     padding: 0 10px;
-    width: 150px;
+    width: 120px;
 }
 ul#navigation a:hover,
 ul#navigation span:hover{
@@ -122,6 +134,9 @@ ul#navigation>li>span {
     text-align: center;
 }
 ul#navigation>li>div {
+    -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
 }
 ul#navigation>li ul {
     

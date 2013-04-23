@@ -3,7 +3,7 @@ Class.refactor(Element, {
         // return value and sign together in an object of "20px", "50%", 2, "0.1em"
         //debug(arguments.callee.caller);
         this._sanitizeSize(str);
-        switch(str.substr(-1)) {
+        switch (str.substr(-1)) {
             case "%":
                 return {unit:"%", value:parseFloat(str.substr(0, str.length -1))}; break;
             case "x":
@@ -18,7 +18,7 @@ Class.refactor(Element, {
     
     _sanitizeSize: function (size) {
         // converts a number to string and appends "px" if neccessary
-        if(typeof(size) == "number" || (parseInt(size) + "").length == size.length) {
+        if (typeof(size) == "number" || (parseInt(size) + "").length == size.length) {
             size += "px";
         }
         return size;
@@ -26,11 +26,11 @@ Class.refactor(Element, {
     
     _width: function (size) {
         // sets the width of an object in px or % including border and padding
-        if(size) {
+        if (size) {
             size = this._sanitizeSize(size);
             var px = this.CSSSize2px(size, this.getParent().getSize().x);
-            if(px > -1) {
-                if(this.boxModel() != "border-box" ) {
+            if (px > -1) {
+                if (this.boxModel() != "border-box" ) {
                     var s = this.CSSSpace("padding", "border");
                     px -= (s.left + s.right);
                 }
@@ -47,11 +47,11 @@ Class.refactor(Element, {
     
     _height: function (size) {
         // sets the height of an object in px or % including border and padding
-        if(size) {
+        if (size) {
             size = this._sanitizeSize(size);
             var px = this.CSSSize2px(size, this.getParent().getSize().y);
-            if(px > -1) {
-                if(this.boxModel() != "border-box") {
+            if (px > -1) {
+                if (this.boxModel() != "border-box") {
                     var s = this.CSSSpace("padding", "border");
                     px -= (s.top + s.bottom);
                 }
@@ -73,11 +73,11 @@ Class.refactor(Element, {
         //debug(obj, size, parent);
         //debug(arguments.callee.caller);
         var p = (typeof(parent) == "object") ? parent : this.getParent();
-        if(size) {
+        if (size) {
             size = this._sanitizeSize(size);
             var px = this.CSSSize2px(size, p.getSize().x);
-            if(px > -1) {
-                if(this.boxModel() == "border-box") {
+            if (px > -1) {
+                if (this.boxModel() == "border-box") {
                     var s = this.CSSSpace("margin");
                     px -= (s.left + s.right);
                 } else {
@@ -99,11 +99,11 @@ Class.refactor(Element, {
         // sets the overall height of an object in px or % including border, padding
         // and margin
         var p = (typeof(parent) == "object") ? parent : this.getParent();
-        if(size) {
+        if (size) {
             size = this._sanitizeSize(size);
             var px = this.CSSSize2px(size, p.getSize().y);
-            if(px > -1) {
-                if(this.boxModel() == "border-box") {
+            if (px > -1) {
+                if (this.boxModel() == "border-box") {
                     var s = this.CSSSpace("margin");
                     px -= (s.top + s.bottom);
                 } else {
@@ -122,16 +122,16 @@ Class.refactor(Element, {
     },
     
     innerWidth: function (size) {
-        if(size) {
+        if (size) {
             size = this._sanitizeSize(size);
             var px = this.CSSSize2px(size, this.getParent().innerWidth());
-            if(this.boxModel() == "border-box") {
+            if (this.boxModel() == "border-box") {
                 var s = _this.CSSSpace("padding", "border");
                 px -= (s.left + s.right);
             }
             this.setStyle("width", px)
         }
-//         if(this.boxModel() == "border-box") {
+//         if (this.boxModel() == "border-box") {
 //             return this.getSize().x;
 //         } else {
             var s = this.CSSSpace("padding", "border");
@@ -141,16 +141,16 @@ Class.refactor(Element, {
     
     innerHeight: function (size) {
         // if arguments are overloaded (duration [and easing]), the sizing is animated
-        if(size) {
+        if (size) {
             size = this._sanitizeSize(size);
             var px = this.CSSSize2px(size, this.getParent().innerHeight());
-            if(this.boxModel() == "border-box") {
+            if (this.boxModel() == "border-box") {
                 var s = this.CSSSpace("padding", "border");
                 px -= (s.top + s.bottom);
             }
             this.setStyle("height", px)
         }
-//         if(this.boxModel() == "border-box") {
+//         if (this.boxModel() == "border-box") {
 //             return this.getSize().y;
 //         } else {
             var s = this.CSSSpace("padding", "border");
@@ -169,9 +169,9 @@ Class.refactor(Element, {
         for (var i = 0; i < arguments.length; i++) {
             var add = (arguments[i] == "border") ? "-width" : "";
             var v = this.getStyle(arguments[i] + add);
-            if(v) {
+            if (v) {
                 var va = v.split(" ");
-                switch(va.length) {
+                switch (va.length) {
                     case 1:
                         top += this.CSSSize2px(va[0], this.getSize().y);
                         bot += this.CSSSize2px(va[0], this.getSize().y);
@@ -199,13 +199,13 @@ Class.refactor(Element, {
                 }
             } else {
                 var t = this.CSSSize2px(this.getStyle(arguments[i] + "-top" + add), this.getSize().y);
-                if(t > -1) {top += t;}
+                if (t > -1) {top += t;}
                 var b = this.CSSSize2px(this.getStyle(arguments[i] + "-bottom" + add), this.getSize().y);
-                if(b > -1) {bot += b;}
+                if (b > -1) {bot += b;}
                 var l = this.CSSSize2px(this.getStyle(arguments[i] + "-left" + add), this.getSize().x);
-                if(l > -1) {left += l;}
+                if (l > -1) {left += l;}
                 var r = this.CSSSize2px(this.getStyle(arguments[i] + "-right" + add), this.getSize().x);
-                if(r > -1) {right += r;}
+                if (r > -1) {right += r;}
             }
         }
         
@@ -225,10 +225,10 @@ Class.refactor(Element, {
         // "auto" -> -1
         // "" -> -2
         size = this._sanitizeSize(size);
-        if(size != "auto" && size != "" && typeof(size) != "undefined") {
+        if (size != "auto" && size != "" && typeof(size) != "undefined") {
             size = this.splitCSSnum(size);
             var px = 0;
-            switch(size.unit) {
+            switch (size.unit) {
                 case "%":
                     px = parent * (size.value / 100);
                     px = parseInt(px);
@@ -255,11 +255,11 @@ Class.refactor(Element, {
     
     boxModel: function () {
         // returns the box model of the jQuery element or empty string
-        if(this.getStyle("box-sizing")) return this.getStyle("box-sizing");
-        if(this.getStyle("-moz-box-sizing")) return this.getStyle("-moz-box-sizing");
-        if(this.getStyle("-ms-box-sizing")) return this.getStyle("-ms-box-sizing");
-        if(this.getStyle("-webkit-box-sizing")) return this.getStyle("-webkit-box-sizing");
-        if(this.getStyle("-khtml-box-sizing")) return this.getStyle("-khtml-box-sizing");
+        if (this.getStyle("box-sizing")) return this.getStyle("box-sizing");
+        if (this.getStyle("-moz-box-sizing")) return this.getStyle("-moz-box-sizing");
+        if (this.getStyle("-ms-box-sizing")) return this.getStyle("-ms-box-sizing");
+        if (this.getStyle("-webkit-box-sizing")) return this.getStyle("-webkit-box-sizing");
+        if (this.getStyle("-khtml-box-sizing")) return this.getStyle("-khtml-box-sizing");
         return ""
     }
 });

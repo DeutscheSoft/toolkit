@@ -1,4 +1,4 @@
-window.addEvent('domready', function(){
+window.addEvent('domready', function () {
     $$(".collapse").each(function (e) {
         var toggle = new Element("div", {"class":"toolkit-button", html:e.get("title") + " (" + (e.getChildren()[0].getChildren().length - 1) + ")"});
         toggle.inject(e.getParent().getChildren(".buttons")[0]);
@@ -9,17 +9,17 @@ window.addEvent('domready', function(){
     $$("ul.wrapper>li").each( function (e) {
         var id = e.get("id");
         var cls   = e.get("class");
-        if(!cls || !id) return;
+        if (!cls || !id) return;
         id = id.toLowerCase();
         var title = e.get("id");
         var ctitle = cls.charAt(0).toUpperCase() + cls.substr(1);
         
         // SUBMENU
-        if(!$$("#navigation ul." + cls).length) {
+        if (!$$("#navigation ul." + cls).length) {
             var l = new Element("li").inject($("navigation"));
             var t = new Element("span", {html: ctitle + "s"}).inject(l);
             var m = new Element("ul." + cls, {id: cls}).inject(l);
-            var toggleFx = new Fx.Slide(m).hide();
+            var toggleFx = new Fx.Slide(m, {duration:300}).hide();
             t.addEvent("click", function(){toggleFx.toggle()});
             m.addEvent("click", function(){toggleFx.toggle()});
         }
@@ -35,14 +35,14 @@ window.addEvent('domready', function(){
         var hr = new Element("hr").inject(e, "bottom");
         
         // EXAMPLE BUTTON
-        if(typeof window["run_" + id] != "undefined") {
+        if (typeof window["run_" + id] != "undefined") {
             var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0], "top");
             but.addEvent("click", window["run_" + id]);
             l.addEvent("click", window["run_" + id]);
         }
     });
     var modex = window.location.hash.substring(1);
-    if(modex && typeof window["run_" + modex] != "undefined") {
+    if (modex && typeof window["run_" + modex] != "undefined") {
         window["run_" + modex]();
     }
 });
@@ -51,7 +51,7 @@ window.addEvent('domready', function(){
 // TOGGLE
 
 function run_toggle () {
-    if(typeof t != "undefined") {
+    if (typeof t != "undefined") {
         t.destroy();
         t = undefined;
         return;
@@ -71,7 +71,7 @@ function run_toggle () {
 // BUTTON
 
 function run_button () {
-    if(typeof b != "undefined") {
+    if (typeof b != "undefined") {
         b.destroy();
         b = undefined;
         return;
@@ -88,7 +88,7 @@ function run_button () {
 // SCALE
 
 function run_scale () {
-    if(typeof svl != "undefined") {
+    if (typeof svl != "undefined") {
         svl.destroy();
         svr.destroy();
         sht.destroy();
@@ -106,7 +106,7 @@ function run_scale () {
         min: -96,
         max: +24,
         base: 0,
-        size: 200,
+        basis: 200,
         id: "sc_scale_v_l"
     })
     svr = new Scale({
@@ -117,7 +117,7 @@ function run_scale () {
         min: -96,
         max: +24,
         base: 0,
-        size: 200,
+        basis: 200,
         id: "sc_scale_v_r"
     })
     sht = new Scale({
@@ -128,7 +128,7 @@ function run_scale () {
         min: -24,
         max: +24,
         base: 0,
-        size: 750,
+        basis: 750,
         gap_labels: 50,
         id: "sc_scale_h_t"
     })
@@ -140,7 +140,7 @@ function run_scale () {
         min: -24,
         max: +24,
         base: 0,
-        size: 750,
+        basis: 750,
         gap_labels: 50,
         id: "sc_scale_h_b"
     })
@@ -150,19 +150,17 @@ function run_scale () {
 // CHART
 
 function run_chart () {
-    if(typeof c != "undefined") {
-        c.destroy();
-        c = undefined;
+    if (typeof chart != "undefined") {
+        chart.destroy();
+        chart = undefined;
         $("sc_chart").removeClass("box");
         return;
     }
     $("sc_chart").addClass("box");
-    c = new Chart({
-        width: 908,
-        height: 300,
+    chart = new Chart({
+        range_x: {basis:908, scale: _TOOLKIT_LINEAR, min:0, max:1},
+        range_y: {basis:300, scale: _TOOLKIT_LINEAR, min:0, max:1},
         container: $("sc_chart"),
-        mode_x: _TOOLKIT_PERC,
-        mode_y: _TOOLKIT_PERC,
         grid_x: [{pos:0.0, label:"0"},
                  {pos:0.1},
                  {pos:0.2, label:"20"},
@@ -183,7 +181,7 @@ function run_chart () {
                  {pos:1.0, label:"100"}]
         
     });
-    g1 = c.add_graph({
+    cgraph1 = chart.add_graph({
         dots: [{x:0.0, y:0.0},
                {x:0.1, y:1.0},
                {x:0.2, y:0.5},
@@ -199,7 +197,7 @@ function run_chart () {
         type: "H3",
         mode: _TOOLKIT_BOTTOM
     });
-    g2 = c.add_graph({
+    cgraph2 = chart.add_graph({
         dots: [{x:0.0, y:0.5},
                {x:0.2, y:0.1},
                {x:0.4, y:0.5},
@@ -214,7 +212,7 @@ function run_chart () {
 // FREQUENCY RESPONSE
 
 function run_frequencyresponse () {
-    if(typeof fr != "undefined") {
+    if (typeof fr != "undefined") {
         fr.destroy();
         fr = undefined;
         $("sc_frequencyresponse").removeClass("box");
@@ -222,12 +220,12 @@ function run_frequencyresponse () {
     }
     $("sc_frequencyresponse").addClass("box");
     fr = new FrequencyResponse({
-        width: 908,
+        width: 906,
         height: 300,
         container: $("sc_frequencyresponse"),
         db_grid: 12
     });
-    g3 = fr.add_graph({
+    frgraph = fr.add_graph({
         dots: [{x:20, y:0.0},
                {x:100, y:24},
                {x:200, y:-12},
@@ -244,7 +242,7 @@ function run_frequencyresponse () {
 // DYNAMICS
 
 function run_dynamics () {
-    if(typeof comp != "undefined") {
+    if (typeof comp != "undefined") {
         comp.destroy();
         comp = undefined;
         gate.destroy();
@@ -292,9 +290,34 @@ function run_dynamics () {
     });
 }
 
+
+
+// EQUALIZER
+function run_equalizer () {
+    if (typeof eq != "undefined") {
+        eq.destroy();
+        eq = undefined;
+        $("sc_equalizer").removeClass("box");
+        return;
+    }
+    $("sc_equalizer").addClass("box");
+    eq = new Equalizer({
+        width: 908,
+        height: 300,
+        depth: 120,
+        container: $("sc_equalizer"),
+        db_grid: 12,
+        range_z: {min: 1, max: 20, step: 0.1, shift_up: 10, shift_down: 0.2},
+    });
+    bands = [
+        eq.add_band({x:200, y:0, z:5, type:_TOOLKIT_PARAMETRIC, z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 1, z_max: 20}),
+    ]
+}
+
+
 // RESPONSE HANDLER
 function run_responsehandler () {
-    if(typeof rh != "undefined") {
+    if (typeof rh != "undefined") {
         rh.destroy();
         rh = undefined;
         $("sc_responsehandler").removeClass("box");
@@ -307,23 +330,19 @@ function run_responsehandler () {
         depth: 120,
         container: $("sc_responsehandler"),
         db_grid: 12,
-        min_z: 0,
-        max_z: 20,
+        range_z: {min: 1, max: 20, step: 0.1, shift_up: 10, shift_down: 0.2},
     });
     handles = [
-        rh.add_handle({x:200, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 1", step_z:0.1, shift_z:10, ctrl_z:0.2, z_min: 1, z_max: 20}),
-        rh.add_handle({x:6000, y:22, z: 7, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 2", step_z:0.1, shift_z:10, ctrl_z:0.2, z_min: 1, z_max: 20}),
-        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 3", step_z:0.1, shift_z:10, ctrl_z:0.2, z_min: 1, z_max: 20}),
-        rh.add_handle({x:50, y:-12, z: 7, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 4", step_z:0.1, shift_z:10, ctrl_z:0.2, z_min: 1, z_max: 20}),
-        rh.add_handle({x:200, y:24, z: 3, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 5", step_z:0.1, shift_z:10, ctrl_z:0.2, z_min: 1, z_max: 20}),
+        rh.add_handle({x:200, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 1", z_min: 1, z_max: 20}),
+        rh.add_handle({x:6000, y:22, z: 7, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 2", z_min: 1, z_max: 20}),
+        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 3", z_min: 1, z_max: 20}),
+        rh.add_handle({x:50, y:-12, z: 7, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 4", z_min: 1, z_max: 20}),
+        rh.add_handle({x:200, y:24, z: 3, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 5", z_min: 1, z_max: 20}),
         rh.add_handle({x: 3000,
                        z: 3,
                        mode: _TOOLKIT_LINE_VERTICAL,
                        z_handle: _TOOLKIT_LEFT,
                        title: "handle 6",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        z_min: 1,
                        z_max: 20,
                        preferences:[_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_RIGHT],
@@ -334,9 +353,6 @@ function run_responsehandler () {
                        mode: _TOOLKIT_LINE_VERTICAL,
                        z_handle: _TOOLKIT_TOP_RIGHT,
                        title: "handle 7",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        y_min: -12,
                        y_max: 12,
                        z_min: 1,
@@ -349,11 +365,6 @@ function run_responsehandler () {
                        mode: _TOOLKIT_LINE_HORIZONTAL,
                        z_handle: _TOOLKIT_TOP,
                        title: "handle 8",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
-                       z_min: 1,
-                       z_max: 20,
                        preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_TOP, _TOOLKIT_BOTTOM],
                        label: function(title, x, y, z){ return sprintf("%s\n%d dB", title, y); }
                        }),
@@ -362,9 +373,6 @@ function run_responsehandler () {
                        mode: _TOOLKIT_LINE_HORIZONTAL,
                        z_handle: _TOOLKIT_TOP_RIGHT,
                        title: "handle 9",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_min: 1000,
                        x_max: 2000,
                        z_min: 1,
@@ -376,9 +384,6 @@ function run_responsehandler () {
                        z: 3,
                        mode: _TOOLKIT_BLOCK_LEFT,
                        title: "handle 10",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_max: 2000,
                        z_min: 1,
                        z_max: 20,
@@ -391,9 +396,6 @@ function run_responsehandler () {
                        z: 3,
                        mode: _TOOLKIT_BLOCK_RIGHT,
                        title: "handle 11",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_min: 2000,
                        y_min: 0,
                        z_min: 1,
@@ -406,9 +408,6 @@ function run_responsehandler () {
                        z: 3,
                        mode: _TOOLKIT_BLOCK_RIGHT,
                        title: "handle 11",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_min: 2000,
                        y_max: 0,
                        z_min: 1,
@@ -422,9 +421,6 @@ function run_responsehandler () {
                        mode: _TOOLKIT_BLOCK_TOP,
                        z_handle: _TOOLKIT_BOTTOM,
                        title: "handle 11",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_min: 500,
                        x_max: 1000,
                        z_min: 1,
@@ -436,9 +432,6 @@ function run_responsehandler () {
                        z: 3,
                        mode: _TOOLKIT_BLOCK_TOP,
                        title: "handle 12",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_min: 1000,
                        x_max: 2000,
                        z_min: 1,
@@ -450,9 +443,6 @@ function run_responsehandler () {
                        z: 3,
                        mode: _TOOLKIT_BLOCK_BOTTOM,
                        title: "handle 13",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_min: 500,
                        x_max: 1000,
                        z_min: 1,
@@ -464,9 +454,6 @@ function run_responsehandler () {
                        z: 3,
                        mode: _TOOLKIT_BLOCK_BOTTOM,
                        title: "handle 14",
-                       step_z: 0.1,
-                       shift_z: 10,
-                       ctrl_z: 0.2,
                        x_min: 1000,
                        x_max: 2000,
                        z_min: 1,
@@ -481,7 +468,7 @@ function run_responsehandler () {
 // STATE
 
 function run_state () {
-    if(typeof s1 != "undefined") {
+    if (typeof s1 != "undefined") {
         s1.destroy();
         s2.destroy();
         s3.destroy();
@@ -491,6 +478,8 @@ function run_state () {
         s7.destroy();
         s8.destroy();
         s1 = undefined;
+        s2 = undefined;
+        s3 = undefined;
         $("sc_state").empty();
         $("sc_state").removeClass("box");
         return;
@@ -550,29 +539,32 @@ var _s3 = 0;
 function __s1 () {
     _s1 = !_s1;
     s1.set("state", _s1);
-    window.setTimeout(__s1, 1000);
+    if(s1)
+        window.setTimeout(__s1, 1000);
 }
 
 function __s2 () {
-    if(s2.get("state") >= 1)
+    if (s2.get("state") >= 1)
         _s2 = -0.02;
-    else if(s2.get("state") <= 0)
+    else if (s2.get("state") <= 0)
         _s2 = 0.02;
     s2.set("state", s2.get("state") + _s2);
-    window.setTimeout(__s2, 20);
+    if(s2)
+        window.setTimeout(__s2, 20);
 }
 
 function __s3 () {
     _s3 = !_s3;
     s3.set("color", _s3 ? "#def" : "#0af");
-    window.setTimeout(__s3, 500);
+    if(s3)
+        window.setTimeout(__s3, 500);
 }
 
 
 // METER BASE
 
 function run_meterbase () {
-    if(typeof mbvl != "undefined") {
+    if (typeof mbvl != "undefined") {
         mbvl.destroy();
         mbvr.destroy();
         mbhb.destroy();
@@ -646,7 +638,7 @@ function run_meterbase () {
 // LEVEL METER
 
 function run_levelmeter () {
-    if(typeof meters != "undefined" && typeof meters.mvr != "undefined") {
+    if (typeof meters != "undefined" && typeof meters.mvr != "undefined") {
         for(var i in meters) {
             meters[i].destroy();
             meters[i] = undefined;
@@ -675,7 +667,7 @@ function run_levelmeter () {
             auto_clip: 1000,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
@@ -700,7 +692,7 @@ function run_levelmeter () {
             auto_clip: 1000,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
@@ -723,10 +715,10 @@ function run_levelmeter () {
             show_label: true,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
-            gradient: {"-24": "#001f83", "24": "#008bea"},
+            gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
         mvlr: new LevelMeter({
@@ -743,10 +735,10 @@ function run_levelmeter () {
             show_label: true,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
-            gradient: {"0": "#001f83", "24": "#008bea"},
+            gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
         
@@ -768,7 +760,7 @@ function run_levelmeter () {
             auto_clip: 1000,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
@@ -793,7 +785,7 @@ function run_levelmeter () {
             auto_clip: 1000,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
@@ -804,7 +796,7 @@ function run_levelmeter () {
         mhbr: new LevelMeter({
             segment: 2,
             layout: _TOOLKIT_BOTTOM,
-            reverse: true,
+            reverse: false,
             min: 0,
             max: 24,
             value: 0,
@@ -819,7 +811,7 @@ function run_levelmeter () {
             auto_clip: 1000,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             clipping: 24,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
@@ -844,7 +836,7 @@ function run_levelmeter () {
             auto_clip: 1000,
             show_hold: false,
             auto_hold: 2000,
-            hold_size: 2,
+            hold_size: 1,
             clipping: 24,
             container: $$("#sc_levelmeter")[0],
 //                         background: "#13963e"
@@ -856,7 +848,7 @@ function run_levelmeter () {
 
 running = false
 function run () {
-    if(running) return;
+    if (running) return;
     running = true;
     run1();
     run2();
@@ -870,42 +862,42 @@ function run () {
 function run1 () {
     var v = Math.random() * 118 - 96;
     meters.mvl.set("value", v);
-    if(running) window.setTimeout(run1, Math.random() * 500); 
+    if (running) window.setTimeout(run1, Math.random() * 500); 
 }
 function run2 () {
     var v = Math.random() * 118 - 96;
     meters.mvr.set("value", v);
-    if(running) window.setTimeout(run2, Math.random() * 500); 
+    if (running) window.setTimeout(run2, Math.random() * 500); 
 }
 function run3 () {
     var v = Math.random() * 118 - 96;
     meters.mht.set("value", v);
-    if(running) window.setTimeout(run3, Math.random() * 500); 
+    if (running) window.setTimeout(run3, Math.random() * 500); 
 }
 function run4 () {
     var v = Math.random() * 118 - 96;
     meters.mhb.set("value", v);
-    if(running) window.setTimeout(run4, Math.random() * 500); 
+    if (running) window.setTimeout(run4, Math.random() * 500); 
 }
 function run5 () {
     var v = Math.random() * 44 - 22;
     meters.mvlr.set("value", v);
-    if(running) window.setTimeout(run5, Math.random() * 500); 
+    if (running) window.setTimeout(run5, Math.random() * 500); 
 }
 function run6 () {
     var v = Math.random() * 44 - 22;
     meters.mvrr.set("value", v);
-    if(running) window.setTimeout(run6, Math.random() * 500); 
+    if (running) window.setTimeout(run6, Math.random() * 500); 
 }
 function run7 () {
     var v = Math.random() * 22;
     meters.mhtr.set("value", v);
-    if(running) window.setTimeout(run7, Math.random() * 500); 
+    if (running) window.setTimeout(run7, Math.random() * 500); 
 }
 function run8 () {
     var v = Math.random() * 22;
     meters.mhbr.set("value", v);
-    if(running) window.setTimeout(run8, Math.random() * 500); 
+    if (running) window.setTimeout(run8, Math.random() * 500); 
 }
     
 function reset () {
@@ -914,8 +906,8 @@ function reset () {
     }
 }
 function hold (h) {
-    h = !meters.mvr.get("show_hold");
-    for(i in meters) {
-        meters[i].set("show_hold", h);
+    h = !meters.mhbr.get("show_hold");
+    for(var i = 0; i < Object.keys(meters).length; i++) {
+        meters[Object.keys(meters)[i]].set("show_hold", h);
     }
 }

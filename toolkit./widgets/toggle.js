@@ -20,9 +20,9 @@ Toggle = new Class({
     redraw: function () {
         var value = this.options.state;
         var icon = this.options[value ? (this.options.icon_active ? "icon_active" : "icon") : "icon"];
-        if(icon) this._icon.set("src", icon);
+        if (icon) this._icon.set("src", icon);
         var label = this.options[value ? (this.options.label_active ? "label_active" : "label") : "label"];
-        if(label) this._label.set("html", label);
+        if (label) this._label.set("html", label);
     },
     toggle: function (hold) {
         this._clear_to();
@@ -30,7 +30,7 @@ Toggle = new Class({
         this.fireEvent("toggled");
     },
     cancel_press: function () {
-        if(!this.__tp)
+        if (!this.__tp)
             return;
         this.__tp = false;
         this.__tt = false;
@@ -41,14 +41,14 @@ Toggle = new Class({
     // HELPERS & STUFF
     
     _mousedown: function (e) {
-        if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
+        if (!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
         this.__tm = true;
         e.stopPropagation();
         e.preventDefault();
     },
     _mouseup: function (e) {
-        if(!this.__tm) return;
+        if (!this.__tm) return;
         this.toggle();
         this._clear_to();
         this.__tp = false;
@@ -57,14 +57,14 @@ Toggle = new Class({
         e.preventDefault();
     },
     _touchstart: function (e) {
-        if(!this.options.press || (!this.options.press_disable && this.options.state)) return;
+        if (!this.options.press || (!this.options.press_disable && this.options.state)) return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
         this.__tt = true;
         e.stopPropagation();
         e.preventDefault();
     },
     _touchend: function (e) {
-        if(!this.__tt) return;
+        if (!this.__tt) return;
         this.toggle();
         this._clear_to();
         this.__tp = false;
@@ -77,7 +77,7 @@ Toggle = new Class({
         this.__tp = true;
     },
     _clear_to: function () {
-        if(this.__toto) {
+        if (this.__toto) {
             window.clearTimeout(this.__toto);
             this.__toto = null;
         }
@@ -86,13 +86,13 @@ Toggle = new Class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.parent(key, value, hold);
-        switch(key) {
+        switch (key) {
             case "icon_active":
             case "icon":
             case "label_active":
             case "label":
             case "state":
-                if(!hold) this.redraw();
+                if (!hold) this.redraw();
                 break;
         }
     }
