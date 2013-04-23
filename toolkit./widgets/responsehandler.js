@@ -70,6 +70,8 @@ var ResponseHandler = new Class({
     },
     
     add_handle: function (options) {
+        // ad a new handle to the widget. Options is an object containing
+        // options for the handle
         options["container"] = this._handles;
         if (typeof options["range_x"] == "undefined")
             options["range_x"] = function () { return this.range_x; }.bind(this);
@@ -93,9 +95,10 @@ var ResponseHandler = new Class({
         this.fireEvent("handleadded", [h, this]);
         return h;
     },
-    remove_handle: function (h) {
+    remove_handle: function (handle) {
+        // remove a handle from the widget.
         for (var i = 0; i < this.handles.length; i++) {
-            if (this.handles[i] == h) {
+            if (this.handles[i] == handle) {
                 this.handles[i].destroy();
                 this.handles.splice(i, 1);
                 this.fireEvent("handleremoved", this);
@@ -104,6 +107,7 @@ var ResponseHandler = new Class({
         }
     },
     remove_handles: function () {
+        // remove all handles from the widget.
         for (var i = 0; i < this.handles.length; i++) {
             this.remove_handle(this.handles[i]);
         }
@@ -112,6 +116,11 @@ var ResponseHandler = new Class({
     },
     
     intersect: function (x1, y1, x2, y2, id) {
+        // this function walks over all known handles and asks for the coords
+        // of the label and the handle. Calculates intersecting square pixels
+        // according to the importance set in options. Returns an object
+        // containing intersect (the amount of intersecting square pixels) and
+        // count (the amount of overlapping elements)
         var c = 0;
         var a = 0;
         for (var i = 0; i < this.handles.length; i++) {
@@ -139,6 +148,8 @@ var ResponseHandler = new Class({
     },
     
     _hit_test: function (ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
+        // hit test takes two defined rectangles and calculates the overlapping
+        // pixels.
         var aw = ax2 - ax1;
         var bw = bx2 - bx1;
         var zw = bx1 - ax1;
