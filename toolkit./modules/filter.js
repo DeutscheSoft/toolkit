@@ -36,27 +36,27 @@ Filter = new Class({
         switch (this.options.type) {
             case _TOOLKIT_PARAM:
                 return this.peak(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_NOTCH:
                 return this.notch(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_LOSHELF:
                 return this.low_shelf(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_HISHELF:
                 return this.high_shelf(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_LP1:
                 return this.lpf_order1(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_LP2:
                 return this.lpf_order2(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_LP3:
                 return this.lpf_order3(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_LP4:
                 return this.lpf_order4(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_HP1:
                 return this.hpf_order1(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_HP2:
                 return this.hpf_order2(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_HP3:
                 return this.hpf_order3(freq);
-            case _TOOLKIT:
+            case _TOOLKIT_HP4:
                 return this.hpf_order4(freq);
         }
     },
