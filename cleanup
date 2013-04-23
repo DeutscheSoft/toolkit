@@ -1,0 +1,7 @@
+#!/bin/bash
+find toolkit. -type f -name "*.js*" -print0 | xargs -0 sed -i 's/if(/if (/'
+find toolkit. -type f -name "*.js*" -print0 | xargs -0 sed -i 's/while(/while (/'
+find toolkit. -type f -name "*.js*" -print0 | xargs -0 sed -i 's/for(/for (/'
+find toolkit. -type f -name "*.js*" -print0 | xargs -0 sed -i 's/function(/function (/'
+find toolkit. -type f -name "*.js*" -print0 | xargs -0 sed -i 's/switch(/switch (/'
+find toolkit. -type f -name "*.js*" -print0 | xargs -0 sed -i 's/){/) {/'
