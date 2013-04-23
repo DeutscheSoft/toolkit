@@ -311,8 +311,6 @@ LevelMeter = new Class({
                             : (r ? "left" : "right")] = size - top_bot;
             m3[this._vert() ? "height" : "width"] = top_size;
             
-            if(this.options.title=="mvr") console.log(size, base, value)
-                
             this._mask1.setStyles(m1);
             this._mask3.setStyles(m3);
             

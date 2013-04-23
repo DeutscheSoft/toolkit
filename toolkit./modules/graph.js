@@ -235,6 +235,9 @@ var Graph = new Class({
                     this.redraw();
                 }
                 break;
+            case "type":
+                if(!hold) this.redraw();
+                break;
         }
         this.parent(key, value, hold);
     }
