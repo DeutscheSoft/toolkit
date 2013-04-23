@@ -107,5 +107,5 @@ var Equalizer = new Class({
         }
         this.bands = [];
         this.fireEvent("emptied", this);
-    },
+    }
 });

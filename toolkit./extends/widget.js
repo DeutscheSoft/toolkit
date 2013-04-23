@@ -91,7 +91,7 @@ Widget = new Class({
             "focus"      : function (e) {
                 this.fireEvent("focus",      [e, this, element]); }.bind(this),
             "blur"       : function (e) {
-                this.fireEvent("blur",       [e, this, element]); }.bind(this),
+                this.fireEvent("blur",       [e, this, element]); }.bind(this)
         });
         this.fireEvent("delegated", [element, this]);
         return element;
@@ -123,7 +123,7 @@ Widget = new Class({
         return element;
     },
     
-    import: function (from, to) {
+    "import": function (from, to) {
         
     },
     

@@ -48,7 +48,7 @@ Scale = new Class({
                                           // the labels
         gap_dots:         4,              // minimum gap between dots (pixel)
         gap_labels:       40,             // minimum gap between labels (pixel)
-        show_labels:      true,           // if labels should be drawn
+        show_labels:      true            // if labels should be drawn
     },
     __size: 0,
     

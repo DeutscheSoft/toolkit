@@ -31,7 +31,7 @@ var Gradient = new Class({
                                           // corresponding to the chosen scale.
                                           // values are valid css color strings
                                           // like #ff8000 or rgb(0,56,103)
-        background:      "#00000",        // background if no gradient is used
+        background:      "#00000"         // background if no gradient is used
     },
     draw_gradient: function (element, grad, fallback, range) {
         // This function generates a string from a given gradient object to set

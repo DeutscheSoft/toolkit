@@ -4,7 +4,7 @@ Filter = new Class({
         type: _TOOLKIT_PARAMETRIC, // the type of the filter
         freq: 0,                   // the initial frequency
         gain: 0,                   // the initial gain of the filter
-        q: 0,                      // the initial q of the filter
+        q: 0                       // the initial q of the filter
     },
     
     _flpf1:  { init: false },
@@ -310,11 +310,11 @@ Filter = new Class({
         if(!hold) {
             this.reset();
         }
-        this,fireEvent("set", [key, value, hold, this]);
+        this.fireEvent("set", [key, value, hold, this]);
         this.fireEvent("set_" + key, [value, hold, this]);
     },
     get: function (key) {
-        this,fireEvent("get", [key, this.options[key], this]);
+        this.fireEvent("get", [key, this.options[key], this]);
         return this.options[key];
-    },
+    }
 });

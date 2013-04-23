@@ -27,10 +27,10 @@ var Dynamics = new Class({
     Extends: Chart,
     options: {
         db_grid: 12,
-        min:    -96,
+        min:     -96,
         max:     24,
         size:    400,
-        scale:    _TOOLKIT_FLAT,
+        scale:   _TOOLKIT_FLAT
     },
     initialize: function (options) {
         this.parent(options, true);

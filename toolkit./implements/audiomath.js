@@ -77,5 +77,5 @@ AudioMath = new Class({
         // max: maximum freq already sent through log10
         // scale: the size of the scale
         return Math.pow(10, (value / scale * (max - min) + min));
-    },
+    }
 });

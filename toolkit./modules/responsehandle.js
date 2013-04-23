@@ -132,7 +132,7 @@ ResponseHandle = new Class({
             "mouseenter":  this._mouseenter.bind(this),
             "mouseleave":  this._mouseleave.bind(this),
             "mousedown":   this._mousedown.bind(this),
-            "touchstart":  this._touchstart.bind(this),
+            "touchstart":  this._touchstart.bind(this)
         });
         this._label.addEvents({
             "mouseenter":  this._mouseelement.bind(this),
@@ -148,7 +148,7 @@ ResponseHandle = new Class({
         });
         this._zhandle.addEvents({
             "mousedown":  this._zhandledown.bind(this),
-            "touchstart":  this._zhandledown.bind(this),
+            "touchstart":  this._zhandledown.bind(this)
         });
         $$("body")[0].addEvent("mouseup", this._mouseup.bind(this));
         
@@ -925,7 +925,7 @@ ResponseHandle = new Class({
                             var xl = x + width / 2;
                             var yl = y1;
                             var align = "middle";
-                            break;start
+                            break;
                         case _TOOLKIT_RIGHT:
                             var x1 = x + width - m - bbox.width;
                             var y1 = y + height / 2 - bbox.height / 2;
