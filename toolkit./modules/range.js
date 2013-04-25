@@ -125,7 +125,7 @@ Range = new Class({
         return this;
     },
     get: function (key) {
-        return this.options[key];
         this.fireEvent("get", [key, this.options[key], this]);
+        return this.options[key];
     }
 });
