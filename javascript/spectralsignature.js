@@ -19,6 +19,7 @@
  */
 
 SpectralSignature = new Class({
+
     Extends: Widget,
     Implements: [Ranges],
     options: {
@@ -86,7 +87,7 @@ SpectralSignature = new Class({
             this.toggles[i] = new Toggle({
                 container: this._toggles,
                 icon: this.options.toggle_icon,
-                icon_active: this.options.toggle_icon_active,
+                icon_active: this.options.toggle_icon_active
             });
             
             if (!i) {
@@ -117,7 +118,7 @@ SpectralSignature = new Class({
                 x_max: max,
                 x: this.options.bands[i],
                 mode: _TOOLKIT_BLOCK_BOTTOM,
-                y: -60,
+                y: -60
             });
             thr.title = sprintf(thr.title, (i+1));
             this.thresholds[i] = this.upper.add_handle(thr);
@@ -126,8 +127,8 @@ SpectralSignature = new Class({
                 x: this.options.bands[i],
                 y: 0,
                 x_min: this.options.bands[i],
-                x_max: this.options.bands[i],
                 z_handle: _TOOLKIT_RIGHT,
+                x_max: this.options.bands[i]
             });
             sig.title = sprintf(sig.title, (i+1));
             this.sighandles[i] = this.lower.add_handle(sig);
