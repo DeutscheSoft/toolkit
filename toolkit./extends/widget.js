@@ -101,6 +101,9 @@ Widget = new Class({
         // widget instance
         this.addClass    = function (c) { element.addClass(c); }.bind(this);
         this.removeClass = function (c) { element.removeClass(c); }.bind(this);
+        this.setStyle    = function (c, d) { element.setStyle(c, d); }.bind(this);
+        this.setStyles   = function (c) { element.setStyles(c); }.bind(this);
+        this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
         this.fireEvent("classified", [element, this]);
         return element;
     },
@@ -118,7 +121,7 @@ Widget = new Class({
         if (delegate)
             this.delegate(element);
         if (classify)
-            this.delegate(element);
+            this.classify(element);
         this.fireEvent("widgetized", [element, this]);
         return element;
     },

@@ -95,7 +95,7 @@ ResponseHandle = new Class({
         this.widgetize(this.element = makeSVG("g", {
             "id":    this.options.id,
             "class": cls
-        }));
+        }), true, true);
         this.element.addClass(cls);
         
         this._label = makeSVG("text", {
@@ -1087,12 +1087,12 @@ ResponseHandle = new Class({
         this._clickY  = this.y;
         this._clickZ  = this.z;
         this.redraw();
-        this.fireEvent("startdrag", {
+        this.fireEvent("startdrag", [{
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
             pos_y: this.y
-        });
+        }, this]);
         document.addEvent("mouseup", this._mouseup.bind(this));
         return false;
     },
@@ -1210,12 +1210,12 @@ ResponseHandle = new Class({
         }
         e.event.preventDefault();
         e.stopPropagation();
-        this.fireEvent("dragging", {
+        this.fireEvent("dragging", [{
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
-            pos_y: this.y
-        });
+            pos_y: this.y,
+        },this]);
     },
     _scrollwheel: function (e) {
         this._zwheel = true;
@@ -1232,7 +1232,7 @@ ResponseHandle = new Class({
         else if (e.shift)
             s *= this.range_z.get("shift_up");
         this.set("z", this.get("z") + s);
-        this.fireEvent("scrolling");
+        this.fireEvent("scrolling", this);
     },
     _touchstart: function (e) {
         if (e.touches && e.touches.length == 2) {

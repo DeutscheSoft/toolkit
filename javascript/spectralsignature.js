@@ -25,7 +25,7 @@ SpectralSignature = new Class({
         range_x: {},                 // range or range options for all x ranges
         range_y_upper: {},           // y range for upper graph
         range_y_lower: {},           // y range for lower graph
-        range_y_relative: {},        // y range for relative grid in lower graph
+        range_y_relative: {reverse:true},        // y range for relative grid in lower graph
         range_z_maxgain: {},         // z range for maxgain in lower graph
         
         bands: [],                   // array containing all center frequencies
@@ -36,6 +36,7 @@ SpectralSignature = new Class({
         toggle_icon_active:  "",     // image for on state of toggles
         thresholds: {},              // options for gate threshold block handles in upper
         signatures: {}               // options for signature handles in lower
+        
     },
     states: [],
     toggles: [],
@@ -130,9 +131,14 @@ SpectralSignature = new Class({
             });
             sig.title = sprintf(sig.title, (i+1));
             this.sighandles[i] = this.lower.add_handle(sig);
+            this.sighandles[i].addEvents({
+                "startdrag": this._startdrag.bind(this),
+                "stopdrag": this._stopdrag.bind(this),
+                "dragging": this._dragging.bind(this)
+            });
         }
         this.set_elements();
-        
+        this.lower.addEvent("mouseup", this._stopdrag.bind(this));
         this.input = this.upper.add_graph({
             "class": "input",
             type: this.options.type,
@@ -154,6 +160,23 @@ SpectralSignature = new Class({
             range_x: function () { return this.range_x }.bind(this),
             range_y: function () { return this.range_y_upper }.bind(this)
         });
+        
+        var obj = [];
+        for (var i = this.range_y_relative.get("min");
+                 i < this.range_y_relative.get("max");
+                 i += this.options.db_grid_relative)
+            obj.push({pos: i, label:i + "dB", "class": i ? "" : "toolkit-highlight"});
+        
+        this.relative = new Grid({
+            container: this.lower.element,
+            range_x: function () { return this.range_x }.bind(this),
+            range_y: function () { return this.range_y_relative }.bind(this),
+            db_grid: this.options.db_grid_relative,
+            grid_x: [],
+            grid_y: obj
+                
+        });
+        
         if (this.options.input.length)
             this.draw_input();
         if (this.options.gain.length)
@@ -277,6 +300,24 @@ SpectralSignature = new Class({
             this.sighandles[i].set("y", signature.get("dots")[i + 1].y);
         }
     },
+    
+    
+    _startdrag: function (coords, obj) {
+        this.lower.grid.setStyle("display", "none");
+        this.relative.element.setStyle("display", "block");
+        this.relative.element.set("transform", "translate(0,"
+            + (-this.range_y_relative.get("basis") / 2 + coords.pos_y) + ")");
+    },
+    _stopdrag: function (coords, obj) {
+        this.lower.grid.setStyle("display", "block");
+        this.relative.element.setStyle("display", "none");
+    },
+    _dragging: function (coords, obj) {
+        this.relative.element.set("transform", "translate(0,"
+            + (-this.range_y_relative.get("basis") / 2 + coords.pos_y) + ")");
+    },
+    
+    
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
