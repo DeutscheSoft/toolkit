@@ -71,7 +71,7 @@ Button = new Class({
                 break;
             case "state":
                 if (!hold) {
-                    this.element[value ? "addClass" : "removeClass"]("active");
+                    this.element[value ? "addClass" : "removeClass"]("toolkit-active");
                     this._label.setStyle("background-color", (this.options.state_color && this.options.state) ? this.options.state_color : null);
                 }
                 break;

@@ -89,10 +89,10 @@ Grid = new Class({
             var tw = label.getBBox().width;
             var th = label.getBBox().height;
             var p  = label.getStyle("padding").split(" ");
-            var pt = p[0].toInt();
-            var pr = p[1].toInt();
-            var pb = p[2].toInt();
-            var pl = p[3].toInt();
+            var pt = p[0].toInt() || 0;
+            var pr = p[1].toInt() || 0;
+            var pb = p[2].toInt() || 0;
+            var pl = p[3].toInt() || 0;
             var x  = mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl,
                             this.range_x.val2px(obj.pos) - tw / 2));
             var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt,

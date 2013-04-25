@@ -4,7 +4,9 @@ Toggle = new Class({
         label_active:  false, // the label for the active toggle, false for default label
         icon_active:   false, // this icon of the active toggle, false for default icon
         press:         0,     // time in milliseconds after a press is interpreted as a toggle, 0 to disable press toggle
-        press_disable: false  // If press is enabled, does press toggle work with deactivating the state?
+        press_disable: false, // If press is enabled, does press toggle work with deactivating the state?
+        state:         false
+        
     },
     
     initialize: function (options, hold) {
@@ -41,14 +43,16 @@ Toggle = new Class({
     // HELPERS & STUFF
     
     _mousedown: function (e) {
-        if (!this.options.press || (!this.options.press_disable && this.options.state)) return;
+        if (!this.options.press
+        || (!this.options.press_disable && this.options.state))
+            return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
         this.__tm = true;
         e.stopPropagation();
         e.preventDefault();
     },
     _mouseup: function (e) {
-        if (!this.__tm) return;
+        if (!this.__tm && this.options.press) return;
         this.toggle();
         this._clear_to();
         this.__tp = false;
@@ -57,14 +61,16 @@ Toggle = new Class({
         e.preventDefault();
     },
     _touchstart: function (e) {
-        if (!this.options.press || (!this.options.press_disable && this.options.state)) return;
+        if (!this.options.press
+        || (!this.options.press_disable && this.options.state))
+            return;
         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
         this.__tt = true;
         e.stopPropagation();
         e.preventDefault();
     },
     _touchend: function (e) {
-        if (!this.__tt) return;
+        if (!this.__tt && this.options.press) return;
         this.toggle();
         this._clear_to();
         this.__tp = false;

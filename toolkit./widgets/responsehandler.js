@@ -161,7 +161,7 @@ var ResponseHandler = new Class({
         }
         a += ((x2 - x1) * (y2 - y1) - this._hit_test(
              x1, y1, x2, y2, 0, 0,
-             this.options.width, this.options.height))
+             this.range_x.get("basis"), this.range_y.get("basis")))
              * this.options.importance_border;
         return {intersect: a, count: c};
     },

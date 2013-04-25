@@ -50,8 +50,8 @@ var Graph = new Class({
                           // for x axis or an object with options for a Range
         range_y:   {},    // callback function returning a Range module
                           // for y axis or an object with options for a Range
-        width:     0,     // the width of the Graph (only use it in set/get)
-        height:    0      // the height of the Graph (only use it in set/get)
+        width:     0,     // the width of the Graph
+        height:    0      // the height of the Graph
     },
     
     initialize: function (options) {
@@ -65,6 +65,9 @@ var Graph = new Class({
         
         this.set("color", this.options.color);
         this.set("mode",  this.options.mode);
+        
+        this.range_x.addEvent("set", this.redraw.bind(this));
+        this.range_y.addEvent("set", this.redraw.bind(this));
         
         if (this.options.dots.length)
             this.redraw();
@@ -140,7 +143,9 @@ var Graph = new Class({
             if (_s)
                 s += _s;
         }
-        this.element.set("d", s);
+        if (s) {
+            this.element.set("d", s);
+        }
         this.parent();
     },
     destroy: function () {

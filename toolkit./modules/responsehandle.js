@@ -42,7 +42,7 @@ ResponseHandle = new Class({
         y_min:            false,        // restrict movement on y axis
         y_max:            false,        // restrict movement on y axis
         z_min:            false,        // restrict movement on z axis
-        z_max:            false         // restrict movement on z axis
+        z_max:            false,        // restrict movement on z axis
     },
     
     x: 0,

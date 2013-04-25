@@ -1,0 +1,166 @@
+<html>
+    <head>
+        <title>JUNGER Toolkit - Showcase</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        
+        <!-- MAIN STUFF -->
+        <script src="toolkit./javascript/mootools-core-1.4.5.js"></script>
+        <script src="toolkit./javascript/mootools-more-1.4.0.1.js"></script>
+        <script src="javascript/showcase.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/screen.css"/>
+        <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toolkit.css"/>
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:300,500,300italic,500italic"/>
+        
+        <!-- LIBRARIES -->
+        <script src="toolkit./javascript/constants.js"></script>
+        <script src="toolkit./javascript/event.resize.js"></script>
+        <script src="toolkit./javascript/element.sizes.js"></script>
+        <script src="toolkit./javascript/sprintf.js"></script>
+        <script src="toolkit./javascript/svgutils.js"></script>
+        <script src="toolkit./javascript/math.js"></script>
+        
+        <!-- IMPLEMENTS -->
+        <script src="toolkit./implements/audiomath.js"></script>
+        <script src="toolkit./implements/ranged.js"></script>
+        <script src="toolkit./implements/ranges.js"></script>
+        <script src="toolkit./implements/gradient.js"></script>
+        
+        <!-- EXTENDS -->
+        <script src="toolkit./extends/widget.js"></script>
+        <script src="toolkit./extends/meterbase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/meterbase.css">
+        <script src="toolkit./extends/chart.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/chart.css">
+        
+        <!-- MODULES -->
+        <script src="toolkit./modules/range.js"></script>
+        <script src="toolkit./modules/filter.js"></script>
+        <script src="toolkit./modules/scale.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/scale.css">
+        <script src="toolkit./modules/graph.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/graph.css">
+        <script src="toolkit./modules/grid.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/grid.css">
+        <script src="toolkit./modules/responsehandle.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/responsehandle.css">
+        <script src="toolkit./modules/eqband.js"></script>
+        
+        <!-- WIDGETS -->
+        <script src="toolkit./widgets/button.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/button.css">
+        <script src="toolkit./widgets/toggle.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toggle.css">
+        <script src="toolkit./widgets/state.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/state.css">
+        <script src="toolkit./widgets/levelmeter.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/levelmeter.css">
+        <script src="toolkit./widgets/frequencyresponse.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/frequencyresponse.css">
+        <script src="toolkit./widgets/dynamics.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/dynamics.css">
+        <script src="toolkit./widgets/responsehandler.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/responsehandler.css">
+        <script src="toolkit./widgets/equalizer.js"></script>
+        
+        <script src="javascript/spectralsignature.js"></script>
+        
+        <script type="text/javascript">
+            window.addEvent('load', function(){
+                this.spec = new SpectralSignature({
+                    range_x: {min: 40, max: 24000, basis: 600, scale: _TOOLKIT_FREQUENCY},
+                    range_y_upper: {min: -84, max: 0, basis: 200, scale: _TOOLKIT_LINEAR},
+                    range_y_lower: {min: -40, max: 40, basis: 300, base: 0, scale: _TOOLKIT_LINEAR},
+                    range_y_relative: {min: -80, max: 80, base: 0, basis: 600, scale: _TOOLKIT_LINEAR},
+                    range_z_maxgain: {min: 0, max: 12, basis: 50, scale: _TOOLKIT_LINEAR},
+                    container: $("spectral_signature"),
+                    bands: [63, 100, 160, 250, 400, 630, 1000, 1600, 2500, 4000, 6300, 10000, 16000],
+                    grid_x: [
+                        {pos:    40, label: "40 Hz"},
+                        {pos:    50},
+                        {pos:    60},
+                        {pos:    70},
+                        {pos:    80},
+                        {pos:    90},
+                        {pos:   100, label: "100 Hz"},
+                        {pos:   200},
+                        {pos:   300},
+                        {pos:   400},
+                        {pos:   500},
+                        {pos:   600},
+                        {pos:   700},
+                        {pos:   800},
+                        {pos:   900},
+                        {pos:  1000, label: "1000 Hz"},
+                        {pos:  2000},
+                        {pos:  3000},
+                        {pos:  4000},
+                        {pos:  5000},
+                        {pos:  6000},
+                        {pos:  7000},
+                        {pos:  8000},
+                        {pos:  9000},
+                        {pos: 10000, label: "10000 Hz"},
+                        {pos: 24000, label: "24000 Hz"}],
+                    toggle_icon: "images/off.png",
+                    toggle_icon_active: "images/on.png",
+                    type: "H2",
+                    thresholds: {
+                        preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
+                        title: "Gate %s",
+                        label: function (title, x, y, z) { return sprintf("%s\n%.2f", title, y) }},
+                    signatures: {
+                        preferences: [_TOOLKIT_TOP, _TOOLKIT_BOTTOM],
+                        title: "Band %s",
+                        label: function (title, x, y, z) { return sprintf("%s\n%.2f dB", title, y) }},
+                    input: [-12,0,-24,-12,-84,-60,-12,-24,0, 0, -36,-24, -36],
+                    gain: [0,-9,-6,-2,-3,-6,-12,-24,-24, -6, 0,6, 12]
+                });
+            });
+        </script>
+        
+        <style type="text/css">
+            #spectral_signature {
+                
+            }
+            #spectral_signature .states {
+                height: 30px;
+                position: relative;
+            }
+            #spectral_signature .toolkit-state {
+                
+            }
+            #spectral_signature .toggles {
+                height: 40px;
+                padding-top: 4px;
+                position: relative;
+            }
+            #spectral_signature .toolkit-toggle {
+                padding: 0;
+                border: 0;
+                box-shadow: none;
+                background: none;
+            }
+            #spectral_signature .upper .gain {
+                stroke-dasharray: 3px 3px;
+                stroke-width: 1.2px;
+            }
+            #spectral_signature .upper .difference {
+                stroke: rgba(255,255,255,0);
+                fill: rgba(255,255,255,0.2);
+            }
+            #spectral_signature .lower .toolkit-graph {
+                stroke: rgba(255,255,255,0.5);
+                stroke-width: 1.2px;
+            }
+            #spectral_signature .lower .toolkit-graph.active {
+                stroke: rgba(255,255,255,1);
+                stroke-width: 2px;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div id="spectral_signature" class="box"></div>
+    </body>
+</html>

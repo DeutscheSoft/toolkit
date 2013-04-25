@@ -49,13 +49,13 @@
     margin-bottom: 5px;
 }
 
-.toolkit-button.active {
+.toolkit-button.toolkit-active {
     border: 1px solid #002f42;
     -webkit-box-shadow: 0px 3px 0px rgba(255,255,255,0.33), 0px -3px 0px rgba(0,0,0,0.033), 2px 0px 0px rgba(255,255,255,0.2), 0px -2px 0px rgba(0,0,0,0.02);
     -moz-box-shadow: 0px 3px 0px rgba(255,255,255,0.33), 0px -3px 0px rgba(0,0,0,0.033), 2px 0px 0px rgba(255,255,255,0.2), 0px -2px 0px rgba(0,0,0,0.02);
     box-shadow: 0px 3px 0px rgba(255,255,255,0.33), 0px -3px 0px rgba(0,0,0,0.033), 2px 0px 0px rgba(255,255,255,0.2), 0px -2px 0px rgba(0,0,0,0.02);
 }
-.toolkit-button.active div.toolkit-label {
+.toolkit-button.toolkit-active div.toolkit-label {
     background-color: #002f42;
     color: white;
     text-shadow: 0px -1px 0px black;
@@ -67,6 +67,6 @@
     border-radius:         4px;
     
 }
-.toolkit-button.active img.toolkit-icon {
+.toolkit-button.toolkit-active img.toolkit-icon {
     
 }
