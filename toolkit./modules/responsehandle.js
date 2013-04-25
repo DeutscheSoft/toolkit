@@ -98,6 +98,9 @@ ResponseHandle = new Class({
         }), true, true);
         this.element.addClass(cls);
         
+        if (this.options.container)
+            this.element.inject(this.options.container);
+        
         this._label = makeSVG("text", {
             "class": "toolkit-label"
         }).inject(this.element);
@@ -124,10 +127,6 @@ ResponseHandle = new Class({
             }
         );
         
-        if (this.options.container)
-            this.set("container", this.options.container, hold);
-        if (this.options["class"])
-            this.set("class", this.options["class"], hold);
         this.element.addEvents({
             "mouseenter":  this._mouseenter.bind(this),
             "mouseleave":  this._mouseleave.bind(this),
