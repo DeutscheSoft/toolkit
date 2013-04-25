@@ -72,7 +72,7 @@
                     range_y_upper: {min: -84, max: 0, basis: 200, scale: _TOOLKIT_LINEAR},
                     range_y_lower: {min: -40, max: 40, basis: 300, base: 0, scale: _TOOLKIT_LINEAR},
                     range_y_relative: {min: -80, max: 80, base: 0, basis: 600, scale: _TOOLKIT_LINEAR},
-                    range_z_maxgain: {min: 0, max: 12, basis: 50, scale: _TOOLKIT_LINEAR},
+                    range_z_maxgain: {min: 0, max: 12, basis: 25, step: 1, shift_down: 0.1, scale: _TOOLKIT_LINEAR},
                     container: $("spectral_signature"),
                     bands: [63, 100, 160, 250, 400, 630, 1000, 1600, 2500, 4000, 6300, 10000, 16000],
                     grid_x: [
@@ -104,15 +104,20 @@
                         {pos: 24000, label: "24000 Hz"}],
                     toggle_icon: "images/off.png",
                     toggle_icon_active: "images/on.png",
-                    type: "H2",
+                    type: "H2.5",
                     thresholds: {
                         preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
                         title: "Gate %s",
-                        label: function (title, x, y, z) { return sprintf("%s\n%.2f", title, y) }},
+                        label: function (title, x, y, z) { return sprintf("%s\n%.2f", title, y) },
+                        min_drag: 5},
                     signatures: {
                         preferences: [_TOOLKIT_TOP, _TOOLKIT_BOTTOM],
                         title: "Band %s",
-                        label: function (title, x, y, z) { return sprintf("%s\n%.2f dB", title, y) }},
+                        label: function (title, x, y, z) { return sprintf("%s\n%.2f dB\nMAX:\n%.2f dB", title, y, z) },
+                        min_size: 20,
+                        z_min: 0,
+                        z_max: 24,
+                        min_drag: 5},
                     input: [-12,0,-24,-12,-84,-60,-12,-24,0, 0, -36,-24, -36],
                     gain: [0,-9,-6,-2,-3,-6,-12,-24,-24, -6, 0,6, 12]
                 });

@@ -126,6 +126,7 @@ SpectralSignature = new Class({
                 y: 0,
                 x_min: this.options.bands[i],
                 x_max: this.options.bands[i],
+                z_handle: _TOOLKIT_RIGHT,
             });
             sig.title = sprintf(sig.title, (i+1));
             this.sighandles[i] = this.lower.add_handle(sig);
