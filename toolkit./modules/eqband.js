@@ -60,7 +60,7 @@ EqBand = new Class({
         this.filter.options = this.options;
         this.filter.reset();
         
-        if(typeof options.x !== "undefined")
+        if (typeof options.x !== "undefined")
             this.set("x", options.x, true);
         else if (typeof options.freq !== "undefined")
             this.set("freq", options.freq);

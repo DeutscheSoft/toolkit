@@ -41,7 +41,7 @@ var ResponseHandler = new Class({
         this.parent(options);
         
         this.add_range(this.options.range_z, "range_z");
-        if(this.options.depth)
+        if (this.options.depth)
             this.set("depth", this.options.depth, true);
 //         this.range_z.addEvent("set", function (key, value, hold) {
 //             if (!hold) this.redraw();
@@ -140,7 +140,7 @@ var ResponseHandler = new Class({
             if (_a) c ++;
             a += _a;
         }
-        if(this.bands && this.bands.length) {
+        if (this.bands && this.bands.length) {
             for (var i = 0; i < this.bands.length; i++) {
                 var b = this.bands[i];
                 if (b.options.id == id || !b.get("active")) continue;

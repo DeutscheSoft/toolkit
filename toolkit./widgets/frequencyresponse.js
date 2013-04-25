@@ -61,7 +61,7 @@ var FrequencyResponse = new Class({
                                                              // dB scale
     },
     initialize: function (options) {
-        if(options.scale)
+        if (options.scale)
             this.set("scale", options.scale, true);
         this.parent(options);
         this.element.addClass("toolkit-frequency-response");

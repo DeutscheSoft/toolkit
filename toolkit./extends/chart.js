@@ -46,9 +46,9 @@ var Chart = new Class({
         this.add_range(this.options.range_y, "range_y");
         this.range_y.set("reverse", true, true);
         
-        if(this.options.width)
+        if (this.options.width)
             this.set("width", this.options.width, true);
-        if(this.options.height)
+        if (this.options.height)
             this.set("height", this.options.height, true);
         
         this.element = this.widgetize(makeSVG("svg", {
@@ -107,9 +107,9 @@ var Chart = new Class({
     add_graph: function (options) {
         // Add a new Graph to the Chart
         options["container"] = this._graphs;
-        if(!options.range_x)
+        if (!options.range_x)
             options.range_x = function () { return this.range_x; }.bind(this);
-        if(!options.range_y)
+        if (!options.range_y)
             options.range_y = function () { return this.range_y; }.bind(this);
         var g = new Graph(options);
         this.graphs.push(g);

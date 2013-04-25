@@ -59,8 +59,8 @@ var Equalizer = new Class({
                 var gain = 1;
                 var freq = this.range_x.px2val(i);
                 dots[c] = {x: freq, y: 0};
-                for(var j = 0; j < this.bands.length; j++) {
-                    if(this.bands[j].get("active"))
+                for (var j = 0; j < this.bands.length; j++) {
+                    if (this.bands[j].get("active"))
                         dots[c].y += this.bands[j].freq2gain(freq);
                 }
                 c ++;
@@ -121,7 +121,7 @@ var Equalizer = new Class({
         this.parent(key, value, hold);
         switch (key) {
             case "accuracy":
-                if(!hold) this.redraw();
+                if (!hold) this.redraw();
                 break;
         }
     }

@@ -52,29 +52,29 @@ provides: [Events.Pseudos]
 ...
 */
 
-(function(){
+(function () {
 
-Events.Pseudos = function(pseudos, addEvent, removeEvent){
+Events.Pseudos = function (pseudos, addEvent, removeEvent) {
 
     var storeKey = '_monitorEvents:';
 
-    var storageOf = function(object){
+    var storageOf = function (object) {
         return {
-            store: object.store ? function(key, value){
+            store: object.store ? function (key, value) {
                 object.store(storeKey + key, value);
-            } : function(key, value){
+            } : function (key, value) {
                 (object._monitorEvents || (object._monitorEvents = {}))[key] = value;
             },
-            retrieve: object.retrieve ? function(key, dflt){
+            retrieve: object.retrieve ? function (key, dflt) {
                 return object.retrieve(storeKey + key, dflt);
-            } : function(key, dflt){
+            } : function (key, dflt) {
                 if (!object._monitorEvents) return dflt;
                 return object._monitorEvents[key] || dflt;
             }
         };
     };
 
-    var splitType = function(type){
+    var splitType = function (type) {
         if (type.indexOf(':') == -1 || !pseudos) return null;
 
         var parsed = Slick.parse(type).expressions[0][0],
@@ -82,7 +82,7 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
             l = parsedPseudos.length,
             splits = [];
 
-        while (l--){
+        while (l--) {
             var pseudo = parsedPseudos[l].key,
                 listener = pseudos[pseudo];
             if (listener != null) splits.push({
@@ -98,7 +98,7 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 
     return {
 
-        addEvent: function(type, fn, internal){
+        addEvent: function (type, fn, internal) {
             var split = splitType(type);
             if (!split) return addEvent.call(this, type, fn, internal);
 
@@ -109,11 +109,11 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
                 stack = fn,
                 self = this;
 
-            split.each(function(item){
+            split.each(function (item) {
                 var listener = item.listener,
                     stackFn = stack;
                 if (listener == false) eventType += ':' + item.pseudo + '(' + item.value + ')';
-                else stack = function(){
+                else stack = function () {
                     listener.call(self, item, stackFn, arguments, stack);
                 };
             });
@@ -125,7 +125,7 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
             return addEvent.apply(this, [eventType, stack].concat(args));
         },
 
-        removeEvent: function(type, fn){
+        removeEvent: function (type, fn) {
             var split = splitType(type);
             if (!split) return removeEvent.call(this, type, fn);
 
@@ -136,7 +136,7 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
             var args = Array.slice(arguments, 2);
 
             removeEvent.apply(this, [type, fn].concat(args));
-            events.each(function(monitor, i){
+            events.each(function (monitor, i) {
                 if (!fn || monitor.event == fn) removeEvent.apply(this, [monitor.type, monitor.monitor].concat(args));
                 delete events[i];
             }, this);
@@ -151,41 +151,41 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 
 var pseudos = {
 
-    once: function(split, fn, args, monitor){
+    once: function (split, fn, args, monitor) {
         fn.apply(this, args);
         this.removeEvent(split.event, monitor)
             .removeEvent(split.original, fn);
     },
 
-    throttle: function(split, fn, args){
-        if (!fn._throttled){
+    throttle: function (split, fn, args) {
+        if (!fn._throttled) {
             fn.apply(this, args);
-            fn._throttled = setTimeout(function(){
+            fn._throttled = setTimeout(function () {
                 fn._throttled = false;
             }, split.value || 250);
         }
     },
 
-    pause: function(split, fn, args){
+    pause: function (split, fn, args) {
         clearTimeout(fn._pause);
         fn._pause = fn.delay(split.value || 250, this, args);
     }
 
 };
 
-Events.definePseudo = function(key, listener){
+Events.definePseudo = function (key, listener) {
     pseudos[key] = listener;
     return this;
 };
 
-Events.lookupPseudo = function(key){
+Events.lookupPseudo = function (key) {
     return pseudos[key];
 };
 
 var proto = Events.prototype;
 Events.implement(Events.Pseudos(pseudos, proto.addEvent, proto.removeEvent));
 
-['Request', 'Fx'].each(function(klass){
+['Request', 'Fx'].each(function (klass) {
     if (this[klass]) this[klass].implement(Events.prototype);
 });
 
@@ -216,12 +216,12 @@ provides: [Class.refactor, Class.Refactor]
 ...
 */
 
-Class.refactor = function(original, refactors){
+Class.refactor = function (original, refactors) {
 
-    Object.each(refactors, function(item, name){
+    Object.each(refactors, function (item, name) {
         var origin = original.prototype[name];
-        origin = (origin && origin.$origin) || origin || function(){};
-        original.implement(name, (typeof item == 'function') ? function(){
+        origin = (origin && origin.$origin) || origin || function () {};
+        original.implement(name, (typeof item == 'function') ? function () {
             var old = this.previous;
             this.previous = origin;
             var value = item.apply(this, arguments);
@@ -258,14 +258,14 @@ provides: [Class.Binds]
 ...
 */
 
-Class.Mutators.Binds = function(binds){
-    if (!this.prototype.initialize) this.implement('initialize', function(){});
+Class.Mutators.Binds = function (binds) {
+    if (!this.prototype.initialize) this.implement('initialize', function () {});
     return Array.from(binds).concat(this.prototype.Binds || []);
 };
 
-Class.Mutators.initialize = function(initialize){
-    return function(){
-        Array.from(this.Binds).each(function(name){
+Class.Mutators.initialize = function (initialize) {
+    return function () {
+        Array.from(this.Binds).each(function (name) {
             var original = this[name];
             if (original) this[name] = original.bind(this);
         }, this);
@@ -300,7 +300,7 @@ provides: [Class.Occlude]
 
 Class.Occlude = new Class({
 
-    occlude: function(property, element){
+    occlude: function (property, element) {
         element = document.id(element || this.element);
         var instance = element.retrieve(property || this.property);
         if (instance && !this.occluded)
@@ -339,11 +339,11 @@ provides: [Chain.Wait]
 ...
 */
 
-(function(){
+(function () {
 
     var wait = {
-        wait: function(duration){
-            return this.chain(function(){
+        wait: function (duration) {
+            return this.chain(function () {
                 this.callChain.delay(duration == null ? 500 : duration, this);
                 return this;
             }.bind(this));
@@ -354,11 +354,11 @@ provides: [Chain.Wait]
 
     if (this.Fx) Fx.implement(wait);
 
-    if (this.Element && Element.implement && this.Fx){
+    if (this.Element && Element.implement && this.Fx) {
         Element.implement({
 
-            chains: function(effects){
-                Array.from(effects || ['tween', 'morph', 'reveal']).each(function(effect){
+            chains: function (effects) {
+                Array.from(effects || ['tween', 'morph', 'reveal']).each(function (effect) {
                     effect = this.get(effect);
                     if (!effect) return;
                     effect.setOptions({
@@ -368,7 +368,7 @@ provides: [Chain.Wait]
                 return this;
             },
 
-            pauseFx: function(duration, effect){
+            pauseFx: function (duration, effect) {
                 this.chains(effect).get(effect || 'tween').wait(duration);
                 return this;
             }
@@ -403,36 +403,36 @@ provides: [Array.Extras]
 ...
 */
 
-(function(nil){
+(function (nil) {
 
 Array.implement({
 
-    min: function(){
+    min: function () {
         return Math.min.apply(null, this);
     },
 
-    max: function(){
+    max: function () {
         return Math.max.apply(null, this);
     },
 
-    average: function(){
+    average: function () {
         return this.length ? this.sum() / this.length : 0;
     },
 
-    sum: function(){
+    sum: function () {
         var result = 0, l = this.length;
-        if (l){
+        if (l) {
             while (l--) result += this[l];
         }
         return result;
     },
 
-    unique: function(){
+    unique: function () {
         return [].combine(this);
     },
 
-    shuffle: function(){
-        for (var i = this.length; i && --i;){
+    shuffle: function () {
+        for (var i = this.length; i && --i;) {
             var temp = this[i], r = Math.floor(Math.random() * ( i + 1 ));
             this[i] = this[r];
             this[r] = temp;
@@ -440,23 +440,23 @@ Array.implement({
         return this;
     },
 
-    reduce: function(fn, value){
-        for (var i = 0, l = this.length; i < l; i++){
+    reduce: function (fn, value) {
+        for (var i = 0, l = this.length; i < l; i++) {
             if (i in this) value = value === nil ? this[i] : fn.call(null, value, this[i], i, this);
         }
         return value;
     },
 
-    reduceRight: function(fn, value){
+    reduceRight: function (fn, value) {
         var i = this.length;
-        while (i--){
+        while (i--) {
             if (i in this) value = value === nil ? this[i] : fn.call(null, value, this[i], i, this);
         }
         return value;
     },
 
-    pluck: function(prop){
-        return this.map(function(item){
+    pluck: function (prop) {
+        return this.map(function (item) {
             return item[prop];
         });
     }
@@ -489,9 +489,9 @@ provides: [Object.Extras]
 ...
 */
 
-(function(){
+(function () {
 
-var defined = function(value){
+var defined = function (value) {
     return value != null;
 };
 
@@ -499,31 +499,31 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 Object.extend({
 
-    getFromPath: function(source, parts){
+    getFromPath: function (source, parts) {
         if (typeof parts == 'string') parts = parts.split('.');
-        for (var i = 0, l = parts.length; i < l; i++){
+        for (var i = 0, l = parts.length; i < l; i++) {
             if (hasOwnProperty.call(source, parts[i])) source = source[parts[i]];
             else return null;
         }
         return source;
     },
 
-    cleanValues: function(object, method){
+    cleanValues: function (object, method) {
         method = method || defined;
-        for (var key in object) if (!method(object[key])){
+        for (var key in object) if (!method(object[key])) {
             delete object[key];
         }
         return object;
     },
 
-    erase: function(object, key){
+    erase: function (object, key) {
         if (hasOwnProperty.call(object, key)) delete object[key];
         return object;
     },
 
-    run: function(object){
+    run: function (object) {
         var args = Array.slice(arguments, 1);
-        for (var key in object) if (object[key].apply){
+        for (var key in object) if (object[key].apply) {
             object[key].apply(object, args);
         }
         return object;
@@ -559,22 +559,22 @@ provides: [Locale, Lang]
 ...
 */
 
-(function(){
+(function () {
 
 var current = null,
     locales = {},
     inherits = {};
 
-var getSet = function(set){
+var getSet = function (set) {
     if (instanceOf(set, Locale.Set)) return set;
     else return locales[set];
 };
 
 var Locale = this.Locale = {
 
-    define: function(locale, set, key, value){
+    define: function (locale, set, key, value) {
         var name;
-        if (instanceOf(locale, Locale.Set)){
+        if (instanceOf(locale, Locale.Set)) {
             name = locale.name;
             if (name) locales[name] = locale;
         } else {
@@ -594,10 +594,10 @@ var Locale = this.Locale = {
         return locale;
     },
 
-    use: function(locale){
+    use: function (locale) {
         locale = getSet(locale);
 
-        if (locale){
+        if (locale) {
             current = locale;
 
             this.fireEvent('change', locale);
@@ -610,22 +610,22 @@ var Locale = this.Locale = {
         return this;
     },
 
-    getCurrent: function(){
+    getCurrent: function () {
         return current;
     },
 
-    get: function(key, args){
+    get: function (key, args) {
         return (current) ? current.get(key, args) : '';
     },
 
-    inherit: function(locale, inherits, set){
+    inherit: function (locale, inherits, set) {
         locale = getSet(locale);
 
         if (locale) locale.inherit(inherits, set);
         return this;
     },
 
-    list: function(){
+    list: function () {
         return Object.keys(locales);
     }
 
@@ -642,15 +642,15 @@ Locale.Set = new Class({
         sets: {}
     },
 
-    initialize: function(name){
+    initialize: function (name) {
         this.name = name || '';
     },
 
-    define: function(set, key, value){
+    define: function (set, key, value) {
         var defineData = this.sets[set];
         if (!defineData) defineData = {};
 
-        if (key){
+        if (key) {
             if (typeOf(key) == 'object') defineData = Object.merge(defineData, key);
             else defineData[key] = value;
         }
@@ -659,9 +659,9 @@ Locale.Set = new Class({
         return this;
     },
 
-    get: function(key, args, _base){
+    get: function (key, args, _base) {
         var value = Object.getFromPath(this.sets, key);
-        if (value != null){
+        if (value != null) {
             var type = typeOf(value);
             if (type == 'function') value = value.apply(null, Array.from(args));
             else if (type == 'object') value = Object.clone(value);
@@ -674,7 +674,7 @@ Locale.Set = new Class({
             names = (this.inherits.sets[set] || []).combine(this.inherits.locales).include('en-US');
         if (!_base) _base = [];
 
-        for (var i = 0, l = names.length; i < l; i++){
+        for (var i = 0, l = names.length; i < l; i++) {
             if (_base.contains(names[i])) continue;
             _base.include(names[i]);
 
@@ -688,7 +688,7 @@ Locale.Set = new Class({
         return '';
     },
 
-    inherit: function(names, set){
+    inherit: function (names, set) {
         names = Array.from(names);
 
         if (set && !this.inherits.sets[set]) this.inherits.sets[set] = [];
@@ -706,15 +706,15 @@ var lang = MooTools.lang = {};
 
 Object.append(lang, Locale, {
     setLanguage: Locale.use,
-    getCurrentLanguage: function(){
+    getCurrentLanguage: function () {
         var current = Locale.getCurrent();
         return (current) ? current.name : null;
     },
-    set: function(){
+    set: function () {
         Locale.define.apply(this, arguments);
         return this;
     },
-    get: function(set, key, args){
+    get: function (set, key, args) {
         if (key) set += '.' + key;
         return Locale.get(set, args);
     }
@@ -760,7 +760,7 @@ Locale.define('en-US', 'Date', {
     firstDayOfWeek: 0,
 
     // Date.Extras
-    ordinal: function(dayOfMonth){
+    ordinal: function (dayOfMonth) {
         // 1st, 2nd, 3rd, etc.
         return (dayOfMonth > 3 && dayOfMonth < 21) ? 'th' : ['th', 'st', 'nd', 'rd', 'th'][Math.min(dayOfMonth % 10, 4)];
     },
@@ -826,7 +826,7 @@ provides: [Date]
 ...
 */
 
-(function(){
+(function () {
 
 var Date = this.Date;
 
@@ -841,40 +841,40 @@ var DateMethods = Date.Methods = {
 
 ['Date', 'Day', 'FullYear', 'Hours', 'Milliseconds', 'Minutes', 'Month', 'Seconds', 'Time', 'TimezoneOffset',
     'Week', 'Timezone', 'GMTOffset', 'DayOfYear', 'LastMonth', 'LastDayOfMonth', 'UTCDate', 'UTCDay', 'UTCFullYear',
-    'AMPM', 'Ordinal', 'UTCHours', 'UTCMilliseconds', 'UTCMinutes', 'UTCMonth', 'UTCSeconds', 'UTCMilliseconds'].each(function(method){
+    'AMPM', 'Ordinal', 'UTCHours', 'UTCMilliseconds', 'UTCMinutes', 'UTCMonth', 'UTCSeconds', 'UTCMilliseconds'].each(function (method) {
     Date.Methods[method.toLowerCase()] = method;
 });
 
-var pad = function(n, digits, string){
+var pad = function (n, digits, string) {
     if (digits == 1) return n;
     return n < Math.pow(10, digits - 1) ? (string || '0') + pad(n, digits - 1, string) : n;
 };
 
 Date.implement({
 
-    set: function(prop, value){
+    set: function (prop, value) {
         prop = prop.toLowerCase();
         var method = DateMethods[prop] && 'set' + DateMethods[prop];
         if (method && this[method]) this[method](value);
         return this;
     }.overloadSetter(),
 
-    get: function(prop){
+    get: function (prop) {
         prop = prop.toLowerCase();
         var method = DateMethods[prop] && 'get' + DateMethods[prop];
         if (method && this[method]) return this[method]();
         return null;
     }.overloadGetter(),
 
-    clone: function(){
+    clone: function () {
         return new Date(this.get('time'));
     },
 
-    increment: function(interval, times){
+    increment: function (interval, times) {
         interval = interval || 'day';
         times = times != null ? times : 1;
 
-        switch (interval){
+        switch (interval) {
             case 'year':
                 return this.increment('month', times * 12);
             case 'month':
@@ -892,35 +892,35 @@ Date.implement({
         return this.set('time', this.get('time') + times * Date.units[interval]());
     },
 
-    decrement: function(interval, times){
+    decrement: function (interval, times) {
         return this.increment(interval, -1 * (times != null ? times : 1));
     },
 
-    isLeapYear: function(){
+    isLeapYear: function () {
         return Date.isLeapYear(this.get('year'));
     },
 
-    clearTime: function(){
+    clearTime: function () {
         return this.set({hr: 0, min: 0, sec: 0, ms: 0});
     },
 
-    diff: function(date, resolution){
+    diff: function (date, resolution) {
         if (typeOf(date) == 'string') date = Date.parse(date);
 
         return ((date - this) / Date.units[resolution || 'day'](3, 3)).round(); // non-leap year, 30-day month
     },
 
-    getLastDayOfMonth: function(){
+    getLastDayOfMonth: function () {
         return Date.daysInMonth(this.get('mo'), this.get('year'));
     },
 
-    getDayOfYear: function(){
+    getDayOfYear: function () {
         return (Date.UTC(this.get('year'), this.get('mo'), this.get('date') + 1)
             - Date.UTC(this.get('year'), 0, 1)) / Date.units.day();
     },
 
-    setDay: function(day, firstDayOfWeek){
-        if (firstDayOfWeek == null){
+    setDay: function (day, firstDayOfWeek) {
+        if (firstDayOfWeek == null) {
             firstDayOfWeek = Date.getMsg('firstDayOfWeek');
             if (firstDayOfWeek === '') firstDayOfWeek = 1;
         }
@@ -931,8 +931,8 @@ Date.implement({
         return this.increment('day', day - currentDay);
     },
 
-    getWeek: function(firstDayOfWeek){
-        if (firstDayOfWeek == null){
+    getWeek: function (firstDayOfWeek) {
+        if (firstDayOfWeek == null) {
             firstDayOfWeek = Date.getMsg('firstDayOfWeek');
             if (firstDayOfWeek === '') firstDayOfWeek = 1;
         }
@@ -942,14 +942,14 @@ Date.implement({
             dividend = 0,
             firstDayOfYear;
 
-        if (firstDayOfWeek == 1){
+        if (firstDayOfWeek == 1) {
             // ISO-8601, week belongs to year that has the most days of the week (i.e. has the thursday of the week)
             var month = date.get('month'),
                 startOfWeek = date.get('date') - dayOfWeek;
 
             if (month == 11 && startOfWeek > 28) return 1; // Week 1 of next year
 
-            if (month == 0 && startOfWeek < -2){
+            if (month == 0 && startOfWeek < -2) {
                 // Use a date from last year to determine the week
                 date = new Date(date).decrement('day', dayOfWeek);
                 dayOfWeek = 0;
@@ -970,22 +970,22 @@ Date.implement({
         return (dividend / 7);
     },
 
-    getOrdinal: function(day){
+    getOrdinal: function (day) {
         return Date.getMsg('ordinal', day || this.get('date'));
     },
 
-    getTimezone: function(){
+    getTimezone: function () {
         return this.toString()
             .replace(/^.*? ([A-Z]{3}).[0-9]{4}.*$/, '$1')
             .replace(/^.*?\(([A-Z])[a-z]+ ([A-Z])[a-z]+ ([A-Z])[a-z]+\)$/, '$1$2$3');
     },
 
-    getGMTOffset: function(){
+    getGMTOffset: function () {
         var off = this.get('timezoneOffset');
         return ((off > 0) ? '-' : '+') + pad((off.abs() / 60).floor(), 2) + pad(off % 60, 2);
     },
 
-    setAMPM: function(ampm){
+    setAMPM: function (ampm) {
         ampm = ampm.toUpperCase();
         var hr = this.get('hr');
         if (hr > 11 && ampm == 'AM') return this.decrement('hour', 12);
@@ -993,21 +993,21 @@ Date.implement({
         return this;
     },
 
-    getAMPM: function(){
+    getAMPM: function () {
         return (this.get('hr') < 12) ? 'AM' : 'PM';
     },
 
-    parse: function(str){
+    parse: function (str) {
         this.set('time', Date.parse(str));
         return this;
     },
 
-    isValid: function(date){
+    isValid: function (date) {
         if (!date) date = this;
         return typeOf(date) == 'date' && !isNaN(date.valueOf());
     },
 
-    format: function(format){
+    format: function (format) {
         if (!this.isValid()) return 'invalid date';
 
         if (!format) format = '%x %X';
@@ -1016,8 +1016,8 @@ Date.implement({
 
         var d = this;
         return format.replace(/%([a-z%])/gi,
-            function($0, $1){
-                switch ($1){
+            function ($0, $1) {
+                switch ($1) {
                     case 'a': return Date.getMsg('days_abbr')[d.get('day')];
                     case 'A': return Date.getMsg('days')[d.get('day')];
                     case 'b': return Date.getMsg('months_abbr')[d.get('month')];
@@ -1052,7 +1052,7 @@ Date.implement({
         );
     },
 
-    toISOString: function(){
+    toISOString: function () {
         return this.format('iso8601');
     }
 
@@ -1071,13 +1071,13 @@ var formats = {
     compact: '%Y%m%dT%H%M%S',
     'short': '%d %b %H:%M',
     'long': '%B %d, %Y %H:%M',
-    rfc822: function(date){
+    rfc822: function (date) {
         return rfcDayAbbr[date.get('day')] + date.format(', %d ') + rfcMonthAbbr[date.get('month')] + date.format(' %Y %H:%M:%S %Z');
     },
-    rfc2822: function(date){
+    rfc2822: function (date) {
         return rfcDayAbbr[date.get('day')] + date.format(', %d ') + rfcMonthAbbr[date.get('month')] + date.format(' %Y %H:%M:%S %z');
     },
-    iso8601: function(date){
+    iso8601: function (date) {
         return (
             date.getUTCFullYear() + '-' +
             pad(date.getUTCMonth() + 1, 2) + '-' +
@@ -1093,10 +1093,10 @@ var formats = {
 var parsePatterns = [],
     nativeParse = Date.parse;
 
-var parseWord = function(type, word, num){
+var parseWord = function (type, word, num) {
     var ret = -1,
         translated = Date.getMsg(type + 's');
-    switch (typeOf(word)){
+    switch (typeOf(word)) {
         case 'object':
             ret = translated[word.get(type)];
             break;
@@ -1105,7 +1105,7 @@ var parseWord = function(type, word, num){
             if (!ret) throw new Error('Invalid ' + type + ' index: ' + word);
             break;
         case 'string':
-            var match = translated.filter(function(name){
+            var match = translated.filter(function (name) {
                 return this.test(name);
             }, new RegExp('^' + word, 'i'));
             if (!match.length) throw new Error('Invalid ' + type + ' string');
@@ -1121,7 +1121,7 @@ var startCentury = 1900,
 
 Date.extend({
 
-    getMsg: function(key, args){
+    getMsg: function (key, args) {
         return Locale.get('Date.' + key, args);
     },
 
@@ -1132,25 +1132,25 @@ Date.extend({
         hour: Function.from(3600000),
         day: Function.from(86400000),
         week: Function.from(608400000),
-        month: function(month, year){
+        month: function (month, year) {
             var d = new Date;
             return Date.daysInMonth(month != null ? month : d.get('mo'), year != null ? year : d.get('year')) * 86400000;
         },
-        year: function(year){
+        year: function (year) {
             year = year || new Date().get('year');
             return Date.isLeapYear(year) ? 31622400000 : 31536000000;
         }
     },
 
-    daysInMonth: function(month, year){
+    daysInMonth: function (month, year) {
         return [31, Date.isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
     },
 
-    isLeapYear: function(year){
+    isLeapYear: function (year) {
         return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
     },
 
-    parse: function(from){
+    parse: function (from) {
         var t = typeOf(from);
         if (t == 'number') return new Date(from);
         if (t != 'string') return from;
@@ -1158,27 +1158,27 @@ Date.extend({
         if (!from.length) return null;
 
         var parsed;
-        parsePatterns.some(function(pattern){
+        parsePatterns.some(function (pattern) {
             var bits = pattern.re.exec(from);
             return (bits) ? (parsed = pattern.handler(bits)) : false;
         });
 
-        if (!(parsed && parsed.isValid())){
+        if (!(parsed && parsed.isValid())) {
             parsed = new Date(nativeParse(from));
             if (!(parsed && parsed.isValid())) parsed = new Date(from.toInt());
         }
         return parsed;
     },
 
-    parseDay: function(day, num){
+    parseDay: function (day, num) {
         return parseWord('day', day, num);
     },
 
-    parseMonth: function(month, num){
+    parseMonth: function (month, num) {
         return parseWord('month', month, num);
     },
 
-    parseUTC: function(value){
+    parseUTC: function (value) {
         var localDate = new Date(value);
         var utcSeconds = Date.UTC(
             localDate.get('year'),
@@ -1192,11 +1192,11 @@ Date.extend({
         return new Date(utcSeconds);
     },
 
-    orderIndex: function(unit){
+    orderIndex: function (unit) {
         return Date.getMsg('dateOrder').indexOf(unit) + 1;
     },
 
-    defineFormat: function(name, format){
+    defineFormat: function (name, format) {
         formats[name] = format;
         return this;
     },
@@ -1205,17 +1205,17 @@ Date.extend({
     parsePatterns: parsePatterns,
     //</1.2compat>
 
-    defineParser: function(pattern){
+    defineParser: function (pattern) {
         parsePatterns.push((pattern.re && pattern.handler) ? pattern : build(pattern));
         return this;
     },
 
-    defineParsers: function(){
+    defineParsers: function () {
         Array.flatten(arguments).each(Date.defineParser);
         return this;
     },
 
-    define2DigitYearStart: function(year){
+    define2DigitYearStart: function (year) {
         startYear = year % 100;
         startCentury = year - startYear;
         return this;
@@ -1225,14 +1225,14 @@ Date.extend({
     defineFormats: Date.defineFormat.overloadSetter()
 });
 
-var regexOf = function(type){
-    return new RegExp('(?:' + Date.getMsg(type).map(function(name){
+var regexOf = function (type) {
+    return new RegExp('(?:' + Date.getMsg(type).map(function (name) {
         return name.substr(0, 3);
     }).join('|') + ')[a-z]*');
 };
 
-var replacers = function(key){
-    switch (key){
+var replacers = function (key) {
+    switch (key) {
         case 'T':
             return '%H:%M:%S';
         case 'x': // iso8601 covers yyyy-mm-dd, so just check if month is first
@@ -1261,30 +1261,30 @@ keys.S = keys.M;
 
 var currentLanguage;
 
-var recompile = function(language){
+var recompile = function (language) {
     currentLanguage = language;
 
     keys.a = keys.A = regexOf('days');
     keys.b = keys.B = regexOf('months');
 
-    parsePatterns.each(function(pattern, i){
+    parsePatterns.each(function (pattern, i) {
         if (pattern.format) parsePatterns[i] = build(pattern.format);
     });
 };
 
-var build = function(format){
+var build = function (format) {
     if (!currentLanguage) return {format: format};
 
     var parsed = [];
     var re = (format.source || format) // allow format to be regex
      .replace(/%([a-z])/gi,
-        function($0, $1){
+        function ($0, $1) {
             return replacers($1) || $0;
         }
     ).replace(/\((?!\?)/g, '(?:') // make all groups non-capturing
      .replace(/ (?!\?|\*)/g, ',? ') // be forgiving with spaces and commas
      .replace(/%([a-z%])/gi,
-        function($0, $1){
+        function ($0, $1) {
             var p = keys[$1];
             if (!p) return $1;
             parsed.push($1);
@@ -1295,7 +1295,7 @@ var build = function(format){
     return {
         format: format,
         re: new RegExp('^' + re + '$', 'i'),
-        handler: function(bits){
+        handler: function (bits) {
             bits = bits.slice(1).associate(parsed);
             var date = new Date().clearTime(),
                 year = bits.y || bits.Y;
@@ -1310,10 +1310,10 @@ var build = function(format){
     };
 };
 
-var handle = function(key, value){
+var handle = function (key, value) {
     if (!value) return this;
 
-    switch (key){
+    switch (key) {
         case 'a': case 'A': return this.set('day', Date.parseDay(value, true));
         case 'b': case 'B': return this.set('mo', Date.parseMonth(value, true));
         case 'd': return this.set('date', value);
@@ -1351,7 +1351,7 @@ Date.defineParsers(
     '%H:%M( ?%p)?' // "11:05pm", "11:05 am" and "11:05"
 );
 
-Locale.addEvent('change', function(language){
+Locale.addEvent('change', function (language) {
     if (Locale.get('Date')) recompile(language);
 }).fireEvent('change', Locale.getCurrent());
 
@@ -1383,11 +1383,11 @@ provides: [Date.Extras]
 
 Date.implement({
 
-    timeDiffInWords: function(to){
+    timeDiffInWords: function (to) {
         return Date.distanceOfTimeInWords(this, to || new Date);
     },
 
-    timeDiff: function(to, separator){
+    timeDiff: function (to, separator) {
         if (to == null) to = new Date;
         var delta = ((to - this) / 1000).floor().abs();
 
@@ -1396,10 +1396,10 @@ Date.implement({
             names = ['s', 'm', 'h', 'd', 'y'],
             value, duration;
 
-        for (var item = 0; item < durations.length; item++){
+        for (var item = 0; item < durations.length; item++) {
             if (item && !delta) break;
             value = delta;
-            if ((duration = durations[item])){
+            if ((duration = durations[item])) {
                 value = (delta % duration);
                 delta = (delta / duration).floor();
             }
@@ -1411,11 +1411,11 @@ Date.implement({
 
 }).extend({
 
-    distanceOfTimeInWords: function(from, to){
+    distanceOfTimeInWords: function (from, to) {
         return Date.getTimePhrase(((to - from) / 1000).toInt());
     },
 
-    getTimePhrase: function(delta){
+    getTimePhrase: function (delta) {
         var suffix = (delta < 0) ? 'Until' : 'Ago';
         if (delta < 0) delta *= -1;
 
@@ -1431,9 +1431,9 @@ Date.implement({
 
         var msg = 'lessThanMinute';
 
-        for (var unit in units){
+        for (var unit in units) {
             var interval = units[unit];
-            if (delta < 1.5 * interval){
+            if (delta < 1.5 * interval) {
                 if (delta > 0.75 * interval) msg = unit;
                 break;
             }
@@ -1450,9 +1450,9 @@ Date.implement({
     {
         // "today", "tomorrow", "yesterday"
         re: /^(?:tod|tom|yes)/i,
-        handler: function(bits){
+        handler: function (bits) {
             var d = new Date().clearTime();
-            switch (bits[0]){
+            switch (bits[0]) {
                 case 'tom': return d.increment();
                 case 'yes': return d.decrement();
                 default: return d;
@@ -1463,7 +1463,7 @@ Date.implement({
     {
         // "next Wednesday", "last Thursday"
         re: /^(next|last) ([a-z]+)$/i,
-        handler: function(bits){
+        handler: function (bits) {
             var d = new Date().clearTime();
             var day = d.getDay();
             var newDay = Date.parseDay(bits[2], true);
@@ -1545,11 +1545,11 @@ provides: [Number.Format, Number.Extras]
 
 Number.implement({
 
-    format: function(options){
+    format: function (options) {
         // Thanks dojo and YUI for some inspiration
         var value = this;
         options = options ? Object.clone(options) : {};
-        var getOption = function(key){
+        var getOption = function (key) {
             if (options[key] != null) return options[key];
             return Locale.get('Number.' + key);
         };
@@ -1560,10 +1560,10 @@ Number.implement({
             group = getOption('group'),
             decimals = getOption('decimals');
 
-        if (negative){
+        if (negative) {
             var negativeLocale = getOption('negative') || {};
             if (negativeLocale.prefix == null && negativeLocale.suffix == null) negativeLocale.prefix = '-';
-            ['prefix', 'suffix'].each(function(key){
+            ['prefix', 'suffix'].each(function (key) {
                 if (negativeLocale[key]) options[key] = getOption(key) + negativeLocale[key];
             });
 
@@ -1578,12 +1578,12 @@ Number.implement({
 
         value += '';
         var index;
-        if (getOption('scientific') === false && value.indexOf('e') > -1){
+        if (getOption('scientific') === false && value.indexOf('e') > -1) {
             var match = value.split('e'),
                 zeros = +match[1];
             value = match[0].replace('.', '');
 
-            if (zeros < 0){
+            if (zeros < 0) {
                 zeros = -zeros - 1;
                 index = match[0].indexOf('.');
                 if (index > -1) zeros -= index - 1;
@@ -1598,13 +1598,13 @@ Number.implement({
 
         if (decimal != '.') value = value.replace('.', decimal);
 
-        if (group){
+        if (group) {
             index = value.lastIndexOf(decimal);
             index = (index > -1) ? index : value.length;
             var newOutput = value.substring(index),
                 i = index;
 
-            while (i--){
+            while (i--) {
                 if ((index - i - 1) % 3 == 0 && i != (index - 1)) newOutput = group + newOutput;
                 newOutput = value.charAt(i) + newOutput;
             }
@@ -1618,7 +1618,7 @@ Number.implement({
         return value;
     },
 
-    formatCurrency: function(decimals){
+    formatCurrency: function (decimals) {
         var locale = Locale.get('Number.currency') || {};
         if (locale.scientific == null) locale.scientific = false;
         locale.decimals = decimals != null ? decimals
@@ -1627,7 +1627,7 @@ Number.implement({
         return this.format(locale);
     },
 
-    formatPercentage: function(decimals){
+    formatPercentage: function (decimals) {
         var locale = Locale.get('Number.percentage') || {};
         if (locale.suffix == null) locale.suffix = '%';
         locale.decimals = decimals != null ? decimals
@@ -1665,7 +1665,7 @@ provides: [String.Extras]
 ...
 */
 
-(function(){
+(function () {
 
 var special = {
     'a': /[Ã Ã¡Ã¢Ã£Ã¤Ã¥ÄƒÄ…]/g,
@@ -1731,13 +1731,13 @@ conversions = {
 
 findUnits = /(\d*.?\d+)([msh]+)/;
 
-var walk = function(string, replacements){
+var walk = function (string, replacements) {
     var result = string, key;
     for (key in replacements) result = result.replace(replacements[key], key);
     return result;
 };
 
-var getRegexForTag = function(tag, contents){
+var getRegexForTag = function (tag, contents) {
     tag = tag || '';
     var regstr = contents ? "<" + tag + "(?!\\w)[^>]*>([\\s\\S]*?)<\/" + tag + "(?!\\w)>" : "<\/?" + tag + "([^>]+)?>",
         reg = new RegExp(regstr, "gi");
@@ -1746,15 +1746,15 @@ var getRegexForTag = function(tag, contents){
 
 String.implement({
 
-    standardize: function(){
+    standardize: function () {
         return walk(this, special);
     },
 
-    repeat: function(times){
+    repeat: function (times) {
         return new Array(times + 1).join(this);
     },
 
-    pad: function(length, str, direction){
+    pad: function (length, str, direction) {
         if (this.length >= length) return this;
 
         var pad = (str == null ? ' ' : '' + str)
@@ -1767,24 +1767,24 @@ String.implement({
         return pad.substr(0, (pad.length / 2).floor()) + this + pad.substr(0, (pad.length / 2).ceil());
     },
 
-    getTags: function(tag, contents){
+    getTags: function (tag, contents) {
         return this.match(getRegexForTag(tag, contents)) || [];
     },
 
-    stripTags: function(tag, contents){
+    stripTags: function (tag, contents) {
         return this.replace(getRegexForTag(tag, contents), '');
     },
 
-    tidy: function(){
+    tidy: function () {
         return walk(this, tidy);
     },
 
-    truncate: function(max, trail, atChar){
+    truncate: function (max, trail, atChar) {
         var string = this;
         if (trail == null && arguments.length == 1) trail = 'â€¦';
-        if (string.length > max){
+        if (string.length > max) {
             string = string.substring(0, max);
-            if (atChar){
+            if (atChar) {
                 var index = string.lastIndexOf(atChar);
                 if (index != -1) string = string.substr(0, index);
             }
@@ -1793,7 +1793,7 @@ String.implement({
         return string;
     },
 
-    ms: function(){
+    ms: function () {
       // "Borrowed" from https://gist.github.com/1503944
         var units = findUnits.exec(this);
         if (units == null) return Number(this);
@@ -1834,7 +1834,7 @@ provides: [String.QueryString]
 
 String.implement({
 
-    parseQueryString: function(decodeKeys, decodeValues){
+    parseQueryString: function (decodeKeys, decodeValues) {
         if (decodeKeys == null) decodeKeys = true;
         if (decodeValues == null) decodeValues = true;
 
@@ -1842,14 +1842,14 @@ String.implement({
             object = {};
         if (!vars.length) return object;
 
-        vars.each(function(val){
+        vars.each(function (val) {
             var index = val.indexOf('=') + 1,
                 value = index ? val.substr(index) : '',
                 keys = index ? val.substr(0, index - 1).match(/([^\]\[]+|(\B)(?=\]))/g) : [val],
                 obj = object;
             if (!keys) return;
             if (decodeValues) value = decodeURIComponent(value);
-            keys.each(function(key, i){
+            keys.each(function (key, i) {
                 if (decodeKeys) key = decodeURIComponent(key);
                 var current = obj[key];
 
@@ -1862,8 +1862,8 @@ String.implement({
         return object;
     },
 
-    cleanQueryString: function(method){
-        return this.split('&').filter(function(val){
+    cleanQueryString: function (method) {
+        return this.split('&').filter(function (val) {
             var index = val.indexOf('='),
                 key = index < 0 ? '' : val.substr(0, index),
                 value = val.substr(index + 1);
@@ -1902,9 +1902,9 @@ provides: [URI]
 ...
 */
 
-(function(){
+(function () {
 
-var toString = function(){
+var toString = function () {
     return this.get('value');
 };
 
@@ -1920,7 +1920,7 @@ var URI = this.URI = new Class({
     parts: ['scheme', 'user', 'password', 'host', 'port', 'directory', 'file', 'query', 'fragment'],
     schemes: {http: 80, https: 443, ftp: 21, rtsp: 554, mms: 1755, file: 0},
 
-    initialize: function(uri, options){
+    initialize: function (uri, options) {
         this.setOptions(options);
         var base = this.options.base || URI.base;
         if (!uri) uri = base;
@@ -1929,17 +1929,17 @@ var URI = this.URI = new Class({
         else this.set('value', uri.href || uri.toString(), base ? new URI(base) : false);
     },
 
-    parse: function(value, base){
+    parse: function (value, base) {
         var bits = value.match(this.regex);
         if (!bits) return false;
         bits.shift();
         return this.merge(bits.associate(this.parts), base);
     },
 
-    merge: function(bits, base){
+    merge: function (bits, base) {
         if ((!bits || !bits.scheme) && (!base || !base.scheme)) return false;
-        if (base){
-            this.parts.every(function(part){
+        if (base) {
+            this.parts.every(function (part) {
                 if (bits[part]) return false;
                 bits[part] = base[part] || '';
                 return true;
@@ -1950,18 +1950,18 @@ var URI = this.URI = new Class({
         return bits;
     },
 
-    parseDirectory: function(directory, baseDirectory){
+    parseDirectory: function (directory, baseDirectory) {
         directory = (directory.substr(0, 1) == '/' ? '' : (baseDirectory || '/')) + directory;
         if (!directory.test(URI.regs.directoryDot)) return directory;
         var result = [];
-        directory.replace(URI.regs.endSlash, '').split('/').each(function(dir){
+        directory.replace(URI.regs.endSlash, '').split('/').each(function (dir) {
             if (dir == '..' && result.length > 0) result.pop();
             else if (dir != '.') result.push(dir);
         });
         return result.join('/') + '/';
     },
 
-    combine: function(bits){
+    combine: function (bits) {
         return bits.value || bits.scheme + '://' +
             (bits.user ? bits.user + (bits.password ? ':' + bits.password : '') + '@' : '') +
             (bits.host || '') + (bits.port && bits.port != this.schemes[bits.scheme] ? ':' + bits.port : '') +
@@ -1970,13 +1970,13 @@ var URI = this.URI = new Class({
             (bits.fragment ? '#' + bits.fragment : '');
     },
 
-    set: function(part, value, base){
-        if (part == 'value'){
+    set: function (part, value, base) {
+        if (part == 'value') {
             var scheme = value.match(URI.regs.scheme);
             if (scheme) scheme = scheme[1];
             if (scheme && this.schemes[scheme.toLowerCase()] == null) this.parsed = { scheme: scheme, value: value };
             else this.parsed = this.parse(value, (base || this).parsed) || (scheme ? { scheme: scheme, value: value } : { value: value });
-        } else if (part == 'data'){
+        } else if (part == 'data') {
             this.setData(value);
         } else {
             this.parsed[part] = value;
@@ -1984,41 +1984,41 @@ var URI = this.URI = new Class({
         return this;
     },
 
-    get: function(part, base){
-        switch (part){
+    get: function (part, base) {
+        switch (part) {
             case 'value': return this.combine(this.parsed, base ? base.parsed : false);
             case 'data' : return this.getData();
         }
         return this.parsed[part] || '';
     },
 
-    go: function(){
+    go: function () {
         document.location.href = this.toString();
     },
 
-    toURI: function(){
+    toURI: function () {
         return this;
     },
 
-    getData: function(key, part){
+    getData: function (key, part) {
         var qs = this.get(part || 'query');
         if (!(qs || qs === 0)) return key ? null : {};
         var obj = qs.parseQueryString();
         return key ? obj[key] : obj;
     },
 
-    setData: function(values, merge, part){
-        if (typeof values == 'string'){
+    setData: function (values, merge, part) {
+        if (typeof values == 'string') {
             var data = this.getData();
             data[arguments[0]] = arguments[1];
             values = data;
-        } else if (merge){
+        } else if (merge) {
             values = Object.merge(this.getData(), values);
         }
         return this.set(part || 'query', Object.toQueryString(values));
     },
 
-    clearData: function(part){
+    clearData: function (part) {
         return this.set(part || 'query', '');
     },
 
@@ -2037,7 +2037,7 @@ URI.base = new URI(Array.from(document.getElements('base[href]', true)).getLast(
 
 String.implement({
 
-    toURI: function(options){
+    toURI: function (options) {
         return new URI(this, options);
     }
 
@@ -2072,7 +2072,7 @@ provides: [URI.Relative]
 
 URI = Class.refactor(URI, {
 
-    combine: function(bits, base){
+    combine: function (bits, base) {
         if (!base || bits.scheme != base.scheme || bits.host != base.host || bits.port != base.port)
             return this.previous.apply(this, arguments);
         var end = bits.file + (bits.query ? '?' + bits.query : '') + (bits.fragment ? '#' + bits.fragment : '');
@@ -2092,13 +2092,13 @@ URI = Class.refactor(URI, {
         return (path || (bits.file ? '' : './')) + end;
     },
 
-    toAbsolute: function(base){
+    toAbsolute: function (base) {
         base = new URI(base);
         if (base) base.set('directory', '').set('file', '');
         return this.toRelative(base);
     },
 
-    toRelative: function(base){
+    toRelative: function (base) {
         return this.get('value', new URI(base));
     }
 
@@ -2123,37 +2123,37 @@ provides: [Hash]
 ...
 */
 
-(function(){
+(function () {
 
 if (this.Hash) return;
 
-var Hash = this.Hash = new Type('Hash', function(object){
+var Hash = this.Hash = new Type('Hash', function (object) {
     if (typeOf(object) == 'hash') object = Object.clone(object.getClean());
     for (var key in object) this[key] = object[key];
     return this;
 });
 
-this.$H = function(object){
+this.$H = function (object) {
     return new Hash(object);
 };
 
 Hash.implement({
 
-    forEach: function(fn, bind){
+    forEach: function (fn, bind) {
         Object.forEach(this, fn, bind);
     },
 
-    getClean: function(){
+    getClean: function () {
         var clean = {};
-        for (var key in this){
+        for (var key in this) {
             if (this.hasOwnProperty(key)) clean[key] = this[key];
         }
         return clean;
     },
 
-    getLength: function(){
+    getLength: function () {
         var length = 0;
-        for (var key in this){
+        for (var key in this) {
             if (this.hasOwnProperty(key)) length++;
         }
         return length;
@@ -2167,79 +2167,79 @@ Hash.implement({
 
     has: Object.prototype.hasOwnProperty,
 
-    keyOf: function(value){
+    keyOf: function (value) {
         return Object.keyOf(this, value);
     },
 
-    hasValue: function(value){
+    hasValue: function (value) {
         return Object.contains(this, value);
     },
 
-    extend: function(properties){
-        Hash.each(properties || {}, function(value, key){
+    extend: function (properties) {
+        Hash.each(properties || {}, function (value, key) {
             Hash.set(this, key, value);
         }, this);
         return this;
     },
 
-    combine: function(properties){
-        Hash.each(properties || {}, function(value, key){
+    combine: function (properties) {
+        Hash.each(properties || {}, function (value, key) {
             Hash.include(this, key, value);
         }, this);
         return this;
     },
 
-    erase: function(key){
+    erase: function (key) {
         if (this.hasOwnProperty(key)) delete this[key];
         return this;
     },
 
-    get: function(key){
+    get: function (key) {
         return (this.hasOwnProperty(key)) ? this[key] : null;
     },
 
-    set: function(key, value){
+    set: function (key, value) {
         if (!this[key] || this.hasOwnProperty(key)) this[key] = value;
         return this;
     },
 
-    empty: function(){
-        Hash.each(this, function(value, key){
+    empty: function () {
+        Hash.each(this, function (value, key) {
             delete this[key];
         }, this);
         return this;
     },
 
-    include: function(key, value){
+    include: function (key, value) {
         if (this[key] == undefined) this[key] = value;
         return this;
     },
 
-    map: function(fn, bind){
+    map: function (fn, bind) {
         return new Hash(Object.map(this, fn, bind));
     },
 
-    filter: function(fn, bind){
+    filter: function (fn, bind) {
         return new Hash(Object.filter(this, fn, bind));
     },
 
-    every: function(fn, bind){
+    every: function (fn, bind) {
         return Object.every(this, fn, bind);
     },
 
-    some: function(fn, bind){
+    some: function (fn, bind) {
         return Object.some(this, fn, bind);
     },
 
-    getKeys: function(){
+    getKeys: function () {
         return Object.keys(this);
     },
 
-    getValues: function(){
+    getValues: function () {
         return Object.values(this);
     },
 
-    toQueryString: function(base){
+    toQueryString: function (base) {
         return Object.toQueryString(this, base);
     }
 
@@ -2277,15 +2277,15 @@ provides: [Hash.Extras]
 
 Hash.implement({
 
-    getFromPath: function(notation){
+    getFromPath: function (notation) {
         return Object.getFromPath(this, notation);
     },
 
-    cleanValues: function(method){
+    cleanValues: function (method) {
         return new Hash(Object.cleanValues(this, method));
     },
 
-    run: function(){
+    run: function () {
         Object.run(arguments);
     }
 
@@ -2318,21 +2318,21 @@ provides: [Element.Forms]
 
 Element.implement({
 
-    tidy: function(){
+    tidy: function () {
         this.set('value', this.get('value').tidy());
     },
 
-    getTextInRange: function(start, end){
+    getTextInRange: function (start, end) {
         return this.get('value').substring(start, end);
     },
 
-    getSelectedText: function(){
+    getSelectedText: function () {
         if (this.setSelectionRange) return this.getTextInRange(this.getSelectionStart(), this.getSelectionEnd());
         return document.selection.createRange().text;
     },
 
-    getSelectedRange: function(){
-        if (this.selectionStart != null){
+    getSelectedRange: function () {
+        if (this.selectionStart != null) {
             return {
                 start: this.selectionStart,
                 end: this.selectionEnd
@@ -2347,7 +2347,7 @@ Element.implement({
         if (!range || range.parentElement() != this) return pos;
         var duplicate = range.duplicate();
 
-        if (this.type == 'text'){
+        if (this.type == 'text') {
             pos.start = 0 - duplicate.moveStart('character', -100000);
             pos.end = pos.start + range.text.length;
         } else {
@@ -2363,26 +2363,26 @@ Element.implement({
         return pos;
     },
 
-    getSelectionStart: function(){
+    getSelectionStart: function () {
         return this.getSelectedRange().start;
     },
 
-    getSelectionEnd: function(){
+    getSelectionEnd: function () {
         return this.getSelectedRange().end;
     },
 
-    setCaretPosition: function(pos){
+    setCaretPosition: function (pos) {
         if (pos == 'end') pos = this.get('value').length;
         this.selectRange(pos, pos);
         return this;
     },
 
-    getCaretPosition: function(){
+    getCaretPosition: function () {
         return this.getSelectedRange().start;
     },
 
-    selectRange: function(start, end){
-        if (this.setSelectionRange){
+    selectRange: function (start, end) {
+        if (this.setSelectionRange) {
             this.focus();
             this.setSelectionRange(start, end);
         } else {
@@ -2398,7 +2398,7 @@ Element.implement({
         return this;
     },
 
-    insertAtCursor: function(value, select){
+    insertAtCursor: function (value, select) {
         var pos = this.getSelectedRange();
         var text = this.get('value');
         this.set('value', text.substring(0, pos.start) + value + text.substring(pos.end, text.length));
@@ -2407,7 +2407,7 @@ Element.implement({
         return this;
     },
 
-    insertAroundCursor: function(options, select){
+    insertAroundCursor: function (options, select) {
         options = Object.append({
             before: '',
             defaultMiddle: '',
@@ -2418,7 +2418,7 @@ Element.implement({
         var pos = this.getSelectedRange();
         var text = this.get('value');
 
-        if (pos.start == pos.end){
+        if (pos.start == pos.end) {
             this.set('value', text.substring(0, pos.start) + options.before + value + options.after + text.substring(pos.end, text.length));
             this.selectRange(pos.start + options.before.length, pos.end + options.before.length + value.length);
         } else {
@@ -2458,15 +2458,15 @@ provides: [Elements.from, Elements.From]
 ...
 */
 
-Elements.from = function(text, excludeScripts){
+Elements.from = function (text, excludeScripts) {
     if (excludeScripts || excludeScripts == null) text = text.stripScripts();
 
     var container, match = text.match(/^\s*<(t[dhr]|tbody|tfoot|thead)/i);
 
-    if (match){
+    if (match) {
         container = new Element('table');
         var tag = match[1].toLowerCase();
-        if (['td', 'th', 'tr'].contains(tag)){
+        if (['td', 'th', 'tr'].contains(tag)) {
             container = new Element('tbody').inject(container);
             if (tag != 'tr') container = new Element('tr').inject(container);
         }
@@ -2495,7 +2495,7 @@ provides: [Element.Event.Pseudos, Element.Delegation]
 ...
 */
 
-(function(){
+(function () {
 
 var pseudos = {relay: false},
     copyFromEvents = ['once', 'throttle', 'pause'],
@@ -2503,7 +2503,7 @@ var pseudos = {relay: false},
 
 while (count--) pseudos[copyFromEvents[count]] = Events.lookupPseudo(copyFromEvents[count]);
 
-DOMEvent.definePseudo = function(key, listener){
+DOMEvent.definePseudo = function (key, listener) {
     pseudos[key] = listener;
     return this;
 };
@@ -2533,34 +2533,34 @@ provides: [Element.Event.Pseudos.Keys]
 ...
 */
 
-(function(){
+(function () {
 
 var keysStoreKey = '$moo:keys-pressed',
     keysKeyupStoreKey = '$moo:keys-keyup';
 
 
-DOMEvent.definePseudo('keys', function(split, fn, args){
+DOMEvent.definePseudo('keys', function (split, fn, args) {
 
     var event = args[0],
         keys = [],
         pressed = this.retrieve(keysStoreKey, []);
 
-    keys.append(split.value.replace('++', function(){
+    keys.append(split.value.replace('++', function () {
         keys.push('+'); // shift++ and shift+++a
         return '';
     }).split('+'));
 
     pressed.include(event.key);
 
-    if (keys.every(function(key){
+    if (keys.every(function (key) {
         return pressed.contains(key);
     })) fn.apply(this, args);
 
     this.store(keysStoreKey, pressed);
 
-    if (!this.retrieve(keysKeyupStoreKey)){
-        var keyup = function(event){
-            (function(){
+    if (!this.retrieve(keysKeyupStoreKey)) {
+        var keyup = function (event) {
+            (function () {
                 pressed = this.retrieve(keysStoreKey, []).erase(event.key);
                 this.store(keysStoreKey, pressed);
             }).delay(0, this); // Fix for IE
@@ -2623,13 +2623,13 @@ provides: [Element.Measure]
 ...
 */
 
-(function(){
+(function () {
 
-var getStylesList = function(styles, planes){
+var getStylesList = function (styles, planes) {
     var list = [];
-    Object.each(planes, function(directions){
-        Object.each(directions, function(edge){
-            styles.each(function(style){
+    Object.each(planes, function (directions) {
+        Object.each(directions, function (edge) {
+            styles.each(function (style) {
                 list.push(style + '-' + edge + (style == 'border' ? '-width' : ''));
             });
         });
@@ -2637,69 +2637,69 @@ var getStylesList = function(styles, planes){
     return list;
 };
 
-var calculateEdgeSize = function(edge, styles){
+var calculateEdgeSize = function (edge, styles) {
     var total = 0;
-    Object.each(styles, function(value, style){
+    Object.each(styles, function (value, style) {
         if (style.test(edge)) total = total + value.toInt();
     });
     return total;
 };
 
-var isVisible = function(el){
+var isVisible = function (el) {
     return !!(!el || el.offsetHeight || el.offsetWidth);
 };
 
 
 Element.implement({
 
-    measure: function(fn){
+    measure: function (fn) {
         if (isVisible(this)) return fn.call(this);
         var parent = this.getParent(),
             toMeasure = [];
-        while (!isVisible(parent) && parent != document.body){
+        while (!isVisible(parent) && parent != document.body) {
             toMeasure.push(parent.expose());
             parent = parent.getParent();
         }
         var restore = this.expose(),
             result = fn.call(this);
         restore();
-        toMeasure.each(function(restore){
+        toMeasure.each(function (restore) {
             restore();
         });
         return result;
     },
 
-    expose: function(){
-        if (this.getStyle('display') != 'none') return function(){};
+    expose: function () {
+        if (this.getStyle('display') != 'none') return function () {};
         var before = this.style.cssText;
         this.setStyles({
             display: 'block',
             position: 'absolute',
             visibility: 'hidden'
         });
-        return function(){
+        return function () {
             this.style.cssText = before;
         }.bind(this);
     },
 
-    getDimensions: function(options){
+    getDimensions: function (options) {
         options = Object.merge({computeSize: false}, options);
         var dim = {x: 0, y: 0};
 
-        var getSize = function(el, options){
+        var getSize = function (el, options) {
             return (options.computeSize) ? el.getComputedSize(options) : el.getSize();
         };
 
         var parent = this.getParent('body');
 
-        if (parent && this.getStyle('display') == 'none'){
-            dim = this.measure(function(){
+        if (parent && this.getStyle('display') == 'none') {
+            dim = this.measure(function () {
                 return getSize(this, options);
             });
-        } else if (parent){
+        } else if (parent) {
             try { //safari sometimes crashes here, so catch it
                 dim = getSize(this, options);
-            }catch(e){}
+            }catch(e) {}
         }
 
         return Object.append(dim, (dim.x || dim.x === 0) ? {
@@ -2712,7 +2712,7 @@ Element.implement({
         );
     },
 
-    getComputedSize: function(options){
+    getComputedSize: function (options) {
         //<1.2compat>
         //legacy support for my stupid spelling error
         if (options && options.plains) options.planes = options.plains;
@@ -2731,19 +2731,19 @@ Element.implement({
             size = {width: 0, height: 0},
             dimensions;
 
-        if (options.mode == 'vertical'){
+        if (options.mode == 'vertical') {
             delete size.width;
             delete options.planes.width;
-        } else if (options.mode == 'horizontal'){
+        } else if (options.mode == 'horizontal') {
             delete size.height;
             delete options.planes.height;
         }
 
-        getStylesList(options.styles, options.planes).each(function(style){
+        getStylesList(options.styles, options.planes).each(function (style) {
             styles[style] = this.getStyle(style).toInt();
         }, this);
 
-        Object.each(options.planes, function(edges, plane){
+        Object.each(options.planes, function (edges, plane) {
 
             var capitalized = plane.capitalize(),
                 style = this.getStyle(plane);
@@ -2753,7 +2753,7 @@ Element.implement({
             style = styles[plane] = (style == 'auto') ? dimensions[plane] : style.toInt();
             size['total' + capitalized] = style;
 
-            edges.each(function(edge){
+            edges.each(function (edge) {
                 var edgesize = calculateEdgeSize(edge, styles);
                 size['computed' + edge.capitalize()] = edgesize;
                 size['total' + capitalized] += edgesize;
@@ -2794,11 +2794,11 @@ provides: [Element.Pin]
 ...
 */
 
-(function(){
+(function () {
     var supportsPositionFixed = false,
         supportTested = false;
 
-    var testPositionFixed = function(){
+    var testPositionFixed = function () {
         var test = new Element('div').setStyles({
             position: 'fixed',
             top: 0,
@@ -2811,7 +2811,7 @@ provides: [Element.Pin]
 
     Element.implement({
 
-        pin: function(enable, forceScroll){
+        pin: function (enable, forceScroll) {
             if (!supportTested) testPositionFixed();
             if (this.getStyle('display') == 'none') return this;
 
@@ -2820,15 +2820,15 @@ provides: [Element.Pin]
                 parent,
                 scrollFixer;
 
-            if (enable !== false){
+            if (enable !== false) {
                 pinnedPosition = this.getPosition(supportsPositionFixed ? document.body : this.getOffsetParent());
-                if (!this.retrieve('pin:_pinned')){
+                if (!this.retrieve('pin:_pinned')) {
                     var currentPosition = {
                         top: pinnedPosition.y - scroll.y,
                         left: pinnedPosition.x - scroll.x
                     };
 
-                    if (supportsPositionFixed && !forceScroll){
+                    if (supportsPositionFixed && !forceScroll) {
                         this.setStyle('position', 'fixed').setStyles(currentPosition);
                     } else {
 
@@ -2844,7 +2844,7 @@ provides: [Element.Pin]
                             y: styles.top.toInt() - scroll.y
                         };
 
-                        scrollFixer = function(){
+                        scrollFixer = function () {
                             if (!this.retrieve('pin:_pinned')) return;
                             var scroll = window.getScroll();
                             this.setStyles({
@@ -2869,7 +2869,7 @@ provides: [Element.Pin]
 
                 this.store('pin:_pinned', false);
                 scrollFixer = this.retrieve('pin:_scrollFixer');
-                if (!scrollFixer){
+                if (!scrollFixer) {
                     this.setStyles({
                         position: 'absolute',
                         top: pinnedPosition.y + scroll.y,
@@ -2884,11 +2884,11 @@ provides: [Element.Pin]
             return this;
         },
 
-        unpin: function(){
+        unpin: function () {
             return this.pin(false);
         },
 
-        togglePin: function(){
+        togglePin: function () {
             return this.pin(!this.retrieve('pin:_pinned'));
         }
 
@@ -2926,7 +2926,7 @@ provides: [Element.Position]
 ...
 */
 
-(function(original){
+(function (original) {
 
 var local = Element.Position = {
 
@@ -2947,7 +2947,7 @@ var local = Element.Position = {
         offset: {x: 0, y: 0}
     },
 
-    getOptions: function(element, options){
+    getOptions: function (element, options) {
         options = Object.merge({}, local.options, options);
         local.setPositionOption(options);
         local.setEdgeOption(options);
@@ -2956,28 +2956,28 @@ var local = Element.Position = {
         return options;
     },
 
-    setPositionOption: function(options){
+    setPositionOption: function (options) {
         options.position = local.getCoordinateFromValue(options.position);
     },
 
-    setEdgeOption: function(options){
+    setEdgeOption: function (options) {
         var edgeOption = local.getCoordinateFromValue(options.edge);
         options.edge = edgeOption ? edgeOption :
             (options.position.x == 'center' && options.position.y == 'center') ? {x: 'center', y: 'center'} :
             {x: 'left', y: 'top'};
     },
 
-    setOffsetOption: function(element, options){
+    setOffsetOption: function (element, options) {
         var parentOffset = {x: 0, y: 0},
-            offsetParent = element.measure(function(){
+            offsetParent = element.measure(function () {
                 return document.id(this.getOffsetParent());
             }),
             parentScroll = offsetParent.getScroll();
 
         if (!offsetParent || offsetParent == element.getDocument().body) return;
-        parentOffset = offsetParent.measure(function(){
+        parentOffset = offsetParent.measure(function () {
             var position = this.getPosition();
-            if (this.getStyle('position') == 'fixed'){
+            if (this.getStyle('position') == 'fixed') {
                 var scroll = window.getScroll();
                 position.x += scroll.x;
                 position.y += scroll.y;
@@ -2992,14 +2992,14 @@ var local = Element.Position = {
         };
     },
 
-    setDimensionsOption: function(element, options){
+    setDimensionsOption: function (element, options) {
         options.dimensions = element.getDimensions({
             computeSize: true,
             styles: ['padding', 'border', 'margin']
         });
     },
 
-    getPosition: function(element, options){
+    getPosition: function (element, options) {
         var position = {};
         options = local.getOptions(element, options);
         var relativeTo = document.id(options.relativeTo) || document.body;
@@ -3025,7 +3025,7 @@ var local = Element.Position = {
         return position;
     },
 
-    setPositionCoordinates: function(options, position, relativeTo){
+    setPositionCoordinates: function (options, position, relativeTo) {
         var offsetY = options.offset.y,
             offsetX = options.offset.x,
             calc = (relativeTo == document.body) ? window.getScroll() : relativeTo.getPosition(),
@@ -3033,42 +3033,42 @@ var local = Element.Position = {
             left = calc.x,
             winSize = window.getSize();
 
-        switch(options.position.x){
+        switch (options.position.x) {
             case 'left': position.x = left + offsetX; break;
             case 'right': position.x = left + offsetX + relativeTo.offsetWidth; break;
             default: position.x = left + ((relativeTo == document.body ? winSize.x : relativeTo.offsetWidth) / 2) + offsetX; break;
         }
 
-        switch(options.position.y){
+        switch (options.position.y) {
             case 'top': position.y = top + offsetY; break;
             case 'bottom': position.y = top + offsetY + relativeTo.offsetHeight; break;
             default: position.y = top + ((relativeTo == document.body ? winSize.y : relativeTo.offsetHeight) / 2) + offsetY; break;
         }
     },
 
-    toMinMax: function(position, options){
+    toMinMax: function (position, options) {
         var xy = {left: 'x', top: 'y'}, value;
-        ['minimum', 'maximum'].each(function(minmax){
-            ['left', 'top'].each(function(lr){
+        ['minimum', 'maximum'].each(function (minmax) {
+            ['left', 'top'].each(function (lr) {
                 value = options[minmax] ? options[minmax][xy[lr]] : null;
                 if (value != null && ((minmax == 'minimum') ? position[lr] < value : position[lr] > value)) position[lr] = value;
             });
         });
     },
 
-    toRelFixedPosition: function(relativeTo, position){
+    toRelFixedPosition: function (relativeTo, position) {
         var winScroll = window.getScroll();
         position.top += winScroll.y;
         position.left += winScroll.x;
     },
 
-    toIgnoreScroll: function(relativeTo, position){
+    toIgnoreScroll: function (relativeTo, position) {
         var relScroll = relativeTo.getScroll();
         position.top -= relScroll.y;
         position.left -= relScroll.x;
     },
 
-    toIgnoreMargins: function(position, options){
+    toIgnoreMargins: function (position, options) {
         position.left += options.edge.x == 'right'
             ? options.dimensions['margin-right']
             : (options.edge.x != 'center'
@@ -3082,19 +3082,19 @@ var local = Element.Position = {
                 : -options.dimensions['margin-top'] + ((options.dimensions['margin-bottom'] + options.dimensions['margin-top']) / 2));
     },
 
-    toEdge: function(position, options){
+    toEdge: function (position, options) {
         var edgeOffset = {},
             dimensions = options.dimensions,
             edge = options.edge;
 
-        switch(edge.x){
+        switch (edge.x) {
             case 'left': edgeOffset.x = 0; break;
             case 'right': edgeOffset.x = -dimensions.x - dimensions.computedRight - dimensions.computedLeft; break;
             // center
             default: edgeOffset.x = -(Math.round(dimensions.totalWidth / 2)); break;
         }
 
-        switch(edge.y){
+        switch (edge.y) {
             case 'top': edgeOffset.y = 0; break;
             case 'bottom': edgeOffset.y = -dimensions.y - dimensions.computedTop - dimensions.computedBottom; break;
             // center
@@ -3105,7 +3105,7 @@ var local = Element.Position = {
         position.y += edgeOffset.y;
     },
 
-    getCoordinateFromValue: function(option){
+    getCoordinateFromValue: function (option) {
         if (typeOf(option) != 'string') return option;
         option = option.toLowerCase();
 
@@ -3121,15 +3121,15 @@ var local = Element.Position = {
 
 Element.implement({
 
-    position: function(options){
-        if (options && (options.x != null || options.y != null)){
+    position: function (options) {
+        if (options && (options.x != null || options.y != null)) {
             return (original ? original.apply(this, arguments) : this);
         }
         var position = this.setStyle('position', 'absolute').calculatePosition(options);
         return (options && options.returnPos) ? position : this.setStyles(position);
     },
 
-    calculatePosition: function(options){
+    calculatePosition: function (options) {
         return local.getPosition(this, options);
     }
 
@@ -3163,37 +3163,37 @@ provides: [Element.Shortcuts]
 
 Element.implement({
 
-    isDisplayed: function(){
+    isDisplayed: function () {
         return this.getStyle('display') != 'none';
     },
 
-    isVisible: function(){
+    isVisible: function () {
         var w = this.offsetWidth,
             h = this.offsetHeight;
         return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : this.style.display != 'none';
     },
 
-    toggle: function(){
+    toggle: function () {
         return this[this.isDisplayed() ? 'hide' : 'show']();
     },
 
-    hide: function(){
+    hide: function () {
         var d;
         try {
             //IE fails here if the element is not in the dom
             d = this.getStyle('display');
-        } catch(e){}
+        } catch(e) {}
         if (d == 'none') return this;
         return this.store('element:_originalDisplay', d || '').setStyle('display', 'none');
     },
 
-    show: function(display){
+    show: function (display) {
         if (!display && this.isDisplayed()) return this;
         display = display || this.retrieve('element:_originalDisplay') || 'block';
         return this.setStyle('display', (display == 'none') ? 'block' : display);
     },
 
-    swapClass: function(remove, add){
+    swapClass: function (remove, add) {
         return this.removeClass(remove).addClass(add);
     }
 
@@ -3201,15 +3201,15 @@ Element.implement({
 
 Document.implement({
 
-    clearSelection: function(){
-        if (window.getSelection){
+    clearSelection: function () {
+        if (window.getSelection) {
             var selection = window.getSelection();
             if (selection && selection.removeAllRanges) selection.removeAllRanges();
-        } else if (document.selection && document.selection.empty){
+        } else if (document.selection && document.selection.empty) {
             try {
                 //IE fails here if selected element is not in dom
                 document.selection.empty();
-            } catch(e){}
+            } catch(e) {}
         }
     }
 
@@ -3259,7 +3259,7 @@ var IframeShim = new Class({
 
     property: 'IframeShim',
 
-    initialize: function(element, options){
+    initialize: function (element, options) {
         this.element = document.id(element);
         if (this.occlude()) return this.occluded;
         this.setOptions(options);
@@ -3267,11 +3267,11 @@ var IframeShim = new Class({
         return this;
     },
 
-    makeShim: function(){
-        if (this.options.browsers){
+    makeShim: function () {
+        if (this.options.browsers) {
             var zIndex = this.element.getStyle('zIndex').toInt();
 
-            if (!zIndex){
+            if (!zIndex) {
                 zIndex = 1;
                 var pos = this.element.getStyle('position');
                 if (pos == 'static' || !pos) this.element.setStyle('position', 'relative');
@@ -3291,7 +3291,7 @@ var IframeShim = new Class({
                 },
                 'class': this.options.className
             }).store('IframeShim', this);
-            var inject = (function(){
+            var inject = (function () {
                 this.shim.inject(this.element, 'after');
                 this[this.options.display ? 'show' : 'hide']();
                 this.fireEvent('inject');
@@ -3303,12 +3303,12 @@ var IframeShim = new Class({
         }
     },
 
-    position: function(){
+    position: function () {
         if (!IframeShim.ready || !this.shim) return this;
-        var size = this.element.measure(function(){
+        var size = this.element.measure(function () {
             return this.getSize();
         });
-        if (this.options.margin != undefined){
+        if (this.options.margin != undefined) {
             size.x = size.x - (this.options.margin * 2);
             size.y = size.y - (this.options.margin * 2);
             this.options.offset.x += this.options.margin;
@@ -3321,29 +3321,29 @@ var IframeShim = new Class({
         return this;
     },
 
-    hide: function(){
+    hide: function () {
         if (this.shim) this.shim.setStyle('display', 'none');
         return this;
     },
 
-    show: function(){
+    show: function () {
         if (this.shim) this.shim.setStyle('display', 'block');
         return this.position();
     },
 
-    dispose: function(){
+    dispose: function () {
         if (this.shim) this.shim.dispose();
         return this;
     },
 
-    destroy: function(){
+    destroy: function () {
         if (this.shim) this.shim.destroy();
         return this;
     }
 
 });
 
-window.addEvent('load', function(){
+window.addEvent('load', function () {
     IframeShim.ready = true;
 });
 
@@ -3382,10 +3382,10 @@ var Mask = new Class({
     Binds: ['position'],
 
     options: {/*
-        onShow: function(){},
-        onHide: function(){},
-        onDestroy: function(){},
-        onClick: function(event){},
+        onShow: function () {},
+        onHide: function () {},
+        onDestroy: function () {},
+        onClick: function (event) {},
         inject: {
             where: 'after',
             target: null,
@@ -3400,7 +3400,7 @@ var Mask = new Class({
         iframeShimOptions: {}
     },
 
-    initialize: function(target, options){
+    initialize: function (target, options) {
         this.target = document.id(target) || document.id(document.body);
         this.target.store('mask', this);
         this.setOptions(options);
@@ -3408,7 +3408,7 @@ var Mask = new Class({
         this.inject();
     },
 
-    render: function(){
+    render: function () {
         this.element = new Element('div', {
             'class': this.options['class'],
             id: this.options.id || 'mask-' + String.uniqueID(),
@@ -3416,7 +3416,7 @@ var Mask = new Class({
                 display: 'none'
             }),
             events: {
-                click: function(event){
+                click: function (event) {
                     this.fireEvent('click', event);
                     if (this.options.hideOnClick) this.hide();
                 }.bind(this)
@@ -3426,17 +3426,17 @@ var Mask = new Class({
         this.hidden = true;
     },
 
-    toElement: function(){
+    toElement: function () {
         return this.element;
     },
 
-    inject: function(target, where){
+    inject: function (target, where) {
         where = where || (this.options.inject ? this.options.inject.where : '') || (this.target == document.body ? 'inside' : 'after');
         target = target || (this.options.inject && this.options.inject.target) || this.target;
 
         this.element.inject(target, where);
 
-        if (this.options.useIframeShim){
+        if (this.options.useIframeShim) {
             this.shim = new IframeShim(this.element, this.options.iframeShimOptions);
 
             this.addEvents({
@@ -3447,7 +3447,7 @@ var Mask = new Class({
         }
     },
 
-    position: function(){
+    position: function () {
         this.resize(this.options.width, this.options.height);
 
         this.element.position({
@@ -3460,14 +3460,14 @@ var Mask = new Class({
         return this;
     },
 
-    resize: function(x, y){
+    resize: function (x, y) {
         var opt = {
             styles: ['padding', 'border']
         };
         if (this.options.maskMargins) opt.styles.push('margin');
 
         var dim = this.target.getComputedSize(opt);
-        if (this.target == document.body){
+        if (this.target == document.body) {
             this.element.setStyles({width: 0, height: 0});
             var win = window.getScrollSize();
             if (dim.totalHeight < win.y) dim.totalHeight = win.y;
@@ -3481,7 +3481,7 @@ var Mask = new Class({
         return this;
     },
 
-    show: function(){
+    show: function () {
         if (!this.hidden) return this;
 
         window.addEvent('resize', this.position);
@@ -3491,13 +3491,13 @@ var Mask = new Class({
         return this;
     },
 
-    showMask: function(){
+    showMask: function () {
         this.element.setStyle('display', 'block');
         this.hidden = false;
         this.fireEvent('show');
     },
 
-    hide: function(){
+    hide: function () {
         if (this.hidden) return this;
 
         window.removeEvent('resize', this.position);
@@ -3507,17 +3507,17 @@ var Mask = new Class({
         return this;
     },
 
-    hideMask: function(){
+    hideMask: function () {
         this.element.setStyle('display', 'none');
         this.hidden = true;
         this.fireEvent('hide');
     },
 
-    toggle: function(){
+    toggle: function () {
         this[this.hidden ? 'show' : 'hide']();
     },
 
-    destroy: function(){
+    destroy: function () {
         this.hide();
         this.element.destroy();
         this.fireEvent('destroy');
@@ -3528,15 +3528,15 @@ var Mask = new Class({
 
 Element.Properties.mask = {
 
-    set: function(options){
+    set: function (options) {
         var mask = this.retrieve('mask');
         if (mask) mask.destroy();
         return this.eliminate('mask').store('mask:options', options);
     },
 
-    get: function(){
+    get: function () {
         var mask = this.retrieve('mask');
-        if (!mask){
+        if (!mask) {
             mask = new Mask(this, this.retrieve('mask:options'));
             this.store('mask', mask);
         }
@@ -3547,13 +3547,13 @@ Element.Properties.mask = {
 
 Element.implement({
 
-    mask: function(options){
+    mask: function (options) {
         if (options) this.set('mask', options);
         this.get('mask').show();
         return this;
     },
 
-    unmask: function(){
+    unmask: function () {
         this.get('mask').hide();
         return this;
     }
@@ -3610,7 +3610,7 @@ var Spinner = new Class({
         }
     },
 
-    initialize: function(target, options){
+    initialize: function (target, options) {
         this.target = document.id(target) || document.id(document.body);
         this.target.store('spinner', this);
         this.setOptions(options);
@@ -3618,14 +3618,14 @@ var Spinner = new Class({
         this.inject();
 
         // Add this to events for when noFx is true; parent methods handle hide/show.
-        var deactivate = function(){ this.active = false; }.bind(this);
+        var deactivate = function () { this.active = false; }.bind(this);
         this.addEvents({
             hide: deactivate,
             show: deactivate
         });
     },
 
-    render: function(){
+    render: function () {
         this.parent();
 
         this.element.set('id', this.options.id || 'spinner-' + String.uniqueID());
@@ -3633,12 +3633,12 @@ var Spinner = new Class({
         this.content = document.id(this.options.content) || new Element('div', this.options.content);
         this.content.inject(this.element);
 
-        if (this.options.message){
+        if (this.options.message) {
             this.msg = document.id(this.options.message) || new Element('p', this.options.messageContainer).appendText(this.options.message);
             this.msg.inject(this.content);
         }
 
-        if (this.options.img){
+        if (this.options.img) {
             this.img = document.id(this.options.img) || new Element('div', this.options.img);
             this.img.inject(this.content);
         }
@@ -3646,9 +3646,9 @@ var Spinner = new Class({
         this.element.set('tween', this.options.fxOptions);
     },
 
-    show: function(noFx){
+    show: function (noFx) {
         if (this.active) return this.chain(this.show.bind(this));
-        if (!this.hidden){
+        if (!this.hidden) {
             this.callChain.delay(20, this);
             return this;
         }
@@ -3658,14 +3658,14 @@ var Spinner = new Class({
         return this.parent(noFx);
     },
 
-    showMask: function(noFx){
-        var pos = function(){
+    showMask: function (noFx) {
+        var pos = function () {
             this.content.position(Object.merge({
                 relativeTo: this.element
             }, this.options.containerPosition));
         }.bind(this);
 
-        if (noFx){
+        if (noFx) {
             this.parent();
             pos();
         } else {
@@ -3681,9 +3681,9 @@ var Spinner = new Class({
         }
     },
 
-    hide: function(noFx){
+    hide: function (noFx) {
         if (this.active) return this.chain(this.hide.bind(this));
-        if (this.hidden){
+        if (this.hidden) {
             this.callChain.delay(20, this);
             return this;
         }
@@ -3691,9 +3691,9 @@ var Spinner = new Class({
         return this.parent(noFx);
     },
 
-    hideMask: function(noFx){
+    hideMask: function (noFx) {
         if (noFx) return this.parent();
-        this.element.tween('opacity', 0).get('tween').chain(function(){
+        this.element.tween('opacity', 0).get('tween').chain(function () {
             this.element.setStyle('display', 'none');
             this.hidden = true;
             this.fireEvent('hide');
@@ -3701,7 +3701,7 @@ var Spinner = new Class({
         }.bind(this));
     },
 
-    destroy: function(){
+    destroy: function () {
         this.content.destroy();
         this.parent();
         this.target.eliminate('spinner');
@@ -3717,9 +3717,9 @@ Request = Class.refactor(Request, {
         spinnerTarget: false
     },
 
-    initialize: function(options){
+    initialize: function (options) {
         this._send = this.send;
-        this.send = function(options){
+        this.send = function (options) {
             var spinner = this.getSpinner();
             if (spinner) spinner.chain(this._send.pass(options, this)).show();
             else this._send(options);
@@ -3728,13 +3728,13 @@ Request = Class.refactor(Request, {
         this.previous(options);
     },
 
-    getSpinner: function(){
-        if (!this.spinner){
+    getSpinner: function () {
+        if (!this.spinner) {
             var update = document.id(this.options.spinnerTarget) || document.id(this.options.update);
-            if (this.options.useSpinner && update){
+            if (this.options.useSpinner && update) {
                 update.set('spinner', this.options.spinnerOptions);
                 var spinner = this.spinner = update.get('spinner');
-                ['complete', 'exception', 'cancel'].each(function(event){
+                ['complete', 'exception', 'cancel'].each(function (event) {
                     this.addEvent(event, spinner.hide.bind(spinner));
                 }, this);
             }
@@ -3746,15 +3746,15 @@ Request = Class.refactor(Request, {
 
 Element.Properties.spinner = {
 
-    set: function(options){
+    set: function (options) {
         var spinner = this.retrieve('spinner');
         if (spinner) spinner.destroy();
         return this.eliminate('spinner').store('spinner:options', options);
     },
 
-    get: function(){
+    get: function () {
         var spinner = this.retrieve('spinner');
-        if (!spinner){
+        if (!spinner) {
             spinner = new Spinner(this, this.retrieve('spinner:options'));
             this.store('spinner', spinner);
         }
@@ -3765,13 +3765,13 @@ Element.Properties.spinner = {
 
 Element.implement({
 
-    spin: function(options){
+    spin: function (options) {
         if (options) this.set('spinner', options);
         this.get('spinner').show();
         return this;
     },
 
-    unspin: function(){
+    unspin: function () {
         this.get('spinner').hide();
         return this;
     }
@@ -3808,7 +3808,7 @@ provides: [Form.Request]
 
 if (!window.Form) window.Form = {};
 
-(function(){
+(function () {
 
     Form.Request = new Class({
 
@@ -3817,9 +3817,9 @@ if (!window.Form) window.Form = {};
         Implements: [Options, Events, Class.Occlude],
 
         options: {/*
-            onFailure: function(){},
-            onSuccess: function(){}, // aliased to onComplete,
-            onSend: function(){}*/
+            onFailure: function () {},
+            onSuccess: function () {}, // aliased to onComplete,
+            onSend: function () {}*/
             requestOptions: {
                 evalScripts: true,
                 useSpinner: true,
@@ -3833,7 +3833,7 @@ if (!window.Form) window.Form = {};
 
         property: 'form.request',
 
-        initialize: function(form, target, options){
+        initialize: function (form, target, options) {
             this.element = document.id(form);
             if (this.occlude()) return this.occluded;
             this.setOptions(options)
@@ -3841,9 +3841,9 @@ if (!window.Form) window.Form = {};
                 .attach();
         },
 
-        setTarget: function(target){
+        setTarget: function (target) {
             this.target = document.id(target);
-            if (!this.request){
+            if (!this.request) {
                 this.makeRequest();
             } else {
                 this.request.setOptions({
@@ -3853,11 +3853,11 @@ if (!window.Form) window.Form = {};
             return this;
         },
 
-        toElement: function(){
+        toElement: function () {
             return this.element;
         },
 
-        makeRequest: function(){
+        makeRequest: function () {
             var self = this;
             this.request = new Request.HTML(Object.merge({
                     update: this.target,
@@ -3865,25 +3865,25 @@ if (!window.Form) window.Form = {};
                     spinnerTarget: this.element,
                     method: this.element.get('method') || 'post'
             }, this.options.requestOptions)).addEvents({
-                success: function(tree, elements, html, javascript){
-                    ['complete', 'success'].each(function(evt){
+                success: function (tree, elements, html, javascript) {
+                    ['complete', 'success'].each(function (evt) {
                         self.fireEvent(evt, [self.target, tree, elements, html, javascript]);
                     });
                 },
-                failure: function(){
+                failure: function () {
                     self.fireEvent('complete', arguments).fireEvent('failure', arguments);
                 },
-                exception: function(){
+                exception: function () {
                     self.fireEvent('failure', arguments);
                 }
             });
             return this.attachReset();
         },
 
-        attachReset: function(){
+        attachReset: function () {
             if (!this.options.resetForm) return this;
-            this.request.addEvent('success', function(){
-                Function.attempt(function(){
+            this.request.addEvent('success', function () {
+                Function.attempt(function () {
                     this.element.reset();
                 }.bind(this));
                 if (window.OverText) OverText.update();
@@ -3891,7 +3891,7 @@ if (!window.Form) window.Form = {};
             return this;
         },
 
-        attach: function(attach){
+        attach: function (attach) {
             var method = (attach != false) ? 'addEvent' : 'removeEvent';
             this.element[method]('click:relay(button, input[type=submit])', this.saveClickedButton.bind(this));
 
@@ -3902,33 +3902,33 @@ if (!window.Form) window.Form = {};
             return this;
         },
 
-        detach: function(){
+        detach: function () {
             return this.attach(false);
         },
 
         //public method
-        enable: function(){
+        enable: function () {
             return this.attach();
         },
 
         //public method
-        disable: function(){
+        disable: function () {
             return this.detach();
         },
 
-        onFormValidate: function(valid, form, event){
+        onFormValidate: function (valid, form, event) {
             //if there's no event, then this wasn't a submit event
             if (!event) return;
             var fv = this.element.retrieve('validator');
-            if (valid || (fv && !fv.options.stopOnFailure)){
+            if (valid || (fv && !fv.options.stopOnFailure)) {
                 event.stop();
                 this.send();
             }
         },
 
-        onSubmit: function(event){
+        onSubmit: function (event) {
             var fv = this.element.retrieve('validator');
-            if (fv){
+            if (fv) {
                 //form validator was created after Form.Request
                 this.element.removeEvent('submit', this.onSubmit);
                 fv.addEvent('onFormValidate', this.onFormValidate);
@@ -3939,19 +3939,19 @@ if (!window.Form) window.Form = {};
             this.send();
         },
 
-        saveClickedButton: function(event, target){
+        saveClickedButton: function (event, target) {
             var targetName = target.get('name');
             if (!targetName || !this.options.sendButtonClicked) return;
             this.options.extraData[targetName] = target.get('value') || true;
-            this.clickedCleaner = function(){
+            this.clickedCleaner = function () {
                 delete this.options.extraData[targetName];
-                this.clickedCleaner = function(){};
+                this.clickedCleaner = function () {};
             }.bind(this);
         },
 
-        clickedCleaner: function(){},
+        clickedCleaner: function () {},
 
-        send: function(){
+        send: function () {
             var str = this.element.toQueryString().trim(),
                 data = Object.toQueryString(this.options.extraData);
 
@@ -3969,9 +3969,9 @@ if (!window.Form) window.Form = {};
 
     });
 
-    Element.implement('formUpdate', function(update, options){
+    Element.implement('formUpdate', function (update, options) {
         var fq = this.retrieve('form.request');
-        if (!fq){
+        if (!fq) {
             fq = new Form.Request(this, update, options);
         } else {
             if (update) fq.setTarget(update);
@@ -4008,14 +4008,14 @@ provides: [Fx.Reveal]
 ...
 */
 
-(function(){
+(function () {
 
 
-var hideTheseOf = function(object){
+var hideTheseOf = function (object) {
     var hideThese = object.options.hideInputs;
-    if (window.OverText){
+    if (window.OverText) {
         var otClasses = [null];
-        OverText.each(function(ot){
+        OverText.each(function (ot) {
             otClasses.include('.' + ot.options.labelClass);
         });
         if (otClasses) hideThese += otClasses.join(', ');
@@ -4029,25 +4029,25 @@ Fx.Reveal = new Class({
     Extends: Fx.Morph,
 
     options: {/*
-        onShow: function(thisElement){},
-        onHide: function(thisElement){},
-        onComplete: function(thisElement){},
+        onShow: function (thisElement) {},
+        onHide: function (thisElement) {},
+        onComplete: function (thisElement) {},
         heightOverride: null,
         widthOverride: null,*/
         link: 'cancel',
         styles: ['padding', 'border', 'margin'],
         transitionOpacity: !Browser.ie6,
         mode: 'vertical',
-        display: function(){
+        display: function () {
             return this.element.get('tag') != 'tr' ? 'block' : 'table-row';
         },
         opacity: 1,
         hideInputs: Browser.ie ? 'select, input, textarea, object, embed' : null
     },
 
-    dissolve: function(){
-        if (!this.hiding && !this.showing){
-            if (this.element.getStyle('display') != 'none'){
+    dissolve: function () {
+        if (!this.hiding && !this.showing) {
+            if (this.element.getStyle('display') != 'none') {
                 this.hiding = true;
                 this.showing = false;
                 this.hidden = true;
@@ -4060,7 +4060,7 @@ Fx.Reveal = new Class({
                 if (this.options.transitionOpacity) startStyles.opacity = this.options.opacity;
 
                 var zero = {};
-                Object.each(startStyles, function(style, name){
+                Object.each(startStyles, function (style, name) {
                     zero[name] = [style, 0];
                 });
 
@@ -4072,8 +4072,8 @@ Fx.Reveal = new Class({
                 var hideThese = hideTheseOf(this);
                 if (hideThese) hideThese.setStyle('visibility', 'hidden');
 
-                this.$chain.unshift(function(){
-                    if (this.hidden){
+                this.$chain.unshift(function () {
+                    if (this.hidden) {
                         this.hiding = false;
                         this.element.style.cssText = this.cssText;
                         this.element.setStyle('display', 'none');
@@ -4089,25 +4089,25 @@ Fx.Reveal = new Class({
                 this.fireEvent('complete', this.element);
                 this.fireEvent('hide', this.element);
             }
-        } else if (this.options.link == 'chain'){
+        } else if (this.options.link == 'chain') {
             this.chain(this.dissolve.bind(this));
-        } else if (this.options.link == 'cancel' && !this.hiding){
+        } else if (this.options.link == 'cancel' && !this.hiding) {
             this.cancel();
             this.dissolve();
         }
         return this;
     },
 
-    reveal: function(){
-        if (!this.showing && !this.hiding){
-            if (this.element.getStyle('display') == 'none'){
+    reveal: function () {
+        if (!this.showing && !this.hiding) {
+            if (this.element.getStyle('display') == 'none') {
                 this.hiding = false;
                 this.showing = true;
                 this.hidden = false;
                 this.cssText = this.element.style.cssText;
 
                 var startStyles;
-                this.element.measure(function(){
+                this.element.measure(function () {
                     startStyles = this.element.getComputedSize({
                         styles: this.options.styles,
                         mode: this.options.mode
@@ -4115,7 +4115,7 @@ Fx.Reveal = new Class({
                 }.bind(this));
                 if (this.options.heightOverride != null) startStyles.height = this.options.heightOverride.toInt();
                 if (this.options.widthOverride != null) startStyles.width = this.options.widthOverride.toInt();
-                if (this.options.transitionOpacity){
+                if (this.options.transitionOpacity) {
                     this.element.setStyle('opacity', 0);
                     startStyles.opacity = this.options.opacity;
                 }
@@ -4124,7 +4124,7 @@ Fx.Reveal = new Class({
                     height: 0,
                     display: Function.from(this.options.display).call(this)
                 };
-                Object.each(startStyles, function(style, name){
+                Object.each(startStyles, function (style, name) {
                     zero[name] = 0;
                 });
                 zero.overflow = 'hidden';
@@ -4134,7 +4134,7 @@ Fx.Reveal = new Class({
                 var hideThese = hideTheseOf(this);
                 if (hideThese) hideThese.setStyle('visibility', 'hidden');
 
-                this.$chain.unshift(function(){
+                this.$chain.unshift(function () {
                     this.element.style.cssText = this.cssText;
                     this.element.setStyle('display', Function.from(this.options.display).call(this));
                     if (!this.hidden) this.showing = false;
@@ -4149,17 +4149,17 @@ Fx.Reveal = new Class({
                 this.fireEvent('complete', this.element);
                 this.fireEvent('show', this.element);
             }
-        } else if (this.options.link == 'chain'){
+        } else if (this.options.link == 'chain') {
             this.chain(this.reveal.bind(this));
-        } else if (this.options.link == 'cancel' && !this.showing){
+        } else if (this.options.link == 'cancel' && !this.showing) {
             this.cancel();
             this.reveal();
         }
         return this;
     },
 
-    toggle: function(){
-        if (this.element.getStyle('display') == 'none'){
+    toggle: function () {
+        if (this.element.getStyle('display') == 'none') {
             this.reveal();
         } else {
             this.dissolve();
@@ -4167,7 +4167,7 @@ Fx.Reveal = new Class({
         return this;
     },
 
-    cancel: function(){
+    cancel: function () {
         this.parent.apply(this, arguments);
         if (this.cssText != null) this.element.style.cssText = this.cssText;
         this.hiding = false;
@@ -4179,14 +4179,14 @@ Fx.Reveal = new Class({
 
 Element.Properties.reveal = {
 
-    set: function(options){
+    set: function (options) {
         this.get('reveal').cancel().setOptions(options);
         return this;
     },
 
-    get: function(){
+    get: function () {
         var reveal = this.retrieve('reveal');
-        if (!reveal){
+        if (!reveal) {
             reveal = new Fx.Reveal(this);
             this.store('reveal', reveal);
         }
@@ -4199,29 +4199,29 @@ Element.Properties.dissolve = Element.Properties.reveal;
 
 Element.implement({
 
-    reveal: function(options){
+    reveal: function (options) {
         this.get('reveal').setOptions(options).reveal();
         return this;
     },
 
-    dissolve: function(options){
+    dissolve: function (options) {
         this.get('reveal').setOptions(options).dissolve();
         return this;
     },
 
-    nix: function(options){
+    nix: function (options) {
         var params = Array.link(arguments, {destroy: Type.isBoolean, options: Type.isObject});
-        this.get('reveal').setOptions(options).dissolve().chain(function(){
+        this.get('reveal').setOptions(options).dissolve().chain(function () {
             this[params.destroy ? 'destroy' : 'dispose']();
         }.bind(this));
         return this;
     },
 
-    wink: function(){
+    wink: function () {
         var params = Array.link(arguments, {duration: Type.isNumber, options: Type.isObject});
         var reveal = this.get('reveal').setOptions(params.options);
-        reveal.reveal().chain(function(){
-            (function(){
+        reveal.reveal().chain(function () {
+            (function () {
                 reveal.dissolve();
             }).delay(params.duration || 2000);
         });
@@ -4261,13 +4261,13 @@ Form.Request.Append = new Class({
     Extends: Form.Request,
 
     options: {
-        //onBeforeEffect: function(){},
+        //onBeforeEffect: function () {},
         useReveal: true,
         revealOptions: {},
         inject: 'bottom'
     },
 
-    makeRequest: function(){
+    makeRequest: function () {
         this.request = new Request.HTML(Object.merge({
                 url: this.element.get('action'),
                 method: this.element.get('method') || 'post',
@@ -4276,10 +4276,10 @@ Form.Request.Append = new Class({
                 evalScripts: false
             })
         ).addEvents({
-            success: function(tree, elements, html, javascript){
+            success: function (tree, elements, html, javascript) {
                 var container;
                 var kids = Elements.from(html);
-                if (kids.length == 1){
+                if (kids.length == 1) {
                     container = kids[0];
                 } else {
                      container = new Element('div', {
@@ -4291,17 +4291,17 @@ Form.Request.Append = new Class({
                 container.inject(this.target, this.options.inject);
                 if (this.options.requestOptions.evalScripts) Browser.exec(javascript);
                 this.fireEvent('beforeEffect', container);
-                var finish = function(){
+                var finish = function () {
                     this.fireEvent('success', [container, this.target, tree, elements, html, javascript]);
                 }.bind(this);
-                if (this.options.useReveal){
+                if (this.options.useReveal) {
                     container.set('reveal', this.options.revealOptions).get('reveal').chain(finish);
                     container.reveal();
                 } else {
                     finish();
                 }
             }.bind(this),
-            failure: function(xhr){
+            failure: function (xhr) {
                 this.fireEvent('failure', xhr);
             }.bind(this)
         });
@@ -4413,24 +4413,24 @@ var InputValidator = this.InputValidator = new Class({
         test: Function.from(true)
     },
 
-    initialize: function(className, options){
+    initialize: function (className, options) {
         this.setOptions(options);
         this.className = className;
     },
 
-    test: function(field, props){
+    test: function (field, props) {
         field = document.id(field);
         return (field) ? this.options.test(field, props || this.getProps(field)) : false;
     },
 
-    getError: function(field, props){
+    getError: function (field, props) {
         field = document.id(field);
         var err = this.options.errorMsg;
         if (typeOf(err) == 'function') err = err(field, props || this.getProps(field));
         return err;
     },
 
-    getProps: function(field){
+    getProps: function (field) {
         field = document.id(field);
         return (field) ? field.get('validatorProps') : {};
     }
@@ -4439,7 +4439,7 @@ var InputValidator = this.InputValidator = new Class({
 
 Element.Properties.validators = {
 
-    get: function(){
+    get: function () {
         return (this.get('data-validators') || this.className).clean().split(' ');
     }
 
@@ -4447,33 +4447,33 @@ Element.Properties.validators = {
 
 Element.Properties.validatorProps = {
 
-    set: function(props){
+    set: function (props) {
         return this.eliminate('$moo:validatorProps').store('$moo:validatorProps', props);
     },
 
-    get: function(props){
+    get: function (props) {
         if (props) this.set(props);
         if (this.retrieve('$moo:validatorProps')) return this.retrieve('$moo:validatorProps');
-        if (this.getProperty('data-validator-properties') || this.getProperty('validatorProps')){
+        if (this.getProperty('data-validator-properties') || this.getProperty('validatorProps')) {
             try {
                 this.store('$moo:validatorProps', JSON.decode(this.getProperty('validatorProps') || this.getProperty('data-validator-properties')));
-            }catch(e){
+            }catch(e) {
                 return {};
             }
         } else {
-            var vals = this.get('validators').filter(function(cls){
+            var vals = this.get('validators').filter(function (cls) {
                 return cls.test(':');
             });
-            if (!vals.length){
+            if (!vals.length) {
                 this.store('$moo:validatorProps', {});
             } else {
                 props = {};
-                vals.each(function(cls){
+                vals.each(function (cls) {
                     var split = cls.split(':');
-                    if (split[1]){
+                    if (split[1]) {
                         try {
                             props[split[0]] = JSON.decode(split[1]);
-                        } catch(e){}
+                        } catch(e) {}
                     }
                 });
                 this.store('$moo:validatorProps', props);
@@ -4489,10 +4489,10 @@ Form.Validator = new Class({
     Implements: [Options, Events],
 
     options: {/*
-        onFormValidate: function(isValid, form, event){},
-        onElementValidate: function(isValid, field, className, warn){},
-        onElementPass: function(field){},
-        onElementFail: function(field, validatorsFailed){}, */
+        onFormValidate: function (isValid, form, event) {},
+        onElementValidate: function (isValid, field, className, warn) {},
+        onElementPass: function (field) {},
+        onElementFail: function (field, validatorsFailed) {}, */
         fieldSelectors: 'input, select, textarea',
         ignoreHidden: true,
         ignoreDisabled: true,
@@ -4502,48 +4502,48 @@ Form.Validator = new Class({
         evaluateFieldsOnChange: true,
         serial: true,
         stopOnFailure: true,
-        warningPrefix: function(){
+        warningPrefix: function () {
             return Form.Validator.getMsg('warningPrefix') || 'Warning: ';
         },
-        errorPrefix: function(){
+        errorPrefix: function () {
             return Form.Validator.getMsg('errorPrefix') || 'Error: ';
         }
     },
 
-    initialize: function(form, options){
+    initialize: function (form, options) {
         this.setOptions(options);
         this.element = document.id(form);
         this.warningPrefix = Function.from(this.options.warningPrefix)();
         this.errorPrefix = Function.from(this.options.errorPrefix)();
         this._bound = {
             onSubmit: this.onSubmit.bind(this),
-            blurOrChange: function(event, field){
+            blurOrChange: function (event, field) {
                 this.validationMonitor(field, true);
             }.bind(this)
         };
         this.enable();
     },
 
-    toElement: function(){
+    toElement: function () {
         return this.element;
     },
 
-    getFields: function(){
+    getFields: function () {
         return (this.fields = this.element.getElements(this.options.fieldSelectors));
     },
 
-    enable: function(){
+    enable: function () {
         this.element.store('validator', this);
         if (this.options.evaluateOnSubmit) this.element.addEvent('submit', this._bound.onSubmit);
-        if (this.options.evaluateFieldsOnBlur){
+        if (this.options.evaluateFieldsOnBlur) {
             this.element.addEvent('blur:relay(input,select,textarea)', this._bound.blurOrChange);
         }
-        if (this.options.evaluateFieldsOnChange){
+        if (this.options.evaluateFieldsOnChange) {
             this.element.addEvent('change:relay(input,select,textarea)', this._bound.blurOrChange);
         }
     },
 
-    disable: function(){
+    disable: function () {
         this.element.eliminate('validator');
         this.element.removeEvents({
             submit: this._bound.onSubmit,
@@ -4552,24 +4552,24 @@ Form.Validator = new Class({
         });
     },
 
-    validationMonitor: function(){
+    validationMonitor: function () {
         clearTimeout(this.timer);
         this.timer = this.validateField.delay(50, this, arguments);
     },
 
-    onSubmit: function(event){
+    onSubmit: function (event) {
         if (this.validate(event)) this.reset();
     },
 
-    reset: function(){
+    reset: function () {
         this.getFields().each(this.resetField, this);
         return this;
     },
 
-    validate: function(event){
-        var result = this.getFields().map(function(field){
+    validate: function (event) {
+        var result = this.getFields().map(function (field) {
             return this.validateField(field, true);
-        }, this).every(function(v){
+        }, this).every(function (v) {
             return v;
         });
         this.fireEvent('formValidate', [result, this.element, event]);
@@ -4577,27 +4577,27 @@ Form.Validator = new Class({
         return result;
     },
 
-    validateField: function(field, force){
+    validateField: function (field, force) {
         if (this.paused) return true;
         field = document.id(field);
         var passed = !field.hasClass('validation-failed');
         var failed, warned;
-        if (this.options.serial && !force){
+        if (this.options.serial && !force) {
             failed = this.element.getElement('.validation-failed');
             warned = this.element.getElement('.warning');
         }
-        if (field && (!failed || force || field.hasClass('validation-failed') || (failed && !this.options.serial))){
+        if (field && (!failed || force || field.hasClass('validation-failed') || (failed && !this.options.serial))) {
             var validationTypes = field.get('validators');
-            var validators = validationTypes.some(function(cn){
+            var validators = validationTypes.some(function (cn) {
                 return this.getValidator(cn);
             }, this);
             var validatorsFailed = [];
-            validationTypes.each(function(className){
+            validationTypes.each(function (className) {
                 if (className && !this.test(className, field)) validatorsFailed.include(className);
             }, this);
             passed = validatorsFailed.length === 0;
-            if (validators && !this.hasValidator(field, 'warnOnly')){
-                if (passed){
+            if (validators && !this.hasValidator(field, 'warnOnly')) {
+                if (passed) {
                     field.addClass('validation-passed').removeClass('validation-failed');
                     this.fireEvent('elementPass', [field]);
                 } else {
@@ -4605,14 +4605,14 @@ Form.Validator = new Class({
                     this.fireEvent('elementFail', [field, validatorsFailed]);
                 }
             }
-            if (!warned){
-                var warnings = validationTypes.some(function(cn){
+            if (!warned) {
+                var warnings = validationTypes.some(function (cn) {
                     if (cn.test('^warn'))
                         return this.getValidator(cn.replace(/^warn-/,''));
                     else return null;
                 }, this);
                 field.removeClass('warning');
-                var warnResult = validationTypes.map(function(cn){
+                var warnResult = validationTypes.map(function (cn) {
                     if (cn.test('^warn'))
                         return this.test(cn.replace(/^warn-/,''), field, true);
                     else return null;
@@ -4622,7 +4622,7 @@ Form.Validator = new Class({
         return passed;
     },
 
-    test: function(className, field, warn){
+    test: function (className, field, warn) {
         field = document.id(field);
         if ((this.options.ignoreHidden && !field.isVisible()) || (this.options.ignoreDisabled && field.get('disabled'))) return true;
         var validator = this.getValidator(className);
@@ -4634,14 +4634,14 @@ Form.Validator = new Class({
         return isValid;
     },
 
-    hasValidator: function(field, value){
+    hasValidator: function (field, value) {
         return field.get('validators').contains(value);
     },
 
-    resetField: function(field){
+    resetField: function (field) {
         field = document.id(field);
-        if (field){
-            field.get('validators').each(function(className){
+        if (field) {
+            field.get('validators').each(function (className) {
                 if (className.test('^warn-')) className = className.replace(/^warn-/, '');
                 field.removeClass('validation-failed');
                 field.removeClass('warning');
@@ -4651,19 +4651,19 @@ Form.Validator = new Class({
         return this;
     },
 
-    stop: function(){
+    stop: function () {
         this.paused = true;
         return this;
     },
 
-    start: function(){
+    start: function () {
         this.paused = false;
         return this;
     },
 
-    ignoreField: function(field, warn){
+    ignoreField: function (field, warn) {
         field = document.id(field);
-        if (field){
+        if (field) {
             this.enforceField(field);
             if (warn) field.addClass('warnOnly');
             else field.addClass('ignoreValidation');
@@ -4671,7 +4671,7 @@ Form.Validator = new Class({
         return this;
     },
 
-    enforceField: function(field){
+    enforceField: function (field) {
         field = document.id(field);
         if (field) field.removeClass('warnOnly').removeClass('ignoreValidation');
         return this;
@@ -4679,7 +4679,7 @@ Form.Validator = new Class({
 
 });
 
-Form.Validator.getMsg = function(key){
+Form.Validator.getMsg = function (key) {
     return Locale.get('FormValidator.' + key);
 };
 
@@ -4687,25 +4687,25 @@ Form.Validator.adders = {
 
     validators:{},
 
-    add : function(className, options){
+    add : function (className, options) {
         this.validators[className] = new InputValidator(className, options);
         //if this is a class (this method is used by instances of Form.Validator and the Form.Validator namespace)
         //extend these validators into it
         //this allows validators to be global and/or per instance
-        if (!this.initialize){
+        if (!this.initialize) {
             this.implement({
                 validators: this.validators
             });
         }
     },
 
-    addAllThese : function(validators){
-        Array.from(validators).each(function(validator){
+    addAllThese : function (validators) {
+        Array.from(validators).each(function (validator) {
             this.add(validator[0], validator[1]);
         }, this);
     },
 
-    getValidator: function(className){
+    getValidator: function (className) {
         return this.validators[className.split(':')[0]];
     }
 
@@ -4718,7 +4718,7 @@ Form.Validator.implement(Form.Validator.adders);
 Form.Validator.add('IsEmpty', {
 
     errorMsg: false,
-    test: function(element){
+    test: function (element) {
         if (element.type == 'select-one' || element.type == 'select')
             return !(element.selectedIndex >= 0 && element.options[element.selectedIndex].value != '');
         else
@@ -4730,60 +4730,60 @@ Form.Validator.add('IsEmpty', {
 Form.Validator.addAllThese([
 
     ['required', {
-        errorMsg: function(){
+        errorMsg: function () {
             return Form.Validator.getMsg('required');
         },
-        test: function(element){
+        test: function (element) {
             return !Form.Validator.getValidator('IsEmpty').test(element);
         }
     }],
 
     ['length', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             if (typeOf(props.length) != 'null')
                 return Form.Validator.getMsg('length').substitute({length: props.length, elLength: element.get('value').length});
             else return '';
         },
-        test: function(element, props){
+        test: function (element, props) {
             if (typeOf(props.length) != 'null') return (element.get('value').length == props.length || element.get('value').length == 0);
             else return true;
         }
     }],
 
     ['minLength', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             if (typeOf(props.minLength) != 'null')
                 return Form.Validator.getMsg('minLength').substitute({minLength: props.minLength, length: element.get('value').length});
             else return '';
         },
-        test: function(element, props){
+        test: function (element, props) {
             if (typeOf(props.minLength) != 'null') return (element.get('value').length >= (props.minLength || 0));
             else return true;
         }
     }],
 
     ['maxLength', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             //props is {maxLength:10}
             if (typeOf(props.maxLength) != 'null')
                 return Form.Validator.getMsg('maxLength').substitute({maxLength: props.maxLength, length: element.get('value').length});
             else return '';
         },
-        test: function(element, props){
+        test: function (element, props) {
             return element.get('value').length <= (props.maxLength || 10000);
         }
     }],
 
     ['validate-integer', {
         errorMsg: Form.Validator.getMsg.pass('integer'),
-        test: function(element){
+        test: function (element) {
             return Form.Validator.getValidator('IsEmpty').test(element) || (/^(-?[1-9]\d*|0)$/).test(element.get('value'));
         }
     }],
 
     ['validate-numeric', {
         errorMsg: Form.Validator.getMsg.pass('numeric'),
-        test: function(element){
+        test: function (element) {
             return Form.Validator.getValidator('IsEmpty').test(element) ||
                 (/^-?(?:0$0(?=\d*\.)|[1-9]|0)\d*(\.\d+)?$/).test(element.get('value'));
         }
@@ -4791,35 +4791,35 @@ Form.Validator.addAllThese([
 
     ['validate-digits', {
         errorMsg: Form.Validator.getMsg.pass('digits'),
-        test: function(element){
+        test: function (element) {
             return Form.Validator.getValidator('IsEmpty').test(element) || (/^[\d() .:\-\+#]+$/.test(element.get('value')));
         }
     }],
 
     ['validate-alpha', {
         errorMsg: Form.Validator.getMsg.pass('alpha'),
-        test: function(element){
+        test: function (element) {
             return Form.Validator.getValidator('IsEmpty').test(element) || (/^[a-zA-Z]+$/).test(element.get('value'));
         }
     }],
 
     ['validate-alphanum', {
         errorMsg: Form.Validator.getMsg.pass('alphanum'),
-        test: function(element){
+        test: function (element) {
             return Form.Validator.getValidator('IsEmpty').test(element) || !(/\W/).test(element.get('value'));
         }
     }],
 
     ['validate-date', {
-        errorMsg: function(element, props){
-            if (Date.parse){
+        errorMsg: function (element, props) {
+            if (Date.parse) {
                 var format = props.dateFormat || '%x';
                 return Form.Validator.getMsg('dateSuchAs').substitute({date: new Date().format(format)});
             } else {
                 return Form.Validator.getMsg('dateInFormatMDY');
             }
         },
-        test: function(element, props){
+        test: function (element, props) {
             if (Form.Validator.getValidator('IsEmpty').test(element)) return true;
             var dateLocale = Locale.get('Date'),
                 dateNouns = new RegExp([dateLocale.days, dateLocale.days_abbr, dateLocale.months, dateLocale.months_abbr, dateLocale.AM, dateLocale.PM].flatten().join('|'), 'i'),
@@ -4838,44 +4838,44 @@ Form.Validator.addAllThese([
 
     ['validate-email', {
         errorMsg: Form.Validator.getMsg.pass('email'),
-        test: function(element){
+        test: function (element) {
             /*
             var chars = "[a-z0-9!#$%&'*+/=?^_`{|}~-]",
-                local = '(?:' + chars + '\\.?){0,63}' + chars,
+                local = '(?:' + chars + '\\.?) {0,63}' + chars,
 
                 label = '[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?',
                 hostname = '(?:' + label + '\\.)*' + label;
 
                 octet = '(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)',
-                ipv4 = '\\[(?:' + octet + '\\.){3}' + octet + '\\]',
+                ipv4 = '\\[(?:' + octet + '\\.) {3}' + octet + '\\]',
 
                 domain = '(?:' + hostname + '|' + ipv4 + ')';
 
             var regex = new RegExp('^' + local + '@' + domain + '$', 'i');
             */
-            return Form.Validator.getValidator('IsEmpty').test(element) || (/^(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]\.?){0,63}[a-z0-9!#$%&'*+\/=?^_`{|}~-]@(?:(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)*[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\])$/i).test(element.get('value'));
+            return Form.Validator.getValidator('IsEmpty').test(element) || (/^(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]\.?) {0,63}[a-z0-9!#$%&'*+\/=?^_`{|}~-]@(?:(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)*[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\])$/i).test(element.get('value'));
         }
     }],
 
     ['validate-url', {
         errorMsg: Form.Validator.getMsg.pass('url'),
-        test: function(element){
+        test: function (element) {
             return Form.Validator.getValidator('IsEmpty').test(element) || (/^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i).test(element.get('value'));
         }
     }],
 
     ['validate-currency-dollar', {
         errorMsg: Form.Validator.getMsg.pass('currencyDollar'),
-        test: function(element){
+        test: function (element) {
             return Form.Validator.getValidator('IsEmpty').test(element) || (/^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/).test(element.get('value'));
         }
     }],
 
     ['validate-one-required', {
         errorMsg: Form.Validator.getMsg.pass('oneRequired'),
-        test: function(element, props){
+        test: function (element, props) {
             var p = document.id(props['validate-one-required']) || element.getParent(props['validate-one-required']);
-            return p.getElements('input').some(function(el){
+            return p.getElements('input').some(function (el) {
                 if (['checkbox', 'radio'].contains(el.get('type'))) return el.get('checked');
                 return el.get('value');
             });
@@ -4886,13 +4886,13 @@ Form.Validator.addAllThese([
 
 Element.Properties.validator = {
 
-    set: function(options){
+    set: function (options) {
         this.get('validator').setOptions(options);
     },
 
-    get: function(){
+    get: function () {
         var validator = this.retrieve('validator');
-        if (!validator){
+        if (!validator) {
             validator = new Form.Validator(this);
             this.store('validator', validator);
         }
@@ -4903,7 +4903,7 @@ Element.Properties.validator = {
 
 Element.implement({
 
-    validate: function(options){
+    validate: function (options) {
         if (options) this.set('validator', options);
         return this.get('validator').validate();
     }
@@ -4946,11 +4946,11 @@ Form.Validator.Inline = new Class({
     Extends: Form.Validator,
 
     options: {
-        showError: function(errorElement){
+        showError: function (errorElement) {
             if (errorElement.reveal) errorElement.reveal();
             else errorElement.setStyle('display', 'block');
         },
-        hideError: function(errorElement){
+        hideError: function (errorElement) {
             if (errorElement.dissolve) errorElement.dissolve();
             else errorElement.setStyle('display', 'none');
         },
@@ -4965,11 +4965,11 @@ Form.Validator.Inline = new Class({
         }
     },
 
-    initialize: function(form, options){
+    initialize: function (form, options) {
         this.parent(form, options);
-        this.addEvent('onElementValidate', function(isValid, field, className, warn){
+        this.addEvent('onElementValidate', function (isValid, field, className, warn) {
             var validator = this.getValidator(className);
-            if (!isValid && validator.getError(field)){
+            if (!isValid && validator.getError(field)) {
                 if (warn) field.addClass('warning');
                 var advice = this.makeAdvice(className, field, validator.getError(field), warn);
                 this.insertAdvice(advice, field);
@@ -4980,12 +4980,12 @@ Form.Validator.Inline = new Class({
         });
     },
 
-    makeAdvice: function(className, field, error, warn){
+    makeAdvice: function (className, field, error, warn) {
         var errorMsg = (warn) ? this.warningPrefix : this.errorPrefix;
             errorMsg += (this.options.useTitles) ? field.title || error:error;
         var cssClass = (warn) ? 'warning-advice' : 'validation-advice';
         var advice = this.getAdvice(className, field);
-        if (advice){
+        if (advice) {
             advice = advice.set('html', errorMsg);
         } else {
             advice = new Element('div', {
@@ -4998,11 +4998,11 @@ Form.Validator.Inline = new Class({
         return advice;
     },
 
-    getFieldId : function(field){
+    getFieldId : function (field) {
         return field.id ? field.id : field.id = 'input_' + field.name;
     },
 
-    showAdvice: function(className, field){
+    showAdvice: function (className, field) {
         var advice = this.getAdvice(className, field);
         if (
             advice &&
@@ -5012,40 +5012,40 @@ Form.Validator.Inline = new Class({
                 advice.getStyle('visiblity') == 'hidden' ||
                 advice.getStyle('opacity') == 0
             )
-        ){
+        ) {
             field.store('$moo:' + this.getPropName(className), true);
             this.options.showError(advice);
             this.fireEvent('showAdvice', [field, advice, className]);
         }
     },
 
-    hideAdvice: function(className, field){
+    hideAdvice: function (className, field) {
         var advice = this.getAdvice(className, field);
-        if (advice && field.retrieve('$moo:' + this.getPropName(className))){
+        if (advice && field.retrieve('$moo:' + this.getPropName(className))) {
             field.store('$moo:' + this.getPropName(className), false);
             this.options.hideError(advice);
             this.fireEvent('hideAdvice', [field, advice, className]);
         }
     },
 
-    getPropName: function(className){
+    getPropName: function (className) {
         return 'advice' + className;
     },
 
-    resetField: function(field){
+    resetField: function (field) {
         field = document.id(field);
         if (!field) return this;
         this.parent(field);
-        field.get('validators').each(function(className){
+        field.get('validators').each(function (className) {
             this.hideAdvice(className, field);
         }, this);
         return this;
     },
 
-    getAllAdviceMessages: function(field, force){
+    getAllAdviceMessages: function (field, force) {
         var advice = [];
         if (field.hasClass('ignoreValidation') && !force) return advice;
-        var validators = field.get('validators').some(function(cn){
+        var validators = field.get('validators').some(function (cn) {
             var warner = cn.test('^warn-') || field.hasClass('warnOnly');
             if (warner) cn = cn.replace(/^warn-/, '');
             var validator = this.getValidator(cn);
@@ -5060,15 +5060,15 @@ Form.Validator.Inline = new Class({
         return advice;
     },
 
-    getAdvice: function(className, field){
+    getAdvice: function (className, field) {
         return field.retrieve('$moo:advice-' + className);
     },
 
-    insertAdvice: function(advice, field){
+    insertAdvice: function (advice, field) {
         //Check for error position prop
         var props = field.get('validatorProps');
         //Build advice
-        if (!props.msgPos || !document.id(props.msgPos)){
+        if (!props.msgPos || !document.id(props.msgPos)) {
             if (field.type && field.type.toLowerCase() == 'radio') field.getParent().adopt(advice);
             else advice.inject(document.id(field), 'after');
         } else {
@@ -5076,20 +5076,20 @@ Form.Validator.Inline = new Class({
         }
     },
 
-    validateField: function(field, force, scroll){
+    validateField: function (field, force, scroll) {
         var result = this.parent(field, force);
-        if (((this.options.scrollToErrorsOnSubmit && scroll == null) || scroll) && !result){
+        if (((this.options.scrollToErrorsOnSubmit && scroll == null) || scroll) && !result) {
             var failed = document.id(this).getElement('.validation-failed');
             var par = document.id(this).getParent();
-            while (par != document.body && par.getScrollSize().y == par.getSize().y){
+            while (par != document.body && par.getScrollSize().y == par.getSize().y) {
                 par = par.getParent();
             }
             var fx = par.retrieve('$moo:fvScroller');
-            if (!fx && window.Fx && Fx.Scroll){
+            if (!fx && window.Fx && Fx.Scroll) {
                 fx = new Fx.Scroll(par, this.options.scrollFxOptions);
                 par.store('$moo:fvScroller', fx);
             }
-            if (failed){
+            if (failed) {
                 if (fx) fx.toElement(failed);
                 else par.scrollTo(par.getScroll().x, failed.getPosition(par).y - 20);
             }
@@ -5097,12 +5097,12 @@ Form.Validator.Inline = new Class({
         return result;
     },
 
-    watchFields: function(fields){
-        fields.each(function(el){
-        if (this.options.evaluateFieldsOnBlur){
+    watchFields: function (fields) {
+        fields.each(function (el) {
+        if (this.options.evaluateFieldsOnBlur) {
             el.addEvent('blur', this.validationMonitor.pass([el, false, this.options.scrollToErrorsOnBlur], this));
         }
-        if (this.options.evaluateFieldsOnChange){
+        if (this.options.evaluateFieldsOnChange) {
                 el.addEvent('change', this.validationMonitor.pass([el, true, this.options.scrollToErrorsOnChange], this));
             }
         }, this);
@@ -5135,11 +5135,11 @@ provides: [Form.Validator.Extras]
 Form.Validator.addAllThese([
 
     ['validate-enforce-oncheck', {
-        test: function(element, props){
+        test: function (element, props) {
             var fv = element.getParent('form').retrieve('validator');
             if (!fv) return true;
-            (props.toEnforce || document.id(props.enforceChildrenOf).getElements('input, select, textarea')).map(function(item){
-                if (element.checked){
+            (props.toEnforce || document.id(props.enforceChildrenOf).getElements('input, select, textarea')).map(function (item) {
+                if (element.checked) {
                     fv.enforceField(item);
                 } else {
                     fv.ignoreField(item);
@@ -5151,11 +5151,11 @@ Form.Validator.addAllThese([
     }],
 
     ['validate-ignore-oncheck', {
-        test: function(element, props){
+        test: function (element, props) {
             var fv = element.getParent('form').retrieve('validator');
             if (!fv) return true;
-            (props.toIgnore || document.id(props.ignoreChildrenOf).getElements('input, select, textarea')).each(function(item){
-                if (element.checked){
+            (props.toIgnore || document.id(props.ignoreChildrenOf).getElements('input, select, textarea')).each(function (item) {
+                if (element.checked) {
                     fv.ignoreField(item);
                     fv.resetField(item);
                 } else {
@@ -5167,26 +5167,26 @@ Form.Validator.addAllThese([
     }],
 
     ['validate-nospace', {
-        errorMsg: function(){
+        errorMsg: function () {
             return Form.Validator.getMsg('noSpace');
         },
-        test: function(element, props){
+        test: function (element, props) {
             return !element.get('value').test(/\s/);
         }
     }],
 
     ['validate-toggle-oncheck', {
-        test: function(element, props){
+        test: function (element, props) {
             var fv = element.getParent('form').retrieve('validator');
             if (!fv) return true;
             var eleArr = props.toToggle || document.id(props.toToggleChildrenOf).getElements('input, select, textarea');
-            if (!element.checked){
-                eleArr.each(function(item){
+            if (!element.checked) {
+                eleArr.each(function (item) {
                     fv.ignoreField(item);
                     fv.resetField(item);
                 });
             } else {
-                eleArr.each(function(item){
+                eleArr.each(function (item) {
                     fv.enforceField(item);
                 });
             }
@@ -5195,32 +5195,32 @@ Form.Validator.addAllThese([
     }],
 
     ['validate-reqchk-bynode', {
-        errorMsg: function(){
+        errorMsg: function () {
             return Form.Validator.getMsg('reqChkByNode');
         },
-        test: function(element, props){
-            return (document.id(props.nodeId).getElements(props.selector || 'input[type=checkbox], input[type=radio]')).some(function(item){
+        test: function (element, props) {
+            return (document.id(props.nodeId).getElements(props.selector || 'input[type=checkbox], input[type=radio]')).some(function (item) {
                 return item.checked;
             });
         }
     }],
 
     ['validate-required-check', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             return props.useTitle ? element.get('title') : Form.Validator.getMsg('requiredChk');
         },
-        test: function(element, props){
+        test: function (element, props) {
             return !!element.checked;
         }
     }],
 
     ['validate-reqchk-byname', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             return Form.Validator.getMsg('reqChkByName').substitute({label: props.label || element.get('type')});
         },
-        test: function(element, props){
+        test: function (element, props) {
             var grpName = props.groupName || element.get('name');
-            var oneCheckedItem = $$(document.getElementsByName(grpName)).some(function(item, index){
+            var oneCheckedItem = $$(document.getElementsByName(grpName)).some(function (item, index) {
                 return item.checked;
             });
             var fv = element.getParent('form').retrieve('validator');
@@ -5230,10 +5230,10 @@ Form.Validator.addAllThese([
     }],
 
     ['validate-match', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             return Form.Validator.getMsg('match').substitute({matchName: props.matchName || document.id(props.matchInput).get('name')});
         },
-        test: function(element, props){
+        test: function (element, props) {
             var eleVal = element.get('value');
             var matchVal = document.id(props.matchInput) && document.id(props.matchInput).get('value');
             return eleVal && matchVal ? eleVal == matchVal : true;
@@ -5241,12 +5241,12 @@ Form.Validator.addAllThese([
     }],
 
     ['validate-after-date', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             return Form.Validator.getMsg('afterDate').substitute({
                 label: props.afterLabel || (props.afterElement ? Form.Validator.getMsg('startDate') : Form.Validator.getMsg('currentDate'))
             });
         },
-        test: function(element, props){
+        test: function (element, props) {
             var start = document.id(props.afterElement) ? Date.parse(document.id(props.afterElement).get('value')) : new Date();
             var end = Date.parse(element.get('value'));
             return end && start ? end >= start : true;
@@ -5254,12 +5254,12 @@ Form.Validator.addAllThese([
     }],
 
     ['validate-before-date', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             return Form.Validator.getMsg('beforeDate').substitute({
                 label: props.beforeLabel || (props.beforeElement ? Form.Validator.getMsg('endDate') : Form.Validator.getMsg('currentDate'))
             });
         },
-        test: function(element, props){
+        test: function (element, props) {
             var start = Date.parse(element.get('value'));
             var end = document.id(props.beforeElement) ? Date.parse(document.id(props.beforeElement).get('value')) : new Date();
             return end && start ? end >= start : true;
@@ -5267,21 +5267,21 @@ Form.Validator.addAllThese([
     }],
 
     ['validate-custom-required', {
-        errorMsg: function(){
+        errorMsg: function () {
             return Form.Validator.getMsg('required');
         },
-        test: function(element, props){
+        test: function (element, props) {
             return element.get('value') != props.emptyValue;
         }
     }],
 
     ['validate-same-month', {
-        errorMsg: function(element, props){
+        errorMsg: function (element, props) {
             var startMo = document.id(props.sameMonthAs) && document.id(props.sameMonthAs).get('value');
             var eleVal = element.get('value');
             if (eleVal != '') return Form.Validator.getMsg(startMo ? 'sameMonth' : 'startMonth');
         },
-        test: function(element, props){
+        test: function (element, props) {
             var d1 = Date.parse(element.get('value'));
             var d2 = Date.parse(document.id(props.sameMonthAs) && document.id(props.sameMonthAs).get('value'));
             return d1 && d2 ? d1.format('%B') == d2.format('%B') : true;
@@ -5290,11 +5290,11 @@ Form.Validator.addAllThese([
 
 
     ['validate-cc-num', {
-        errorMsg: function(element){
+        errorMsg: function (element) {
             var ccNum = element.get('value').replace(/[^0-9]/g, '');
             return Form.Validator.getMsg('creditcard').substitute({length: ccNum.length});
         },
-        test: function(element){
+        test: function (element) {
             // required is a different test
             if (Form.Validator.getValidator('IsEmpty').test(element)) return true;
 
@@ -5309,16 +5309,16 @@ Form.Validator.addAllThese([
             else if (ccNum.test(/^3[47][0-9]{13}$/)) valid_type = 'American Express';
             else if (ccNum.test(/^6011[0-9]{12}$/)) valid_type = 'Discover';
 
-            if (valid_type){
+            if (valid_type) {
                 var sum = 0;
                 var cur = 0;
 
-                for (var i=ccNum.length-1; i>=0; --i){
+                for (var i=ccNum.length-1; i>=0; --i) {
                     cur = ccNum.charAt(i).toInt();
                     if (cur == 0) continue;
 
                     if ((ccNum.length-i) % 2 == 0) cur += cur;
-                    if (cur > 9){
+                    if (cur > 9) {
                         cur = cur.toString().charAt(0).toInt() + cur.toString().charAt(1).toInt();
                     }
 
@@ -5328,7 +5328,7 @@ Form.Validator.addAllThese([
             }
 
             var chunks = '';
-            while (ccNum != ''){
+            while (ccNum != '') {
                 chunks += ' ' + ccNum.substr(0,4);
                 ccNum = ccNum.substr(4);
             }
@@ -5380,9 +5380,9 @@ var OverText = new Class({
 
     options: {/*
         textOverride: null,
-        onFocus: function(){},
-        onTextHide: function(textEl, inputEl){},
-        onTextShow: function(textEl, inputEl){}, */
+        onFocus: function () {},
+        onTextHide: function (textEl, inputEl) {},
+        onTextShow: function (textEl, inputEl) {}, */
         element: 'label',
         labelClass: 'overTxtLabel',
         positionOptions: {
@@ -5400,7 +5400,7 @@ var OverText = new Class({
 
     property: 'OverText',
 
-    initialize: function(element, options){
+    initialize: function (element, options) {
         element = this.element = document.id(element);
 
         if (this.occlude()) return this.occluded;
@@ -5412,11 +5412,11 @@ var OverText = new Class({
         if (this.options.poll) this.poll();
     },
 
-    toElement: function(){
+    toElement: function () {
         return this.element;
     },
 
-    attach: function(){
+    attach: function () {
         var element = this.element,
             options = this.options,
             value = options.textOverride || element.get('alt') || element.get('title');
@@ -5436,12 +5436,12 @@ var OverText = new Class({
             }
         }).inject(element, 'after');
 
-        if (options.element == 'label'){
+        if (options.element == 'label') {
             if (!element.get('id')) element.set('id', 'input_' + String.uniqueID());
             text.set('for', element.get('id'));
         }
 
-        if (options.wrap){
+        if (options.wrap) {
             this.textHolder = new Element('div.overTxtWrapper', {
                 styles: {
                     lineHeight: 'normal',
@@ -5453,7 +5453,7 @@ var OverText = new Class({
         return this.enable();
     },
 
-    destroy: function(){
+    destroy: function () {
         this.element.eliminate(this.property); // Class.Occlude storage
         this.disable();
         if (this.text) this.text.destroy();
@@ -5461,7 +5461,7 @@ var OverText = new Class({
         return this;
     },
 
-    disable: function(){
+    disable: function () {
         this.element.removeEvents({
             focus: this.focus,
             blur: this.assert,
@@ -5472,7 +5472,7 @@ var OverText = new Class({
         return this;
     },
 
-    enable: function(){
+    enable: function () {
         this.element.addEvents({
             focus: this.focus,
             blur: this.assert,
@@ -5483,27 +5483,27 @@ var OverText = new Class({
         return this;
     },
 
-    wrap: function(){
-        if (this.options.element == 'label'){
+    wrap: function () {
+        if (this.options.element == 'label') {
             if (!this.element.get('id')) this.element.set('id', 'input_' + String.uniqueID());
             this.text.set('for', this.element.get('id'));
         }
     },
 
-    startPolling: function(){
+    startPolling: function () {
         this.pollingPaused = false;
         return this.poll();
     },
 
-    poll: function(stop){
+    poll: function (stop) {
         //start immediately
         //pause on focus
         //resumeon blur
         if (this.poller && !stop) return this;
-        if (stop){
+        if (stop) {
             clearInterval(this.poller);
         } else {
-            this.poller = (function(){
+            this.poller = (function () {
                 if (!this.pollingPaused) this.assert(true);
             }).periodical(this.options.pollInterval, this);
         }
@@ -5511,33 +5511,33 @@ var OverText = new Class({
         return this;
     },
 
-    stopPolling: function(){
+    stopPolling: function () {
         this.pollingPaused = true;
         return this.poll(true);
     },
 
-    focus: function(){
+    focus: function () {
         if (this.text && (!this.text.isDisplayed() || this.element.get('disabled'))) return this;
         return this.hide();
     },
 
-    hide: function(suppressFocus, force){
-        if (this.text && (this.text.isDisplayed() && (!this.element.get('disabled') || force))){
+    hide: function (suppressFocus, force) {
+        if (this.text && (this.text.isDisplayed() && (!this.element.get('disabled') || force))) {
             this.text.hide();
             this.fireEvent('textHide', [this.text, this.element]);
             this.pollingPaused = true;
-            if (!suppressFocus){
+            if (!suppressFocus) {
                 try {
                     this.element.fireEvent('focus');
                     this.element.focus();
-                } catch(e){} //IE barfs if you call focus on hidden elements
+                } catch(e) {} //IE barfs if you call focus on hidden elements
             }
         }
         return this;
     },
 
-    show: function(){
-        if (document.id(this.text) && !this.text.isDisplayed()){
+    show: function () {
+        if (document.id(this.text) && !this.text.isDisplayed()) {
             this.text.show();
             this.reposition();
             this.fireEvent('textShow', [this.text, this.element]);
@@ -5546,18 +5546,18 @@ var OverText = new Class({
         return this;
     },
 
-    test: function(){
+    test: function () {
         return !this.element.get('value');
     },
 
-    assert: function(suppressFocus){
+    assert: function (suppressFocus) {
         return this[this.test() ? 'show' : 'hide'](suppressFocus);
     },
 
-    reposition: function(){
+    reposition: function () {
         this.assert(true);
         if (!this.element.isVisible()) return this.stopPolling().hide();
-        if (this.text && this.test()){
+        if (this.text && this.test()) {
             this.text.position(Object.merge(this.options.positionOptions, {
                 relativeTo: this.element
             }));
@@ -5571,30 +5571,30 @@ OverText.instances = [];
 
 Object.append(OverText, {
 
-    each: function(fn){
-        return OverText.instances.each(function(ot, i){
+    each: function (fn) {
+        return OverText.instances.each(function (ot, i) {
             if (ot.element && ot.text) fn.call(OverText, ot, i);
         });
     },
 
-    update: function(){
+    update: function () {
 
-        return OverText.each(function(ot){
+        return OverText.each(function (ot) {
             return ot.reposition();
         });
 
     },
 
-    hideAll: function(){
+    hideAll: function () {
 
-        return OverText.each(function(ot){
+        return OverText.each(function (ot) {
             return ot.hide(true, true);
         });
 
     },
 
-    showAll: function(){
-        return OverText.each(function(ot){
+    showAll: function () {
+        return OverText.each(function (ot) {
             return ot.show();
         });
     }
@@ -5630,15 +5630,15 @@ Fx.Elements = new Class({
 
     Extends: Fx.CSS,
 
-    initialize: function(elements, options){
+    initialize: function (elements, options) {
         this.elements = this.subject = $$(elements);
         this.parent(options);
     },
 
-    compute: function(from, to, delta){
+    compute: function (from, to, delta) {
         var now = {};
 
-        for (var i in from){
+        for (var i in from) {
             var iFrom = from[i], iTo = to[i], iNow = now[i] = {};
             for (var p in iFrom) iNow[p] = this.parent(iFrom[p], iTo[p], delta);
         }
@@ -5646,8 +5646,8 @@ Fx.Elements = new Class({
         return now;
     },
 
-    set: function(now){
-        for (var i in now){
+    set: function (now) {
+        for (var i in now) {
             if (!this.elements[i]) continue;
 
             var iNow = now[i];
@@ -5657,16 +5657,16 @@ Fx.Elements = new Class({
         return this;
     },
 
-    start: function(obj){
+    start: function (obj) {
         if (!this.check(obj)) return this;
         var from = {}, to = {};
 
-        for (var i in obj){
+        for (var i in obj) {
             if (!this.elements[i]) continue;
 
             var iProps = obj[i], iFrom = from[i] = {}, iTo = to[i] = {};
 
-            for (var p in iProps){
+            for (var p in iProps) {
                 var parsed = this.prepare(this.elements[i], p, iProps[p]);
                 iFrom[p] = parsed.from;
                 iTo[p] = parsed.to;
@@ -5707,8 +5707,8 @@ Fx.Accordion = new Class({
     Extends: Fx.Elements,
 
     options: {/*
-        onActive: function(toggler, section){},
-        onBackground: function(toggler, section){},*/
+        onActive: function (toggler, section) {},
+        onBackground: function (toggler, section) {},*/
         fixedHeight: false,
         fixedWidth: false,
         display: 0,
@@ -5722,8 +5722,8 @@ Fx.Accordion = new Class({
         resetHeight: true
     },
 
-    initialize: function(){
-        var defined = function(obj){
+    initialize: function () {
+        var defined = function (obj) {
             return obj != null;
         };
 
@@ -5743,12 +5743,12 @@ Fx.Accordion = new Class({
 
         if (options.alwaysHide) this.options.link = 'chain';
 
-        if (options.show || this.options.show === 0){
+        if (options.show || this.options.show === 0) {
             options.display = false;
             this.previous = options.show;
         }
 
-        if (options.start){
+        if (options.start) {
             options.display = false;
             options.show = false;
         }
@@ -5761,15 +5761,15 @@ Fx.Accordion = new Class({
 
         for (var i = 0, l = togglers.length; i < l; i++) this.addSection(togglers[i], this.elements[i]);
 
-        this.elements.each(function(el, i){
-            if (options.show === i){
+        this.elements.each(function (el, i) {
+            if (options.show === i) {
                 this.fireEvent('active', [togglers[i], el]);
             } else {
                 for (var fx in effects) el.setStyle(fx, 0);
             }
         }, this);
 
-        if (options.display || options.display === 0 || options.initialDisplayFx === false){
+        if (options.display || options.display === 0 || options.initialDisplayFx === false) {
             this.display(options.display, options.initialDisplayFx);
         }
 
@@ -5777,7 +5777,7 @@ Fx.Accordion = new Class({
         this.addEvent('complete', this.internalChain.callChain.bind(this.internalChain));
     },
 
-    addSection: function(toggler, element){
+    addSection: function (toggler, element) {
         toggler = document.id(toggler);
         element = document.id(element);
         this.togglers.include(toggler);
@@ -5800,24 +5800,24 @@ Fx.Accordion = new Class({
         if (options.fixedHeight) element.fullHeight = options.fixedHeight;
         element.setStyle('overflow', 'hidden');
 
-        if (!test) for (var fx in this.effects){
+        if (!test) for (var fx in this.effects) {
             element.setStyle(fx, 0);
         }
         return this;
     },
 
-    removeSection: function(toggler, displayIndex){
+    removeSection: function (toggler, displayIndex) {
         var togglers = this.togglers,
             idx = togglers.indexOf(toggler),
             element = this.elements[idx];
 
-        var remover = function(){
+        var remover = function () {
             togglers.erase(toggler);
             this.elements.erase(element);
             this.detach(toggler);
         }.bind(this);
 
-        if (this.now == idx || displayIndex != null){
+        if (this.now == idx || displayIndex != null) {
             this.display(displayIndex != null ? displayIndex : (idx - 1 >= 0 ? idx - 1 : 0)).chain(remover);
         } else {
             remover();
@@ -5825,8 +5825,8 @@ Fx.Accordion = new Class({
         return this;
     },
 
-    detach: function(toggler){
-        var remove = function(toggler){
+    detach: function (toggler) {
+        var remove = function (toggler) {
             toggler.removeEvent(this.options.trigger, toggler.retrieve('accordion:display'));
         }.bind(this);
 
@@ -5835,7 +5835,7 @@ Fx.Accordion = new Class({
         return this;
     },
 
-    display: function(index, useFx){
+    display: function (index, useFx) {
         if (!this.check(index, useFx)) return this;
 
         var obj = {},
@@ -5847,9 +5847,9 @@ Fx.Accordion = new Class({
         if (typeOf(index) == 'element') index = elements.indexOf(index);
         if (index == this.previous && !options.alwaysHide) return this;
 
-        if (options.resetHeight){
+        if (options.resetHeight) {
             var prev = elements[this.previous];
-            if (prev && !this.selfHidden){
+            if (prev && !this.selfHidden) {
                 for (var fx in effects) prev.setStyle(fx, prev[effects[fx]]);
             }
         }
@@ -5859,12 +5859,12 @@ Fx.Accordion = new Class({
         this.previous = index;
         this.selfHidden = false;
 
-        elements.each(function(el, i){
+        elements.each(function (el, i) {
             obj[i] = {};
             var hide;
-            if (i != index){
+            if (i != index) {
                 hide = true;
-            } else if (options.alwaysHide && ((el.offsetHeight > 0 && options.height) || el.offsetWidth > 0 && options.width)){
+            } else if (options.alwaysHide && ((el.offsetHeight > 0 && options.height) || el.offsetWidth > 0 && options.width)) {
                 hide = true;
                 this.selfHidden = true;
             }
@@ -5874,8 +5874,8 @@ Fx.Accordion = new Class({
         }, this);
 
         this.internalChain.clearChain();
-        this.internalChain.chain(function(){
-            if (options.resetHeight && !this.selfHidden){
+        this.internalChain.chain(function () {
+            if (options.resetHeight && !this.selfHidden) {
                 var el = elements[index];
                 if (el) el.setStyle('height', 'auto');
             }
@@ -5894,23 +5894,23 @@ var Accordion = new Class({
 
     Extends: Fx.Accordion,
 
-    initialize: function(){
+    initialize: function () {
         this.parent.apply(this, arguments);
         var params = Array.link(arguments, {'container': Type.isElement});
         this.container = params.container;
     },
 
-    addSection: function(toggler, element, pos){
+    addSection: function (toggler, element, pos) {
         toggler = document.id(toggler);
         element = document.id(element);
 
         var test = this.togglers.contains(toggler);
         var len = this.togglers.length;
-        if (len && (!test || pos)){
+        if (len && (!test || pos)) {
             pos = pos != null ? pos : len - 1;
             toggler.inject(this.togglers[pos], 'before');
             element.inject(toggler, 'after');
-        } else if (this.container && !test){
+        } else if (this.container && !test) {
             toggler.inject(this.container);
             element.inject(this.container);
         }
@@ -5955,10 +5955,10 @@ Fx.Move = new Class({
         offset: {x: 0, y: 0}
     },
 
-    start: function(destination){
+    start: function (destination) {
         var element = this.element,
             topLeft = element.getStyles('top', 'left');
-        if (topLeft.top == 'auto' || topLeft.left == 'auto'){
+        if (topLeft.top == 'auto' || topLeft.left == 'auto') {
             element.setPosition(element.getPosition(element.getOffsetParent()));
         }
         return this.parent(element.position(Object.merge({}, this.options, destination, {returnPos: true})));
@@ -5968,14 +5968,14 @@ Fx.Move = new Class({
 
 Element.Properties.move = {
 
-    set: function(options){
+    set: function (options) {
         this.get('move').cancel().setOptions(options);
         return this;
     },
 
-    get: function(){
+    get: function () {
         var move = this.retrieve('move');
-        if (!move){
+        if (!move) {
             move = new Fx.Move(this, {link: 'cancel'});
             this.store('move', move);
         }
@@ -5986,7 +5986,7 @@ Element.Properties.move = {
 
 Element.implement({
 
-    move: function(options){
+    move: function (options) {
         this.get('move').start(options);
         return this;
     }
@@ -6019,7 +6019,7 @@ provides: [Fx.Scroll]
 ...
 */
 
-(function(){
+(function () {
 
 Fx.Scroll = new Class({
 
@@ -6030,44 +6030,44 @@ Fx.Scroll = new Class({
         wheelStops: true
     },
 
-    initialize: function(element, options){
+    initialize: function (element, options) {
         this.element = this.subject = document.id(element);
         this.parent(options);
 
         if (typeOf(this.element) != 'element') this.element = document.id(this.element.getDocument().body);
 
-        if (this.options.wheelStops){
+        if (this.options.wheelStops) {
             var stopper = this.element,
                 cancel = this.cancel.pass(false, this);
-            this.addEvent('start', function(){
+            this.addEvent('start', function () {
                 stopper.addEvent('mousewheel', cancel);
             }, true);
-            this.addEvent('complete', function(){
+            this.addEvent('complete', function () {
                 stopper.removeEvent('mousewheel', cancel);
             }, true);
         }
     },
 
-    set: function(){
+    set: function () {
         var now = Array.flatten(arguments);
         if (Browser.firefox) now = [Math.round(now[0]), Math.round(now[1])]; // not needed anymore in newer firefox versions
         this.element.scrollTo(now[0], now[1]);
         return this;
     },
 
-    compute: function(from, to, delta){
-        return [0, 1].map(function(i){
+    compute: function (from, to, delta) {
+        return [0, 1].map(function (i) {
             return Fx.compute(from[i], to[i], delta);
         });
     },
 
-    start: function(x, y){
+    start: function (x, y) {
         if (!this.check(x, y)) return this;
         var scroll = this.element.getScroll();
         return this.parent([scroll.x, scroll.y], [x, y]);
     },
 
-    calculateScroll: function(x, y){
+    calculateScroll: function (x, y) {
         var element = this.element,
             scrollSize = element.getScrollSize(),
             scroll = element.getScroll(),
@@ -6075,7 +6075,7 @@ Fx.Scroll = new Class({
             offset = this.options.offset,
             values = {x: x, y: y};
 
-        for (var z in values){
+        for (var z in values) {
             if (!values[z] && values[z] !== 0) values[z] = scroll[z];
             if (typeOf(values[z]) != 'number') values[z] = scrollSize[z] - size[z];
             values[z] += offset[z];
@@ -6084,32 +6084,32 @@ Fx.Scroll = new Class({
         return [values.x, values.y];
     },
 
-    toTop: function(){
+    toTop: function () {
         return this.start.apply(this, this.calculateScroll(false, 0));
     },
 
-    toLeft: function(){
+    toLeft: function () {
         return this.start.apply(this, this.calculateScroll(0, false));
     },
 
-    toRight: function(){
+    toRight: function () {
         return this.start.apply(this, this.calculateScroll('right', false));
     },
 
-    toBottom: function(){
+    toBottom: function () {
         return this.start.apply(this, this.calculateScroll(false, 'bottom'));
     },
 
-    toElement: function(el, axes){
+    toElement: function (el, axes) {
         axes = axes ? Array.from(axes) : ['x', 'y'];
         var scroll = isBody(this.element) ? {x: 0, y: 0} : this.element.getScroll();
-        var position = Object.map(document.id(el).getPosition(this.element), function(value, axis){
+        var position = Object.map(document.id(el).getPosition(this.element), function (value, axis) {
             return axes.contains(axis) ? value + scroll[axis] : false;
         });
         return this.start.apply(this, this.calculateScroll(position.x, position.y));
     },
 
-    toElementEdge: function(el, axes, offset){
+    toElementEdge: function (el, axes, offset) {
         axes = axes ? Array.from(axes) : ['x', 'y'];
         el = document.id(el);
         var to = {},
@@ -6122,8 +6122,8 @@ Fx.Scroll = new Class({
                 y: position.y + size.y
             };
 
-        ['x', 'y'].each(function(axis){
-            if (axes.contains(axis)){
+        ['x', 'y'].each(function (axis) {
+            if (axes.contains(axis)) {
                 if (edge[axis] > scroll[axis] + containerSize[axis]) to[axis] = edge[axis] - containerSize[axis];
                 if (position[axis] < scroll[axis]) to[axis] = position[axis];
             }
@@ -6135,7 +6135,7 @@ Fx.Scroll = new Class({
         return this;
     },
 
-    toElementCenter: function(el, axes, offset){
+    toElementCenter: function (el, axes, offset) {
         axes = axes ? Array.from(axes) : ['x', 'y'];
         el = document.id(el);
         var to = {},
@@ -6144,8 +6144,8 @@ Fx.Scroll = new Class({
             scroll = this.element.getScroll(),
             containerSize = this.element.getSize();
 
-        ['x', 'y'].each(function(axis){
-            if (axes.contains(axis)){
+        ['x', 'y'].each(function (axis) {
+            if (axes.contains(axis)) {
                 to[axis] = position[axis] - (containerSize[axis] - size[axis]) / 2;
             }
             if (to[axis] == null) to[axis] = scroll[axis];
@@ -6160,16 +6160,16 @@ Fx.Scroll = new Class({
 
 //<1.2compat>
 Fx.Scroll.implement({
-    scrollToCenter: function(){
+    scrollToCenter: function () {
         return this.toElementCenter.apply(this, arguments);
     },
-    scrollIntoView: function(){
+    scrollIntoView: function () {
         return this.toElementEdge.apply(this, arguments);
     }
 });
 //</1.2compat>
 
-function isBody(element){
+function isBody(element) {
     return (/^(?:body|html)$/i).test(element.tagName);
 }
 
@@ -6211,7 +6211,7 @@ Fx.Slide = new Class({
         resetHeight: false
     },
 
-    initialize: function(element, options){
+    initialize: function (element, options) {
         element = this.element = this.subject = document.id(element);
         this.parent(options);
         options = this.options;
@@ -6233,37 +6233,37 @@ Fx.Slide = new Class({
         this.open = true;
         this.wrapper = wrapper;
 
-        this.addEvent('complete', function(){
+        this.addEvent('complete', function () {
             this.open = (wrapper['offset' + this.layout.capitalize()] != 0);
             if (this.open && this.options.resetHeight) wrapper.setStyle('height', '');
         }, true);
     },
 
-    vertical: function(){
+    vertical: function () {
         this.margin = 'margin-top';
         this.layout = 'height';
         this.offset = this.element.offsetHeight;
     },
 
-    horizontal: function(){
+    horizontal: function () {
         this.margin = 'margin-left';
         this.layout = 'width';
         this.offset = this.element.offsetWidth;
     },
 
-    set: function(now){
+    set: function (now) {
         this.element.setStyle(this.margin, now[0]);
         this.wrapper.setStyle(this.layout, now[1]);
         return this;
     },
 
-    compute: function(from, to, delta){
-        return [0, 1].map(function(i){
+    compute: function (from, to, delta) {
+        return [0, 1].map(function (i) {
             return Fx.compute(from[i], to[i], delta);
         });
     },
 
-    start: function(how, mode){
+    start: function (how, mode) {
         if (!this.check(how, mode)) return this;
         this[mode || this.options.mode]();
 
@@ -6273,7 +6273,7 @@ Fx.Slide = new Class({
             caseOut = [[margin, layout], [-this.offset, 0]],
             start;
 
-        switch (how){
+        switch (how) {
             case 'in': start = caseIn; break;
             case 'out': start = caseOut; break;
             case 'toggle': start = (layout == 0) ? caseIn : caseOut;
@@ -6281,27 +6281,27 @@ Fx.Slide = new Class({
         return this.parent(start[0], start[1]);
     },
 
-    slideIn: function(mode){
+    slideIn: function (mode) {
         return this.start('in', mode);
     },
 
-    slideOut: function(mode){
+    slideOut: function (mode) {
         return this.start('out', mode);
     },
 
-    hide: function(mode){
+    hide: function (mode) {
         this[mode || this.options.mode]();
         this.open = false;
         return this.set([-this.offset, 0]);
     },
 
-    show: function(mode){
+    show: function (mode) {
         this[mode || this.options.mode]();
         this.open = true;
         return this.set([0, this.offset]);
     },
 
-    toggle: function(mode){
+    toggle: function (mode) {
         return this.start('toggle', mode);
     }
 
@@ -6309,14 +6309,14 @@ Fx.Slide = new Class({
 
 Element.Properties.slide = {
 
-    set: function(options){
+    set: function (options) {
         this.get('slide').cancel().setOptions(options);
         return this;
     },
 
-    get: function(){
+    get: function () {
         var slide = this.retrieve('slide');
-        if (!slide){
+        if (!slide) {
             slide = new Fx.Slide(this, {link: 'cancel'});
             this.store('slide', slide);
         }
@@ -6327,10 +6327,10 @@ Element.Properties.slide = {
 
 Element.implement({
 
-    slide: function(how, mode){
+    slide: function (how, mode) {
         how = how || 'toggle';
         var slide = this.get('slide'), toggle;
-        switch (how){
+        switch (how) {
             case 'hide': slide.hide(mode); break;
             case 'show': slide.show(mode); break;
             case 'toggle':
@@ -6379,7 +6379,7 @@ provides: [Fx.SmoothScroll]
         axes: ['x', 'y']
     },
 
-    initialize: function(options, context){
+    initialize: function (options, context) {
         context = context || document;
         this.doc = context.getDocument();
         this.parent(this.doc, options);
@@ -6388,26 +6388,26 @@ provides: [Fx.SmoothScroll]
             location = win.location.href.match(/^[^#]*/)[0] + '#',
             links = $$(this.options.links || this.doc.links);
 
-        links.each(function(link){
+        links.each(function (link) {
             if (link.href.indexOf(location) != 0) return;
             var anchor = link.href.substr(location.length);
             if (anchor) this.useLink(link, anchor);
         }, this);
 
-        this.addEvent('complete', function(){
+        this.addEvent('complete', function () {
             win.location.hash = this.anchor;
             this.element.scrollTo(this.to[0], this.to[1]);
         }, true);
     },
 
-    useLink: function(link, anchor){
+    useLink: function (link, anchor) {
 
-        link.addEvent('click', function(event){
+        link.addEvent('click', function (event) {
             var el = document.id(anchor) || this.doc.getElement('a[name=' + anchor + ']');
             if (!el) return;
 
             event.preventDefault();
-            this.toElement(el, this.options.axes).chain(function(){
+            this.toElement(el, this.options.axes).chain(function () {
                 this.fireEvent('scrolledTo', [link, el]);
             }.bind(this));
 
@@ -6452,21 +6452,21 @@ Fx.Sort = new Class({
         mode: 'vertical'
     },
 
-    initialize: function(elements, options){
+    initialize: function (elements, options) {
         this.parent(elements, options);
-        this.elements.each(function(el){
+        this.elements.each(function (el) {
             if (el.getStyle('position') == 'static') el.setStyle('position', 'relative');
         });
         this.setDefaultOrder();
     },
 
-    setDefaultOrder: function(){
-        this.currentOrder = this.elements.map(function(el, index){
+    setDefaultOrder: function () {
+        this.currentOrder = this.elements.map(function (el, index) {
             return index;
         });
     },
 
-    sort: function(){
+    sort: function () {
         if (!this.check(arguments)) return this;
         var newOrder = Array.flatten(arguments);
 
@@ -6476,10 +6476,10 @@ Fx.Sort = new Class({
             zero = {},
             vert = this.options.mode == 'vertical';
 
-        var current = this.elements.map(function(el, index){
+        var current = this.elements.map(function (el, index) {
             var size = el.getComputedSize({styles: ['border', 'padding', 'margin']});
             var val;
-            if (vert){
+            if (vert) {
                 val = {
                     top: top,
                     margin: size['margin-top'],
@@ -6502,9 +6502,9 @@ Fx.Sort = new Class({
         }, this);
 
         this.set(zero);
-        newOrder = newOrder.map(function(i){ return i.toInt(); });
-        if (newOrder.length != this.elements.length){
-            this.currentOrder.each(function(index){
+        newOrder = newOrder.map(function (i) { return i.toInt(); });
+        if (newOrder.length != this.elements.length) {
+            this.currentOrder.each(function (index) {
                 if (!newOrder.contains(index)) newOrder.push(index);
             });
             if (newOrder.length > this.elements.length)
@@ -6512,9 +6512,9 @@ Fx.Sort = new Class({
         }
         var margin = 0;
         top = left = 0;
-        newOrder.each(function(item){
+        newOrder.each(function (item) {
             var newPos = {};
-            if (vert){
+            if (vert) {
                 newPos.top = top - current[item].top - margin;
                 top += current[item].height;
             } else {
@@ -6525,7 +6525,7 @@ Fx.Sort = new Class({
             next[item]=newPos;
         }, this);
         var mapped = {};
-        Array.clone(newOrder).sort().each(function(index){
+        Array.clone(newOrder).sort().each(function (index) {
             mapped[index] = next[index];
         });
         this.start(mapped);
@@ -6534,13 +6534,13 @@ Fx.Sort = new Class({
         return this;
     },
 
-    rearrangeDOM: function(newOrder){
+    rearrangeDOM: function (newOrder) {
         newOrder = newOrder || this.currentOrder;
         var parent = this.elements[0].getParent();
         var rearranged = [];
         this.elements.setStyle('opacity', 0);
         //move each element and store the new default order
-        newOrder.each(function(index){
+        newOrder.each(function (index) {
             rearranged.push(this.elements[index].inject(parent).setStyles({
                 top: 0,
                 left: 0
@@ -6552,35 +6552,35 @@ Fx.Sort = new Class({
         return this;
     },
 
-    getDefaultOrder: function(){
-        return this.elements.map(function(el, index){
+    getDefaultOrder: function () {
+        return this.elements.map(function (el, index) {
             return index;
         });
     },
 
-    getCurrentOrder: function(){
+    getCurrentOrder: function () {
         return this.currentOrder;
     },
 
-    forward: function(){
+    forward: function () {
         return this.sort(this.getDefaultOrder());
     },
 
-    backward: function(){
+    backward: function () {
         return this.sort(this.getDefaultOrder().reverse());
     },
 
-    reverse: function(){
+    reverse: function () {
         return this.sort(this.currentOrder.reverse());
     },
 
-    sortByElements: function(elements){
-        return this.sort(elements.map(function(el){
+    sortByElements: function (elements) {
+        return this.sort(elements.map(function (el) {
             return this.elements.indexOf(el);
         }, this));
     },
 
-    swap: function(one, two){
+    swap: function (one, two) {
         if (typeOf(one) == 'element') one = this.elements.indexOf(one);
         if (typeOf(two) == 'element') two = this.elements.indexOf(two);
 
@@ -6628,12 +6628,12 @@ var Drag = new Class({
     Implements: [Events, Options],
 
     options: {/*
-        onBeforeStart: function(thisElement){},
-        onStart: function(thisElement, event){},
-        onSnap: function(thisElement){},
-        onDrag: function(thisElement, event){},
-        onCancel: function(thisElement){},
-        onComplete: function(thisElement, event){},*/
+        onBeforeStart: function (thisElement) {},
+        onStart: function (thisElement, event) {},
+        onSnap: function (thisElement) {},
+        onDrag: function (thisElement, event) {},
+        onCancel: function (thisElement) {},
+        onComplete: function (thisElement, event) {},*/
         snap: 6,
         unit: 'px',
         grid: false,
@@ -6646,10 +6646,10 @@ var Drag = new Class({
         modifiers: {x: 'left', y: 'top'}
     },
 
-    initialize: function(){
+    initialize: function () {
         var params = Array.link(arguments, {
             'options': Type.isObject,
-            'element': function(obj){
+            'element': function (obj) {
                 return obj != null;
             }
         });
@@ -6665,7 +6665,7 @@ var Drag = new Class({
         this.selection = (Browser.ie) ? 'selectstart' : 'mousedown';
 
 
-        if (Browser.ie && !Drag.ondragstartFixed){
+        if (Browser.ie && !Drag.ondragstartFixed) {
             document.ondragstart = Function.from(false);
             Drag.ondragstartFixed = true;
         }
@@ -6681,17 +6681,17 @@ var Drag = new Class({
         this.attach();
     },
 
-    attach: function(){
+    attach: function () {
         this.handles.addEvent('mousedown', this.bound.start);
         return this;
     },
 
-    detach: function(){
+    detach: function () {
         this.handles.removeEvent('mousedown', this.bound.start);
         return this;
     },
 
-    start: function(event){
+    start: function (event) {
         var options = this.options;
 
         if (event.rightClick) return;
@@ -6706,13 +6706,13 @@ var Drag = new Class({
         this.limit = {x: [], y: []};
 
         var z, coordinates;
-        for (z in options.modifiers){
+        for (z in options.modifiers) {
             if (!options.modifiers[z]) continue;
 
             var style = this.element.getStyle(options.modifiers[z]);
 
             // Some browsers (IE and Opera) don't always return pixels.
-            if (style && !style.match(/px$/)){
+            if (style && !style.match(/px$/)) {
                 if (!coordinates) coordinates = this.element.getCoordinates(this.element.getOffsetParent());
                 style = coordinates[options.modifiers[z]];
             }
@@ -6724,9 +6724,9 @@ var Drag = new Class({
 
             this.mouse.pos[z] = event.page[z] - this.value.now[z];
 
-            if (limit && limit[z]){
+            if (limit && limit[z]) {
                 var i = 2;
-                while (i--){
+                while (i--) {
                     var limitZI = limit[z][i];
                     if (limitZI || limitZI === 0) this.limit[z][i] = (typeof limitZI == 'function') ? limitZI() : limitZI;
                 }
@@ -6746,10 +6746,10 @@ var Drag = new Class({
         this.document.addEvents(events);
     },
 
-    check: function(event){
+    check: function (event) {
         if (this.options.preventDefault) event.preventDefault();
         var distance = Math.round(Math.sqrt(Math.pow(event.page.x - this.mouse.start.x, 2) + Math.pow(event.page.y - this.mouse.start.y, 2)));
-        if (distance > this.options.snap){
+        if (distance > this.options.snap) {
             this.cancel();
             this.document.addEvents({
                 mousemove: this.bound.drag,
@@ -6759,22 +6759,22 @@ var Drag = new Class({
         }
     },
 
-    drag: function(event){
+    drag: function (event) {
         var options = this.options;
 
         if (options.preventDefault) event.preventDefault();
         this.mouse.now = event.page;
 
-        for (var z in options.modifiers){
+        for (var z in options.modifiers) {
             if (!options.modifiers[z]) continue;
             this.value.now[z] = this.mouse.now[z] - this.mouse.pos[z];
 
             if (options.invert) this.value.now[z] *= -1;
 
-            if (options.limit && this.limit[z]){
-                if ((this.limit[z][1] || this.limit[z][1] === 0) && (this.value.now[z] > this.limit[z][1])){
+            if (options.limit && this.limit[z]) {
+                if ((this.limit[z][1] || this.limit[z][1] === 0) && (this.value.now[z] > this.limit[z][1])) {
                     this.value.now[z] = this.limit[z][1];
-                } else if ((this.limit[z][0] || this.limit[z][0] === 0) && (this.value.now[z] < this.limit[z][0])){
+                } else if ((this.limit[z][0] || this.limit[z][0] === 0) && (this.value.now[z] < this.limit[z][0])) {
                     this.value.now[z] = this.limit[z][0];
                 }
             }
@@ -6788,18 +6788,18 @@ var Drag = new Class({
         this.fireEvent('drag', [this.element, event]);
     },
 
-    cancel: function(event){
+    cancel: function (event) {
         this.document.removeEvents({
             mousemove: this.bound.check,
             mouseup: this.bound.cancel
         });
-        if (event){
+        if (event) {
             this.document.removeEvent(this.selection, this.bound.eventStop);
             this.fireEvent('cancel', this.element);
         }
     },
 
-    stop: function(event){
+    stop: function (event) {
         var events = {
             mousemove: this.bound.drag,
             mouseup: this.bound.stop
@@ -6813,7 +6813,7 @@ var Drag = new Class({
 
 Element.implement({
 
-    makeResizable: function(options){
+    makeResizable: function (options) {
         var drag = new Drag(this, Object.merge({
             modifiers: {
                 x: 'width',
@@ -6822,7 +6822,7 @@ Element.implement({
         }, options));
 
         this.store('resizer', drag);
-        return drag.addEvent('drag', function(){
+        return drag.addEvent('drag', function () {
             this.fireEvent('resize', drag);
         }.bind(this));
     }
@@ -6862,9 +6862,9 @@ Drag.Move = new Class({
     Extends: Drag,
 
     options: {/*
-        onEnter: function(thisElement, overed){},
-        onLeave: function(thisElement, overed){},
-        onDrop: function(thisElement, overed, event){},*/
+        onEnter: function (thisElement, overed) {},
+        onLeave: function (thisElement, overed) {},
+        onDrop: function (thisElement, overed, event) {},*/
         droppables: [],
         container: false,
         precalculate: false,
@@ -6872,7 +6872,7 @@ Drag.Move = new Class({
         checkDroppables: true
     },
 
-    initialize: function(element, options){
+    initialize: function (element, options) {
         this.parent(element, options);
         element = this.element;
 
@@ -6882,11 +6882,11 @@ Drag.Move = new Class({
         if (this.container && typeOf(this.container) != 'element')
             this.container = document.id(this.container.getDocument().body);
 
-        if (this.options.style){
-            if (this.options.modifiers.x == 'left' && this.options.modifiers.y == 'top'){
+        if (this.options.style) {
+            if (this.options.modifiers.x == 'left' && this.options.modifiers.y == 'top') {
                 var parent = element.getOffsetParent(),
                     styles = element.getStyles('left', 'top');
-                if (parent && (styles.left == 'auto' || styles.top == 'auto')){
+                if (parent && (styles.left == 'auto' || styles.top == 'auto')) {
                     element.setPosition(element.getPosition(parent));
                 }
             }
@@ -6898,11 +6898,11 @@ Drag.Move = new Class({
         this.overed = null;
     },
 
-    start: function(event){
+    start: function (event) {
         if (this.container) this.options.limit = this.calculateLimit();
 
-        if (this.options.precalculate){
-            this.positions = this.droppables.map(function(el){
+        if (this.options.precalculate) {
+            this.positions = this.droppables.map(function (el) {
                 return el.getCoordinates();
             });
         }
@@ -6910,7 +6910,7 @@ Drag.Move = new Class({
         this.parent(event);
     },
 
-    calculateLimit: function(){
+    calculateLimit: function () {
         var element = this.element,
             container = this.container,
 
@@ -6922,7 +6922,7 @@ Drag.Move = new Class({
             containerBorder = {},
             offsetParentPadding = {};
 
-        ['top', 'right', 'bottom', 'left'].each(function(pad){
+        ['top', 'right', 'bottom', 'left'].each(function (pad) {
             elementMargin[pad] = element.getStyle('margin-' + pad).toInt();
             elementBorder[pad] = element.getStyle('border-' + pad).toInt();
             containerMargin[pad] = container.getStyle('margin-' + pad).toInt();
@@ -6937,7 +6937,7 @@ Drag.Move = new Class({
             right = containerCoordinates.right - containerBorder.right - width,
             bottom = containerCoordinates.bottom - containerBorder.bottom - height;
 
-        if (this.options.includeMargins){
+        if (this.options.includeMargins) {
             left += elementMargin.left;
             top += elementMargin.top;
         } else {
@@ -6945,28 +6945,28 @@ Drag.Move = new Class({
             bottom += elementMargin.bottom;
         }
 
-        if (element.getStyle('position') == 'relative'){
+        if (element.getStyle('position') == 'relative') {
             var coords = element.getCoordinates(offsetParent);
             coords.left -= element.getStyle('left').toInt();
             coords.top -= element.getStyle('top').toInt();
 
             left -= coords.left;
             top -= coords.top;
-            if (container.getStyle('position') != 'relative'){
+            if (container.getStyle('position') != 'relative') {
                 left += containerBorder.left;
                 top += containerBorder.top;
             }
             right += elementMargin.left - coords.left;
             bottom += elementMargin.top - coords.top;
 
-            if (container != offsetParent){
+            if (container != offsetParent) {
                 left += containerMargin.left + offsetParentPadding.left;
                 top += ((Browser.ie6 || Browser.ie7) ? 0 : containerMargin.top) + offsetParentPadding.top;
             }
         } else {
             left -= elementMargin.left;
             top -= elementMargin.top;
-            if (container != offsetParent){
+            if (container != offsetParent) {
                 left += containerCoordinates.left + containerBorder.left;
                 top += containerCoordinates.top + containerBorder.top;
             }
@@ -6978,9 +6978,9 @@ Drag.Move = new Class({
         };
     },
 
-    getDroppableCoordinates: function(element){
+    getDroppableCoordinates: function (element) {
         var position = element.getCoordinates();
-        if (element.getStyle('position') == 'fixed'){
+        if (element.getStyle('position') == 'fixed') {
             var scroll = window.getScroll();
             position.left += scroll.x;
             position.right += scroll.x;
@@ -6990,26 +6990,26 @@ Drag.Move = new Class({
         return position;
     },
 
-    checkDroppables: function(){
-        var overed = this.droppables.filter(function(el, i){
+    checkDroppables: function () {
+        var overed = this.droppables.filter(function (el, i) {
             el = this.positions ? this.positions[i] : this.getDroppableCoordinates(el);
             var now = this.mouse.now;
             return (now.x > el.left && now.x < el.right && now.y < el.bottom && now.y > el.top);
         }, this).getLast();
 
-        if (this.overed != overed){
+        if (this.overed != overed) {
             if (this.overed) this.fireEvent('leave', [this.element, this.overed]);
             if (overed) this.fireEvent('enter', [this.element, overed]);
             this.overed = overed;
         }
     },
 
-    drag: function(event){
+    drag: function (event) {
         this.parent(event);
         if (this.options.checkDroppables && this.droppables.length) this.checkDroppables();
     },
 
-    stop: function(event){
+    stop: function (event) {
         this.checkDroppables();
         this.fireEvent('drop', [this.element, this.overed, event]);
         this.overed = null;
@@ -7020,7 +7020,7 @@ Drag.Move = new Class({
 
 Element.implement({
 
-    makeDraggable: function(options){
+    makeDraggable: function (options) {
         var drag = new Drag.Move(this, options);
         this.store('dragger', drag);
         return drag;
@@ -7061,10 +7061,10 @@ var Slider = new Class({
     Binds: ['clickedElement', 'draggedKnob', 'scrolledElement'],
 
     options: {/*
-        onTick: function(intPosition){},
-        onChange: function(intStep){},
-        onComplete: function(strStep){},*/
-        onTick: function(position){
+        onTick: function (intPosition) {},
+        onChange: function (intStep) {},
+        onComplete: function (strStep) {},*/
+        onTick: function (position) {
             this.setKnobPosition(position);
         },
         initialStep: 0,
@@ -7076,7 +7076,7 @@ var Slider = new Class({
         mode: 'horizontal'
     },
 
-    initialize: function(element, knob, options){
+    initialize: function (element, knob, options) {
         this.setOptions(options);
         options = this.options;
         this.element = document.id(element);
@@ -7086,7 +7086,7 @@ var Slider = new Class({
         var limit = {},
             modifiers = {x: false, y: false};
 
-        switch (options.mode){
+        switch (options.mode) {
             case 'vertical':
                 this.axis = 'y';
                 this.property = 'top';
@@ -7112,13 +7112,13 @@ var Slider = new Class({
             modifiers: modifiers,
             onDrag: this.draggedKnob,
             onStart: this.draggedKnob,
-            onBeforeStart: (function(){
+            onBeforeStart: (function () {
                 this.isDragging = true;
             }).bind(this),
-            onCancel: function(){
+            onCancel: function () {
                 this.isDragging = false;
             }.bind(this),
-            onComplete: function(){
+            onComplete: function () {
                 this.isDragging = false;
                 this.draggedKnob();
                 this.end();
@@ -7131,21 +7131,21 @@ var Slider = new Class({
         if (options.initialStep != null) this.set(options.initialStep);
     },
 
-    attach: function(){
+    attach: function () {
         this.element.addEvent('mousedown', this.clickedElement);
         if (this.options.wheel) this.element.addEvent('mousewheel', this.scrolledElement);
         this.drag.attach();
         return this;
     },
 
-    detach: function(){
+    detach: function () {
         this.element.removeEvent('mousedown', this.clickedElement)
             .removeEvent('mousewheel', this.scrolledElement);
         this.drag.detach();
         return this;
     },
 
-    autosize: function(){
+    autosize: function () {
         this.setSliderDimensions()
             .setKnobPosition(this.toPosition(this.step));
         this.drag.options.limit[this.axis] = [-this.options.offset, this.full - this.options.offset];
@@ -7153,28 +7153,28 @@ var Slider = new Class({
         return this;
     },
 
-    setSnap: function(options){
+    setSnap: function (options) {
         if (!options) options = this.drag.options;
         options.grid = Math.ceil(this.stepWidth);
         options.limit[this.axis][1] = this.full;
         return this;
     },
 
-    setKnobPosition: function(position){
+    setKnobPosition: function (position) {
         if (this.options.snap) position = this.toPosition(this.step);
         this.knob.setStyle(this.property, position);
         return this;
     },
 
-    setSliderDimensions: function(){
-        this.full = this.element.measure(function(){
+    setSliderDimensions: function () {
+        this.full = this.element.measure(function () {
             this.half = this.knob[this.offset] / 2;
             return this.element[this.offset] - this.knob[this.offset] + (this.options.offset * 2);
         }.bind(this));
         return this;
     },
 
-    set: function(step){
+    set: function (step) {
         if (!((this.range > 0) ^ (step < this.min))) step = this.min;
         if (!((this.range > 0) ^ (step > this.max))) step = this.max;
 
@@ -7184,7 +7184,7 @@ var Slider = new Class({
             .end();
     },
 
-    setRange: function(range, pos){
+    setRange: function (range, pos) {
         this.min = Array.pick([range[0], 0]);
         this.max = Array.pick([range[1], this.options.steps]);
         this.range = this.max - this.min;
@@ -7195,7 +7195,7 @@ var Slider = new Class({
         return this;
     },
 
-    clickedElement: function(event){
+    clickedElement: function (event) {
         if (this.isDragging || event.target == this.knob) return;
 
         var dir = this.range < 0 ? -1 : 1,
@@ -7210,13 +7210,13 @@ var Slider = new Class({
             .end();
     },
 
-    scrolledElement: function(event){
+    scrolledElement: function (event) {
         var mode = (this.options.mode == 'horizontal') ? (event.wheel < 0) : (event.wheel > 0);
         this.set(this.step + (mode ? -1 : 1) * this.stepSize);
         event.stop();
     },
 
-    draggedKnob: function(){
+    draggedKnob: function () {
         var dir = this.range < 0 ? -1 : 1,
             position = this.drag.value.now[this.axis];
 
@@ -7226,30 +7226,30 @@ var Slider = new Class({
         this.checkStep();
     },
 
-    checkStep: function(){
+    checkStep: function () {
         var step = this.step;
-        if (this.previousChange != step){
+        if (this.previousChange != step) {
             this.previousChange = step;
             this.fireEvent('change', step);
         }
         return this;
     },
 
-    end: function(){
+    end: function () {
         var step = this.step;
-        if (this.previousEnd !== step){
+        if (this.previousEnd !== step) {
             this.previousEnd = step;
             this.fireEvent('complete', step + '');
         }
         return this;
     },
 
-    toStep: function(position){
+    toStep: function (position) {
         var step = (position + this.options.offset) * this.stepSize / this.full * this.steps;
         return this.options.steps ? Math.round(step -= step % this.stepSize) : step;
     },
 
-    toPosition: function(step){
+    toPosition: function (step) {
         return (this.full * Math.abs(this.min - step)) / (this.steps * this.stepSize) - this.options.offset;
     }
 
@@ -7284,9 +7284,9 @@ var Sortables = new Class({
     Implements: [Events, Options],
 
     options: {/*
-        onSort: function(element, clone){},
-        onStart: function(element, clone){},
-        onComplete: function(element){},*/
+        onSort: function (element, clone) {},
+        onStart: function (element, clone) {},
+        onComplete: function (element) {},*/
         opacity: 1,
         clone: false,
         revert: false,
@@ -7299,7 +7299,7 @@ var Sortables = new Class({
         /*</1.2compat>*/
     },
 
-    initialize: function(lists, options){
+    initialize: function (lists, options) {
         this.setOptions(options);
 
         this.elements = [];
@@ -7315,20 +7315,20 @@ var Sortables = new Class({
         }, this.options.revert));
     },
 
-    attach: function(){
+    attach: function () {
         this.addLists(this.lists);
         return this;
     },
 
-    detach: function(){
+    detach: function () {
         this.lists = this.removeLists(this.lists);
         return this;
     },
 
-    addItems: function(){
-        Array.flatten(arguments).each(function(element){
+    addItems: function () {
+        Array.flatten(arguments).each(function (element) {
             this.elements.push(element);
-            var start = element.retrieve('sortables:start', function(event){
+            var start = element.retrieve('sortables:start', function (event) {
                 this.start.call(this, event, element);
             }.bind(this));
             (this.options.handle ? element.getElement(this.options.handle) || element : element).addEvent('mousedown', start);
@@ -7336,16 +7336,16 @@ var Sortables = new Class({
         return this;
     },
 
-    addLists: function(){
-        Array.flatten(arguments).each(function(list){
+    addLists: function () {
+        Array.flatten(arguments).each(function (list) {
             this.lists.include(list);
             this.addItems(list.getChildren());
         }, this);
         return this;
     },
 
-    removeItems: function(){
-        return $$(Array.flatten(arguments).map(function(element){
+    removeItems: function () {
+        return $$(Array.flatten(arguments).map(function (element) {
             this.elements.erase(element);
             var start = element.retrieve('sortables:start');
             (this.options.handle ? element.getElement(this.options.handle) || element : element).removeEvent('mousedown', start);
@@ -7354,8 +7354,8 @@ var Sortables = new Class({
         }, this));
     },
 
-    removeLists: function(){
-        return $$(Array.flatten(arguments).map(function(list){
+    removeLists: function () {
+        return $$(Array.flatten(arguments).map(function (list) {
             this.lists.erase(list);
             this.removeItems(list.getChildren());
 
@@ -7363,7 +7363,7 @@ var Sortables = new Class({
         }, this));
     },
 
-    getClone: function(event, element){
+    getClone: function (event, element) {
         if (!this.options.clone) return new Element(element.tagName).inject(document.body);
         if (typeOf(this.options.clone) == 'function') return this.options.clone.call(this, event, element, this.list);
         var clone = element.clone(true).setStyles({
@@ -7371,12 +7371,12 @@ var Sortables = new Class({
             position: 'absolute',
             visibility: 'hidden',
             width: element.getStyle('width')
-        }).addEvent('mousedown', function(event){
+        }).addEvent('mousedown', function (event) {
             element.fireEvent('mousedown', event);
         });
         //prevent the duplicated radio inputs from unchecking the real one
-        if (clone.get('html').test('radio')){
-            clone.getElements('input[type=radio]').each(function(input, i){
+        if (clone.get('html').test('radio')) {
+            clone.getElements('input[type=radio]').each(function (input, i) {
                 input.set('name', 'clone_' + i);
                 if (input.get('checked')) element.getElements('input[type=radio]')[i].set('checked', true);
             });
@@ -7385,15 +7385,15 @@ var Sortables = new Class({
         return clone.inject(this.list).setPosition(element.getPosition(element.getOffsetParent()));
     },
 
-    getDroppables: function(){
+    getDroppables: function () {
         var droppables = this.list.getChildren().erase(this.clone).erase(this.element);
         if (!this.options.constrain) droppables.append(this.lists).erase(this.list);
         return droppables;
     },
 
-    insert: function(dragging, element){
+    insert: function (dragging, element) {
         var where = 'inside';
-        if (this.lists.contains(element)){
+        if (this.lists.contains(element)) {
             this.list = element;
             this.drag.droppables = this.getDroppables();
         } else {
@@ -7403,7 +7403,7 @@ var Sortables = new Class({
         this.fireEvent('sort', [this.element, this.clone]);
     },
 
-    start: function(event, element){
+    start: function (event, element) {
         if (
             !this.idle ||
             event.rightClick ||
@@ -7424,7 +7424,7 @@ var Sortables = new Class({
             /*</1.2compat>*/
             droppables: this.getDroppables()
         }, this.options.dragOptions)).addEvents({
-            onSnap: function(){
+            onSnap: function () {
                 event.stop();
                 this.clone.setStyle('visibility', 'visible');
                 this.element.setStyle('opacity', this.options.opacity || 0);
@@ -7439,15 +7439,15 @@ var Sortables = new Class({
         this.drag.start(event);
     },
 
-    end: function(){
+    end: function () {
         this.drag.detach();
         this.element.setStyle('opacity', this.opacity);
-        if (this.effect){
+        if (this.effect) {
             var dim = this.element.getStyles('width', 'height'),
                 clone = this.clone,
                 pos = clone.computePosition(this.element.getPosition(this.clone.getOffsetParent()));
 
-            var destroy = function(){
+            var destroy = function () {
                 this.removeEvent('cancel', destroy);
                 clone.destroy();
             };
@@ -7466,20 +7466,20 @@ var Sortables = new Class({
         this.reset();
     },
 
-    reset: function(){
+    reset: function () {
         this.idle = true;
         this.fireEvent('complete', this.element);
     },
 
-    serialize: function(){
+    serialize: function () {
         var params = Array.link(arguments, {
             modifier: Type.isFunction,
-            index: function(obj){
+            index: function (obj) {
                 return obj != null;
             }
         });
-        var serial = this.lists.map(function(list){
-            return list.getChildren().map(params.modifier || function(element){
+        var serial = this.lists.map(function (list) {
+            return list.getChildren().map(params.modifier || function (element) {
                 return element.get('id');
             }, this);
         }, this);
@@ -7523,19 +7523,19 @@ Request.JSONP = new Class({
     Implements: [Chain, Events, Options],
 
     options: {/*
-        onRequest: function(src, scriptElement){},
-        onComplete: function(data){},
-        onSuccess: function(data){},
-        onCancel: function(){},
-        onTimeout: function(){},
-        onError: function(){}, */
-        onRequest: function(src){
-            if (this.options.log && window.console && console.log){
+        onRequest: function (src, scriptElement) {},
+        onComplete: function (data) {},
+        onSuccess: function (data) {},
+        onCancel: function () {},
+        onTimeout: function () {},
+        onError: function () {}, */
+        onRequest: function (src) {
+            if (this.options.log && window.console && console.log) {
                 console.log('JSONP retrieving script with url:' + src);
             }
         },
-        onError: function(src){
-            if (this.options.log && window.console && console.warn){
+        onError: function (src) {
+            if (this.options.log && window.console && console.warn) {
                 console.warn('JSONP '+ src +' will fail in Internet Explorer, which enforces a 2083 bytes length limit on URIs');
             }
         },
@@ -7548,11 +7548,11 @@ Request.JSONP = new Class({
         log: false
     },
 
-    initialize: function(options){
+    initialize: function (options) {
         this.setOptions(options);
     },
 
-    send: function(options){
+    send: function (options) {
         if (!Request.prototype.check.call(this, options)) return this;
         this.running = true;
 
@@ -7561,7 +7561,7 @@ Request.JSONP = new Class({
         options = Object.merge(this.options, options || {});
 
         var data = options.data;
-        switch (typeOf(data)){
+        switch (typeOf(data)) {
             case 'element': data = document.id(data).toQueryString(); break;
             case 'object': case 'hash': data = Object.toQueryString(data);
         }
@@ -7576,7 +7576,7 @@ Request.JSONP = new Class({
 
         if (src.length > 2083) this.fireEvent('error', src);
 
-        Request.JSONP.request_map['request_' + index] = function(){
+        Request.JSONP.request_map['request_' + index] = function () {
             this.success(arguments, index);
         }.bind(this);
 
@@ -7588,7 +7588,7 @@ Request.JSONP = new Class({
         return this;
     },
 
-    getScript: function(src){
+    getScript: function (src) {
         if (!this.script) this.script = new Element('script', {
             type: 'text/javascript',
             async: true,
@@ -7597,33 +7597,33 @@ Request.JSONP = new Class({
         return this.script;
     },
 
-    success: function(args, index){
+    success: function (args, index) {
         if (!this.running) return;
         this.clear()
             .fireEvent('complete', args).fireEvent('success', args)
             .callChain();
     },
 
-    cancel: function(){
+    cancel: function () {
         if (this.running) this.clear().fireEvent('cancel');
         return this;
     },
 
-    isRunning: function(){
+    isRunning: function () {
         return !!this.running;
     },
 
-    clear: function(){
+    clear: function () {
         this.running = false;
-        if (this.script){
+        if (this.script) {
             this.script.destroy();
             this.script = null;
         }
         return this;
     },
 
-    timeout: function(){
-        if (this.running){
+    timeout: function () {
+        if (this.running) {
             this.running = false;
             this.fireEvent('timeout', [this.script.get('src'), this.script]).fireEvent('failure').cancel();
         }
@@ -7667,13 +7667,13 @@ Request.Queue = new Class({
     Binds: ['attach', 'request', 'complete', 'cancel', 'success', 'failure', 'exception'],
 
     options: {/*
-        onRequest: function(argsPassedToOnRequest){},
-        onSuccess: function(argsPassedToOnSuccess){},
-        onComplete: function(argsPassedToOnComplete){},
-        onCancel: function(argsPassedToOnCancel){},
-        onException: function(argsPassedToOnException){},
-        onFailure: function(argsPassedToOnFailure){},
-        onEnd: function(){},
+        onRequest: function (argsPassedToOnRequest) {},
+        onSuccess: function (argsPassedToOnSuccess) {},
+        onComplete: function (argsPassedToOnComplete) {},
+        onCancel: function (argsPassedToOnCancel) {},
+        onException: function (argsPassedToOnException) {},
+        onFailure: function (argsPassedToOnFailure) {},
+        onEnd: function () {},
         */
         stopOnFailure: true,
         autoAdvance: true,
@@ -7681,9 +7681,9 @@ Request.Queue = new Class({
         requests: {}
     },
 
-    initialize: function(options){
+    initialize: function (options) {
         var requests;
-        if (options){
+        if (options) {
             requests = options.requests;
             delete options.requests;
         }
@@ -7695,46 +7695,46 @@ Request.Queue = new Class({
         if (requests) this.addRequests(requests);
     },
 
-    addRequest: function(name, request){
+    addRequest: function (name, request) {
         this.requests[name] = request;
         this.attach(name, request);
         return this;
     },
 
-    addRequests: function(obj){
-        Object.each(obj, function(req, name){
+    addRequests: function (obj) {
+        Object.each(obj, function (req, name) {
             this.addRequest(name, req);
         }, this);
         return this;
     },
 
-    getName: function(req){
+    getName: function (req) {
         return Object.keyOf(this.requests, req);
     },
 
-    attach: function(name, req){
+    attach: function (name, req) {
         if (req._groupSend) return this;
-        ['request', 'complete', 'cancel', 'success', 'failure', 'exception'].each(function(evt){
+        ['request', 'complete', 'cancel', 'success', 'failure', 'exception'].each(function (evt) {
             if (!this.reqBinders[name]) this.reqBinders[name] = {};
-            this.reqBinders[name][evt] = function(){
+            this.reqBinders[name][evt] = function () {
                 this['on' + evt.capitalize()].apply(this, [name, req].append(arguments));
             }.bind(this);
             req.addEvent(evt, this.reqBinders[name][evt]);
         }, this);
         req._groupSend = req.send;
-        req.send = function(options){
+        req.send = function (options) {
             this.send(name, options);
             return req;
         }.bind(this);
         return this;
     },
 
-    removeRequest: function(req){
+    removeRequest: function (req) {
         var name = typeOf(req) == 'object' ? this.getName(req) : req;
         if (!name && typeOf(name) != 'string') return this;
         req = this.requests[name];
         if (!req) return this;
-        ['request', 'complete', 'cancel', 'success', 'failure', 'exception'].each(function(evt){
+        ['request', 'complete', 'cancel', 'success', 'failure', 'exception'].each(function (evt) {
             req.removeEvent(evt, this.reqBinders[name][evt]);
         }, this);
         req.send = req._groupSend;
@@ -7742,18 +7742,18 @@ Request.Queue = new Class({
         return this;
     },
 
-    getRunning: function(){
-        return Object.filter(this.requests, function(r){
+    getRunning: function () {
+        return Object.filter(this.requests, function (r) {
             return r.running;
         });
     },
 
-    isRunning: function(){
+    isRunning: function () {
         return !!(Object.keys(this.getRunning()).length);
     },
 
-    send: function(name, options){
-        var q = function(){
+    send: function (name, options) {
+        var q = function () {
             this.requests[name]._groupSend(options);
             this.queue.erase(q);
         }.bind(this);
@@ -7764,24 +7764,24 @@ Request.Queue = new Class({
         return this;
     },
 
-    hasNext: function(name){
-        return (!name) ? !!this.queue.length : !!this.queue.filter(function(q){ return q.name == name; }).length;
+    hasNext: function (name) {
+        return (!name) ? !!this.queue.length : !!this.queue.filter(function (q) { return q.name == name; }).length;
     },
 
-    resume: function(){
+    resume: function () {
         this.error = false;
         (this.options.concurrent - Object.keys(this.getRunning()).length).times(this.runNext, this);
         return this;
     },
 
-    runNext: function(name){
+    runNext: function (name) {
         if (!this.queue.length) return this;
-        if (!name){
+        if (!name) {
             this.queue[0]();
         } else {
             var found;
-            this.queue.each(function(q){
-                if (!found && q.name == name){
+            this.queue.each(function (q) {
+                if (!found && q.name == name) {
                     found = true;
                     q();
                 }
@@ -7790,58 +7790,58 @@ Request.Queue = new Class({
         return this;
     },
 
-    runAll: function(){
-        this.queue.each(function(q){
+    runAll: function () {
+        this.queue.each(function (q) {
             q();
         });
         return this;
     },
 
-    clear: function(name){
-        if (!name){
+    clear: function (name) {
+        if (!name) {
             this.queue.empty();
         } else {
-            this.queue = this.queue.map(function(q){
+            this.queue = this.queue.map(function (q) {
                 if (q.name != name) return q;
                 else return false;
-            }).filter(function(q){
+            }).filter(function (q) {
                 return q;
             });
         }
         return this;
     },
 
-    cancel: function(name){
+    cancel: function (name) {
         this.requests[name].cancel();
         return this;
     },
 
-    onRequest: function(){
+    onRequest: function () {
         this.fireEvent('request', arguments);
     },
 
-    onComplete: function(){
+    onComplete: function () {
         this.fireEvent('complete', arguments);
         if (!this.queue.length) this.fireEvent('end');
     },
 
-    onCancel: function(){
+    onCancel: function () {
         if (this.options.autoAdvance && !this.error) this.runNext();
         this.fireEvent('cancel', arguments);
     },
 
-    onSuccess: function(){
+    onSuccess: function () {
         if (this.options.autoAdvance && !this.error) this.runNext();
         this.fireEvent('success', arguments);
     },
 
-    onFailure: function(){
+    onFailure: function () {
         this.error = true;
         if (!this.options.stopOnFailure && this.options.autoAdvance) this.runNext();
         this.fireEvent('failure', arguments);
     },
 
-    onException: function(){
+    onException: function () {
         this.error = true;
         if (!this.options.stopOnFailure && this.options.autoAdvance) this.runNext();
         this.fireEvent('exception', arguments);
@@ -7881,13 +7881,13 @@ Request.implement({
         limit: 60000
     },
 
-    startTimer: function(data){
-        var fn = function(){
+    startTimer: function (data) {
+        var fn = function () {
             if (!this.running) this.send({data: data});
         };
         this.lastDelay = this.options.initialDelay;
         this.timer = fn.delay(this.lastDelay, this);
-        this.completeCheck = function(response){
+        this.completeCheck = function (response) {
             clearTimeout(this.timer);
             this.lastDelay = (response) ? this.options.delay : (this.lastDelay + this.options.delay).min(this.options.limit);
             this.timer = fn.delay(this.lastDelay, this);
@@ -7895,7 +7895,7 @@ Request.implement({
         return this.addEvent('complete', this.completeCheck);
     },
 
-    stopTimer: function(){
+    stopTimer: function () {
         clearTimeout(this.timer);
         return this.removeEvent('complete', this.completeCheck);
     }
@@ -7928,7 +7928,7 @@ provides: [Assets]
 
 var Asset = {
 
-    javascript: function(source, properties){
+    javascript: function (source, properties) {
         if (!properties) properties = {};
 
         var script = new Element('script', {src: source, type: 'text/javascript'}),
@@ -7939,9 +7939,9 @@ var Asset = {
         delete properties.onLoad;
         delete properties.document;
 
-        if (load){
-            if (!script.addEventListener){
-                script.addEvent('readystatechange', function(){
+        if (load) {
+            if (!script.addEventListener) {
+                script.addEvent('readystatechange', function () {
                     if (['loaded', 'complete'].contains(this.readyState)) load.call(this);
                 });
             } else {
@@ -7952,7 +7952,7 @@ var Asset = {
         return script.set(properties).inject(doc.head);
     },
 
-    css: function(source, properties){
+    css: function (source, properties) {
         if (!properties) properties = {};
 
         var link = new Element('link', {
@@ -7973,23 +7973,23 @@ var Asset = {
         return link.set(properties).inject(doc.head);
     },
 
-    image: function(source, properties){
+    image: function (source, properties) {
         if (!properties) properties = {};
 
         var image = new Image(),
             element = document.id(image) || new Element('img');
 
-        ['load', 'abort', 'error'].each(function(name){
+        ['load', 'abort', 'error'].each(function (name) {
             var type = 'on' + name,
                 cap = 'on' + name.capitalize(),
-                event = properties[type] || properties[cap] || function(){};
+                event = properties[type] || properties[cap] || function () {};
 
             delete properties[cap];
             delete properties[type];
 
-            image[type] = function(){
+            image[type] = function () {
                 if (!image) return;
-                if (!element.parentNode){
+                if (!element.parentNode) {
                     element.width = image.width;
                     element.height = image.height;
                 }
@@ -8004,10 +8004,10 @@ var Asset = {
         return element.set(properties);
     },
 
-    images: function(sources, options){
+    images: function (sources, options) {
         sources = Array.from(sources);
 
-        var fn = function(){},
+        var fn = function () {},
             counter = 0;
 
         options = Object.merge({
@@ -8017,14 +8017,14 @@ var Asset = {
             properties: {}
         }, options);
 
-        return new Elements(sources.map(function(source, index){
+        return new Elements(sources.map(function (source, index) {
             return Asset.image(source, Object.append(options.properties, {
-                onload: function(){
+                onload: function () {
                     counter++;
                     options.onProgress.call(this, counter, index, source);
                     if (counter == sources.length) options.onComplete();
                 },
-                onerror: function(){
+                onerror: function () {
                     counter++;
                     options.onError.call(this, counter, index, source);
                     if (counter == sources.length) options.onComplete();
@@ -8063,18 +8063,18 @@ provides: [Color]
 ...
 */
 
-(function(){
+(function () {
 
-var Color = this.Color = new Type('Color', function(color, type){
-    if (arguments.length >= 3){
+var Color = this.Color = new Type('Color', function (color, type) {
+    if (arguments.length >= 3) {
         type = 'rgb'; color = Array.slice(arguments, 0, 3);
-    } else if (typeof color == 'string'){
+    } else if (typeof color == 'string') {
         if (color.match(/rgb/)) color = color.rgbToHex().hexToRgb(true);
         else if (color.match(/hsb/)) color = color.hsbToRgb();
         else color = color.hexToRgb(true);
     }
     type = type || 'rgb';
-    switch (type){
+    switch (type) {
         case 'hsb':
             var old = color;
             color = color.hsbToRgb();
@@ -8090,52 +8090,52 @@ var Color = this.Color = new Type('Color', function(color, type){
 
 Color.implement({
 
-    mix: function(){
+    mix: function () {
         var colors = Array.slice(arguments);
         var alpha = (typeOf(colors.getLast()) == 'number') ? colors.pop() : 50;
         var rgb = this.slice();
-        colors.each(function(color){
+        colors.each(function (color) {
             color = new Color(color);
             for (var i = 0; i < 3; i++) rgb[i] = Math.round((rgb[i] / 100 * (100 - alpha)) + (color[i] / 100 * alpha));
         });
         return new Color(rgb, 'rgb');
     },
 
-    invert: function(){
-        return new Color(this.map(function(value){
+    invert: function () {
+        return new Color(this.map(function (value) {
             return 255 - value;
         }));
     },
 
-    setHue: function(value){
+    setHue: function (value) {
         return new Color([value, this.hsb[1], this.hsb[2]], 'hsb');
     },
 
-    setSaturation: function(percent){
+    setSaturation: function (percent) {
         return new Color([this.hsb[0], percent, this.hsb[2]], 'hsb');
     },
 
-    setBrightness: function(percent){
+    setBrightness: function (percent) {
         return new Color([this.hsb[0], this.hsb[1], percent], 'hsb');
     }
 
 });
 
-this.$RGB = function(r, g, b){
+this.$RGB = function (r, g, b) {
     return new Color([r, g, b], 'rgb');
 };
 
-this.$HSB = function(h, s, b){
+this.$HSB = function (h, s, b) {
     return new Color([h, s, b], 'hsb');
 };
 
-this.$HEX = function(hex){
+this.$HEX = function (hex) {
     return new Color(hex, 'hex');
 };
 
 Array.implement({
 
-    rgbToHsb: function(){
+    rgbToHsb: function () {
         var red = this[0],
                 green = this[1],
                 blue = this[2],
@@ -8145,7 +8145,7 @@ Array.implement({
         var delta = max - min;
         var brightness = max / 255,
                 saturation = (max != 0) ? delta / max : 0;
-        if (saturation != 0){
+        if (saturation != 0) {
             var rr = (max - red) / delta;
             var gr = (max - green) / delta;
             var br = (max - blue) / delta;
@@ -8158,9 +8158,9 @@ Array.implement({
         return [Math.round(hue * 360), Math.round(saturation * 100), Math.round(brightness * 100)];
     },
 
-    hsbToRgb: function(){
+    hsbToRgb: function () {
         var br = Math.round(this[2] / 100 * 255);
-        if (this[1] == 0){
+        if (this[1] == 0) {
             return [br, br, br];
         } else {
             var hue = this[0] % 360;
@@ -8168,7 +8168,7 @@ Array.implement({
             var p = Math.round((this[2] * (100 - this[1])) / 10000 * 255);
             var q = Math.round((this[2] * (6000 - this[1] * f)) / 600000 * 255);
             var t = Math.round((this[2] * (6000 - this[1] * (60 - f))) / 600000 * 255);
-            switch (Math.floor(hue / 60)){
+            switch (Math.floor(hue / 60)) {
                 case 0: return [br, t, p];
                 case 1: return [q, br, p];
                 case 2: return [p, br, t];
@@ -8184,12 +8184,12 @@ Array.implement({
 
 String.implement({
 
-    rgbToHsb: function(){
+    rgbToHsb: function () {
         var rgb = this.match(/\d{1,3}/g);
         return (rgb) ? rgb.rgbToHsb() : null;
     },
 
-    hsbToRgb: function(){
+    hsbToRgb: function () {
         var hsb = this.match(/\d{1,3}/g);
         return (hsb) ? hsb.hsbToRgb() : null;
     }
@@ -8223,26 +8223,26 @@ provides: [Group]
 ...
 */
 
-(function(){
+(function () {
 
 this.Group = new Class({
 
-    initialize: function(){
+    initialize: function () {
         this.instances = Array.flatten(arguments);
     },
 
-    addEvent: function(type, fn){
+    addEvent: function (type, fn) {
         var instances = this.instances,
             len = instances.length,
             togo = len,
             args = new Array(len),
             self = this;
 
-        instances.each(function(instance, i){
-            instance.addEvent(type, function(){
+        instances.each(function (instance, i) {
+            instance.addEvent(type, function () {
                 if (!args[i]) togo--;
                 args[i] = arguments;
-                if (!togo){
+                if (!togo) {
                     fn.call(self, instances, instance, args);
                     togo = len;
                     args = new Array(len);
@@ -8290,12 +8290,12 @@ Hash.Cookie = new Class({
         autoSave: true
     },
 
-    initialize: function(name, options){
+    initialize: function (name, options) {
         this.parent(name, options);
         this.load();
     },
 
-    save: function(){
+    save: function () {
         var value = JSON.encode(this.hash);
         if (!value || value.length > 4096) return false; //cookie would be truncated!
         if (value == '{}') this.dispose();
@@ -8303,15 +8303,15 @@ Hash.Cookie = new Class({
         return true;
     },
 
-    load: function(){
+    load: function () {
         this.hash = new Hash(JSON.decode(this.read(), true));
         return this;
     }
 
 });
 
-Hash.each(Hash.prototype, function(method, name){
-    if (typeof method == 'function') Hash.Cookie.implement(name, function(){
+Hash.each(Hash.prototype, function (method, name) {
+    if (typeof method == 'function') Hash.Cookie.implement(name, function () {
         var value = method.apply(this.hash, arguments);
         if (this.options.autoSave) this.save();
         return value;
@@ -8331,17 +8331,17 @@ provides: [Table]
 ...
 */
 
-(function(){
+(function () {
 
-var Table = this.Table = function(){
+var Table = this.Table = function () {
 
     this.length = 0;
     var keys = [],
         values = [];
     
-    this.set = function(key, value){
+    this.set = function (key, value) {
         var index = keys.indexOf(key);
-        if (index == -1){
+        if (index == -1) {
             var length = keys.length;
             keys[length] = key;
             values[length] = value;
@@ -8352,14 +8352,14 @@ var Table = this.Table = function(){
         return this;
     };
 
-    this.get = function(key){
+    this.get = function (key) {
         var index = keys.indexOf(key);
         return (index == -1) ? null : values[index];
     };
 
-    this.erase = function(key){
+    this.erase = function (key) {
         var index = keys.indexOf(key);
-        if (index != -1){
+        if (index != -1) {
             this.length--;
             keys.splice(index, 1);
             return values.splice(index, 1)[0];
@@ -8367,7 +8367,7 @@ var Table = this.Table = function(){
         return null;
     };
 
-    this.each = this.forEach = function(fn, bind){
+    this.each = this.forEach = function (fn, bind) {
         for (var i = 0, l = this.length; i < l; i++) fn.call(bind, keys[i], values[i], this);
     };
     
@@ -8397,7 +8397,7 @@ provides: Swiff
 ...
 */
 
-(function(){
+(function () {
 
 var Swiff = this.Swiff = new Class({
 
@@ -8419,11 +8419,11 @@ var Swiff = this.Swiff = new Class({
         vars: {}
     },
 
-    toElement: function(){
+    toElement: function () {
         return this.object;
     },
 
-    initialize: function(path, options){
+    initialize: function (path, options) {
         this.instance = 'Swiff_' + String.uniqueID();
 
         this.setOptions(options);
@@ -8438,9 +8438,9 @@ var Swiff = this.Swiff = new Class({
 
         var self = this;
 
-        for (var callBack in callBacks){
-            Swiff.CallBacks[this.instance][callBack] = (function(option){
-                return function(){
+        for (var callBack in callBacks) {
+            Swiff.CallBacks[this.instance][callBack] = (function (option) {
+                return function () {
                     return option.apply(self.object, arguments);
                 };
             })(callBacks[callBack]);
@@ -8448,7 +8448,7 @@ var Swiff = this.Swiff = new Class({
         }
 
         params.flashVars = Object.toQueryString(vars);
-        if (Browser.ie){
+        if (Browser.ie) {
             properties.classid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
             params.movie = path;
         } else {
@@ -8459,25 +8459,25 @@ var Swiff = this.Swiff = new Class({
         var build = '<object id="' + id + '"';
         for (var property in properties) build += ' ' + property + '="' + properties[property] + '"';
         build += '>';
-        for (var param in params){
+        for (var param in params) {
             if (params[param]) build += '<param name="' + param + '" value="' + params[param] + '" />';
         }
         build += '</object>';
         this.object = ((container) ? container.empty() : new Element('div')).set('html', build).firstChild;
     },
 
-    replaces: function(element){
+    replaces: function (element) {
         element = document.id(element, true);
         element.parentNode.replaceChild(this.toElement(), element);
         return this;
     },
 
-    inject: function(element){
+    inject: function (element) {
         document.id(element, true).appendChild(this.toElement());
         return this;
     },
 
-    remote: function(){
+    remote: function () {
         return Swiff.remote.apply(Swiff, [this.toElement()].append(arguments));
     }
 
@@ -8485,7 +8485,7 @@ var Swiff = this.Swiff = new Class({
 
 Swiff.CallBacks = {};
 
-Swiff.remote = function(obj, fn){
+Swiff.remote = function (obj, fn) {
     var rs = obj.CallFunction('<invoke name="' + fn + '" returntype="javascript">' + __flash__argumentsToXML(arguments, 2) + '</invoke>');
     return eval(rs);
 };
@@ -8534,7 +8534,7 @@ var HtmlTable = new Class({
 
     property: 'HtmlTable',
 
-    initialize: function(){
+    initialize: function () {
         var params = Array.link(arguments, {options: Type.isObject, table: Type.isElement, id: Type.isString});
         this.setOptions(params.options);
         if (!params.table && params.id) params.table = document.id(params.id);
@@ -8543,7 +8543,7 @@ var HtmlTable = new Class({
         this.build();
     },
 
-    build: function(){
+    build: function () {
         this.element.store('HtmlTable', this);
 
         this.body = document.id(this.element.tBodies[0]) || new Element('tbody').inject(this.element);
@@ -8558,21 +8558,21 @@ var HtmlTable = new Class({
         this.tfoot = document.id(this.element.tFoot);
         if (this.tfoot) this.foot = document.id(this.tfoot.rows[0]);
 
-        this.options.rows.each(function(row){
+        this.options.rows.each(function (row) {
             this.push(row);
         }, this);
     },
 
-    toElement: function(){
+    toElement: function () {
         return this.element;
     },
 
-    empty: function(){
+    empty: function () {
         this.body.empty();
         return this;
     },
 
-    set: function(what, items){
+    set: function (what, items) {
         var target = (what == 'headers') ? 'tHead' : 'tFoot',
             lower = target.toLowerCase();
 
@@ -8585,25 +8585,25 @@ var HtmlTable = new Class({
         return data;
     },
 
-    getHead: function(){
+    getHead: function () {
         var rows = this.thead.rows;
         return rows.length > 1 ? $$(rows) : rows.length ? document.id(rows[0]) : false;
     },
 
-    setHeaders: function(headers){
+    setHeaders: function (headers) {
         this.set('headers', headers);
         return this;
     },
 
-    setFooters: function(footers){
+    setFooters: function (footers) {
         this.set('footers', footers);
         return this;
     },
 
-    update: function(tr, row, tag){
+    update: function (tr, row, tag) {
         var tds = tr.getChildren(tag || 'td'), last = tds.length - 1;
 
-        row.each(function(data, index){
+        row.each(function (data, index) {
             var td = tds[index] || new Element(tag || 'td').inject(tr),
                 content = (data ? data.content : '') || data,
                 type = typeOf(content);
@@ -8622,8 +8622,8 @@ var HtmlTable = new Class({
         };
     },
 
-    push: function(row, rowProperties, target, tag, where){
-        if (typeOf(row) == 'element' && row.get('tag') == 'tr'){
+    push: function (row, rowProperties, target, tag, where) {
+        if (typeOf(row) == 'element' && row.get('tag') == 'tr') {
             row.inject(target || this.body, where);
             return {
                 tr: row,
@@ -8633,8 +8633,8 @@ var HtmlTable = new Class({
         return this.update(new Element('tr', rowProperties).inject(target || this.body, where), row, tag);
     },
 
-    pushMany: function(rows, rowProperties, target, tag, where){
-        return rows.map(function(row){
+    pushMany: function (rows, rowProperties, target, tag, where) {
+        return rows.map(function (row) {
             return this.push(row, rowProperties, target, tag, where);
         }, this);
     }
@@ -8642,8 +8642,8 @@ var HtmlTable = new Class({
 });
 
 
-['adopt', 'inject', 'wraps', 'grab', 'replaces', 'dispose'].each(function(method){
-    HtmlTable.implement(method, function(){
+['adopt', 'inject', 'wraps', 'grab', 'replaces', 'dispose'].each(function (method) {
+    HtmlTable.implement(method, function () {
         this.element[method].apply(this.element, arguments);
         return this;
     });
@@ -8685,31 +8685,31 @@ HtmlTable = Class.refactor(HtmlTable, {
         zebraOnlyVisibleRows: true
     },
 
-    initialize: function(){
+    initialize: function () {
         this.previous.apply(this, arguments);
         if (this.occluded) return this.occluded;
         if (this.options.zebra) this.updateZebras();
     },
 
-    updateZebras: function(){
+    updateZebras: function () {
         var index = 0;
-        Array.each(this.body.rows, function(row){
-            if (!this.options.zebraOnlyVisibleRows || row.isDisplayed()){
+        Array.each(this.body.rows, function (row) {
+            if (!this.options.zebraOnlyVisibleRows || row.isDisplayed()) {
                 this.zebra(row, index++);
             }
         }, this);
     },
 
-    setRowStyle: function(row, i){
+    setRowStyle: function (row, i) {
         if (this.previous) this.previous(row, i);
         this.zebra(row, i);
     },
 
-    zebra: function(row, i){
+    zebra: function (row, i) {
         return row[((i % 2) ? 'remove' : 'add')+'Class'](this.options.classZebra);
     },
 
-    push: function(){
+    push: function () {
         var pushed = this.previous.apply(this, arguments);
         if (this.options.zebra) this.updateZebras();
         return pushed;
@@ -8750,7 +8750,7 @@ provides: [HtmlTable.Sort]
 HtmlTable = Class.refactor(HtmlTable, {
 
     options: {/*
-        onSort: function(){}, */
+        onSort: function () {}, */
         sortIndex: 0,
         sortReverse: false,
         parsers: [],
@@ -8767,42 +8767,42 @@ HtmlTable = Class.refactor(HtmlTable, {
         thSelector: 'th'
     },
 
-    initialize: function (){
+    initialize: function () {
         this.previous.apply(this, arguments);
         if (this.occluded) return this.occluded;
         this.sorted = {index: null, dir: 1};
         if (!this.bound) this.bound = {};
         this.bound.headClick = this.headClick.bind(this);
         this.sortSpans = new Elements();
-        if (this.options.sortable){
+        if (this.options.sortable) {
             this.enableSort();
             if (this.options.sortIndex != null) this.sort(this.options.sortIndex, this.options.sortReverse);
         }
     },
 
-    attachSorts: function(attach){
+    attachSorts: function (attach) {
         this.detachSorts();
         if (attach !== false) this.element.addEvent('click:relay(' + this.options.thSelector + ')', this.bound.headClick);
     },
 
-    detachSorts: function(){
+    detachSorts: function () {
         this.element.removeEvents('click:relay(' + this.options.thSelector + ')');
     },
 
-    setHeaders: function(){
+    setHeaders: function () {
         this.previous.apply(this, arguments);
         if (this.sortEnabled) this.setParsers();
     },
 
-    setParsers: function(){
+    setParsers: function () {
         this.parsers = this.detectParsers();
     },
 
-    detectParsers: function(){
+    detectParsers: function () {
         return this.head && this.head.getElements(this.options.thSelector).flatten().map(this.detectParser, this);
     },
 
-    detectParser: function(cell, index){
+    detectParser: function (cell, index) {
         if (cell.hasClass(this.options.classNoSort) || cell.retrieve('htmltable-parser')) return cell.retrieve('htmltable-parser');
         var thDiv = new Element('div');
         thDiv.adopt(cell.childNodes).inject(cell);
@@ -8811,19 +8811,19 @@ HtmlTable = Class.refactor(HtmlTable, {
         var parser = this.options.parsers[index],
             rows = this.body.rows,
             cancel;
-        switch (typeOf(parser)){
+        switch (typeOf(parser)) {
             case 'function': parser = {convert: parser}; cancel = true; break;
             case 'string': parser = parser; cancel = true; break;
         }
-        if (!cancel){
-            HtmlTable.ParserPriority.some(function(parserName){
+        if (!cancel) {
+            HtmlTable.ParserPriority.some(function (parserName) {
                 var current = HtmlTable.Parsers[parserName],
                     match = current.match;
                 if (!match) return false;
-                for (var i = 0, j = rows.length; i < j; i++){
+                for (var i = 0, j = rows.length; i < j; i++) {
                     var cell = document.id(rows[i].cells[index]),
                         text = cell ? cell.get('html').clean() : '';
-                    if (text && match.test(text)){
+                    if (text && match.test(text)) {
                         parser = current;
                         return true;
                     }
@@ -8835,28 +8835,28 @@ HtmlTable = Class.refactor(HtmlTable, {
         return parser;
     },
 
-    headClick: function(event, el){
+    headClick: function (event, el) {
         if (!this.head || el.hasClass(this.options.classNoSort)) return;
         return this.sort(Array.indexOf(this.head.getElements(this.options.thSelector).flatten(), el) % this.body.rows[0].cells.length);
     },
 
-    serialize: function(){
+    serialize: function () {
         var previousSerialization = this.previous.apply(this, arguments) || {};
-        if (this.options.sortable){
+        if (this.options.sortable) {
             previousSerialization.sortIndex = this.sorted.index;
             previousSerialization.sortReverse = this.sorted.reverse;
         }
         return previousSerialization;
     },
 
-    restore: function(tableState){
-        if(this.options.sortable && tableState.sortIndex){
+    restore: function (tableState) {
+        if (this.options.sortable && tableState.sortIndex) {
             this.sort(tableState.sortIndex, tableState.sortReverse);
         }
         this.previous.apply(this, arguments);
     },
 
-    setSortedState: function(index, reverse){
+    setSortedState: function (index, reverse) {
         if (reverse != null) this.sorted.reverse = reverse;
         else if (this.sorted.index == index) this.sorted.reverse = !this.sorted.reverse;
         else this.sorted.reverse = this.sorted.index == null;
@@ -8864,12 +8864,12 @@ HtmlTable = Class.refactor(HtmlTable, {
         if (index != null) this.sorted.index = index;
     },
 
-    setHeadSort: function(sorted){
-        var head = $$(!this.head.length ? this.head.cells[this.sorted.index] : this.head.map(function(row){
+    setHeadSort: function (sorted) {
+        var head = $$(!this.head.length ? this.head.cells[this.sorted.index] : this.head.map(function (row) {
             return row.getElements(this.options.thSelector)[this.sorted.index];
         }, this).clean());
         if (!head.length) return;
-        if (sorted){
+        if (sorted) {
             head.addClass(this.options.classHeadSort);
             if (this.sorted.reverse) head.addClass(this.options.classHeadSortRev);
             else head.removeClass(this.options.classHeadSortRev);
@@ -8878,50 +8878,50 @@ HtmlTable = Class.refactor(HtmlTable, {
         }
     },
 
-    setRowSort: function(data, pre){
+    setRowSort: function (data, pre) {
         var count = data.length,
             body = this.body,
             group,
             rowIndex;
 
-        while (count){
+        while (count) {
             var item = data[--count],
                 position = item.position,
                 row = body.rows[position];
 
             if (row.disabled) continue;
-            if (!pre){
+            if (!pre) {
                 group = this.setGroupSort(group, row, item);
                 this.setRowStyle(row, count);
             }
             body.appendChild(row);
 
-            for (rowIndex = 0; rowIndex < count; rowIndex++){
+            for (rowIndex = 0; rowIndex < count; rowIndex++) {
                 if (data[rowIndex].position > position) data[rowIndex].position--;
             }
         }
     },
 
-    setRowStyle: function(row, i){
+    setRowStyle: function (row, i) {
         this.previous(row, i);
         row.cells[this.sorted.index].addClass(this.options.classCellSort);
     },
 
-    setGroupSort: function(group, row, item){
+    setGroupSort: function (group, row, item) {
         if (group == item.value) row.removeClass(this.options.classGroupHead).addClass(this.options.classGroup);
         else row.removeClass(this.options.classGroup).addClass(this.options.classGroupHead);
         return item.value;
     },
 
-    getParser: function(){
+    getParser: function () {
         var parser = this.parsers[this.sorted.index];
         return typeOf(parser) == 'string' ? HtmlTable.Parsers[parser] : parser;
     },
 
-    sort: function(index, reverse, pre){
+    sort: function (index, reverse, pre) {
         if (!this.head) return;
 
-        if (!pre){
+        if (!pre) {
             this.clearSort();
             this.setSortedState(index, reverse);
             this.setHeadSort(true);
@@ -8931,12 +8931,12 @@ HtmlTable = Class.refactor(HtmlTable, {
         if (!parser) return;
 
         var rel;
-        if (!Browser.ie){
+        if (!Browser.ie) {
             rel = this.body.getParent();
             this.body.dispose();
         }
 
-        var data = this.parseData(parser).sort(function(a, b){
+        var data = this.parseData(parser).sort(function (a, b) {
             if (a.value === b.value) return 0;
             return a.value > b.value ? 1 : -1;
         });
@@ -8949,8 +8949,8 @@ HtmlTable = Class.refactor(HtmlTable, {
         return this.fireEvent('sort', [this.body, this.sorted.index]);
     },
 
-    parseData: function(parser){
-        return Array.map(this.body.rows, function(row, i){
+    parseData: function (parser) {
+        return Array.map(this.body.rows, function (row, i) {
             var value = parser.convert.call(document.id(row.cells[this.sorted.index]));
             return {
                 position: i,
@@ -8959,17 +8959,17 @@ HtmlTable = Class.refactor(HtmlTable, {
         }, this);
     },
 
-    clearSort: function(){
+    clearSort: function () {
         this.setHeadSort(false);
         this.body.getElements('td').removeClass(this.options.classCellSort);
     },
 
-    reSort: function(){
+    reSort: function () {
         if (this.sortEnabled) this.sort.call(this, this.sorted.index, this.sorted.reverse);
         return this;
     },
 
-    enableSort: function(){
+    enableSort: function () {
         this.element.addClass(this.options.classSortable);
         this.attachSorts(true);
         this.setParsers();
@@ -8977,10 +8977,10 @@ HtmlTable = Class.refactor(HtmlTable, {
         return this;
     },
 
-    disableSort: function(){
+    disableSort: function () {
         this.element.removeClass(this.options.classSortable);
         this.attachSorts(false);
-        this.sortSpans.each(function(span){
+        this.sortSpans.each(function (span) {
             span.destroy();
         });
         this.sortSpans.empty();
@@ -8996,7 +8996,7 @@ HtmlTable.Parsers = {
 
     'date': {
         match: /^\d{2}[-\/ ]\d{2}[-\/ ]\d{2,4}$/,
-        convert: function(){
+        convert: function () {
             var d = Date.parse(this.get('text').stripTags());
             return (typeOf(d) == 'date') ? d.format('db') : '';
         },
@@ -9004,53 +9004,53 @@ HtmlTable.Parsers = {
     },
     'input-checked': {
         match: / type="(radio|checkbox)" /,
-        convert: function(){
+        convert: function () {
             return this.getElement('input').checked;
         }
     },
     'input-value': {
         match: /<input/,
-        convert: function(){
+        convert: function () {
             return this.getElement('input').value;
         }
     },
     'number': {
         match: /^\d+[^\d.,]*$/,
-        convert: function(){
+        convert: function () {
             return this.get('text').stripTags().toInt();
         },
         number: true
     },
     'numberLax': {
         match: /^[^\d]+\d+$/,
-        convert: function(){
+        convert: function () {
             return this.get('text').replace(/[^-?^0-9]/, '').stripTags().toInt();
         },
         number: true
     },
     'float': {
         match: /^[\d]+\.[\d]+/,
-        convert: function(){
+        convert: function () {
             return this.get('text').replace(/[^-?^\d.]/, '').stripTags().toFloat();
         },
         number: true
     },
     'floatLax': {
         match: /^[^\d]+[\d]+\.[\d]+$/,
-        convert: function(){
+        convert: function () {
             return this.get('text').replace(/[^-?^\d.]/, '').stripTags();
         },
         number: true
     },
     'string': {
         match: null,
-        convert: function(){
+        convert: function () {
             return this.get('text').stripTags().toLowerCase();
         }
     },
     'title': {
         match: null,
-        convert: function(){
+        convert: function () {
             return this.title;
         }
     }
@@ -9061,9 +9061,9 @@ HtmlTable.Parsers = {
 HtmlTable.Parsers = new Hash(HtmlTable.Parsers);
 //</1.2compat>
 
-HtmlTable.defineParsers = function(parsers){
+HtmlTable.defineParsers = function (parsers) {
     HtmlTable.Parsers = Object.append(HtmlTable.Parsers, parsers);
-    for (var parser in parsers){
+    for (var parser in parsers) {
         HtmlTable.ParserPriority.unshift(parser);
     }
 };
@@ -9096,7 +9096,7 @@ provides: [Keyboard]
 ...
 */
 
-(function(){
+(function () {
 
     var Keyboard = this.Keyboard = new Class({
 
@@ -9105,8 +9105,8 @@ provides: [Keyboard]
         Implements: [Options],
 
         options: {/*
-            onActivate: function(){},
-            onDeactivate: function(){},*/
+            onActivate: function () {},
+            onDeactivate: function () {},*/
             defaultEventType: 'keydown',
             active: false,
             manager: null,
@@ -9114,8 +9114,8 @@ provides: [Keyboard]
             nonParsedEvents: ['activate', 'deactivate', 'onactivate', 'ondeactivate', 'changed', 'onchanged']
         },
 
-        initialize: function(options){
-            if (options && options.manager){
+        initialize: function (options) {
+            if (options && options.manager) {
                 this._manager = options.manager;
                 delete options.manager;
             }
@@ -9123,61 +9123,61 @@ provides: [Keyboard]
             this._setup();
         },
 
-        addEvent: function(type, fn, internal){
+        addEvent: function (type, fn, internal) {
             return this.parent(Keyboard.parse(type, this.options.defaultEventType, this.options.nonParsedEvents), fn, internal);
         },
 
-        removeEvent: function(type, fn){
+        removeEvent: function (type, fn) {
             return this.parent(Keyboard.parse(type, this.options.defaultEventType, this.options.nonParsedEvents), fn);
         },
 
-        toggleActive: function(){
+        toggleActive: function () {
             return this[this.isActive() ? 'deactivate' : 'activate']();
         },
 
-        activate: function(instance){
-            if (instance){
+        activate: function (instance) {
+            if (instance) {
                 if (instance.isActive()) return this;
                 //if we're stealing focus, store the last keyboard to have it so the relinquish command works
-                if (this._activeKB && instance != this._activeKB){
+                if (this._activeKB && instance != this._activeKB) {
                     this.previous = this._activeKB;
                     this.previous.fireEvent('deactivate');
                 }
                 //if we're enabling a child, assign it so that events are now passed to it
                 this._activeKB = instance.fireEvent('activate');
                 Keyboard.manager.fireEvent('changed');
-            } else if (this._manager){
+            } else if (this._manager) {
                 //else we're enabling ourselves, we must ask our parent to do it for us
                 this._manager.activate(this);
             }
             return this;
         },
 
-        isActive: function(){
+        isActive: function () {
             return this._manager ? (this._manager._activeKB == this) : (Keyboard.manager == this);
         },
 
-        deactivate: function(instance){
-            if (instance){
-                if (instance === this._activeKB){
+        deactivate: function (instance) {
+            if (instance) {
+                if (instance === this._activeKB) {
                     this._activeKB = null;
                     instance.fireEvent('deactivate');
                     Keyboard.manager.fireEvent('changed');
                 }
-            } else if (this._manager){
+            } else if (this._manager) {
                 this._manager.deactivate(this);
             }
             return this;
         },
 
-        relinquish: function(){
+        relinquish: function () {
             if (this.isActive() && this._manager && this._manager.previous) this._manager.activate(this._manager.previous);
             else this.deactivate();
             return this;
         },
 
         //management logic
-        manage: function(instance){
+        manage: function (instance) {
             if (instance._manager) instance._manager.drop(instance);
             this._instances.push(instance);
             instance._manager = this;
@@ -9185,21 +9185,21 @@ provides: [Keyboard]
             return this;
         },
 
-        drop: function(instance){
+        drop: function (instance) {
             instance.relinquish();
             this._instances.erase(instance);
-            if (this._activeKB == instance){
+            if (this._activeKB == instance) {
                 if (this.previous && this._instances.contains(this.previous)) this.activate(this.previous);
                 else this._activeKB = this._instances[0];
             }
             return this;
         },
 
-        trace: function(){
+        trace: function () {
             Keyboard.trace(this);
         },
 
-        each: function(fn){
+        each: function (fn) {
             Keyboard.each(this, fn);
         },
 
@@ -9209,11 +9209,11 @@ provides: [Keyboard]
 
         _instances: [],
 
-        _disable: function(instance){
+        _disable: function (instance) {
             if (this._activeKB == instance) this._activeKB = null;
         },
 
-        _setup: function(){
+        _setup: function () {
             this.addEvents(this.options.events);
             //if this is the root manager, nothing manages it
             if (Keyboard.manager && !this._manager) Keyboard.manager.manage(this);
@@ -9221,12 +9221,12 @@ provides: [Keyboard]
             else this.relinquish();
         },
 
-        _handle: function(event, type){
+        _handle: function (event, type) {
             //Keyboard.stop(event) prevents key propagation
             if (event.preventKeyboardPropagation) return;
 
             var bubbles = !!this._manager;
-            if (bubbles && this._activeKB){
+            if (bubbles && this._activeKB) {
                 this._activeKB._handle(event, type);
                 if (event.preventKeyboardPropagation) return;
             }
@@ -9241,17 +9241,17 @@ provides: [Keyboard]
     var modifiers = ['shift', 'control', 'alt', 'meta'];
     var regex = /^(?:shift|control|ctrl|alt|meta)$/;
 
-    Keyboard.parse = function(type, eventType, ignore){
+    Keyboard.parse = function (type, eventType, ignore) {
         if (ignore && ignore.contains(type.toLowerCase())) return type;
 
-        type = type.toLowerCase().replace(/^(keyup|keydown):/, function($0, $1){
+        type = type.toLowerCase().replace(/^(keyup|keydown):/, function ($0, $1) {
             eventType = $1;
             return '';
         });
 
-        if (!parsed[type]){
+        if (!parsed[type]) {
             var key, mods = {};
-            type.split('+').each(function(part){
+            type.split('+').each(function (part) {
                 if (regex.test(part)) mods[part] = true;
                 else key = part;
             });
@@ -9259,7 +9259,7 @@ provides: [Keyboard]
             mods.control = mods.control || mods.ctrl; // allow both control and ctrl
 
             var keys = [];
-            modifiers.each(function(mod){
+            modifiers.each(function (mod) {
                 if (mods[mod]) keys.push(mod);
             });
 
@@ -9270,15 +9270,15 @@ provides: [Keyboard]
         return eventType + ':keys(' + parsed[type] + ')';
     };
 
-    Keyboard.each = function(keyboard, fn){
+    Keyboard.each = function (keyboard, fn) {
         var current = keyboard || Keyboard.manager;
-        while (current){
+        while (current) {
             fn(current);
             current = current._activeKB;
         }
     };
 
-    Keyboard.stop = function(event){
+    Keyboard.stop = function (event) {
         event.preventKeyboardPropagation = true;
     };
 
@@ -9286,18 +9286,18 @@ provides: [Keyboard]
         active: true
     });
 
-    Keyboard.trace = function(keyboard){
+    Keyboard.trace = function (keyboard) {
         keyboard = keyboard || Keyboard.manager;
         var hasConsole = window.console && console.log;
         if (hasConsole) console.log('the following items have focus: ');
-        Keyboard.each(keyboard, function(current){
+        Keyboard.each(keyboard, function (current) {
             if (hasConsole) console.log(document.id(current.widget) || current.wiget || current);
         });
     };
 
-    var handler = function(event){
+    var handler = function (event) {
         var keys = [];
-        modifiers.each(function(mod){
+        modifiers.each(function (mod) {
             if (event[mod]) keys.push(mod);
         });
 
@@ -9344,10 +9344,10 @@ Keyboard.implement({
         {
             'keys': 'shift+s', // the default to add as an event.
             'description': 'blah blah blah', // a brief description of the functionality.
-            'handler': function(){} // the event handler to run when keys are pressed.
+            'handler': function () {} // the event handler to run when keys are pressed.
         }
     */
-    addShortcut: function(name, shortcut){
+    addShortcut: function (name, shortcut) {
         this._shortcuts = this._shortcuts || [];
         this._shortcutIndex = this._shortcutIndex || {};
 
@@ -9359,14 +9359,14 @@ Keyboard.implement({
         return this;
     },
 
-    addShortcuts: function(obj){
+    addShortcuts: function (obj) {
         for (var name in obj) this.addShortcut(name, obj[name]);
         return this;
     },
 
-    removeShortcut: function(name){
+    removeShortcut: function (name) {
         var shortcut = this.getShortcut(name);
-        if (shortcut && shortcut.keys){
+        if (shortcut && shortcut.keys) {
             this.removeEvent(shortcut.keys, shortcut.handler);
             delete this._shortcutIndex[name];
             this._shortcuts.erase(shortcut);
@@ -9374,23 +9374,23 @@ Keyboard.implement({
         return this;
     },
 
-    removeShortcuts: function(names){
+    removeShortcuts: function (names) {
         names.each(this.removeShortcut, this);
         return this;
     },
 
-    getShortcuts: function(){
+    getShortcuts: function () {
         return this._shortcuts || [];
     },
 
-    getShortcut: function(name){
+    getShortcut: function (name) {
         return (this._shortcutIndex || {})[name];
     }
 
 });
 
-Keyboard.rebind = function(newKeys, shortcuts){
-    Array.from(shortcuts).each(function(shortcut){
+Keyboard.rebind = function (newKeys, shortcuts) {
+    Array.from(shortcuts).each(function (shortcut) {
         shortcut.getKeyboard().removeEvent(shortcut.keys, shortcut.handler);
         shortcut.getKeyboard().addEvent(newKeys, shortcut.handler);
         shortcut.keys = newKeys;
@@ -9399,27 +9399,27 @@ Keyboard.rebind = function(newKeys, shortcuts){
 };
 
 
-Keyboard.getActiveShortcuts = function(keyboard){
+Keyboard.getActiveShortcuts = function (keyboard) {
     var activeKBS = [], activeSCS = [];
     Keyboard.each(keyboard, [].push.bind(activeKBS));
-    activeKBS.each(function(kb){ activeSCS.extend(kb.getShortcuts()); });
+    activeKBS.each(function (kb) { activeSCS.extend(kb.getShortcuts()); });
     return activeSCS;
 };
 
-Keyboard.getShortcut = function(name, keyboard, opts){
+Keyboard.getShortcut = function (name, keyboard, opts) {
     opts = opts || {};
     var shortcuts = opts.many ? [] : null,
-        set = opts.many ? function(kb){
+        set = opts.many ? function (kb) {
                 var shortcut = kb.getShortcut(name);
                 if (shortcut) shortcuts.push(shortcut);
-            } : function(kb){
+            } : function (kb) {
                 if (!shortcuts) shortcuts = kb.getShortcut(name);
             };
     Keyboard.each(keyboard, set);
     return shortcuts;
 };
 
-Keyboard.getShortcuts = function(name, keyboard){
+Keyboard.getShortcuts = function (name, keyboard) {
     return Keyboard.getShortcut(name, keyboard, { many: true });
 };
 
@@ -9455,8 +9455,8 @@ provides: [HtmlTable.Select]
 HtmlTable = Class.refactor(HtmlTable, {
 
     options: {
-        /*onRowFocus: function(){},
-        onRowUnfocus: function(){},*/
+        /*onRowFocus: function () {},
+        onRowUnfocus: function () {},*/
         useKeyboard: true,
         classRowSelected: 'table-tr-selected',
         classRowHovered: 'table-tr-hovered',
@@ -9467,7 +9467,7 @@ HtmlTable = Class.refactor(HtmlTable, {
         selectHiddenRows: false
     },
 
-    initialize: function(){
+    initialize: function () {
         this.previous.apply(this, arguments);
         if (this.occluded) return this.occluded;
 
@@ -9476,49 +9476,49 @@ HtmlTable = Class.refactor(HtmlTable, {
         if (!this.bound) this.bound = {};
         this.bound.mouseleave = this.mouseleave.bind(this);
         this.bound.clickRow = this.clickRow.bind(this);
-        this.bound.activateKeyboard = function(){
+        this.bound.activateKeyboard = function () {
             if (this.keyboard && this.selectEnabled) this.keyboard.activate();
         }.bind(this);
 
         if (this.options.selectable) this.enableSelect();
     },
 
-    empty: function(){
+    empty: function () {
         if (this.body.rows.length) this.selectNone();
         return this.previous();
     },
 
-    enableSelect: function(){
+    enableSelect: function () {
         this.selectEnabled = true;
         this.attachSelects();
         this.element.addClass(this.options.classSelectable);
         return this;
     },
 
-    disableSelect: function(){
+    disableSelect: function () {
         this.selectEnabled = false;
         this.attachSelects(false);
         this.element.removeClass(this.options.classSelectable);
         return this;
     },
 
-    push: function(){
+    push: function () {
         var ret = this.previous.apply(this, arguments);
         this.updateSelects();
         return ret;
     },
 
-    toggleRow: function(row){
+    toggleRow: function (row) {
         return this[(this.isSelected(row) ? 'de' : '') + 'selectRow'](row);
     },
 
-    selectRow: function(row, _nocheck){
+    selectRow: function (row, _nocheck) {
         //private variable _nocheck: boolean whether or not to confirm the row is in the table body
         //added here for optimization when selecting ranges
         if (this.isSelected(row) || (!_nocheck && !this.body.getChildren().contains(row))) return;
         if (!this.options.allowMultiSelect) this.selectNone();
 
-        if (!this.isSelected(row)){
+        if (!this.isSelected(row)) {
             this.selectedRows.push(row);
             row.addClass(this.options.classRowSelected);
             this.fireEvent('rowFocus', [row, this.selectedRows]);
@@ -9531,38 +9531,38 @@ HtmlTable = Class.refactor(HtmlTable, {
         return this;
     },
 
-    isSelected: function(row){
+    isSelected: function (row) {
         return this.selectedRows.contains(row);
     },
 
-    getSelected: function(){
+    getSelected: function () {
         return this.selectedRows;
     },
 
-    getSelected: function(){
+    getSelected: function () {
         return this.selectedRows;
     },
 
-    serialize: function(){
+    serialize: function () {
         var previousSerialization = this.previous.apply(this, arguments) || {};
-        if (this.options.selectable){
-            previousSerialization.selectedRows = this.selectedRows.map(function(row){
+        if (this.options.selectable) {
+            previousSerialization.selectedRows = this.selectedRows.map(function (row) {
                 return Array.indexOf(this.body.rows, row);
             }.bind(this));
         }
         return previousSerialization;
     },
 
-    restore: function(tableState){
-        if(this.options.selectable && tableState.selectedRows){
-            tableState.selectedRows.each(function(index){
+    restore: function (tableState) {
+        if (this.options.selectable && tableState.selectedRows) {
+            tableState.selectedRows.each(function (index) {
                 this.selectRow(this.body.rows[index]);
             }.bind(this));
         }
         this.previous.apply(this, arguments);
     },
 
-    deselectRow: function(row, _nocheck){
+    deselectRow: function (row, _nocheck) {
         if (!this.isSelected(row) || (!_nocheck && !this.body.getChildren().contains(row))) return;
 
         this.selectedRows = new Elements(Array.from(this.selectedRows).erase(row));
@@ -9572,17 +9572,17 @@ HtmlTable = Class.refactor(HtmlTable, {
         return this;
     },
 
-    selectAll: function(selectNone){
+    selectAll: function (selectNone) {
         if (!selectNone && !this.options.allowMultiSelect) return;
         this.selectRange(0, this.body.rows.length, selectNone);
         return this;
     },
 
-    selectNone: function(){
+    selectNone: function () {
         return this.selectAll(true);
     },
 
-    selectRange: function(startRow, endRow, _deselect){
+    selectRange: function (startRow, endRow, _deselect) {
         if (!this.options.allowMultiSelect && !_deselect) return;
         var method = _deselect ? 'deselectRow' : 'selectRow',
             rows = Array.clone(this.body.rows);
@@ -9591,24 +9591,24 @@ HtmlTable = Class.refactor(HtmlTable, {
         if (typeOf(endRow) == 'element') endRow = rows.indexOf(endRow);
         endRow = endRow < rows.length - 1 ? endRow : rows.length - 1;
 
-        if (endRow < startRow){
+        if (endRow < startRow) {
             var tmp = startRow;
             startRow = endRow;
             endRow = tmp;
         }
 
-        for (var i = startRow; i <= endRow; i++){
+        for (var i = startRow; i <= endRow; i++) {
             if (this.options.selectHiddenRows || rows[i].isDisplayed()) this[method](rows[i], true);
         }
 
         return this;
     },
 
-    deselectRange: function(startRow, endRow){
+    deselectRange: function (startRow, endRow) {
         this.selectRange(startRow, endRow, true);
     },
 
-    getSelected: function(){
+    getSelected: function () {
         return this.selectedRows;
     },
 
@@ -9616,20 +9616,20 @@ HtmlTable = Class.refactor(HtmlTable, {
     Private methods:
 */
 
-    enterRow: function(row){
+    enterRow: function (row) {
         if (this.hovered) this.hovered = this.leaveRow(this.hovered);
         this.hovered = row.addClass(this.options.classRowHovered);
     },
 
-    leaveRow: function(row){
+    leaveRow: function (row) {
         row.removeClass(this.options.classRowHovered);
     },
 
-    updateSelects: function(){
-        Array.each(this.body.rows, function(row){
+    updateSelects: function () {
+        Array.each(this.body.rows, function (row) {
             var binders = row.retrieve('binders');
             if (!binders && !this.selectEnabled) return;
-            if (!binders){
+            if (!binders) {
                 binders = {
                     mouseenter: this.enterRow.pass([row], this),
                     mouseleave: this.leaveRow.pass([row], this)
@@ -9641,42 +9641,42 @@ HtmlTable = Class.refactor(HtmlTable, {
         }, this);
     },
 
-    shiftFocus: function(offset, event){
+    shiftFocus: function (offset, event) {
         if (!this.focused) return this.selectRow(this.body.rows[0], event);
         var to = this.getRowByOffset(offset, this.options.selectHiddenRows);
         if (to === null || this.focused == this.body.rows[to]) return this;
         this.toggleRow(this.body.rows[to], event);
     },
 
-    clickRow: function(event, row){
+    clickRow: function (event, row) {
         var selecting = (event.shift || event.meta || event.control) && this.options.shiftForMultiSelect;
         if (!selecting && !(event.rightClick && this.isSelected(row) && this.options.allowMultiSelect)) this.selectNone();
 
         if (event.rightClick) this.selectRow(row);
         else this.toggleRow(row);
 
-        if (event.shift){
+        if (event.shift) {
             this.selectRange(this.rangeStart || this.body.rows[0], row, this.rangeStart ? !this.isSelected(row) : true);
             this.focused = row;
         }
         this.rangeStart = row;
     },
 
-    getRowByOffset: function(offset, includeHiddenRows){
+    getRowByOffset: function (offset, includeHiddenRows) {
         if (!this.focused) return 0;
         var index = Array.indexOf(this.body.rows, this.focused);
         if ((index == 0 && offset < 0) || (index == this.body.rows.length -1 && offset > 0)) return null;
-        if (includeHiddenRows){
+        if (includeHiddenRows) {
             index += offset;
         } else {
             var limit = 0,
                 count = 0;
-            if (offset > 0){
-                while (count < offset && index < this.body.rows.length -1){
+            if (offset > 0) {
+                while (count < offset && index < this.body.rows.length -1) {
                     if (this.body.rows[++index].isDisplayed()) count++;
                 }
             } else {
-                while (count > offset && index > 0){
+                while (count > offset && index > 0) {
                     if (this.body.rows[--index].isDisplayed()) count--;
                 }
             }
@@ -9684,7 +9684,7 @@ HtmlTable = Class.refactor(HtmlTable, {
         return index;
     },
 
-    attachSelects: function(attach){
+    attachSelects: function (attach) {
         attach = attach != null ? attach : true;
 
         var method = attach ? 'addEvents' : 'removeEvents';
@@ -9698,31 +9698,31 @@ HtmlTable = Class.refactor(HtmlTable, {
             'contextmenu:relay(tr)': this.bound.clickRow
         });
 
-        if (this.options.useKeyboard || this.keyboard){
+        if (this.options.useKeyboard || this.keyboard) {
             if (!this.keyboard) this.keyboard = new Keyboard();
-            if (!this.selectKeysDefined){
+            if (!this.selectKeysDefined) {
                 this.selectKeysDefined = true;
                 var timer, held;
 
-                var move = function(offset){
-                    var mover = function(e){
+                var move = function (offset) {
+                    var mover = function (e) {
                         clearTimeout(timer);
                         e.preventDefault();
                         var to = this.body.rows[this.getRowByOffset(offset, this.options.selectHiddenRows)];
-                        if (e.shift && to && this.isSelected(to)){
+                        if (e.shift && to && this.isSelected(to)) {
                             this.deselectRow(this.focused);
                             this.focused = to;
                         } else {
-                            if (to && (!this.options.allowMultiSelect || !e.shift)){
+                            if (to && (!this.options.allowMultiSelect || !e.shift)) {
                                 this.selectNone();
                             }
                             this.shiftFocus(offset, e);
                         }
 
-                        if (held){
+                        if (held) {
                             timer = mover.delay(100, this, e);
                         } else {
-                            timer = (function(){
+                            timer = (function () {
                                 held = true;
                                 mover(e);
                             }).delay(400);
@@ -9731,7 +9731,7 @@ HtmlTable = Class.refactor(HtmlTable, {
                     return mover;
                 }.bind(this);
 
-                var clear = function(){
+                var clear = function () {
                     clearTimeout(timer);
                     held = false;
                 };
@@ -9746,7 +9746,7 @@ HtmlTable = Class.refactor(HtmlTable, {
                 });
 
                 var shiftHint = '';
-                if (this.options.allowMultiSelect && this.options.shiftForMultiSelect && this.options.useKeyboard){
+                if (this.options.allowMultiSelect && this.options.shiftForMultiSelect && this.options.useKeyboard) {
                     shiftHint = " (Shift multi-selects).";
                 }
 
@@ -9771,7 +9771,7 @@ HtmlTable = Class.refactor(HtmlTable, {
         this.updateSelects();
     },
 
-    mouseleave: function(){
+    mouseleave: function () {
         if (this.hovered) this.leaveRow(this.hovered);
     }
 
@@ -9811,13 +9811,13 @@ var Scroller = new Class({
     options: {
         area: 20,
         velocity: 1,
-        onChange: function(x, y){
+        onChange: function (x, y) {
             this.element.scrollTo(x, y);
         },
         fps: 50
     },
 
-    initialize: function(element, options){
+    initialize: function (element, options) {
         this.setOptions(options);
         this.element = document.id(element);
         this.docBody = document.id(this.element.getDocument().body);
@@ -9830,7 +9830,7 @@ var Scroller = new Class({
         };
     },
 
-    start: function(){
+    start: function () {
         this.listener.addEvents({
             mouseover: this.bound.attach,
             mouseleave: this.bound.detach
@@ -9838,7 +9838,7 @@ var Scroller = new Class({
         return this;
     },
 
-    stop: function(){
+    stop: function () {
         this.listener.removeEvents({
             mouseover: this.bound.attach,
             mouseleave: this.bound.detach
@@ -9848,21 +9848,21 @@ var Scroller = new Class({
         return this;
     },
 
-    attach: function(){
+    attach: function () {
         this.listener.addEvent('mousemove', this.bound.getCoords);
     },
 
-    detach: function(){
+    detach: function () {
         this.listener.removeEvent('mousemove', this.bound.getCoords);
         this.timer = clearInterval(this.timer);
     },
 
-    getCoords: function(event){
+    getCoords: function (event) {
         this.page = (this.listener.get('tag') == 'body') ? event.client : event.page;
         if (!this.timer) this.timer = this.scroll.periodical(Math.round(1000 / this.options.fps), this);
     },
 
-    scroll: function(){
+    scroll: function () {
         var size = this.element.getSize(),
             scroll = this.element.getScroll(),
             pos = this.element != this.docBody ? this.element.getOffsets() : {x: 0, y:0},
@@ -9870,10 +9870,10 @@ var Scroller = new Class({
             change = {x: 0, y: 0},
             top = this.options.area.top || this.options.area,
             bottom = this.options.area.bottom || this.options.area;
-        for (var z in this.page){
-            if (this.page[z] < (top + pos[z]) && scroll[z] != 0){
+        for (var z in this.page) {
+            if (this.page[z] < (top + pos[z]) && scroll[z] != 0) {
                 change[z] = (this.page[z] - top - pos[z]) * this.options.velocity;
-            } else if (this.page[z] + bottom > (size[z] + pos[z]) && scroll[z] + size[z] != scrollSize[z]){
+            } else if (this.page[z] + bottom > (size[z] + pos[z]) && scroll[z] + size[z] != scrollSize[z]) {
                 change[z] = (this.page[z] - size[z] + bottom - pos[z]) * this.options.velocity;
             }
             change[z] = change[z].round();
@@ -9913,9 +9913,9 @@ provides: [Tips]
 ...
 */
 
-(function(){
+(function () {
 
-var read = function(option, element){
+var read = function (option, element) {
     return (option) ? (typeOf(option) == 'function' ? option(element) : element.get(option)) : '';
 };
 
@@ -9925,17 +9925,17 @@ this.Tips = new Class({
 
     options: {/*
         id: null,
-        onAttach: function(element){},
-        onDetach: function(element){},
-        onBound: function(coords){},*/
-        onShow: function(){
+        onAttach: function (element) {},
+        onDetach: function (element) {},
+        onBound: function (coords) {},*/
+        onShow: function () {
             this.tip.setStyle('display', 'block');
         },
-        onHide: function(){
+        onHide: function () {
             this.tip.setStyle('display', 'none');
         },
         title: 'title',
-        text: function(element){
+        text: function (element) {
             return element.get('rel') || element.get('href');
         },
         showDelay: 100,
@@ -9947,10 +9947,10 @@ this.Tips = new Class({
         waiAria: true
     },
 
-    initialize: function(){
+    initialize: function () {
         var params = Array.link(arguments, {
             options: Type.isObject,
-            elements: function(obj){
+            elements: function (obj) {
                 return obj != null;
             }
         });
@@ -9958,13 +9958,13 @@ this.Tips = new Class({
         if (params.elements) this.attach(params.elements);
         this.container = new Element('div', {'class': 'tip'});
 
-        if (this.options.id){
+        if (this.options.id) {
             this.container.set('id', this.options.id);
             if (this.options.waiAria) this.attachWaiAria();
         }
     },
 
-    toElement: function(){
+    toElement: function () {
         if (this.tip) return this.tip;
 
         this.tip = new Element('div', {
@@ -9983,17 +9983,17 @@ this.Tips = new Class({
         return this.tip;
     },
 
-    attachWaiAria: function(){
+    attachWaiAria: function () {
         var id = this.options.id;
         this.container.set('role', 'tooltip');
 
-        if (!this.waiAria){
+        if (!this.waiAria) {
             this.waiAria = {
-                show: function(element){
+                show: function (element) {
                     if (id) element.set('aria-describedby', id);
                     this.container.set('aria-hidden', 'false');
                 },
-                hide: function(element){
+                hide: function (element) {
                     if (id) element.erase('aria-describedby');
                     this.container.set('aria-hidden', 'true');
                 }
@@ -10002,16 +10002,16 @@ this.Tips = new Class({
         this.addEvents(this.waiAria);
     },
 
-    detachWaiAria: function(){
-        if (this.waiAria){
+    detachWaiAria: function () {
+        if (this.waiAria) {
             this.container.erase('role');
             this.container.erase('aria-hidden');
             this.removeEvents(this.waiAria);
         }
     },
 
-    attach: function(elements){
-        $$(elements).each(function(element){
+    attach: function (elements) {
+        $$(elements).each(function (element) {
             var title = read(this.options.title, element),
                 text = read(this.options.text, element);
 
@@ -10022,9 +10022,9 @@ this.Tips = new Class({
             var events = ['enter', 'leave'];
             if (!this.options.fixed) events.push('move');
 
-            events.each(function(value){
+            events.each(function (value) {
                 var event = element.retrieve('tip:' + value);
-                if (!event) event = function(event){
+                if (!event) event = function (event) {
                     this['element' + value.capitalize()].apply(this, [event, element]);
                 }.bind(this);
 
@@ -10035,15 +10035,15 @@ this.Tips = new Class({
         return this;
     },
 
-    detach: function(elements){
-        $$(elements).each(function(element){
-            ['enter', 'leave', 'move'].each(function(value){
+    detach: function (elements) {
+        $$(elements).each(function (element) {
+            ['enter', 'leave', 'move'].each(function (value) {
                 element.removeEvent('mouse' + value, element.retrieve('tip:' + value)).eliminate('tip:' + value);
             });
 
             this.fireEvent('detach', [element]);
 
-            if (this.options.title == 'title'){ // This is necessary to check if we can revert the title
+            if (this.options.title == 'title') { // This is necessary to check if we can revert the title
                 var original = element.retrieve('tip:native');
                 if (original) element.set('title', original);
             }
@@ -10052,12 +10052,12 @@ this.Tips = new Class({
         return this;
     },
 
-    elementEnter: function(event, element){
+    elementEnter: function (event, element) {
         clearTimeout(this.timer);
-        this.timer = (function(){
+        this.timer = (function () {
             this.container.empty();
 
-            ['title', 'text'].each(function(value){
+            ['title', 'text'].each(function (value) {
                 var content = element.retrieve('tip:' + value);
                 var div = this['_' + value + 'Element'] = new Element('div', {
                         'class': 'tip-' + value
@@ -10069,40 +10069,40 @@ this.Tips = new Class({
         }).delay(this.options.showDelay, this);
     },
 
-    elementLeave: function(event, element){
+    elementLeave: function (event, element) {
         clearTimeout(this.timer);
         this.timer = this.hide.delay(this.options.hideDelay, this, element);
         this.fireForParent(event, element);
     },
 
-    setTitle: function(title){
-        if (this._titleElement){
+    setTitle: function (title) {
+        if (this._titleElement) {
             this._titleElement.empty();
             this.fill(this._titleElement, title);
         }
         return this;
     },
 
-    setText: function(text){
-        if (this._textElement){
+    setText: function (text) {
+        if (this._textElement) {
             this._textElement.empty();
             this.fill(this._textElement, text);
         }
         return this;
     },
 
-    fireForParent: function(event, element){
+    fireForParent: function (event, element) {
         element = element.getParent();
         if (!element || element == document.body) return;
         if (element.retrieve('tip:enter')) element.fireEvent('mouseenter', event);
         else this.fireForParent(event, element);
     },
 
-    elementMove: function(event, element){
+    elementMove: function (event, element) {
         this.position(event);
     },
 
-    position: function(event){
+    position: function (event) {
         if (!this.tip) document.id(this);
 
         var size = window.getSize(), scroll = window.getScroll(),
@@ -10111,10 +10111,10 @@ this.Tips = new Class({
             bounds = {y: false, x2: false, y2: false, x: false},
             obj = {};
 
-        for (var z in props){
+        for (var z in props) {
             obj[props[z]] = event.page[z] + this.options.offset[z];
             if (obj[props[z]] < 0) bounds[z] = true;
-            if ((obj[props[z]] + tip[z] - scroll[z]) > size[z] - this.options.windowPadding[z]){
+            if ((obj[props[z]] + tip[z] - scroll[z]) > size[z] - this.options.windowPadding[z]) {
                 obj[props[z]] = event.page[z] - this.options.offset[z] - tip[z];
                 bounds[z+'2'] = true;
             }
@@ -10124,18 +10124,18 @@ this.Tips = new Class({
         this.tip.setStyles(obj);
     },
 
-    fill: function(element, contents){
+    fill: function (element, contents) {
         if (typeof contents == 'string') element.set('html', contents);
         else element.adopt(contents);
     },
 
-    show: function(element){
+    show: function (element) {
         if (!this.tip) document.id(this);
         if (!this.tip.getParent()) this.tip.inject(document.body);
         this.fireEvent('show', [this.tip, element]);
     },
 
-    hide: function(element){
+    hide: function (element) {
         if (!this.tip) document.id(this);
         this.fireEvent('hide', [this.tip, element]);
     }
@@ -10168,17 +10168,17 @@ provides: Locale.Set.From
 ...
 */
 
-(function(){
+(function () {
 
 var parsers = {
     'json': JSON.decode
 };
 
-Locale.Set.defineParser = function(name, fn){
+Locale.Set.defineParser = function (name, fn) {
     parsers[name] = fn;
 };
 
-Locale.Set.from = function(set, type){
+Locale.Set.from = function (set, type) {
     if (instanceOf(set, Locale.Set)) return set;
 
     if (!type && typeOf(set) == 'string') type = 'json';
@@ -10188,7 +10188,7 @@ Locale.Set.from = function(set, type){
 
     locale.sets = set.sets || {};
 
-    if (set.inherits){
+    if (set.inherits) {
         locale.inherits.locales = Array.from(set.inherits.locales);
         locale.inherits.sets = set.inherits.sets || {};
     }
@@ -10405,13 +10405,13 @@ provides: [Locale.cs-CZ.Date]
 
 ...
 */
-(function(){
+(function () {
 
 // Czech language pluralization rules, see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
 // one -> n is 1;            1
 // few -> n in 2..4;         2-4
 // other -> everything else  0, 5-999, 1.31, 2.31, 5.31...
-var pluralize = function (n, one, few, other){
+var pluralize = function (n, one, few, other) {
     if (n == 1) return one;
     else if (n == 2 || n == 3 || n == 4) return few;
     else return other;
@@ -10437,31 +10437,31 @@ Locale.define('cs-CZ', 'Date', {
 
     lessThanMinuteAgo: 'pÅ™ed chvÃ­lÃ­',
     minuteAgo: 'pÅ™ibliÅ¾nÄ› pÅ™ed minutou',
-    minutesAgo: function(delta){ return 'pÅ™ed {delta} ' + pluralize(delta, 'minutou', 'minutami', 'minutami'); },
+    minutesAgo: function (delta) { return 'pÅ™ed {delta} ' + pluralize(delta, 'minutou', 'minutami', 'minutami'); },
     hourAgo: 'pÅ™ibliÅ¾nÄ› pÅ™ed hodinou',
-    hoursAgo: function(delta){ return 'pÅ™ed {delta} ' + pluralize(delta, 'hodinou', 'hodinami', 'hodinami'); },
+    hoursAgo: function (delta) { return 'pÅ™ed {delta} ' + pluralize(delta, 'hodinou', 'hodinami', 'hodinami'); },
     dayAgo: 'pÅ™ed dnem',
-    daysAgo: function(delta){ return 'pÅ™ed {delta} ' + pluralize(delta, 'dnem', 'dny', 'dny'); },
+    daysAgo: function (delta) { return 'pÅ™ed {delta} ' + pluralize(delta, 'dnem', 'dny', 'dny'); },
     weekAgo: 'pÅ™ed tÃ½dnem',
-    weeksAgo: function(delta){ return 'pÅ™ed {delta} ' + pluralize(delta, 'tÃ½dnem', 'tÃ½dny', 'tÃ½dny'); },
+    weeksAgo: function (delta) { return 'pÅ™ed {delta} ' + pluralize(delta, 'tÃ½dnem', 'tÃ½dny', 'tÃ½dny'); },
     monthAgo: 'pÅ™ed mÄ›sÃ­cem',
-    monthsAgo: function(delta){ return 'pÅ™ed {delta} ' + pluralize(delta, 'mÄ›sÃ­cem', 'mÄ›sÃ­ci', 'mÄ›sÃ­ci'); },
+    monthsAgo: function (delta) { return 'pÅ™ed {delta} ' + pluralize(delta, 'mÄ›sÃ­cem', 'mÄ›sÃ­ci', 'mÄ›sÃ­ci'); },
     yearAgo: 'pÅ™ed rokem',
-    yearsAgo: function(delta){ return 'pÅ™ed {delta} ' + pluralize(delta, 'rokem', 'lety', 'lety'); },
+    yearsAgo: function (delta) { return 'pÅ™ed {delta} ' + pluralize(delta, 'rokem', 'lety', 'lety'); },
 
     lessThanMinuteUntil: 'za chvÃ­li',
     minuteUntil: 'pÅ™ibliÅ¾nÄ› za minutu',
-    minutesUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'minutu', 'minuty', 'minut'); },
+    minutesUntil: function (delta) { return 'za {delta} ' + pluralize(delta, 'minutu', 'minuty', 'minut'); },
     hourUntil: 'pÅ™ibliÅ¾nÄ› za hodinu',
-    hoursUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'hodinu', 'hodiny', 'hodin'); },
+    hoursUntil: function (delta) { return 'za {delta} ' + pluralize(delta, 'hodinu', 'hodiny', 'hodin'); },
     dayUntil: 'za den',
-    daysUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'den', 'dny', 'dnÅ¯'); },
+    daysUntil: function (delta) { return 'za {delta} ' + pluralize(delta, 'den', 'dny', 'dnÅ¯'); },
     weekUntil: 'za tÃ½den',
-    weeksUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'tÃ½den', 'tÃ½dny', 'tÃ½dnÅ¯'); },
+    weeksUntil: function (delta) { return 'za {delta} ' + pluralize(delta, 'tÃ½den', 'tÃ½dny', 'tÃ½dnÅ¯'); },
     monthUntil: 'za mÄ›sÃ­c',
-    monthsUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'mÄ›sÃ­c', 'mÄ›sÃ­ce', 'mÄ›sÃ­cÅ¯'); },
+    monthsUntil: function (delta) { return 'za {delta} ' + pluralize(delta, 'mÄ›sÃ­c', 'mÄ›sÃ­ce', 'mÄ›sÃ­cÅ¯'); },
     yearUntil: 'za rok',
-    yearsUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'rok', 'roky', 'let'); }
+    yearsUntil: function (delta) { return 'za {delta} ' + pluralize(delta, 'rok', 'roky', 'let'); }
 });
 
 })();
@@ -11601,7 +11601,7 @@ Locale.define('fr-FR', 'Date', {
     firstDayOfWeek: 1,
 
     // Date.Extras
-    ordinal: function(dayOfMonth){
+    ordinal: function (dayOfMonth) {
         return (dayOfMonth > 1) ? '' : 'er';
     },
 
@@ -12569,7 +12569,7 @@ Locale.define('pl-PL', 'Date', {
     firstDayOfWeek: 1,
 
     // Date.Extras
-    ordinal: function(dayOfMonth){
+    ordinal: function (dayOfMonth) {
         return (dayOfMonth > 3 && dayOfMonth < 21) ? 'ty' : ['ty', 'szy', 'gi', 'ci', 'ty'][Math.min(dayOfMonth % 10, 4)];
     },
 
@@ -12866,22 +12866,22 @@ provides: [Locale.ru-RU.Date]
 ...
 */
 
-(function(){
+(function () {
 
 // Russian language pluralization rules, taken from CLDR project, http://unicode.org/cldr/
 // one -> n mod 10 is 1 and n mod 100 is not 11;
 // few -> n mod 10 in 2..4 and n mod 100 not in 12..14;
 // many -> n mod 10 is 0 or n mod 10 in 5..9 or n mod 100 in 11..14;
 // other -> everything else (example 3.14)
-var pluralize = function (n, one, few, many, other){
+var pluralize = function (n, one, few, many, other) {
     var modulo10 = n % 10,
         modulo100 = n % 100;
 
-    if (modulo10 == 1 && modulo100 != 11){
+    if (modulo10 == 1 && modulo100 != 11) {
         return one;
-    } else if ((modulo10 == 2 || modulo10 == 3 || modulo10 == 4) && !(modulo100 == 12 || modulo100 == 13 || modulo100 == 14)){
+    } else if ((modulo10 == 2 || modulo10 == 3 || modulo10 == 4) && !(modulo100 == 12 || modulo100 == 13 || modulo100 == 14)) {
         return few;
-    } else if (modulo10 == 0 || (modulo10 == 5 || modulo10 == 6 || modulo10 == 7 || modulo10 == 8 || modulo10 == 9) || (modulo100 == 11 || modulo100 == 12 || modulo100 == 13 || modulo100 == 14)){
+    } else if (modulo10 == 0 || (modulo10 == 5 || modulo10 == 6 || modulo10 == 7 || modulo10 == 8 || modulo10 == 9) || (modulo100 == 11 || modulo100 == 12 || modulo100 == 13 || modulo100 == 14)) {
         return many;
     } else {
         return other;
@@ -12908,31 +12908,31 @@ Locale.define('ru-RU', 'Date', {
 
     lessThanMinuteAgo: 'Ð¼ÐµÐ½ÑŒÑˆÐµ Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹ Ð½Ð°Ð·Ð°Ð´',
     minuteAgo: 'Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ Ð½Ð°Ð·Ð°Ð´',
-    minutesAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ', 'Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹', 'Ð¼Ð¸Ð½ÑƒÑ‚') + ' Ð½Ð°Ð·Ð°Ð´'; },
+    minutesAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ', 'Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹', 'Ð¼Ð¸Ð½ÑƒÑ‚') + ' Ð½Ð°Ð·Ð°Ð´'; },
     hourAgo: 'Ñ‡Ð°Ñ Ð½Ð°Ð·Ð°Ð´',
-    hoursAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ñ‡Ð°Ñ', 'Ñ‡Ð°ÑÐ°', 'Ñ‡Ð°ÑÐ¾Ð²') + ' Ð½Ð°Ð·Ð°Ð´'; },
+    hoursAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ñ‡Ð°Ñ', 'Ñ‡Ð°ÑÐ°', 'Ñ‡Ð°ÑÐ¾Ð²') + ' Ð½Ð°Ð·Ð°Ð´'; },
     dayAgo: 'Ð²Ñ‡ÐµÑ€Ð°',
-    daysAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½ÐµÐ¹') + ' Ð½Ð°Ð·Ð°Ð´'; },
+    daysAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½ÐµÐ¹') + ' Ð½Ð°Ð·Ð°Ð´'; },
     weekAgo: 'Ð½ÐµÐ´ÐµÐ»ÑŽ Ð½Ð°Ð·Ð°Ð´',
-    weeksAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð½ÐµÐ´ÐµÐ»Ñ', 'Ð½ÐµÐ´ÐµÐ»Ð¸', 'Ð½ÐµÐ´ÐµÐ»ÑŒ') + ' Ð½Ð°Ð·Ð°Ð´'; },
+    weeksAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð½ÐµÐ´ÐµÐ»Ñ', 'Ð½ÐµÐ´ÐµÐ»Ð¸', 'Ð½ÐµÐ´ÐµÐ»ÑŒ') + ' Ð½Ð°Ð·Ð°Ð´'; },
     monthAgo: 'Ð¼ÐµÑÑÑ† Ð½Ð°Ð·Ð°Ð´',
-    monthsAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð¼ÐµÑÑÑ†', 'Ð¼ÐµÑÑÑ†Ð°', 'Ð¼ÐµÑÐµÑ†ÐµÐ²') + ' Ð½Ð°Ð·Ð°Ð´'; },
+    monthsAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð¼ÐµÑÑÑ†', 'Ð¼ÐµÑÑÑ†Ð°', 'Ð¼ÐµÑÐµÑ†ÐµÐ²') + ' Ð½Ð°Ð·Ð°Ð´'; },
     yearAgo: 'Ð³Ð¾Ð´ Ð½Ð°Ð·Ð°Ð´',
-    yearsAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð³Ð¾Ð´', 'Ð³Ð¾Ð´Ð°', 'Ð»ÐµÑ‚') + ' Ð½Ð°Ð·Ð°Ð´'; },
+    yearsAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð³Ð¾Ð´', 'Ð³Ð¾Ð´Ð°', 'Ð»ÐµÑ‚') + ' Ð½Ð°Ð·Ð°Ð´'; },
 
     lessThanMinuteUntil: 'Ð¼ÐµÐ½ÑŒÑˆÐµ Ñ‡ÐµÐ¼ Ñ‡ÐµÑ€ÐµÐ· Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ',
     minuteUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ',
-    minutesUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ', 'Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹', 'Ð¼Ð¸Ð½ÑƒÑ‚') + ''; },
+    minutesUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð¼Ð¸Ð½ÑƒÑ‚Ñƒ', 'Ð¼Ð¸Ð½ÑƒÑ‚Ñ‹', 'Ð¼Ð¸Ð½ÑƒÑ‚') + ''; },
     hourUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ñ‡Ð°Ñ',
-    hoursUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ‡Ð°Ñ', 'Ñ‡Ð°ÑÐ°', 'Ñ‡Ð°ÑÐ¾Ð²') + ''; },
+    hoursUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ‡Ð°Ñ', 'Ñ‡Ð°ÑÐ°', 'Ñ‡Ð°ÑÐ¾Ð²') + ''; },
     dayUntil: 'Ð·Ð°Ð²Ñ‚Ñ€Ð°',
-    daysUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½ÐµÐ¹') + ''; },
+    daysUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½ÐµÐ¹') + ''; },
     weekUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ð½ÐµÐ´ÐµÐ»ÑŽ',
-    weeksUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð½ÐµÐ´ÐµÐ»ÑŽ', 'Ð½ÐµÐ´ÐµÐ»Ð¸', 'Ð½ÐµÐ´ÐµÐ»ÑŒ') + ''; },
+    weeksUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð½ÐµÐ´ÐµÐ»ÑŽ', 'Ð½ÐµÐ´ÐµÐ»Ð¸', 'Ð½ÐµÐ´ÐµÐ»ÑŒ') + ''; },
     monthUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ð¼ÐµÑÑÑ†',
-    monthsUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð¼ÐµÑÑÑ†', 'Ð¼ÐµÑÑÑ†Ð°', 'Ð¼ÐµÑÐµÑ†ÐµÐ²') + ''; },
+    monthsUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð¼ÐµÑÑÑ†', 'Ð¼ÐµÑÑÑ†Ð°', 'Ð¼ÐµÑÐµÑ†ÐµÐ²') + ''; },
     yearUntil: 'Ñ‡ÐµÑ€ÐµÐ·',
-    yearsUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð³Ð¾Ð´', 'Ð³Ð¾Ð´Ð°', 'Ð»ÐµÑ‚') + ''; }
+    yearsUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð³Ð¾Ð´', 'Ð³Ð¾Ð´Ð°', 'Ð»ÐµÑ‚') + ''; }
 
 });
 
@@ -13013,9 +13013,9 @@ provides: [Locale.si-SI.Date]
 ...
 */
 
-(function(){
+(function () {
 
-var pluralize = function(n, one, two, three, other){
+var pluralize = function (n, one, two, three, other) {
     return (n >= 1 && n <= 3) ? arguments[n] : other;
 };
 
@@ -13039,31 +13039,31 @@ Locale.define('sl-SI', 'Date', {
 
     lessThanMinuteAgo: 'manj kot minuto nazaj',
     minuteAgo: 'minuto nazaj',
-    minutesAgo: function(delta){ return '{delta} ' + pluralize(delta, 'minuto', 'minuti', 'minute', 'minut') + ' nazaj'; },
+    minutesAgo: function (delta) { return '{delta} ' + pluralize(delta, 'minuto', 'minuti', 'minute', 'minut') + ' nazaj'; },
     hourAgo: 'uro nazaj',
-    hoursAgo: function(delta){ return '{delta} ' + pluralize(delta, 'uro', 'uri', 'ure', 'ur') + ' nazaj'; },
+    hoursAgo: function (delta) { return '{delta} ' + pluralize(delta, 'uro', 'uri', 'ure', 'ur') + ' nazaj'; },
     dayAgo: 'dan nazaj',
-    daysAgo: function(delta){ return '{delta} ' + pluralize(delta, 'dan', 'dneva', 'dni', 'dni') + ' nazaj'; },
+    daysAgo: function (delta) { return '{delta} ' + pluralize(delta, 'dan', 'dneva', 'dni', 'dni') + ' nazaj'; },
     weekAgo: 'teden nazaj',
-    weeksAgo: function(delta){ return '{delta} ' + pluralize(delta, 'teden', 'tedna', 'tedne', 'tednov') + ' nazaj'; },
+    weeksAgo: function (delta) { return '{delta} ' + pluralize(delta, 'teden', 'tedna', 'tedne', 'tednov') + ' nazaj'; },
     monthAgo: 'mesec nazaj',
-    monthsAgo: function(delta){ return '{delta} ' + pluralize(delta, 'mesec', 'meseca', 'mesece', 'mesecov') + ' nazaj'; },
+    monthsAgo: function (delta) { return '{delta} ' + pluralize(delta, 'mesec', 'meseca', 'mesece', 'mesecov') + ' nazaj'; },
     yearthAgo: 'leto nazaj',
-    yearsAgo: function(delta){ return '{delta} ' + pluralize(delta, 'leto', 'leti', 'leta', 'let') + ' nazaj'; },
+    yearsAgo: function (delta) { return '{delta} ' + pluralize(delta, 'leto', 'leti', 'leta', 'let') + ' nazaj'; },
 
     lessThanMinuteUntil: 'Å¡e manj kot minuto',
     minuteUntil: 'Å¡e minuta',
-    minutesUntil: function(delta){ return 'Å¡e {delta} ' + pluralize(delta, 'minuta', 'minuti', 'minute', 'minut'); },
+    minutesUntil: function (delta) { return 'Å¡e {delta} ' + pluralize(delta, 'minuta', 'minuti', 'minute', 'minut'); },
     hourUntil: 'Å¡e ura',
-    hoursUntil: function(delta){ return 'Å¡e {delta} ' + pluralize(delta, 'ura', 'uri', 'ure', 'ur'); },
+    hoursUntil: function (delta) { return 'Å¡e {delta} ' + pluralize(delta, 'ura', 'uri', 'ure', 'ur'); },
     dayUntil: 'Å¡e dan',
-    daysUntil: function(delta){ return 'Å¡e {delta} ' + pluralize(delta, 'dan', 'dneva', 'dnevi', 'dni'); },
+    daysUntil: function (delta) { return 'Å¡e {delta} ' + pluralize(delta, 'dan', 'dneva', 'dnevi', 'dni'); },
     weekUntil: 'Å¡e tedn',
-    weeksUntil: function(delta){ return 'Å¡e {delta} ' + pluralize(delta, 'teden', 'tedna', 'tedni', 'tednov'); },
+    weeksUntil: function (delta) { return 'Å¡e {delta} ' + pluralize(delta, 'teden', 'tedna', 'tedni', 'tednov'); },
     monthUntil: 'Å¡e mesec',
-    monthsUntil: function(delta){ return 'Å¡e {delta} ' + pluralize(delta, 'mesec', 'meseca', 'meseci', 'mesecov'); },
+    monthsUntil: function (delta) { return 'Å¡e {delta} ' + pluralize(delta, 'mesec', 'meseca', 'meseci', 'mesecov'); },
     yearUntil: 'Å¡e leto',
-    yearsUntil: function(delta){ return 'Å¡e {delta} ' + pluralize(delta, 'leto', 'leti', 'leta', 'let'); }
+    yearsUntil: function (delta) { return 'Å¡e {delta} ' + pluralize(delta, 'leto', 'leti', 'leta', 'let'); }
 
 });
 
@@ -13260,9 +13260,9 @@ provides: [Locale.uk-UA.Date]
 ...
 */
 
-(function(){
+(function () {
 
-var pluralize = function(n, one, few, many, other){
+var pluralize = function (n, one, few, many, other) {
     var d = (n / 10).toInt(),
         z = n % 10,
         s = (n / 100).toInt();
@@ -13293,31 +13293,31 @@ Locale.define('uk-UA', 'Date', {
 
     lessThanMinuteAgo: 'Ð¼ÐµÐ½ÑŒÑˆÐµ Ñ…Ð²Ð¸Ð»Ð¸Ð½Ð¸ Ñ‚Ð¾Ð¼Ñƒ',
     minuteAgo: 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ñƒ Ñ‚Ð¾Ð¼Ñƒ',
-    minutesAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ñƒ', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ð¸', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
+    minutesAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ñƒ', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ð¸', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
     hourAgo: 'Ð³Ð¾Ð´Ð¸Ð½Ñƒ Ñ‚Ð¾Ð¼Ñƒ',
-    hoursAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð³Ð¾Ð´Ð¸Ð½Ñƒ', 'Ð³Ð¾Ð´Ð¸Ð½Ð¸', 'Ð³Ð¾Ð´Ð¸Ð½') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
+    hoursAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð³Ð¾Ð´Ð¸Ð½Ñƒ', 'Ð³Ð¾Ð´Ð¸Ð½Ð¸', 'Ð³Ð¾Ð´Ð¸Ð½') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
     dayAgo: 'Ð²Ñ‡Ð¾Ñ€Ð°',
-    daysAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½Ñ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
+    daysAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½Ñ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
     weekAgo: 'Ñ‚Ð¸Ð¶Ð´ÐµÐ½ÑŒ Ñ‚Ð¾Ð¼Ñƒ',
-    weeksAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ñ‚Ð¸Ð¶Ð´ÐµÐ½ÑŒ', 'Ñ‚Ð¸Ð¶Ð½Ñ–', 'Ñ‚Ð¸Ð¶Ð½Ñ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
+    weeksAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ñ‚Ð¸Ð¶Ð´ÐµÐ½ÑŒ', 'Ñ‚Ð¸Ð¶Ð½Ñ–', 'Ñ‚Ð¸Ð¶Ð½Ñ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
     monthAgo: 'Ð¼Ñ–ÑÑÑ†ÑŒ Ñ‚Ð¾Ð¼Ñƒ',
-    monthsAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ð¼Ñ–ÑÑÑ†ÑŒ', 'Ð¼Ñ–ÑÑÑ†Ñ–', 'Ð¼Ñ–ÑÑÑ†Ñ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
+    monthsAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ð¼Ñ–ÑÑÑ†ÑŒ', 'Ð¼Ñ–ÑÑÑ†Ñ–', 'Ð¼Ñ–ÑÑÑ†Ñ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
     yearAgo: 'Ñ€Ñ–Ðº Ñ‚Ð¾Ð¼Ñƒ',
-    yearsAgo: function(delta){ return '{delta} ' + pluralize(delta, 'Ñ€Ñ–Ðº', 'Ñ€Ð¾ÐºÐ¸', 'Ñ€Ð¾ÐºÑ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
+    yearsAgo: function (delta) { return '{delta} ' + pluralize(delta, 'Ñ€Ñ–Ðº', 'Ñ€Ð¾ÐºÐ¸', 'Ñ€Ð¾ÐºÑ–Ð²') + ' Ñ‚Ð¾Ð¼Ñƒ'; },
 
     lessThanMinuteUntil: 'Ð·Ð° Ð¼Ð¸Ñ‚ÑŒ',
     minuteUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ñ…Ð²Ð¸Ð»Ð¸Ð½Ñƒ',
-    minutesUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ñƒ', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ð¸', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½'); },
+    minutesUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ñƒ', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½Ð¸', 'Ñ…Ð²Ð¸Ð»Ð¸Ð½'); },
     hourUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ð³Ð¾Ð´Ð¸Ð½Ñƒ',
-    hoursUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð³Ð¾Ð´Ð¸Ð½Ñƒ', 'Ð³Ð¾Ð´Ð¸Ð½Ð¸', 'Ð³Ð¾Ð´Ð¸Ð½'); },
+    hoursUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð³Ð¾Ð´Ð¸Ð½Ñƒ', 'Ð³Ð¾Ð´Ð¸Ð½Ð¸', 'Ð³Ð¾Ð´Ð¸Ð½'); },
     dayUntil: 'Ð·Ð°Ð²Ñ‚Ñ€Ð°',
-    daysUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½Ñ–Ð²'); },
+    daysUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð´ÐµÐ½ÑŒ', 'Ð´Ð½Ñ', 'Ð´Ð½Ñ–Ð²'); },
     weekUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ñ‚Ð¸Ð¶Ð´ÐµÐ½ÑŒ',
-    weeksUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ‚Ð¸Ð¶Ð´ÐµÐ½ÑŒ', 'Ñ‚Ð¸Ð¶Ð½Ñ–', 'Ñ‚Ð¸Ð¶Ð½Ñ–Ð²'); },
+    weeksUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ‚Ð¸Ð¶Ð´ÐµÐ½ÑŒ', 'Ñ‚Ð¸Ð¶Ð½Ñ–', 'Ñ‚Ð¸Ð¶Ð½Ñ–Ð²'); },
     monthUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ð¼Ñ–ÑÑÑ†ÑŒ',
-    monthesUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð¼Ñ–ÑÑÑ†ÑŒ', 'Ð¼Ñ–ÑÑÑ†Ñ–', 'Ð¼Ñ–ÑÑÑ†Ñ–Ð²'); },
+    monthesUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ð¼Ñ–ÑÑÑ†ÑŒ', 'Ð¼Ñ–ÑÑÑ†Ñ–', 'Ð¼Ñ–ÑÑÑ†Ñ–Ð²'); },
     yearUntil: 'Ñ‡ÐµÑ€ÐµÐ· Ñ€Ñ–Ðº',
-    yearsUntil: function(delta){ return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ€Ñ–Ðº', 'Ñ€Ð¾ÐºÐ¸', 'Ñ€Ð¾ÐºÑ–Ð²'); }
+    yearsUntil: function (delta) { return 'Ñ‡ÐµÑ€ÐµÐ· {delta} ' + pluralize(delta, 'Ñ€Ñ–Ðº', 'Ñ€Ð¾ÐºÐ¸', 'Ñ€Ð¾ÐºÑ–Ð²'); }
 
 });
 
@@ -13596,11 +13596,11 @@ Locale.define('zh-CHT', 'FormValidator', {
 
 Form.Validator.add('validate-currency-yuan', {
 
-    errorMsg: function(){
+    errorMsg: function () {
         return Form.Validator.getMsg('currencyYuan');
     },
 
-    test: function(element){
+    test: function (element) {
         // [ï¿¥]1[##][,###]+[.##]
         // [ï¿¥]1###+[.##]
         // [ï¿¥]0.##

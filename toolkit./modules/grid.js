@@ -46,9 +46,9 @@ Grid = new Class({
             this.set("container", this.options.container);
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
-        if(this.options.width)
+        if (this.options.width)
             this.set("width", this.optoins.width);
-        if(this.options.height)
+        if (this.options.height)
             this.set("height", this.optoins.width);
         this.range_x.addEvent("set", function (key, value, hold) {
             if (!hold) this.redraw();

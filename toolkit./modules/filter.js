@@ -294,7 +294,7 @@ Filter = new Class({
         }
         /*
          REMEBER because of this IsCenterFreq
-        if( w >= wo && !bIsCenterFreq)
+        if ( w >= wo && !bIsCenterFreq)
         {
           band_y[bd_ix][i] = -100.0;
           bIsCenterFreq = true;
@@ -307,7 +307,7 @@ Filter = new Class({
     },
     set: function (key, value, hold) {
         this.options[key] = value;
-        if(!hold) {
+        if (!hold) {
             this.reset();
         }
         this.fireEvent("set", [key, value, hold, this]);

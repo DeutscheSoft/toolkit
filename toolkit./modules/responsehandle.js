@@ -42,7 +42,7 @@ ResponseHandle = new Class({
         y_min:            false,        // restrict movement on y axis
         y_max:            false,        // restrict movement on y axis
         z_min:            false,        // restrict movement on z axis
-        z_max:            false,        // restrict movement on z axis
+        z_max:            false         // restrict movement on z axis
     },
     
     x: 0,
@@ -1214,7 +1214,7 @@ ResponseHandle = new Class({
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
-            pos_y: this.y,
+            pos_y: this.y
         },this]);
     },
     _scrollwheel: function (e) {

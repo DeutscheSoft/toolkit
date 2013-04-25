@@ -37,16 +37,16 @@ Ranges = new Class({
         if (typeOf(from) == "function") {
             r = from();
         } else {
-            if(name
+            if (name
             && this.options[name]
             && typeOf(this.options[name] == "object"))
                 from = Object.merge(this.options[name], from)
             r = new Range(from);
         }
-        if(name) {
+        if (name) {
             this[name] = r;
             this.addEvent("set", function (key, value, hold) {
-                if(key == name) {
+                if (key == name) {
                     for (var i in value) {
                         this[name].set(i, value[i], hold);
                     }

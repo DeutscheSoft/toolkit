@@ -232,7 +232,7 @@ var Graph = new Class({
                 if (!hold) this.element.setStyle("stroke", value);
                 break;
             case "mode":
-                if(!hold) {
+                if (!hold) {
                     this.element.removeClass("toolkit-filled");
                     this.element.removeClass("toolkit-outline");
                     this.element.addClass(value == _TOOLKIT_LINE ?
@@ -241,7 +241,7 @@ var Graph = new Class({
                 }
                 break;
             case "type":
-                if(!hold) this.redraw();
+                if (!hold) this.redraw();
                 break;
         }
         this.parent(key, value, hold);
