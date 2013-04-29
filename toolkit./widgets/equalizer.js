@@ -83,8 +83,8 @@ var Equalizer = new Class({
         
         var b = new EqBand(options);
         this.bands.push(b);
-        b.addEvent("startdrag", function () { this._active ++ }.bind(this));
-        b.addEvent("stopdrag",  function () {
+        b.addEvent("handlegrabbed", function () { this._active ++ }.bind(this));
+        b.addEvent("handlereleased",  function () {
             this._active = Math.max(this._active-1, 0)
         }.bind(this));
         this.element.addEvent("mousemove", b._mousemove.bind(b));

@@ -1086,7 +1086,7 @@ ResponseHandle = new Class({
         this._clickY  = this.y;
         this._clickZ  = this.z;
         this.redraw();
-        this.fireEvent("startdrag", [{
+        this.fireEvent("handlegrabbed", [{
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
@@ -1103,7 +1103,7 @@ ResponseHandle = new Class({
         e.event.preventDefault();
         e.stopPropagation();
         if (this.__active)
-            this.fireEvent("stopdrag", [{
+            this.fireEvent("handlereleased", [{
                 x:     this.options.x,
                 y:     this.options.y,
                 pos_x: this.x,
@@ -1210,7 +1210,7 @@ ResponseHandle = new Class({
         }
         e.event.preventDefault();
         e.stopPropagation();
-        this.fireEvent("dragging", [{
+        this.fireEvent("handledragging", [{
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
@@ -1232,7 +1232,7 @@ ResponseHandle = new Class({
         else if (e.shift)
             s *= this.range_z.get("shift_up");
         this.set("z", this.get("z") + s);
-        this.fireEvent("scrolling", this);
+        this.fireEvent("handlescrolling", this);
     },
     _touchstart: function (e) {
         if (e.touches && e.touches.length == 2) {
