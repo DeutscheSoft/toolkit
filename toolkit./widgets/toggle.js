@@ -29,7 +29,7 @@ Toggle = new Class({
     toggle: function (hold) {
         this._clear_to();
         this.set("state", !this.options.state);
-        this.fireEvent("toggled");
+        this.fireEvent("toggled", [this.options.state, this]);
     },
     cancel_press: function () {
         if (!this.__tp)

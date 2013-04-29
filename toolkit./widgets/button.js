@@ -25,9 +25,9 @@ Button = new Class({
         this.set("label", this.options.label, hold);
         this.set("icon", this.options.icon, hold);
         
-        this.element.addEvent("click", function (e) { this.fireEvent("click", e) }.bind(this));
-        this.element.addEvent("mousedown", function (e) { this.fireEvent("mousedown", e) }.bind(this));
-        this.element.addEvent("mouseup", function (e) { this.fireEvent("mouseup", e) }.bind(this));
+        this.element.addEvent("click", function (e) { this.fireEvent("click", [e, this]) }.bind(this));
+        this.element.addEvent("mousedown", function (e) { this.fireEvent("mousedown", [e, this]) }.bind(this));
+        this.element.addEvent("mouseup", function (e) { this.fireEvent("mouseup", [e, this]) }.bind(this));
         this.set("state_color", this.options.state_color, hold);
         this.set("state", this.options.state, hold);
     },

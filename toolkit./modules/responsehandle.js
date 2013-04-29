@@ -1102,13 +1102,14 @@ ResponseHandle = new Class({
             parent.removeClass("toolkit-dragging");
         e.event.preventDefault();
         e.stopPropagation();
-        if (this.__active)
+        if (this.__active) {
             this.fireEvent("handlereleased", [{
                 x:     this.options.x,
                 y:     this.options.y,
                 pos_x: this.x,
                 pos_y: this.y
             }, this]);
+        }
         this.__active = false;
         this._zhandling = false;
         document.removeEvent("mouseup", this._mouseup.bind(this));
@@ -1147,6 +1148,7 @@ ResponseHandle = new Class({
                 // movement to left
                 this.set("z", this.range_z.px2val(this._clickZ
                     + (this._clickX - (ev.pageX - this._offsetX)) * mz));
+                this.fireEvent("zchanged", [this.options.z, this]);
             } else if (this.options.z_handle == _TOOLKIT_RIGHT
                 || this.options.mode == _TOOLKIT_LINE_VERTICAL
                 && this.options.z_handle == _TOOLKIT_TOP_RIGHT
@@ -1163,6 +1165,7 @@ ResponseHandle = new Class({
                 // movement to right
                 this.set("z", this.range_z.px2val(this._clickZ
                     + ((ev.pageX - this._offsetX) - this._clickX) * mz));
+                this.fireEvent("zchanged", [this.options.z, this]);
             } else if (this.options.z_handle == _TOOLKIT_TOP
                 || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
                 && this.options.z_handle == _TOOLKIT_TOP_LEFT
@@ -1179,6 +1182,7 @@ ResponseHandle = new Class({
                 // movement to top
                 this.set("z", this.range_z.px2val(this._clickZ
                     + (this._clickY - (ev.pageY - this._offsetY)) * mz));
+                this.fireEvent("zchanged", [this.options.z, this]);
             } else if (this.options.z_handle == _TOOLKIT_BOTTOM
                 || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
                 && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
@@ -1195,6 +1199,7 @@ ResponseHandle = new Class({
                 // movement to bottom
                 this.set("z", this.range_z.px2val(this._clickZ
                     + ((ev.pageY - this._offsetY) - this._clickY) * mz));
+                this.fireEvent("zchanged", [this.options.z, this]);
             }
         } else if (this._sticky) {
             var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
@@ -1232,7 +1237,7 @@ ResponseHandle = new Class({
         else if (e.shift)
             s *= this.range_z.get("shift_up");
         this.set("z", this.get("z") + s);
-        this.fireEvent("handlescrolling", this);
+        this.fireEvent("zchanged", [this.options.z, this]);
     },
     _touchstart: function (e) {
         if (e.touches && e.touches.length == 2) {
@@ -1278,6 +1283,7 @@ ResponseHandle = new Class({
             this.set("z", Math.max(
                 Math.min(z, this.range_z.get("max")),
                 this.range_z.get("min")));
+            this.fireEvent("zchanged", [this.options.z, this]);
             e.event.preventDefault();
             e.event.stopPropagation();
             return false;
