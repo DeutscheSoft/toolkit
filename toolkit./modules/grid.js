@@ -81,13 +81,12 @@ Grid = new Class({
         // draw a line with label. obj contains pos, class and label
         var m = 0;
         if (obj.label) {
-            var label = makeSVG("text");
+            var label = makeSVG("text").inject(this.element);
             label.set("text", obj.label);
             label.set("style", "dominant-baseline: central;");
             label.addClass("toolkit-grid-label "
                 + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
             if (obj["class"]) label.addClass(obj["class"]);
-            label.inject(this.element);
             var w  = this.range_x.options.basis;
             var h  = this.range_y.options.basis;
             var tw = label.getBBox().width;

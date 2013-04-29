@@ -1096,20 +1096,21 @@ ResponseHandle = new Class({
         return false;
     },
     _mouseup: function (e) {
-        this.__active = false;
-        this._zhandling = false;
         this.element.removeClass("toolkit-active");
         var parent = this.element.getParent().getParent();
         if (parent)
             parent.removeClass("toolkit-dragging");
-         e.event.preventDefault();
-         e.stopPropagation();
-        this.fireEvent("stopdrag", {
-            x:     this.options.x,
-            y:     this.options.y,
-            pos_x: this.x,
-            pos_y: this.y
-        });
+        e.event.preventDefault();
+        e.stopPropagation();
+        if (this.__active)
+            this.fireEvent("stopdrag", [{
+                x:     this.options.x,
+                y:     this.options.y,
+                pos_x: this.x,
+                pos_y: this.y
+            }, this]);
+        this.__active = false;
+        this._zhandling = false;
         document.removeEvent("mouseup", this._mouseup.bind(this));
     },
     _mousemove: function (e) {
