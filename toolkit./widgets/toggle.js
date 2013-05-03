@@ -67,42 +67,6 @@ Toggle = new Class({
         e.event.preventDefault();
         return false;
     },
-//     _mousedown: function (e) {
-//         if (!this.options.press
-//         || (!this.options.press_disable && this.options.state))
-//             return;
-//         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
-//         this.__tm = true;
-//         e.preventDefault();
-//     },
-//     _mouseup: function (e) {
-//         if (!this.__tm && this.options.press) return;
-//         this.toggle();
-//         this._clear_to();
-//         this.__tp = false;
-//         this.__tc = false;
-//         e.preventDefault();
-//     },
-//     _touchstart: function (e) {
-//         if (!this.options.press
-//         || (!this.options.press_disable && this.options.state))
-//             return;
-//         this.__toto = window.setTimeout(this._togglepress.bind(this), this.options.press);
-//         this.__tt = true;
-//         e.preventDefault();
-//     },
-//     _touchend: function (e) {
-//         if (!this.__tt && this.options.press) return;
-//         this.toggle();
-//         this._clear_to();
-//         this.__tp = false;
-//         this.__tt = false;
-//         e.preventDefault();
-//     },
-//     _togglepress: function () {
-//         this.toggle();
-//         this.__tp = true;
-//     },
     _clear_to: function () {
         if (this.__toto) {
             window.clearTimeout(this.__toto);
