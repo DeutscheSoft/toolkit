@@ -50,6 +50,8 @@ Toggle = new Class({
                 this.__toggleclick = false;
             }.bind(this), this.options.press);
         }
+        e.event.preventDefault();
+        return false;
     },
     _mouseup: function (e) {
         if(!this.__toggledown) return;
@@ -62,6 +64,8 @@ Toggle = new Class({
         }
         this.toggle();
         this.__toggleclick = false;
+        e.event.preventDefault();
+        return false;
     },
 //     _mousedown: function (e) {
 //         if (!this.options.press
