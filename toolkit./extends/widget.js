@@ -60,6 +60,8 @@ Widget = new Class({
                 this.fireEvent("mouseenter", [e, this, element]); }.bind(this),
             "mouseleave" : function (e) {
                 this.fireEvent("mouseleave", [e, this, element]); }.bind(this),
+            "mousewheel"  : function (e) {
+                this.fireEvent("mousewheel", [e, this, element]); }.bind(this),
             "click"      : function (e) {
                 this.fireEvent("click",      [e, this, element]); }.bind(this),
             "mousedown"  : function (e) {

@@ -149,7 +149,7 @@ ResponseHandle = new Class({
             "mousedown":  this._zhandledown.bind(this),
             "touchstart":  this._zhandledown.bind(this)
         });
-        $$("body")[0].addEvent("mouseup", this._mouseup.bind(this));
+        document.addEvent("mouseup", this._mouseup.bind(this));
         
         this._handle.onselectstart = function () { return false; };
         
@@ -1035,28 +1035,31 @@ ResponseHandle = new Class({
     
     // CALLBACKS / EVENT HANDLING
     _mouseenter: function (e) {
+        e.event.preventDefault();
         this._zwheel = false;
         this.element.addClass("toolkit-hover");
-        e.stopPropagation();
+        return false;
     },
     _mouseleave: function (e) {
+        e.event.preventDefault();
         this._raised = false;
         this.element.removeClass("toolkit-hover");
-        e.stopPropagation();
+        return false;
     },
     _mouseelement: function (e) {
+        e.event.preventDefault();
         if (this.options.container && !this._raised) {
             this.element.inject(this.options.container);
             this._raised = true;
         }
-        e.stopPropagation();
+        return false;
+        //e.stopPropagation();
     },
     _mousedown: function (e) {
+        e.event.preventDefault();
         this._zwheel = false;
         if (this.options.min_drag)
             this._sticky = true;
-        e.event.preventDefault();
-        e.event.stopPropagation();
         if (!this.options.active) return false;
         
         // order
@@ -1086,36 +1089,44 @@ ResponseHandle = new Class({
         this._clickY  = this.y;
         this._clickZ  = this.z;
         this.redraw();
-        this.fireEvent("handlegrabbed", [{
-            x:     this.options.x,
-            y:     this.options.y,
-            pos_x: this.x,
-            pos_y: this.y
-        }, this]);
-        document.addEvent("mouseup", this._mouseup.bind(this));
+        if(!this._zhandling) {
+            this.fireEvent("handlegrabbed", [{
+                x:     this.options.x,
+                y:     this.options.y,
+                pos_x: this.x,
+                pos_y: this.y
+            }, this]);
+        } else {
+            this.fireEvent("zchangestarted", [this.options.z, this]);
+        }
+        //document.addEvent("mouseup", this._mouseup.bind(this));
         return false;
     },
     _mouseup: function (e) {
+        if(!this.__active) return;
+        e.event.preventDefault();
         this.element.removeClass("toolkit-active");
         var parent = this.element.getParent().getParent();
         if (parent)
             parent.removeClass("toolkit-dragging");
-        e.event.preventDefault();
-        e.stopPropagation();
-        if (this.__active) {
+        if(!this._zhandling) {
             this.fireEvent("handlereleased", [{
                 x:     this.options.x,
                 y:     this.options.y,
                 pos_x: this.x,
                 pos_y: this.y
             }, this]);
+        } else {
+            this.fireEvent("zchangeended", [this.options.z, this]);
+            this._zhandling = false;
         }
         this.__active = false;
-        this._zhandling = false;
-        document.removeEvent("mouseup", this._mouseup.bind(this));
+        //document.removeEvent("mouseup", this._mouseup.bind(this));
+        return false;
     },
     _mousemove: function (e) {
         if (!this.__active) return;
+        e.event.preventDefault();
         if (e.touches && e.touches.length > 1) {
             var ev = e.touches[0];
         } else {
@@ -1213,31 +1224,34 @@ ResponseHandle = new Class({
             this.set("y", this.range_y.px2val(this._clickY
                 + ((ev.pageY - this._offsetY) - this._clickY) * my));
         }
-        e.event.preventDefault();
-        e.stopPropagation();
         this.fireEvent("handledragging", [{
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
             pos_y: this.y
         },this]);
+        return false;
     },
     _scrollwheel: function (e) {
-        this._zwheel = true;
+        e.event.preventDefault();
+        
         if (this.__sto) window.clearTimeout(this.__sto);
         this.element.addClass("toolkit-active");
         this.__sto = window.setTimeout(function () {
-            this.element.removeClass("toolkit-active")
+            this.element.removeClass("toolkit-active");
+            this.fireEvent("zchangeended", [this.options.z, this]);
         }.bind(this), 250);
-        e.event.preventDefault();
-        e.event.stopPropagation();
         var s = this.range_z.get("step") * e.wheel;
         if (e.control && e.shift)
             s *= this.range_z.get("shift_down");
         else if (e.shift)
             s *= this.range_z.get("shift_up");
         this.set("z", this.get("z") + s);
+        if(!this._zwheel)
+            this.fireEvent("zchangestarted", [this.options.z, this]);
         this.fireEvent("zchanged", [this.options.z, this]);
+        this._zwheel = true;
+        return false;
     },
     _touchstart: function (e) {
         if (e.touches && e.touches.length == 2) {
