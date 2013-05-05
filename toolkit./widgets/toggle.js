@@ -4,15 +4,13 @@ Toggle = new Class({
         label_active:  false, // the label for the active toggle, false for default label
         icon_active:   false, // this icon of the active toggle, false for default icon
         press:         0,     // time in milliseconds after a press is interpreted as a toggle, 0 to disable press toggle
-        press_disable: false, // If press is enabled, does press toggle work with deactivating the state?
+        toggle:        true,  // button is toggleable
         state:         false
-        
     },
     
     initialize: function (options, hold) {
         this.parent(options, hold);
         this.element.addClass("toolkit-toggle");
-        //this.element.addEvent("click", this.toggle.bind(this));
         this.element.addEvent("mousedown", this._mousedown.bind(this));
         this.element.addEvent("mouseup", this._mouseup.bind(this));
         this.element.addEvent("touchstart", this._mousedown.bind(this));
@@ -21,9 +19,14 @@ Toggle = new Class({
     
     redraw: function () {
         var value = this.options.state;
-        var icon = this.options[value ? (this.options.icon_active ? "icon_active" : "icon") : "icon"];
+        
+        var icon  = this.options[value ? (this.options.icon_active
+                                       ? "icon_active" : "icon") : "icon"];
         if (icon) this._icon.set("src", icon);
-        var label = this.options[value ? (this.options.label_active ? "label_active" : "label") : "label"];
+                   
+        var label = this.options[value ? (this.options.label_active
+                                       ? "label_active" : "label") : "label"];
+                                       
         if (label) this._label.set("html", label);
     },
     toggle: function (hold) {
@@ -56,8 +59,9 @@ Toggle = new Class({
     _mouseup: function (e) {
         if(!this.__toggledown) return;
         this.__toggledown = false;
-        if ((this.options.press && this.__toggleclick) ||
-            (!this.options.press && !this.__toggleclick)) {
+        if ((this.options.press && (this.__toggleclick && this.options.toggle))
+        || (!this.options.press && !this.options.toggle)) {
+            // do not toggle
             this._clear_to();
             this.__toggleclick = false;
             return;

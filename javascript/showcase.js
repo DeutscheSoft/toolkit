@@ -51,19 +51,28 @@ window.addEvent('domready', function () {
 // TOGGLE
 
 function run_toggle () {
-    if (typeof t != "undefined") {
-        t.destroy();
-        t = undefined;
+    if (typeof toggle != "undefined") {
+        toggle.destroy();
+        toggle = undefined;
+        press.destroy();
+        press = undefined;
         return;
     }
-    t = new Toggle({
+    toggle = new Toggle({
+        container: $("sc_toggle"),
+        label: "Mic Active",
+        label_active: "Mic Muted",
+        icon: "images/icons_big/microphone.png",
+        icon_active: "images/icons_big/microphone_muted.png",
+    });
+    press = new Toggle({
         container: $("sc_toggle"),
         label: "Mic Active",
         label_active: "Mic Muted",
         icon: "images/icons_big/microphone.png",
         icon_active: "images/icons_big/microphone_muted.png",
         press: 200,
-        press_disable: true
+        toggle: true
     });
 }
 
@@ -71,19 +80,38 @@ function run_toggle () {
 // BUTTON
 
 function run_button () {
-    if (typeof b != "undefined") {
-        b.destroy();
-        b = undefined;
+    if (typeof button != "undefined") {
+        button.destroy();
+        button = undefined;
         return;
     }
-    b = new Button({
+    button = new Button({
         container: $("sc_button"),
         label: "Demo Button",
         icon: "images/icons_big/showcase.png"
     });
-    b.addEvent("click", function () { alert("clicked") });
+    button.addEvent("click", function () { alert("clicked") });
 }
 
+// VALUE BUTTON
+
+function run_valuebutton () {
+    if (typeof vb != "undefined") {
+        vb.destroy();
+        vb = undefined;
+        return;
+    }
+    vb = new ValueButton({
+        container: $("sc_vbutton"),
+        label: "Threshold",
+        min: -96,
+        max: 24,
+        step: 1,
+        basis: 600,
+        shift_up: 4,
+        shift_down: 0.25
+    });
+}
 
 // SCALE
 

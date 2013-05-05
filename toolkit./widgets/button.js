@@ -1,43 +1,38 @@
 Button = new Class({
-    Implements: [Options, Events],
+    // Button is a simple, clickable widget to trigger funcions. They fire a
+    // couple of click-related events and consist of a label and an icon.
+    // Buttons are used as a base to build different other widgets from.
+    Extends: Widget,
     options: {
-        "class":          "",
-        id:               "",
-        container:        false,          // a container to use as the base object
-        label:            "",             // text for the button
-        icon:             "",             // URL to an icon for this button
-        state:            false,          // state of the button (bool)
-        state_color:      false           // background color of the state indication
+        label:            "",    // text for the button
+        icon:             "",    // URL to an icon for this button
+        state:            false, // state of the button (bool)
+        state_color:      false  // background color of the state indication
     },
     
     initialize: function (options, hold) {
-        this.setOptions(options);
-        if (!this.options.id) this.options.id = String.uniqueID();
-        this.element = new Element("div.toolkit-button", {
+        this.parent(options, hold);
+        this.element = this.widgetize(new Element("div.toolkit-button", {
             "id":    this.options.id
-        });
-        if (this.options.container) this.set("container", this.options.container, hold);
-        if (this.options["class"]) this.set("class", this.options["class"], hold);
+        }), true, true);
+        if (this.options.container)
+            this.set("container", this.options.container, hold);
         
         this._icon = new Element("img.toolkit-icon").inject(this.element);
         this._label = new Element("div.toolkit-label").inject(this.element);
         
-        this.set("label", this.options.label, hold);
-        this.set("icon", this.options.icon, hold);
-        
-        this.element.addEvent("click", function (e) { this.fireEvent("click", [e, this]) }.bind(this));
-        this.element.addEvent("mousedown", function (e) { this.fireEvent("mousedown", [e, this]) }.bind(this));
-        this.element.addEvent("mouseup", function (e) { this.fireEvent("mouseup", [e, this]) }.bind(this));
+        this.set("label",       this.options.label, hold);
+        this.set("icon",        this.options.icon, hold);
         this.set("state_color", this.options.state_color, hold);
-        this.set("state", this.options.state, hold);
+        this.set("state",       this.options.state, hold);
+        this.initialized();
     },
     destroy: function () {
         this._icon.destroy();
         this._label.destroy();
         this.element.destroy();
+        this.parent();
     },
-    // HELPERS & STUFF
-    
     
     // GETTER & SETTER
     set: function (key, value, hold) {
@@ -71,17 +66,18 @@ Button = new Class({
                 break;
             case "state":
                 if (!hold) {
-                    this.element[value ? "addClass" : "removeClass"]("toolkit-active");
-                    this._label.setStyle("background-color", (this.options.state_color && this.options.state) ? this.options.state_color : null);
+                    this.element[value
+                        ? "addClass" : "removeClass"]("toolkit-active");
+                    this._label.setStyle("background-color",
+                                         (this.options.state_color
+                                       && this.options.state)
+                                        ? this.options.state_color : null);
                 }
                 break;
             case "state_color":
                 if (!hold) this.set("state", this.options.state);
         }
-    },
-    get: function (key) {
-        if (typeof this.options[key] != "undefined")
-            return this.options[key];
+        this.parent(key, value, hold);
     }
 });
  

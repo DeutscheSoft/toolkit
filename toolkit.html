@@ -49,6 +49,8 @@
         <!-- WIDGETS -->
         <script src="toolkit./widgets/button.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/button.css">
+        <script src="toolkit./widgets/valuebutton.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/valuebutton.css">
         <script src="toolkit./widgets/toggle.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toggle.css">
         <script src="toolkit./widgets/state.js"></script>
@@ -137,7 +139,7 @@
             
             
             
-            <li id="Button" class="widget" style="opacity: 0.33;">
+            <li id="Button" class="widget">
                 <!-- ########################################################### -->
                 <!-- BUTTON WIDGET -->
                 <!-- ########################################################### -->
@@ -145,11 +147,11 @@
                 <p class="description">
                     <strong>Button</strong> is a simple, clickable widget to trigger funcions. They fire a couple
                     of click-related events and consist of a label and an icon. Buttons are used
-                    as a base to build different other widgets from.
+                    as a base to build different other widgets from. Button extends <a href="#widget">Widget</a>.
                 </p>
                 <p class="description">
-                    Use b to play with the example in a terminal:
-                    <a href="javascript:b.set('state', true)">b.set("state", true)</a>
+                    Use button to play with the example in a terminal:
+                    <a href="javascript:button.set('state', true)">button.set("state", true)</a>
                     <small>(toggles the state of the widget)</small>
                 </p>
                 
@@ -167,21 +169,6 @@
                 
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr>
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>id <i class="static">⚓</i></td>
-                        <td>An ID to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>container</td>
-                        <td>A container element to inject the state into</td>
-                        <td>false</td>
-                    </tr>
                     <tr>
                         <td>label</td>
                         <td>A text or HTML snipped used as a label for the button. Set to false to hide the label element.</td>
@@ -217,22 +204,6 @@
                     <tr>
                         <td>button._icon ("img.toolkit-icon")</td>
                         <td>An icon to display</td>
-                    </tr>
-                </table>
-                
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr>
-                        <td>clicked</td>
-                        <td>Is fired when the button was clicked.</td>
-                    </tr>
-                    <tr>
-                        <td>mousedown</td>
-                        <td>Is fired when the mouse button was pressed.</td>
-                    </tr>
-                    <tr>
-                        <td>mouseup</td>
-                        <td>Is fired when the mouse button was released.</td>
                     </tr>
                 </table>
             </li>
@@ -973,19 +944,99 @@
                 </table>
             </li>
             
-            <li id="Toggle" class="widget" style="opacity: 0.33;">
+            <li id="Toggle" class="widget">
                 <!-- ########################################################### -->
                 <!-- TOGGLE WIDGET -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
                     <strong>Toggle</strong> is an enhanced button that toggles between two states. It additionally
+                    consist of an "active" icon and an "active" label. The 2nd example below has press
+                    toggle enabled, so click and hold toggles for the duration of the mousedown.
+                    Toggle extends <a href="#button" title="Button">Button</a>.
+                </p>
+                <p class="description">
+                    Use toggle to play with the 1st example in a terminal:
+                    <a href="javascript:toggle.toggle()">toggle.toggle()</a>
+                    and press to play with the 2nd example in a terminal:
+                    <a href="javascript:press.toggle()">press.toggle()</a>
+                    <small>(toggles the state of the widget)</small>
+                </p>
+                <style type="text/css">
+                    #sc_toggle .toolkit-button {
+                        margin-right: 10px;
+                    }
+                </style>
+                
+                <div class="showcase">
+                    <div id="sc_toggle" style="text-align: center;">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>label_active</td>
+                        <td>A text or HTML snipped used as a label for the active toggle state. Set to false to use the default label.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>icon_active</td>
+                        <td>A URL to an icon to show on the active toggle. Set to false to use the default label.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>press</td>
+                        <td>To enable press toggle set a time in milliseconds after a press is interpreted as a toggle. Releasing the button
+                        after a press toggle resets to the original state.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>toggle</td>
+                        <td>Enable or disable toggling, disable for external toggle only or if pure push-to-talk is needed.</td>
+                        <td>true</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>toggle()</td>
+                        <td>Toggle the button.</td>
+                    </tr>
+                    <tr>
+                        <td>cancel_press()</td>
+                        <td>Cancels an eventually active press toggle.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>toggled</td>
+                        <td>Is fired when the state of the toggle changed.
+                        Hands over the new state and the widget instance.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            <li id="ValueButton" class="widget">
+                <!-- ########################################################### -->
+                <!-- VALUE BUTTON WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>ValueButton</strong> is an enhanced button that toggles between two states. It additionally
                     consist of an "active" icon and an "active" label. The example below has press
                     toggle enabled, so click and hold toggles for the duration of the mousedown.
                 </p>
                 <p class="description">
-                    Use t to play with the example in a terminal:
-                    <a href="javascript:t.toggle()">t.toggle()</a>
+                    Use valuebutton to play with the example in a terminal:
+                    <a href="javascript:valuebutton.toggle()">valuebutton.toggle()</a>
                     <small>(toggles the state of the widget)</small>
                 </p>
                 <style type="text/css">
@@ -993,7 +1044,7 @@
                 </style>
                 
                 <div class="showcase">
-                    <div id="sc_toggle" style="text-align: center;">
+                    <div id="sc_vbutton" style="text-align: center;">
                         
                     </div>
                 </div>
@@ -1109,8 +1160,6 @@
                     </tr>
                 </table>
             </li>
-            
-            
             
             
             
@@ -1918,8 +1967,8 @@
                     and horizontally. Scale implements <a href="#ranges">Ranges</a> and extends <a href="#widget">Widget</a>.
                 </p>
                 <p class="description">
-                    Use svl, svr, sht and shb to play with the examples in a terminal:
-                    <a href="javascript:svl.set('gap_labels', 20)">svl.set("gap_labels", 20)</a>
+                    Use scales.left, scales.right, scales.top and scales.bottom to play with the examples in a terminal:
+                    <a href="javascript:scales.left.set('gap_labels', 20)">scales.left.set("gap_labels", 20)</a>
                     <small>(doubles the amount of drawn labels in the vertical scale on the left)</small>
                 </p>
                 
