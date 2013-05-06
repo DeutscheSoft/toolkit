@@ -1257,7 +1257,6 @@ ResponseHandle = new Class({
             this.fireEvent("zchangestarted", [this.options.z, this]);
         this.fireEvent("zchanged", [this.options.z, this]);
         this._zwheel = true;
-        return false;
     },
     _touchstart: function (e) {
         if (e.touches && e.touches.length == 2) {
