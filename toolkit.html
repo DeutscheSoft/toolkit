@@ -93,9 +93,12 @@
                 <!-- ########################################################### -->
                 
                 <img style="float: right; margin-left: 20px;" src="images/junger_toolkit.png"/>
+                <p><strong>toolkit. by Jünger</strong> is a graphical toolkit written in JavaScript
+                for building audio related user interfaces running in modern browsers.</p>
+                
                 <p>
                     
-                    This page shows and describes the different widgets of the JUNGER toolkit. See some widgets in action,
+                    This page shows and describes the different widgets of the Jünger toolkit. See some widgets in action,
                     test things in a terminal (Chrome: CTL+SHIFT+J, FF: Firebug + F12) or just get some information about
                     the different options of the API.
                 </p>
@@ -194,7 +197,7 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>button.element ("div.toolkit-state")</td>
+                        <td>button.element ("div.toolkit-state") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
                         <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
                     </tr>
                     <tr>
@@ -1040,7 +1043,48 @@
                     <small>(toggles the state of the widget)</small>
                 </p>
                 <style type="text/css">
-                    
+                    #sc_vbutton .toolkit-valuebutton {
+                        width: 200px;
+                        padding: 0px;
+                        padding-left: 8px;
+                    }
+                    #sc_vbutton .toolkit-valuebutton .toolkit-icon {
+                        float: left !important;
+                        margin: 6px 6px 6px 0 !important;
+                    }
+                    #sc_vbutton .toolkit-valuebutton .toolkit-bar {
+                        margin-left: 30px;
+                        width: 80px;
+                    }
+                    #sc_vbutton .toolkit-valuebutton .toolkit-label {
+                        margin-top: 6px;
+                        margin-left: 30px;
+                        width: 80px;
+                    }
+                    #sc_vbutton .toolkit-valuebutton .toolkit-value {
+                        width: 80px;
+                        height: 37px;
+                        line-height: 37px;
+                        float: right;
+                        -webkit-border-top-right-radius: 5px;
+                        -webkit-border-bottom-right-radius: 5px;
+                        -moz-border-radius-topright: 5px;
+                        -moz-border-radius-bottomright: 5px;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                    }
+                    #sc_vbutton .toolkit-valuebutton .toolkit-input {
+                        width: 80px;
+                        height: 37px;
+                        line-height: 37px;
+                        float: right;
+                        -webkit-border-top-right-radius: 5px;
+                        -webkit-border-bottom-right-radius: 5px;
+                        -moz-border-radius-topright: 5px;
+                        -moz-border-radius-bottomright: 5px;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                    }
                 </style>
                 
                 <div class="showcase">
@@ -1876,7 +1920,7 @@
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>responsehandle.element ("g.toolkit-response-handle")</td>
+                        <td>responsehandle.element ("g.toolkit-response-handle") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
                         <td>The SVG group element containing all other elements. It may have additional
                         classes added depending on the state of the handle:
                         <ul>

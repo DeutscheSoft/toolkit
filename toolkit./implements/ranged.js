@@ -123,6 +123,7 @@ Ranged = new Class({
     val2based: function (value, basis) {
         // takes a value and returns the corresponding point on the scale
         // according to basis
+        if (typeof value == "undefined") value = this.options.value;
         basis = basis || 1;
         value = this.snap_value(value);
         var coef = 0;

@@ -95,7 +95,7 @@ Range = new Class({
     set: function (key, value, hold) {
         this.options[key] = value;
         switch (key) {
-            case "mode":
+            case "scale":
             case "min":
             case "max":
                 // calculate some logarithmics to reduce overhead when used

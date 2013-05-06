@@ -96,20 +96,80 @@ function run_button () {
 // VALUE BUTTON
 
 function run_valuebutton () {
-    if (typeof vb != "undefined") {
-        vb.destroy();
-        vb = undefined;
+    if (typeof thres != "undefined") {
+        thres.destroy();
+        thres = undefined;
+        ratio.destroy();
+        ratio = undefined;
+        attack.destroy();
+        attack = undefined;
+        release.destroy();
+        release = undefined;
+        $("sc_vbutton").set("html", "");
         return;
     }
-    vb = new ValueButton({
+    thres = new ValueButton({
         container: $("sc_vbutton"),
         label: "Threshold",
+        icon: "images/icons_small/threshold.png",
+        value_position: "icon",
+        value_format: function (val) { return sprintf("%.1f dB", val); },
         min: -96,
         max: 24,
         step: 1,
         basis: 600,
         shift_up: 4,
-        shift_down: 0.25
+        shift_down: 0.25,
+        value: 0
+    });
+    attack = new ValueButton({
+        "class": "attack",
+        container: $("sc_vbutton"),
+        label: "Attack",
+        icon: "images/icons_small/attack.png",
+        value_position: "icon",
+        value_format: function (val) { return sprintf("%.1f ms", val); },
+        min: 1,
+        max: 1000,
+        step: 1,
+        basis: 600,
+        shift_up: 4,
+        shift_down: 0.25,
+        value: 100,
+        scale: _TOOLKIT_FREQ
+    });
+    
+    var br = new Element("br").inject($("sc_vbutton"));
+    
+    ratio = new ValueButton({
+        container: $("sc_vbutton"),
+        label: "Ratio",
+        icon: "images/icons_small/ratio.png",
+        value_position: "icon",
+        value_format: function (val) { return sprintf("%.1f : 1", val); },
+        min: 1,
+        max: 10,
+        step: 1,
+        basis: 600,
+        shift_up: 4,
+        shift_down: 0.25,
+        value: 2
+    });
+    
+    release = new ValueButton({
+        container: $("sc_vbutton"),
+        label: "Release",
+        icon: "images/icons_small/release.png",
+        value_position: "icon",
+        value_format: function (val) { return sprintf("%.1f ms", val); },
+        min: 1,
+        max: 1000,
+        step: 1,
+        basis: 600,
+        shift_up: 4,
+        shift_down: 0.25,
+        value: 100,
+        scale: _TOOLKIT_FREQ
     });
 }
 
@@ -338,13 +398,13 @@ function run_equalizer () {
         range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true},
     });
     bands = [
-        eq.add_band({x:200, y:-12, z:3, type:_TOOLKIT_PARAMETRIC, z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
+        eq.add_band({x:600, y:-12, z:3, type:_TOOLKIT_PARAMETRIC, z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
         eq.add_band({x:2000, y:12, z:1, type:_TOOLKIT_PARAMETRIC, z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
         eq.add_band({x:200, y:-12, z:1, type:_TOOLKIT_LOWSHELF, z_handle: _TOOLKIT_RIGHT, title:"Low Shelf", preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT], z_min: 0.4, z_max: 4}),
-        eq.add_band({x:10000, y: 12, z:1, type:_TOOLKIT_HIGHSHELF, z_handle: _TOOLKIT_LEFT, title:"High Shelf", preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
+        eq.add_band({x:7000, y: 12, z:1, type:_TOOLKIT_HIGHSHELF, z_handle: _TOOLKIT_LEFT, title:"High Shelf", preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT], z_min: 0.4, z_max: 4}),
-        eq.add_band({x:100, z: 1, type:_TOOLKIT_HP2, title:"High Pass", preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
+        eq.add_band({x:40, z: 1, type:_TOOLKIT_HP2, title:"High Pass", preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
                        label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } }),
         eq.add_band({x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass", preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,

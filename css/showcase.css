@@ -31,7 +31,6 @@ div.buttons {
     margin: 20px 0 0 0;
 }
 div.buttons .toolkit-button {
-    margin-right: 10px;
 }
 i.static,
 i.delegated,
@@ -145,5 +144,5 @@ ul#navigation>li ul li {
     clear: left;
 }
 ul#navigation>li ul li a {
-    background-color: rgba(0,42,66,0.999999999);
+    background-color: rgba(0, 42, 66, 1);
 }

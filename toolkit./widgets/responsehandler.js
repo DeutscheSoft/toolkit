@@ -88,10 +88,10 @@ var ResponseHandler = new Class({
         h.addEvent("handlereleased",  function () {
             this._active = Math.max(this._active-1, 0)
         }.bind(this));
-        this.element.addEvent("mousemove", h._mousemove.bind(h));
-        this.element.addEvent("mouseup",   h._mouseup.bind(h));
-        this.element.addEvent("touchmove", h._touchmove.bind(h));
-        this.element.addEvent("touchend",  h._touchend.bind(h));
+        document.addEvent("mousemove", h._mousemove.bind(h));
+        document.addEvent("mouseup",   h._mouseup.bind(h));
+        document.addEvent("touchmove", h._touchmove.bind(h));
+        document.addEvent("touchend",  h._touchend.bind(h));
         this.fireEvent("handleadded", [h, this]);
         return h;
     },

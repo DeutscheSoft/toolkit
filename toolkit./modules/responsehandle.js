@@ -149,7 +149,7 @@ ResponseHandle = new Class({
             "mousedown":  this._zhandledown.bind(this),
             "touchstart":  this._zhandledown.bind(this)
         });
-        document.addEvent("mouseup", this._mouseup.bind(this));
+        //document.addEvent("mouseup", this._mouseup.bind(this));
         
         this._handle.onselectstart = function () { return false; };
         
@@ -185,6 +185,10 @@ ResponseHandle = new Class({
             this.options.z = Math.max(this.options.z_min, this.options.z);
         if (this.options.z_max !== false)
             this.options.z = Math.min(this.options.z_max, this.options.z);
+        
+        this.options.x = this.range_x.snap_value(this.options.x);
+        this.options.y = this.range_y.snap_value(this.options.y);
+        this.options.z = this.range_z.snap_value(this.options.z);
         
         this.x = Math.round(this.range_x.val2px(this.options.x));
         this.y = Math.round(this.range_y.val2px(this.options.y));
@@ -1132,15 +1136,17 @@ ResponseHandle = new Class({
         } else {
             var ev = e.event;
         }
-        var mx = my = mz = 1;
+        var mx = this.range_x.options.step || 1;
+        var my = this.range_y.options.step || 1;
+        var mz = this.range_z.options.step || 1;
         if (e.control && e.shift) {
-            mx = this.range_x.get("shift_down");
-            my = this.range_y.get("shift_down");
-            mz = this.range_z.get("shift_down");
+            mx *= this.range_x.get("shift_down");
+            my *= this.range_y.get("shift_down");
+            mz *= this.range_z.get("shift_down");
         } else if (e.shift) {
-            mx = this.range_x.get("shift_up");
-            my = this.range_y.get("shift_up");
-            mz = this.range_z.get("shift_up");
+            mx *= this.range_x.get("shift_up");
+            my *= this.range_y.get("shift_up");
+            mz *= this.range_z.get("shift_up");
         }
         if (this._zhandling) {
             if (this.options.z_handle == _TOOLKIT_LEFT
