@@ -126,7 +126,8 @@ var Chart = new Class({
         this.graphs.push(g);
         this._draw_key();
         g.addEvent("set", function (key, value, hold, obj) {
-            if(!hold) this._draw_key();
+            if (key == "color" || key == "class" || key == "key")
+                if (!hold) this._draw_key();
         }.bind(this));
         this.fireEvent("graphadded");
         return g;
