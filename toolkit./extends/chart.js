@@ -37,10 +37,10 @@ var Chart = new Class({
                      // or a function returning a Range instance (only on init)
         range_y: {}, // an object with options for a range for the y axis
                      // or a function returning a Range instance (only on init)
-        key: false   // key draws a description for the graphs at the given
+        key: false,  // key draws a description for the graphs at the given
                      // position, use false for no key
+        key_size: 20 // width of the key rects
     },
-    _min_key_width: 20,
     graphs: [],
     initialize: function (options, hold) {
         this.parent(options, hold);
@@ -125,6 +125,9 @@ var Chart = new Class({
         var g = new Graph(options);
         this.graphs.push(g);
         this._draw_key();
+        g.addEvent("set", function (key, value, hold, obj) {
+            if(!hold) this._draw_key();
+        }.bind(this));
         this.fireEvent("graphadded");
         return g;
     },
@@ -154,6 +157,7 @@ var Chart = new Class({
         this._key.empty();
         if(this.options.key === false) {
             this._key.setStyle("display", "none");
+            this._key_background.setStyle("display", "none");
             this.__key = {x1: 0, x2: 0, y1: 0, y2: 0};
             return;
         }
@@ -199,28 +203,62 @@ var Chart = new Class({
         }
         for (var i = 0; i < lines.length; i++) {
             var b = makeSVG("rect", {
-                "class": lines[i]["class"],
+                "class": lines[i]["class"] + " toolkit-rect",
                 color:   lines[i].color,
                 style:   lines[i].style,
                 x:       lines[i].x + 0.5 + w + gpad.left,
                 y:       lines[i].y + 0.5,
-                height:  lines[i].height
+                height:  lines[i].height,
+                width:   this.options.key_size
             });
-            console.log(lines[i].x)
             b.inject(this._key);
-            b.set("width", (b.getStyle("width").toInt() || this._min_key_width));
         }
-        this._key.setStyles({
-            "display": disp
-        });
-        this._key.set("transform", "translate(" + gmarg.left + "," + gmarg.top + ")");
+        this._key_background.setStyle("display", disp);
+        this._key.setStyle("display", disp);
         
-        var bb = this._key.getBBox();
-        this._key_background.set("x", gmarg.left);
-        this._key_background.set("y", gmarg.top);
-        this._key_background.set("width", bb.width + gpad.left + gpad.right);
-        this._key_background.set("height", bb.height + gpad.top + gpad.bottom);
+        var bb     = this._key.getBBox();
+        var width  = this.range_x.options.basis;
+        var height = this.range_y.options.basis;
         
+        switch (this.options.key) {
+            case _TOOLKIT_TOP_LEFT:
+                this.__key = {
+                    x1: gmarg.left,
+                    y1: gmarg.top,
+                    x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
+                    y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
+                }
+                break;
+            case _TOOLKIT_TOP_RIGHT:
+                this.__key = {
+                    x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
+                    y1: gmarg.top,
+                    x2: width - gmarg.right,
+                    y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
+                }
+                break;
+            case _TOOLKIT_BOTTOM_LEFT:
+                this.__key = {
+                    x1: gmarg.left,
+                    y1: height - gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
+                    x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
+                    y2: height - gmarg.bottom
+                }
+                break;
+            case _TOOLKIT_BOTTOM_RIGHT:
+                this.__key = {
+                    x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
+                    y1: height -gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
+                    x2: width - gmarg.right,
+                    y2: height - gmarg.bottom
+                }
+                break;
+        }
+        this._key.set("transform", "translate(" + this.__key.x1 + "," + this.__key.y1 + ")");
+        this._key_background.set("x", this.__key.x1);
+        this._key_background.set("y", this.__key.y1);
+        this._key_background.set("width", this.__key.x2 - this.__key.x1);
+        this._key_background.set("height", this.__key.y2 - this.__key.y1);
     },
     
     // GETTER & SETER
@@ -238,6 +276,12 @@ var Chart = new Class({
                 break;
             case "height":
                 this.range_y.set("basis", value, hold);
+                break;
+            case "key":
+                if(!hold) this._draw_key();
+                break;
+            case "key_size":
+                if(!hold) this._draw_key();
                 break;
         }
         this.parent(key, value, hold);
