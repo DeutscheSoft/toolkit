@@ -1546,6 +1546,11 @@
                         redundant redrawing. Meant as a wrapper for Graph.y.set("basis", 300)</td>
                         <td>0</td>
                     </tr>
+                    <tr>
+                        <td>key</td>
+                        <td>If the graph has a key enabled, draw a short description
+                        for this graph. Expects a string or false to disable.</td>
+                        <td>false</td>
                 </table>
                 
                 <table class="elements collapse" title="⚛ Elements">
@@ -1870,14 +1875,15 @@
                         <td>z_handle</td>
                         <td>Draw a tiny handle for manipulating the z axis. z_handle has the following
                         values:
-                            <ul><li><strong>_TOOLKIT_CIRCULAR</strong>: 
-                                _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
-                                _TOOLKIT_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM_LEFT,
-                                _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT</li>
-                                <li><strong>All other modes:</strong>:
-                                _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
-                                _TOOLKIT_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM_LEFT,
-                                _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT</li>
+                            <ul>
+                                <li>_TOOLKIT_TOP_LEFT</li>
+                                <li>_TOOLKIT_TOP</li>
+                                <li>_TOOLKIT_TOP_RIGHT</li>
+                                <li>_TOOLKIT_LEFT</li>
+                                <li>_TOOLKIT_RIGHT</li>
+                                <li>_TOOLKIT_BOTTOM_LEFT</li>
+                                <li>_TOOLKIT_BOTTOM</li>
+                                <li>_TOOLKIT_BOTTOM_RIGHT</li>
                             </ul>
                         </td>
                         <td>false</td>
@@ -2553,6 +2559,22 @@
                         redundant redrawing. Meant as a wrapper for Chart.y.set("basis", 300)</td>
                         <td>0</td>
                     </tr>
+                    <tr>
+                        <td>key</td>
+                        <td>Draw a description for the graphs. Graphs need to have key
+                        set, too. Set a position out of these:
+                            <ul>
+                                <li>_TOOLKIT_TOP_LEFT</li>
+                                <li>_TOOLKIT_TOP</li>
+                                <li>_TOOLKIT_TOP_RIGHT</li>
+                                <li>_TOOLKIT_LEFT</li>
+                                <li>_TOOLKIT_RIGHT</li>
+                                <li>_TOOLKIT_BOTTOM_LEFT</li>
+                                <li>_TOOLKIT_BOTTOM</li>
+                                <li>_TOOLKIT_BOTTOM_RIGHT</li>
+                            </ul>
+                        Use false to disable the key.</td>
+                        <td>false</td>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">

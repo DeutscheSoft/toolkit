@@ -266,8 +266,8 @@ function run_chart () {
                  {pos:0.5, label: "50", color: "rgba(255,255,255,0.66)"},
                  {pos:0.6, label:"60"},
                  {pos:0.8, label:"80"},
-                 {pos:1.0, label:"100"}]
-        
+                 {pos:1.0, label:"100"}],
+        key: _TOOLKIT_TOP_LEFT
     });
     cgraph1 = chart.add_graph({
         dots: [{x:0.0, y:0.0},
@@ -283,7 +283,8 @@ function run_chart () {
                {x:1.0, y:0.0}
         ],
         type: "H3",
-        mode: _TOOLKIT_BOTTOM
+        mode: _TOOLKIT_BOTTOM,
+        key:  "foo"
     });
     cgraph2 = chart.add_graph({
         dots: [{x:0.0, y:0.5},
@@ -293,7 +294,8 @@ function run_chart () {
                {x:0.8, y:0.3},
                {x:1.0, y:0.9}
         ],
-        color: "#dd0000"
+        color: "#dd0000",
+        key:   "bar"
     });
 }
 
@@ -429,7 +431,7 @@ function run_responsehandler () {
         depth: 120,
         container: $("sc_responsehandler"),
         db_grid: 12,
-        range_z: {min: 1, max: 20, step: 0.1, shift_up: 10, shift_down: 0.2},
+        range_z: {min: 1, max: 20, step: 0.1, shift_up: 5, shift_down: 0.2},
     });
     handles = [
         rh.add_handle({x:200, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 1", z_min: 1, z_max: 20}),

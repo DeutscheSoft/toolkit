@@ -16,3 +16,20 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.toolkit-chart .toolkit-background {
+    fill: rgba(0, 0, 0, 0.2);
+}
+.toolkit-chart .toolkit-key {
+    margin: 8px;
+    padding: 5px;
+    fill: white;
+}
+.toolkit-chart .toolkit-key .toolkit-label {
+    line-height: 2.5em; /* sets the distance between key entries */
+    font-size: 9px;
+    margin: 5px; /* sets the distance between labels and example rects */
+}
+.toolkit-chart .toolkit-key .toolkit-rect {
+    width: 60px;
+}

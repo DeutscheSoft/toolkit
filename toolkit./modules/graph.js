@@ -51,7 +51,8 @@ var Graph = new Class({
         range_y:   {},    // callback function returning a Range module
                           // for y axis or an object with options for a Range
         width:     0,     // the width of the Graph
-        height:    0      // the height of the Graph
+        height:    0,     // the height of the Graph
+        key:       false  // draw a description for this graph in the charts key
     },
     
     initialize: function (options) {

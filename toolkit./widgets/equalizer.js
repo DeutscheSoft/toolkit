@@ -87,10 +87,10 @@ var Equalizer = new Class({
         b.addEvent("handlereleased",  function () {
             this._active = Math.max(this._active-1, 0)
         }.bind(this));
-        this.element.addEvent("mousemove", b._mousemove.bind(b));
-        this.element.addEvent("mouseup",   b._mouseup.bind(b));
-        this.element.addEvent("touchmove", b._touchmove.bind(b));
-        this.element.addEvent("touchend",  b._touchend.bind(b));
+        document.addEvent("mousemove", b._mousemove.bind(b));
+        document.addEvent("mouseup",   b._mouseup.bind(b));
+        document.addEvent("touchmove", b._touchmove.bind(b));
+        document.addEvent("touchend",  b._touchend.bind(b));
         
         b.addEvent("set", this.redraw.bind(this));
         this.redraw();

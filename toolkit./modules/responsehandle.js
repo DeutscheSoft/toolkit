@@ -190,17 +190,23 @@ ResponseHandle = new Class({
         this.options.y = this.range_y.snap_value(this.options.y);
         this.options.z = this.range_z.snap_value(this.options.z);
         
-        this.x = Math.round(this.range_x.val2px(this.options.x));
-        this.y = Math.round(this.range_y.val2px(this.options.y));
-        this.z = Math.round(this.range_z.val2px(this.options.z));
+        this.x = this.range_x.val2px(this.options.x);
+        this.y = this.range_y.val2px(this.options.y);
+        this.z = this.range_z.val2px(this.options.z);
+        
+        var rnd = {
+            x: Math.round(this.x),
+            y: Math.round(this.y),
+            z: Math.round(this.z)
+        }
         
         // ELEMENT / HANDLE / MAIN COORDS
         switch (this.options.mode) {
             case _TOOLKIT_CIRCULAR:
                 // circle
-                x      = this.x;
-                y      = this.y;
-                width  = Math.max(this.options.min_size, this.z);
+                x      = rnd.x;
+                y      = rnd.y;
+                width  = Math.max(this.options.min_size, rnd.z);
                 height = width;
                 this._handle.set("r", width / 2);
                 this.element.set({transform: "translate(" + x + "," + y + ")"});
@@ -213,11 +219,11 @@ ResponseHandle = new Class({
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
-                width  = Math.round(Math.max(this.options.min_size, this.z));
+                width  = Math.round(Math.max(this.options.min_size, rnd.z));
                 x      = Math.round(
                             Math.min(
                                 this.range_x.get("basis") - width / 2,
-                                Math.max(width / -2, this.x - width / 2)));
+                                Math.max(width / -2, rnd.x - width / 2)));
                 y      = Math.round(
                             Math.max(
                                 0,
@@ -235,11 +241,11 @@ ResponseHandle = new Class({
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
-                height = Math.round(Math.max(this.options.min_size, this.z));
+                height = Math.round(Math.max(this.options.min_size, rnd.z));
                 y      = Math.round(
                             Math.min(
                                 this.range_y.get("basis") - height / 2,
-                                Math.max(height / -2, this.y - height / 2)));
+                                Math.max(height / -2, rnd.y - height / 2)));
                 x      = Math.round(
                             Math.max(
                                 0,
@@ -266,7 +272,7 @@ ResponseHandle = new Class({
                 width  = Math.round(
                             Math.max(
                                 this.options.min_size / 2,
-                                Math.min(this.x, this.range_x.get("basis"))));
+                                Math.min(rnd.x, this.range_x.get("basis"))));
                 height = Math.round(
                             Math.min(
                                 this.range_y.get("basis"),
@@ -282,7 +288,7 @@ ResponseHandle = new Class({
                 x      = Math.max(
                             0,
                             Math.min(
-                                this.x,
+                                rnd.x,
                                 this.range_x.get("basis") - this.options.min_size / 2));
                 y      = Math.round(
                             Math.max(
@@ -318,7 +324,7 @@ ResponseHandle = new Class({
                 height = Math.round(
                             Math.max(
                                 this.options.min_size / 2,
-                                Math.min(this.y, this.range_y.get("basis"))));
+                                Math.min(rnd.y, this.range_y.get("basis"))));
                 this._handle.set({x: x, y: y, width: width, height: height});
                 this.element.set({transform: "translate(0,0)"});
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
@@ -332,7 +338,7 @@ ResponseHandle = new Class({
                 y      = Math.max(
                             0,
                             Math.min(
-                                this.y,
+                                rnd.y,
                                 this.range_y.get("basis") - this.options.min_size / 2));
                 width  = Math.round(Math.min(
                             this.range_x.get("basis"),
@@ -733,9 +739,9 @@ ResponseHandle = new Class({
                             var align = "start";
                             break;
                         case _TOOLKIT_TOP:
-                            var x1 = this.x - m - bbox.width;
+                            var x1 = rnd.x - m - bbox.width;
                             var y1 = y + m;
-                            var xl = this.x - m;
+                            var xl = rnd.x - m;
                             var yl = y1;
                             var align = "end";
                             break;
@@ -754,9 +760,9 @@ ResponseHandle = new Class({
                             var align = "start";
                             break;
                         case _TOOLKIT_CENTER:
-                            var x1 = this.x - m - bbox.width;
+                            var x1 = rnd.x - m - bbox.width;
                             var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = this.x - m;
+                            var xl = rnd.x - m;
                             var yl = y1;
                             var align = "end";
                             break;
@@ -775,9 +781,9 @@ ResponseHandle = new Class({
                             var align = "start";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = this.x - m - bbox.width;
+                            var x1 = rnd.x - m - bbox.width;
                             var y1 = y + height - m - bbox.height;
-                            var xl = this.x - m;
+                            var xl = rnd.x - m;
                             var yl = y1;
                             var align = "end";
                             break;
@@ -994,7 +1000,7 @@ ResponseHandle = new Class({
         switch (this.options.mode) {
             case _TOOLKIT_CIRCULAR:
                 var _x = Math.max(width / 2 + this.options.margin,
-                                  this.label.x2 - this.x + this.options.margin);
+                                  this.label.x2 - rnd.x + this.options.margin);
                 var _y = Math.max(height / 2 + this.options.margin,
                                   this.label.y2 - this.y + this.options.margin);
                 this._line1.set("d", "M "  + _x + " 0" + this._add + " L"
@@ -1007,22 +1013,22 @@ ResponseHandle = new Class({
             case _TOOLKIT_LINE_VERTICAL:
             case _TOOLKIT_BLOCK_LEFT:
             case _TOOLKIT_BLOCK_RIGHT:
-                this._line1.set("d", "M " + (this.x + this._add) + " " + y
-                                          + " L " + (this.x + this._add) + " "
+                this._line1.set("d", "M " + (rnd.x + this._add) + " " + y
+                                          + " L " + (rnd.x + this._add) + " "
                                           + (y + height));
-                this._line2.set("d", "M " + (this.x + this._add) + " 0 L "
-                                          + (this.x + this._add) + " "
+                this._line2.set("d", "M " + (rnd.x + this._add) + " 0 L "
+                                          + (rnd.x + this._add) + " "
                                           + this.range_y.get("basis"));
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
             case _TOOLKIT_BLOCK_TOP:
             case _TOOLKIT_BLOCK_BOTTOM:
-                this._line1.set("d", "M "   + x + " " + (this.y + this._add)
+                this._line1.set("d", "M "   + x + " " + (rnd.y + this._add)
                                             + " L " + (x + width) + " "
-                                            + (this.y + this._add));
-                this._line2.set("d", "M 0 " + (this.y + this._add) + " L "
+                                            + (rnd.y + this._add));
+                this._line2.set("d", "M 0 " + (rnd.y + this._add) + " L "
                                             + this.range_x.get("basis") + " "
-                                            + (this.y + this._add));
+                                            + (rnd.y + this._add));
                 break;
         }
         this.parent();
@@ -1092,6 +1098,8 @@ ResponseHandle = new Class({
         this._clickX  = this.x;
         this._clickY  = this.y;
         this._clickZ  = this.z;
+        this._pageX   = ev.pageX;
+        this._pageY   = ev.pageY;
         this.redraw();
         if(!this._zhandling) {
             this.fireEvent("handlegrabbed", [{
@@ -1163,9 +1171,11 @@ ResponseHandle = new Class({
                 || this.options.mode == _TOOLKIT_BLOCK_RIGHT
                 && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT) {
                 // movement to left
-                this.set("z", this.range_z.px2val(this._clickZ
-                    + (this._clickX - (ev.pageX - this._offsetX)) * mz));
+                this.set("z",
+                    this.range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz)));
                 this.fireEvent("zchanged", [this.options.z, this]);
+                this._pageX = ev.pageX;
+                this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_RIGHT
                 || this.options.mode == _TOOLKIT_LINE_VERTICAL
                 && this.options.z_handle == _TOOLKIT_TOP_RIGHT
@@ -1180,9 +1190,11 @@ ResponseHandle = new Class({
                 || this.options.mode == _TOOLKIT_BLOCK_RIGHT
                 && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
                 // movement to right
-                this.set("z", this.range_z.px2val(this._clickZ
-                    + ((ev.pageX - this._offsetX) - this._clickX) * mz));
+                this.set("z",
+                    this.range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz)));
                 this.fireEvent("zchanged", [this.options.z, this]);
+                this._pageX = ev.pageX;
+                this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_TOP
                 || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
                 && this.options.z_handle == _TOOLKIT_TOP_LEFT
@@ -1197,9 +1209,11 @@ ResponseHandle = new Class({
                 || this.options.mode == _TOOLKIT_BLOCK_BOTTOM
                 && this.options.z_handle == _TOOLKIT_TOP_RIGHT) {
                 // movement to top
-                this.set("z", this.range_z.px2val(this._clickZ
-                    + (this._clickY - (ev.pageY - this._offsetY)) * mz));
+                this.set("z",
+                    this.range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz)));
                 this.fireEvent("zchanged", [this.options.z, this]);
+                this._pageX = ev.pageX;
+                this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_BOTTOM
                 || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
                 && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
@@ -1214,9 +1228,11 @@ ResponseHandle = new Class({
                 || this.options.mode == _TOOLKIT_BLOCK_BOTTOM
                 && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
                 // movement to bottom
-                this.set("z", this.range_z.px2val(this._clickZ
-                    + ((ev.pageY - this._offsetY) - this._clickY) * mz));
+                this.set("z",
+                    this.range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz)));
                 this.fireEvent("zchanged", [this.options.z, this]);
+                this._pageX = ev.pageX;
+                this._pageY = ev.pageY;
             }
         } else if (this._sticky) {
             var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);

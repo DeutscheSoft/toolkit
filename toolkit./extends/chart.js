@@ -35,9 +35,12 @@ var Chart = new Class({
         height:  0,  // the height of the Graph
         range_x: {}, // an object with options for a range for the x axis
                      // or a function returning a Range instance (only on init)
-        range_y: {}  // an object with options for a range for the y axis
+        range_y: {}, // an object with options for a range for the y axis
                      // or a function returning a Range instance (only on init)
+        key: false   // key draws a description for the graphs at the given
+                     // position, use false for no key
     },
+    _min_key_width: 20,
     graphs: [],
     initialize: function (options, hold) {
         this.parent(options, hold);
@@ -76,6 +79,13 @@ var Chart = new Class({
             range_y: function () { return this.range_y; }.bind(this),
             container: this.element
         });
+        
+        this._key_background = makeSVG("rect",
+            {"class": "toolkit-background"});
+        this._key_background.inject(this.element);
+        this._key = makeSVG("g", {"class": "toolkit-key"});
+        this._key.inject(this.element);
+        
         this.initialized();
     },
     redraw: function (graphs, grid) {
@@ -94,6 +104,7 @@ var Chart = new Class({
                 this.graphs[i].redraw();
             }
         }
+        this._draw_key();
         this.parent();
     },
     destroy: function () {
@@ -113,6 +124,7 @@ var Chart = new Class({
             options.range_y = function () { return this.range_y; }.bind(this);
         var g = new Graph(options);
         this.graphs.push(g);
+        this._draw_key();
         this.fireEvent("graphadded");
         return g;
     },
@@ -126,6 +138,7 @@ var Chart = new Class({
                 break;
             }
         }
+        this._draw_key();
     },
     empty: function () {
         // Remove all Graphs from the Chart
@@ -134,6 +147,80 @@ var Chart = new Class({
         }
         this.graphs = [];
         this.fireEvent("emptied");
+    },
+    
+    // HELPERS & STUFF
+    _draw_key: function () {
+        this._key.empty();
+        if(this.options.key === false) {
+            this._key.setStyle("display", "none");
+            this.__key = {x1: 0, x2: 0, y1: 0, y2: 0};
+            return;
+        }
+        var disp = "none";
+        var gpad = {
+            top:    this._key.getStyle("padding-top").toInt() || 0,
+            right:  this._key.getStyle("padding-right").toInt() || 0,
+            bottom: this._key.getStyle("padding-bottom").toInt() || 0,
+            left:   this._key.getStyle("padding-left").toInt() || 0
+        }
+        var gmarg = {
+            top:    this._key.getStyle("margin-top").toInt() || 0,
+            right:  this._key.getStyle("margin-right").toInt() || 0,
+            bottom: this._key.getStyle("margin-bottom").toInt() || 0,
+            left:   this._key.getStyle("margin-left").toInt() || 0
+        }
+        
+        var c = 0;
+        var w = 0;
+        var lines = [];
+        for (var i = 0; i < this.graphs.length; i++) {
+            if (this.graphs[i].get("key") !== false) {
+                var t = makeSVG("text", {"class": "toolkit-label",
+                                         "style": "dominant-baseline: central; baseline-shift: -50%"});
+                t.inject(this._key);
+                t.set("text", this.graphs[i].get("key"));
+                t.set("dy", c ? t.getStyle("line-height") : gpad.top);
+                t.set("dx", gpad.left);
+                var bb = t.getBBox();
+                lines.push({
+                    x:       (t.getStyle("margin-right").toInt() || 0),
+                    y:       bb.y,
+                    width:   bb.width,
+                    height:  bb.height,
+                    "class": this.graphs[i].element.get("class").baseVal,
+                    color:   (this.graphs[i].element.get("color") || ""),
+                    style:   this.graphs[i].element.get("style")
+                })
+                w = Math.max(w, t.getComputedTextLength());
+                disp = "block";
+                c++;
+            }
+        }
+        for (var i = 0; i < lines.length; i++) {
+            var b = makeSVG("rect", {
+                "class": lines[i]["class"],
+                color:   lines[i].color,
+                style:   lines[i].style,
+                x:       lines[i].x + 0.5 + w + gpad.left,
+                y:       lines[i].y + 0.5,
+                height:  lines[i].height
+            });
+            console.log(lines[i].x)
+            b.inject(this._key);
+            b.set("width", (b.getStyle("width").toInt() || this._min_key_width));
+        }
+        this._key.setStyles({
+            "display": disp
+        });
+        this._key.set("transform", "translate(" + gmarg.left + "," + gmarg.top + ")");
+        
+        var bb = this._key.getBBox();
+        this._key_background.set("x", gmarg.left);
+        this._key_background.set("y", gmarg.top);
+        this._key_background.set("width", bb.width + gpad.left + gpad.right);
+        this._key_background.set("height", bb.height + gpad.top + gpad.bottom);
+        
     },
     
     // GETTER & SETER
