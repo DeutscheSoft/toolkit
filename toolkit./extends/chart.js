@@ -180,7 +180,6 @@ var Chart = new Class({
             bottom: this._key.getStyle("margin-bottom").toInt() || 0,
             left:   this._key.getStyle("margin-left").toInt() || 0
         }
-        console.log(gpad)
         var c   = 0;
         var w   = 0;
         var top = 0;
