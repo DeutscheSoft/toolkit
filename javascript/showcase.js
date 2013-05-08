@@ -297,6 +297,17 @@ function run_chart () {
         color: "#dd0000",
         key:   "bar"
     });
+    cgraph3 = chart.add_graph({
+        dots: [{x:0.0, y:0.1},
+               {x:0.2, y:0.5},
+               {x:0.4, y:0.7},
+               {x:0.6, y:0.3},
+               {x:0.8, y:0.5},
+               {x:1.0, y:0.1}
+        ],
+        color: "#ffffff",
+        key:   "baz"
+    });
 }
 
 // FREQUENCY RESPONSE

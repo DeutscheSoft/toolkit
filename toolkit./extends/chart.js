@@ -85,6 +85,8 @@ var Chart = new Class({
         this._key_background.inject(this.element);
         this._key = makeSVG("g", {"class": "toolkit-key"});
         this._key.inject(this.element);
+        this._key_txt = makeSVG("text");
+        this._key_txt.inject(this._key);
         
         this.initialized();
     },
@@ -155,7 +157,10 @@ var Chart = new Class({
     
     // HELPERS & STUFF
     _draw_key: function () {
+        this._key_txt.empty();
         this._key.empty();
+        this._key_txt.inject(this._key);
+        
         if(this.options.key === false) {
             this._key.setStyle("display", "none");
             this._key_background.setStyle("display", "none");
@@ -175,24 +180,27 @@ var Chart = new Class({
             bottom: this._key.getStyle("margin-bottom").toInt() || 0,
             left:   this._key.getStyle("margin-left").toInt() || 0
         }
-        
-        var c = 0;
-        var w = 0;
+        console.log(gpad)
+        var c   = 0;
+        var w   = 0;
+        var top = 0;
         var lines = [];
         for (var i = 0; i < this.graphs.length; i++) {
             if (this.graphs[i].get("key") !== false) {
-                var t = makeSVG("text", {"class": "toolkit-label",
-                                         "style": "dominant-baseline: central; baseline-shift: -50%"});
-                t.inject(this._key);
+                var t = makeSVG("tspan", {"class": "toolkit-label",
+                                         style: "dominant-baseline: central;",
+                });
+                t.inject(this._key_txt);
                 t.set("text", this.graphs[i].get("key"));
-                t.set("dy", c ? t.getStyle("line-height") : gpad.top);
-                t.set("dx", gpad.left);
-                var bb = t.getBBox();
+                if(!bb) var bb = this._key.getBBox();
+                top += c ? t.getStyle("line-height").toInt() : gpad.top;
+                t.set("y", top + bb.height / 2);
+                t.set("x", gpad.left);
                 lines.push({
                     x:       (t.getStyle("margin-right").toInt() || 0),
-                    y:       bb.y,
-                    width:   bb.width,
-                    height:  bb.height,
+                    y:       Math.round(top),
+                    width:   Math.round(bb.width),
+                    height:  Math.round(bb.height),
                     "class": this.graphs[i].element.get("class").baseVal,
                     color:   (this.graphs[i].element.get("color") || ""),
                     style:   this.graphs[i].element.get("style")

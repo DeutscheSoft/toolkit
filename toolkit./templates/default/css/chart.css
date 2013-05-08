@@ -26,7 +26,7 @@
     fill: white;
 }
 .toolkit-chart .toolkit-key .toolkit-label {
-    line-height: 2.5em; /* sets the distance between key entries */
+    line-height: 14px; /* sets the distance between key entries */
     font-size: 9px;
     margin: 5px; /* sets the distance between labels and example rects */
 }
