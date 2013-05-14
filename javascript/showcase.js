@@ -308,6 +308,7 @@ function run_chart () {
         color: "#ffffff",
         key:   "baz"
     });
+    repositionSVGs()
 }
 
 // FREQUENCY RESPONSE
@@ -338,6 +339,7 @@ function run_frequencyresponse () {
         type: "H4",
         mode: _TOOLKIT_LINE
     });
+    repositionSVGs()
 }
 
 // DYNAMICS
@@ -389,6 +391,7 @@ function run_dynamics () {
         ],
         mode: _TOOLKIT_LINE
     });
+    repositionSVGs()
 }
 
 
@@ -424,6 +427,7 @@ function run_equalizer () {
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
                        label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } })
     ]
+    repositionSVGs()
 }
 
 

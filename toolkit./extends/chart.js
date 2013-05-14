@@ -39,7 +39,7 @@ var Chart = new Class({
                      // or a function returning a Range instance (only on init)
         key: false,  // key draws a description for the graphs at the given
                      // position, use false for no key
-        key_size: 20 // width of the key rects
+        key_size: {x:20, y:10} // size of the key rects
     },
     graphs: [],
     initialize: function (options, hold) {
@@ -215,9 +215,9 @@ var Chart = new Class({
                 color:   lines[i].color,
                 style:   lines[i].style,
                 x:       lines[i].x + 0.5 + w + gpad.left,
-                y:       lines[i].y + 0.5,
-                height:  lines[i].height,
-                width:   this.options.key_size
+                y:       lines[i].y + 0.5 + parseInt(lines[i].height / 2 - this.options.key_size.y / 2),
+                height:  this.options.key_size.y,
+                width:   this.options.key_size.x
             });
             b.inject(this._key);
         }
