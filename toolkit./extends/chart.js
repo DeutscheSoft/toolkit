@@ -365,9 +365,11 @@ var Chart = new Class({
                 break;
             case "width":
                 this.range_x.set("basis", value, hold);
+                if(!hold) this._draw_title();
                 break;
             case "height":
                 this.range_y.set("basis", value, hold);
+                if(!hold) this._draw_title();
                 break;
             case "key":
                 if(!hold) this._draw_key();
