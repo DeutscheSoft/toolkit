@@ -39,7 +39,9 @@ var Chart = new Class({
                      // or a function returning a Range instance (only on init)
         key: false,  // key draws a description for the graphs at the given
                      // position, use false for no key
-        key_size: {x:20, y:10} // size of the key rects
+        key_size: {x:20, y:10}, // size of the key rects
+        title:   "", // a title for the chart
+        title_position: _TOOLKIT_TOP_RIGHT // the position of the title
     },
     graphs: [],
     initialize: function (options, hold) {
@@ -62,6 +64,12 @@ var Chart = new Class({
         if (this.options.container)
             this.set("container", this.options.container);
 
+        this._title = makeSVG("text", {
+            "class": "toolkit-title",
+            style: "dominant-baseline: central;"
+        });
+        this._title.inject(this.element);
+        
         this._graphs = makeSVG("g", {"class": "toolkit-graphs"});
         this._graphs.inject(this.element);
         
@@ -87,6 +95,20 @@ var Chart = new Class({
         this._key.inject(this.element);
         this._key_txt = makeSVG("text");
         this._key_txt.inject(this._key);
+        
+        this._key_background.addEvents({
+            "mouseenter": function () {
+                this._key.addClass("toolkit-hover");
+                this._key_background.addClass("toolkit-hover");
+            }.bind(this),
+            "mouseleave": function () {
+                this._key.removeClass("toolkit-hover");
+                this._key_background.removeClass("toolkit-hover");
+            }.bind(this)
+        });
+        
+        this.set("title", this.options.title, true);
+        this.set("title_position", this.options.title_position);
         
         this.initialized();
     },
@@ -159,7 +181,6 @@ var Chart = new Class({
     _draw_key: function () {
         this._key_txt.empty();
         this._key.empty();
-        this._key_txt.inject(this._key);
         
         if(this.options.key === false) {
             this._key.setStyle("display", "none");
@@ -167,6 +188,9 @@ var Chart = new Class({
             this.__key = {x1: 0, x2: 0, y1: 0, y2: 0};
             return;
         }
+        
+        this._key_txt.inject(this._key);
+        
         var disp = "none";
         var gpad = {
             top:    this._key.getStyle("padding-top").toInt() || 0,
@@ -187,14 +211,16 @@ var Chart = new Class({
         for (var i = 0; i < this.graphs.length; i++) {
             if (this.graphs[i].get("key") !== false) {
                 var t = makeSVG("tspan", {"class": "toolkit-label",
-                                         style: "dominant-baseline: central;",
+                                         style: "dominant-baseline: central;"
                 });
                 t.inject(this._key_txt);
                 t.set("text", this.graphs[i].get("key"));
-                if(!bb) var bb = this._key.getBBox();
+                t.set("x", gpad.left);
+                
+                if(!bb) bb = this._key.getBoundingClientRect();
                 top += c ? t.getStyle("line-height").toInt() : gpad.top;
                 t.set("y", top + bb.height / 2);
-                t.set("x", gpad.left);
+                
                 lines.push({
                     x:       (t.getStyle("margin-right").toInt() || 0),
                     y:       Math.round(top),
@@ -224,7 +250,7 @@ var Chart = new Class({
         this._key_background.setStyle("display", disp);
         this._key.setStyle("display", disp);
         
-        var bb     = this._key.getBBox();
+        var bb     = this._key.getBoundingClientRect();
         var width  = this.range_x.options.basis;
         var height = this.range_y.options.basis;
         
@@ -268,6 +294,64 @@ var Chart = new Class({
         this._key_background.set("width", this.__key.x2 - this.__key.x1);
         this._key_background.set("height", this.__key.y2 - this.__key.y1);
     },
+    _draw_title: function () {
+        this._title.set("text", this.options.title);
+        var mtop    = (this._title.getStyle("margin-top") || 0).toInt();
+        var mleft   = (this._title.getStyle("margin-left") || 0).toInt();
+        var mbottom = (this._title.getStyle("margin-bottom") || 0).toInt();
+        var mright  = (this._title.getStyle("margin-right") || 0).toInt();
+        var bb      = this._title.getBoundingClientRect();
+        switch (this.options.title_position) {
+            case _TOOLKIT_TOP_LEFT:
+                this._title.set("text-anchor", "start");
+                this._title.set("x", mleft);
+                this._title.set("y", mtop + bb.height / 2);
+                break;
+            case _TOOLKIT_TOP:
+                this._title.set("text-anchor", "middle");
+                this._title.set("x", this.range_x.options.basis / 2);
+                this._title.set("y", mtop + bb.height / 2);
+                break;
+            case _TOOLKIT_TOP_RIGHT:
+                this._title.set("text-anchor", "end");
+                this._title.set("x", this.range_x.options.basis - mright);
+                this._title.set("y", mtop + bb.height / 2);
+                break;
+            case _TOOLKIT_LEFT:
+                this._title.set("text-anchor", "start");
+                this._title.set("x", mleft);
+                this._title.set("y", this.range_y.options.basis / 2);
+                break;
+            case _TOOLKIT_CENTER:
+                this._title.set("text-anchor", "middle");
+                this._title.set("x", this.range_x.options.basis / 2);
+                this._title.set("y", this.range_y.options.basis / 2);
+                break;
+            case _TOOLKIT_RIGHT:
+                this._title.set("text-anchor", "end");
+                this._title.set("x", this.range_x.options.basis - mright);
+                this._title.set("y", this.range_y.options.basis / 2);
+                break;
+            case _TOOLKIT_BOTTOM_LEFT:
+                this._title.set("text-anchor", "start");
+                this._title.set("x", mleft);
+                this._title.set("y",
+                    this.range_y.options.basis - mtop - bb.height / 2);
+                break;
+            case _TOOLKIT_BOTTOM:
+                this._title.set("text-anchor", "middle");
+                this._title.set("x", this.range_x.options.basis / 2);
+                this._title.set("y",
+                    this.range_y.options.basis - mtop - bb.height / 2);
+                break;
+            case _TOOLKIT_BOTTOM_RIGHT:
+                this._title.set("text-anchor", "end");
+                this._title.set("x", this.range_x.options.basis - mright);
+                this._title.set("y",
+                    this.range_y.options.basis - mtop - bb.height / 2);
+                break;
+        }
+    },
     
     // GETTER & SETER
     set: function (key, value, hold) {
@@ -290,6 +374,10 @@ var Chart = new Class({
                 break;
             case "key_size":
                 if(!hold) this._draw_key();
+                break;
+            case "title":
+            case "title_position":
+                if(!hold) this._draw_title();
                 break;
         }
         this.parent(key, value, hold);

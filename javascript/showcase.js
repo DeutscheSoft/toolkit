@@ -267,7 +267,9 @@ function run_chart () {
                  {pos:0.6, label:"60"},
                  {pos:0.8, label:"80"},
                  {pos:1.0, label:"100"}],
-        key: _TOOLKIT_TOP_LEFT
+        key: _TOOLKIT_TOP_LEFT,
+        title: "Chart Example",
+        title_position: _TOOLKIT_TOP_RIGHT
     });
     cgraph1 = chart.add_graph({
         dots: [{x:0.0, y:0.0},
