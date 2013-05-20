@@ -16,7 +16,9 @@ pre {
 }
 
 pre, code {
-    font-family: 'Monaco', 'Consolas', monospace !important;
+    font-family: "Ubuntu Mono", "Lucida Console","Liberation Mono","DejaVu Sans Mono","Bitstream Vera Sans Mono","Courier New", monospace !important;
+
+    font-size: 12px !important;
 }
 
 pre .comment {

@@ -41,9 +41,9 @@ window.addEvent('domready', function () {
             l.addEvent("click", window["run_" + id]);
             
             var pre = new Element("pre.box", {html: "<code data-language='python'>" + window["run_" + id].toString() + "</code>"}).inject(e.getChildren(".buttons")[0], "after");
-            var toggle = new Element("div.toolkit-button", {html: "⌨ Code"}).inject(e.getChildren(".buttons")[0]);
-            var toggleFx = new Fx.Slide(pre).hide();
-            toggle.addEvent("click", function(){toggleFx.toggle()});
+            var tog = new Element("div.toolkit-button", {html: "⌨ Code"}).inject(e.getChildren(".buttons")[0]);
+            var togFx = new Fx.Slide(pre).hide();
+            tog.addEvent("click", function(){togFx.toggle()});
         }
     });
     var modex = window.location.hash.substring(1);
@@ -104,7 +104,8 @@ function run_gauge () {
         label: {align:_TOOLKIT_OUTER, margin:17},
         show_hand: false,
         container: $("sc_gauge"),
-        dots:[{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:25},{pos:30},{pos:35},{pos:40},{pos:45}, {pos:50},{pos:55}],
+        dots:[{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:25},{pos:30},
+              {pos:35},{pos:40},{pos:45}, {pos:50},{pos:55}],
         labels: [{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:30},{pos:40},{pos:50}]
     });
     gauge[2] = new Gauge({
@@ -115,7 +116,8 @@ function run_gauge () {
         title: "dBu",
         container: $("sc_gauge"),
         markers: [{from:0, to:12}],
-        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},{pos:0},{pos:5},{pos:10},{pos:120}],
+        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},
+              {pos:0},{pos:5},{pos:10},{pos:120}],
         labels: [{pos:-60},{pos:-40},{pos:-20},{pos:0,label:"0 dB"},{pos:12,label:"+12"}]
     });
     gauge[3] = new Gauge({
@@ -128,8 +130,10 @@ function run_gauge () {
         container: $("sc_gauge"),
         label: {format: function (val) { return val + "°"; }},
         markers: [{from:80, to:100}, {from:-80, to:-100}],
-        dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},{pos:-10},{pos:-20},{pos:-30},{pos:-40},{pos:-50},{pos:-60},{pos:-70},{pos:-80},{pos:-90},{pos:-100}],
-        labels: [{pos:0, label:"0"},{pos:20},{pos:60},{pos:40},{pos:80},{pos:100},{pos:-20},{pos:-60},{pos:-40},{pos:-80},{pos:-100}]
+        dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},
+              {pos:-10},{pos:-20},{pos:-30},{pos:-40},{pos:-50},{pos:-60},{pos:-70},{pos:-80},{pos:-90},{pos:-100}],
+        labels: [{pos:0, label:"0"},{pos:20},{pos:60},{pos:40},{pos:80},{pos:100},
+                 {pos:-20},{pos:-60},{pos:-40},{pos:-80},{pos:-100}]
     });
     gauge[4] = new Gauge({
         id: "gauge4",
@@ -156,7 +160,8 @@ function run_gauge () {
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3}
         ],
-        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},{pos:0},{pos:5},{pos:10},{pos:120},
+        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},
+              {pos:0},{pos:5},{pos:10},{pos:120},
               {pos:-20, margin:23, length: 7},
               {pos:-10, margin:23, length: 7},
               {pos:0, margin:23, length: 7}
@@ -192,7 +197,8 @@ function run_gauge () {
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3, color:"rgba(0,0,0,0.8)"}
         ],
-        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},{pos:0},{pos:5},{pos:10},{pos:120},
+        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},
+              {pos:0},{pos:5},{pos:10},{pos:120},
               {pos:-20, margin:23, length: 7},
               {pos:-10, margin:23, length: 7},
               {pos:0, margin:23, length: 7}
@@ -221,7 +227,7 @@ function run_toggle () {
         label: "Mic Active",
         label_active: "Mic Muted",
         icon: "images/icons_big/microphone.png",
-        icon_active: "images/icons_big/microphone_muted.png",
+        icon_active: "images/icons_big/microphone_muted.png"
     });
     press = new Toggle({
         container: $("sc_toggle"),
@@ -572,21 +578,35 @@ function run_equalizer () {
         depth: 120,
         container: $("sc_equalizer"),
         db_grid: 12,
-        range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true},
+        range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true}
     });
     bands = [
-        eq.add_band({x:600, y:-12, z:3, type:_TOOLKIT_PARAMETRIC, z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
-        eq.add_band({x:2000, y:12, z:1, type:_TOOLKIT_PARAMETRIC, z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
-        eq.add_band({x:200, y:-12, z:1, type:_TOOLKIT_LOWSHELF, z_handle: _TOOLKIT_RIGHT, title:"Low Shelf", preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
-                                   _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT], z_min: 0.4, z_max: 4}),
-        eq.add_band({x:7000, y: 12, z:1, type:_TOOLKIT_HIGHSHELF, z_handle: _TOOLKIT_LEFT, title:"High Shelf", preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
-                                   _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT], z_min: 0.4, z_max: 4}),
-        eq.add_band({x:40, z: 1, type:_TOOLKIT_HP2, title:"High Pass", preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
+        eq.add_band({x:600, y:-12, z:3, type:_TOOLKIT_PARAMETRIC,
+                     z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
+        eq.add_band({x:2000, y:12, z:1, type:_TOOLKIT_PARAMETRIC,
+                     z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
+        eq.add_band({x:200, y:-12, z:1, type:_TOOLKIT_LOWSHELF,
+                     z_handle: _TOOLKIT_RIGHT, title:"Low Shelf",
+                     preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
+                                   _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } }),
-        eq.add_band({x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass", preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
+                     z_min: 0.4, z_max: 4}),
+        eq.add_band({x:7000, y: 12, z:1, type:_TOOLKIT_HIGHSHELF,
+                     z_handle: _TOOLKIT_LEFT, title:"High Shelf",
+                     preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
+                                   _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } })
+                     z_min: 0.4, z_max: 4}),
+        eq.add_band({x:40, z: 1, type:_TOOLKIT_HP2, title:"High Pass",
+                     preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
+                                   _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
+                                   _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
+                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } }),
+        eq.add_band({x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass",
+                     preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
+                                   _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
+                                   _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
+                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } })
     ]
     repositionSVGs()
 }
@@ -607,14 +627,19 @@ function run_responsehandler () {
         depth: 120,
         container: $("sc_responsehandler"),
         db_grid: 12,
-        range_z: {min: 1, max: 20, step: 0.1, shift_up: 5, shift_down: 0.2},
+        range_z: {min: 1, max: 20, step: 0.1, shift_up: 5, shift_down: 0.2}
     });
     handles = [
-        rh.add_handle({x:200, y:0, z: 5, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 1", z_min: 1, z_max: 20}),
-        rh.add_handle({x:6000, y:22, z: 7, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 2", z_min: 1, z_max: 20}),
-        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 3", z_min: 1, z_max: 20}),
-        rh.add_handle({x:50, y:-12, z: 7, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 4", z_min: 1, z_max: 20}),
-        rh.add_handle({x:200, y:24, z: 3, mode:_TOOLKIT_CIRCULAR, z_handle: _TOOLKIT_RIGHT, title:"handle 5", z_min: 1, z_max: 20}),
+        rh.add_handle({x:200, y:0, z: 5, mode:_TOOLKIT_CIRCULAR,
+                       z_handle: _TOOLKIT_RIGHT, title:"handle 1", z_min: 1, z_max: 20}),
+        rh.add_handle({x:6000, y:22, z: 7, mode:_TOOLKIT_CIRCULAR,
+                       z_handle: _TOOLKIT_RIGHT, title:"handle 2", z_min: 1, z_max: 20}),
+        rh.add_handle({x:400, y:0, z: 3, mode:_TOOLKIT_CIRCULAR,
+                       z_handle: _TOOLKIT_RIGHT, title:"handle 3", z_min: 1, z_max: 20}),
+        rh.add_handle({x:50, y:-12, z: 7, mode:_TOOLKIT_CIRCULAR,
+                       z_handle: _TOOLKIT_RIGHT, title:"handle 4", z_min: 1, z_max: 20}),
+        rh.add_handle({x:200, y:24, z: 3, mode:_TOOLKIT_CIRCULAR,
+                       z_handle: _TOOLKIT_RIGHT, title:"handle 5", z_min: 1, z_max: 20}),
         rh.add_handle({x: 3000,
                        z: 3,
                        mode: _TOOLKIT_LINE_VERTICAL,
@@ -622,7 +647,8 @@ function run_responsehandler () {
                        title: "handle 6",
                        z_min: 1,
                        z_max: 20,
-                       preferences:[_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_RIGHT],
+                       preferences:[_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_LEFT,
+                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_RIGHT],
                        label: function(title, x, y, z){ return sprintf("%s\n%d Hz", title, x); }
                        }),
         rh.add_handle({x: 5000,
@@ -642,7 +668,8 @@ function run_responsehandler () {
                        mode: _TOOLKIT_LINE_HORIZONTAL,
                        z_handle: _TOOLKIT_TOP,
                        title: "handle 8",
-                       preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_TOP, _TOOLKIT_BOTTOM],
+                       preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_TOP_RIGHT,
+                                     _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_TOP, _TOOLKIT_BOTTOM],
                        label: function(title, x, y, z){ return sprintf("%s\n%d dB", title, y); }
                        }),
         rh.add_handle({y: 12,
@@ -665,8 +692,9 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        min_drag: 5,
-                       preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT, _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
-                                   _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
+                       preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
+                                     _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
+                                     _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
                        label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } 
                        }),
         rh.add_handle({x: 8000,
@@ -677,8 +705,9 @@ function run_responsehandler () {
                        y_min: 0,
                        z_min: 1,
                        z_max: 20,
-                       preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
-                                   _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
+                       preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
+                                     _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
+                                     _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
                        label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } 
                        }),
         rh.add_handle({x: 10000,
@@ -689,8 +718,9 @@ function run_responsehandler () {
                        y_max: 0,
                        z_min: 1,
                        z_max: 20,
-                       preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
-                                   _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
+                       preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
+                                     _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
+                                     _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
                        label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } 
                        }),
         rh.add_handle({y: 20,
