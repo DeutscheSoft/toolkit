@@ -84,6 +84,7 @@ Gauge = new Class({
                 "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
             this._title.set("text-anchor", "middle");
         }
+        this.fireEvent("titledrawn", [this]);
     },
     
     // GETTERS & SETTERS

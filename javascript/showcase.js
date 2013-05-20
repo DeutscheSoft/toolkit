@@ -977,7 +977,6 @@ function run_levelmeter () {
             hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1002,7 +1001,6 @@ function run_levelmeter () {
             hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1024,7 +1022,6 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1044,7 +1041,6 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1070,7 +1066,6 @@ function run_levelmeter () {
             hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1095,7 +1090,6 @@ function run_levelmeter () {
             hold_size: 1,
             clipping: 0,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1121,7 +1115,6 @@ function run_levelmeter () {
             hold_size: 1,
             clipping: 24,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1146,7 +1139,6 @@ function run_levelmeter () {
             hold_size: 1,
             clipping: 24,
             container: $$("#sc_levelmeter")[0],
-//                         background: "#13963e"
             gradient: {"0": "#001f83", "24": "#008bea"},
             levels: [1, 5, 10]
         })
