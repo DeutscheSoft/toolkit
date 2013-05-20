@@ -1,0 +1,39 @@
+.toolkit-circular {
+    fill: white;
+    stroke: none;
+}
+.toolkit-circular .toolkit-background {
+    
+}
+
+.toolkit-circular .toolkit-base {
+    opacity: 0.2;
+}
+
+.toolkit-circular .toolkit-value {
+    
+}
+
+.toolkit-circular .toolkit-hand {
+    fill: #c00;
+}
+
+.toolkit-circular .toolkit-dots {
+    
+}
+.toolkit-circular .toolkit-dot {
+}
+
+.toolkit-circular .toolkit-markers {
+    
+}
+.toolkit-circular .toolkit-marker {
+    fill: #c00;
+}
+
+.toolkit-circular .toolkit-labels {
+    
+}
+.toolkit-circular .toolkit-label {
+    font-size: 10px;
+}

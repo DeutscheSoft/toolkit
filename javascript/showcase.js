@@ -25,7 +25,7 @@ window.addEvent('domready', function () {
         }
         
         // MENU
-        var l = new Element("a", {href: "#" + id, html: title}).inject(new Element("li").inject($(cls)));
+        var l = new Element("a", {href: "#" + id, html: title, style: e.get("style")}).inject(new Element("li").inject($(cls)));
         
         // HEADLINE
         var h = new Element("h2", {html: "<a name=\"" + id + "\"></a>" + title}).inject(e, "top");
@@ -34,11 +34,16 @@ window.addEvent('domready', function () {
         var up = new Element("a.button", {style:"float: right; margin: 0 0 24px 24px;", href: "#", html: "up ⤴"}).inject(e, "bottom");
         var hr = new Element("hr").inject(e, "bottom");
         
-        // EXAMPLE BUTTON
+        // EXAMPLE STUFF
         if (typeof window["run_" + id] != "undefined") {
-            var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0], "top");
+            var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0]);
             but.addEvent("click", window["run_" + id]);
             l.addEvent("click", window["run_" + id]);
+            
+            var pre = new Element("pre.box", {html: "<code data-language='python'>" + window["run_" + id].toString() + "</code>"}).inject(e.getChildren(".buttons")[0], "after");
+            var toggle = new Element("div.toolkit-button", {html: "⌨ Code"}).inject(e.getChildren(".buttons")[0]);
+            var toggleFx = new Fx.Slide(pre).hide();
+            toggle.addEvent("click", function(){toggleFx.toggle()});
         }
     });
     var modex = window.location.hash.substring(1);
@@ -46,6 +51,159 @@ window.addEvent('domready', function () {
         window["run_" + modex]();
     }
 });
+
+
+// GAUGE
+function run_gauge () {
+    if (typeof gauge != "undefined") {
+        gauge[0].destroy();
+        gauge[1].destroy();
+        gauge[2].destroy();
+        gauge[3].destroy();
+        gauge[4].destroy();
+        gauge[5].destroy();
+        gauge = undefined;
+        $("sc_gauge").removeClass("box");
+        return;
+    }
+    $("sc_gauge").addClass("box");
+    gauge = [];
+    
+    gauge[0] = new Gauge({
+        id: "gauge0",
+        min:0,
+        max:10,
+        value: 3,
+        size: 116,
+        width: 100,
+        height: 55,
+        start: 195,
+        basis: 150,
+        x:-10,
+        y:-10,
+        margin: 20,
+        thickness: 27,
+        show_value: false,
+        markers: [{from:0, to:2, margin:20, thickness: 5, color: "rgba(255,0,0,0.8)"}],
+        label: {align:_TOOLKIT_OUTER, margin: 20},
+        show_hand: true,
+        hand: {margin: 29, length: 21, width: 2, color:"white"},
+        container: $("sc_gauge"),
+        labels: [{pos:0},{pos:2},{pos:4},{pos:6},{pos:8},{pos:10}]
+    });
+    gauge[1] = new Gauge({
+        id: "gauge1",
+        min:0,
+        max:60,
+        margin: 20,
+        value:22,
+        start: 270,
+        basis: 360,
+        title: {margin:38,title:"t/sec"},
+        dot: {width: 1, length: 1, margin: 17},
+        label: {align:_TOOLKIT_OUTER, margin:17},
+        show_hand: false,
+        container: $("sc_gauge"),
+        dots:[{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:25},{pos:30},{pos:35},{pos:40},{pos:45}, {pos:50},{pos:55}],
+        labels: [{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:30},{pos:40},{pos:50}]
+    });
+    gauge[2] = new Gauge({
+        id: "gauge2",
+        min:-60,
+        max:12,
+        value:-10,
+        title: "dBu",
+        container: $("sc_gauge"),
+        markers: [{from:0, to:12}],
+        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},{pos:0},{pos:5},{pos:10},{pos:120}],
+        labels: [{pos:-60},{pos:-40},{pos:-20},{pos:0,label:"0 dB"},{pos:12,label:"+12"}]
+    });
+    gauge[3] = new Gauge({
+        id: "gauge3",
+        min:-100,
+        max:100,
+        value:50,
+        base: 0,
+        title: "Temp °C",
+        container: $("sc_gauge"),
+        label: {format: function (val) { return val + "°"; }},
+        markers: [{from:80, to:100}, {from:-80, to:-100}],
+        dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},{pos:-10},{pos:-20},{pos:-30},{pos:-40},{pos:-50},{pos:-60},{pos:-70},{pos:-80},{pos:-90},{pos:-100}],
+        labels: [{pos:0, label:"0"},{pos:20},{pos:60},{pos:40},{pos:80},{pos:100},{pos:-20},{pos:-60},{pos:-40},{pos:-80},{pos:-100}]
+    });
+    gauge[4] = new Gauge({
+        id: "gauge4",
+        "class": "inset",
+        min:-40,
+        max:12,
+        value:-25,
+        width: 170,
+        height: 70,
+        size: 350,
+        start: 245,
+        basis: 50,
+        x: -90,
+        y: 5,
+        margin: 20,
+        thickness: 1.5,
+        dot: {margin: 12, width: 1, length: 10},
+        marker: {margin: 11, thickness: 10},
+        hand: {margin: 12, length:70, width:2},
+        label: {margin: 12, align: _TOOLKIT_OUTER},
+        title: {margin: 46, pos: 270, title: "VU"},
+        show_value: false,
+        container: $("sc_gauge"),
+        markers: [{from:0, to:12},
+                  {from:-20, to:0, margin: 23, thickness: 3}
+        ],
+        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},{pos:0},{pos:5},{pos:10},{pos:120},
+              {pos:-20, margin:23, length: 7},
+              {pos:-10, margin:23, length: 7},
+              {pos:0, margin:23, length: 7}
+        ],
+        labels: [{pos:-40},{pos:-20},{pos:0,label:"0 dB"},{pos:12,label:"+12"},
+            {pos: -20, label:"0", margin: 29, align:_TOOLKIT_INNER},
+            {pos: -10, label:"50", margin: 29, align:_TOOLKIT_INNER},
+            {pos: -0, label:"100%", margin: 29, align:_TOOLKIT_INNER}
+        ]
+    });
+    gauge[5] = new Gauge({
+        id: "gauge5",
+        "class": "inset",
+        min:-40,
+        max:12,
+        value:-25,
+        width: 170,
+        height: 70,
+        size: 350,
+        start: 245,
+        basis: 50,
+        x: -90,
+        y: 5,
+        margin: 20,
+        thickness: 1.5,
+        dot: {margin: 12, width: 1, length: 10},
+        marker: {margin: 11, thickness: 10},
+        hand: {margin: 12, length:70, width:2},
+        label: {margin: 12, align: _TOOLKIT_OUTER},
+        title: {margin: 46, pos: 270, title: "VU"},
+        show_value: false,
+        container: $("sc_gauge"),
+        markers: [{from:0, to:12},
+                  {from:-20, to:0, margin: 23, thickness: 3, color:"rgba(0,0,0,0.8)"}
+        ],
+        dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},{pos:0},{pos:5},{pos:10},{pos:120},
+              {pos:-20, margin:23, length: 7},
+              {pos:-10, margin:23, length: 7},
+              {pos:0, margin:23, length: 7}
+        ],
+        labels: [{pos:-40,label:"-40"},{pos:-20,label:"-20"},{pos:0,label:"0 dB"},{pos:12,label:"+12"},
+            {pos: -20, label:"0", margin: 29, align:_TOOLKIT_INNER},
+            {pos: -10, label:"50", margin: 29, align:_TOOLKIT_INNER},
+            {pos: -0, label:"100%", margin: 29, align:_TOOLKIT_INNER}
+        ]
+    });
+}
 
 
 // TOGGLE
@@ -176,17 +334,18 @@ function run_valuebutton () {
 // SCALE
 
 function run_scale () {
-    if (typeof svl != "undefined") {
-        svl.destroy();
-        svr.destroy();
-        sht.destroy();
-        shb.destroy();
-        svl = undefined;
+    if (typeof scales != "undefined") {
+        scales.left.destroy();
+        scales.right.destroy();
+        scales.top.destroy();
+        scales.bottom.destroy();
+        scales = undefined;
         $("sc_scale").removeClass("box");
         return;
     }
     $("sc_scale").addClass("box");
-    svl = new Scale({
+    scales = {};
+    scales.left = new Scale({
         container: $("sc_scale"),
         layout: _TOOLKIT_LEFT,
         division: 1,
@@ -197,7 +356,7 @@ function run_scale () {
         basis: 200,
         id: "sc_scale_v_l"
     })
-    svr = new Scale({
+    scales.right = new Scale({
         container: $("sc_scale"),
         layout: _TOOLKIT_RIGHT,
         division: 1,
@@ -208,7 +367,7 @@ function run_scale () {
         basis: 200,
         id: "sc_scale_v_r"
     })
-    sht = new Scale({
+    scales.top = new Scale({
         container: $("sc_scale"),
         layout: _TOOLKIT_TOP,
         division: 1,
@@ -220,7 +379,7 @@ function run_scale () {
         gap_labels: 50,
         id: "sc_scale_h_t"
     })
-    shb = new Scale({
+    scales.bottom = new Scale({
         container: $("sc_scale"),
         layout: _TOOLKIT_BOTTOM,
         division: 1,

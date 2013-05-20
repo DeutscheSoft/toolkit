@@ -48,6 +48,11 @@ _TOOLKIT_BLOCK_TOP                   = 27;
 _TOOLKIT_BLOCK_BOTTOM                = 28;
 _TOOLKIT_BLOCK_CENTER                = 29;
 
+// SVG ELEMENT MODES
+_TOOLKIT_OUTLINE                     = 40;
+_TOOLKIT_FILLED                      = 41;
+_TOOLKIT_FULL                        = 42;
+
 // VALUE MODES
 _TOOLKIT_PIXEL                       = 50;
 _TOOLKIT_PX                          = 50;
@@ -103,3 +108,7 @@ _TOOLKIT_HP1                         = 68;
 _TOOLKIT_HP2                         = 69;
 _TOOLKIT_HP3                         = 70;
 _TOOLKIT_HP4                         = 71;
+
+// CIRULAR POSITIONS
+_TOOLKIT_INNER                       = 80;
+_TOOLKIT_OUTER                       = 81;

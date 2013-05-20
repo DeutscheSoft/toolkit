@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * toolkit. by Junger
+ * 
+ * This toolkit provides different widgets, implements and modules for building
+ * audio based applications in webbrowsers.
+ * 
+ * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
+ * 
+ * Jünger Audio GmbH
+ * Justus-von-Liebig-Straße 7
+ * 12489 Berlin · Germany
+ * Tel: +49 30 67 77 21 0
+ * http://junger-audio.com
+ * info@junger-audio.com
+ * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
+ * There is no license by now - all rights reserved. Hope we can fix this major
+ * bug soon.
+ ******************************************************************************/
+
 Button = new Class({
     // Button is a simple, clickable widget to trigger funcions. They fire a
     // couple of click-related events and consist of a label and an icon.

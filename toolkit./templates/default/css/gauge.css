@@ -1,0 +1,18 @@
+.toolkit-gauge {
+    margin: 4px;
+    padding: 2px;
+}
+
+.toolkit-gauge .toolkit-circular {
+    fill: rgb(0,42,66);
+}
+
+.toolkit-gauge .toolkit-circular .toolkit-base {
+    fill: white;
+    opacity: 0.5;
+}
+
+.toolkit-gauge .toolkit-title {
+    font-size: 12px;
+    fill: rgb(0,42,66);
+}

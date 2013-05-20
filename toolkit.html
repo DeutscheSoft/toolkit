@@ -7,6 +7,8 @@
         <script src="toolkit./javascript/mootools-core-1.4.5.js"></script>
         <script src="toolkit./javascript/mootools-more-1.4.0.1.js"></script>
         <script src="javascript/showcase.js"></script>
+        <script src="javascript/rainbow.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/rainbow.css"/>
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toolkit.css"/>
@@ -26,12 +28,8 @@
         <script src="toolkit./implements/ranges.js"></script>
         <script src="toolkit./implements/gradient.js"></script>
         
-        <!-- EXTENDS -->
-        <script src="toolkit./extends/widget.js"></script>
-        <script src="toolkit./extends/meterbase.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/meterbase.css">
-        <script src="toolkit./extends/chart.js"></script>
-        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/chart.css">
+        <!-- WIDGET -->
+        <script src="toolkit./widgets/widget.js"></script>
         
         <!-- MODULES -->
         <script src="toolkit./modules/range.js"></script>
@@ -45,8 +43,16 @@
         <script src="toolkit./modules/responsehandle.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/responsehandle.css">
         <script src="toolkit./modules/eqband.js"></script>
+        <script src="toolkit./modules/circular.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/circular.css">
         
         <!-- WIDGETS -->
+        <script src="toolkit./widgets/meterbase.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/meterbase.css">
+        <script src="toolkit./widgets/chart.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/chart.css">
+        <script src="toolkit./widgets/gauge.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/gauge.css">
         <script src="toolkit./widgets/button.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/button.css">
         <script src="toolkit./widgets/valuebutton.js"></script>
@@ -66,9 +72,7 @@
         <script src="toolkit./widgets/equalizer.js"></script>
         
         <script type="text/javascript">
-            window.addEvent('load', function(){
-                
-            });
+            
         </script>
         
         <style type="text/css">
@@ -132,7 +136,7 @@
             <li class="box class"><a name="widgets"></a><h1>Widgets</h1>
             <p><strong>Widgets</strong> are fully functional elements to build user interfaces. They typically rely on other elements
             like <a href="#modules">Modules</a> and <a href="#modules">Implements</a> and are somehow based on
-            <a href="#widget">Widget</a> or other <a href="#extends">Extends</a>.
+            <a href="#widget">Widget</a> itself or other widgets.
             </li>
             
             
@@ -209,6 +213,202 @@
                         <td>An icon to display</td>
                     </tr>
                 </table>
+            </li>
+            
+            <li id="Chart" class="widget">
+                <!-- ########################################################### -->
+                <!-- CHART WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Chart</strong> is an SVG image containing one or more <a href="#graph">Graphs</a>.
+                    There are functions to add and remove graphs. Chart extends <a href="#widget">Widget</a>,
+                    implements <a href="#ranges">Ranges</a>
+                    and contains a <a href="grid">Grid</a> and two <a href="#range">Ranges</a>.
+                </p><p>
+                    Use cgraph1, cgraph2 and chart to play with the objects
+                    in a terminal: <a href="javascript:cgraph2.set('color', '#fff')">cgraph2.set("color", "#fff")</a>.
+                    Charts implement a <a href="#grid">Grid</a> and use <a href="#coordinates">Coordinates</a>.
+                </p>
+                
+                <style type="text/css">
+                    #sc_chart {
+                        
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_chart">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>range_x <i class="static">⚓</i></td>
+                        <td>
+                        An object with options for a <a href="#range">Range</a> for the x axis
+                    or a function returning a <a href="#range">Range</a> instance.</td>
+                        <td>{}</td>
+                    </tr>
+                    <tr>
+                        <td>range_y <i class="static">⚓</i></td>
+                        <td>An object with options for a <a href="#range">Range</a> for the y axis
+                    or a function returning a <a href="#range">Range</a> instance.</td>
+                        <td>{}</td>
+                    </tr>
+                    <tr>
+                        <td>grid_x</td>
+                        <td>An array containing objects with the following members for the x axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>grid_y</td>
+                        <td>An array containing objects with the following members for the y axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>width</td>
+                        <td>The width of the chart. Set basis of Chart.x for initial width to prevent
+                        redundant redrawing. Meant as a wrapper for Chart.x.set("basis", 300)</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>The height of the chart. Set basis of Chart.y for initial height to prevent
+                        redundant redrawing. Meant as a wrapper for Chart.y.set("basis", 300)</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>key</td>
+                        <td>Draw a description for the graphs. Graphs need to have key
+                        set, too. Set a position out of these:
+                            <ul>
+                                <li>_TOOLKIT_TOP_LEFT</li>
+                                <li>_TOOLKIT_TOP_RIGHT</li>
+                                <li>_TOOLKIT_BOTTOM_LEFT</li>
+                                <li>_TOOLKIT_BOTTOM_RIGHT</li>
+                            </ul>
+                        Use false to disable the key.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>key_size</td>
+                        <td>Width of the little rectangles displaying the style of a graph
+                        in the key</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>Draw a title inside the chart</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>title_position</td>
+                        <td>Set the position of the title. Possible values are:
+                        <ul>
+                            <li>_TOOLKIT_TOP_LEFT</li>
+                            <li>_TOOLKIT_TOP</li>
+                            <li>_TOOLKIT_LEFT</li>
+                            <li>_TOOLKIT_CENTER</li>
+                            <li>_TOOLKIT_RIGHT</li>
+                            <li>_TOOLKIT_BOTTOM_LEFT</li>
+                            <li>_TOOLKIT_BOTTOM</li>
+                            <li>_TOOLKIT_BOTTOM_RIGHT</li>
+                        </ul>
+                        </td>
+                        <td>_TOOLKIT_TOP_RIGHT</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>add_graph([options])</td>
+                        <td>Create a Graph inside the Chart. Options is an object containing
+                        options for the <a href="#graph">Graph</a> element. If options.x or
+                        options.y is omitted, they are replaced with the internal range objects
+                        to provide an overall coodinates system.
+                        <br/><br/>
+                        It returns the new Graph instance.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>remove_graph(graph)</td>
+                        <td>Remove a certain Graph from the chart.</td>
+                    </tr>
+                    <tr>
+                        <td>empty()</td>
+                        <td>Removes all graphs from the chart.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Element</th><th>Description</th></tr>
+                    <tr>
+                        <td>chart.grid</td>
+                        <td>The instance of the <a href="#grid">Grid</a> module.</td>
+                    </tr>
+                    <tr>
+                        <td>chart.range_x</td>
+                        <td>The instance of the <a href="#range">Range</a> module for the x axis.</td>
+                    </tr>
+                    <tr>
+                        <td>chart.range_y</td>
+                        <td>The instance of the <a href="#range">Range</a> module for the y axis.</td>
+                    </tr>
+                    <tr>
+                        <td>chart.graphs</td>
+                        <td>Array containing all <a href="#graph">Graph</a> instances.</td>
+                    </tr>
+                </table>
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>chart.element ("svg.toolkit-chart") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
+                        <td>The SVG image.</td>
+                    </tr>
+                    <tr>
+                        <td>chart._graphs ("g.toolkit-graphs")</td>
+                        <td>The SVG group element containing all Graphs.</td>
+                    </tr>
+                    <tr>
+                        <td>chart._key ("g.toolkit-key")</td>
+                        <td>The SVG group element containing all key elements.</td>
+                    </tr>
+                    <tr>
+                        <td>chart._key_txt ("text")</td>
+                        <td>The SVG text element containing all key labels.</td>
+                    </tr>
+                    <tr>
+                        <td>chart._key_background ("rect.toolkit-background")</td>
+                        <td>The SVG rect element drawing a background for the key.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>graphadded</td>
+                        <td>Is fired when a Graph was added.</td>
+                    </tr>
+                    <tr>
+                        <td>graphremoved</td>
+                        <td>Is fired when a Graph was removed.</td>
+                    </tr>
+                    <tr>
+                        <td>resized</td>
+                        <td>Is fired when the SVG was resized.</td>
+                    </tr>
+                    <tr>
+                        <td>emptied</td>
+                        <td>Is fired when Chart was emptied.</td>
+                    </tr>
+                </table>
+                
             </li>
             
             <li id="Dynamics" class="widget">
@@ -435,6 +635,142 @@
                         <td>_TOOLKIT_FLAT</td>
                     </tr>
                 </table>
+            </li>
+            
+            <li id="Gauge" class="widget">
+                <!-- ########################################################### -->
+                <!-- GAUGE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Gauge</strong> simply puts a single <a href="#circular">Circular</a> into a SVG image.
+                </p>
+                <p class="description">
+                    Use gauge[0-4] to play with the example in a terminal:
+                    <a href="javascript:gauge[0].set('value', Math.random()*10)">gauge[0].set('value', Math.random()*10)</a>
+                    <small>Sets the value of the first gauge to random</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_gauge .toolkit-gauge {
+                        margin-right: 6px;
+                        margin-left: 6px;
+                    }
+                    
+                    #gauge0 .toolkit-base {
+                        opacity: 1;
+                        stroke-width: 12px;
+                        stroke: rgba(0, 42, 66, 0.1);
+                        fill: rgb(0, 42, 66);
+                    }
+                    #gauge0 .toolkit-hand {
+                        fill: white;
+                    }
+                    #gauge0 .toolkit-dot {
+                        fill: rgba(255,255,255,0.33);
+                    }
+                    
+                    #gauge1 .toolkit-label {
+                        font-size: 9px;
+                    }
+                    
+                    #gauge3 {
+                        background: url(images/gauge.svg) no-repeat 50% 0%;
+                        background-size: contain;
+                        fill: white;
+                    }
+                    #gauge3 .toolkit-dot {
+                        fill: white;
+                    }
+                    #gauge3 .toolkit-title {
+                        opacity: 0.9;
+                        fill: white;
+                    }
+                    
+                    #gauge4 {
+                        background: url(images/vumeter.png) no-repeat 50% 0%;
+                        background-size: 100% 100%;
+                        fill: white;
+                    }
+                    #gauge4 .toolkit-base {
+                        opacity: 1;
+                    }
+                    #gauge4 .toolkit-hand {
+                        opacity: 1;
+                    }
+                    #gauge4 .toolkit-marker {
+                        fill: rgba(255,255,255,0.4);
+                    }
+                    #gauge4 .toolkit-title {
+                        opacity: 0.9;
+                        fill: white;
+                    }
+                    
+                    #gauge5 {
+                        background: url(images/vumeter_light.png) no-repeat 50% 0%;
+                        background-size: 100% 100%;
+                        fill: rgba(0,0,0,0.8);
+                    }
+                    #gauge5 .toolkit-base {
+                        opacity: 1;
+                        fill: rgba(0,0,0,0.8);
+                    }
+                    #gauge5 .toolkit-hand {
+                        opacity: 1;
+                    }
+                    #gauge5 .toolkit-title {
+                        opacity: 0.9;
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_gauge" class="">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>width</td>
+                        <td>The width of the SVG</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>The height of the SVG</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td>The diameter of the gauge</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>Title fo the gauge. Object with optional members:
+                            <ul>
+                             <li><strong>pos</strong>:    position in angles</li>
+                             <li><strong>margin</strong>: margin of the imaginary circle from size</li>
+                             <li><strong>align</strong>:  alignment, _TOOLKIT_INNER or _TOOLKIT OUTER</li>
+                             <li><strong>title</strong>:  the title as a string</li>
+                            </ul>
+                            Or a single string to set the title to.
+                        </td>
+                        <td>{pos: 90, margin: 20, align: _TOOLKIT_INNER, title:""}</td>
+                    </tr>
+                </table>
+                     
+                <table class="elements collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>gauge.svg ("svg.toolkit-gauge")</td>
+                        <td>An SVG image containing the <a href="#circular">Circular</a>.</td>
+                    </tr>
+                </table>
+                
             </li>
             
             <li id="LevelMeter" class="widget">
@@ -707,6 +1043,239 @@
                 
             </li>
             
+            <li id="MeterBase" class="widget">
+                <!-- ########################################################### -->
+                <!-- METER BASE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    A <strong>MeterBase</strong> draws a horizontal or vertical bar with a colored background
+                    and some design and masking elements. It implements a <a href="#scale">Scale</a>
+                    to draw some labels and markers. MeterBases are used to build different metering
+                    elements from, e.g. LevelMeters, CorrelationMeters and the like. MeterBase
+                    extends <a href="#widget">Widget</a> and implements <a href="#ranged">Ranged</a>
+                    and <a href="#gradient">Gradient</a>.
+                </p>
+                <p class="description">
+                    Use mbvr, mbvl, mbhb and mbht to play with the examples in a terminal:
+                    <a href="javascript:mbvl.set('value', Math.random()*120 - 96)">mbvl.set("value", Math.random()*120 - 96)</a>
+                    <small>(sets a random value on the vertical meter)</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_meterbase {
+                        margin-left: 80px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical {
+                        height: 200px;
+                        margin-bottom: 30px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal {
+                        width: 500px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-vertical .toolkit-bar {
+                        width: 100px;
+                    }
+                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal .toolkit-bar {
+                        height: 50px;
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_meterbase">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>layout <i class="static">⚓</i></td>
+                        <td>Layout of the widget.
+                            <ul>
+                                <li>_TOOLKIT_LEFT: vertical, bar on the left</li>
+                                <li>_TOOLKIT_RIGHT: vertical, bar on the right</li>
+                                <li>_TOOLKIT_TOP: horizontal, bar on top</li>
+                                <li>_TOOLKIT_BOTTOM: horizontal, bar on bottom</li>
+                            </ul>
+                        </td>
+                        <td>_TOOLKIT_LEFT</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td>The value to show in the bar</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>The value to show as the label. If set to false, the label is initially set to value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>The title of the meter.</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>show_title</td>
+                        <td>Show or hide the title (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_label</td>
+                        <td>Show or hide the label (bool)</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_scale</td>
+                        <td>Show or hide the scale (bool)</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show_marker</td>
+                        <td>Show or hide the marker in the bar (bool) - needs show_scale to be true.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>format_label</td>
+                        <td>A function to format the label before it is drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr>
+                        <td>division</td>
+                        <td>Minimum step size (as value) between labels or dots for the scale widget.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>levels</td>
+                        <td>Array consisting of the multipliers labels and dots for the scale widget can be drawn.
+                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
+                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
+                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
+                        too, lower levels are only possible at the exact division.
+                        </td>
+                        <td>[1, 5, 10]</td>
+                    </tr>
+                    <tr>
+                        <td>scale_base</td>
+                        <td>The base value where drawing of labels and dots for the scale widget starts. Every drawing position
+                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
+                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_labels</td>
+                        <td>Show or hide the labels inside the scale (bool)</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>format_labels</td>
+                        <td>A function to format the labels for the scale widget before they are drawn. Receives the actual value
+                        and is supposed to return a string.</td>
+                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                    </tr>
+                    <tr>
+                        <td>gap_dots</td>
+                        <td>Minimum gap (in pixels) between dots for the scale widget.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>gap_labels</td>
+                        <td>Minimum gap (in pixels) between labels for the scale widget.</td>
+                        <td>40</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>draw_meter()</td>
+                        <td>Draw the meter bar according to options.value.</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Modules">
+                    <tr><th>Element</th><th>Description</th></tr>
+                    <tr>
+                        <td>meterbase.scale</td>
+                        <td>The <a href="#scale">Scale</a> instance</td>
+                    </tr>
+                </table>
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>meterbase.element ("div.toolkit-meter-base") <i class="classified">⇌</i></td>
+                        <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._title ("div.toolkit-title")</td>
+                        <td>The title div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._label ("div.toolkit-label")</td>
+                        <td>The label div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._scale ("div.toolkit-meter-scale")</td>
+                        <td>The scale container div</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._bar ("div.toolkit-bar") <i class="delegated">⇄</i></td>
+                        <td>The bar container div.</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._base ("div.toolkit-base")</td>
+                        <td>The base of the bar drawing the background color/gradient</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._over ("div.toolkit-over")</td>
+                        <td>The overlay for designing purposes (e.g. fake-LED's)</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._mask1 ("div.toolkit-mask.toolkit-mask1")</td>
+                        <td>The mask for values above base</td>
+                    </tr>
+                    <tr>
+                        <td>meterbase._mask2 ("div.toolkit-mask.toolkit-mask2")</td>
+                        <td>The mask for values below base</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>valuechanged</td>
+                        <td>The value has changed. Hands over the new value and widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>labelchanged</td>
+                        <td>The label has changed. Hands over the new label and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>scalechanged</td>
+                        <td>The scale has changed. Hands over the key, the new label and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>basechanged</td>
+                        <td>The label has changed. Hands over the new base and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>titlechanged</td>
+                        <td>The title has changed. Hands over the new title and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>backgroundchanged</td>
+                        <td>Is fired when any background was set on an element. Hands over
+                        the element, the background string and the firing widget</td>
+                    </tr>
+                </table>
+                
+            </li>
             
             <li id="ResponseHandler" class="widget">
                 <!-- ########################################################### -->
@@ -1027,7 +1596,7 @@
                 
             </li>
             
-            <li id="ValueButton" class="widget">
+            <li id="ValueButton" class="widget" style="opacity: 0.33;">
                 <!-- ########################################################### -->
                 <!-- VALUE BUTTON WIDGET -->
                 <!-- ########################################################### -->
@@ -1205,6 +1774,272 @@
                 </table>
             </li>
             
+            <li id="Widget" class="widget" rel="audiomath">
+                <!-- ########################################################### -->
+                <!-- WIDGET WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Widget</strong> is the base class for all widgets drawing DOM elements. It
+                    provides basic functionality like delegating events, setting options and
+                    firing some events. Widget implements <a href="#audiomath">AudioMath</a>,
+                    <a target="_blank" href="http://mootools.net/docs/core/Class/Class.Extras#Options">Options</a> and
+                    <a target="_blank" href="http://mootools.net/docs/core/Class/Class.Extras#Events">Events</a>.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>container</td>
+                        <td>A DOM element as container to inject the element into</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>The id of the element. It is generated as random string if omitted.</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                        <td>class <i class="static">⚓</i></td>
+                        <td>A CSS class to add to the main element.</td>
+                        <td>undefined</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>initialize(options)</td>
+                        <td>Main actions every widget needs to take like setting a id
+                        or the initial options. Argument is the options
+                        object handed over to initialize. Returns the widget.An
+                        Extending widget should call this.parent()
+                        <em>before</em> it has taken its own actions.</td>
+                    </tr>
+                    <tr>
+                        <td>initialized()</td>
+                        <td>Is supposed to be called by extending widgets <em>after</em>
+                        they have initialized themselves. Fires the "initialized" event.
+                        Returns the widget.</td>
+                    </tr>
+                    <tr>
+                        <td>set(key, value, hold)</td>
+                        <td>Set an option. Key is the options name, value the new value
+                        and hold prevents some options to take the default action (like e.g. redraw()).
+                        Returns the widgets instance. An Extending widget should call this.parent()
+                        <em>after</em> it has taken its own actions.</td>
+                    </tr>
+                    <tr>
+                        <td>get(key)</td>
+                        <td>Get the value of an option. An Extending widget should call this.parent()
+                        <em>after</em> it has taken its own actions.</td>
+                    </tr>
+                    <tr>
+                        <td>redraw()</td>
+                        <td>Redraw the widget. Fires the "redraw" event and is supposed
+                        to get enhanced by widgets extending this base class.The widget
+                        should call this.parent() <em>after</em> it has built all elements.</td>
+                    </tr>
+                    <tr>
+                        <td>destroy()</td>
+                        <td>Destroy the widget. Fires the "destroy" event and is supposed
+                        to get enhanced by widgets extending this base class. The widget
+                        should call this.parent() <em>after</em> it has destroyed the elements.</td>
+                    </tr>
+                    <tr>
+                        <td>widgetize(element, delegate, classify)</td>
+                        <td>Create a widget from a DOM element. Basically it means to add the id
+                        from options and set a basic CSS class. If delegate is true, all events
+                        are delegated to the widgets instance. If classify is true, all CSS functionality
+                        will be bound to the widget instance. Returns the element.</td>
+                    </tr>
+                    <tr>
+                        <td>delegate(element)</td>
+                        <td>Takes a DOM element and delegates its main events to the widget class.
+                        Returns the element. The events hand over the event object itself, the widget
+                        instance and the element the events were delegated from.</td>
+                    </tr>
+                    <tr>
+                        <td>classify(element)</td>
+                        <td>Takes a DOM element and delegates its CSS functionality to the widget class.
+                        Returns the element.</td>
+                    </tr>
+                    <tr>
+                        <td>addClass(class) <i class="delegated">⇄</i></td>
+                        <td>If a delegation was executed, addClass adds a CSS class to the delegated
+                        element.</td>
+                    </tr>
+                    <tr>
+                        <td>removeClass(class) <i class="delegated">⇄</i></td>
+                        <td>If a delegation was executed, addClass removes a CSS class from the delegated
+                        element.</td>
+                    </tr>
+                    <tr>
+                        <td>addEvent(event, function) <i class="delegated">⇄</i></td>
+                        <td>Adds an event listener with a callback function to the Widget.</td>
+                    </tr>
+                    <tr>
+                        <td>removeEvent(event, function) <i class="delegated">⇄</i></td>
+                        <td>Removes an event listener with a callback function from the Widget.</td>
+                    </tr>
+                    <tr>
+                        <td>fireEvent(event, arguments, delay) <i class="delegated">⇄</i></td>
+                        <td>Fires an event on the Widget.Arguments is a variable or an array with arguments
+                        passed to the callback and delay dealys the execution in milliseconds.</td>
+                    </tr>
+                </table>
+            
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>initialize</td>
+                        <td>Is fired when an instance gets created.
+                        Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>initialized</td>
+                        <td>Is fired when an instance was created.
+                        Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>redraw</td>
+                        <td>Is fired when the widget wants to redraw.
+                        Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>destroy</td>
+                        <td>Is fired when the widget is destroyed.
+                        Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>set</td>
+                        <td>Is fired when the options are changed.
+                        Hands over the key, the new value, the hold parameter and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>set_[value]</td>
+                        <td>Is fired when a certain value was set, e.g. "set_width" or "set_id".<br />
+                        Hands over the new value, the hold parameter and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>get</td>
+                        <td>Is fired if an option was requested.
+                        Hands over the key, the value and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>widgetized</td>
+                        <td>Is fired when an element was widgetized..
+                        Hands over the element and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>delegated</td>
+                        <td>Is fired when an element delegated all its events to the widgets instance.
+                        Hands over the element and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>classified</td>
+                        <td>Is fired when an element handed all CSS class functionality over to the widgets instance.
+                        Hands over the element and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>mouseenter <i class="delegated">⇄</i></td>
+                        <td>Is fired when the mouse enters the delegating element.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>mouseleave <i class="delegated">⇄</i></td>
+                        <td>Is fired when the mouse leaves the delegating element.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>click <i class="delegated">⇄</i></td>
+                        <td>Is fired when a mouse button is clicked.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>mousedown <i class="delegated">⇄</i></td>
+                        <td>Is fired when a mouse button is pressed.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>mouseup <i class="delegated">⇄</i></td>
+                        <td>Is fired when a mouse button is released.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>mousemove <i class="delegated">⇄</i></td>
+                        <td>Is fired when the mouse is moved inside the element.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>startdrag <i class="delegated">⇄</i></td>
+                        <td>Is fired when dragging starts.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>stopdrag <i class="delegated">⇄</i></td>
+                        <td>Is fired when dragging stops.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>touchstart <i class="delegated">⇄</i></td>
+                        <td>Is fired when a finger is put on a touchscreen.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>touchend <i class="delegated">⇄</i></td>
+                        <td>Is fired when a finger is lifted froma touchscreen.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>touchmove <i class="delegated">⇄</i></td>
+                        <td>Is fired when a finger moves on a touchscreen.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>dblclick <i class="delegated">⇄</i></td>
+                        <td>Is fired when the mouse button was clicked twice.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>keydown <i class="delegated">⇄</i></td>
+                        <td>Is fired when a key is pressed.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>keypress <i class="delegated">⇄</i></td>
+                        <td>Is fired when a key was pressed.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>keyup <i class="delegated">⇄</i></td>
+                        <td>Is fired when a key is released.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>scoll <i class="delegated">⇄</i></td>
+                        <td>Is fired when the element receives a scroll event.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>focus <i class="delegated">⇄</i></td>
+                        <td>Is fired when the element gets focus.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                    <tr>
+                        <td>blur <i class="delegated">⇄</i></td>
+                        <td>Is fired when the focus is taken from the element.
+                        Hands over event, widget instance and the DOM element receiving the event.</td>
+                    </tr>
+                </table>
+            
+            </li>
+            
+            
+            
+            
             
             
             
@@ -1228,6 +2063,229 @@
             
             
             
+            
+            
+            
+            
+            <li id="Circular" class="module">
+                <!-- ########################################################### -->
+                <!-- CIRCULAR MODULE -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Circular</strong> is a SVG group element containing two paths for displaying
+                    numerical values in a circular manner. Circular is able to draw labels,
+                    dots and markers and can show a hand. Circular e.g. is implemented by
+                    the clock to draw the hours, minutes and seconds. Circular extends 
+                    <a href="#widget">Widget</a> and implements <a href="#range">Range</a>.
+                    <a href="#gauge">Gauge</a> demonstrates single Circulars inside SVG images.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>value</td>
+                        <td>The value to show</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td>The outer diameter of the overall circular</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>thickness</td>
+                        <td>The thickness of the base and the value ring.</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>margin</td>
+                        <td>The margin of value and base ring.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>hand</td>
+                        <td>An object with the hands dimensions:
+                            <ul>
+                                <li><stong>width</strong>: The width of the hand</li>
+                                <li><stong>length</strong>: The length of the hand</li>
+                                <li><stong>margin</strong>: The margin of the hand</li>
+                            </ul>
+                        </td>
+                        <td>{width: 3, length: 60, margin: 22}</td>
+                    </tr>
+                    <tr>
+                        <td>start</td>
+                        <td>The starting point in degrees (0=right, 90=bottom, 180=left, 270=top)</td>
+                        <td>135</td>
+                    </tr>
+                    <tr>
+                        <td>basis</td>
+                        <td>The maximum angle difference when value = max</td>
+                        <td>270</td>
+                    </tr>
+                    <tr>
+                        <td>base</td>
+                        <td>If base value is set, value ring starts at this point and shows values
+                            above and beneath base value. Set to false to disable based drawing.
+                        </td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>show_base</td>
+                        <td>Draw the base ring.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show_value</td>
+                        <td>Draw the value ring.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show_hand</td>
+                        <td>Draw the hand.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>x</td>
+                        <td>Move the whole circular in x direction.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>y</td>
+                        <td>Move the whole circular in y direction.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>marker</td>
+                        <td>Default settings for markers. Object with the following members:
+                            <ul>
+                                <li><strong>margin</strong>: default margin of markers (distance from outer size)</li>
+                                <li><strong>thickness</strong>: default thickness of markers</li>
+                            </ul>
+                        </td>
+                        <td>{thickness: 20, margin: 0}</td>
+                    </tr>
+                    <tr>
+                        <td>markers</td>
+                        <td>Array containing objects describing a marker. Members are:
+                            <ul>
+                                <li><strong>from (optional)</strong>: value from where to draw the marker. If omitted, min is used.</li>
+                                <li><strong>to (optional)</strong>: value setting the end of the marker. If omitted, max is used.</li>
+                                <li><strong>color (optional)</strong>: color string for the fill of the marker</li>
+                                <li><strong>class (optional)</strong>: the class of the marker</li>
+                                <li><strong>margin (optional)</strong>: margin if you want another one as the default (distance from outer size)</li>
+                                <li><strong>thickness (optional)</strong>: thickness if you want another one as the default</li>
+                            </ul>
+                        </td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>dot</td>
+                        <td>Default settings for dots. Object with the following optional members:
+                            <ul>
+                                <li><strong>margin</strong>: default margin of dots (distance from outer size)</li>
+                                <li><strong>width</strong>: default width of dots</li>
+                                <li><strong>length</strong>: default length of dots</li>
+                            </ul>
+                        </td>
+                        <td>{width: 3, length: 3, margin: 22}</td>
+                    </tr>
+                    <tr>
+                        <td>dots</td>
+                        <td>Array containing objects describing a dot. Members are:
+                            <ul>
+                                <li><strong>pos</strong>: value where to draw the dot</li>
+                                <li><strong>color (optional)</strong>: color string for the fill of the dot</li>
+                                <li><strong>class (optional)</strong>: the class of the dot</li>
+                                <li><strong>margin (optional)</strong>: margin if you want another one as the default (distance from outer size)</li>
+                                <li><strong>width (optional)</strong>: width if you want another one as the default</li>
+                                <li><strong>length (optional)</strong>: length if you want another one as the default</li>
+                            </ul>
+                        </td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>Settings for labels. Object with the following optional members:
+                            <ul>
+                                <li><strong>margin</strong>: default margin of dots (distance from outer size)</li>
+                                <li><strong>align</strong>: _TOOLKIT_INNER or _TOOLKIT_OUTER describe where to put the anchor of labels. INNER means labels inside a virtual circle at margin, OUTER vice versa.</li>
+                                <li><strong>format</strong>: function receiving the value and returning a string. Used if a label in the list has no label member set.</li>
+                            </ul>
+                        </td>
+                        <td>{margin: 27, align: _TOOLKIT_INNER, format: function (val) { return val; }}</td>
+                    </tr>
+                    <tr>
+                        <td>labels</td>
+                        <td>Array containing objects describing a label. Members are:
+                            <ul>
+                                <li><strong>pos</strong>: value where to draw the label</li>
+                                <li><strong>label (optional)</strong>: text for the label. If omitted, the value from pos is sent through label.format</li>
+                                <li><strong>color (optional)</strong>: color string for the fill of the dot</li>
+                                <li><strong>class (optional)</strong>: the class of the dot</li>
+                                <li><strong>margin (optional)</strong>: margin if you want another one as the default (distance from outer size)</li>
+                            </ul>
+                        </td>
+                        <td>[]</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>gauge.element ("g.toolkit-circular")</td>
+                        <td>An SVG group element containing the other elements.</td>
+                    </tr>
+                    <tr>
+                        <td>circular._base ("path.toolkit-base")</td>
+                        <td>An SVG path element drawing the base ring.</td>
+                    </tr>
+                    <tr>
+                        <td>circular._value ("path.toolkit-value")</td>
+                        <td>An SVG path element drawing the value.</td>
+                    </tr>
+                    <tr>
+                        <td>circular._hand ("rect.toolkit-hand")</td>
+                        <td>An SVG rect element showing a hand.</td>
+                    </tr>
+                    <tr>
+                        <td>circular._markers ("g.toolkit-markers")</td>
+                        <td>An SVG group element containing the marker path elements.</td>
+                    </tr>
+                    <tr>
+                        <td>circular._dots ("g.toolkit-dots")</td>
+                        <td>An SVG group element containing the dot rect elements.</td>
+                    </tr>
+                    <tr>
+                        <td>circular._labels ("g.toolkit-labels")</td>
+                        <td>An SVG group element containing the label text elements.</td>
+                    </tr>
+                </table>
+                
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>labelsdrawn</td>
+                        <td>Labels where redrawn. Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>dotsdrawn</td>
+                        <td>Dots where redrawn. Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>markersdrawn</td>
+                        <td>Markers where redrawn. Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>handdrawn</td>
+                        <td>Hand was redrawn. Hands over the widget instance.</td>
+                    </tr>
+                </table>
+            </li>
             
             <li id="EqBand" class="module">
                 <!-- ########################################################### -->
@@ -2180,8 +3238,10 @@
             
             
             <li class="box class"><a name="implements"></a><h1>Implements</h1>
-            <p><strong>Implements</strong> simply enhance the functionality of
-            <a href="#widgets">Widgets</a>, <a href="#modules">Modules</a> or <a href="#extends">Extends</a>.
+            <p><strong>Implements</strong> enhance the functionality of
+            <a href="#widgets">Widgets</a> or <a href="#modules">Modules</a>. Implementing
+            them gives a widget or module some more functions to do <a href="#audiomath">calculations</a> or
+            create special effects like a <a href="#gradient">gradient</a>.
             </li>
             
             
@@ -2466,725 +3526,6 @@
                 </table>
                 
             </li>
-            
-            
-
-            
-                        
-            
-            
-            
-            
-            
-            
-            <li class="box class"><a name="extends"></a><h1>Extends</h1>
-            <p><strong>Extends</strong> are basic classes other widgets rely on.
-            The most popular example is the <a href="#widget">Widget</a> class itself. It provides basic
-            stuff for every widget that needs to draw DOM elements like delegating or firing events.
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <li id="Chart" class="extend">
-                <!-- ########################################################### -->
-                <!-- CHART EXTEND -->
-                <!-- ########################################################### -->
-                
-                <p class="description">
-                    <strong>Chart</strong> is an SVG image containing one or more <a href="#graph">Graphs</a>.
-                    There are functions to add and remove graphs. Chart extends <a href="#widget">Widget</a>,
-                    implements <a href="#ranges">Ranges</a>
-                    and contains a <a href="grid">Grid</a> and two <a href="#range">Ranges</a>.
-                </p><p>
-                    Use cgraph1, cgraph2 and chart to play with the objects
-                    in a terminal: <a href="javascript:cgraph2.set('color', '#fff')">cgraph2.set("color", "#fff")</a>.
-                    Charts implement a <a href="#grid">Grid</a> and use <a href="#coordinates">Coordinates</a>.
-                </p>
-                
-                <style type="text/css">
-                    #sc_chart {
-                        
-                    }
-                </style>
-                
-                <div class="showcase" style="">
-                    <div id="sc_chart">
-                        
-                    </div>
-                </div>
-                
-                <div class="buttons"></div>
-                
-                <table class="options collapse" title="⚙ Options">
-                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr>
-                        <td>range_x <i class="static">⚓</i></td>
-                        <td>
-                        An object with options for a <a href="#range">Range</a> for the x axis
-                    or a function returning a <a href="#range">Range</a> instance.</td>
-                        <td>{}</td>
-                    </tr>
-                    <tr>
-                        <td>range_y <i class="static">⚓</i></td>
-                        <td>An object with options for a <a href="#range">Range</a> for the y axis
-                    or a function returning a <a href="#range">Range</a> instance.</td>
-                        <td>{}</td>
-                    </tr>
-                    <tr>
-                        <td>grid_x</td>
-                        <td>An array containing objects with the following members for the x axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
-                        <td>[]</td>
-                    </tr>
-                    <tr>
-                        <td>grid_y</td>
-                        <td>An array containing objects with the following members for the y axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
-                        <td>[]</td>
-                    </tr>
-                    <tr>
-                        <td>width</td>
-                        <td>The width of the chart. Set basis of Chart.x for initial width to prevent
-                        redundant redrawing. Meant as a wrapper for Chart.x.set("basis", 300)</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>height</td>
-                        <td>The height of the chart. Set basis of Chart.y for initial height to prevent
-                        redundant redrawing. Meant as a wrapper for Chart.y.set("basis", 300)</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>key</td>
-                        <td>Draw a description for the graphs. Graphs need to have key
-                        set, too. Set a position out of these:
-                            <ul>
-                                <li>_TOOLKIT_TOP_LEFT</li>
-                                <li>_TOOLKIT_TOP_RIGHT</li>
-                                <li>_TOOLKIT_BOTTOM_LEFT</li>
-                                <li>_TOOLKIT_BOTTOM_RIGHT</li>
-                            </ul>
-                        Use false to disable the key.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>key_size</td>
-                        <td>Width of the little rectangles displaying the style of a graph
-                        in the key</td>
-                        <td>20</td>
-                    </tr>
-                    <tr>
-                        <td>title</td>
-                        <td>Draw a title inside the chart</td>
-                        <td>""</td>
-                    </tr>
-                    <tr>
-                        <td>title_position</td>
-                        <td>Set the position of the title. Possible values are:
-                        <ul>
-                            <li>_TOOLKIT_TOP_LEFT</li>
-                            <li>_TOOLKIT_TOP</li>
-                            <li>_TOOLKIT_LEFT</li>
-                            <li>_TOOLKIT_CENTER</li>
-                            <li>_TOOLKIT_RIGHT</li>
-                            <li>_TOOLKIT_BOTTOM_LEFT</li>
-                            <li>_TOOLKIT_BOTTOM</li>
-                            <li>_TOOLKIT_BOTTOM_RIGHT</li>
-                        </ul>
-                        </td>
-                        <td>_TOOLKIT_TOP_RIGHT</td>
-                    </tr>
-                </table>
-                
-                <table class="methods collapse" title="⚒ Methods">
-                    <tr><th>Method</th><th>Description</th></tr>
-                    <tr>
-                        <td>add_graph([options])</td>
-                        <td>Create a Graph inside the Chart. Options is an object containing
-                        options for the <a href="#graph">Graph</a> element. If options.x or
-                        options.y is omitted, they are replaced with the internal range objects
-                        to provide an overall coodinates system.
-                        <br/><br/>
-                        It returns the new Graph instance.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>remove_graph(graph)</td>
-                        <td>Remove a certain Graph from the chart.</td>
-                    </tr>
-                    <tr>
-                        <td>empty()</td>
-                        <td>Removes all graphs from the chart.</td>
-                    </tr>
-                </table>
-                
-                <table class="modules collapse" title="⚛ Modules">
-                    <tr><th>Element</th><th>Description</th></tr>
-                    <tr>
-                        <td>chart.grid</td>
-                        <td>The instance of the <a href="#grid">Grid</a> module.</td>
-                    </tr>
-                    <tr>
-                        <td>chart.range_x</td>
-                        <td>The instance of the <a href="#range">Range</a> module for the x axis.</td>
-                    </tr>
-                    <tr>
-                        <td>chart.range_y</td>
-                        <td>The instance of the <a href="#range">Range</a> module for the y axis.</td>
-                    </tr>
-                    <tr>
-                        <td>chart.graphs</td>
-                        <td>Array containing all <a href="#graph">Graph</a> instances.</td>
-                    </tr>
-                </table>
-                <table class="domelements collapse" title="⛁ DOM-Elements">
-                    <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr>
-                        <td>chart.element ("svg.toolkit-chart") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
-                        <td>The SVG image.</td>
-                    </tr>
-                    <tr>
-                        <td>chart._graphs ("g.toolkit-graphs")</td>
-                        <td>The SVG group element containing all Graphs.</td>
-                    </tr>
-                    <tr>
-                        <td>chart._key ("g.toolkit-key")</td>
-                        <td>The SVG group element containing all key elements.</td>
-                    </tr>
-                    <tr>
-                        <td>chart._key_txt ("text")</td>
-                        <td>The SVG text element containing all key labels.</td>
-                    </tr>
-                    <tr>
-                        <td>chart._key_background ("rect.toolkit-background")</td>
-                        <td>The SVG rect element drawing a background for the key.</td>
-                    </tr>
-                </table>
-                
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr>
-                        <td>graphadded</td>
-                        <td>Is fired when a Graph was added.</td>
-                    </tr>
-                    <tr>
-                        <td>graphremoved</td>
-                        <td>Is fired when a Graph was removed.</td>
-                    </tr>
-                    <tr>
-                        <td>resized</td>
-                        <td>Is fired when the SVG was resized.</td>
-                    </tr>
-                    <tr>
-                        <td>emptied</td>
-                        <td>Is fired when Chart was emptied.</td>
-                    </tr>
-                </table>
-                
-            </li>
-            
-            <li id="MeterBase" class="extend">
-                <!-- ########################################################### -->
-                <!-- METER BASE WIDGET -->
-                <!-- ########################################################### -->
-                
-                <p class="description">
-                    A <strong>MeterBase</strong> draws a horizontal or vertical bar with a colored background
-                    and some design and masking elements. It implements a <a href="#scale">Scale</a>
-                    to draw some labels and markers. MeterBases are used to build different metering
-                    elements from, e.g. LevelMeters, CorrelationMeters and the like. MeterBase
-                    extends <a href="#widget">Widget</a> and implements <a href="#ranged">Ranged</a>
-                    and <a href="#gradient">Gradient</a>.
-                </p>
-                <p class="description">
-                    Use mbvr, mbvl, mbhb and mbht to play with the examples in a terminal:
-                    <a href="javascript:mbvl.set('value', Math.random()*120 - 96)">mbvl.set("value", Math.random()*120 - 96)</a>
-                    <small>(sets a random value on the vertical meter)</small>
-                </p>
-                
-                <style type="text/css">
-                    #sc_meterbase {
-                        margin-left: 80px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-vertical {
-                        height: 200px;
-                        margin-bottom: 30px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal {
-                        width: 500px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-vertical .toolkit-bar {
-                        width: 100px;
-                    }
-                    #sc_meterbase .toolkit-meter-base.toolkit-horizontal .toolkit-bar {
-                        height: 50px;
-                    }
-                </style>
-                
-                <div class="showcase" style="">
-                    <div id="sc_meterbase">
-                        
-                    </div>
-                </div>
-                
-                <div class="buttons"></div>
-                
-                <table class="options collapse" title="⚙ Options">
-                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr>
-                        <td>layout <i class="static">⚓</i></td>
-                        <td>Layout of the widget.
-                            <ul>
-                                <li>_TOOLKIT_LEFT: vertical, bar on the left</li>
-                                <li>_TOOLKIT_RIGHT: vertical, bar on the right</li>
-                                <li>_TOOLKIT_TOP: horizontal, bar on top</li>
-                                <li>_TOOLKIT_BOTTOM: horizontal, bar on bottom</li>
-                            </ul>
-                        </td>
-                        <td>_TOOLKIT_LEFT</td>
-                    </tr>
-                    <tr>
-                        <td>value</td>
-                        <td>The value to show in the bar</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>label</td>
-                        <td>The value to show as the label. If set to false, the label is initially set to value.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>title</td>
-                        <td>The title of the meter.</td>
-                        <td>""</td>
-                    </tr>
-                    <tr>
-                        <td>show_title</td>
-                        <td>Show or hide the title (bool)</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>show_label</td>
-                        <td>Show or hide the label (bool)</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>show_scale</td>
-                        <td>Show or hide the scale (bool)</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>show_marker</td>
-                        <td>Show or hide the marker in the bar (bool) - needs show_scale to be true.</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>format_label</td>
-                        <td>A function to format the label before it is drawn. Receives the actual value
-                        and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
-                    </tr>
-                    <tr>
-                        <td>division</td>
-                        <td>Minimum step size (as value) between labels or dots for the scale widget.</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>levels</td>
-                        <td>Array consisting of the multipliers labels and dots for the scale widget can be drawn.
-                        E.g. a division of 5 and levels of [1, 2, 5] would draw labels at 5, 10 or 25, 50, 75 ... 
-                        (but not 30 or 80) depending on the available space. Dots are drawn one level lower between the
-                        labels (if there's enough space). The highest level can be drawn at real number multiplicators,
-                        too, lower levels are only possible at the exact division.
-                        </td>
-                        <td>[1, 5, 10]</td>
-                    </tr>
-                    <tr>
-                        <td>scale_base</td>
-                        <td>The base value where drawing of labels and dots for the scale widget starts. Every drawing position
-                        is compared to the base position. E.g. a base of 12 and a division of 10 would draw
-                        labels at -10, 2, 12, 24, ... false sets the base to the min value.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>show_labels</td>
-                        <td>Show or hide the labels inside the scale (bool)</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>format_labels</td>
-                        <td>A function to format the labels for the scale widget before they are drawn. Receives the actual value
-                        and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
-                    </tr>
-                    <tr>
-                        <td>gap_dots</td>
-                        <td>Minimum gap (in pixels) between dots for the scale widget.</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>gap_labels</td>
-                        <td>Minimum gap (in pixels) between labels for the scale widget.</td>
-                        <td>40</td>
-                    </tr>
-                </table>
-                
-                <table class="methods collapse" title="⚒ Methods">
-                    <tr><th>Method</th><th>Description</th></tr>
-                    <tr>
-                        <td>draw_meter()</td>
-                        <td>Draw the meter bar according to options.value.</td>
-                    </tr>
-                </table>
-                
-                <table class="elements collapse" title="⚛ Modules">
-                    <tr><th>Element</th><th>Description</th></tr>
-                    <tr>
-                        <td>meterbase.scale</td>
-                        <td>The <a href="#scale">Scale</a> instance</td>
-                    </tr>
-                </table>
-                <table class="domelements collapse" title="⛁ DOM-Elements">
-                    <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr>
-                        <td>meterbase.element ("div.toolkit-meter-base") <i class="classified">⇌</i></td>
-                        <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._title ("div.toolkit-title")</td>
-                        <td>The title div</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._label ("div.toolkit-label")</td>
-                        <td>The label div</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._scale ("div.toolkit-meter-scale")</td>
-                        <td>The scale container div</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._bar ("div.toolkit-bar") <i class="delegated">⇄</i></td>
-                        <td>The bar container div.</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._base ("div.toolkit-base")</td>
-                        <td>The base of the bar drawing the background color/gradient</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._over ("div.toolkit-over")</td>
-                        <td>The overlay for designing purposes (e.g. fake-LED's)</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._mask1 ("div.toolkit-mask.toolkit-mask1")</td>
-                        <td>The mask for values above base</td>
-                    </tr>
-                    <tr>
-                        <td>meterbase._mask2 ("div.toolkit-mask.toolkit-mask2")</td>
-                        <td>The mask for values below base</td>
-                    </tr>
-                </table>
-                
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr>
-                        <td>valuechanged</td>
-                        <td>The value has changed. Hands over the new value and widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>labelchanged</td>
-                        <td>The label has changed. Hands over the new label and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>scalechanged</td>
-                        <td>The scale has changed. Hands over the key, the new label and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>basechanged</td>
-                        <td>The label has changed. Hands over the new base and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>titlechanged</td>
-                        <td>The title has changed. Hands over the new title and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>backgroundchanged</td>
-                        <td>Is fired when any background was set on an element. Hands over
-                        the element, the background string and the firing widget</td>
-                    </tr>
-                </table>
-                
-            </li>
-            
-            <li id="Widget" class="extend" rel="audiomath">
-                <!-- ########################################################### -->
-                <!-- WIDGET EXTEND -->
-                <!-- ########################################################### -->
-                
-                <p class="description">
-                    <strong>Widget</strong> is the base class for all widgets drawing DOM elements. It
-                    provides basic functionality like delegating events, setting options and
-                    firing some events. Widget implements <a href="#audiomath">AudioMath</a>,
-                    <a target="_blank" href="http://mootools.net/docs/core/Class/Class.Extras#Options">Options</a> and
-                    <a target="_blank" href="http://mootools.net/docs/core/Class/Class.Extras#Events">Events</a>.
-                </p>
-                
-                <div class="buttons"></div>
-                
-                <table class="options collapse" title="⚙ Options">
-                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
-                    <tr>
-                        <td>container</td>
-                        <td>A DOM element as container to inject the element into</td>
-                        <td>undefined</td>
-                    </tr>
-                    <tr>
-                        <td>id</td>
-                        <td>The id of the element. It is generated as random string if omitted.</td>
-                        <td>undefined</td>
-                    </tr>
-                    <tr>
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add to the main element.</td>
-                        <td>undefined</td>
-                    </tr>
-                </table>
-                
-                <table class="methods collapse" title="⚒ Methods">
-                    <tr><th>Method</th><th>Description</th></tr>
-                    <tr>
-                        <td>initialize(options)</td>
-                        <td>Main actions every widget needs to take like setting a id
-                        or the initial options. Argument is the options
-                        object handed over to initialize. Returns the widget.An
-                        Extending widget should call this.parent()
-                        <em>before</em> it has taken its own actions.</td>
-                    </tr>
-                    <tr>
-                        <td>initialized()</td>
-                        <td>Is supposed to be called by extending widgets <em>after</em>
-                        they have initialized themselves. Fires the "initialized" event.
-                        Returns the widget.</td>
-                    </tr>
-                    <tr>
-                        <td>set(key, value, hold)</td>
-                        <td>Set an option. Key is the options name, value the new value
-                        and hold prevents some options to take the default action (like e.g. redraw()).
-                        Returns the widgets instance. An Extending widget should call this.parent()
-                        <em>after</em> it has taken its own actions.</td>
-                    </tr>
-                    <tr>
-                        <td>get(key)</td>
-                        <td>Get the value of an option. An Extending widget should call this.parent()
-                        <em>after</em> it has taken its own actions.</td>
-                    </tr>
-                    <tr>
-                        <td>redraw()</td>
-                        <td>Redraw the widget. Fires the "redraw" event and is supposed
-                        to get enhanced by widgets extending this base class.The widget
-                        should call this.parent() <em>after</em> it has built all elements.</td>
-                    </tr>
-                    <tr>
-                        <td>destroy()</td>
-                        <td>Destroy the widget. Fires the "destroy" event and is supposed
-                        to get enhanced by widgets extending this base class. The widget
-                        should call this.parent() <em>after</em> it has destroyed the elements.</td>
-                    </tr>
-                    <tr>
-                        <td>widgetize(element, delegate, classify)</td>
-                        <td>Create a widget from a DOM element. Basically it means to add the id
-                        from options and set a basic CSS class. If delegate is true, all events
-                        are delegated to the widgets instance. If classify is true, all CSS functionality
-                        will be bound to the widget instance. Returns the element.</td>
-                    </tr>
-                    <tr>
-                        <td>delegate(element)</td>
-                        <td>Takes a DOM element and delegates its main events to the widget class.
-                        Returns the element. The events hand over the event object itself, the widget
-                        instance and the element the events were delegated from.</td>
-                    </tr>
-                    <tr>
-                        <td>classify(element)</td>
-                        <td>Takes a DOM element and delegates its CSS functionality to the widget class.
-                        Returns the element.</td>
-                    </tr>
-                    <tr>
-                        <td>addClass(class) <i class="delegated">⇄</i></td>
-                        <td>If a delegation was executed, addClass adds a CSS class to the delegated
-                        element.</td>
-                    </tr>
-                    <tr>
-                        <td>removeClass(class) <i class="delegated">⇄</i></td>
-                        <td>If a delegation was executed, addClass removes a CSS class from the delegated
-                        element.</td>
-                    </tr>
-                    <tr>
-                        <td>addEvent(event, function) <i class="delegated">⇄</i></td>
-                        <td>Adds an event listener with a callback function to the Widget.</td>
-                    </tr>
-                    <tr>
-                        <td>removeEvent(event, function) <i class="delegated">⇄</i></td>
-                        <td>Removes an event listener with a callback function from the Widget.</td>
-                    </tr>
-                    <tr>
-                        <td>fireEvent(event, arguments, delay) <i class="delegated">⇄</i></td>
-                        <td>Fires an event on the Widget.Arguments is a variable or an array with arguments
-                        passed to the callback and delay dealys the execution in milliseconds.</td>
-                    </tr>
-                </table>
-            
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                    <tr>
-                        <td>initialize</td>
-                        <td>Is fired when an instance gets created.
-                        Hands over the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>initialized</td>
-                        <td>Is fired when an instance was created.
-                        Hands over the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>redraw</td>
-                        <td>Is fired when the widget wants to redraw.
-                        Hands over the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>destroy</td>
-                        <td>Is fired when the widget is destroyed.
-                        Hands over the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>set</td>
-                        <td>Is fired when the options are changed.
-                        Hands over the key, the new value, the hold parameter and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>set_[value]</td>
-                        <td>Is fired when a certain value was set, e.g. "set_width" or "set_id".<br />
-                        Hands over the new value, the hold parameter and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>get</td>
-                        <td>Is fired if an option was requested.
-                        Hands over the key, the value and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>widgetized</td>
-                        <td>Is fired when an element was widgetized..
-                        Hands over the element and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>delegated</td>
-                        <td>Is fired when an element delegated all its events to the widgets instance.
-                        Hands over the element and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>classified</td>
-                        <td>Is fired when an element handed all CSS class functionality over to the widgets instance.
-                        Hands over the element and the widget instance.</td>
-                    </tr>
-                    <tr>
-                        <td>mouseenter <i class="delegated">⇄</i></td>
-                        <td>Is fired when the mouse enters the delegating element.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>mouseleave <i class="delegated">⇄</i></td>
-                        <td>Is fired when the mouse leaves the delegating element.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>click <i class="delegated">⇄</i></td>
-                        <td>Is fired when a mouse button is clicked.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>mousedown <i class="delegated">⇄</i></td>
-                        <td>Is fired when a mouse button is pressed.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>mouseup <i class="delegated">⇄</i></td>
-                        <td>Is fired when a mouse button is released.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>mousemove <i class="delegated">⇄</i></td>
-                        <td>Is fired when the mouse is moved inside the element.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>startdrag <i class="delegated">⇄</i></td>
-                        <td>Is fired when dragging starts.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>stopdrag <i class="delegated">⇄</i></td>
-                        <td>Is fired when dragging stops.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>touchstart <i class="delegated">⇄</i></td>
-                        <td>Is fired when a finger is put on a touchscreen.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>touchend <i class="delegated">⇄</i></td>
-                        <td>Is fired when a finger is lifted froma touchscreen.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>touchmove <i class="delegated">⇄</i></td>
-                        <td>Is fired when a finger moves on a touchscreen.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>dblclick <i class="delegated">⇄</i></td>
-                        <td>Is fired when the mouse button was clicked twice.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>keydown <i class="delegated">⇄</i></td>
-                        <td>Is fired when a key is pressed.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>keypress <i class="delegated">⇄</i></td>
-                        <td>Is fired when a key was pressed.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>keyup <i class="delegated">⇄</i></td>
-                        <td>Is fired when a key is released.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>scoll <i class="delegated">⇄</i></td>
-                        <td>Is fired when the element receives a scroll event.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>focus <i class="delegated">⇄</i></td>
-                        <td>Is fired when the element gets focus.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                    <tr>
-                        <td>blur <i class="delegated">⇄</i></td>
-                        <td>Is fired when the focus is taken from the element.
-                        Hands over event, widget instance and the DOM element receiving the event.</td>
-                    </tr>
-                </table>
-            
-            </li>
-            
             
         </ul>
     </body>
