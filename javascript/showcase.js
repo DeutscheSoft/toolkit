@@ -52,6 +52,20 @@ window.addEvent('domready', function () {
     }
 });
 
+// CLOCK
+
+function run_clock () {
+    if (typeof clock != "undefined") {
+        clock.destroy();
+        clock = undefined;
+        return;
+    }
+    clock = new Clock({
+        container: $("sc_clock"),
+        timeout: 50
+    });
+}
+
 
 // GAUGE
 function run_gauge () {

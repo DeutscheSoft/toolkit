@@ -1,0 +1,222 @@
+/*******************************************************************************
+ * toolkit. by Junger
+ * 
+ * This toolkit provides different widgets, implements and modules for building
+ * audio based applications in webbrowsers.
+ * 
+ * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
+ * 
+ * Jünger Audio GmbH
+ * Justus-von-Liebig-Straße 7
+ * 12489 Berlin · Germany
+ * Tel: +49 30 67 77 21 0
+ * http://junger-audio.com
+ * info@junger-audio.com
+ * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
+ * There is no license by now - all rights reserved. Hope we can fix this major
+ * bug soon.
+ ******************************************************************************/
+
+Clock = new Class({
+    // Clock shows a customized clock with circulars displaying hours, minutes
+    // and seconds. It has three free formatable labels.
+    Extends: Widget,
+    options: {
+        thickness:    10,         // thickness of the rings
+        size:         200,        // diameter of the whole clock
+        time:         new Date(), // the date object to show
+        show_seconds: true,       // show the seconds ring
+        show_minutes: true,       // show the minutes ring
+        show_hours:   true,       // show the hours ring
+        timeout:      0,          // set a timeout to update the clock with the
+                                  // system clock regulary
+        offset:       0,          // if a timeout is set offset the system time
+                                  // in milliseconds
+        fps:          25,         // framerate for calculatind SMTP frames
+        months:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        days:         ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        label: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+            return sprintf("%02d:%02d:%02d", hour, minute, second);},
+        label_upper: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+            return days[day];},
+        label_lower: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+            return sprintf("%02d. %s", date, months[month]);},
+        label_scale: 0.4           // the scale of the upper and lower labels
+                                   // compared to the main label
+    },
+    circulars: {},
+    _margin: -1,
+    initialize: function (options) {
+        this.setOptions(options);
+        this.element = this.widgetize(makeSVG("svg", {"class": "toolkit-clock"}));
+        
+        this.set("container", this.options.container);
+        
+        this._label       = makeSVG("text", {
+            "class":       "toolkit-label",
+            "text-anchor": "middle",
+            "style":       "dominant-baseline: central;"
+        });
+        this._label_upper = makeSVG("text", {
+            "class": "toolkit-label-upper",
+            "text-anchor": "middle",
+            "style":       "dominant-baseline: central;"
+        });
+        this._label_lower = makeSVG("text", {
+            "class": "toolkit-label-lower",
+            "text-anchor": "middle",
+            "style":       "dominant-baseline: central;"
+        });
+        this._label.inject(this.element);
+        this._label_upper.inject(this.element);
+        this._label_lower.inject(this.element);
+        
+        var options = {
+            container: this.element,
+            show_hand: false,
+            start: 270,
+            basis: 360,
+            min: 0,
+        }
+        this.circulars.seconds = new Circular(Object.merge(options,
+            {max: 60, "class": "toolkit-seconds"}));
+        this.circulars.minutes = new Circular(Object.merge(options,
+            {max: 60, "class": "toolkit-minutes"}));
+        this.circulars.hours   = new Circular(Object.merge(options,
+            {max: 12, "class": "toolkit-hours"}));
+        
+        this.set("timeout", this.options.timeout);
+        this.set("size", this.options.size, true);
+        
+        this.parent(options);
+        this.redraw();
+        this.initialized();
+    },
+    
+    redraw: function () {
+        var margin = 0;
+        for (var i in this.circulars) {
+            var circ = this.circulars[i];
+            if (this.options["show_" + i]) {
+                circ.set("thickness", this.options.thickness);
+                circ.set("show_base", true);
+                circ.set("show_value", true);
+                circ.set("size", this.options.size);
+                circ.set("margin", margin);
+                margin += this.options.thickness;
+                margin += circ._get_stroke();
+            } else {
+                circ.set("show_base", false);
+                circ.set("show_value", false);
+            }
+        }
+        if(this._margin < 0) {
+            this._margin = margin;
+            this._set_labels();
+        } else {
+            this._margin = margin;
+        }
+        this._set_labels();
+        this._draw_time();
+        this.parent();
+    },
+    
+    destroy: function () {
+        this._label.destroy();
+        this.seconds.destroy();
+        this.minutes.destroy();
+        this.hours.destroy();
+        this.parent();
+    },
+    _draw_time: function () {
+        this.circulars.seconds.set("value", this.options.time.getSeconds());
+        this.circulars.minutes.set("value", this.options.time.getMinutes());
+        this.circulars.hours.set("value", this.options.time.getHours() % 12);
+        
+        var t = this.options.time;
+        var args = [t, t.getYear(), t.getMonth(), t.getDate(), t.getDay(),
+                   t.getHours(), t.getMinutes(), t.getSeconds(),
+                   t.getMilliseconds(), Math.round(t.getMilliseconds() / (1000 / this.options.fps)),
+                   this.options.months, this.options.days];
+                   
+        this._label.set("text", this.options.label.apply(this, args));
+        this._label_upper.set("text", this.options.label_upper.apply(this, args));
+        this._label_lower.set("text", this.options.label_lower.apply(this, args));
+        
+        this.fireEvent("timedrawn", [this]);
+    },
+    _set_labels: function () {
+        this._label.set("text", this.options.label(new Date(2000, 11, 30, 24, 59, 59, 999), 2000, 11,
+                                                   30, 6, 24, 59, 59, 999, 999,
+                                                   this.options.months, this.options.days));
+        
+        this._label.set("transform", "");
+        
+        var bb = this._label.getBoundingClientRect();
+        var mleft   = this._label.getStyle("margin-left").toInt() || 0;
+        var mright  = this._label.getStyle("margin-right").toInt() || 0;
+        var mtop    = this._label.getStyle("margin-top").toInt() || 0;
+        var mbottom = this._label.getStyle("margin-bottom").toInt() || 0;
+        var space   = this.options.size - mleft - mright - this._margin * 2;
+        var scale   = space / bb.width;
+        var pos     = this.options.size / 2;
+        
+        this._label.set("transform", "translate(" + pos + "," + pos + ") "
+            + "scale(" + scale + ")");
+        
+        var bb = this._label.getBoundingClientRect();
+        
+        this._label_upper.set("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
+            + "scale(" + (scale * this.options.label_scale) + ")");
+        this._label_lower.set("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
+            + "scale(" + (scale * this.options.label_scale) + ")");
+    },
+    
+    _timeout : function () {
+        if (this.__to)
+            window.clearTimeout(this.__to);
+        if (this.options.timeout) {
+            if (this.options.offset)
+                this.set("time", new Date(+(new Date()) + this.options.offset));
+            else
+                this.set("time", new Date());
+            window.setTimeout(this._timeout.bind(this), this.options.timeout);
+        }
+    },
+    
+    // GETTERS & SETTERS
+    set: function (key, value, hold) {
+        this.options[key] = value;
+        switch (key) {
+            case "thickness":
+                if (!hold) this.redraw();
+                break;
+            case "size":
+                this.element.set("width", value);
+                this.element.set("height", value);
+//                 this._label.set("x", value / 2);
+//                 this._label_upper.set("x", value / 2);
+//                 this._label_lower.set("x", value / 2);
+//                 this._label.set("y", value / 2);
+//                 this._label_upper.set("y", value / 2);
+//                 this._label_lower.set("y", value / 2);
+                if (!hold) this.redraw();
+                break;
+            case "time":
+                if (!hold) this._draw_time();
+                break;
+            case "timeout":
+                this._timeout();
+                break;
+            case "label":
+            case "label_lower":
+            case "label_upper":
+            case "label_scale":
+                this._set_labels();
+                break;
+        }
+        this.parent(key, value, hold);
+    }
+})

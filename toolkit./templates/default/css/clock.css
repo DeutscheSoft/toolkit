@@ -1,0 +1,27 @@
+.toolkit-widget.toolkit-clock {
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 1px solid white;
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    fill: rgb(0,42,66);
+}
+
+.toolkit-widget.toolkit-clock .toolkit-circular {
+    fill: rgb(0,42,66);
+}
+
+.toolkit-widget.toolkit-clock .toolkit-circular .toolkit-value {
+    
+}
+
+.toolkit-widget.toolkit-clock .toolkit-circular .toolkit-base {
+    fill: white;
+    opacity: 0.5;
+}
+
+.toolkit-widget.toolkit-clock .toolkit-label {
+    margin: 5px;
+}

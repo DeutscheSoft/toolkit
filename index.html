@@ -70,6 +70,8 @@
         <script src="toolkit./widgets/responsehandler.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/responsehandler.css">
         <script src="toolkit./widgets/equalizer.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/clock.css">
+        <script src="toolkit./widgets/clock.js"></script>
         
         <script type="text/javascript">
             
@@ -406,6 +408,89 @@
                     <tr>
                         <td>emptied</td>
                         <td>Is fired when Chart was emptied.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            <li id="Clock" class="widget">
+                <!-- ########################################################### -->
+                <!-- CLOCK WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Clock</strong> shows a customized clock with <a href="#circular">Circulars</a>
+                    displaying hours, minutes and seconds. It contains three free formatable labels.
+                </p>
+                <p class="description">
+                    Use clock to play with the example in a terminal:
+                    <a href="javascript:clock.set('time', new Date())">clock.set('time', new Date())</a>
+                    <small>Sets the time of the clock to the actual one</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_clock  {
+                        
+                    }
+                </style>
+                
+                <div class="showcase" style="">
+                    <div id="sc_clock" class="">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>width</td>
+                        <td>The width of the SVG</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>The height of the SVG</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td>The diameter of the gauge</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>Title fo the gauge. Object with optional members:
+                            <ul>
+                             <li><strong>pos</strong>:    position in angles</li>
+                             <li><strong>margin</strong>: margin of the imaginary circle from size</li>
+                             <li><strong>align</strong>:  alignment, _TOOLKIT_INNER or _TOOLKIT OUTER</li>
+                             <li><strong>title</strong>:  the title as a string</li>
+                            </ul>
+                            Or a single string to set the title to.
+                        </td>
+                        <td>{pos: 90, margin: 20, align: _TOOLKIT_INNER, title:""}</td>
+                    </tr>
+                </table>
+                     
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>gauge._svg ("svg.toolkit-gauge")</td>
+                        <td>An SVG image containing the <a href="#circular">Circular</a>.</td>
+                    </tr>
+                    <tr>
+                        <td>gauge._title ("text.toolkit-title")</td>
+                        <td>An SVG text element displaying the title.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>timedrawn</td>
+                        <td>Is fired after the time was drawn.</td>
                     </tr>
                 </table>
                 

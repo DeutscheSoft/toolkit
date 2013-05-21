@@ -1,6 +1,7 @@
 .toolkit-circular {
     fill: white;
     stroke: none;
+    stroke-width: 0;
 }
 .toolkit-circular .toolkit-background {
     

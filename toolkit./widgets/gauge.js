@@ -51,6 +51,7 @@ Gauge = new Class({
         
         this.parent(options);
         this._svg = this.widgetize(this._svg);
+        this.initialized();
     },
     destroy: function () {
         this._svg.destroy();
