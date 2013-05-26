@@ -73,9 +73,10 @@ Window = new Class({
         auto_maximize: true,  // set whether maximize toggles the window or not
         auto_minimize: true,  // set whether minimize toggles the window or not
         auto_shrink:   true,  // set whether shrink toggles the window or not
+        draggable:     true   // set whether the window is draggable
     },
     __inited: false,
-    dimensions: {x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0},
+    dimensions: {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0},
     initialize: function (options) {
         this.parent(options);
         
@@ -175,6 +176,8 @@ Window = new Class({
             onDrag: this.__dragging.bind(this),
         });
         
+        this.set("draggable", this.options.draggable);
+        
         this._build_header();
         this._build_footer();
         
@@ -216,14 +219,20 @@ Window = new Class({
     _set_dimensions: function () {
         if (this.__horiz_max()) {
             this.element.outerWidth(document.documentElement.clientWidth);
+            this.dimensions.width = document.documentElement.clientWidth;
         } else {
             this.element.outerWidth(this.options.width);
+            this.dimensions.width = this.options.width;
         }
         if (this.__vert_max()) {
             this.element.outerHeight(document.documentElement.clientHeight);
+            this.dimensions.height = document.documentElement.clientHeight;
         } else {
             this.element.outerHeight(this.options.height);
+            this.dimensions.height = this.options.height;
         }
+        this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
+        this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
         this._set_content();
     },
     _set_position: function () {
@@ -244,7 +253,23 @@ Window = new Class({
         } else {
             this.element.setStyle("top", pos.y);
         }
-        
+        this.dimensions.x      = this.options.x;
+        this.dimensions.y      = this.options.y;
+        this.dimensions.x1     = pos.x;
+        this.dimensions.y1     = pos.y;
+        this.dimensions.x2     = pos.x + this.dimensions.width;
+        this.dimensions.y2     = pos.y + this.dimensions.height;
+    },
+    _set_content: function () {
+        var elmt = this.element.innerHeight();
+        var head = this._header.outerHeight();
+        var foot = this._footer.outerHeight();
+        this._content.outerHeight(elmt - head - foot);
+        if (this.options.width == _TOOLKIT_VAR)
+            this._content.setStyle("width", "auto");
+        else
+            this._content.outerWidth(this.element.innerWidth());
+        this._content.setStyle("top", head);
     },
     _init_position: function (pos) {
         if (pos) {
@@ -263,42 +288,6 @@ Window = new Class({
         }
         this._set_dimensions();
         this._set_position();
-    },
-    
-    _translate_anchor: function (anchor, x, y, width, height) {
-        switch (anchor) {
-            case _TOOLKIT_TOP_LEFT:
-                break;
-            case _TOOLKIT_TOP:
-                x += width / 2;
-                break;
-            case _TOOLKIT_TOP_RIGHT:
-                x += width;
-                break;
-            case _TOOLKIT_LEFT:
-                y += height / 2;
-                break;
-            case _TOOLKIT_CENTER:
-                x += width / 2;
-                y += height / 2;
-                break;
-            case _TOOLKIT_RIGHT:
-                x += width;
-                y += height / 2;
-                break;
-            case _TOOLKIT_BOTTOM_LEFT:
-                y += height;
-                break;
-            case _TOOLKIT_BOTTOM:
-                x += width / 2;
-                y += height;
-                break;
-            case _TOOLKIT_BOTTOM_RIGHT:
-                x += width;
-                y += height;
-                break;
-        }
-        return {x: x, y: y};
     },
     
     _build_header: function () {
@@ -348,14 +337,6 @@ Window = new Class({
             targ.inject(this["_" + element]);
         }
     },
-    _set_content: function () {
-        var elmt = this.element.innerHeight();
-        var head = this._header.outerHeight();
-        var foot = this._footer.outerHeight();
-        this._content.outerHeight(elmt - head - foot);
-        this._content.outerWidth(this.element.innerWidth());
-        this._content.setStyle("top", head);
-    },
     
     _check_header: function () {
         // checks whether to hide or show the header element
@@ -394,6 +375,41 @@ Window = new Class({
         return this.options.maximize.x;
     },
     
+    _translate_anchor: function (anchor, x, y, width, height) {
+        switch (anchor) {
+            case _TOOLKIT_TOP_LEFT:
+                break;
+            case _TOOLKIT_TOP:
+                x += width / 2;
+                break;
+            case _TOOLKIT_TOP_RIGHT:
+                x += width;
+                break;
+            case _TOOLKIT_LEFT:
+                y += height / 2;
+                break;
+            case _TOOLKIT_CENTER:
+                x += width / 2;
+                y += height / 2;
+                break;
+            case _TOOLKIT_RIGHT:
+                x += width;
+                y += height / 2;
+                break;
+            case _TOOLKIT_BOTTOM_LEFT:
+                y += height;
+                break;
+            case _TOOLKIT_BOTTOM:
+                x += width / 2;
+                y += height;
+                break;
+            case _TOOLKIT_BOTTOM_RIGHT:
+                x += width;
+                y += height;
+                break;
+        }
+        return {x: Math.round(x), y: Math.round(y)};
+    },
     
     // EVENT STUFF
     __start_drag: function (e) {
@@ -407,6 +423,16 @@ Window = new Class({
         this.fireEvent("stopdrag", [this]);
     },
     __dragging: function (e) {
+        var pos  = this.element.getPosition();
+        var pos1 = this._translate_anchor(this.options.anchor, pos.x, pos.y,
+                                          this.options.width, this.options.height);
+        this.dimensions.x      = this.options.x = pos1.x;
+        this.dimensions.y      = this.options.y = pos1.y;
+        this.dimensions.x1     = pos.x;
+        this.dimensions.y1     = pos.y;
+        this.dimensions.x2     = pos.x + this.dimensions.width;
+        this.dimensions.y2     = pos.y + this.dimensions.height;
+        
         this.fireEvent("dragging", [this]);
     },
     
@@ -485,27 +511,22 @@ Window = new Class({
                 }
                 break;
             case "anchor":
+                this.dimensions.anchor = value;
                 if (!hold) {
                     this._set_dimensions();
                     this._set_position();
                 }
                 break;
             case "width":
-                this.dimensions.width = value;
-                this.dimensions.x2 = this.dimensions.x1 + value;
                 if (!hold) this._set_dimensions();
                 break;
             case "height":
-                this.dimensions.height = value;
-                this.dimensions.y2 = this.dimensions.y1 + value;
                 if (!hold) this._set_dimensions();
                 break;
             case "x":
-                this.dimensions.x = this.dimensions.x1 = value;
                 if (!hold) this._set_position();
                 break;
             case "y":
-                this.dimensions.y = this.dimensions.y1 = value;
                 if (!hold) this._set_position();
                 break;
             case "z_index":
@@ -543,7 +564,6 @@ Window = new Class({
                 else       this.element.removeClass("toolkit-active");
                 break;
             case "fixed":
-                
                 this.element.setStyle("position", value ? "fixed" : "absolute");
                 if (!hold) this._set_position();
                 break;
@@ -563,6 +583,10 @@ Window = new Class({
                         this.redraw();
                     }
                 }
+                break;
+            case "draggable":
+                if (value) this.drag.attach();
+                else this.drag.detach();
                 break;
         }
         this.parent(key, value, hold);

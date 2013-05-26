@@ -77,10 +77,10 @@ function run_window () {
                            _TOOLKIT_MINIMIZE, _TOOLKIT_SHRINK, _TOOLKIT_CLOSE],
             auto_active: true,
             fixed: true,
-            content: "<img src=images/junger_toolkit.png style=\"float: left\">"
+            content: "<div style='margin: 6px'><img src=images/junger_toolkit.png style=\"float: left\">"
                    + "Thanks for testing the JUNGER toolkit. We hope you like "
                    + "the functionality, complexity and style. If you have any "
-                   + "sugestions or bug reports, please let us know."
+                   + "sugestions or bug reports, please let us know.</div>"
         });
         var ok = new Button({
             label: "OK",
