@@ -7,7 +7,8 @@ body {
 }
 
 .box,
-.toolkit-meter-base {
+.toolkit-meter-base,
+.toolkit-window {
     background: #eee;
     border: 1px solid #fff;
     -webkit-border-radius: 6px;

@@ -34,7 +34,8 @@ div.buttons .toolkit-button {
 }
 i.static,
 i.delegated,
-i.classified {
+i.classified,
+i.stylized {
     color: #951c26;
     font-style: normal;
     font-weight: 800;

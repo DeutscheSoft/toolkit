@@ -35,7 +35,7 @@ Button = new Class({
         this.parent(options, hold);
         this.element = this.widgetize(new Element("div.toolkit-button", {
             "id":    this.options.id
-        }), true, true);
+        }), true, true, true);
         if (this.options.container)
             this.set("container", this.options.container, hold);
         

@@ -82,7 +82,7 @@ Circular = new Class({
         this.parent(options);
         
         this.element = makeSVG("g", {"class": "toolkit-circular"});
-        this.widgetize(this.element, true, true);
+        this.widgetize(this.element, true, true, true);
         
         this._base = makeSVG("path", {"class": "toolkit-base"});
         this._base.inject(this.element);

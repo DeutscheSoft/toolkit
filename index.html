@@ -72,6 +72,8 @@
         <script src="toolkit./widgets/equalizer.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/clock.css">
         <script src="toolkit./widgets/clock.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/window.css">
+        <script src="toolkit./widgets/window.js"></script>
         
         <script type="text/javascript">
             
@@ -92,7 +94,72 @@
         
         
         <ul class="wrapper">
+            <!--
             
+            <li id="Example" class="widget">
+                <!-- ########################################################### -->
+                <!-- EXAMPLE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <!--<p class="description">
+                    <strong>Example</strong> provides stuff.
+                </p>
+                <p class="description">
+                    Use example to play with the example in a terminal:
+                    <a href="javascript:example.set('state', true)">example.set("state", true)</a>
+                    <small>(toggles the state of the widget)</small>
+                </p>
+                
+                <div class="showcase">
+                    <div id="sc_example">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>example <i class="static">⚓</i></td>
+                        <td>description.</td>
+                        <td>default</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>method(options)</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.module</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                        <td>event</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            -->
             <li>
                 <!-- ########################################################### -->
                 <!-- MAIN -->
@@ -117,11 +184,15 @@
                     which was delegated to the main widget instance (see <a href="#widget">Widget</a>.delegate() for more details).
                 </p>
                 <p>
-                    <strong>Please note #3:</strong> Options marked with an exchange harpoon sign <i class="classified">⇌</i> point out a DOM element
+                    <strong>Please note #3:</strong> Options marked with a sparkle sign <i class="classified">❇</i> point out a DOM element
                     which was classified to the main widget instance (see <a href="#widget">Widget</a>.classified() for more details).
                 </p>
                 <p>
-                    <strong>Please note #4:</strong> This toolkit is in the origination process so it may contain some bugs.
+                    <strong>Please note #4:</strong> Options marked with a pencil sign <i class="stylized">✎</i> point out a DOM element
+                    which was stylized (see <a href="#widget">Widget</a>.stylize() for more details).
+                </p>
+                <p>
+                    <strong>Please note #5:</strong> This toolkit is in the origination process so it may contain some bugs.
                     If you find any of them please send a mail to <a href="mail:schmidt@boomshop.net">schmidt@boomshop.net</a>.
                     Thank you very much.
                 </p>
@@ -200,10 +271,10 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Elements">
+                <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>button.element ("div.toolkit-state") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
+                        <td>button.element ("div.toolkit-state") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
                     </tr>
                     <tr>
@@ -349,7 +420,7 @@
                 </table>
                 
                 <table class="modules collapse" title="⚛ Modules">
-                    <tr><th>Element</th><th>Description</th></tr>
+                    <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>chart.grid</td>
                         <td>The instance of the <a href="#grid">Grid</a> module.</td>
@@ -370,7 +441,7 @@
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>chart.element ("svg.toolkit-chart") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
+                        <td>chart.element ("svg.toolkit-chart") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The SVG image.</td>
                     </tr>
                     <tr>
@@ -628,7 +699,7 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Modules">
+                <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>equalizer.bands</td>
@@ -851,7 +922,7 @@
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>gauge._svg ("svg.toolkit-gauge")</td>
+                        <td>gauge._svg ("svg.toolkit-gauge") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>An SVG image containing the <a href="#circular">Circular</a>.</td>
                     </tr>
                     <tr>
@@ -1058,7 +1129,7 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Modules">
+                <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>levelmeter.state</td>
@@ -1296,8 +1367,8 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Modules">
-                    <tr><th>Element</th><th>Description</th></tr>
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>meterbase.scale</td>
                         <td>The <a href="#scale">Scale</a> instance</td>
@@ -1306,7 +1377,7 @@
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>meterbase.element ("div.toolkit-meter-base") <i class="classified">⇌</i></td>
+                        <td>meterbase.element ("div.toolkit-meter-base") <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The base element of the widget. It contains the bar, the scale, the title and the label.</td>
                     </tr>
                     <tr>
@@ -1459,7 +1530,7 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Modules">
+                <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>responsehandler.range_z</td>
@@ -1497,7 +1568,7 @@
                 
             </li>
             
-            <li id="State" class="widget" style="opacity: 0.33;">
+            <li id="State" class="widget">
                 <!-- ########################################################### -->
                 <!-- STATE WIDGET -->
                 <!-- ########################################################### -->
@@ -1505,11 +1576,11 @@
                 <p class="description">
                     The <strong>State</strong> widget is a multi-functional adaption of a traditional LED. It is able to show
                     different colors as well as on/off states. The "brightness" can be set seamlessly. Classes
-                    can be used to display different styles.
+                    can be used to display different styles. State extends <a href="#widget">Widget</a>.
                 </p>
                 <p class="description">
                     Use s1 ... s8 to play with the examples in a terminal:
-                    <a href="javascript:s8.set('state', true)">s8.set("state", true)</a>
+                    <a href="javascript:s8.set('state', !s8.get('state'))">s8.set("state", !s8.get("state"))</a>
                     <small>(sets the state of the "on air" state to inactive)</small>
                 </p>
                 
@@ -1551,21 +1622,6 @@
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>id <i class="static">⚓</i></td>
-                        <td>An ID to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr>
-                        <td>container</td>
-                        <td>A container element to inject the state into</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
                         <td>state</td>
                         <td>The state of the element. Can be true or false or a float between 0 and 1 for seamless "brightness".</td>
                         <td>0</td>
@@ -1582,10 +1638,10 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Elements">
+                <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>state.element ("div.toolkit-state")</td>
+                        <td>state.element ("div.toolkit-state") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
                     </tr>
                     <tr>
@@ -1693,7 +1749,7 @@
                 
             </li>
             
-            <li id="ValueButton" class="widget" style="opacity: 0.33;">
+            <li id="ValueButton" class="widget" style="opacity: 0.5;">
                 <!-- ########################################################### -->
                 <!-- VALUE BUTTON WIDGET -->
                 <!-- ########################################################### -->
@@ -1903,6 +1959,13 @@
                         <td>A CSS class to add to the main element.</td>
                         <td>undefined</td>
                     </tr>
+                    <tr>
+                        <td>styles</td>
+                        <td>An object containing CSS style declarations. Can only be used
+                        if any of the widgets elements was stylized via widget.stylize(element).
+                        </td>
+                        <td>undefined</td>
+                    </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
@@ -1961,6 +2024,11 @@
                     <tr>
                         <td>classify(element)</td>
                         <td>Takes a DOM element and delegates its CSS functionality to the widget class.
+                        Returns the element.</td>
+                    </tr>
+                    <tr>
+                        <td>stylize(element)</td>
+                        <td>Marks a DOM element as receiver for the options.styles property.
                         Returns the element.</td>
                     </tr>
                     <tr>
@@ -2038,6 +2106,11 @@
                     <tr>
                         <td>classified</td>
                         <td>Is fired when an element handed all CSS class functionality over to the widgets instance.
+                        Hands over the element and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>stylized</td>
+                        <td>Is fired when an element was marked as a receiver for options.styles.
                         Hands over the element and the widget instance.</td>
                     </tr>
                     <tr>
@@ -2132,6 +2205,69 @@
                     </tr>
                 </table>
             
+            </li>
+            
+            <li id="Window" class="widget" style="opacity: 0.5">
+                <!-- ########################################################### -->
+                <!-- WINDOW WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Window</strong> provides a inline Element with window-like functionality.
+                </p>
+                <p class="description">
+                    Use window to play with the example in a terminal:
+                    <a href="javascript:win.set('maximize', _TOOLKIT_VERTICAL)">win.set("maximize", _TOOLKIT_VERTICAL)</a>
+                    <small>(toggles the vertical maximized state of the window)</small>
+                </p>
+                
+                <div class="showcase">
+                    <div id="sc_window" style="text-align: center">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>example <i class="static">⚓</i></td>
+                        <td>description.</td>
+                        <td>default</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>method(options)</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.module</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                        <td>event</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
             </li>
             
             
@@ -2330,7 +2466,7 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Modules">
+                <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>gauge.element ("g.toolkit-circular")</td>
@@ -2455,7 +2591,7 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Modules">
+                <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>eqband.filter</td>
@@ -2711,7 +2847,7 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>graph.element ("path.toolkit-graph") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
+                        <td>graph.element ("path.toolkit-graph") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The SVG path.</td>
                     </tr>
                 </table>
@@ -2771,7 +2907,7 @@
                     </tr>
                 </table>
                 
-                <table class="elements collapse" title="⚛ Modules">
+                <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>grid.range_x</td>
@@ -2785,7 +2921,7 @@
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>grid.element ("g.toolkit-grid") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
+                        <td>grid.element ("g.toolkit-grid") <i class="delegated">⇄</i> <i class="classified">❇</i></td>
                         <td>The SVG group containing all other elements.</td>
                     </tr>
                     <tr>
@@ -3063,7 +3199,7 @@
                 </table>
                 
                 <table class="modules collapse" title="⚛ Modules">
-                    <tr><th>Element</th><th>Description</th></tr>
+                    <tr><th>Module</th><th>Description</th></tr>
                     <tr>
                         <td>responsehandle.range_x</td>
                         <td>The instance of the <a href="#range">Range</a> module for the x axis.</td>
@@ -3081,7 +3217,7 @@
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>responsehandle.element ("g.toolkit-response-handle") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
+                        <td>responsehandle.element ("g.toolkit-response-handle") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The SVG group element containing all other elements. It may have additional
                         classes added depending on the state of the handle:
                         <ul>
@@ -3291,7 +3427,7 @@
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>scale.element ("div.toolkit-scale") <i class="delegated">⇄</i> <i class="classified">⇌</i></td>
+                        <td>scale.element ("div.toolkit-scale") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The base element of the widget. It contains the dots and labels.</td>
                     </tr>
                     <tr>

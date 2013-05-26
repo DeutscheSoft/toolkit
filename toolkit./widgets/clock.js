@@ -25,6 +25,7 @@ Clock = new Class({
     Extends: Widget,
     options: {
         thickness:    10,         // thickness of the rings
+        margin:       0,          // margin between the circulars
         size:         200,        // diameter of the whole clock
         time:         new Date(), // the date object to show
         show_seconds: true,       // show the seconds ring
@@ -42,15 +43,16 @@ Clock = new Class({
         label_upper: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
             return days[day];},
         label_lower: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-            return sprintf("%02d. %s", date, months[month]);},
-        label_scale: 0.4           // the scale of the upper and lower labels
+            return sprintf("%02d. %s %d", date, months[month], year);},
+        label_scale: 0.33           // the scale of the upper and lower labels
                                    // compared to the main label
     },
     circulars: {},
     _margin: -1,
     initialize: function (options) {
         this.setOptions(options);
-        this.element = this.widgetize(makeSVG("svg", {"class": "toolkit-clock"}));
+        this.element = this.widgetize(makeSVG("svg", {"class": "toolkit-clock"}),
+                                      true, true, true);
         
         this.set("container", this.options.container);
         
@@ -107,6 +109,7 @@ Clock = new Class({
                 circ.set("margin", margin);
                 margin += this.options.thickness;
                 margin += circ._get_stroke();
+                margin += this.options.margin;
             } else {
                 circ.set("show_base", false);
                 circ.set("show_value", false);
@@ -125,30 +128,60 @@ Clock = new Class({
     
     destroy: function () {
         this._label.destroy();
-        this.seconds.destroy();
-        this.minutes.destroy();
-        this.hours.destroy();
+        this._label_upper.destroy();
+        this._label_lower.destroy();
+        this.element.destroy();
+        this.circulars.seconds.destroy();
+        this.circulars.minutes.destroy();
+        this.circulars.hours.destroy();
         this.parent();
     },
     _draw_time: function () {
-        this.circulars.seconds.set("value", this.options.time.getSeconds());
-        this.circulars.minutes.set("value", this.options.time.getMinutes());
-        this.circulars.hours.set("value", this.options.time.getHours() % 12);
+        var s = m = h = -1;
+        if ((s = this.options.time.getSeconds()) != this.__sec) {
+            this.circulars.seconds.set("value", s);
+            this.__sec = s;
+        }
+        if ((m = this.options.time.getMinutes()) != this.__min) {
+            this.circulars.minutes.set("value", m);
+            this.__min = m;
+        }
+        if ((h = this.options.time.getHours() % 12) != this.__hour) {
+            this.circulars.hours.set("value", h);
+            this.__hour = h;
+        }
         
         var t = this.options.time;
-        var args = [t, t.getYear(), t.getMonth(), t.getDate(), t.getDay(),
-                   t.getHours(), t.getMinutes(), t.getSeconds(),
-                   t.getMilliseconds(), Math.round(t.getMilliseconds() / (1000 / this.options.fps)),
-                   this.options.months, this.options.days];
-                   
-        this._label.set("text", this.options.label.apply(this, args));
-        this._label_upper.set("text", this.options.label_upper.apply(this, args));
-        this._label_lower.set("text", this.options.label_lower.apply(this, args));
+        var args = [t,
+                    t.getFullYear(),
+                    t.getMonth(),
+                    t.getDate(),
+                    t.getDay(),
+                    t.getHours(),
+                    t.getMinutes(),
+                    t.getSeconds(),
+                    t.getMilliseconds(),
+                    Math.round(t.getMilliseconds() / (1000 / this.options.fps)),
+                    this.options.months,
+                    this.options.days];
+        var u = m = l = "";
+        if ((m = this.options.label.apply(this, args)) != this.__label) {
+            this._label.set("text", m);
+            this.__label = m;
+        }
+        if ((u = this.options.label_upper.apply(this, args)) != this.__upper) {
+            this._label_upper.set("text", u);
+            this.__upper = u;
+        }
+        if ((l = this.options.label_lower.apply(this, args)) != this.__lower) {
+            this._label_lower.set("text", l);
+            this.__lower = l;
+        }
         
         this.fireEvent("timedrawn", [this]);
     },
     _set_labels: function () {
-        this._label.set("text", this.options.label(new Date(2000, 11, 30, 24, 59, 59, 999), 2000, 11,
+        this._label.set("text", this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
                                                    30, 6, 24, 59, 59, 999, 999,
                                                    this.options.months, this.options.days));
         
@@ -191,17 +224,15 @@ Clock = new Class({
         this.options[key] = value;
         switch (key) {
             case "thickness":
+            case "margin":
+            case "show_hours":
+            case "show_minutes":
+            case "show_seconds":
                 if (!hold) this.redraw();
                 break;
             case "size":
                 this.element.set("width", value);
                 this.element.set("height", value);
-//                 this._label.set("x", value / 2);
-//                 this._label_upper.set("x", value / 2);
-//                 this._label_lower.set("x", value / 2);
-//                 this._label.set("y", value / 2);
-//                 this._label_upper.set("y", value / 2);
-//                 this._label_lower.set("y", value / 2);
                 if (!hold) this.redraw();
                 break;
             case "time":

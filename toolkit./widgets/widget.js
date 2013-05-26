@@ -29,7 +29,8 @@ Widget = new Class({
                           // into
         id:        "",    // a id toset on the element. If omitted a random
                           // string is generated.
-        "class":   ""     // A CSS class to add to the main element
+        "class":   "",    // A CSS class to add to the main element
+        styles:    {}     // If an element was stylized, styles can be applied
     },
     
     Implements: [AudioMath, Options, Events],
@@ -95,6 +96,7 @@ Widget = new Class({
             "blur"       : function (e) {
                 this.fireEvent("blur",       [e, this, element]); }.bind(this)
         });
+        this.__delegated = element;
         this.fireEvent("delegated", [element, this]);
         return element;
     },
@@ -106,10 +108,17 @@ Widget = new Class({
         this.setStyle    = function (c, d) { element.setStyle(c, d); }.bind(this);
         this.setStyles   = function (c) { element.setStyles(c); }.bind(this);
         this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
+        this.__classified = element;
         this.fireEvent("classified", [element, this]);
         return element;
     },
-    widgetize: function (element, delegate, classify) {
+    stylize: function (element) {
+        // Marks a DOM element as receiver for the "styles" options
+        this.__stylized = element;
+        this.fireEvent("stylized", [element, this]);
+        return element;
+    },
+    widgetize: function (element, delegate, classify, stylize) {
         // create a widget from a DOM element. Basically it means to add the id
         // from options and set a basic CSS class. If delegate is true, basic
         // events will be delegated from the element to the widget instance
@@ -124,6 +133,9 @@ Widget = new Class({
             this.delegate(element);
         if (classify)
             this.classify(element);
+        if (stylize)
+            this.stylize(element);
+        this.__widgetized = element;
         this.fireEvent("widgetized", [element, this]);
         return element;
     },
@@ -145,8 +157,12 @@ Widget = new Class({
                     this.element.set("id", this.options.id);
                 break;
             case "class":
-                if (!hold && this.element)
-                    this.element.addClass(this.options["class"]);
+                if (!hold && this.__classified)
+                    this.__classified.addClass(this.options["class"]);
+                break;
+            case "styles":
+                if (!hold && this.__stylized)
+                    this.__stylized.setStyles(this.options.styles);
                 break;
         }
         this.fireEvent("set", [key, value, hold, this]);

@@ -161,7 +161,7 @@ Class.refactor(Element, {
     CSSSpace: function () {
         // get spacings in all directions of an object
         // arguments are strings like "margin", "padding", "border"
-        // returns: {top: top, bottom: bot, left: left, right: right};
+        // returns: {top: top, bottom: bot, left: left, right: right, x: x, y: y};
         var top = 0;
         var bot = 0;
         var left = 0;
@@ -209,7 +209,7 @@ Class.refactor(Element, {
             }
         }
         
-        return {top: top, bottom: bot, left: left, right: right};
+        return {top: top, bottom: bot, left: left, right: right, x: left + right, y: top + bot};
     },
     
     CSSSize2px: function (size, parent) {

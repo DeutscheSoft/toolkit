@@ -41,7 +41,7 @@ Grid = new Class({
     initialize: function (options, hold) {
         this.parent(options);
         this.element = this.widgetize(
-                       makeSVG("g", {"class": "toolkit-grid"}), true, true);
+                       makeSVG("g", {"class": "toolkit-grid"}), true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
         this.add_range(this.options.range_x, "range_x");

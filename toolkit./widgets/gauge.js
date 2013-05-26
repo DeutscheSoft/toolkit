@@ -41,7 +41,7 @@ Gauge = new Class({
             "class": "toolkit-gauge",
             "width": this.options.width,
             "height": this.options.height
-        }, true, true).inject(this.options.container);
+        }, true, true, true).inject(this.options.container);
         options.container = this._svg;
         
         this._title = makeSVG("text", {"class": "toolkit-title"});

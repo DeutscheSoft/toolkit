@@ -52,6 +52,50 @@ window.addEvent('domready', function () {
     }
 });
 
+// WINDOW
+
+function run_window () {
+    if (typeof winbutton != "undefined") {
+        winbutton.destroy();
+        winbutton = undefined;
+        return;
+    }
+    winbutton = new Button({
+        container: $("sc_window"),
+        label: "Demo Window",
+        icon: "images/icons_big/window.png"
+    });
+    winbutton.addEvent("click", function () { 
+        win = new Window({
+            container: $$("body")[0],
+            open: _TOOLKIT_CENTER,
+            title: "Example Window",
+            status: "I'm a status bar",
+            icon: "images/junger_toolkit.png",
+            header_left: _TOOLKIT_ICON,
+            header_right: [_TOOLKIT_MAX_X, _TOOLKIT_MAX_Y, _TOOLKIT_MAX,
+                           _TOOLKIT_MINIMIZE, _TOOLKIT_SHRINK, _TOOLKIT_CLOSE],
+            auto_active: true,
+            fixed: true,
+            content: "<img src=images/junger_toolkit.png style=\"float: left\">"
+                   + "Thanks for testing the JUNGER toolkit. We hope you like "
+                   + "the functionality, complexity and style. If you have any "
+                   + "sugestions or bug reports, please let us know."
+        });
+        var ok = new Button({
+            label: "OK",
+            container: win._content,
+            onClick: win.destroy.bind(win)
+        });
+        ok.setStyles({
+            position: "absolute",
+            bottom: 0,
+            right: 0
+        });
+    });
+}
+
+
 // CLOCK
 
 function run_clock () {
@@ -62,7 +106,7 @@ function run_clock () {
     }
     clock = new Clock({
         container: $("sc_clock"),
-        timeout: 50
+        timeout: 10
     });
 }
 

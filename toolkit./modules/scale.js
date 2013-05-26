@@ -55,7 +55,7 @@ Scale = new Class({
     initialize: function (options, hold) {
         this.parent(options);
         this.element = this.widgetize(
-                       new Element("div.toolkit-scale"), true, true);
+                       new Element("div.toolkit-scale"), true, true, true);
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:

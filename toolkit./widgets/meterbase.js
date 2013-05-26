@@ -73,7 +73,7 @@ var MeterBase = new Class({
     initialize: function (options, hold) {
         this.parent(options);
         this.element = this.widgetize(
-                       new Element("div.toolkit-meter-base"), false, true);
+                       new Element("div.toolkit-meter-base"), false, true, true);
         
         if (this.options.reverse)
             this.element.addClass("toolkit-reverse");

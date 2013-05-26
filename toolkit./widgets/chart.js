@@ -49,7 +49,7 @@ var Chart = new Class({
         
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
-        this.range_y.set("reverse", true, true);
+        this.range_y.set("reverse", true, true, true);
         
         if (this.options.width)
             this.set("width", this.options.width, true);

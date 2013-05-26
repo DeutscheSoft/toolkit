@@ -112,3 +112,27 @@ _TOOLKIT_HP4                         = 71;
 // CIRULAR POSITIONS
 _TOOLKIT_INNER                       = 80;
 _TOOLKIT_OUTER                       = 81;
+
+// WINDOWS
+_TOOLKIT_TITLE                       = 100;
+_TOOLKIT_CLOSE                       = 101;
+_TOOLKIT_MAXIMIZE                    = 102;
+_TOOLKIT_MAXIMIZE_X                  = 103;
+_TOOLKIT_MAXIMIZE_VERT               = 103;
+_TOOLKIT_MAXIMIZE_VERTICAL           = 103;
+_TOOLKIT_MAXIMIZE_Y                  = 104;
+_TOOLKIT_MAXIMIZE_HORIZ              = 104;
+_TOOLKIT_MAXIMIZE_HORIZONTAL         = 104;
+_TOOLKIT_MAX                         = 102;
+_TOOLKIT_MAX_X                       = 103;
+_TOOLKIT_MAX_VERT                    = 103;
+_TOOLKIT_MAX_VERTICAL                = 103;
+_TOOLKIT_MAX_Y                       = 104;
+_TOOLKIT_MAX_HORIZ                   = 104;
+_TOOLKIT_MAX_HORIZONTAL              = 104;
+_TOOLKIT_MINIMIZE                    = 105;
+_TOOLKIT_MIN                         = 105;
+_TOOLKIT_SHRINK                      = 106;
+_TOOLKIT_STATUS                      = 110;
+_TOOLKIT_RESIZE                      = 111;
+_TOOLKIT_ICON                        = 112;
