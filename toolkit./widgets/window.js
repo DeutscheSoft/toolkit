@@ -218,15 +218,15 @@ Window = new Class({
     // HELPERS & STUFF
     _set_dimensions: function () {
         if (this.__horiz_max()) {
-            this.element.outerWidth(document.documentElement.clientWidth);
-            this.dimensions.width = document.documentElement.clientWidth;
+            this.element.outerWidth(window.getSize().x);
+            this.dimensions.width = window.getSize().x;
         } else {
             this.element.outerWidth(this.options.width);
             this.dimensions.width = this.options.width;
         }
         if (this.__vert_max()) {
-            this.element.outerHeight(document.documentElement.clientHeight);
-            this.dimensions.height = document.documentElement.clientHeight;
+            this.element.outerHeight(window.getSize().y);
+            this.dimensions.height = window.getSize().y;
         } else {
             this.element.outerHeight(this.options.height);
             this.dimensions.height = this.options.height;
@@ -277,8 +277,8 @@ Window = new Class({
             var y0 = this.options.fixed ? 0 : window.scrollY;
             var pos1 = this._translate_anchor(
                 this.options.open, x0, y0,
-                document.documentElement.clientWidth - this.options.width,
-                document.documentElement.clientHeight - this.options.height);
+                window.getSize().x - this.options.width,
+                window.getSize().y - this.options.height);
             var pos2 = this._translate_anchor(
                 this.options.anchor, pos1.x, pos1.y,
                 this.options.width,

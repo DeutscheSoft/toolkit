@@ -77,17 +77,14 @@
 
 
 .toolkit-window .toolkit-title {
-    font-weight: 400;
+    font-weight: 700;
     font-size: 14px;
     color: #ccc;
     text-shadow: 0px 1px 0px white;
     margin: 0 5px;
 }
 .toolkit-window.toolkit-active .toolkit-title {
-    font-weight: 400;
-    font-size: 14px;
     color: #999;
-    margin: 0 5px;
 }
 .toolkit-window .toolkit-status {
     color: #999;

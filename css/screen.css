@@ -50,8 +50,8 @@ table {
 
 body{
     color: #666;
-    font-family: Ubuntu, sans-serif;
-    font-weight: 300;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
     font-size: 13px;
     overflow-y: scroll;
     padding: 20px;
