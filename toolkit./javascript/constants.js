@@ -136,3 +136,11 @@ _TOOLKIT_SHRINK                      = 106;
 _TOOLKIT_STATUS                      = 110;
 _TOOLKIT_RESIZE                      = 111;
 _TOOLKIT_ICON                        = 112;
+
+// UPDATE POLICY
+_TOOLKIT_CONTINUOUS                  = 120;
+_TOOLKIT_ALWAYS                      = 120;
+_TOOLKIT_CONTINUOUSLY                = 120;
+_TOOLKIT_COMPLETE                    = 121;
+_TOOLKIT_FINISHED                    = 121;
+_TOOLKIT_DONE                        = 121;

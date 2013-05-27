@@ -68,16 +68,19 @@ function run_window () {
     winbutton.addEvent("click", function () { 
         win = new Window({
             container: $$("body")[0],
+            height: 233,
+            width: 640,
             open: _TOOLKIT_CENTER,
             title: "Example Window",
-            status: "I'm a status bar",
+            status: "Integrity of the Cloud at 112%",
             icon: "images/junger_toolkit.png",
             header_left: _TOOLKIT_ICON,
             header_right: [_TOOLKIT_MAX_X, _TOOLKIT_MAX_Y, _TOOLKIT_MAX,
                            _TOOLKIT_MINIMIZE, _TOOLKIT_SHRINK, _TOOLKIT_CLOSE],
-            auto_active: true,
+            footer_left: _TOOLKIT_STATUS,
             fixed: true,
-            content: "<div style='margin: 6px'><img src=images/junger_toolkit.png style=\"float: left\">"
+            content: "<div style='margin: 6px'><img src=images/junger_toolkit.png "
+                   + "style=\"float: left; margin-right: 20px;\">"
                    + "Thanks for testing the JUNGER toolkit. We hope you like "
                    + "the functionality, complexity and style. If you have any "
                    + "sugestions or bug reports, please let us know.</div>"

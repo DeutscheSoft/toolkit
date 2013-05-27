@@ -41,6 +41,10 @@ Window = new Class({
                               // "auto"/"inherit"
         x:             0,     // X position of the window
         y:             0,     // Y position of the window
+        min_width:     300,   // minimum width
+        max_width:     -1,    // maximum width, -1 ~ infinite
+        min_height:    100,   // minimum height
+        max_height:    -1,    // maximum height, -1 ~ infinite
         anchor:        _TOOLKIT_TOP_LEFT, // anchor of the window, can be one out of:
                        // _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                        // _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
@@ -50,13 +54,23 @@ Window = new Class({
                        // _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                        // _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                        // _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT
-        maximize:      false,
-        minimize:      false,
-        shrink:        false,
+        maximize:      false, // false or object with members x and y as bool
+        minimize:      false, // minimize window (does only make sense with a
+                              // window manager application to keep track of it)
+        shrink:        false, // shrink rolls the window up into the title bar
         content:       "",
-        open:          _TOOLKIT_CENTER,
-        z_index:       10000,
-        header_left:   [_TOOLKIT_ICON],
+        open:          _TOOLKIT_CENTER, // initial position of the window, can be one out of:
+                       // _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
+                       // _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
+                       // _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT
+        z_index:       10000, // z index for piling windows. does make more sense
+                              // when used together with a window manager
+        header_left:   [_TOOLKIT_ICON], // single element or array of:
+                                        // _TOOLKIT_TITLE, _TOOLKIT_ICON,
+                                        // _TOOLKIT_CLOSE, _TOOLKIT_MINIMIZE,
+                                        // _TOOLKIT_SHRINK,
+                                        // _TOOLKIT_MAXIMIZE, _TOOLKIT_MAXIMIZE_VERT
+                                        // _TOOLKIT_MAXIMIZE_HORIZ, _TOOLKIT_STATUS
         header_center: [_TOOLKIT_TITLE],
         header_right:  [_TOOLKIT_MAXIMIZE, _TOOLKIT_CLOSE],
         footer_left:   [],
@@ -73,7 +87,14 @@ Window = new Class({
         auto_maximize: true,  // set whether maximize toggles the window or not
         auto_minimize: true,  // set whether minimize toggles the window or not
         auto_shrink:   true,  // set whether shrink toggles the window or not
-        draggable:     true   // set whether the window is draggable
+        draggable:     true,  // set whether the window is draggable
+        resizable:     true,   // set whether the window is resizable
+        resizing:      _TOOLKIT_CONTINUOUS,// resizing policy, _TOOLKIT_CONTINUOUS
+                                           // or _TOOLKIT_COMPLETE
+        header_action: _TOOLKIT_MAXIMIZE   // _TOOLKIT_CLOSE, _TOOLKIT_MINIMIZE,
+                                           // _TOOLKIT_SHRINK,
+                                           // _TOOLKIT_MAXIMIZE, _TOOLKIT_MAXIMIZE_VERT
+                                           // _TOOLKIT_MAXIMIZE_HORIZ
     },
     __inited: false,
     dimensions: {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0},
@@ -160,26 +181,43 @@ Window = new Class({
         this.set("footer_right", this.options.footer_right, true);
         this.set("footer_center", this.options.footer_center);
         
-        this.set("maximize", this.options.maximize);
-        this.set("minimize", this.options.minimize);
-        this.set("shrink", this.options.shrink);
+        this.set("min_width", this.options.min_width);
+        this.set("max_width", this.options.max_width);
+        this.set("min_height", this.options.min_height);
+        this.set("max_height", this.options.max_height);
         
         this.set("content", this.options.content);
         
         this.element.addEvent("mouseenter", this.__mover.bind(this));
         this.element.addEvent("mouseleave", this.__mout.bind(this));
+        this._header.addEvent("dblclick", this.__header_action.bind(this));
         
         this.drag = new Drag(this.element, {
             handle: this._header,
             onStart: this.__start_drag.bind(this),
             onComplete: this.__stop_drag.bind(this),
-            onDrag: this.__dragging.bind(this),
+            onDrag: this.__dragging.bind(this)
         });
         
+        this._resize = new Element("div.toolkit-resize").inject(this.element);
+        this.resize = this.element.makeResizable({
+            handle: this._resize,
+            onStart: this.__start_resize.bind(this),
+            onComplete: this.__stop_resize.bind(this),
+            onDrag: this.__resizing.bind(this),
+            limit: {x: [this.options.min_width, this.__max_width()],
+                    y: [this.options.min_height, this.__max_height()]}
+        });
+        
+        this.set("resizable", this.options.resizable);
         this.set("draggable", this.options.draggable);
         
         this._build_header();
         this._build_footer();
+        
+        this.set("maximize", this.options.maximize);
+        this.set("shrink", this.options.shrink);
+        this.set("minimize", this.options.minimize);
         
         this.redraw();
         this.initialized();
@@ -205,6 +243,7 @@ Window = new Class({
         this._footer_right.destroy();
         this._header.destroy();
         this._footer.destroy();
+        this._resize.destroy();
         this.close.destroy();
         this.maximize.destroy();
         this.maximize_vert.destroy();
@@ -215,8 +254,38 @@ Window = new Class({
         this.parent();
     },
     
+    toggle_maximize: function () {
+        if (!this.__vert_max() || !this.__horiz_max())
+            this.set("maximize", {x: true, y: true});
+        else
+            this.set("maximize", {x: false, y: false});
+        this.fireEvent("maximizetoggled", [this, this.options.maximize]);
+    },
+    toggle_maximize_vertical: function () {
+        this.set("maximize", {y: !this.options.maximize.y});
+        this.fireEvent("maximizetoggled", [this, this.options.maximize]);
+    },
+    toggle_maximize_horizontal: function () {
+        this.set("maximize", {x: !this.options.maximize.x});
+        this.fireEvent("maximizetoggled", [this, this.options.maximize]);
+    },
+    toggle_minimize: function () {
+        this.set("minimize", !this.options.minimize);
+        this.fireEvent("minimizetoggled", [this, this.options.minimize]);
+    },
+    toggle_shrink: function () {
+        this.set("shrink", !this.options.shrink);
+        this.fireEvent("shrinktoggled", [this, this.options.shrink]);
+    },
+    
     // HELPERS & STUFF
     _set_dimensions: function () {
+        this.options.width = Math.min(this.__max_height(),
+                             Math.max(this.options.width,
+                                      this.options.min_width));
+        this.options.height = Math.min(this.__max_width(),
+                              Math.max(this.options.height,
+                                       this.options.min_height));
         if (this.__horiz_max()) {
             this.element.outerWidth(window.getSize().x);
             this.dimensions.width = window.getSize().x;
@@ -234,6 +303,7 @@ Window = new Class({
         this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
         this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
         this._set_content();
+        this.fireEvent("dimensionschanged", [this]);
     },
     _set_position: function () {
         var width  = this.element.innerWidth();
@@ -259,6 +329,7 @@ Window = new Class({
         this.dimensions.y1     = pos.y;
         this.dimensions.x2     = pos.x + this.dimensions.width;
         this.dimensions.y2     = pos.y + this.dimensions.height;
+        this.fireEvent("positionchanged", [this]);
     },
     _set_content: function () {
         var elmt = this.element.innerHeight();
@@ -270,6 +341,7 @@ Window = new Class({
         else
             this._content.outerWidth(this.element.innerWidth());
         this._content.setStyle("top", head);
+        this.fireEvent("contentresized", [this]);
     },
     _init_position: function (pos) {
         if (pos) {
@@ -295,12 +367,14 @@ Window = new Class({
         this.__build_from_const("header_center");
         this.__build_from_const("header_right");
         this._check_header();
+        this.fireEvent("headerchanged", [this]);
     },
     _build_footer: function () {
         this.__build_from_const("footer_left");
         this.__build_from_const("footer_center");
         this.__build_from_const("footer_right");
         this._check_footer();
+        this.fireEvent("footerchanged", [this]);
     },
     __build_from_const: function (element) {
         for (var i = 0; i < this.options[element].length; i++) {
@@ -338,7 +412,7 @@ Window = new Class({
         }
     },
     
-    _check_header: function () {
+    _check_header: function (hold) {
         // checks whether to hide or show the header element
         if (!this._header_left.get("html")
          && !this._header_center.get("html")
@@ -346,14 +420,17 @@ Window = new Class({
             this._header.setStyle("display", "none");
         } else {
             this._header.setStyle("display", "block");
-            this._header_center.outerWidth(
-                  this._header.innerWidth()
-                - this._header_left.outerWidth()
-                - this._header_right.outerWidth());
             this._header_center.setStyle("left", this._header_left.outerWidth());
+            this.__size_header();
         }
     },
-    _check_footer: function () {
+    __size_header: function () {
+        this._header_center.outerWidth(
+          this._header.innerWidth()
+        - this._header_left.outerWidth()
+        - this._header_right.outerWidth());
+    },
+    _check_footer: function (hold) {
         // checks whether to hide or show the footer element
         if (!this._footer_left.get("html")
          && !this._footer_center.get("html")
@@ -361,18 +438,32 @@ Window = new Class({
             this._footer.setStyle("display", "none");
         } else {
             this._footer.setStyle("display", "block");
-            this._footer_center.outerWidth(
-                  this._footer.innerWidth()
-                - this._footer_left.outerWidth()
-                - this._footer_right.outerWidth());
             this._footer_center.setStyle("left", this._footer_left.outerWidth());
+            this.__size_footer();
         }
     },
+    __size_footer: function () {
+        this._footer_center.outerWidth(
+          this._footer.innerWidth()
+        - this._footer_left.outerWidth()
+        - this._footer_right.outerWidth());
+    },
+    
     __vert_max: function () {
+        // returns if maximized vertically
         return this.options.maximize.y;
     },
     __horiz_max: function () {
+        // returns true if maximized horizontally
         return this.options.maximize.x;
+    },
+    __max_width: function () {
+        // returns the max width of the window
+        return (this.options.max_width < 0 ? 999999999 : this.options.max_width);
+    },
+    __max_height: function () {
+        // returns the max height of the window
+        return (this.options.max_height < 0 ? 999999999 : this.options.max_height);
     },
     
     _translate_anchor: function (anchor, x, y, width, height) {
@@ -412,17 +503,45 @@ Window = new Class({
     },
     
     // EVENT STUFF
-    __start_drag: function (e) {
+    __start_drag: function (el, ev) {
+        // if window is maximized, we have to replace the window according
+        // to the position of the mouse
+        var x = y = 0;
+        if (this.__vert_max()) {
+            var y = (!this.options.fixed ? window.scrollY : 0);
+        }
+        if (this.__horiz_max()) {
+            var x = ev.client.x - (ev.client.x / window.getSize().x)
+                                * this.options.width;
+            x += (!this.options.fixed ? window.scrollX : 0);
+        }
+        var pos = this._translate_anchor(
+            this.options.anchor, x, y, this.options.width, this.options.height);
+        
+        if (this.__horiz_max()) this.options.x = pos.x;
+        if (this.__vert_max())  this.options.y = pos.y;
+        
+        this.drag.value.now.x += x;
+        this.drag.mouse.now.x += x;
+        this.drag.mouse.pos.x -= x;
+        this.drag.value.now.y += y;
+        this.drag.mouse.now.y += y;
+        this.drag.mouse.pos.y -= y;
+        
+        // un-maximize
+        if (this.__horiz_max()) this.set("maximize", {x: false});
+        if (this.__vert_max())  this.set("maximize", {y: false});
+        
         this.dragging = true;
         this.element.addClass("toolkit-dragging");
-        this.fireEvent("startdrag", [this]);
+        this.fireEvent("startdrag", [this, el, ev]);
     },
-    __stop_drag: function (e) {
+    __stop_drag: function (el, ev) {
         this.dragging = false;
         this.element.removeClass("toolkit-dragging");
-        this.fireEvent("stopdrag", [this]);
+        this.fireEvent("stopdrag", [this, el, ev]);
     },
-    __dragging: function (e) {
+    __dragging: function (el, ev) {
         var pos  = this.element.getPosition();
         var pos1 = this._translate_anchor(this.options.anchor, pos.x, pos.y,
                                           this.options.width, this.options.height);
@@ -433,11 +552,42 @@ Window = new Class({
         this.dimensions.x2     = pos.x + this.dimensions.width;
         this.dimensions.y2     = pos.y + this.dimensions.height;
         
-        this.fireEvent("dragging", [this]);
+        this.fireEvent("dragging", [this, el, ev]);
+    },
+    
+    __start_resize: function (el, ev) {
+        this.__docmouse = $$("body")[0].getStyle("cursor");
+        $$("body")[0].setStyle("cursor", this._resize.getStyle("cursor"));
+        this.resizing = true;
+        this.element.addClass("toolkit-resizing");
+        this.fireEvent("startresize", [this, el, ev]);
+    },
+    __stop_resize: function (el, ev) {
+        $$("body")[0].setStyle("cursor", this.__docmouse);
+        this.resizing = false;
+        this.element.removeClass("toolkit-resizing");
+        this._set_content();
+        this._check_header(true);
+        this._check_footer(true);
+        this.fireEvent("stopresize", [this, el, ev]);
+    },
+    __resizing: function (el, ev) {
+        if (this.options.resizing == _TOOLKIT_CONTINUOUS) {
+            this._set_content();
+            this.__size_header(true);
+            this.__size_footer(true);
+            var x = this.element.outerWidth();
+            var y = this.element.outerHeight();
+            this.dimensions.width  = this.options.width  = x;
+            this.dimensions.height = this.options.height = y;
+            this.dimensions.x2     = x + this.dimensions.x1;
+            this.dimensions.y2     = y + this.dimensions.y1;
+        }
+        this.fireEvent("resizing", [this, el, ev]);
     },
     
     __mout: function (e) {
-        if(this.options.auto_active && !this.dragging)
+        if(this.options.auto_active && !this.dragging && !this.resizing)
             this.element.removeClass("toolkit-active");
     },
     __mover: function (e) {
@@ -450,34 +600,48 @@ Window = new Class({
             this.destroy();
     },
     __maximize: function () {
-        if ((!this.__vert_max() || !this.__horiz_max())
-           && this.options.auto_maximize)
-            this.set("maximize", {x: true, y: true});
-        else if (this.options.auto_maximize)
-            this.set("maximize", {x: false, y: false});
+        if (this.options.auto_maximize) this.toggle_maximize();
         this.fireEvent("maximizeclicked", [this, this.options.maximize.x]);
     },
     __maximizevertical: function () {
-        if (this.options.auto_maximize)
-            this.set("maximize", {y: !this.options.maximize.y});
+        if (this.options.auto_maximize) this.toggle_maximize_vertical();
         this.fireEvent("maximizeverticalclicked", [this, this.options.maximize.y]);
     },
     __maximizehorizontal: function () {
-        if (this.options.auto_maximize)
-            this.set("maximize", {x: !this.options.maximize.x});
+        if (this.options.auto_maximize) this.toggle_maximize_horizontal();
         this.fireEvent("maximizehorizontalclicked", [this, this.options.maximize.x]);
     },
     __minimize: function () {
-        if (this.options.auto_minimize)
-            this.set("minimize", {y: !this.options.minimize});
+        if (this.options.auto_minimize) this.toggle_minimize();
         this.fireEvent("minimizeclicked");
     },
     __shrink: function () {
-        if (this.options.auto_shrink)
-            this.set("shrink", !this.options.shrink);
+        if (this.options.auto_shrink) this.toggle_shrink();
         this.fireEvent("shrinkclicked");
     },
-        
+    __header_action: function () {
+        switch (this.options.header_action) {
+            case _TOOLKIT_SHRINK:
+                this.toggle_shrink();
+                break;
+            case _TOOLKIT_MAX:
+                this.toggle_maximize();
+                break;
+            case _TOOLKIT_MAX_X:
+                this.toggle_maximize_horizontal();
+                break;
+            case _TOOLKIT_MAX_Y:
+                this.toggle_maximize_vertical();
+                break;
+            case _TOOLKIT_MIN:
+                this.toggle_minimize();
+                break;
+            case _TOOLKIT_CLOSE:
+                this.destroy();
+                break;
+        }
+        this.fireEvent("headeraction", [this, this.options.header_action]);
+    },
         
     // GETTERS & SETTERS
     set: function (key, value, hold) {
@@ -548,7 +712,10 @@ Window = new Class({
                     this.options[key] = [value];
                     value = [value];
                 }
-                if (!hold) this._build_header();
+                if (!hold) {
+                    this._build_header();
+                    this._set_content();
+                }
                 break;
             case "footer_left":
             case "footer_right":
@@ -557,7 +724,10 @@ Window = new Class({
                     this.options[key] = [value];
                     value = [value];
                 }
-                if (!hold) this._build_footer();
+                if (!hold) {
+                    this._build_footer();
+                    this._set_content();
+                }
                 break;
             case "active":
                 if (value) this.element.addClass("toolkit-active");
@@ -571,8 +741,12 @@ Window = new Class({
                 this._content.set("html", value);
                 break;
             case "shrink":
-                if (!hold) this.element.setStyle("height",
+                this.options.maximize.y = false;
+                if (!hold) {
+                    this.element.setStyle("height",
                     value ? this._header.outerHeight() : this.options.height);
+                    this._footer.setStyle("display", value ? "none" : "block");
+                }
                 break;
             case "minimize":
                 if (!hold) {
@@ -587,6 +761,20 @@ Window = new Class({
             case "draggable":
                 if (value) this.drag.attach();
                 else this.drag.detach();
+                break;
+            case "resizable":
+                if (value) {
+                    this.resize.attach();
+                    this._resize.setStyle("display", "block");
+                } else {
+                    this.resize.detach();
+                    this._resize.setStyle("display", "none");
+                }
+                break;
+            case "min_width":
+            case "max_width":
+            case "min_height":
+            case "max_height":
                 break;
         }
         this.parent(key, value, hold);

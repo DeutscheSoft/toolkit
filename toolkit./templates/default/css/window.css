@@ -17,9 +17,13 @@
     box-shadow:  0px 4px 12px 0px rgba(0, 0, 0, 0.33);
     opacity: 1;
 }
+.toolkit-window.toolkit-resizing,
+.toolkit-window.toolkit-dragging {
+    opacity: 0.7;
+}
 
 .toolkit-window .toolkit-header {
-    height: 28px;
+    height: 30px;
     line-height: 28px;
     position: absolute;
     top: 0;
@@ -32,6 +36,8 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    border-bottom: 1px solid rgba(0,0,0,0.02);
+    background: rgba(255,255,255,0.25);
 }
 .toolkit-window .toolkit-header .toolkit-header-left {
     position: absolute;
@@ -58,6 +64,8 @@
     left: 0;
     width: 100%;
     cursor: default;
+    border-top: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.25);
 }
 .toolkit-window .toolkit-footer .toolkit-footer-left {
     position: absolute;
@@ -82,13 +90,15 @@
     color: #ccc;
     text-shadow: 0px 1px 0px white;
     margin: 0 5px;
+    white-space: nowrap;
 }
 .toolkit-window.toolkit-active .toolkit-title {
     color: #999;
 }
 .toolkit-window .toolkit-status {
-    color: #999;
+    color: #ccc;
     margin: 0 5px;
+    white-space: nowrap;
 }
 .toolkit-window .toolkit-icon {
     height: 24px;
@@ -102,15 +112,26 @@
     text-align: justify;
 }
 
+.toolkit-window .toolkit-resize {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 10000000;
+    cursor: se-resize;
+}
+
 .toolkit-window .toolkit-header .toolkit-button,
 .toolkit-window .toolkit-footer .toolkit-button {
     padding: 4px;
-    border: 0px solid white;
+    border: 1px solid transparent;
 }
 .toolkit-window .toolkit-button:hover {
     -webkit-box-shadow:  none;
     -moz-box-shadow:  none;
     box-shadow:  none;
+    border: 1px solid #aaa;
 }
 .toolkit-window .toolkit-button .toolkit-icon {
     width: 20px;
