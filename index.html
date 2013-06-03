@@ -484,7 +484,7 @@
                 
             </li>
             
-            <li id="Clock" class="widget">
+            <li id="Clock" class="widget" style="opacity: 0.5">
                 <!-- ########################################################### -->
                 <!-- CLOCK WIDGET -->
                 <!-- ########################################################### -->
@@ -505,7 +505,7 @@
                     }
                 </style>
                 
-                <div class="showcase" style="">
+                <div class="showcase" style="text-align: center">
                     <div id="sc_clock" class="">
                         
                     </div>
@@ -2207,7 +2207,7 @@
             
             </li>
             
-            <li id="Window" class="widget" style="opacity: 0.5">
+            <li id="Window" class="widget">
                 <!-- ########################################################### -->
                 <!-- WINDOW WIDGET -->
                 <!-- ########################################################### -->
@@ -2232,40 +2232,545 @@
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>example <i class="static">⚓</i></td>
-                        <td>description.</td>
-                        <td>default</td>
+                        <td>width</td>
+                        <td>The width of the window in pixels.</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>The height of the window in pixels.</td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>x</td>
+                        <td>The horizontal position of the window depending on the anchor.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>y</td>
+                        <td>The vertical position of the window depending on the anchor.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>anchor</td>
+                        <td>The coordinates for the position calculations. Can be one out of
+                        <ul>
+                            <li>_TOOLKIT_TOP_LEFT</li>
+                            <li>_TOOLKIT_TOP</li>
+                            <li>_TOOLKIT_TOP_RIGHT</li>
+                            <li>_TOOLKIT_LEFT</li>
+                            <li>_TOOLKIT_CENTER</li>
+                            <li>_TOOLKIT_RIGHT</li>
+                            <li>_TOOLKIT_BOTTOM_LEFT</li>
+                            <li>_TOOLKIT_BOTTOM</li>
+                            <li>_TOOLKIT_BOTTOM_RIGHT</li>
+                        </ul>
+                        </td>
+                        <td>_TOOLKIT_TOP_LEFT</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>The window title.</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td>The content of the status bar (if any).</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>icon</td>
+                        <td>URL to a window icon.</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>content</td>
+                        <td>The content of the window. Can be a string or a mootoolized object</td>
+                        <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>fixed</td>
+                        <td>Whether the window sticks to the viewport (true) rather than the document (false).</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>active</td>
+                        <td>The windows state (represented by a CSS class "toolkit-active").</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>modal</td>
+                        <td>Whether the window is modal (blocking) or not. <b>Not implemented by now!</b>.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>dock</td>
+                        <td>Dock the window to a border or corner. Can be one out of:
+                        <ul>
+                            <li>_TOOLKIT_TOP_LEFT</li>
+                            <li>_TOOLKIT_TOP</li>
+                            <li>_TOOLKIT_TOP_RIGHT</li>
+                            <li>_TOOLKIT_LEFT</li>
+                            <li>_TOOLKIT_CENTER</li>
+                            <li>_TOOLKIT_RIGHT</li>
+                            <li>_TOOLKIT_BOTTOM_LEFT</li>
+                            <li>_TOOLKIT_BOTTOM</li>
+                            <li>_TOOLKIT_BOTTOM_RIGHT</li>
+                        </ul>
+                        Or use false to disable.
+                        <b>Not implemented by now!</b>
+                        </td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>maximize</td>
+                        <td>false for no maximizing at all or object with x and y
+                        as boolean members for indicating maximization in a certain direction.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>minimize</td>
+                        <td>Whether the window is minimized or not. Is meant to be used via
+                        a window manager application which keeps track of minimized windows.
+                        Minimized windows will be disposed from the DOM and can be redrawn
+                        by setting this to false again.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>shrink</td>
+                        <td>Rolls the window up into its title bar.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>open</td>
+                        <td>Initial position of the window. Can be one out of:
+                        <ul>
+                            <li>_TOOLKIT_TOP_LEFT</li>
+                            <li>_TOOLKIT_TOP</li>
+                            <li>_TOOLKIT_TOP_RIGHT</li>
+                            <li>_TOOLKIT_LEFT</li>
+                            <li>_TOOLKIT_CENTER</li>
+                            <li>_TOOLKIT_RIGHT</li>
+                            <li>_TOOLKIT_BOTTOM_LEFT</li>
+                            <li>_TOOLKIT_BOTTOM</li>
+                            <li>_TOOLKIT_BOTTOM_RIGHT</li>
+                        </ul>
+                        </td>
+                        <td>_TOOLKIT_CENTER</td>
+                    </tr>
+                    <tr>
+                        <td>z_index</td>
+                        <td>The z position of piling windows. Is meant to be used
+                        by a window manager application.</td>
+                        <td>10000</td>
+                    </tr>
+                    <tr>
+                        <td>min_width</td>
+                        <td>Minimum possible width.</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>max_width</td>
+                        <td>Maximum possible width, -1 ~ infinite.</td>
+                        <td>-1</td>
+                    </tr>
+                    <tr>
+                        <td>min_height</td>
+                        <td>Minimum possible height.</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>max_height</td>
+                        <td>Maximum possible width, -1 ~ infinite.</td>
+                        <td>-1</td>
+                    </tr>
+                    <tr>
+                        <td>draggable</td>
+                        <td>Set whether the window is draggable on the title bar.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>resizable</td>
+                        <td>Set whether the window has a resize element.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>resizing</td>
+                        <td>Update content policy while resizing. Posible values are:
+                        <ul>
+                            <li>_TOOLKIT_CONTINUOUS</li>
+                            <li>_TOOLKIT_COMPLETE</li>
+                        </ul>
+                        </td>
+                        <td>_TOOLIIT_CONTINUOUS</td>
+                    </tr>
+                    <tr>
+                        <td>header_action</td>
+                        <td>Action to take when title bar receives a double click.
+                        Possible values are:
+                        <ul>
+                            <li>_TOOLKIT_CLOSE</li>
+                            <li>_TOOLKIT_SHRINK</li>
+                            <li>_TOOLKIT_MINIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE_VERT</li>
+                            <li>_TOOLKIT_MAXIMIZE_HORIZ</li>
+                        </ul>
+                        Set to false to disable.
+                        </td>
+                        <td>_TOOLKIT_MAXIMIZE</td>
+                    </tr>
+                    <tr>
+                        <td>header_left</td>
+                        <td>Single value or array of:
+                        <ul>
+                            <li>_TOOLKIT_TITLE</li>
+                            <li>_TOOLKIT_ICON</li>
+                            <li>_TOOLKIT_CLOSE</li>
+                            <li>_TOOLKIT_MINIMIZE</li>
+                            <li>_TOOLKIT_SHRINK</li>
+                            <li>_TOOLKIT_MAXIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE_VERT</li>
+                            <li>_TOOLKIT_MAXIMIZE_HORIZ</li>
+                            <li>_TOOLKIT_STATUS</li>
+                        </ul>
+                        </td>
+                        <td>[_TOOLKIT_ICON]</td>
+                    </tr>
+                    <tr>
+                        <td>header_center</td>
+                        <td>Single value or array of:
+                        <ul>
+                            <li>_TOOLKIT_TITLE</li>
+                            <li>_TOOLKIT_ICON</li>
+                            <li>_TOOLKIT_CLOSE</li>
+                            <li>_TOOLKIT_MINIMIZE</li>
+                            <li>_TOOLKIT_SHRINK</li>
+                            <li>_TOOLKIT_MAXIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE_VERT</li>
+                            <li>_TOOLKIT_MAXIMIZE_HORIZ</li>
+                            <li>_TOOLKIT_STATUS</li>
+                        </ul></td>
+                        <td>[_TOOLKIT_TITLE]</td>
+                    </tr>
+                    <tr>
+                        <td>header_right</td>
+                        <td>Single value or array of:
+                        <ul>
+                            <li>_TOOLKIT_TITLE</li>
+                            <li>_TOOLKIT_ICON</li>
+                            <li>_TOOLKIT_CLOSE</li>
+                            <li>_TOOLKIT_MINIMIZE</li>
+                            <li>_TOOLKIT_SHRINK</li>
+                            <li>_TOOLKIT_MAXIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE_VERT</li>
+                            <li>_TOOLKIT_MAXIMIZE_HORIZ</li>
+                            <li>_TOOLKIT_STATUS</li>
+                        </ul></td>
+                        <td>[_TOOLKIT_MAXIMIZE, _TOOLKIT_CLOSE]</td>
+                    </tr>
+                    <tr>
+                        <td>footer_left</td>
+                        <td>Single value or array of:
+                        <ul>
+                            <li>_TOOLKIT_TITLE</li>
+                            <li>_TOOLKIT_ICON</li>
+                            <li>_TOOLKIT_CLOSE</li>
+                            <li>_TOOLKIT_MINIMIZE</li>
+                            <li>_TOOLKIT_SHRINK</li>
+                            <li>_TOOLKIT_MAXIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE_VERT</li>
+                            <li>_TOOLKIT_MAXIMIZE_HORIZ</li>
+                            <li>_TOOLKIT_STATUS</li>
+                        </ul></td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>footer_center</td>
+                        <td>Single value or array of:
+                        <ul>
+                            <li>_TOOLKIT_TITLE</li>
+                            <li>_TOOLKIT_ICON</li>
+                            <li>_TOOLKIT_CLOSE</li>
+                            <li>_TOOLKIT_MINIMIZE</li>
+                            <li>_TOOLKIT_SHRINK</li>
+                            <li>_TOOLKIT_MAXIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE_VERT</li>
+                            <li>_TOOLKIT_MAXIMIZE_HORIZ</li>
+                            <li>_TOOLKIT_STATUS</li>
+                        </ul></td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>footer_right</td>
+                        <td>Single value or array of:
+                        <ul>
+                            <li>_TOOLKIT_TITLE</li>
+                            <li>_TOOLKIT_ICON</li>
+                            <li>_TOOLKIT_CLOSE</li>
+                            <li>_TOOLKIT_MINIMIZE</li>
+                            <li>_TOOLKIT_SHRINK</li>
+                            <li>_TOOLKIT_MAXIMIZE</li>
+                            <li>_TOOLKIT_MAXIMIZE_VERT</li>
+                            <li>_TOOLKIT_MAXIMIZE_HORIZ</li>
+                            <li>_TOOLKIT_STATUS</li>
+                        </ul></td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>auto_active</td>
+                        <td>Toggles the active state if mouse enters/leaves the window.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>auto_close</td>
+                        <td>Set whether close button destroys the window or not.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>auto_maximize</td>
+                        <td>Set whether maximize button toggles the window or not.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>auto_minimize</td>
+                        <td>Set whether minimize button toggles the window or not.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>auto_shrink</td>
+                        <td>Set whether shrink button toggles the window or not.</td>
+                        <td>true</td>
                     </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
                     <tr>
-                        <td>method(options)</td>
-                        <td>description.</td>
+                        <td>toggle_maximize()</td>
+                        <td>Toggles the maximize state. If only one direction
+                        is maximized, the other one gets maximized, too.</td>
+                    </tr>
+                    <tr>
+                        <td>toggle_maximize_vertical()</td>
+                        <td>Toggles the vertical maximize state.</td>
+                    </tr>
+                    <tr>
+                        <td>toggle_maximize_horizontal()</td>
+                        <td>Toggles the horizontal maximize state.</td>
+                    </tr>
+                    <tr>
+                        <td>toggle_minimize()</td>
+                        <td>Toggles the minimize state.</td>
+                    </tr>
+                    <tr>
+                        <td>toggle_shrink()</td>
+                        <td>Toggles the shrinked state.</td>
                     </tr>
                 </table>
                 
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>Window.element ("div.toolkit-window") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>description.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._header ("div.toolkit-header")</td>
+                        <td>The header container of the window. Receives
+                        the double click for header_action.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._footer ("div.toolkit-footer")</td>
+                        <td>The footer container of the window.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._content ("div.toolkit-content")</td>
+                        <td>The content container of the window.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._header_left ("div.toolkit-header-left")</td>
+                        <td>The left area of the header.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._header_center ("div.toolkit-header-center")</td>
+                        <td>The middle area of the header.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._header_right ("div.toolkit-header-right")</td>
+                        <td>The right area of the header.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._footer_left ("div.toolkit-footer-left")</td>
+                        <td>The left area of the footer.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._footer_center ("div.toolkit-footer-center")</td>
+                        <td>The middle area of the footer.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._footer_right ("div.toolkit-footer-right")</td>
+                        <td>The right area of the footer.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._title ("div.toolkit-title")</td>
+                        <td>The title of the window.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._status ("div.toolkit-status")</td>
+                        <td>The status of the window.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._icon ("img.toolkit-icon")</td>
+                        <td>The icon of the window.</td>
+                    </tr>
+                    <tr>
+                        <td>Window._resize ("div.toolkit-resize")</td>
+                        <td>The resize element of the window.</td>
                     </tr>
                 </table>
                 
                 <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
-                        <td>example.module</td>
-                        <td>description.</td>
+                        <td>Window.close</td>
+                        <td>The close button.</td>
+                    </tr>
+                    <tr>
+                        <td>Window.maximize</td>
+                        <td>The maximize button.</td>
+                    </tr>
+                    <tr>
+                        <td>Window.maximize_vert</td>
+                        <td>The vertical maximize button.</td>
+                    </tr>
+                    <tr>
+                        <td>Window.maximize_horiz</td>
+                        <td>The horizontal maximize button.</td>
+                    </tr>
+                    <tr>
+                        <td>Window.minimize</td>
+                        <td>The minimize button.</td>
+                    </tr>
+                    <tr>
+                        <td>Window.shrink</td>
+                        <td>The shrink button.</td>
+                    </tr>
+                    <tr>
+                        <td>Window.drag</td>
+                        <td>The drag object for the header.</td>
+                    </tr>
+                    <tr>
+                        <td>Window.resize</td>
+                        <td>The drag object for the resizer.</td>
                     </tr>
                 </table>
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
-                        <td>event</td>
-                        <td>description.</td>
+                    <tr>
+                        <td>maximizetoggled</td>
+                        <td>Is fired when maximize is toggled via its functions.
+                        Hands over the window instance and the maximize object with x and y as members.</td>
+                    </tr>
+                    <tr>
+                        <td>minimizetoggled</td>
+                        <td>Is fired when minimize is toggled via its function.
+                        Hands over the window instance and the minimize state.</td>
+                    </tr>
+                    <tr>
+                        <td>shrink</td>
+                        <td>Is fired when shrink state is toggled via its function.
+                        Hands over the window instance and the shrink state.</td>
+                    </tr>
+                    <tr>
+                        <td>dimensionschanged</td>
+                        <td>Is fired when the dimensions of the window changed via API.
+                        Hands over the window instance and a dimensions object.</td>
+                    </tr>
+                    <tr>
+                        <td>positionchanged</td>
+                        <td>Is fired when the position of the window changed via API.
+                        Hands over the window instance and a dimensions object.</td>
+                    </tr>
+                    <tr>
+                        <td>contentresized</td>
+                        <td>Is fired when the content of the window was resized.
+                        Hands over the window instance.</td>
+                    </tr>
+                    <tr>
+                        <td>headerchanged</td>
+                        <td>Is fired when the header was rebuilt.
+                        Hands over the window instance.</td>
+                    </tr>
+                    <tr>
+                        <td>footerchanged</td>
+                        <td>Is fired when the footer was rebuilt.
+                        Hands over the window instance.</td>
+                    </tr>
+                    <tr>
+                        <td>startdrag</td>
+                        <td>Is fired when dragging starts.
+                        Hands over the window instance and the event.</td>
+                    </tr>
+                    <tr>
+                        <td>stopdrag</td>
+                        <td>Is fired when dragging ends.
+                        Hands over the window instance and the event.</td>
+                    </tr>
+                    <tr>
+                        <td>dragging</td>
+                        <td>Is fired when the window is dragged.
+                        Hands over the window instance and the event.</td>
+                    </tr>
+                    <tr>
+                        <td>startresize</td>
+                        <td>Is fired when resizing starts.
+                        Hands over the window instance and the event.</td>
+                    </tr>
+                    <tr>
+                        <td>stopresize</td>
+                        <td>Is fired when resizing ends.
+                        Hands over the window instance and the event.</td>
+                    </tr>
+                    <tr>
+                        <td>resizing</td>
+                        <td>Is fired when the window gets resized.
+                        Hands over the window instance and the event.</td>
+                    </tr>
+                    <tr>
+                        <td>closeclicked</td>
+                        <td>Is fired when the close button is clicked.</td>
+                    </tr>
+                    <tr>
+                        <td>maximizeclicked</td>
+                        <td>Is fired when the maximize button is clicked.
+                        Hands over the window instance and the maximize object.</td>
+                    </tr>
+                    <tr>
+                        <td>maximizeverticalclicked</td>
+                        <td>Is fired when the maximize vertical button is clicked.
+                        Hands over the window instance and the maximize vertical state.</td>
+                    </tr>
+                    <tr>
+                        <td>maximizehorizontalclicked</td>
+                        <td>Is fired when the maximize horizontal button is clicked.
+                        Hands over the window instance and the maximize horizontal state.</td>
+                    </tr>
+                    <tr>
+                        <td>minimizeclicked</td>
+                        <td>Is fired when the minimize button is clicked.
+                        Hands over the window instance and the minimize state.</td>
+                    </tr>
+                    <tr>
+                        <td>shrinkclicked</td>
+                        <td>Is fired when the shrink button is clicked.
+                        Hands over the window instance and the shrink state.</td>
+                    </tr>
+                    <tr>
+                        <td>headeraction</td>
+                        <td>Is fired when a header double click occured.
+                        Hands over the window instance and the header action constant.</td>
                     </tr>
                 </table>
             </li>

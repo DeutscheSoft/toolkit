@@ -35,10 +35,8 @@
 Window = new Class({
     Extends: Widget,
     options: {
-        width:         500,   // initial width, can be a css length, an int (pixels) or
-                              // "auto"/"inherit"
-        height:        200,   // initial height, can be a css length, an int (pixels) or
-                              // "auto"/"inherit"
+        width:         500,   // initial width, can be a css length, an int (pixels)
+        height:        200,   // initial height, can be a css length, an int (pixels)
         x:             0,     // X position of the window
         y:             0,     // Y position of the window
         min_width:     300,   // minimum width
@@ -79,7 +77,7 @@ Window = new Class({
         title:         "",
         status:        "",
         icon:          "",
-        fixed:         false, // whether the window sticks to the viewport
+        fixed:         true, // whether the window sticks to the viewport
                               // rather than the document
         active:        true,  // state of the window (mainly a css-class)
         auto_active:   false, // auto-toggle the active-class when mouseovered
@@ -196,7 +194,10 @@ Window = new Class({
             handle: this._header,
             onStart: this.__start_drag.bind(this),
             onComplete: this.__stop_drag.bind(this),
-            onDrag: this.__dragging.bind(this)
+            onDrag: this.__dragging.bind(this),
+            limit: {x: [0 - this.options.width + 20,
+                        window.getSize().x - 20],
+                    y: [0, window.getSize().y - 20]}
         });
         
         this._resize = new Element("div.toolkit-resize").inject(this.element);
@@ -216,8 +217,8 @@ Window = new Class({
         this._build_footer();
         
         this.set("maximize", this.options.maximize);
-        this.set("shrink", this.options.shrink);
-        this.set("minimize", this.options.minimize);
+        //this.set("shrink", this.options.shrink);
+        //this.set("minimize", this.options.minimize);
         
         this.redraw();
         this.initialized();
@@ -303,7 +304,7 @@ Window = new Class({
         this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
         this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
         this._set_content();
-        this.fireEvent("dimensionschanged", [this]);
+        this.fireEvent("dimensionschanged", [this, this.dimensions]);
     },
     _set_position: function () {
         var width  = this.element.innerWidth();
@@ -329,7 +330,7 @@ Window = new Class({
         this.dimensions.y1     = pos.y;
         this.dimensions.x2     = pos.x + this.dimensions.width;
         this.dimensions.y2     = pos.y + this.dimensions.height;
-        this.fireEvent("positionchanged", [this]);
+        this.fireEvent("positionchanged", [this, this.dimensions]);
     },
     _set_content: function () {
         var elmt = this.element.innerHeight();
@@ -534,14 +535,19 @@ Window = new Class({
         
         this.dragging = true;
         this.element.addClass("toolkit-dragging");
-        this.fireEvent("startdrag", [this, el, ev]);
+        this.fireEvent("startdrag", [this, ev]);
     },
     __stop_drag: function (el, ev) {
         this.dragging = false;
+        this.__set_position();
         this.element.removeClass("toolkit-dragging");
-        this.fireEvent("stopdrag", [this, el, ev]);
+        this.fireEvent("stopdrag", [this, ev]);
     },
     __dragging: function (el, ev) {
+        this.__set_position();
+        this.fireEvent("dragging", [this, ev]);
+    },
+    __set_position: function () {
         var pos  = this.element.getPosition();
         var pos1 = this._translate_anchor(this.options.anchor, pos.x, pos.y,
                                           this.options.width, this.options.height);
@@ -551,16 +557,13 @@ Window = new Class({
         this.dimensions.y1     = pos.y;
         this.dimensions.x2     = pos.x + this.dimensions.width;
         this.dimensions.y2     = pos.y + this.dimensions.height;
-        
-        this.fireEvent("dragging", [this, el, ev]);
     },
-    
     __start_resize: function (el, ev) {
         this.__docmouse = $$("body")[0].getStyle("cursor");
         $$("body")[0].setStyle("cursor", this._resize.getStyle("cursor"));
         this.resizing = true;
         this.element.addClass("toolkit-resizing");
-        this.fireEvent("startresize", [this, el, ev]);
+        this.fireEvent("startresize", [this, ev]);
     },
     __stop_resize: function (el, ev) {
         $$("body")[0].setStyle("cursor", this.__docmouse);
@@ -569,21 +572,25 @@ Window = new Class({
         this._set_content();
         this._check_header(true);
         this._check_footer(true);
-        this.fireEvent("stopresize", [this, el, ev]);
+        this.__set_dimensions();
+        this.fireEvent("stopresize", [this, ev]);
     },
     __resizing: function (el, ev) {
         if (this.options.resizing == _TOOLKIT_CONTINUOUS) {
             this._set_content();
             this.__size_header(true);
             this.__size_footer(true);
-            var x = this.element.outerWidth();
-            var y = this.element.outerHeight();
-            this.dimensions.width  = this.options.width  = x;
-            this.dimensions.height = this.options.height = y;
-            this.dimensions.x2     = x + this.dimensions.x1;
-            this.dimensions.y2     = y + this.dimensions.y1;
+            this.__set_dimensions();
         }
-        this.fireEvent("resizing", [this, el, ev]);
+        this.fireEvent("resizing", [this, ev]);
+    },
+    __set_dimensions: function () {
+        var x = this.element.outerWidth();
+        var y = this.element.outerHeight();
+        this.dimensions.width  = this.options.width  = x;
+        this.dimensions.height = this.options.height = y;
+        this.dimensions.x2     = x + this.dimensions.x1;
+        this.dimensions.y2     = y + this.dimensions.y1;
     },
     
     __mout: function (e) {
@@ -601,7 +608,7 @@ Window = new Class({
     },
     __maximize: function () {
         if (this.options.auto_maximize) this.toggle_maximize();
-        this.fireEvent("maximizeclicked", [this, this.options.maximize.x]);
+        this.fireEvent("maximizeclicked", [this, this.options.maximize]);
     },
     __maximizevertical: function () {
         if (this.options.auto_maximize) this.toggle_maximize_vertical();
@@ -613,11 +620,11 @@ Window = new Class({
     },
     __minimize: function () {
         if (this.options.auto_minimize) this.toggle_minimize();
-        this.fireEvent("minimizeclicked");
+        this.fireEvent("minimizeclicked", [this, this.options.minimize]);
     },
     __shrink: function () {
         if (this.options.auto_shrink) this.toggle_shrink();
-        this.fireEvent("shrinkclicked");
+        this.fireEvent("shrinkclicked", [this, this.options.shrink]);
     },
     __header_action: function () {
         switch (this.options.header_action) {
@@ -647,6 +654,8 @@ Window = new Class({
     set: function (key, value, hold) {
         switch (key) {
             case "maximize":
+                if (this.options.shrink)
+                    this._footer.setStyle("display", "block");
                 this.options.shrink = false;
                 if (value === false) value = this.options.maximize = {x: false, y: false};
                 value = Object.merge(this.options.maximize, value);
@@ -703,7 +712,10 @@ Window = new Class({
                 if (!hold) this._status.set("html", value);
                 break;
             case "icon":
-                if (!hold) this._icon.set("src", value);
+                if (!hold) {
+                    this._icon.set("src", value);
+                    this._icon.setStyle("display", value ? "block" : "none"); 
+                }
                 break;
             case "header_left":
             case "header_right":

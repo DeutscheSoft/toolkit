@@ -122,7 +122,6 @@ Clock = new Class({
             this._margin = margin;
         }
         this._set_labels();
-        this._draw_time();
         this.parent();
     },
     
@@ -136,17 +135,17 @@ Clock = new Class({
         this.circulars.hours.destroy();
         this.parent();
     },
-    _draw_time: function () {
+    _draw_time: function (force) {
         var s = m = h = -1;
-        if ((s = this.options.time.getSeconds()) != this.__sec) {
+        if ((s = this.options.time.getSeconds()) != this.__sec || force) {
             this.circulars.seconds.set("value", s);
             this.__sec = s;
         }
-        if ((m = this.options.time.getMinutes()) != this.__min) {
+        if ((m = this.options.time.getMinutes()) != this.__min || force) {
             this.circulars.minutes.set("value", m);
             this.__min = m;
         }
-        if ((h = this.options.time.getHours() % 12) != this.__hour) {
+        if ((h = this.options.time.getHours() % 12) != this.__hour || force) {
             this.circulars.hours.set("value", h);
             this.__hour = h;
         }
@@ -165,15 +164,15 @@ Clock = new Class({
                     this.options.months,
                     this.options.days];
         var u = m = l = "";
-        if ((m = this.options.label.apply(this, args)) != this.__label) {
+        if ((m = this.options.label.apply(this, args)) != this.__label || force) {
             this._label.set("text", m);
             this.__label = m;
         }
-        if ((u = this.options.label_upper.apply(this, args)) != this.__upper) {
+        if ((u = this.options.label_upper.apply(this, args)) != this.__upper || force) {
             this._label_upper.set("text", u);
             this.__upper = u;
         }
-        if ((l = this.options.label_lower.apply(this, args)) != this.__lower) {
+        if ((l = this.options.label_lower.apply(this, args)) != this.__lower || force) {
             this._label_lower.set("text", l);
             this.__lower = l;
         }
@@ -205,6 +204,7 @@ Clock = new Class({
             + "scale(" + (scale * this.options.label_scale) + ")");
         this._label_lower.set("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
             + "scale(" + (scale * this.options.label_scale) + ")");
+        this._draw_time(true);
     },
     
     _timeout : function () {

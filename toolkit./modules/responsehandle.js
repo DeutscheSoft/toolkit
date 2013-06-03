@@ -550,7 +550,7 @@ ResponseHandle = new Class({
         var pos = false;
         var align = "";
         var bbox = this._label.getBBox();
-        bbox.width = w;
+        try { bbox.width = w; } catch(e) { /* ie8: No Modification Allowed Error */ }
         
         switch (this.options.mode) {
             case _TOOLKIT_CIRCULAR:

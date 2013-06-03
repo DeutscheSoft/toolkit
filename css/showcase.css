@@ -86,7 +86,7 @@ ul#navigation a {
     display: block;
     float: left;
     width: 100%;
-    line-height: 40px;
+    line-height: 30px;
     text-decoration: none;
     color: white;
     text-shadow: 0 -1px 0 black;
@@ -147,3 +147,4 @@ ul#navigation>li ul li {
 ul#navigation>li ul li a {
     background-color: rgba(0, 42, 66, 1);
 }
+

@@ -36,8 +36,8 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    border-bottom: 1px solid rgba(0,0,0,0.02);
-    background: rgba(255,255,255,0.25);
+    border-bottom: 1px solid rgba(0,0,0,0.033);
+    background: rgba(255,255,255,0.33);
 }
 .toolkit-window .toolkit-header .toolkit-header-left {
     position: absolute;
@@ -64,8 +64,8 @@
     left: 0;
     width: 100%;
     cursor: default;
-    border-top: 1px solid rgba(255,255,255,0.5);
-    background: rgba(255,255,255,0.25);
+    border-top: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.33);
 }
 .toolkit-window .toolkit-footer .toolkit-footer-left {
     position: absolute;
@@ -101,6 +101,7 @@
     white-space: nowrap;
 }
 .toolkit-window .toolkit-icon {
+    width: 24px;
     height: 24px;
     margin: 2px;
 }
@@ -126,12 +127,15 @@
 .toolkit-window .toolkit-footer .toolkit-button {
     padding: 4px;
     border: 1px solid transparent;
+    background: none;
 }
-.toolkit-window .toolkit-button:hover {
+.toolkit-window .toolkit-header .toolkit-button:hover,
+.toolkit-window .toolkit-footer .toolkit-button:hover {
     -webkit-box-shadow:  none;
     -moz-box-shadow:  none;
     box-shadow:  none;
     border: 1px solid #aaa;
+    background: rgba(255,255,255,0.5);
 }
 .toolkit-window .toolkit-button .toolkit-icon {
     width: 20px;
