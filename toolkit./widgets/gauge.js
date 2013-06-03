@@ -103,7 +103,7 @@ Gauge = new Class({
                 this.fireEvent("set", [key, value, hold, this]);
                 this.fireEvent("set_" + key, [value, hold, this]);
                 key = false;
-                if(!hold) this._draw_title();
+                if (!hold) this._draw_title();
                 break;
             case "x":
             case "y":

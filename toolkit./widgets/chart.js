@@ -182,7 +182,7 @@ var Chart = new Class({
         this._key_txt.empty();
         this._key.empty();
         
-        if(this.options.key === false) {
+        if (this.options.key === false) {
             this._key.setStyle("display", "none");
             this._key_background.setStyle("display", "none");
             this.__key = {x1: 0, x2: 0, y1: 0, y2: 0};
@@ -217,7 +217,7 @@ var Chart = new Class({
                 t.set("text", this.graphs[i].get("key"));
                 t.set("x", gpad.left);
                 
-                if(!bb) bb = this._key.getBoundingClientRect();
+                if (!bb) bb = this._key.getBoundingClientRect();
                 top += c ? t.getStyle("line-height").toInt() : gpad.top;
                 t.set("y", top + bb.height / 2);
                 
@@ -365,21 +365,21 @@ var Chart = new Class({
                 break;
             case "width":
                 this.range_x.set("basis", value, hold);
-                if(!hold) this._draw_title();
+                if (!hold) this._draw_title();
                 break;
             case "height":
                 this.range_y.set("basis", value, hold);
-                if(!hold) this._draw_title();
+                if (!hold) this._draw_title();
                 break;
             case "key":
-                if(!hold) this._draw_key();
+                if (!hold) this._draw_key();
                 break;
             case "key_size":
-                if(!hold) this._draw_key();
+                if (!hold) this._draw_key();
                 break;
             case "title":
             case "title_position":
-                if(!hold) this._draw_title();
+                if (!hold) this._draw_title();
                 break;
         }
         this.parent(key, value, hold);

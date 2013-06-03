@@ -28,7 +28,7 @@ State = new Class({
     options: {
         state:           0,     // the initial state (0 ... 1)
         color:           "red", // the base color
-        opacity:         0.8,   // the opacity of the mask when state = 0
+        opacity:         0.8    // the opacity of the mask when state = 0
     },
     initialize: function (options) {
         this.parent(options);

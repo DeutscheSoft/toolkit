@@ -53,7 +53,7 @@ ValueButton = new Class({
     
     _value_clicked: function (e) {
         e.event.preventDefault();
-        if(this.__editing) return false;
+        if (this.__editing) return false;
         this._value.set("html", "");
         this._value.addClass("toolkit-active");
         this._input.inject(this._value);
@@ -130,10 +130,10 @@ ValueButton = new Class({
                 this.options.value = Math.min(this.options.value, this.options.max);
                 this.options.value = this.snap_value(this.options.value);
                 this.fireEvent("valuechanged", [this.options.value, this]);
-                if(!hold) this.redraw();
+                if (!hold) this.redraw();
                 return;
             case "value_format":
-                if(!hold) this.redraw();
+                if (!hold) this.redraw();
                 break;
             case "scale":
             case "min":

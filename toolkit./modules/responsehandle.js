@@ -1101,7 +1101,7 @@ ResponseHandle = new Class({
         this._pageX   = ev.pageX;
         this._pageY   = ev.pageY;
         this.redraw();
-        if(!this._zhandling) {
+        if (!this._zhandling) {
             this.fireEvent("handlegrabbed", [{
                 x:     this.options.x,
                 y:     this.options.y,
@@ -1115,13 +1115,13 @@ ResponseHandle = new Class({
         return false;
     },
     _mouseup: function (e) {
-        if(!this.__active) return;
+        if (!this.__active) return;
         e.event.preventDefault();
         this.element.removeClass("toolkit-active");
         var parent = this.element.getParent().getParent();
         if (parent)
             parent.removeClass("toolkit-dragging");
-        if(!this._zhandling) {
+        if (!this._zhandling) {
             this.fireEvent("handlereleased", [{
                 x:     this.options.x,
                 y:     this.options.y,
@@ -1269,7 +1269,7 @@ ResponseHandle = new Class({
         else if (e.shift)
             s *= this.range_z.get("shift_up");
         this.set("z", this.get("z") + s);
-        if(!this._zwheel)
+        if (!this._zwheel)
             this.fireEvent("zchangestarted", [this.options.z, this]);
         this.fireEvent("zchanged", [this.options.z, this]);
         this._zwheel = true;

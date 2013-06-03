@@ -126,27 +126,27 @@ Window = new Class({
         
         this.close = new Button({
             "class": "toolkit-close",
-            onClick: this.__close.bind(this),
+            onClick: this.__close.bind(this)
         });
         this.maximize = new Button({
             "class": "toolkit-maximize",
-            onClick: this.__maximize.bind(this),
+            onClick: this.__maximize.bind(this)
         });
         this.maximize_vert = new Button({
             "class": "toolkit-maximize-vertical",
-            onClick: this.__maximizevertical.bind(this),
+            onClick: this.__maximizevertical.bind(this)
         });
         this.maximize_horiz = new Button({
             "class": "toolkit-maximize-horizontal",
-            onClick: this.__maximizehorizontal.bind(this),
+            onClick: this.__maximizehorizontal.bind(this)
         });
         this.minimize = new Button({
             "class": "toolkit-minimize",
-            onClick: this.__minimize.bind(this),
+            onClick: this.__minimize.bind(this)
         });
         this.shrink = new Button({
             "class": "toolkit-shrink",
-            onClick: this.__shrink.bind(this),
+            onClick: this.__shrink.bind(this)
         });
         this.__buttons = [this.close, this.maximize, this.maximize_vert,
                           this.maximize_horiz, this.minimize, this.shrink];

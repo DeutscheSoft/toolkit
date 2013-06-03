@@ -65,7 +65,7 @@ Toggle = new Class({
     },
     
     // HELPERS & STUFF
-    _mousedown: function (e){
+    _mousedown: function (e) {
         if (this.__toggleclick) return;
         this.__toggleclick = this.__toggledown = true;
         if (this.options.press) {
@@ -78,7 +78,7 @@ Toggle = new Class({
         return false;
     },
     _mouseup: function (e) {
-        if(!this.__toggledown) return;
+        if (!this.__toggledown) return;
         this.__toggledown = false;
         if ((this.options.press && (this.__toggleclick && this.options.toggle))
         || (!this.options.press && !this.options.toggle)) {

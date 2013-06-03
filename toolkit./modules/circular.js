@@ -321,7 +321,7 @@ Circular = new Class({
         if (single)
             return {
                 x: Math.cos(deg) * inner + pos,
-                y: Math.sin(deg) * inner + pos,
+                y: Math.sin(deg) * inner + pos
             }
         return {
             x1: Math.cos(deg) * outer + pos,

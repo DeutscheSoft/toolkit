@@ -38,11 +38,11 @@ Clock = new Class({
         fps:          25,         // framerate for calculatind SMTP frames
         months:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         days:         ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        label: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+        label: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
             return sprintf("%02d:%02d:%02d", hour, minute, second);},
-        label_upper: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+        label_upper: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
             return days[day];},
-        label_lower: function (date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+        label_lower: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
             return sprintf("%02d. %s %d", date, months[month], year);},
         label_scale: 0.33           // the scale of the upper and lower labels
                                    // compared to the main label
@@ -80,7 +80,7 @@ Clock = new Class({
             show_hand: false,
             start: 270,
             basis: 360,
-            min: 0,
+            min: 0
         }
         this.circulars.seconds = new Circular(Object.merge(options,
             {max: 60, "class": "toolkit-seconds"}));
