@@ -74,6 +74,8 @@
         <script src="toolkit./widgets/clock.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/window.css">
         <script src="toolkit./widgets/window.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/knob.css">
+        <script src="toolkit./widgets/knob.js"></script>
         
         <script type="text/javascript">
             
@@ -939,6 +941,69 @@
                     </tr>
                 </table>
                 
+            </li>
+            
+            <li id="Knob" class="widget">
+                <!-- ########################################################### -->
+                <!-- KNOB WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Knob</strong> is a circular .
+                </p>
+                <p class="description">
+                    Use example to play with the example in a terminal:
+                    <a href="javascript:knob.set('value', 200)">example.set("value", 200)</a>
+                    <small>(sets the value of the knob to 200)</small>
+                </p>
+                
+                <div class="showcase">
+                    <div id="sc_knob">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>example <i class="static">⚓</i></td>
+                        <td>description.</td>
+                        <td>default</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>method(options)</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.module</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                        <td>event</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
             </li>
             
             <li id="LevelMeter" class="widget">
@@ -2836,7 +2901,7 @@
                     <tr>
                         <td>thickness</td>
                         <td>The thickness of the base and the value ring.</td>
-                        <td></td>
+                        <td>3</td>
                     </tr>
                     <tr>
                         <td>margin</td>

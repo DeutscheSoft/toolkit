@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="knobs.svg">
+   sodipodi:docname="background.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -209,8 +209,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="431.06356"
-     inkscape:cy="297.72216"
+     inkscape:cx="218.56356"
+     inkscape:cy="17.72216"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -255,7 +255,10 @@
        style="fill:url(#linearGradient3951);fill-opacity:1;stroke:none"
        d="m 50,952.36218 c -27.61424,0 -50,22.38576 -50,50.00002 0,27.6142 22.38576,50 50,50 27.61424,0 50,-22.3858 50,-50 0,-27.61426 -22.38576,-50.00002 -50,-50.00002 z m 0,1 c 27.06185,0 49,21.93815 49,49.00002 0,27.0618 -21.93815,49 -49,49 -27.06185,0 -49,-21.9382 -49,-49 0,-27.06187 21.93815,-49.00002 49,-49.00002 z"
        id="path3941"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/markus/Junger/toolkit./toolkit./templates/default/images/knob/background.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(16.333271,0,0,10.888847,-3559.6528,-4734.5594)"
        d="m 224,526.86218 c 0,2.48528 -1.34315,4.5 -3,4.5 -1.65685,0 -3,-2.01472 -3,-4.5 0,-2.48528 1.34315,-4.5 3,-4.5 1.65685,0 3,2.01472 3,4.5 z"
@@ -264,13 +267,19 @@
        sodipodi:cy="526.86218"
        sodipodi:cx="221"
        id="path3943"
-       style="fill:#002a42;fill-opacity:1;stroke:none"
-       sodipodi:type="arc" />
+       style="fill:#000000;fill-opacity:0.1237785;stroke:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/markus/Junger/toolkit./toolkit./templates/default/images/knob/background.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="opacity:0.54029852;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter3902)"
        d="m 76.23495,977.70538 c -14.00455,-14.00454 -36.71044,-14.00454 -50.71498,0 -14.00454,14.00453 -14.00454,36.71042 0,50.71502 0.21883,0.2188 0.44751,0.4178 0.67051,0.6298 0.21199,0.223 0.41105,0.4517 0.62987,0.6705 0.21883,0.2189 0.44751,0.4179 0.67052,0.6299 0.21199,0.223 0.41105,0.4517 0.62987,0.6705 0.21881,0.2188 0.44751,0.4179 0.6705,0.6299 0.21201,0.223 0.41106,0.4517 0.62988,0.6705 0.21883,0.2188 0.44751,0.4179 0.67052,0.6299 0.21198,0.223 0.41105,0.4517 0.62987,0.6705 0.21882,0.2188 0.44751,0.4179 0.67051,0.6299 0.21198,0.223 0.41105,0.4516 0.62987,0.6705 14.00454,14.0045 36.71044,14.0045 50.71497,0 14.00454,-14.0046 14.00454,-36.71047 0,-50.71501 -0.21876,-0.21876 -0.42725,-0.43827 -0.65019,-0.65019 -0.21194,-0.22294 -0.43143,-0.43143 -0.65019,-0.65019 -0.21878,-0.21877 -0.42725,-0.43826 -0.6502,-0.65019 -0.21192,-0.22295 -0.43141,-0.43142 -0.65019,-0.65019 -0.21877,-0.21878 -0.42725,-0.43826 -0.6502,-0.65019 -0.21192,-0.22296 -0.43141,-0.43142 -0.65018,-0.6502 -0.21877,-0.21877 -0.42725,-0.43826 -0.65019,-0.65019 -0.21193,-0.22294 -0.43143,-0.43143 -0.6502,-0.6502 -0.21876,-0.21876 -0.42724,-0.43825 -0.65018,-0.65018 -0.21195,-0.22295 -0.43143,-0.43143 -0.65019,-0.65019 z"
        id="path3945"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/markus/Junger/toolkit./toolkit./templates/default/images/knob/background.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(12.333333,0,0,8.222222,-2675.6666,-3329.6158)"
        d="m 224,526.86218 c 0,2.48528 -1.34315,4.5 -3,4.5 -1.65685,0 -3,-2.01472 -3,-4.5 0,-2.48528 1.34315,-4.5 3,-4.5 1.65685,0 3,2.01472 3,4.5 z"
@@ -280,7 +289,10 @@
        sodipodi:cx="221"
        id="path3947"
        style="fill:url(#linearGradient3953);fill-opacity:1;stroke:none"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/markus/Junger/toolkit./toolkit./templates/default/images/knob/background.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
        style="fill:url(#radialGradient3955);fill-opacity:1;stroke:none"
@@ -290,6 +302,9 @@
        sodipodi:rx="3"
        sodipodi:ry="4.5"
        d="m 224,526.86218 c 0,2.48528 -1.34315,4.5 -3,4.5 -1.65685,0 -3,-2.01472 -3,-4.5 0,-2.48528 1.34315,-4.5 3,-4.5 1.65685,0 3,2.01472 3,4.5 z"
-       transform="matrix(11.700841,0,0,7.80056,-2535.8856,-3107.458)" />
+       transform="matrix(11.700841,0,0,7.80056,-2535.8856,-3107.458)"
+       inkscape:export-filename="/home/markus/Junger/toolkit./toolkit./templates/default/images/knob/background.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>

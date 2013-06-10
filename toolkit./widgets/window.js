@@ -791,4 +791,4 @@ Window = new Class({
         }
         this.parent(key, value, hold);
     }
-})
+});

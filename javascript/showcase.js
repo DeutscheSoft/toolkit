@@ -52,6 +52,37 @@ window.addEvent('domready', function () {
     }
 });
 
+
+// KNOB
+function run_knob () {
+    if (typeof knob != "undefined") {
+        knob.destroy();
+        knob = undefined;
+        return;
+    }
+    knob = new Knob({
+        container: $("sc_knob"),
+        min: -96,
+        max: 24,
+        scale: _TOOLKIT_LINEAR,
+        value: 0,
+        markers: [
+            {from: 0, to: 24}
+        ],
+        dots: [
+            {pos: -96}, {pos: -84}, {pos: -72}, {pos: -60}, {pos: -48}, {pos: -36}, {pos: -24},
+            {pos: -12}, {pos: 0, color: "#c00"}, {pos: 12}, {pos: 24}
+        ],
+        labels: [
+            {pos: -96}, {pos: 24, label: "+24"}
+        ],
+        label: {align: _TOOLKIT_OUTER, margin: 2}
+    });
+}
+
+
+
+
 // WINDOW
 
 function run_window () {
