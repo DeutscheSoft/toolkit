@@ -1,6 +1,6 @@
 svg.toolkit-knob {
-    background: url(../images/knob/background.png) no-repeat;
-    background-size: 100% 100%;
+    background: url(../images/knob/background.png) no-repeat 50% 50%;
+    background-size: 80% 80%;
     cursor: pointer;
 }
 
@@ -12,12 +12,12 @@ svg.toolkit-knob .toolkit-base {
     
 }
 svg.toolkit-knob .toolkit-value {
-    fill: rgba(255,255,255,0.66);
+    fill: rgba(255,255,255,0.8);
 }
 svg.toolkit-knob .toolkit-dot {
     fill: #002f42;
 }
 svg.toolkit-knob .toolkit-label {
-    font-size: 10px;
+    font-size: 7px;
     fill: #002f42;
 }

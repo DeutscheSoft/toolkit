@@ -58,26 +58,68 @@ function run_knob () {
     if (typeof knob != "undefined") {
         knob.destroy();
         knob = undefined;
+        knob1.destroy();
+        knob2.destroy();
         return;
     }
+    knob1 = new Knob({
+        container: $("sc_knob"),
+        size: 50,
+        margin: 2,
+        thickness: 3,
+        min: -96,
+        max: 24,
+        value: -20,
+        dot: {length: 3, margin: 2, width: 1},
+        marker: {thickness: 3, margin: 2},
+        markers: [
+            {from: 0, to: 24}
+        ],
+        
+        hand: {width: 2, length: 4, margin: 11.5},
+    });
     knob = new Knob({
         container: $("sc_knob"),
         min: -96,
         max: 24,
-        scale: _TOOLKIT_LINEAR,
-        value: 0,
+        value: -20,
         markers: [
             {from: 0, to: 24}
         ],
         dots: [
             {pos: -96}, {pos: -84}, {pos: -72}, {pos: -60}, {pos: -48}, {pos: -36}, {pos: -24},
-            {pos: -12}, {pos: 0, color: "#c00"}, {pos: 12}, {pos: 24}
+            {pos: -12}, {pos: 0}, {pos: 12}, {pos: 24}
         ],
         labels: [
-            {pos: -96}, {pos: 24, label: "+24"}
-        ],
-        label: {align: _TOOLKIT_OUTER, margin: 2}
+            {pos: -96}, {pos: -72}, {pos: -48}, {pos: -24}, {pos: -12}, {pos: 0, label: "±0"}, {pos: 12}, {pos: 24}
+        ]
     });
+    knob2 = new Knob({
+        container: $("sc_knob"),
+        "class": "knob2",
+        margin: 0,
+        thickness: 4,
+        min: 20,
+        max: 20000,
+        value: 1000,
+        scale: _TOOLKIT_FREQ,
+        dot: {length: 4, margin: 0, width: 1},
+        label: {align: _TOOLKIT_INNER, margin: 6},
+        dots: [
+            {pos: 20}, {pos: 30}, {pos: 40}, {pos: 50}, {pos: 60}, {pos: 70}, {pos: 80}, {pos: 90},
+            {pos: 100}, {pos: 200}, {pos: 300}, {pos: 400}, {pos: 500}, {pos: 600}, {pos: 700}, {pos: 800}, {pos: 900},
+            {pos: 1000, label: "1k"}, {pos: 2000, label: "2k"}, {pos: 3000, label: "3k"}, {pos: 4000, label: "4k"},
+            {pos: 5000, label: "5k"}, {pos: 6000, label: "6k"}, {pos: 7000, label: "7k"}, {pos: 8000, label: "8k"},
+            {pos: 9000, label: "9k"}, {pos: 10000, label: "10k"}, {pos: 20000, label:"20k"}
+        ],
+        labels: [
+            {pos: 20}, {pos: 100}, {pos: 1000, label: "1k"}, {pos: 2000, label: "2k"}, {pos: 3000, label: "3k"}, {pos: 4000, label: "4k"},
+            {pos: 10000, label: "10k"}, {pos: 20000, label:"20k"}
+        ],
+        hand: {width: 2, length: 3.5, margin: 32},
+        styles: {backgroundSize: "56%"}
+    });
+    repositionSVGs()
 }
 
 
@@ -142,6 +184,7 @@ function run_clock () {
         container: $("sc_clock"),
         timeout: 10
     });
+    repositionSVGs()
 }
 
 
@@ -301,6 +344,7 @@ function run_gauge () {
             {pos: -0, label:"100%", margin: 29, align:_TOOLKIT_INNER}
         ]
     });
+    repositionSVGs()
 }
 
 
@@ -861,6 +905,7 @@ function run_responsehandler () {
                        label: function (title, x, y, z) { return sprintf("%s\n%d dB", title, y); } 
                        })
     ]
+    repositionSVGs()
 }
 
 

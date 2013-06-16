@@ -14,8 +14,10 @@ _TOOLKIT_CENTER                      = 8;
 
 // DIRECTIONS
 _TOOLKIT_N                           = 0;
+_TOOLKIT_UP                          = 0;
 _TOOLKIT_E                           = 1;
 _TOOLKIT_S                           = 2;
+_TOOLKIT_DOWN                        = 2;
 _TOOLKIT_W                           = 3;
 _TOOLKIT_NW                          = 4;
 _TOOLKIT_NE                          = 5;

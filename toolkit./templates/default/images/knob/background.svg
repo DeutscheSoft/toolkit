@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="background.svg">
+   sodipodi:docname="background.svg"
+   inkscape:export-filename="/home/markus/Junger/toolkit./toolkit./templates/default/images/knob/background.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
@@ -208,9 +211,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="218.56356"
-     inkscape:cy="17.72216"
+     inkscape:zoom="4"
+     inkscape:cx="90.484133"
+     inkscape:cy="31.605774"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -267,7 +270,7 @@
        sodipodi:cy="526.86218"
        sodipodi:cx="221"
        id="path3943"
-       style="fill:#000000;fill-opacity:0.1237785;stroke:none"
+       style="fill:#002f42;fill-opacity:1;stroke:none"
        sodipodi:type="arc"
        inkscape:export-filename="/home/markus/Junger/toolkit./toolkit./templates/default/images/knob/background.png"
        inkscape:export-xdpi="90"

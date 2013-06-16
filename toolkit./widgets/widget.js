@@ -49,9 +49,11 @@ Widget = new Class({
     },
     redraw: function () {
         this.fireEvent("redraw", this);
+        return this;
     },
     destroy: function () {
         this.fireEvent("destroy", this);
+        return this;
     },
     
     delegate: function (element) {
@@ -115,6 +117,7 @@ Widget = new Class({
     stylize: function (element) {
         // Marks a DOM element as receiver for the "styles" options
         this.__stylized = element;
+        this.set("styles", this.options.styles);
         this.fireEvent("stylized", [element, this]);
         return element;
     },
@@ -167,6 +170,7 @@ Widget = new Class({
         }
         this.fireEvent("set", [key, value, hold, this]);
         this.fireEvent("set_" + key, [value, hold, this]);
+        return this;
     },
     get: function (key) {
         this.fireEvent("get", [key, this.options[key], this]);

@@ -19,19 +19,6 @@
  * bug soon.
  ******************************************************************************/
 
-
-// maximize
-// 
-// fullscreen
-// 
-// modal
-// 
-// minimize
-// 
-// shrink
-// 
-// docked
-
 Window = new Class({
     Extends: Widget,
     options: {

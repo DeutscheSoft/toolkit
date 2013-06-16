@@ -35,6 +35,8 @@
         <script src="toolkit./modules/range.js"></script>
         <script src="toolkit./modules/filter.js"></script>
         <script src="toolkit./modules/scale.js"></script>
+        <script src="toolkit./modules/dragvalue.js"></script>
+        <script src="toolkit./modules/scrollvalue.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/scale.css">
         <script src="toolkit./modules/graph.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/graph.css">
@@ -956,9 +958,22 @@
                     <a href="javascript:knob.set('value', 200)">example.set("value", 200)</a>
                     <small>(sets the value of the knob to 200)</small>
                 </p>
-                
+                <style type="text/css">
+                    #sc_knob .toolkit-knob {
+                        margin: 10px;
+                    }
+                    #sc_knob .toolkit-knob.knob2 .toolkit-value {
+                        fill: rgba(0, 47, 66, 1);
+                    }
+                    #sc_knob .toolkit-knob.knob2 .toolkit-dot {
+                        fill: white;
+                    }
+                    #sc_knob .toolkit-knob.knob2 .toolkit-base {
+                        fill: rgba(0, 47, 66, 0.5);
+                    }
+                </style>
                 <div class="showcase">
-                    <div id="sc_knob">
+                    <div id="sc_knob" style="text-align: center">
                         
                     </div>
                 </div>

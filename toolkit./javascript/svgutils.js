@@ -8,11 +8,11 @@ repositionSVGs = function () {
 repositionSVG = function (e) {
     // move svgs if their positions in viewport is not int
     if (e.retrieve("margin-left") === null) {
-        e.store("margin-left", e.getStyle("margin-left").toInt());
+        e.store("margin-left", e.getStyle("margin-left").toFloat());
     } else {
         e.setStyle("margin-left", e.retrieve("margin-left"));
     }
-    var l = e.retrieve("margin-left");
+    var l = e.retrieve("margin-left").toFloat();
     var b = e.getBoundingClientRect();
     var x = b.left % 1;
     if (x) {
@@ -20,13 +20,15 @@ repositionSVG = function (e) {
         if (x < 0.5) l -= x;
         else l += (1 - x);
     }
+    if (e.getParent() && e.getParent().getStyle("text-align") == "center")
+        l += 0.5;
     e.setStyle("margin-left", l + "px");
     if (e.retrieve("margin-top") === null) {
-        e.store("margin-top", e.getStyle("margin-top").toInt());
+        e.store("margin-top", e.getStyle("margin-top").toFloat());
     } else {
         e.setStyle("margin-top", e.retrieve("margin-top"));
     }
-    var t = e.retrieve("margin-top");
+    var t = e.retrieve("margin-top").toFloat();
     var b = e.getBoundingClientRect();
     var y = b.top % 1;
     if (y) {
