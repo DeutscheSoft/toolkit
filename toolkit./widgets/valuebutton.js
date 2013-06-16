@@ -6,7 +6,8 @@ ValueButton = new Class({
         value_format: function (val) { return sprintf("%0.2f",  val); },
         value_position: "bottom", // can be "top", "bottom", "icon"
         bar_position: "bottom", // can be "top", "bottom", "icon", "label"
-        bar_direction: _TOOLKIT_HORIZONTAL
+        bar_direction: _TOOLKIT_HORIZONTAL,
+        direction: _TOOLKIT_VERTICAL
     },
     initialize: function (options) {
         options = Object.merge(this.__options, options);
@@ -31,6 +32,19 @@ ValueButton = new Class({
         this._value.addEvent("click", this._value_clicked.bind(this));
         this._input.addEvent("keyup", this._value_typing.bind(this));
         
+        this.drag = new DragValue({
+            element:   this.element,
+            range:     function () { return this; }.bind(this),
+            get:       function () { return this.options.value; }.bind(this),
+            set:       function (v) { this.set("value", v); }.bind(this),
+            direction: this.options.direction
+        });
+        this.scroll = new ScrollValue({
+            element: this.element,
+            range:   function () { return this }.bind(this),
+            get:     function () { return this.options.value; }.bind(this),
+            set:     function (v) { this.set("value", v); }.bind(this)
+        });
         this.redraw();
         this.initialized();
     },

@@ -36,7 +36,7 @@ Knob = new Class({
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) { this.set("value", v); }.bind(this)
-        })
+        });
         this.set("size", this.options.size);
         this.initialized();
     },
