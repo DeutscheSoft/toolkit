@@ -27,6 +27,8 @@
         <script src="toolkit./implements/ranged.js"></script>
         <script src="toolkit./implements/ranges.js"></script>
         <script src="toolkit./implements/gradient.js"></script>
+        <script src="toolkit./implements/globalcursor.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/globalcursor.css">
         
         <!-- WIDGET -->
         <script src="toolkit./widgets/widget.js"></script>
@@ -34,9 +36,9 @@
         <!-- MODULES -->
         <script src="toolkit./modules/range.js"></script>
         <script src="toolkit./modules/filter.js"></script>
-        <script src="toolkit./modules/scale.js"></script>
         <script src="toolkit./modules/dragvalue.js"></script>
         <script src="toolkit./modules/scrollvalue.js"></script>
+        <script src="toolkit./modules/scale.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/scale.css">
         <script src="toolkit./modules/graph.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/graph.css">
@@ -78,6 +80,8 @@
         <script src="toolkit./widgets/window.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/knob.css">
         <script src="toolkit./widgets/knob.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/value.css">
+        <script src="toolkit./widgets/value.js"></script>
         
         <script type="text/javascript">
             
@@ -945,7 +949,7 @@
                 
             </li>
             
-            <li id="Knob" class="widget">
+            <li id="Knob" class="widget" style="opacity: 0.5;">
                 <!-- ########################################################### -->
                 <!-- KNOB WIDGET -->
                 <!-- ########################################################### -->
@@ -1824,6 +1828,96 @@
                         <td>toggled</td>
                         <td>Is fired when the state of the toggle changed.
                         Hands over the new state and the widget instance.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            <li id="Value" class="widget" >
+                <!-- ########################################################### -->
+                <!-- VALUE WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Value</strong> is a formatted text field displaying numbers and
+                    providing a input text entry for editing the value. Value is based on <a href="#widget">Widget</a>
+                    and used e.g. in <a href="#valuebutton">ValueButton</a>.
+                </p>
+                <p class="description">
+                    Use value to play with the example in a terminal:
+                    <a href="javascript:value.set('value', 1000)">value.set("value", 1000)</a>
+                    <small>(sets the value to 1000)</small>
+                </p>
+                <style type="text/css">
+                    
+                </style>
+                
+                <div class="showcase">
+                    <div id="sc_value" style="text-align: center;">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>value</td>
+                        <td>The value to show</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>format</td>
+                        <td>A callback function formating the value to a string for display.</td>
+                        <td>function (val) { return sprintf("%0.2f",  val); }</td>
+                    </tr>
+                    <tr>
+                        <td>set</td>
+                        <td>A callback function getting a manually entered value and
+                        returning a processed value or false to disable editing.</td>
+                        <td>false</td>
+                    </tr>
+                </table>
+                
+                <table class="elements collapse" title="⚛ Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>value.element ("div.toolkit-value")</td>
+                        <td>The base element of the widget containing the value and the input field while editing.</td>
+                    </tr>
+                    <tr>
+                        <td>value._input ("div.toolkit-input")</td>
+                        <td>The input field for editing purpses.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>valueclicked</td>
+                        <td>Is fired when the input field was clicked and editing starts.
+                        Hands over the actual value and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>valuetyping</td>
+                        <td>Is fired when the input field receives key presses.
+                        Hands over the event, the actual value and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>valueescaped</td>
+                        <td>Is fired when the input field was left via "esc" key.
+                        Hands over the actual value and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>valueset</td>
+                        <td>Is fired when the input was entered.
+                        Hands over the actual value and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>valuedone</td>
+                        <td>Is fired when editing the input field has ended.
+                        Hands over the actual value and the widget instance.</td>
                     </tr>
                 </table>
                 
@@ -3614,7 +3708,7 @@
                         <li><strong>Blocks:</strong> Blocks roughly act like lines but draw themself as rectangles
                             filling the space to their boundary. They can't show any z axis except as value in the label.</li>
                     </ul>
-                    ResponseHandle is based on <a href="#widget">Widget</a> and implements <a href="#ranges">Ranges</a>.
+                    ResponseHandle is based on <a href="#widget">Widget</a> and implements <a href="#ranges">Ranges</a> and <a href="#globalcursor">GlobalCursor</a>.
                 </p>
                 
                 <div class="buttons"></div>
@@ -4127,6 +4221,51 @@
                         <li>max: maximum freq already sent through log10</li>
                         <li>scale: the size of the scale</li></ul></td></tr>
                 </table>
+            </li>
+            
+            <li id="GlobalCursor" class="implement">
+                <!-- ########################################################### -->
+                <!-- GLOBAL CURSOR IMPLEMENT -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>GlobalCursor</strong> adds global cursor classes to enshure the
+                    exclusive use of one of the standard cursors (http://www.echoecho.com/csscursors.htm) in
+                    the whole application. Global Cursor implements
+                    <a target="_blank" href="http://mootools.net/docs/core/Class/Class.Extras#Events">Events</a>.
+                    GlobalCursor is used e.g. in <a href="#responsehandle">ResponseHandle</a> or <a href="#dragvalue">DragValue</a>.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>global_cursor(cursor)</td>
+                        <td>Sets the global cursor. Can be one out of:<br/><br/>
+                        auto | crosshair | default | pointer | move | e-resize | ne-resize | nw-resize | n-resize | se-resize | sw-resize | s-resize | w-resize | text | wait | help | progress | not-allowed | no-drop | vertical-text | all-scroll | col-resize | row-resize
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>remove_cursor(cursor)</td>
+                        <td>Removes the global cursor. Can be one out of:<br/><br/>
+                        auto | crosshair | default | pointer | move | e-resize | ne-resize | nw-resize | n-resize | se-resize | sw-resize | s-resize | w-resize | text | wait | help | progress | not-allowed | no-drop | vertical-text | all-scroll | col-resize | row-resize
+                        </td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>globalcursor</td>
+                        <td>Is fired when a global cursor was set. Hands over the cursor.</td>
+                    </tr>
+                    <tr>
+                        <td>cursorremoved</td>
+                        <td>Is fired when a global cursor was removed. Hands over the cursor.</td>
+                    </tr>
+                </table>
+                
             </li>
             
             <li id="Gradient" class="implement">

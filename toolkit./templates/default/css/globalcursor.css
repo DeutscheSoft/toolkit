@@ -1,0 +1,92 @@
+html.toolkit-cursor-default,
+html.toolkit-cursor-default * {
+    cursor:default !important;
+}
+html.toolkit-cursor-crosshair,
+html.toolkit-cursor-crosshair * {
+    cursor:crosshair !important;
+}
+html.toolkit-cursor-hand,
+html.toolkit-cursor-hand * {
+    cursor:hand !important;
+}
+html.toolkit-cursor-pointer,
+html.toolkit-cursor-pointer * {
+    cursor:pointer !important;cursor:hand !important;
+}
+html.toolkit-cursor-move,
+html.toolkit-cursor-move * {
+    cursor:move !important;
+}
+html.toolkit-cursor-text,
+html.toolkit-cursor-text * {
+    cursor:text !important;
+}
+html.toolkit-cursor-wait,
+html.toolkit-cursor-wait * {
+    cursor:wait !important;
+}
+html.toolkit-cursor-help,
+html.toolkit-cursor-help * {
+    cursor:help !important;
+}
+html.toolkit-cursor-n-resize,
+html.toolkit-cursor-n-resize * {
+    cursor:n-resize !important;
+}
+html.toolkit-cursor-ne-resize,
+html.toolkit-cursor-ne-resize * {
+    cursor:ne-resize !important;
+}
+html.toolkit-cursor-e-resize,
+html.toolkit-cursor-e-resize * {
+    cursor:e-resize !important;
+}
+html.toolkit-cursor-se-resize,
+html.toolkit-cursor-se-resize * {
+    cursor:se-resize !important;
+}
+html.toolkit-cursor-s-resize,
+html.toolkit-cursor-s-resize * {
+    cursor:s-resize !important;
+}
+html.toolkit-cursor-sw-resize,
+html.toolkit-cursor-sw-resize * {
+    cursor:sw-resize !important;
+}
+html.toolkit-cursor-w-resize,
+html.toolkit-cursor-w-resize * {
+    cursor:w-resize !important;
+}
+html.toolkit-cursor-nw-resize,
+html.toolkit-cursor-nw-resize * {
+    cursor:nw-resize !important;
+}
+html.toolkit-cursor-progress,
+html.toolkit-cursor-progress * {
+    cursor:progress !important;
+}
+html.toolkit-cursor-not-allowed,
+html.toolkit-cursor-not-allowed * {
+    cursor:not-allowed !important;
+}
+html.toolkit-cursor-no-drop,
+html.toolkit-cursor-no-drop * {
+    cursor:no-drop !important;
+}
+html.toolkit-cursor-vertical-text,
+html.toolkit-cursor-vertical-text * {
+    cursor:vertical-text !important;
+}
+html.toolkit-cursor-all-scroll,
+html.toolkit-cursor-all-scroll * {
+    cursor:all-scroll !important;
+}
+html.toolkit-cursor-col-resize,
+html.toolkit-cursor-col-resize * {
+    cursor:col-resize !important;
+}
+html.toolkit-cursor-row-resize,
+html.toolkit-cursor-row-resize * {
+    cursor:row-resize !important;
+}

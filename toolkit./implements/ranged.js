@@ -177,7 +177,11 @@ Ranged = new Class({
         if (!this.options.snap) return value;
         var scoef = this.__snapcoef;
         var snap  = this.options.snap;
-        var m = ((value * scoef) % (snap * scoef)) / scoef;
-        return value + (this.options.round && (m > snap / 2.0) ? snap - m : -m);
+        var multi = ((value * scoef) % (snap * scoef)) / scoef;
+        var res   = value + ((this.options.round && (multi > snap / 2.0))
+                          ? snap - multi : -multi);
+        var digit = snap.toString().split(".");
+        digit = digit.length > 1 ? digit[1].length : 0;
+        return res.toFixed(digit).toFloat();
     }
 });

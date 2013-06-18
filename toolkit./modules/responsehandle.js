@@ -1,6 +1,6 @@
 ResponseHandle = new Class({
     Extends: Widget,
-    Implements: Ranges,
+    Implements: [GlobalCursor, Ranges],
     options: {
         range_x:          {},           // callback function returning a Range
                                         // module for x axis or an object with
@@ -1092,6 +1092,7 @@ ResponseHandle = new Class({
         // classes and stuff
         this.element.addClass("toolkit-active");
         this.element.getParent().getParent().addClass("toolkit-dragging");
+        this.global_cursor("move");
         this.__active = true;
         this._offsetX = ev.pageX - this.x;
         this._offsetY = ev.pageY - this.y;
@@ -1121,6 +1122,7 @@ ResponseHandle = new Class({
         var parent = this.element.getParent().getParent();
         if (parent)
             parent.removeClass("toolkit-dragging");
+        this.remove_cursor("move");
         if (!this._zhandling) {
             this.fireEvent("handlereleased", [{
                 x:     this.options.x,
@@ -1359,4 +1361,3 @@ ResponseHandle = new Class({
         this.parent(key, value, hold);
     }
 });
- 

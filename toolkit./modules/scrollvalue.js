@@ -9,26 +9,37 @@ ScrollValue = new Class({
         events:    false,                      // element receiving events
                                                // or false to fire events
                                                // on the main element
+        classes:   false,                      // element receiving classes
+                                               // or false to set class
+                                               // on the main element
         get:       function () { return; },    // callback returning the value
         set:       function () { return; },    // callback setting the value
+        active:    true                        // deactivate the event
     },
     initialize: function (options) {
         this.parent(options);
         if (this.options.element)
             this.set("element", this.options.element);
         this.set("events", this.options.events);
+        this.set("classes", this.options.classes);
+        
         this.fireEvent("initialized", this);
     },
-    
+    destroy: function () {
+        if (this.options.element)
+            this.options.element.removeEvent("mousewheel", this._scrollwheel);
+        this.parent();
+    },
     _scrollwheel: function (e) {
+        if (!this.options.active) return;
         e.event.preventDefault();
         
-        this.options.element.addClass("toolkit-active");
+        this.options.classes.addClass("toolkit-scrolling");
         
         // timeout for resetting the class
         if (this.__sto) window.clearTimeout(this.__sto);
         this.__sto = window.setTimeout(function () {
-            this.options.element.removeClass("toolkit-active");
+            this.options.classes.removeClass("toolkit-scrolling");
             this._fire_event("scrollended", e);
         }.bind(this), 250);
         
@@ -76,10 +87,18 @@ ScrollValue = new Class({
                 if (value && !this.options.events) {
                     this.options.events = value;
                 }
+                if (value && !this.options.classes) {
+                    this.options.classes = value;
+                }
                 break;
             case "events":
                 if (!value && this.options.element) {
                     this.options.events = this.options.element;
+                }
+                break;
+            case "classes":
+                if (!value && this.options.element) {
+                    this.options.classes = this.options.element;
                 }
                 break;
         }

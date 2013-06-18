@@ -52,6 +52,23 @@ window.addEvent('domready', function () {
     }
 });
 
+// VALUE
+run_value = function () {
+    if (typeof value != "undefined") {
+        value.destroy();
+        value = undefined;
+        $("sc_value").removeClass("box");
+        return;
+    }
+    value = new Value({
+        container: $("sc_value"),
+        value: 123.97,
+        format: function (val) { return sprintf("%.3f Hz", val); },
+        set: function (val) { console.log("the value was set to " + val); return val; }
+    });
+    $("sc_value").addClass("box");
+}
+
 
 // KNOB
 function run_knob () {
@@ -417,7 +434,7 @@ function run_valuebutton () {
         min: -96,
         max: 24,
         step: 1,
-        basis: 600,
+        basis: 300,
         shift_up: 4,
         shift_down: 0.25,
         value: 0
@@ -432,7 +449,7 @@ function run_valuebutton () {
         min: 1,
         max: 1000,
         step: 1,
-        basis: 600,
+        basis: 300,
         shift_up: 4,
         shift_down: 0.25,
         value: 100,
@@ -450,7 +467,7 @@ function run_valuebutton () {
         min: 1,
         max: 10,
         step: 1,
-        basis: 600,
+        basis: 300,
         shift_up: 4,
         shift_down: 0.25,
         value: 2
@@ -465,7 +482,7 @@ function run_valuebutton () {
         min: 1,
         max: 1000,
         step: 1,
-        basis: 600,
+        basis: 300,
         shift_up: 4,
         shift_down: 0.25,
         value: 100,

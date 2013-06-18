@@ -3,6 +3,7 @@ DragValue = new Class({
     // according to the distance. DragValue is used e.g. in Knob for
     // setting its value.
     Extends: Widget,
+    Implements: GlobalCursor,
     options: {
         range:     function () { return {}; }, // a range oject
         element:   false,                      // the element receiving
@@ -10,16 +11,21 @@ DragValue = new Class({
         events:    false,                      // element receiving events
                                                // or false to fire events
                                                // on the main element
+        classes:   false,                      // element receiving classes
+                                               // or false to set class
+                                               // on the main element
         get:       function () { return; },    // callback returning the value
         set:       function () { return; },    // callback setting the value
-        direction: _TOOLKIT_VERTICAL           // direction: vertical
+        direction: _TOOLKIT_VERTICAL,          // direction: vertical
                                                // or horizontal
+        active:    true                        // deactivate the event
     },
     initialize: function (options) {
         this.parent(options);
         if (this.options.element)
             this.set("element", this.options.element);
         this.set("events", this.options.events);
+        this.set("classes", this.options.classes);
         
         document.addEvent("mousemove", this._pointer_move.bind(this));
         document.addEvent("mouseup",   this._pointer_up.bind(this));
@@ -28,7 +34,15 @@ DragValue = new Class({
         
         this.fireEvent("initialized", this);
     },
+    destroy: function () {
+        document.removeEvent("mousemove", this._pointer_move);
+        document.removeEvent("mouseup",   this._pointer_up);
+        document.removeEvent("touchmove", this._pointer_move);
+        document.removeEvent("touchend",  this._pointer_ups);
+        this.parent();
+    },
     _pointer_down: function (e) {
+        if (!this.options.active) return;
         e.event.preventDefault();
         // get the right event if touch
         if (e.touches && e.touches.length > 1) {
@@ -37,7 +51,11 @@ DragValue = new Class({
             ev = e.event;
         }
         // set stuff
-        this.options.element.addClass("toolkit-active");
+        this.options.classes.addClass("toolkit-dragging");
+        if (this.options.direction == _TOOLKIT_VERT)
+            this.global_cursor("row-resize");
+        else
+            this.global_cursor("col-resize");
         this.__active  = true;
         // remember stuff
         this._cache_values(ev);
@@ -50,7 +68,9 @@ DragValue = new Class({
         if (!this.__active) return;
         e.event.preventDefault();
         // set stuff
-        this.options.element.removeClass("toolkit-active");
+        this.options.classes.removeClass("toolkit-dragging");
+        this.remove_cursor("row-resize");
+        this.remove_cursor("col-resize");
         this.__active = false;
         // fire event
         this._fire_event("stopdrag", e);
@@ -59,6 +79,7 @@ DragValue = new Class({
     },
     _pointer_move: function (e) {
         if (!this.__active) return;
+        if (!this.options.active) return;
         e.event.preventDefault();
         
         // get the right event if touch
@@ -71,8 +92,10 @@ DragValue = new Class({
             multi *= this.options.range().options.shift_up;
         }
         
-        var val = (this.options.direction == _TOOLKIT_VERT) ? "pageY" : "pageX";
-        var dist = (this["_" + val] - ev[val]) * multi;
+        if (this.options.direction == _TOOLKIT_VERT)
+            var dist = (this._pageY - ev.pageY) * multi;
+        else
+            var dist = (ev.pageX - this._pageX) * multi;
         this.options.set(this.options.range().px2val(this._clickPos + dist));
         
         // remember stuff
@@ -123,10 +146,18 @@ DragValue = new Class({
                 if (value && !this.options.events) {
                     this.options.events = value;
                 }
+                if (value && !this.options.classes) {
+                    this.options.classes = value;
+                }
                 break;
             case "events":
                 if (!value && this.options.element) {
                     this.options.events = this.options.element;
+                }
+                break;
+            case "classes":
+                if (!value && this.options.element) {
+                    this.options.classes = this.options.element;
                 }
                 break;
         }

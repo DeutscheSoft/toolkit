@@ -7,7 +7,8 @@ ValueButton = new Class({
         value_position: "bottom", // can be "top", "bottom", "icon"
         bar_position: "bottom", // can be "top", "bottom", "icon", "label"
         bar_direction: _TOOLKIT_HORIZONTAL,
-        direction: _TOOLKIT_VERTICAL
+        drag_direction: _TOOLKIT_VERTICAL,
+        snap: 0.01
     },
     initialize: function (options) {
         options = Object.merge(this.__options, options);
@@ -15,11 +16,22 @@ ValueButton = new Class({
         
         this.element.addClass("toolkit-valuebutton");
         
-        this._value   = new Element("div.toolkit-value");
         this._bar     = new Element("div.toolkit-bar");
         this._base    = new Element("div.toolkit-base").inject(this._bar);
         this._over    = new Element("div.toolkit-over").inject(this._bar);
-        this._input   = new Element("input.toolkit-input", {type: "text"});
+        
+        this.value = new Value({
+            container: this.element,
+            value: this.options.value,
+            format: this.options.value_format,
+            set: function (val) {
+                    this.set("value", val);
+                    return this.options.value; }.bind(this),
+            onValueclicked: this._value_clicked.bind(this),
+            onValuedone: this._value_done.bind(this),
+        });
+        this._value = this.value.element;
+        this._input = this.value._input;
         
         this.set("bar_direction", this.options.bar_direction, true);
         this.set("value_position", this.options.value_position);
@@ -29,15 +41,12 @@ ValueButton = new Class({
         this.set("max",  this.options.max);
         this.set("snap", this.options.snap);
         
-        this._value.addEvent("click", this._value_clicked.bind(this));
-        this._input.addEvent("keyup", this._value_typing.bind(this));
-        
         this.drag = new DragValue({
             element:   this.element,
             range:     function () { return this; }.bind(this),
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) { this.set("value", v); }.bind(this),
-            direction: this.options.direction
+            direction: this.options.drag_direction
         });
         this.scroll = new ScrollValue({
             element: this.element,
@@ -50,14 +59,16 @@ ValueButton = new Class({
     },
     
     redraw: function () {
-        this._value.set("html", this.options.value_format(this.options.value));
+        this.value.set("value", this.options.value);
         this._base.setStyle((this.options.bar_direction == _TOOLKIT_HORIZONTAL
             ? "width" : "height"), this.val2perc() + "%");
         this.parent();
     },
     
     destroy: function () {
-        this._value.destroy();
+        this.drag.destroy();
+        this.scroll.destroy();
+        this.value.destroy();
         this._over.destroy();
         this._base.destroy();
         this._bar.destroy();
@@ -65,38 +76,13 @@ ValueButton = new Class({
     },
     
     
-    _value_clicked: function (e) {
-        e.event.preventDefault();
-        if (this.__editing) return false;
-        this._value.set("html", "");
-        this._value.addClass("toolkit-active");
-        this._input.inject(this._value);
-        this._input.set("value", this.options.value);
-        this.__editing = true;
-        this._input.focus();
-        document.addEvent("click", this._value_done.bind(this));
-        return false;
+    _value_clicked: function () {
+        this.scroll.set("active", false);
+        this.drag.set("active", false);
     },
-    
-    _value_typing: function (e) {
-        switch (e.key) {
-            case "esc":
-                this._value_done();
-                break;
-            case "enter":
-                this.set("value", parseFloat(this._input.get("value") || 0));
-                this._value_done();
-                break;
-        }
-        
-    },
-    
     _value_done: function () {
-        this.__editing = false;
-        this._input.dispose();
-        this._value.removeClass("toolkit-active");
-        document.removeEvent("click", this._value_done.bind(this));
-        this.redraw();
+        this.scroll.set("active", true);
+        this.drag.set("active", true);
     },
     
     // GETTERS & SETTERS
@@ -147,6 +133,7 @@ ValueButton = new Class({
                 if (!hold) this.redraw();
                 return;
             case "value_format":
+                this.value.set("format", value);
                 if (!hold) this.redraw();
                 break;
             case "scale":
@@ -172,6 +159,9 @@ ValueButton = new Class({
                 // http://stackoverflow.com/questions/3966484/floating-point-numbers-and-javascript-modulus-operator
                 p = ("" + value).split(".");
                 this.__snapcoef = p.length > 1 ? Math.pow(10, p[1].length) : 1;
+                break;
+            case "drag_direction":
+                this.drag.set("direction", value);
                 break;
         }
         this.parent(key, value, hold);

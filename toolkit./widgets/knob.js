@@ -42,6 +42,8 @@ Knob = new Class({
     },
     
     destroy: function () {
+        this.drag.destroy();
+        this.scroll.destroy();
         this._svg.destroy();
         this.parent();
     },
