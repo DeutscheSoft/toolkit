@@ -1,6 +1,6 @@
 ResponseHandle = new Class({
     Extends: Widget,
-    Implements: [GlobalCursor, Ranges],
+    Implements: [GlobalCursor, Ranges, Warning],
     options: {
         range_x:          {},           // callback function returning a Range
                                         // module for x axis or an object with
@@ -169,7 +169,7 @@ ResponseHandle = new Class({
         if ((this._zhandling || this._zwheel)
         && (this.options.z >= this.options.z_max && this.options.z_max !== false
         ||  this.options.z <= this.options.z_min && this.options.z_min !== false)) {
-            this._set_warning();
+            this.warning(this.element);
         }
         
         // do we have to restrict movement?
@@ -1314,7 +1314,7 @@ ResponseHandle = new Class({
                 var y = e.event.touches[1].pageY - (this.y + this._offsetY);
                 this._tdist = Math.sqrt(y * y + x * x);
                 this.__z = this.options.z;
-                this._set_warning();
+                this.warning(this.element);
             }
             this.set("z", Math.max(
                 Math.min(z, this.range_z.get("max")),
@@ -1331,14 +1331,6 @@ ResponseHandle = new Class({
         this._zhandling = true;
     },
     
-    _set_warning: function () {
-        if (this.__wto) window.clearTimeout(this.__wto);
-        this.__wto = null;
-        this.element.addClass("toolkit-warn");
-        this.__wto = window.setTimeout(function () {
-            this.element.removeClass("toolkit-warn");
-        }.bind(this), 250);
-    },
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;

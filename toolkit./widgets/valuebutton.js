@@ -1,6 +1,6 @@
 ValueButton = new Class({
     Extends: Button,
-    Implements: Ranged,
+    Implements: [Warning, Ranged],
     options:  {
         value: 0,
         value_format: function (val) { return sprintf("%0.2f",  val); },
@@ -129,6 +129,8 @@ ValueButton = new Class({
                 this.options.value = Math.max(this.options.value, this.options.min);
                 this.options.value = Math.min(this.options.value, this.options.max);
                 this.options.value = this.snap_value(this.options.value);
+                if (value > this.options.max || value < this.options.min)
+                    this.warning(this.element);
                 this.fireEvent("valuechanged", [this.options.value, this]);
                 if (!hold) this.redraw();
                 return;

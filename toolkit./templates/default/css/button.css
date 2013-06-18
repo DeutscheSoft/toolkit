@@ -52,17 +52,20 @@
 
 .toolkit-button.toolkit-active {
     border: 1px solid #002f42;
-    -webkit-box-shadow: 0px 3px 0px rgba(255,255,255,0.33), 0px -3px 0px rgba(0,0,0,0.033), 2px 0px 0px rgba(255,255,255,0.2), 0px -2px 0px rgba(0,0,0,0.02);
-    -moz-box-shadow: 0px 3px 0px rgba(255,255,255,0.33), 0px -3px 0px rgba(0,0,0,0.033), 2px 0px 0px rgba(255,255,255,0.2), 0px -2px 0px rgba(0,0,0,0.02);
-    box-shadow: 0px 3px 0px rgba(255,255,255,0.33), 0px -3px 0px rgba(0,0,0,0.033), 2px 0px 0px rgba(255,255,255,0.2), 0px -2px 0px rgba(0,0,0,0.02);
 }
 .toolkit-button.toolkit-active div.toolkit-label {
     background-color: #002f42;
     color: white;
     text-shadow: 0px -1px 0px black;
-    -webkit-box-shadow: 0px 1px 0px rgba(255,255,255,0.5), inset 0 4px 8px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 1px 0px (255,255,255,0.5), inset 0 4px 8px rgba(0,0,0,0.2);
-    box-shadow: 0px 1px 0px (255,255,255,0.5), inset 0 4px 8px rgba(0,0,0,0.2);
+    -webkit-border-radius: 4px;
+    -moz-border-radius:    4px;
+    border-radius:         4px;
+    
+}
+.toolkit-button.toolkit-warn div.toolkit-label {
+    background-color: #c00;
+    color: white;
+    text-shadow: 0px -1px 0px black;
     -webkit-border-radius: 4px;
     -moz-border-radius:    4px;
     border-radius:         4px;

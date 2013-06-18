@@ -27,6 +27,7 @@
         <script src="toolkit./implements/ranged.js"></script>
         <script src="toolkit./implements/ranges.js"></script>
         <script src="toolkit./implements/gradient.js"></script>
+        <script src="toolkit./implements/warning.js"></script>
         <script src="toolkit./implements/globalcursor.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/globalcursor.css">
         
@@ -968,6 +969,9 @@
                     }
                     #sc_knob .toolkit-knob.knob2 .toolkit-value {
                         fill: rgba(0, 47, 66, 1);
+                    }
+                    #sc_knob .toolkit-knob.knob2 .toolkit-warn .toolkit-value {
+                        fill: #c00;
                     }
                     #sc_knob .toolkit-knob.knob2 .toolkit-dot {
                         fill: white;
@@ -1929,14 +1933,15 @@
                 <!-- ########################################################### -->
                 
                 <p class="description">
-                    <strong>ValueButton</strong> is an enhanced button that toggles between two states. It additionally
-                    consist of an "active" icon and an "active" label. The example below has press
-                    toggle enabled, so click and hold toggles for the duration of the mousedown.
+                    <strong>ValueButton</strong> is an enhanced button that represents a numerical value
+                    with all options to change it via drag, scroll or keyboard input. ValueButton displays
+                    a little bar element for providing direct optical comparison between different values.
+                    ValueButton extends <a href="#button">Button</a> and implements <a href="#warning">Warning</a> and <a href="#ranged">Ranged</a>.
                 </p>
                 <p class="description">
-                    Use valuebutton to play with the example in a terminal:
-                    <a href="javascript:valuebutton.toggle()">valuebutton.toggle()</a>
-                    <small>(toggles the state of the widget)</small>
+                    Use the titles of the buttons to play with the examples in a terminal:
+                    <a href="javascript:release.set('value', 500)">release.set('value', 500)</a>
+                    <small>(sets the value of the release button to 500ms)</small>
                 </p>
                 <style type="text/css">
                     #sc_vbutton .toolkit-valuebutton {
@@ -2989,7 +2994,8 @@
                     numerical values in a circular manner. Circular is able to draw labels,
                     dots and markers and can show a hand. Circular e.g. is implemented by
                     the clock to draw the hours, minutes and seconds. Circular extends 
-                    <a href="#widget">Widget</a> and implements <a href="#range">Range</a>.
+                    <a href="#widget">Widget</a> and implements <a href="#range">Range</a>
+                    and <a href="#warning">Warning</a>.
                     <a href="#gauge">Gauge</a> demonstrates single Circulars inside SVG images.
                 </p>
                 
@@ -3708,7 +3714,7 @@
                         <li><strong>Blocks:</strong> Blocks roughly act like lines but draw themself as rectangles
                             filling the space to their boundary. They can't show any z axis except as value in the label.</li>
                     </ul>
-                    ResponseHandle is based on <a href="#widget">Widget</a> and implements <a href="#ranges">Ranges</a> and <a href="#globalcursor">GlobalCursor</a>.
+                    ResponseHandle is based on <a href="#widget">Widget</a> and implements <a href="#ranges">Ranges</a>, <a href="#warning">Warning</a> and <a href="#globalcursor">GlobalCursor</a>.
                 </p>
                 
                 <div class="buttons"></div>
@@ -4479,6 +4485,39 @@
                         <td>rangeadded</td>
                         <td>Is fired when a new <a href="#range">Range</a> was created. Hands over
                         the new Range and the widget instance.</td>
+                    </tr>
+                </table>
+                
+            </li>
+            
+            <li id="Warning" class="implement">
+                <!-- ########################################################### -->
+                <!-- WARNING IMPLEMENT -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Warning</strong> sets a timed class "toolkit-warn" on an element. It is
+                    used e.g. in <a href="#responsehandle">ResponseHandle</a> or <a href="dragvalue">DragValue</a> when the value exceeds the
+                    range. Warning implements
+                    <a target="_blank" href="http://mootools.net/docs/core/Class/Class.Extras#Events">Events</a>.
+                </p>
+                
+                <div class="buttons"></div>
+    
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr><td>warning(element, timeout)</td>
+                    <td>Sets the class "toolkit-warn" on the given element enad keeps it for the
+                    amount of milliseconds in timeout. Timeout defaults to 250.
+                    </td></tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>warning</td>
+                        <td>Is fired when a warning is requested.
+                        Hands over the widget instance.</td>
                     </tr>
                 </table>
                 

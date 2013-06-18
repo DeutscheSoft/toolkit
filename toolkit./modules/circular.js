@@ -27,7 +27,7 @@ Circular = new Class({
     // and implements Range.
     
     Extends: Widget,
-    Implements: Ranged,
+    Implements: [Warning, Ranged],
     options: {
         value:      0,     // the value to show
         size:       120,   // the diameter of the circle
@@ -395,6 +395,8 @@ Circular = new Class({
             case "value":
                 this.options.value = Math.min(this.options.max,
                                      Math.max(this.options.min, value));
+                if (value > this.options.max || value < this.options.min)
+                    this.warning(this.element);
                 this.fireEvent("set_value", [this.options.value, this]);
                 this.fireEvent("set", ["value", this.options.value, this]);
                 if (!hold) this.redraw();
