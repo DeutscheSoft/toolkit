@@ -175,36 +175,45 @@
                 <!-- ########################################################### -->
                 
                 <img style="float: right; margin-left: 20px;" src="images/junger_toolkit.png"/>
-                <p><strong>toolkit. by Jünger</strong> is a graphical toolkit written in JavaScript
-                for building audio related user interfaces running in modern browsers.</p>
-                
                 <p>
-                    
+                    <strong>toolkit. by Jünger</strong> is a graphical toolkit written in JavaScript
+                    for building audio related user interfaces running in modern browsers.
+                    <strong>toolkit. by Jünger</strong> is supposed to work in Chrome/Chromium, Safari, Firefox > 4 and Internet Explorer >= 9.
+                </p>
+                <p>
+                    <strong>toolkit. by Jünger</strong> offers some widgets of all day use like
+                    <a href="#window">Window</a> or <a href="#button">Button</a> but concentrates
+                    especially on things like <a href="#frequencyresponse">FrequencyResponse</a>,
+                    <a href="#knob">Knob</a> or <a href="#gauge">Gauge</a>.
+                </p>
+                <p>
                     This page shows and describes the different widgets of the Jünger toolkit. See some widgets in action,
                     test things in a terminal (Chrome: CTL+SHIFT+J, FF: Firebug + F12) or just get some information about
                     the different options of the API.
                 </p>
-                <p>
-                    <strong>Please note #1:</strong> Options marked with an anchor sign <i class="static">⚓</i> are only available on build time and remain
+                <ul>
+                    <li><strong>Please note #1:</strong> Options marked with an anchor sign <i class="static">⚓</i> are only available on build time and remain
                     static after the widget was created.
-                </p>
-                <p>
+                </li>
+                <li>
                     <strong>Please note #2:</strong> Options marked with an exchange arrow sign <i class="delegated">⇄</i> point out a DOM element
                     which was delegated to the main widget instance (see <a href="#widget">Widget</a>.delegate() for more details).
-                </p>
-                <p>
+                </li>
+                <li>
                     <strong>Please note #3:</strong> Options marked with a sparkle sign <i class="classified">❇</i> point out a DOM element
                     which was classified to the main widget instance (see <a href="#widget">Widget</a>.classified() for more details).
-                </p>
-                <p>
+                </li>
+                <li>
                     <strong>Please note #4:</strong> Options marked with a pencil sign <i class="stylized">✎</i> point out a DOM element
                     which was stylized (see <a href="#widget">Widget</a>.stylize() for more details).
-                </p>
-                <p>
+                </li>
+                <li>
                     <strong>Please note #5:</strong> This toolkit is in the origination process so it may contain some bugs.
+                    It is developed mainly using Chrome so there may be undetected flaws in other browsers.
                     If you find any of them please send a mail to <a href="mail:schmidt@boomshop.net">schmidt@boomshop.net</a>.
                     Thank you very much.
-                </p>
+                </li>
+                </ul>
                 <hr>
             </li>
             
@@ -310,7 +319,6 @@
                 </p><p>
                     Use cgraph1, cgraph2 and chart to play with the objects
                     in a terminal: <a href="javascript:cgraph2.set('color', '#fff')">cgraph2.set("color", "#fff")</a>.
-                    Charts implement a <a href="#grid">Grid</a> and use <a href="#coordinates">Coordinates</a>.
                 </p>
                 
                 <style type="text/css">
@@ -493,7 +501,7 @@
                 
             </li>
             
-            <li id="Clock" class="widget" style="opacity: 0.5">
+            <li id="Clock" class="widget">
                 <!-- ########################################################### -->
                 <!-- CLOCK WIDGET -->
                 <!-- ########################################################### -->
@@ -504,7 +512,7 @@
                 </p>
                 <p class="description">
                     Use clock to play with the example in a terminal:
-                    <a href="javascript:clock.set('time', new Date())">clock.set('time', new Date())</a>
+                    <a href="javascript:clock.set('offset', 3600000)">clock.set('offset', 3600000)</a>
                     <small>Sets the time of the clock to the actual one</small>
                 </p>
                 
@@ -521,48 +529,127 @@
                 </div>
                 
                 <div class="buttons"></div>
-                
+                                   
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>width</td>
-                        <td>The width of the SVG</td>
-                        <td>120</td>
-                    </tr>
-                    <tr>
-                        <td>height</td>
-                        <td>The height of the SVG</td>
-                        <td>120</td>
-                    </tr>
-                    <tr>
                         <td>size</td>
-                        <td>The diameter of the gauge</td>
-                        <td>120</td>
+                        <td>The size of the clock.</td>
+                        <td>200</td>
                     </tr>
                     <tr>
-                        <td>title</td>
-                        <td>Title fo the gauge. Object with optional members:
-                            <ul>
-                             <li><strong>pos</strong>:    position in angles</li>
-                             <li><strong>margin</strong>: margin of the imaginary circle from size</li>
-                             <li><strong>align</strong>:  alignment, _TOOLKIT_INNER or _TOOLKIT OUTER</li>
-                             <li><strong>title</strong>:  the title as a string</li>
-                            </ul>
-                            Or a single string to set the title to.
+                        <td>margin</td>
+                        <td>The margin between the edges and the most outer circular.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>time</td>
+                        <td>A date object to show.</td>
+                        <td>new Date()</td>
+                    </tr>
+                    <tr>
+                        <td>show_seconds</td>
+                        <td>Show the circular displaying the seconds.</td>
+                        <td>ture</td>
+                    </tr>
+                    <tr>
+                        <td>show_minutes</td>
+                        <td>Show the circular displaying minutes.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show_hours</td>
+                        <td>Show the circular displaying hours.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>timeout</td>
+                        <td>The frequency for updating the clock in milliseconds.
+                        If set to 0 clock expects the application to set a date/time.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>offset</td>
+                        <td>A offset in milliseconds used when "timeout" options is set.
+                        This forces clock to run "independently" on the system clock
+                        with an offset value. Use this to reduce traffic while having
+                        a steady running clock on a client.
                         </td>
-                        <td>{pos: 90, margin: 20, align: _TOOLKIT_INNER, title:""}</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>fps</td>
+                        <td>Frames per second. Is used to calculate SMTP-Frames for display.</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>months</td>
+                        <td>An array containing months names.</td>
+                        <td>["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]</td>
+                    </tr>
+                    <tr>
+                        <td>days</td>
+                        <td>An array containing days names.</td>
+                        <td>["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>A callback function for displaying the main label receiving the date object, year, month, day of the week, day,
+                        hour, minute, second, millisecond, frame, months array and days array.
+                        It is expected to return a formatted string.</td>
+                        <td>function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+                        return sprintf("%02d:%02d:%02d", hour, minute, second);}</td>
+                    </tr>
+                    <tr>
+                        <td>label_upper</td>
+                        <td>A callback function for displaying the upper label receiving the date object, year, month, day of the week, day,
+                        hour, minute, second, millisecond, frame, months array and days array.
+                        It is expected to return a formatted string.</td>
+                        <td>function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+                        return days[day];}</td>
+                    </tr>
+                    <tr>
+                        <td>label_lower</td>
+                        <td>A callback function for displaying the lower label receiving the date object, year, month, day of the week, day,
+                        hour, minute, second, millisecond, frame, months array and days array.
+                        It is expected to return a formatted string.</td>
+                        <td>function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
+                        return sprintf("%02d. %s %d", date, months[month], year);}</td>
+                    </tr>
+                    <tr>
+                        <td>label_scale</td>
+                        <td>Multiplicator for the font size of upper and lower labels
+                        calculated from the font size of the main label.</td>
+                        <td>0.33</td>
                     </tr>
                 </table>
-                     
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>clock.circulars</td>
+                        <td>Obect containing all <a href="#circular">Circulars</a>, namely seconds, minutes and hours.</td>
+                    </tr>
+                </table>
+                
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>gauge._svg ("svg.toolkit-gauge")</td>
-                        <td>An SVG image containing the <a href="#circular">Circular</a>.</td>
+                        <td>clock.element ("svg.toolkit-clock")</td>
+                        <td>An SVG image containing the <a href="#circular">Circulars</a>
+                        and all labels.</td>
                     </tr>
                     <tr>
-                        <td>gauge._title ("text.toolkit-title")</td>
-                        <td>An SVG text element displaying the title.</td>
+                        <td>clock._label ("text.toolkit-label")</td>
+                        <td>An SVG text element displaying the main label.</td>
+                    </tr>
+                    <tr>
+                        <td>clock._label_upper ("text.toolkit-label-upper")</td>
+                        <td>An SVG text element displaying the upper label.</td>
+                    </tr>
+                    <tr>
+                        <td>clock._label_lower ("text.toolkit-label-lower")</td>
+                        <td>An SVG text element displaying the lower label.</td>
                     </tr>
                 </table>
                 
@@ -570,7 +657,7 @@
                     <tr><th>Event</th><th>Description</th></tr>
                     <tr>
                         <td>timedrawn</td>
-                        <td>Is fired after the time was drawn.</td>
+                        <td>Is fired after the time was drawn. Hands over the widget instance and the time object from its options.</td>
                     </tr>
                 </table>
                 
@@ -950,18 +1037,23 @@
                 
             </li>
             
-            <li id="Knob" class="widget" style="opacity: 0.5;">
+            <li id="Knob" class="widget">
                 <!-- ########################################################### -->
                 <!-- KNOB WIDGET -->
                 <!-- ########################################################### -->
                 
                 <p class="description">
-                    <strong>Knob</strong> is a circular .
+                    <strong>Knob</strong> is a <a href="#circular">Circular</a> injected
+                    into a SVG and extended by <a href="#scrollvalue">ScrollValue</a>
+                    and <a href="#dragvalue">DragValue</a> to set its value.
                 </p>
                 <p class="description">
-                    Use example to play with the example in a terminal:
-                    <a href="javascript:knob.set('value', 200)">example.set("value", 200)</a>
-                    <small>(sets the value of the knob to 200)</small>
+                    Events and classes of DragValue and ScrollValue are delegated to knob._svg.
+                </p>
+                <p class="description">
+                    Use knob, kno21 and knob2 to play with the examples in a terminal:
+                    <a href="javascript:knob.set('value', 200)">knob.set("value", 12)</a>
+                    <small>(sets the value of the knob to 12)</small>
                 </p>
                 <style type="text/css">
                     #sc_knob .toolkit-knob {
@@ -991,42 +1083,72 @@
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
-                        <td>example <i class="static">⚓</i></td>
-                        <td>description.</td>
-                        <td>default</td>
+                        <td>size</td>
+                        <td>Diameter of the knob.</td>
+                        <td>100</td>
                     </tr>
-                </table>
-                
-                <table class="methods collapse" title="⚒ Methods">
-                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr class="inherit">
+                        <td>step</td>
+                        <td>The settings for the step options of <a href="#ranged">Ranged</a>.</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>hand</td>
+                        <td>The settings for the shift_up options of <a href="#ranged">Ranged</a>.</td>
+                        <td>4</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>shift_down</td>
+                        <td>The settings for the shift_down options of <a href="#ranged">Ranged</a>.</td>
+                        <td>0.25</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>hand</td>
+                        <td>The settings for the hand of <a href="#circular">Circular</a>.</td>
+                        <td>{width: 2, length: 6, margin: 22}</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>dot</td>
+                        <td>The settings for the dots of <a href="#circular">Circular</a>.</td>
+                        <td>{margin: 13, length: 5, width: 2}</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>marker</td>
+                        <td>The settings for the markers of <a href="#circular">Circular</a>.</td>
+                        <td>{margin: 13, thickness: 5}</td>
+                    </tr>
+                    <tr class="inherit">
+                        <td>label</td>
+                        <td>The settings for the labels of <a href="#circular">Circular</a>.</td>
+                        <td>{margin: 10, align: _TOOLKIT_OUTER}</td>
+                    </tr>
                     <tr>
-                        <td>method(options)</td>
-                        <td>description.</td>
+                        <td>direction</td>
+                        <td>The direction for <a href="#dragvalue">DragValue</a>.</td>
+                        <td>_TOOLKIT_VERTICAL</td>
                     </tr>
                 </table>
                 
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
-                        <td>description.</td>
+                        <td>knob._svg ("svg.toolkit-knob") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>The SVG element containing the <a href="#circular">Circular</a>.</td>
                     </tr>
                 </table>
                 
                 <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
-                        <td>example.module</td>
-                        <td>description.</td>
+                        <td>knob.drag</td>
+                        <td>The <a href="#dragvalue">DragValue</a> instance.</td>
+                    </tr>
+                    <tr>
+                        <td>knob.scroll</td>
+                        <td>The <a href="#scrollvalue">ScrollValue</a> instance.</td>
                     </tr>
                 </table>
                 
-                <table class="events collapse" title="⚑ Events">
-                    <tr><th>Event</th><th>Description</th></tr>
-                        <td>event</td>
-                        <td>description.</td>
-                    </tr>
-                </table>
             </li>
             
             <li id="LevelMeter" class="widget">
@@ -1887,7 +2009,7 @@
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
-                        <td>value.element ("div.toolkit-value")</td>
+                        <td>value.element ("div.toolkit-value") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>The base element of the widget containing the value and the input field while editing.</td>
                     </tr>
                     <tr>
@@ -1927,7 +2049,7 @@
                 
             </li>
             
-            <li id="ValueButton" class="widget" style="opacity: 0.5;">
+            <li id="ValueButton" class="widget">
                 <!-- ########################################################### -->
                 <!-- VALUE BUTTON WIDGET -->
                 <!-- ########################################################### -->
@@ -1937,6 +2059,9 @@
                     with all options to change it via drag, scroll or keyboard input. ValueButton displays
                     a little bar element for providing direct optical comparison between different values.
                     ValueButton extends <a href="#button">Button</a> and implements <a href="#warning">Warning</a> and <a href="#ranged">Ranged</a>.
+                </p>
+                <p class="description">
+                    Events and classes of DragValue and ScrollValue are delegated to valuebutton.element.
                 </p>
                 <p class="description">
                     Use the titles of the buttons to play with the examples in a terminal:
@@ -1999,111 +2124,98 @@
                 <table class="options collapse" title="⚙ Options">
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr class="inherit">
-                        <td>class <i class="static">⚓</i></td>
-                        <td>A CSS class to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>id <i class="static">⚓</i></td>
-                        <td>An ID to add on build time</td>
-                        <td>[empty]</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>container</td>
-                        <td>A container element to inject the state into</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>label</td>
-                        <td>A text or HTML snipped used as a label for the button. Set to false to hide the label element.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>icon</td>
-                        <td>A URL to an icon to show on the button. Set to false to hide the image element.</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>state</td>
-                        <td>Buttons can represent a state (like a toggle button) which is indicated by the class ".active"</td>
-                        <td>false</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>state_color</td>
-                        <td>If the state is true, set a custom background color for the label.</td>
-                        <td>false</td>
+                        <td>snap</td>
+                        <td>The snap options of <a href="#ranged">Ranged</a>.</td>
+                        <td>0.01</td>
                     </tr>
                     <tr>
-                        <td>label_active</td>
-                        <td>A text or HTML snipped used as a label for the active toggle state. Set to false to use the default label.</td>
-                        <td>false</td>
+                        <td>value_format</td>
+                        <td>A callback receiving the value and returning a string to display.</td>
+                        <td>function (val) { return sprintf("%0.2f",  val); }</td>
                     </tr>
                     <tr>
-                        <td>icon_active</td>
-                        <td>A URL to an icon to show on the active toggle. Set to false to use the default label.</td>
-                        <td>false</td>
+                        <td>value_position</td>
+                        <td>Hierarchical position of the value inside the main element.
+                        One out of:
+                        <ul>
+                        <li>_TOOLKIT_TOP</li>
+                        <li>_TOOLKIT_BOTTOM</li>
+                        <li>_TOOLIT_ICON</li>
+                        </ul></td>
+                        <td>_TOOLKIT_BOTTOM</td>
                     </tr>
                     <tr>
-                        <td>press</td>
-                        <td>To enable press toggle set a time in milliseconds after a press is interpreted as a toggle. Releasing the button
-                        after a press toggle resets to the original state.</td>
-                        <td>0</td>
+                        <td>bar_position</td>
+                        <td>Hierarchical position of the bar inside the main element.
+                        One out of:
+                        <ul>
+                        <li>_TOOLKIT_TOP</li>
+                        <li>_TOOLKIT_BOTTOM</li>
+                        <li>_TOOLIT_ICON</li>
+                        <li>_TOOLKIT_LABEL</li>
+                        </ul>
+                        <td>_TOOLKIT_BOTTOM</td>
                     </tr>
                     <tr>
-                        <td>press_disable</td>
-                        <td>If press toggle is enabled, does it work with deactivating the state, too?</td>
-                        <td>false</td>
+                        <td>bar_direction</td>
+                        <td>How the bar is drawn, _TOOLKIT_VERTICAL or _TOOLKIT_HORIZONTAL.</td>
+                        <td>_TOOLKIT_HORIZONTAL</td>
+                    </tr>
+                    <tr>
+                        <td>drag_direction</td>
+                        <td>How <a href="#dragvalue">DragValue</a> behaves, _TOOLKIT_VERTICAL or _TOOLKIT_HORIZONTAL.</td>
+                        <td>_TOOLKIT_VERTICAL</td>
                     </tr>
                 </table>
                 
                 <table class="elements collapse" title="⚛ Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
-                    <tr class="inherit">
-                        <td>button.element ("div.toolkit-state")</td>
-                        <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
+                    <tr>
+                        <td>valuebutton.value</td>
+                        <td>The instance of the <a href="#value">Value</a> Widget.</td>
                     </tr>
-                    <tr class="inherit">
-                        <td>button._label ("div.toolkit-label")</td>
-                        <td>The text label of the button</td>
+                    <tr>
+                        <td>valuebutton.drag</td>
+                        <td>The instance of the <a href="#dragvalue">DragValue</a> Module.</td>
                     </tr>
-                    <tr class="inherit">
-                        <td>button._icon ("img.toolkit-icon")</td>
-                        <td>An icon to display</td>
+                    <tr>
+                        <td>valuebutton.scroll</td>
+                        <td>The instance of the <a href="#scrollvalue">ScrollValue</a> Module.</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>valuebutton._bar ("div.toolkit-bar")</td>
+                        <td>The bar indicating the value.</td>
+                    </tr>
+                    <tr>
+                        <td>valuebutton._base ("div.toolkit-base")</td>
+                        <td>The container holding the bar.</td>
+                    </tr>
+                    <tr>
+                        <td>valuebutton._over ("div.toolkit-over")</td>
+                        <td>A div used as a overlay for designing purposes.</td>
+                    </tr>
+                    <tr>
+                        <td>valuebutton._value</td>
+                        <td>The text container of the <a href="#value">Value</a> widget.</td>
+                    </tr>
+                    <tr>
+                        <td>valuebutton._input</td>
+                        <td>The input element of the <a href="#value">Value</a> widget.</td>
                     </tr>
                 </table>
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
-                    <tr class="inherit">
-                        <td>clicked</td>
-                        <td>Is fired when the button was clicked.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>mousedown</td>
-                        <td>Is fired when the mouse button was pressed.</td>
-                    </tr>
-                    <tr class="inherit">
-                        <td>mouseup</td>
-                        <td>Is fired when the mouse button was released.</td>
-                    </tr>
                     <tr>
-                        <td>toggled</td>
-                        <td>Is fired when the state of the button changed.
-                        Hands over the new state and the widget instance.</td>
+                        <td>valuechanged</td>
+                        <td>Is fired when the value was changed via scroll, drag or keyboard entry.</td>
                     </tr>
                 </table>
                 
-                <table class="methods collapse" title="⚒ Methods">
-                    <tr><th>Method</th><th>Description</th></tr>
-                    <tr>
-                        <td>toggle()</td>
-                        <td>Toggle the button.</td>
-                    </tr>
-                    <tr>
-                        <td>cancel_press()</td>
-                        <td>Cancels an eventually active press toggle.</td>
-                    </tr>
-                </table>
             </li>
             
             <li id="Widget" class="widget" rel="audiomath">
@@ -3154,7 +3266,7 @@
                 <table class="modules collapse" title="⚛ Modules">
                     <tr><th>Module</th><th>Description</th></tr>
                     <tr>
-                        <td>gauge.element ("g.toolkit-circular")</td>
+                        <td>circular.element ("g.toolkit-circular") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
                         <td>An SVG group element containing the other elements.</td>
                     </tr>
                     <tr>
@@ -3201,6 +3313,90 @@
                     <tr>
                         <td>handdrawn</td>
                         <td>Hand was redrawn. Hands over the widget instance.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li id="DragValue" class="module">
+                <!-- ########################################################### -->
+                <!-- DRAG VALUE MODULE -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>DragValue</strong> enables dragging an element and setting a value
+                    according to the distance. DragValue is used e.g. in <a href="#knob">Knob</a> for
+                    setting its value. DragValue extends <a href="#widget">Widget</a> and implements
+                    <a href="#globalcursor">GlobalCursor</a>.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>element</td>
+                        <td>The element receiving the drag event.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>range</td>
+                        <td>A callback function returning the range instance for calculating the drag parameters.</td>
+                        <td>function () { return {}; }</td>
+                    </tr>
+                    <tr>
+                        <td>events</td>
+                        <td>The element firing the drag event. Set to false to use the main element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>classes</td>
+                        <td>The element receiving CSS-classes. Set to false to use the main element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>get</td>
+                        <td>A callback function returning the actual value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>set</td>
+                        <td>A callback function for setting the value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>direction</td>
+                        <td>The drag direction, either _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL.</td>
+                        <td>_TOOLKIT_VERTICAL</td>
+                    </tr>
+                    <tr>
+                        <td>active</td>
+                        <td>Deactivate the dragging.</td>
+                        <td>true</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                        <td>startdrag</td>
+                        <td>This event is fired when dragging starts. It gets fired by the
+                        DragValue instance (handing over the DragValue instance and the mousedown event)
+                        and by the element set via "events" option (handing over
+                        the mousedown event, the actual value, the element receiving the drag,
+                        the DragValue instance and the range instance).</td>
+                    </tr>
+                        <td>dragging</td>
+                        <td>This event is fired when dragging occurs. It gets fired by the
+                        DragValue instance (handing over the DragValue instance and the mousedown event)
+                        and by the element set via "events" option (handing over
+                        the mousedown event, the actual value, the element receiving the drag,
+                        the DragValue instance and the range instance).</td>
+                    </tr>
+                        <td>stopdrag</td>
+                        <td>This event is fired when dragging ends. It gets fired by the
+                        DragValue instance (handing over the DragValue instance and the mousedown event)
+                        and by the element set via "events" option (handing over
+                        the mousedown event, the actual value, the element receiving the drag,
+                        the DragValue instance and the range instance).</td>
                     </tr>
                 </table>
             </li>
@@ -4143,6 +4339,86 @@
                 </table>
                 
             </li>
+            
+            <li id="ScrollValue" class="module">
+                <!-- ########################################################### -->
+                <!-- SCROLL VALUE MODULE -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>ScrollValue</strong> enables the mouse wheel on an element for setting a value.
+                    ScrollValue is used e.g. in <a href="#knob">Knob</a> for
+                    setting its value. ScrollValue extends <a href="#widget">Widget</a> and implements
+                    <a href="#globalcursor">GlobalCursor</a>.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>element</td>
+                        <td>The element receiving the scroll event.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>range</td>
+                        <td>A callback function returning the range instance for calculating the drag parameters.</td>
+                        <td>function () { return {}; }</td>
+                    </tr>
+                    <tr>
+                        <td>events</td>
+                        <td>The element firing the scroll event. Set to false to use the main element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>classes</td>
+                        <td>The element receiving CSS-classes. Set to false to use the main element.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>get</td>
+                        <td>A callback function returning the actual value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>set</td>
+                        <td>A callback function for setting the value.</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>active</td>
+                        <td>Deactivate the scrolling.</td>
+                        <td>true</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                        <td>scrollstarted</td>
+                        <td>This event is fired when scrolling starts. It gets fired by mousewheel
+                        ScrollValue instance (handing over the ScrollValue instance and the mousedown event)
+                        and by the element set via "events" option (handing over
+                        the mousewheel event, the actual value, the element receiving the drag,
+                        the ScrollValue instance and the range instance).</td>
+                    </tr>
+                        <td>scrolling</td>
+                        <td>This event is fired when scrolling occurs. It gets fired by the
+                        ScrollValue instance (handing over the ScrollValue instance and the mousewheel event)
+                        and by the element set via "events" option (handing over
+                        the mousewheel event, the actual value, the element receiving the drag,
+                        the ScrollValue instance and the range instance).</td>
+                    </tr>
+                        <td>scrollended</td>
+                        <td>This event is fired when scrolling ends. It gets fired by the
+                        ScrollValue instance (handing over the ScrollValue instance and the mousewheel event)
+                        and by the element set via "events" option (handing over
+                        the mousewheel event, the actual value, the element receiving the drag,
+                        the ScrollValue instance and the range instance).</td>
+                    </tr>
+                </table>
+            </li>
+            
             
             
             

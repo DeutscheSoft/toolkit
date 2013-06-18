@@ -4,8 +4,10 @@ ValueButton = new Class({
     options:  {
         value: 0,
         value_format: function (val) { return sprintf("%0.2f",  val); },
-        value_position: "bottom", // can be "top", "bottom", "icon"
-        bar_position: "bottom", // can be "top", "bottom", "icon", "label"
+        value_position: _TOOLKIT_BOTTOM, // can be _TOOLKIT_TOP, _TOOLKIT_BOTTOM,
+                                  // or _TOOLIT_ICON
+        bar_position: _TOOLKIT_BOTTOM, // can be _TOOLKIT_TOP, _TOOLKIT_BOTTOM,
+                                // _TOOLIT_ICON or _TOOLKIT_LABEL
         bar_direction: _TOOLKIT_HORIZONTAL,
         drag_direction: _TOOLKIT_VERTICAL,
         snap: 0.01
@@ -108,22 +110,44 @@ ValueButton = new Class({
                 this.element.removeClass("toolkit-value-top");
                 this.element.removeClass("toolkit-value-bottom");
                 this.element.removeClass("toolkit-value-icon");
-                if (value == "top" || value == "bottom")
-                    this._value.inject(this.element, value);
-                if (value == "icon")
-                    this._value.inject(this._icon, "after");
+                switch (value) {
+                    case _TOOLKIT_BOTTOM:
+                        this._value.inject(this.element, "bottom");
+                        this.element.addClass("toolkit-value-bottom");
+                        break;
+                    case _TOOLKIT_TOP:
+                        this._value.inject(this.element, "top");
+                        this.element.addClass("toolkit-value-top");
+                        break;
+                    case _TOOLKIT_ICON:
+                        this._value.inject(this._icon, "after");
+                        this.element.addClass("toolkit-value-icon");
+                        break;
+                }
                 break;
             case "bar_position":
                 this.element.removeClass("toolkit-bar-top");
                 this.element.removeClass("toolkit-bar-bottom");
                 this.element.removeClass("toolkit-bar-label");
                 this.element.removeClass("toolkit-bar-icon");
-                if (value == "top" || value == "bottom")
-                    this._bar.inject(this.element, value);
-                if (value == "label")
-                    this._bar.inject(this._label, "after");
-                if (value == "icon")
-                    this._bar.inject(this._icon, "after");
+                switch (value) {
+                    case _TOOLKIT_BOTTOM:
+                        this._bar.inject(this.element, "bottom");
+                        this.element.addClass("toolkit-bar-bottom");
+                        break;
+                    case _TOOLKIT_TOP:
+                        this._bar.inject(this.element, "top");
+                        this.element.addClass("toolkit-bar-top");
+                        break;
+                    case _TOOLKIT_LABEL:
+                        this._bar.inject(this._label, "after");
+                        this.element.addClass("toolkit-bar-label");
+                        break;
+                    case _TOOLKIT_ICON:
+                        this._bar.inject(this._icon, "after");
+                        this.element.addClass("toolkit-bar-icon");
+                        break;
+                }
                 break;
             case "value":
                 this.options.value = Math.max(this.options.value, this.options.min);

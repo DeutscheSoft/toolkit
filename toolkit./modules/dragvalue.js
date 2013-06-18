@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * toolkit. by Junger
+ * 
+ * This toolkit provides different widgets, implements and modules for building
+ * audio based applications in webbrowsers.
+ * 
+ * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
+ * 
+ * Jünger Audio GmbH
+ * Justus-von-Liebig-Straße 7
+ * 12489 Berlin · Germany
+ * Tel: +49 30 67 77 21 0
+ * http://junger-audio.com
+ * info@junger-audio.com
+ * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
+ * There is no license by now - all rights reserved. Hope we can fix this major
+ * bug soon.
+ ******************************************************************************/
+
 DragValue = new Class({
     // DragValue enables dragging an element and setting a value
     // according to the distance. DragValue is used e.g. in Knob for
@@ -32,7 +53,7 @@ DragValue = new Class({
         document.addEvent("touchmove", this._pointer_move.bind(this));
         document.addEvent("touchend",  this._pointer_up.bind(this));
         
-        this.fireEvent("initialized", this);
+        this.initialized();
     },
     destroy: function () {
         document.removeEvent("mousemove", this._pointer_move);
@@ -81,7 +102,6 @@ DragValue = new Class({
         if (!this.__active) return;
         if (!this.options.active) return;
         e.event.preventDefault();
-        
         // get the right event if touch
         var ev = this._get_event(e);
         // calc multiplier depending on step, shift up and shift down

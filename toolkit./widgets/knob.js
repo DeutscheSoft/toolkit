@@ -1,4 +1,28 @@
+/*******************************************************************************
+ * toolkit. by Junger
+ * 
+ * This toolkit provides different widgets, implements and modules for building
+ * audio based applications in webbrowsers.
+ * 
+ * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
+ * 
+ * Jünger Audio GmbH
+ * Justus-von-Liebig-Straße 7
+ * 12489 Berlin · Germany
+ * Tel: +49 30 67 77 21 0
+ * http://junger-audio.com
+ * info@junger-audio.com
+ * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
+ * There is no license by now - all rights reserved. Hope we can fix this major
+ * bug soon.
+ ******************************************************************************/
+
 Knob = new Class({
+    // Knob is a Circular injected into a SVG and extended by ScrollValue
+    // and DragValue to set its value. Knob uses DragValue and Scrollvalue
+    // for setting its value.
     Extends: Circular,
     options: {
         size: 100,
@@ -8,7 +32,6 @@ Knob = new Class({
         step: 1,
         shift_up: 4,
         shift_down: 0.25,
-        show_base: true,
         dot: {margin: 13, length: 5, width: 2},
         marker: {margin: 13, thickness: 5},
         label: {margin: 10, align: _TOOLKIT_OUTER},

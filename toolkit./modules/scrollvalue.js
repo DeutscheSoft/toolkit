@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * toolkit. by Junger
+ * 
+ * This toolkit provides different widgets, implements and modules for building
+ * audio based applications in webbrowsers.
+ * 
+ * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
+ * 
+ * Jünger Audio GmbH
+ * Justus-von-Liebig-Straße 7
+ * 12489 Berlin · Germany
+ * Tel: +49 30 67 77 21 0
+ * http://junger-audio.com
+ * info@junger-audio.com
+ * 
+ * toolkit. relies on mootools: http://mootools.net/
+ * 
+ * There is no license by now - all rights reserved. Hope we can fix this major
+ * bug soon.
+ ******************************************************************************/
+
 ScrollValue = new Class({
     // ScrollValue enables the scrollwheel for setting a value of an
     // object. ScrollValue is used e.g. in Knob for setting its value.
@@ -23,7 +44,7 @@ ScrollValue = new Class({
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
         
-        this.fireEvent("initialized", this);
+        this.initialized();
     },
     destroy: function () {
         if (this.options.element)

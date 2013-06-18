@@ -7,7 +7,6 @@
 .toolkit-valuebutton.toolkit-horizontal {
     
 }
-
 .toolkit-valuebutton .toolkit-icon {
     
 }
@@ -18,7 +17,9 @@
 .toolkit-valuebutton.toolkit-scrolling {
     border: 1px solid #002f42;
 }
-
+.toolkit-valuebutton.toolkit-warn {
+    border: 1px solid #c00;
+}
 .toolkit-valuebutton .toolkit-value {
     float: left;
     background: rgba(0,0,0,0.033);

@@ -14,12 +14,6 @@
     -moz-border-radius:    6px;
     border-radius:         6px;
     cursor: pointer;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     text-decoration: none;
     display: inline-block;
     text-align: center;
@@ -44,10 +38,22 @@
 .toolkit-button div.toolkit-label {
     text-align: center;
     margin: auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .toolkit-button img.toolkit-icon {
     margin: auto;
     margin-bottom: 5px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .toolkit-button.toolkit-active {
@@ -55,15 +61,6 @@
 }
 .toolkit-button.toolkit-active div.toolkit-label {
     background-color: #002f42;
-    color: white;
-    text-shadow: 0px -1px 0px black;
-    -webkit-border-radius: 4px;
-    -moz-border-radius:    4px;
-    border-radius:         4px;
-    
-}
-.toolkit-button.toolkit-warn div.toolkit-label {
-    background-color: #c00;
     color: white;
     text-shadow: 0px -1px 0px black;
     -webkit-border-radius: 4px;

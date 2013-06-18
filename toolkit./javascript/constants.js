@@ -146,3 +146,7 @@ _TOOLKIT_CONTINUOUSLY                = 120;
 _TOOLKIT_COMPLETE                    = 121;
 _TOOLKIT_FINISHED                    = 121;
 _TOOLKIT_DONE                        = 121;
+
+// ELEMENTS
+_TOOLKIT_ICON                        = 130;
+_TOOLKIT_LABEL                       = 131;
