@@ -56,7 +56,7 @@ body{
     overflow-y: scroll;
     padding: 20px;
     line-height: 1.5em;
-    background: #f2f2f2 url(../images/background.png) repeat-x fixed;
+    background: #f2f2f2 url(../images/background2.png) repeat; /* fixed */
 }
 
 h2 {

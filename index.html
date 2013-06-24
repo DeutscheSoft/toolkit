@@ -12,7 +12,7 @@
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/toolkit.css"/>
-        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300,400italic,300italic,700italic"/>
+        <!--<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300,400italic,300italic,700italic"/>-->
         
         <!-- LIBRARIES -->
         <script src="toolkit./javascript/constants.js"></script>
@@ -30,6 +30,8 @@
         <script src="toolkit./implements/warning.js"></script>
         <script src="toolkit./implements/globalcursor.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/globalcursor.css">
+        <script src="toolkit./implements/tooltip.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/tooltip.css">
         
         <!-- WIDGET -->
         <script src="toolkit./widgets/widget.js"></script>
@@ -83,6 +85,8 @@
         <script src="toolkit./widgets/knob.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/value.css">
         <script src="toolkit./widgets/value.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/fader.css">
+        <script src="toolkit./widgets/fader.js"></script>
         
         <script type="text/javascript">
             
@@ -162,6 +166,7 @@
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
                         <td>event</td>
                         <td>description.</td>
                     </tr>
@@ -824,6 +829,75 @@
                     <tr>
                         <td>emptied</td>
                         <td>Is fired after all bands were removed. Hands over the widget instance.</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li id="Fader" class="widget">
+                <!-- ########################################################### -->
+                <!-- FADER WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Fader</strong> provides stuff.
+                </p>
+                <p class="description">
+                    Use example to play with the example in a terminal:
+                    <a href="javascript:example.set('state', true)">example.set("state", true)</a>
+                    <small>(toggles the state of the widget)</small>
+                </p>
+                <style type="text/css">
+                    #sc_fader .toolkit-fader {
+                        height: 400px;
+                        margin-right: 8px;
+                    }
+                </style>
+                <div class="showcase">
+                    <div id="sc_fader">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>example <i class="static">⚓</i></td>
+                        <td>description.</td>
+                        <td>default</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>method(options)</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.module</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>event</td>
+                        <td>description.</td>
                     </tr>
                 </table>
             </li>
@@ -3377,10 +3451,16 @@
                         <td>Deactivate the dragging.</td>
                         <td>true</td>
                     </tr>
+                    <tr>
+                        <td>cursor</td>
+                        <td>Activate the global cursor.</td>
+                        <td>false</td>
+                    </tr>
                 </table>
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
                         <td>startdrag</td>
                         <td>This event is fired when dragging starts. It gets fired by the
                         DragValue instance (handing over the DragValue instance and the mousedown event)
@@ -3388,6 +3468,7 @@
                         the mousedown event, the actual value, the element receiving the drag,
                         the DragValue instance and the range instance).</td>
                     </tr>
+                    <tr>
                         <td>dragging</td>
                         <td>This event is fired when dragging occurs. It gets fired by the
                         DragValue instance (handing over the DragValue instance and the mousedown event)
@@ -3395,6 +3476,7 @@
                         the mousedown event, the actual value, the element receiving the drag,
                         the DragValue instance and the range instance).</td>
                     </tr>
+                    <tr>
                         <td>stopdrag</td>
                         <td>This event is fired when dragging ends. It gets fired by the
                         DragValue instance (handing over the DragValue instance and the mousedown event)
@@ -3612,6 +3694,7 @@
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
                         <td>initialized</td>
                         <td>The initializing process of the widget is complete. hands
                         over the widget instance.</td>
@@ -3872,6 +3955,7 @@
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
                         <td>initialized</td>
                         <td>The initializing process of the widget is complete. hands
                         over the widget instance.</td>
@@ -4399,6 +4483,7 @@
                 
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
                         <td>scrollstarted</td>
                         <td>This event is fired when scrolling starts. It gets fired by mousewheel
                         ScrollValue instance (handing over the ScrollValue instance and the mousedown event)
@@ -4406,6 +4491,7 @@
                         the mousewheel event, the actual value, the element receiving the drag,
                         the ScrollValue instance and the range instance).</td>
                     </tr>
+                    <tr>
                         <td>scrolling</td>
                         <td>This event is fired when scrolling occurs. It gets fired by the
                         ScrollValue instance (handing over the ScrollValue instance and the mousewheel event)
@@ -4413,6 +4499,7 @@
                         the mousewheel event, the actual value, the element receiving the drag,
                         the ScrollValue instance and the range instance).</td>
                     </tr>
+                    <tr>
                         <td>scrollended</td>
                         <td>This event is fired when scrolling ends. It gets fired by the
                         ScrollValue instance (handing over the ScrollValue instance and the mousewheel event)
@@ -4768,6 +4855,74 @@
                     </tr>
                 </table>
                 
+            </li>
+            
+            <li id="Tooltip" class="implement">
+                <!-- ########################################################### -->
+                <!-- TOOLTIP IMPLEMENT -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Tooltip</strong> adds a tooltip list to a widget. Tooltip
+                    lists follow the mouse pointer throughout the document and auto-show
+                    and auto-hide automatically according to the amount of single tooltips.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>tooltip(content, tooltip)</td>
+                        <td>Shows, updates and removes a tooltip.
+                        <ul>
+                        <li>If tooltip is undefined, a new tooltip is generated.</li>
+                        <li>If content is false, the tooltip is removed.</li>
+                        <li>If content and tooltip is set, the tooltip is updated.</li>
+                        </ul>
+                        Returns the tooltip.
+                        <br/><br/>
+                        Content can be a string interpreted as HTML or a DOM element.
+                        </td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>widget._tooltip ("div.toolkit-tooltip")</td>
+                        <td>The UL element containing all single tooltips.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>tooltipremoved</td>
+                        <td>Is fired when a single tooltip was removed,
+                        hands over the tooltip and the firing widget.</td>
+                    </tr>
+                    <tr>
+                        <td>tooltipadded</td>
+                        <td>Is fired when a single tooltip was removed,
+                        hands over the empty tooltip, the content and the firing widget.</td>
+                    </tr>
+                    <tr>
+                        <td>tooltipset</td>
+                        <td>Is fired when a single tooltip was set,
+                        hands over the tooltip and the firing widget.</td>
+                    </tr>
+                    <tr>
+                        <td>tooltipshow</td>
+                        <td>Is fired when the tooltips where shown,
+                        hands over the firing widget.</td>
+                    </tr>
+                    <tr>
+                        <td>tooltiphide</td>
+                        <td>Is fired when the tooltips where hidden,
+                        hands over the firing widget.</td>
+                    </tr>
+                </table>
             </li>
             
             <li id="Warning" class="implement">

@@ -53,7 +53,7 @@ var MeterBase = new Class({
         show_label:      false,           // true for drawing the value label
         show_scale:      true,            // true for drawing the scale
         show_labels:     true,            // true for drawing scale labels
-        show_marker:     true,            // true for drawing bar markers
+        show_marker:     false,           // true for drawing bar markers
                                           // (relies on a drawn scale)
         format_label:    function (value) { return sprintf("%0.2f", value); },
                                           // callback function for formatting
@@ -432,8 +432,8 @@ var MeterBase = new Class({
             case "gap_dots":
             case "gap_labels":
             case "show_labels":
-                this.fireEvent("scalechanged", [key, value, this]);
                 this.scale.set(key, value, hold);
+                this.fireEvent("scalechanged", [key, value, this]);
                 if (!hold) this.redraw();
                 break;
             case "format_labels":

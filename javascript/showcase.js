@@ -52,9 +52,45 @@ window.addEvent('domready', function () {
     }
 });
 
+
+// FADER
+run_fader = function () {
+    if (typeof faders != "undefined") {
+        // remove example
+        for (var i = 0; i < faders.length; i++) {
+            faders[i].destroy();
+        }
+        faders = undefined;
+        fadertt.destroy();
+        $("sc_fader").removeClass("box");
+        return;
+    }
+    faders = [];
+    for (var i = 0; i < 8; i ++) {
+        faders.push(new Fader({
+            container: $("sc_fader"),
+            min: -96,
+            max: 24,
+            base: 0
+        }));
+    }
+    fadertt = new Toggle({
+        label: "Tooltips",
+        container: $("sc_fader"),
+        onToggled: function (state) {
+            var t = state ? function (val) { return sprintf("%0.2f dB",  val); } : false;
+            for (var i = 0; i < faders.length; i++) {
+                faders[i].set("tooltip", t);
+            }
+        }
+    });
+    $("sc_fader").addClass("box");
+}
+
 // VALUE
 run_value = function () {
     if (typeof value != "undefined") {
+        // remove example
         value.destroy();
         value = undefined;
         $("sc_value").removeClass("box");
@@ -73,6 +109,7 @@ run_value = function () {
 // KNOB
 function run_knob () {
     if (typeof knob != "undefined") {
+        // remove example
         knob.destroy();
         knob = undefined;
         knob1.destroy();
@@ -145,6 +182,7 @@ function run_knob () {
 
 function run_window () {
     if (typeof winbutton != "undefined") {
+        // remove example
         winbutton.destroy();
         winbutton = undefined;
         return;
@@ -192,6 +230,7 @@ function run_window () {
 
 function run_clock () {
     if (typeof clock != "undefined") {
+        // remove example
         clock.destroy();
         clock = undefined;
         return;
@@ -207,6 +246,7 @@ function run_clock () {
 // GAUGE
 function run_gauge () {
     if (typeof gauge != "undefined") {
+        // remove example
         gauge[0].destroy();
         gauge[1].destroy();
         gauge[2].destroy();
@@ -368,6 +408,7 @@ function run_gauge () {
 
 function run_toggle () {
     if (typeof toggle != "undefined") {
+        // remove example
         toggle.destroy();
         toggle = undefined;
         press.destroy();
@@ -397,6 +438,7 @@ function run_toggle () {
 
 function run_button () {
     if (typeof button != "undefined") {
+        // remove example
         button.destroy();
         button = undefined;
         return;
@@ -413,6 +455,7 @@ function run_button () {
 
 function run_valuebutton () {
     if (typeof thres != "undefined") {
+        // remove example
         thres.destroy();
         thres = undefined;
         ratio.destroy();
@@ -493,6 +536,7 @@ function run_valuebutton () {
 
 function run_scale () {
     if (typeof scales != "undefined") {
+        // remove example
         scales.left.destroy();
         scales.right.destroy();
         scales.top.destroy();
@@ -556,6 +600,7 @@ function run_scale () {
 
 function run_chart () {
     if (typeof chart != "undefined") {
+        // remove example
         chart.destroy();
         chart = undefined;
         $("sc_chart").removeClass("box");
@@ -634,6 +679,7 @@ function run_chart () {
 
 function run_frequencyresponse () {
     if (typeof fr != "undefined") {
+        // remove example
         fr.destroy();
         fr = undefined;
         $("sc_frequencyresponse").removeClass("box");
@@ -665,6 +711,7 @@ function run_frequencyresponse () {
 
 function run_dynamics () {
     if (typeof comp != "undefined") {
+        // remove example
         comp.destroy();
         comp = undefined;
         gate.destroy();
@@ -718,6 +765,7 @@ function run_dynamics () {
 // EQUALIZER
 function run_equalizer () {
     if (typeof eq != "undefined") {
+        // remove example
         eq.destroy();
         eq = undefined;
         $("sc_equalizer").removeClass("box");
@@ -767,6 +815,7 @@ function run_equalizer () {
 // RESPONSE HANDLER
 function run_responsehandler () {
     if (typeof rh != "undefined") {
+        // remove example
         rh.destroy();
         rh = undefined;
         $("sc_responsehandler").removeClass("box");
@@ -929,6 +978,7 @@ function run_responsehandler () {
 
 function run_state () {
     if (typeof s1 != "undefined") {
+        // remove example
         s1.destroy();
         s2.destroy();
         s3.destroy();
@@ -1025,6 +1075,7 @@ function __s3 () {
 
 function run_meterbase () {
     if (typeof mbvl != "undefined") {
+        // remove example
         mbvl.destroy();
         mbvr.destroy();
         mbhb.destroy();
@@ -1099,6 +1150,7 @@ function run_meterbase () {
 
 function run_levelmeter () {
     if (typeof meters != "undefined" && typeof meters.mvr != "undefined") {
+        // remove example
         for(var i in meters) {
             meters[i].destroy();
             meters[i] = undefined;

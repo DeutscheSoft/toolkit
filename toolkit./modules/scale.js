@@ -29,7 +29,7 @@ Scale = new Class({
     Extends: Widget,
     Implements: [Ranged],
     options: {
-        layout:           _TOOLKIT_LEFT,  // how to draw the scale:
+        layout:           _TOOLKIT_RIGHT, // how to draw the scale:
                                           // _TOOLKIT_LEFT:   vertical, labels
                                           //                  on the left
                                           // _TOOLKIT_RIGHT:  vertical, labels
@@ -76,7 +76,7 @@ Scale = new Class({
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);
         
-        this.parent(options);
+        //this.parent(options);
         
         if (!hold)
             this.redraw();

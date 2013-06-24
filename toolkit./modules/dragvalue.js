@@ -39,7 +39,8 @@ DragValue = new Class({
         set:       function () { return; },    // callback setting the value
         direction: _TOOLKIT_VERTICAL,          // direction: vertical
                                                // or horizontal
-        active:    true                        // deactivate the event
+        active:    true,                       // deactivate the event
+        cursor:    false                       // enable global cursors
     },
     initialize: function (options) {
         this.parent(options);
@@ -73,9 +74,9 @@ DragValue = new Class({
         }
         // set stuff
         this.options.classes.addClass("toolkit-dragging");
-        if (this.options.direction == _TOOLKIT_VERT)
+        if (this.options.direction == _TOOLKIT_VERT && this.options.cursor)
             this.global_cursor("row-resize");
-        else
+        else if (this.options.cursor)
             this.global_cursor("col-resize");
         this.__active  = true;
         // remember stuff
@@ -90,8 +91,10 @@ DragValue = new Class({
         e.event.preventDefault();
         // set stuff
         this.options.classes.removeClass("toolkit-dragging");
-        this.remove_cursor("row-resize");
-        this.remove_cursor("col-resize");
+        if (this.options.cursor) {
+            this.remove_cursor("row-resize");
+            this.remove_cursor("col-resize");
+        }
         this.__active = false;
         // fire event
         this._fire_event("stopdrag", e);
