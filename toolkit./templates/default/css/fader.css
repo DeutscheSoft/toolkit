@@ -1,0 +1,72 @@
+div.toolkit-fader {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: inline-block;
+    margin: 4px;
+}
+
+div.toolkit-fader.toolkit-vertical {
+    width: 100px;
+}
+
+div.toolkit-fader.toolkit-horizontal {
+    height: 80px;
+}
+
+div.toolkit-fader.toolkit-vertical .toolkit-background-top-left,
+div.toolkit-fader.toolkit-vertical .toolkit-background-center,
+div.toolkit-fader.toolkit-vertical .toolkit-background-bottom-right {
+    z-index: 2;
+}
+
+div.toolkit-fader.toolkit-vertical .toolkit-background-top-left {
+    background: url(../images/fader/background_top.png) no-repeat;
+    width: 100%;
+    height: 40px;
+}
+div.toolkit-fader.toolkit-vertical .toolkit-background-center {
+    background: url(../images/fader/background_vertical_center.png) repeat-y;
+    width: 100%;
+}
+div.toolkit-fader.toolkit-vertical .toolkit-background-bottom-right {
+    background: url(../images/fader/background_bottom.png) no-repeat 0 100%;
+    width: 100%;
+    height: 40px;
+}
+
+div.toolkit-fader .toolkit-handle {
+    cursor: pointer;
+    cursor: hand;
+    z-index: 3;
+}
+
+div.toolkit-fader.toolkit-vertical .toolkit-handle {
+    width: 66px;
+    height: 100px;
+    background: url(../images/fader/handle_vertical.png) no-repeat;
+}
+div.toolkit-fader.toolkit-vertical.toolkit-warn .toolkit-handle {
+    width: 66px;
+    height: 100px;
+    background: url(../images/fader/handle_vertical_warn.png) no-repeat;
+}
+
+div.toolkit-fader.toolkit-horizontal .toolkit-handle {
+    height: 66px;
+    width: 100px;
+    background: url(../images/fader/handle_horizontal.png) no-repeat;
+}
+div.toolkit-fader.toolkit-horizontal.toolkit-warn .toolkit-handle {
+    height: 66px;
+    width: 100px;
+    background: url(../images/fader/handle_horizontal_warn.png) no-repeat;
+}
+
+div.toolkit-fader .toolkit-scale {
+    z-index: 1;
+    margin-left: 60px;
+}

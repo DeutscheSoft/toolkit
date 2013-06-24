@@ -1,0 +1,20 @@
+.toolkit-tooltip {
+    pointer-events: none;
+    background: #e7e7e7;
+    margin: 24px 0 0 24px;
+    color: black;
+    position: absolute;
+    z-index: 9999999999999999;
+    opacity: 0.9;
+    font-size: 11px;
+    color: #666;
+    padding: 2px 4px;
+    -webkit-box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+    -moz-box-shadow:    0px 2px 5px rgba(0,0,0,0.3);
+    box-shadow:         0px 2px 5px rgba(0,0,0,0.3);
+    border: 1px solid #f3f3f3;
+}
+
+.toolkit-tooltip li {
+    
+}
