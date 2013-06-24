@@ -104,10 +104,6 @@ Circular = new Class({
         
         this.set("container", this.options.container);
         
-        this.set("min",  this.options.min);
-        this.set("max",  this.options.max);
-        this.set("snap", this.options.snap);
-        
         this.set("base", this.options.base, true);
         this.set("show_value", this.options.show_value, true);
         this.set("show_base", this.options.show_base, true);
@@ -340,28 +336,6 @@ Circular = new Class({
     set: function (key, value, hold) {
         this.options[key] = value;
         switch (key) {
-            case "scale":
-            case "min":
-            case "max":
-                // calculate some logarithmics to reduce overhead when used
-                // on-the-fly
-                switch (this.options.scale) {
-                    case _TOOLKIT_FREQ:
-                        this.__minlog = Math.log10(this.options.min);
-                        this.__maxlog = Math.log10(this.options.max);
-                        break;
-                    case _TOOLKIT_DB:
-                        this.__minlog = Math.log2(this.options.min);
-                        this.__maxlog = Math.log2(this.options.max);
-                        break;
-                }
-            case "snap":
-                // __snapcoef is the amount of digits of snap as a power to 10.
-                // this is a workaround for using modulo with decimal values.
-                // it decreases the maximum usable value by this level.
-                // http://stackoverflow.com/questions/3966484/floating-point-numbers-and-javascript-modulus-operator
-                p = ("" + value).split(".");
-                this.__snapcoef = p.length > 1 ? Math.pow(10, p[1].length) : 1;
             case "min":
             case "max":
             case "reverse":

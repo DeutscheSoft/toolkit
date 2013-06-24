@@ -80,9 +80,6 @@ Ranged = new Class({
                                          // next snap until it is hold there
                                          // again.
     },
-    __minlog: 0,
-    __maxlog: 0,
-    __snapcoef: 1,
     
     val2real: function (n) {
         // calculates "real world" values (positions, coefficients, ...)
@@ -137,11 +134,11 @@ Ranged = new Class({
                 break;
             case _TOOLKIT_DB:
                 coef = this.db2scale(
-                       value, this.__minlog, this.__maxlog, basis);
+                       value, this.options.min, this.options.max, basis);
                 break;
             case _TOOLKIT_FREQ:
                 coef = this.freq2scale(
-                       value, this.__minlog, this.__maxlog, basis);
+                       value, this.options.min, this.options.max, basis);
                 break;
         }
         if (this.options.reverse) coef = -coef + basis;
@@ -163,11 +160,11 @@ Ranged = new Class({
                 break;
             case _TOOLKIT_DB:
                 value = this.scale2db(
-                        coef, this.__minlog, this.__maxlog, basis);
+                        coef, this.options.min, this.options.max, basis);
                 break;
             case _TOOLKIT_FREQ:
                 value = this.scale2freq(
-                        coef, this.__minlog, this.__maxlog, basis);
+                        coef, this.options.min, this.options.max, basis);
                 break;
         }
         return this.snap_value(value);
@@ -175,13 +172,20 @@ Ranged = new Class({
     snap_value: function (value) {
         // if snapping is enabled, snaps the value to the grid
         if (!this.options.snap) return value;
-        var scoef = this.__snapcoef;
         var snap  = this.options.snap;
+        if (typeof this.___snapcoef["" + snap] == "undefined") {
+            p = ("" + snap).split(".");
+            this.___snapcoef["" + snap] = p.length > 1
+                                        ? Math.pow(10, p[1].length) : 1;
+        }
+        var scoef = this.___snapcoef["" + snap];
+        
         var multi = ((value * scoef) % (snap * scoef)) / scoef;
         var res   = value + ((this.options.round && (multi > snap / 2.0))
                           ? snap - multi : -multi);
         var digit = snap.toString().split(".");
         digit = digit.length > 1 ? digit[1].length : 0;
         return res.toFixed(digit).toFloat();
-    }
+    },
+    ___snapcoef: {}
 });

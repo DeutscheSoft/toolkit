@@ -268,6 +268,16 @@ Fader = new Class({
                 this.drag.set("direction", this.options.direction);
                 this.scroll.set("direction", this.options.direction);
                 break;
+            case "min":
+            case "max":
+            case "reverse":
+            case "step":
+            case "round":
+            case "snap":
+            case "scale":
+            case "basis":
+                if (!hold) this.redraw();
+                break;
         }
         this.parent(key, value, hold);
     }

@@ -84,6 +84,7 @@ Scale = new Class({
     },
     
     redraw: function () {
+        return;
         this.__size = 0;
         if (this.options.base === false)
             this.options.base = this.options.max
