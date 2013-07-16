@@ -30,7 +30,16 @@ var Dynamics = new Class({
         min:     -96,
         max:     24,
         size:    400,
-        scale:   _TOOLKIT_FLAT
+        scale:   _TOOLKIT_FLAT,
+        type:    false,          // type of dynamics display. can be
+                                 // _TOOLKIT_COMPRESSOR, _TOOLKIT_LIMITER,
+                                 // _TOOLKIT_GATE, _TOOLKIT_EXPANDER
+                                 // or false to draw your own curve
+        threshold: 0,
+        ratio:     1,
+        makeup:    0,
+        floor:     0,
+        range:     0
     },
     initialize: function (options) {
         this.parent(options, true);
@@ -78,6 +87,61 @@ var Dynamics = new Class({
                                       {x:this.options.max, y:this.options.max}]);
         
         this.parent(graphs, false);
+    },
+    
+    draw_graph: function () {
+        if (this.options.type === false) return;
+        if (!this.graph) {
+            this.graph = this.add_graph({
+                dots: [{x: this.options.min, y: this.options.min},
+                       {x: this.options.max, y: this.options.max}],
+            });
+        }
+        curve = [];
+        switch (this.options.type) {
+            case _TOOLKIT_COMPRESSOR:
+                curve.push({x: this.options.min,
+                            y: this.options.min + this.options.makeup});
+                curve.push({x: this.options.threshold,
+                            y: this.options.threshold + this.options.makeup});
+                curve.push({x: this.options.max,
+                            y: this.options.threshold + (this.options.max - this.options.threshold) / this.options.ratio + this.options.makeup});
+                break;
+            case _TOOLKIT_LIMITER:
+                curve.push({x: this.options.min,
+                            y: this.options.min + this.options.makeup});
+                curve.push({x: this.options.threshold,
+                            y: this.options.threshold + this.options.makeup});
+                curve.push({x: this.options.max,
+                            y: this.options.threshold + this.options.makeup});
+                break;
+            case _TOOLKIT_GATE:
+                curve.push({x: this.options.threshold,
+                            y: this.options.min});
+                curve.push({x: this.options.threshold,
+                            y: this.options.threshold + this.options.makeup});
+                curve.push({x: this.options.max,
+                            y: this.opions.max + this.options.makeup});
+                break;
+            case _TOOLKIT_EXPANDER:
+                curve.push({x: this.options.min,
+                            y: this.options.min + this.options.makeup + this.options.range});
+                if (this.options.ratio != 1) {
+                    var range = this.options.range;
+                    var ratio = this.options.ratio;
+                    var thres = this.options.threshold;
+                    var y = (ratio * range + (ratio - 1) * thres) / (ratio - 1);
+                    console.log(thres, ratio, range, y, y + range);
+                    curve.push({x: y - range,
+                                y: y + this.options.makeup});
+                    curve.push({x: this.options.threshold,
+                                y: this.options.threshold + this.options.makeup});
+                }
+                curve.push({x: this.options.max,
+                            y: this.options.max + this.options.makeup});
+                break;
+        }
+        this.graph.set("dots", curve);
     },
     
     set: function (key, value, hold) {
