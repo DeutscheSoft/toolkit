@@ -69,10 +69,11 @@ run_fader = function () {
     for (var i = 0; i < 8; i ++) {
         faders.push(new Fader({
             container: $("sc_fader"),
-            min: 10,
-            max: 1000,
+            min: -60,
+            max: 12,
             base: 0,
-            scale: _TOOLKIT_FREQ
+            value: 0,
+            
         }));
     }
     fadertt = new Toggle({
