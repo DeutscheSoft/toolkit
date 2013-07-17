@@ -715,10 +715,10 @@ function run_dynamics () {
         // remove example
         comp.destroy();
         comp = undefined;
-        gate.destroy();
-        gate = undefined;
-        comp2.destroy();
-        comp2 = undefined;
+        expand.destroy();
+        expand = undefined;
+        dyna.destroy();
+        dyna = undefined;
         $("sc_dynamics").removeClass("box");
         return;
     }
@@ -734,22 +734,19 @@ function run_dynamics () {
         ],
         mode: _TOOLKIT_LINE
     });
-    gate = new Dynamics({
+    expand = new Dynamics({
+        size: 298,
+        container: $("sc_dynamics"),
+        type: _TOOLKIT_EXPANDER,
+        threshold: -12,
+        ratio: 4,
+        range: -36
+    });
+    dyna = new Dynamics({
         size: 298,
         container: $("sc_dynamics")
     });
-    ggate = gate.add_graph({
-        dots: [{x:-48, y:-96},
-               {x:-24, y:-24},
-               {x:24, y: 24},
-        ],
-        mode: _TOOLKIT_LINE
-    });
-    comp2 = new Dynamics({
-        size: 298,
-        container: $("sc_dynamics")
-    });
-    gcomp2 = comp2.add_graph({
+    gdyna = dyna.add_graph({
         dots: [{x:-60, y:-96},
                {x:-48, y:-48},
                {x:-36, y:-24},

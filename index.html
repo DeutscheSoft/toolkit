@@ -674,10 +674,14 @@
                 <!-- ########################################################### -->
                 
                 <p class="description">
-                    <strong>Dynamics</strong> are based on <a href="#graph">Graphs</a> and display the characteristics of
-                    dynamic processors. They are square widgets drawing a <a href="#grid">Grid</a>
-                    automatically based on the range.
-                    system.
+                    <strong>Dynamics</strong> are based on <a href="#graph">Graphs</a> and
+                    display the characteristics of dynamic processors. They are square
+                    widgets drawing a <a href="#grid">Grid</a> automatically based on the range.
+                    Graphs based on fixed values like threshold and ratio are available
+                    for compressors, gates, expanders and limiters.
+                </p><p>
+                    Use comp, expand and dyna to play with the examples in a terminal.
+                    <a href="javascript:expand.set('threshold', 0)">expand.set('threshold', 0)</a>
                 </p>
                 
                 <style type="text/css">
@@ -736,6 +740,42 @@
                              first argument.
                             </td>
                         <td>_TOOLKIT_FLAT</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>type of dynamics display. can be
+                            <ul>
+                                 <li>_TOOLKIT_COMPRESSOR</li>
+                                 <li>_TOOLKIT_LIMITER</li>
+                                 <li>_TOOLKIT_GATE</li>
+                                 <li>_TOOLKIT_EXPANDER</li>
+                                 <li>false</li>
+                             </ul>
+                             If set to false, draw your curves manually.
+                             Other constants activate some of the following
+                             options:
+                            </td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>threshold</td>
+                        <td>Threshold for all types</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>ratio</td>
+                        <td>The ratio of all types except _TOOLKIT_GATE</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>makeup</td>
+                        <td>Makeup value for all types.</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>range</td>
+                        <td>Reduction of a _TOOLKIT_EXPANDER.</td>
+                        <td>0</td>
                     </tr>
                 </table>
                 

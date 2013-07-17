@@ -85,8 +85,8 @@ var Dynamics = new Class({
         if (this._steady)
             this._steady.set("dots", [{x:this.options.min, y:this.options.min},
                                       {x:this.options.max, y:this.options.max}]);
-        
         this.parent(graphs, false);
+        this.draw_graph();
     },
     
     draw_graph: function () {
@@ -124,19 +124,21 @@ var Dynamics = new Class({
                             y: this.opions.max + this.options.makeup});
                 break;
             case _TOOLKIT_EXPANDER:
-                curve.push({x: this.options.min,
-                            y: this.options.min + this.options.makeup + this.options.range});
                 if (this.options.ratio != 1) {
+                    curve.push({x: this.options.min,
+                                y: this.options.min + this.options.makeup + this.options.range});
                     var range = this.options.range;
                     var ratio = this.options.ratio;
                     var thres = this.options.threshold;
                     var y = (ratio * range + (ratio - 1) * thres) / (ratio - 1);
-                    console.log(thres, ratio, range, y, y + range);
                     curve.push({x: y - range,
                                 y: y + this.options.makeup});
                     curve.push({x: this.options.threshold,
                                 y: this.options.threshold + this.options.makeup});
                 }
+                else
+                    curve.push({x: this.options.min,
+                                y: this.options.min + this.options.makeup});
                 curve.push({x: this.options.max,
                             y: this.options.max + this.options.makeup});
                 break;
@@ -166,6 +168,12 @@ var Dynamics = new Class({
                 this.range_y.set("scale", value, hold);
                 this.range_x.set("scale", value, hold);
                 if (!hold) this.redraw();
+                break;
+            case "ratio":
+            case "threshold":
+            case "range":
+            case "makeup":
+                if (!hold) this.draw_graph();
                 break;
         }
         this.parent(key, value, hold);

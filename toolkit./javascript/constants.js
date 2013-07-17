@@ -154,9 +154,11 @@ _TOOLKIT_LABEL                       = 131;
 // DYNAMICS
 _TOOLKIT_COMPRESSOR                  = 150;
 _TOOLKIT_UPWARD_COMPRESSOR           = 150;
+_TOOLKIT_UPWARD_COMP                 = 150;
 _TOOLKIT_COMP                        = 150;
 _TOOLKIT_UPCOMP                      = 150;
 _TOOLKIT_LIMITER                     = 151;
 _TOOLKIT_GATE                        = 152;
 _TOOLKIT_NOISEGATE                   = 152;
 _TOOLKIT_EXPANDER                    = 153;
+_TOOLKIT_EXP                         = 153;
