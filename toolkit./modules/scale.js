@@ -90,7 +90,7 @@ Scale = new Class({
         this.element.empty();
         
         // draw base
-        this.draw_dot(this.options.base, "toolkit-base");
+        this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "");
         this.draw_label(this.options.base, "toolkit-base");
         
         // draw top
@@ -258,7 +258,6 @@ Scale = new Class({
         switch (key) {
             case "division":
             case "levels":
-            case "base":
             case "labels":
             case "gap_dots":
             case "gap_labels":
@@ -268,6 +267,17 @@ Scale = new Class({
                 break;
             case "basis":
                 this.element.setStyle(this._vert() ? "height" : "width", value);
+                break;
+            case "base":
+                if (value === false) {
+                    this.options.base = this.options.min;
+                    this.__based = false;
+                } else {
+                    this.__based = true;
+                }
+                this.fireEvent("basechanged", [value, this]);
+                if (!hold) this.redraw();
+                key = false;
                 break;
         }
         this.parent(key, value, hold);
