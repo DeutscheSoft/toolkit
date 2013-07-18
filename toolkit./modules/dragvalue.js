@@ -67,11 +67,7 @@ DragValue = new Class({
         if (!this.options.active) return;
         e.event.preventDefault();
         // get the right event if touch
-        if (e.touches && e.touches.length > 1) {
-            var ev = e.touches[0];
-        } else {
-            ev = e.event;
-        }
+        var ev = this._get_event(e);
         // set stuff
         this.options.classes.addClass("toolkit-dragging");
         if (this.options.direction == _TOOLKIT_VERT && this.options.cursor)
@@ -133,7 +129,7 @@ DragValue = new Class({
     _get_event: function (event) {
         // return the right event if touch surface is used
         // with multiple fingers
-        return (event.touches && event.touches.length > 1)
+        return (event.touches && event.touches.length)
               ? event.touches[0] : event.event;
     },
     
