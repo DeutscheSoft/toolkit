@@ -1247,6 +1247,8 @@ ResponseHandle = new Class({
                 + ((ev.pageX - this._offsetX) - this._clickX) * mx));
             this.set("y", this.range_y.px2val(this._clickY
                 + ((ev.pageY - this._offsetY) - this._clickY) * my));
+            this.fireEvent("useraction", ["x", this.get("x"), this]);
+            this.fireEvent("useraction", ["y", this.get("y"), this]);
         }
         this.fireEvent("handledragging", [{
             x:     this.options.x,
@@ -1274,6 +1276,7 @@ ResponseHandle = new Class({
         if (!this._zwheel)
             this.fireEvent("zchangestarted", [this.options.z, this]);
         this.fireEvent("zchanged", [this.options.z, this]);
+        this.fireEvent("useraction", ["z", this.options.z, this]);
         this._zwheel = true;
     },
     _touchstart: function (e) {

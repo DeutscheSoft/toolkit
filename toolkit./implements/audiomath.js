@@ -25,31 +25,38 @@ AudioMath = new Class({
     // dB or Hz and a linear scale implement this class.
     
     // DECIBEL CALCULATIONS
-    db2coef: function (value, min, max) {
+    db2coef: function (value, min, max, reverse) {
         // value: dB as float (1 = 0dB)
         // min: minimum dB
         // max: maximum dB
-        return Math.log2(1 + (value - min) / (max - min));
+        //return Math.log2(1 + (value - min) / (max - min));
+        if (reverse) value = max - (value - min)
+        value = Math.log2(1 + (value - min) / (max - min));
+        if (reverse) return -value + 1;
+        return value;
     },
-    coef2db: function (coef, min, max) {
+    coef2db: function (coef, min, max, reverse) {
         // coef: coefficient
         // min: minimum dB
         // max: maximum dB
-        return (Math.pow(2, coef) - 1) * (max - min) + min;
+        if (reverse) coef = -coef + 1;
+        coef = (Math.pow(2, coef) - 1) * (max - min) + min;
+        if (reverse) return max - coef + min;
+        return coef
     },
-    db2scale: function (value, min, max, scale) {
+    db2scale: function (value, min, max, scale, reverse) {
         // value: dB as float (1 = 0dB)
         // min: minimum dB
         // max: maximum dB
         // scale: the size of the scale
-        return this.db2coef(value, min, max) * scale;
+        return this.db2coef(value, min, max, reverse) * scale;
     },
-    scale2db: function (value, min, max, scale) {
+    scale2db: function (value, min, max, scale, reverse) {
         // value: position in the scale
         // min: minimum dB
         // max: maximum dB
         // scale: the size of the scale
-        return this.coef2db(value / scale, min, max);
+        return this.coef2db(value / scale, min, max, reverse);
     },
     // FREQUENCY CALCULATIONS
     freq2coef: function (value, min, max) {

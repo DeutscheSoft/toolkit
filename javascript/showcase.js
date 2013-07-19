@@ -52,6 +52,21 @@ window.addEvent('domready', function () {
     }
 });
 
+// SELECT
+run_select = function () {
+    if (typeof select != "undefined") {
+        // remove example
+        select.destroy();
+        select = undefined;
+        $("sc_select").removeClass("box");
+        return;
+    }
+    select = new Select({
+        list: [
+            
+        ]
+    });
+}
 
 // FADER
 run_fader = function () {
@@ -73,6 +88,7 @@ run_fader = function () {
             max: 12,
             base: 0,
             value: 0,
+            scale: _TOOLKIT_LOG2
             
         }));
     }

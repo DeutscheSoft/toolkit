@@ -54,6 +54,7 @@ Toggle = new Class({
         this._clear_to();
         this.set("state", !this.options.state);
         this.fireEvent("toggled", [this.options.state, this]);
+        this.fireEvent("useraction", ["state", this.options.state, this]);
     },
     cancel_press: function () {
         if (!this.__tp)
@@ -113,4 +114,3 @@ Toggle = new Class({
         }
     }
 });
- 

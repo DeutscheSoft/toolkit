@@ -86,6 +86,7 @@ Value = new Class({
                 this.set("value", val, true);
                 this._value_done();
                 this.fireEvent("valueset", [this.options.value, this]);
+                this.fireEvent("useraction", ["value", this.options.value, this]);
                 break;
         }
         this.fireEvent("valuetyping", [e, this.options.value, this]);

@@ -51,14 +51,20 @@ Knob = new Class({
             element: this._svg,
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) { this.set("value", v); }.bind(this),
+            set:     function (v) {
+                this.set("value", v);
+                this.fireEvent("useraction", ["value", v, this]);
+            }.bind(this),
             direction: this.options.direction
         });
         this.scroll = new ScrollValue({
             element: this._svg,
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) { this.set("value", v); }.bind(this)
+            set:     function (v) {
+                this.set("value", v);
+                this.fireEvent("useraction", ["value", v, this]);
+            }.bind(this)
         });
         this.set("size", this.options.size);
         this.initialized();

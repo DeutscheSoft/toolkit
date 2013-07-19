@@ -46,14 +46,20 @@ Fader = new Class({
             element: this._handle,
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) { this.set("value", v); }.bind(this),
+            set:     function (v) {
+                this.set("value", v);
+                this.fireEvent("useraction", ["value", v, this]);
+            }.bind(this),
             direction: this.options.direction
         });
         this.scroll = new ScrollValue({
             element: this.element,
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) { this.set("value", v); }.bind(this)
+            set:     function (v) {
+                this.set("value", v);
+                this.fireEvent("useraction", ["value", v, this]);
+            }.bind(this)
         });
         
         this.set("layout", this.options.layout);
@@ -205,6 +211,7 @@ Fader = new Class({
     _clicked: function (ev) {
         if (!this.__down) return;
         this.set("value", this._get_value(ev));
+        this.fireEvent("useraction", ["value", v, this]);
     },
     _move: function (ev) {
         if (!this.options.tooltip) return;
