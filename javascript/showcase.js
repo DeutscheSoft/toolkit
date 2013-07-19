@@ -63,9 +63,17 @@ run_select = function () {
     }
     select = new Select({
         list: [
-            
-        ]
+            "haha",
+            "huu",
+            "höhö",
+            "foo",
+            "bar",
+            "foobar",
+            "wtf"
+        ],
+        container: $("sc_select")
     });
+    $("sc_select").addClass("box");
 }
 
 // FADER

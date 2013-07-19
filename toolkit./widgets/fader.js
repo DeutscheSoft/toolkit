@@ -211,7 +211,7 @@ Fader = new Class({
     _clicked: function (ev) {
         if (!this.__down) return;
         this.set("value", this._get_value(ev));
-        this.fireEvent("useraction", ["value", v, this]);
+        this.fireEvent("useraction", ["value", this.get("value"), this]);
     },
     _move: function (ev) {
         if (!this.options.tooltip) return;
