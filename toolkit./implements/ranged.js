@@ -74,13 +74,17 @@ Ranged = new Class({
                                          // decimal point)
                                          // Alternatively set this to an array
                                          // containing possible values
-        round:          false            // if snap is set decide how to jump
+        round:          false,           // if snap is set decide how to jump
                                          // between snaps. Setting this to true
                                          // slips to the next snap if the value
                                          // is more than on its half way to it.
                                          // Otherwise the value has to reach the
                                          // next snap until it is hold there
                                          // again.
+        log_factor:     1                // Used to range logarithmic curves.
+                                         // The factor is used to stretch the
+                                         // used range of the logarithmic curve
+                                            
     },
     
     val2real: function (n) {
@@ -136,11 +140,23 @@ Ranged = new Class({
                 break;
             case _TOOLKIT_DB:
                 coef = this.db2scale(
-                       value, this.options.min, this.options.max, basis);
+                       value, this.options.min, this.options.max, basis,
+                       true, this.options.log_factor);
+                break;
+            case _TOOLKIT_LOG2:
+                coef = this.db2scale(
+                       value, this.options.min, this.options.max, basis,
+                       false, this.options.log_factor);
                 break;
             case _TOOLKIT_FREQ:
                 coef = this.freq2scale(
-                       value, this.options.min, this.options.max, basis);
+                       value, this.options.min, this.options.max, basis,
+                       false);
+                break;
+            case _TOOLKIT_FREQ_REVERSE:
+                coef = this.freq2scale(
+                       value, this.options.min, this.options.max, basis,
+                       true);
                 break;
         }
         if (this.options.reverse) coef = -coef + basis;
@@ -162,11 +178,23 @@ Ranged = new Class({
                 break;
             case _TOOLKIT_DB:
                 value = this.scale2db(
-                        coef, this.options.min, this.options.max, basis);
+                       coef, this.options.min, this.options.max, basis,
+                       true, this.options.log_factor);
+                break;
+            case _TOOLKIT_LOG2:
+                value = this.scale2db(
+                       coef, this.options.min, this.options.max, basis,
+                       false, this.options.log_factor);
                 break;
             case _TOOLKIT_FREQ:
                 value = this.scale2freq(
-                        coef, this.options.min, this.options.max, basis);
+                       coef, this.options.min, this.options.max, basis,
+                       false);
+                break;
+            case _TOOLKIT_FREQ_REVERSE:
+                value = this.scale2freq(
+                       coef, this.options.min, this.options.max, basis,
+                       true);
                 break;
         }
         return this.snap_value(value);

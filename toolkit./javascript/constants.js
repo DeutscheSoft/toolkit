@@ -65,17 +65,21 @@ _TOOLKIT_COEFF                       = 52;
 _TOOLKIT_COEFFICIENT                 = 52;
 
 // SCALES
-_TOOLKIT_FLAT                        = 53;
-_TOOLKIT_LINEAR                      = 53;
-_TOOLKIT_LIN                         = 53;
-_TOOLKIT_DECIBEL                     = 54;
-_TOOLKIT_DB                          = 54;
-_TOOLKIT_LOG2                        = 54;
-_TOOLKIT_FREQUENCY                   = 55;
-_TOOLKIT_FREQ                        = 55;
-_TOOLKIT_LOG10                       = 55;
-_TOOLKIT_LOGARITHMIC                 = 55;
-_TOOLKIT_LOG                         = 55;
+_TOOLKIT_FLAT                        = 90;
+_TOOLKIT_LINEAR                      = 90;
+_TOOLKIT_LIN                         = 90;
+
+_TOOLKIT_DECIBEL                     = 91;
+_TOOLKIT_DB                          = 91;
+_TOOLKIT_LOG2_REVERSE                = 91;
+_TOOLKIT_LOG2                        = 92;
+_TOOLKIT_DB_REVERSE                  = 92;
+_TOOLKIT_DECIBEL_REVERSE             = 92;
+
+_TOOLKIT_FREQUENCY                   = 95;
+_TOOLKIT_FREQ                        = 95;
+_TOOLKIT_FREQ_REVERSE                = 96;
+_TOOLKIT_FREQUENCY_REVERSE           = 96;
 
 // FILTERS
 _TOOLKIT_PARAMETRIC                  = 60;

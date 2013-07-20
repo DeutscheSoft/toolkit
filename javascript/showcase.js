@@ -71,7 +71,8 @@ run_select = function () {
             "foobar",
             "wtf"
         ],
-        container: $("sc_select")
+        container: $("sc_select"),
+        selected: "bar"
     });
     $("sc_select").addClass("box");
 }
@@ -96,7 +97,8 @@ run_fader = function () {
             max: 12,
             base: 0,
             value: 0,
-            scale: _TOOLKIT_LOG2
+            scale: _TOOLKIT_DB,
+            log_factor: 2
             
         }));
     }
@@ -801,36 +803,34 @@ function run_equalizer () {
         depth: 120,
         container: $("sc_equalizer"),
         db_grid: 12,
-        range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true}
-    });
-    bands = [
-        eq.add_band({x:600, y:-12, z:3, type:_TOOLKIT_PARAMETRIC,
-                     z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
-        eq.add_band({x:2000, y:12, z:1, type:_TOOLKIT_PARAMETRIC,
-                     z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4}),
-        eq.add_band({x:200, y:-12, z:1, type:_TOOLKIT_LOWSHELF,
+        range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true},
+        bands: [{x:600, y:-12, z:3, type:_TOOLKIT_PARAMETRIC,
+                     z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4},
+        {x:2000, y:12, z:1, type:_TOOLKIT_PARAMETRIC,
+                     z_handle: _TOOLKIT_RIGHT, title:"Band 1", z_min: 0.4, z_max: 4},
+        {x:200, y:-12, z:1, type:_TOOLKIT_LOWSHELF,
                      z_handle: _TOOLKIT_RIGHT, title:"Low Shelf",
                      preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
                                    _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                     z_min: 0.4, z_max: 4}),
-        eq.add_band({x:7000, y: 12, z:1, type:_TOOLKIT_HIGHSHELF,
+                     z_min: 0.4, z_max: 4},
+        {x:7000, y: 12, z:1, type:_TOOLKIT_HIGHSHELF,
                      z_handle: _TOOLKIT_LEFT, title:"High Shelf",
                      preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                    _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                     z_min: 0.4, z_max: 4}),
-        eq.add_band({x:40, z: 1, type:_TOOLKIT_HP2, title:"High Pass",
+                     z_min: 0.4, z_max: 4},
+        {x:40, z: 1, type:_TOOLKIT_HP2, title:"High Pass",
                      preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
                                    _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } }),
-        eq.add_band({x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass",
+                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } },
+        {x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass",
                      preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                    _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } })
-    ]
+                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } }]
+    });
     repositionSVGs()
 }
 

@@ -25,7 +25,8 @@ var Equalizer = new Class({
     // simple ResponseHandles.
     Extends: ResponseHandler,
     options: {
-        accuracy: 1 // the distance between points of curves on the x axis
+        accuracy: 1, // the distance between points of curves on the x axis
+        bands: []    // list of bands to create on init
     },
     bands: [],
     
@@ -41,7 +42,7 @@ var Equalizer = new Class({
             container: this._bands,
             dots: [{x: 20, y: 0}, {x: 20000, y: 0}]
         });
-        
+        this.add_bands(this.options.bands);
         this.initialized();
     },
     
@@ -97,6 +98,11 @@ var Equalizer = new Class({
         this.fireEvent("bandadded", [b, this]);
         return b;
     },
+    add_bands: function (bands) {
+        for (var i = 0; i < bands.length; i++)
+            this.add_band(bands[i]);
+    },
+    
     remove_band: function (h) {
         for (var i = 0; i < this.bands.length; i++) {
             if (this.bands[i] == h) {

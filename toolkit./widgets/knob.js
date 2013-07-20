@@ -55,7 +55,8 @@ Knob = new Class({
                 this.set("value", v);
                 this.fireEvent("useraction", ["value", v, this]);
             }.bind(this),
-            direction: this.options.direction
+            direction: this.options.direction,
+            events: function () { return this }.bind(this),
         });
         this.scroll = new ScrollValue({
             element: this._svg,
@@ -64,7 +65,8 @@ Knob = new Class({
             set:     function (v) {
                 this.set("value", v);
                 this.fireEvent("useraction", ["value", v, this]);
-            }.bind(this)
+            }.bind(this),
+            events: function () { return this }.bind(this),
         });
         this.set("size", this.options.size);
         this.initialized();

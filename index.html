@@ -826,6 +826,15 @@
                 
                 <div class="buttons"></div>
                 
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>bands</td>
+                        <td>A list of <a href="#eqband">equalizer bands</a> to create on initialization.</td>
+                        <td>[]</td>
+                    </tr>
+                </table>
+                
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
                     <tr>
@@ -3533,7 +3542,7 @@
                     </tr>
                     <tr>
                         <td>events</td>
-                        <td>The element firing the drag event. Set to false to use the main element.</td>
+                        <td>Function returning the element firing the drag event. Set to false to use the main element.</td>
                         <td>false</td>
                     </tr>
                     <tr>
@@ -4566,7 +4575,7 @@
                     </tr>
                     <tr>
                         <td>events</td>
-                        <td>The element firing the scroll event. Set to false to use the main element.</td>
+                        <td>A function returning the element firing the scroll event. Set to false to use the main element.</td>
                         <td>false</td>
                     </tr>
                     <tr>
@@ -4895,6 +4904,10 @@
                          Otherwise the value has to reach the
                          next snap until it is hold there
                          again.</td>
+                         <td>false</td></tr>
+                    <tr><td>log_factor</td>
+                        <td>The factor is used to stretch the
+                        used range of the logarithmic curve</td>
                          <td>false</td></tr>
                 </table>
                 

@@ -146,6 +146,12 @@ Scale = new Class({
                 this.__last = iter;
             }
         }
+        // draw dots between last label and max
+        this._check_dots(this.__last,
+                        iter,
+                        this.options.division,
+                        this.options.levels.length - 1,
+                        function (a, b) { return a < b });
         this.parent();
         return this;
     },

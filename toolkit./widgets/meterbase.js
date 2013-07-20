@@ -424,11 +424,15 @@ var MeterBase = new Class({
                     this.set("value", this.options.value);
                 break;
             case "division":
-            case "reverse":
-            case "levels":
             case "min":
             case "max":
+            case "reverse":
+            case "log_factor":
+            case "step":
+            case "round":
+            case "snap":
             case "scale":
+            case "basis":
             case "gap_dots":
             case "gap_labels":
             case "show_labels":

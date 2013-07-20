@@ -339,6 +339,7 @@ Circular = new Class({
             case "min":
             case "max":
             case "reverse":
+            case "log_factor":
             case "step":
             case "round":
             case "snap":

@@ -89,7 +89,8 @@ ScrollValue = new Class({
         // fire an event on this drag object and one with more
         // information on the draggified element
         this.fireEvent(title, [this, event]);
-        this.options.events.fireEvent(title, [event,
+        if (this.options.events())
+            this.options.events().fireEvent(title, [event,
                                               this.options.get(),
                                               this.options.element,
                                               this,
