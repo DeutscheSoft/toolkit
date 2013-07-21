@@ -75,7 +75,10 @@ ScrollValue = new Class({
         }
         if (!this._wheel)
             this._lastPos = range.val2real(this.options.get());
+        
+        if (this.options.snap) {
             
+        }
         this._lastPos += step;
         this.options.set(range.real2val(this._lastPos, true));
         
@@ -85,8 +88,8 @@ ScrollValue = new Class({
         
         if (!this._wheel)
             this._fire_event("scrollstarted", e);
-        else
-            this._fire_event("scrolling", e);
+        
+        this._fire_event("scrolling", e);
         
         this._wheel = true;
         

@@ -32,7 +32,8 @@ var ResponseHandler = new Class({
         importance_border: 50,  // multiplicator of square pixels on hit testing
                                 // borders to gain importance
         range_z:           { scale: _TOOLKIT_LINEAR }, // Range z options
-        depth:             0    // the depth of the z axis (basis of range_z)
+        depth:             0,   // the depth of the z axis (basis of range_z)
+        handles:           []   // list of bands to create on init
     },
     handles: [],
     _active: 0,
@@ -56,6 +57,7 @@ var ResponseHandler = new Class({
             e.event.stopPropagation();
             return false;
         }.bind(this));
+        this.add_handles(this.options.handles);
         this.redraw();
     },
     
@@ -95,6 +97,11 @@ var ResponseHandler = new Class({
         this.fireEvent("handleadded", [h, this]);
         return h;
     },
+    addHandles: function (handles) {
+        for (var i = 0; i < handles.length; i++)
+            this.add_handles(handles[i]);
+    },
+    
     remove_handle: function (handle) {
         // remove a handle from the widget.
         for (var i = 0; i < this.handles.length; i++) {

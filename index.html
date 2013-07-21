@@ -19,9 +19,7 @@
         <script src="toolkit./javascript/sprintf.js"></script>
         <script src="toolkit./javascript/svgutils.js"></script>
         <script src="toolkit./javascript/math.js"></script>
-        <script src="toolkit./javascript/Base.js"></script>
-        <script src="toolkit./javascript/util.js"></script>
-        <script src="toolkit./javascript/critbit.js"></script>
+        <script src="toolkit./javascript/array.js"></script>
         
         <!-- IMPLEMENTS -->
         <script src="toolkit./implements/audiomath.js"></script>
@@ -841,6 +839,15 @@
                         <td>add_band([options])</td>
                         <td>Create a EqBand inside the Equalizer. Options is an object containing
                         options for the <a href="#eqband">EqBand</a> element.
+                        <br/><br/>
+                        It returns the new EqBand instance.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>add_bands(bands)</td>
+                        <td>Create a bunch of EqBand inside the Equalizer. The argumnt
+                        is a list of object containing
+                        options for the <a href="#eqband">EqBand</a> elements.
                         <br/><br/>
                         It returns the new EqBand instance.
                         </td>
@@ -1847,6 +1854,11 @@
                     or a function returning a <a href="#range">Range</a> instance.</td>
                         <td>{ scale: _TOOLKIT_LINEAR }</td>
                     </tr>
+                    <tr>
+                        <td>handles</td>
+                        <td>A list of <a href="#responsehandle">ResponseHandles</a> to create on initialization.</td>
+                        <td>[]</td>
+                    </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
@@ -1857,6 +1869,13 @@
                         options for the <a href="#responsehandle">ResponseHandle</a> element.
                         <br/><br/>
                         It returns the new ResponseHandle instance.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>add_handles(handles)</td>
+                        <td>Create a bunch of ResponseHandle inside the ResponseHandler. The argument
+                        is a list of objects containing
+                        options for the <a href="#responsehandle">ResponseHandle</a> element.
                         </td>
                     </tr>
                     <tr>

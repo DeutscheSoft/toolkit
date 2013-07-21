@@ -203,22 +203,10 @@ Ranged = new Class({
     snap_value: function (value) {
         // if snapping is enabled, snaps the value to the grid
         if (!this.options.snap) return value;
+        var snap  = this.options.snap;
         if (typeOf(snap) == "array") {
-            if (!this.__critbit) {
-                this.__critbit = new CritBit.Tree();
-                for (var i = 0; i < snap.length; i++) {
-                    this.__critbit.insert(snap[i].toFloat(), 1);
-                }
-            }
-            var value = this.options.value;
-            var upper = this.__critbit.next(value);
-            var lower = this.__critbit.previous(value);
-            
-            return Math.abs(value - lower) > Math.abs(lower - upper)
-                ? lower : upper;
-            
+            return snap.next(value)
         } else {
-            var snap  = this.options.snap;
             if (typeof this.___snapcoef["" + snap] == "undefined") {
                 p = ("" + snap).split(".");
                 this.___snapcoef["" + snap] = p.length > 1
