@@ -1,4 +1,5 @@
 ValueButton = new Class({
+    _class: "ValueButton",
     Extends: Button,
     Implements: [Warning, Ranged],
     options:  {

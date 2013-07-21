@@ -22,6 +22,7 @@
 Clock = new Class({
     // Clock shows a customized clock with circulars displaying hours, minutes
     // and seconds. It has three free formatable labels.
+    _class: "Clock",
     Extends: Widget,
     options: {
         thickness:    10,         // thickness of the rings

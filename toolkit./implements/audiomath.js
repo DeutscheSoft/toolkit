@@ -23,7 +23,7 @@ AudioMath = new Class({
     // AudioMath provides a couple of functions for turning linear values into
     // logarithmic ones and vice versa. If you need an easy convertion between
     // dB or Hz and a linear scale implement this class.
-    
+    _class: "AudioMath",
     // DECIBEL CALCULATIONS
     db2coef: function (value, min, max, reverse, factor) {
         factor = factor || 1;

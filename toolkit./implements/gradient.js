@@ -23,6 +23,7 @@ var Gradient = new Class({
     // Gradient provides a function to set the background of a DOM element to a
     // CSS gradient according on the users browser and version. Gradient
     // needs a Range to be implemented on.
+    _class: "Gradient",
     Implements: Ranged,
     __options: {
         // these options are of less use and only here to show what we need
@@ -171,4 +172,3 @@ var Gradient = new Class({
         return bg;
     }
 });
- 

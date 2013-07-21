@@ -23,6 +23,7 @@
 var Equalizer = new Class({
     // Equalizer is a ResponseHandler adding some EqBands instead of
     // simple ResponseHandles.
+    _class: "Equalizer",
     Extends: ResponseHandler,
     options: {
         accuracy: 1, // the distance between points of curves on the x axis

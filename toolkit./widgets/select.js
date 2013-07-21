@@ -1,7 +1,7 @@
 Select = new Class({
     // Select provides a button with a select list to choose from
     // different options.
-    
+    _class: "Select",
     Extends: Button,
     options: {
         list: [],

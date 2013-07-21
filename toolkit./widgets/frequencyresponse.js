@@ -23,6 +23,7 @@ var FrequencyResponse = new Class({
     // FrequencyResponse is a Chart drawing frequencies on the x axis and dB
     // values on the y axis. This widget automatically draws a Grid depending
     // on the ranges.
+    _class: "FrequencyResponse",
     Extends: Chart,
     options: {
         db_grid: 12,                                         // dB grid distance

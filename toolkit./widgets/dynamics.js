@@ -24,6 +24,7 @@ var Dynamics = new Class({
     // Dynamics are based on Charts and display the characteristics of dynamic
     // processors. They are square widgets drawing a Grid automatically based on
     // the range.
+    _class: "Dynamics",
     Extends: Chart,
     options: {
         db_grid: 12,

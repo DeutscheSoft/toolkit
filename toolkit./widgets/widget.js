@@ -23,6 +23,7 @@ Widget = new Class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
     // firing some events.Widget implements AudioMath, Options and Events.
+    _class: "Widget",
     ____options_: {
         // these options are of less use and only here to show what we need
         container: false, // A DOM element as container to inject the element

@@ -23,6 +23,7 @@ EqBand = new Class({
     // An EqBand extends a ResponseHandle and holds a dependent Filter It is used
     // as a fully functional representation of a single equalizer band. EqBand
     // needs a Chart or other derivates to be drawn in.
+    _class: "EqBand",
     Extends: ResponseHandle,
     options: {
         type:    _TOOLKIT_PARAMETRIC // The type of the filter.
@@ -115,4 +116,3 @@ EqBand = new Class({
         this.parent(key, value, hold);
     }
 });
- 

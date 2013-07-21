@@ -22,6 +22,7 @@
 ScrollValue = new Class({
     // ScrollValue enables the scrollwheel for setting a value of an
     // object. ScrollValue is used e.g. in Knob for setting its value.
+    _class: "ScrollValue",
     Extends: Widget,
     options: {
         range:     function () { return {}; }, // a range oject

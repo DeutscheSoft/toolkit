@@ -23,6 +23,7 @@ DragValue = new Class({
     // DragValue enables dragging an element and setting a value
     // according to the distance. DragValue is used e.g. in Knob for
     // setting its value.
+    _class: "DragValue",
     Extends: Widget,
     Implements: GlobalCursor,
     options: {

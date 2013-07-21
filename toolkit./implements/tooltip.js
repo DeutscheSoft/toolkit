@@ -2,6 +2,7 @@ Tooltip = new Class({
     // Tooltip adds a tooltip list to a widget. Tooltip lists follow the
     // mouse pointer throughout the document and auto-show and auto-hide
     // automatically.
+    _class: "Tooltip",
     Implements: Events,
     tooltip: function (cont, tt) {
         if (!this._tooltip) {

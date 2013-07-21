@@ -26,7 +26,7 @@ LevelMeter = new Class({
     // functionality like falling and resetting all kinds of values after a
     // time. All additional elements can be set automatically as soon as the
     // value rises above them.
-    
+    _class: "LevelMeter",
     Extends: MeterBase,
     options: {
         clip:         false,   // state of the clipping LED

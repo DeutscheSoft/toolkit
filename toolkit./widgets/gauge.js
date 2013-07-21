@@ -21,6 +21,7 @@
 
 Gauge = new Class({
     // Gauge simply puts a single Circular into a SVG image.
+    _class: "Gauge",
     Extends: Circular,
     options: {
         width:  120, // width of the element

@@ -22,6 +22,7 @@
 var Graph = new Class({
     // Graph is a single SVG path element. It provides some functions to easily
     // draw paths inside Charts and other derivates.
+    _class: "Graph",
     Extends: Widget,
     Implements: Ranges,
     options: {

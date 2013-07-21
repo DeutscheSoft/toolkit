@@ -22,6 +22,7 @@
 Value = new Class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
+    _class: "Value",
     Extends: Widget,
     options: {
         value: 0,

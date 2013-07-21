@@ -1,4 +1,5 @@
 Fader = new Class({
+    _class: "Fader",
     Extends: Widget,
     Implements: [Ranged, Warning, Tooltip, GlobalCursor],
     options: {

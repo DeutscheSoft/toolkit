@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 Filter = new Class({
+    _class: "Filter",
     Implements: [AudioMath, Options, Events],
     options: {
         type: _TOOLKIT_PARAMETRIC, // the type of the filter

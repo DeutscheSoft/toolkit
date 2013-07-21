@@ -25,6 +25,7 @@ Scale = new Class({
     // tries to decide on its own where to draw labels and dots depending on the
     //  available space and the scale. Scales can be drawn vertically and
     // horizontally. Scale extends Widget and implements Ranges.
+    _class: "Scale",
     
     Extends: Widget,
     Implements: [Ranged],

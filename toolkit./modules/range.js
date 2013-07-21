@@ -26,6 +26,7 @@ Range = new Class({
     // MeterBase and Graph to draw elements on a certain position according to
     // a value on an arbitrary scale. Range implements AudioMath, Options and
     // Events.
+    _class: "Range",
     Implements: [Options, Events, Ranged],
     options: {
         scale:      _TOOLKIT_LINEAR, // What kind of value are we having?

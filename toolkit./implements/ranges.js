@@ -22,6 +22,7 @@
 Ranges = new Class({
     // Ranges provides a function to add different ranges to a widget for
     // building coordinate systems and the like.
+    _class: "Ranges",
     Implements: Events,
     add_range: function (from, name) {
         // add a range. From is a function returning a Range instance or an

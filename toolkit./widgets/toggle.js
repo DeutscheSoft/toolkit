@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 Toggle = new Class({
+    _class: "Toggle",
     Extends: Button,
     options: {
         label_active:  false, // the label for the active toggle, false for default label

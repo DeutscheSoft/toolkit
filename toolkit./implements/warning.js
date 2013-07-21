@@ -23,6 +23,7 @@ Warning = new Class({
     // warning sets a timed class "toolkit-warn" on an element. It is
     // used e.g. in ResponseHandle or Knob when the value exceeds the
     // range.
+    _class: "Warning",
     Implements: Events,
     warning: function (element, timeout) {
         if (!timeout) timeout = 250;

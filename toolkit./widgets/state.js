@@ -24,6 +24,7 @@ State = new Class({
     // is able to show different colors as well as on/off states. The
     // "brightness" can be set seamlessly. Classes can be used to display
     // different styles. State extends Widget.
+    _class: "State",
     Extends: Widget,
     options: {
         state:           0,     // the initial state (0 ... 1)

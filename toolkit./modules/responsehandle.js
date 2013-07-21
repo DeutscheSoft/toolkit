@@ -1,4 +1,5 @@
 ResponseHandle = new Class({
+    _class: "ResponseHandle",
     Extends: Widget,
     Implements: [GlobalCursor, Ranges, Warning],
     options: {

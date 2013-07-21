@@ -25,6 +25,7 @@ Grid = new Class({
     // and values. Graphs need a parent SVG image do draw into. The base element
     // of a Grid is a SVG group containing all the labels and lines. Grids
     // extend Widget and implements Ranges.
+    _class: "Grid",
     Extends: Widget,
     Implements: Ranges,
     options: {
@@ -154,4 +155,3 @@ Grid = new Class({
         this.parent(key, value, hold);
     }
 });
- 

@@ -23,6 +23,7 @@ Button = new Class({
     // Button is a simple, clickable widget to trigger funcions. They fire a
     // couple of click-related events and consist of a label and an icon.
     // Buttons are used as a base to build different other widgets from.
+    _class: "Button",
     Extends: Widget,
     options: {
         label:            "",    // text for the button
@@ -101,4 +102,3 @@ Button = new Class({
         this.parent(key, value, hold);
     }
 });
- 

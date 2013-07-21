@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 Window = new Class({
+    _class: "Window",
     Extends: Widget,
     options: {
         width:         500,   // initial width, can be a css length, an int (pixels)

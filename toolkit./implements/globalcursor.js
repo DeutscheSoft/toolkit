@@ -23,6 +23,7 @@ GlobalCursor = new Class({
     // GlobalCursor adds global cursor classes to enshure one of the
     // standard cursors (http://www.echoecho.com/csscursors.htm) in
     // the whole application
+    _class: "GlobalCursor",
     Implements: Events,
     global_cursor: function (cursor) {
         $$("html").addClass("toolkit-cursor-" + cursor);

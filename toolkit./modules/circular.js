@@ -25,7 +25,7 @@ Circular = new Class({
     // dots and markers and can show a hand. Circular e.g. is implemented by
     // the clock to draw the hours, minutes and seconds. Circular extends Widget
     // and implements Range.
-    
+    _class: "Circular",
     Extends: Widget,
     Implements: [Warning, Ranged],
     options: {

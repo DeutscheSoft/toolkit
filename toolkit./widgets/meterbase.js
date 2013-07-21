@@ -24,6 +24,7 @@ var MeterBase = new Class({
     // MeterBase extends Gradient and implements Widget.
     // MeterBase has a Scale widget.
     
+    _class: "MeterBase",
     Extends: Widget,
     Implements: [Ranged, Gradient],
     __margin:   0,

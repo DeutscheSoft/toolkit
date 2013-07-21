@@ -23,6 +23,7 @@
 var ResponseHandler = new Class({
     // ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
     // meant as a universal user interface for equalizers and the like.
+    _class: "ResponseHandler",
     Extends: FrequencyResponse,
     options: {
         importance_label:  4,   // multiplicator of square pixels on hit testing
