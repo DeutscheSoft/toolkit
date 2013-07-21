@@ -23,21 +23,21 @@ Widget = new Class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
     // firing some events.Widget implements AudioMath, Options and Events.
-    __options: {
+    ____options_: {
         // these options are of less use and only here to show what we need
         container: false, // A DOM element as container to inject the element
                           // into
         id:        "",    // a id toset on the element. If omitted a random
                           // string is generated.
         "class":   "",    // A CSS class to add to the main element
-        styles:    {}     // If an element was stylized, styles can be applied
+        styles:    {},    // If an element was stylized, styles can be applied
+        active:    true   // Widgets can be disabled by setting this to false
     },
-    
     Implements: [AudioMath, Options, Events],
     initialize: function (options) {
         // Main actions every widget needs to take
         this.fireEvent("initialize", this);
-        this.setOptions(options);
+        this.setOptions(Object.merge(this.____options_, options));
         if (!this.options.id)
             this.options.id = String.uniqueID();
         return this;
@@ -119,6 +119,7 @@ Widget = new Class({
         this.__stylized = element;
         this.set("styles", this.options.styles);
         this.fireEvent("stylized", [element, this]);
+        this.set("active", this.options.active);
         return element;
     },
     widgetize: function (element, delegate, classify, stylize) {
@@ -167,6 +168,12 @@ Widget = new Class({
                 if (!hold && this.__stylized)
                     this.__stylized.setStyles(this.options.styles);
                 break;
+            case "active":
+                if (!hold && this.__stylized)
+                    if (value)
+                        this.__stylized.removeClass("toolkit-inactive")
+                    else
+                        this.__stylized.addClass("toolkit-inactive")
         }
         this.fireEvent("set", [key, value, hold, this]);
         this.fireEvent("set_" + key, [value, hold, this]);

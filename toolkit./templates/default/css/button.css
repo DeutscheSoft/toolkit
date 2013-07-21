@@ -36,6 +36,8 @@
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/grey_in.png',sizingMethod='scale');
 }
 .toolkit-button div.toolkit-label {
+    font-size: 13px;
+    line-height: 1.5em;
     text-align: center;
     margin: auto;
     -webkit-touch-callout: none;

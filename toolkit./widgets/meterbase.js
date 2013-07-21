@@ -256,21 +256,10 @@ var MeterBase = new Class({
         this.set("show_title", this.options.show_title);
         this.set("show_scale", this.options.show_scale);
         
-        this.scale = new Scale({
-            min:         this.options.min,
-            max:         this.options.max,
-            division:    this.options.division,
-            levels:      this.options.levels,
-            gap_dots:    this.options.gap_dots,
-            gap_labels:  this.options.gap_labels,
-            show_labels: this.options.show_labels,
-            labels:      this.options.format_labels,
-            layout:      this.options.layout,
-            reverse:     this.options.reverse,
-            base:        this.__based?this.options.base:this.options.scale_base,
-            container:   this._scale,
-            basis:       this.options.basis
-        });
+        var options = Object.merge({}, this.options);
+        options. base = this.__based?this.options.base:this.options.scale_base;
+        options.container = this._scale,
+        this.scale = new Scale(options);
         
         this.delegate(this._bar);
         

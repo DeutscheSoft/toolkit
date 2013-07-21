@@ -56,14 +56,14 @@ Select = new Class({
         var opt = {};
         opt.element = li;
         opt.title = (typeof option == "string")
-                       ? option : typeof options.title != "undefined"
-                       ? options.title : option.value
-        opt.value = (typeof option == "string") ? option : typeof options.value;
+                       ? option : (typeof option.title != "undefined")
+                       ? option.title : option.value
+        opt.value = (typeof option == "string") ? option : option.value;
         
         li.set("html", opt.title);
         li.addEvent("click", function (e) {
             this.fireEvent("select", [opt.value, li, this, opt]);
-            this.select(opt.title);
+            this.select(opt.value);
             
         }.bind(this));
         

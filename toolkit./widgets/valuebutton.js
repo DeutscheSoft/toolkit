@@ -46,7 +46,7 @@ ValueButton = new Class({
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) {
                 this.set("value", v);
-                this.fireEvent("useraction", ["value", val, this]);
+                this.fireEvent("useraction", ["value", v, this]);
             }.bind(this),
             direction: this.options.drag_direction,
             events: function () { return this }.bind(this),

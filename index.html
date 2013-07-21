@@ -2454,6 +2454,14 @@
                         </td>
                         <td>undefined</td>
                     </tr>
+                    <tr>
+                        <td>active</td>
+                        <td>Widgets can be set inactive. Inactive widgets set the class
+                        ".toolkit-inactive" on an eventually stylized element. Widgets
+                        may use this parameter e.g. to restrict events.
+                        </td>
+                        <td>true</td>
+                    </tr>
                 </table>
                 
                 <table class="methods collapse" title="⚒ Methods">
@@ -2780,11 +2788,6 @@
                         <td>fixed</td>
                         <td>Whether the window sticks to the viewport (true) rather than the document (false).</td>
                         <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>active</td>
-                        <td>The windows state (represented by a CSS class "toolkit-active").</td>
-                        <td>false</td>
                     </tr>
                     <tr>
                         <td>modal</td>
@@ -4245,12 +4248,6 @@
                         <td>3</td>
                     </tr>
                     <tr>
-                        <td>active</td>
-                        <td>True if usable, false if not. Disables main actions and sets the css class
-                        "toolkit-inactive" on the element if set to false.</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
                         <td>z_handle</td>
                         <td>Draw a tiny handle for manipulating the z axis. z_handle has the following
                         values:
@@ -4913,26 +4910,26 @@
                 
                 <table class="methods collapse" title="⚒ Methods">
                     <tr><th>Method</th><th>Description</th></tr>
-                    <tr><td>val2real(n)</td>
+                    <tr><td>val2real(n, nosnap)</td>
                         <td>Calculates "real world" values (positions, coefficients, ...)
                         depending on options.basis</td></tr>
-                    <tr><td>real2val(n)</td>
+                    <tr><td>real2val(n, nosnap)</td>
                         <td>Returns a point on the scale for the "real world" value (positions,
                         coefficients, ...) based on options.basis</td></tr>
-                    <tr><td>val2px(n)</td>
+                    <tr><td>val2px(n, nosnap)</td>
                         <td>Just a wrapper for having understandable code and backward
                         compatibility</td></tr>
-                    <tr><td>px2val(n)</td>
+                    <tr><td>px2val(n, nosnap)</td>
                         <td>Just a wrapper for having understandable code and backward
                         compatibility</td></tr>
-                    <tr><td>val2coef(n)</td><td>Calculates a coefficient for the value</td></tr>
-                    <tr><td>coef2val(n)</td><td>Calculates a value from a coefficient</td></tr>
-                    <tr><td>val2perc(n)</td><td>Calculates percents on the scale from a value</td></tr>
-                    <tr><td>perc2val(n)</td><td>Calculates a value from percents of the scale</td></tr>
-                    <tr><td>val2based(value, basis)</td>
+                    <tr><td>val2coef(n, nosnap)</td><td>Calculates a coefficient for the value</td></tr>
+                    <tr><td>coef2val(n, nosnap)</td><td>Calculates a value from a coefficient</td></tr>
+                    <tr><td>val2perc(n, nosnap)</td><td>Calculates percents on the scale from a value</td></tr>
+                    <tr><td>perc2val(n, nosnap)</td><td>Calculates a value from percents of the scale</td></tr>
+                    <tr><td>val2based(value, basis, nosnap)</td>
                         <td>Takes a value and returns the corresponding point on the scale
                         according to basis</td></tr>
-                    <tr><td>based2val(coef, basis)</td>
+                    <tr><td>based2val(coef, basis, nosnap)</td>
                         <td>Takes a point on the scale according to basis and returns the
                         corresponding value</td></tr>
                     <tr><td>snap_value(value)</td>

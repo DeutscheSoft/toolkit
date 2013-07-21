@@ -66,7 +66,6 @@ Window = new Class({
         icon:          "",
         fixed:         true, // whether the window sticks to the viewport
                               // rather than the document
-        active:        true,  // state of the window (mainly a css-class)
         auto_active:   false, // auto-toggle the active-class when mouseovered
         auto_close:    true,  // set whether close destroys the window or not
         auto_maximize: true,  // set whether maximize toggles the window or not
@@ -727,10 +726,6 @@ Window = new Class({
                     this._build_footer();
                     this._set_content();
                 }
-                break;
-            case "active":
-                if (value) this.element.addClass("toolkit-active");
-                else       this.element.removeClass("toolkit-active");
                 break;
             case "fixed":
                 this.element.setStyle("position", value ? "fixed" : "absolute");

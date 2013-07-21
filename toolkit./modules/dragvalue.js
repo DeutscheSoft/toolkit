@@ -75,8 +75,14 @@ DragValue = new Class({
         else if (this.options.cursor)
             this.global_cursor("col-resize");
         this.__active  = true;
+        
+        this._clickPos = this.options.range().val2real(this.options.get());
+        this._pageX = ev.pageX;
+        this._pageY = ev.pageY
+            
         // remember stuff
-        this._cache_values(ev);
+        this._cache_values(ev, 0);
+        
         // fire event
         this._fire_event("startdrag", e);
         
@@ -115,10 +121,14 @@ DragValue = new Class({
             var dist = (this._pageY - ev.pageY) * multi;
         else
             var dist = (ev.pageX - this._pageX) * multi;
+        
+        var val = this.options.get();
         this.options.set(this.options.range().px2val(this._clickPos + dist));
         
         // remember stuff
-        this._cache_values(ev);
+        if (val != this.options.get())
+            this._cache_values(ev, dist);
+        
         // fire event
         this._fire_event("dragging", e);
         
@@ -126,6 +136,13 @@ DragValue = new Class({
     },
     
     // HELPERS & STUFF
+    _cache_values: function (event, dist) {
+        // store some poitions and values
+        this._pageX    = event.pageX;
+        this._pageY    = event.pageY;
+        this._clickPos = this._clickPos + dist;
+    },
+    
     _get_event: function (event) {
         // return the right event if touch surface is used
         // with multiple fingers
@@ -144,13 +161,6 @@ DragValue = new Class({
                                               this,
                                               this.options.range()
                                               ]);
-    },
-    _cache_values: function (event) {
-        // store some poitions and values
-        this._pageX    = event.pageX;
-        this._pageY    = event.pageY;
-        this._clickVal = this.options.get();
-        this._clickPos = this.options.range().val2real(this._clickVal);
     },
     
     // GETTERS & SETTERS

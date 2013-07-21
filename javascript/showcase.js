@@ -98,8 +98,8 @@ run_fader = function () {
             base: 0,
             value: 0,
             scale: _TOOLKIT_DB,
-            log_factor: 2
-            
+            log_factor: 2,
+            snap: 12
         }));
     }
     fadertt = new Toggle({

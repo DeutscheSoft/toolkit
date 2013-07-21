@@ -56,23 +56,32 @@ ScrollValue = new Class({
         e.event.preventDefault();
         
         this.options.classes.addClass("toolkit-scrolling");
+        var range = this.options.range();
         
         // timeout for resetting the class
         if (this.__sto) window.clearTimeout(this.__sto);
         this.__sto = window.setTimeout(function () {
             this.options.classes.removeClass("toolkit-scrolling");
             this._fire_event("scrollended", e);
-        }.bind(this), 250);
+            this._wheel = false;
+        }.bind(this), 200);
         
         // calc step depending on options.step, .shift up and .shift down
-        var step = (this.options.range().options.step || 1) * e.wheel;
+        var step = (range.options.step || 1) * e.wheel;
         if (e.control && e.shift) {
-            step *= this.options.range().options.shift_down;
+            step *= range.options.shift_down;
         } else if (e.shift) {
-            step *= this.options.range().options.shift_up;
+            step *= range.options.shift_up;
         }
-        var valpos = this.options.range().val2real(this.options.get());
-        this.options.set(this.options.range().real2val(valpos + step));
+        if (!this._wheel)
+            this._lastPos = range.val2real(this.options.get());
+            
+        this._lastPos += step;
+        this.options.set(range.real2val(this._lastPos, true));
+        
+        this._lastPos = range.val2real(Math.max(Math.min(range.real2val(this._lastPos, true),
+                                          range.options.max),
+                                 range.options.min), true);
         
         if (!this._wheel)
             this._fire_event("scrollstarted", e);

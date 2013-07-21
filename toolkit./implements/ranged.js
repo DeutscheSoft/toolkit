@@ -74,7 +74,7 @@ Ranged = new Class({
                                          // decimal point)
                                          // Alternatively set this to an array
                                          // containing possible values
-        round:          false,           // if snap is set decide how to jump
+        round:          true,            // if snap is set decide how to jump
                                          // between snaps. Setting this to true
                                          // slips to the next snap if the value
                                          // is more than on its half way to it.
@@ -87,48 +87,48 @@ Ranged = new Class({
                                             
     },
     
-    val2real: function (n) {
+    val2real: function (n, nosnap) {
         // calculates "real world" values (positions, coefficients, ...)
         // depending on options.basis
-        return this.val2based(n, this.options.basis);
+        return this.val2based(n, this.options.basis, nosnap);
     },
-    real2val: function (n) {
+    real2val: function (n, nosnap) {
         // returns a point on the scale for the "real world" value (positions,
         // coefficients, ...) based on options.basis
-        return this.based2val(n, this.options.basis);
+        return this.based2val(n, this.options.basis, nosnap);
     },
-    val2px: function (n) {
+    val2px: function (n, nosnap) {
         // just a wrapper for having understandable code and backward
         // compatibility
-        return this.val2based(n, this.options.basis);
+        return this.val2based(n, this.options.basis, nosnap);
     },
-    px2val: function (n) {
+    px2val: function (n, nosnap) {
         // just a wrapper for having understandable code and backward
         // compatibility
-        return this.based2val(n, this.options.basis);
+        return this.based2val(n, this.options.basis, nosnap);
     },
-    val2coef: function (n) {
+    val2coef: function (n, nosnap) {
         // calculates a coefficient for the value
-        return this.val2based(n, 1);
+        return this.val2based(n, 1, nosnap);
     },
-    coef2val: function (n) {
+    coef2val: function (n, nosnap) {
         // calculates a value from a coefficient
-        return this.based2val(n, 1);
+        return this.based2val(n, 1, nosnap);
     },
-    val2perc: function (n) {
+    val2perc: function (n, nosnap) {
         // calculates percents on the scale from a value
-        return this.val2based(n, 100);
+        return this.val2based(n, 100, nosnap);
     },
-    perc2val: function (n) {
+    perc2val: function (n, nosnap) {
         // calculates a value from percents of the scale
-        return this.based2val(n, 100);
+        return this.based2val(n, 100, nosnap);
     },
-    val2based: function (value, basis) {
+    val2based: function (value, basis, nosnap) {
         // takes a value and returns the corresponding point on the scale
         // according to basis
         if (typeof value == "undefined") value = this.options.value;
         basis = basis || 1;
-        value = this.snap_value(value);
+        if (!nosnap) value = this.snap_value(value);
         var coef = 0;
         if (typeof this.options.scale == "function")
             coef = this.options.scale(value, this.options, false) * basis;
@@ -162,7 +162,7 @@ Ranged = new Class({
         if (this.options.reverse) coef = -coef + basis;
         return coef;
     },
-    based2val: function (coef, basis) {
+    based2val: function (coef, basis, nosnap) {
         // takes a point on the scale according to basis and returns the
         // corresponding value
         basis = basis || 1;
@@ -197,6 +197,7 @@ Ranged = new Class({
                        true);
                 break;
         }
+        if (nosnap) return value;
         return this.snap_value(value);
     },
     snap_value: function (value) {
