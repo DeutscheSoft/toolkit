@@ -368,8 +368,8 @@ Circular = new Class({
                     + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
                 break;
             case "value":
-                this.options.value = Math.min(this.options.max,
-                                     Math.max(this.options.min, value));
+                this.options.value = this.snap_value(Math.min(this.options.max,
+                                     Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fireEvent("set_value", [this.options.value, this]);

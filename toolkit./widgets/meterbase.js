@@ -338,7 +338,7 @@ var MeterBase = new Class({
         // Set the mask elements according to options.value to show a value in
         // the meter bar
         var pos = Math.max(0,
-                  this._val2seg(Math.max(this.options.base, this.options.value)));
+                  this._val2seg(Math.min(this.options.max, Math.max(this.options.base, this.options.value))));
         this._mask1.setStyle(this._vert() ? "height" : "width", this.options.basis - pos);
         if (!this.__based) return;
         var pos = Math.max(0,

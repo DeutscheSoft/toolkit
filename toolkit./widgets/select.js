@@ -104,7 +104,7 @@ Select = new Class({
     select: function (key) {
         if (this.list[key]) {
             this.set("label", this.list[key].title);
-            if (this.options.selected) {
+            if (this.options.selected !== false) {
                 this.list[this.options.selected].element.removeClass("toolkit-active");
             }
             this.list[key].element.addClass("toolkit-active");

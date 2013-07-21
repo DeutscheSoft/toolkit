@@ -154,9 +154,8 @@ ValueButton = new Class({
                 }
                 break;
             case "value":
-                this.options.value = Math.max(this.options.value, this.options.min);
-                this.options.value = Math.min(this.options.value, this.options.max);
-                this.options.value = this.snap_value(this.options.value);
+                this.options.value = this.snap_value(Math.min(this.options.max,
+                                     Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fireEvent("valuechanged", [this.options.value, this]);
