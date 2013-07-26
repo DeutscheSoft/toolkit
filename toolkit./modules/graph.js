@@ -1,24 +1,24 @@
-/*******************************************************************************
- * toolkit. by Junger
+ /* toolkit. provides different widgets, implements and modules for 
+ * building audio based applications in webbrowsers.
  * 
- * This toolkit provides different widgets, implements and modules for building
- * audio based applications in webbrowsers.
- * 
- * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
- * 
- * Jünger Audio GmbH
- * Justus-von-Liebig-Straße 7
- * 12489 Berlin · Germany
- * Tel: +49 30 67 77 21 0
- * http://junger-audio.com
- * info@junger-audio.com
- * 
- * toolkit. relies on mootools: http://mootools.net/
- * 
- * There is no license by now - all rights reserved. Hope we can fix this major
- * bug soon.
- ******************************************************************************/
-
+ * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ */
+ 
 var Graph = new Class({
     // Graph is a single SVG path element. It provides some functions to easily
     // draw paths inside Charts and other derivates.
@@ -99,38 +99,38 @@ var Graph = new Class({
                 case "T":
                     // line to and smooth quadric bezier
                     var _t = init ? " " + t : "M";
-                    var _x = (this.range_x.val2px(d.x) + a);
-                    var _y = (this.range_y.val2px(d.y) + a);
+                    var _x = (this.range_x.val2px(d.x, true) + a);
+                    var _y = (this.range_y.val2px(d.y, true) + a);
                     s += _t + " " + _x + " " + _y;
                     break;
                 case "Q":
                 case "S":
                     // cubic bezier with reflection (S)
                     // and smooth quadratic bezier with reflection of beforehand
-                    var _x = (this.range_x.val2px(d.x) + a);
-                    var _y = (this.range_y.val2px(d.y) + a);
-                    var _x1 = (this.range_x.val2px(d.x1) + a);
-                    var _y1 = (this.range_y.val2px(d.y1) + a);
+                    var _x = (this.range_x.val2px(d.x, true) + a);
+                    var _y = (this.range_y.val2px(d.y, true) + a);
+                    var _x1 = (this.range_x.val2px(d.x1, true) + a);
+                    var _y1 = (this.range_y.val2px(d.y1, true) + a);
                     s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
                     break;
                 case "C":
                     // cubic bezier
-                    var _x = (this.range_x.val2px(d.x) + a);
-                    var _y = (this.range_y.val2px(d.y) + a);
-                    var _x1 = (this.range_x.val2px(d.x1) + a);
-                    var _y1 = (this.range_y.val2px(d.y1) + a);
-                    var _x2 = (this.range_x.val2px(d.x2) + a);
-                    var _y2 = (this.range_y.val2px(d.y2) + a);
+                    var _x = (this.range_x.val2px(d.x, true) + a);
+                    var _y = (this.range_y.val2px(d.y, true) + a);
+                    var _x1 = (this.range_x.val2px(d.x1, true) + a);
+                    var _y1 = (this.range_y.val2px(d.y1, true) + a);
+                    var _x2 = (this.range_x.val2px(d.x2, true) + a);
+                    var _y2 = (this.range_y.val2px(d.y2, true) + a);
                     s += " C" + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
                          + _x + "," + _y;
                     break;
                 case "H":
                     var f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
-                    var _x = (this.range_x.val2px(d.x));
-                    var _y = _y1 = (this.range_y.val2px(d.y) + a);
+                    var _x = (this.range_x.val2px(d.x, true));
+                    var _y = _y1 = (this.range_y.val2px(d.y, true) + a);
                     if (_d && _d != (this.options.dots.length - 1)) {
                         var _q = (this.range_x.val2px(
-                                 this.options.dots[_d - 1].x));
+                                 this.options.dots[_d - 1].x), true);
                         var _x1 =  (_x - Math.round((_x - _q) / f) + a);
                     } else {
                         var _x1 = _x;
@@ -166,25 +166,25 @@ var Graph = new Class({
         switch (m) {
             case _TOOLKIT_BOTTOM:
                 // fill the lower part of the graph
-                s += "M " + (this.range_x.val2px(d.x) - 1) + " ";
+                s += "M " + (this.range_x.val2px(d.x, true) - 1) + " ";
                 s += (h + 1) + a + " " + t + " ";
-                s += (this.range_x.val2px(d.x) - 1 + a) + " ";
-                s += (this.range_y.val2px(d.y) + a);
+                s += (this.range_x.val2px(d.x, true) - 1 + a) + " ";
+                s += (this.range_y.val2px(d.y, true) + a);
                 return s;
             case _TOOLKIT_TOP:
                 // fill the upper part of the graph
-                s += "M " + (this.range_x.val2px(d.x) - 1) + " " + (-1 + a);
-                s += " " + t + " " + (this.range_x.val2px(d.x) - 1 + a) + " "
-                s += (this.range_y.val2px(d.y) + a);
+                s += "M " + (this.range_x.val2px(d.x, true) - 1) + " " + (-1 + a);
+                s += " " + t + " " + (this.range_x.val2px(d.x, true) - 1 + a) + " "
+                s += (this.range_y.val2px(d.y, true) + a);
                 return s;
             case _TOOLKIT_CENTER:
                 // fill from the mid
-                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
+                s += "M " + (this.range_x.val2px(d.x, true) - 1 + a) + " ";
                 s += (0.5 * h) + a;
                 return s;
             case _TOOLKIT_VARIABLE:
                 // fill from variable point
-                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
+                s += "M " + (this.range_x.val2px(d.x, true) - 1 + a) + " ";
                 s += ((-this.options.base + 1) * h + a);
                 return s;
         }
@@ -198,19 +198,19 @@ var Graph = new Class({
         switch (m) {
             case _TOOLKIT_BOTTOM:
                 // fill the graph below
-                return " " + t + " " + (this.range_x.val2px(d.x) + a) + " "
+                return " " + t + " " + (this.range_x.val2px(d.x, true) + a) + " "
                        + parseInt(h + 1) + a + " Z";
             case _TOOLKIT_TOP:
                 // fill the upper part of the graph
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a)
+                return " " + t + " " + (this.range_x.val2px(d.x, true) + 1 + a)
                        + " -1" + a + " Z";
             case _TOOLKIT_CENTER:
                 // fill from mid
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
+                return " " + t + " " + (this.range_x.val2px(d.x, true) + 1 + a) + " "
                        + (0.5 * h) + a + " Z";
             case _TOOLKIT_VARIABLE:
                 // fill from variable point
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
+                return " " + t + " " + (this.range_x.val2px(d.x, true) + 1 + a) + " "
                        + ((-m + 1) * h) + a + " Z";
         }
         return "";

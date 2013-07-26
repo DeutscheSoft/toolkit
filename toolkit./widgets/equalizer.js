@@ -1,24 +1,23 @@
-/*******************************************************************************
- * toolkit. by Junger
+ /* toolkit. provides different widgets, implements and modules for 
+ * building audio based applications in webbrowsers.
  * 
- * This toolkit provides different widgets, implements and modules for building
- * audio based applications in webbrowsers.
- * 
- * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
- * 
- * Jünger Audio GmbH
- * Justus-von-Liebig-Straße 7
- * 12489 Berlin · Germany
- * Tel: +49 30 67 77 21 0
- * http://junger-audio.com
- * info@junger-audio.com
- * 
- * toolkit. relies on mootools: http://mootools.net/
- * 
- * There is no license by now - all rights reserved. Hope we can fix this major
- * bug soon.
- ******************************************************************************/
-
+ * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ */
 
 var Equalizer = new Class({
     // Equalizer is a ResponseHandler adding some EqBands instead of
@@ -27,7 +26,8 @@ var Equalizer = new Class({
     Extends: ResponseHandler,
     options: {
         accuracy: 1, // the distance between points of curves on the x axis
-        bands: []    // list of bands to create on init
+        bands: [],   // list of bands to create on init
+        deferrer: 40  // set a timeout for drawing the curve
     },
     bands: [],
     
@@ -52,14 +52,30 @@ var Equalizer = new Class({
         this._bands.destroy();
         this.parent();
     },
-    
+    __deferring: false,
     redraw: function () {
+        if (this.options.deferrer) {
+            if (!this._defer_to) {
+                this._defer_to = window.setTimeout(
+                    function () {
+                        this.__deferring = true;
+                        this.redraw()
+                    }.bind(this),
+                    Math.max(5, this.options.deferrer));
+            } else if (!this.__deferring) {
+                return;
+            }
+            if (this.__deferring) {
+                this._defer_to = false;
+                this.__deferring = false;
+            }
+        }
         if (this.baseline) {
             var dots = [];
             var c = 0;
             for (var i = 0; i < this.range_x.get("basis"); i += this.options.accuracy) {
                 var gain = 1;
-                var freq = this.range_x.px2val(i);
+                var freq = this.range_x.px2val(i, true);
                 dots[c] = {x: freq, y: 0};
                 for (var j = 0; j < this.bands.length; j++) {
                     if (this.bands[j].get("active"))

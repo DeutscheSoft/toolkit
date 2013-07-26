@@ -1,3 +1,24 @@
+ /* toolkit. provides different widgets, implements and modules for 
+ * building audio based applications in webbrowsers.
+ * 
+ * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ */
+
 Select = new Class({
     // Select provides a button with a select list to choose from
     // different options.
@@ -20,9 +41,10 @@ Select = new Class({
         
         this._list = new Element("ul.toolkit-select-list");
         this._list.set("tween", {
-            onComplete: this._hide_list.bind(this)
+            onComplete: this._hide_list.bind(this),
+            duration: 200
         });
-        document.addEvent("click", function () {
+        document.addEvent("mousedown", function () {
             if (this.__open && !this.__transition) {
                 this.show_list(false);
             }
@@ -58,13 +80,13 @@ Select = new Class({
         opt.title = (typeof option == "string")
                        ? option : (typeof option.title != "undefined")
                        ? option.title : option.value
-        opt.value = (typeof option == "string") ? option : option.value;
+        opt.value = (typeof option == "string") ? option
+                                                : option.value.toString();
         
         li.set("html", opt.title);
-        li.addEvent("click", function (e) {
-            this.fireEvent("select", [opt.value, li, this, opt]);
+        li.addEvent("mouseup", function (e) {
             this.select(opt.value);
-            
+            this.fireEvent("select", [opt.value, li, this, opt]);
         }.bind(this));
         
         this.list[opt.value] = opt;
@@ -76,6 +98,7 @@ Select = new Class({
         if (!hold) this.resize();
     },
     remove_option: function (key) {
+        key = key.toString();
         if (typeof this.list[key] != "undefined") {
             this.list.key.destroy();
         }
@@ -102,6 +125,7 @@ Select = new Class({
         }
     },
     select: function (key) {
+        key = key.toString();
         if (this.list[key]) {
             this.set("label", this.list[key].title);
             if (this.options.selected !== false) {
@@ -115,9 +139,8 @@ Select = new Class({
         if (show) {
             var pos = this.element.getPosition();
             pos.y += this.element.outerHeight();
+            var ew = this.element.outerWidth();
             this._list.inject($$("body")[0]);
-            var lw = this._list.outerWidth();
-            var lh = this._list.outerHeight();
             var cw = window.getSize().x;
             var ch = window.getSize().y;
             var sx = (window.pageXOffset !== undefined) ? window.pageXOffset
@@ -125,9 +148,16 @@ Select = new Class({
             var sy = (window.pageYOffset !== undefined) ? window.pageYOffset
                    : (document.documentElement || document.body.parentNode || document.body).scrollTop;
             this._list.setStyles({
+                "opacity": 0,
+                "max-height": ch,
+                "max-width": cw,
+                "min-width": ew
+            });
+            var lw = this._list.outerWidth();
+            var lh = this._list.outerHeight();
+            this._list.setStyles({
                 "top": Math.min(this.element.getPosition().y + this.element.outerHeight(), ch + sy - lh),
                 "left": Math.min(this.element.getPosition().x, cw + sx - lw),
-                "opacity": 0,
             });
         }
         this.__transition = true;
@@ -142,13 +172,15 @@ Select = new Class({
     },
     
     set: function (key, value, hold) {
+        switch (key) {
+            case "selected":
+                this.select(value);
+                break;
+        }
         this.options[key] = value;
         switch (key) {
             case "options":
                 this.set_options(value);
-                break;
-            case "selected":
-                this.select(value);
                 break;
             case "auto_size":
                 this.resize();

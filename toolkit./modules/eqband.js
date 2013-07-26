@@ -1,23 +1,23 @@
-/*******************************************************************************
- * toolkit. by Junger
+ /* toolkit. provides different widgets, implements and modules for 
+ * building audio based applications in webbrowsers.
  * 
- * This toolkit provides different widgets, implements and modules for building
- * audio based applications in webbrowsers.
- * 
- * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
- * 
- * Jünger Audio GmbH
- * Justus-von-Liebig-Straße 7
- * 12489 Berlin · Germany
- * Tel: +49 30 67 77 21 0
- * http://junger-audio.com
- * info@junger-audio.com
- * 
- * toolkit. relies on mootools: http://mootools.net/
- * 
- * There is no license by now - all rights reserved. Hope we can fix this major
- * bug soon.
- ******************************************************************************/
+ * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ */
 
 EqBand = new Class({
     // An EqBand extends a ResponseHandle and holds a dependent Filter It is used
@@ -87,11 +87,19 @@ EqBand = new Class({
     set: function (key, value, hold) {
         this.options[key] = value;
         switch (key) {
+            case "type":
+                this.filter.set("type", value);
+                this.filter.reset();
+                break;
+            case "freq":
+                key = "x"
             case "x":
                 this.filter.set("freq",
                                 Math.max(Math.min(value, this.range_x.get("max")),
                                          this.range_x.get("min")), hold);
                 break;
+            case "gain":
+                key = "y"
             case "y":
                 switch (this.range_y.get("mode")) {
                     default:
@@ -107,6 +115,8 @@ EqBand = new Class({
                         break;
                 }
                 break;
+            case "q":
+                key = "z"
             case "z":
                 this.filter.set("q",
                                 Math.max(Math.min(value, this.range_z.get("max")),

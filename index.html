@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>JUNGER Toolkit - Showcase And Documentation</title>
+        <title>toolkit. Showcase And Documentation</title>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         
         <!-- MAIN STUFF -->
@@ -88,6 +88,8 @@
         <script src="toolkit./widgets/fader.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/select.css">
         <script src="toolkit./widgets/select.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/label.css">
+        <script src="toolkit./widgets/label.js"></script>
         
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
@@ -781,6 +783,11 @@
                         <td>Reduction of a _TOOLKIT_EXPANDER.</td>
                         <td>0</td>
                     </tr>
+                    <tr>
+                        <td>grid_labels</td>
+                        <td>A callback function formatting the string for the grid labels.</td>
+                        <td>function (val) { return val + (!val ? "dB":""); }</td>
+                    </tr>
                 </table>
                 
                 <table class="domelements collapse" title="⛁ DOM-Elements">
@@ -1285,6 +1292,46 @@
                     </tr>
                 </table>
                 
+            </li>
+            
+            <li id="Label" class="widget">
+                <!-- ########################################################### -->
+                <!-- LABEL WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Label</strong> provides a simple area to display HTML or text.
+                </p>
+                <p class="description">
+                    Use label to play with the Label in a terminal:
+                    <a href="javascript:label.set('label', 'Hello World!')">label.set("label", "Hello World!")</a>
+                    <small>(toggles the content of the label)</small>
+                </p>
+                
+                <div class="showcase">
+                    <div id="sc_label">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>label</td>
+                        <td>The HTML or text to display.</td>
+                        <td>""</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>label.element ("div.toolkit-label") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>The div container of the label.</td>
+                    </tr>
+                </table>
             </li>
             
             <li id="LevelMeter" class="widget">

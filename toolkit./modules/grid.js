@@ -1,24 +1,24 @@
-/*******************************************************************************
- * toolkit. by Junger
+ /* toolkit. provides different widgets, implements and modules for 
+ * building audio based applications in webbrowsers.
  * 
- * This toolkit provides different widgets, implements and modules for building
- * audio based applications in webbrowsers.
- * 
- * Concept and realization by Markus Schmidt <schmidt@boomshop.net> for:
- * 
- * Jünger Audio GmbH
- * Justus-von-Liebig-Straße 7
- * 12489 Berlin · Germany
- * Tel: +49 30 67 77 21 0
- * http://junger-audio.com
- * info@junger-audio.com
- * 
- * toolkit. relies on mootools: http://mootools.net/
- * 
- * There is no license by now - all rights reserved. Hope we can fix this major
- * bug soon.
- ******************************************************************************/
-
+ * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Boston, MA  02110-1301  USA
+ */
+ 
 Grid = new Class({
     // A Grid creates a couple of lines and labels in a SVG image on the x and
     // y axis. It is used in e.g. Graphs and FrequencyResponses to draw markers
@@ -98,9 +98,9 @@ Grid = new Class({
             var pb = p[2].toInt() || 0;
             var pl = p[3].toInt() || 0;
             var x  = mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl,
-                            this.range_x.val2px(obj.pos) - tw / 2));
+                            this.range_x.val2px(obj.pos, true) - tw / 2));
             var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt,
-                            this.range_y.val2px(obj.pos))) : h-th/2-pt;
+                            this.range_y.val2px(obj.pos, true))) : h-th/2-pt;
             if (mode && y > this.__last || !mode && x < this.__last) {
                 label.destroy();
             } else {
@@ -124,13 +124,13 @@ Grid = new Class({
         if (obj.color) line.set("style", "stroke:" + obj.color);
         if (mode) {
             // line from left to right
-            line.set("d", "M0 " + Math.round(this.range_y.val2px(obj.pos))
+            line.set("d", "M0 " + Math.round(this.range_y.val2px(obj.pos, true))
                 + ".5 L"  + (this.range_x.options.basis - m) + " "
-                + Math.round(this.range_y.val2px(obj.pos)) + ".5");
+                + Math.round(this.range_y.val2px(obj.pos, true)) + ".5");
         } else {
             // line from top to bottom
-            line.set("d", "M" + Math.round(this.range_x.val2px(obj.pos))
-                + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos))
+            line.set("d", "M" + Math.round(this.range_x.val2px(obj.pos, true))
+                + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos, true))
                 + ".5 " + (this.range_y.options.basis - m));
         }
         line.inject(this.element);

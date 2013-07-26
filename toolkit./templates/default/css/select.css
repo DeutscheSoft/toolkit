@@ -31,12 +31,14 @@
     -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     -moz-box-shadow:    0px 2px 5px rgba(0, 0, 0, 0.2);
     box-shadow:         0px 2px 5px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }
 
 .toolkit-select-list .toolkit-option {
     margin: 0;
     padding: 2px 5px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .toolkit-select-list .toolkit-option:hover {
