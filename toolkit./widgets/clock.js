@@ -38,7 +38,7 @@ Clock = new Class({
                                   // in milliseconds
         fps:          25,         // framerate for calculatind SMTP frames
         months:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        days:         ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        days:         ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         label: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
             return sprintf("%02d:%02d:%02d", hour, minute, second);},
         label_upper: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
