@@ -94,7 +94,7 @@ Scale = new Class({
         this.element.empty();
         
         // draw base
-        this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "");
+        this.draw_dot(this.options.base, "toolkit-base");
         if (this.options.show_base) {
             this.draw_label(this.options.base, "toolkit-base");
         }
