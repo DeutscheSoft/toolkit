@@ -426,6 +426,9 @@ var MeterBase = new Class({
             case "gap_dots":
             case "gap_labels":
             case "show_labels":
+            case "show_max":
+            case "show_min":
+            case "show_base":
                 this.scale.set(key, value, hold);
                 this.fireEvent("scalechanged", [key, value, this]);
                 if (!hold) this.redraw();
