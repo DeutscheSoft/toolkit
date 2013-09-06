@@ -129,8 +129,8 @@ var Graph = new Class({
                     var _x = (this.range_x.val2px(d.x, true));
                     var _y = _y1 = (this.range_y.val2px(d.y, true) + a);
                     if (_d && _d != (this.options.dots.length - 1)) {
-                        var _q = (this.range_x.val2px(
-                                 this.options.dots[_d - 1].x), true);
+                        var _q = this.range_x.val2px(
+                                 this.options.dots[_d - 1].x, true);
                         var _x1 =  (_x - Math.round((_x - _q) / f) + a);
                     } else {
                         var _x1 = _x;
