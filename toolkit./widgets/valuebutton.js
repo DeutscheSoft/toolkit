@@ -53,7 +53,7 @@ ValueButton = new Class({
                     this.fireEvent("useraction", ["value", val, this]);
                     return this.options.value; }.bind(this),
             onValueclicked: this._value_clicked.bind(this),
-            onValuedone: this._value_done.bind(this),
+            onValuedone: this._value_done.bind(this)
         });
         this._value = this.value.element;
         this._input = this.value._input;
@@ -71,7 +71,7 @@ ValueButton = new Class({
                 this.fireEvent("useraction", ["value", v, this]);
             }.bind(this),
             direction: this.options.drag_direction,
-            events: function () { return this }.bind(this),
+            events: function () { return this }.bind(this)
         });
         this.scroll = new ScrollValue({
             element: this.element,
@@ -80,7 +80,7 @@ ValueButton = new Class({
             set:     function (v) {
                 this.set("value", v);
             }.bind(this),
-            events: function () { return this }.bind(this),
+            events: function () { return this }.bind(this)
         });
         this.redraw();
         this.initialized();

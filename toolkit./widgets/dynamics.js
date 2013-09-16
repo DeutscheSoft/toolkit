@@ -97,7 +97,7 @@ var Dynamics = new Class({
         if (!this.graph) {
             this.graph = this.add_graph({
                 dots: [{x: this.options.min, y: this.options.min},
-                       {x: this.options.max, y: this.options.max}],
+                       {x: this.options.max, y: this.options.max}]
             });
         }
         curve = [];

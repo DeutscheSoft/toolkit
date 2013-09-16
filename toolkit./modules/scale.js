@@ -57,7 +57,7 @@ Scale = new Class({
     __size: 0,
     
     initialize: function (options, hold) {
-        this.parent(options);
+        this.parent(Object.merge(this.__options, options));
         this.element = this.widgetize(
                        new Element("div.toolkit-scale"), true, true, true);
         
@@ -119,16 +119,19 @@ Scale = new Class({
         // draw beneath base
         var iter = this.options.base;
         this.__last = iter;
+        this.___last = this._val2px(iter);
         while (iter > this.options.min) {
             //console.log("beneath", this.options.reverse, iter)
             iter -= this.options.division;
             if (level = this._check_label(iter, this.options.division)) {
+                //console.log("check_dots", this.__last, iter, this.options.division, level);
                 this._check_dots(this.__last,
                                 iter,
                                -this.options.division,
                                 level,
                                 function (a, b) { return a > b });
                 this.__last = iter;
+                this.___last = this._val2px(this.__last);
             }
         }
         // draw dots between last label and min
@@ -141,16 +144,19 @@ Scale = new Class({
         // draw above base
         var iter = this.options.base;
         this.__last = iter;
+        this.___last = this._val2px(iter);
         while (iter < this.options.max) {
             //console.log("above", this.options.reverse, iter)
             iter += this.options.division;
             if (level = this._check_label(iter, this.options.division)) {
+                //console.log("check_dots", this.__last, iter, this.options.division, level);
                 this._check_dots(this.__last,
                                 iter,
                                 this.options.division,
                                 level,
                                 function (a, b) { return a < b });
                 this.__last = iter;
+                this.___last = this._val2px(this.__last);
             }
         }
         // draw dots between last label and max
@@ -220,20 +226,23 @@ Scale = new Class({
         for (var i = this.options.levels.length - 1; i >= 0; i--) {
             var level = this.options.levels[i];
             var diff = Math.abs(this.options.base - iter);
-            if (!(diff % level)
-            && (level >= Math.abs(this.__last - iter)
-                || i == this.options.levels.length - 1)
-            && this._val2px(Math.abs(this.__last - iter)
-                + this.options.min) >= this.options.gap_labels
-            && this._val2px(iter) >= this.options.gap_labels) {
-                if (iter > this.options.min && iter < this.options.max) {
+            var itpos = this._val2px(iter); // px of the iter
+            var diffpos = Math.abs(this.___last - itpos) // px between __last and iter
+            //console.log("check_label", iter, step, level, diff, itpos, diffpos, this.__last, this.___last, !(diff % level), level >= Math.abs(this.__last - iter), i == this.options.levels.length - 1, diffpos >= this.options.gap_labels);
+            if (!(diff % level) // do we hit a value on the actually tested level?
+            && (level >= Math.abs(this.__last - iter) // we are at least $level away from last label
+                || i == this.options.levels.length - 1) // or the actaully tested level is max level
+            && diffpos >= this.options.gap_labels // and the drawing position is more distant from the last one than gap_label
+            && itpos >= this.options.gap_labels
+            ) {
+                if (iter > this.options.min && iter < this.options.max) { // don't draw if we hit max or min
                     this.draw_label(iter);
                     this.draw_dot(iter, "toolkit-marker");
                 }
-                return i;
+                return i; // return the level where level was hit
             }
         }
-        return false;
+        return false; // return false if we didn't draw anything
     },
     _check_dots: function (start, stop, step, level, comp) {
         // test if dots can be drawn between two positions and trigger drawing

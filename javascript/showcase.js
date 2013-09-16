@@ -271,7 +271,7 @@ function run_window () {
                            _TOOLKIT_MINIMIZE, _TOOLKIT_SHRINK, _TOOLKIT_CLOSE],
             footer_left: _TOOLKIT_STATUS,
             fixed: true,
-            content: "<div style='margin: 6px'><img src=images/junger_toolkit.png "
+            content: "<div style='margin: 6px'><img src=images/toolkit.png "
                    + "style=\"float: left; margin-right: 20px;\">"
                    + "Thanks for testing the JUNGER toolkit. We hope you like "
                    + "the functionality, complexity and style. If you have any "
@@ -621,6 +621,7 @@ function run_scale () {
         max: +24,
         base: 0,
         basis: 200,
+        scale: _TOOLKIT_DB,
         id: "sc_scale_v_l"
     })
     scales.right = new Scale({
