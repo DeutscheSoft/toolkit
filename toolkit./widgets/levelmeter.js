@@ -69,9 +69,9 @@ LevelMeter = new Class({
         this.parent(options, true);
         this.element.addClass("toolkit-level-meter");
         
-        this.state = new State({
+        this.state = new State(Object.append({
             "class": "toolkit-clip"
-        });
+        }, this.options.clip_options));
         this._clip = this.state.element;
         
         if (this.options.layout == _TOOLKIT_TOP

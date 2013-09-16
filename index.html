@@ -20,6 +20,7 @@
         <script src="toolkit./javascript/svgutils.js"></script>
         <script src="toolkit./javascript/math.js"></script>
         <script src="toolkit./javascript/array.js"></script>
+
         
         <!-- IMPLEMENTS -->
         <script src="toolkit./implements/audiomath.js"></script>
@@ -90,6 +91,9 @@
         <script src="toolkit./widgets/select.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit./templates/default/css/label.css">
         <script src="toolkit./widgets/label.js"></script>
+
+        <script src="ssig.widget.js"></script>
+
         
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
@@ -798,7 +802,108 @@
                     </tr>
                 </table>
                 
-            </li>
+                </li>
+
+                <li id="SpectralSignature" class="widget">
+                <p class="description">
+                    <strong>Equalizer</strong> is a <a href="#responsehandler">ResponseHandler</a>
+                    adding some <a href="#eqband">EqBands</a> instead of simple
+                    <a href="#responsehandle">ResponseHandles</a>.
+                </p>
+                <p class="description">
+                    Use eq to play with the example in a terminal:
+                    <a href="javascript:fr.set('db_grid', 6)">fr.set("db_grid", 6)</a>
+                    <small>Sets the dB grid to 6dB</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_equalizer {
+                        
+                    }
+                </style>
+
+                <div class="showcase" style="">
+                    <div id="sc_ssig">
+                        
+                    </div>
+                </div>
+
+        <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>bands</td>
+                        <td>A list of <a href="#eqband">equalizer bands</a> to create on initialization.</td>
+                        <td>[]</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>add_band([options])</td>
+                        <td>Create a EqBand inside the Equalizer. Options is an object containing
+                        options for the <a href="#eqband">EqBand</a> element.
+                        <br/><br/>
+                        It returns the new EqBand instance.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>add_bands(bands)</td>
+                        <td>Create a bunch of EqBand inside the Equalizer. The argumnt
+                        is a list of object containing
+                        options for the <a href="#eqband">EqBand</a> elements.
+                        <br/><br/>
+                        It returns the new EqBand instance.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>remove_band(handle)</td>
+                        <td>Remove a EqBand from the Equalizer.</td>
+                    </tr>
+                    <tr>
+                        <td>remove_bands()</td>
+                        <td>Removes all EqBands from the Equalizer.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>equalizer.bands</td>
+                        <td>Array containing all <a href="#eqbands">EqBands</a></td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>equalizer._bands ("g.toolkit-eqbands")</td>
+                        <td>The SVG group element containing all EqBands.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>bandadded</td>
+                        <td>Is fired after a band was added. Hands over the new band and the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>bandremoved</td>
+                        <td>Is fired after a band was removed. Hands over the widget instance.</td>
+                    </tr>
+                    <tr>
+                        <td>emptied</td>
+                        <td>Is fired after all bands were removed. Hands over the widget instance.</td>
+                    </tr>
+                </table>
+
+                
+
+                </li>
+
             
             <li id="Equalizer" class="widget">
                 <!-- ########################################################### -->
