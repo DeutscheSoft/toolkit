@@ -19,10 +19,6 @@
  * Boston, MA  02110-1301  USA
  */
  
-// ulf: used to make frequency response match with the results we get from our dsp processing
-Q_SCALE_PEAK_1                = 3.333333333; 
-Q_CONST_BUTTERWORTH_2ND_ORDER = 0.8;         
- 
 Filter = new Class({
     _class: "Filter",
     Implements: [AudioMath, Options, Events],
@@ -108,10 +104,9 @@ Filter = new Class({
             this._flpf2.wo   = 2 * Math.PI * this.options.freq;
             this._flpf2.wo2  = this._flpf2.wo * this._flpf2.wo;
             this._flpf2.wo4  = this._flpf2.wo2 * this._flpf2.wo2;
-            this._flpf2.Q2   = Q_CONST_BUTTERWORTH_2ND_ORDER * Q_CONST_BUTTERWORTH_2ND_ORDER;
+            this._flpf2.Q2   = this.options.q * this.options.q;
             this._flpf2.wo3Q = -(this._flpf2.wo * this._flpf2.wo2)
-                               / Q_CONST_BUTTERWORTH_2ND_ORDER; 
-		    // using Q_CONST_BUTTERWORTH_2ND_ORDER  instead of 'this.options.q' makes the filter match with butterworth 2nd order
+                               / this.options.q;
         }
         this._flpf2.w      = 2 * Math.PI * freq; 
         this._flpf2.w2     = this._flpf2.w * this._flpf2.w;
@@ -155,9 +150,8 @@ Filter = new Class({
         if (!this._fhpf2.init) {
             this._fhpf2.wo  = 2 * Math.PI * this.options.freq;
             this._fhpf2.wo2 = this._fhpf2.wo * this._fhpf2.wo;
-            this._fhpf2.Q2  = Q_CONST_BUTTERWORTH_2ND_ORDER * Q_CONST_BUTTERWORTH_2ND_ORDER;
-            this._fhpf2.woQ = this._fhpf2.wo / Q_CONST_BUTTERWORTH_2ND_ORDER;
-			// using Q_CONST_BUTTERWORTH_2ND_ORDER  instead of 'this.options.q' makes the filter match with butterworth 2nd order
+            this._fhpf2.Q2  = this.options.q * this.options.q;
+            this._fhpf2.woQ = this._fhpf2.wo / this.options.q;
         }
         this._fhpf2.w      = 2 * Math.PI * freq; 
         this._fhpf2.w2     = this._fhpf2.w * this._fhpf2.w;
@@ -269,10 +263,10 @@ Filter = new Class({
             this._fpeak.A2    = this._fpeak.A * this._fpeak.A;
             this._fpeak.wo2   = this._fpeak.wo * this._fpeak.wo;
             this._fpeak.wo3   = this._fpeak.wo2 * this._fpeak.wo;
-            this._fpeak.Q2    = (this.options.q / Q_SCALE_PEAK_1) * (this.options.q / Q_SCALE_PEAK_1);
+            this._fpeak.Q2    = this.options.q * this.options.q;
             this._fpeak.wo2Q2 = this._fpeak.wo2 / this._fpeak.Q2;
             this._fpeak.gamma = (this._fpeak.A2 - 1)
-                               / (this._fpeak.A * (this.options.q / Q_SCALE_PEAK_1));
+                               / (this._fpeak.A * this.options.q);
         }
         this._fpeak.w      = 2 * Math.PI * freq; 
         this._fpeak.w2     = this._fpeak.w * this._fpeak.w;
