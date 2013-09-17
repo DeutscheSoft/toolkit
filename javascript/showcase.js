@@ -872,6 +872,96 @@ function run_equalizer () {
     repositionSVGs()
 }
 
+function run_spectralsignature () {
+    if (typeof ssig != "undefined") {
+        // remove example
+        ssig.destroy();
+        ssig = undefined;
+        $("sc_ssig").removeClass("box");
+        return;
+    }
+    $("sc_ssig").addClass("box");
+    ssig = new SpectralSignature.Widget({
+        container: $("sc_ssig"),
+            range_x: {min: 40, max: 24000, basis: 800, scale: _TOOLKIT_FREQUENCY},
+            range_y_upper: {min: -84, max: 0, basis: 200, scale: _TOOLKIT_LINEAR, step: 1, shift_up: 2, shift_down: 0.5},
+            range_y_upper_norm: {min: -12, max: 12, basis: 200, base: 0, scale: _TOOLKIT_LINEAR, reverse: true},
+            range_y_lower: {min: -40, max: 40, basis: 300, base: 0, scale: _TOOLKIT_LINEAR},
+            range_y_relative: {min: -80, max: 80, base: 0, basis: 600, scale: _TOOLKIT_LINEAR},
+            range_z_maxgain: {min: 0, max: 12, basis: 45, step: 0.25, shift_down: 0.2, shift_up: 4, scale: _TOOLKIT_LINEAR},
+            bands: [63, 100, 160, 250, 400, 630, 1000, 1600, 2500, 4000, 6300, 10000, 16000],
+
+            grid_x: [
+                {pos:    63, label: "63Hz"},
+                {pos:    100, label: "100Hz"},
+                {pos:    160, label: "160Hz"},
+                {pos:    250, label: "250Hz"},
+                {pos:    400, label: "400Hz"},
+                {pos:    630, label: "630Hz"},
+                {pos:    1000, label: "1kHz"},
+                {pos:    1600, label: "1.6kHz"},
+                {pos:    2500, label: "2.5kHz"},
+                {pos:    4000, label: "4kHz"},
+                {pos:    6300, label: "6.3kHz"},
+                {pos:    10000, label: "10kHz"},
+                {pos:    16000, label: "16kHz"}
+            ],
+
+            toggle_icon:        "/controls/checkbox/checkbox_false.png",
+            toggle_icon_active: "/controls/checkbox/checkbox_true.png",
+
+            type: "H2.5",
+
+            thresholds: {
+                preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
+                title: "Gate %s",
+                label: function (title, x, y, z) { return sprintf("%s\n%.1f", title, y) },
+                min_drag: 5
+            },
+
+            signatures: {
+                preferences: [_TOOLKIT_TOP, _TOOLKIT_BOTTOM],
+                title: "Band %s",
+                label: function (title, x, y, z) { return sprintf("%s\n%.1f dB\nMAX:\n%.1f dB", title, y, z) },
+                min_size: 20,
+                z_min: 0,
+                z_max: 12,
+                y_min: -40,
+                y_max: 40,
+                min_drag: 5,
+                z_handle: _TOOLKIT_BOTTOM
+            },
+
+            db_grid_relative: 10,
+
+            state_color: '#dde1e8',
+
+            state_colors: {
+                OFF:     '#ccc',
+                Gated:   '#f3e18f',
+                Active:  '#93d593'
+            },
+
+            upper_normalized: false,
+
+            key_upper: false,
+            key_input: "Input Spectrum",
+            key_gain:  "Output Spectrum",
+            key_difference: "Difference",
+
+            key_lower: false,
+
+            /*title_upper: "Spectrum",*/
+            position_upper: _TOOLKIT_TOP_RIGHT,
+
+            /*title_lower: "Signature",*/
+            position_lower: _TOOLKIT_TOP_RIGHT
+    });
+    ssig.add_signature({}, [-10, 20, 30, -20, -40, 40, 20, 10], true);
+    repositionSVGs()
+}
+
+
 
 // RESPONSE HANDLER
 function run_responsehandler () {
