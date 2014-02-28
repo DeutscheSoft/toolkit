@@ -80,3 +80,7 @@ body {
     -moz-border-radius:    6px;
     border-radius:         6px;*/
 }
+
+.toolkit-inactive {
+    opacity: 0.3;
+}

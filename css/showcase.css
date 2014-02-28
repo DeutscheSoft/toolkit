@@ -60,11 +60,11 @@ div.header {
     padding: 0 10px;
     height: 40px;
     background-color: rgb(0, 56, 103);
-    background-image: url(../toolkit./templates/default/images/gradients/blue_out.png);
+    background-image: url(../toolkit/templates/default/images/gradients/blue_out.png);
     background-repeat: repeat-x;
     background-size: 100% 250%;
     background-position: 50% 50%;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../toolkit./templates/default/images/gradients/blue_in.png',sizingMethod='scale');
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../toolkit/templates/default/images/gradients/blue_in.png',sizingMethod='scale');
     -webkit-border-bottom-right-radius: 6px;
     -moz-border-radius-bottomright: 6px;
     border-bottom-right-radius: 6px;
@@ -99,7 +99,7 @@ ul#navigation span:hover{
     text-decoration: none;
     text-shadow: 0px 1px 0px white;
     background-color: rgb(236,236,236);
-    background-image: url(../toolkit./templates/default/images/gradients/grey_out.png);
+    background-image: url(../toolkit/templates/default/images/gradients/grey_out.png);
     background-repeat: repeat-x;
     background-size: 100% 250%;
     background-position: 50% 0%;
@@ -113,7 +113,7 @@ ul#navigation a:active {
     text-decoration: none;
     text-shadow: 0px 1px 0px white;
     background-color: rgb(236,236,236);
-    background-image: url(../toolkit./templates/default/images/gradients/grey_in.png);
+    background-image: url(../toolkit/templates/default/images/gradients/grey_in.png);
     background-repeat: repeat-x;
     background-size: 100% 200%;
     background-position: 50% 100%;
@@ -147,4 +147,3 @@ ul#navigation>li ul li {
 ul#navigation>li ul li a {
     background-color: rgba(0, 42, 66, 1);
 }
-
