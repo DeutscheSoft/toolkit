@@ -32,6 +32,8 @@ Tooltip = new Class({
             this._tooltip.inject($$("body")[0]);
             $$("body")[0].addEvent("mousemove",
                                    this._pos_tooltip.bind(this));
+            $$("body")[0].addEvent("touchmove",
+                                   this._pos_tooltip.bind(this));
             this.__tt_count = 0;
         }
         
@@ -72,18 +74,25 @@ Tooltip = new Class({
         return tt;
     },
     _pos_tooltip: function (e) {
-        if(typeof e.event.pageY != "undefined"
-               && e.event.pageX != "undefined"
-               && e.event.pageY) {
+        e = this._get_event(e);
+        if(typeof e.pageY != "undefined"
+               && e.pageX != "undefined"
+               && e.pageY) {
             this._tooltip.setStyles({
-                top: e.event.pageY,
-                left: e.event.pageX
+                top: e.pageY,
+                left: e.pageX
             });
         } else {
             this._tooltip.setStyles({
-                top: e.event.clientY,
-                left: e.event.clientX
+                top: e.clientY,
+                left: e.clientX
             });
         }
     },
+    _get_event: function (event) {
+        // return the right event if touch surface is used
+        // with multiple fingers
+        return (event.touches && event.touches.length)
+              ? event.touches[0] : event.event;
+    }
 });
