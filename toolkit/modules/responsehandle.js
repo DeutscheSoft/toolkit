@@ -160,9 +160,6 @@ ResponseHandle = new Class({
             "mousewheel":  this._scrollwheel.bind(this),
             "contextmenu": function () {return false;}
         });
-        this._label.addEvents({
-            "touchstart":  this._touchstart.bind(this),
-        });
         this._handle.addEvents({
             "mouseenter":  this._mouseelement.bind(this),
             "touchstart":  this._mouseelement.bind(this),
@@ -1174,7 +1171,6 @@ ResponseHandle = new Class({
         } else {
             var ev = e.event;
         }
-        console.log(e)
         var mx = this.range_x.options.step || 1;
         var my = this.range_y.options.step || 1;
         var mz = this.range_z.options.step || 1;
