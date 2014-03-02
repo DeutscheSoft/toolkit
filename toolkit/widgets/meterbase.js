@@ -340,11 +340,12 @@ var MeterBase = new Class({
         // the meter bar
         var pos = Math.max(0,
                   this._val2seg(Math.min(this.options.max, Math.max(this.options.base, this.options.value))));
-        this._mask1.setStyle(this._vert() ? "height" : "width", this.options.basis - pos);
+        this._mask1.style[this._vert() ? "height" : "width"] = (this.options.basis - pos).toFixed(0) + "px";
         if (!this.__based) return;
         var pos = Math.max(0,
                   this._val2seg(Math.min(this.options.base, this.options.value)));
-        this._mask2.setStyle(this._vert() ? "height" : "width", pos);
+        this._mask2.style[this._vert() ? "height" : "width"] = pos + "px";
+        //this._mask2.setStyle(this._vert() ? "height" : "width", pos);
     },
     
     // HELPERS & STUFF
@@ -396,8 +397,16 @@ var MeterBase = new Class({
                 break;
             case "label":
                 this.fireEvent("labelchanged", [value, this]);
-                if (!hold)
-                    this._label.set("html", this.options.format_label(value));
+                if (!hold) {
+                    var s = this.options.format_label(value);
+                    var n = this._label;
+                    if (n.firstChild) {
+                        n.removeChild(n.firstChild);
+                    }
+                    n.appendChild(document.createTextNode(s));
+                    //this._label.set("html", this.options.format_label(value));
+                }
+
                 break;
             case "value":
                 this.fireEvent("valuechanged", [value, this]);

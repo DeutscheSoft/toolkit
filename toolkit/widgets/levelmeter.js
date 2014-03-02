@@ -197,6 +197,7 @@ LevelMeter = new Class({
         this.fireEvent("resetpeak", this);
     },
     reset_label: function () {
+        delete this.__lto;
         this.set("label", this.options.value);
         this.fireEvent("resetlabel", this);
     },
@@ -335,7 +336,12 @@ LevelMeter = new Class({
     },
     
     draw_peak: function () {
-        this._peak_label.set("html", this.options.format_peak(this.options.peak));
+        var n = this._peak_label;
+        var v = this.options.format_peak(this.options.peak);
+        if (n.firstChild) {
+            n.removeChild(n.firstChild);
+        }
+        n.appendChild(document.createTextNode(v));
         if (this.options.peak > this.options.min
         && this.options.peak < this.options.max
         && this.options.show_peak) {
@@ -402,7 +408,7 @@ LevelMeter = new Class({
     },
     _label_timeout: function () {
         if (!this.options.peak_label || this.options.peak_label < 0) return false;
-        if (this.__lto) window.clearTimeout(this.__lto);
+        if (this.__lto) return;
         if (this.options.label > this.options.base
         && this.options.value > this.options.base
         || this.options.label < this.options.base

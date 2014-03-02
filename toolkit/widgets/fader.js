@@ -280,10 +280,9 @@ Fader = new Class({
                     this.warning(this.element);
                 this.fireEvent("set_value", [this.options.value, this]);
                 this.fireEvent("set", ["value", this.options.value, this]);
-                if (!hold)
-                    this._handle.setStyle(
-                        (this._vert() ? "bottom" : "right"),this.val2real()
-                    );
+                if (!hold) {
+                    this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real();
+                }
                 return;
             case "layout":
                 this.element.removeClass("toolkit-vertical");

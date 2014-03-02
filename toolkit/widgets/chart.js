@@ -118,11 +118,17 @@ var Chart = new Class({
     redraw: function (graphs, grid) {
         var w = this.range_x.get("basis") + "px";
         var h = this.range_y.get("basis") + "px";
+        this.element.setAttribute("width", w);
+        this.element.setAttribute("height", w);
+        this.element.style.width = w;
+        this.element.style.height = h;
+        /*
         this.element.set({
             width: w,
             height: h
         });
         this.element.setStyles({width: w, height: h});
+        */
         if (grid) {
             this.grid.redraw();
         }

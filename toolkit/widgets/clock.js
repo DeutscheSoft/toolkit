@@ -216,7 +216,9 @@ Clock = new Class({
                 this.set("time", new Date(+(new Date()) + this.options.offset));
             else
                 this.set("time", new Date());
-            window.setTimeout(this._timeout.bind(this), this.options.timeout);
+            var now = new Date().getTime() % 1000;
+
+            this.__to = window.setTimeout(this._timeout.bind(this), 1010-now);
         }
     },
     

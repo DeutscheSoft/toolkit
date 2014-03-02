@@ -567,6 +567,8 @@ ResponseHandle = new Class({
         var w = 0;
         for (var i = 0; i < a.length; i++) {
             c[i].set("text", a[i]);
+        }
+        for (var i = 0; i < a.length; i++) {
             w = Math.max(w, c[i].getComputedTextLength());
         }
         
@@ -1009,11 +1011,16 @@ ResponseHandle = new Class({
         if (pos === false) pos = inter.sort(function (a, b) {
             return a.intersect - b.intersect
         })[0];
+        this._label.setAttribute("x", (pos.xl) + "px");
+        this._label.setAttribute("y", (pos.yl) + "px");
+        this._label.setProperty("text-anchor", pos.align);
+        /*
         this._label.set({
             "x": (pos.xl) + "px",
             "y": (pos.yl) + "px",
             "text-anchor": pos.align
         });
+        */
         this._label.getChildren().set({
             "x": (pos.xl) + "px"
         });
