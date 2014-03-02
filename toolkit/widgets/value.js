@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
+window.onerror = function (error) { alert(error) };
 Value = new Class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
@@ -52,9 +52,7 @@ Value = new Class({
     
     redraw: function () {
         if (this.__editing) return;
-        var n = this.element;
-        if (n.firstChild) n.removeChild(n.firstChild);
-        n.appendChild(document.createTextNode(this.options.format(this.options.value)));
+        this._input.set("value", this.options.format(this.options.value));
     },
     
     destroy: function () {

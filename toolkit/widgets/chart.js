@@ -122,13 +122,6 @@ var Chart = new Class({
         this.element.setAttribute("height", w);
         this.element.style.width = w;
         this.element.style.height = h;
-        /*
-        this.element.set({
-            width: w,
-            height: h
-        });
-        this.element.setStyles({width: w, height: h});
-        */
         if (grid) {
             this.grid.redraw();
         }
@@ -192,8 +185,8 @@ var Chart = new Class({
         this._key.empty();
         
         if (this.options.key === false) {
-            this._key.setStyle("display", "none");
-            this._key_background.setStyle("display", "none");
+            this._key.style["display"] = "none";
+            this._key_background.style["display"] = "none";
             this.__key = {x1: 0, x2: 0, y1: 0, y2: 0};
             return;
         }
@@ -256,8 +249,8 @@ var Chart = new Class({
             });
             b.inject(this._key);
         }
-        this._key_background.setStyle("display", disp);
-        this._key.setStyle("display", disp);
+        this._key_background.style["display"] = disp;
+        this._key.style["display"] = disp;
         
         var bb     = this._key.getBoundingClientRect();
         var width  = this.range_x.options.basis;

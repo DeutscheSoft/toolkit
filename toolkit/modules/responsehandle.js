@@ -1014,13 +1014,6 @@ ResponseHandle = new Class({
         this._label.setAttribute("x", (pos.xl) + "px");
         this._label.setAttribute("y", (pos.yl) + "px");
         this._label.setProperty("text-anchor", pos.align);
-        /*
-        this._label.set({
-            "x": (pos.xl) + "px",
-            "y": (pos.yl) + "px",
-            "text-anchor": pos.align
-        });
-        */
         this._label.getChildren().set({
             "x": (pos.xl) + "px"
         });

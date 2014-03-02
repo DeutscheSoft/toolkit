@@ -43,7 +43,7 @@ Fader = new Class({
         
         if (this.element.getStyle("position") != "absolute"
             && this.element.getStyle("position") != "relative")
-            this.element.setStyle("position", "relative");
+            this.element.style["position"] = "relative";
             
         this._background_top    = new Element(
             "div.toolkit-background-top-left").inject(this.element);
@@ -160,7 +160,7 @@ Fader = new Class({
             });
             this._handlesize = this._handle.outerHeight();
             this._scale.outerHeight(h - this._handlesize);
-            this._scale.setStyle("top", this._handlesize / 2);
+            this._scale.style["top"] = this._handlesize / 2;
         } else {
             // HORIZONTAL
             this._background_top.setStyles({
@@ -198,7 +198,7 @@ Fader = new Class({
             });
             this._handlesize = this._handle.outerWidth();
             this._scale.outerWidth(h - this._handlesize);
-            this._scale.setStyle("left", this._handlesize / 2);
+            this._scale.style["left"] = this._handlesize / 2;
         }
         var s = h - this._handlesize;
         if (s != this.options.basis) {

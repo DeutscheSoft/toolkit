@@ -113,7 +113,7 @@ Select = new Class({
     },
     resize: function () {
         if (!this.options.auto_size) {
-            this.element.setStyle("width", null);
+            this.element.style["width"] = null;
             return;
         };
         for (var i in this.list) {

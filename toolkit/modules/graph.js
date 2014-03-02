@@ -232,7 +232,7 @@ var Graph = new Class({
                 this.fireEvent("graphchanged");
                 break;
             case "color":
-                if (!hold) this.element.setStyle("stroke", value);
+                if (!hold) this.element.style["stroke"] = value;
                 break;
             case "mode":
                 if (!hold) {

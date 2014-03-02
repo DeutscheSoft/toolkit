@@ -108,8 +108,8 @@ Widget = new Class({
         // widget instance
         this.addClass    = function (c) { element.addClass(c); }.bind(this);
         this.removeClass = function (c) { element.removeClass(c); }.bind(this);
-        this.setStyle    = function (c, d) { element.setStyle(c, d); }.bind(this);
-        this.setStyles   = function (c) { element.setStyles(c); }.bind(this);
+        this.setStyle    = function (c, d) { element.style[c] = d; }.bind(this);
+        this.setStyles   = function (c) { for (var i in c) element.style[i] = c[i]; }.bind(this);
         this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
         this.__classified = element;
         this.fireEvent("classified", [element, this]);

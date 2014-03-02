@@ -172,7 +172,7 @@ LevelMeter = new Class({
                     "margin", "border", "padding"
                 ).top + this._bar.getPosition(this.element).y;
                 var m = (this.options.show_clip ? this._clip.outerHeight() : 0);
-                this._scale.setStyle("top", m);
+                this._scale.style["top"] = m + "px";
                 break;
             case _TOOLKIT_TOP:
             case _TOOLKIT_BOTTOM:
@@ -345,7 +345,7 @@ LevelMeter = new Class({
         if (this.options.peak > this.options.min
         && this.options.peak < this.options.max
         && this.options.show_peak) {
-            this._peak.setStyle("display", "block");
+            this._peak.style["display"] = "block";
             var pos = 0;
             switch (this.options.layout) {
                 case _TOOLKIT_LEFT:
@@ -355,7 +355,7 @@ LevelMeter = new Class({
                         + this.__margin;
                     pos = Math.max(this.__margin, pos);
                     pos = Math.min(this.options.basis + this.__margin, pos);
-                    this._peak.setStyle("top", pos);
+                    this._peak.style["top"] = pos + "px";
                     break;
                 case _TOOLKIT_TOP:
                 case _TOOLKIT_BOTTOM:
@@ -363,11 +363,11 @@ LevelMeter = new Class({
                         + this.__margin;
                     pos = Math.max(this.__margin, pos);
                     pos = Math.min(this.options.basis + this.__margin, pos)
-                    this._peak.setStyle("left", pos);
+                    this._peak.style["left"] = pos + "px";
                     break;
             }
         } else {
-            this._peak.setStyle("display", "none");
+            this._peak.style["display"] = "none";
         }
         this.fireEvent("drawpeak", this);
     },
@@ -460,11 +460,11 @@ LevelMeter = new Class({
         switch (key) {
             case "show_peak":
                 if (!hold)
-                    this._peak.setStyle("display",  value  ? "block" : "none");
+                    this._peak.style["display"] =  value  ? "block" : "none";
                 break;
             case "show_clip":
                 if (!hold) {
-                    this._clip.setStyle("display",  value  ? "block" : "none");
+                    this._clip.style["display"] =  value  ? "block" : "none";
                     this.redraw();
                 }
                 break;

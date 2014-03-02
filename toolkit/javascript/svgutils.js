@@ -32,7 +32,6 @@ repositionSVG = function (e) {
         e.store("margin-left", e.getStyle("margin-left").toFloat());
     } else {
         e.style['margin-left'] = e.retrieve("margin-left");
-        //e.setStyle("margin-left", e.retrieve("margin-left"));
     }
     var l = e.retrieve("margin-left").toFloat();
     var b = e.getBoundingClientRect();
@@ -44,11 +43,11 @@ repositionSVG = function (e) {
     }
     if (e.getParent() && e.getParent().getStyle("text-align") == "center")
         l += 0.5;
-    e.setStyle("margin-left", l + "px");
+    e.style["margin-left"] = l + "px";
     if (e.retrieve("margin-top") === null) {
         e.store("margin-top", e.getStyle("margin-top").toFloat());
     } else {
-        e.setStyle("margin-top", e.retrieve("margin-top"));
+        e.style["margin-top"] = e.retrieve("margin-top");
     }
     var t = e.retrieve("margin-top").toFloat();
     var b = e.getBoundingClientRect();
@@ -57,7 +56,7 @@ repositionSVG = function (e) {
         if (x < 0.5) t -= y;
         else t += (1 - y);
     }
-    e.setStyle("margin-top", t + "px");
+    e.style["margin-top"] = t + "px";
 }
 if (!Browser.firefox) {
     window.addEvent('load', repositionSVGs);

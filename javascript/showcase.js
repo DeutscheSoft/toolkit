@@ -1306,10 +1306,10 @@ function run_levelmeter () {
             meters[i].destroy();
             meters[i] = undefined;
         }
-        $("sc_levelmeter_buttons").setStyle("display", "none");
+        $("sc_levelmeter_buttons").style["display"] = "none";
         return;
     }
-    $("sc_levelmeter_buttons").setStyle("display", "block");
+    $("sc_levelmeter_buttons").style["display"] = "block";
     meters = {
         mvr: new LevelMeter({
             layout: _TOOLKIT_RIGHT,

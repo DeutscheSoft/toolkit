@@ -64,7 +64,7 @@ State = new Class({
         });
         if (this.element.getStyle("position") != "absolute"
          && this.element.getStyle("position") != "relative")
-            this.element.setStyle("position", "relative");
+            this.element.style["position"] = "relative";
         
         this.initialized();
     },
@@ -80,12 +80,12 @@ State = new Class({
         this.options[key] = value;
         switch (key) {
             case "color":
-                if (!hold) this.element.setStyle("background", value);
+                if (!hold) this.element.style["background"] = value;
                 this.fireEvent("colorchanged", value);
                 break;
             case "state":
             case "opacity":
-                if (!hold) this._mask.setStyle("opacity", "" + ((1 - +value) * this.options.opacity));
+                if (!hold) this._mask.style["opacity"] = "" + ((1 - +value) * this.options.opacity);
                 this.fireEvent("statechanged", value);
                 break;
         }

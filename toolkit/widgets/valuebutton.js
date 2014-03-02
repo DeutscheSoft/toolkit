@@ -88,8 +88,8 @@ ValueButton = new Class({
     
     redraw: function () {
         this.value.set("value", this.options.value);
-        this._base.setStyle((this.options.bar_direction == _TOOLKIT_HORIZONTAL
-            ? "width" : "height"), this.val2perc() + "%");
+        this._base.style[this.options.bar_direction == _TOOLKIT_HORIZONTAL
+            ? "width" : "height"] = this.val2perc() + "%";
         this.parent();
     },
     

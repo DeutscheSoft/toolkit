@@ -56,9 +56,9 @@ Class.refactor(Element, {
                     var s = this.CSSSpace("padding", "border");
                     px -= (s.left + s.right);
                 }
-                this.setStyle("width", px)
+                this.style["width"] = px + "px";
             } else {
-                this.setStyle("width", "auto");
+                this.style["width"] = "auto";
             }
         }
         // returns the width of an object including border and padding
@@ -77,9 +77,9 @@ Class.refactor(Element, {
                     var s = this.CSSSpace("padding", "border");
                     px -= (s.top + s.bottom);
                 }
-                this.setStyle("height", px)
+                this.style["height"] = px + "px";
             } else {
-                this.setStyle("height", "auto");
+                this.style["height"] = "auto";
             }
         }
         // returns the height of an object including border and padding
@@ -106,9 +106,9 @@ Class.refactor(Element, {
                     var s = this.CSSSpace("padding", "border", "margin");
                     px -= (s.left + s.right);
                 }
-                this.setStyle("width", px)
+                this.style["width"] = px + "px";
             } else {
-                this.setStyle("width", "auto");
+                this.style["width"] = "auto";
             }   
         }
         // returns the overall width including margin, padding and border
@@ -132,9 +132,9 @@ Class.refactor(Element, {
                     var s = this.CSSSpace("padding", "border", "margin");
                     px -= (s.top + s.bottom);
                 }
-                this.setStyle("height", px)
+                this.style["height"] = px + "px";
             } else {
-                this.setStyle("height", "auto");
+                this.style["height"] = "auto";
             }    
         }
         // returns the overall height including margin, padding and border
@@ -151,7 +151,7 @@ Class.refactor(Element, {
                 var s = _this.CSSSpace("padding", "border");
                 px -= (s.left + s.right);
             }
-            this.setStyle("width", px)
+            this.style["width"] = px + "px";
         }
 //         if (this.boxModel() == "border-box") {
 //             return this.getSize().x;
@@ -170,7 +170,7 @@ Class.refactor(Element, {
                 var s = this.CSSSpace("padding", "border");
                 px -= (s.top + s.bottom);
             }
-            this.setStyle("height", px)
+            this.style["height"] = px + "px";
         }
 //         if (this.boxModel() == "border-box") {
 //             return this.getSize().y;

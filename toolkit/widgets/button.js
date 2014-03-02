@@ -71,9 +71,9 @@ Button = new Class({
                 if (!hold) {
                     if (value) {
                         this._label.set("html", value);
-                        this._label.setStyle("display", "block");
+                        this._label.style["display"] = "block";
                     } else {
-                        this._label.setStyle("display", "none");
+                        this._label.style["display"] = "none";
                     }
                 }
                 break;
@@ -81,9 +81,9 @@ Button = new Class({
                 if (!hold) {
                     if (value) {
                         this._icon.set("src", value);
-                        this._icon.setStyle("display", "block");
+                        this._icon.style["display"] = "block";
                     } else {
-                        this._icon.setStyle("display", "none");
+                        this._icon.style["display"] = "none";
                     }
                 }
                 break;

@@ -43,7 +43,7 @@ Tooltip = new Class({
             tt.destroy();
             this.__tt_count --;
             if (this.__tt_count <= 0) {
-                this._tooltip.setStyle("display", "none");
+                this._tooltip.style["display"] = "none";
                 this.fireEvent("tooltiphide", [tt, this]);
             }
             return;
@@ -66,7 +66,7 @@ Tooltip = new Class({
         
         if (this.__tt_count <= 0) {
             // hide tooltip container
-            this._tooltip.setStyle("display", "block");
+            this._tooltip.style["display"] = "block";
             this.fireEvent("tooltipshow", [this]);
         }
         this.__tt_count = Math.max(0, this.__tt_count);

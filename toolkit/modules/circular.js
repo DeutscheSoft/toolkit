@@ -212,7 +212,7 @@ Circular = new Class({
                           Math.max(this.options.min, m.pos));
             r.inject(this._dots);
             if (m["class"]) r.addClass(m["class"]);
-            if (m["color"]) r.setStyle("fill", m["color"]);
+            if (m["color"]) r.style["fill"] = m["color"];
                      
             r.set("x", this.options.size - length - margin);
             r.set("y", this.options.size / 2 - width / 2);
@@ -258,7 +258,7 @@ Circular = new Class({
             s.inject(this._markers);
             
             if (m["class"]) s.addClass(m["class"]);
-            if (m["color"]) s.setStyle("fill", m["color"]);
+            if (m["color"]) s.style["fill"] = m["color"];
             
             this._draw_slice(this.val2real(from),
                              this.val2real(to), inner_p, outer_p, outer, s);
@@ -278,7 +278,7 @@ Circular = new Class({
             p.inject(this._labels);
             
             if (l["class"]) p.addClass(l["class"]);
-            if (l["color"]) p.setStyle("fill", l["color"]);
+            if (l["color"]) p.style["fill"] = l["color"];
                      
             if (typeof l.label != "undefined")
                 p.set("text", l.label);
@@ -396,7 +396,7 @@ Circular = new Class({
                 else if (!hold) this.redraw();
                 break;
             case "show_hand":
-                this._hand.setStyle("display", value ? "block" : "none");
+                this._hand.style["display"] = value ? "block" : "none";
                 if(value && !hold) this._draw_hand();
                 break;
             case "hand":

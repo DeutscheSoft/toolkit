@@ -21,7 +21,7 @@
 .toolkit-valuebutton.toolkit-warn {
     border: 1px solid #c00;
 }
-.toolkit-valuebutton .toolkit-value {
+.toolkit-valuebutton .toolkit-value .toolkit-input {
     float: left;
     background: rgba(0,0,0,0.033);
     border: none;

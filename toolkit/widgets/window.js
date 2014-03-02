@@ -302,14 +302,14 @@ Window = new Class({
                                      -width,
                                      -height);
         if (this.__horiz_max()) {
-            this.element.setStyle("left", this.options.fixed ? 0 : window.scrollX);
+            this.element.style["left"] = (this.options.fixed ? 0 : window.scrollX) + "px";
         } else {
-            this.element.setStyle("left", pos.x);
+            this.element.style["left"] = pos.x + "px";
         }
         if (this.__vert_max()) {
-            this.element.setStyle("top", this.options.fixed ? 0 : window.scrollY);
+            this.element.style["top"] = (this.options.fixed ? 0 : window.scrollY) + "px";
         } else {
-            this.element.setStyle("top", pos.y);
+            this.element.style["top"] = pos.y + "px";
         }
         this.dimensions.x      = this.options.x;
         this.dimensions.y      = this.options.y;
@@ -325,10 +325,10 @@ Window = new Class({
         var foot = this._footer.outerHeight();
         this._content.outerHeight(elmt - head - foot);
         if (this.options.width == _TOOLKIT_VAR)
-            this._content.setStyle("width", "auto");
+            this._content.style["width"] = "auto";
         else
             this._content.outerWidth(this.element.innerWidth());
-        this._content.setStyle("top", head);
+        this._content.style["top"] = head + "px";
         this.fireEvent("contentresized", [this]);
     },
     _init_position: function (pos) {
@@ -405,10 +405,10 @@ Window = new Class({
         if (!this._header_left.get("html")
          && !this._header_center.get("html")
          && !this._header_right.get("html")) {
-            this._header.setStyle("display", "none");
+            this._header.style["display"] = "none";
         } else {
-            this._header.setStyle("display", "block");
-            this._header_center.setStyle("left", this._header_left.outerWidth());
+            this._header.style["display"] = "block";
+            this._header_center.style["left"] = this._header_left.outerWidth() + "px";
             this.__size_header();
         }
     },
@@ -423,10 +423,10 @@ Window = new Class({
         if (!this._footer_left.get("html")
          && !this._footer_center.get("html")
          && !this._footer_right.get("html")) {
-            this._footer.setStyle("display", "none");
+            this._footer.style["display"] = "none";
         } else {
-            this._footer.setStyle("display", "block");
-            this._footer_center.setStyle("left", this._footer_left.outerWidth());
+            this._footer.style["display"] = "block";
+            this._footer_center.style["left"] = this._footer_left.outerWidth() + "px";
             this.__size_footer();
         }
     },
@@ -547,13 +547,13 @@ Window = new Class({
     },
     __start_resize: function (el, ev) {
         this.__docmouse = $$("body")[0].getStyle("cursor");
-        $$("body")[0].setStyle("cursor", this._resize.getStyle("cursor"));
+        $$("body")[0].style["cursor"] = this._resize.getStyle("cursor");
         this.resizing = true;
         this.element.addClass("toolkit-resizing");
         this.fireEvent("startresize", [this, ev]);
     },
     __stop_resize: function (el, ev) {
-        $$("body")[0].setStyle("cursor", this.__docmouse);
+        $$("body")[0].style["cursor"] = this.__docmouse;
         this.resizing = false;
         this.element.removeClass("toolkit-resizing");
         this._set_content();
@@ -642,7 +642,7 @@ Window = new Class({
         switch (key) {
             case "maximize":
                 if (this.options.shrink)
-                    this._footer.setStyle("display", "block");
+                    this._footer.style["display"] = "block";
                 this.options.shrink = false;
                 if (value === false) value = this.options.maximize = {x: false, y: false};
                 value = Object.merge(this.options.maximize, value);
@@ -690,7 +690,7 @@ Window = new Class({
                 if (!hold) this._set_position();
                 break;
             case "z_index":
-                if (!hold) this.element.setStyle("z-index", value);
+                if (!hold) this.element.style["z-index"] = value;
                 break;
             case "title":
                 if (!hold) this._title.set("html", value);
@@ -701,7 +701,7 @@ Window = new Class({
             case "icon":
                 if (!hold) {
                     this._icon.set("src", value);
-                    this._icon.setStyle("display", value ? "block" : "none"); 
+                    this._icon.style["display"] = value ? "block" : "none"; 
                 }
                 break;
             case "header_left":
@@ -729,7 +729,7 @@ Window = new Class({
                 }
                 break;
             case "fixed":
-                this.element.setStyle("position", value ? "fixed" : "absolute");
+                this.element.style["position"] = value ? "fixed" : "absolute";
                 if (!hold) this._set_position();
                 break;
             case "content":
@@ -738,9 +738,9 @@ Window = new Class({
             case "shrink":
                 this.options.maximize.y = false;
                 if (!hold) {
-                    this.element.setStyle("height",
-                    value ? this._header.outerHeight() : this.options.height);
-                    this._footer.setStyle("display", value ? "none" : "block");
+                    this.element.style["height"] = 
+                    (value ? this._header.outerHeight() : this.options.height) + "px";
+                    this._footer.style["display"] = value ? "none" : "block";
                 }
                 break;
             case "minimize":
@@ -760,10 +760,10 @@ Window = new Class({
             case "resizable":
                 if (value) {
                     this.resize.attach();
-                    this._resize.setStyle("display", "block");
+                    this._resize.style["display"] = "block";
                 } else {
                     this.resize.detach();
-                    this._resize.setStyle("display", "none");
+                    this._resize.style["display"] = "none";
                 }
                 break;
             case "min_width":

@@ -75,7 +75,7 @@ Scale = new Class({
                 this.element.addClass("toolkit-horizontal toolkit-bottom");
                 break;
         }
-        this.element.setStyle("position", "relative");
+        this.element.style["position"] = "relative";
         
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);
@@ -288,7 +288,7 @@ Scale = new Class({
                 if (!hold) this.redraw();
                 break;
             case "basis":
-                this.element.setStyle(this._vert() ? "height" : "width", value);
+                this.element.style[this._vert() ? "height" : "width"] = value + "px";
                 break;
             case "base":
                 if (value === false) {

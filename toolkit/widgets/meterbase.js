@@ -81,7 +81,7 @@ var MeterBase = new Class({
         
         if (this.element.getStyle("position") != "absolute"
             && this.element.getStyle("position") != "relative")
-            this.element.setStyle("position", "relative");
+            this.element.style["position"] = "relative";
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
@@ -345,7 +345,6 @@ var MeterBase = new Class({
         var pos = Math.max(0,
                   this._val2seg(Math.min(this.options.base, this.options.value)));
         this._mask2.style[this._vert() ? "height" : "width"] = pos + "px";
-        //this._mask2.setStyle(this._vert() ? "height" : "width", pos);
     },
     
     // HELPERS & STUFF
@@ -385,15 +384,15 @@ var MeterBase = new Class({
                 break;
             case "show_label":
                 if (!hold)
-                    this._label.setStyle("display", value ? "block" : "none");
+                    this._label.style["display"] = value ? "block" : "none";
                 break;
             case "show_title":
                 if (!hold)
-                    this._title.setStyle("display", value ? "block" : "none");
+                    this._title.style["display"] = value ? "block" : "none";
                 break;
             case "show_scale":
                 if (!hold)
-                    this._scale.setStyle("display", value ? "block" : "none");
+                    this._scale.style["display"] = value ? "block" : "none";
                 break;
             case "label":
                 this.fireEvent("labelchanged", [value, this]);
