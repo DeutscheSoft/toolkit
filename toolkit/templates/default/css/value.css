@@ -1,21 +1,12 @@
-.toolkit-value {
-    font-size: 12px;
-    line-height: 15px;
-    display: inline;
-    padding: 0px;
-    color: #002f42;
+.toolkit-value .toolkit-input {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #fff;
     border-left: 1px solid #e8e8e8;
     border-right: 1px solid #f3f3f3;
     display: inline-block;
-    height: 15px;
-}
-
-.toolkit-value .toolkit-input {
-    background: #002a42;
-    color: white;
-    border: none;
+    height: 100%;
+    color: #002f42;
+    background: transparent;
     font-size: 12px;
     line-height: 15px;
     padding: 0;
@@ -23,10 +14,18 @@
     outline: 0;
     text-align: center;
     overflow: hidden;
-    height: 100%;
+    width: 100%;
+    cursor: pointer;
     -webkit-user-select: auto !important;
     -khtml-user-select: auto !important;
     -moz-user-select: auto !important;
     -ms-user-select: auto !important;
     user-select: auto !important;
+}
+}
+
+.toolkit-value.toolkit-active .toolkit-input {
+    background: #002a42;
+    color: white;
+    border: none;
 }

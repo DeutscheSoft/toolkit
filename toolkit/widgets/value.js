@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
+
 Value = new Class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
@@ -33,11 +33,14 @@ Value = new Class({
     },
     initialize: function (options) {
         this.parent(options);
-        this.element = this.widgetize(new Element("div.toolkit-value"),
+        this.element = this.widgetize(new Element("form.toolkit-value"),
                                       true, true, true);
         this._input  = new Element("input.toolkit-input", {type: "text"});
+        this._input.inject(this.element);
         
         this.element.addEvent("click", this._value_clicked.bind(this));
+        this.element.addEvent("touchstart", this._value_clicked.bind(this));
+        this.element.addEvent("submit", function () { return false; });
         this._input.addEvent("keyup", this._value_typing.bind(this));
         this._input.addEvent("blur", this._value_done.bind(this));
         
@@ -48,7 +51,8 @@ Value = new Class({
     },
     
     redraw: function () {
-        this.element.set("html", this.options.format(this.options.value));
+        if (this.__editing) return;
+        this._input.set("value", this.options.format(this.options.value));
     },
     
     destroy: function () {
@@ -61,22 +65,18 @@ Value = new Class({
     // HELPERS & STUFF
     _value_clicked: function (e) {
         if (!this.options.set) return;
-        e.event.preventDefault();
         if (this.__editing) return false;
-        var w = this.element.innerWidth();
-        this.element.set("html", "");
         this.element.addClass("toolkit-active");
-        this._input.inject(this.element);
         this._input.set("value", this.options.value);
-        this._input.outerWidth(w);
         this.__editing = true;
         this._input.focus();
         document.addEvent("click", this._value_done.bind(this));
         this.fireEvent("valueclicked", [this.options.value, this]);
-        return false;
+        e.stopPropagation();
     },
     _value_typing: function (e) {
         if (!this.options.set) return;
+        if (!this.__editing) return;
         switch (e.key) {
             case "esc":
                 this._value_done();
@@ -90,14 +90,19 @@ Value = new Class({
                 this.fireEvent("valueset", [this.options.value, this]);
                 this.fireEvent("useraction", ["value", this.options.value, this]);
                 break;
+            default:
+                this.set("value", val, true);
+                break;
         }
         this.fireEvent("valuetyping", [e, this.options.value, this]);
     },
     _value_done: function () {
+        if (!this.__editing) return;
         this.__editing = false;
-        this._input.dispose();
         this.element.removeClass("toolkit-active");
         document.removeEvent("click", this._value_done.bind(this));
+        document.removeEvent("touchstart", this._value_done.bind(this));
+        this._input.blur();
         this.fireEvent("valuedone", [this.options.value, this]);
         this.redraw();
     },
