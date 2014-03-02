@@ -90,21 +90,16 @@ Fader = new Class({
         
         this.element.addEvents({
             "mousedown":  function () { this.__down = true; }.bind(this),
+            "touchstart": function () { this.__down = true; event.preventDefault(); }.bind(this),
+            "mouseup":    this._clicked.bind(this),
+            "touchend":   this._touchend.bind(this),
             "mouseenter": this._mouseenter.bind(this),
-            "mouseleave": this._mouseleave.bind(this)
+            "mouseleave": this._mouseleave.bind(this),
+            "mousemove":  this._move.bind(this)
         });
-        
-        this.element.addEvent("mousedown", function (ev) {
-            this.__down = true;
-        }.bind(this));
-        
-        this.element.addEvent("mouseup", this._clicked.bind(this));
-        this.element.addEvent("mousemove", this._move.bind(this));
         
         this.drag.addEvent("dragging", function (ev) {
             this.__down = false;
-        }.bind(this));
-        this.drag.addEvent("dragging", function (ev) {
             this.__dragging = true;
             this._move(ev);
         }.bind(this));
@@ -121,6 +116,8 @@ Fader = new Class({
                 this.get("value")), this.__tt);
         }.bind(this));
         
+        this.__tt = this.tooltip("");
+        this.tooltip(false, this.__tt);
         this.redraw();
         this.initialized();
     },
@@ -241,21 +238,23 @@ Fader = new Class({
     },
     _move: function (ev) {
         if (!this.options.tooltip) return;
-        if (!this.__tt)
-            this.__tt = this.tooltip("");
         var s = this.__dragging ? this.get("value") : this._get_value(ev);
         this.tooltip(this.options.tooltip(s), this.__tt);
     },
     _mouseenter : function (ev) {
-        //this.global_cursor("crosshair");
         this.__entered = true;
     },
     _mouseleave : function (ev) {
+        this.__entered = false;
         if (!this.options.tooltip) return;
         if (!this.__dragging)
             this.tooltip(false, this.__tt);
-        //this.remove_cursor("crosshair");
+    },
+    _touchend : function (ev) {
         this.__entered = false;
+        ev.event = ev.changedTouches[0];
+        this._clicked(ev);
+        event.preventDefault();
     },
     _get_value: function (ev) {
         var pos   = this.element.getPosition()[
