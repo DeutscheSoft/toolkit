@@ -34,6 +34,9 @@ Clock = new Class({
         show_hours:   true,       // show the hours ring
         timeout:      0,          // set a timeout to update the clock with the
                                   // system clock regulary
+        timeadd:      0,          // set additional milliseconds for the
+                                  // timeout target
+                                  // system clock regulary
         offset:       0,          // if a timeout is set offset the system time
                                   // in milliseconds
         fps:          25,         // framerate for calculatind SMTP frames
@@ -216,9 +219,15 @@ Clock = new Class({
                 this.set("time", new Date(+(new Date()) + this.options.offset));
             else
                 this.set("time", new Date());
-            var now = new Date().getTime() % 1000;
-
-            this.__to = window.setTimeout(this._timeout.bind(this), 1010-now);
+                
+            var targ;
+            if (this.options.timeadd) {
+                var now = (new Date().getTime() + this.options.offset) % 1000;
+                targ = this.options.timeout + this.options.timeadd - now;
+            } else {
+                targ = this.options.timeout
+            }
+            this.__to = window.setTimeout(this._timeout.bind(this), targ);
         }
     },
     

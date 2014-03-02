@@ -579,6 +579,15 @@
                         <td>0</td>
                     </tr>
                     <tr>
+                        <td>timeadd</td>
+                        <td>If timeout is set make the redraw appearing shortly after
+                        the real clock changed. E.g. set timeout to 1000 and timeadd to 10
+                        to have a clock showing seconds 10 ms after the real clock switched
+                        to reduce the impact on the CPU (to avoid having the clock calculating things
+                        every 10 ms).</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
                         <td>offset</td>
                         <td>A offset in milliseconds used when "timeout" options is set.
                         This forces clock to run "independently" on the system clock
