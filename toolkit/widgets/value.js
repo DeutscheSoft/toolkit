@@ -52,7 +52,9 @@ Value = new Class({
     
     redraw: function () {
         if (this.__editing) return;
-        this._input.set("value", this.options.format(this.options.value));
+        var n = this.element;
+        if (n.firstChild) n.removeChild(n.firstChild);
+        n.appendChild(document.createTextNode(this.options.format(this.options.value)));
     },
     
     destroy: function () {

@@ -31,7 +31,8 @@ repositionSVG = function (e) {
     if (e.retrieve("margin-left") === null) {
         e.store("margin-left", e.getStyle("margin-left").toFloat());
     } else {
-        e.setStyle("margin-left", e.retrieve("margin-left"));
+        e.style['margin-left'] = e.retrieve("margin-left");
+        //e.setStyle("margin-left", e.retrieve("margin-left"));
     }
     var l = e.retrieve("margin-left").toFloat();
     var b = e.getBoundingClientRect();
