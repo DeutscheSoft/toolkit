@@ -115,13 +115,14 @@ var Graph = new Class({
                     break;
                 case "C":
                     // cubic bezier
+                    var _t = init ? " " + t : "M";
                     var _x = (this.range_x.val2px(d.x, true) + a);
                     var _y = (this.range_y.val2px(d.y, true) + a);
                     var _x1 = (this.range_x.val2px(d.x1, true) + a);
                     var _y1 = (this.range_y.val2px(d.y1, true) + a);
                     var _x2 = (this.range_x.val2px(d.x2, true) + a);
                     var _y2 = (this.range_y.val2px(d.y2, true) + a);
-                    s += " C" + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
+                    s += t_ + " " + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
                          + _x + "," + _y;
                     break;
                 case "H":
