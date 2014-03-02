@@ -60,14 +60,13 @@ var Equalizer = new Class({
                     function () {
                         this.__deferring = true;
                         this.redraw()
+                        this.__deferring = false;
+                        this._defer_to = null;
                     }.bind(this),
                     Math.max(5, this.options.deferrer));
+                return;
             } else if (!this.__deferring) {
                 return;
-            }
-            if (this.__deferring) {
-                this._defer_to = false;
-                this.__deferring = false;
             }
         }
         if (this.baseline) {
