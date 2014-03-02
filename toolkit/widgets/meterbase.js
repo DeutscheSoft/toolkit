@@ -320,9 +320,9 @@ var MeterBase = new Class({
                     function (e) {
                         var d = e.clone();
                         var p = e.getPosition(this._scale)[this._vert()?"y":"x"];
-                        d.setStyle(this._vert() ? "width" : "height", "100%");
-                        d.setStyle(this._vert() ? "top" : "left",
-                                   p + p % this.options.segment);
+                        d.style[this._vert() ? "width" : "height"] = "100%";
+                        d.style[this._vert() ? "top" : "left"] = 
+                                   p + p % this.options.segment;
                         d.inject(this._mark);
                     }.bind(this));
             }

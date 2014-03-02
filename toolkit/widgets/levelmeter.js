@@ -281,8 +281,8 @@ LevelMeter = new Class({
             this.parent();
             if (!this.__tres) {
                 this.__tres = true;
-                this._mask3.setStyle(this._vert() ? "height" : "width", 0);
-                this._mask4.setStyle(this._vert() ? "height" : "width", 0);
+                this._mask3.style[this._vert() ? "height" : "width"] = 0;
+                this._mask4.style[this._vert() ? "height" : "width"] = 0;
             }
         } else {
             this.__tres = false;
