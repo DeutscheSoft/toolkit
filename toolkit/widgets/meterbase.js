@@ -340,7 +340,7 @@ var MeterBase = new Class({
         // the meter bar
         var pos = Math.max(0,
                   this._val2seg(Math.min(this.options.max, Math.max(this.options.base, this.options.value))));
-        this._mask1.style[this._vert() ? "height" : "width"] = (this.options.basis - pos) + "px";
+        this._mask1.style[this._vert() ? "height" : "width"] = (this.options.basis - pos).toFixed(0) + "px";
         if (!this.__based) return;
         var pos = Math.max(0,
                   this._val2seg(Math.min(this.options.base, this.options.value)));
