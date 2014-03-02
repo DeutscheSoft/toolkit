@@ -160,11 +160,17 @@ ResponseHandle = new Class({
             "mousewheel":  this._scrollwheel.bind(this),
             "contextmenu": function () {return false;}
         });
+        this._label.addEvents({
+            "touchstart":  this._touchstart.bind(this),
+        });
         this._handle.addEvents({
             "mouseenter":  this._mouseelement.bind(this),
             "touchstart":  this._mouseelement.bind(this),
             "mousewheel":  this._scrollwheel.bind(this),
             "contextmenu": function () {return false;}
+        });
+        this._handle.addEvents({
+            "touchstart":  this._touchstart.bind(this),
         });
         this._zhandle.addEvents({
             "mousedown":  this._zhandledown.bind(this),
@@ -1104,8 +1110,8 @@ ResponseHandle = new Class({
         }
         
         // touch
-        if (e.touches && e.touches.length > 1) {
-            var ev = e.touches[0];
+        if (e.touches && e.touches.length) {
+            var ev = e.touches[e.touches.length - 1];
         } else {
             ev = e.event;
         }
@@ -1162,11 +1168,13 @@ ResponseHandle = new Class({
     _mousemove: function (e) {
         if (!this.__active) return;
         e.event.preventDefault();
-        if (e.touches && e.touches.length > 1) {
-            var ev = e.touches[0];
+        
+        if (e.touches && e.touches.length) {
+            var ev = e.touches[e.touches.length - 1];
         } else {
             var ev = e.event;
         }
+        console.log(e)
         var mx = this.range_x.options.step || 1;
         var my = this.range_y.options.step || 1;
         var mz = this.range_z.options.step || 1;
