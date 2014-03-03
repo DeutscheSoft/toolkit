@@ -202,6 +202,7 @@ LevelMeter = new Class({
         this.fireEvent("resetlabel", this);
     },
     reset_clip: function () {
+        delete this.__cto;
         this.set("clip", false);
         this.fireEvent("resetclip", this);
     },
@@ -385,7 +386,7 @@ LevelMeter = new Class({
     },
     _clip_timeout: function () {
         if (!this.options.auto_clip || this.options.auto_clip < 0) return false;
-        if (this.__cto) window.clearTimeout(this.__cto);
+        if (this.__cto) return;
         if (this.options.clip)
             this.__cto = window.setTimeout(
                 this.reset_clip.bind(this),
