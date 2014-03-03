@@ -1172,12 +1172,10 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function (event, win) {
             x: (event.pageX != null) ? event.pageX : event.clientX + doc.scrollLeft,
             y: (event.pageY != null) ? event.pageY : event.clientY + doc.scrollTop
         };
-        this.__defineGetter__("client", function () {
-            return {
-                x: (event.pageX != null) ? event.pageX - win.pageXOffset : event.clientX,
-                y: (event.pageY != null) ? event.pageY - win.pageYOffset : event.clientY
-            };
-        });
+        this.client = {
+            x: (event.clientX != null) ? event.clientX : event.pageX - win.pageXOffset,
+            y: (event.clientY != null) ? event.clientY : event.pageY - win.pageYOffset
+        };
         if (type == 'DOMMouseScroll' || type == 'mousewheel')
             this.wheel = (event.wheelDelta) ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
 
