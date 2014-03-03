@@ -47,7 +47,8 @@ ResponseHandle = new Class({
                                         // _TOOLKIT_BLOCK_TOP: y movement, block on top
                                         // _TOOLKIT_BLOCK_RIGHT: y movement, block on bottom
         preferences:      [_TOOLKIT_LEFT, _TOOLKIT_TOP, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM], // perferred position of the label
-        label:            function (title, x, y, z) { return sprintf("%s\n%d Hz\n%.2f dB\nQ: %.2f", title, x, y, z); },
+        //label:            function (title, x, y, z) { return sprintf("%s\n%d Hz\n%.2f dB\nQ: %.2f", title, x, y, z); },
+        label:            function (title, x, y, z) { return title + "\n" + x.toFixed(0) + " Hz\n" + y.toFixed(2) + " dB\nQ:" + z.toFixed(2); },
         x:                0,            // value for x axis depending on mode_x
         y:                0,            // value for y axis depending on mode_y
         z:                0,            // value for z axis depending on mode_z
