@@ -1172,10 +1172,12 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function (event, win) {
             x: (event.pageX != null) ? event.pageX : event.clientX + doc.scrollLeft,
             y: (event.pageY != null) ? event.pageY : event.clientY + doc.scrollTop
         };
-        this.client = {
-            x: (event.pageX != null) ? event.pageX - win.pageXOffset : event.clientX,
-            y: (event.pageY != null) ? event.pageY - win.pageYOffset : event.clientY
-        };
+        this.__defineGetter__("client", function () {
+            return {
+                x: (event.pageX != null) ? event.pageX - win.pageXOffset : event.clientX,
+                y: (event.pageY != null) ? event.pageY - win.pageYOffset : event.clientY
+            };
+        });
         if (type == 'DOMMouseScroll' || type == 'mousewheel')
             this.wheel = (event.wheelDelta) ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
 
@@ -1185,6 +1187,7 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function (event, win) {
             while (related && related.nodeType == 3) related = related.parentNode;
             this.relatedTarget = document.id(related);
         }
+        return;
     } else if (type.indexOf('touch') == 0 || type.indexOf('gesture') == 0) {
         this.rotation = event.rotation;
         this.scale = event.scale;
