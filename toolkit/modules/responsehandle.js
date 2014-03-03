@@ -575,7 +575,8 @@ ResponseHandle = new Class({
         var inter = [];
         var pos = false;
         var align = "";
-        var bbox = this._label.getBBox();
+        var bbox = null;
+        try { bbox = this._label.getBBox(); } catch(e) { /* Mozilla fuckup, lables are destroyed afterwards. Do a redraw on realization */ return; }
         try { bbox.width = w; } catch(e) { /* ie8: No Modification Allowed Error */ }
         
         switch (this.options.mode) {
