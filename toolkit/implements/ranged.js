@@ -98,10 +98,106 @@ Ranged = new Class({
         // coefficients, ...) based on options.basis
         return this.based2val(n, this.options.basis, nosnap);
     },
+    gen_to_scale : function() {
+        if (typeof this.options.scale == "function") {
+            var f = this.options.svale;
+            var op = this.options;
+            var bas = this.options.basis;
+            return function (value) {
+                return f(value, op, false) * bas;
+            };
+        }
+        switch (this.options.scale) {
+            default:
+            case _TOOLKIT_LINEAR:
+                return function (value, min, max, basis) {
+                    return ((((min - value) * -1) / (max - min)) || 0) * basis;
+                };
+            case _TOOLKIT_DB:
+            case _TOOLKIT_LOG2:
+                return this.db2scale;
+            case _TOOLKIT_FREQ:
+            case _TOOLKIT_FREQ_REVERSE:
+                return this.freq2scale;
+        }
+    },
+    gen_val2px : function(nosnap) {
+        var basis = this.options.basis;
+        var min = this.options.min;
+        var max = this.options.max;
+        var rev = this.options.reverse;
+        var reverse = this.options.scale == _TOOLKIT_DB || this.options.scale == _TOOLKIT_FREQ_REVERSE;
+        var trafo = this.gen_to_scale();
+        var lf = this.options.log_factor;
+
+        if (!nosnap) {
+            var snap = this.snap_value.bind(this);
+            return function (x) {
+                x = snap(x);
+                x = trafo(x, min, max, basis, reverse, lf);
+                if (rev) return -x + basis;
+                else return x;
+            };
+        } else {
+            return function (x) {
+                x = trafo(x, min, max, basis, reverse, lf);
+                if (rev) return -x + basis;
+                else return x;
+            };
+        }
+    },
     val2px: function (n, nosnap) {
         // just a wrapper for having understandable code and backward
         // compatibility
         return this.val2based(n, this.options.basis, nosnap);
+    },
+    gen_from_scale : function() {
+        if (typeof this.options.scale == "function") {
+            var f = this.options.svale;
+            var op = this.options;
+            var bas = this.options.basis;
+            return function (value) {
+                return f(value, op, true) * bas;
+            };
+        }
+        switch (this.options.scale) {
+            default:
+            case _TOOLKIT_LINEAR:
+                return function (value, min, max, basis) {
+                    return (value / basis) * (max - min) + min;
+                };
+            case _TOOLKIT_DB:
+            case _TOOLKIT_LOG2:
+                return this.scale2db;
+            case _TOOLKIT_FREQ:
+            case _TOOLKIT_FREQ_REVERSE:
+                return this.scale2freq;
+        }
+    },
+    gen_px2val : function(nosnap) {
+        var basis = this.options.basis || 1;
+        var min = this.options.min;
+        var max = this.options.max;
+        var rev = this.options.reverse;
+        var reverse = this.options.scale == _TOOLKIT_DB || this.options.scale == _TOOLKIT_FREQ_REVERSE;
+        var trafo = this.gen_from_scale();
+        var lf = this.options.log_factor;
+
+        if (!nosnap) {
+            var snap = this.snap_value.bind(this);
+            return function (x) {
+                if (rev) x = -x + basis;
+                x = trafo(x, min, max, basis, reverse, lf);
+                x = snap(x);
+                return x;
+            };
+        } else {
+            return function (x) {
+                if (rev) x = -x + basis;
+                x = trafo(x, min, max, basis, reverse, lf);
+                return x;
+            };
+        }
     },
     px2val: function (n, nosnap) {
         // just a wrapper for having understandable code and backward
@@ -175,7 +271,7 @@ Ranged = new Class({
             default:
             case _TOOLKIT_LINEAR:
                 value = (coef / basis)
-                    * (this.options.max - this.options.min) + this.options.min
+                    * (this.options.max - this.options.min) + this.options.min;
                 break;
             case _TOOLKIT_DB:
                 value = this.scale2db(
