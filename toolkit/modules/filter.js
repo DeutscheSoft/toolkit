@@ -35,16 +35,6 @@ Filter = new Class({
         this.fireEvent("initialized", this);
     },
     reset: function () {
-        // are these even needed or just called through freq2gain ?
-        // we might save another redirection.
-        this.lpf_order1 = function (x) { var f = this.lpf_order1 = this.gen_lpf_order1(); return f(x); };
-        this.lpf_order2 = function (x) { var f = this.lpf_order2 = this.gen_lpf_order2(); return f(x); };
-        this.hpf_order3 = function (x) { var f = this.hpf_order1 = this.gen_hpf_order1(); return f(x); };
-        this.hpf_order2 = function (x) { var f = this.hpf_order2 = this.gen_hpf_order2(); return f(x); };
-        this.low_shelf = function (x) { var f = this.low_shelf = this.gen_low_shelf(); return f(x); };
-        this.high_shelf = function (x) { var f = this.high_shelf = this.gen_high_shelf(); return f(x); };
-        this.peak = function (x) { var f = this.peak = this.gen_peak(); return f(x); };
-        this.notch = function (x) { var f = this.notch = this.gen_notch(); return f(x); };
         switch (this.options.type) {
             case _TOOLKIT_PARAM: this.freq2gain = this.gen_peak(); break;
             case _TOOLKIT_NOTCH: this.freq2gain = this.gen_notch(); break;
@@ -52,12 +42,12 @@ Filter = new Class({
             case _TOOLKIT_HISHELF: this.freq2gain = this.gen_high_shelf(); break;
             case _TOOLKIT_LP1: this.freq2gain = this.gen_lpf_order1(); break;
             case _TOOLKIT_LP2: this.freq2gain = this.gen_lpf_order2(); break;
-            case _TOOLKIT_LP3: this.freq2gain = this.lpf_order3; break;
-            case _TOOLKIT_LP4: this.freq2gain = this.lpf_order4; break;
+            case _TOOLKIT_LP3: this.freq2gain = this.gen_lpf_order3(); break;
+            case _TOOLKIT_LP4: this.freq2gain = this.gen_lpf_order4(); break;
             case _TOOLKIT_HP1: this.freq2gain = this.gen_hpf_order1(); break;
             case _TOOLKIT_HP2: this.freq2gain = this.gen_hpf_order2(); break;
-            case _TOOLKIT_HP3: this.freq2gain = this.hpf_order3; break;
-            case _TOOLKIT_HP4: this.freq2gain = this.hpf_order4; break;
+            case _TOOLKIT_HP3: this.freq2gain = this.gen_hpf_order3(); break;
+            case _TOOLKIT_HP4: this.freq2gain = this.gen_hpf_order4(); break;
             default: throw new Error("undefined type!\n");
         }
         this.fireEvent("reset");
@@ -101,12 +91,19 @@ Filter = new Class({
         };
     },
 
-    lpf_order3: function (freq) {
-        return this.lpf_order1(freq) + this.lpf_order2(freq)
+    gen_lpf_order3: function () {
+        var f1 = this.gen_lpf_order1();
+        var f2 = this.gen_lpf_order2();
+        return function (freq) {
+            return f1(freq) + f2(freq);
+        };
     },
 
-    lpf_order4: function (freq) {
-        return this.lpf_order2(freq) * 2;
+    gen_lpf_order4: function () {
+        var f2 = this.gen_lpf_order2();
+        return function (freq) {
+            return 2 * f2(freq);
+        };
     },
 
     gen_hpf_order1: function () {
@@ -143,12 +140,20 @@ Filter = new Class({
         };
     },
 
-    hpf_order3: function (freq) {
-        return this.hpf_order1(freq) + this.hpf_order2(freq)
+    gen_hpf_order3: function () {
+        var f1 = this.gen_hpf_order1();
+        var f2 = this.gen_hpf_order2();
+
+        return function(freq) {
+            return f1(freq) + f2(freq);
+        };
     },
 
-    hpf_order4: function (freq) {
-        return this.hpf_order2(freq) * 2;
+    gen_hpf_order4: function (freq) {
+        var f2 = this.gen_hpf_order2();
+        return function (freq) {
+            return 2 * f2(freq);
+        };
     },
 
     gen_low_shelf: function () {
