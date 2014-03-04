@@ -49,15 +49,12 @@ Scale = new Class({
                                           // the labels
         gap_dots:         4,              // minimum gap between dots (pixel)
         gap_labels:       40,             // minimum gap between labels (pixel)
-        show_labels:      true,           // if labels should be drawn
-        show_min:         true,           // always draw a label at min
-        show_max:         true,           // always draw a label at max
-        show_base:        true            // always draw a label at base
+        show_labels:      true            // if labels should be drawn
     },
     __size: 0,
     
     initialize: function (options, hold) {
-        this.parent(Object.merge(this.__options, options));
+        this.parent(options);
         this.element = this.widgetize(
                        new Element("div.toolkit-scale"), true, true, true);
         
@@ -75,7 +72,7 @@ Scale = new Class({
                 this.element.addClass("toolkit-horizontal toolkit-bottom");
                 break;
         }
-        this.element.style["position"] = "relative";
+        this.element.setStyle("position", "relative");
         
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);
@@ -94,24 +91,21 @@ Scale = new Class({
         this.element.empty();
         
         // draw base
-        this.draw_dot(this.options.base, "toolkit-base");
-        if (this.options.show_base) {
-            this.draw_label(this.options.base, "toolkit-base");
-        }
+        this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
+        this.draw_label(this.options.base, "toolkit-base");
+        
         // draw top
         if (this._val2px(this.options.base - this.options.min)
-            >= this.options.gap_labels ) {
+            >= this.options.gap_labels) {
             this.draw_dot(this.options.min, "toolkit-min");
-            if (this.options.show_min)
-                this.draw_label(this.options.min, "toolkit-min");
+            this.draw_label(this.options.min, "toolkit-min");
         }
         
         // draw bottom
         if (this._val2px(this.options.max - this.options.base)
             >= this.options.gap_labels) {
             this.draw_dot(this.options.max, "toolkit-max");
-            if (this.options.show_max)
-                this.draw_label(this.options.max, "toolkit-max");
+            this.draw_label(this.options.max, "toolkit-max");
         }
         
         var level;
@@ -119,19 +113,16 @@ Scale = new Class({
         // draw beneath base
         var iter = this.options.base;
         this.__last = iter;
-        this.___last = this._val2px(iter);
         while (iter > this.options.min) {
             //console.log("beneath", this.options.reverse, iter)
             iter -= this.options.division;
             if (level = this._check_label(iter, this.options.division)) {
-                //console.log("check_dots", this.__last, iter, this.options.division, level);
                 this._check_dots(this.__last,
                                 iter,
                                -this.options.division,
                                 level,
                                 function (a, b) { return a > b });
                 this.__last = iter;
-                this.___last = this._val2px(this.__last);
             }
         }
         // draw dots between last label and min
@@ -144,19 +135,16 @@ Scale = new Class({
         // draw above base
         var iter = this.options.base;
         this.__last = iter;
-        this.___last = this._val2px(iter);
         while (iter < this.options.max) {
             //console.log("above", this.options.reverse, iter)
             iter += this.options.division;
             if (level = this._check_label(iter, this.options.division)) {
-                //console.log("check_dots", this.__last, iter, this.options.division, level);
                 this._check_dots(this.__last,
                                 iter,
                                 this.options.division,
                                 level,
                                 function (a, b) { return a < b });
                 this.__last = iter;
-                this.___last = this._val2px(this.__last);
             }
         }
         // draw dots between last label and max
@@ -226,23 +214,20 @@ Scale = new Class({
         for (var i = this.options.levels.length - 1; i >= 0; i--) {
             var level = this.options.levels[i];
             var diff = Math.abs(this.options.base - iter);
-            var itpos = this._val2px(iter); // px of the iter
-            var diffpos = Math.abs(this.___last - itpos) // px between __last and iter
-            //console.log("check_label", iter, step, level, diff, itpos, diffpos, this.__last, this.___last, !(diff % level), level >= Math.abs(this.__last - iter), i == this.options.levels.length - 1, diffpos >= this.options.gap_labels);
-            if (!(diff % level) // do we hit a value on the actually tested level?
-            && (level >= Math.abs(this.__last - iter) // we are at least $level away from last label
-                || i == this.options.levels.length - 1) // or the actaully tested level is max level
-            && diffpos >= this.options.gap_labels // and the drawing position is more distant from the last one than gap_label
-            && itpos >= this.options.gap_labels
-            ) {
-                if (iter > this.options.min && iter < this.options.max) { // don't draw if we hit max or min
+            if (!(diff % level)
+            && (level >= Math.abs(this.__last - iter)
+                || i == this.options.levels.length - 1)
+            && this._val2px(Math.abs(this.__last - iter)
+                + this.options.min) >= this.options.gap_labels
+            && this._val2px(iter) >= this.options.gap_labels) {
+                if (iter > this.options.min && iter < this.options.max) {
                     this.draw_label(iter);
                     this.draw_dot(iter, "toolkit-marker");
                 }
-                return i; // return the level where level was hit
+                return i;
             }
         }
-        return false; // return false if we didn't draw anything
+        return false;
     },
     _check_dots: function (start, stop, step, level, comp) {
         // test if dots can be drawn between two positions and trigger drawing
@@ -288,7 +273,7 @@ Scale = new Class({
                 if (!hold) this.redraw();
                 break;
             case "basis":
-                this.element.style[this._vert() ? "height" : "width"] = value + "px";
+                this.element.setStyle(this._vert() ? "height" : "width", value);
                 break;
             case "base":
                 if (value === false) {
@@ -301,10 +286,6 @@ Scale = new Class({
                 if (!hold) this.redraw();
                 key = false;
                 break;
-            case "show_min":
-            case "show_max":
-            case "show_base":
-                if (!hold) this.redraw();
         }
         this.parent(key, value, hold);
         return this;
