@@ -103,7 +103,7 @@ var Equalizer = new Class({
             //console.log(d.join(""));
             this.baseline.set("dots", d.join(""));
         }
-        console.log("redraw took", new Date() - t, "ms");
+        //console.log("redraw took", new Date() - t, "ms");
         this.parent();
     },
     
