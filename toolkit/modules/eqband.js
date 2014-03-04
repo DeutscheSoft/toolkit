@@ -78,6 +78,10 @@ EqBand = new Class({
         
         this.initialized();
     },
+
+    gen_freq2gain : function() {
+        return this.filter.freq2gain;
+    },
     
     freq2gain: function (freq) {
         return this.filter.freq2gain(freq);

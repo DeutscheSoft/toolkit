@@ -69,21 +69,41 @@ var Equalizer = new Class({
                 return;
             }
         }
+        var t = new Date();
         if (this.baseline) {
             var dots = [];
             var c = 0;
-            for (var i = 0; i < this.range_x.get("basis"); i += this.options.accuracy) {
-                var gain = 1;
-                var freq = this.range_x.px2val(i, true);
-                dots[c] = {x: freq, y: 0};
-                for (var j = 0; j < this.bands.length; j++) {
-                    if (this.bands[j].get("active"))
-                        dots[c].y += this.bands[j].freq2gain(freq);
+            var end = this.range_x.get("basis");
+            var step = this.options.accuracy;
+            var x_px_to_val = this.range_x.gen_px2val(true);
+            var y_val_to_px = this.range_y.gen_val2px(true);
+            var f = [];
+            var y = 0, x = x_px_to_val(0);
+
+            for (var i = 0; i < this.bands.length; i++) {
+                if (this.bands[i].get("active")) {
+                    f[c] = this.bands[i].gen_freq2gain();
+                    y += f[c](x);
+                    c++;
                 }
-                c ++;
             }
-            this.baseline.set("dots", dots);
+
+            var d = new Array(end / step);
+            c = 1;
+
+            d[0] = "M0," + y.toFixed(1);
+
+            for (var i = 1; i < end; i += step) {
+                x = x_px_to_val(i);
+                y = 0;
+                for (var j = 0; j < f.length; j++) y += f[j](x);
+
+                d[c ++] = "L" + i + "," + y_val_to_px(y).toFixed(1);
+            }
+            //console.log(d.join(""));
+            this.baseline.set("dots", d.join(""));
         }
+        console.log("redraw took", new Date() - t, "ms");
         this.parent();
     },
     
