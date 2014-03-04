@@ -83,6 +83,11 @@ var Graph = new Class({
         
         var s = "";
         var init;
+
+        if (typeof this.options.dots == "string") {
+            this.element.set("d", this.options.dots);
+            return;
+        }
         
         if (typeof this.options.dots[0] != "undefined") {
             var _s = this._start(this.options.dots[0])
