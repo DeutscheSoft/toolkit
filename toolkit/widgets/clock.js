@@ -43,11 +43,19 @@ Clock = new Class({
         months:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         days:         ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         label: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-            return sprintf("%02d:%02d:%02d", hour, minute, second);},
+            // return ...  does not work, wtf?
+            var s =  
+                ((hour < 10) ? ("0" + hour) : hour) + ":" +
+                ((minute < 10) ? ("0" + minute) : minute) + ":" +
+                ((second < 10) ? ("0" + second) : second);
+            return s;
+        },
         label_upper: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-            return days[day];},
+            return days[day];
+        },
         label_lower: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-            return sprintf("%02d. %s %d", date, months[month], year);},
+            return ((date < 10) ? ("0" + date) : date) + ". " + months[month] + " " + year;
+        },
         label_scale: 0.33           // the scale of the upper and lower labels
                                    // compared to the main label
     },
