@@ -148,7 +148,7 @@ Class.refactor(Element, {
             size = this._sanitizeSize(size);
             var px = this.CSSSize2px(size, this.getParent().innerWidth());
             if (this.boxModel() == "border-box") {
-                var s = _this.CSSSpace("padding", "border");
+                var s = this.CSSSpace("padding", "border");
                 px -= (s.left + s.right);
             }
             this.style["width"] = px + "px";
