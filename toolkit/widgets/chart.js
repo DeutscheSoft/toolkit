@@ -119,7 +119,7 @@ var Chart = new Class({
         var w = this.range_x.get("basis") + "px";
         var h = this.range_y.get("basis") + "px";
         this.element.setAttribute("width", w);
-        this.element.setAttribute("height", w);
+        this.element.setAttribute("height", h);
         this.element.style.width = w;
         this.element.style.height = h;
         if (grid) {
