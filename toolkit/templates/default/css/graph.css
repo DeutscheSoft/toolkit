@@ -3,6 +3,7 @@
     fill: none;
     stroke-width: 1.2px;
     stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .toolkit-graph.toolkit-filled {
