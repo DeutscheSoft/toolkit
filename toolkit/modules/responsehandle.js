@@ -1092,6 +1092,7 @@ ResponseHandle = new Class({
         //e.stopPropagation();
     },
     _mousedown: function (e) {
+        //console.log("mousedown")
         e.event.preventDefault();
         this._zwheel = false;
         if (this.options.min_drag)
@@ -1142,6 +1143,7 @@ ResponseHandle = new Class({
         return false;
     },
     _mouseup: function (e) {
+        //console.log("mouseup")
         if (!this.__active) return;
         e.event.preventDefault();
         this.element.removeClass("toolkit-active");
@@ -1165,6 +1167,7 @@ ResponseHandle = new Class({
         return false;
     },
     _mousemove: function (e) {
+        //console.log("mousemove")
         if (!this.__active) return;
         e.event.preventDefault();
         
@@ -1307,25 +1310,28 @@ ResponseHandle = new Class({
         this._zwheel = true;
     },
     _touchstart: function (e) {
+        //console.log("touchstart")
         if (e.touches && e.touches.length == 2) {
-            e.event.preventDefault();
             e.stopPropagation();
-            return false;
         } else {
             this._mousedown(e);
         }
+        e.event.preventDefault();
+        return false;
     },
     _touchend: function (e) {
+        //console.log("touchend")
         this._tdist = false;
         if (e.touches && e.touches.length >= 1) {
-            e.event.preventDefault();
             e.stopPropagation();
-            return false;
         } else {
             this._mouseup(e);
         }
+        e.event.preventDefault();
+        return false;
     },
     _touchmove: function (e) {
+        //console.log("touchmove")
         if (!this.__active) return;
         if (e.event.touches && e.event.touches.length > 1
         && this._tdist === false) {
@@ -1350,12 +1356,12 @@ ResponseHandle = new Class({
                 Math.min(z, this.range_z.get("max")),
                 this.range_z.get("min")));
             this.fireEvent("zchanged", [this.options.z, this]);
-            e.event.preventDefault();
             e.event.stopPropagation();
-            return false;
         } else {
             this._mousemove(e);
         }
+        e.event.preventDefault();
+        return false;
     },
     _zhandledown: function (e) {
         this._zhandling = true;

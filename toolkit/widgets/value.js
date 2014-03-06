@@ -38,11 +38,15 @@ Value = new Class({
         this._input  = new Element("input.toolkit-input", {type: "text"});
         this._input.inject(this.element);
         
-        this.element.addEvent("click", this._value_clicked.bind(this));
-        this.element.addEvent("touchstart", this._value_clicked.bind(this));
+        if (this.is_touch())
+            this.element.addEvent("touchstart", this._value_clicked.bind(this));
+        else
+            this.element.addEvent("mousedown", this._value_clicked.bind(this));
         this.element.addEvent("submit", function () { return false; });
         this._input.addEvent("keyup", this._value_typing.bind(this));
         this._input.addEvent("blur", this._value_done.bind(this));
+        
+        document.addEvent("click", this._value_done.bind(this));
         
         if (this.options.container)
             this.set("container", this.options.container);
@@ -70,7 +74,6 @@ Value = new Class({
         this._input.set("value", this.options.value);
         this.__editing = true;
         this._input.focus();
-        document.addEvent("click", this._value_done.bind(this));
         this.fireEvent("valueclicked", [this.options.value, this]);
         e.stopPropagation();
     },
@@ -100,8 +103,6 @@ Value = new Class({
         if (!this.__editing) return;
         this.__editing = false;
         this.element.removeClass("toolkit-active");
-        document.removeEvent("click", this._value_done.bind(this));
-        document.removeEvent("touchstart", this._value_done.bind(this));
         this._input.blur();
         this.fireEvent("valuedone", [this.options.value, this]);
         this.redraw();
