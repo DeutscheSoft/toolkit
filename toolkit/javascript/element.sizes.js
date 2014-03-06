@@ -149,7 +149,7 @@ Class.refactor(Element, {
             var px = this.CSSSize2px(size, this.getParent().innerWidth());
             if (this.boxModel() == "border-box") {
                 var s = this.CSSSpace("padding", "border");
-                px -= (s.left + s.right);
+                px += (s.left + s.right);
             }
             this.style["width"] = px + "px";
         }
@@ -168,7 +168,7 @@ Class.refactor(Element, {
             var px = this.CSSSize2px(size, this.getParent().innerHeight());
             if (this.boxModel() == "border-box") {
                 var s = this.CSSSpace("padding", "border");
-                px -= (s.top + s.bottom);
+                px += (s.top + s.bottom);
             }
             this.style["height"] = px + "px";
         }
