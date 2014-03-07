@@ -91,7 +91,7 @@ var Equalizer = new Class({
             var d = new Array(end / step);
             c = 1;
 
-            d[0] = "M0," + y.toFixed(1);
+            d[0] = "M0," + y_val_to_px(y).toFixed(1);
 
             for (var i = 1; i < end; i += step) {
                 x = x_px_to_val(i);
