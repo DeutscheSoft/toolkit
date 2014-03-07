@@ -187,3 +187,13 @@ _TOOLKIT_GATE                        = 152;
 _TOOLKIT_NOISEGATE                   = 152;
 _TOOLKIT_EXPANDER                    = 153;
 _TOOLKIT_EXP                         = 153;
+
+// KEYBOARDS
+_TOOLKIT_KEYBOARD_MAIN               = 160;
+_TOOLKIT_KEYBOARD_NUMPAD             = 161;
+_TOOLKIT_KEYBOARD_MIDI               = 162;
+
+
+// LANGUAGES
+_TOOLKIT_LANGUAGE_ENGLISH            = 200;
+_TOOLKIT_LANGUAGE_GERMAN             = 201;

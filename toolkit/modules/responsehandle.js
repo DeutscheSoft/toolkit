@@ -1355,6 +1355,7 @@ ResponseHandle = new Class({
             return false;
         } else {
             this._mousemove(e);
+            e.preventDefault();
         }
     },
     _zhandledown: function (e) {
