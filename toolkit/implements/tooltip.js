@@ -43,6 +43,7 @@ Tooltip = new Class({
             this.__tt_count --;
             if (this.__tt_count <= 0) {
                 this._tooltip.destroy();
+                this.__tt_injected = false;
                 this.fireEvent("tooltiphide", [tt, this]);
             }
             return;
@@ -66,6 +67,7 @@ Tooltip = new Class({
         if (this.__tt_count <= 0) {
             // show tooltip container
             this._tooltip.inject($$("body")[0]);
+            this.__tt_injected = true;
             this.fireEvent("tooltipshow", [this]);
         }
         this.__tt_count = Math.max(0, this.__tt_count);
@@ -73,6 +75,8 @@ Tooltip = new Class({
         return tt;
     },
     _pos_tooltip: function (e) {
+        if (!this.__tt_injected)
+            return;
         e = this._get_event(e);
         if(typeof e.pageY != "undefined"
                && e.pageX != "undefined"
@@ -87,6 +91,7 @@ Tooltip = new Class({
                 left: e.clientX
             });
         }
+        keep_inside(this._tooltip);
     },
     _get_event: function (event) {
         // return the right event if touch surface is used
