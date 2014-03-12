@@ -38,7 +38,7 @@ Value = new Class({
         this._input  = new Element("input.toolkit-input", {type: "text"});
         this._input.inject(this.element);
         
-        if (this.is_touch())
+        if (is_touch())
             this.element.addEvent("touchstart", this._value_clicked.bind(this));
         else
             this.element.addEvent("mousedown", this._value_clicked.bind(this));

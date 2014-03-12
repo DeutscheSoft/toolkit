@@ -145,15 +145,6 @@ Widget = new Class({
         return element;
     },
     
-    is_touch: function () {
-        return 'ontouchstart' in window // works on most browsers 
-          || 'onmsgesturechange' in window; // works on ie10
-    },
-    
-    "import": function (from, to) {
-        
-    },
-    
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
