@@ -29,7 +29,6 @@ Tooltip = new Class({
         if (!this._tooltip) {
             // build tooltip container
             this._tooltip = new Element("ul.toolkit-tooltip");
-            this._tooltip.inject($$("body")[0]);
             $$("body")[0].addEvent("mousemove",
                                    this._pos_tooltip.bind(this));
             $$("body")[0].addEvent("touchmove",
@@ -43,7 +42,7 @@ Tooltip = new Class({
             tt.destroy();
             this.__tt_count --;
             if (this.__tt_count <= 0) {
-                this._tooltip.style["display"] = "none";
+                this._tooltip.destroy();
                 this.fireEvent("tooltiphide", [tt, this]);
             }
             return;
@@ -65,8 +64,8 @@ Tooltip = new Class({
         tt.inject(this._tooltip);
         
         if (this.__tt_count <= 0) {
-            // hide tooltip container
-            this._tooltip.style["display"] = "block";
+            // show tooltip container
+            this._tooltip.inject($$("body")[0]);
             this.fireEvent("tooltipshow", [this]);
         }
         this.__tt_count = Math.max(0, this.__tt_count);
