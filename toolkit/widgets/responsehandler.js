@@ -85,15 +85,25 @@ var ResponseHandler = new Class({
         options["intersect"] = this.intersect.bind(this);
         
         var h = new ResponseHandle(options);
+        var _mousemove = h._mousemove.bind(h);
+        var _mouseup = h._mouseup.bind(h);
+        var _touchmove = h._touchmove.bind(h);
+        var _touchend = h._touchend.bind(h);
         this.handles.push(h);
-        h.addEvent("handlegrabbed", function () { this._active ++ }.bind(this));
-        h.addEvent("handlereleased",  function () {
-            this._active = Math.max(this._active-1, 0)
+        h.addEvent("handlegrabbed", function () {
+            this._active++;
+            document.addEvent("mousemove", _mousemove);
+            document.addEvent("mouseup",   _mouseup);
+            document.addEvent("touchmove", _touchmove);
+            document.addEvent("touchend",  _touchend);
         }.bind(this));
-        document.addEvent("mousemove", h._mousemove.bind(h));
-        document.addEvent("mouseup",   h._mouseup.bind(h));
-        document.addEvent("touchmove", h._touchmove.bind(h));
-        document.addEvent("touchend",  h._touchend.bind(h));
+        h.addEvent("handlereleased",  function () {
+            if (this._active) this._active--;
+            document.removeEvent("mousemove", _mousemove);
+            document.removeEvent("mouseup",   _mouseup);
+            document.removeEvent("touchmove", _touchmove);
+            document.removeEvent("touchend",  _touchend);
+        }.bind(this));
         this.fireEvent("handleadded", [h, this]);
         return h;
     },
