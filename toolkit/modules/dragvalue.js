@@ -44,15 +44,15 @@ DragValue = new Class({
         cursor:    false                       // enable global cursors
     },
     initialize: function (options) {
+        this.__pointer_move = this._pointer_move.bind(this);
+        this.__pointer_up = this._pointer_up.bind(this);
+        this.__pointer_down = this._pointer_down.bind(this);
+
         this.parent(options);
         if (this.options.element)
             this.set("element", this.options.element);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
-
-        this.__pointer_move = this._pointer_move.bind(this);
-        this.__pointer_up = this._pointer_up.bind(this);
-        this.__pointer_down = this._pointer_down.bind(this);
         
         this.initialized();
     },
