@@ -48,8 +48,8 @@ keep_inside = function (element, resize) {
     var ew = element.offsetWidth;
     var eh = element.offsetHeight;
     var p  = element.offsetParent;
-    var pw = p ? p.offsetWidth : width();
-    var ph = p ? p.offsetHeight : height();
+    var pw = p ? p.offsetWidth : width() - scrollLeft();
+    var ph = p ? p.offsetHeight : height() - scrollTop();
     if(resize) {
         if (ew > pw) element.style.width = pw + "px";
         if (eh > ph) element.style.height = ph + "px";
@@ -58,8 +58,14 @@ keep_inside = function (element, resize) {
     element.style.top  = Math.min(Math.max(ey, 0), ph - eh);
 }
 width = function () {
-    return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
 }
 height = function () {
-    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0, document.body.clientHeight || 0);
+}
+scrollTop = function () {
+    return Math.max(document.documentElement.scrollTop || 0, window.pageYOffset || 0, document.body.scrollTop || 0);
+}
+scrollLeft = function () {
+    return Math.max(document.documentElement.scrollLeft, window.pageXOffset || 0, document.body.scrollLeft || 0);
 }
