@@ -29,16 +29,17 @@ Tooltip = new Class({
         if (!this._tooltip) {
             // build tooltip container
             this._tooltip = new Element("ul.toolkit-tooltip");
-            $$("body")[0].addEvent("mousemove",
-                                   this._pos_tooltip.bind(this));
-            $$("body")[0].addEvent("touchmove",
-                                   this._pos_tooltip.bind(this));
+            this.pos_cb = this._pos_tooltip.bind(this);
+            $$("body")[0].addEvent("mousemove", this.pos_cb);
+            $$("body")[0].addEvent("touchmove", this.pos_cb);
             this.__tt_count = 0;
         }
         
         if(!cont && tt) {
             // destroy a tooltip
             this.fireEvent("tooltipremoved", [tt, this]);
+            $$("body")[0].removeEvent("mousemove", this.pos_cb);
+            $$("body")[0].removeEvent("touchmove", this.pos_cb);
             tt.destroy();
             this.__tt_count --;
             if (this.__tt_count <= 0) {

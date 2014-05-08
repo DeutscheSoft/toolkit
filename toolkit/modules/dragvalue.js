@@ -44,24 +44,23 @@ DragValue = new Class({
         cursor:    false                       // enable global cursors
     },
     initialize: function (options) {
+        this.__pointer_move = this._pointer_move.bind(this);
+        this.__pointer_up = this._pointer_up.bind(this);
+        this.__pointer_down = this._pointer_down.bind(this);
+
         this.parent(options);
         if (this.options.element)
             this.set("element", this.options.element);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
         
-        document.addEvent("mousemove", this._pointer_move.bind(this));
-        document.addEvent("mouseup",   this._pointer_up.bind(this));
-        document.addEvent("touchmove", this._pointer_move.bind(this));
-        document.addEvent("touchend",  this._pointer_up.bind(this));
-        
         this.initialized();
     },
     destroy: function () {
-        document.removeEvent("mousemove", this._pointer_move);
-        document.removeEvent("mouseup",   this._pointer_up);
-        document.removeEvent("touchmove", this._pointer_move);
-        document.removeEvent("touchend",  this._pointer_ups);
+        document.removeEvent("mousemove", this.__pointer_move);
+        document.removeEvent("mouseup",   this.__pointer_up);
+        document.removeEvent("touchmove", this.__pointer_move);
+        document.removeEvent("touchend",  this.__pointer_up);
         this.parent();
     },
     _pointer_down: function (e) {
@@ -86,6 +85,11 @@ DragValue = new Class({
         
         // fire event
         this._fire_event("startdrag", e);
+
+        document.addEvent("mousemove", this.__pointer_move);
+        document.addEvent("mouseup",   this.__pointer_up);
+        document.addEvent("touchmove", this.__pointer_move);
+        document.addEvent("touchend",  this.__pointer_up);
         
         return false;
     },
@@ -98,6 +102,10 @@ DragValue = new Class({
             this.remove_cursor("row-resize");
             this.remove_cursor("col-resize");
         }
+        document.removeEvent("mousemove", this.__pointer_move);
+        document.removeEvent("mouseup",   this.__pointer_up);
+        document.removeEvent("touchmove", this.__pointer_move);
+        document.removeEvent("touchend",  this.__pointer_up);
         this.__active = false;
         // fire event
         this._fire_event("stopdrag", e);
@@ -171,8 +179,8 @@ DragValue = new Class({
             case "element":
                 value.addEvents({
                     "contextmenu": function () {return false;},
-                    "mousedown":   this._pointer_down.bind(this),
-                    "touchstart":  this._pointer_down.bind(this)
+                    "mousedown":   this.__pointer_down,
+                    "touchstart":  this.__pointer_down
                 });
                 if (value && !this.options.events) {
                     this.options.events = value;
