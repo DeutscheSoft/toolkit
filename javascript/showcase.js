@@ -73,6 +73,43 @@ window.addEvent('domready', function () {
     }
 });
 
+// KEYBOARD
+run_keyboard = function () {
+    if (typeof keyboard != "undefined") {
+        // remove label
+        keyboard.destroy();
+        keyboard = undefined;
+        $("sc_keyboard").removeClass("box");
+        return;
+    }
+    
+    value = new Value({
+        container: $("sc_keyboard"),
+        value: 123.97,
+        format: function (val) { return sprintf("%.3f Hz", val); },
+        set: function (val) { console.log("the value was set to " + val); return val; }
+    });
+    value.addEvent("valueclicked", function () {
+        keyboard = new Keyboard({
+            container: $$("body")[0],
+            keys: [
+                [
+                    {
+                        label_default:"A",
+                        options: {
+                            styles: {"width":"100%"}
+                        }
+                    }
+                ]
+            ],
+            
+            buffer: _TOOLKIT_TEXT_INPUT
+        });
+    });
+    $("sc_keyboard").addClass("box");
+}
+
+
 // LABEL
 run_label = function () {
     if (typeof label != "undefined") {

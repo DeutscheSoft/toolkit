@@ -22,6 +22,7 @@
 Window = new Class({
     _class: "Window",
     Extends: Widget,
+    Implements: Anchor,
     options: {
         width:         500,   // initial width, can be a css length, an int (pixels)
         height:        200,   // initial height, can be a css length, an int (pixels)
@@ -296,7 +297,7 @@ Window = new Class({
     _set_position: function () {
         var width  = this.element.innerWidth();
         var height = this.element.innerHeight();
-        pos = this._translate_anchor(this.options.anchor,
+        pos = this.translate_anchor(this.options.anchor,
                                      this.options.x,
                                      this.options.y,
                                      -width,
@@ -335,11 +336,11 @@ Window = new Class({
         if (pos) {
             var x0 = this.options.fixed ? 0 : window.scrollX;
             var y0 = this.options.fixed ? 0 : window.scrollY;
-            var pos1 = this._translate_anchor(
+            var pos1 = this.translate_anchor(
                 this.options.open, x0, y0,
                 window.getSize().x - this.options.width,
                 window.getSize().y - this.options.height);
-            var pos2 = this._translate_anchor(
+            var pos2 = this.translate_anchor(
                 this.options.anchor, pos1.x, pos1.y,
                 this.options.width,
                 this.options.height);
@@ -454,42 +455,6 @@ Window = new Class({
         return (this.options.max_height < 0 ? 999999999 : this.options.max_height);
     },
     
-    _translate_anchor: function (anchor, x, y, width, height) {
-        switch (anchor) {
-            case _TOOLKIT_TOP_LEFT:
-                break;
-            case _TOOLKIT_TOP:
-                x += width / 2;
-                break;
-            case _TOOLKIT_TOP_RIGHT:
-                x += width;
-                break;
-            case _TOOLKIT_LEFT:
-                y += height / 2;
-                break;
-            case _TOOLKIT_CENTER:
-                x += width / 2;
-                y += height / 2;
-                break;
-            case _TOOLKIT_RIGHT:
-                x += width;
-                y += height / 2;
-                break;
-            case _TOOLKIT_BOTTOM_LEFT:
-                y += height;
-                break;
-            case _TOOLKIT_BOTTOM:
-                x += width / 2;
-                y += height;
-                break;
-            case _TOOLKIT_BOTTOM_RIGHT:
-                x += width;
-                y += height;
-                break;
-        }
-        return {x: Math.round(x), y: Math.round(y)};
-    },
-    
     // EVENT STUFF
     __start_drag: function (el, ev) {
         // if window is maximized, we have to replace the window according
@@ -503,7 +468,7 @@ Window = new Class({
                                 * this.options.width;
             x += (!this.options.fixed ? window.scrollX : 0);
         }
-        var pos = this._translate_anchor(
+        var pos = this.translate_anchor(
             this.options.anchor, x, y, this.options.width, this.options.height);
         
         if (this.__horiz_max()) this.options.x = pos.x;
@@ -536,7 +501,7 @@ Window = new Class({
     },
     __set_position: function () {
         var pos  = this.element.getPosition();
-        var pos1 = this._translate_anchor(this.options.anchor, pos.x, pos.y,
+        var pos1 = this.translate_anchor(this.options.anchor, pos.x, pos.y,
                                           this.options.width, this.options.height);
         this.dimensions.x      = this.options.x = pos1.x;
         this.dimensions.y      = this.options.y = pos1.y;

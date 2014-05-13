@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-window.onerror = function (error) { alert(error) };
+
 Value = new Class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
@@ -46,12 +46,12 @@ Value = new Class({
         this._input.addEvent("keyup", this._value_typing.bind(this));
         this._input.addEvent("blur", this._value_done.bind(this));
         
-        document.addEvent("click", this._value_done.bind(this));
-        
         if (this.options.container)
             this.set("container", this.options.container);
         
         this.set("value", this.options.value);
+        
+        this.__document_cb = this._value_done.bind(this);
     },
     
     redraw: function () {
@@ -99,7 +99,7 @@ Value = new Class({
         }
         this.fireEvent("valuetyping", [e, this.options.value, this]);
     },
-    _value_done: function () {
+    _value_done: function (e) {
         if (!this.__editing) return;
         this.__editing = false;
         this.element.removeClass("toolkit-active");

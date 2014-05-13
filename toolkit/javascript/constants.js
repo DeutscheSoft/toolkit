@@ -197,3 +197,8 @@ _TOOLKIT_KEYBOARD_MIDI               = 162;
 // LANGUAGES
 _TOOLKIT_LANGUAGE_ENGLISH            = 200;
 _TOOLKIT_LANGUAGE_GERMAN             = 201;
+
+// KEYBOARD TYPES
+_TOOLKIT_TEXT_INPUT                  = 220;
+_TOOLKIT_TEXT_AREA                   = 221;
+_TOOLKIT_HIDDEN_INPUT                = 222;

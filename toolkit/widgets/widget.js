@@ -57,35 +57,33 @@ Widget = new Class({
         return this;
     },
     delegate: function (element) {
-        var native_events = {
-            "mouseenter" : true,
-            "mouseleave" : true,
-            "mousewheel" : true,
-            "click"      : true,
-            "mousedown"  : true,
-            "mouseup"    : true,
-            "mousemove"  : true,
-            "startdrag"  : true,
-            "stopdrag"   : true,
-            "touchstart" : true,
-            "touchend"   : true,
-            "touchmove"  : true,
-            "dblclick"   : true,
-            "keydown"    : true,
-            "keypress"   : true,
-            "keyup"      : true,
-            "scroll"     : true,
-            "focus"      : true,
-            "blur"       : true
-        };
-        var orig = element.addEvent.bind(element);
-        element.addEvent = function(name, cb) {
-            if (native_events.hasOwnProperty(name)) {
-                orig(name, function(ev) {
-                    cb(ev, self, element);
-                });
-            } else orig(name, cb);
-        };
+        var native_events = [
+            "mouseenter",
+            "mouseleave",
+            "mousewheel",
+            "click",
+            "mousedown",
+            "mouseup",
+            "mousemove",
+            "startdrag",
+            "stopdrag",
+            "touchstart",
+            "touchend",
+            "touchmove",
+            "dblclick",
+            "keydown",
+            "keypress",
+            "keyup",
+            "scroll",
+            "focus",
+            "blur"
+        ];
+        var el = element
+        for (var i in native_events) {
+            element.addEvent(i, function (e) {
+                this.fireEvent(i, [e, this, el]);
+            }.bind(this));
+        }
         this.__delegated = element;
         this.fireEvent("delegated", [element, this]);
         return element;

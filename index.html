@@ -28,6 +28,7 @@
         <script src="toolkit/implements/ranges.js"></script>
         <script src="toolkit/implements/gradient.js"></script>
         <script src="toolkit/implements/warning.js"></script>
+        <script src="toolkit/implements/anchor.js"></script>
         <script src="toolkit/implements/globalcursor.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/globalcursor.css">
         <script src="toolkit/implements/tooltip.js"></script>
@@ -91,7 +92,8 @@
         <script src="toolkit/widgets/select.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/label.css">
         <script src="toolkit/widgets/label.js"></script>
-        
+        <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/keyboard.css">
+        <script src="toolkit/widgets/keyboard.js"></script>
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
         
@@ -1188,6 +1190,71 @@
                 </table>
                 
             </li>
+            
+            <li id="Keyboard" class="widget">
+                <!-- ########################################################### -->
+                <!-- KEYBOARD WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Keyboard</strong> provides stuff.
+                </p>
+                <p class="description">
+                    Use example to play with the example in a terminal:
+                    <a href="javascript:keyboard.set('state', true)">keyboard.set("state", true)</a>
+                    <small>(toggles the state of the widget)</small>
+                </p>
+                
+                <div class="showcase">
+                    <div id="sc_keyboard">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>example <i class="static">⚓</i></td>
+                        <td>description.</td>
+                        <td>default</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>method(options)</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.module</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>event</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+            </li>
+            
             
             <li id="Knob" class="widget">
                 <!-- ########################################################### -->
@@ -4737,7 +4804,44 @@
             
             
             
-            
+            <li id="Anchor" class="implement">
+                <!-- ########################################################### -->
+                <!-- ANCHOR IMPLEMENT -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Anchor</strong> adds a single function to an object to calculate
+                    a real position according to x, y, width and height of an element and a
+                    given gravity like _TOOLKIT_BOTTOM_RIGHT.
+                    Anchor is used e.g. in <a href="#window">Window</a> or <a href="#keyboard">Keyboard</a>.
+                </p>
+                
+                <div class="buttons"></div>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>translate_anchor(anchor, x, y, width, height)</td>
+                        <td>Translates an anchor to a real position.
+                        anchor can be one out of:
+                        <ul>
+                            <li>_TOOLKIT_TOP_LEFT</li>
+                            <li>_TOOLKIT_TOP</li>
+                            <li>_TOOLKIT_TOP_RIGHT</li>
+                            <li>_TOOLKIT_LEFT</li>
+                            <li>_TOOLKIT_CENTER</li>
+                            <li>_TOOLKIT_RIGHT</li>
+                            <li>_TOOLKIT_BOTTOM_LEFT</li>
+                            <li>_TOOLKIT_BOTTOM</li>
+                            <li>_TOOLKIT_BOTTOM_RIGHT</li>
+                        </ul>
+                        x, y, width and height are the coordinates of the
+                        widget for which the position is calculated.<br/><br/>
+                        Returns: {x: n, y: n}
+                        </td>
+                    </tr>
+                </table>
+            </li>
             
             <li id="AudioMath" class="implement">
                 <!-- ########################################################### -->
