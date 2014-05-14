@@ -28,9 +28,9 @@ Window = new Class({
         height:        200,   // initial height, can be a css length, an int (pixels)
         x:             0,     // X position of the window
         y:             0,     // Y position of the window
-        min_width:     300,   // minimum width
+        min_width:     64,   // minimum width
         max_width:     -1,    // maximum width, -1 ~ infinite
-        min_height:    100,   // minimum height
+        min_height:    64,   // minimum height
         max_height:    -1,    // maximum height, -1 ~ infinite
         anchor:        _TOOLKIT_TOP_LEFT, // anchor of the window, can be one out of:
                        // _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
@@ -269,25 +269,33 @@ Window = new Class({
     
     // HELPERS & STUFF
     _set_dimensions: function () {
-        this.options.width = Math.min(this.__max_height(),
-                             Math.max(this.options.width,
-                                      this.options.min_width));
-        this.options.height = Math.min(this.__max_width(),
-                              Math.max(this.options.height,
-                                       this.options.min_height));
-        if (this.__horiz_max()) {
-            this.element.outerWidth(window.getSize().x);
-            this.dimensions.width = window.getSize().x;
+        if (this.options.width >= 0) {
+            this.options.width = Math.min(this.__max_width(),
+                                 Math.max(this.options.width,
+                                          this.options.min_width));
+            if (this.__horiz_max()) {
+                this.element.outerWidth(window.getSize().x);
+                this.dimensions.width = window.getSize().x;
+            } else {
+                this.element.outerWidth(this.options.width);
+                this.dimensions.width = this.options.width;
+            }
         } else {
-            this.element.outerWidth(this.options.width);
-            this.dimensions.width = this.options.width;
+            this.dimensions.width = this.element.outerWidth();
         }
-        if (this.__vert_max()) {
-            this.element.outerHeight(window.getSize().y);
-            this.dimensions.height = window.getSize().y;
+        if (this.options.height >= 0) {
+            this.options.height = Math.min(this.__max_height(),
+                                  Math.max(this.options.height,
+                                           this.options.min_height));
+            if (this.__vert_max()) {
+                this.element.outerHeight(window.getSize().y);
+                this.dimensions.height = window.getSize().y;
+            } else {
+                this.element.outerHeight(this.options.height);
+                this.dimensions.height = this.options.height;
+            }
         } else {
-            this.element.outerHeight(this.options.height);
-            this.dimensions.height = this.options.height;
+            this.dimensions.height = this.element.outerHeight();
         }
         this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
         this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
@@ -698,7 +706,10 @@ Window = new Class({
                 if (!hold) this._set_position();
                 break;
             case "content":
-                this._content.set("html", value);
+                if (typeof value === "string")
+                    this._content.set("html", value);
+                else
+                    value.inject(this._content);
                 break;
             case "shrink":
                 this.options.maximize.y = false;

@@ -46,7 +46,9 @@
                                      //            _TOOLKIT_TEXT_AREA
                                      //            _TOOLKIT_HIDDEN_INPUT
         x: 0, // x position of the keyboard
-        y: 0 // y position of the keyboard
+        y: 0, // y position of the keyboard
+        width: 480,
+        height: 240,
         
     },
     
@@ -55,37 +57,89 @@
     initialize: function (options) {
         this.parent(options);
         this.build();
+        this.initialized();
     },
     
     build: function () {
         this.element = this.widgetize(
-                       new Element("div.toolkit-keyboard"), true, true, true);
-        this.set("container", this.options.container);
-        for(var i in this.options.keys) {
-            if (!this.options.keys.hasOwnProperty(i))
-                continue;
+                       new Element("div.toolkit-container"), true, true, true);
+        
+        this.window = new Window({
+            container: this.options.container,
+            content: this.element,
+            class: "toolkit-keyboard",
+            x: this.options.x,
+            y: this.options.y,
+            width: this.options.width,
+            height: this.options.height,
+            anchor: _TOOLKIT_CENTER,
+            header_left: [],
+            header_center: [],
+            header_right: [],
+            resizable: false
+        });
+        
+        for(var i = 0; i < this.options.rows.length; i++) {
             // rows
-            var row = this.options.keys[i];
-            var r = new Element("div.toolkit-row");
-            for (var j = 0; j < row.length; j ++) {
+            var rd = this.options.rows[i];
+            var rw = new Widget(rd);
+            var re = new Element("div.toolkit-row");
+            rw.widgetize(re, true, true, true);
+            re.inject(this.element);
+            rd["container"] = re;
+            
+            for (var j = 0; j < rd.keys.length; j ++) {
                 // keys
-                var key = this.options.keys[i][j];
-                if (!key.hasOwnProperty("options"))
-                    key["options"] = {};
-                key["options"]["label"] = key["label_default"];
-                key["options"]["container"] = r;
-                key["options"]["width"] = typeof key["width"] === "undefined" ? 1 : key["width"];
-                if (typeof key["modifier"] !== "undefined") {
-                    var b = new Toggle(key["options"]);
+                var kd = rd.keys[j];
+                
+                if (!kd.hasOwnProperty("options"))
+                    kd["options"] = {};
+                    
+                kd["options"]["label"]     = kd["label_default"];
+                kd["options"]["container"] = re;
+                kd["options"]["class"]     = "toolkit-key";
+                
+                if (!kd["options"].hasOwnProperty("styles"))
+                    kd["options"]["styles"] = {}
+                    
+                if (typeof kd["modifier"] !== "undefined") {
+                    var b = new Toggle(kd["options"]);
                 } else {
-                    var b = new Button(key["options"]);
+                    var b = new Button(kd["options"]);
                 }
-                key["button"] = b;
-                this.keys.push(b);
+                kd["button"] = b;
+                this.keys.push(kd);
             }
-            r.inject(this.element);
         }
-        keep_inside(this.element);
+        this.redraw();
+    },
+    
+    redraw: function () {
+        var ph = 0;
+        for (var j = 0; j < this.options.rows.length; j ++)
+            ph += this.options.rows[j]["height"] ? this.options.rows[j]["height"] : 1;
+        var height = this.element.innerHeight();
+        
+        for(var i = 0; i < this.options.rows.length; i++) {
+            // rows
+            var rd = this.options.rows[i];
+            var pw = 0;
+            for (var j = 0; j < rd.keys.length; j ++)
+                pw += rd.keys[j]["width"] ? rd.keys[j]["width"] : 1;
+            var width = rd["container"].innerWidth();
+            
+            for (var j = 0; j < rd.keys.length; j ++) {
+                // keys
+                var kd = rd.keys[j];
+                var w = parseInt(parseFloat(kd["width"] ? kd["width"] : 1) / pw * width * 100) / 100;
+                var h = parseInt(parseFloat(rd["height"] ? rd["height"] : 1) / ph * height * 100) / 100;
+                var b = kd["button"].element;
+                b.outerWidth(w);
+                b.outerHeight(h);
+            }
+        }
+        
+        this.parent();  
     },
     
     destroy: function () {

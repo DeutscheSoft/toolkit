@@ -41,8 +41,9 @@ Button = new Class({
         if (this.options.container)
             this.set("container", this.options.container, hold);
         
-        this._icon = new Element("img.toolkit-icon").inject(this.element);
-        this._label = new Element("div.toolkit-label").inject(this.element);
+        this._cell  = new Element("div.toolkit-cell").inject(this.element);
+        this._icon  = new Element("img.toolkit-icon").inject(this._cell);
+        this._label = new Element("div.toolkit-label").inject(this._cell);
         
         this.set("label",       this.options.label, hold);
         this.set("icon",        this.options.icon, hold);

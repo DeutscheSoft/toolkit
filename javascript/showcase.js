@@ -91,18 +91,63 @@ run_keyboard = function () {
     });
     value.addEvent("valueclicked", function () {
         keyboard = new Keyboard({
+            width: 320,
+            height: 240,
             container: $$("body")[0],
-            keys: [
-                [
-                    {
-                        label_default:"A",
-                        options: {
-                            styles: {"width":"100%"}
+            rows: [
+                {
+                    height: 1,
+                    keys: [
+                        {
+                            label_default:"1",
+                            height: 1
+                        },
+                        {
+                            label_default:"2",
+                        },
+                        {
+                            label_default:"3",
                         }
-                    }
-                ]
+                    ]
+                },
+                {
+                    keys: [
+                        {
+                            label_default:"4",
+                        },
+                        {
+                            label_default:"5",
+                        },
+                        {
+                            label_default:"6",
+                        }
+                    ]
+                },
+                {
+                    keys: [
+                        {
+                            label_default:"7",
+                        },
+                        {
+                            label_default:"8",
+                        },
+                        {
+                            label_default:"9",
+                        }
+                    ]
+                },
+                {
+                    keys: [
+                        {
+                            label_default:"0",
+                            width: 2
+                        },
+                        {
+                            label_default:".",
+                        }
+                    ]
+                }
             ],
-            
             buffer: _TOOLKIT_TEXT_INPUT
         });
     });
