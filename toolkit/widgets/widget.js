@@ -57,33 +57,75 @@ Widget = new Class({
         return this;
     },
     delegate: function (element) {
-        var native_events = [
-            "mouseenter",
-            "mouseleave",
-            "mousewheel",
-            "click",
-            "mousedown",
-            "mouseup",
-            "mousemove",
-            "startdrag",
-            "stopdrag",
-            "touchstart",
-            "touchend",
-            "touchmove",
-            "dblclick",
-            "keydown",
-            "keypress",
-            "keyup",
-            "scroll",
-            "focus",
-            "blur"
-        ];
-        var el = element
-        for (var i in native_events) {
-            element.addEvent(i, function (e) {
-                this.fireEvent(i, [e, this, el]);
-            }.bind(this));
-        }
+        element.addEvents({
+            "mouseenter" : function (e) {
+                this.fireEvent("mouseenter", [e, this, element]); }.bind(this),
+            "mouseleave" : function (e) {
+                this.fireEvent("mouseleave", [e, this, element]); }.bind(this),
+            "mousewheel"  : function (e) {
+                this.fireEvent("mousewheel", [e, this, element]); }.bind(this),
+            "click"      : function (e) {
+                this.fireEvent("click",      [e, this, element]); }.bind(this),
+            "mousedown"  : function (e) {
+                this.fireEvent("mousedown",  [e, this, element]); }.bind(this),
+            "mouseup"    : function (e) {
+                this.fireEvent("mouseup",    [e, this, element]); }.bind(this),
+            "mousemove"  : function (e) {
+                this.fireEvent("mousemove",  [e, this, element]); }.bind(this),
+            "startdrag"  : function (e) {
+                this.fireEvent("startdrag",  [e, this, element]); }.bind(this),
+            "stopdrag"  : function (e) {
+                this.fireEvent("stopdrag",   [e, this, element]); }.bind(this),
+            "touchstart" : function (e) {
+                this.fireEvent("touchstart", [e, this, element]); }.bind(this),
+            "touchend"   : function (e) {
+                this.fireEvent("touchend",   [e, this, element]); }.bind(this),
+            "touchmove"  : function (e) {
+                this.fireEvent("touchmove",  [e, this, element]); }.bind(this),
+            "dblclick"   : function (e) {
+                this.fireEvent("dblclick",   [e, this, element]); }.bind(this),
+            "keydown"    : function (e) {
+                this.fireEvent("keydown",    [e, this, element]); }.bind(this),
+            "keypress"   : function (e) {
+                this.fireEvent("keypress",   [e, this, element]); }.bind(this),
+            "keyup"      : function (e) {
+                this.fireEvent("keyup",      [e, this, element]); }.bind(this),
+            "scroll"     : function (e) {
+                this.fireEvent("scroll",     [e, this, element]); }.bind(this),
+            "focus"      : function (e) {
+                this.fireEvent("focus",      [e, this, element]); }.bind(this),
+            "blur"       : function (e) {
+                this.fireEvent("blur",       [e, this, element]); }.bind(this)
+        });
+        //var native_events = {
+            //"mouseenter" : true,
+            //"mouseleave" : true,
+            //"mousewheel" : true,
+            //"click"      : true,
+            //"mousedown"  : true,
+            //"mouseup"    : true,
+            //"mousemove"  : true,
+            //"startdrag"  : true,
+            //"stopdrag"   : true,
+            //"touchstart" : true,
+            //"touchend"   : true,
+            //"touchmove"  : true,
+            //"dblclick"   : true,
+            //"keydown"    : true,
+            //"keypress"   : true,
+            //"keyup"      : true,
+            //"scroll"     : true,
+            //"focus"      : true,
+            //"blur"       : true
+        //};
+        //var orig = element.addEvent.bind(element);
+        //element.addEvent = function(name, cb) {
+            //if (native_events.hasOwnProperty(name)) {
+                //orig(name, function(ev) {
+                    //cb(ev, self, element);
+                //});
+            //} else orig(name, cb);
+        //};
         this.__delegated = element;
         this.fireEvent("delegated", [element, this]);
         return element;
@@ -128,6 +170,15 @@ Widget = new Class({
         this.__widgetized = element;
         this.fireEvent("widgetized", [element, this]);
         return element;
+    },
+    
+    is_touch: function () {
+        return 'ontouchstart' in window // works on most browsers 
+          || 'onmsgesturechange' in window; // works on ie10
+    },
+    
+    "import": function (from, to) {
+        
     },
     
     // GETTER & SETTER
