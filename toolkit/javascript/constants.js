@@ -22,6 +22,8 @@
 _TOOLKIT_VARIABLE                    = -1;
 _TOOLKIT_VAR                         = -1;
 
+_TOOLKIT_NONE                        = -2;
+
 // POSITIONS
 _TOOLKIT_TOP                         = 0;
 _TOOLKIT_RIGHT                       = 1;
@@ -198,7 +200,6 @@ _TOOLKIT_KEYBOARD_MIDI               = 162;
 _TOOLKIT_LANGUAGE_ENGLISH            = 200;
 _TOOLKIT_LANGUAGE_GERMAN             = 201;
 
-// KEYBOARD TYPES
+// KEYBOARD TEXT BUFFER TYPES
 _TOOLKIT_TEXT_INPUT                  = 220;
 _TOOLKIT_TEXT_AREA                   = 221;
-_TOOLKIT_HIDDEN_INPUT                = 222;

@@ -78,6 +78,7 @@ run_keyboard = function () {
     if (typeof keyboard != "undefined") {
         // remove label
         keyboard.destroy();
+        value.destroy();
         keyboard = undefined;
         $("sc_keyboard").removeClass("box");
         return;
@@ -89,24 +90,31 @@ run_keyboard = function () {
         format: function (val) { return sprintf("%.3f Hz", val); },
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
-    value.addEvent("valueclicked", function () {
+    value.addEvent("click", function () {
+        if (typeof keyboard !== "undefined") {
+            keyboard.destroy()
+            keyboard = undefined;
+            return
+        }
         keyboard = new Keyboard({
             width: 320,
             height: 240,
             container: $$("body")[0],
+            buffer: value._input,
             rows: [
                 {
-                    height: 1,
                     keys: [
                         {
                             label_default:"1",
-                            height: 1
                         },
                         {
                             label_default:"2",
                         },
                         {
                             label_default:"3",
+                        },
+                        {
+                            label_default:"Clear",
                         }
                     ]
                 },
@@ -120,10 +128,19 @@ run_keyboard = function () {
                         },
                         {
                             label_default:"6",
+                        },
+                        {
+                            label_default:"Enter",
+                            height: 2,
+                            default: function () {
+                                value.set("value", keyboard.get("content"));
+                                keyboard.destroy();
+                            }
                         }
                     ]
                 },
                 {
+                    styles:{width:"75%"},
                     keys: [
                         {
                             label_default:"7",
@@ -133,7 +150,8 @@ run_keyboard = function () {
                         },
                         {
                             label_default:"9",
-                        }
+                        },
+                        
                     ]
                 },
                 {
@@ -144,11 +162,14 @@ run_keyboard = function () {
                         },
                         {
                             label_default:".",
+                        },
+                        {
+                            label_default:"Esc",
+                            default: function () { keyboard.destroy() }
                         }
                     ]
                 }
             ],
-            buffer: _TOOLKIT_TEXT_INPUT
         });
     });
     $("sc_keyboard").addClass("box");
