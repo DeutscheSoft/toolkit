@@ -15,8 +15,7 @@
     border-radius:         6px;
     cursor: pointer;
     text-decoration: none;
-    display: table;
-    float: left;
+    display: inline-table;
     text-align: center;
     box-sizing: border-box;
 }

@@ -32,7 +32,7 @@ Widget = new Class({
                           // string is generated.
         "class":   "",    // A CSS class to add to the main element
         styles:    {},    // If an element was stylized, styles can be applied
-        active:    true   // Widgets can be disabled by setting this to false
+        disabled:  false  // Widgets can be disabled by setting this to true
     },
     Implements: [AudioMath, Options, Events],
     initialize: function (options) {
@@ -147,7 +147,6 @@ Widget = new Class({
         this.__stylized = element;
         this.set("styles", this.options.styles);
         this.fireEvent("stylized", [element, this]);
-        this.set("active", this.options.active);
         return element;
     },
     widgetize: function (element, delegate, classify, stylize) {

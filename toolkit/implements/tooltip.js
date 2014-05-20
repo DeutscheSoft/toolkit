@@ -30,19 +30,20 @@ Tooltip = new Class({
             // build tooltip container
             this._tooltip = new Element("ul.toolkit-tooltip");
             this.pos_cb = this._pos_tooltip.bind(this);
-            $$("body")[0].addEvent("mousemove", this.pos_cb);
-            $$("body")[0].addEvent("touchmove", this.pos_cb);
+            console.log("create")
+            document.addEvent("mousemove", this.pos_cb);
+            document.addEvent("touchmove", this.pos_cb);
             this.__tt_count = 0;
         }
-        
         if(!cont && tt) {
             // destroy a tooltip
             this.fireEvent("tooltipremoved", [tt, this]);
-            $$("body")[0].removeEvent("mousemove", this.pos_cb);
-            $$("body")[0].removeEvent("touchmove", this.pos_cb);
             tt.destroy();
             this.__tt_count --;
             if (this.__tt_count <= 0) {
+                console.log("drestroy")
+                document.removeEvent("mousemove", this.pos_cb);
+                document.removeEvent("touchmove", this.pos_cb);
                 this._tooltip.destroy();
                 this.__tt_injected = false;
                 this.fireEvent("tooltiphide", [tt, this]);
@@ -65,7 +66,7 @@ Tooltip = new Class({
             
         tt.inject(this._tooltip);
         
-        if (this.__tt_count <= 0) {
+        if (this.__tt_count >= 0) {
             // show tooltip container
             this._tooltip.inject($$("body")[0]);
             this.__tt_injected = true;
@@ -78,6 +79,7 @@ Tooltip = new Class({
     _pos_tooltip: function (e) {
         if (!this.__tt_injected)
             return;
+        console.log("hu")
         e = this._get_event(e);
         if(typeof e.pageY != "undefined"
                && e.pageX != "undefined"

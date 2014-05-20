@@ -117,7 +117,7 @@ Fader = new Class({
         }.bind(this));
         
         this.__tt = this.tooltip("");
-        this.tooltip(false, this.__tt);
+        //this.tooltip(false, this.__tt);
         this.redraw();
         this.initialized();
     },
