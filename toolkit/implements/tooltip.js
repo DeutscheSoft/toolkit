@@ -25,33 +25,35 @@ Tooltip = new Class({
     // automatically.
     _class: "Tooltip",
     Implements: Events,
+    _tooltip: false,
     tooltip: function (cont, tt) {
         if (!this._tooltip) {
             // build tooltip container
             this._tooltip = new Element("ul.toolkit-tooltip");
-            this.pos_cb = this._pos_tooltip.bind(this);
-            console.log("create")
-            document.addEvent("mousemove", this.pos_cb);
-            document.addEvent("touchmove", this.pos_cb);
+            this.__tt_pos_cb = this._pos_tooltip.bind(this);
+            document.addEvent("mousemove", this.__tt_pos_cb);
+            document.addEvent("touchmove", this.__tt_pos_cb);
+            this._tooltip.inject($$("body")[0]);
+            this.__tt_injected = true;
             this.__tt_count = 0;
+            this.fireEvent("tooltipshow", [this]);
         }
         if(!cont && tt) {
             // destroy a tooltip
             this.fireEvent("tooltipremoved", [tt, this]);
             tt.destroy();
+            tt = false;
             this.__tt_count --;
             if (this.__tt_count <= 0) {
-                console.log("drestroy")
-                document.removeEvent("mousemove", this.pos_cb);
-                document.removeEvent("touchmove", this.pos_cb);
+                document.removeEvent("mousemove", this.__tt_pos_cb);
+                document.removeEvent("touchmove", this.__tt_pos_cb);
                 this._tooltip.destroy();
+                this._tooltip = false;
                 this.__tt_injected = false;
                 this.fireEvent("tooltiphide", [tt, this]);
             }
             return;
-        }
-        
-        if (!tt) {
+        } else if (!tt) {
             // add a tooltip
             var tt = new Element("li");
             this.fireEvent("tooltipadded", [tt, cont, this]);
@@ -66,12 +68,6 @@ Tooltip = new Class({
             
         tt.inject(this._tooltip);
         
-        if (this.__tt_count >= 0) {
-            // show tooltip container
-            this._tooltip.inject($$("body")[0]);
-            this.__tt_injected = true;
-            this.fireEvent("tooltipshow", [this]);
-        }
         this.__tt_count = Math.max(0, this.__tt_count);
         this.fireEvent("tooltipset", [tt, this]);
         return tt;
@@ -79,21 +75,11 @@ Tooltip = new Class({
     _pos_tooltip: function (e) {
         if (!this.__tt_injected)
             return;
-        console.log("hu")
         e = this._get_event(e);
-        if(typeof e.pageY != "undefined"
-               && e.pageX != "undefined"
-               && e.pageY) {
-            this._tooltip.setStyles({
-                top: e.pageY,
-                left: e.pageX
-            });
-        } else {
-            this._tooltip.setStyles({
-                top: e.clientY,
-                left: e.clientX
-            });
-        }
+        this._tooltip.setStyles({
+            top: e.clientY,
+            left: e.clientX
+        });
         keep_inside(this._tooltip);
     },
     _get_event: function (event) {

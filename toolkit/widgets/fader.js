@@ -34,6 +34,7 @@ Fader = new Class({
         tooltip: false,
         layout: _TOOLKIT_LEFT
     },
+    __tt: false,
     
     initialize: function (options) {
         this.parent(Object.merge(this.__options, options));
@@ -107,17 +108,15 @@ Fader = new Class({
             this.__dragging = false;
             this.__down = true;
             if (!this.__entered)
-                this.tooltip(false, this.__tt);
+                this.__tt = this.tooltip(false, this.__tt);
         }.bind(this));
         
         this.scroll.addEvent("scrolling", function (ev) {
             if (!this.options.tooltip) return;
-            this.tooltip(this.options.tooltip(
+            this.__tt = this.tooltip(this.options.tooltip(
                 this.get("value")), this.__tt);
         }.bind(this));
         
-        this.__tt = this.tooltip("");
-        //this.tooltip(false, this.__tt);
         this.redraw();
         this.initialized();
     },
@@ -233,13 +232,13 @@ Fader = new Class({
         if (!this.__down) return;
         this.set("value", this._get_value(ev));
         if (!this.__entered)
-            this.tooltip(false, this.__tt);
+            this.__tt = this.tooltip(false, this.__tt);
         this.fireEvent("useraction", ["value", this.get("value"), this]);
     },
     _move: function (ev) {
         if (!this.options.tooltip) return;
         var s = this.__dragging ? this.get("value") : this._get_value(ev);
-        this.tooltip(this.options.tooltip(s), this.__tt);
+        this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
     },
     _mouseenter : function (ev) {
         this.__entered = true;
@@ -248,7 +247,7 @@ Fader = new Class({
         this.__entered = false;
         if (!this.options.tooltip) return;
         if (!this.__dragging)
-            this.tooltip(false, this.__tt);
+            this.__tt = this.tooltip(false, this.__tt);
     },
     _touchend : function (ev) {
         this.__entered = false;

@@ -206,6 +206,12 @@ Widget = new Class({
                         this.__stylized.removeClass("toolkit-inactive")
                     else
                         this.__stylized.addClass("toolkit-inactive")
+            case "disabled":
+                if (!hold && this.__stylized)
+                    if (value)
+                        this.__stylized.addClass("toolkit-disabled")
+                    else
+                        this.__stylized.removeClass("toolkit-disabled")
         }
         this.fireEvent("set", [key, value, hold, this]);
         this.fireEvent("set_" + key, [value, hold, this]);

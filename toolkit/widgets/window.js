@@ -77,10 +77,11 @@ Window = new Class({
         resizable:     true,   // set whether the window is resizable
         resizing:      _TOOLKIT_CONTINUOUS,// resizing policy, _TOOLKIT_CONTINUOUS
                                            // or _TOOLKIT_COMPLETE
-        header_action: _TOOLKIT_MAXIMIZE   // _TOOLKIT_CLOSE, _TOOLKIT_MINIMIZE,
+        header_action: _TOOLKIT_MAXIMIZE,  // _TOOLKIT_CLOSE, _TOOLKIT_MINIMIZE,
                                            // _TOOLKIT_SHRINK,
                                            // _TOOLKIT_MAXIMIZE, _TOOLKIT_MAXIMIZE_VERT
                                            // _TOOLKIT_MAXIMIZE_HORIZ
+        active:        true
     },
     __inited: false,
     dimensions: {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0},

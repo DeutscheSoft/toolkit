@@ -41,21 +41,31 @@ os = function () {
         return "Linux";
 },
 keep_inside = function (element, resize) {
-    // we're calculating everything relative to the offsetParent
-    // of element
-    var ex = element.offsetLeft;
-    var ey = element.offsetTop;
-    var ew = element.offsetWidth;
-    var eh = element.offsetHeight;
-    var p  = element.offsetParent;
-    var pw = p ? p.offsetWidth : width() - scrollLeft();
-    var ph = p ? p.offsetHeight : height() - scrollTop();
-    if(resize) {
-        if (ew > pw) element.style.width = pw + "px";
-        if (eh > ph) element.style.height = ph + "px";
+    var ex = parseInt(element.getStyle("left"));
+    var ey = parseInt(element.getStyle("top"));
+    var ew = element.outerWidth();
+    var eh = element.outerHeight();
+    
+    if (element.getStyle("position") == "fixed") {
+        var pw = width();
+        var ph = height();
+        var w  = pw;
+        var h  = ph;
+        var x  = Math.min(Math.max(ex, 0), w - ew);
+        var y  = Math.min(Math.max(ey, 0), h - eh);
+    } else {
+        var p  = element.offsetParent;
+        var pw = p ? p.offsetWidth : width() - scrollLeft();
+        var ph = p ? p.offsetHeight : height() - scrollTop();
+        var x = Math.min(Math.max(ex, 0), pw - ew);
+        var y = Math.min(Math.max(ey, 0), ph - eh);
     }
-    element.style.left = Math.min(Math.max(ex, 0), pw - ew);
-    element.style.top  = Math.min(Math.max(ey, 0), ph - eh);
+    if(resize) {
+        if (ew > pw) element.setStyle("width", pw + "px");
+        if (eh > ph) element.setStyle("height", ph + "px");
+    }
+    element.setStyle("left", x);
+    element.setStyle("top", y);
 }
 width = function () {
     return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
