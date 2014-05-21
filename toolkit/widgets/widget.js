@@ -97,27 +97,7 @@ Widget = new Class({
             "blur"       : function (e) {
                 this.fireEvent("blur",       [e, this, element]); }.bind(this)
         });
-        //var native_events = {
-            //"mouseenter" : true,
-            //"mouseleave" : true,
-            //"mousewheel" : true,
-            //"click"      : true,
-            //"mousedown"  : true,
-            //"mouseup"    : true,
-            //"mousemove"  : true,
-            //"startdrag"  : true,
-            //"stopdrag"   : true,
-            //"touchstart" : true,
-            //"touchend"   : true,
-            //"touchmove"  : true,
-            //"dblclick"   : true,
-            //"keydown"    : true,
-            //"keypress"   : true,
-            //"keyup"      : true,
-            //"scroll"     : true,
-            //"focus"      : true,
-            //"blur"       : true
-        //};
+        
         //var orig = element.addEvent.bind(element);
         //element.addEvent = function(name, cb) {
             //if (native_events.hasOwnProperty(name)) {
@@ -171,15 +151,65 @@ Widget = new Class({
         return element;
     },
     
-    is_touch: function () {
-        return 'ontouchstart' in window // works on most browsers 
-          || 'onmsgesturechange' in window; // works on ie10
+    // EVENTS
+    add_event: function (e, fun) {
+        ev = this.__events;
+        if (this.__delegated
+        && this.__native_events.hasOwnProperty(e)
+        && typeof this.__delegated["on" + e] !== "undefined") {
+            this.__delegated["on" + e] = function (event) {
+                this.fire_event("" + e, [event]);
+            }.bind(this);
+        }
+        if (!ev.hasOwnProperty(e))
+            ev[e] = [];
+        ev[e].push(fun);
     },
-    
-    "import": function (from, to) {
-        
+    remove_event: function (e, fun) {
+        ev = this.__events;
+        for(var i in ev) {
+            if(ev.hasOwnProperty(i)) {
+                for (var j = ev[i].length - 1; j >= 0; j--) {
+                    if (ev[i][j] === fun)
+                        ev[i].splice(j, 1);
+                }
+            }
+        }
     },
-    
+    fire_event: function (e, args) {console.log("ha")
+        var ev = this.__events;
+        console.log(this.__events.hasOwnProperty(e))
+        if (!this.__events.hasOwnProperty(e))
+            return;
+            console.log("hu")
+        if (Object.prototype.toString.call(args) !== '[object Array]')
+            args = [args];
+        args.push(this);
+        for (var i = 0; i < ev[e].length; i++)
+            ev[e][i].apply(args);
+    },
+    __events: {},
+    __native_events: {
+        mouseenter : true,
+        mouseleave : true,
+        mousewheel : true,
+        click      : true,
+        mousedown  : true,
+        mouseup    : true,
+        mousemove  : true,
+        startdrag  : true,
+        stopdrag   : true,
+        touchstart : true,
+        touchend   : true,
+        touchmove  : true,
+        dblclick   : true,
+        keydown    : true,
+        keypress   : true,
+        keyup      : true,
+        scroll     : true,
+        focus      : true,
+        blur       : true
+    },
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;

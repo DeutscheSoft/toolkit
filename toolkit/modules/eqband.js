@@ -59,7 +59,6 @@ EqBand = new Class({
         
         this.filter = new Filter();
         this.filter.options = this.options;
-        this.filter.reset();
         
         if (typeof options.x !== "undefined")
             this.set("x", options.x, true);
@@ -76,6 +75,7 @@ EqBand = new Class({
         
         this.element.addClass("toolkit-eqband");
         
+        this.filter.reset();
         this.initialized();
     },
 
