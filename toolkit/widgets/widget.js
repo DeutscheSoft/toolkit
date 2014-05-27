@@ -152,41 +152,98 @@ Widget = new Class({
     },
     
     // EVENTS
-    add_event: function (e, fun) {
+    add_event: function (e, fun, prevent, stop) {
+        // add an event listener to a widget. These can be native DOM
+        // events if the widget has a delegated element and the widgets
+        // native events.
+        if (this.__event_replacements.hasOwnProperty(e)) {
+            // it's a native event which needs one or more replacement
+            // events like pointerdown -> mousedown/touchstart as
+            // stated in the list below
+            for (var i = 0; i < this.__event_replacements[e].length; i++) {
+                this.add_event(this.__event_replacements[e][i].event,
+                               fun,
+                               this.__event_replacements[e][i].prevent,
+                               this.__event_replacements[e][i].stop);
+            }
+            return;
+        }
+        cb = null;
         ev = this.__events;
         if (this.__delegated
-        && this.__native_events.hasOwnProperty(e)
-        && typeof this.__delegated["on" + e] !== "undefined") {
-            this.__delegated["on" + e] = function (event) {
+        && this.__native_events[e]
+        && !ev.hasOwnProperty(e)) {
+            // seems it's a DOM event and we have a delegation and
+            // there's no callback bound to this event by now, so add
+            // a "real" event listener to the delegated DOM element
+            var p = prevent;
+            var s = stop;
+            cb = function (event) {
                 this.fire_event("" + e, [event]);
-            }.bind(this);
+                if (s) event.stopPropagation();
+                if (p) {
+                    event.preventDefault();
+                    return false;
+                }
+            }.bind(this)
+            this.__delegated.addEventListener(e, cb);
         }
         if (!ev.hasOwnProperty(e))
-            ev[e] = [];
-        ev[e].push(fun);
+            // add to the internal __events list
+            ev[e] = { callback: cb, queue: [] };
+        ev[e].queue.push(fun);
     },
     remove_event: function (e, fun) {
+        // remove an event from the list. If it is a native DOM event,
+        // remove the DOM event listener as well.
+        if (this.__event_replacements.hasOwnProperty(e)) {
+            // it is an event which has one or more replacement events
+            // so remove all those replacements
+            for (var i = 0; i < this.__event_replacements[e].length; i++)
+                this.remove_event(this.__event_replacements[e][i].event, fun);
+            return;
+        }
         ev = this.__events;
-        for(var i in ev) {
-            if(ev.hasOwnProperty(i)) {
-                for (var j = ev[i].length - 1; j >= 0; j--) {
-                    if (ev[i][j] === fun)
-                        ev[i].splice(j, 1);
-                }
+        if (ev.hasOwnProperty(e)) {
+            for (var j = ev[e].queue.length - 1; j >= 0; j--) {
+                // loop over the callback list of the event
+                if (ev[e].queue[j] === fun)
+                    // remove the callback
+                    ev[e].queue.splice(j, 1);
+            }
+            if (!ev[e].queue.length) {
+                // no callbacks left
+                if (this.__native_events[e]
+                && this.__delegated
+                && ev[e].callback)
+                    // remove native DOM event listener from __delegated
+                    this.__delegated.removeEventListener(e, ev[e].callback);
+                // delete event from the list
+                delete ev[e];
             }
         }
     },
-    fire_event: function (e, args) {console.log("ha")
-        var ev = this.__events;
-        console.log(this.__events.hasOwnProperty(e))
-        if (!this.__events.hasOwnProperty(e))
+    fire_event: function (e, args) {
+        // fire all bound callbacks on a event. If the event isn't
+        // specified, nothing will happen at all.
+        if (this.__event_replacements.hasOwnProperty(e)) {
+            // it is an event which has one or more replacement events
+            // so fire all those replacements
+            for (var i = 0; i < this.__event_replacements[e].length; i++)
+                this.fire_event(this.__event_replacements[e][i].event, args);
             return;
-            console.log("hu")
-        if (Object.prototype.toString.call(args) !== '[object Array]')
-            args = [args];
+        }
+        var ev = this.__events;
+        if (!this.__events.hasOwnProperty(e))
+            // unknown event, return.
+            return;
+        if (!(args instanceof Array))
+            // we need an array containing all arguments
+            args = Array(args);
         args.push(this);
-        for (var i = 0; i < ev[e].length; i++)
-            ev[e][i].apply(args);
+        for (var i = 0; i < ev[e].queue.length; i++)
+            // run callbacks in a loop
+            ev[e].queue[i].apply(this, args);
     },
     __events: {},
     __native_events: {
@@ -210,6 +267,17 @@ Widget = new Class({
         focus      : true,
         blur       : true
     },
+    __event_replacements: {
+        pointerdown: [
+            { event: "mousedown", prevent: false, stop: false },
+            { event: "touchstart", prevent: true, stop: false }
+        ],
+        pointerup: [
+            { event: "mouseup", prevent: false, stop: false },
+            { event: "touchend", prevent: true, stop: false }
+        ]
+    },
+    
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
