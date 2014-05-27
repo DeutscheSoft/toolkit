@@ -157,16 +157,12 @@ Widget = new Class({
         // events if the widget has a delegated element and the widgets
         // native events.
         if (this.__event_replacements.hasOwnProperty(e)) {
-            var ev = this.__event_replacements[e];
             // it's a native event which needs one or more replacement
             // events like pointerdown -> mousedown/touchstart as
             // stated in the list below
-            for (var i = 0; i < ev.length; i++) {
-                this.add_event(ev[i].event,
-                               fun,
-                               ev[i].prevent,
-                               ev[i].stop);
-            }
+            var ev = this.__event_replacements[e];
+            for (var i = 0; i < ev.length; i++)
+                this.add_event(ev[i].event, fun, ev[i].prevent, ev[i].stop);
             return;
         }
         cb = null;
@@ -198,9 +194,9 @@ Widget = new Class({
         // remove an event from the list. If it is a native DOM event,
         // remove the DOM event listener as well.
         if (this.__event_replacements.hasOwnProperty(e)) {
-            var ev = this.__event_replacements[e];
             // it is an event which has one or more replacement events
             // so remove all those replacements
+            var ev = this.__event_replacements[e];
             for (var i = 0; i < ev.length; i++)
                 this.remove_event(ev[i].event, fun);
             return;
@@ -230,9 +226,9 @@ Widget = new Class({
         // fire all bound callbacks on a event. If the event isn't
         // specified, nothing will happen at all.
         if (this.__event_replacements.hasOwnProperty(e)) {
-            ev = this.__event_replacements[e];
             // it is an event which has one or more replacement events
             // so fire all those replacements
+            ev = this.__event_replacements[e];
             for (var i = 0; i < ev.length; i++)
                 this.fire_event(ev[i].event, args);
             return;
