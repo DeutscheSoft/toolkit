@@ -157,14 +157,15 @@ Widget = new Class({
         // events if the widget has a delegated element and the widgets
         // native events.
         if (this.__event_replacements.hasOwnProperty(e)) {
+            var ev = this.__event_replacements[e];
             // it's a native event which needs one or more replacement
             // events like pointerdown -> mousedown/touchstart as
             // stated in the list below
-            for (var i = 0; i < this.__event_replacements[e].length; i++) {
-                this.add_event(this.__event_replacements[e][i].event,
+            for (var i = 0; i < ev.length; i++) {
+                this.add_event(ev[i].event,
                                fun,
-                               this.__event_replacements[e][i].prevent,
-                               this.__event_replacements[e][i].stop);
+                               ev[i].prevent,
+                               ev[i].stop);
             }
             return;
         }
@@ -197,10 +198,11 @@ Widget = new Class({
         // remove an event from the list. If it is a native DOM event,
         // remove the DOM event listener as well.
         if (this.__event_replacements.hasOwnProperty(e)) {
+            var ev = this.__event_replacements[e];
             // it is an event which has one or more replacement events
             // so remove all those replacements
-            for (var i = 0; i < this.__event_replacements[e].length; i++)
-                this.remove_event(this.__event_replacements[e][i].event, fun);
+            for (var i = 0; i < ev.length; i++)
+                this.remove_event(ev[i].event, fun);
             return;
         }
         ev = this.__events;
@@ -224,17 +226,19 @@ Widget = new Class({
         }
     },
     fire_event: function (e, args) {
+        var ev;
         // fire all bound callbacks on a event. If the event isn't
         // specified, nothing will happen at all.
         if (this.__event_replacements.hasOwnProperty(e)) {
+            ev = this.__event_replacements[e];
             // it is an event which has one or more replacement events
             // so fire all those replacements
-            for (var i = 0; i < this.__event_replacements[e].length; i++)
-                this.fire_event(this.__event_replacements[e][i].event, args);
+            for (var i = 0; i < ev.length; i++)
+                this.fire_event(ev[i].event, args);
             return;
         }
-        var ev = this.__events;
-        if (!this.__events.hasOwnProperty(e))
+        ev = this.__events;
+        if (!ev.hasOwnProperty(e))
             // unknown event, return.
             return;
         if (!(args instanceof Array))
