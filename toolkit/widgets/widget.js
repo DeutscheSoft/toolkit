@@ -19,6 +19,39 @@
  * Boston, MA  02110-1301  USA
  */
  
+(function() {
+
+var __native_events = {
+    mouseenter : true,
+    mouseleave : true,
+    mousewheel : true,
+    click      : true,
+    mousedown  : true,
+    mouseup    : true,
+    mousemove  : true,
+    startdrag  : true,
+    stopdrag   : true,
+    touchstart : true,
+    touchend   : true,
+    touchmove  : true,
+    dblclick   : true,
+    keydown    : true,
+    keypress   : true,
+    keyup      : true,
+    scroll     : true,
+    focus      : true,
+    blur       : true
+};
+var __event_replacements = {
+    pointerdown: [
+        { event: "mousedown", prevent: false, stop: false },
+        { event: "touchstart", prevent: true, stop: false }
+    ],
+    pointerup: [
+        { event: "mouseup", prevent: false, stop: false },
+        { event: "touchend", prevent: true, stop: false }
+    ]
+};
 Widget = new Class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
@@ -156,11 +189,11 @@ Widget = new Class({
         // add an event listener to a widget. These can be native DOM
         // events if the widget has a delegated element and the widgets
         // native events.
-        if (this.__event_replacements.hasOwnProperty(e)) {
+        if (__event_replacements.hasOwnProperty(e)) {
             // it's a native event which needs one or more replacement
             // events like pointerdown -> mousedown/touchstart as
             // stated in the list below
-            var ev = this.__event_replacements[e];
+            var ev = __event_replacements[e];
             for (var i = 0; i < ev.length; i++)
                 this.add_event(ev[i].event, fun, ev[i].prevent, ev[i].stop);
             return;
@@ -168,7 +201,7 @@ Widget = new Class({
         cb = null;
         ev = this.__events;
         if (this.__delegated
-        && this.__native_events[e]
+        && __native_events[e]
         && !ev.hasOwnProperty(e)) {
             // seems it's a DOM event and we have a delegation and
             // there's no callback bound to this event by now, so add
@@ -193,10 +226,10 @@ Widget = new Class({
     remove_event: function (e, fun) {
         // remove an event from the list. If it is a native DOM event,
         // remove the DOM event listener as well.
-        if (this.__event_replacements.hasOwnProperty(e)) {
+        if (__event_replacements.hasOwnProperty(e)) {
             // it is an event which has one or more replacement events
             // so remove all those replacements
-            var ev = this.__event_replacements[e];
+            var ev = __event_replacements[e];
             for (var i = 0; i < ev.length; i++)
                 this.remove_event(ev[i].event, fun);
             return;
@@ -211,7 +244,7 @@ Widget = new Class({
             }
             if (!ev[e].queue.length) {
                 // no callbacks left
-                if (this.__native_events[e]
+                if (__native_events[e]
                 && this.__delegated
                 && ev[e].callback)
                     // remove native DOM event listener from __delegated
@@ -225,10 +258,10 @@ Widget = new Class({
         var ev;
         // fire all bound callbacks on a event. If the event isn't
         // specified, nothing will happen at all.
-        if (this.__event_replacements.hasOwnProperty(e)) {
+        if (__event_replacements.hasOwnProperty(e)) {
             // it is an event which has one or more replacement events
             // so fire all those replacements
-            ev = this.__event_replacements[e];
+            ev = __event_replacements[e];
             for (var i = 0; i < ev.length; i++)
                 this.fire_event(ev[i].event, args);
             return;
@@ -246,37 +279,6 @@ Widget = new Class({
             ev[e].queue[i].apply(this, args);
     },
     __events: {},
-    __native_events: {
-        mouseenter : true,
-        mouseleave : true,
-        mousewheel : true,
-        click      : true,
-        mousedown  : true,
-        mouseup    : true,
-        mousemove  : true,
-        startdrag  : true,
-        stopdrag   : true,
-        touchstart : true,
-        touchend   : true,
-        touchmove  : true,
-        dblclick   : true,
-        keydown    : true,
-        keypress   : true,
-        keyup      : true,
-        scroll     : true,
-        focus      : true,
-        blur       : true
-    },
-    __event_replacements: {
-        pointerdown: [
-            { event: "mousedown", prevent: false, stop: false },
-            { event: "touchstart", prevent: true, stop: false }
-        ],
-        pointerup: [
-            { event: "mouseup", prevent: false, stop: false },
-            { event: "touchend", prevent: true, stop: false }
-        ]
-    },
     
     // GETTER & SETTER
     set: function (key, value, hold) {
@@ -320,3 +322,4 @@ Widget = new Class({
         return this.options[key];
     }
 })
+})();
