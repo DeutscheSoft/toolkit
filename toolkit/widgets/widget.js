@@ -278,6 +278,25 @@ Widget = new Class({
             // run callbacks in a loop
             ev[e].queue[i].apply(this, args);
     },
+    add_events: function (events) {
+        for (var i in events) {
+            if (events.hasOwnProperty(i))
+                this.add_event(i, events[i]);
+        }
+    },
+    remove_events: function (events) {
+        for (var i in events) {
+            if (events.hasOwnProperty(i))
+                this.remove_event(i, events[i]);
+        }
+    },
+    fire_events: function (events) {
+        for (var i in events) {
+            if (events.hasOwnProperty(i))
+                this.fire_event(i, events[i]);
+        }
+    },
+    
     __events: {},
     
     // GETTER & SETTER
