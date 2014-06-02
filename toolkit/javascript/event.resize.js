@@ -28,7 +28,7 @@ document._monitor_resizes = function () {
         if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
             r.x = r.element.offsetWidth;
             r.y = r.element.offsetHeight;
-            r.element.fireEvent("resize");
+            r.element.dispatchEvent("resize");
         }
     }
     if (document._resizes.length) {

@@ -382,9 +382,9 @@ function run_window () {
         });
         var ok = new Button({
             label: "OK",
-            container: win._content,
-            onClick: win.destroy.bind(win)
+            container: win._content
         });
+        ok.add_event("click", win.destroy.bind(win));
         ok.setStyles({
             position: "absolute",
             bottom: 0,
@@ -639,7 +639,7 @@ function run_valuebutton () {
         container: $("sc_vbutton"),
         label: "Threshold",
         icon: "images/icons_small/threshold.png",
-        value_position: _TOOLKIT_ICON,
+        value_position: _TOOLKIT_BOTTOM,
         value_format: function (val) { return sprintf("%.1f dB", val); },
         min: -96,
         max: 24,
@@ -654,7 +654,7 @@ function run_valuebutton () {
         container: $("sc_vbutton"),
         label: "Attack",
         icon: "images/icons_small/attack.png",
-        value_position: _TOOLKIT_ICON,
+        value_position: _TOOLKIT_BOTTOM,
         value_format: function (val) { return sprintf("%.1f ms", val); },
         min: 1,
         max: 1000,
@@ -672,7 +672,7 @@ function run_valuebutton () {
         container: $("sc_vbutton"),
         label: "Ratio",
         icon: "images/icons_small/ratio.png",
-        value_position: _TOOLKIT_ICON,
+        value_position: _TOOLKIT_BOTTOM,
         value_format: function (val) { return sprintf("%.1f : 1", val); },
         min: 1,
         max: 10,
@@ -687,7 +687,7 @@ function run_valuebutton () {
         container: $("sc_vbutton"),
         label: "Release",
         icon: "images/icons_small/release.png",
-        value_position: _TOOLKIT_ICON,
+        value_position: _TOOLKIT_BOTTOM,
         value_format: function (val) { return sprintf("%.1f ms", val); },
         min: 1,
         max: 1000,

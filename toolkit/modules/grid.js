@@ -51,10 +51,10 @@ Grid = new Class({
             this.set("width", this.options.width);
         if (this.options.height)
             this.set("height", this.options.width);
-        this.range_x.addEvent("set", function (key, value, hold) {
+        this.range_x.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
         }.bind(this));
-        this.range_y.addEvent("set", function (key, value, hold) {
+        this.range_y.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
         }.bind(this));
         if (!hold) this.redraw();
@@ -142,7 +142,7 @@ Grid = new Class({
         switch (key) {
             case "grid_x":
             case "grid_y":
-                this.fireEvent("gridchanged");
+                this.fire_event("gridchanged");
                 if (!hold) this.redraw();
                 break;
             case "width":

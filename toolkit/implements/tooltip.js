@@ -31,32 +31,32 @@ Tooltip = new Class({
             // build tooltip container
             this._tooltip = new Element("ul.toolkit-tooltip");
             this.__tt_pos_cb = this._pos_tooltip.bind(this);
-            document.addEvent("mousemove", this.__tt_pos_cb);
-            document.addEvent("touchmove", this.__tt_pos_cb);
+            document.addEventListener("mousemove", this.__tt_pos_cb);
+            document.addEventListener("touchmove", this.__tt_pos_cb);
             this._tooltip.inject($$("body")[0]);
             this.__tt_injected = true;
             this.__tt_count = 0;
-            this.fireEvent("tooltipshow", [this]);
+            this.fire_event("tooltipshow", [this]);
         }
         if(!cont && tt) {
             // destroy a tooltip
-            this.fireEvent("tooltipremoved", [tt, this]);
+            this.fire_event("tooltipremoved", [tt, this]);
             tt.destroy();
             tt = false;
             this.__tt_count --;
             if (this.__tt_count <= 0) {
-                document.removeEvent("mousemove", this.__tt_pos_cb);
-                document.removeEvent("touchmove", this.__tt_pos_cb);
+                document.removeEventListener("mousemove", this.__tt_pos_cb);
+                document.removeEventListener("touchmove", this.__tt_pos_cb);
                 this._tooltip.destroy();
                 this._tooltip = false;
                 this.__tt_injected = false;
-                this.fireEvent("tooltiphide", [tt, this]);
+                this.fire_event("tooltiphide", [tt, this]);
             }
             return;
         } else if (!tt) {
             // add a tooltip
             var tt = new Element("li");
-            this.fireEvent("tooltipadded", [tt, cont, this]);
+            this.fire_event("tooltipadded", [tt, cont, this]);
             this.__tt_count ++;
         }
         
@@ -69,7 +69,7 @@ Tooltip = new Class({
         tt.inject(this._tooltip);
         
         this.__tt_count = Math.max(0, this.__tt_count);
-        this.fireEvent("tooltipset", [tt, this]);
+        this.fire_event("tooltipset", [tt, this]);
         return tt;
     },
     _pos_tooltip: function (e) {
@@ -86,6 +86,6 @@ Tooltip = new Class({
         // return the right event if touch surface is used
         // with multiple fingers
         return (event.touches && event.touches.length)
-              ? event.touches[0] : event.event;
+              ? event.touches[0] : event;
     }
 });

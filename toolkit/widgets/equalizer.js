@@ -120,18 +120,18 @@ var Equalizer = new Class({
         
         var b = new EqBand(options);
         this.bands.push(b);
-        b.addEvent("handlegrabbed", function () { this._active ++ }.bind(this));
-        b.addEvent("handlereleased",  function () {
+        b.add_event("handlegrabbed", function () { this._active ++ }.bind(this));
+        b.add_event("handlereleased",  function () {
             this._active = Math.max(this._active-1, 0)
         }.bind(this));
-        document.addEvent("mousemove", b._mousemove.bind(b));
-        document.addEvent("mouseup",   b._mouseup.bind(b));
-        document.addEvent("touchmove", b._touchmove.bind(b));
-        document.addEvent("touchend",  b._touchend.bind(b));
+        document.addEventListener("mousemove", b._mousemove.bind(b));
+        document.addEventListener("mouseup",   b._mouseup.bind(b));
+        document.addEventListener("touchmove", b._touchmove.bind(b));
+        document.addEventListener("touchend",  b._touchend.bind(b));
         
-        b.addEvent("set", this.redraw.bind(this));
+        b.add_event("set", this.redraw.bind(this));
         this.redraw();
-        this.fireEvent("bandadded", [b, this]);
+        this.fire_event("bandadded", [b, this]);
         return b;
     },
     add_bands: function (bands) {
@@ -144,7 +144,7 @@ var Equalizer = new Class({
             if (this.bands[i] == h) {
                 this.bands[i].destroy();
                 this.bands.splice(i, 1);
-                this.fireEvent("bandremoved", this);
+                this.fire_event("bandremoved", this);
                 break;
             }
         }
@@ -154,7 +154,7 @@ var Equalizer = new Class({
             this.remove_band(this.bands[i]);
         }
         this.bands = [];
-        this.fireEvent("emptied", this);
+        this.fire_event("emptied", this);
     },
     
     // GETTER & SETTER

@@ -167,7 +167,7 @@ var Gradient = new Class({
         
         if (element) {
             element.style["background"] = bg;
-            this.fireEvent("backgroundchanged", element, bg, this);
+            this.fire_event("backgroundchanged", element, bg, this);
         }
         return bg;
     }

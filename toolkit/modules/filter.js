@@ -32,7 +32,7 @@ Filter = new Class({
     initialize: function (options) {
         this.setOptions(options);
         this.reset();
-        this.fireEvent("initialized", this);
+        this.fire_event("initialized", this);
     },
     reset: function () {
         switch (this.options.type) {
@@ -50,7 +50,7 @@ Filter = new Class({
             case _TOOLKIT_HP4: this.freq2gain = this.gen_hpf_order4(); break;
             default: throw new Error("undefined type!\n");
         }
-        this.fireEvent("reset");
+        this.fire_event("reset");
     },
 
     gen_lpf_order1: function () {
@@ -286,11 +286,11 @@ Filter = new Class({
         if (!hold) {
             this.reset();
         }
-        this.fireEvent("set", [key, value, hold, this]);
-        this.fireEvent("set_" + key, [value, hold, this]);
+        this.fire_event("set", [key, value, hold, this]);
+        this.fire_event("set_" + key, [value, hold, this]);
     },
     get: function (key) {
-        this.fireEvent("get", [key, this.options[key], this]);
+        this.fire_event("get", [key, this.options[key], this]);
         return this.options[key];
     }
 });

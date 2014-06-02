@@ -71,7 +71,7 @@ Fader = new Class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fireEvent("useraction", ["value", v, this]);
+                this.fire_event("useraction", ["value", v, this]);
             }.bind(this),
             events: function () { return this }.bind(this),
             direction: this.options.direction
@@ -82,36 +82,35 @@ Fader = new Class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fireEvent("useraction", ["value", v, this]);
+                this.fire_event("useraction", ["value", v, this]);
             }.bind(this),
             events: function () { return this }.bind(this),
         });
         
         this.set("layout", this.options.layout);
         
-        this.element.addEvents({
-            "mousedown":  function () { this.__down = true; }.bind(this),
-            "touchstart": function () { this.__down = true; event.preventDefault(); }.bind(this),
-            "mouseup":    this._clicked.bind(this),
-            "touchend":   this._touchend.bind(this),
-            "mouseenter": this._mouseenter.bind(this),
-            "mouseleave": this._mouseleave.bind(this),
-            "mousemove":  this._move.bind(this)
-        });
+        this.element.addEventListener("mousedown",  function () { this.__down = true; }.bind(this));
+        this.element.addEventListener("touchstart", function () { this.__down = true; event.preventDefault(); }.bind(this));
+        this.element.addEventListener("mouseup",    this._clicked.bind(this));
+        this.element.addEventListener("touchend",   this._touchend.bind(this));
+        this.element.addEventListener("mouseenter", this._mouseenter.bind(this));
+        this.element.addEventListener("mouseleave", this._mouseleave.bind(this));
+        this.element.addEventListener("mousemove",  this._move.bind(this));
         
-        this.drag.addEvent("dragging", function (ev) {
+        this.drag.add_event("dragging", function (ev) {
             this.__down = false;
             this.__dragging = true;
             this._move(ev);
         }.bind(this));
-        this.drag.addEvent("stopdrag", function (ev) {
+        
+        this.drag.add_event("stopdrag", function (ev) {
             this.__dragging = false;
             this.__down = true;
             if (!this.__entered)
                 this.__tt = this.tooltip(false, this.__tt);
         }.bind(this));
         
-        this.scroll.addEvent("scrolling", function (ev) {
+        this.scroll.add_event("scrolling", function (ev) {
             if (!this.options.tooltip) return;
             this.__tt = this.tooltip(this.options.tooltip(
                 this.get("value")), this.__tt);
@@ -233,7 +232,7 @@ Fader = new Class({
         this.set("value", this._get_value(ev));
         if (!this.__entered)
             this.__tt = this.tooltip(false, this.__tt);
-        this.fireEvent("useraction", ["value", this.get("value"), this]);
+        this.fire_event("useraction", ["value", this.get("value"), this]);
     },
     _move: function (ev) {
         if (!this.options.tooltip) return;
@@ -277,8 +276,8 @@ Fader = new Class({
                                      Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
-                this.fireEvent("set_value", [this.options.value, this]);
-                this.fireEvent("set", ["value", this.options.value, this]);
+                this.fire_event("set_value", [this.options.value, this]);
+                this.fire_event("set", ["value", this.options.value, this]);
                 if (!hold) {
                     this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real();
                 }

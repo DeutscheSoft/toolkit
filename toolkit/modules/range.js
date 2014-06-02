@@ -84,8 +84,8 @@ Range = new Class({
     
     initialize: function (options, hold) {
         this.setOptions(options);
-        this.fireEvent("initialize", this);
-        this.fireEvent("initialized", this);
+        this.fire_event("initialize", this);
+        this.fire_event("initialized", this);
         return this;
     },
     
@@ -95,12 +95,12 @@ Range = new Class({
         switch (key) {
             
         }
-        this.fireEvent("set", [key, value, hold, this]);
-        this.fireEvent("set_" + key, [value, hold, this]);
+        this.fire_event("set", [key, value, hold, this]);
+        this.fire_event("set_" + key, [value, hold, this]);
         return this;
     },
     get: function (key) {
-        this.fireEvent("get", [key, this.options[key], this]);
+        this.fire_event("get", [key, this.options[key], this]);
         return this.options[key];
     }
 });

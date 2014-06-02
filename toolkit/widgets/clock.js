@@ -189,7 +189,7 @@ Clock = new Class({
             this.__lower = l;
         }
         
-        this.fireEvent("timedrawn", [this, this.options.time]);
+        this.fire_event("timedrawn", [this, this.options.time]);
     },
     _set_labels: function () {
         this._label.set("text", this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,

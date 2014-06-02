@@ -38,20 +38,29 @@ Value = new Class({
         this._input  = new Element("input.toolkit-input", {type: "text"});
         this._input.inject(this.element);
         
-        if (is_touch())
-            this.element.addEvent("touchstart", this._value_clicked.bind(this));
-        else
-            this.element.addEvent("mousedown", this._value_clicked.bind(this));
-        this.element.addEvent("submit", function () { return false; });
-        this._input.addEvent("keyup", this._value_typing.bind(this));
-        this._input.addEvent("blur", this._value_done.bind(this));
+        this.__touch_cb = function (e) {
+            e.preventDefault();
+            this._value_clicked(e);
+            return false;
+        }.bind(this);
+        
+        this.__click_cb = this._value_clicked.bind(this);
+        
+        this.element.addEventListener("submit", function (e) { 
+            e.preventDefault();
+            return false;
+        });
+        
+        this.element.addEventListener("mouseup",  this.__click_cb);
+        this.element.addEventListener("touchend", this.__touch_cb);
+        
+        this._input.addEventListener("keyup",      this._value_typing.bind(this));
+        this._input.addEventListener("blur",       this._value_done.bind(this));
         
         if (this.options.container)
             this.set("container", this.options.container);
         
         this.set("value", this.options.value);
-        
-        this.__document_cb = this._value_done.bind(this);
     },
     
     redraw: function () {
@@ -60,7 +69,6 @@ Value = new Class({
     },
     
     destroy: function () {
-        document.removeEvent("click", this._value_done.bind(this));
         this._input.destroy();
         this.element.destroy();
         this.parent();
@@ -74,37 +82,41 @@ Value = new Class({
         this._input.set("value", this.options.value);
         this.__editing = true;
         this._input.focus();
-        this.fireEvent("valueclicked", [this.options.value, this]);
-        e.stopPropagation();
+        this.fire_event("valueclicked", [this.options.value, this]);
+        //e.stopPropagation();
     },
     _value_typing: function (e) {
         if (!this.options.set) return;
         if (!this.__editing) return;
-        switch (e.key) {
-            case "esc":
+        switch (e.keyCode) {
+            case 27:
+                // ESC
                 this._value_done();
-                this.fireEvent("valueescape", [this.options.value, this]);
+                this.fire_event("valueescape", [this.options.value, this]);
                 break;
-            case "enter":
+            case 13:
+                // ENTER
                 var val = parseFloat(this._input.get("value") || 0);
                 val = this.options.set(val);
                 this.set("value", val, true);
                 this._value_done();
-                this.fireEvent("valueset", [this.options.value, this]);
-                this.fireEvent("useraction", ["value", this.options.value, this]);
+                this.fire_event("valueset", [this.options.value, this]);
+                this.fire_event("useraction", ["value", this.options.value, this]);
+                e.preventDefault();
+                return false;
                 break;
             default:
-                this.set("value", val, true);
+                //this.set("value", val, true);
                 break;
         }
-        this.fireEvent("valuetyping", [e, this.options.value, this]);
+        this.fire_event("valuetyping", [e, this.options.value, this]);
     },
     _value_done: function (e) {
         if (!this.__editing) return;
         this.__editing = false;
         this.element.removeClass("toolkit-active");
         this._input.blur();
-        this.fireEvent("valuedone", [this.options.value, this]);
+        this.fire_event("valuedone", [this.options.value, this]);
         this.redraw();
     },
     

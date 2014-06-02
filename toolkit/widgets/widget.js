@@ -19,39 +19,6 @@
  * Boston, MA  02110-1301  USA
  */
  
-(function() {
-
-var __native_events = {
-    mouseenter : true,
-    mouseleave : true,
-    mousewheel : true,
-    click      : true,
-    mousedown  : true,
-    mouseup    : true,
-    mousemove  : true,
-    startdrag  : true,
-    stopdrag   : true,
-    touchstart : true,
-    touchend   : true,
-    touchmove  : true,
-    dblclick   : true,
-    keydown    : true,
-    keypress   : true,
-    keyup      : true,
-    scroll     : true,
-    focus      : true,
-    blur       : true
-};
-var __event_replacements = {
-    pointerdown: [
-        { event: "mousedown", prevent: false, stop: false },
-        { event: "touchstart", prevent: true, stop: false }
-    ],
-    pointerup: [
-        { event: "mouseup", prevent: false, stop: false },
-        { event: "touchend", prevent: true, stop: false }
-    ]
-};
 Widget = new Class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
@@ -70,7 +37,7 @@ Widget = new Class({
     Implements: [AudioMath, Options, Events],
     initialize: function (options) {
         // Main actions every widget needs to take
-        this.fireEvent("initialize", this);
+        this.fire_event("initialize", this);
         this.setOptions(Object.merge(this.__options__, options));
         if (!this.options.id)
             this.options.id = String.uniqueID();
@@ -78,58 +45,58 @@ Widget = new Class({
     },
     initialized: function () {
         // Main actions every widget needs to take
-        this.fireEvent("initialized", this);
+        this.fire_event("initialized", this);
         return this;
     },
     redraw: function () {
-        this.fireEvent("redraw", this);
+        this.fire_event("redraw", this);
         return this;
     },
     destroy: function () {
-        this.fireEvent("destroy", this);
+        this.fire_event("destroy", this);
         return this;
     },
     delegate: function (element) {
-        element.addEvents({
-            "mouseenter" : function (e) {
-                this.fireEvent("mouseenter", [e, this, element]); }.bind(this),
-            "mouseleave" : function (e) {
-                this.fireEvent("mouseleave", [e, this, element]); }.bind(this),
-            "mousewheel"  : function (e) {
-                this.fireEvent("mousewheel", [e, this, element]); }.bind(this),
-            "click"      : function (e) {
-                this.fireEvent("click",      [e, this, element]); }.bind(this),
-            "mousedown"  : function (e) {
-                this.fireEvent("mousedown",  [e, this, element]); }.bind(this),
-            "mouseup"    : function (e) {
-                this.fireEvent("mouseup",    [e, this, element]); }.bind(this),
-            "mousemove"  : function (e) {
-                this.fireEvent("mousemove",  [e, this, element]); }.bind(this),
-            "startdrag"  : function (e) {
-                this.fireEvent("startdrag",  [e, this, element]); }.bind(this),
-            "stopdrag"  : function (e) {
-                this.fireEvent("stopdrag",   [e, this, element]); }.bind(this),
-            "touchstart" : function (e) {
-                this.fireEvent("touchstart", [e, this, element]); }.bind(this),
-            "touchend"   : function (e) {
-                this.fireEvent("touchend",   [e, this, element]); }.bind(this),
-            "touchmove"  : function (e) {
-                this.fireEvent("touchmove",  [e, this, element]); }.bind(this),
-            "dblclick"   : function (e) {
-                this.fireEvent("dblclick",   [e, this, element]); }.bind(this),
-            "keydown"    : function (e) {
-                this.fireEvent("keydown",    [e, this, element]); }.bind(this),
-            "keypress"   : function (e) {
-                this.fireEvent("keypress",   [e, this, element]); }.bind(this),
-            "keyup"      : function (e) {
-                this.fireEvent("keyup",      [e, this, element]); }.bind(this),
-            "scroll"     : function (e) {
-                this.fireEvent("scroll",     [e, this, element]); }.bind(this),
-            "focus"      : function (e) {
-                this.fireEvent("focus",      [e, this, element]); }.bind(this),
-            "blur"       : function (e) {
-                this.fireEvent("blur",       [e, this, element]); }.bind(this)
-        });
+        //element.addEvents({
+            //"mouseenter" : function (e) {
+                //this.fire_event("mouseenter", [e, this, element]); }.bind(this),
+            //"mouseleave" : function (e) {
+                //this.fire_event("mouseleave", [e, this, element]); }.bind(this),
+            //"mousewheel"  : function (e) {
+                //this.fire_event("mousewheel", [e, this, element]); }.bind(this),
+            //"click"      : function (e) {
+                //this.fire_event("click",      [e, this, element]); }.bind(this),
+            //"mousedown"  : function (e) {
+                //this.fire_event("mousedown",  [e, this, element]); }.bind(this),
+            //"mouseup"    : function (e) {
+                //this.fire_event("mouseup",    [e, this, element]); }.bind(this),
+            //"mousemove"  : function (e) {
+                //this.fire_event("mousemove",  [e, this, element]); }.bind(this),
+            //"startdrag"  : function (e) {
+                //this.fire_event("startdrag",  [e, this, element]); }.bind(this),
+            //"stopdrag"  : function (e) {
+                //this.fire_event("stopdrag",   [e, this, element]); }.bind(this),
+            //"touchstart" : function (e) {
+                //this.fire_event("touchstart", [e, this, element]); }.bind(this),
+            //"touchend"   : function (e) {
+                //this.fire_event("touchend",   [e, this, element]); }.bind(this),
+            //"touchmove"  : function (e) {
+                //this.fire_event("touchmove",  [e, this, element]); }.bind(this),
+            //"dblclick"   : function (e) {
+                //this.fire_event("dblclick",   [e, this, element]); }.bind(this),
+            //"keydown"    : function (e) {
+                //this.fire_event("keydown",    [e, this, element]); }.bind(this),
+            //"keypress"   : function (e) {
+                //this.fire_event("keypress",   [e, this, element]); }.bind(this),
+            //"keyup"      : function (e) {
+                //this.fire_event("keyup",      [e, this, element]); }.bind(this),
+            //"scroll"     : function (e) {
+                //this.fire_event("scroll",     [e, this, element]); }.bind(this),
+            //"focus"      : function (e) {
+                //this.fire_event("focus",      [e, this, element]); }.bind(this),
+            //"blur"       : function (e) {
+                //this.fire_event("blur",       [e, this, element]); }.bind(this)
+        //});
         
         //var orig = element.addEvent.bind(element);
         //element.addEvent = function(name, cb) {
@@ -139,8 +106,9 @@ Widget = new Class({
                 //});
             //} else orig(name, cb);
         //};
+        this.delegate_events(element);
         this.__delegated = element;
-        this.fireEvent("delegated", [element, this]);
+        this.fire_event("delegated", [element, this]);
         return element;
     },
     classify: function (element) {
@@ -152,14 +120,14 @@ Widget = new Class({
         this.setStyles   = function (c) { for (var i in c) element.style[i] = c[i]; }.bind(this);
         this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
         this.__classified = element;
-        this.fireEvent("classified", [element, this]);
+        this.fire_event("classified", [element, this]);
         return element;
     },
     stylize: function (element) {
         // Marks a DOM element as receiver for the "styles" options
         this.__stylized = element;
         this.set("styles", this.options.styles);
-        this.fireEvent("stylized", [element, this]);
+        this.fire_event("stylized", [element, this]);
         return element;
     },
     widgetize: function (element, delegate, classify, stylize) {
@@ -180,124 +148,9 @@ Widget = new Class({
         if (stylize)
             this.stylize(element);
         this.__widgetized = element;
-        this.fireEvent("widgetized", [element, this]);
+        this.fire_event("widgetized", [element, this]);
         return element;
     },
-    
-    // EVENTS
-    add_event: function (e, fun, prevent, stop) {
-        // add an event listener to a widget. These can be native DOM
-        // events if the widget has a delegated element and the widgets
-        // native events.
-        if (__event_replacements.hasOwnProperty(e)) {
-            // it's a native event which needs one or more replacement
-            // events like pointerdown -> mousedown/touchstart as
-            // stated in the list below
-            var ev = __event_replacements[e];
-            for (var i = 0; i < ev.length; i++)
-                this.add_event(ev[i].event, fun, ev[i].prevent, ev[i].stop);
-            return;
-        }
-        cb = null;
-        ev = this.__events;
-        if (this.__delegated
-        && __native_events[e]
-        && !ev.hasOwnProperty(e)) {
-            // seems it's a DOM event and we have a delegation and
-            // there's no callback bound to this event by now, so add
-            // a "real" event listener to the delegated DOM element
-            var p = prevent;
-            var s = stop;
-            cb = function (event) {
-                this.fire_event("" + e, [event]);
-                if (s) event.stopPropagation();
-                if (p) {
-                    event.preventDefault();
-                    return false;
-                }
-            }.bind(this)
-            this.__delegated.addEventListener(e, cb);
-        }
-        if (!ev.hasOwnProperty(e))
-            // add to the internal __events list
-            ev[e] = { callback: cb, queue: [] };
-        ev[e].queue.push(fun);
-    },
-    remove_event: function (e, fun) {
-        // remove an event from the list. If it is a native DOM event,
-        // remove the DOM event listener as well.
-        if (__event_replacements.hasOwnProperty(e)) {
-            // it is an event which has one or more replacement events
-            // so remove all those replacements
-            var ev = __event_replacements[e];
-            for (var i = 0; i < ev.length; i++)
-                this.remove_event(ev[i].event, fun);
-            return;
-        }
-        ev = this.__events;
-        if (ev.hasOwnProperty(e)) {
-            for (var j = ev[e].queue.length - 1; j >= 0; j--) {
-                // loop over the callback list of the event
-                if (ev[e].queue[j] === fun)
-                    // remove the callback
-                    ev[e].queue.splice(j, 1);
-            }
-            if (!ev[e].queue.length) {
-                // no callbacks left
-                if (__native_events[e]
-                && this.__delegated
-                && ev[e].callback)
-                    // remove native DOM event listener from __delegated
-                    this.__delegated.removeEventListener(e, ev[e].callback);
-                // delete event from the list
-                delete ev[e];
-            }
-        }
-    },
-    fire_event: function (e, args) {
-        var ev;
-        // fire all bound callbacks on a event. If the event isn't
-        // specified, nothing will happen at all.
-        if (__event_replacements.hasOwnProperty(e)) {
-            // it is an event which has one or more replacement events
-            // so fire all those replacements
-            ev = __event_replacements[e];
-            for (var i = 0; i < ev.length; i++)
-                this.fire_event(ev[i].event, args);
-            return;
-        }
-        ev = this.__events;
-        if (!ev.hasOwnProperty(e))
-            // unknown event, return.
-            return;
-        if (!(args instanceof Array))
-            // we need an array containing all arguments
-            args = Array(args);
-        args.push(this);
-        for (var i = 0; i < ev[e].queue.length; i++)
-            // run callbacks in a loop
-            ev[e].queue[i].apply(this, args);
-    },
-    add_events: function (events) {
-        for (var i in events) {
-            if (events.hasOwnProperty(i))
-                this.add_event(i, events[i]);
-        }
-    },
-    remove_events: function (events) {
-        for (var i in events) {
-            if (events.hasOwnProperty(i))
-                this.remove_event(i, events[i]);
-        }
-    },
-    fire_events: function (events) {
-        for (var i in events) {
-            if (events.hasOwnProperty(i))
-                this.fire_event(i, events[i]);
-        }
-    },
-    
-    __events: {},
     
     // GETTER & SETTER
     set: function (key, value, hold) {
@@ -332,13 +185,12 @@ Widget = new Class({
                     else
                         this.__stylized.removeClass("toolkit-disabled")
         }
-        this.fireEvent("set", [key, value, hold, this]);
-        this.fireEvent("set_" + key, [value, hold, this]);
+        this.fire_event("set", [key, value, hold, this]);
+        this.fire_event("set_" + key, [value, hold, this]);
         return this;
     },
     get: function (key) {
-        this.fireEvent("get", [key, this.options[key], this]);
+        this.fire_event("get", [key, this.options[key], this]);
         return this.options[key];
     }
 })
-})();

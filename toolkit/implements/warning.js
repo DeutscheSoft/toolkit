@@ -33,6 +33,6 @@ Warning = new Class({
         this.__wto = window.setTimeout(function () {
             element.removeClass("toolkit-warn");
         }.bind(this), timeout);
-        this.fireEvent("warning", this);
+        this.fire_event("warning", this);
     }
 });

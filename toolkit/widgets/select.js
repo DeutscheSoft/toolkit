@@ -35,7 +35,7 @@ Select = new Class({
         this.parent(options);
         this.element.addClass("toolkit-select");
         
-        this.addEvent("click", function (e) {
+        this.add_event("click", function (e) {
             this.show_list(!this.__open);
         }.bind(this));
         
@@ -44,7 +44,7 @@ Select = new Class({
             onComplete: this._hide_list.bind(this),
             duration: 200
         });
-        document.addEvent("mousedown", function () {
+        document.addEventListener("mousedown", function () {
             if (this.__open && !this.__transition) {
                 this.show_list(false);
             }
@@ -84,9 +84,9 @@ Select = new Class({
                                                 : option.value.toString();
         
         li.set("html", opt.title);
-        li.addEvent("mouseup", function (e) {
+        li.addEventListener("mouseup", function (e) {
             this.select(opt.value);
-            this.fireEvent("select", [opt.value, li, this, opt]);
+            this.fire_event("select", [opt.value, li, this, opt]);
         }.bind(this));
         
         this.list[opt.value] = opt;

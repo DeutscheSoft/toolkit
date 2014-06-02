@@ -82,10 +82,10 @@ var Chart = new Class({
         this._graphs = makeSVG("g", {"class": "toolkit-graphs"});
         this._graphs.inject(this.element);
         
-        this.range_x.addEvent("set", function (key, value, hold) {
+        this.range_x.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
         }.bind(this));
-        this.range_y.addEvent("set", function (key, value, hold) {
+        this.range_y.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
         }.bind(this));
         
@@ -99,16 +99,14 @@ var Chart = new Class({
         this._key_txt = makeSVG("text");
         this._key_txt.inject(this._key);
         
-        this._key_background.addEvents({
-            "mouseenter": function () {
+        this._key_background.addEventListener("mouseenter", function () {
                 this._key.addClass("toolkit-hover");
                 this._key_background.addClass("toolkit-hover");
-            }.bind(this),
-            "mouseleave": function () {
+            }.bind(this));
+        this._key_background.addEventListener("mouseleave", function () {
                 this._key.removeClass("toolkit-hover");
                 this._key_background.removeClass("toolkit-hover");
-            }.bind(this)
-        });
+            }.bind(this));
         
         this.set("title", this.options.title, true);
         this.set("title_position", this.options.title_position);
@@ -151,11 +149,11 @@ var Chart = new Class({
         var g = new Graph(options);
         this.graphs.push(g);
         this._draw_key();
-        g.addEvent("set", function (key, value, hold, obj) {
+        g.add_event("set", function (key, value, hold, obj) {
             if (key == "color" || key == "class" || key == "key")
                 if (!hold) this._draw_key();
         }.bind(this));
-        this.fireEvent("graphadded");
+        this.fire_event("graphadded");
         return g;
     },
     remove_graph: function (g) {
@@ -164,7 +162,7 @@ var Chart = new Class({
             if (this.graphs[i] == g) {
                 this.graphs[i].destroy();
                 this.graphs.splice(i, 1);
-                this.fireEvent("graphremoved");
+                this.fire_event("graphremoved");
                 break;
             }
         }
@@ -176,7 +174,7 @@ var Chart = new Class({
             this.remove_graph(this.graphs[i]);
         }
         this.graphs = [];
-        this.fireEvent("emptied");
+        this.fire_event("emptied");
     },
     
     // HELPERS & STUFF

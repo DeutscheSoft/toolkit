@@ -54,7 +54,7 @@ Knob = new Class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fireEvent("useraction", ["value", v, this]);
+                this.fire_event("useraction", ["value", v, this]);
             }.bind(this),
             direction: this.options.direction,
             events: function () { return this }.bind(this),
@@ -65,7 +65,7 @@ Knob = new Class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fireEvent("useraction", ["value", v, this]);
+                this.fire_event("useraction", ["value", v, this]);
             }.bind(this),
             events: function () { return this }.bind(this),
         });

@@ -269,7 +269,7 @@ Scale = new Class({
             case "gap_dots":
             case "gap_labels":
             case "show_labels":
-                this.fireEvent("scalechanged", this)
+                this.fire_event("scalechanged", this)
                 if (!hold) this.redraw();
                 break;
             case "basis":
@@ -282,7 +282,7 @@ Scale = new Class({
                 } else {
                     this.__based = true;
                 }
-                this.fireEvent("basechanged", [value, this]);
+                this.fire_event("basechanged", [value, this]);
                 if (!hold) this.redraw();
                 key = false;
                 break;

@@ -33,10 +33,10 @@ Toggle = new Class({
     initialize: function (options, hold) {
         this.parent(options, hold);
         this.element.addClass("toolkit-toggle");
-        this.element.addEvent("mousedown", this._mousedown.bind(this));
-        this.element.addEvent("mouseup", this._mouseup.bind(this));
-        this.element.addEvent("touchstart", this._mousedown.bind(this));
-        this.element.addEvent("touchend", this._mouseup.bind(this));
+        this.element.addEventListener("mousedown", this._mousedown.bind(this));
+        this.element.addEventListener("mouseup", this._mouseup.bind(this));
+        this.element.addEventListener("touchstart", this._mousedown.bind(this));
+        this.element.addEventListener("touchend", this._mouseup.bind(this));
     },
     
     redraw: function () {
@@ -54,8 +54,8 @@ Toggle = new Class({
     toggle: function (hold) {
         this._clear_to();
         this.set("state", !this.options.state);
-        this.fireEvent("toggled", [this.options.state, this]);
-        this.fireEvent("useraction", ["state", this.options.state, this]);
+        this.fire_event("toggled", [this.options.state, this]);
+        this.fire_event("useraction", ["state", this.options.state, this]);
     },
     cancel_press: function () {
         if (!this.__tp)
@@ -76,7 +76,7 @@ Toggle = new Class({
                 this.__toggleclick = false;
             }.bind(this), this.options.press);
         }
-        e.event.preventDefault();
+        e.preventDefault();
         return false;
     },
     _mouseup: function (e) {
@@ -91,7 +91,7 @@ Toggle = new Class({
         }
         this.toggle();
         this.__toggleclick = false;
-        e.event.preventDefault();
+        e.preventDefault();
         return false;
     },
     _clear_to: function () {

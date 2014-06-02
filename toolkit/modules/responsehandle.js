@@ -88,13 +88,13 @@ ResponseHandle = new Class({
         this.add_range(this.options.range_y, "range_y");
         this.add_range(this.options.range_z, "range_z");
         
-        this.range_x.addEvent("set", function (key, value, hold) {
+        this.range_x.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
         }.bind(this));
-        this.range_y.addEvent("set", function (key, value, hold) {
+        this.range_y.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
         }.bind(this));
-        this.range_z.addEvent("set", function (key, value, hold) {
+        this.range_z.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
         }.bind(this));
         
@@ -150,32 +150,26 @@ ResponseHandle = new Class({
             }
         );
         
-        this.element.addEvents({
-            "mouseenter":  this._mouseenter.bind(this),
-            "mouseleave":  this._mouseleave.bind(this),
-            "mousedown":   this._mousedown.bind(this),
-            "touchstart":  this._touchstart.bind(this)
-        });
-        this._label.addEvents({
-            "mouseenter":  this._mouseelement.bind(this),
-            "touchstart":  this._mouseelement.bind(this),
-            "mousewheel":  this._scrollwheel.bind(this),
-            "contextmenu": function () {return false;}
-        });
-        this._handle.addEvents({
-            "mouseenter":  this._mouseelement.bind(this),
-            "touchstart":  this._mouseelement.bind(this),
-            "mousewheel":  this._scrollwheel.bind(this),
-            "contextmenu": function () {return false;}
-        });
-        this._handle.addEvents({
-            "touchstart":  this._touchstart.bind(this),
-        });
-        this._zhandle.addEvents({
-            "mousedown":  this._zhandledown.bind(this),
-            "touchstart":  this._zhandledown.bind(this)
-        });
-        //document.addEvent("mouseup", this._mouseup.bind(this));
+        this.element.addEventListener("mouseenter",     this._mouseenter.bind(this));
+        this.element.addEventListener("mouseleave",     this._mouseleave.bind(this));
+        this.element.addEventListener("mousedown",      this._mousedown.bind(this));
+        this.element.addEventListener("touchstart",     this._touchstart.bind(this));
+        
+        this._label.addEventListener("mouseenter",      this._mouseelement.bind(this));
+        this._label.addEventListener("touchstart",      this._mouseelement.bind(this));
+        this._label.addEventListener("mousewheel",      this._scrollwheel.bind(this));
+        this._label.addEventListener("DOMMouseScroll",  this._scrollwheel.bind(this));
+        this._label.addEventListener("contextmenu",     function () { return false; });
+        
+        this._handle.addEventListener("mouseenter",     this._mouseelement.bind(this));
+        this._handle.addEventListener("touchstart",     this._mouseelement.bind(this));
+        this._handle.addEventListener("mousewheel",     this._scrollwheel.bind(this));
+        this._handle.addEventListener("DOMMouseScroll", this._scrollwheel.bind(this));
+        this._handle.addEventListener("contextmenu",    function () { return false; });
+        this._handle.addEventListener("touchstart",     this._touchstart.bind(this));
+        
+        this._zhandle.addEventListener("mousedown",     this._zhandledown.bind(this));
+        this._zhandle.addEventListener("touchstart",    this._zhandledown.bind(this));
         
         this._handle.onselectstart = function () { return false; };
         
@@ -1072,19 +1066,19 @@ ResponseHandle = new Class({
     
     // CALLBACKS / EVENT HANDLING
     _mouseenter: function (e) {
-        e.event.preventDefault();
+        e.preventDefault();
         this._zwheel = false;
         this.element.addClass("toolkit-hover");
         return false;
     },
     _mouseleave: function (e) {
-        e.event.preventDefault();
+        e.preventDefault();
         this._raised = false;
         this.element.removeClass("toolkit-hover");
         return false;
     },
     _mouseelement: function (e) {
-        e.event.preventDefault();
+        e.preventDefault();
         if (this.options.container && !this._raised) {
             this.element.inject(this.options.container);
             this._raised = true;
@@ -1093,7 +1087,7 @@ ResponseHandle = new Class({
         //e.stopPropagation();
     },
     _mousedown: function (e) {
-        e.event.preventDefault();
+        e.preventDefault();
         this._zwheel = false;
         if (this.options.min_drag)
             this._sticky = true;
@@ -1113,7 +1107,7 @@ ResponseHandle = new Class({
         if (e.touches && e.touches.length) {
             var ev = e.touches[e.touches.length - 1];
         } else {
-            ev = e.event;
+            ev = e;
         }
         
         // classes and stuff
@@ -1130,58 +1124,57 @@ ResponseHandle = new Class({
         this._pageY   = ev.pageY;
         this.redraw();
         if (!this._zhandling) {
-            this.fireEvent("handlegrabbed", [{
+            this.fire_event("handlegrabbed", [{
                 x:     this.options.x,
                 y:     this.options.y,
                 pos_x: this.x,
                 pos_y: this.y
             }, this]);
         } else {
-            this.fireEvent("zchangestarted", [this.options.z, this]);
+            this.fire_event("zchangestarted", [this.options.z, this]);
         }
-        //document.addEvent("mouseup", this._mouseup.bind(this));
+        //document.addEventListener("mouseup", this._mouseup.bind(this));
         return false;
     },
     _mouseup: function (e) {
         if (!this.__active) return;
-        e.event.preventDefault();
+        e.preventDefault();
         this.element.removeClass("toolkit-active");
         var parent = this.element.getParent().getParent();
         if (parent)
             parent.removeClass("toolkit-dragging");
         this.remove_cursor("move");
         if (!this._zhandling) {
-            this.fireEvent("handlereleased", [{
+            this.fire_event("handlereleased", [{
                 x:     this.options.x,
                 y:     this.options.y,
                 pos_x: this.x,
                 pos_y: this.y
             }, this]);
         } else {
-            this.fireEvent("zchangeended", [this.options.z, this]);
+            this.fire_event("zchangeended", [this.options.z, this]);
             this._zhandling = false;
         }
         this.__active = false;
-        //document.removeEvent("mouseup", this._mouseup.bind(this));
         return false;
     },
     _mousemove: function (e) {
         if (!this.__active) return;
-        e.event.preventDefault();
+        e.preventDefault();
         
         if (e.touches && e.touches.length) {
             var ev = e.touches[e.touches.length - 1];
         } else {
-            var ev = e.event;
+            var ev = e;
         }
         var mx = this.range_x.options.step || 1;
         var my = this.range_y.options.step || 1;
         var mz = this.range_z.options.step || 1;
-        if (e.control && e.shift) {
+        if (e.ctrlKey && e.shiftKey) {
             mx *= this.range_x.get("shift_down");
             my *= this.range_y.get("shift_down");
             mz *= this.range_z.get("shift_down");
-        } else if (e.shift) {
+        } else if (e.shiftKey) {
             mx *= this.range_x.get("shift_up");
             my *= this.range_y.get("shift_up");
             mz *= this.range_z.get("shift_up");
@@ -1203,7 +1196,7 @@ ResponseHandle = new Class({
                 // movement to left
                 this.set("z",
                     this.range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz)));
-                this.fireEvent("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", [this.options.z, this]);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_RIGHT
@@ -1222,7 +1215,7 @@ ResponseHandle = new Class({
                 // movement to right
                 this.set("z",
                     this.range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz)));
-                this.fireEvent("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", [this.options.z, this]);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_TOP
@@ -1241,7 +1234,7 @@ ResponseHandle = new Class({
                 // movement to top
                 this.set("z",
                     this.range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz)));
-                this.fireEvent("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", [this.options.z, this]);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_BOTTOM
@@ -1260,7 +1253,7 @@ ResponseHandle = new Class({
                 // movement to bottom
                 this.set("z",
                     this.range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz)));
-                this.fireEvent("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", [this.options.z, this]);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             }
@@ -1275,10 +1268,10 @@ ResponseHandle = new Class({
                 + ((ev.pageX - this._offsetX) - this._clickX) * mx));
             this.set("y", this.range_y.px2val(this._clickY
                 + ((ev.pageY - this._offsetY) - this._clickY) * my));
-            this.fireEvent("useraction", ["x", this.get("x"), this]);
-            this.fireEvent("useraction", ["y", this.get("y"), this]);
+            this.fire_event("useraction", ["x", this.get("x"), this]);
+            this.fire_event("useraction", ["y", this.get("y"), this]);
         }
-        this.fireEvent("handledragging", [{
+        this.fire_event("handledragging", [{
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
@@ -1287,29 +1280,30 @@ ResponseHandle = new Class({
         return false;
     },
     _scrollwheel: function (e) {
-        e.event.preventDefault();
-        
+        e.preventDefault();
+        var d = e.hasOwnProperty("wheelDelta") ? e.wheelDelta : e.detail;
+        e.wheel = d / Math.abs(d);
         if (this.__sto) window.clearTimeout(this.__sto);
         this.element.addClass("toolkit-active");
         this.__sto = window.setTimeout(function () {
             this.element.removeClass("toolkit-active");
-            this.fireEvent("zchangeended", [this.options.z, this]);
+            this.fire_event("zchangeended", [this.options.z, this]);
         }.bind(this), 250);
         var s = this.range_z.get("step") * e.wheel;
-        if (e.control && e.shift)
+        if (e.ctrlKey && e.shiftKey)
             s *= this.range_z.get("shift_down");
-        else if (e.shift)
+        else if (e.shiftKey)
             s *= this.range_z.get("shift_up");
         this.set("z", this.get("z") + s);
         if (!this._zwheel)
-            this.fireEvent("zchangestarted", [this.options.z, this]);
-        this.fireEvent("zchanged", [this.options.z, this]);
-        this.fireEvent("useraction", ["z", this.options.z, this]);
+            this.fire_event("zchangestarted", [this.options.z, this]);
+        this.fire_event("zchanged", [this.options.z, this]);
+        this.fire_event("useraction", ["z", this.options.z, this]);
         this._zwheel = true;
     },
     _touchstart: function (e) {
         if (e.touches && e.touches.length == 2) {
-            e.event.preventDefault();
+            e.preventDefault();
             e.stopPropagation();
             return false;
         } else {
@@ -1319,7 +1313,7 @@ ResponseHandle = new Class({
     _touchend: function (e) {
         this._tdist = false;
         if (e.touches && e.touches.length >= 1) {
-            e.event.preventDefault();
+            e.preventDefault();
             e.stopPropagation();
             return false;
         } else {
@@ -1350,9 +1344,9 @@ ResponseHandle = new Class({
             this.set("z", Math.max(
                 Math.min(z, this.range_z.get("max")),
                 this.range_z.get("min")));
-            this.fireEvent("zchanged", [this.options.z, this]);
-            e.event.preventDefault();
-            e.event.stopPropagation();
+            this.fire_event("zchanged", [this.options.z, this]);
+            e.preventDefault();
+            e.stopPropagation();
             return false;
         } else {
             this._mousemove(e);
@@ -1377,7 +1371,7 @@ ResponseHandle = new Class({
             case "x":
             case "y":
             case "z":
-                this.fireEvent("set_" + key, [value, hold, this])
+                this.fire_event("set_" + key, [value, hold, this])
                 if (!hold) this.redraw();
                 key = false;
                 break;

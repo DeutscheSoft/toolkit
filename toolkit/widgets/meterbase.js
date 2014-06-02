@@ -395,7 +395,7 @@ var MeterBase = new Class({
                     this._scale.style["display"] = value ? "block" : "none";
                 break;
             case "label":
-                this.fireEvent("labelchanged", [value, this]);
+                this.fire_event("labelchanged", [value, this]);
                 if (!hold) {
                     var s = this.options.format_label(value);
                     var n = this._label;
@@ -408,12 +408,12 @@ var MeterBase = new Class({
 
                 break;
             case "value":
-                this.fireEvent("valuechanged", [value, this]);
+                this.fire_event("valuechanged", [value, this]);
                 if (!hold)
                     this.draw_meter(value);
                 break;
             case "title":
-                this.fireEvent("titlechanged", [value, this]);
+                this.fire_event("titlechanged", [value, this]);
                 if (!hold)
                     this._title.set("html", value);
                 break;
@@ -438,16 +438,16 @@ var MeterBase = new Class({
             case "show_min":
             case "show_base":
                 this.scale.set(key, value, hold);
-                this.fireEvent("scalechanged", [key, value, this]);
+                this.fire_event("scalechanged", [key, value, this]);
                 if (!hold) this.redraw();
                 break;
             case "format_labels":
-                this.fireEvent("scalechanged", [key, value, this]);
+                this.fire_event("scalechanged", [key, value, this]);
                 this.scale.set("labels", value, hold);
                 if (!hold) this.redraw();
                 break;
             case "scale_base":
-                this.fireEvent("scalechanged", [key, value, this]);
+                this.fire_event("scalechanged", [key, value, this]);
                 this.scale.set("base", value, hold);
                 if (!hold) this.redraw();
                 break;
@@ -458,7 +458,7 @@ var MeterBase = new Class({
                 } else {
                     this.__based = true;
                 }
-                this.fireEvent("basechanged", [value, this]);
+                this.fire_event("basechanged", [value, this]);
                 if (!hold) this.redraw();
                 key = false;
                 break;

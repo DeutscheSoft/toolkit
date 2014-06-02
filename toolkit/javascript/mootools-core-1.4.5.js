@@ -1176,9 +1176,10 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function (event, win) {
             x: (event.clientX != null) ? event.clientX : event.pageX - win.pageXOffset,
             y: (event.clientY != null) ? event.clientY : event.pageY - win.pageYOffset
         };
-        if (type == 'DOMMouseScroll' || type == 'mousewheel')
-            this.wheel = (event.wheelDelta) ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
-
+        if (type == 'DOMMouseScroll' || type == 'mousewheel') {
+            var d = event.hasOwnProperty("wheelDelta") ? event.wheelDelta : event.detail;
+            this.wheel = d / Math.abs(d);
+        }
         this.rightClick = (event.which == 3 || event.button == 2);
         if (type == 'mouseover' || type == 'mouseout') {
             var related = event.relatedTarget || event[(type == 'mouseover' ? 'from' : 'to') + 'Element'];
@@ -5976,4 +5977,3 @@ Swiff.remote = function (obj, fn) {
 };
 
 })();
-

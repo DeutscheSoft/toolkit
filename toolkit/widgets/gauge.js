@@ -86,7 +86,7 @@ Gauge = new Class({
                 "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
             this._title.set("text-anchor", "middle");
         }
-        this.fireEvent("titledrawn", [this]);
+        this.fire_event("titledrawn", [this]);
     },
     
     // GETTERS & SETTERS
@@ -101,8 +101,8 @@ Gauge = new Class({
             case "title":
                 if (typeof value == "string") value = {title: value};
                 this.options.title = Object.merge(this.options.title, value);
-                this.fireEvent("set", [key, value, hold, this]);
-                this.fireEvent("set_" + key, [value, hold, this]);
+                this.fire_event("set", [key, value, hold, this]);
+                this.fire_event("set_" + key, [value, hold, this]);
                 key = false;
                 if (!hold) this._draw_title();
                 break;

@@ -39,6 +39,7 @@ ScrollValue = new Class({
         active:    true                        // deactivate the event
     },
     initialize: function (options) {
+        this._scrollwheel = this._scrollwheel.bind(this);
         this.parent(options);
         if (this.options.element)
             this.set("element", this.options.element);
@@ -48,14 +49,17 @@ ScrollValue = new Class({
         this.initialized();
     },
     destroy: function () {
-        if (this.options.element)
-            this.options.element.removeEvent("mousewheel", this._scrollwheel);
+        if (this.options.element) {
+            this.options.element.removeEventListener("mousewheel", this._scrollwheel);
+            this.options.element.removeEventListener("DOMMouseScroll", this._scrollwheel);
+        }
         this.parent();
     },
     _scrollwheel: function (e) {
         if (!this.options.active) return;
-        e.event.preventDefault();
-        
+        e.preventDefault();
+        var d = e.hasOwnProperty("wheelDelta") ? e.wheelDelta : e.detail;
+        e.wheel = d / Math.abs(d);
         this.options.classes.addClass("toolkit-scrolling");
         var range = this.options.range();
         
@@ -69,9 +73,9 @@ ScrollValue = new Class({
         
         // calc step depending on options.step, .shift up and .shift down
         var step = (range.options.step || 1) * e.wheel;
-        if (e.control && e.shift) {
+        if (e.ctrlKey && e.shiftKey) {
             step *= range.options.shift_down;
-        } else if (e.shift) {
+        } else if (e.shiftKey) {
             step *= range.options.shift_up;
         }
         if (!this._wheel)
@@ -101,9 +105,9 @@ ScrollValue = new Class({
     _fire_event: function (title, event) {
         // fire an event on this drag object and one with more
         // information on the draggified element
-        this.fireEvent(title, [this, event]);
+        this.fire_event(title, [this, event]);
         if (this.options.events())
-            this.options.events().fireEvent(title, [event,
+            this.options.events().fire_event(title, [event,
                                               this.options.get(),
                                               this.options.element,
                                               this,
@@ -116,9 +120,8 @@ ScrollValue = new Class({
         this.options[key] = value;
         switch (key) {
             case "element":
-                value.addEvents({
-                    "mousewheel": this._scrollwheel.bind(this),
-                });
+                value.addEventListener("mousewheel", this._scrollwheel);
+                value.addEventListener("DOMMouseScroll", this._scrollwheel);
                 if (value && !this.options.events) {
                     this.options.events = value;
                 }

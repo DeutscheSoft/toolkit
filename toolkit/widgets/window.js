@@ -113,30 +113,24 @@ Window = new Class({
         this._status = new Element("div.toolkit-status");
         this._icon   = new Element("img.toolkit-icon");
         
-        this.close = new Button({
-            "class": "toolkit-close",
-            onClick: this.__close.bind(this)
-        });
-        this.maximize = new Button({
-            "class": "toolkit-maximize",
-            onClick: this.__maximize.bind(this)
-        });
-        this.maximize_vert = new Button({
-            "class": "toolkit-maximize-vertical",
-            onClick: this.__maximizevertical.bind(this)
-        });
-        this.maximize_horiz = new Button({
-            "class": "toolkit-maximize-horizontal",
-            onClick: this.__maximizehorizontal.bind(this)
-        });
-        this.minimize = new Button({
-            "class": "toolkit-minimize",
-            onClick: this.__minimize.bind(this)
-        });
-        this.shrink = new Button({
-            "class": "toolkit-shrink",
-            onClick: this.__shrink.bind(this)
-        });
+        this.close = new Button({"class": "toolkit-close"});
+        this.close.add_event("click", this.__close.bind(this));
+        
+        this.maximize = new Button({"class": "toolkit-maximize"});
+        this.maximize.add_event("click", this.__maximize.bind(this));
+        
+        this.maximize_vert = new Button({"class": "toolkit-maximize-vertical"});
+        this.maximize_vert.add_event("click", this.__maximizevertical.bind(this));
+        
+        this.maximize_horiz = new Button({"class": "toolkit-maximize-horizontal"});
+        this.maximize_horiz.add_event("click", this.__maximizehorizontal.bind(this));
+        
+        this.minimize = new Button({"class": "toolkit-minimize"});
+        this.minimize.add_event("click", this.__minimize.bind(this));
+        
+        this.shrink = new Button({"class": "toolkit-shrink"});
+        this.shrink.add_event("click", this.__shrink.bind(this));
+        
         this.__buttons = [this.close, this.maximize, this.maximize_vert,
                           this.maximize_horiz, this.minimize, this.shrink];
         for (var i = 0; i < this.__buttons.length; i++) {
@@ -175,9 +169,9 @@ Window = new Class({
         
         this.set("content", this.options.content);
         
-        this.element.addEvent("mouseenter", this.__mover.bind(this));
-        this.element.addEvent("mouseleave", this.__mout.bind(this));
-        this._header.addEvent("dblclick", this.__header_action.bind(this));
+        this.element.addEventListener("mouseenter", this.__mover.bind(this));
+        this.element.addEventListener("mouseleave", this.__mout.bind(this));
+        this._header.addEventListener("dblclick", this.__header_action.bind(this));
         
         this.drag = new Drag(this.element, {
             handle: this._header,
@@ -249,23 +243,23 @@ Window = new Class({
             this.set("maximize", {x: true, y: true});
         else
             this.set("maximize", {x: false, y: false});
-        this.fireEvent("maximizetoggled", [this, this.options.maximize]);
+        this.fire_event("maximizetoggled", [this, this.options.maximize]);
     },
     toggle_maximize_vertical: function () {
         this.set("maximize", {y: !this.options.maximize.y});
-        this.fireEvent("maximizetoggled", [this, this.options.maximize]);
+        this.fire_event("maximizetoggled", [this, this.options.maximize]);
     },
     toggle_maximize_horizontal: function () {
         this.set("maximize", {x: !this.options.maximize.x});
-        this.fireEvent("maximizetoggled", [this, this.options.maximize]);
+        this.fire_event("maximizetoggled", [this, this.options.maximize]);
     },
     toggle_minimize: function () {
         this.set("minimize", !this.options.minimize);
-        this.fireEvent("minimizetoggled", [this, this.options.minimize]);
+        this.fire_event("minimizetoggled", [this, this.options.minimize]);
     },
     toggle_shrink: function () {
         this.set("shrink", !this.options.shrink);
-        this.fireEvent("shrinktoggled", [this, this.options.shrink]);
+        this.fire_event("shrinktoggled", [this, this.options.shrink]);
     },
     
     // HELPERS & STUFF
@@ -301,7 +295,7 @@ Window = new Class({
         this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
         this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
         this._set_content();
-        this.fireEvent("dimensionschanged", [this, this.dimensions]);
+        this.fire_event("dimensionschanged", [this, this.dimensions]);
     },
     _set_position: function () {
         var width  = this.element.innerWidth();
@@ -327,7 +321,7 @@ Window = new Class({
         this.dimensions.y1     = pos.y;
         this.dimensions.x2     = pos.x + this.dimensions.width;
         this.dimensions.y2     = pos.y + this.dimensions.height;
-        this.fireEvent("positionchanged", [this, this.dimensions]);
+        this.fire_event("positionchanged", [this, this.dimensions]);
     },
     _set_content: function () {
         var elmt = this.element.innerHeight();
@@ -339,7 +333,7 @@ Window = new Class({
         else
             this._content.outerWidth(this.element.innerWidth());
         this._content.style["top"] = head + "px";
-        this.fireEvent("contentresized", [this]);
+        this.fire_event("contentresized", [this]);
     },
     _init_position: function (pos) {
         if (pos) {
@@ -365,14 +359,14 @@ Window = new Class({
         this.__build_from_const("header_center");
         this.__build_from_const("header_right");
         this._check_header();
-        this.fireEvent("headerchanged", [this]);
+        this.fire_event("headerchanged", [this]);
     },
     _build_footer: function () {
         this.__build_from_const("footer_left");
         this.__build_from_const("footer_center");
         this.__build_from_const("footer_right");
         this._check_footer();
-        this.fireEvent("footerchanged", [this]);
+        this.fire_event("footerchanged", [this]);
     },
     __build_from_const: function (element) {
         for (var i = 0; i < this.options[element].length; i++) {
@@ -496,17 +490,17 @@ Window = new Class({
         
         this.dragging = true;
         this.element.addClass("toolkit-dragging");
-        this.fireEvent("startdrag", [this, ev]);
+        this.fire_event("startdrag", [this, ev]);
     },
     __stop_drag: function (el, ev) {
         this.dragging = false;
         this.__set_position();
         this.element.removeClass("toolkit-dragging");
-        this.fireEvent("stopdrag", [this, ev]);
+        this.fire_event("stopdrag", [this, ev]);
     },
     __dragging: function (el, ev) {
         this.__set_position();
-        this.fireEvent("dragging", [this, ev]);
+        this.fire_event("dragging", [this, ev]);
     },
     __set_position: function () {
         var pos  = this.element.getPosition();
@@ -524,7 +518,7 @@ Window = new Class({
         $$("body")[0].style["cursor"] = this._resize.getStyle("cursor");
         this.resizing = true;
         this.element.addClass("toolkit-resizing");
-        this.fireEvent("startresize", [this, ev]);
+        this.fire_event("startresize", [this, ev]);
     },
     __stop_resize: function (el, ev) {
         $$("body")[0].style["cursor"] = this.__docmouse;
@@ -534,7 +528,7 @@ Window = new Class({
         this._check_header(true);
         this._check_footer(true);
         this.__set_dimensions();
-        this.fireEvent("stopresize", [this, ev]);
+        this.fire_event("stopresize", [this, ev]);
     },
     __resizing: function (el, ev) {
         if (this.options.resizing == _TOOLKIT_CONTINUOUS) {
@@ -543,7 +537,7 @@ Window = new Class({
             this.__size_footer(true);
             this.__set_dimensions();
         }
-        this.fireEvent("resizing", [this, ev]);
+        this.fire_event("resizing", [this, ev]);
     },
     __set_dimensions: function () {
         var x = this.element.outerWidth();
@@ -563,29 +557,29 @@ Window = new Class({
             this.element.addClass("toolkit-active");
     },
     __close: function () {
-        this.fireEvent("closeclicked");
+        this.fire_event("closeclicked");
         if (this.options.auto_close)
             this.destroy();
     },
     __maximize: function () {
         if (this.options.auto_maximize) this.toggle_maximize();
-        this.fireEvent("maximizeclicked", [this, this.options.maximize]);
+        this.fire_event("maximizeclicked", [this, this.options.maximize]);
     },
     __maximizevertical: function () {
         if (this.options.auto_maximize) this.toggle_maximize_vertical();
-        this.fireEvent("maximizeverticalclicked", [this, this.options.maximize.y]);
+        this.fire_event("maximizeverticalclicked", [this, this.options.maximize.y]);
     },
     __maximizehorizontal: function () {
         if (this.options.auto_maximize) this.toggle_maximize_horizontal();
-        this.fireEvent("maximizehorizontalclicked", [this, this.options.maximize.x]);
+        this.fire_event("maximizehorizontalclicked", [this, this.options.maximize.x]);
     },
     __minimize: function () {
         if (this.options.auto_minimize) this.toggle_minimize();
-        this.fireEvent("minimizeclicked", [this, this.options.minimize]);
+        this.fire_event("minimizeclicked", [this, this.options.minimize]);
     },
     __shrink: function () {
         if (this.options.auto_shrink) this.toggle_shrink();
-        this.fireEvent("shrinkclicked", [this, this.options.shrink]);
+        this.fire_event("shrinkclicked", [this, this.options.shrink]);
     },
     __header_action: function () {
         switch (this.options.header_action) {
@@ -608,7 +602,7 @@ Window = new Class({
                 this.destroy();
                 break;
         }
-        this.fireEvent("headeraction", [this, this.options.header_action]);
+        this.fire_event("headeraction", [this, this.options.header_action]);
     },
         
     // GETTERS & SETTERS

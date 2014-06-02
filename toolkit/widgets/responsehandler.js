@@ -44,7 +44,7 @@ var ResponseHandler = new Class({
         this.add_range(this.options.range_z, "range_z");
         if (this.options.depth)
             this.set("depth", this.options.depth, true);
-//         this.range_z.addEvent("set", function (key, value, hold) {
+//         this.range_z.add_event("set", function (key, value, hold) {
 //             if (!hold) this.redraw();
 //         }.bind(this));
         
@@ -52,11 +52,13 @@ var ResponseHandler = new Class({
         this._handles = makeSVG("g",
             {"class": "toolkit-response-handles"}).inject(this.element);
         this.element.onselectstart = function () { return false; };
-        this.element.addEvent('mousewheel', function (e) {
-            e.event.preventDefault();
-            e.event.stopPropagation();
+        var cb = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             return false;
-        }.bind(this));
+        }.bind(this);
+        this.element.addEventListener('mousewheel', cb);
+        this.element.addEventListener('DOMMouseScroll', cb);
         this.add_handles(this.options.handles);
         this.redraw();
     },
@@ -90,21 +92,21 @@ var ResponseHandler = new Class({
         var _touchmove = h._touchmove.bind(h);
         var _touchend = h._touchend.bind(h);
         this.handles.push(h);
-        h.addEvent("handlegrabbed", function () {
+        h.add_event("handlegrabbed", function () {
             this._active++;
-            document.addEvent("mousemove", _mousemove);
-            document.addEvent("mouseup",   _mouseup);
-            document.addEvent("touchmove", _touchmove);
-            document.addEvent("touchend",  _touchend);
+            document.addEventListener("mousemove", _mousemove);
+            document.addEventListener("mouseup",   _mouseup);
+            document.addEventListener("touchmove", _touchmove);
+            document.addEventListener("touchend",  _touchend);
         }.bind(this));
-        h.addEvent("handlereleased",  function () {
+        h.add_event("handlereleased",  function () {
             if (this._active) this._active--;
-            document.removeEvent("mousemove", _mousemove);
-            document.removeEvent("mouseup",   _mouseup);
-            document.removeEvent("touchmove", _touchmove);
-            document.removeEvent("touchend",  _touchend);
+            document.removeEventListener("mousemove", _mousemove);
+            document.removeEventListener("mouseup",   _mouseup);
+            document.removeEventListener("touchmove", _touchmove);
+            document.removeEventListener("touchend",  _touchend);
         }.bind(this));
-        this.fireEvent("handleadded", [h, this]);
+        this.fire_event("handleadded", [h, this]);
         return h;
     },
     add_handles: function (handles) {
@@ -118,7 +120,7 @@ var ResponseHandler = new Class({
             if (this.handles[i] == handle) {
                 this.handles[i].destroy();
                 this.handles.splice(i, 1);
-                this.fireEvent("handleremoved", this);
+                this.fire_event("handleremoved", this);
                 break;
             }
         }
@@ -129,7 +131,7 @@ var ResponseHandler = new Class({
             this.remove_handle(this.handles[i]);
         }
         this.handles = [];
-        this.fireEvent("emptied", this)
+        this.fire_event("emptied", this)
     },
     
     intersect: function (x1, y1, x2, y2, id) {

@@ -57,15 +57,15 @@ DragValue = new Class({
         this.initialized();
     },
     destroy: function () {
-        document.removeEvent("mousemove", this.__pointer_move);
-        document.removeEvent("mouseup",   this.__pointer_up);
-        document.removeEvent("touchmove", this.__pointer_move);
-        document.removeEvent("touchend",  this.__pointer_up);
+        document.remove_event("mousemove", this.__pointer_move);
+        document.remove_event("mouseup",   this.__pointer_up);
+        document.remove_event("touchmove", this.__pointer_move);
+        document.remove_event("touchend",  this.__pointer_up);
         this.parent();
     },
     _pointer_down: function (e) {
         if (!this.options.active) return;
-        e.event.preventDefault();
+        e.preventDefault();
         // get the right event if touch
         var ev = this._get_event(e);
         // set stuff
@@ -86,26 +86,26 @@ DragValue = new Class({
         // fire event
         this._fire_event("startdrag", e);
 
-        document.addEvent("mousemove", this.__pointer_move);
-        document.addEvent("mouseup",   this.__pointer_up);
-        document.addEvent("touchmove", this.__pointer_move);
-        document.addEvent("touchend",  this.__pointer_up);
+        document.addEventListener("mousemove", this.__pointer_move);
+        document.addEventListener("mouseup",   this.__pointer_up);
+        document.addEventListener("touchmove", this.__pointer_move);
+        document.addEventListener("touchend",  this.__pointer_up);
         
         return false;
     },
     _pointer_up: function (e) {
         if (!this.__active) return;
-        e.event.preventDefault();
+        e.preventDefault();
         // set stuff
         this.options.classes.removeClass("toolkit-dragging");
         if (this.options.cursor) {
             this.remove_cursor("row-resize");
             this.remove_cursor("col-resize");
         }
-        document.removeEvent("mousemove", this.__pointer_move);
-        document.removeEvent("mouseup",   this.__pointer_up);
-        document.removeEvent("touchmove", this.__pointer_move);
-        document.removeEvent("touchend",  this.__pointer_up);
+        document.removeEventListener("mousemove", this.__pointer_move);
+        document.removeEventListener("mouseup",   this.__pointer_up);
+        document.removeEventListener("touchmove", this.__pointer_move);
+        document.removeEventListener("touchend",  this.__pointer_up);
         this.__active = false;
         // fire event
         this._fire_event("stopdrag", e);
@@ -115,14 +115,14 @@ DragValue = new Class({
     _pointer_move: function (e) {
         if (!this.__active) return;
         if (!this.options.active) return;
-        e.event.preventDefault();
+        e.preventDefault();
         // get the right event if touch
         var ev = this._get_event(e);
         // calc multiplier depending on step, shift up and shift down
         var multi = this.options.range().options.step || 1;
-        if (e.control && e.shift) {
+        if (e.ctrlKey && e.shiftKey) {
             multi *= this.options.range().options.shift_down;
-        } else if (e.shift) {
+        } else if (e.shiftKey) {
             multi *= this.options.range().options.shift_up;
         }
         
@@ -156,15 +156,15 @@ DragValue = new Class({
         // return the right event if touch surface is used
         // with multiple fingers
         return (event.touches && event.touches.length)
-              ? event.touches[0] : event.event;
+              ? event.touches[0] : event;
     },
     
     _fire_event: function (title, event) {
         // fire an event on this drag object and one with more
         // information on the draggified element
-        this.fireEvent(title, [this, event]);
+        this.fire_event(title, [this, event]);
         if (this.options.events())
-            this.options.events().fireEvent(title, [event,
+            this.options.events().fire_event(title, [event,
                                               this.options.get(),
                                               this.options.element,
                                               this,
@@ -177,11 +177,9 @@ DragValue = new Class({
         this.options[key] = value;
         switch (key) {
             case "element":
-                value.addEvents({
-                    "contextmenu": function () {return false;},
-                    "mousedown":   this.__pointer_down,
-                    "touchstart":  this.__pointer_down
-                });
+                value.addEventListener("contextmenu", function () {return false;});
+                value.addEventListener("mousedown",   this.__pointer_down);
+                value.addEventListener("touchstart",  this.__pointer_down);
                 if (value && !this.options.events) {
                     this.options.events = value;
                 }

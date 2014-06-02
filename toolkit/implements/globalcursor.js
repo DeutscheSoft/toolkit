@@ -27,10 +27,10 @@ GlobalCursor = new Class({
     Implements: Events,
     global_cursor: function (cursor) {
         $$("html").addClass("toolkit-cursor-" + cursor);
-        this.fireEvent("globalcursor", cursor);
+        this.fire_event("globalcursor", cursor);
     },
     remove_cursor: function (cursor) {
         $$("html").removeClass("toolkit-cursor-" + cursor);
-        this.fireEvent("cursorremoved", cursor);
+        this.fire_event("cursorremoved", cursor);
     }
 });

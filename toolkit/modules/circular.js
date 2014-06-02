@@ -194,7 +194,7 @@ Circular = new Class({
                     + large + "," + (sweep ? 0 : 1) + " "
                     + from.x2 + "," + from.y2 + " z";
         slice.set("d", path);
-        this.fireEvent("slicedrawn", [this]);
+        this.fire_event("slicedrawn", [this]);
     },
     _draw_dots: function () {
         this._dots.empty();
@@ -224,7 +224,7 @@ Circular = new Class({
                 + this.val2real(pos) + " "
                 + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
         }
-        this.fireEvent("dotsdrawn", [this]);
+        this.fire_event("dotsdrawn", [this]);
     },
     _draw_markers: function () {
         this._markers.empty();
@@ -263,7 +263,7 @@ Circular = new Class({
             this._draw_slice(this.val2real(from),
                              this.val2real(to), inner_p, outer_p, outer, s);
         }
-        this.fireEvent("markersdrawn", [this]);
+        this.fire_event("markersdrawn", [this]);
     },
     _draw_labels: function () {
         this._labels.empty();
@@ -304,13 +304,13 @@ Circular = new Class({
             p.set("transform", "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
             p.set("text-anchor", "middle");
         }
-        this.fireEvent("labelsdrawn", [this]);
+        this.fire_event("labelsdrawn", [this]);
     },
     _draw_hand: function () {
         this._hand.set("transform", "rotate("
             + this.val2real() + " "
             + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
-        this.fireEvent("handdrawn", [this]);
+        this.fire_event("handdrawn", [this]);
     },
     _get_coords: function (deg, inner, outer, pos, single) {
         deg = deg * this.__rad;
@@ -372,8 +372,8 @@ Circular = new Class({
                                      Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
-                this.fireEvent("set_value", [this.options.value, this]);
-                this.fireEvent("set", ["value", this.options.value, this]);
+                this.fire_event("set_value", [this.options.value, this]);
+                this.fire_event("set", ["value", this.options.value, this]);
                 if (!hold) this.redraw();
                 return;
             case "base":
@@ -383,7 +383,7 @@ Circular = new Class({
                 } else {
                     this.__based = true;
                 }
-                this.fireEvent("basechanged", [value, this]);
+                this.fire_event("basechanged", [value, this]);
                 if (!hold) this.redraw();
                 key = false;
                 break;

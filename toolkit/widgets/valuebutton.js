@@ -50,11 +50,12 @@ ValueButton = new Class({
             format: this.options.value_format,
             set: function (val) {
                     this.set("value", val);
-                    this.fireEvent("useraction", ["value", val, this]);
-                    return this.options.value; }.bind(this),
-            onValueclicked: this._value_clicked.bind(this),
-            onValuedone: this._value_done.bind(this)
+                    this.fire_event("useraction", ["value", val, this]);
+                    return this.options.value; }.bind(this)
         });
+        this.value.add_event("valueclicked", this._value_clicked.bind(this));
+        this.value.add_event("valuedone", this._value_done.bind(this));
+        
         this._value = this.value.element;
         this._input = this.value._input;
         
@@ -68,7 +69,7 @@ ValueButton = new Class({
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) {
                 this.set("value", v);
-                this.fireEvent("useraction", ["value", v, this]);
+                this.fire_event("useraction", ["value", v, this]);
             }.bind(this),
             direction: this.options.drag_direction,
             events: function () { return this }.bind(this)
@@ -111,7 +112,7 @@ ValueButton = new Class({
     _value_done: function () {
         this.scroll.set("active", true);
         this.drag.set("active", true);
-        this.fireEvent("valueset", [this.options.value, this]);
+        this.fire_event("valueset", [this.options.value, this]);
     },
     
     // GETTERS & SETTERS
@@ -181,7 +182,7 @@ ValueButton = new Class({
                                      Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
-                this.fireEvent("valuechanged", [this.options.value, this]);
+                this.fire_event("valuechanged", [this.options.value, this]);
                 if (!hold) this.redraw();
                 return;
             case "value_format":

@@ -68,8 +68,8 @@ var Graph = new Class({
         this.set("color", this.options.color);
         this.set("mode",  this.options.mode);
         
-        this.range_x.addEvent("set", this.redraw.bind(this));
-        this.range_y.addEvent("set", this.redraw.bind(this));
+        this.range_x.add_event("set", this.redraw.bind(this));
+        this.range_y.add_event("set", this.redraw.bind(this));
         
         if (this.options.dots.length)
             this.redraw();
@@ -234,7 +234,7 @@ var Graph = new Class({
                 break;
             case "dots":
                 if (!hold) this.redraw();
-                this.fireEvent("graphchanged");
+                this.fire_event("graphchanged");
                 break;
             case "color":
                 if (!hold) this.element.style["stroke"] = value;

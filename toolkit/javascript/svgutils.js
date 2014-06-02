@@ -59,9 +59,9 @@ repositionSVG = function (e) {
     e.style["margin-top"] = t + "px";
 }
 if (!Browser.firefox) {
-    window.addEvent('load', repositionSVGs);
-    window.addEvent('scroll', repositionSVGs);
-    window.addEvent('resize', repositionSVGs);
+    window.addEventListener('load', repositionSVGs);
+    window.addEventListener('scroll', repositionSVGs);
+    window.addEventListener('resize', repositionSVGs);
 }
 
 makeSVG = function (tag, args) {

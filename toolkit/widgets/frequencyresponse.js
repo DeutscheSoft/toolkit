@@ -67,7 +67,7 @@ var FrequencyResponse = new Class({
         this.parent(options);
         this.element.addClass("toolkit-frequency-response");
         this.set("db_grid", this.options.db_grid);
-        this.range_y.addEvent("set", function (key, value, hold) {
+        this.range_y.add_event("set", function (key, value, hold) {
             if (key == "scale")
                 this.options.scale = value;
         }.bind(this));

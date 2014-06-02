@@ -88,7 +88,7 @@
             header_right: [],
             resizable: false
         });
-        this.window.addEvent("dimensionschanged", this.redraw.bind(this));
+        this.window.add_event("dimensionschanged", this.redraw.bind(this));
         
         this._buffer = false;
         switch (this.options.buffer) {

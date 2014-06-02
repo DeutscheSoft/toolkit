@@ -1,1 +1,6 @@
 Window: non-fixed positioning broken (limit, init position, d'n'd, ...)
+
+STRIP MOOTOOLS FROM TOOLKIT:
+----------------------------
+svgutils.js
+event.resize.js

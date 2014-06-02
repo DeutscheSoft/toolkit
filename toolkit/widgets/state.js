@@ -81,12 +81,12 @@ State = new Class({
         switch (key) {
             case "color":
                 if (!hold) this.element.style["background"] = value;
-                this.fireEvent("colorchanged", value);
+                this.fire_event("colorchanged", value);
                 break;
             case "state":
             case "opacity":
                 if (!hold) this._mask.style["opacity"] = "" + ((1 - +value) * this.options.opacity);
-                this.fireEvent("statechanged", value);
+                this.fire_event("statechanged", value);
                 break;
         }
         this.parent(key, value, hold);

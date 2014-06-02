@@ -194,25 +194,25 @@ LevelMeter = new Class({
     },
     reset_peak: function () {
         this.set("peak", this.options.value);
-        this.fireEvent("resetpeak", this);
+        this.fire_event("resetpeak", this);
     },
     reset_label: function () {
         delete this.__lto;
         this.set("label", this.options.value);
-        this.fireEvent("resetlabel", this);
+        this.fire_event("resetlabel", this);
     },
     reset_clip: function () {
         delete this.__cto;
         this.set("clip", false);
-        this.fireEvent("resetclip", this);
+        this.fire_event("resetclip", this);
     },
     reset_top: function () {
         this.set("top", this.options.value);
-        this.fireEvent("resettop", this);
+        this.fire_event("resettop", this);
     },
     reset_bottom: function () {
         this.set("bottom", this.options.value);
-        this.fireEvent("resetbottom", this);
+        this.fire_event("resetbottom", this);
     },
     reset_all: function () {
         this.reset_label();
@@ -332,7 +332,7 @@ LevelMeter = new Class({
                 this._mask2.setStyles(m2);
                 this._mask4.setStyles(m4);
             }
-            this.fireEvent("drawmeter", this);
+            this.fire_event("drawmeter", this);
         }
     },
     
@@ -370,7 +370,7 @@ LevelMeter = new Class({
         } else {
             this._peak.style["display"] = "none";
         }
-        this.fireEvent("drawpeak", this);
+        this.fire_event("drawpeak", this);
     },
     
     // HELPERS & STUFF
@@ -479,7 +479,7 @@ LevelMeter = new Class({
                     this._peak_timeout();
                     this.draw_peak();
                 }
-                this.fireEvent("peakchanged");
+                this.fire_event("peakchanged");
                 break;
             case "label":
                 if (!hold) {
@@ -489,7 +489,7 @@ LevelMeter = new Class({
             case "clip":
                 this._clip_timeout();
                 if (!hold && value) {
-                    this.fireEvent("clipping");
+                    this.fire_event("clipping");
                     this.element.addClass("toolkit-clipping");
                     this.state.set("state", 1);
                 } else {
@@ -502,14 +502,14 @@ LevelMeter = new Class({
                 if (!hold) {
                     this.draw_meter();
                 }
-                this.fireEvent("topchanged");
+                this.fire_event("topchanged");
                 break;
             case "bottom":
                 this._bottom_timeout();
                 if (!hold) {
                     this.draw_meter();
                 }
-                this.fireEvent("bottomchanged");
+                this.fire_event("bottomchanged");
                 break;
             case "auto_clip":
                 if (this.__cto && !value || value < 0)

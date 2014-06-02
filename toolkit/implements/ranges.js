@@ -46,7 +46,7 @@ Ranges = new Class({
         }
         if (name) {
             this[name] = r;
-            this.addEvent("set", function (key, value, hold) {
+            this.add_event("set", function (key, value, hold) {
                 if (key == name) {
                     for (var i in value) {
                         this[name].set(i, value[i], hold);
@@ -54,7 +54,7 @@ Ranges = new Class({
                 }
             }.bind(this));
         }
-        this.fireEvent("rangeadded", [r, this]);
+        this.fire_event("rangeadded", [r, this]);
         return r;
     }
 })
