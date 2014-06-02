@@ -19,12 +19,12 @@
  * Boston, MA  02110-1301  USA
  */
 
-window.addEvent('domready', function () {
+window.addEventListener('DOMContentLoaded', function () {
     $$(".collapse").each(function (e) {
         var toggle = new Element("div", {"class":"toolkit-button", html:e.get("title") + " (" + (e.getChildren()[0].getChildren().length - 1) + ")"});
         toggle.inject(e.getParent().getChildren(".buttons")[0]);
         var toggleFx = new Fx.Slide(e).hide();
-        toggle.addEvent("click", function(){toggleFx.toggle()});
+        toggle.addEventListener("click", function(){toggleFx.toggle()});
     });
     var c = 0;
     $$("ul.wrapper>li").each( function (e) {
@@ -41,8 +41,8 @@ window.addEvent('domready', function () {
             var t = new Element("span", {html: ctitle + "s"}).inject(l);
             var m = new Element("ul." + cls, {id: cls}).inject(l);
             var toggleFx = new Fx.Slide(m, {duration:300}).hide();
-            t.addEvent("click", function(){toggleFx.toggle()});
-            m.addEvent("click", function(){toggleFx.toggle()});
+            t.addEventListener("click", function(){toggleFx.toggle()});
+            m.addEventListener("click", function(){toggleFx.toggle()});
         }
         
         // MENU
@@ -58,13 +58,13 @@ window.addEvent('domready', function () {
         // EXAMPLE STUFF
         if (typeof window["run_" + id] != "undefined") {
             var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0]);
-            but.addEvent("click", window["run_" + id]);
-            l.addEvent("click", window["run_" + id]);
+            but.addEventListener("click", window["run_" + id]);
+            l.addEventListener("click", window["run_" + id]);
             
             var pre = new Element("pre.box", {html: "<code data-language='python'>" + window["run_" + id].toString() + "</code>"}).inject(e.getChildren(".buttons")[0], "after");
             var tog = new Element("div.toolkit-button", {html: "⌨ Code"}).inject(e.getChildren(".buttons")[0]);
             var togFx = new Fx.Slide(pre).hide();
-            tog.addEvent("click", function(){togFx.toggle()});
+            tog.addEventListener("click", function(){togFx.toggle()});
         }
     });
     var modex = window.location.hash.substring(1);
@@ -90,7 +90,7 @@ run_keyboard = function () {
         format: function (val) { return sprintf("%.3f Hz", val); },
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
-    value.addEvent("click", function () {
+    value.add_event("click", function () {
         if (typeof keyboard !== "undefined") {
             keyboard.destroy()
             keyboard = undefined;
@@ -360,7 +360,7 @@ function run_window () {
         label: "Demo Window",
         icon: "images/icons_big/window.png"
     });
-    winbutton.addEvent("click", function () { 
+    winbutton.add_event("click", function () { 
         win = new Window({
             container: $$("body")[0],
             height: 233,
@@ -616,7 +616,7 @@ function run_button () {
         label: "Demo Button",
         icon: "images/icons_big/showcase.png"
     });
-    button.addEvent("click", function () { alert("clicked") });
+    button.add_event("click", function () { alert("clicked") });
 }
 
 // VALUE BUTTON
