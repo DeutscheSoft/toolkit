@@ -46,7 +46,7 @@ Knob = new Class({
         if (this.options.container)
             this._svg.inject(this.options.container);
         
-        this.parent(Object.merge(options, {container: this._svg}), true);
+        Circular.prototype.initialize.call(this, Object.merge(options, {container: this._svg}), true);
         
         this.drag = new DragValue({
             element: this._svg,
@@ -77,7 +77,7 @@ Knob = new Class({
         this.drag.destroy();
         this.scroll.destroy();
         this._svg.destroy();
-        this.parent();
+        Circular.prototype.destroy.call(this);
     },
     
     set: function (key, value, hold) {
@@ -92,6 +92,6 @@ Knob = new Class({
                 this.drag.set("direction", value);
                 break;
         }
-        this.parent(key, value, hold);
+        Circular.prototype.set.call(this, key, value, hold);
     }
 });

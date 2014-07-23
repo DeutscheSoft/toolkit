@@ -104,7 +104,8 @@ Clock = new Class({
         this.set("timeout", this.options.timeout);
         this.set("size", this.options.size, true);
         
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
+
         this.redraw();
         this.initialized();
     },
@@ -134,7 +135,7 @@ Clock = new Class({
             this._margin = margin;
         }
         this._set_labels();
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -145,7 +146,7 @@ Clock = new Class({
         this.circulars.seconds.destroy();
         this.circulars.minutes.destroy();
         this.circulars.hours.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     _draw_time: function (force) {
         var s = m = h = -1;
@@ -268,6 +269,6 @@ Clock = new Class({
                 this._set_labels();
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

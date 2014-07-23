@@ -27,7 +27,7 @@ Container = new Class({
         
     },
     initialize: function (options) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(new Element("div.toolkit-container"),
                                       true, true, true);
         if (this.options.container)
@@ -40,7 +40,7 @@ Container = new Class({
     
     destroy: function () {
         this.element.destroy();
-        this.parent();
+        Widgets.prototype.destroy.call(this);
     },
     
     // GETTERS & SETTERS
@@ -49,6 +49,6 @@ Container = new Class({
         switch (key) {
             
         }
-        this.parent(key, value, hold);
+        Widgets.prototype.destroy.call(this, key, value, hold);
     }
 });

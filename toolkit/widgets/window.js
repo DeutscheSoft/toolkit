@@ -86,7 +86,7 @@ Window = new Class({
     __inited: false,
     dimensions: {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0},
     initialize: function (options) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         
         this.element = this.widgetize(new Element("div.toolkit-window"),
                                       true, true, true);
@@ -211,7 +211,7 @@ Window = new Class({
         this._set_dimensions();
         this._set_position();
         this._set_content();
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -235,7 +235,7 @@ Window = new Class({
         this.minimize.destroy();
         this.shrink.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     toggle_maximize: function () {
@@ -743,6 +743,6 @@ Window = new Class({
             case "max_height":
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

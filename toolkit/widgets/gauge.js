@@ -50,13 +50,13 @@ Gauge = new Class({
         
         this.set("title", this.options.title);
         
-        this.parent(options);
+        Circular.prototype.initialize.call(this, options);
         this._svg = this.widgetize(this._svg);
         this.initialized();
     },
     destroy: function () {
         this._svg.destroy();
-        this.parent();
+        Circular.prototype.destroy.call(this);
     },
     
     // HELPERS & STUFF
@@ -112,6 +112,6 @@ Gauge = new Class({
                 if (!hold) this._draw_title();
                 break;
         }
-        this.parent(key, value, hold);
+        Circular.prototype.set.call(this, key, value, hold);
     }
 });

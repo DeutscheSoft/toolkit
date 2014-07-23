@@ -36,7 +36,7 @@ ValueButton = new Class({
     },
     initialize: function (options) {
         options = Object.merge(this.__options__, options);
-        this.parent(options);
+        Button.prototype.initialize.call(this, options);
         
         this.element.addClass("toolkit-valuebutton");
         
@@ -91,7 +91,7 @@ ValueButton = new Class({
         this.value.set("value", this.options.value);
         this._base.style[this.options.bar_direction == _TOOLKIT_HORIZONTAL
             ? "width" : "height"] = this.val2perc() + "%";
-        this.parent();
+        Button.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -101,7 +101,7 @@ ValueButton = new Class({
         this._over.destroy();
         this._base.destroy();
         this._bar.destroy();
-        this.parent();
+        Button.prototype.destroy.call(this);
     },
     
     
@@ -193,6 +193,6 @@ ValueButton = new Class({
                 this.drag.set("direction", value);
                 break;
         }
-        this.parent(key, value, hold);
+        Button.prototype.set.call(this, key, value, hold);
     }
 });

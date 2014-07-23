@@ -33,7 +33,8 @@ Button = new Class({
     },
     
     initialize: function (options, hold) {
-        this.parent(options, hold);
+        // ??
+        Widget.prototype.initialize.call(this, options, hold);
         this.element = this.widgetize(new Element("div.toolkit-button", {
             "id":    this.options.id
         }), true, true, true);
@@ -55,7 +56,7 @@ Button = new Class({
         this._icon.destroy();
         this._label.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     // GETTER & SETTER
@@ -101,6 +102,6 @@ Button = new Class({
             case "state_color":
                 if (!hold) this.set("state", this.options.state);
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

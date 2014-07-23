@@ -46,7 +46,7 @@ var Chart = new Class({
     },
     graphs: [],
     initialize: function (options, hold) {
-        this.parent(options, hold);
+        Widget.prototype.initialize.call(this, options, hold);
         
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
@@ -129,7 +129,7 @@ var Chart = new Class({
             }
         }
         this._draw_key();
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         for (var i = 0; i < this._graphs.length; i++) {
@@ -137,7 +137,7 @@ var Chart = new Class({
         }
         this._graphs.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     add_graph: function (options) {
         // Add a new Graph to the Chart
@@ -382,6 +382,6 @@ var Chart = new Class({
                 if (!hold) this._draw_title();
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

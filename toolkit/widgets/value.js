@@ -32,7 +32,7 @@ Value = new Class({
                    // the value treated by the parent widget.
     },
     initialize: function (options) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(new Element("form.toolkit-value"),
                                       true, true, true);
         this._input  = new Element("input.toolkit-input", {type: "text"});
@@ -71,7 +71,7 @@ Value = new Class({
     destroy: function () {
         this._input.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     // HELPERS & STUFF
@@ -131,6 +131,6 @@ Value = new Class({
                 if (!hold) this.redraw();
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

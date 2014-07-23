@@ -57,7 +57,7 @@ var Graph = new Class({
     },
     
     initialize: function (options) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(makeSVG("path"), true, true, true);
         this.element.addClass("toolkit-graph");
         this.add_range(this.options.range_x, "range_x");
@@ -154,11 +154,11 @@ var Graph = new Class({
         if (s) {
             this.element.set("d", s);
         }
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     // HELPERS & STUFF
@@ -252,6 +252,6 @@ var Graph = new Class({
                 if (!hold) this.redraw();
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

@@ -54,7 +54,7 @@ Scale = new Class({
     __size: 0,
     
     initialize: function (options, hold) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        new Element("div.toolkit-scale"), true, true, true);
         
@@ -76,8 +76,6 @@ Scale = new Class({
         
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);
-        
-        //this.parent(options);
         
         if (!hold)
             this.redraw();
@@ -153,13 +151,14 @@ Scale = new Class({
                         this.options.division,
                         this.options.levels.length - 1,
                         function (a, b) { return a < b });
-        this.parent();
+        Widget.prototype.redraw.call(this);
         return this;
     },
     destroy: function () {
         this.element.empty();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
+        // ??
         return this;
     },
     
@@ -287,7 +286,7 @@ Scale = new Class({
                 key = false;
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
         return this;
     }
 });

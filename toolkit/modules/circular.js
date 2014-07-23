@@ -79,7 +79,7 @@ Circular = new Class({
     
     initialize: function (options, hold) {
         options = Object.merge(this.__options, this.options, options);
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         
         this.element = makeSVG("g", {"class": "toolkit-circular"});
         if (!hold) this.widgetize(this.element, true, true, true);
@@ -150,7 +150,7 @@ Circular = new Class({
             this._draw_dots();
             this._draw_markers();
         }
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -159,7 +159,7 @@ Circular = new Class({
         this._base.destroy();
         this._value.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     // HELPERS & STUFF
@@ -434,6 +434,6 @@ Circular = new Class({
                 if (!hold) this._draw_labels();
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(key, value, hold);
     }
 });

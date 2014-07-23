@@ -39,7 +39,7 @@ var ResponseHandler = new Class({
     _active: 0,
     
     initialize: function (options) {
-        this.parent(options);
+        FrequencyResponse.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_z, "range_z");
         if (this.options.depth)
@@ -64,13 +64,13 @@ var ResponseHandler = new Class({
     },
     
     redraw: function (graphs, grid) {
-        this.parent(graphs, grid);
+        FrequencyResponse.prototype.redraw.call(this, graphs, grid);
     },
     
     destroy: function () {
         this.empty();
         this._handles.destroy();
-        this.parent();
+        FrequencyResponse.prototype.destroy.call(this);
     },
     
     add_handle: function (options) {
@@ -224,6 +224,6 @@ var ResponseHandler = new Class({
                 this.range_z.set("basis", value, hold);
                 break;
         }
-        this.parent(key, value, hold);
+        FrequencyResponse.prototype.set.call(this, key, value, hold);
     }
 });

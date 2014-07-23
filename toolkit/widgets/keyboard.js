@@ -59,7 +59,7 @@
     keys: [],
     
     initialize: function (options) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         
         this.set("buffer", this.options.buffer);
         
@@ -170,7 +170,7 @@
                 b.outerHeight(h);
             }
         }
-        this.parent();  
+        Widget.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -181,11 +181,11 @@
         this._wrapper.destroy();
         this.element.destroy();
         this.window.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     set: function (key, value, hold) {
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "buffer":
                 if (typeof value !== "number") {

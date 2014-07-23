@@ -31,7 +31,7 @@ Toggle = new Class({
     },
     
     initialize: function (options, hold) {
-        this.parent(options, hold);
+        Button.prototype.initialize.call(this, options, hold);
         this.element.addClass("toolkit-toggle");
         this.element.addEventListener("mousedown", this._mousedown.bind(this));
         this.element.addEventListener("mouseup", this._mouseup.bind(this));
@@ -103,7 +103,7 @@ Toggle = new Class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.parent(key, value, hold);
+        Button.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "icon_active":
             case "icon":

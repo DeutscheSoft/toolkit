@@ -55,7 +55,7 @@ EqBand = new Class({
             }
         }
         
-        this.parent(options);
+        ResponseHandle.prototype.initialize.call(this, options);
         
         this.filter = new Filter();
         this.filter.options = this.options;
@@ -127,6 +127,6 @@ EqBand = new Class({
                                          this.range_z.get("min")), hold);
                 break;
         }
-        this.parent(key, value, hold);
+        ResponseHandle.prototype.set.call(this, key, value, hold);
     }
 });

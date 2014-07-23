@@ -43,7 +43,7 @@ var Dynamics = new Class({
         grid_labels: function (val) { return val + (!val ? "dB":""); }
     },
     initialize: function (options) {
-        this.parent(options, true);
+        Chart.prototype.initialize.call(this, options, true);
         this.element.addClass("toolkit-dynamics");
         this.set("scale", this.options.scale, true);
         this.set("size", this.options.size, true);
@@ -88,7 +88,7 @@ var Dynamics = new Class({
         if (this._steady)
             this._steady.set("dots", [{x:this.options.min, y:this.options.min},
                                       {x:this.options.max, y:this.options.max}]);
-        this.parent(graphs, false);
+        Chart.prototype.redraw.call(this, graphs, false);
         this.draw_graph();
     },
     
@@ -179,6 +179,6 @@ var Dynamics = new Class({
                 if (!hold) this.draw_graph();
                 break;
         }
-        this.parent(key, value, hold);
+        Chart.prototype.set.call(this, key, value, hold);
     }
 });

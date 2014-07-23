@@ -67,7 +67,7 @@ LevelMeter = new Class({
     },
     
     initialize: function (options) {
-        this.parent(options, true);
+        MeterBase.prototype.initialize.call(this, options, true);
         this.element.addClass("toolkit-level-meter");
         
         this.state = new State(Object.append({
@@ -182,7 +182,7 @@ LevelMeter = new Class({
                 break;
         }
         this.set("peak", this.options.peak);
-        this.parent();
+        MeterBase.prototype.redraw.call(this);
     },
     destroy: function () {
         this.state.destroy();
@@ -190,7 +190,7 @@ LevelMeter = new Class({
         this._peak_label.destroy();
         this._mask3.destroy();
         this._mask4.destroy();
-        this.parent();
+        MeterBase.prototype.destroy.call(this);
     },
     reset_peak: function () {
         this.set("peak", this.options.value);
@@ -279,7 +279,7 @@ LevelMeter = new Class({
         }
         
         if (!this.options.show_hold) {
-            this.parent();
+            MeterBase.prototype.draw_meter.call(this);
             if (!this.__tres) {
                 this.__tres = true;
                 this._mask3.style[this._vert() ? "height" : "width"] = 0;
@@ -375,7 +375,7 @@ LevelMeter = new Class({
     
     // HELPERS & STUFF
     _bar_size: function () {
-        var s = this.parent();
+        var s = MeterBase.prototype._bar_size.call(this);
         if (this.options.show_clip) {
             var d = (this.options.layout == _TOOLKIT_LEFT
                   || this.options.layout == _TOOLKIT_RIGHT)
@@ -530,6 +530,6 @@ LevelMeter = new Class({
                     window.clearTimeout(this.__bto);
                 break;
         }
-        this.parent(key, value, hold);
+        MeterBase.prototype.set.call(this, key, value, hold);
     }
 });

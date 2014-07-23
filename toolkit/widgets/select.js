@@ -32,7 +32,7 @@ Select = new Class({
     __open: false,
     __width: 0,
     initialize: function (options)  {
-        this.parent(options);
+        Button.prototype.initialize.call(this, options);
         this.element.addClass("toolkit-select");
         
         this.add_event("click", function (e) {
@@ -60,7 +60,7 @@ Select = new Class({
     destroy: function () {
         this._list.destroy();
         this.element.destroy();
-        this.parent();
+        Button.prototype.destroy.call(this);
     },
     set_options: function (list) {
         this._list.empty();
@@ -186,6 +186,6 @@ Select = new Class({
                 this.resize();
                 break;
         }
-        this.parent(key, value, hold);
+        Button.prototype.set.call(this, key, value, hold);
     }
 });

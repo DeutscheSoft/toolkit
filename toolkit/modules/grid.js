@@ -40,7 +40,7 @@ Grid = new Class({
     },
     __last: 0,
     initialize: function (options, hold) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        makeSVG("g", {"class": "toolkit-grid"}), true, true, true);
         if (this.options.container)
@@ -71,11 +71,11 @@ Grid = new Class({
         for (var i = 0; i < this.options.grid_y.length; i++) {
             this._draw_line(this.options.grid_y[i], 1);
         }
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     // HELPERS & STUFF
     _draw_line: function (obj, mode) {
@@ -152,6 +152,6 @@ Grid = new Class({
                 this.range_y.set("basis", value, hold);
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

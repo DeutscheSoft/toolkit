@@ -27,7 +27,7 @@ Label = new Class({
         label: ""
     },
     initialize: function (options) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(new Element("div.toolkit-label"),
                                       true, true, true);
         if (this.options.container)
@@ -42,7 +42,7 @@ Label = new Class({
     
     destroy: function () {
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     // GETTERS & SETTERS
@@ -53,6 +53,6 @@ Label = new Class({
                 if (!hold) this.redraw();
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

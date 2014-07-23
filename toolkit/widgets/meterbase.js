@@ -72,7 +72,7 @@ var MeterBase = new Class({
     },
     
     initialize: function (options, hold) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        new Element("div.toolkit-meter-base"), false, true, true);
         
@@ -280,7 +280,7 @@ var MeterBase = new Class({
         this._mask1.destroy();
         this._mask2.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     redraw: function () {
         this.set("title", this.options.title);
@@ -331,7 +331,7 @@ var MeterBase = new Class({
             this.element.innerWidth(
                 this._bar.outerWidth()
                 + (this.options.show_scale ? this._scale.outerWidth() : 0));
-        this.parent();
+        Widget.prototype.redraw.call(this);
         return this;
     },
     
@@ -463,7 +463,7 @@ var MeterBase = new Class({
                 key = false;
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
         return this;
     }
 });

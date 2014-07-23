@@ -40,7 +40,7 @@ ScrollValue = new Class({
     },
     initialize: function (options) {
         this._scrollwheel = this._scrollwheel.bind(this);
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         if (this.options.element)
             this.set("element", this.options.element);
         this.set("events", this.options.events);
@@ -53,7 +53,7 @@ ScrollValue = new Class({
             this.options.element.removeEventListener("mousewheel", this._scrollwheel);
             this.options.element.removeEventListener("DOMMouseScroll", this._scrollwheel);
         }
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     _scrollwheel: function (e) {
         if (!this.options.active) return;
@@ -140,6 +140,6 @@ ScrollValue = new Class({
                 }
                 break;
         }
-        //this.parent(key, value, hold);
+        //Widget.prototype.set.call(this, key, value, hold);
     }
 })

@@ -32,7 +32,7 @@ State = new Class({
         opacity:         0.8    // the opacity of the mask when state = 0
     },
     initialize: function (options) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         
         this.element = this.widgetize(new Element("div.toolkit-state", {
             "id":    this.options.id
@@ -72,7 +72,7 @@ State = new Class({
         this._over.destroy();
         this._mask.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     // GETTER & SETTER
@@ -89,6 +89,6 @@ State = new Class({
                 this.fire_event("statechanged", value);
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

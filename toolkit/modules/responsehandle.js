@@ -81,7 +81,7 @@ ResponseHandle = new Class({
     _sticky: false,
     
     initialize: function (options, hold) {
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
@@ -1051,7 +1051,7 @@ ResponseHandle = new Class({
                                             + (rnd.y + this._add));
                 break;
         }
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         this._line1.destroy();
@@ -1059,7 +1059,7 @@ ResponseHandle = new Class({
         this._label.destroy();
         this._handle.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     // HELPERS & STUFF
     
@@ -1375,6 +1375,6 @@ ResponseHandle = new Class({
                 key = false;
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

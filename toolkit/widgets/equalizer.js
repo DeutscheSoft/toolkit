@@ -32,7 +32,7 @@ var Equalizer = new Class({
     bands: [],
     
     initialize: function (options) {
-        this.parent(options);
+        ResponseHandler.prototype.initialize.call(this, options);
         this.element.addClass("toolkit-equalizer");
         this._bands = makeSVG("g",
             {"class": "toolkit-eqbands"}).inject(this.element);
@@ -50,7 +50,7 @@ var Equalizer = new Class({
     destroy: function () {
         this.empty();
         this._bands.destroy();
-        this.parent();
+        ResponseHandler.prototype.destroy.call(this);
     },
     __deferring: false,
     redraw: function () {
@@ -104,7 +104,7 @@ var Equalizer = new Class({
             this.baseline.set("dots", d.join(""));
         }
         //console.log("redraw took", new Date() - t, "ms");
-        this.parent();
+        ResponseHandler.prototype.redraw.call(this);
     },
     
     add_band: function (options) {
@@ -160,7 +160,7 @@ var Equalizer = new Class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         //this.options[key] = value;
-        this.parent(key, value, hold);
+        ResponseHandler.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "accuracy":
                 if (!hold) this.redraw();

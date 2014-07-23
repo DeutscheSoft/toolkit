@@ -48,7 +48,7 @@ DragValue = new Class({
         this.__pointer_up = this._pointer_up.bind(this);
         this.__pointer_down = this._pointer_down.bind(this);
 
-        this.parent(options);
+        Widget.prototype.initialize.call(this, options);
         if (this.options.element)
             this.set("element", this.options.element);
         this.set("events", this.options.events);
@@ -61,7 +61,7 @@ DragValue = new Class({
         document.remove_event("mouseup",   this.__pointer_up);
         document.remove_event("touchmove", this.__pointer_move);
         document.remove_event("touchend",  this.__pointer_up);
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     _pointer_down: function (e) {
         if (!this.options.active) return;
@@ -198,6 +198,6 @@ DragValue = new Class({
                 }
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

@@ -37,7 +37,7 @@ Fader = new Class({
     __tt: false,
     
     initialize: function (options) {
-        this.parent(Object.merge(this.__options, options));
+        Widget.prototype.initialize.call(this, Object.merge(this.__options, options));
         
         this.element = this.widgetize(new Element("div.toolkit-fader"),
                        true, true, true);
@@ -209,7 +209,7 @@ Fader = new Class({
         this.element.innerWidth(Math.max(this._handle.outerWidth(),
                                          this._scale.outerWidth()));
         
-        this.parent();
+        Widget.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -219,7 +219,7 @@ Fader = new Class({
         this._handle.destroy();
         this.scale.destroy();
         this.element.destroy();
-        this.parent();
+        Widget.prototype.destroy.call(this);
     },
     
     // HELPERS & STUFF
@@ -309,6 +309,6 @@ Fader = new Class({
                 if (!hold) this.redraw();
                 break;
         }
-        this.parent(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });
