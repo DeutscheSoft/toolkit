@@ -9,6 +9,9 @@
         Widget = Class({
             initialize : function() {
                 this.flupp = "foo";
+            },
+            get_foo : function() {
+                return "foo";
             }
         });
         Button = Class({
@@ -19,7 +22,7 @@
                 Widget.call(this);
             },
             get_foo : function() {
-                return this.foo;
+                return this.foo + Widget.prototype.get_foo.call(this);
             }
         });
     </script>
