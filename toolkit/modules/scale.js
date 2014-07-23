@@ -44,7 +44,7 @@ Scale = $class({
                                           // and marker
         base:             false,          // base where dots and labels are
                                           // drawn from
-        labels:           function (val) { return (val || 0.0).toFixed(2); },
+        labels:           function (val) { return val.toFixed(2); },
                                           // callback function for formatting
                                           // the labels
         gap_dots:         4,              // minimum gap between dots (pixel)
