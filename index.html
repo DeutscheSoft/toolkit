@@ -2604,8 +2604,8 @@
                         <td>initialize(options)</td>
                         <td>Main actions every widget needs to take like setting a id
                         or the initial options. Argument is the options
-                        object handed over to initialize. Returns the widget.An
-                        Extending widget should call this.parent()
+                        object handed over to initialize. Returns the widget. An
+                        Extending widget should call the corresponding parent constructor.
                         <em>before</em> it has taken its own actions.</td>
                     </tr>
                     <tr>
@@ -2618,25 +2618,25 @@
                         <td>set(key, value, hold)</td>
                         <td>Set an option. Key is the options name, value the new value
                         and hold prevents some options to take the default action (like e.g. redraw()).
-                        Returns the widgets instance. An Extending widget should call this.parent()
+                        Returns the widgets instance. An Extending widget should call the corresponding parent constructor
                         <em>after</em> it has taken its own actions.</td>
                     </tr>
                     <tr>
                         <td>get(key)</td>
-                        <td>Get the value of an option. An Extending widget should call this.parent()
+                        <td>Get the value of an option. An Extending widget should call the corresponding parent constructor
                         <em>after</em> it has taken its own actions.</td>
                     </tr>
                     <tr>
                         <td>redraw()</td>
                         <td>Redraw the widget. Fires the "redraw" event and is supposed
                         to get enhanced by widgets extending this base class.The widget
-                        should call this.parent() <em>after</em> it has built all elements.</td>
+                        should call the corresponding parent constructor <em>after</em> it has built all elements.</td>
                     </tr>
                     <tr>
                         <td>destroy()</td>
                         <td>Destroy the widget. Fires the "destroy" event and is supposed
                         to get enhanced by widgets extending this base class. The widget
-                        should call this.parent() <em>after</em> it has destroyed the elements.</td>
+                        should call the corresponding parent constructor <em>after</em> it has destroyed the elements.</td>
                     </tr>
                     <tr>
                         <td>widgetize(element, delegate, classify)</td>
