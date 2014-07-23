@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-ValueButton = new Class({
+ValueButton = $class({
     _class: "ValueButton",
     Extends: Button,
     Implements: [Warning, Ranged],
@@ -35,7 +35,6 @@ ValueButton = new Class({
         snap: 0.01
     },
     initialize: function (options) {
-        options = Object.merge(this.__options__, options);
         Button.prototype.initialize.call(this, options);
         
         this.element.addClass("toolkit-valuebutton");

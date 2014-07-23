@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-GlobalCursor = new Class({
+GlobalCursor = $class({
     // GlobalCursor adds global cursor classes to enshure one of the
     // standard cursors (http://www.echoecho.com/csscursors.htm) in
     // the whole application

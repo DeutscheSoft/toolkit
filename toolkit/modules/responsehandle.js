@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-ResponseHandle = new Class({
+ResponseHandle = $class({
     _class: "ResponseHandle",
     Extends: Widget,
     Implements: [GlobalCursor, Ranges, Warning],

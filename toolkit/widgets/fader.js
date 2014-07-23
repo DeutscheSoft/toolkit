@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-Fader = new Class({
+Fader = $class({
     _class: "Fader",
     Extends: Widget,
     Implements: [Ranged, Warning, Tooltip, GlobalCursor],
@@ -37,7 +37,7 @@ Fader = new Class({
     __tt: false,
     
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, Object.merge(this.__options, options));
+        Widget.prototype.initialize.call(this, options);
         
         this.element = this.widgetize(new Element("div.toolkit-fader"),
                        true, true, true);
@@ -53,7 +53,7 @@ Fader = new Class({
         this._background_bottom = new Element(
             "div.toolkit-background-bottom-right").inject(this.element);
         
-        var opt = Object.merge({}, this.options, {
+        var opt = $mixin({}, this.options, {
             container:   this.element,
         });
         this.scale = new Scale(opt);

@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Circular = new Class({
+Circular = $class({
     // Circular is a SVG group element containing two paths for displaying
     // numerical values in a circular manner. Circular is able to draw labels,
     // dots and markers and can show a hand. Circular e.g. is implemented by
@@ -78,7 +78,6 @@ Circular = new Class({
     __rad: Math.PI / 180,
     
     initialize: function (options, hold) {
-        options = Object.merge(this.__options, this.options, options);
         Widget.prototype.initialize.call(this, options);
         
         this.element = makeSVG("g", {"class": "toolkit-circular"});
@@ -413,7 +412,7 @@ Circular = new Class({
                 if (!hold) this._draw_dots();
                 break;
             case "dots":
-                this.options.dots = Object.merge(this.options.dots, value);
+                this.options.dots = $mixin(this.options.dots, value);
                 key = false;
                 if (!hold) this._draw_dots();
                 break;
@@ -421,7 +420,7 @@ Circular = new Class({
                 if (!hold) this._draw_markers();
                 break;
             case "markers":
-                this.options.markers = Object.merge(this.options.markers, value);
+                this.options.markers = $mixin(this.options.markers, value);
                 key = false;
                 if (!hold) this._draw_markers();
                 break;
@@ -429,7 +428,7 @@ Circular = new Class({
                 if (!hold) this._draw_labels();
                 break;
             case "labels":
-                this.options.labels = Object.merge(this.options.labels, value);
+                this.options.labels = $mixin(this.options.labels, value);
                 key = false;
                 if (!hold) this._draw_labels();
                 break;

@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-Tooltip = new Class({
+Tooltip = $class({
     // Tooltip adds a tooltip list to a widget. Tooltip lists follow the
     // mouse pointer throughout the document and auto-show and auto-hide
     // automatically.

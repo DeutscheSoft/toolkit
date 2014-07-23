@@ -34,7 +34,7 @@
     //"label_CTRL":
 //}
 
- Keyboard = new Class({
+ Keyboard = $class({
     // Keyboard provides an on-screen keyboard for textual input via
     // touch or mouse events
     _class: "Keyboard",

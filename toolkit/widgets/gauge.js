@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Gauge = new Class({
+Gauge = $class({
     // Gauge simply puts a single Circular into a SVG image.
     _class: "Gauge",
     Extends: Circular,
@@ -100,7 +100,7 @@ Gauge = new Class({
                 break;
             case "title":
                 if (typeof value == "string") value = {title: value};
-                this.options.title = Object.merge(this.options.title, value);
+                this.options.title = $mixin(this.options.title, value);
                 this.fire_event("set", [key, value, hold, this]);
                 this.fire_event("set_" + key, [value, hold, this]);
                 key = false;

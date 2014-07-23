@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Window = new Class({
+Window = $class({
     _class: "Window",
     Extends: Widget,
     Implements: Anchor,
@@ -613,7 +613,7 @@ Window = new Class({
                     this._footer.style["display"] = "block";
                 this.options.shrink = false;
                 if (value === false) value = this.options.maximize = {x: false, y: false};
-                value = Object.merge(this.options.maximize, value);
+                value = $mixin({}, this.options.maximize, value);
                 if (this.__horiz_max()) {
                     this.element.addClass("toolkit-maximized-horizontal");
                 } else {

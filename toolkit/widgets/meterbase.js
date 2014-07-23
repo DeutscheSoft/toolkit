@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-var MeterBase = new Class({
+var MeterBase = $class({
     // MeterBase is a base class to build different meters like LevelMeter.
     // MeterBase extends Gradient and implements Widget.
     // MeterBase has a Scale widget.
@@ -257,7 +257,7 @@ var MeterBase = new Class({
         this.set("show_title", this.options.show_title);
         this.set("show_scale", this.options.show_scale);
         
-        var options = Object.merge({}, this.options);
+        var options = $mixin({}, this.options);
         options. base = this.__based?this.options.base:this.options.scale_base;
         options.container = this._scale,
         this.scale = new Scale(options);

@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Container = new Class({
+Container = $class({
     // Container is a simple DIV
     _class: "Container",
     Extends: Widget,

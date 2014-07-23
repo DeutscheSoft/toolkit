@@ -1,12 +1,12 @@
 <head>
     <script src="class.js"></script>
     <script>
-        FOO = Class({
+        FOO = $class({
             get_foobar : function() {
                 return "bar" + this.get_foo();
             }
         });
-        Widget = Class({
+        Widget = $class({
             initialize : function() {
                 this.flupp = "foo";
             },
@@ -14,7 +14,7 @@
                 return "foo";
             }
         });
-        Button = Class({
+        Button = $class({
             Implements : FOO,
             Extends : Widget,
             initialize : function() {

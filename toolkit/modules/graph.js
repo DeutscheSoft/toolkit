@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-var Graph = new Class({
+var Graph = $class({
     // Graph is a single SVG path element. It provides some functions to easily
     // draw paths inside Charts and other derivates.
     _class: "Graph",

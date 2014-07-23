@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Scale = new Class({
+Scale = $class({
     // Scale can be used to draw dots and labels as markers next to a meter, a
     // fader or a frequency response graph. Depending on some parameters it
     // tries to decide on its own where to draw labels and dots depending on the
@@ -44,7 +44,7 @@ Scale = new Class({
                                           // and marker
         base:             false,          // base where dots and labels are
                                           // drawn from
-        labels:           function (val) { return val.toFixed(2); },
+        labels:           function (val) { return (val || 0.0).toFixed(2); },
                                           // callback function for formatting
                                           // the labels
         gap_dots:         4,              // minimum gap between dots (pixel)

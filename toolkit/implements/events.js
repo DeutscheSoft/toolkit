@@ -53,10 +53,20 @@ var __event_replacements = {
         { event: "touchend", prevent: true, stop: false }
     ]
 };
-Events = new Class({
+BASE = $class({
     // Events provide an API for adding, removing and firing events.
-    __events: {},
-    __event_target: false,
+    initialize : function() {
+        this.__events = {};
+        this.__event_target = false;
+    },
+    setOptions : function(o) {
+        var opt = this.options;
+        if (this.hasOwnProperty("options") && typeof(opt) == "object") {
+            this.options = mixin(opt, o);
+        } else {
+            this.options = Object.setPrototypeOf(o, opt);
+        }
+    },
     delegate_events: function (element) {
         // hand over a DOM element all native events will be bound to
         this.__event_target = element;

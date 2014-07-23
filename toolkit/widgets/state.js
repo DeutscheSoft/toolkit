@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-State = new Class({
+State = $class({
     // The State widget is a multi-functional adaption of a traditional LED. It
     // is able to show different colors as well as on/off states. The
     // "brightness" can be set seamlessly. Classes can be used to display

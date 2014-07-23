@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-var Gradient = new Class({
+var Gradient = $class({
     // Gradient provides a function to set the background of a DOM element to a
     // CSS gradient according on the users browser and version. Gradient
     // needs a Range to be implemented on.

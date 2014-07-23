@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-var FrequencyResponse = new Class({
+var FrequencyResponse = $class({
     // FrequencyResponse is a Chart drawing frequencies on the x axis and dB
     // values on the y axis. This widget automatically draws a Grid depending
     // on the ranges.

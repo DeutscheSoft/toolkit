@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-var Dynamics = new Class({
+var Dynamics = $class({
     // Dynamics are based on Charts and display the characteristics of dynamic
     // processors. They are square widgets drawing a Grid automatically based on
     // the range.

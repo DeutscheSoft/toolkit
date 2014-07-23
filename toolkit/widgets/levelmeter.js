@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-LevelMeter = new Class({
+LevelMeter = $class({
     // LevelMeter is a fully functional display of numerical values. They are
     // enhanced MeterBases containing a clip LED, a peak pin with value label
     // and hold markers. LevelMeters have some automatically triggered

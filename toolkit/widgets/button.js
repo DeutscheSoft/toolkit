@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Button = new Class({
+Button = $class({
     // Button is a simple, clickable widget to trigger funcions. They fire a
     // couple of click-related events and consist of a label and an icon.
     // Buttons are used as a base to build different other widgets from.

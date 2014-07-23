@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-DragValue = new Class({
+DragValue = $class({
     // DragValue enables dragging an element and setting a value
     // according to the distance. DragValue is used e.g. in Knob for
     // setting its value.

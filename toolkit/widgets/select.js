@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-Select = new Class({
+Select = $class({
     // Select provides a button with a select list to choose from
     // different options.
     _class: "Select",

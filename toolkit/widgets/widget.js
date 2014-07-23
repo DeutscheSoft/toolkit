@@ -19,12 +19,13 @@
  * Boston, MA  02110-1301  USA
  */
  
-Widget = new Class({
+Widget = $class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
     // firing some events.Widget implements AudioMath, Options and Events.
+    Extends : BASE,
     _class: "Widget",
-    __options__: {
+    options: {
         // these options are of less use and only here to show what we need
         container: false, // A DOM element as container to inject the element
                           // into
@@ -34,11 +35,12 @@ Widget = new Class({
         styles:    {},    // If an element was stylized, styles can be applied
         disabled:  false  // Widgets can be disabled by setting this to true
     },
-    Implements: [AudioMath, Options, Events],
+    Implements: [AudioMath],
     initialize: function (options) {
+        BASE.prototype.initialize.call(this);
         // Main actions every widget needs to take
         this.fire_event("initialize", this);
-        this.setOptions(Object.merge(this.__options__, options));
+        this.setOptions(options);
         if (!this.options.id)
             this.options.id = String.uniqueID();
         return this;
@@ -193,4 +195,4 @@ Widget = new Class({
         this.fire_event("get", [key, this.options[key], this]);
         return this.options[key];
     }
-})
+});

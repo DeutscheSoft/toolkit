@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-var ResponseHandler = new Class({
+var ResponseHandler = $class({
     // ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
     // meant as a universal user interface for equalizers and the like.
     _class: "ResponseHandler",

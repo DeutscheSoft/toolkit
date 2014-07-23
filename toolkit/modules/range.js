@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Range = new Class({
+Range = $class({
     // Ranges are classes for calculating linear scales from different values.
     // They are useful to build coordinate systems, calculating pixel positions
     // for different scale types and the like. Ranges are used e.g. in Scale,

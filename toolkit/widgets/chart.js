@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-var Chart = new Class({
+var Chart = $class({
     // Chart is an SVG image containing one or more Graphs. There are functions
     // to add and remove graphs. Chart extends Widget and contains a Grid
     // and two Ranges.

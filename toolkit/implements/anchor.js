@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Anchor = new Class({
+Anchor = $class({
     translate_anchor: function (anchor, x, y, width, height) {
         switch (anchor) {
             case _TOOLKIT_TOP_LEFT:

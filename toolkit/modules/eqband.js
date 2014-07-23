@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-EqBand = new Class({
+EqBand = $class({
     // An EqBand extends a ResponseHandle and holds a dependent Filter It is used
     // as a fully functional representation of a single equalizer band. EqBand
     // needs a Chart or other derivates to be drawn in.

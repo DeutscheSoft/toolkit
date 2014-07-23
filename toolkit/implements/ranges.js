@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Ranges = new Class({
+Ranges = $class({
     // Ranges provides a function to add different ranges to a widget for
     // building coordinate systems and the like.
     _class: "Ranges",
@@ -41,7 +41,7 @@ Ranges = new Class({
             if (name
             && this.options[name]
             && typeOf(this.options[name] == "object"))
-                from = Object.merge(this.options[name], from)
+                from = $mixin({}, this.options[name], from)
             r = new Range(from);
         }
         if (name) {

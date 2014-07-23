@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-var Equalizer = new Class({
+var Equalizer = $class({
     // Equalizer is a ResponseHandler adding some EqBands instead of
     // simple ResponseHandles.
     _class: "Equalizer",

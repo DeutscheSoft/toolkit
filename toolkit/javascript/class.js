@@ -1,14 +1,47 @@
-Class = function(o) {
+(function() {
+var mixin = function(dst, src, warn) {
+    var fun;
+    for (key in src) if (src.hasOwnProperty(key)) {
+        fun = src[key];
+        if (warn && typeof(fun) == "object") {
+            console.log("static variable", key, ":", fun);
+        }
+        dst[key] = fun;
+    }
+
+    return dst;
+};
+
+$mixin = mixin;
+
+$options = {
+    setOptions : function() {
+        var ret = this.options ? mixin({}, this.options) : {};
+
+        for (i = 0; i < arguments.length; i++) {
+            ret = mixin(ret, arguments[i]);
+        }
+
+        return this.options = ret;
+    },
+};
+$class = function(o) {
     var constructor;
     var methods;
     var tmp, i, c, key;
 
-    if (typeof(o) == "function") {
-        constructor = o;
-        methods = {};
+    constructor = o.initialize || (function() {});
+
+    if (tmp = o.Extends) {
+        if (typeof(tmp) == "function") {
+            tmp = tmp.prototype;
+        }
+        if (typeof(o.options) == "object" &&
+            typeof(tmp.options) == "object") {
+            o.options = Object.setPrototypeOf(o.options, tmp.options);
+        }
+        methods = Object.setPrototypeOf(o, tmp);
     } else {
-        constructor = o.initialize || (function() {});
-        delete o.initialize;
         methods = o;
     }
 
@@ -23,21 +56,12 @@ Class = function(o) {
                 c = tmp[i].prototype;
             } else c = tmp[i];
 
-            for (key in c) if (c.hasOwnProperty(key)) {
-                if (typeof(c[key]) == "function") {
-                    methods[key] = c[key];
-                }
-            }
+            methods = mixin(methods, c, true);
         }
-    }
-
-    if (tmp = o.Extends) {
-        if (typeof(tmp) == "function") {
-            tmp = tmp.prototype;
-        }
-        methods.prototype = tmp;
     }
 
     constructor.prototype = methods;
+    methods.constructor = constructor;
     return constructor;
 };
+})();

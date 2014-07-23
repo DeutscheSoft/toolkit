@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Label = new Class({
+Label = $class({
     // Label is a simple text field displaying strings
     _class: "Label",
     Extends: Widget,

@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Toggle = new Class({
+Toggle = $class({
     _class: "Toggle",
     Extends: Button,
     options: {

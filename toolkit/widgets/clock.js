@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Clock = new Class({
+Clock = $class({
     // Clock shows a customized clock with circulars displaying hours, minutes
     // and seconds. It has three free formatable labels.
     _class: "Clock",
@@ -94,11 +94,11 @@ Clock = new Class({
             basis: 360,
             min: 0
         }
-        this.circulars.seconds = new Circular(Object.merge(options,
+        this.circulars.seconds = new Circular($mixin({}, options,
             {max: 60, "class": "toolkit-seconds"}));
-        this.circulars.minutes = new Circular(Object.merge(options,
+        this.circulars.minutes = new Circular($mixin({}, options,
             {max: 60, "class": "toolkit-minutes"}));
-        this.circulars.hours   = new Circular(Object.merge(options,
+        this.circulars.hours   = new Circular($mixin({}, options,
             {max: 12, "class": "toolkit-hours"}));
         
         this.set("timeout", this.options.timeout);

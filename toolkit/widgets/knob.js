@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-Knob = new Class({
+Knob = $class({
     // Knob is a Circular injected into a SVG and extended by ScrollValue
     // and DragValue to set its value. Knob uses DragValue and Scrollvalue
     // for setting its value.
@@ -46,7 +46,9 @@ Knob = new Class({
         if (this.options.container)
             this._svg.inject(this.options.container);
         
-        Circular.prototype.initialize.call(this, Object.merge(options, {container: this._svg}), true);
+        options.container = this._svg;
+
+        Circular.prototype.initialize.call(this, options, true);
         
         this.drag = new DragValue({
             element: this._svg,

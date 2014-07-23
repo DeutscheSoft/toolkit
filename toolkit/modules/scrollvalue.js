@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-ScrollValue = new Class({
+ScrollValue = $class({
     // ScrollValue enables the scrollwheel for setting a value of an
     // object. ScrollValue is used e.g. in Knob for setting its value.
     _class: "ScrollValue",

@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-Value = new Class({
+Value = $class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
     _class: "Value",

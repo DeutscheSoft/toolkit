@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-Filter = new Class({
+Filter = $class({
     _class: "Filter",
     Implements: [AudioMath, Options, Events],
     options: {

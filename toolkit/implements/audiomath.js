@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-AudioMath = new Class({
+AudioMath = $class({
     // AudioMath provides a couple of functions for turning linear values into
     // logarithmic ones and vice versa. If you need an easy convertion between
     // dB or Hz and a linear scale implement this class.
