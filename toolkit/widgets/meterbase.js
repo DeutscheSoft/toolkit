@@ -56,7 +56,7 @@ var MeterBase = new Class({
         show_labels:     true,            // true for drawing scale labels
         show_marker:     false,           // true for drawing bar markers
                                           // (relies on a drawn scale)
-        format_label:    function (value) { return sprintf("%0.2f", value); },
+        format_label:    function (value) { return value.toFixed(2); },
                                           // callback function for formatting
                                           // the label
         division:         1,              // minimum step size
@@ -64,7 +64,7 @@ var MeterBase = new Class({
                                           // and marker
         scale_base:       false,          // base value where dots and labels are
                                           // drawn from
-        format_labels:    function (val) { return sprintf("%0.2f",  val); },
+        format_labels:    function (val) { return val.toFixed(2); },
                                           // callback function for formatting
                                           // the labels of the scale
         gap_dots:         4,              // minimum gap between dots (pixel)

@@ -44,7 +44,7 @@ Scale = new Class({
                                           // and marker
         base:             false,          // base where dots and labels are
                                           // drawn from
-        labels:           function (val) { return sprintf("%0.2f",  val); },
+        labels:           function (val) { return val.toFixed(2); },
                                           // callback function for formatting
                                           // the labels
         gap_dots:         4,              // minimum gap between dots (pixel)

@@ -26,7 +26,7 @@ Value = new Class({
     Extends: Widget,
     options: {
         value: 0,
-        format: function (val) { return sprintf("%0.2f",  val); },
+        format: function (val) { return val.toFixed(2); },
         set: false // set a callback function if value is editable or
                    // false to disable editing. A function has to return
                    // the value treated by the parent widget.

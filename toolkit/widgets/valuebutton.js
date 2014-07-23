@@ -25,7 +25,7 @@ ValueButton = new Class({
     Implements: [Warning, Ranged],
     options:  {
         value: 0,
-        value_format: function (val) { return sprintf("%0.2f",  val); },
+        value_format: function (val) { return val.toFixed(2); },
         value_position: _TOOLKIT_BOTTOM, // can be _TOOLKIT_TOP, _TOOLKIT_BOTTOM,
                                   // or _TOOLIT_ICON
         bar_position: _TOOLKIT_BOTTOM, // can be _TOOLKIT_TOP, _TOOLKIT_BOTTOM,

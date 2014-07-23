@@ -621,7 +621,7 @@
                         hour, minute, second, millisecond, frame, months array and days array.
                         It is expected to return a formatted string.</td>
                         <td>function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-                        return sprintf("%02d:%02d:%02d", hour, minute, second);}</td>
+                        return hour + ":" + minute + ":" + second;}</td>
                     </tr>
                     <tr>
                         <td>label_upper</td>
@@ -637,7 +637,7 @@
                         hour, minute, second, millisecond, frame, months array and days array.
                         It is expected to return a formatted string.</td>
                         <td>function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-                        return sprintf("%02d. %s %d", date, months[month], year);}</td>
+                        return (date &lt; 10 ? "0" + date : date) + ". " + months[month] + " " + year;}</td>
                     </tr>
                     <tr>
                         <td>label_scale</td>
@@ -1563,7 +1563,7 @@
                         <td>format_peak</td>
                         <td>A function to format the peak label before it is drawn. Receives the actual value
                         and is supposed to return a string.</td>
-                        <td>function (value) { return sprintf("%0.2f", value); }</td>
+                        <td>function (value) { return value.toFixed(2); }</td>
                     </tr>
                     <tr>
                         <td>clip_options</td>
@@ -1787,7 +1787,7 @@
                         <td>format_label</td>
                         <td>A function to format the label before it is drawn. Receives the actual value
                         and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                        <td>function (val) { return val.toFixed(2); }</td>
                     </tr>
                     <tr>
                         <td>division</td>
@@ -1820,7 +1820,7 @@
                         <td>format_labels</td>
                         <td>A function to format the labels for the scale widget before they are drawn. Receives the actual value
                         and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                        <td>function (val) { return val.toFixed(2); }</td>
                     </tr>
                     <tr>
                         <td>gap_dots</td>
@@ -2323,7 +2323,7 @@
                     <tr>
                         <td>format</td>
                         <td>A callback function formating the value to a string for display.</td>
-                        <td>function (val) { return sprintf("%0.2f",  val); }</td>
+                        <td>function (val) { return val.toFixed(2); }</td>
                     </tr>
                     <tr>
                         <td>set</td>
@@ -2462,7 +2462,7 @@
                     <tr>
                         <td>value_format</td>
                         <td>A callback receiving the value and returning a string to display.</td>
-                        <td>function (val) { return sprintf("%0.2f",  val); }</td>
+                        <td>function (val) { return val.toFixed(2); }</td>
                     </tr>
                     <tr>
                         <td>value_position</td>
@@ -4329,7 +4329,7 @@
                         <td>label</td>
                         <td>A callback function layouting the label. "\n" creates line breaks.
                         </td>
-                        <td>function (title, x, y, z) { return sprintf("%s\n%d Hz\n%.2f dB\nQ: %.2f", title, x, y, z); }</td>
+                        <td>function (title, x, y, z) { return [ title, "\n", x, " Hz\n", y.toFixed(2), " dB\nQ: ", z.toFixed(2) ].join(""); }</td>
                     </tr>
                     <tr>
                         <td>x</td>
@@ -4617,7 +4617,7 @@
                         <td>labels</td>
                         <td>A function to format the labels before they are drawn. Receives the actual value
                         and is supposed to return a string.</td>
-                        <td>function (val) { return sprintf("0.2f", val); }</td>
+                        <td>function (val) { return val.toFixed(2); }</td>
                     </tr>
                     <tr>
                         <td>gap_dots</td>

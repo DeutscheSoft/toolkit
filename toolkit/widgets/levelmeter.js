@@ -62,7 +62,7 @@ LevelMeter = new Class({
                                //     -1:    infinite positioning
                                //     n:     in milliseconds to auto-reset
                                //     false: no auto hold
-        format_peak: function (value) { return sprintf("%0.2f", value); },
+        format_peak: function (value) { return value.toFixed(2); },
         clip_options: {}       // add options for the clipping LED
     },
     

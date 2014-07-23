@@ -30,7 +30,7 @@ Fader = new Class({
         gap_dots: 3,
         gap_labels: 40,
         show_labels: true,
-        labels: function (val) { return sprintf("%0.2f",  val); },
+        labels: function (val) { return val.toFixed(2); },
         tooltip: false,
         layout: _TOOLKIT_LEFT
     },
