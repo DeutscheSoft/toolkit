@@ -1,0 +1,29 @@
+<head>
+    <script src="class.js"></script>
+    <script>
+        FOO = Class({
+            get_foobar : function() {
+                return "bar" + this.get_foo();
+            }
+        });
+        Widget = Class({
+            initialize : function() {
+                this.flupp = "foo";
+            }
+        });
+        Button = Class({
+            Implements : FOO,
+            Extends : Widget,
+            initialize : function() {
+                this.foo = "bar";
+                Widget.call(this);
+            },
+            get_foo : function() {
+                return this.foo;
+            }
+        });
+    </script>
+</head>
+
+<body>
+</body>
