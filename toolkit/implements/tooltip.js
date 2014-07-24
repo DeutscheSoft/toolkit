@@ -24,7 +24,6 @@ Tooltip = $class({
     // mouse pointer throughout the document and auto-show and auto-hide
     // automatically.
     _class: "Tooltip",
-    Implements: Events,
     _tooltip: false,
     tooltip: function (cont, tt) {
         if (!this._tooltip) {

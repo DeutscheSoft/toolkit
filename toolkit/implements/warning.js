@@ -24,7 +24,6 @@ Warning = $class({
     // used e.g. in ResponseHandle or Knob when the value exceeds the
     // range.
     _class: "Warning",
-    Implements: Events,
     warning: function (element, timeout) {
         if (!timeout) timeout = 250;
         if (this.__wto) window.clearTimeout(this.__wto);

@@ -21,7 +21,7 @@
 
 Filter = $class({
     _class: "Filter",
-    Implements: [AudioMath, Options, Events],
+    Implements: [AudioMath],
     options: {
         type: _TOOLKIT_PARAMETRIC, // the type of the filter
         freq: 0,                   // the initial frequency
