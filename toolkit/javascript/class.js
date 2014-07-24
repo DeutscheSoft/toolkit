@@ -1,8 +1,24 @@
 (function() {
+var merge = function(dst, src) {
+    console.log("merging", src, "into", dst);
+    var key;
+    for (key in src) {
+        dst[key] = src[key];
+    }
+    return dst;
+};
 var mixin = function(dst, src, warn) {
-    var fun;
-    for (key in src) if (key != "constructor" && src.hasOwnProperty(key)) {
+    var fun, key;
+    for (key in src) {
+        if (key === "constructor" ||
+            key === "_class" ||
+            key === "Extends" ||
+            key === "Implements" ||
+            key === "options") continue;
+        if (!src.hasOwnProperty(key)) continue;
+
         fun = src[key];
+
         if (warn && typeof(fun) == "object") {
             console.log("static variable", key, ":", fun);
         }
@@ -14,20 +30,7 @@ var mixin = function(dst, src, warn) {
 
     return dst;
 };
-
 $mixin = mixin;
-
-$options = {
-    setOptions : function() {
-        var ret = this.options ? mixin({}, this.options) : {};
-
-        for (i = 0; i < arguments.length; i++) {
-            ret = mixin(ret, arguments[i]);
-        }
-
-        return this.options = ret;
-    },
-};
 $class = function(o) {
     var constructor;
     var methods;
@@ -58,6 +61,13 @@ $class = function(o) {
             if (typeof(tmp[i]) == "function") {
                 c = tmp[i].prototype;
             } else c = tmp[i];
+
+            if (typeof(c.options) == "object") {
+                if (!methods.hasOwnProperty("options")) {
+                    methods.options = Object.create(method.options);
+                }
+                merge(methods.options, c.options);
+            }
 
             methods = mixin(methods, c, true);
         }
