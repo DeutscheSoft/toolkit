@@ -1,6 +1,6 @@
 (function() {
 var merge = function(dst, src) {
-    console.log("merging", src, "into", dst);
+    //console.log("merging", src, "into", dst);
     var key;
     for (key in src) {
         dst[key] = src[key];
@@ -20,10 +20,10 @@ var mixin = function(dst, src, warn) {
         fun = src[key];
 
         if (warn && typeof(fun) == "object") {
-            console.log("static variable", key, ":", fun);
+            //console.log("static variable", key, ":", fun);
         }
         if (warn && dst.hasOwnProperty(key)) {
-            console.log("overwriting", key, "in", dst, "with", fun);
+            //console.log("overwriting", key, "in", dst, "with", fun);
         }
         dst[key] = fun;
     }
