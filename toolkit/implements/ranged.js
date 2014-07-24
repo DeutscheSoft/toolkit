@@ -28,7 +28,7 @@ Ranged = $class({
     // Events.
     _class: "Ranged",
     Implements: AudioMath,
-    __options: {
+    options: {
         scale:          _TOOLKIT_LINEAR, // What kind of value are we having?
                                          // _TOOLKIT_LINEAR
                                          // _TOOLKIT_DECIBEL / _TOOLKIT_LOG2

@@ -25,7 +25,7 @@ var Gradient = $class({
     // needs a Range to be implemented on.
     _class: "Gradient",
     Implements: Ranged,
-    __options: {
+    options: {
         // these options are of less use and only here to show what we need
         gradient:        false,           // gradient for the background
                                           // keys are ints or floats as string
