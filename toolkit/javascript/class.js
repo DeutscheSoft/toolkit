@@ -1,10 +1,13 @@
 (function() {
 var mixin = function(dst, src, warn) {
     var fun;
-    for (key in src) if (src.hasOwnProperty(key)) {
+    for (key in src) if (key != "constructor" && src.hasOwnProperty(key)) {
         fun = src[key];
         if (warn && typeof(fun) == "object") {
             console.log("static variable", key, ":", fun);
+        }
+        if (warn && dst.hasOwnProperty(key)) {
+            console.log("overwriting", key, "in", dst, "with", fun);
         }
         dst[key] = fun;
     }
