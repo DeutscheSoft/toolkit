@@ -62,7 +62,7 @@ BASE = $class({
     setOptions : function(o) {
         var opt = this.options;
         if (this.hasOwnProperty("options") && typeof(opt) == "object") {
-            this.options = mixin(opt, o);
+            this.options = $mixin(opt, o);
         } else {
             this.options = Object.setPrototypeOf(o, opt);
         }
