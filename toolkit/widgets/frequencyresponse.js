@@ -104,6 +104,6 @@ var FrequencyResponse = $class({
                 }
                 break;
         }
-        Chart.prototype.call(this, key, value, hold);
+        Chart.prototype.set.call(this, key, value, hold);
     }
 });
