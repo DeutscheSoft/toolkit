@@ -433,6 +433,6 @@ Circular = $class({
                 if (!hold) this._draw_labels();
                 break;
         }
-        Widget.prototype.set.call(key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });
