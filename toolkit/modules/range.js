@@ -24,10 +24,10 @@ Range = $class({
     // They are useful to build coordinate systems, calculating pixel positions
     // for different scale types and the like. Ranges are used e.g. in Scale,
     // MeterBase and Graph to draw elements on a certain position according to
-    // a value on an arbitrary scale. Range implements AudioMath, Options and
-    // Events.
+    // a value on an arbitrary scale. Range implements AudioMath.
+    Extends : BASE,
     _class: "Range",
-    Implements: [Options, Events, Ranged],
+    Implements: [Ranged],
     options: {
         scale:      _TOOLKIT_LINEAR, // What kind of value are we having?
                                      // _TOOLKIT_LINEAR
@@ -83,6 +83,7 @@ Range = $class({
     },
     
     initialize: function (options, hold) {
+        BASE.prototype.initialize.call(this);
         this.setOptions(options);
         this.fire_event("initialize", this);
         this.fire_event("initialized", this);
