@@ -162,9 +162,10 @@ BASE = $class({
             // we need an array containing all arguments
             args = Array(args);
         args.push(this);
-        for (var i = 0; i < ev[e].queue.length; i++)
+        ev = ev[e].queue;
+        for (var i = 0; i < ev.length; i++)
             // run callbacks in a loop
-            ev[e].queue[i].apply(this, args);
+            ev[i].apply(this, args);
     },
     add_events: function (events) {
         for (var i in events) {
