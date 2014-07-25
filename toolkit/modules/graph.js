@@ -241,8 +241,8 @@ var Graph = $class({
                 break;
             case "mode":
                 if (!hold) {
-                    this.element.removeClass("toolkit-filled");
-                    this.element.removeClass("toolkit-outline");
+                    this.element.classList.remove("toolkit-filled");
+                    this.element.classList.remove("toolkit-outline");
                     this.element.classList.add(value == _TOOLKIT_LINE ?
                                           "toolkit-outline" : "toolkit-filled");
                     this.redraw();

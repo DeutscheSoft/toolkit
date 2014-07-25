@@ -104,8 +104,8 @@ var Chart = $class({
                 this._key_background.classList.add("toolkit-hover");
             }.bind(this));
         this._key_background.addEventListener("mouseleave", function () {
-                this._key.removeClass("toolkit-hover");
-                this._key_background.removeClass("toolkit-hover");
+                this._key.classList.remove("toolkit-hover");
+                this._key_background.classList.remove("toolkit-hover");
             }.bind(this));
         
         this.set("title", this.options.title, true);

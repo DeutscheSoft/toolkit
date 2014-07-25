@@ -29,7 +29,7 @@ GlobalCursor = $class({
         this.fire_event("globalcursor", cursor);
     },
     remove_cursor: function (cursor) {
-        $$("html").removeClass("toolkit-cursor-" + cursor);
+        $$("html").classList.remove("toolkit-cursor-" + cursor);
         this.fire_event("cursorremoved", cursor);
     }
 });

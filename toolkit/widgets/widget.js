@@ -117,7 +117,7 @@ Widget = $class({
         // Takes a DOM element and adds its CSS functionality to the
         // widget instance
         this.addClass    = function (c) { element.classList.add(c); }.bind(this);
-        this.removeClass = function (c) { element.removeClass(c); }.bind(this);
+        this.removeClass = function (c) { element.classList.remove(c); }.bind(this);
         this.setStyle    = function (c, d) { element.style[c] = d; }.bind(this);
         this.setStyles   = function (c) { for (var i in c) element.style[i] = c[i]; }.bind(this);
         this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
@@ -177,7 +177,7 @@ Widget = $class({
             case "active":
                 if (!hold && this.__stylized)
                     if (value)
-                        this.__stylized.removeClass("toolkit-inactive")
+                        this.__stylized.classList.remove("toolkit-inactive")
                     else
                         this.__stylized.classList.add("toolkit-inactive")
             case "disabled":
@@ -185,7 +185,7 @@ Widget = $class({
                     if (value)
                         this.__stylized.classList.add("toolkit-disabled")
                     else
-                        this.__stylized.removeClass("toolkit-disabled")
+                        this.__stylized.classList.remove("toolkit-disabled")
         }
         this.fire_event("set", [key, value, hold, this]);
         this.fire_event("set_" + key, [value, hold, this]);

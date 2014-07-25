@@ -119,8 +119,8 @@ ValueButton = $class({
         this.options[key] = value;
         switch (key) {
             case "bar_direction":
-                this.element.removeClass("toolkit-vertical");
-                this.element.removeClass("toolkit-horizontal");
+                this.element.classList.remove("toolkit-vertical");
+                this.element.classList.remove("toolkit-horizontal");
                 switch (value) {
                     case _TOOLKIT_HORIZONTAL:
                     default:
@@ -134,9 +134,9 @@ ValueButton = $class({
                 if (!hold) this.redraw();
                 break;
             case "value_position":
-                this.element.removeClass("toolkit-value-top");
-                this.element.removeClass("toolkit-value-bottom");
-                this.element.removeClass("toolkit-value-icon");
+                this.element.classList.remove("toolkit-value-top");
+                this.element.classList.remove("toolkit-value-bottom");
+                this.element.classList.remove("toolkit-value-icon");
                 switch (value) {
                     case _TOOLKIT_BOTTOM:
                         this._value.inject(this.element, "bottom");
@@ -153,10 +153,10 @@ ValueButton = $class({
                 }
                 break;
             case "bar_position":
-                this.element.removeClass("toolkit-bar-top");
-                this.element.removeClass("toolkit-bar-bottom");
-                this.element.removeClass("toolkit-bar-label");
-                this.element.removeClass("toolkit-bar-icon");
+                this.element.classList.remove("toolkit-bar-top");
+                this.element.classList.remove("toolkit-bar-bottom");
+                this.element.classList.remove("toolkit-bar-label");
+                this.element.classList.remove("toolkit-bar-icon");
                 switch (value) {
                     case _TOOLKIT_BOTTOM:
                         this._bar.inject(this.element, "bottom");

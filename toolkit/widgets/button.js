@@ -91,8 +91,8 @@ Button = $class({
                 break;
             case "state":
                 if (!hold) {
-                    this.element[value
-                        ? "addClass" : "removeClass"]("toolkit-active");
+                    if (value) this.element.classList.add("toolkit-active");
+                    else this.element.classList.remove("toolkit-active");
                     this._label.style["background-color"] = 
                                          (this.options.state_color
                                        && this.options.state)

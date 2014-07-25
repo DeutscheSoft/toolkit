@@ -97,7 +97,7 @@ DragValue = $class({
         if (!this.__active) return;
         e.preventDefault();
         // set stuff
-        this.options.classes.removeClass("toolkit-dragging");
+        this.options.classes.classList.remove("toolkit-dragging");
         if (this.options.cursor) {
             this.remove_cursor("row-resize");
             this.remove_cursor("col-resize");

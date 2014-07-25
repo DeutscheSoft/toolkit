@@ -114,7 +114,7 @@ Value = $class({
     _value_done: function (e) {
         if (!this.__editing) return;
         this.__editing = false;
-        this.element.removeClass("toolkit-active");
+        this.element.classList.remove("toolkit-active");
         this._input.blur();
         this.fire_event("valuedone", [this.options.value, this]);
         this.redraw();

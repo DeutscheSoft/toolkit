@@ -66,7 +66,7 @@ ScrollValue = $class({
         // timeout for resetting the class
         if (this.__sto) window.clearTimeout(this.__sto);
         this.__sto = window.setTimeout(function () {
-            this.options.classes.removeClass("toolkit-scrolling");
+            this.options.classes.classList.remove("toolkit-scrolling");
             this._fire_event("scrollended", e);
             this._wheel = false;
         }.bind(this), 200);

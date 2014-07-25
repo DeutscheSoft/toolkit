@@ -1073,7 +1073,7 @@ ResponseHandle = $class({
     _mouseleave: function (e) {
         e.preventDefault();
         this._raised = false;
-        this.element.removeClass("toolkit-hover");
+        this.element.classList.remove("toolkit-hover");
         return false;
     },
     _mouseelement: function (e) {
@@ -1138,10 +1138,10 @@ ResponseHandle = $class({
     _mouseup: function (e) {
         if (!this.__active) return;
         e.preventDefault();
-        this.element.removeClass("toolkit-active");
+        this.element.classList.remove("toolkit-active");
         var parent = this.element.getParent().getParent();
         if (parent)
-            parent.removeClass("toolkit-dragging");
+            parent.classList.remove("toolkit-dragging");
         this.remove_cursor("move");
         if (!this._zhandling) {
             this.fire_event("handlereleased", [{
@@ -1285,7 +1285,7 @@ ResponseHandle = $class({
         if (this.__sto) window.clearTimeout(this.__sto);
         this.element.classList.add("toolkit-active");
         this.__sto = window.setTimeout(function () {
-            this.element.removeClass("toolkit-active");
+            this.element.classList.remove("toolkit-active");
             this.fire_event("zchangeended", [this.options.z, this]);
         }.bind(this), 250);
         var s = this.range_z.get("step") * e.wheel;
@@ -1364,7 +1364,7 @@ ResponseHandle = $class({
                 if (!hold) this.redraw();
                 break;
             case "active":
-                if (value) this.element.removeClass("toolkit-inactive");
+                if (value) this.element.classList.remove("toolkit-inactive");
                 else this.element.classList.add("toolkit-inactive");
                 break;
             case "x":

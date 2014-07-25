@@ -90,7 +90,7 @@ makeSVG = function (tag, args) {
  
 // Testing the existence of the global SVGElement object to safely extend it.
 if (SVGElement && SVGElement.prototype) {
-    SVGElement.prototype.addClass = function addClass(classList) {
+    SVGElement.prototype.addClass = function(classList) {
         "use strict";
 
         // Because the className property can be animated through SVG, we have to reach
@@ -128,7 +128,7 @@ if (SVGElement && SVGElement.prototype) {
   
 // Testing the existence of the global SVGElement object to safely extend it.
 if (SVGElement && SVGElement.prototype) {
-    SVGElement.prototype.removeClass = function removeClass(classList) {
+    SVGElement.prototype.removeClass = function(classList) {
         "use strict";
 
         // Because the className property can be animated through SVG, we have to reach

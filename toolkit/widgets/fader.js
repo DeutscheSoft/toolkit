@@ -283,12 +283,12 @@ Fader = $class({
                 }
                 return;
             case "layout":
-                this.element.removeClass("toolkit-vertical");
-                this.element.removeClass("toolkit-horizontal");
-                this.element.removeClass("toolkit-left");
-                this.element.removeClass("toolkit-right");
-                this.element.removeClass("toolkit-top");
-                this.element.removeClass("toolkit-bottom");
+                this.element.classList.remove("toolkit-vertical");
+                this.element.classList.remove("toolkit-horizontal");
+                this.element.classList.remove("toolkit-left");
+                this.element.classList.remove("toolkit-right");
+                this.element.classList.remove("toolkit-top");
+                this.element.classList.remove("toolkit-bottom");
                 var c = this._vert() ? "vertical" : "horizontal";
                 this.element.classList.add("toolkit-" + c);
                 this.scale.set("layout", value);

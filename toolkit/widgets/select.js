@@ -129,7 +129,7 @@ Select = $class({
         if (this.list[key]) {
             this.set("label", this.list[key].title);
             if (this.options.selected !== false) {
-                this.list[this.options.selected].element.removeClass("toolkit-active");
+                this.list[this.options.selected].element.classList.remove("toolkit-active");
             }
             this.list[key].element.classList.add("toolkit-active");
             this.options.selected = key;

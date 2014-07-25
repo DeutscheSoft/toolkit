@@ -30,7 +30,7 @@ Warning = $class({
         this.__wto = null;
         element.classList.add("toolkit-warn");
         this.__wto = window.setTimeout(function () {
-            element.removeClass("toolkit-warn");
+            element.classList.remove("toolkit-warn");
         }.bind(this), timeout);
         this.fire_event("warning", this);
     }

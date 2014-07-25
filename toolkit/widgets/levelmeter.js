@@ -493,7 +493,7 @@ LevelMeter = $class({
                     this.element.classList.add("toolkit-clipping");
                     this.state.set("state", 1);
                 } else {
-                    this.element.removeClass("toolkit-clipping");
+                    this.element.classList.remove("toolkit-clipping");
                     this.state.set("state", 0);
                 }
                 break;
