@@ -400,9 +400,8 @@ var MeterBase = $class({
                     var s = this.options.format_label(value);
                     var n = this._label;
                     if (n.firstChild) {
-                        n.removeChild(n.firstChild);
-                    }
-                    n.appendChild(document.createTextNode(s));
+                        n.firstChild.nodeValue = s;
+                    } else n.appendChild(document.createTextNode(s));
                     //this._label.set("html", this.options.format_label(value));
                 }
 
