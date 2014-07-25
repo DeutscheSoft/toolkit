@@ -57,10 +57,10 @@ DragValue = $class({
         this.initialized();
     },
     destroy: function () {
-        document.remove_event("mousemove", this.__pointer_move);
-        document.remove_event("mouseup",   this.__pointer_up);
-        document.remove_event("touchmove", this.__pointer_move);
-        document.remove_event("touchend",  this.__pointer_up);
+        document.removeEventListener("mousemove", this.__pointer_move);
+        document.removeEventListener("mouseup",   this.__pointer_up);
+        document.removeEventListener("touchmove", this.__pointer_move);
+        document.removeEventListener("touchend",  this.__pointer_up);
         Widget.prototype.destroy.call(this);
     },
     _pointer_down: function (e) {
