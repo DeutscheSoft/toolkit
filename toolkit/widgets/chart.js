@@ -61,7 +61,7 @@ var Chart = $class({
             width:  this.range_x.options.basis,
             height: this.range_y.options.basis
         }), true, true, true);
-        this.element.addClass("toolkit-chart");
+        this.element.classList.add("toolkit-chart");
         if (this.options.container)
             this.set("container", this.options.container);
         
@@ -100,8 +100,8 @@ var Chart = $class({
         this._key_txt.inject(this._key);
         
         this._key_background.addEventListener("mouseenter", function () {
-                this._key.addClass("toolkit-hover");
-                this._key_background.addClass("toolkit-hover");
+                this._key.classList.add("toolkit-hover");
+                this._key_background.classList.add("toolkit-hover");
             }.bind(this));
         this._key_background.addEventListener("mouseleave", function () {
                 this._key.removeClass("toolkit-hover");

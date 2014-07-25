@@ -85,9 +85,9 @@ Grid = $class({
             var label = makeSVG("text").inject(this.element);
             label.set("text", obj.label);
             label.set("style", "dominant-baseline: central;");
-            label.addClass("toolkit-grid-label "
+            label.classList.add("toolkit-grid-label "
                 + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
-            if (obj["class"]) label.addClass(obj["class"]);
+            if (obj["class"]) label.classList.add(obj["class"]);
             var w  = this.range_x.options.basis;
             var h  = this.range_y.options.basis;
             var tw = label.getBBox().width;
@@ -118,9 +118,9 @@ Grid = $class({
             return;
             
         var line = makeSVG("path");
-        line.addClass("toolkit-grid-line "
+        line.classList.add("toolkit-grid-line "
             + (mode ? "toolkit-horizontal" : "toolkit-vertical"));
-        if (obj["class"]) line.addClass(obj["class"]);
+        if (obj["class"]) line.classList.add(obj["class"]);
         if (obj.color) line.set("style", "stroke:" + obj.color);
         if (mode) {
             // line from left to right

@@ -59,7 +59,7 @@ var Graph = $class({
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(makeSVG("path"), true, true, true);
-        this.element.addClass("toolkit-graph");
+        this.element.classList.add("toolkit-graph");
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
         if (this.options.container)
@@ -243,7 +243,7 @@ var Graph = $class({
                 if (!hold) {
                     this.element.removeClass("toolkit-filled");
                     this.element.removeClass("toolkit-outline");
-                    this.element.addClass(value == _TOOLKIT_LINE ?
+                    this.element.classList.add(value == _TOOLKIT_LINE ?
                                           "toolkit-outline" : "toolkit-filled");
                     this.redraw();
                 }

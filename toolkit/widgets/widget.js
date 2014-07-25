@@ -116,7 +116,7 @@ Widget = $class({
     classify: function (element) {
         // Takes a DOM element and adds its CSS functionality to the
         // widget instance
-        this.addClass    = function (c) { element.addClass(c); }.bind(this);
+        this.addClass    = function (c) { element.classList.add(c); }.bind(this);
         this.removeClass = function (c) { element.removeClass(c); }.bind(this);
         this.setStyle    = function (c, d) { element.style[c] = d; }.bind(this);
         this.setStyles   = function (c) { for (var i in c) element.style[i] = c[i]; }.bind(this);
@@ -138,11 +138,11 @@ Widget = $class({
         // events will be delegated from the element to the widget instance
         // if classify is true, CSS functions will be bound to the widget
         // instance
-        element.addClass("toolkit-widget");
+        element.classList.add("toolkit-widget");
         if (this.options.id)
             element.set("id", this.options.id);
         if (this.options["class"])
-            element.addClass(this.options["class"]);
+            element.classList.add(this.options["class"]);
         if (delegate)
             this.delegate(element);
         if (classify)
@@ -168,7 +168,7 @@ Widget = $class({
                 break;
             case "class":
                 if (!hold && this.__classified)
-                    this.__classified.addClass(this.options["class"]);
+                    this.__classified.classList.add(this.options["class"]);
                 break;
             case "styles":
                 if (!hold && this.__stylized)
@@ -179,11 +179,11 @@ Widget = $class({
                     if (value)
                         this.__stylized.removeClass("toolkit-inactive")
                     else
-                        this.__stylized.addClass("toolkit-inactive")
+                        this.__stylized.classList.add("toolkit-inactive")
             case "disabled":
                 if (!hold && this.__stylized)
                     if (value)
-                        this.__stylized.addClass("toolkit-disabled")
+                        this.__stylized.classList.add("toolkit-disabled")
                     else
                         this.__stylized.removeClass("toolkit-disabled")
         }

@@ -73,7 +73,7 @@ EqBand = $class({
         else if (typeof options.q !== "undefined")
             this.set("q", options.q, true);
         
-        this.element.addClass("toolkit-eqband");
+        this.element.classList.add("toolkit-eqband");
         
         this.filter.reset();
         this.initialized();

@@ -77,7 +77,7 @@ var MeterBase = $class({
                        new Element("div.toolkit-meter-base"), false, true, true);
         
         if (this.options.reverse)
-            this.element.addClass("toolkit-reverse");
+            this.element.classList.add("toolkit-reverse");
         
         if (this.element.getStyle("position") != "absolute"
             && this.element.getStyle("position") != "relative")
@@ -93,7 +93,7 @@ var MeterBase = $class({
                     "div.toolkit-bar").inject(this.element);
                 this._title  = new Element(
                     "div.toolkit-title").inject(this.element);
-                this.element.addClass("toolkit-vertical toolkit-left");
+                this.element.classList.add("toolkit-vertical","toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
                 this._label  = new Element(
@@ -104,7 +104,7 @@ var MeterBase = $class({
                     "div.toolkit-bar").inject(this.element);
                 this._title  = new Element(
                     "div.toolkit-title").inject(this.element);
-                this.element.addClass("toolkit-vertical toolkit-right");
+                this.element.classList.add("toolkit-vertical","toolkit-right");
                 break;
             case _TOOLKIT_TOP:
                 this._bar    = new Element(
@@ -115,7 +115,7 @@ var MeterBase = $class({
                     "div.toolkit-title").inject(this.element);
                 this._label  = new Element(
                     "div.toolkit-label").inject(this.element);
-                this.element.addClass("toolkit-horizontal toolkit-top");
+                this.element.classList.add("toolkit-horizontal","toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
                 this._title  = new Element(
@@ -126,7 +126,7 @@ var MeterBase = $class({
                     "div.toolkit-meter-scale").inject(this.element);
                 this._bar    = new Element(
                     "div.toolkit-bar").inject(this.element);
-                this.element.addClass("toolkit-horizontal toolkit-bottom");
+                this.element.classList.add("toolkit-horizontal","toolkit-bottom");
                 break;
         }
         

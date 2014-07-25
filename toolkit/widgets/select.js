@@ -33,7 +33,7 @@ Select = $class({
     __width: 0,
     initialize: function (options)  {
         Button.prototype.initialize.call(this, options);
-        this.element.addClass("toolkit-select");
+        this.element.classList.add("toolkit-select");
         
         this.add_event("click", function (e) {
             this.show_list(!this.__open);
@@ -131,7 +131,7 @@ Select = $class({
             if (this.options.selected !== false) {
                 this.list[this.options.selected].element.removeClass("toolkit-active");
             }
-            this.list[key].element.addClass("toolkit-active");
+            this.list[key].element.classList.add("toolkit-active");
             this.options.selected = key;
         }
     },

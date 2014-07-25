@@ -118,7 +118,7 @@ ResponseHandle = $class({
             "id":    this.options.id,
             "class": cls
         }), true, true);
-        this.element.addClass(cls);
+        this.element.classList.add(cls);
         
         if (this.options.container)
             this.element.inject(this.options.container);
@@ -1067,7 +1067,7 @@ ResponseHandle = $class({
     _mouseenter: function (e) {
         e.preventDefault();
         this._zwheel = false;
-        this.element.addClass("toolkit-hover");
+        this.element.classList.add("toolkit-hover");
         return false;
     },
     _mouseleave: function (e) {
@@ -1110,8 +1110,8 @@ ResponseHandle = $class({
         }
         
         // classes and stuff
-        this.element.addClass("toolkit-active");
-        this.element.getParent().getParent().addClass("toolkit-dragging");
+        this.element.classList.add("toolkit-active");
+        this.element.getParent().getParent().classList.add("toolkit-dragging");
         this.global_cursor("move");
         this.__active = true;
         this._offsetX = ev.pageX - this.x;
@@ -1283,7 +1283,7 @@ ResponseHandle = $class({
         var d = e.hasOwnProperty("wheelDelta") ? e.wheelDelta : e.detail;
         e.wheel = d / Math.abs(d);
         if (this.__sto) window.clearTimeout(this.__sto);
-        this.element.addClass("toolkit-active");
+        this.element.classList.add("toolkit-active");
         this.__sto = window.setTimeout(function () {
             this.element.removeClass("toolkit-active");
             this.fire_event("zchangeended", [this.options.z, this]);
@@ -1365,7 +1365,7 @@ ResponseHandle = $class({
                 break;
             case "active":
                 if (value) this.element.removeClass("toolkit-inactive");
-                else this.element.addClass("toolkit-inactive");
+                else this.element.classList.add("toolkit-inactive");
                 break;
             case "x":
             case "y":

@@ -489,7 +489,7 @@ Window = $class({
         if (this.__vert_max())  this.set("maximize", {y: false});
         
         this.dragging = true;
-        this.element.addClass("toolkit-dragging");
+        this.element.classList.add("toolkit-dragging");
         this.fire_event("startdrag", [this, ev]);
     },
     __stop_drag: function (el, ev) {
@@ -517,7 +517,7 @@ Window = $class({
         this.__docmouse = $$("body")[0].getStyle("cursor");
         $$("body")[0].style["cursor"] = this._resize.getStyle("cursor");
         this.resizing = true;
-        this.element.addClass("toolkit-resizing");
+        this.element.classList.add("toolkit-resizing");
         this.fire_event("startresize", [this, ev]);
     },
     __stop_resize: function (el, ev) {
@@ -554,7 +554,7 @@ Window = $class({
     },
     __mover: function (e) {
         if(this.options.auto_active)
-            this.element.addClass("toolkit-active");
+            this.element.classList.add("toolkit-active");
     },
     __close: function () {
         this.fire_event("closeclicked");
@@ -615,12 +615,12 @@ Window = $class({
                 if (value === false) value = this.options.maximize = {x: false, y: false};
                 value = $mixin({}, this.options.maximize, value);
                 if (this.__horiz_max()) {
-                    this.element.addClass("toolkit-maximized-horizontal");
+                    this.element.classList.add("toolkit-maximized-horizontal");
                 } else {
                     this.element.removeClass("toolkit-maximized-horizontal");
                 }
                 if (this.__vert_max()) {
-                    this.element.addClass("toolkit-maximized-vertical");
+                    this.element.classList.add("toolkit-maximized-vertical");
                 } else {
                     this.element.removeClass("toolkit-maximized-vertical");
                 }

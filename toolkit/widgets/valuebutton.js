@@ -37,7 +37,7 @@ ValueButton = $class({
     initialize: function (options) {
         Button.prototype.initialize.call(this, options);
         
-        this.element.addClass("toolkit-valuebutton");
+        this.element.classList.add("toolkit-valuebutton");
         
         this._bar     = new Element("div.toolkit-bar");
         this._base    = new Element("div.toolkit-base").inject(this._bar);
@@ -130,7 +130,7 @@ ValueButton = $class({
                         var c = "toolkit-vertical";
                         break;
                 }
-                this.element.addClass(c);
+                this.element.classList.add(c);
                 if (!hold) this.redraw();
                 break;
             case "value_position":
@@ -140,15 +140,15 @@ ValueButton = $class({
                 switch (value) {
                     case _TOOLKIT_BOTTOM:
                         this._value.inject(this.element, "bottom");
-                        this.element.addClass("toolkit-value-bottom");
+                        this.element.classList.add("toolkit-value-bottom");
                         break;
                     case _TOOLKIT_TOP:
                         this._value.inject(this.element, "top");
-                        this.element.addClass("toolkit-value-top");
+                        this.element.classList.add("toolkit-value-top");
                         break;
                     case _TOOLKIT_ICON:
                         this._value.inject(this._icon, "after");
-                        this.element.addClass("toolkit-value-icon");
+                        this.element.classList.add("toolkit-value-icon");
                         break;
                 }
                 break;
@@ -160,19 +160,19 @@ ValueButton = $class({
                 switch (value) {
                     case _TOOLKIT_BOTTOM:
                         this._bar.inject(this.element, "bottom");
-                        this.element.addClass("toolkit-bar-bottom");
+                        this.element.classList.add("toolkit-bar-bottom");
                         break;
                     case _TOOLKIT_TOP:
                         this._bar.inject(this.element, "top");
-                        this.element.addClass("toolkit-bar-top");
+                        this.element.classList.add("toolkit-bar-top");
                         break;
                     case _TOOLKIT_LABEL:
                         this._bar.inject(this._label, "after");
-                        this.element.addClass("toolkit-bar-label");
+                        this.element.classList.add("toolkit-bar-label");
                         break;
                     case _TOOLKIT_ICON:
                         this._bar.inject(this._icon, "after");
-                        this.element.addClass("toolkit-bar-icon");
+                        this.element.classList.add("toolkit-bar-icon");
                         break;
                 }
                 break;

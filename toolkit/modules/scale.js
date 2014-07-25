@@ -60,16 +60,16 @@ Scale = $class({
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
-                this.element.addClass("toolkit-vertical toolkit-left");
+                this.element.classList.add("toolkit-vertical","toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
-                this.element.addClass("toolkit-vertical toolkit-right");
+                this.element.classList.add("toolkit-vertical","toolkit-right");
                 break;
             case _TOOLKIT_TOP:
-                this.element.addClass("toolkit-horizontal toolkit-top");
+                this.element.classList.add("toolkit-horizontal","toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
-                this.element.addClass("toolkit-horizontal toolkit-bottom");
+                this.element.classList.add("toolkit-horizontal","toolkit-bottom");
                 break;
         }
         this.element.setStyle("position", "relative");
@@ -167,7 +167,7 @@ Scale = $class({
         
         // create dot element
         var d = new Element("div.toolkit-dot", { style: "position: absolute" });
-        if (cls) d.addClass(cls);
+        if (cls) d.classList.add(cls);
         d.inject(this.element);
         
         // position dot element
@@ -186,7 +186,7 @@ Scale = $class({
         var label = new Element("span.toolkit-label", {
             html: this.options.labels(val),
             style: "position: absolute; display: block; float: left" });
-        if (cls) label.addClass(cls);
+        if (cls) label.classList.add(cls);
         label.inject(this.element);
         
         // position label element

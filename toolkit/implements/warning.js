@@ -28,7 +28,7 @@ Warning = $class({
         if (!timeout) timeout = 250;
         if (this.__wto) window.clearTimeout(this.__wto);
         this.__wto = null;
-        element.addClass("toolkit-warn");
+        element.classList.add("toolkit-warn");
         this.__wto = window.setTimeout(function () {
             element.removeClass("toolkit-warn");
         }.bind(this), timeout);

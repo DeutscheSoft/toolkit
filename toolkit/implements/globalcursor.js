@@ -25,7 +25,7 @@ GlobalCursor = $class({
     // the whole application
     _class: "GlobalCursor",
     global_cursor: function (cursor) {
-        $$("html").addClass("toolkit-cursor-" + cursor);
+        $$("html").classList.add("toolkit-cursor-" + cursor);
         this.fire_event("globalcursor", cursor);
     },
     remove_cursor: function (cursor) {

@@ -67,7 +67,7 @@ Button = $class({
                 if (!hold) this.element.inject(value);
                 break;
             case "class":
-                if (!hold) this.element.addClass(value);
+                if (!hold) this.element.classList.add(value);
                 break;
             case "label":
                 if (!hold) {

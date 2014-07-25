@@ -60,7 +60,7 @@ ScrollValue = $class({
         e.preventDefault();
         var d = e.hasOwnProperty("wheelDelta") ? e.wheelDelta : e.detail;
         e.wheel = d / Math.abs(d);
-        this.options.classes.addClass("toolkit-scrolling");
+        this.options.classes.classList.add("toolkit-scrolling");
         var range = this.options.range();
         
         // timeout for resetting the class

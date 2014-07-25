@@ -68,7 +68,7 @@ LevelMeter = $class({
     
     initialize: function (options) {
         MeterBase.prototype.initialize.call(this, options, true);
-        this.element.addClass("toolkit-level-meter");
+        this.element.classList.add("toolkit-level-meter");
         
         this.state = new State(Object.append({
             "class": "toolkit-clip"
@@ -490,7 +490,7 @@ LevelMeter = $class({
                 this._clip_timeout();
                 if (!hold && value) {
                     this.fire_event("clipping");
-                    this.element.addClass("toolkit-clipping");
+                    this.element.classList.add("toolkit-clipping");
                     this.state.set("state", 1);
                 } else {
                     this.element.removeClass("toolkit-clipping");

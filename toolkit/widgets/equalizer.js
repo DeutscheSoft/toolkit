@@ -33,7 +33,7 @@ var Equalizer = $class({
     
     initialize: function (options) {
         ResponseHandler.prototype.initialize.call(this, options);
-        this.element.addClass("toolkit-equalizer");
+        this.element.classList.add("toolkit-equalizer");
         this._bands = makeSVG("g",
             {"class": "toolkit-eqbands"}).inject(this.element);
             

@@ -78,7 +78,7 @@ Value = $class({
     _value_clicked: function (e) {
         if (!this.options.set) return;
         if (this.__editing) return false;
-        this.element.addClass("toolkit-active");
+        this.element.classList.add("toolkit-active");
         this._input.set("value", this.options.value);
         this.__editing = true;
         this._input.focus();

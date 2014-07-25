@@ -210,7 +210,7 @@ Circular = $class({
             var pos    = Math.min(this.options.max,
                           Math.max(this.options.min, m.pos));
             r.inject(this._dots);
-            if (m["class"]) r.addClass(m["class"]);
+            if (m["class"]) r.classList.add(m["class"]);
             if (m["color"]) r.style["fill"] = m["color"];
                      
             r.set("x", this.options.size - length - margin);
@@ -256,7 +256,7 @@ Circular = $class({
             var s = makeSVG("path", {"class": "toolkit-marker"});
             s.inject(this._markers);
             
-            if (m["class"]) s.addClass(m["class"]);
+            if (m["class"]) s.classList.add(m["class"]);
             if (m["color"]) s.style["fill"] = m["color"];
             
             this._draw_slice(this.val2real(from),
@@ -276,7 +276,7 @@ Circular = $class({
             });
             p.inject(this._labels);
             
-            if (l["class"]) p.addClass(l["class"]);
+            if (l["class"]) p.classList.add(l["class"]);
             if (l["color"]) p.style["fill"] = l["color"];
                      
             if (typeof l.label != "undefined")

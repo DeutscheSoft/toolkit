@@ -48,7 +48,7 @@ var ResponseHandler = $class({
 //             if (!hold) this.redraw();
 //         }.bind(this));
         
-        this.element.addClass("toolkit-response-handler");
+        this.element.classList.add("toolkit-response-handler");
         this._handles = makeSVG("g",
             {"class": "toolkit-response-handles"}).inject(this.element);
         this.element.onselectstart = function () { return false; };
