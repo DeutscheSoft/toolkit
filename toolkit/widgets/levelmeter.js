@@ -340,9 +340,8 @@ LevelMeter = $class({
         var n = this._peak_label;
         var v = this.options.format_peak(this.options.peak);
         if (n.firstChild) {
-            n.removeChild(n.firstChild);
-        }
-        n.appendChild(document.createTextNode(v));
+            n.firstChild.nodeValue = v;
+        } else n.appendChild(document.createTextNode(v));
         if (this.options.peak > this.options.min
         && this.options.peak < this.options.max
         && this.options.show_peak) {
