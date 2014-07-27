@@ -19,6 +19,7 @@
 div.toolkit-meter-base {
     float: left;
     padding: 6px;
+    overflow: hidden;
 }
 div.toolkit-meter-base div.toolkit-label {
     height: 16px;
