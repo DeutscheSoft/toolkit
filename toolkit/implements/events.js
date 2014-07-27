@@ -56,8 +56,10 @@ var __event_replacements = {
 BASE = $class({
     // Events provide an API for adding, removing and firing events.
     initialize : function() {
-        this.__events = {};
-        this.__event_target = false;
+        if (!this.___events) {
+            this.__events = {};
+            this.__event_target = false;
+        }
     },
     setOptions : function(o) {
         var opt = this.options;
