@@ -48,10 +48,8 @@ Knob = $class({
         
         options.container = svg;
 
-
-        this._svg = this.widgetize(svg, true, true, true);
-
         Circular.prototype.initialize.call(this, options, true);
+        this._svg = this.widgetize(svg, true, true, true);
         
         this.drag = new DragValue({
             element: this._svg,
