@@ -1,9 +1,12 @@
 (function() {
-var merge = function(dst, src) {
+var merge = function(dst) {
     //console.log("merging", src, "into", dst);
-    var key;
-    for (key in src) {
-        dst[key] = src[key];
+    var key, i, src;
+    for (i = 1; i < arguments.length; i++) {
+        src = arguments[i];
+        for (key in src) {
+            dst[key] = src[key];
+        }
     }
     return dst;
 };
@@ -36,7 +39,7 @@ if (typeof(Object.setPrototypeOf) != "function") {
         return o;
     };
 }
-$mixin = mixin;
+$mixin = merge;
 $class = function(o) {
     var constructor;
     var methods;
