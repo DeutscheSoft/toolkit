@@ -8,3 +8,4 @@ event.resize.js
 
 ValueButton layout broken
 LevelMeter renders uneccessary parent elements
+    drawing of peak and masks leaks outsinde the meterbase div
