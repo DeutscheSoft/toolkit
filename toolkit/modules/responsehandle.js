@@ -97,28 +97,27 @@ ResponseHandle = $class({
             if (!hold) this.redraw();
         }.bind(this));
         
-        var cls = "toolkit-response-handle ";
+        this.widgetize(this.element = makeSVG("g", {
+            "id":    this.options.id
+        }), true, true);
+        
+        this.element.classList.add("toolkit-response-handle");
         switch (this.options.mode) {
             case _TOOLKIT_CIRCULAR:
-                cls += "toolkit-circular";                      break;
+                this.element.classList.add("toolkit-circular"); break;
             case _TOOLKIT_LINE_VERTICAL:
-                cls += "toolkit-line-vertical toolkit-line";    break;
+                this.element.classList.add("toolkit-line-vertical", "toolkit-line");    break;
             case _TOOLKIT_LINE_HORIZONTAL:
-                cls += "toolkit-line-horizontal toolkit-line";  break;
+                this.element.classList.add("toolkit-line-horizontal", "toolkit-line");  break;
             case _TOOLKIT_BLOCK_LEFT:
-                cls += "toolkit-block-left toolkit-block";      break;
+                this.element.classList.add("toolkit-block-left", "toolkit-block");      break;
             case _TOOLKIT_BLOCK_RIGHT:
-                cls += "toolkit-block-right toolkit-block";     break;
+                this.element.classList.add("toolkit-block-right", "toolkit-block");     break;
             case _TOOLKIT_BLOCK_TOP:
-                cls += "toolkit-block-top toolkit-block";       break;
+                this.element.classList.add("toolkit-block-top", "toolkit-block");       break;
             case _TOOLKIT_BLOCK_BOTTOM:
-                cls += "toolkit-block-bottom toolkit-block";    break;
+                this.element.classList.add("toolkit-block-bottom", "toolkit-block");    break;
         }
-        this.widgetize(this.element = makeSVG("g", {
-            "id":    this.options.id,
-            "class": cls
-        }), true, true);
-        this.element.classList.add(cls);
         
         if (this.options.container)
             this.element.inject(this.options.container);
