@@ -35,7 +35,7 @@ Knob = $class({
         shift_down: 0.25,
         dot: {margin: 13, length: 5, width: 2},
         marker: {margin: 13, thickness: 5},
-        label: {margin: 10, align: _TOOLKIT_OUTER},
+        label: {margin: 10, align: _TOOLKIT_OUTER, format: function(val){return val;}},
         direction: _TOOLKIT_VERTICAL
     },
     
