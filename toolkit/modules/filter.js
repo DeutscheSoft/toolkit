@@ -21,6 +21,7 @@
 
 Filter = $class({
     _class: "Filter",
+    Extends: BASE,
     Implements: [AudioMath],
     options: {
         type: _TOOLKIT_PARAMETRIC, // the type of the filter
