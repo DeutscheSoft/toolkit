@@ -376,7 +376,7 @@ function run_window () {
             fixed: true,
             content: "<div style='margin: 6px'><img src=images/toolkit.png "
                    + "style=\"float: left; margin-right: 20px;\">"
-                   + "Thanks for testing the JUNGER toolkit. We hope you like "
+                   + "Thanks for testing toolkit. We hope you like "
                    + "the functionality, complexity and style. If you have any "
                    + "sugestions or bug reports, please let us know.</div>"
         });

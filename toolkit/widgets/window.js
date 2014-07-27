@@ -613,13 +613,13 @@ Window = $class({
                     this._footer.style["display"] = "block";
                 this.options.shrink = false;
                 if (value === false) value = this.options.maximize = {x: false, y: false};
-                value = $mixin({}, this.options.maximize, value);
-                if (this.__horiz_max()) {
+                value = $mixin(this.options.maximize, value);
+                if (value.x) {
                     this.element.classList.add("toolkit-maximized-horizontal");
                 } else {
                     this.element.classList.remove("toolkit-maximized-horizontal");
                 }
-                if (this.__vert_max()) {
+                if (value.y) {
                     this.element.classList.add("toolkit-maximized-vertical");
                 } else {
                     this.element.classList.remove("toolkit-maximized-vertical");
