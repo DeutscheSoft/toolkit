@@ -12,7 +12,7 @@ var merge = function(dst) {
 };
 var mixin = function(dst, src, warn) {
     var fun, key;
-    for (key in src) {
+    for (key in src) if (!dst[key]) {
         if (key === "constructor" ||
             key === "_class" ||
             key === "Extends" ||
@@ -75,7 +75,7 @@ $class = function(o) {
                 if (!methods.hasOwnProperty("options")) {
                     methods.options = Object.create(methods.options || null);
                 }
-                merge(methods.options, c.options);
+                methods.options = merge({}, c.options, methods.options);
             }
 
             methods = mixin(methods, c, true);
