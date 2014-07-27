@@ -30,6 +30,12 @@ var mixin = function(dst, src, warn) {
 
     return dst;
 };
+if (typeof(Object.setPrototypeOf) != "function") {
+    Object.setPrototypeOf = function(o, proto) {
+        o.__proto__= proto;
+        return o;
+    };
+}
 $mixin = mixin;
 $class = function(o) {
     var constructor;
@@ -64,7 +70,7 @@ $class = function(o) {
 
             if (typeof(c.options) == "object") {
                 if (!methods.hasOwnProperty("options")) {
-                    methods.options = Object.create(method.options);
+                    methods.options = Object.create(methods.options || null);
                 }
                 merge(methods.options, c.options);
             }
