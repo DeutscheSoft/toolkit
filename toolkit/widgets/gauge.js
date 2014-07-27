@@ -35,6 +35,7 @@ Gauge = $class({
                      // title:  the title as a string
     },
     initialize: function (options) {
+        BASE.prototype.initialize.call(this);
         if (typeof options.title == "string")
             options.title = {title: options.title};
         this.setOptions(options);

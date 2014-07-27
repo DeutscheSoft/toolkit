@@ -239,7 +239,7 @@ run_fader = function () {
             value: 0,
             scale: _TOOLKIT_DB,
             log_factor: 2,
-            snap: [-60, -50, -40, -30, -20, -10, 0, 10, 12]
+            //snap: [-60, -50, -40, -30, -20, -10, 0, 10, 12]
         }));
     }
     fadertt = new Toggle({

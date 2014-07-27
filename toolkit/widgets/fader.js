@@ -257,7 +257,7 @@ Fader = $class({
     _get_value: function (ev) {
         var pos   = this.element.getPosition()[
                      this._vert() ? "y" : "x"] + this._handlesize / 2;
-        var click = ev.event[
+        var click = ev[
                      this._vert() ? "pageY" : "pageX"];
         var size  = this._scale[
                      this._vert() ? "outerHeight" : "outerWidth"]();
