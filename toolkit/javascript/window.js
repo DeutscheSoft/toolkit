@@ -61,11 +61,11 @@ keep_inside = function (element, resize) {
         var y = Math.min(Math.max(ey, 0), ph - eh);
     }
     if(resize) {
-        if (ew > pw) element.setStyle("width", pw + "px");
-        if (eh > ph) element.setStyle("height", ph + "px");
+        if (ew > pw) element.style.width = pw + "px";
+        if (eh > ph) element.style.height = ph + "px";
     }
-    element.setStyle("left", x);
-    element.setStyle("top", y);
+    element.style.left = x;
+    element.style.top = y;
 }
 width = function () {
     return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
