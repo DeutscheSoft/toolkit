@@ -355,7 +355,7 @@ Circular = $class({
                     this.redraw();
                 }
                 this.set("hand", this.options.hand);
-            case "size":
+                if (key != "size") break;
             case "start":
             case "x":
             case "y":
