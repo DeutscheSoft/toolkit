@@ -40,14 +40,18 @@ Knob = $class({
     },
     
     initialize: function (options) {
-        Circular.prototype.initialize.call(this, options, true);
-        this.setOptions(options);
-        this._svg = this.widgetize(makeSVG("svg", {"class": "toolkit-knob"}),
-                        true, true, true);
-        if (this.options.container)
-            this._svg.inject(this.options.container);
+        BASE.prototype.initialize.call(this);
+        var svg = makeSVG("svg", {"class": "toolkit-knob"});
+
+        if (options.container)
+            svg.inject(options.container);
         
-        options.container = this._svg;
+        options.container = svg;
+
+
+        this._svg = this.widgetize(svg, true, true, true);
+
+        Circular.prototype.initialize.call(this, options, true);
         
         this.drag = new DragValue({
             element: this._svg,
