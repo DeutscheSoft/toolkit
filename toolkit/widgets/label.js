@@ -37,7 +37,7 @@ Label = $class({
     },
     
     redraw: function () {
-        this.element.set("html", this.options.label);
+        this.element.set("text", this.options.label);
     },
     
     destroy: function () {

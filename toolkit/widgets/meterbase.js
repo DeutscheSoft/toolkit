@@ -402,9 +402,7 @@ var MeterBase = $class({
                     if (n.firstChild) {
                         n.firstChild.nodeValue = s;
                     } else n.appendChild(document.createTextNode(s));
-                    //this._label.set("html", this.options.format_label(value));
                 }
-
                 break;
             case "value":
                 this.fire_event("valuechanged", [value, this]);

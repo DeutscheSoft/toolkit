@@ -147,3 +147,6 @@ ul#navigation>li ul li {
 ul#navigation>li ul li a {
     background-color: rgba(0, 42, 66, 1);
 }
+div.showcase {
+    overflow: hidden;
+}

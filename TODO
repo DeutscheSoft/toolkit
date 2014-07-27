@@ -4,3 +4,7 @@ STRIP MOOTOOLS FROM TOOLKIT:
 ----------------------------
 svgutils.js
 event.resize.js
+
+
+ValueButton layout broken
+LevelMeter renders uneccessary parent elements

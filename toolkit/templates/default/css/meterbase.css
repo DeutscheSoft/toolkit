@@ -24,6 +24,7 @@ div.toolkit-meter-base {
 div.toolkit-meter-base div.toolkit-label {
     height: 16px;
     line-height: 16px;
+    white-space: nowrap;
 }
 div.toolkit-meter-base div.toolkit-title {
     height: 16px;
