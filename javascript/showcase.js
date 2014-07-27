@@ -1608,6 +1608,7 @@ running = false
 function run () {
     if (running) return;
     running = true;
+    /*
     run1();
     run2();
     run3();
@@ -1615,6 +1616,7 @@ function run () {
     run5();
     run6();
     run7();
+    */
     run8();
 }
 function run1 () {
