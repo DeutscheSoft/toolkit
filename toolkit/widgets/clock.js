@@ -62,7 +62,7 @@ Clock = $class({
     circulars: {},
     _margin: -1,
     initialize: function (options) {
-        this.setOptions(options);
+        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(makeSVG("svg", {"class": "toolkit-clock"}),
                                       true, true, true);
         
