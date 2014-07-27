@@ -83,6 +83,9 @@ BASE = $class({
         } else {
             this.options = Object.setPrototypeOf(o, opt);
         }
+        for (key in this.options) if (key.indexOf("on") == 0) {
+            this.add_event(key.substr(2).toLowerCase(), this.options[key]);
+        }
     },
     delegate_events: function (element) {
         // hand over a DOM element all native events will be bound to
