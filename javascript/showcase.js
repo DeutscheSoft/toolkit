@@ -1265,25 +1265,21 @@ function run_state () {
         container: $("sc_state"),
         color: "blue",
         state: 1,
-        "class": "junger"
     });
     s5 = new State({
         container: $("sc_state"),
         color: "#cc0000",
         state: 1,
-        "class": "junger"
     });
     s6 = new State({
         container: $("sc_state"),
         color: "#ff8800",
         state: 1,
-        "class": "junger"
     });
     s7 = new State({
         container: $("sc_state"),
         color: "grey",
         state: 1,
-        "class": "junger"
     });
     s8 = new State({
         container: $("sc_state"),
