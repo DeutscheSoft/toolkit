@@ -1,5 +1,5 @@
 .toolkit-valuebutton {
-    
+    position: relative;
 }
 .toolkit-valuebutton.toolkit-vertical {
     
@@ -22,7 +22,6 @@
     border: 1px solid #c00;
 }
 .toolkit-valuebutton .toolkit-value .toolkit-input {
-    float: left;
     background: rgba(0,0,0,0.033);
     border: none;
     font-size: 16px;

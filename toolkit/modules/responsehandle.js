@@ -1018,16 +1018,16 @@ ResponseHandle = $class({
         // LINES
         switch (this.options.mode) {
             case _TOOLKIT_CIRCULAR:
-                var _x = Math.max(width / 2 + this.options.margin,
-                                  this.label.x2 - rnd.x + this.options.margin);
-                var _y = Math.max(height / 2 + this.options.margin,
-                                  this.label.y2 - this.y + this.options.margin);
-                this._line1.set("d", "M "  + _x + " 0" + this._add + " L"
-                                           + (this.range_x.get("basis") - (x - _x))
-                                           + " 0" + this._add);
-                this._line2.set("d", "M 0" + this._add + " " + _y + " L 0"
-                                           + this._add + " "
-                                           + (this.range_y.get("basis") - (y - _y)));
+                //var _x = Math.max(width / 2 + this.options.margin,
+                                  //this.label.x2 - rnd.x + this.options.margin);
+                //var _y = Math.max(height / 2 + this.options.margin,
+                                  //this.label.y2 - this.y + this.options.margin);
+                //this._line1.set("d", "M "  + _x + " 0" + this._add + " L"
+                                           //+ (this.range_x.get("basis") - (x - _x))
+                                           //+ " 0" + this._add);
+                //this._line2.set("d", "M 0" + this._add + " " + _y + " L 0"
+                                           //+ this._add + " "
+                                           //+ (this.range_y.get("basis") - (y - _y)));
                 break;
             case _TOOLKIT_LINE_VERTICAL:
             case _TOOLKIT_BLOCK_LEFT:

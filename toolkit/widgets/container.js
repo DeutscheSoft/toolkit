@@ -45,10 +45,6 @@ Container = $class({
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        this.options[key] = value;
-        switch (key) {
-            
-        }
-        Widgets.prototype.destroy.call(this, key, value, hold);
+        Widgets.prototype.set.call(this, key, value, hold);
     }
 });

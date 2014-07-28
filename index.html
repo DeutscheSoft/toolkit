@@ -687,6 +687,28 @@
                 
             </li>
             
+            
+            <li id="Container" class="widget">
+                <!-- ########################################################### -->
+                <!-- CONTAINER WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Container</strong> is a simple DIV element. It doesn't
+                    provide any options, functions or other elements except all
+                    the functionality <a href="#widget">Widget</a> offers, which
+                    is extended by Container.
+                </p>
+                <div class="buttons"></div>
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>container.element ("div.toolkit-container") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>The main element is a simple DIV.</td>
+                    </tr>
+                </table>
+            </li>
+            
             <li id="Dynamics" class="widget">
                 <!-- ########################################################### -->
                 <!-- DYNAMICS WIDGET -->
@@ -2402,7 +2424,7 @@
                 </p>
                 <style type="text/css">
                     #sc_vbutton .toolkit-valuebutton {
-                        width: 200px;
+                        width: 210px;
                         padding: 0px;
                         padding-left: 8px;
                     }
@@ -2411,19 +2433,25 @@
                         margin: 6px 6px 6px 0 !important;
                     }
                     #sc_vbutton .toolkit-valuebutton .toolkit-bar {
-                        margin-left: 30px;
+                        position: absolute;
+                        bottom: 3px;
+                        left: 39px;
                         width: 80px;
                     }
                     #sc_vbutton .toolkit-valuebutton .toolkit-label {
-                        margin-top: 6px;
-                        margin-left: 30px;
+                        position: absolute;
+                        left: 39px;
+                        top: 4px;
                         width: 80px;
                     }
                     #sc_vbutton .toolkit-valuebutton .toolkit-value {
                         width: 80px;
                         height: 37px;
                         line-height: 37px;
-                        float: right;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        display: block;
                         -webkit-border-top-right-radius: 5px;
                         -webkit-border-bottom-right-radius: 5px;
                         -moz-border-radius-topright: 5px;
@@ -2435,7 +2463,6 @@
                         width: 80px;
                         height: 37px;
                         line-height: 37px;
-                        float: right;
                         -webkit-border-top-right-radius: 5px;
                         -webkit-border-bottom-right-radius: 5px;
                         -moz-border-radius-topright: 5px;
@@ -2464,29 +2491,6 @@
                         <td>value_format</td>
                         <td>A callback receiving the value and returning a string to display.</td>
                         <td>function (val) { return val.toFixed(2); }</td>
-                    </tr>
-                    <tr>
-                        <td>value_position</td>
-                        <td>Hierarchical position of the value inside the main element.
-                        One out of:
-                        <ul>
-                        <li>_TOOLKIT_TOP</li>
-                        <li>_TOOLKIT_BOTTOM</li>
-                        <li>_TOOLIT_ICON</li>
-                        </ul></td>
-                        <td>_TOOLKIT_BOTTOM</td>
-                    </tr>
-                    <tr>
-                        <td>bar_position</td>
-                        <td>Hierarchical position of the bar inside the main element.
-                        One out of:
-                        <ul>
-                        <li>_TOOLKIT_TOP</li>
-                        <li>_TOOLKIT_BOTTOM</li>
-                        <li>_TOOLIT_ICON</li>
-                        <li>_TOOLKIT_LABEL</li>
-                        </ul>
-                        <td>_TOOLKIT_BOTTOM</td>
                     </tr>
                     <tr>
                         <td>bar_direction</td>

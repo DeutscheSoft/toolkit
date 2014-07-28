@@ -26,10 +26,6 @@ ValueButton = $class({
     options:  {
         value: 0,
         value_format: function (val) { return val.toFixed(2); },
-        value_position: _TOOLKIT_BOTTOM, // can be _TOOLKIT_TOP, _TOOLKIT_BOTTOM,
-                                  // or _TOOLIT_ICON
-        bar_position: _TOOLKIT_BOTTOM, // can be _TOOLKIT_TOP, _TOOLKIT_BOTTOM,
-                                // _TOOLIT_ICON or _TOOLKIT_LABEL
         bar_direction: _TOOLKIT_HORIZONTAL,
         drag_direction: _TOOLKIT_VERTICAL,
         snap: 0.01
@@ -41,7 +37,6 @@ ValueButton = $class({
         
         this._bar     = new Element("div.toolkit-bar");
         this._base    = new Element("div.toolkit-base").inject(this._bar);
-        this._over    = new Element("div.toolkit-over").inject(this._bar);
         
         this.value = new Value({
             container: this.element,
@@ -55,12 +50,11 @@ ValueButton = $class({
         this.value.add_event("valueclicked", this._value_clicked.bind(this));
         this.value.add_event("valuedone", this._value_done.bind(this));
         
-        this._value = this.value.element;
         this._input = this.value._input;
         
+        this._bar.inject(this.element, "bottom");
+        
         this.set("bar_direction", this.options.bar_direction, true);
-        this.set("value_position", this.options.value_position);
-        this.set("bar_position", this.options.bar_position);
         
         this.drag = new DragValue({
             element:   this.element,
@@ -132,49 +126,6 @@ ValueButton = $class({
                 }
                 this.element.classList.add(c);
                 if (!hold) this.redraw();
-                break;
-            case "value_position":
-                this.element.classList.remove("toolkit-value-top");
-                this.element.classList.remove("toolkit-value-bottom");
-                this.element.classList.remove("toolkit-value-icon");
-                switch (value) {
-                    case _TOOLKIT_BOTTOM:
-                        this._value.inject(this.element, "bottom");
-                        this.element.classList.add("toolkit-value-bottom");
-                        break;
-                    case _TOOLKIT_TOP:
-                        this._value.inject(this.element, "top");
-                        this.element.classList.add("toolkit-value-top");
-                        break;
-                    case _TOOLKIT_ICON:
-                        this._value.inject(this._icon, "after");
-                        this.element.classList.add("toolkit-value-icon");
-                        break;
-                }
-                break;
-            case "bar_position":
-                this.element.classList.remove("toolkit-bar-top");
-                this.element.classList.remove("toolkit-bar-bottom");
-                this.element.classList.remove("toolkit-bar-label");
-                this.element.classList.remove("toolkit-bar-icon");
-                switch (value) {
-                    case _TOOLKIT_BOTTOM:
-                        this._bar.inject(this.element, "bottom");
-                        this.element.classList.add("toolkit-bar-bottom");
-                        break;
-                    case _TOOLKIT_TOP:
-                        this._bar.inject(this.element, "top");
-                        this.element.classList.add("toolkit-bar-top");
-                        break;
-                    case _TOOLKIT_LABEL:
-                        this._bar.inject(this._label, "after");
-                        this.element.classList.add("toolkit-bar-label");
-                        break;
-                    case _TOOLKIT_ICON:
-                        this._bar.inject(this._icon, "after");
-                        this.element.classList.add("toolkit-bar-icon");
-                        break;
-                }
                 break;
             case "value":
                 this.options.value = this.snap_value(Math.min(this.options.max,
