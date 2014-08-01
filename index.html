@@ -96,6 +96,10 @@
         <script src="toolkit/widgets/label.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/keyboard.css">
         <script src="toolkit/widgets/keyboard.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/container.css">
+        <script src="toolkit/widgets/container.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/buttonarray.css">
+        <script src="toolkit/widgets/buttonarray.js"></script>
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
         
@@ -317,6 +321,110 @@
                     <tr>
                         <td>button._icon ("img.toolkit-icon")</td>
                         <td>An icon to display</td>
+                    </tr>
+                </table>
+            </li>
+            
+            <li id="ButtonArray" class="widget">
+                <!-- ########################################################### -->
+                <!-- BUTTON ARRAY WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>ButtonArray</strong> is a horizontal or vertical
+                    aligned array of buttons. It automatically clips overhanging
+                    buttons and adds arrow buttons if the space is too small.
+                    ButtonArray extends <a href="#Container" title="Container">Container</a>.
+                </p>
+                <p class="description">
+                    Use buttonarray to play with the example in a terminal:
+                    <a href="javascript:buttonarray.set('show', 10)">buttonarray.set("show", 10)</a>
+                    <small>(scrolls to button #6)</small>
+                </p>
+                
+                <div class="showcase">
+                    <div id="sc_buttonarray">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>buttons</td>
+                        <td>An array of button option objects. It is used for the initial button list
+                        but can be set later to replace the whole button list with a new one.</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <td>direction</td>
+                        <td>One out of _TOOLKIT_VERTICAL or _TOOLKIT_HORIZONTAL.</td>
+                        <td>_TOOLKIT_HORIZONTAL</td>
+                    </tr>
+                    <tr>
+                        <td>auto_arrows</td>
+                        <td>Set to false if you don't want to display automatically generated arrow buttons.</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show</td>
+                        <td>A button or a id to show.</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>add_button(button, pos)</td>
+                        <td>Adds a new button. "button" is an object
+                        with options for the button (see <a href="#Button" title="Button widget">Button</a>
+                        for more information), pos is an integer for the position of the button.
+                        If pos is omitted, it is added to the end of the list.</td>
+                    </tr>
+                    <tr>
+                        <td>add_buttons([button, ...])</td>
+                        <td>Adds an array of buttons to the end of the list. "button" is an object
+                        with options for the button (see <a href="#Button" title="Button widget">Button</a>
+                        for more information)</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>buttonarray._clip ("div.toolkit-clip")</td>
+                        <td>A clipping area containing the list of buttons.</td>
+                    </tr>
+                    <tr>
+                        <td>buttonarray._container ("div.toolkit-container")</td>
+                        <td>A DIV element containing all the buttons.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>buttonarray.prev</td>
+                        <td>The previous arrow button instance.</td>
+                    </tr>
+                    <tr>
+                        <td>buttonarray.next</td>
+                        <td>The next arrow button instance.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>scroll</td>
+                        <td>This event is fired when the button array is moved. Hands over the target id.</td>
+                    </tr>
+                    <tr>
+                        <td>added</td>
+                        <td>This event is fired when a button was added. Hands over the button instance.</td>
                     </tr>
                 </table>
             </li>

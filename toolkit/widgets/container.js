@@ -40,11 +40,11 @@ Container = $class({
     
     destroy: function () {
         this.element.destroy();
-        Widgets.prototype.destroy.call(this);
+        Widget.prototype.destroy.call(this);
     },
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        Widgets.prototype.set.call(this, key, value, hold);
+        Widget.prototype.set.call(this, key, value, hold);
     }
 });

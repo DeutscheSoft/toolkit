@@ -73,10 +73,44 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// BUTTONARRAY
+run_buttonarray = function () {
+    if (typeof buttonarray != "undefined") {
+        // remove buttonarray
+        buttonarray.destroy();
+        buttonarray = undefined;
+        $("sc_buttonarray").removeClass("box");
+        return;
+    }
+    buttonarray = new ButtonArray({
+        container: $("sc_buttonarray"),
+        buttons: [
+            {label: "Button 1"},
+            {label: "Button 2"},
+            {label: "Button 3"},
+            {label: "Button 4"},
+            {label: "Button 5"},
+            {label: "Button 6"},
+            {label: "Button 7"},
+            {label: "Button 8"},
+            {label: "Button 9"},
+            {label: "Button 10"},
+            {label: "Button 11"},
+            {label: "Button 12"},
+            {label: "Button 13"},
+            {label: "Button 14"},
+            {label: "Button 15"},
+            {label: "Button 16"}
+        ]
+    });
+    $("sc_buttonarray").addClass("box");
+}
+
+
 // KEYBOARD
 run_keyboard = function () {
     if (typeof keyboard != "undefined") {
-        // remove label
+        // remove value and keyboard
         keyboard.destroy();
         value.destroy();
         keyboard = undefined;
