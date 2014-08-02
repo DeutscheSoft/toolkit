@@ -149,21 +149,22 @@ Clock = $class({
         Widget.prototype.destroy.call(this);
     },
     _draw_time: function (force) {
-        var s = m = h = -1;
-        if ((s = this.options.time.getSeconds()) != this.__sec || force) {
-            this.circulars.seconds.set("value", s);
-            this.__sec = s;
+        var tmp, drawn;
+        var t = this.options.time;
+
+        if ((tmp = t.getSeconds()) != this.__sec || force) {
+            this.circulars.seconds.set("value", tmp);
+            this.__sec = tmp;
         }
-        if ((m = this.options.time.getMinutes()) != this.__min || force) {
-            this.circulars.minutes.set("value", m);
-            this.__min = m;
+        if ((tmp = t.getMinutes()) != this.__min || force) {
+            this.circulars.minutes.set("value", tmp);
+            this.__min = tmp;
         }
-        if ((h = this.options.time.getHours() % 12) != this.__hour || force) {
-            this.circulars.hours.set("value", h);
-            this.__hour = h;
+        if ((tmp = t.getHours() % 12) != this.__hour || force) {
+            this.circulars.hours.set("value", tmp);
+            this.__hour = tmp;
         }
         
-        var t = this.options.time;
         var args = [t,
                     t.getFullYear(),
                     t.getMonth(),
@@ -176,21 +177,24 @@ Clock = $class({
                     Math.round(t.getMilliseconds() / (1000 / this.options.fps)),
                     this.options.months,
                     this.options.days];
-        var u = m = l = "";
-        if ((m = this.options.label.apply(this, args)) != this.__label || force) {
-            this._label.set("text", m);
-            this.__label = m;
+        if ((tmp = this.options.label.apply(this, args)) != this.__label || force) {
+            toolkit.set_text(this._label, tmp);
+            this.__label = tmp;
+            drawn = true;
         }
-        if ((u = this.options.label_upper.apply(this, args)) != this.__upper || force) {
-            this._label_upper.set("text", u);
-            this.__upper = u;
+        if ((tmp = this.options.label_upper.apply(this, args)) != this.__upper || force) {
+            toolkit.set_text(this._label_upper, tmp);
+            this.__upper = tmp;
+            drawn = true;
         }
-        if ((l = this.options.label_lower.apply(this, args)) != this.__lower || force) {
-            this._label_lower.set("text", l);
-            this.__lower = l;
+        if ((tmp = this.options.label_lower.apply(this, args)) != this.__lower || force) {
+            toolkit.set_text(this._label_lower, tmp);
+            this.__lower = tmp;
+            drawn = true;
         }
         
-        this.fire_event("timedrawn", [this, this.options.time]);
+        if (drawn)
+            this.fire_event("timedrawn", [this, this.options.time]);
     },
     _set_labels: function () {
         var s = this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
