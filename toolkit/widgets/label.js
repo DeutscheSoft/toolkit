@@ -28,7 +28,7 @@ Label = $class({
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        this.element = this.widgetize(new Element("div.toolkit-label"),
+        this.element = this.widgetize(toolkit.element("div", "toolkit-label"),
                                       true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);

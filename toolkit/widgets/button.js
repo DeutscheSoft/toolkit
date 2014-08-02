@@ -35,16 +35,15 @@ Button = $class({
     initialize: function (options, hold) {
         // ??
         Widget.prototype.initialize.call(this, options, hold);
-        this.element = this.widgetize(new Element("div.toolkit-button", {
-            "id":    this.options.id
-        }), true, true, true);
+        this.element = this.widgetize(toolkit.element("div","toolkit-button"), true, true, true);
+        this.element.id = this.options.id;
         
         if (this.options.container)
             this.set("container", this.options.container, hold);
         
-        this._cell  = new Element("div.toolkit-cell");
-        this._icon  = new Element("img.toolkit-icon");
-        this._label = new Element("div.toolkit-label");
+        this._cell  = toolkit.element("div","toolkit-cell");
+        this._icon  = toolkit.element("img","toolkit-icon");
+        this._label = toolkit.element("div","toolkit-label");
 
         this._cell.appendChild(this._icon);
         this._cell.appendChild(this._label);

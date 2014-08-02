@@ -33,9 +33,10 @@ Value = $class({
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        this.element = this.widgetize(new Element("form.toolkit-value"),
+        this.element = this.widgetize(toolkit.element("form", "toolkit-value"),
                                       true, true, true);
-        this._input  = new Element("input.toolkit-input", {type: "text"});
+        this._input  = toolkit.element("input", "toolkit-input");
+        this._input.type = "text";
         this.element.appendChild(this._input);
         
         this.__touch_cb = function (e) {

@@ -38,16 +38,16 @@ Fader = $class({
         this.__tt = false;
         Widget.prototype.initialize.call(this, options);
         
-        this.element = this.widgetize(new Element("div.toolkit-fader"),
+        this.element = this.widgetize(toolkit.element("div","toolkit-fader"),
                        true, true, true);
         
         if (this.element.getStyle("position") != "absolute"
             && this.element.getStyle("position") != "relative")
             this.element.style["position"] = "relative";
             
-        this._background_top    = new Element("div.toolkit-background-top-left");
-        this._background_center = new Element("div.toolkit-background-center");
-        this._background_bottom = new Element("div.toolkit-background-bottom-right");
+        this._background_top    = toolkit.element("div", "toolkit-background-top-left");
+        this._background_center = toolkit.element("div", "toolkit-background-center");
+        this._background_bottom = toolkit.element("div", "toolkit-background-bottom-right");
 
         this.element.appendChild(this._background_top);
         this.element.appendChild(this._background_center);
@@ -59,7 +59,7 @@ Fader = $class({
         this.scale = new Scale(opt);
         this._scale = this.scale.element;
         
-        this._handle = new Element("div.toolkit-handle");
+        this._handle = toolkit.element("div", "toolkit-handle");
         this.element.appendChild(this._handle);
             
         if (this.options.container)

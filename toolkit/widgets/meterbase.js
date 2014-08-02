@@ -74,7 +74,7 @@ var MeterBase = $class({
         this.__based = false;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
-                       new Element("div.toolkit-meter-base"), false, true, true);
+                       toolkit.element("div", "toolkit-meter-base"), false, true, true);
         
         if (this.options.reverse)
             this.element.classList.add("toolkit-reverse");
@@ -83,10 +83,10 @@ var MeterBase = $class({
             && this.element.getStyle("position") != "relative")
             this.element.style["position"] = "relative";
         
-        this._title  = new Element("div.toolkit-title");
-        this._label  = new Element("div.toolkit-label");
-        this._scale  = new Element("div.toolkit-meter-scale");
-        this._bar    = new Element("div.toolkit-bar");
+        this._title  = toolkit.element("div", "toolkit-title");
+        this._label  = toolkit.element("div", "toolkit-label");
+        this._scale  = toolkit.element("div", "toolkit-meter-scale");
+        this._bar    = toolkit.element("div", "toolkit-bar");
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
                 this.element.appendChild(this._label);
@@ -120,16 +120,16 @@ var MeterBase = $class({
                 throw("unsupported layout");
         }
         
-        this._base   = new Element("div.toolkit-base");
-        this._mark   = new Element("div.toolkit-mark");
-        this._over   = new Element("div.toolkit-over");
+        this._base   = toolkit.element("div", "toolkit-base");
+        this._mark   = toolkit.element("div", "toolkit-mark");
+        this._over   = toolkit.element("div", "toolkit-over");
 
         this._bar.appendChild(this._base);
         this._bar.appendChild(this._mark);
         this._bar.appendChild(this._over);
         
-        this._mask1  = new Element("div.toolkit-mask.toolkit-mask1");
-        this._mask2  = new Element("div.toolkit-mask.toolkit-mask2");
+        this._mask1  = toolkit.element("div", "toolkit-mask", "toolkit-mask1");
+        this._mask2  = toolkit.element("div", "toolkit-mask", "toolkit-mask2");
 
         this._bar.appendChild(this._mask1);
         this._bar.appendChild(this._mask2);

@@ -754,6 +754,7 @@ function run_button () {
 // VALUE BUTTON
 
 function run_valuebutton () {
+    var vbutton = document.getElementById("sc_vbutton");
     if (typeof thres != "undefined") {
         // remove example
         thres.destroy();
@@ -764,11 +765,11 @@ function run_valuebutton () {
         attack = undefined;
         release.destroy();
         release = undefined;
-        $("sc_vbutton").set("html", "");
+        vbutton.innerHTML = "";
         return;
     }
     thres = new ValueButton({
-        container: $("sc_vbutton"),
+        container: vbutton,
         label: "Threshold",
         icon: "images/icons_small/threshold.png",
         value_position: _TOOLKIT_BOTTOM,
@@ -783,7 +784,7 @@ function run_valuebutton () {
     });
     attack = new ValueButton({
         "class": "attack",
-        container: $("sc_vbutton"),
+        container: vbutton,
         label: "Attack",
         icon: "images/icons_small/attack.png",
         value_position: _TOOLKIT_BOTTOM,
@@ -798,10 +799,11 @@ function run_valuebutton () {
         scale: _TOOLKIT_FREQ
     });
     
-    var br = new Element("br").inject($("sc_vbutton"));
+    var br = document.createElement("br");
+    vbutton.appendChild(br);
     
     ratio = new ValueButton({
-        container: $("sc_vbutton"),
+        container: vbutton,
         label: "Ratio",
         icon: "images/icons_small/ratio.png",
         value_position: _TOOLKIT_BOTTOM,
@@ -816,7 +818,7 @@ function run_valuebutton () {
     });
     
     release = new ValueButton({
-        container: $("sc_vbutton"),
+        container: vbutton,
         label: "Release",
         icon: "images/icons_small/release.png",
         value_position: _TOOLKIT_BOTTOM,

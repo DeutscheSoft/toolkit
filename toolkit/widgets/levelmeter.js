@@ -81,10 +81,10 @@ LevelMeter = $class({
         } else {
             this.state.element.inject(this._scale, "before");
         }
-        this._peak       = new Element("div.toolkit-peak");
-        this._peak_label = new Element("div.toolkit-peak-label");
-        this._mask3      = new Element("div.toolkit-mask.toolkit-mask3");
-        this._mask4      = new Element("div.toolkit-mask.toolkit-mask4");
+        this._peak       = toolkit.element("div","toolkit-peak");
+        this._peak_label = toolkit.element("div","toolkit-peak-label");
+        this._mask3      = toolkit.element("div","toolkit-mask","toolkit-mask3");
+        this._mask4      = toolkit.element("div","toolkit-mask","toolkit-mask4");
         this._peak.appendChild(this._peak_label);
         this.element.appendChild(this._peak);
         this._bar.appendChild(this._mask3);

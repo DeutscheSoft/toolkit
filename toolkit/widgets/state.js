@@ -34,12 +34,11 @@ State = $class({
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         
-        this.element = this.widgetize(new Element("div.toolkit-state", {
-            "id":    this.options.id
-        }), true, true, true);
+        this.element = this.widgetize(toolkit.element("div","toolkit-state"), true, true, true);
+        this.element.id = this.options.id;
         
-        this._over   = new Element("div.toolkit-over");
-        this._mask   = new Element("div.toolkit-mask");
+        this._over   = toolkit.element("div","toolkit-over");
+        this._mask   = toolkit.element("div","toolkit-mask");
 
         this.element.appendChild(this._over);
         this.element.appendChild(this._mask);

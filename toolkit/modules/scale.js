@@ -56,7 +56,7 @@ Scale = $class({
         this.__size = 0;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
-                       new Element("div.toolkit-scale"), true, true, true);
+                       toolkit.element("div","toolkit-scale"), true, true, true);
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
@@ -166,7 +166,7 @@ Scale = $class({
         // draws a dot at a certain value and adds a class if needed
         
         // create dot element
-        var d = new Element("div.toolkit-dot", { style: "position: absolute" });
+        var d = toolkit.element("div", "toolkit-dot", { position: "absolute" });
         if (cls) d.classList.add(cls);
         
         // position dot element
@@ -183,9 +183,12 @@ Scale = $class({
         if (!this.options.show_labels) return;
                   
         // create label element
-        var label = new Element("span.toolkit-label", {
-            html: this.options.labels(val),
-            style: "position: absolute; display: block; float: left" });
+        var label = toolkit.element("span", "toolkit-label", {
+            position: "absolute",
+            display: "block",
+            float: "left"
+        });
+        label.innerHTML = this.options.labels(val);
         if (cls) label.classList.add(cls);
         this.element.appendChild(label);
         

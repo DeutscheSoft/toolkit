@@ -88,39 +88,39 @@ Window = $class({
         this.dimensions = {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
         Widget.prototype.initialize.call(this, options);
         
-        this.element = this.widgetize(new Element("div.toolkit-window"),
+        this.element = this.widgetize(toolkit.element("div", "toolkit-window"),
                                       true, true, true);
         
-        this._header = (new Element("div.toolkit-header"));
-        this._footer = (new Element("div.toolkit-footer"));
-        this._content = (new Element("div.toolkit-content"));
+        this._header = toolkit.element("div", "toolkit-header");
+        this._footer = toolkit.element("div", "toolkit-footer");
+        this._content = toolkit.element("div", "toolkit-content");
 
         this.element.appendChild(this._header);
         this.element.appendChild(this._footer);
         this.element.appendChild(this._content);
         
         this._header_left =
-            (new Element("div.toolkit-header-left"));
+            (toolkit.element("div", "toolkit-header-left"));
         this._header_center =
-            (new Element("div.toolkit-header-center"));
+            (toolkit.element("div", "toolkit-header-center"));
         this._header_right =
-            (new Element("div.toolkit-header-right"));
+            (toolkit.element("div", "toolkit-header-right"));
 
         this._header.appendChild(this._header_left);
         this._header.appendChild(this._header_center);
         this._header.appendChild(this._header_right);
         
-        this._footer_left = (new Element("div.toolkit-footer-left"));
-        this._footer_center = (new Element("div.toolkit-footer-center"));
-        this._footer_right = (new Element("div.toolkit-footer-right"));
+        this._footer_left = (toolkit.element("div", "toolkit-footer-left"));
+        this._footer_center = (toolkit.element("div", "toolkit-footer-center"));
+        this._footer_right = (toolkit.element("div", "toolkit-footer-right"));
 
         this._footer.appendChild(this._footer_left);
         this._footer.appendChild(this._footer_center);
         this._footer.appendChild(this._footer_right);
             
-        this._title  = new Element("div.toolkit-title");
-        this._status = new Element("div.toolkit-status");
-        this._icon   = new Element("img.toolkit-icon");
+        this._title  = toolkit.element("div", "toolkit-title");
+        this._status = toolkit.element("div", "toolkit-status");
+        this._icon   = toolkit.element("img", "toolkit-icon");
         
         this.close = new Button({"class": "toolkit-close"});
         this.close.add_event("click", this.__close.bind(this));
@@ -144,7 +144,7 @@ Window = $class({
                           this.maximize_horiz, this.minimize, this.shrink];
         for (var i = 0; i < this.__buttons.length; i++) {
             this.__buttons[i].element.appendChild(
-                new Element("div.toolkit-icon")
+                toolkit.element("div", "toolkit-icon")
             );
             this.__buttons[i]._icon.dispose();
             this.__buttons[i]._label.dispose();
@@ -194,7 +194,7 @@ Window = $class({
                     y: [0, window.getSize().y - 20]}
         });
         
-        this._resize = new Element("div.toolkit-resize");
+        this._resize = toolkit.element("div", "toolkit-resize");
         this.element.appendChild(this._resize)
         this.resize = this.element.makeResizable({
             handle: this._resize,

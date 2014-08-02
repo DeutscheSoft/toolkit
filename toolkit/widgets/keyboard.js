@@ -72,7 +72,7 @@
     
     build: function () {
         this.element = this.widgetize(
-                       new Element("div.toolkit-container"), true, true, true);
+                       toolkit.element("div","toolkit-container"), true, true, true);
         this.window = new Window({
             container: this.options.container,
             content: this.element,
@@ -92,28 +92,28 @@
         this._buffer = false;
         switch (this.options.buffer) {
             case _TOOLKIT_TEXT_INPUT:
-                this._buffer = new Element("input.toolkit-buffer");
+                this._buffer = toolkit.element("input","toolkit-buffer");
                 this._buffer.set("type", "text");
                 break;
             case _TOOLKIT_TEXT_AREA:
-                this._buffer = new Element("textarea.toolkit-buffer");
+                this._buffer = toolkit.element("textarea","toolkit-buffer");
                 break;
             default:
-                this._buffer = new Element("div.toolkit-dummy");
+                this._buffer = toolkit.element("div","toolkit-dummy");
         }
         if (this._buffer) {
             this.element.appendChild(this._buffer);
             this._buffer.focus();
         }
         
-        this._wrapper = new Element("div.toolkit-wrapper");
+        this._wrapper = toolkit.element("div","toolkit-wrapper");
         this.element.appendChild(this._wrapper);
         
         for(var i = 0; i < this.options.rows.length; i++) {
             // rows
             var rd = this.options.rows[i];
             var rw = new Widget(rd);
-            var re = new Element("div.toolkit-row");
+            var re = toolkit.element("div","toolkit-row");
             rw.widgetize(re, true, true, true);
             this._wrapper.appendChild(re);
             rd["container"] = re;

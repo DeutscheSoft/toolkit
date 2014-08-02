@@ -28,7 +28,7 @@ Tooltip = $class({
     tooltip: function (cont, tt) {
         if (!this._tooltip) {
             // build tooltip container
-            this._tooltip = new Element("ul.toolkit-tooltip");
+            this._tooltip = toolkit.element("ul", "toolkit-tooltip");
             this.__tt_pos_cb = this._pos_tooltip.bind(this);
             document.addEventListener("mousemove", this.__tt_pos_cb);
             document.addEventListener("touchmove", this.__tt_pos_cb);
@@ -54,7 +54,7 @@ Tooltip = $class({
             return;
         } else if (!tt) {
             // add a tooltip
-            var tt = new Element("li");
+            var tt = document.createElement("li");
             this.fire_event("tooltipadded", [tt, cont, this]);
             this.__tt_count ++;
         }

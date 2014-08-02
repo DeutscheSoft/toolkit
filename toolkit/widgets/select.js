@@ -39,7 +39,7 @@ Select = $class({
             this.show_list(!this.__open);
         }.bind(this));
         
-        this._list = new Element("ul.toolkit-select-list");
+        this._list = toolkit.element("ul", "toolkit-select-list");
         this._list.set("tween", {
             onComplete: this._hide_list.bind(this),
             duration: 200
@@ -50,7 +50,7 @@ Select = $class({
             }
         }.bind(this));
         
-        this._arrow = new Element("div.toolkit-arrow");
+        this._arrow = toolkit.element("div", "toolkit-arrow");
         this.element.appendChild(this._arrow);
         
         this.set("options", this.options.list);
@@ -74,7 +74,7 @@ Select = $class({
         this.resize();
     },
     add_option: function (option, hold) {
-        var li = new Element("li.toolkit-option");
+        var li = toolkit.element("li", "toolkit-option");
         this._list.appendChild(li);
         var opt = {};
         opt.element = li;
