@@ -192,7 +192,7 @@ Circular = $class({
                     + "A " + r_inner + "," + r_inner + " 0 "
                     + large + "," + (sweep ? 0 : 1) + " "
                     + from.x2 + "," + from.y2 + " z";
-        slice.set("d", path);
+        slice.setAttribute("d", path);
         this.fire_event("slicedrawn", [this]);
     },
     _draw_dots: function () {
@@ -327,6 +327,8 @@ Circular = $class({
         }
     },
     _get_stroke: function () {
+        // TODO: this uses getComputedStyle which is bad in many ways.
+        // lets calculate this once and reuse the value
         var strokeb = this._base.getStyle("stroke-width").toInt() || 0;
         var strokev = this._value.getStyle("stroke-width").toInt() || 0;
         return strokeb > strokev ? strokeb : strokev;
