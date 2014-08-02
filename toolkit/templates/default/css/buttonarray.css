@@ -2,13 +2,6 @@
     position: relative;
     width: 100%;
     height: 48px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #aaa #ccc #fff #ccc;
-    background: rgba(0, 0, 0, 0.025);
-    -webkit-box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow:    inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    box-shadow:         inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
 .toolkit-buttonarray.toolkit-vertical {
@@ -50,6 +43,14 @@
     left: 0;
     right: 0;
     bottom: 0;
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #aaa #ccc #fff #ccc;
+    background: rgba(0, 0, 0, 0.025);
+    -webkit-box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow:    inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow:         inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
 }
 .toolkit-buttonarray.toolkit-over.toolkit-horizontal .toolkit-clip {
     top: 0;

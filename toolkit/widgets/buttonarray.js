@@ -112,7 +112,6 @@ ButtonArray = $class({
         var erect = this.element.getBoundingClientRect();
         var brect = this._list_size();
         var vert  = this.options.direction == _TOOLKIT_VERT;
-        console.log(brect, erect.width)
         this._show_arrows((vert ? brect > erect.height
                                 : brect > erect.width)
                                 && this.options.auto_arrows);
@@ -140,6 +139,7 @@ ButtonArray = $class({
             id = this.buttons.indexOf(id);
         if (id < 0 || id >= this.buttons.length)
             return;
+        this.buttons[this.options.show].set("state", false);
         var dir      = this.options.direction == _TOOLKIT_VERTICAL;
         var subd     = dir ? 'top' : 'left';
         var subm1    = dir ? 'marginTop' : 'marginLeft';
@@ -156,6 +156,7 @@ ButtonArray = $class({
         var clipsize = this._clip.getBoundingClientRect()[subs];
         this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
         this.options.show = id;
+        this.buttons[id].set("state", true);
         this.fire_event("scroll", [id, this]);
     },
     
@@ -171,11 +172,11 @@ ButtonArray = $class({
         return lastrect[subd] - conrect[subd] + lastrect[subs] + parseInt(btnstyle[subm2]);
     },
     
-    _prev_clicked: function (e) {
+    _prev_clicked: function (e) {console.log(e);
         this._scroll_to(this.options.show - 1);
     },
     
-    _next_clicked: function (e) {
+    _next_clicked: function (e) {console.log(e);
         this._scroll_to(this.options.show + 1);
     },
     
