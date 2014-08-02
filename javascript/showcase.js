@@ -68,7 +68,15 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
     var modex = window.location.hash.substring(1);
-    if (modex && typeof window["run_" + modex] != "undefined") {
+    if (modex == "all") {
+        for (var name in window) {
+            if (name.substr(0, 4) == "run_") {
+                try {
+                    window[name]();
+                } catch (e) {};
+            }
+        }
+    } else if (modex && typeof window["run_" + modex] != "undefined") {
         window["run_" + modex]();
     }
 });
