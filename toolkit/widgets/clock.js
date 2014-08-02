@@ -193,9 +193,12 @@ Clock = $class({
         this.fire_event("timedrawn", [this, this.options.time]);
     },
     _set_labels: function () {
-        this._label.set("text", this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
+        var s = this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
                                                    30, 6, 24, 59, 59, 999, 999,
-                                                   this.options.months, this.options.days));
+                                                   this.options.months, this.options.days);
+        if (this._label.firstChild) {
+            this._label.firstChild.nodeValue = s;
+        } else this._label.appendChild(document.createTextNode(s));
         
         this._label.set("transform", "");
         
