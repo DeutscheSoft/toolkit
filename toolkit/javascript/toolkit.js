@@ -17,4 +17,9 @@ toolkit = {
         }
         return n;
     },
+    set_text : function(node, s) {
+        if (node.firstChild) {
+            node.firstChild.nodeValue = s;
+        } else node.appendChild(document.createTextNode(s));
+    }
 };
