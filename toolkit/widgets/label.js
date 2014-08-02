@@ -37,7 +37,7 @@ Label = $class({
     },
     
     redraw: function () {
-        this.element.set("text", this.options.label);
+        toolkit.set_text(this.element, this.options.label);
     },
     
     destroy: function () {
