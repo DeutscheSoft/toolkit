@@ -50,16 +50,14 @@ State = $class({
         this.set("color", this.options.color);
         this.set("state", this.options.state);
         
-        this.element.setStyles({
-            "oveflow": "hidden"
-        });
-        this._over.setStyles({
+        this.element.style.overflow = "hidden";
+        toolkit.setStyles(this._over, {
             "position": "absolute",
             "z-index": 1,
             "width"  : "100%",
             "height" : "100%"
         });
-        this._mask.setStyles({
+        toolkit.setStyles(this._mask, {
             "position": "absolute",
             "z-index": 2,
             "width"  : "100%",

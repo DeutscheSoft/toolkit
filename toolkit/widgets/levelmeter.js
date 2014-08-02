@@ -98,34 +98,34 @@ LevelMeter = $class({
             this.options.top = this.options.value;
         if (this.options.bottom === false)
             this.options.bottom = this.options.value;
-        this._mask3.setStyles({
+        toolkit.setStyles(this._mask3, {
             position: "absolute",
             zIndex:  1000
         });
-        this._mask4.setStyles({
+        toolkit.setStyles(this._mask4, {
             position: "absolute",
             zIndex:  1000
         });
         if (this.options.layout == _TOOLKIT_LEFT
         || this.options.layout == _TOOLKIT_RIGHT) {
             if (this.options.reverse) {
-                this._mask3.setStyles({
+                toolkit.setStyles(this._mask3, {
                     width:  "100%",
                     height: 0,
                     bottom:    0
                 });
-                this._mask4.setStyles({
+                toolkit.setStyles(this._mask4, {
                     width:  "100%",
                     height: 0,
                     top: 0
                 });
             } else {
-                this._mask3.setStyles({
+                toolkit.setStyles(this._mask3, {
                     width:  "100%",
                     height: 0,
                     top: 0
                 });
-                this._mask4.setStyles({
+                toolkit.setStyles(this._mask4, {
                     width:  "100%",
                     height: 0,
                     bottom:    0
@@ -133,23 +133,23 @@ LevelMeter = $class({
             }
         } else {
             if (this.options.reverse) {
-                this._mask3.setStyles({
+                toolkit.setStyles(this._mask3, {
                     height: "100%",
                     width:  0,
                     left:   0
                 });
-                this._mask4.setStyles({
+                toolkit.setStyles(this._mask4, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
             } else {
-                this._mask3.setStyles({
+                toolkit.setStyles(this._mask3, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
-                this._mask4.setStyles({
+                toolkit.setStyles(this._mask4, {
                     height: "100%",
                     width:  0,
                     left:   0
@@ -315,8 +315,8 @@ LevelMeter = $class({
                             : (r ? "left" : "right")] = size - top_bot;
             m3[this._vert() ? "height" : "width"] = top_size;
             
-            this._mask1.setStyles(m1);
-            this._mask3.setStyles(m3);
+            toolkit.setStyles(this._mask1, m1);
+            toolkit.setStyles(this._mask3, m3);
             
             if (this.__based) {
                 var _bot     = this._val2seg(Math.min(bottom, base));
@@ -330,8 +330,8 @@ LevelMeter = $class({
                                 : (r ? "right" : "left")] = bot_top;
                 m4[this._vert() ? "height" : "width"] = bot_size;
                 
-                this._mask2.setStyles(m2);
-                this._mask4.setStyles(m4);
+                toolkit.setStyles(this._mask2, m2);
+                toolkit.setStyles(this._mask4, m4);
             }
             this.fire_event("drawmeter", this);
         }

@@ -174,7 +174,7 @@ Scale = $class({
         var pos = Math.round(this.val2px(val));
         pos = Math.min(Math.max(0, pos), this.options.basis - 1);
         styles[this._vert() ? "bottom" : "left"] = pos;
-        d.setStyles(styles);
+        toolkit.setStyles(d, styles);
         this.element.appendChild(d);
         return this;
     },
@@ -195,7 +195,7 @@ Scale = $class({
         var size = label[this._vert() ? "outerHeight" : "outerWidth"]();
         pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
         styles[this._vert() ? "bottom" : "left"] = pos;
-        label.setStyles(styles);
+        toolkit.setStyles(label, styles);
         
         // resize the main element if labels are wider
         // because absolute positioning destroys dimensions

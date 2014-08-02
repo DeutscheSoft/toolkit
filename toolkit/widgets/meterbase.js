@@ -134,101 +134,101 @@ var MeterBase = $class({
         this._bar.appendChild(this._mask1);
         this._bar.appendChild(this._mask2);
         
-        this._bar.setStyles({
+        toolkit.setStyles(this._bar, {
             position: "relative",
             overflow: "hidden"
         });
-        this._base.setStyles({
+        toolkit.setStyles(this._base, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   0
         });
-        this._mark.setStyles({
+        toolkit.setStyles(this._mark, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   10
         });
-        this._over.setStyles({
+        toolkit.setStyles(this._over, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   100
         });
-        this._mask1.setStyles({
+        toolkit.setStyles(this._mask1, {
             position: "absolute",
             zIndex:   1000
         });
-        this._mask2.setStyles({
+        toolkit.setStyles(this._mask2, {
             position: "absolute",
             zIndex:   1000
         });
         if (this.options.layout == _TOOLKIT_LEFT) {
-            this._scale.setStyles({
+            toolkit.setStyles(this._scale, {
                 "float": "right"
             });
-            this._bar.setStyles({
+            toolkit.setStyles(this._bar, {
                 "float": "left"
             });
         }
         if (this.options.layout == _TOOLKIT_RIGHT) {
-            this._scale.setStyles({
+            toolkit.setStyles(this._scale, {
                 "float": "left"
             });
-            this._bar.setStyles({
+            toolkit.setStyles(this._bar, {
                 "float": "right"
             });
         }
         if (this._vert()) {
             if (this.options.reverse) {
-                this._mask1.setStyles({
+                toolkit.setStyles(this._mask1, {
                     width:  "100%",
                     height: 0,
                     bottom: 0
                 });
-                this._mask2.setStyles({
+                toolkit.setStyles(this._mask2, {
                     width:  "100%",
                     height: 0,
                     top:    0
                 });
             } else {
-                this._mask1.setStyles({
+                toolkit.setStyles(this._mask1, {
                     width:  "100%",
                     height: 0,
                     top:    0
                 });
-                this._mask2.setStyles({
+                toolkit.setStyles(this._mask2, {
                     width:  "100%",
                     height: 0,
                     bottom: 0
                 });
             }
         } else {
-            this._scale.setStyles({
+            toolkit.setStyles(this._scale, {
                 "clear": "both"
             });
-            this._title.setStyles({
+            toolkit.setStyles(this._title, {
                 "clear": "both"
             });
             if (this.options.reverse) {
-                this._mask1.setStyles({
+                toolkit.setStyles(this._mask1, {
                     height: "100%",
                     width:  0,
                     left:   0
                 });
-                this._mask2.setStyles({
+                toolkit.setStyles(this._mask2, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
             } else {
-                this._mask1.setStyles({
+                toolkit.setStyles(this._mask1, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
-                this._mask2.setStyles({
+                toolkit.setStyles(this._mask2, {
                     height: "100%",
                     width:  0,
                     left:   0

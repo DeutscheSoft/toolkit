@@ -119,7 +119,7 @@ Widget = $class({
         this.addClass    = function (c) { element.classList.add(c); }.bind(this);
         this.removeClass = function (c) { element.classList.remove(c); }.bind(this);
         this.setStyle    = function (c, d) { element.style[c] = d; }.bind(this);
-        this.setStyles   = function (c) { for (var i in c) element.style[i] = c[i]; }.bind(this);
+        this.setStyles   = toolkit.setStyles.bind(this, element);
         this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
         this.__classified = element;
         this.fire_event("classified", [element, this]);
@@ -172,7 +172,7 @@ Widget = $class({
                 break;
             case "styles":
                 if (!hold && this.__stylized)
-                    this.__stylized.setStyles(this.options.styles);
+                    toolkit.setStyles(this.__stylized, value);
                 break;
             case "active":
                 if (!hold && this.__stylized)
