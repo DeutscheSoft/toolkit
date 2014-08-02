@@ -50,12 +50,11 @@ ButtonArray = $class({
         vert = this.get("direction") == _TOOLKIT_VERTICAL;
         
         this.prev = new Button({label: vert ? "▲" : "◀",
-                                onClick: this._prev_clicked.bind(this),
                                 class: "toolkit-previous"});
         this.next = new Button({label: vert ? "▼" : "▶",
-                                onClick: this._next_clicked.bind(this),
                                 class: "toolkit-next"});
-        
+        this.prev.add_event("click", this._prev_clicked.bind(this));
+        this.next.add_event("click", this._next_clicked.bind(this));
         this._prev = this.prev.element;
         this._next = this.next.element;
         
@@ -93,6 +92,16 @@ ButtonArray = $class({
         this._scroll_to(this.options.show);
         this.fire_event("added", [b, this]);
         return b;
+    },
+    remove_button: function (button) {
+        if (typeof button == "object")
+            button = this.buttons.indexOf(button);
+        if (button < 0 || button >= this.buttons.length)
+            return;
+        this.buttons[button].destroy();
+        this.buttons.splice(button, 1);
+        this._check_arrows();
+        this._scroll_to(this.options.show);
     },
     
     destroy: function () {
@@ -154,10 +163,13 @@ ButtonArray = $class({
         var btnpos   = btnrect[subd] - conrect[subd];
         var listsize = this._list_size();
         var clipsize = this._clip.getBoundingClientRect()[subs];
-        this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
+        this._container.style["margin-" + subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
+        var tmp = this.options.show;
         this.options.show = id;
         this.buttons[id].set("state", true);
-        this.fire_event("scroll", [id, this]);
+        if (tmp != id) {
+            this.fire_event("changed", [this.buttons[id], id, this]);
+        }
     },
     
     _list_size: function () {
@@ -172,11 +184,11 @@ ButtonArray = $class({
         return lastrect[subd] - conrect[subd] + lastrect[subs] + parseInt(btnstyle[subm2]);
     },
     
-    _prev_clicked: function (e) {console.log(e);
+    _prev_clicked: function (e) {
         this._scroll_to(this.options.show - 1);
     },
     
-    _next_clicked: function (e) {console.log(e);
+    _next_clicked: function (e) {
         this._scroll_to(this.options.show + 1);
     },
     

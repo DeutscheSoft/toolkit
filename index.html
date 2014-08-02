@@ -337,10 +337,21 @@
                     ButtonArray extends <a href="#Container" title="Container">Container</a>.
                 </p>
                 <p class="description">
-                    Use buttonarray to play with the example in a terminal:
-                    <a href="javascript:buttonarray.set('show', 10)">buttonarray.set("show", 10)</a>
+                    Use ba_horiz and ba_vert to play with the examples in a terminal:
+                    <a href="javascript:ba_vert.set('show', 10)">ba_vert.set("show", 10)</a>
                     <small>(scrolls to button #6)</small>
                 </p>
+                
+                <style type="text/css">
+                    #sc_buttonarray .toolkit-vertical {
+                        width: 20%;
+                        height: 400px;
+                    }
+                    #sc_buttonarray .toolkit-horizontal {
+                        width: 75%;
+                        float: right;
+                    }
+                </style>
                 
                 <div class="showcase">
                     <div id="sc_buttonarray">
@@ -390,6 +401,12 @@
                         with options for the button (see <a href="#Button" title="Button widget">Button</a>
                         for more information)</td>
                     </tr>
+                    <tr>
+                        <td>remove_button(button)</td>
+                        <td>Removes a button from the widget. "button" is either a button instance
+                        or an integer.
+                        </td>
+                    </tr>
                 </table>
                 
                 <table class="domelements collapse" title="⛁ DOM-Elements">
@@ -419,12 +436,12 @@
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
                     <tr>
-                        <td>scroll</td>
-                        <td>This event is fired when the button array is moved. Hands over the target id.</td>
-                    </tr>
-                    <tr>
                         <td>added</td>
                         <td>This event is fired when a button was added. Hands over the button instance.</td>
+                    </tr>
+                    <tr>
+                        <td>changed</td>
+                        <td>This event is fired when the active button changed. Hands over the button instance and the id.</td>
                     </tr>
                 </table>
             </li>

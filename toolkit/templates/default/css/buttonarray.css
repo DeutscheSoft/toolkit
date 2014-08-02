@@ -1,7 +1,7 @@
 .toolkit-buttonarray {
     position: relative;
     width: 100%;
-    height: 48px;
+    height: 40px;
 }
 
 .toolkit-buttonarray.toolkit-vertical {
@@ -12,16 +12,23 @@
     box-sizing: border-box;
 }
 
-.toolkit-buttonarray.toolkit-vertical .toolkit-previous {
+.toolkit-buttonarray .toolkit-previous {
+     position: absolute;
+     margin: 0;
+}
+.toolkit-buttonarray .toolkit-next {
     position: absolute;
+     margin: 0;
+}
+.toolkit-buttonarray.toolkit-vertical .toolkit-previous {
     top: 0;
+    width: 100%;
 }
 .toolkit-buttonarray.toolkit-vertical .toolkit-next {
-    position: absolute;
     bottom: 0;
+    width: 100%;
 }
 .toolkit-buttonarray.toolkit-horizontal .toolkit-previous {
-    position: absolute;
     left: 0;
     width: 40px;
     padding-left: 4px;
@@ -29,7 +36,6 @@
     
 }
 .toolkit-buttonarray.toolkit-horizontal .toolkit-next {
-    position: absolute;
     right: 0px;
     width: 40px;
     padding-left: 4px;
@@ -38,38 +44,31 @@
 
 .toolkit-buttonarray .toolkit-clip {
     overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     box-sizing: border-box;
     border-width: 1px;
     border-style: solid;
     border-color: #aaa #ccc #fff #ccc;
-    background: rgba(0, 0, 0, 0.025);
-    -webkit-box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow:    inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    box-shadow:         inset 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+    -webkit-border-radius: 6px;
+    -moz-border-radius:    6px;
+    border-radius:         6px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 .toolkit-buttonarray.toolkit-over.toolkit-horizontal .toolkit-clip {
-    top: 0;
     left: 50px;
     right: 50px;
-    bottom: 0;
 }
 .toolkit-buttonarray.toolkit-over.toolkit-vertical .toolkit-clip {
-    top: 50px;
-    left: 0;
-    right: 0;
-    bottom: 50px;
+    
+    top: 40px;
+    bottom: 40px;
 }
 
 .toolkit-buttonarray .toolkit-clip .toolkit-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+    transition: margin-left 0.5s ease-in-out, margin-top 0.5s ease-in-out;
 }
 
 .toolkit-buttonarray.toolkit-horizontal .toolkit-clip .toolkit-container {
@@ -80,5 +79,14 @@
 }
 
 .toolkit-buttonarray .toolkit-clip .toolkit-container .toolkit-button {
-    
+    margin: 0;
+    border: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius:    0px;
+    border-radius:         0px;
+}
+
+.toolkit-buttonarray.toolkit-vertical .toolkit-clip .toolkit-container .toolkit-button {
+    display: block;
+    width: 100%;
 }
