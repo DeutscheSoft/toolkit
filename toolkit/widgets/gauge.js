@@ -43,11 +43,12 @@ Gauge = $class({
             "class": "toolkit-gauge",
             "width": this.options.width,
             "height": this.options.height
-        }, true, true, true).inject(this.options.container);
+        }, true, true, true);
+        this.options.container.appendChild(this._svg);
         options.container = this._svg;
         
         this._title = makeSVG("text", {"class": "toolkit-title"});
-        this._title.inject(this._svg);
+        this._svg.appendChild(this._title);
         
         this.set("title", this.options.title);
         

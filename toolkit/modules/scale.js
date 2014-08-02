@@ -168,7 +168,6 @@ Scale = $class({
         // create dot element
         var d = new Element("div.toolkit-dot", { style: "position: absolute" });
         if (cls) d.classList.add(cls);
-        d.inject(this.element);
         
         // position dot element
         var styles = { }
@@ -176,6 +175,7 @@ Scale = $class({
         pos = Math.min(Math.max(0, pos), this.options.basis - 1);
         styles[this._vert() ? "bottom" : "left"] = pos;
         d.setStyles(styles);
+        this.element.appendChild(d);
         return this;
     },
     draw_label: function (val, cls) {
@@ -187,7 +187,7 @@ Scale = $class({
             html: this.options.labels(val),
             style: "position: absolute; display: block; float: left" });
         if (cls) label.classList.add(cls);
-        label.inject(this.element);
+        this.element.appendChild(label);
         
         // position label element
         var styles = { }

@@ -44,7 +44,7 @@ Knob = $class({
         var svg = makeSVG("svg", {"class": "toolkit-knob"});
 
         if (options.container)
-            svg.inject(options.container);
+            options.container.appendChild(svg);
         
         options.container = svg;
 

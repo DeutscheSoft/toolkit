@@ -119,25 +119,29 @@ ResponseHandle = $class({
         }
         
         if (this.options.container)
-            this.element.inject(this.options.container);
+            this.options.container.appendChild(this.element);
         
         this._label = makeSVG("text", {
             "class": "toolkit-label"
-        }).inject(this.element);
+        });
+        this.element.appendChild(this._label);
         
         this._line1 = makeSVG("path", {
             "class": "toolkit-line toolkit-line-1"
-        }).inject(this.element);
+        });
+        this.element.appendChild(this._line1);
         this._line2 = makeSVG("path", {
             "class": "toolkit-line toolkit-line-2"
-        }).inject(this.element);
+        });
+        this.element.appendChild(this._line2);
         
         this._handle = makeSVG(
             this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
                 "class": "toolkit-handle",
                 "r":     this.options.z_handle_size
             }
-        ).inject(this.element);
+        );
+        this.element.appendChild(this._handle);
         
         this._zhandle = makeSVG(
             this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
@@ -380,7 +384,7 @@ ResponseHandle = $class({
             }
         } else {
             if (!this._zinjected) {
-                this._zhandle.inject(this.element);
+                this.element.appendChild(this._zhandle);
                 this._zinjected = true;
             }
             switch (this.options.mode) {
@@ -548,7 +552,7 @@ ResponseHandle = $class({
         var n = c.length;
         if (a.length != c.length) {
             while (n < a.length) {
-                makeSVG("tspan", {dy:"1.0em"}).inject(this._label);
+                this._label.appendChild(makeSVG("tspan", {dy:"1.0em"}));
                 n++;
             }
             while (n > a.length) {
@@ -1076,8 +1080,9 @@ ResponseHandle = $class({
     },
     _mouseelement: function (e) {
         e.preventDefault();
+        // NOTE: the second check is most likely cheaper
         if (this.options.container && !this._raised) {
-            this.element.inject(this.options.container);
+            this.options.container.appendChild(this.element);
             this._raised = true;
         }
         return false;
@@ -1096,7 +1101,7 @@ ResponseHandle = $class({
                 this.element.inject(this.options.container, "top");
                 return false;
             } else {
-                this.element.inject(this.options.container);
+                this.options.container.appendChild(this.element);
             }
         }
         

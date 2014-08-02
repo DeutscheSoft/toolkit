@@ -36,7 +36,11 @@ ValueButton = $class({
         this.element.classList.add("toolkit-valuebutton");
         
         this._bar     = new Element("div.toolkit-bar");
-        this._base    = new Element("div.toolkit-base").inject(this._bar);
+        this._base    = new Element("div.toolkit-base");
+        this._over    = new Element("div.toolkit-over");
+
+        this._bar.appendChild(this._base);
+        this._bar.appendChild(this._over);
         
         this.value = new Value({
             container: this.element,

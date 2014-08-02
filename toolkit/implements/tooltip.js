@@ -32,7 +32,7 @@ Tooltip = $class({
             this.__tt_pos_cb = this._pos_tooltip.bind(this);
             document.addEventListener("mousemove", this.__tt_pos_cb);
             document.addEventListener("touchmove", this.__tt_pos_cb);
-            this._tooltip.inject($$("body")[0]);
+            document.body.appendChild(this._tooltip);
             this.__tt_injected = true;
             this.__tt_count = 0;
             this.fire_event("tooltipshow", [this]);
@@ -63,9 +63,9 @@ Tooltip = $class({
         if(typeof cont == "string")
             tt.set("html", cont);
         else if(typeof cont == "object")
-            cont.inject(tt);
+            tt.appendChild(tt);
             
-        tt.inject(this._tooltip);
+        this._tooltip.appendChild(tt);
         
         this.__tt_count = Math.max(0, this.__tt_count);
         this.fire_event("tooltipset", [tt, this]);

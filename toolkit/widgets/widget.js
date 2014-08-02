@@ -160,7 +160,7 @@ Widget = $class({
         switch (key) {
             case "container":
                 if (!hold && this.element)
-                    this.element.inject(this.options.container);
+                    this.options.container.appendChild(this.element);
                 break;
             case "id":
                 if (!hold && this.element)

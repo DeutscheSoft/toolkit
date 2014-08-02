@@ -82,11 +82,14 @@ Grid = $class({
         // draw a line with label. obj contains pos, class and label
         var m = 0;
         if (obj.label) {
-            var label = makeSVG("text").inject(this.element);
+            var label = makeSVG("text");
             label.set("text", obj.label);
             label.set("style", "dominant-baseline: central;");
             label.classList.add("toolkit-grid-label", mode ? "toolkit-horizontal" : "toolkit-vertical");
             if (obj["class"]) label.classList.add(obj["class"]);
+
+            this.element.appendChild(label);
+
             var w  = this.range_x.options.basis;
             var h  = this.range_y.options.basis;
             var tw = label.getBBox().width;
@@ -131,7 +134,7 @@ Grid = $class({
                 + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos, true))
                 + ".5 " + (this.range_y.options.basis - m));
         }
-        line.inject(this.element);
+        this.element.appendChild(line);
     },
     
     // GETTER & SETTER

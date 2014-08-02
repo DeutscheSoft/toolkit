@@ -42,9 +42,13 @@ Button = $class({
         if (this.options.container)
             this.set("container", this.options.container, hold);
         
-        this._cell  = new Element("div.toolkit-cell").inject(this.element);
-        this._icon  = new Element("img.toolkit-icon").inject(this._cell);
-        this._label = new Element("div.toolkit-label").inject(this._cell);
+        this._cell  = new Element("div.toolkit-cell");
+        this._icon  = new Element("img.toolkit-icon");
+        this._label = new Element("div.toolkit-label");
+
+        this._cell.appendChild(this._icon);
+        this._cell.appendChild(this._label);
+        this.element.appendChild(this._cell);
         
         this.set("label",       this.options.label, hold);
         this.set("icon",        this.options.icon, hold);
@@ -64,7 +68,7 @@ Button = $class({
         this.options[key] = value;
         switch (key) {
             case "container":
-                if (!hold) this.element.inject(value);
+                if (!hold) value.appendChild(this.element);
                 break;
             case "class":
                 if (!hold) this.element.classList.add(value);

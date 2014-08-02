@@ -45,12 +45,13 @@ Fader = $class({
             && this.element.getStyle("position") != "relative")
             this.element.style["position"] = "relative";
             
-        this._background_top    = new Element(
-            "div.toolkit-background-top-left").inject(this.element);
-        this._background_center = new Element(
-            "div.toolkit-background-center").inject(this.element);
-        this._background_bottom = new Element(
-            "div.toolkit-background-bottom-right").inject(this.element);
+        this._background_top    = new Element("div.toolkit-background-top-left");
+        this._background_center = new Element("div.toolkit-background-center");
+        this._background_bottom = new Element("div.toolkit-background-bottom-right");
+
+        this.element.appendChild(this._background_top);
+        this.element.appendChild(this._background_center);
+        this.element.appendChild(this._background_bottom);
         
         var opt = $mixin({}, this.options, {
             container:   this.element,
@@ -58,8 +59,8 @@ Fader = $class({
         this.scale = new Scale(opt);
         this._scale = this.scale.element;
         
-        this._handle = new Element(
-            "div.toolkit-handle").inject(this.element);
+        this._handle = new Element("div.toolkit-handle");
+        this.element.appendChild(this._handle);
             
         if (this.options.container)
             this.set("container", this.options.container);

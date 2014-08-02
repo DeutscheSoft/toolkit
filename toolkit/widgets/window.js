@@ -91,23 +91,32 @@ Window = $class({
         this.element = this.widgetize(new Element("div.toolkit-window"),
                                       true, true, true);
         
-        this._header = (new Element("div.toolkit-header")).inject(this.element);
-        this._footer = (new Element("div.toolkit-footer")).inject(this.element);
-        this._content = (new Element("div.toolkit-content")).inject(this.element);
+        this._header = (new Element("div.toolkit-header"));
+        this._footer = (new Element("div.toolkit-footer"));
+        this._content = (new Element("div.toolkit-content"));
+
+        this.element.appendChild(this._header);
+        this.element.appendChild(this._footer);
+        this.element.appendChild(this._content);
         
         this._header_left =
-            (new Element("div.toolkit-header-left")).inject(this._header);
+            (new Element("div.toolkit-header-left"));
         this._header_center =
-            (new Element("div.toolkit-header-center")).inject(this._header);
+            (new Element("div.toolkit-header-center"));
         this._header_right =
-            (new Element("div.toolkit-header-right")).inject(this._header);
+            (new Element("div.toolkit-header-right"));
+
+        this._header.appendChild(this._header_left);
+        this._header.appendChild(this._header_center);
+        this._header.appendChild(this._header_right);
         
-        this._footer_left =
-            (new Element("div.toolkit-footer-left")).inject(this._footer);
-        this._footer_center =
-            (new Element("div.toolkit-footer-center")).inject(this._footer);
-        this._footer_right =
-            (new Element("div.toolkit-footer-right")).inject(this._footer);
+        this._footer_left = (new Element("div.toolkit-footer-left"));
+        this._footer_center = (new Element("div.toolkit-footer-center"));
+        this._footer_right = (new Element("div.toolkit-footer-right"));
+
+        this._footer.appendChild(this._footer_left);
+        this._footer.appendChild(this._footer_center);
+        this._footer.appendChild(this._footer_right);
             
         this._title  = new Element("div.toolkit-title");
         this._status = new Element("div.toolkit-status");
@@ -134,7 +143,9 @@ Window = $class({
         this.__buttons = [this.close, this.maximize, this.maximize_vert,
                           this.maximize_horiz, this.minimize, this.shrink];
         for (var i = 0; i < this.__buttons.length; i++) {
-            new Element("div.toolkit-icon").inject(this.__buttons[i].element);
+            this.__buttons[i].element.appendChild(
+                new Element("div.toolkit-icon")
+            );
             this.__buttons[i]._icon.dispose();
             this.__buttons[i]._label.dispose();
         }
@@ -183,7 +194,8 @@ Window = $class({
                     y: [0, window.getSize().y - 20]}
         });
         
-        this._resize = new Element("div.toolkit-resize").inject(this.element);
+        this._resize = new Element("div.toolkit-resize");
+        this.element.appendChild(this._resize)
         this.resize = this.element.makeResizable({
             handle: this._resize,
             onStart: this.__start_resize.bind(this),
@@ -400,7 +412,8 @@ Window = $class({
                     targ = this._icon;
                     break;
             }
-            targ.inject(this["_" + element]);
+            this["_" + element].appendChild(targ);
+
         }
     },
     
@@ -632,7 +645,7 @@ Window = $class({
         
         switch (key) {
             case "container":
-                this.element.inject(value);
+                value.appendChild(this.element);
                 if (!this.__inited) {
                     this.__inited = true;
                     if (!hold) this._init_position(this.options.open);
@@ -704,7 +717,7 @@ Window = $class({
                 if (typeof value === "string")
                     this._content.set("html", value);
                 else
-                    value.inject(this._content);
+                    this._content.appendChild(value);
                 break;
             case "shrink":
                 this.options.maximize.y = false;

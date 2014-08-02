@@ -84,22 +84,22 @@ Circular = $class({
         if (!hold) this.widgetize(this.element, true, true, true);
         
         this._base = makeSVG("path", {"class": "toolkit-base"});
-        this._base.inject(this.element);
+        this.element.appendChild(this._base);
         
         this._markers = makeSVG("g", {"class": "toolkit-markers"});
-        this._markers.inject(this.element);
+        this.element.appendChild(this._markers);
         
         this._value = makeSVG("path", {"class": "toolkit-value"});
-        this._value.inject(this.element);
+        this.element.appendChild(this._value);
         
         this._dots = makeSVG("g", {"class": "toolkit-dots"});
-        this._dots.inject(this.element);
+        this.element.appendChild(this._dots);
         
         this._labels = makeSVG("g", {"class": "toolkit-labels"});
-        this._labels.inject(this.element);
+        this.element.appendChild(this._labels);
         
         this._hand = makeSVG("rect", {"class": "toolkit-hand"});
-        this._hand.inject(this.element);
+        this.element.appendChild(this._hand);
         
         this.set("container", this.options.container);
         
@@ -209,7 +209,8 @@ Circular = $class({
                        ? this.options.dot.margin : m.margin;
             var pos    = Math.min(this.options.max,
                           Math.max(this.options.min, m.pos));
-            r.inject(this._dots);
+            // TODO: consider adding them all at once
+            this._dots.appendChild(r);
             if (m["class"]) r.classList.add(m["class"]);
             if (m["color"]) r.style["fill"] = m["color"];
                      
@@ -254,7 +255,7 @@ Circular = $class({
                               Math.max(this.options.min, m.to));
             
             var s = makeSVG("path", {"class": "toolkit-marker"});
-            s.inject(this._markers);
+            this._markers.appendChild(s);
             
             if (m["class"]) s.classList.add(m["class"]);
             if (m["color"]) s.style["fill"] = m["color"];
@@ -274,7 +275,7 @@ Circular = $class({
             var p = makeSVG("text", {"class": "toolkit-label",
                                      style: "dominant-baseline: central;"
             });
-            p.inject(this._labels);
+            this._labels.appendChild(p);
             
             if (l["class"]) p.classList.add(l["class"]);
             if (l["color"]) p.style["fill"] = l["color"];

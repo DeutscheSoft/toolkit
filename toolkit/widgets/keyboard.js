@@ -102,12 +102,12 @@
                 this._buffer = new Element("div.toolkit-dummy");
         }
         if (this._buffer) {
-            this._buffer.inject(this.element);
+            this.element.appendChild(this._buffer);
             this._buffer.focus();
         }
         
         this._wrapper = new Element("div.toolkit-wrapper");
-        this._wrapper.inject(this.element);
+        this.element.appendChild(this._wrapper);
         
         for(var i = 0; i < this.options.rows.length; i++) {
             // rows
@@ -115,7 +115,7 @@
             var rw = new Widget(rd);
             var re = new Element("div.toolkit-row");
             rw.widgetize(re, true, true, true);
-            re.inject(this._wrapper);
+            this._wrapper.appendChild(re);
             rd["container"] = re;
             
             for (var j = 0; j < rd.keys.length; j ++) {

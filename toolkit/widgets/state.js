@@ -38,8 +38,11 @@ State = $class({
             "id":    this.options.id
         }), true, true, true);
         
-        this._over   = new Element("div.toolkit-over").inject(this.element);
-        this._mask   = new Element("div.toolkit-mask").inject(this.element);
+        this._over   = new Element("div.toolkit-over");
+        this._mask   = new Element("div.toolkit-mask");
+
+        this.element.appendChild(this._over);
+        this.element.appendChild(this._mask);
         
         if (this.options.container)
             this.set("container",  this.options.container);

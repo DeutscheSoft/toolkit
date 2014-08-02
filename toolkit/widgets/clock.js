@@ -83,9 +83,9 @@ Clock = $class({
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"
         });
-        this._label.inject(this.element);
-        this._label_upper.inject(this.element);
-        this._label_lower.inject(this.element);
+        this.element.appendChild(this._label);
+        this.element.appendChild(this._label_upper);
+        this.element.appendChild(this._label_lower);
         
         var options = {
             container: this.element,

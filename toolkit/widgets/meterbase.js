@@ -83,61 +83,56 @@ var MeterBase = $class({
             && this.element.getStyle("position") != "relative")
             this.element.style["position"] = "relative";
         
+        this._title  = new Element("div.toolkit-title");
+        this._label  = new Element("div.toolkit-label");
+        this._scale  = new Element("div.toolkit-meter-scale");
+        this._bar    = new Element("div.toolkit-bar");
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
-                this._label  = new Element(
-                    "div.toolkit-label").inject(this.element);
-                this._scale  = new Element(
-                    "div.toolkit-meter-scale").inject(this.element);
-                this._bar    = new Element(
-                    "div.toolkit-bar").inject(this.element);
-                this._title  = new Element(
-                    "div.toolkit-title").inject(this.element);
+                this.element.appendChild(this._label);
+                this.element.appendChild(this._scale);
+                this.element.appendChild(this._bar);
+                this.element.appendChild(this._title);
                 this.element.classList.add("toolkit-vertical","toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
-                this._label  = new Element(
-                    "div.toolkit-label").inject(this.element);
-                this._scale  = new Element(
-                    "div.toolkit-meter-scale").inject(this.element);
-                this._bar    = new Element(
-                    "div.toolkit-bar").inject(this.element);
-                this._title  = new Element(
-                    "div.toolkit-title").inject(this.element);
+                this.element.appendChild(this._label);
+                this.element.appendChild(this._scale);
+                this.element.appendChild(this._bar);
+                this.element.appendChild(this._title);
                 this.element.classList.add("toolkit-vertical","toolkit-right");
                 break;
             case _TOOLKIT_TOP:
-                this._bar    = new Element(
-                    "div.toolkit-bar").inject(this.element);
-                this._scale  = new Element(
-                    "div.toolkit-meter-scale").inject(this.element);
-                this._title  = new Element(
-                    "div.toolkit-title").inject(this.element);
-                this._label  = new Element(
-                    "div.toolkit-label").inject(this.element);
+                this.element.appendChild(this._bar);
+                this.element.appendChild(this._scale);
+                this.element.appendChild(this._label);
+                this.element.appendChild(this._title);
                 this.element.classList.add("toolkit-horizontal","toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
-                this._title  = new Element(
-                    "div.toolkit-title").inject(this.element);
-                this._label  = new Element(
-                    "div.toolkit-label").inject(this.element);
-                this._scale  = new Element(
-                    "div.toolkit-meter-scale").inject(this.element);
-                this._bar    = new Element(
-                    "div.toolkit-bar").inject(this.element);
+                this.element.appendChild(this._title);
+                this.element.appendChild(this._label);
+                this.element.appendChild(this._scale);
+                this.element.appendChild(this._bar);
                 this.element.classList.add("toolkit-horizontal","toolkit-bottom");
                 break;
+            default:
+                throw("unsupported layout");
         }
         
-        this._base   = new Element("div.toolkit-base").inject(this._bar);
-        this._mark   = new Element("div.toolkit-mark").inject(this._bar);
-        this._over   = new Element("div.toolkit-over").inject(this._bar);
+        this._base   = new Element("div.toolkit-base");
+        this._mark   = new Element("div.toolkit-mark");
+        this._over   = new Element("div.toolkit-over");
+
+        this._bar.appendChild(this._base);
+        this._bar.appendChild(this._mark);
+        this._bar.appendChild(this._over);
         
-        this._mask1  = new Element(
-            "div.toolkit-mask.toolkit-mask1").inject(this._bar);
-        this._mask2  = new Element(
-            "div.toolkit-mask.toolkit-mask2").inject(this._bar);
+        this._mask1  = new Element("div.toolkit-mask.toolkit-mask1");
+        this._mask2  = new Element("div.toolkit-mask.toolkit-mask2");
+
+        this._bar.appendChild(this._mask1);
+        this._bar.appendChild(this._mask2);
         
         this._bar.setStyles({
             position: "relative",
@@ -323,7 +318,7 @@ var MeterBase = $class({
                         d.style[this._vert() ? "width" : "height"] = "100%";
                         d.style[this._vert() ? "top" : "left"] = 
                                    p + p % this.options.segment;
-                        d.inject(this._mark);
+                        this._mark.appendChild(d);
                     }.bind(this));
             }
         }

@@ -77,10 +77,10 @@ var Chart = $class({
             "class": "toolkit-title",
             style: "dominant-baseline: central;"
         });
-        this._title.inject(this.element);
+        this.element.appendChild(this._title);
         
         this._graphs = makeSVG("g", {"class": "toolkit-graphs"});
-        this._graphs.inject(this.element);
+        this.element.appendChild(this._graphs);
         
         this.range_x.add_event("set", function (key, value, hold) {
             if (!hold) this.redraw();
@@ -93,11 +93,12 @@ var Chart = $class({
         
         this._key_background = makeSVG("rect",
             {"class": "toolkit-background"});
-        this._key_background.inject(this.element);
         this._key = makeSVG("g", {"class": "toolkit-key"});
-        this._key.inject(this.element);
         this._key_txt = makeSVG("text");
-        this._key_txt.inject(this._key);
+
+        this.element.appendChild(this._key_background);
+        this.element.appendChild(this._key);
+        this.element.appendChild(this._key_txt);
         
         this._key_background.addEventListener("mouseenter", function () {
                 this._key.classList.add("toolkit-hover");
@@ -189,7 +190,7 @@ var Chart = $class({
             return;
         }
         
-        this._key_txt.inject(this._key);
+        this._key.appendChild(this._key_txt);
         
         var disp = "none";
         var gpad = {
@@ -213,9 +214,9 @@ var Chart = $class({
                 var t = makeSVG("tspan", {"class": "toolkit-label",
                                          style: "dominant-baseline: central;"
                 });
-                t.inject(this._key_txt);
                 t.set("text", this.graphs[i].get("key"));
                 t.set("x", gpad.left);
+                this._key_txt.appendChild(t);
                 
                 if (!bb) bb = this._key.getBoundingClientRect();
                 top += c ? t.getStyle("line-height").toInt() : gpad.top;
@@ -245,7 +246,7 @@ var Chart = $class({
                 height:  this.options.key_size.y,
                 width:   this.options.key_size.x
             });
-            b.inject(this._key);
+            this._key.appendChild(b);
         }
         this._key_background.style["display"] = disp;
         this._key.style["display"] = disp;

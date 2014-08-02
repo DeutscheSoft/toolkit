@@ -50,7 +50,8 @@ Select = $class({
             }
         }.bind(this));
         
-        this._arrow = new Element("div.toolkit-arrow").inject(this.element)
+        this._arrow = new Element("div.toolkit-arrow");
+        this.element.appendChild(this._arrow);
         
         this.set("options", this.options.list);
         
@@ -74,7 +75,7 @@ Select = $class({
     },
     add_option: function (option, hold) {
         var li = new Element("li.toolkit-option");
-        li.inject(this._list);
+        this._list.appendChild(li);
         var opt = {};
         opt.element = li;
         opt.title = (typeof option == "string")
@@ -140,7 +141,7 @@ Select = $class({
             var pos = this.element.getPosition();
             pos.y += this.element.outerHeight();
             var ew = this.element.outerWidth();
-            this._list.inject($$("body")[0]);
+            document.body.appendChild(this._list);
             var cw = window.getSize().x;
             var ch = window.getSize().y;
             var sx = (window.pageXOffset !== undefined) ? window.pageXOffset
