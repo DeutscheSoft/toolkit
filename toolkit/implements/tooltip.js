@@ -61,7 +61,7 @@ Tooltip = $class({
         
         // fill tooltip
         if(typeof cont == "string")
-            tt.set("html", cont);
+            tt.innerHTML = cont;
         else if(typeof cont == "object")
             tt.appendChild(tt);
             

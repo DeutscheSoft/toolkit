@@ -674,10 +674,10 @@ Window = $class({
                 if (!hold) this.element.style["z-index"] = value;
                 break;
             case "title":
-                if (!hold) this._title.set("html", value);
+                if (!hold) this._title.innerHTML = value;
                 break;
             case "status":
-                if (!hold) this._status.set("html", value);
+                if (!hold) this._status.innerHTML = value;
                 break;
             case "icon":
                 if (!hold) {
@@ -715,7 +715,7 @@ Window = $class({
                 break;
             case "content":
                 if (typeof value === "string")
-                    this._content.set("html", value);
+                    this._content.innerHTML = value;
                 else
                     this._content.appendChild(value);
                 break;

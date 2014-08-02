@@ -75,7 +75,7 @@ Button = $class({
             case "label":
                 if (!hold) {
                     if (value) {
-                        this._label.set("html", value);
+                        this._label.innerHTML = value;
                         this._label.style["display"] = "block";
                     } else {
                         this._label.style["display"] = "none";

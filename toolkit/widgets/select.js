@@ -84,7 +84,7 @@ Select = $class({
         opt.value = (typeof option == "string") ? option
                                                 : option.value.toString();
         
-        li.set("html", opt.title);
+        li.innerHTML = opt.title;
         li.addEventListener("mouseup", function (e) {
             this.select(opt.value);
             this.fire_event("select", [opt.value, li, this, opt]);
@@ -119,10 +119,10 @@ Select = $class({
         };
         for (var i in this.list) {
             var t = this._label.get("html");
-            this._label.set("html", this.list[i].title);
+            this._label.innerHTML = this.list[i].title;
             this.__width = Math.max(this.__width, this.element.outerWidth());
             this.element.outerWidth(this.__width + 1);
-            this._label.set("html", t);
+            this._label.innerHTML = t;
         }
     },
     select: function (key) {

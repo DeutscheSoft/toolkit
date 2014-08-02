@@ -49,7 +49,7 @@ Toggle = $class({
         var label = this.options[value ? (this.options.label_active
                                        ? "label_active" : "label") : "label"];
                                        
-        if (label) this._label.set("html", label);
+        if (label) this._label.innerHTML = label;
     },
     toggle: function (hold) {
         this._clear_to();

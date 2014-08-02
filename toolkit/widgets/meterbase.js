@@ -407,7 +407,7 @@ var MeterBase = $class({
             case "title":
                 this.fire_event("titlechanged", [value, this]);
                 if (!hold)
-                    this._title.set("html", value);
+                    this._title.innerHTML = value;
                 break;
             case "segment":
                 if (!hold)
