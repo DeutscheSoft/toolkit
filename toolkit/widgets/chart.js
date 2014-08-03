@@ -214,7 +214,7 @@ var Chart = $class({
                 var t = makeSVG("tspan", {"class": "toolkit-label",
                                          style: "dominant-baseline: central;"
                 });
-                t.set("text", this.graphs[i].get("key"));
+                t.textContent = this.graphs[i].get("key");
                 t.set("x", gpad.left);
                 this._key_txt.appendChild(t);
                 
@@ -296,7 +296,7 @@ var Chart = $class({
         this._key_background.set("height", this.__key.y2 - this.__key.y1);
     },
     _draw_title: function () {
-        this._title.set("text", this.options.title);
+        this._title.textContent = this.options.title;
         var mtop    = (this._title.getStyle("margin-top") || 0).toInt();
         var mleft   = (this._title.getStyle("margin-left") || 0).toInt();
         var mbottom = (this._title.getStyle("margin-bottom") || 0).toInt();

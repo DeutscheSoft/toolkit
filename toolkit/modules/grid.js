@@ -83,8 +83,8 @@ Grid = $class({
         var m = 0;
         if (obj.label) {
             var label = makeSVG("text");
-            label.set("text", obj.label);
-            label.set("style", "dominant-baseline: central;");
+            label.textContent = obj.label;
+            label.style["dominant-baseline"] = "central";
             label.classList.add("toolkit-grid-label", mode ? "toolkit-horizontal" : "toolkit-vertical");
             if (obj["class"]) label.classList.add(obj["class"]);
 

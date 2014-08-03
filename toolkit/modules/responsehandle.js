@@ -563,7 +563,7 @@ ResponseHandle = $class({
         var c = this._label.getChildren();
         var w = 0;
         for (var i = 0; i < a.length; i++) {
-            c[i].set("text", a[i]);
+            c[i].textContent = a[i];
         }
         for (var i = 0; i < a.length; i++) {
             w = Math.max(w, c[i].getComputedTextLength());

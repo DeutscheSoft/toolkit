@@ -63,7 +63,7 @@ Gauge = $class({
     
     // HELPERS & STUFF
     _draw_title: function () {
-        this._title.set("text", this.options.title.title);
+        this._title.textContent = this.options.title.title;
         if (this.options.title.title) {
             var t = this.options.title;
             var outer   = this.options.size / 2;

@@ -281,9 +281,9 @@ Circular = $class({
             if (l["color"]) p.style["fill"] = l["color"];
                      
             if (typeof l.label != "undefined")
-                p.set("text", l.label);
+                p.textContent = l.label;
             else
-                p.set("text", this.options.label.format(l.pos));
+                p.textContent = this.options.label.format(l.pos);
                      
             var margin  = typeof l.margin != "undefined"
                         ? l.margin : this.options.label.margin;
