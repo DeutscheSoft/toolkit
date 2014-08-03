@@ -545,7 +545,6 @@ function run_clock () {
     }
     clock = new Clock({
         container: $("sc_clock"),
-        timeout: 10
     });
     repositionSVGs()
 }
