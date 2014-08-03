@@ -32,9 +32,9 @@ Clock = $class({
         show_seconds: true,       // show the seconds ring
         show_minutes: true,       // show the minutes ring
         show_hours:   true,       // show the hours ring
-        timeout:      0,          // set a timeout to update the clock with the
+        timeout:      1000,          // set a timeout to update the clock with the
                                   // system clock regulary
-        timeadd:      0,          // set additional milliseconds for the
+        timeadd:      10,          // set additional milliseconds for the
                                   // timeout target
                                   // system clock regulary
         offset:       0,          // if a timeout is set offset the system time
