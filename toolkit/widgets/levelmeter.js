@@ -278,22 +278,24 @@ LevelMeter = $class({
         && this.__based) {
             this.set("bottom", this.options.value, true);
         }
+
+        var vert = this._vert();
         
         if (!this.options.show_hold) {
             MeterBase.prototype.draw_meter.call(this);
             if (!this.__tres) {
                 this.__tres = true;
-                this._mask3.style[this._vert() ? "height" : "width"] = 0;
-                this._mask4.style[this._vert() ? "height" : "width"] = 0;
+                this._mask3.style[vert ? "height" : "width"] = 0;
+                this._mask4.style[vert ? "height" : "width"] = 0;
             }
         } else {
             this.__tres = false;
             
-            var m1 = {};
-            var m2 = {};
-            var m3 = {};
-            var m4 = {};
-            
+            var m1 = this._mask1.style;
+            var m2 = this._mask2.style;
+            var m3 = this._mask3.style;
+            var m4 = this._mask4.style;
+           
             // shorten things
             var r         = this.options.reverse;
             var base      = this.options.base;
@@ -310,13 +312,10 @@ LevelMeter = $class({
             var top_bot   = top_top - segment * hold_size;
             var top_size  = Math.max(0, _top - top_val - segment * hold_size);
             
-            m1[this._vert() ? "height" : "width"] = Math.max(0, size - top_top);
-            m3[this._vert() ? (r ? "bottom" : "top")
+            m1[vert ? "height" : "width"] = Math.max(0, size - top_top);
+            m3[vert ? (r ? "bottom" : "top")
                             : (r ? "left" : "right")] = size - top_bot;
-            m3[this._vert() ? "height" : "width"] = top_size;
-            
-            toolkit.setStyles(this._mask1, m1);
-            toolkit.setStyles(this._mask3, m3);
+            m3[vert ? "height" : "width"] = top_size;
             
             if (this.__based) {
                 var _bot     = this._val2seg(Math.min(bottom, base));
@@ -325,13 +324,10 @@ LevelMeter = $class({
                 var bot_top  = bot_bot + segment * hold_size;
                 var bot_size = Math.max(0, bot_val - bot_top);
                 
-                m2[this._vert() ? "height" : "width"] = Math.max(0, bot_bot);
-                m4[this._vert() ? (r ? "top" : "bottom")
-                                : (r ? "right" : "left")] = bot_top;
-                m4[this._vert() ? "height" : "width"] = bot_size;
-                
-                toolkit.setStyles(this._mask2, m2);
-                toolkit.setStyles(this._mask4, m4);
+                m2[vert ? "height" : "width"] = Math.max(0, bot_bot);
+                m4[vert ? (r ? "top" : "bottom")
+                        : (r ? "right" : "left")] = bot_top;
+                m4[vert ? "height" : "width"] = bot_size;
             }
             this.fire_event("drawmeter", this);
         }
