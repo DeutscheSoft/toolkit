@@ -145,7 +145,7 @@ run_keyboard = function () {
     value = new Value({
         container: $("sc_keyboard"),
         value: 123.97,
-        format: function (val) { return sprintf("%.3f Hz", val); },
+        format: function (val) { return val.toFixed(3) + " Hz"; },
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
     value.add_event("click", function () {
@@ -304,7 +304,7 @@ run_fader = function () {
         label: "Tooltips",
         container: $("sc_fader"),
         onToggled: function (state) {
-            var t = state ? function (val) { return sprintf("%0.2f dB",  val); } : false;
+            var t = state ? function (val) { return val.toFixed(2) + " dB"; } : false;
             for (var i = 0; i < faders.length; i++) {
                 faders[i].set("tooltip", t);
             }
@@ -325,7 +325,7 @@ run_value = function () {
     value = new Value({
         container: $("sc_value"),
         value: 123.97,
-        format: function (val) { return sprintf("%.3f Hz", val); },
+        format: function (val) { return val.toFixed(3) + " Hz"; },
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
     $("sc_value").addClass("box");
@@ -698,7 +698,7 @@ function run_valuebutton () {
         label: "Threshold",
         icon: "images/icons_small/threshold.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return sprintf("%.1f dB", val); },
+        value_format: function (val) { return val.toFixed(1) + " dB"; },
         min: -96,
         max: 24,
         step: 1,
@@ -713,7 +713,7 @@ function run_valuebutton () {
         label: "Attack",
         icon: "images/icons_small/attack.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return sprintf("%.1f ms", val); },
+        value_format: function (val) { return val.toFixed(1) + " ms"; },
         min: 1,
         max: 1000,
         step: 1,
@@ -731,7 +731,7 @@ function run_valuebutton () {
         label: "Ratio",
         icon: "images/icons_small/ratio.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return sprintf("%.1f : 1", val); },
+        value_format: function (val) { return val.toFixed(1) + " : 1"; },
         min: 1,
         max: 10,
         step: 1,
@@ -746,7 +746,7 @@ function run_valuebutton () {
         label: "Release",
         icon: "images/icons_small/release.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return sprintf("%.1f ms", val); },
+        value_format: function (val) { return val.toFixed(1) + " ms"; },
         min: 1,
         max: 1000,
         step: 1,
@@ -1023,12 +1023,12 @@ function run_equalizer () {
                      preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
                                    _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } },
+                     label: function (title, x, y, z) { return title + "\n" + x + " Hz"; } },
         {x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass",
                      preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                    _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                     label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } }]
+                     label: function (title, x, y, z) { return title + "\n" + x + " Hz"; } }]
     });
     repositionSVGs()
 }
@@ -1076,14 +1076,14 @@ function run_spectralsignature () {
             thresholds: {
                 preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
                 title: "Gate %s",
-                label: function (title, x, y, z) { return sprintf("%s\n%.1f", title, y) },
+                label: function (title, x, y, z) { return title + "\n" + y.toFixed(1); },
                 min_drag: 5
             },
 
             signatures: {
                 preferences: [_TOOLKIT_TOP, _TOOLKIT_BOTTOM],
                 title: "Band %s",
-                label: function (title, x, y, z) { return sprintf("%s\n%.1f dB\nMAX:\n%.1f dB", title, y, z) },
+                label: function (title, x, y, z) { return title + "\n" + y.toFixed(1) + " dB\nMAX:\n" + z.toFixed(1) +" dB"; },
                 min_size: 20,
                 z_min: 0,
                 z_max: 12,
@@ -1162,7 +1162,7 @@ function run_responsehandler () {
                        z_max: 20,
                        preferences:[_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_LEFT,
                                     _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_RIGHT],
-                       label: function(title, x, y, z){ return sprintf("%s\n%d Hz", title, x); }
+                       label: function(title, x, y, z){ return title + "\n" + x + " Hz"; }
                        }),
         rh.add_handle({x: 5000,
                        z: 3,
@@ -1174,7 +1174,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences:[_TOOLKIT_LEFT, _TOOLKIT_RIGHT],
-                       label: function(title, x, y, z){ return sprintf("%s\n%d Hz", title, x); }
+                       label: function(title, x, y, z){ return title + "\n" + x + " Hz"; }
                        }),
         rh.add_handle({y: -24,
                        z: 3,
@@ -1183,7 +1183,7 @@ function run_responsehandler () {
                        title: "handle 8",
                        preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_TOP_RIGHT,
                                      _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_TOP, _TOOLKIT_BOTTOM],
-                       label: function(title, x, y, z){ return sprintf("%s\n%d dB", title, y); }
+                       label: function(title, x, y, z){ return title + "\n" + y + " dB"; }
                        }),
         rh.add_handle({y: 12,
                        z: 3,
@@ -1195,7 +1195,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences:[_TOOLKIT_TOP, _TOOLKIT_BOTTOM],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d dB", title, y); }
+                       label: function (title, x, y, z) { return title + "\n" + y + " dB"; }
                        }),
         rh.add_handle({x: 100,
                        z: 3,
@@ -1208,7 +1208,7 @@ function run_responsehandler () {
                        preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
                                      _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                      _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } 
+                       label: function (title, x, y, z) { return title + "\n" + x + " Hz"; } 
                        }),
         rh.add_handle({x: 8000,
                        z: 3,
@@ -1221,7 +1221,7 @@ function run_responsehandler () {
                        preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                      _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                      _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } 
+                       label: function (title, x, y, z) { return title + "\n" + x + " Hz"; } 
                        }),
         rh.add_handle({x: 10000,
                        z: 3,
@@ -1234,7 +1234,7 @@ function run_responsehandler () {
                        preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                      _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                      _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d Hz", title, x); } 
+                       label: function (title, x, y, z) { return title + "\n" + x + " Hz"; } 
                        }),
         rh.add_handle({y: 20,
                        z: 3,
@@ -1246,7 +1246,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d dB", title, y); } 
+                       label: function (title, x, y, z) { return title + "\n" + y + " dB"; } 
                        }),
         rh.add_handle({y: 26,
                        z: 3,
@@ -1257,7 +1257,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d dB", title, y); } 
+                       label: function (title, x, y, z) { return title + "\n" + y + " dB"; } 
                        }),
         rh.add_handle({y: -6,
                        z: 3,
@@ -1268,7 +1268,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_BOTTOM, _TOOLKIT_CENTER, _TOOLKIT_TOP],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d dB", title, y); } 
+                       label: function (title, x, y, z) { return title + "\n" + y + " dB"; } 
                        }),
         rh.add_handle({y: -16,
                        z: 3,
@@ -1279,7 +1279,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_BOTTOM, _TOOLKIT_CENTER, _TOOLKIT_TOP],
-                       label: function (title, x, y, z) { return sprintf("%s\n%d dB", title, y); } 
+                       label: function (title, x, y, z) { return title + "\n" + y + " dB"; } 
                        })
     ]
     repositionSVGs()
