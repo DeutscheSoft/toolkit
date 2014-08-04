@@ -1,7 +1,13 @@
 KNOWN BUGS
 ----------
 * Window: non-fixed positioning broken (limit, init position, d'n'd, ...)
-* ValueButton: layout broken
+
+* LevelMeter: breaks without transparecies in overlay
+              Android default browser breaks on using hold option
+              Android default browser and IE11 break on gradients
+              
+* Scale: test: min -60, max 3, base 0
+              
 
 CLASS IMPLEMENTATION
 --------------------
