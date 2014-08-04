@@ -59,9 +59,9 @@ Clock = $class({
         label_scale: 0.33           // the scale of the upper and lower labels
                                    // compared to the main label
     },
-    circulars: {},
-    _margin: -1,
     initialize: function (options) {
+        this.circulars = {};
+        this._margin = -1;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(makeSVG("svg", {"class": "toolkit-clock"}),
                                       true, true, true);

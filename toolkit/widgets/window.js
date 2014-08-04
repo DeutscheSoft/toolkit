@@ -83,9 +83,9 @@ Window = $class({
                                            // _TOOLKIT_MAXIMIZE_HORIZ
         active:        true
     },
-    __inited: false,
-    dimensions: {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0},
     initialize: function (options) {
+        this.__inited = false;
+        this.dimensions = {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
         Widget.prototype.initialize.call(this, options);
         
         this.element = this.widgetize(new Element("div.toolkit-window"),

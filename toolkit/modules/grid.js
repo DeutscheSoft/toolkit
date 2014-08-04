@@ -38,8 +38,8 @@ Grid = $class({
         width:   0,     // the width of the Grid (only use it in set/get)
         height:  0      // the height of the Grid (only use it in set/get)
     },
-    __last: 0,
     initialize: function (options, hold) {
+        this.__last = 0;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        makeSVG("g", {"class": "toolkit-grid"}), true, true, true);

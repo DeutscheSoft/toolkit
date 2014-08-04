@@ -35,10 +35,9 @@ var ResponseHandler = $class({
         depth:             0,   // the depth of the z axis (basis of range_z)
         handles:           []   // list of bands to create on init
     },
-    handles: [],
-    _active: 0,
-    
     initialize: function (options) {
+        this.handles = [];
+        this._active = 0;
         FrequencyResponse.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_z, "range_z");

@@ -34,9 +34,8 @@ Fader = $class({
         tooltip: false,
         layout: _TOOLKIT_LEFT
     },
-    __tt: false,
-    
     initialize: function (options) {
+        this.__tt = false;
         Widget.prototype.initialize.call(this, options);
         
         this.element = this.widgetize(new Element("div.toolkit-fader"),

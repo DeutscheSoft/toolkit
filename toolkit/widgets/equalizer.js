@@ -29,9 +29,9 @@ var Equalizer = $class({
         bands: [],   // list of bands to create on init
         deferrer: 40  // set a timeout for drawing the curve
     },
-    bands: [],
     
     initialize: function (options) {
+        this.bands = [];
         ResponseHandler.prototype.initialize.call(this, options);
         this.element.classList.add("toolkit-equalizer");
         this._bands = makeSVG("g",

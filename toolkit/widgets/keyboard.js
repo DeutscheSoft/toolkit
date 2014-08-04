@@ -56,9 +56,8 @@
         caret: -1, // position of the cursor if buffer is not _TOOLKIT_NONE
     },
     
-    keys: [],
-    
     initialize: function (options) {
+        this.keys = [];
         Widget.prototype.initialize.call(this, options);
         
         this.set("buffer", this.options.buffer);

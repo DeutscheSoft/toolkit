@@ -67,20 +67,19 @@ ResponseHandle = $class({
         active:           true
     },
     
-    x: 0,
-    y: 0,
-    z: 0,
-    label:  {x:0, y: 0, width: 0, height:0},
-    handle: {x:0, y: 0, width: 0, height:0},
-    __active: false,
-    _add: .5,
-    _tdist: false,
-    _zinjected: false,
-    _zhandling: false,
-    _zwheel: false,
-    _sticky: false,
-    
     initialize: function (options, hold) {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+        this.label =   {x:0, y: 0, width: 0, height:0};
+        this.handle = {x:0, y: 0, width: 0, height:0};
+        this.__active = false;
+        this._add = .5;
+        this._tdist = false;
+        this._zinjected = false;
+        this._zhandling = false;
+        this._zwheel = false;
+        this._sticky = false;
         Widget.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_x, "range_x");

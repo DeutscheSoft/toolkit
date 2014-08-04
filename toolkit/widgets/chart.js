@@ -44,8 +44,8 @@ var Chart = $class({
         title:   "", // a title for the chart
         title_position: _TOOLKIT_TOP_RIGHT // the position of the title
     },
-    graphs: [],
     initialize: function (options, hold) {
+        this.graphs = [];
         Widget.prototype.initialize.call(this, options, hold);
         
         this.add_range(this.options.range_x, "range_x");

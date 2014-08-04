@@ -29,9 +29,9 @@ Select = $class({
         selected: false,
         auto_size: true
     },
-    __open: false,
-    __width: 0,
     initialize: function (options)  {
+        this.__open = false;
+        this.__width = 0;
         Button.prototype.initialize.call(this, options);
         this.element.classList.add("toolkit-select");
         

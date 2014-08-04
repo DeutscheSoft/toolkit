@@ -51,9 +51,9 @@ Scale = $class({
         gap_labels:       40,             // minimum gap between labels (pixel)
         show_labels:      true            // if labels should be drawn
     },
-    __size: 0,
     
     initialize: function (options, hold) {
+        this.__size = 0;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        new Element("div.toolkit-scale"), true, true, true);

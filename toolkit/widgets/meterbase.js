@@ -27,8 +27,6 @@ var MeterBase = $class({
     _class: "MeterBase",
     Extends: Widget,
     Implements: [Ranged, Gradient],
-    __margin:   0,
-    __based:    false,
     options: {
         layout:           _TOOLKIT_LEFT,  // how to draw the meter:
                                           // _TOOLKIT_LEFT:   vertical, meter on
@@ -72,6 +70,8 @@ var MeterBase = $class({
     },
     
     initialize: function (options, hold) {
+        this.__margin = 0;
+        this.__based = false;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        new Element("div.toolkit-meter-base"), false, true, true);
