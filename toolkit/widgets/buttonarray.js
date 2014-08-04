@@ -35,9 +35,8 @@ ButtonArray = $class({
                                         // an int or a button instance
     },
     
-    buttons: [],
-    
     initialize: function (options) {
+        this.buttons = [];
         Container.prototype.initialize.call(this, options);
         this.element.addClass("toolkit-buttonarray");
         this._clip      = document.createElement("DIV");
