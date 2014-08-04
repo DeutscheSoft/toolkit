@@ -1,7 +1,7 @@
 .toolkit-buttonarray {
     position: relative;
     width: 100%;
-    height: 40px;
+    height: 37px;
 }
 
 .toolkit-buttonarray.toolkit-vertical {
@@ -56,13 +56,18 @@
     right: 0;
     bottom: 0;
     left: 0;
+    border: 1px solid #aaa;
 }
 .toolkit-buttonarray.toolkit-over.toolkit-horizontal .toolkit-clip {
     left: 45px;
     right: 45px;
 }
 .toolkit-buttonarray.toolkit-over.toolkit-vertical .toolkit-clip {
-    
+    background-color: rgb(245,245,245);
+    background-image: url(../images/gradients/grey_out.png);
+    background-repeat: repeat-x;
+    background-size: 100% 200%;
+    background-position: 50% 0;
     top: 40px;
     bottom: 40px;
 }
@@ -89,4 +94,13 @@
 .toolkit-buttonarray.toolkit-vertical .toolkit-clip .toolkit-container .toolkit-button {
     display: block;
     width: 100%;
+    background: none;
+}
+.toolkit-buttonarray.toolkit-vertical .toolkit-clip .toolkit-container .toolkit-button:hover,
+.toolkit-buttonarray.toolkit-vertical .toolkit-clip .toolkit-container .toolkit-button:active
+ {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background: rgba(0,0,0,0.05);
 }

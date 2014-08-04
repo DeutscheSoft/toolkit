@@ -81,7 +81,6 @@ run_buttonarray = function () {
         ba_vert = undefined;
         ba_horiz.destroy();
         ba_horiz = undefined;
-        $("sc_buttonarray").removeClass("box");
         return;
     }
     ba_horiz = new ButtonArray({
@@ -127,7 +126,6 @@ run_buttonarray = function () {
             {label: "Button 16"}
         ]
     });
-    $("sc_buttonarray").addClass("box");
 }
 
 
