@@ -39,6 +39,7 @@
     padding: 2px 5px;
     cursor: pointer;
     white-space: nowrap;
+    transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
 .toolkit-select-list .toolkit-option:hover {

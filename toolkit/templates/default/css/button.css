@@ -18,6 +18,7 @@
     display: inline-table;
     text-align: center;
     box-sizing: border-box;
+    transition: border 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 }
 .toolkit-button:hover {
     border: 1px solid #002f42;
@@ -53,6 +54,7 @@
     -ms-user-select: none;
     user-select: none;
     padding: 0 3px;
+    transition: background 0.33s ease-in-out, color 0.33s ease-in-out;
 }
 .toolkit-button img.toolkit-icon {
     margin: auto;

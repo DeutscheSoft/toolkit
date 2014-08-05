@@ -26,9 +26,11 @@ ButtonArray = $class({
     _class: "ButtonArray",
     Extends: Container,
     options: {
-        buttons: [],                    // a list of button options which
+        buttons: [],                    // a list of button options or label strings which
                                         // is converted to button instances
-                                        // on init
+                                        // on init. If get is called, the
+                                        // converted list of button instances is
+                                        // returned.
         auto_arrows: true,              // if arrow buttons are added automatically
         direction: _TOOLKIT_HORIZONTAL, // the direction of the button list
         show: 0                         // the button to scroll to, either
@@ -38,11 +40,11 @@ ButtonArray = $class({
     initialize: function (options) {
         this.buttons = [];
         Container.prototype.initialize.call(this, options);
-        this.element.addClass("toolkit-buttonarray");
+        this.element.className += " toolkit-buttonarray";
         this._clip      = document.createElement("DIV");
         this._container = document.createElement("DIV");
-        this._clip.addClass("toolkit-clip");
-        this._container.addClass("toolkit-container");
+        this._clip.className += " toolkit-clip";
+        this._container.className += " toolkit-container";
         this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         
@@ -68,6 +70,8 @@ ButtonArray = $class({
     },
     
     add_button: function (options, pos) {
+        if (typeof options === "string")
+            options = {label: options}
         var b    = new Button(options);
         var len  = this.options.buttons.length;
         var vert = this.options.direction == _TOOLKIT_VERT;
@@ -88,6 +92,8 @@ ButtonArray = $class({
         b.add_event("click", function () {
             this._button_clicked(c);
         }.bind(this));
+        if (pos < this.options.show)
+            this.options.show--;
         this._scroll_to(this.options.show);
         this.fire_event("added", [b, this]);
         return b;
@@ -100,6 +106,9 @@ ButtonArray = $class({
         this.buttons[button].destroy();
         this.buttons.splice(button, 1);
         this._check_arrows();
+        this.buttons[this.options.show].set("state", false);
+        if (button < this.options.show)
+            this.options.show--;
         this._scroll_to(this.options.show);
     },
     
@@ -222,5 +231,12 @@ ButtonArray = $class({
                 this._scroll_to(value);
         }
         Container.prototype.set.call(this, key, value, hold);
+    },
+    get: function (key) {
+        switch (key) {
+            case "buttons":
+                return this.buttons;
+        }
+        Container.prototype.get.call(this, key);
     }
 });

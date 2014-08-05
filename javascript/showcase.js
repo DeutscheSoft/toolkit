@@ -73,17 +73,66 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// BUTTONARRAY
-run_buttonarray = function () {
-    if (typeof ba_vert != "undefined") {
-        // remove buttonarray
-        ba_vert.destroy();
-        ba_vert = undefined;
-        ba_horiz.destroy();
-        ba_horiz = undefined;
+
+// PAGER
+run_pager = function () {
+    if (typeof pager != "undefined") {
+        pager.destroy();
+        pager = undefined;
         return;
     }
-    ba_horiz = new ButtonArray({
+    pager = new Pager({
+        pages: [
+            {label: "Page #1", content: "<h1>Page #1</h1><p>This is Page #1.</p>"},
+            {label: "Page #2", content: "<h1>Page #2</h1><p>This is Page #2.</p>"},
+            {label: "Page #3", content: "<h1>Page #3</h1><p>This is Page #3.</p>"},
+            {label: "Page #4", content: "<h1>Page #4</h1><p>This is Page #4.</p>"},
+            {label: "Page #5", content: "<h1>Page #5</h1><p>This is Page #5.</p>"},
+            {label: "Page #6", content: "<h1>Page #6</h1><p>This is Page #6.</p>"},
+            {label: "Page #7", content: "<h1>Page #7</h1><p>This is Page #7.</p>"},
+            {label: "Page #8", content: "<h1>Page #8</h1><p>This is Page #8.</p>"}
+        ],
+        container: $("sc_pager")
+    });
+        
+}
+
+// BUTTONARRAY
+run_buttonarray = function () {
+    if (typeof ba_vert1 != "undefined") {
+        // remove buttonarray
+        ba_vert1.destroy();
+        ba_vert1 = undefined;
+        ba_horiz1.destroy();
+        ba_horiz1 = undefined;
+        ba_vert2.destroy();
+        ba_vert2 = undefined;
+        ba_horiz2.destroy();
+        ba_horiz2 = undefined;
+        return;
+    }
+    ba_horiz1 = new ButtonArray({
+        container: $("sc_buttonarray"),
+        buttons: [
+            {label: "Button 1"},
+            {label: "Button 2"},
+            {label: "Button 3"},
+            {label: "Button 4"},
+            {label: "Button 5"},
+            {label: "Button 6"},
+            //{label: "Button 7"},
+            //{label: "Button 8"},
+            //{label: "Button 9"},
+            //{label: "Button 10"},
+            //{label: "Button 11"},
+            //{label: "Button 12"},
+            //{label: "Button 13"},
+            //{label: "Button 14"},
+            //{label: "Button 15"},
+            //{label: "Button 16"}
+        ]
+    });
+    ba_horiz2 = new ButtonArray({
         container: $("sc_buttonarray"),
         buttons: [
             {label: "Button 1"},
@@ -104,7 +153,29 @@ run_buttonarray = function () {
             {label: "Button 16"}
         ]
     });
-    ba_vert = new ButtonArray({
+    ba_vert1 = new ButtonArray({
+        container: $("sc_buttonarray"),
+        direction: _TOOLKIT_VERT,
+        buttons: [
+            {label: "Button 1"},
+            {label: "Button 2"},
+            {label: "Button 3"},
+            {label: "Button 4"},
+            {label: "Button 5"},
+            {label: "Button 6"},
+            {label: "Button 7"},
+            {label: "Button 8"},
+            {label: "Button 9"},
+            //{label: "Button 10"},
+            //{label: "Button 11"},
+            //{label: "Button 12"},
+            //{label: "Button 13"},
+            //{label: "Button 14"},
+            //{label: "Button 15"},
+            //{label: "Button 16"}
+        ]
+    });
+    ba_vert2 = new ButtonArray({
         container: $("sc_buttonarray"),
         direction: _TOOLKIT_VERT,
         buttons: [

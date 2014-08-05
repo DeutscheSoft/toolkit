@@ -100,6 +100,8 @@
         <script src="toolkit/widgets/container.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/buttonarray.css">
         <script src="toolkit/widgets/buttonarray.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/pager.css">
+        <script src="toolkit/widgets/pager.js"></script>
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
         
@@ -337,19 +339,22 @@
                     ButtonArray extends <a href="#Container" title="Container">Container</a>.
                 </p>
                 <p class="description">
-                    Use ba_horiz and ba_vert to play with the examples in a terminal:
-                    <a href="javascript:ba_vert.set('show', 10)">ba_vert.set("show", 10)</a>
-                    <small>(scrolls to button #6)</small>
+                    Use ba_horiz1, ba_horiz2, ba_vert1 and ba_vert2 to play with the examples in a terminal:
+                    <a href="javascript:ba_vert2.set('show', 10)">ba_vert2.set("show", 10)</a>
+                    <small>(scrolls to button #10)</small>
                 </p>
                 
                 <style type="text/css">
                     #sc_buttonarray .toolkit-vertical {
                         /*width: 20%;*/
                         height: 400px;
+                        margin-right: 20px;
+                        float: left;
                     }
                     #sc_buttonarray .toolkit-horizontal {
                         width: 75%;
                         float: right;
+                        margin-bottom: 20px;
                     }
                 </style>
                 
@@ -365,8 +370,9 @@
                     <tr><th>Option</th><th>Description</th><th>Default</th></tr>
                     <tr>
                         <td>buttons</td>
-                        <td>An array of button option objects. It is used for the initial button list
-                        but can be set later to replace the whole button list with a new one.</td>
+                        <td>An array of button option objects or label strings. It is used for the initial button list
+                        but can be set later to replace the whole button list with a new one.If get is
+                        called, the converted list of button instances is returned.</td>
                         <td>[]</td>
                     </tr>
                     <tr>
@@ -392,14 +398,14 @@
                         <td>add_button(button, pos)</td>
                         <td>Adds a new button. "button" is an object
                         with options for the button (see <a href="#Button" title="Button widget">Button</a>
-                        for more information), pos is an integer for the position of the button.
+                        for more information) or a string for the label, pos is an integer for the position of the button.
                         If pos is omitted, it is added to the end of the list.</td>
                     </tr>
                     <tr>
                         <td>add_buttons([button, ...])</td>
                         <td>Adds an array of buttons to the end of the list. "button" is an object
                         with options for the button (see <a href="#Button" title="Button widget">Button</a>
-                        for more information)</td>
+                        for more information) or strings for the button label</td>
                     </tr>
                     <tr>
                         <td>remove_button(button)</td>
@@ -2067,6 +2073,79 @@
                 </table>
                 
             </li>
+            
+            
+            <li id="Pager" class="widget">
+                <!-- ########################################################### -->
+                <!-- PAGER WIDGET -->
+                <!-- ########################################################### -->
+                
+                <p class="description">
+                    <strong>Pager</strong> provides stuff.
+                </p>
+                <p class="description">
+                    Use example to play with the example in a terminal:
+                    <a href="javascript:pager.set('show', 5)">pager.set("show", 5)</a>
+                    <small>(scrolls to page #5)</small>
+                </p>
+                
+                <style type="text/css">
+                    #sc_pager .toolkit-pager {
+                        width: 100%;
+                        height: 400px;
+                    }
+                </style>
+                
+                <div class="showcase">
+                    <div id="sc_pager">
+                        
+                    </div>
+                </div>
+                
+                <div class="buttons"></div>
+                
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>example <i class="static">⚓</i></td>
+                        <td>description.</td>
+                        <td>default</td>
+                    </tr>
+                </table>
+                
+                <table class="methods collapse" title="⚒ Methods">
+                    <tr><th>Method</th><th>Description</th></tr>
+                    <tr>
+                        <td>method(options)</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="domelements collapse" title="⛁ DOM-Elements">
+                    <tr><th>Element (class)</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.element ("div.toolkit-example") <i class="delegated">⇄</i> <i class="classified">❇</i> <i class="stylized">✎</i></td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="modules collapse" title="⚛ Modules">
+                    <tr><th>Module</th><th>Description</th></tr>
+                    <tr>
+                        <td>example.module</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+                
+                <table class="events collapse" title="⚑ Events">
+                    <tr><th>Event</th><th>Description</th></tr>
+                    <tr>
+                        <td>event</td>
+                        <td>description.</td>
+                    </tr>
+                </table>
+            </li>
+            
             
             <li id="ResponseHandler" class="widget">
                 <!-- ########################################################### -->
