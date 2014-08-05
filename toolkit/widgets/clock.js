@@ -87,24 +87,27 @@ Clock = $class({
         this.element.appendChild(this._label_upper);
         this.element.appendChild(this._label_lower);
         
-        var options = {
+        var circ_options = {
             container: this.element,
             show_hand: false,
             start: 270,
             basis: 360,
             min: 0
-        }
-        this.circulars.seconds = new Circular($mixin({}, options,
+        };
+
+        this.circulars.seconds = new Circular($mixin({}, circ_options,
             {max: 60, "class": "toolkit-seconds"}));
-        this.circulars.minutes = new Circular($mixin({}, options,
+        this.circulars.minutes = new Circular($mixin({}, circ_options,
             {max: 60, "class": "toolkit-minutes"}));
-        this.circulars.hours   = new Circular($mixin({}, options,
+        this.circulars.hours   = new Circular($mixin({}, circ_options,
             {max: 12, "class": "toolkit-hours"}));
         
-        this.set("timeout", this.options.timeout);
         this.set("size", this.options.size, true);
+
+        // start the clock
+        this._timeout();
         
-        Widget.prototype.initialize.call(this, options);
+        //Widget.prototype.initialize.call(this, options);
 
         this.redraw();
         this.initialized();
