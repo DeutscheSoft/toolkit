@@ -162,7 +162,7 @@ ButtonArray = $class({
         var btnpos   = btnrect[subd] - conrect[subd];
         var listsize = this._list_size();
         var clipsize = this._clip.getBoundingClientRect()[subs];
-        this._container.style["margin-" + subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
+        this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
         var tmp = this.options.show;
         this.options.show = id;
         this.buttons[id].set("state", true);
