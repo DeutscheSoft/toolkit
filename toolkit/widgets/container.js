@@ -24,7 +24,9 @@ Container = $class({
     _class: "Container",
     Extends: Widget,
     options: {
-        
+        content: "" // the content of the container. It can either be
+                    // a string which is interpreted as HTML or a
+                    // ready-to-use DOM node.
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
@@ -45,6 +47,14 @@ Container = $class({
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
+        if (key == "content") {
+            while (this.element.firstChild)
+                this.element.removeChild(this.element.firstChild);
+            if (typeof value === "string")
+                this.element.innerHTML = value;
+            else if (typeof value === "object")
+                this.element.appendChild(value);
+        }
         Widget.prototype.set.call(this, key, value, hold);
     }
 });

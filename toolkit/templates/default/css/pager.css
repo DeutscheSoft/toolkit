@@ -15,6 +15,11 @@
     
 }
 
+
+.toolkit-pager .toolkit-buttonarray {
+    
+}
+
 .toolkit-pager.toolkit-top .toolkit-buttonarray {
     
 }
@@ -25,5 +30,23 @@
     
 }
 .toolkit-pager.toolkit-left .toolkit-buttonarray {
+    
+}
+
+
+.toolkit-pager .toolkit-page {
+    
+}
+
+.toolkit-pager.toolkit-top .toolkit-page {
+    
+}
+.toolkit-pager.toolkit-right .toolkit-page {
+    
+}
+.toolkit-pager.toolkit-bottom .toolkit-page {
+    
+}
+.toolkit-pager.toolkit-left .toolkit-page {
     
 }

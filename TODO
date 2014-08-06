@@ -36,3 +36,10 @@ OTHER IMPROVEMENTS
 * Speedup by creating render layer groups
 
 * Responsehandle: extract crosshairs and add them to Responsehandler
+
+
+REMINDERS
+---------
+
+* ButtonArray and Pager do class manipulation via string operations
+  for downward compatibility to IE9

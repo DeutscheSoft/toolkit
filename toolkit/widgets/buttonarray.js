@@ -33,7 +33,7 @@ ButtonArray = $class({
                                         // returned.
         auto_arrows: true,              // if arrow buttons are added automatically
         direction: _TOOLKIT_HORIZONTAL, // the direction of the button list
-        show: 0                         // the button to scroll to, either
+        show: -1                         // the button to scroll to, either
                                         // an int or a button instance
     },
     
@@ -61,7 +61,7 @@ ButtonArray = $class({
         
         this.set("direction", this.options.direction);
         this.add_buttons(this.options.buttons);
-        this.set("show", this.options.show);
+        this._scroll_to(this.options.show, true);
     },
     
     add_buttons: function (options) {
@@ -73,7 +73,7 @@ ButtonArray = $class({
         if (typeof options === "string")
             options = {label: options}
         var b    = new Button(options);
-        var len  = this.options.buttons.length;
+        var len  = this.buttons.length;
         var vert = this.options.direction == _TOOLKIT_VERT;
         if (typeof pos == "undefined")
             pos = this.options.buttons.length;
@@ -92,8 +92,6 @@ ButtonArray = $class({
         b.add_event("click", function () {
             this._button_clicked(c);
         }.bind(this));
-        if (pos < this.options.show)
-            this.options.show--;
         this._scroll_to(this.options.show);
         this.fire_event("added", [b, this]);
         return b;
@@ -103,6 +101,7 @@ ButtonArray = $class({
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
             return;
+        this.fire_event("removed", [this.buttons[button], this]);
         this.buttons[button].destroy();
         this.buttons.splice(button, 1);
         this._check_arrows();
@@ -149,14 +148,15 @@ ButtonArray = $class({
         this._scroll_to(this.options.show);
     },
     
-    _scroll_to: function (id) {
+    _scroll_to: function (id, force) {
         /* move the container so that the requested button is shown */
         /* hand over a button instance or a number */
         if (typeof id == "object")
             id = this.buttons.indexOf(id);
-        if (id < 0 || id >= this.buttons.length)
+        if (id < 0 || id >= this.buttons.length || (id == this.options.show && !force))
             return;
-        this.buttons[this.options.show].set("state", false);
+        if (this.options.show >= 0 && this.options.show < this.buttons.length)
+            this.buttons[this.options.show].set("state", false);
         var dir      = this.options.direction == _TOOLKIT_VERTICAL;
         var subd     = dir ? 'top' : 'left';
         var subm1    = dir ? 'marginTop' : 'marginLeft';
@@ -237,6 +237,6 @@ ButtonArray = $class({
             case "buttons":
                 return this.buttons;
         }
-        Container.prototype.get.call(this, key);
+        return Container.prototype.get.call(this, key);
     }
 });

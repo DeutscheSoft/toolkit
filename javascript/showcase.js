@@ -92,6 +92,7 @@ run_pager = function () {
             {label: "Page #7", content: "<h1>Page #7</h1><p>This is Page #7.</p>"},
             {label: "Page #8", content: "<h1>Page #8</h1><p>This is Page #8.</p>"}
         ],
+        show: 4,
         container: $("sc_pager")
     });
         
@@ -130,7 +131,8 @@ run_buttonarray = function () {
             //{label: "Button 14"},
             //{label: "Button 15"},
             //{label: "Button 16"}
-        ]
+        ],
+        show: 3
     });
     ba_horiz2 = new ButtonArray({
         container: $("sc_buttonarray"),
@@ -151,7 +153,8 @@ run_buttonarray = function () {
             {label: "Button 14"},
             {label: "Button 15"},
             {label: "Button 16"}
-        ]
+        ],
+        show: 1
     });
     ba_vert1 = new ButtonArray({
         container: $("sc_buttonarray"),
@@ -173,7 +176,8 @@ run_buttonarray = function () {
             //{label: "Button 14"},
             //{label: "Button 15"},
             //{label: "Button 16"}
-        ]
+        ],
+        show: 8
     });
     ba_vert2 = new ButtonArray({
         container: $("sc_buttonarray"),
@@ -195,7 +199,8 @@ run_buttonarray = function () {
             {label: "Button 14"},
             {label: "Button 15"},
             {label: "Button 16"}
-        ]
+        ],
+        show: 15
     });
 }
 

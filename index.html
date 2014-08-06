@@ -446,6 +446,10 @@
                         <td>This event is fired when a button was added. Hands over the button instance.</td>
                     </tr>
                     <tr>
+                        <td>removed</td>
+                        <td>This event is fired when a button is about being removed. Hands over the button instance to destroy.</td>
+                    </tr>
+                    <tr>
                         <td>changed</td>
                         <td>This event is fired when the active button changed. Hands over the button instance and the id.</td>
                     </tr>
@@ -825,12 +829,18 @@
                 <!-- ########################################################### -->
                 
                 <p class="description">
-                    <strong>Container</strong> is a simple DIV element. It doesn't
-                    provide any options, functions or other elements except all
-                    the functionality <a href="#widget">Widget</a> offers, which
-                    is extended by Container.
+                    <strong>Container</strong> is a simple DIV elementbased on
+                     <a href="#widget">Widget</a>.
                 </p>
                 <div class="buttons"></div>
+                <table class="options collapse" title="⚙ Options">
+                    <tr><th>Option</th><th>Description</th><th>Default</th></tr>
+                    <tr>
+                        <td>content</td>
+                        <td>A string parsed as HTML or a ready-to-use DOM node</td>
+                        <td>""</td>
+                    </tr>
+                </table>
                 <table class="domelements collapse" title="⛁ DOM-Elements">
                     <tr><th>Element (class)</th><th>Description</th></tr>
                     <tr>
