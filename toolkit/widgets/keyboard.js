@@ -148,25 +148,25 @@
         var ph = 0;
         for (var j = 0; j < this.options.rows.length; j ++)
             ph += this.options.rows[j]["height"] ? this.options.rows[j]["height"] : 1;
-        var height  = this.element.innerHeight() - this._buffer.outerHeight();
+        var height  = toolkit.inner_height(this.element) - toolkit.outer_height(this._buffer, true);
         
-        this._wrapper.outerHeight(height);
+        toolkit.outer_height(this._wrapper, true, height);
         for(var i = 0; i < this.options.rows.length; i++) {
             // rows
             var rd = this.options.rows[i];
             var pw = 0;
             for (var j = 0; j < rd.keys.length; j ++)
                 pw += rd.keys[j]["width"] ? rd.keys[j]["width"] : 1;
-            var width = rd["container"].innerWidth();
-            rd["container"].outerHeight(parseInt(parseFloat(rd["height"] ? rd["height"] : 1) / ph * height * 100) / 100);
+            var width = toolkit.inner_width(rd["container"]);
+            toolkit.outer_height(parseInt(rd["container"], true, parseFloat(rd["height"] ? rd["height"] : 1) / ph * height * 100) / 100);
             for (var j = 0; j < rd.keys.length; j ++) {
                 // keys
                 var kd = rd.keys[j];
                 var w = parseInt(parseFloat(kd["width"] ? kd["width"] : 1) / pw * width * 100) / 100;
                 var h = parseInt(parseFloat((rd["height"] ? rd["height"] : 1) * (kd["height"] ? kd["height"] : 1)) / ph * height * 100) / 100;
                 var b = kd["button"].element;
-                b.outerWidth(w);
-                b.outerHeight(h);
+                toolkit.outer_width(b, true, w);
+                toolkit.outer_height(b, true, h);
             }
         }
         Widget.prototype.redraw.call(this);

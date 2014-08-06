@@ -285,21 +285,21 @@ var MeterBase = $class({
             case _TOOLKIT_LEFT:
             case _TOOLKIT_RIGHT:
                 var s = this._bar_size(this.options.layout);
-                this._bar.outerHeight(s);
-                this._scale.outerHeight(s);
-                var i = this._bar.innerHeight();
+                toolkit.outer_height(this._bar, true, s);
+                toolkit.outer_height(this._scale, true, s);
+                var i = toolkit.inner_height(this._bar);
                 if (i != this.options.basis) {
                     this.options.basis = i;
                     this.scale.set("basis", i);
                 }
-                this._scale.innerHeight(i);
+                toolkit.inner_height(this._scale, i);
                 break;
             case _TOOLKIT_TOP:
             case _TOOLKIT_BOTTOM:
                 var s = this._bar_size(this.options.layout);
-                this._bar.outerWidth(s);
-                this._scale.outerWidth(s);
-                var i = this._bar.innerWidth();
+                toolkit.outer_width(this._bar, true, s);
+                toolkit.outer_width(this._scale, true, s);
+                var i = toolkit.inner_width(this._bar);
                 if (i != this.options.basis) {
                     this.options.basis = i;
                     this.scale.set("basis", i);
@@ -323,9 +323,9 @@ var MeterBase = $class({
             }
         }
         if (this._vert())
-            this.element.innerWidth(
-                this._bar.outerWidth()
-                + (this.options.show_scale ? this._scale.outerWidth() : 0));
+            toolkit.inner_width(this.element,
+                toolkit.outer_width(this._bar, true)
+                + (this.options.show_scale ? toolkit.outer_width(this._scale, true) : 0));
         Widget.prototype.redraw.call(this);
         return this;
     },
@@ -356,9 +356,9 @@ var MeterBase = $class({
         // determine a size for the meter bar based on several conditions
         var s = this.element[this._vert() ? "innerHeight" : "innerWidth"]();
         if (this.options.show_label && this._vert())
-            s -= this._label.outerHeight();
+            s -= toolkit.outer_height(this._label, true);
         if (this.options.show_title && this._vert())
-            s -= this._title.outerHeight();
+            s -= toolkit.outer_height(this._title, true);
         return s;
     },
     _vert: function () {

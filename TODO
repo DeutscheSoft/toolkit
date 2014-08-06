@@ -29,7 +29,7 @@ STRIP MOOTOOLS FROM TOOLKIT:
 OTHER IMPROVEMENTS
 ------------------
 * LevelMeter renders uneccessary parent elements
-    drawing of peak and masks leaks outsinde the meterbase div
+  drawing of peak and masks leaks outsinde the meterbase div
 
 * Remove alpha drawings
 
@@ -37,6 +37,8 @@ OTHER IMPROVEMENTS
 
 * Responsehandle: extract crosshairs and add them to Responsehandler
 
+* Strip multiple background elements from Fader and replace with
+  multiple CSS3 background images
 
 REMINDERS
 ---------

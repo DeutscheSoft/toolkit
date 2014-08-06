@@ -281,28 +281,28 @@ Window = $class({
                                  Math.max(this.options.width,
                                           this.options.min_width));
             if (this.__horiz_max()) {
-                this.element.outerWidth(window.getSize().x);
+                toolkit.outer_width(this.element, true, window.getSize().x);
                 this.dimensions.width = window.getSize().x;
             } else {
-                this.element.outerWidth(this.options.width);
+                toolkit.outer_width(this.element, true, this.options.width);
                 this.dimensions.width = this.options.width;
             }
         } else {
-            this.dimensions.width = this.element.outerWidth();
+            this.dimensions.width = toolkit.outer_width(this.element);
         }
         if (this.options.height >= 0) {
             this.options.height = Math.min(this.__max_height(),
                                   Math.max(this.options.height,
                                            this.options.min_height));
             if (this.__vert_max()) {
-                this.element.outerHeight(window.getSize().y);
+                toolkit.outer_height(this.element, true, window.getSize().y);
                 this.dimensions.height = window.getSize().y;
             } else {
-                this.element.outerHeight(this.options.height);
+                toolkit.outer_height(this.element, true, this.options.height);
                 this.dimensions.height = this.options.height;
             }
         } else {
-            this.dimensions.height = this.element.outerHeight();
+            this.dimensions.height = toolkit.outer_height(this.element, true);
         }
         this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
         this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
@@ -310,8 +310,8 @@ Window = $class({
         this.fire_event("dimensionschanged", [this, this.dimensions]);
     },
     _set_position: function () {
-        var width  = this.element.innerWidth();
-        var height = this.element.innerHeight();
+        var width  = toolkit.inner_width(this.element);
+        var height = toolkit.inner_height(this.element);
         pos = this.translate_anchor(this.options.anchor,
                                      this.options.x,
                                      this.options.y,
@@ -336,14 +336,14 @@ Window = $class({
         this.fire_event("positionchanged", [this, this.dimensions]);
     },
     _set_content: function () {
-        var elmt = this.element.innerHeight();
-        var head = this._header.outerHeight();
-        var foot = this._footer.outerHeight();
-        this._content.outerHeight(elmt - head - foot);
+        var elmt = toolkit.inner_height(this.element);
+        var head = toolkit.outer_height(this._header, true);
+        var foot = toolkit.outer_height(this._footer, true);
+        toolkit.outer_height(this._content, true, elmt - head - foot);
         if (this.options.width == _TOOLKIT_VAR)
             this._content.style["width"] = "auto";
         else
-            this._content.outerWidth(this.element.innerWidth());
+            toolkit.outer_width(this._content, true, toolkit.inner_width(this.element));
         this._content.style["top"] = head + "px";
         this.fire_event("contentresized", [this]);
     },
@@ -425,15 +425,15 @@ Window = $class({
             this._header.style["display"] = "none";
         } else {
             this._header.style["display"] = "block";
-            this._header_center.style["left"] = this._header_left.outerWidth() + "px";
+            this._header_center.style["left"] = toolkit.outer_width(this._header_left, true) + "px";
             this.__size_header();
         }
     },
     __size_header: function () {
-        this._header_center.outerWidth(
-          this._header.innerWidth()
-        - this._header_left.outerWidth()
-        - this._header_right.outerWidth());
+        toolkit.outer_width(this._header_center, true,
+          toolkit.inner_width(this._header)
+        - toolkit.outer_width(this._header_left, true)
+        - toolkit.outer_width(this._header_right, true));
     },
     _check_footer: function (hold) {
         // checks whether to hide or show the footer element
@@ -443,15 +443,15 @@ Window = $class({
             this._footer.style["display"] = "none";
         } else {
             this._footer.style["display"] = "block";
-            this._footer_center.style["left"] = this._footer_left.outerWidth() + "px";
+            this._footer_center.style["left"] = toolkit.outer_width(this._footer_left, true) + "px";
             this.__size_footer();
         }
     },
     __size_footer: function () {
-        this._footer_center.outerWidth(
-          this._footer.innerWidth()
-        - this._footer_left.outerWidth()
-        - this._footer_right.outerWidth());
+        toolkit.outer_width(this._footer_center, true,
+          toolkit.inner_width(this._footer)
+        - toolkit.outer_width(this._footer_left, true)
+        - toolkit.outer_width(this._footer_right, true));
     },
     
     __vert_max: function () {
@@ -553,8 +553,8 @@ Window = $class({
         this.fire_event("resizing", [this, ev]);
     },
     __set_dimensions: function () {
-        var x = this.element.outerWidth();
-        var y = this.element.outerHeight();
+        var x = toolkit.outer_width(this.element, true);
+        var y = toolkit.outer_height(this.element, true);
         this.dimensions.width  = this.options.width  = x;
         this.dimensions.height = this.options.height = y;
         this.dimensions.x2     = x + this.dimensions.x1;
@@ -723,7 +723,7 @@ Window = $class({
                 this.options.maximize.y = false;
                 if (!hold) {
                     this.element.style["height"] = 
-                    (value ? this._header.outerHeight() : this.options.height) + "px";
+                    (value ? toolkit.outer_height(this._header, true) : this.options.height) + "px";
                     this._footer.style["display"] = value ? "none" : "block";
                 }
                 break;

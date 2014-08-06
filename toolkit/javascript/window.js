@@ -43,8 +43,8 @@ os = function () {
 keep_inside = function (element, resize) {
     var ex = parseInt(element.getStyle("left"));
     var ey = parseInt(element.getStyle("top"));
-    var ew = element.outerWidth();
-    var eh = element.outerHeight();
+    var ew = toolkit.outer_width(element, true);
+    var eh = toolkit.outer_height(element, true);
     
     if (element.getStyle("position") == "fixed") {
         var pw = width();

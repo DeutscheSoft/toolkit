@@ -172,7 +172,7 @@ LevelMeter = $class({
                 this.__margin = this._bar.CSSSpace(
                     "margin", "border", "padding"
                 ).top + this._bar.getPosition(this.element).y;
-                var m = (this.options.show_clip ? this._clip.outerHeight() : 0);
+                var m = (this.options.show_clip ? toolkit.outer_height(this._clip, true) : 0);
                 this._scale.style["top"] = m + "px";
                 break;
             case _TOOLKIT_TOP:

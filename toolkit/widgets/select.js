@@ -120,8 +120,8 @@ Select = $class({
         for (var i in this.list) {
             var t = this._label.get("html");
             this._label.innerHTML = this.list[i].title;
-            this.__width = Math.max(this.__width, this.element.outerWidth());
-            this.element.outerWidth(this.__width + 1);
+            this.__width = Math.max(this.__width, toolkit.outer_width(this.element, true));
+            toolkit.outer_width(this.element, true, this.__width + 1);
             this._label.innerHTML = t;
         }
     },
@@ -139,8 +139,8 @@ Select = $class({
     show_list: function (show) {
         if (show) {
             var pos = this.element.getPosition();
-            pos.y += this.element.outerHeight();
-            var ew = this.element.outerWidth();
+            pos.y += toolkit.outer_height(this.element, true);
+            var ew = toolkit.outer_width(this.element, true);
             document.body.appendChild(this._list);
             var cw = window.getSize().x;
             var ch = window.getSize().y;
@@ -154,10 +154,10 @@ Select = $class({
                 "max-width": cw,
                 "min-width": ew
             });
-            var lw = this._list.outerWidth();
-            var lh = this._list.outerHeight();
+            var lw = toolkit.outer_width(this._list, true);
+            var lh = toolkit.outer_height(this._list, true);
             toolkit.set_styles(this._list, {
-                "top": Math.min(this.element.getPosition().y + this.element.outerHeight(), ch + sy - lh),
+                "top": Math.min(this.element.getPosition().y + toolkit.outer_height(this.element, true), ch + sy - lh),
                 "left": Math.min(this.element.getPosition().x, cw + sx - lw),
             });
         }

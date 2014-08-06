@@ -21,5 +21,81 @@ toolkit = {
         if (node.firstChild) {
             node.firstChild.nodeValue = s;
         } else node.appendChild(document.createTextNode(s));
+    },
+    outer_width : function (element, margin, width) {
+        var cs = getComputedStyle(element, null);
+        var w = element.getBoundingClientRect().width;
+        var m = 0;
+        if (margin) {
+            m += parseFloat(cs.getPropertyValue("margin-left"));
+            m += parseFloat(cs.getPropertyValue("margin-right"));
+        }
+        if (typeof width !== "undefined") {
+            if (cs.getPropertyValue("box-sizing") == "content-box") {
+                width -= parseFloat(cs.getPropertyValue("padding-left"));
+                width -= parseFloat(cs.getPropertyValue("padding-right"));
+                width -= parseFloat(cs.getPropertyValue("border-left-width"));
+                width -= parseFloat(cs.getPropertyValue("border-right-width"));
+            }
+            width -= m;
+            element.style.width = width + "px";
+            return width;
+        }
+        return w + m;
+    },
+    outer_height : function (element, margin, height) {
+        var cs = getComputedStyle(element, null);
+        var h = element.getBoundingClientRect().height;
+        var m = 0;
+        if (margin) {
+            m += parseFloat(cs.getPropertyValue("margin-top"));
+            m += parseFloat(cs.getPropertyValue("margin-bottom"));
+        }
+        if (typeof height !== "undefined") {
+            if (cs.getPropertyValue("box-sizing") == "content-box") {
+                height -= parseFloat(cs.getPropertyValue("padding-top"));
+                height -= parseFloat(cs.getPropertyValue("padding-bottom"));
+                height -= parseFloat(cs.getPropertyValue("border-top-width"));
+                height -= parseFloat(cs.getPropertyValue("border-bottom-width"));
+            }
+            height -= m;
+            element.style.height = height + "px";
+            return height;
+        }
+        return h + m;
+    },
+    inner_width: function (element, width) {
+        var cs = getComputedStyle(element, null);
+        var w = element.getBoundingClientRect().width;
+        var x = 0;
+        if (cs.getPropertyValue("box-sizing") == "border-box") {
+            x += parseFloat(cs.getPropertyValue("padding-left"));
+            x += parseFloat(cs.getPropertyValue("padding-right"));
+            x += parseFloat(cs.getPropertyValue("border-left-width"));
+            x += parseFloat(cs.getPropertyValue("border-right-width"));
+        }
+        if (typeof width !== "undefined") {
+            width += x;
+            element.style.width = width + "px";
+            return width;
+        }
+        return w - x;
+    },
+    inner_height: function (element, height) {
+        var cs = getComputedStyle(element, null);
+        var h = element.getBoundingClientRect().height;
+        var y = 0;
+        if (cs.getPropertyValue("box-sizing") == "border-box") {
+            y += parseFloat(cs.getPropertyValue("padding-top"));
+            y += parseFloat(cs.getPropertyValue("padding-bottom"));
+            y += parseFloat(cs.getPropertyValue("border-top-width"));
+            y += parseFloat(cs.getPropertyValue("border-bottom-width"));
+        }
+        if (typeof height !== "undefined") {
+            height += y;
+            element.style.height = height + "px";
+            return height;
+        }
+        return h - y;
     }
 };

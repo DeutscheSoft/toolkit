@@ -134,9 +134,9 @@ Fader = $class({
                 right: undefined
             });
             
-            var h  = this.element.innerHeight();
-            var hl = this._background_top.outerHeight();
-            var hr = this._background_bottom.outerHeight();
+            var h  = toolkit.inner_height(this.element);
+            var hl = toolkit.outer_height(this._background_top, true);
+            var hr = toolkit.outer_height(this._background_bottom, true);
             
             toolkit.set_styles(this._background_center, {
                 position: "absolute",
@@ -145,19 +145,19 @@ Fader = $class({
                 height: h - hl - hr
             });
             
-            var p = this.element.innerWidth();
-            this._background_top.outerWidth(p);
-            this._background_bottom.outerWidth(p);
-            this._background_center.outerWidth(p);
-            this._scale.outerWidth(p);
+            var p = toolkit.inner_width(this.element);
+            toolkit.outer_width(this._background_top, true, p);
+            toolkit.outer_width(this._background_bottom, true, p);
+            toolkit.outer_width(this._background_center, true, p);
+            toolkit.outer_width(this._scale, true, p);
             
             toolkit.set_styles(this._handle, {
                 position: "absolute",
                 bottom: 0,
                 right: undefined
             });
-            this._handlesize = this._handle.outerHeight();
-            this._scale.outerHeight(h - this._handlesize);
+            this._handlesize = toolkit.outer_height(this._handle, true);
+            toolkit.outer_height(this._scale, true, h - this._handlesize);
             this._scale.style["top"] = this._handlesize / 2;
         } else {
             // HORIZONTAL
@@ -172,9 +172,9 @@ Fader = $class({
                 bottom: undefined
             });
             
-            var h  = this.element.innerWidth();
-            var hl = this._background_top.outerWidth();
-            var hr = this._background_bottom.outerWidth();
+            var h  = toolkit.inner_width(this.element);
+            var hl = toolkit.outer_width(this._background_top, true);
+            var hr = toolkit.outer_width(this._background_bottom, true);
             
             toolkit.set_styles(this._background_center, {
                 position: "absolute",
@@ -183,19 +183,19 @@ Fader = $class({
                 width: h - hl - hr
             });
             
-            var p = this.element.innerHeight();
-            this._background_top.outerHeight(p);
-            this._background_bottom.outerHeight(p);
-            this._background_center.outerHeight(p);
-            this._scale.outerHeight(p);
+            var p = toolkit.inner_height(this.element);
+            toolkit.outer_height(this._background_top, true, p);
+            toolkit.outer_height(this._background_bottom, true, p);
+            toolkit.outer_height(this._background_center, true, p);
+            toolkit.outer_height(this._scale, true, p);
             
             toolkit.set_styles(this._handle, {
                 position: "absolute",
                 right: 0,
                 bottom: undefined
             });
-            this._handlesize = this._handle.outerWidth();
-            this._scale.outerWidth(h - this._handlesize);
+            this._handlesize = toolkit.outer_width(this._handle, true);
+            toolkit.outer_width(this._scale, true, h - this._handlesize);
             this._scale.style["left"] = this._handlesize / 2;
         }
         var s = h - this._handlesize;
@@ -206,8 +206,9 @@ Fader = $class({
         this.set("value", this.options.value);
         this.scale.redraw();
         
-        this.element.innerWidth(Math.max(this._handle.outerWidth(),
-                                         this._scale.outerWidth()));
+        toolkit.inner_width(this.element,
+                            Math.max(toolkit.outer_width(this._handle, true),
+                                     toolkit.outer_width(this._scale, true)));
         
         Widget.prototype.redraw.call(this);
     },
