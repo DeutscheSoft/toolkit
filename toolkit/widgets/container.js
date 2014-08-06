@@ -34,6 +34,7 @@ Container = $class({
                                       true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
+        this.set("content", this.options.content);
     },
     
     redraw: function () {

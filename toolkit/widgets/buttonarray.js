@@ -41,10 +41,8 @@ ButtonArray = $class({
         this.buttons = [];
         Container.prototype.initialize.call(this, options);
         this.element.className += " toolkit-buttonarray";
-        this._clip      = document.createElement("DIV");
-        this._container = document.createElement("DIV");
-        this._clip.className += " toolkit-clip";
-        this._container.className += " toolkit-container";
+        this._clip      = toolkit.element("div", "toolkit-clip");
+        this._container = toolkit.element("div", "toolkit-container");
         this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         
@@ -76,7 +74,7 @@ ButtonArray = $class({
         var len  = this.buttons.length;
         var vert = this.options.direction == _TOOLKIT_VERT;
         if (typeof pos == "undefined")
-            pos = this.options.buttons.length;
+            pos = this.buttons.length;
         if (pos == len) {
             this.buttons.push(b);
             this._container.appendChild(b.element);
@@ -159,15 +157,11 @@ ButtonArray = $class({
             this.buttons[this.options.show].set("state", false);
         var dir      = this.options.direction == _TOOLKIT_VERTICAL;
         var subd     = dir ? 'top' : 'left';
-        var subm1    = dir ? 'marginTop' : 'marginLeft';
-        var subm2    = dir ? 'marginBottom' : 'marginRight';
         var subs     = dir ? 'height' : 'width';
         var btn      = this._container.childNodes[id];
-        var btnstyle = btn.currentStyle || window.getComputedStyle(btn);
-        var btnmarg  = parseInt(btnstyle[subm1]) + parseInt(btnstyle[subm2]);
         var btnrect  = btn.getBoundingClientRect();
         var conrect  = this._container.getBoundingClientRect();
-        var btnsize  = btnrect[subs] + btnmarg;
+        var btnsize  = toolkit.outer_width(btn);
         var btnpos   = btnrect[subd] - conrect[subd];
         var listsize = this._list_size();
         var clipsize = this._clip.getBoundingClientRect()[subs];
@@ -218,11 +212,9 @@ ButtonArray = $class({
             case "direction":
                 // dirty string operations!
                 // HTML5 classList API not supported by IE9
-                var c = String(this.element.className);
-                c.replace(" toolkit-vertical", "");
-                c.replace(" toolkit-horizontal", "");
-                c += " toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal")
-                this.element.className = c;
+                this.element.classList.remove("toolkit-vertical");
+                this.element.classList.remove("toolkit-horizontal");
+                this.element.classList.add("toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
                 break;
             case "auto_arrows":
                 this._check_arrows(true);

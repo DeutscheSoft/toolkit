@@ -98,7 +98,11 @@ run_pager = function () {
             {label: "Page #5", content: "<h1>Page #5</h1><p>This is Page #5.</p>"},
             {label: "Page #6", content: "<h1>Page #6</h1><p>This is Page #6.</p>"},
             {label: "Page #7", content: "<h1>Page #7</h1><p>This is Page #7.</p>"},
-            {label: "Page #8", content: "<h1>Page #8</h1><p>This is Page #8.</p>"}
+            {label: "Page #8", content: "<h1>Page #8</h1><p>This is Page #8.</p>"},
+            {label: "Page #9", content: "<h1>Page #9</h1><p>This is Page #9.</p>"},
+            {label: "Page #10", content: "<h1>Page #10</h1><p>This is Page #10.</p>"},
+            {label: "Page #11", content: "<h1>Page #11</h1><p>This is Page #11.</p>"},
+            {label: "Page #12", content: "<h1>Page #12</h1><p>This is Page #12.</p>"}
         ],
         show: 4,
         container: $("sc_pager")

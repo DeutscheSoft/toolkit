@@ -8,6 +8,12 @@ KNOWN BUGS
 * Scale: test: min -60, max 3, base 0
 * ResponseHandler: z-handles broken somehow
 
+REFERENCE / DEMO
+----------------
+
+* Fader
+* Pager
+* Keyboard
 
 CLASS IMPLEMENTATION
 --------------------
@@ -39,6 +45,10 @@ OTHER IMPROVEMENTS
 
 * Strip multiple background elements from Fader and replace with
   multiple CSS3 background images
+
+* Pager and ButtonArray share kind of the same concept - a container
+  with some elements in it inside a clipping area scrolling vertically
+  or horizontally. Perhaps build a super class?
 
 REMINDERS
 ---------

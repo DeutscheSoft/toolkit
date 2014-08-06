@@ -52,6 +52,7 @@ toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-bottom"));
         }
         if (typeof height !== "undefined") {
+            
             if (cs.getPropertyValue("box-sizing") == "content-box") {
                 height -= parseFloat(cs.getPropertyValue("padding-top"));
                 height -= parseFloat(cs.getPropertyValue("padding-bottom"));
