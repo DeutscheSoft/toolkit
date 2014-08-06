@@ -75,7 +75,7 @@ Tooltip = $class({
         if (!this.__tt_injected)
             return;
         e = this._get_event(e);
-        toolkit.setStyles(this._tooltip, {
+        toolkit.set_styles(this._tooltip, {
             top: e.clientY,
             left: e.clientX
         });
