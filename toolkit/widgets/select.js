@@ -148,7 +148,7 @@ Select = $class({
                    : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
             var sy = (window.pageYOffset !== undefined) ? window.pageYOffset
                    : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-            toolkit.setStyles(this._list, {
+            toolkit.set_styles(this._list, {
                 "opacity": 0,
                 "max-height": ch,
                 "max-width": cw,
@@ -156,7 +156,7 @@ Select = $class({
             });
             var lw = this._list.outerWidth();
             var lh = this._list.outerHeight();
-            toolkit.setStyles(this._list, {
+            toolkit.set_styles(this._list, {
                 "top": Math.min(this.element.getPosition().y + this.element.outerHeight(), ch + sy - lh),
                 "left": Math.min(this.element.getPosition().x, cw + sx - lw),
             });

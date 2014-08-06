@@ -98,34 +98,34 @@ LevelMeter = $class({
             this.options.top = this.options.value;
         if (this.options.bottom === false)
             this.options.bottom = this.options.value;
-        toolkit.setStyles(this._mask3, {
+        toolkit.set_styles(this._mask3, {
             position: "absolute",
             zIndex:  1000
         });
-        toolkit.setStyles(this._mask4, {
+        toolkit.set_styles(this._mask4, {
             position: "absolute",
             zIndex:  1000
         });
         if (this.options.layout == _TOOLKIT_LEFT
         || this.options.layout == _TOOLKIT_RIGHT) {
             if (this.options.reverse) {
-                toolkit.setStyles(this._mask3, {
+                toolkit.set_styles(this._mask3, {
                     width:  "100%",
                     height: 0,
                     bottom:    0
                 });
-                toolkit.setStyles(this._mask4, {
+                toolkit.set_styles(this._mask4, {
                     width:  "100%",
                     height: 0,
                     top: 0
                 });
             } else {
-                toolkit.setStyles(this._mask3, {
+                toolkit.set_styles(this._mask3, {
                     width:  "100%",
                     height: 0,
                     top: 0
                 });
-                toolkit.setStyles(this._mask4, {
+                toolkit.set_styles(this._mask4, {
                     width:  "100%",
                     height: 0,
                     bottom:    0
@@ -133,23 +133,23 @@ LevelMeter = $class({
             }
         } else {
             if (this.options.reverse) {
-                toolkit.setStyles(this._mask3, {
+                toolkit.set_styles(this._mask3, {
                     height: "100%",
                     width:  0,
                     left:   0
                 });
-                toolkit.setStyles(this._mask4, {
+                toolkit.set_styles(this._mask4, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
             } else {
-                toolkit.setStyles(this._mask3, {
+                toolkit.set_styles(this._mask3, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
-                toolkit.setStyles(this._mask4, {
+                toolkit.set_styles(this._mask4, {
                     height: "100%",
                     width:  0,
                     left:   0

@@ -123,12 +123,12 @@ Fader = $class({
     redraw: function () {
         if (this._vert()) {
             // VERTICAL
-            toolkit.setStyles(this._background_top, {
+            toolkit.set_styles(this._background_top, {
                 position: "absolute",
                 top: 0,
                 left: undefined
             });
-            toolkit.setStyles(this._background_bottom, {
+            toolkit.set_styles(this._background_bottom, {
                 position: "absolute",
                 bottom: 0,
                 right: undefined
@@ -138,7 +138,7 @@ Fader = $class({
             var hl = this._background_top.outerHeight();
             var hr = this._background_bottom.outerHeight();
             
-            toolkit.setStyles(this._background_center, {
+            toolkit.set_styles(this._background_center, {
                 position: "absolute",
                 top: hl,
                 left: undefined,
@@ -151,7 +151,7 @@ Fader = $class({
             this._background_center.outerWidth(p);
             this._scale.outerWidth(p);
             
-            toolkit.setStyles(this._handle, {
+            toolkit.set_styles(this._handle, {
                 position: "absolute",
                 bottom: 0,
                 right: undefined
@@ -161,12 +161,12 @@ Fader = $class({
             this._scale.style["top"] = this._handlesize / 2;
         } else {
             // HORIZONTAL
-            toolkit.setStyles(this._background_top, {
+            toolkit.set_styles(this._background_top, {
                 position: "absolute",
                 left: 0,
                 top: undefined
             });
-            toolkit.setStyles(this._background_bottom, {
+            toolkit.set_styles(this._background_bottom, {
                 position: "absolute",
                 right: 0,
                 bottom: undefined
@@ -176,7 +176,7 @@ Fader = $class({
             var hl = this._background_top.outerWidth();
             var hr = this._background_bottom.outerWidth();
             
-            toolkit.setStyles(this._background_center, {
+            toolkit.set_styles(this._background_center, {
                 position: "absolute",
                 left: hl,
                 top: undefined,
@@ -189,7 +189,7 @@ Fader = $class({
             this._background_center.outerHeight(p);
             this._scale.outerHeight(p);
             
-            toolkit.setStyles(this._handle, {
+            toolkit.set_styles(this._handle, {
                 position: "absolute",
                 right: 0,
                 bottom: undefined

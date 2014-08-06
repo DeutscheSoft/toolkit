@@ -134,101 +134,101 @@ var MeterBase = $class({
         this._bar.appendChild(this._mask1);
         this._bar.appendChild(this._mask2);
         
-        toolkit.setStyles(this._bar, {
+        toolkit.set_styles(this._bar, {
             position: "relative",
             overflow: "hidden"
         });
-        toolkit.setStyles(this._base, {
+        toolkit.set_styles(this._base, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   0
         });
-        toolkit.setStyles(this._mark, {
+        toolkit.set_styles(this._mark, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   10
         });
-        toolkit.setStyles(this._over, {
+        toolkit.set_styles(this._over, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   100
         });
-        toolkit.setStyles(this._mask1, {
+        toolkit.set_styles(this._mask1, {
             position: "absolute",
             zIndex:   1000
         });
-        toolkit.setStyles(this._mask2, {
+        toolkit.set_styles(this._mask2, {
             position: "absolute",
             zIndex:   1000
         });
         if (this.options.layout == _TOOLKIT_LEFT) {
-            toolkit.setStyles(this._scale, {
+            toolkit.set_styles(this._scale, {
                 "float": "right"
             });
-            toolkit.setStyles(this._bar, {
+            toolkit.set_styles(this._bar, {
                 "float": "left"
             });
         }
         if (this.options.layout == _TOOLKIT_RIGHT) {
-            toolkit.setStyles(this._scale, {
+            toolkit.set_styles(this._scale, {
                 "float": "left"
             });
-            toolkit.setStyles(this._bar, {
+            toolkit.set_styles(this._bar, {
                 "float": "right"
             });
         }
         if (this._vert()) {
             if (this.options.reverse) {
-                toolkit.setStyles(this._mask1, {
+                toolkit.set_styles(this._mask1, {
                     width:  "100%",
                     height: 0,
                     bottom: 0
                 });
-                toolkit.setStyles(this._mask2, {
+                toolkit.set_styles(this._mask2, {
                     width:  "100%",
                     height: 0,
                     top:    0
                 });
             } else {
-                toolkit.setStyles(this._mask1, {
+                toolkit.set_styles(this._mask1, {
                     width:  "100%",
                     height: 0,
                     top:    0
                 });
-                toolkit.setStyles(this._mask2, {
+                toolkit.set_styles(this._mask2, {
                     width:  "100%",
                     height: 0,
                     bottom: 0
                 });
             }
         } else {
-            toolkit.setStyles(this._scale, {
+            toolkit.set_styles(this._scale, {
                 "clear": "both"
             });
-            toolkit.setStyles(this._title, {
+            toolkit.set_styles(this._title, {
                 "clear": "both"
             });
             if (this.options.reverse) {
-                toolkit.setStyles(this._mask1, {
+                toolkit.set_styles(this._mask1, {
                     height: "100%",
                     width:  0,
                     left:   0
                 });
-                toolkit.setStyles(this._mask2, {
+                toolkit.set_styles(this._mask2, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
             } else {
-                toolkit.setStyles(this._mask1, {
+                toolkit.set_styles(this._mask1, {
                     height: "100%",
                     width:  0,
                     right:  0
                 });
-                toolkit.setStyles(this._mask2, {
+                toolkit.set_styles(this._mask2, {
                     height: "100%",
                     width:  0,
                     left:   0

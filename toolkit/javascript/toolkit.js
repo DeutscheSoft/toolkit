@@ -1,5 +1,5 @@
 toolkit = {
-    setStyles : function(elem, styles) {
+    set_styles : function(elem, styles) {
         var key;
         for (key in styles) if (styles.hasOwnProperty(key))
             elem.style[key] = styles[key];
@@ -10,7 +10,7 @@ toolkit = {
         for (i = 1; i < arguments.length; i++) {
             v = arguments[i]; 
             if (typeof v == "object") {
-                toolkit.setStyles(n, v);
+                toolkit.set_styles(n, v);
             } else if (typeof v == "string") {
                 n.classList.add(v);
             } else throw("unsupported argument to toolkit.element");
