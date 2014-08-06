@@ -96,6 +96,7 @@
 
 .toolkit-pager.toolkit-horizontal > .toolkit-clip > .toolkit-container > .toolkit-page {
     height: 100%;
+    float: left;
 }
 .toolkit-pager.toolkit-vertical > .toolkit-clip > .toolkit-container > .toolkit-page {
     width: 100%;

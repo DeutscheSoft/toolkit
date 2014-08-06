@@ -105,6 +105,9 @@
     -moz-border-radius:    0px;
     border-radius:         0px;
 }
+.toolkit-buttonarray .toolkit-clip .toolkit-container .toolkit-button .toolkit-label {
+    white-space: nowrap;
+}
 .toolkit-buttonarray.toolkit-horizontal .toolkit-clip .toolkit-container .toolkit-button {
     height: 100%;
 }

@@ -215,6 +215,8 @@ ButtonArray = $class({
                 this.element.classList.remove("toolkit-vertical");
                 this.element.classList.remove("toolkit-horizontal");
                 this.element.classList.add("toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
+                this.prev.set("label", value == _TOOLKIT_VERT ? "▲" : "◀");
+                this.next.set("label", value == _TOOLKIT_VERT ? "▼" : "▶");
                 break;
             case "auto_arrows":
                 this._check_arrows(true);

@@ -51,14 +51,15 @@ Pager = $class({
         });
         this._clip      = toolkit.element("div", "toolkit-clip");
         this._container = toolkit.element("div", "toolkit-container");
-        this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         this._pagestyle = toolkit.element("style");
         this._pagestyle.setAttribute("type", "text/css");
         this.element.appendChild(this._pagestyle);
-        this.set("direction", this.options.direction);
-        this.set("position", this.options.position);
+        this.set("direction", this.options.direction, true);
+        this.set("position", this.options.position, true);
         this.add_pages(this.options.pages);
+        this.element.appendChild(this._clip);
+        this.redraw();
         this.set("show", this.options.show);
         this._scroll_to(this.options.show, true);
     },
@@ -137,8 +138,10 @@ Pager = $class({
         this.pages.splice(page, 1);
         this.pages[this.options.show].element.className.replace(" toolkit-active", "");
         this.pages[this.options.show].element.className.replace("  ", " ");
+        console.log(this.options.show)
         if (page < this.options.show)
             this.options.show--;
+        console.log(this.options.show)
         this._scroll_to(this.options.show);
     },
     
@@ -156,12 +159,11 @@ Pager = $class({
             return;
         if (this.options.show >= 0 && this.options.show < this.pages.length)
             this.pages[this.options.show].element.classList.remove("toolkit-active");
-        this.pages[this.options.show].element.classList.add("toolkit-active");
-        var dir      = this.options.direction == _TOOLKIT_VERTICAL;
-        var subd     = dir ? 'top' : 'left';
-        var subs     = dir ? 'height' : 'width';
-        var size     = dir ? this.__page_height : this.__page_width;
-        this._container.style[subd] = (-size * id) + "px";
+        this.pages[id].element.classList.add("toolkit-active");
+        var dir  = this.options.direction == _TOOLKIT_VERTICAL;
+        var size = dir ? this.__page_height : this.__page_width;
+        this._container.style[dir ? 'top' : 'left'] = (-size * id) + "px";
+        this._container.style[dir ? 'left' : 'top'] = "";
         if (this.options.show != id) {
             this.fire_event("changed", [this.pages[id], id, this]);
         }
@@ -191,8 +193,7 @@ Pager = $class({
                 this.add_pages(value);
                 break;
             case "position":
-                // dirty string operations!
-                // HTML5 classList API not supported by IE9
+                this.options.position = value;
                 this.element.classList.remove("toolkit-top");
                 this.element.classList.remove("toolkit-right");
                 this.element.classList.remove("toolkit-bottom");
@@ -203,15 +204,15 @@ Pager = $class({
                         this.element.classList.add("toolkit-top");
                         badir = _TOOLKIT_HORIZ;
                         break;
-                    case _TOOLTIP_BOTTOM:
+                    case _TOOLKIT_BOTTOM:
                         this.element.classList.add("toolkit-bottom");
                         badir = _TOOLKIT_HORIZ;
                         break;
-                    case _TOOLTIP_LEFT:
+                    case _TOOLKIT_LEFT:
                         this.element.classList.add("toolkit-left");
                         badir = _TOOLKIT_VERT;
                         break;
-                    case _TOOLTIP_RIGHT:
+                    case _TOOLKIT_RIGHT:
                         this.element.classList.add("toolkit-right");
                         badir = _TOOLKIT_VERT;
                         break;
@@ -221,11 +222,14 @@ Pager = $class({
                     this.redraw();
                 break;
             case "direction":
-                // dirty string operations!
-                // HTML5 classList API not supported by IE9
                 this.element.classList.remove("toolkit-vertical");
                 this.element.classList.remove("toolkit-horizontal");
                 this.element.classList.add("toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
+                this.options.direction = value;
+                if (!hold) {
+                    this.redraw();
+                    this._scroll_to(this.options.show, true);
+                }
                 break;
             case "show":
                 this.buttonarray._scroll_to(value);
