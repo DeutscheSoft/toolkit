@@ -118,7 +118,7 @@ Widget = $class({
         // widget instance
         this.addClass    = function (c) { element.classList.add(c); }.bind(this);
         this.removeClass = function (c) { element.classList.remove(c); }.bind(this);
-        this.setStyle    = toolkit.set_style.bind(this, element);
+        this.setStyle    = function (c, d) { element.style[c] = d; }.bind(this);
         this.setStyles   = toolkit.set_styles.bind(this, element);
         this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
         this.__classified = element;
