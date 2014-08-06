@@ -1245,7 +1245,7 @@ function run_responsehandler () {
                        z_max: 20,
                        preferences:[_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP_RIGHT, _TOOLKIT_BOTTOM_LEFT,
                                     _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_LEFT, _TOOLKIT_RIGHT],
-                       label: function(title, x, y, z){ return title + "\n" + parseInt(x) + " Hz"; }
+                       label: function(title, x, y, z){ return title + "\n" + (x|0) + " Hz"; }
                        }),
         rh.add_handle({x: 5000,
                        z: 3,
@@ -1257,7 +1257,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences:[_TOOLKIT_LEFT, _TOOLKIT_RIGHT],
-                       label: function(title, x, y, z){ return title + "\n" + parseInt(x) + " Hz"; }
+                       label: function(title, x, y, z){ return title + "\n" + (x|0) + " Hz"; }
                        }),
         rh.add_handle({y: -24,
                        z: 3,
@@ -1266,7 +1266,7 @@ function run_responsehandler () {
                        title: "handle 8",
                        preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_TOP_RIGHT,
                                      _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_TOP, _TOOLKIT_BOTTOM],
-                       label: function(title, x, y, z){ return title + "\n" + parseInt(y) + " dB"; }
+                       label: function(title, x, y, z){ return title + "\n" + (y|0) + " dB"; }
                        }),
         rh.add_handle({y: 12,
                        z: 3,
@@ -1278,7 +1278,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences:[_TOOLKIT_TOP, _TOOLKIT_BOTTOM],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(y) + " dB"; }
+                       label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; }
                        }),
         rh.add_handle({x: 100,
                        z: 3,
@@ -1291,7 +1291,7 @@ function run_responsehandler () {
                        preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
                                      _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                      _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(x) + " Hz"; } 
+                       label: function (title, x, y, z) { return title + "\n" + (x|0) + " Hz"; } 
                        }),
         rh.add_handle({x: 8000,
                        z: 3,
@@ -1304,7 +1304,7 @@ function run_responsehandler () {
                        preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                      _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                      _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(x) + " Hz"; } 
+                       label: function (title, x, y, z) { return title + "\n" + (x|0) + " Hz"; } 
                        }),
         rh.add_handle({x: 10000,
                        z: 3,
@@ -1317,7 +1317,7 @@ function run_responsehandler () {
                        preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                      _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                      _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(x) + " Hz"; } 
+                       label: function (title, x, y, z) { return title + "\n" + (x|0) + " Hz"; } 
                        }),
         rh.add_handle({y: 20,
                        z: 3,
@@ -1329,7 +1329,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(y) + " dB"; } 
+                       label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        }),
         rh.add_handle({y: 26,
                        z: 3,
@@ -1340,7 +1340,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_TOP, _TOOLKIT_CENTER, _TOOLKIT_BOTTOM],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(y) + " dB"; } 
+                       label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        }),
         rh.add_handle({y: -6,
                        z: 3,
@@ -1351,7 +1351,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_BOTTOM, _TOOLKIT_CENTER, _TOOLKIT_TOP],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(y) + " dB"; } 
+                       label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        }),
         rh.add_handle({y: -16,
                        z: 3,
@@ -1362,7 +1362,7 @@ function run_responsehandler () {
                        z_min: 1,
                        z_max: 20,
                        preferences: [_TOOLKIT_BOTTOM, _TOOLKIT_CENTER, _TOOLKIT_TOP],
-                       label: function (title, x, y, z) { return title + "\n" + parseInt(y) + " dB"; } 
+                       label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        })
     ]
     repositionSVGs()
