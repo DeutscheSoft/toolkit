@@ -98,7 +98,21 @@ var ResponseHandler = $class({
             document.addEventListener("touchmove", _touchmove);
             document.addEventListener("touchend",  _touchend);
         }.bind(this));
+        h.add_event("zchangestarted", function () {
+            this._active++;
+            document.addEventListener("mousemove", _mousemove);
+            document.addEventListener("mouseup",   _mouseup);
+            document.addEventListener("touchmove", _touchmove);
+            document.addEventListener("touchend",  _touchend);
+        }.bind(this));
         h.add_event("handlereleased",  function () {
+            if (this._active) this._active--;
+            document.removeEventListener("mousemove", _mousemove);
+            document.removeEventListener("mouseup",   _mouseup);
+            document.removeEventListener("touchmove", _touchmove);
+            document.removeEventListener("touchend",  _touchend);
+        }.bind(this));
+        h.add_event("zchangeended",  function () {
             if (this._active) this._active--;
             document.removeEventListener("mousemove", _mousemove);
             document.removeEventListener("mouseup",   _mouseup);

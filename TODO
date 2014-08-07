@@ -6,8 +6,6 @@ KNOWN BUGS
               Android default browser breaks on gradients
                       (because of mootools platform detection)
 * Scale: test: min -60, max 3, base 0
-* ResponseHandler: z-handles broken somehow
-* ButtonArray: Firefox, auto-width when vertical
 
 REFERENCE / DEMO
 ----------------
