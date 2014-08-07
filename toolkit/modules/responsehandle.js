@@ -1089,7 +1089,6 @@ ResponseHandle = $class({
         //e.stopPropagation();
     },
     _mousedown: function (e) {
-        console.log("down")
         e.preventDefault();
         this._zwheel = false;
         if (this.options.min_drag)
@@ -1140,7 +1139,6 @@ ResponseHandle = $class({
         return false;
     },
     _mouseup: function (e) {
-        console.log("up")
         if (!this.__active) return;
         e.preventDefault();
         this.element.classList.remove("toolkit-active");
@@ -1163,7 +1161,6 @@ ResponseHandle = $class({
         return false;
     },
     _mousemove: function (e) {
-        console.log("move")
         if (!this.__active) return;
         e.preventDefault();
         
