@@ -98,5 +98,64 @@ toolkit = {
             return height;
         }
         return h - y;
+    },
+    FORMAT : function() {
+        var cache = {};
+        return function(fmt) {
+            var cache_key = Array.prototype.join.call(arguments, "\0");
+            if (cache.hasOwnProperty(cache_key)) return cache[cache_key];
+            var args = [];
+            var s = "return ";
+            var res;
+            var last = 0;
+            var argnum = 0;
+            var precision;
+            var regexp = /%(\.\d+)?([bcdefgos%])/g;
+            var argname;
+
+            while (res = regexp.exec(fmt)) {
+                if (argnum) s += "+";
+                s += JSON.stringify(fmt.substr(last, regexp.lastIndex - res[0].length - last));
+                s += "+";
+                argname = "a"+argnum;
+                args.push(argname);
+                if (argnum+1 < arguments.length) {
+                    argname = "(" + toolkit.sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
+                }
+                switch (res[2].charCodeAt(0)) {
+                case 100: // d
+                    s += "("+argname+" | 0)";
+                    break;
+                case 102: // f
+                    if (res[1]) { // length qualifier
+                        precision = parseInt(res[1].substr(1));
+                        s += "(+"+argname+").toFixed("+precision+")";
+                    } else {
+                        s += "(+"+argname+")";
+                    }
+                    break;
+                case 115: // s
+                    s += argname;
+                    break;
+                case 37:
+                    s += "\"%\"";
+                    break;
+                default:
+                    throw("unknown format:"+res[0]);
+                    break;
+                }
+                argnum++;
+                last = regexp.lastIndex;
+            }
+
+            if (argnum) s += "+";
+            s += JSON.stringify(fmt.substr(last));
+
+            var fun = new Function(args, s);
+            cache[cache_key] = fun;
+            return fun;
+    } }(),
+    sprintf : function (fmt) {
+        return toolkit.FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
     }
 };
