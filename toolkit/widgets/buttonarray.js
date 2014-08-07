@@ -161,10 +161,11 @@ ButtonArray = $class({
         var btn      = this._container.childNodes[id];
         var btnrect  = btn.getBoundingClientRect();
         var conrect  = this._container.getBoundingClientRect();
-        var btnsize  = toolkit.outer_width(btn);
+        var btnsize  = toolkit["outer_" + subs](btn);
         var btnpos   = btnrect[subd] - conrect[subd];
         var listsize = this._list_size();
         var clipsize = this._clip.getBoundingClientRect()[subs];
+        console.log("ha")
         this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
         var tmp = this.options.show;
         this.options.show = id;
@@ -210,8 +211,6 @@ ButtonArray = $class({
                 this.add_buttons(value);
                 break;
             case "direction":
-                // dirty string operations!
-                // HTML5 classList API not supported by IE9
                 this.element.classList.remove("toolkit-vertical");
                 this.element.classList.remove("toolkit-horizontal");
                 this.element.classList.add("toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
