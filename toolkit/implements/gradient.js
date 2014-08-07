@@ -118,49 +118,49 @@ var Gradient = $class({
                 if (!ms_first) ms_first = grad[i];
                 ms_last = grad[keys[i] + ""];
                 
-                m_svg     += sprintf(c_svg, ps, grad[keys[i] + ""]);
-                m_regular += sprintf(c_regular, grad[keys[i] + ""], ps);
-                m_webkit  += sprintf(c_webkit, ps, grad[keys[i] + ""]);
+                m_svg     += toolkit.sprintf(c_svg, ps, grad[keys[i] + ""]);
+                m_regular += toolkit.sprintf(c_regular, grad[keys[i] + ""], ps);
+                m_webkit  += toolkit.sprintf(c_webkit, ps, grad[keys[i] + ""]);
             }
             m_regular = m_regular.substr(0, m_regular.length -2);
             m_webkit  = m_regular.substr(0, m_webkit.length -2);
             
             if (Browser.ie && Browser.version <= 8)
-                    bg = (sprintf(s_ms, ms_last, ms_first, this._vert() ? 0:1));
+                    bg = (toolkit.sprintf(s_ms, ms_last, ms_first, this._vert() ? 0:1));
                 
             else if (Browser.ie9)
-                bg = (sprintf(s_svg, this.options.id,
+                bg = (toolkit.sprintf(s_svg, this.options.id,
                       d_ms["s"+this.options.layout],
                       m_svg, this.options.id));
             
             else if (Browser.ie && Browser.version >= 10)
-                bg = (sprintf(s_regular, "-ms-",
+                bg = (toolkit.sprintf(s_regular, "-ms-",
                       d_regular["s" + this.options.layout],
                       m_regular));
             
             else if (Browser.firefox)
-                bg = (sprintf(s_regular, "-moz-",
+                bg = (toolkit.sprintf(s_regular, "-moz-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
             else if (Browser.opera && Browser.version >= 11)
-                bg = (sprintf(s_regular, "-o-",
+                bg = (toolkit.sprintf(s_regular, "-o-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
             else if (Browser.chrome && Browser.version < 10
                   || Browser.safari && Browser.version < 5.1)
-                bg = (sprintf(s_webkit,
+                bg = (toolkit.sprintf(s_webkit,
                       d_webkit["s"+this.options.layout],
                       m_regular));
             
             else if (Browser.chrome || Browser.safari)
-                bg = (sprintf(s_regular, "-webkit-",
+                bg = (toolkit.sprintf(s_regular, "-webkit-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
             else
-                bg = (sprintf(s_regular, "",
+                bg = (toolkit.sprintf(s_regular, "",
                       d_w3c["s"+this.options.layout],
                       m_regular));
         }
