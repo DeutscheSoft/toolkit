@@ -14,16 +14,7 @@ REFERENCE / DEMO
 * Pager
 * Keyboard
 
-CLASS IMPLEMENTATION
---------------------
-
-* Set objects and arrays in options explicity in initialize() instead of
-  defining them in $class.options
   
-* Set objects and arrays for exclusive use in instances in initialize()
-  instead of the $class itself
-
-
 STRIP MOOTOOLS FROM TOOLKIT:
 ----------------------------
 * svgutils.js

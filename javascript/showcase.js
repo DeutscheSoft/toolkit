@@ -251,7 +251,7 @@ run_keyboard = function () {
     value = new Value({
         container: $("sc_keyboard"),
         value: 123.97,
-        format: function (val) { return val.toFixed(3) + " Hz"; },
+        format: toolkit.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
     value.add_event("click", function () {
@@ -410,7 +410,7 @@ run_fader = function () {
         label: "Tooltips",
         container: $("sc_fader"),
         onToggled: function (state) {
-            var t = state ? function (val) { return val.toFixed(2) + " dB"; } : false;
+            var t = state ? toolkit.FORMAT("%.2f dB") : false;
             for (var i = 0; i < faders.length; i++) {
                 faders[i].set("tooltip", t);
             }
@@ -431,7 +431,7 @@ run_value = function () {
     value = new Value({
         container: $("sc_value"),
         value: 123.97,
-        format: function (val) { return val.toFixed(3) + " Hz"; },
+        format: toolkit.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
     $("sc_value").addClass("box");
@@ -650,7 +650,7 @@ function run_gauge () {
         base: 0,
         title: "Temp °C",
         container: $("sc_gauge"),
-        label: {format: function (val) { return val + "°"; }},
+        label: {format: toolkit.FORMAT("%d °")},
         markers: [{from:80, to:100}, {from:-80, to:-100}],
         dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},
               {pos:-10},{pos:-20},{pos:-30},{pos:-40},{pos:-50},{pos:-60},{pos:-70},{pos:-80},{pos:-90},{pos:-100}],
@@ -804,7 +804,7 @@ function run_valuebutton () {
         label: "Threshold",
         icon: "images/icons_small/threshold.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return val.toFixed(1) + " dB"; },
+        value_format: toolkit.FORMAT("%.1f dB"),
         min: -96,
         max: 24,
         step: 1,
@@ -819,7 +819,7 @@ function run_valuebutton () {
         label: "Attack",
         icon: "images/icons_small/attack.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return val.toFixed(1) + " ms"; },
+        value_format: toolkit.FORMAT("%.1f ms"),
         min: 1,
         max: 1000,
         step: 1,
@@ -838,7 +838,7 @@ function run_valuebutton () {
         label: "Ratio",
         icon: "images/icons_small/ratio.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return val.toFixed(1) + " : 1"; },
+        value_format: toolkit.FORMAT("%.1f : 1"),
         min: 1,
         max: 10,
         step: 1,
@@ -853,7 +853,7 @@ function run_valuebutton () {
         label: "Release",
         icon: "images/icons_small/release.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: function (val) { return val.toFixed(1) + " ms"; },
+        value_format: toolkit.FORMAT("%.1f ms"),
         min: 1,
         max: 1000,
         step: 1,
