@@ -260,8 +260,8 @@ Fader = $class({
                      this._vert() ? "y" : "x"] + this._handlesize / 2;
         var click = ev[
                      this._vert() ? "pageY" : "pageX"];
-        var size  = this._scale[
-                     this._vert() ? "outerHeight" : "outerWidth"]();
+        var size  = toolkit[
+                     this._vert() ? "outer_height" : "outer_width"](this._scale);
         var real = click - pos
         if (this._vert()) real = size - real;
         return Math.max(this.options.min,

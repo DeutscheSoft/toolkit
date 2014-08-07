@@ -195,17 +195,17 @@ Scale = $class({
         // position label element
         var styles = { }
         var pos = Math.round(this.val2px(val));
-        var size = label[this._vert() ? "outerHeight" : "outerWidth"]();
+        var size = toolkit[this._vert() ? "outer_height" : "outer_width"](label);
         pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
         styles[this._vert() ? "bottom" : "left"] = pos;
         toolkit.set_styles(label, styles);
         
         // resize the main element if labels are wider
         // because absolute positioning destroys dimensions
-        var s = label[this._vert() ? "outerWidth" : "outerHeight"]();
+        var s = toolkit[this._vert() ? "outer_width" : "outer_height"](label);
         if (s > this.__size) {
             this.__size = s;
-            this.element[this._vert() ? "outerWidth" : "outerHeight"](s);
+            toolkit[this._vert() ? "outer_width" : "outer_height"](this.element, s);
         }
         return this;
     },

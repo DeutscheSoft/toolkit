@@ -375,8 +375,8 @@ LevelMeter = $class({
         if (this.options.show_clip) {
             var d = (this.options.layout == _TOOLKIT_LEFT
                   || this.options.layout == _TOOLKIT_RIGHT)
-                   ? "outerHeight" : "outerWidth";
-            s -= this._clip[d]();
+                   ? "outer_height" : "outer_width";
+            s -= toolkit[d](this._clip);
         }
         return s;
     },
