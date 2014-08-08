@@ -91,14 +91,28 @@ var ResponseHandler = $class({
         var _touchmove = h._touchmove.bind(h);
         var _touchend = h._touchend.bind(h);
         this.handles.push(h);
-        h.add_event(["handlegrabbed", "zchangestarted"], function () {
+        h.add_event("handlegrabbed", function () {
             this._active++;
             document.addEventListener("mousemove", _mousemove);
             document.addEventListener("mouseup",   _mouseup);
             document.addEventListener("touchmove", _touchmove);
             document.addEventListener("touchend",  _touchend);
         }.bind(this));
-        h.add_event(["handlereleased", "zchangeended"],  function () {
+        h.add_event("zchangestarted", function () {
+            this._active++;
+            document.addEventListener("mousemove", _mousemove);
+            document.addEventListener("mouseup",   _mouseup);
+            document.addEventListener("touchmove", _touchmove);
+            document.addEventListener("touchend",  _touchend);
+        }.bind(this));
+        h.add_event("handlereleased",  function () {
+            if (this._active) this._active--;
+            document.removeEventListener("mousemove", _mousemove);
+            document.removeEventListener("mouseup",   _mouseup);
+            document.removeEventListener("touchmove", _touchmove);
+            document.removeEventListener("touchend",  _touchend);
+        }.bind(this));
+        h.add_event("zchangeended",  function () {
             if (this._active) this._active--;
             document.removeEventListener("mousemove", _mousemove);
             document.removeEventListener("mouseup",   _mouseup);

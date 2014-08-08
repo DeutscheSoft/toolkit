@@ -165,7 +165,6 @@ ButtonArray = $class({
         var btnpos   = btnrect[subd] - conrect[subd];
         var listsize = this._list_size();
         var clipsize = this._clip.getBoundingClientRect()[subs];
-        console.log("ha")
         this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
         var tmp = this.options.show;
         this.options.show = id;
