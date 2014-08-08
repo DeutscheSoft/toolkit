@@ -454,8 +454,10 @@ var MeterBase = $class({
                 if (!hold) this.redraw();
                 key = false;
                 break;
+            default:
+                Widget.prototype.set.call(this, key, value, hold);
+                break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
         return this;
     }
 });

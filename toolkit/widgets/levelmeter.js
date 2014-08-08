@@ -453,7 +453,7 @@ LevelMeter = $class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        MeterBase.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "show_peak":
                 if (!hold)
@@ -526,6 +526,5 @@ LevelMeter = $class({
                     window.clearTimeout(this.__bto);
                 break;
         }
-        MeterBase.prototype.set.call(this, key, value, hold);
     }
 });
