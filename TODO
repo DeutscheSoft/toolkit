@@ -35,6 +35,9 @@ OTHER IMPROVEMENTS
 
 * Strip multiple background elements from Fader and replace with
   multiple CSS3 background images
+  
+* Make use of calc() in CSS and remove unneccessary positioning stuff
+  from widgets
 
 * Pager and ButtonArray share kind of the same concept - a container
   with some elements in it inside a clipping area scrolling vertically

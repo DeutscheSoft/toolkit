@@ -124,28 +124,14 @@ var Equalizer = $class({
         var _mouseup = b._mouseup.bind(b);
         var _touchmove = b._touchmove.bind(b);
         var _touchend = b._touchend.bind(b);
-        b.add_event("handlegrabbed", function () {
+        b.add_event(["handlegrabbed", "zchangestarted"], function () {
             this._active++;
             document.addEventListener("mousemove", _mousemove);
             document.addEventListener("mouseup",   _mouseup);
             document.addEventListener("touchmove", _touchmove);
             document.addEventListener("touchend",  _touchend);
         }.bind(this));
-        b.add_event("zchangestarted", function () {
-            this._active++;
-            document.addEventListener("mousemove", _mousemove);
-            document.addEventListener("mouseup",   _mouseup);
-            document.addEventListener("touchmove", _touchmove);
-            document.addEventListener("touchend",  _touchend);
-        }.bind(this));
-        b.add_event("handlereleased",  function () {
-            if (this._active) this._active--;
-            document.removeEventListener("mousemove", _mousemove);
-            document.removeEventListener("mouseup",   _mouseup);
-            document.removeEventListener("touchmove", _touchmove);
-            document.removeEventListener("touchend",  _touchend);
-        }.bind(this));
-        b.add_event("zchangeended",  function () {
+        b.add_event(["handlereleased", "zchangeended"],  function () {
             if (this._active) this._active--;
             document.removeEventListener("mousemove", _mousemove);
             document.removeEventListener("mouseup",   _mouseup);
