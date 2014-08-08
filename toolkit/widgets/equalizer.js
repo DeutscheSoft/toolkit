@@ -131,6 +131,13 @@ var Equalizer = $class({
             document.addEventListener("touchend",  _touchend);
             this._active ++;
         }.bind(this));
+        b.add_event("zchangestarted", function () {
+            document.addEventListener("mousemove", _mousemove);
+            document.addEventListener("mouseup",   _mouseup);
+            document.addEventListener("touchmove", _touchmove);
+            document.addEventListener("touchend",  _touchend);
+            this._active ++;
+        }.bind(this));
         b.add_event("handlereleased",  function () {
             document.removeEventListener("mousemove", _mousemove);
             document.removeEventListener("mouseup",   _mouseup);
@@ -138,7 +145,13 @@ var Equalizer = $class({
             document.removeEventListener("touchend",  _touchend);
             this._active = Math.max(this._active-1, 0)
         }.bind(this));
-        
+        b.add_event("zchangeended",  function () {
+            document.removeEventListener("mousemove", _mousemove);
+            document.removeEventListener("mouseup",   _mouseup);
+            document.removeEventListener("touchmove", _touchmove);
+            document.removeEventListener("touchend",  _touchend);
+            this._active = Math.max(this._active-1, 0)
+        }.bind(this));
         b.add_event("set", this.redraw.bind(this));
         this.redraw();
         this.fire_event("bandadded", [b, this]);
