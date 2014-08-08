@@ -187,16 +187,26 @@ BASE = $class({
             // run callbacks in a loop
             ev[i].apply(this, args);
     },
-    add_events: function (events) {
-        for (var i in events) {
-            if (events.hasOwnProperty(i))
-                this.add_event(i, events[i]);
+    add_events: function (events, fun) {
+        var i;
+        if (events instanceof Array) {
+            for (i = 0; i < events.length; i++)
+                this.add_event(events[i], fun);
+        } else {
+            for (i in events) 
+                if (events.hasOwnProperty(i))
+                    this.add_event(i, events[i]);
         }
     },
-    remove_events: function (events) {
-        for (var i in events) {
-            if (events.hasOwnProperty(i))
-                this.remove_event(i, events[i]);
+    remove_events: function (events, fun) {
+        var i;
+        if (events instanceof Array) {
+            for (i = 0; i < events.length; i++)
+                this.remove_event(events[i], fun);
+        } else {
+            for (i in events)
+                if (events.hasOwnProperty(i))
+                    this.remove_event(i, events[i]);
         }
     },
     fire_events: function (events) {
