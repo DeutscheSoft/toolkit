@@ -28,7 +28,6 @@ Clock = $class({
         thickness:    10,         // thickness of the rings
         margin:       0,          // margin between the circulars
         size:         200,        // diameter of the whole clock
-        time:         new Date(), // the date object to show
         show_seconds: true,       // show the seconds ring
         show_minutes: true,       // show the minutes ring
         show_hours:   true,       // show the hours ring
@@ -63,6 +62,7 @@ Clock = $class({
         this.circulars = {};
         this._margin = -1;
         Widget.prototype.initialize.call(this, options);
+        this.options.time = new Date();
         this.element = this.widgetize(makeSVG("svg", {"class": "toolkit-clock"}),
                                       true, true, true);
         
@@ -233,18 +233,21 @@ Clock = $class({
     _timeout : function () {
         if (this.__to)
             window.clearTimeout(this.__to);
+
         if (this.options.timeout) {
-            if (this.options.offset)
-                this.set("time", new Date(+(new Date()) + this.options.offset));
-            else
-                this.set("time", new Date());
+            var d = this.options.time;
+            var ts = +Date.now();
+
+            if (this.options.offset) {
+                ts += (this.options.offset|0);
+            }
+
+            d.setTime(ts);
+            this.set("time", d);
                 
-            var targ;
+            var targ = (this.options.timeout|0);
             if (this.options.timeadd) {
-                var now = (new Date().getTime() + this.options.offset) % 1000;
-                targ = this.options.timeout + this.options.timeadd - now;
-            } else {
-                targ = this.options.timeout
+                targ += (this.options.timeadd|0) - ((ts % 1000)|0)
             }
             this.__to = window.setTimeout(this._timeout.bind(this), targ);
         }
