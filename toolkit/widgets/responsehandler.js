@@ -98,7 +98,7 @@ var ResponseHandler = $class({
             document.addEventListener("touchmove", _touchmove);
             document.addEventListener("touchend",  _touchend);
         }.bind(this));
-        h.add_event(["handlereleased", "zchangeended"],  function () {
+        h.add_events(["handlereleased", "zchangeended"],  function () {
             if (this._active) this._active--;
             document.removeEventListener("mousemove", _mousemove);
             document.removeEventListener("mouseup",   _mouseup);
