@@ -120,14 +120,24 @@ var Equalizer = $class({
         
         var b = new EqBand(options);
         this.bands.push(b);
-        b.add_event("handlegrabbed", function () { this._active ++ }.bind(this));
+        var _mousemove = b._mousemove.bind(b);
+        var _mouseup = b._mouseup.bind(b);
+        var _touchmove = b._touchmove.bind(b);
+        var _touchend = b._touchend.bind(b);
+        b.add_event("handlegrabbed", function () {
+            document.addEventListener("mousemove", _mousemove);
+            document.addEventListener("mouseup",   _mouseup);
+            document.addEventListener("touchmove", _touchmove);
+            document.addEventListener("touchend",  _touchend);
+            this._active ++;
+        }.bind(this));
         b.add_event("handlereleased",  function () {
+            document.removeEventListener("mousemove", _mousemove);
+            document.removeEventListener("mouseup",   _mouseup);
+            document.removeEventListener("touchmove", _touchmove);
+            document.removeEventListener("touchend",  _touchend);
             this._active = Math.max(this._active-1, 0)
         }.bind(this));
-        document.addEventListener("mousemove", b._mousemove.bind(b));
-        document.addEventListener("mouseup",   b._mouseup.bind(b));
-        document.addEventListener("touchmove", b._touchmove.bind(b));
-        document.addEventListener("touchend",  b._touchend.bind(b));
         
         b.add_event("set", this.redraw.bind(this));
         this.redraw();
