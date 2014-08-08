@@ -36,7 +36,9 @@ Knob = $class({
         dot: {margin: 13, length: 5, width: 2},
         marker: {margin: 13, thickness: 5},
         label: {margin: 10, align: _TOOLKIT_OUTER, format: function(val){return val;}},
-        direction: _TOOLKIT_VERTICAL
+        direction: _TOOLKIT_POLAR,
+        rotation:       45,
+        blind_angle:    20,
     },
     
     initialize: function (options) {
@@ -60,6 +62,8 @@ Knob = $class({
                 this.fire_event("useraction", ["value", v, this]);
             }.bind(this),
             direction: this.options.direction,
+            rotation: this.options.rotation,
+            blind_angle: this.options.blind_angle,
             events: function () { return this }.bind(this),
         });
         this.scroll = new ScrollValue({
@@ -93,6 +97,12 @@ Knob = $class({
                 break;
             case "direction":
                 this.drag.set("direction", value);
+                break;
+            case "rotation":
+                this.drag.set("rotation", value);
+                break;
+            case "blind_angle":
+                this.drag.set("blind_angle", value);
                 break;
         }
         Circular.prototype.set.call(this, key, value, hold);

@@ -71,6 +71,8 @@ ValueButton = $class({
                 this.fire_event("useraction", ["value", v, this]);
             }.bind(this),
             direction: this.options.drag_direction,
+            rotation: this.options.rotation,
+            blind_angle: this.options.blind_angle,
             events: function () { return this }.bind(this)
         });
         this.scroll = new ScrollValue({

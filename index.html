@@ -1511,6 +1511,20 @@
                         <td>The direction for <a href="#dragvalue">DragValue</a>.</td>
                         <td>_TOOLKIT_VERTICAL</td>
                     </tr>
+                    <tr>
+                        <td>rotation</td>
+                        <td>Used when drag_direction = _TOOLKIT_POLAR. Defines the angle of
+                        the middle of the positive value changes. 0 means straight upward.
+                        E.g. a value of 45 does positive value changes in upper and
+                        right directions. An angle of 225 reverses the value set.</td>
+                        <td>45</td>
+                    </tr>
+                    <tr>
+                        <td>blind_angle</td>
+                        <td>Used when drag_direction = _TOOLKIT_POLAR. Amount of degrees 
+                        to separate positive from negative value changes.</td>
+                        <td>20</td>
+                    </tr>
                 </table>
                 
                 <table class="domelements collapse" title="⛁ DOM-Elements">
