@@ -38,10 +38,22 @@ DragValue = $class({
                                                // on the main element
         get:       function () { return; },    // callback returning the value
         set:       function () { return; },    // callback setting the value
-        direction: _TOOLKIT_VERTICAL,          // direction: vertical
-                                               // or horizontal
+        direction: _TOOLKIT_POLAR,             // direction: vertical,
+                                               // horizontal or polar
         active:    true,                       // deactivate the event
-        cursor:    false                       // enable global cursors
+        cursor:    false,                      // enable global cursors
+        blind_angle: 20,                       // used when direction = _TOOLKIT_POLAR
+                                               // amount of degrees to
+                                               // separate positive from negative
+                                               // value changes
+        rotation:  45                          // used when direction = _TOOLKIT_POLAR
+                                               // defines the angle of
+                                               // the middle of the positive
+                                               // value changes. 0 means
+                                               // straight upward. E.g. a
+                                               // value of 45 does positive
+                                               // value changes in upper and
+                                               // right directions
     },
     initialize: function (options) {
         this.__pointer_move = this._pointer_move.bind(this);
@@ -125,11 +137,29 @@ DragValue = $class({
         } else if (e.shiftKey) {
             multi *= this.options.range().options.shift_up;
         }
-        
-        if (this.options.direction == _TOOLKIT_VERT)
-            var dist = (this._pageY - ev.pageY) * multi;
-        else
-            var dist = (ev.pageX - this._pageX) * multi;
+        var dist = 0;
+        switch(this.options.direction) {
+            case _TOOLKIT_POLAR:
+                var x = ev.pageX - this._pageX;
+                var y = this._pageY - ev.pageY;
+                var r = Math.sqrt(x * x + y * y) * multi;
+                var a = Math.atan2(x, y) * (180 / Math.PI) + 360;
+                if (this._angle_diff(this.options.rotation, a)
+                  < 90 - this.options.blind_angle / 2) {
+                    dist = r * multi;
+                    break;
+                }
+                if (this._angle_diff(this.options.rotation + 180, a)
+                  < 90 - this.options.blind_angle / 2) {
+                    dist = -r * multi;
+                    break;
+                }
+                break;
+            case _TOOLKIT_VERT:
+                dist = (this._pageY - ev.pageY) * multi;
+            case _TOOLKIT_HORIZ:
+                dist = (ev.pageX - this._pageX) * multi;
+        }
         
         var val = this.options.get();
         this.options.set(this.options.range().px2val(this._clickPos + dist));
@@ -170,6 +200,12 @@ DragValue = $class({
                                               this,
                                               this.options.range()
                                               ]);
+    },
+    
+    _angle_diff: function (a, b) {
+        // returns an unsigned difference between two angles
+        var d = (Math.abs(a - b) + 360) % 360;
+        return d > 180 ? 360 - d : d;
     },
     
     // GETTERS & SETTERS

@@ -56,6 +56,8 @@ _TOOLKIT_VERT                        = 11;
 _TOOLKIT_X                           = 10;
 _TOOLKIT_Y                           = 11;
 
+_TOOLKIT_POLAR                       = 12;
+
 // DRAWING MODES
 _TOOLKIT_CIRCULAR                    = 20;
 _TOOLKIT_CIRC                        = 20;

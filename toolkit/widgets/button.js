@@ -76,7 +76,7 @@ Button = $class({
                 if (!hold) {
                     if (value) {
                         this._label.innerHTML = value;
-                        this._label.style["display"] = "block";
+                        this._label.style["display"] = null;
                     } else {
                         this._label.style["display"] = "none";
                     }
@@ -86,7 +86,7 @@ Button = $class({
                 if (!hold) {
                     if (value) {
                         this._icon.set("src", value);
-                        this._icon.style["display"] = "block";
+                        this._icon.style["display"] = null;
                     } else {
                         this._icon.style["display"] = "none";
                     }

@@ -25,10 +25,12 @@ ValueButton = $class({
     Implements: [Warning, Ranged],
     options:  {
         value: 0,
-        value_format: function (val) { return val.toFixed(2); },
-        bar_direction: _TOOLKIT_HORIZONTAL,
-        drag_direction: _TOOLKIT_VERTICAL,
-        snap: 0.01
+        value_format:   function (val) { return val.toFixed(2); },
+        bar_direction:  _TOOLKIT_HORIZONTAL,
+        drag_direction: _TOOLKIT_POLAR,
+        rotation:       45,
+        blind_angle:    20,
+        snap:           0.01
     },
     initialize: function (options) {
         Button.prototype.initialize.call(this, options);
@@ -145,6 +147,12 @@ ValueButton = $class({
                 break;
             case "drag_direction":
                 this.drag.set("direction", value);
+                break;
+            case "rotation":
+                this.drag.set("rotation", value);
+                break;
+            case "blind_angle":
+                this.drag.set("blind_angle", value);
                 break;
         }
         Button.prototype.set.call(this, key, value, hold);

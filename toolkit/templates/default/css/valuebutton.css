@@ -7,12 +7,22 @@
 .toolkit-valuebutton.toolkit-horizontal {
     
 }
-.toolkit-valuebutton .toolkit-icon {
-    
+
+.toolkit-button.toolkit-valuebutton .toolkit-cell {
+    text-align: left;
+    width: 70%;
+    padding-bottom: 12px;
 }
-.toolkit-valuebutton .toolkit-label {
+
+.toolkit-button.toolkit-valuebutton .toolkit-icon {
+    display: inline;
+    vertical-align: middle;
+    margin: 0 10px 0 0;
+}
+.toolkit-button.toolkit-valuebutton .toolkit-label {
     border: 1px solid transparent;
-    padding: 0 !important;
+    padding: 0 4px !important;
+    display: inline;
 }
 .toolkit-valuebutton.toolkit-dragging,
 .toolkit-valuebutton.toolkit-scrolling {
@@ -26,6 +36,11 @@
     border: none;
     font-size: 16px;
     line-height: 38px !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40%;
 }
 .toolkit-valuebutton.toolkit-dragging .toolkit-label,
 .toolkit-valuebutton.toolkit-scrolling .toolkit-label {
@@ -40,13 +55,16 @@
 .toolkit-valuebutton .toolkit-bar {
     border: 1px solid;
     border-color: #ddd #f3f3f3 #fff #e8e8e8;
+    position: absolute;
+    bottom: 10%;
+    width: calc(60% - 24px);
+    left: 16px;
 }
 .toolkit-valuebutton.toolkit-vertical .toolkit-bar {
     width: 8px;
     height: 100%;
 }
 .toolkit-valuebutton.toolkit-horizontal .toolkit-bar {
-    width: 100%;
     height: 2px;
     margin-top: 2px;
 }
@@ -63,4 +81,13 @@
 
 .toolkit-valuebutton .toolkit-value .toolkit-input {
     font-size: 16px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }

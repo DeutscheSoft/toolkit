@@ -811,7 +811,7 @@ function run_valuebutton () {
         basis: 300,
         shift_up: 4,
         shift_down: 0.25,
-        value: 0
+        value: 0,
     });
     attack = new ValueButton({
         "class": "attack",

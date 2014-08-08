@@ -2639,51 +2639,7 @@
                 </p>
                 <style type="text/css">
                     #sc_vbutton .toolkit-valuebutton {
-                        width: 210px;
-                        padding: 0px;
-                        padding-left: 8px;
-                    }
-                    #sc_vbutton .toolkit-valuebutton .toolkit-icon {
-                        float: left !important;
-                        margin: 6px 6px 6px 0 !important;
-                    }
-                    #sc_vbutton .toolkit-valuebutton .toolkit-bar {
-                        position: absolute;
-                        bottom: 3px;
-                        left: 39px;
-                        width: 80px;
-                    }
-                    #sc_vbutton .toolkit-valuebutton .toolkit-label {
-                        position: absolute;
-                        left: 39px;
-                        top: 4px;
-                        width: 80px;
-                    }
-                    #sc_vbutton .toolkit-valuebutton .toolkit-value {
-                        width: 80px;
-                        height: 37px;
-                        line-height: 37px;
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        display: block;
-                        -webkit-border-top-right-radius: 5px;
-                        -webkit-border-bottom-right-radius: 5px;
-                        -moz-border-radius-topright: 5px;
-                        -moz-border-radius-bottomright: 5px;
-                        border-top-right-radius: 5px;
-                        border-bottom-right-radius: 5px;
-                    }
-                    #sc_vbutton .toolkit-valuebutton .toolkit-input {
-                        width: 80px;
-                        height: 37px;
-                        line-height: 37px;
-                        -webkit-border-top-right-radius: 5px;
-                        -webkit-border-bottom-right-radius: 5px;
-                        -moz-border-radius-topright: 5px;
-                        -moz-border-radius-bottomright: 5px;
-                        border-top-right-radius: 5px;
-                        border-bottom-right-radius: 5px;
+                        width: 220px;
                     }
                 </style>
                 
@@ -2714,8 +2670,22 @@
                     </tr>
                     <tr>
                         <td>drag_direction</td>
-                        <td>How <a href="#dragvalue">DragValue</a> behaves, _TOOLKIT_VERTICAL or _TOOLKIT_HORIZONTAL.</td>
+                        <td>How <a href="#dragvalue">DragValue</a> behaves, _TOOLKIT_VERTICAL, _TOOLKIT_HORIZONTAL or _TOOLKIT_POLAR.</td>
                         <td>_TOOLKIT_VERTICAL</td>
+                    </tr>
+                    <tr>
+                        <td>rotation</td>
+                        <td>Used when drag_direction = _TOOLKIT_POLAR. Defines the angle of
+                        the middle of the positive value changes. 0 means straight upward.
+                        E.g. a value of 45 does positive value changes in upper and
+                        right directions. An angle of 225 reverses the value set.</td>
+                        <td>45</td>
+                    </tr>
+                    <tr>
+                        <td>blind_angle</td>
+                        <td>Used when drag_direction = _TOOLKIT_POLAR. Amount of degrees 
+                        to separate positive from negative value changes.</td>
+                        <td>20</td>
                     </tr>
                 </table>
                 
@@ -3924,8 +3894,22 @@
                     </tr>
                     <tr>
                         <td>direction</td>
-                        <td>The drag direction, either _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL.</td>
+                        <td>The drag direction, either _TOOLKIT_HORIZONTAL, _TOOLKIT_VERTICAL or _TOOLKIT_POLAR.</td>
                         <td>_TOOLKIT_VERTICAL</td>
+                    </tr>
+                    <tr>
+                        <td>rotation</td>
+                        <td>Used when direction = _TOOLKIT_POLAR. Defines the angle of
+                        the middle of the positive value changes. 0 means straight upward.
+                        E.g. a value of 45 does positive value changes in upper and
+                        right directions. An angle of 225 reverses the value set.</td>
+                        <td>45</td>
+                    </tr>
+                    <tr>
+                        <td>blind_angle</td>
+                        <td>Used when direction = _TOOLKIT_POLAR. Amount of degrees 
+                        to separate positive from negative value changes.</td>
+                        <td>20</td>
                     </tr>
                     <tr>
                         <td>active</td>
