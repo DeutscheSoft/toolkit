@@ -157,8 +157,10 @@ DragValue = $class({
                 break;
             case _TOOLKIT_VERT:
                 dist = (this._pageY - ev.pageY) * multi;
+                break;
             case _TOOLKIT_HORIZ:
                 dist = (ev.pageX - this._pageX) * multi;
+                break;
         }
         
         var val = this.options.get();
