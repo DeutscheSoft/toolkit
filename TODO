@@ -6,6 +6,7 @@ KNOWN BUGS
               Android default browser breaks on gradients
                       (because of mootools platform detection)
 * Scale: test: min -60, max 3, base 0
+* LevelMeter broken
 
 REFERENCE / DEMO
 ----------------
