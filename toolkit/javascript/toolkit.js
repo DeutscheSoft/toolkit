@@ -32,10 +32,8 @@ toolkit = {
         }
         if (typeof width !== "undefined") {
             if (cs.getPropertyValue("box-sizing") == "content-box") {
-                width -= parseFloat(cs.getPropertyValue("padding-left"));
-                width -= parseFloat(cs.getPropertyValue("padding-right"));
-                width -= parseFloat(cs.getPropertyValue("border-left-width"));
-                width -= parseFloat(cs.getPropertyValue("border-right-width"));
+                var css = toolkit.css_space(element, "padding", "border");
+                width += css.left + css.right;
             }
             width -= m;
             element.style.width = width + "px";
@@ -54,10 +52,8 @@ toolkit = {
         if (typeof height !== "undefined") {
             
             if (cs.getPropertyValue("box-sizing") == "content-box") {
-                height -= parseFloat(cs.getPropertyValue("padding-top"));
-                height -= parseFloat(cs.getPropertyValue("padding-bottom"));
-                height -= parseFloat(cs.getPropertyValue("border-top-width"));
-                height -= parseFloat(cs.getPropertyValue("border-bottom-width"));
+                var css = toolkit.css_space(element, "padding", "border");
+                height += css.top + css.bottom;
             }
             height -= m;
             element.style.height = height + "px";
@@ -70,10 +66,8 @@ toolkit = {
         var w = element.getBoundingClientRect().width;
         var x = 0;
         if (cs.getPropertyValue("box-sizing") == "border-box") {
-            x += parseFloat(cs.getPropertyValue("padding-left"));
-            x += parseFloat(cs.getPropertyValue("padding-right"));
-            x += parseFloat(cs.getPropertyValue("border-left-width"));
-            x += parseFloat(cs.getPropertyValue("border-right-width"));
+            var css = toolkit.css_space(element, "padding", "border");
+            x += css.left + css.right;
         }
         if (typeof width !== "undefined") {
             width += x;
@@ -87,10 +81,8 @@ toolkit = {
         var h = element.getBoundingClientRect().height;
         var y = 0;
         if (cs.getPropertyValue("box-sizing") == "border-box") {
-            y += parseFloat(cs.getPropertyValue("padding-top"));
-            y += parseFloat(cs.getPropertyValue("padding-bottom"));
-            y += parseFloat(cs.getPropertyValue("border-top-width"));
-            y += parseFloat(cs.getPropertyValue("border-bottom-width"));
+            var css = toolkit.css_space(element, "padding", "border");
+            y += css.top + css.bottom;
         }
         if (typeof height !== "undefined") {
             height += y;
@@ -99,6 +91,25 @@ toolkit = {
         }
         return h - y;
     },
+    
+    css_space: function (element) {
+        var cs = getComputedStyle(element, null);
+        var o = {top: 0, right: 0, bottom: 0, left: 0};
+        var a;
+        var s;
+        for (var i = 1; i < arguments.length; i++) {
+            a = arguments[i];
+            for (var p in o) {
+                if (o.hasOwnProperty(p)) {
+                    s = a + "-" + p;
+                    if (a == "border") s += "-width";
+                }
+                o[p] += parseFloat(cs.getPropertyValue(s));
+            }
+        }
+        return o;
+    },
+    
     FORMAT : function() {
         var cache = {};
         return function(fmt) {

@@ -169,7 +169,7 @@ LevelMeter = $class({
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
             case _TOOLKIT_RIGHT:
-                this.__margin = this._bar.CSSSpace(
+                this.__margin = toolkit.css_space(this._bar,
                     "margin", "border", "padding"
                 ).top + this._bar.getPosition(this.element).y;
                 var m = (this.options.show_clip ? toolkit.outer_height(this._clip, true) : 0);
@@ -177,7 +177,7 @@ LevelMeter = $class({
                 break;
             case _TOOLKIT_TOP:
             case _TOOLKIT_BOTTOM:
-                this.__margin = this._bar.CSSSpace(
+                this.__margin = toolkit.css_space(this._bar,
                     "margin", "border", "padding"
                 ).left + this._bar.getPosition(this.element).x;
                 break;

@@ -354,7 +354,7 @@ var MeterBase = $class({
     },
     _bar_size: function () {
         // determine a size for the meter bar based on several conditions
-        var s = this.element[this._vert() ? "innerHeight" : "innerWidth"]();
+        var s = toolkit[this._vert() ? "inner_height" : "inner_width"](this.element, true);
         if (this.options.show_label && this._vert())
             s -= toolkit.outer_height(this._label, true);
         if (this.options.show_title && this._vert())
