@@ -18,7 +18,28 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
+(function () {
+var __rad = Math.PI / 180;
+var _get_coords = function (deg, inner, outer, pos) {
+    deg = deg * __rad;
+    return {
+        x1: Math.cos(deg) * outer + pos,
+        y1: Math.sin(deg) * outer + pos,
+        x2: Math.cos(deg) * inner + pos,
+        y2: Math.sin(deg) * inner + pos
+    }
+};
+var _get_coords_single = function (deg, inner, pos) {
+    deg = deg * __rad;
+    return {
+        x: Math.cos(deg) * inner + pos,
+        y: Math.sin(deg) * inner + pos
+    }
+};
+var format_path = toolkit.FORMAT("M %.3f,%.3f " +
+                                 "A %.3f,%.3f 0 %d,%d %.3f,%.3f " +
+                                 "L %.3f,%.3f " +
+                                 "A %.3f,%.3f 0 %d,%d %.3f,%.3f z");
 Circular = $class({
     // Circular is a SVG group element containing two paths for displaying
     // numerical values in a circular manner. Circular is able to draw labels,
@@ -75,7 +96,6 @@ Circular = $class({
                            // [, margin: (number)]}
         
     },
-    __rad: Math.PI / 180,
     
     initialize: function (options, hold) {
         Widget.prototype.initialize.call(this, options);
@@ -160,7 +180,6 @@ Circular = $class({
         this.element.destroy();
         Widget.prototype.destroy.call(this);
     },
-    
     // HELPERS & STUFF
     _draw_slice: function (a_from, a_to, r_inner, r_outer, pos, slice) {
         // enshure from != to
@@ -182,16 +201,13 @@ Circular = $class({
         else
             var large = 0;
         // draw this slice
-        var from = this._get_coords(a_from, r_inner, r_outer, pos);
-        var to = this._get_coords(a_to, r_inner, r_outer, pos);
-        var path = "M " + from.x1 + "," + from.y1 + " "
-                    + "A " + r_outer + "," + r_outer + " 0 "
-                    + large + "," + sweep + " "
-                    + to.x1 + "," + to.y1  + " "
-                    + "L " + to.x2 + "," + to.y2 + " "
-                    + "A " + r_inner + "," + r_inner + " 0 "
-                    + large + "," + (sweep ? 0 : 1) + " "
-                    + from.x2 + "," + from.y2 + " z";
+        var from = _get_coords(a_from, r_inner, r_outer, pos);
+        var to = _get_coords(a_to, r_inner, r_outer, pos);
+
+        var path = format_path(from.x1, from.y1,
+                               r_outer, r_outer, large, sweep, to.x1, to.y1,
+                               to.x2, to.y2,
+                               r_inner, r_inner, large, !sweep, from.x2, from.y2);
         slice.setAttribute("d", path);
         this.fire_event("slicedrawn", [this]);
     },
@@ -294,7 +310,7 @@ Circular = $class({
             var bb      = p.getBoundingClientRect();
             var angle   = (this.val2real(pos) + this.options.start) % 360;
             var outer_p = outer - margin;
-            var coords  = this._get_coords(angle, outer_p, outer_p, outer, true);
+            var coords  = _get_coords_single(angle, outer_p, outer);
             
             bb.width = bb.width;
             
@@ -312,26 +328,14 @@ Circular = $class({
             + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
         this.fire_event("handdrawn", [this]);
     },
-    _get_coords: function (deg, inner, outer, pos, single) {
-        deg = deg * this.__rad;
-        if (single)
-            return {
-                x: Math.cos(deg) * inner + pos,
-                y: Math.sin(deg) * inner + pos
-            }
-        return {
-            x1: Math.cos(deg) * outer + pos,
-            y1: Math.sin(deg) * outer + pos,
-            x2: Math.cos(deg) * inner + pos,
-            y2: Math.sin(deg) * inner + pos
-        }
-    },
     _get_stroke: function () {
+        if (this.hasOwnProperty("_stroke")) return this._stroke;
         // TODO: this uses getComputedStyle which is bad in many ways.
         // lets calculate this once and reuse the value
         var strokeb = this._base.getStyle("stroke-width").toInt() || 0;
         var strokev = this._value.getStyle("stroke-width").toInt() || 0;
-        return strokeb > strokev ? strokeb : strokev;
+        this._stroke = strokeb > strokev ? strokeb : strokev;
+        return this._stroke;
     },
     
     // GETTERS & SETTERS
@@ -439,3 +443,4 @@ Circular = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})();
