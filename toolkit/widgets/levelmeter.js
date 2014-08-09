@@ -161,6 +161,7 @@ LevelMeter = $class({
         this.set("show_clip", this.options.show_clip);
         this.set("show_hold", this.options.show_hold);
         this.set("clip", this.options.clip);
+        this.reset_label = this.reset_label.bind(this);
         this.redraw();
         this.initialized();
     },
@@ -225,8 +226,9 @@ LevelMeter = $class({
     
     draw_meter: function (value) {
         var _c = true;
-        var base      = this.options.base;
-        value     = this.options.value;
+        var base = +this.options.base;
+        value = +this.options.value;
+        var __based = !!this.__based;
 
         if (this.options.falling) {
             if (value > this._falling
@@ -267,7 +269,7 @@ LevelMeter = $class({
         if (this.options.auto_clip !== false
             && _c
             && value > this.options.clipping
-            && !this.__based) {
+            && !__based) {
             this.set("clip", true);
         }
         if (this.options.auto_hold !== false
@@ -278,11 +280,11 @@ LevelMeter = $class({
         if (this.options.auto_hold !== false
             && this.options.show_hold
             && value < this.options.bottom
-            && this.__based) {
+            && __based) {
             this.set("bottom", value, true);
         }
 
-        var vert = this._vert();
+        var vert = !!this._vert();
         
         if (!this.options.show_hold) {
             MeterBase.prototype.draw_meter.call(this);
@@ -300,15 +302,15 @@ LevelMeter = $class({
             var m4 = this._mask4.style;
            
             // shorten things
-            var r         = this.options.reverse;
-            var size      = this.options.basis;
-            var top       = this.options.top;
-            var bottom    = this.options.bottom;
-            var hold_size = this.options.hold_size;
-            var segment   = this.options.segment;
+            var r         = !!this.options.reverse;
+            var size      = +this.options.basis;
+            var top       = +this.options.top;
+            var bottom    = +this.options.bottom;
+            var hold_size = +this.options.hold_size;
+            var segment   = +this.options.segment;
             
-            var _top      = this._val2seg(Math.max(top, base));
-            var top_val   = this._val2seg(Math.max(value, base));
+            var _top      = +this._val2seg(Math.max(top, base));
+            var top_val   = +this._val2seg(Math.max(value, base));
             var top_top   = Math.max(top_val, _top);
             var top_bot   = top_top - segment * hold_size;
             var top_size  = Math.max(0, _top - top_val - segment * hold_size);
@@ -318,9 +320,9 @@ LevelMeter = $class({
                             : (r ? "left" : "right")] = size - top_bot;
             m3[vert ? "height" : "width"] = top_size;
             
-            if (this.__based) {
-                var _bot     = this._val2seg(Math.min(bottom, base));
-                var bot_val  = this._val2seg(Math.min(value, base));
+            if (__based) {
+                var _bot     = +this._val2seg(Math.min(bottom, base));
+                var bot_val  = +this._val2seg(Math.min(value, base));
                 var bot_bot  = Math.min(bot_val, _bot);
                 var bot_top  = bot_bot + segment * hold_size;
                 var bot_size = Math.max(0, bot_val - bot_top);
@@ -405,15 +407,19 @@ LevelMeter = $class({
             this.__pto = null;
     },
     _label_timeout: function () {
-        if (!this.options.peak_label || this.options.peak_label < 0) return false;
+        var peak_label = (0 | this.options.peak_label);
+        var base = +this.options.base;
+        var label = +this.options.label;
+        var value = +this.options.value;
+
+        if (peak_label <= 0) return false;
+
         if (this.__lto) return;
-        if (this.options.label > this.options.base
-        && this.options.value > this.options.base
-        || this.options.label < this.options.base
-        && this.options.value < this.options.base)
-            this.__lto = window.setTimeout(
-                this.reset_label.bind(this),
-                this.options.peak_label);
+
+        if (label > base && value > base ||
+            label < base && value < base)
+
+            this.__lto = window.setTimeout(this.reset_label, peak_label);
         else
             this.__lto = null;
     },

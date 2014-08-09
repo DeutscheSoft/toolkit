@@ -100,17 +100,21 @@ Ranged = $class({
     },
     gen_to_scale : function() {
         if (typeof this.options.scale == "function") {
-            var f = this.options.svale;
+            var f = this.options.scale;
             var op = this.options;
-            var bas = this.options.basis;
+            var bas = +this.options.basis;
             return function (value) {
                 return f(value, op, false) * bas;
             };
         }
-        switch (this.options.scale) {
+        switch (this.options.scale|0) {
             default:
             case _TOOLKIT_LINEAR:
                 return function (value, min, max, basis) {
+                    value = +value;
+                    min = +min;
+                    max = +max;
+                    basis = +basis;
                     return ((((min - value) * -1) / (max - min)) || 0) * basis;
                 };
             case _TOOLKIT_DB:
@@ -122,25 +126,25 @@ Ranged = $class({
         }
     },
     gen_val2px : function(nosnap) {
-        var basis = this.options.basis;
-        var min = this.options.min;
-        var max = this.options.max;
-        var rev = this.options.reverse;
+        var basis = +this.options.basis;
+        var min = +this.options.min;
+        var max = +this.options.max;
+        var rev = !!this.options.reverse;
         var reverse = this.options.scale == _TOOLKIT_DB || this.options.scale == _TOOLKIT_FREQ_REVERSE;
         var trafo = this.gen_to_scale();
-        var lf = this.options.log_factor;
+        var lf = +this.options.log_factor;
 
         if (!nosnap) {
             var snap = this.snap_value.bind(this);
             return function (x) {
-                x = snap(x);
-                x = trafo(x, min, max, basis, reverse, lf);
+                x = +snap(x);
+                x = +trafo(x, min, max, basis, reverse, lf);
                 if (rev) return -x + basis;
                 else return x;
             };
         } else {
             return function (x) {
-                x = trafo(x, min, max, basis, reverse, lf);
+                x = +trafo(x, min, max, basis, reverse, lf);
                 if (rev) return -x + basis;
                 else return x;
             };
