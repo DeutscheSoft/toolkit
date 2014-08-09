@@ -7,6 +7,8 @@ KNOWN BUGS
                       (because of mootools platform detection)
 * Scale: test: min -60, max 3, base 0
 * LevelMeter broken
+  check if _label_timeout works as expected (and doesn't fire continuously)
+  check why _label_timeout doesn't do a reset of the timeout but a return instead
 * State doesn't switch "state" on set() in FF
 
 REFERENCE / DEMO
