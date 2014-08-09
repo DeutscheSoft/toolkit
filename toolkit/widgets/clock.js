@@ -42,12 +42,9 @@ Clock = $class({
         months:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         days:         ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         label: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-            // return ...  does not work, wtf?
-            var s =  
-                ((hour < 10) ? ("0" + hour) : hour) + ":" +
-                ((minute < 10) ? ("0" + minute) : minute) + ":" +
-                ((second < 10) ? ("0" + second) : second);
-            return s;
+            return ((hour < 10) ? ("0" + hour) : hour) + ":" +
+                   ((minute < 10) ? ("0" + minute) : minute) + ":" +
+                   ((second < 10) ? ("0" + second) : second);
         },
         label_upper: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
             return days[day];
