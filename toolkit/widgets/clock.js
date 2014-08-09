@@ -105,6 +105,7 @@ Clock = $class({
         this.set("size", this.options.size, true);
 
         // start the clock
+        this.__timeout = this._timeout.bind(this);
         this._timeout();
         
         //Widget.prototype.initialize.call(this, options);
@@ -249,7 +250,7 @@ Clock = $class({
             if (this.options.timeadd) {
                 targ += (this.options.timeadd|0) - ((ts % 1000)|0)
             }
-            this.__to = window.setTimeout(this._timeout.bind(this), targ);
+            this.__to = window.setTimeout(this.__timeout, targ);
         }
     },
     
