@@ -62,7 +62,7 @@ LevelMeter = $class({
                                //     -1:    infinite positioning
                                //     n:     in milliseconds to auto-reset
                                //     false: no auto hold
-        format_peak: function (value) { return value.toFixed(2); },
+        format_peak: toolkit.FORMAT("%.2f"),
         clip_options: {}       // add options for the clipping LED
     },
     
@@ -225,58 +225,61 @@ LevelMeter = $class({
     
     draw_meter: function (value) {
         var _c = true;
+        var base      = this.options.base;
+        value     = this.options.value;
+
         if (this.options.falling) {
-            if (this.options.value > this._falling
-            && this.options.value > this.options.base
-            || this.options.value < this._falling
-            && this.options.value < this.options.base) {
-                this._falling = this.options.value;
+            if (value > this._falling
+                && value > base
+                || value < this._falling
+                && value < base) {
+                this._falling = value;
                 this.__falling = false;
             } else if (typeof value == "undefined") {
-                if (this._falling > this.options.base)
+                if (this._falling > base)
                     this._falling -= Math.min(Math.abs(
-                        this._falling - this.options.base
+                        this._falling - base
                     ), Math.abs(this.options.falling));
-                else if (this._falling < this.options.base)
+                else if (this._falling < base)
                     this._falling += Math.min(Math.abs(
-                        this.options.base - this._falling
+                        base - this._falling
                     ), Math.abs(this.options.falling));
                 _c = false;
                 this.__falling = true;
             }
-            this.options.value = this._falling;
+            value = this._falling;
             this._falling_timeout();
         }
         if (this.options.peak_label !== false
-        && this.options.value > this.options.label
-        && this.options.value > this.options.base
-        || this.options.value < this.options.label
-        && this.options.value < this.options.base) {
-            this.set("label", this.options.value);
+            && value > this.options.label
+            && value > base
+            || value < this.options.label
+            && value < base) {
+            this.set("label", value);
         }
         if (this.options.auto_peak !== false
-        && this.options.value > this.options.peak
-        && this.options.value > this.options.base
-        || this.options.value < this.options.peak
-        && this.options.value < this.options.base) {
-            this.set("peak", this.options.value);
+            && value > this.options.peak
+            && value > base
+            || value < this.options.peak
+            && value < base) {
+            this.set("peak", value);
         }
         if (this.options.auto_clip !== false
-        && _c
-        && this.options.value > this.options.clipping
-        && !this.__based) {
+            && _c
+            && value > this.options.clipping
+            && !this.__based) {
             this.set("clip", true);
         }
         if (this.options.auto_hold !== false
-        && this.options.show_hold
-        && this.options.value > this.options.top) {
-            this.set("top", this.options.value, true);
+            && this.options.show_hold
+            && value > this.options.top) {
+            this.set("top", value, true);
         }
         if (this.options.auto_hold !== false
-        && this.options.show_hold
-        && this.options.value < this.options.bottom
-        && this.__based) {
-            this.set("bottom", this.options.value, true);
+            && this.options.show_hold
+            && value < this.options.bottom
+            && this.__based) {
+            this.set("bottom", value, true);
         }
 
         var vert = this._vert();
@@ -298,9 +301,7 @@ LevelMeter = $class({
            
             // shorten things
             var r         = this.options.reverse;
-            var base      = this.options.base;
             var size      = this.options.basis;
-            var value     = this.options.value;
             var top       = this.options.top;
             var bottom    = this.options.bottom;
             var hold_size = this.options.hold_size;
