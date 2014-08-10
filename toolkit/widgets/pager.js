@@ -62,6 +62,7 @@ Pager = $class({
         this.redraw();
         this.set("show", this.options.show);
         this._scroll_to(this.options.show, true);
+        this.initialized();
     },
     
     redraw: function () {

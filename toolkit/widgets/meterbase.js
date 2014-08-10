@@ -208,9 +208,9 @@ var MeterBase = $class({
             toolkit.set_styles(this._scale, {
                 "clear": "both"
             });
-            toolkit.set_styles(this._title, {
-                "clear": "both"
-            });
+            //toolkit.set_styles(this._title, {
+                //"clear": "both"
+            //});
             if (this.options.reverse) {
                 toolkit.set_styles(this._mask1, {
                     height: "100%",
@@ -354,7 +354,7 @@ var MeterBase = $class({
     },
     _bar_size: function () {
         // determine a size for the meter bar based on several conditions
-        var s = toolkit[this._vert() ? "inner_height" : "inner_width"](this.element, true);
+        var s = toolkit[this._vert() ? "inner_height" : "inner_width"](this.element);
         if (this.options.show_label && this._vert())
             s -= toolkit.outer_height(this._label, true);
         if (this.options.show_title && this._vert())

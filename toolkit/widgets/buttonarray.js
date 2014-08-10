@@ -60,6 +60,7 @@ ButtonArray = $class({
         this.set("direction", this.options.direction);
         this.add_buttons(this.options.buttons);
         this._scroll_to(this.options.show, true);
+        this.initialized();
     },
     
     add_buttons: function (options) {

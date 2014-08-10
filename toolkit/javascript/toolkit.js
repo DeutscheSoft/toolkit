@@ -33,7 +33,7 @@ toolkit = {
         if (typeof width !== "undefined") {
             if (cs.getPropertyValue("box-sizing") == "content-box") {
                 var css = toolkit.css_space(element, "padding", "border");
-                width += css.left + css.right;
+                width -= css.left + css.right;
             }
             width -= m;
             element.style.width = width + "px";
@@ -53,7 +53,7 @@ toolkit = {
             
             if (cs.getPropertyValue("box-sizing") == "content-box") {
                 var css = toolkit.css_space(element, "padding", "border");
-                height += css.top + css.bottom;
+                height -= css.top + css.bottom;
             }
             height -= m;
             element.style.height = height + "px";
@@ -64,13 +64,11 @@ toolkit = {
     inner_width: function (element, width) {
         var cs = getComputedStyle(element, null);
         var w = element.getBoundingClientRect().width;
-        var x = 0;
-        if (cs.getPropertyValue("box-sizing") == "border-box") {
-            var css = toolkit.css_space(element, "padding", "border");
-            x += css.left + css.right;
-        }
+        var css = toolkit.css_space(element, "padding", "border");
+        var x = css.left + css.right;
         if (typeof width !== "undefined") {
-            width += x;
+            if (cs.getPropertyValue("box-sizing") == "border-box")
+                width -= x;
             element.style.width = width + "px";
             return width;
         }
@@ -79,13 +77,11 @@ toolkit = {
     inner_height: function (element, height) {
         var cs = getComputedStyle(element, null);
         var h = element.getBoundingClientRect().height;
-        var y = 0;
-        if (cs.getPropertyValue("box-sizing") == "border-box") {
-            var css = toolkit.css_space(element, "padding", "border");
-            y += css.top + css.bottom;
-        }
+        var css = toolkit.css_space(element, "padding", "border");
+        var y = css.top + css.bottom;
         if (typeof height !== "undefined") {
-            height += y;
+            if (cs.getPropertyValue("box-sizing") == "border-box")
+                height -= y;
             element.style.height = height + "px";
             return height;
         }

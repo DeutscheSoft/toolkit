@@ -376,7 +376,7 @@ LevelMeter = $class({
             var d = (this.options.layout == _TOOLKIT_LEFT
                   || this.options.layout == _TOOLKIT_RIGHT)
                    ? "outer_height" : "outer_width";
-            s -= toolkit[d](this._clip);
+            s -= toolkit[d](this._clip, true);
         }
         return s;
     },
@@ -456,17 +456,21 @@ LevelMeter = $class({
         MeterBase.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "show_peak":
-                if (!hold)
+                if (!hold) {
+                    this.element.classList[value  ? "add" : "remove"]("toolkit-has-peak");
                     this._peak.style["display"] =  value  ? "block" : "none";
+                }
                 break;
             case "show_clip":
                 if (!hold) {
                     this._clip.style["display"] =  value  ? "block" : "none";
+                    this.element.classList[value  ? "add" : "remove"]("toolkit-has-clip");
                     this.redraw();
                 }
                 break;
             case "show_hold":
                 if (!hold) {
+                    this.element.classList[value  ? "add" : "remove"]("toolkit-has-hold");
                     this.draw_meter();
                 }
                 break;
