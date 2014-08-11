@@ -101,7 +101,6 @@ Value = $class({
     },
     _value_init: function (e) {
         this.__clicked = true;
-        console.log("ha")
     },
     
     _value_typing: function (e) {
