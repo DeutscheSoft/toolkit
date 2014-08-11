@@ -52,6 +52,9 @@ Fader = $class({
         this.element.appendChild(this._background_top);
         this.element.appendChild(this._background_center);
         this.element.appendChild(this._background_bottom);
+
+        if (this.options.container)
+            this.set("container", this.options.container);
         
         var opt = $mixin({}, this.options, {
             container:   this.element,
@@ -62,9 +65,6 @@ Fader = $class({
         this._handle = toolkit.element("div", "toolkit-handle");
         this.element.appendChild(this._handle);
             
-        if (this.options.container)
-            this.set("container", this.options.container);
-        
         this.drag = new DragValue({
             element: this._handle,
             range:   function () { return this }.bind(this),
