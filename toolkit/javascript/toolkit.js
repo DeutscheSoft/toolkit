@@ -68,7 +68,7 @@ toolkit = {
         var x = css.left + css.right;
         if (typeof width !== "undefined") {
             if (cs.getPropertyValue("box-sizing") == "border-box")
-                width -= x;
+                width += x;
             element.style.width = width + "px";
             return width;
         }
@@ -81,7 +81,7 @@ toolkit = {
         var y = css.top + css.bottom;
         if (typeof height !== "undefined") {
             if (cs.getPropertyValue("box-sizing") == "border-box")
-                height -= y;
+                height += y;
             element.style.height = height + "px";
             return height;
         }
