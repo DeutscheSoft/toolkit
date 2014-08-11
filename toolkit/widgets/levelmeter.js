@@ -199,12 +199,12 @@ LevelMeter = $class({
         this.fire_event("resetpeak", this);
     },
     reset_label: function () {
-        delete this.__lto;
+         this.__lto = false;
         this.set("label", this.options.value);
         this.fire_event("resetlabel", this);
     },
     reset_clip: function () {
-        delete this.__cto;
+        this.__cto = false;
         this.set("clip", false);
         this.fire_event("resetclip", this);
     },
