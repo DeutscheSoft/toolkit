@@ -39,21 +39,30 @@ Value = $class({
         this._input.type = "text";
         this.element.appendChild(this._input);
         
-        this.__touch_cb = function (e) {
+        this.__touch_start_cb = function (e) {
+            e.preventDefault();
+            this._value_init(e);
+            return false;
+        }.bind(this);
+        
+        this.__touch_end_cb = function (e) {
             e.preventDefault();
             this._value_clicked(e);
             return false;
         }.bind(this);
         
-        this.__click_cb = this._value_clicked.bind(this);
+        this.__start_cb = this._value_init.bind(this);
+        this.__end_cb   = this._value_clicked.bind(this);
         
         this.element.addEventListener("submit", function (e) { 
             e.preventDefault();
             return false;
         });
         
-        this.element.addEventListener("mouseup",  this.__click_cb);
-        this.element.addEventListener("touchend", this.__touch_cb);
+        this.element.addEventListener("mousedown",  this.__start_cb);
+        this.element.addEventListener("touchstart", this.__touch_start_cb);
+        this.element.addEventListener("mouseup",  this.__end_cb);
+        this.element.addEventListener("touchend", this.__touch_end_cb);
         
         this._input.addEventListener("keyup",      this._value_typing.bind(this));
         this._input.addEventListener("blur",       this._value_done.bind(this));
@@ -62,6 +71,7 @@ Value = $class({
             this.set("container", this.options.container);
         
         this.set("value", this.options.value);
+        this.__clicked = false;
     },
     
     redraw: function () {
@@ -77,6 +87,9 @@ Value = $class({
     
     // HELPERS & STUFF
     _value_clicked: function (e) {
+        if (!this.__clicked)
+            return;
+        this.__clicked = false;
         if (!this.options.set) return;
         if (this.__editing) return false;
         this.element.classList.add("toolkit-active");
@@ -86,6 +99,11 @@ Value = $class({
         this.fire_event("valueclicked", [this.options.value, this]);
         //e.stopPropagation();
     },
+    _value_init: function (e) {
+        this.__clicked = true;
+        console.log("ha")
+    },
+    
     _value_typing: function (e) {
         if (!this.options.set) return;
         if (!this.__editing) return;
