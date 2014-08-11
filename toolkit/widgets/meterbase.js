@@ -166,18 +166,18 @@ var MeterBase = $class({
         });
         if (this.options.layout == _TOOLKIT_LEFT) {
             toolkit.set_styles(this._scale, {
-                "float": "right"
+                "cssFloat": "right"
             });
             toolkit.set_styles(this._bar, {
-                "float": "left"
+                "cssFloat": "left"
             });
         }
         if (this.options.layout == _TOOLKIT_RIGHT) {
             toolkit.set_styles(this._scale, {
-                "float": "left"
+                "cssFloat": "left"
             });
             toolkit.set_styles(this._bar, {
-                "float": "right"
+                "cssFloat": "right"
             });
         }
         if (this._vert()) {

@@ -186,7 +186,7 @@ Scale = $class({
         var label = toolkit.element("span", "toolkit-label", {
             position: "absolute",
             display: "block",
-            float: "left"
+            cssFloat: "left"
         });
         label.innerHTML = this.options.labels(val);
         if (cls) label.classList.add(cls);
