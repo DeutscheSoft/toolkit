@@ -42,12 +42,9 @@ Clock = $class({
         months:       ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         days:         ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         label: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
-            // return ...  does not work, wtf?
-            var s =  
-                ((hour < 10) ? ("0" + hour) : hour) + ":" +
-                ((minute < 10) ? ("0" + minute) : minute) + ":" +
-                ((second < 10) ? ("0" + second) : second);
-            return s;
+            return ((hour < 10) ? ("0" + hour) : hour) + ":" +
+                   ((minute < 10) ? ("0" + minute) : minute) + ":" +
+                   ((second < 10) ? ("0" + second) : second);
         },
         label_upper: function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) {
             return days[day];
@@ -105,6 +102,7 @@ Clock = $class({
         this.set("size", this.options.size, true);
 
         // start the clock
+        this.__timeout = this._timeout.bind(this);
         this._timeout();
         
         //Widget.prototype.initialize.call(this, options);
@@ -249,7 +247,7 @@ Clock = $class({
             if (this.options.timeadd) {
                 targ += (this.options.timeadd|0) - ((ts % 1000)|0)
             }
-            this.__to = window.setTimeout(this._timeout.bind(this), targ);
+            this.__to = window.setTimeout(this.__timeout, targ);
         }
     },
     
