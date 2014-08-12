@@ -59,55 +59,6 @@ Widget = $class({
         return this;
     },
     delegate: function (element) {
-        //element.addEvents({
-            //"mouseenter" : function (e) {
-                //this.fire_event("mouseenter", [e, this, element]); }.bind(this),
-            //"mouseleave" : function (e) {
-                //this.fire_event("mouseleave", [e, this, element]); }.bind(this),
-            //"mousewheel"  : function (e) {
-                //this.fire_event("mousewheel", [e, this, element]); }.bind(this),
-            //"click"      : function (e) {
-                //this.fire_event("click",      [e, this, element]); }.bind(this),
-            //"mousedown"  : function (e) {
-                //this.fire_event("mousedown",  [e, this, element]); }.bind(this),
-            //"mouseup"    : function (e) {
-                //this.fire_event("mouseup",    [e, this, element]); }.bind(this),
-            //"mousemove"  : function (e) {
-                //this.fire_event("mousemove",  [e, this, element]); }.bind(this),
-            //"startdrag"  : function (e) {
-                //this.fire_event("startdrag",  [e, this, element]); }.bind(this),
-            //"stopdrag"  : function (e) {
-                //this.fire_event("stopdrag",   [e, this, element]); }.bind(this),
-            //"touchstart" : function (e) {
-                //this.fire_event("touchstart", [e, this, element]); }.bind(this),
-            //"touchend"   : function (e) {
-                //this.fire_event("touchend",   [e, this, element]); }.bind(this),
-            //"touchmove"  : function (e) {
-                //this.fire_event("touchmove",  [e, this, element]); }.bind(this),
-            //"dblclick"   : function (e) {
-                //this.fire_event("dblclick",   [e, this, element]); }.bind(this),
-            //"keydown"    : function (e) {
-                //this.fire_event("keydown",    [e, this, element]); }.bind(this),
-            //"keypress"   : function (e) {
-                //this.fire_event("keypress",   [e, this, element]); }.bind(this),
-            //"keyup"      : function (e) {
-                //this.fire_event("keyup",      [e, this, element]); }.bind(this),
-            //"scroll"     : function (e) {
-                //this.fire_event("scroll",     [e, this, element]); }.bind(this),
-            //"focus"      : function (e) {
-                //this.fire_event("focus",      [e, this, element]); }.bind(this),
-            //"blur"       : function (e) {
-                //this.fire_event("blur",       [e, this, element]); }.bind(this)
-        //});
-        
-        //var orig = element.addEvent.bind(element);
-        //element.addEvent = function(name, cb) {
-            //if (native_events.hasOwnProperty(name)) {
-                //orig(name, function(ev) {
-                    //cb(ev, self, element);
-                //});
-            //} else orig(name, cb);
-        //};
         this.delegate_events(element);
         this.__delegated = element;
         this.fire_event("delegated", [element, this]);
