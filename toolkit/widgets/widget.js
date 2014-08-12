@@ -119,7 +119,7 @@ Widget = $class({
         this.addClass    = function (c) { element.classList.add(c); }.bind(this);
         this.removeClass = function (c) { element.classList.remove(c); }.bind(this);
         this.setStyle    = function (c, d) { element.style[c] = d; }.bind(this);
-        this.setStyles   = toolkit.set_styles.bind(this, element);
+        this.setStyles   = toolkit.set_styles.bind(toolkit, element);
         this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
         this.__classified = element;
         this.fire_event("classified", [element, this]);
@@ -128,7 +128,9 @@ Widget = $class({
     stylize: function (element) {
         // Marks a DOM element as receiver for the "styles" options
         this.__stylized = element;
-        this.set("styles", this.options.styles);
+        if (this.options.styles) {
+            toolkit.set_styles(element, this.options.styles);
+        }
         this.fire_event("stylized", [element, this]);
         return element;
     },
