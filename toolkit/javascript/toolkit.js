@@ -1,8 +1,15 @@
 toolkit = {
     set_styles : function(elem, styles) {
-        var key;
-        for (key in styles) if (styles.hasOwnProperty(key))
-            elem.style[key] = styles[key];
+        var key, v;
+        var s = elem.style;
+        for (key in styles) if (styles.hasOwnProperty(key)) {
+            v = styles[key];
+            if (typeof v != "number" && !v) {
+                delete s[key];
+            } else {
+                s[key] = v;
+            }
+        }
     },
     element : function(tag) {
         var n = document.createElement(tag);

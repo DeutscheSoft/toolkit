@@ -114,7 +114,7 @@ Select = $class({
     },
     resize: function () {
         if (!this.options.auto_size) {
-            this.element.style["width"] = null;
+            delete this.element.style["width"];
             return;
         };
         for (var i in this.list) {
