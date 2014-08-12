@@ -146,27 +146,27 @@ var MeterBase = $class({
             position: "absolute",
             width:    "100%",
             height:   "100%",
-            zIndex:   0
+            zIndex:   "0"
         });
         toolkit.set_styles(this._mark, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
-            zIndex:   10
+            zIndex:   "10"
         });
         toolkit.set_styles(this._over, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
-            zIndex:   100
+            zIndex:   "100"
         });
         toolkit.set_styles(this._mask1, {
             position: "absolute",
-            zIndex:   1000
+            zIndex:   "1000"
         });
         toolkit.set_styles(this._mask2, {
             position: "absolute",
-            zIndex:   1000
+            zIndex:   "1000"
         });
         if (this.options.layout == _TOOLKIT_LEFT) {
             toolkit.set_styles(this._scale, {
@@ -188,24 +188,24 @@ var MeterBase = $class({
             if (this.options.reverse) {
                 toolkit.set_styles(this._mask1, {
                     width:  "100%",
-                    height: 0,
-                    bottom: 0
+                    height: "0px",
+                    bottom: "0px"
                 });
                 toolkit.set_styles(this._mask2, {
                     width:  "100%",
-                    height: 0,
-                    top:    0
+                    height: "0px",
+                    top:    "0px"
                 });
             } else {
                 toolkit.set_styles(this._mask1, {
                     width:  "100%",
-                    height: 0,
-                    top:    0
+                    height: "0px",
+                    top:    "0px"
                 });
                 toolkit.set_styles(this._mask2, {
                     width:  "100%",
-                    height: 0,
-                    bottom: 0
+                    height: "0px",
+                    bottom: "0px"
                 });
             }
         } else {
@@ -218,24 +218,24 @@ var MeterBase = $class({
             if (this.options.reverse) {
                 toolkit.set_styles(this._mask1, {
                     height: "100%",
-                    width:  0,
-                    left:   0
+                    width:  "0px",
+                    left:   "0px"
                 });
                 toolkit.set_styles(this._mask2, {
                     height: "100%",
-                    width:  0,
-                    right:  0
+                    width:  "0px",
+                    right:  "0px"
                 });
             } else {
                 toolkit.set_styles(this._mask1, {
                     height: "100%",
-                    width:  0,
-                    right:  0
+                    width:  "0px",
+                    right:  "0px"
                 });
                 toolkit.set_styles(this._mask2, {
                     height: "100%",
-                    width:  0,
-                    left:   0
+                    width:  "0px",
+                    left:   "0px"
                 });
             }
         }
