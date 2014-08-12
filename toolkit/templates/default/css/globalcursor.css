@@ -6,13 +6,9 @@ html.toolkit-cursor-crosshair,
 html.toolkit-cursor-crosshair * {
     cursor:crosshair !important;
 }
-html.toolkit-cursor-hand,
-html.toolkit-cursor-hand * {
-    cursor:hand !important;
-}
 html.toolkit-cursor-pointer,
 html.toolkit-cursor-pointer * {
-    cursor:pointer !important;cursor:hand !important;
+    cursor:pointer !important;
 }
 html.toolkit-cursor-move,
 html.toolkit-cursor-move * {

@@ -4,7 +4,8 @@
 }
 
 .toolkit-button.toolkit-select .toolkit-arrow {
-    background-image: url(../images/select/arrow_down.png) 50% 50%;
+    background-image: url(../images/select/arrow_down.png);
+    background-position: 50% 50%;
     width: 16px;
     height: 11px;
     float: right;

@@ -49,6 +49,8 @@ OTHER IMPROVEMENTS
   with some elements in it inside a clipping area scrolling vertically
   or horizontally. Perhaps build a super class?
 
+* strip unneeded css class declaration chains in css files
+
 REMINDERS
 ---------
 
