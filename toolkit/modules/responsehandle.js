@@ -105,17 +105,29 @@ ResponseHandle = $class({
             case _TOOLKIT_CIRCULAR:
                 this.element.classList.add("toolkit-circular"); break;
             case _TOOLKIT_LINE_VERTICAL:
-                this.element.classList.add("toolkit-line-vertical", "toolkit-line");    break;
+                this.element.classList.add("toolkit-line-vertical");
+                this.element.classList.add("toolkit-line");
+                break;
             case _TOOLKIT_LINE_HORIZONTAL:
-                this.element.classList.add("toolkit-line-horizontal", "toolkit-line");  break;
+                this.element.classList.add("toolkit-line-horizontal");
+                this.element.classList.add("toolkit-line");
+                break;
             case _TOOLKIT_BLOCK_LEFT:
-                this.element.classList.add("toolkit-block-left", "toolkit-block");      break;
+                this.element.classList.add("toolkit-block-left");
+                this.element.classList.add("toolkit-block");
+                break;
             case _TOOLKIT_BLOCK_RIGHT:
-                this.element.classList.add("toolkit-block-right", "toolkit-block");     break;
+                this.element.classList.add("toolkit-block-right")
+                this.element.classList.add("toolkit-block");
+                break;
             case _TOOLKIT_BLOCK_TOP:
-                this.element.classList.add("toolkit-block-top", "toolkit-block");       break;
+                this.element.classList.add("toolkit-block-top");
+                this.element.classList.add("toolkit-block");
+                break;
             case _TOOLKIT_BLOCK_BOTTOM:
-                this.element.classList.add("toolkit-block-bottom", "toolkit-block");    break;
+                this.element.classList.add("toolkit-block");
+                this.element.classList.add("toolkit-block-bottom");
+                break;
         }
         
         if (this.options.container)
