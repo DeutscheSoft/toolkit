@@ -60,16 +60,20 @@ Scale = $class({
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
-                this.element.classList.add("toolkit-vertical","toolkit-left");
+                this.element.classList.add("toolkit-vertical");
+                this.element.classList.add("toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
-                this.element.classList.add("toolkit-vertical","toolkit-right");
+                this.element.classList.add("toolkit-vertical");
+                this.element.classList.add("toolkit-right");
                 break;
             case _TOOLKIT_TOP:
-                this.element.classList.add("toolkit-horizontal","toolkit-top");
+                this.element.classList.add("toolkit-horizontal");
+                this.element.classList.add("toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
-                this.element.classList.add("toolkit-horizontal","toolkit-bottom");
+                this.element.classList.add("toolkit-horizontal");
+                this.element.classList.add("toolkit-bottom");
                 break;
         }
         this.element.style.position = "relative";
