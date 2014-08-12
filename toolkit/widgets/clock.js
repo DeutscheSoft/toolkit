@@ -263,8 +263,8 @@ Clock = $class({
                 if (!hold) this.redraw();
                 break;
             case "size":
-                this.element.set("width", value);
-                this.element.set("height", value);
+                this.element.set("width", (typeof value == "number" ? value + "px" : value));
+                this.element.set("height", (typeof value == "number" ? value + "px" : value));
                 if (!hold) this.redraw();
                 break;
             case "time":
