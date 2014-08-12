@@ -43,7 +43,8 @@ toolkit = {
                 width -= css.left + css.right;
             }
             width -= m;
-            if (width < 0) debugger;
+            // TODO: fixme
+            if (width < 0) return 0;
             element.style.width = width + "px";
             return width;
         }
@@ -64,6 +65,8 @@ toolkit = {
                 height -= css.top + css.bottom;
             }
             height -= m;
+            // TODO: fixme
+            if (height < 0) return 0;
             element.style.height = height + "px";
             return height;
         }
@@ -77,6 +80,8 @@ toolkit = {
         if (typeof width !== "undefined") {
             if (cs.getPropertyValue("box-sizing") == "border-box")
                 width += x;
+            // TODO: fixme
+            if (width < 0) return 0;
             element.style.width = width + "px";
             return width;
         }
@@ -90,6 +95,8 @@ toolkit = {
         if (typeof height !== "undefined") {
             if (cs.getPropertyValue("box-sizing") == "border-box")
                 height += y;
+            // TODO: fixme
+            if (height < 0) return 0;
             element.style.height = height + "px";
             return height;
         }
