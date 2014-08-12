@@ -1367,7 +1367,10 @@ ResponseHandle = $class({
                 if (!hold) this.redraw();
                 break;
             case "active":
-                if (value) this.element.classList.remove("toolkit-inactive");
+                if (value) {
+                    this.element.classList.remove("toolkit-inactive");
+                    this.redraw();
+                }
                 else this.element.classList.add("toolkit-inactive");
                 break;
             case "x":
