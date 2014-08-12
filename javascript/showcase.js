@@ -1501,17 +1501,18 @@ function run_meterbase () {
     mbvl = new MeterBase({
         container: $$("#sc_meterbase")[0],
         layout: _TOOLKIT_RIGHT,
+        scale: _TOOLKIT_DECIBEL,
         segment: 2,
-        min: -96,
-        max: 24,
+        min: -60,
+        max: 3,
         value: 18,
         scale_base: 0,
         title: "left",
         show_title: true,
         show_label: true,
         gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
-        levels: [1, 6, 12],
-        gap_labels: 30
+        levels: [1, 3, 6, 12],
+        gap_labels: 20
     });
     mbvr = new MeterBase({
         container: $$("#sc_meterbase")[0],
