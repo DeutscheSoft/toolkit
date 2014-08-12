@@ -180,6 +180,10 @@ Circular = $class({
         this.element.destroy();
         Widget.prototype.destroy.call(this);
     },
+    _get_coords: function (deg, inner, outer, pos, single) {
+        if (single) return _get_coords_single(deg, inner, pos);
+        else return _get_coords(deg, inner, outer, pos);
+    },
     // HELPERS & STUFF
     _draw_slice: function (a_from, a_to, r_inner, r_outer, pos, slice) {
         // enshure from != to
