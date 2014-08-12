@@ -100,59 +100,59 @@ LevelMeter = $class({
             this.options.bottom = this.options.value;
         toolkit.set_styles(this._mask3, {
             position: "absolute",
-            zIndex:  1000
+            zIndex:  "1000"
         });
         toolkit.set_styles(this._mask4, {
             position: "absolute",
-            zIndex:  1000
+            zIndex:  "1000"
         });
         if (this.options.layout == _TOOLKIT_LEFT
         || this.options.layout == _TOOLKIT_RIGHT) {
             if (this.options.reverse) {
                 toolkit.set_styles(this._mask3, {
                     width:  "100%",
-                    height: 0,
-                    bottom:    0
+                    height: "0px",
+                    bottom: "0px"
                 });
                 toolkit.set_styles(this._mask4, {
                     width:  "100%",
-                    height: 0,
-                    top: 0
+                    height: "0px",
+                    top: "0px"
                 });
             } else {
                 toolkit.set_styles(this._mask3, {
                     width:  "100%",
-                    height: 0,
-                    top: 0
+                    height: "0px",
+                    top: "0px"
                 });
                 toolkit.set_styles(this._mask4, {
                     width:  "100%",
-                    height: 0,
-                    bottom:    0
+                    height: "0px",
+                    bottom:    "0px"
                 });
             }
         } else {
             if (this.options.reverse) {
                 toolkit.set_styles(this._mask3, {
                     height: "100%",
-                    width:  0,
-                    left:   0
+                    width:  "0px",
+                    left:   "0px"
                 });
                 toolkit.set_styles(this._mask4, {
                     height: "100%",
-                    width:  0,
-                    right:  0
+                    width:  "0px",
+                    right:  "0px"
                 });
             } else {
                 toolkit.set_styles(this._mask3, {
                     height: "100%",
-                    width:  0,
-                    right:  0
+                    width:  "0px",
+                    right:  "0px"
                 });
                 toolkit.set_styles(this._mask4, {
                     height: "100%",
-                    width:  0,
-                    left:   0
+                    width:  "0px",
+                    left:   "0px"
                 });
             }
         }

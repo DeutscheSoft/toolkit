@@ -125,12 +125,12 @@ Fader = $class({
             // VERTICAL
             toolkit.set_styles(this._background_top, {
                 position: "absolute",
-                top: 0,
+                top: "0px",
                 left: undefined
             });
             toolkit.set_styles(this._background_bottom, {
                 position: "absolute",
-                bottom: 0,
+                bottom: "0px",
                 right: undefined
             });
             
@@ -140,9 +140,9 @@ Fader = $class({
             
             toolkit.set_styles(this._background_center, {
                 position: "absolute",
-                top: hl,
+                top: hl + "px",
                 left: undefined,
-                height: h - hl - hr
+                height: (h - hl - hr) + "px"
             });
             
             var p = toolkit.inner_width(this.element);
@@ -153,7 +153,7 @@ Fader = $class({
             
             toolkit.set_styles(this._handle, {
                 position: "absolute",
-                bottom: 0,
+                bottom: "0px",
                 right: undefined
             });
             this._handlesize = toolkit.outer_height(this._handle, true);
@@ -163,12 +163,12 @@ Fader = $class({
             // HORIZONTAL
             toolkit.set_styles(this._background_top, {
                 position: "absolute",
-                left: 0,
+                left: "0px",
                 top: undefined
             });
             toolkit.set_styles(this._background_bottom, {
                 position: "absolute",
-                right: 0,
+                right: "0px",
                 bottom: undefined
             });
             
@@ -178,9 +178,9 @@ Fader = $class({
             
             toolkit.set_styles(this._background_center, {
                 position: "absolute",
-                left: hl,
+                left: hl + "px",
                 top: undefined,
-                width: h - hl - hr
+                width: (h - hl - hr) + "px"
             });
             
             var p = toolkit.inner_height(this.element);
@@ -191,7 +191,7 @@ Fader = $class({
             
             toolkit.set_styles(this._handle, {
                 position: "absolute",
-                right: 0,
+                right: "0px",
                 bottom: undefined
             });
             this._handlesize = toolkit.outer_width(this._handle, true);
