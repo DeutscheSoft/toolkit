@@ -64,8 +64,8 @@ keep_inside = function (element, resize) {
         if (ew > pw) element.style.width = pw + "px";
         if (eh > ph) element.style.height = ph + "px";
     }
-    element.style.left = x;
-    element.style.top = y;
+    element.style.left = x + "px";
+    element.style.top = y + "px";
 }
 width = function () {
     return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);

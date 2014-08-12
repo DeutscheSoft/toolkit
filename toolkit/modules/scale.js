@@ -177,7 +177,7 @@ Scale = $class({
         var styles = { }
         var pos = Math.round(this.val2px(val));
         pos = Math.min(Math.max(0, pos), this.options.basis - 1);
-        styles[this._vert() ? "bottom" : "left"] = pos;
+        styles[this._vert() ? "bottom" : "left"] = pos + "px";
         toolkit.set_styles(d, styles);
         this.element.appendChild(d);
         return this;
@@ -201,7 +201,7 @@ Scale = $class({
         var pos = Math.round(this.val2px(val));
         var size = toolkit[this._vert() ? "outer_height" : "outer_width"](label, true);
         pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
-        styles[this._vert() ? "bottom" : "left"] = pos;
+        styles[this._vert() ? "bottom" : "left"] = pos + "px";
         toolkit.set_styles(label, styles);
         
         // resize the main element if labels are wider
@@ -279,8 +279,8 @@ Scale = $class({
                 if (!hold) this.redraw();
                 break;
             case "basis":
-                if (this._vert()) this.element.style.height = value;
-                else this.element.style.width = value;
+                if (this._vert()) this.element.style.height = value + "px";
+                else this.element.style.width = value + "px";
 
                 break;
             case "base":

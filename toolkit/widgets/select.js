@@ -157,8 +157,8 @@ Select = $class({
             var lw = toolkit.outer_width(this._list, true);
             var lh = toolkit.outer_height(this._list, true);
             toolkit.set_styles(this._list, {
-                "top": Math.min(this.element.getPosition().y + toolkit.outer_height(this.element, true), ch + sy - lh),
-                "left": Math.min(this.element.getPosition().x, cw + sx - lw),
+                "top": Math.min(this.element.getPosition().y + toolkit.outer_height(this.element, true), ch + sy - lh) + "px",
+                "left": Math.min(this.element.getPosition().x, cw + sx - lw) + "px",
             });
         }
         this.__transition = true;

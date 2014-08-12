@@ -158,7 +158,7 @@ Fader = $class({
             });
             this._handlesize = toolkit.outer_height(this._handle, true);
             toolkit.outer_height(this._scale, true, h - this._handlesize);
-            this._scale.style["top"] = this._handlesize / 2;
+            this._scale.style["top"] = (this._handlesize / 2) + "px";
         } else {
             // HORIZONTAL
             toolkit.set_styles(this._background_top, {
@@ -196,7 +196,7 @@ Fader = $class({
             });
             this._handlesize = toolkit.outer_width(this._handle, true);
             toolkit.outer_width(this._scale, true, h - this._handlesize);
-            this._scale.style["left"] = this._handlesize / 2;
+            this._scale.style["left"] = (this._handlesize / 2) + "px";
         }
         var s = h - this._handlesize;
         if (s != this.options.basis) {
@@ -280,7 +280,7 @@ Fader = $class({
                 this.fire_event("set_value", [this.options.value, this]);
                 this.fire_event("set", ["value", this.options.value, this]);
                 if (!hold) {
-                    this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real();
+                    this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real() + "px";
                 }
                 return;
             case "layout":

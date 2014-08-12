@@ -43,6 +43,7 @@ toolkit = {
                 width -= css.left + css.right;
             }
             width -= m;
+            if (width < 0) debugger;
             element.style.width = width + "px";
             return width;
         }

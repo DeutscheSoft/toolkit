@@ -315,10 +315,10 @@ LevelMeter = $class({
             var top_bot   = top_top - segment * hold_size;
             var top_size  = Math.max(0, _top - top_val - segment * hold_size);
             
-            m1[vert ? "height" : "width"] = Math.max(0, size - top_top);
+            m1[vert ? "height" : "width"] = Math.max(0, size - top_top) + "px";
             m3[vert ? (r ? "bottom" : "top")
-                            : (r ? "left" : "right")] = size - top_bot;
-            m3[vert ? "height" : "width"] = top_size;
+                            : (r ? "left" : "right")] = (size - top_bot) + "px";
+            m3[vert ? "height" : "width"] = top_size + "px";
             
             if (__based) {
                 var _bot     = +this._val2seg(Math.min(bottom, base));
@@ -327,10 +327,10 @@ LevelMeter = $class({
                 var bot_top  = bot_bot + segment * hold_size;
                 var bot_size = Math.max(0, bot_val - bot_top);
                 
-                m2[vert ? "height" : "width"] = Math.max(0, bot_bot);
+                m2[vert ? "height" : "width"] = Math.max(0, bot_bot) + "px";
                 m4[vert ? (r ? "top" : "bottom")
-                        : (r ? "right" : "left")] = bot_top;
-                m4[vert ? "height" : "width"] = bot_size;
+                        : (r ? "right" : "left")] = bot_top + "px";
+                m4[vert ? "height" : "width"] = bot_size + "px";
             }
             this.fire_event("drawmeter", this);
         }
