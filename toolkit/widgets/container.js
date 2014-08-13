@@ -57,5 +57,5 @@ Container = $class({
                 this.element.appendChild(value);
         }
         Widget.prototype.set.call(this, key, value, hold);
-    }
+    },
 });
