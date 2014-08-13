@@ -150,9 +150,9 @@ Select = $class({
                    : (document.documentElement || document.body.parentNode || document.body).scrollTop;
             toolkit.set_styles(this._list, {
                 "opacity": 0,
-                "max-height": ch,
-                "max-width": cw,
-                "min-width": ew
+                "maxHeight": ch,
+                "maxWidth": cw,
+                "minWidth": ew
             });
             var lw = toolkit.outer_width(this._list, true);
             var lh = toolkit.outer_height(this._list, true);

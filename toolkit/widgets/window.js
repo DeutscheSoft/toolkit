@@ -671,7 +671,7 @@ Window = $class({
                 if (!hold) this._set_position();
                 break;
             case "z_index":
-                if (!hold) this.element.style["z-index"] = value;
+                if (!hold) this.element.style.zIndex = value;
                 break;
             case "title":
                 if (!hold) this._title.innerHTML = value;
