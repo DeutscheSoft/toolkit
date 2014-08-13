@@ -38,7 +38,7 @@ toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-right"));
         }
         if (typeof width !== "undefined") {
-            if (cs.getPropertyValue("box-sizing") == "content-box") {
+            if (toolkit.box_sizing(element) == "border-box") {
                 var css = toolkit.css_space(element, "padding", "border");
                 width -= css.left + css.right;
             }
@@ -60,7 +60,7 @@ toolkit = {
         }
         if (typeof height !== "undefined") {
             
-            if (cs.getPropertyValue("box-sizing") == "content-box") {
+            if (toolkit.box_sizing(element) == "content-box") {
                 var css = toolkit.css_space(element, "padding", "border");
                 height -= css.top + css.bottom;
             }
@@ -78,7 +78,7 @@ toolkit = {
         var css = toolkit.css_space(element, "padding", "border");
         var x = css.left + css.right;
         if (typeof width !== "undefined") {
-            if (cs.getPropertyValue("box-sizing") == "border-box")
+            if (toolkit.box_sizing(element) == "border-box")
                 width += x;
             // TODO: fixme
             if (width < 0) return 0;
@@ -93,7 +93,7 @@ toolkit = {
         var css = toolkit.css_space(element, "padding", "border");
         var y = css.top + css.bottom;
         if (typeof height !== "undefined") {
-            if (cs.getPropertyValue("box-sizing") == "border-box")
+            if (toolkit.box_sizing(element) == "border-box")
                 height += y;
             // TODO: fixme
             if (height < 0) return 0;
@@ -102,7 +102,14 @@ toolkit = {
         }
         return h - y;
     },
-    
+    box_sizing: function (element) {
+        var cs = getComputedStyle(element, null);
+        if (cs.getPropertyValue("box-sizing")) return cs.getPropertyValue("box-sizing");
+        if (cs.getPropertyValue("-moz-box-sizing")) return cs.getPropertyValue("-moz-box-sizing");
+        if (cs.getPropertyValue("-webkit-box-sizing")) return cs.getPropertyValue("-webkit-box-sizing");
+        if (cs.getPropertyValue("-ms-box-sizing")) return cs.getPropertyValue("-ms-box-sizing");
+        if (cs.getPropertyValue("-khtml-box-sizing")) return cs.getPropertyValue("-khtml-box-sizing");
+    },
     css_space: function (element) {
         var cs = getComputedStyle(element, null);
         var o = {top: 0, right: 0, bottom: 0, left: 0};
