@@ -38,7 +38,7 @@ toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-right"));
         }
         if (typeof width !== "undefined") {
-            if (toolkit.box_sizing(element) == "border-box") {
+            if (toolkit.box_sizing(element) == "content-box") {
                 var css = toolkit.css_space(element, "padding", "border");
                 width -= css.left + css.right;
             }
