@@ -107,14 +107,21 @@ Pager = $class({
     },
     
     add_page: function (button, content, pos) {
+        var p;
         if (typeof button === "string")
             button = {label: button};
         this.buttonarray.add_button(button, pos);
-        var p    = new Container({content: content, class: "toolkit-page"});
-        var len  = this.options.pages.length;
-        if (typeof pos == "undefined")
-            pos = this.pages.length;
-        if (pos == len) {
+
+        if (typeof content === "string") {
+            p = new Container({content: content, "class": "toolkit-page"});
+        } else {
+            // assume here content is a subclass of Container
+            p = new content({ "class" : "toolkit-page" });
+        }
+
+        var len = this.options.pages.length;
+
+        if (pos == len || typeof pos == "undefined") {
             this.pages.push(p);
             this._container.appendChild(p.element);
         } else {
@@ -126,6 +133,21 @@ Pager = $class({
         this.fire_event("added", [p, this]);
         return p;
         //var sb = b.element.getBoundingClientRect()[vert ? "height" : "width"];
+    },
+
+    fire_event : function(type, a) {
+        var i;
+        Widget.prototype.fire_event.call(this, type, a);
+        switch (type) {
+        case "hide":
+        case "show":
+            this.pages[this.options.show].fire_event(type, a);
+            break;
+        case "resize":
+            for (i = 0; i < this.pages.length; i++)
+                this.pages[i].fire_event(type, [ this ]);
+            break;
+        }
     },
     
     remove_page: function (page) {
@@ -152,21 +174,25 @@ Pager = $class({
     },
     
     _scroll_to: function (id, force) {
+        var cid = this.options.show;
         /* move the container so that the requested page is shown */
         /* hand over a page instance or a number */
         if (typeof id == "object")
             id = this.pages.indexOf(id);
-        if (id < 0 || id >= this.pages.length || (id == this.options.show && !force))
+        if (id < 0 || id >= this.pages.length || (id == cid && !force))
             return;
-        if (this.options.show >= 0 && this.options.show < this.pages.length)
-            this.pages[this.options.show].element.classList.remove("toolkit-active");
+        if (cid >= 0 && cid < this.pages.length)
+            this.pages[cid].element.classList.remove("toolkit-active");
         this.pages[id].element.classList.add("toolkit-active");
         var dir  = this.options.direction == _TOOLKIT_VERTICAL;
         var size = dir ? this.__page_height : this.__page_width;
         this._container.style[dir ? 'top' : 'left'] = (-size * id) + "px";
         this._container.style[dir ? 'left' : 'top'] = "";
-        if (this.options.show != id) {
+        if (cid != id) {
             this.fire_event("changed", [this.pages[id], id, this]);
+            this.pages[id].fire_event("show");
+            if (cid > 0 && cid < this.pages.length)
+                this.pages[cid].fire_event("hide");
         }
         this.options.show = id;
     },
