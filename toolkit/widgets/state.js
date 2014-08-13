@@ -52,13 +52,13 @@ State = $class({
         this.element.style.overflow = "hidden";
         toolkit.set_styles(this._over, {
             "position": "absolute",
-            "z-index": "1",
+            "zIndex": "1",
             "width"  : "100%",
             "height" : "100%"
         });
         toolkit.set_styles(this._mask, {
             "position": "absolute",
-            "z-index": "2",
+            "zIndex": "2",
             "width"  : "100%",
             "height" : "100%"
         });
