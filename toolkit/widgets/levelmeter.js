@@ -62,7 +62,7 @@ LevelMeter = $class({
                                //     -1:    infinite positioning
                                //     n:     in milliseconds to auto-reset
                                //     false: no auto hold
-        format_peak: toolkit.FORMAT("%.2f"),
+        format_peak: function (value) { return value.toFixed(2); },
         clip_options: {}       // add options for the clipping LED
     },
     
@@ -226,62 +226,58 @@ LevelMeter = $class({
     
     draw_meter: function (value) {
         var _c = true;
-        var base = +this.options.base;
-        value = +this.options.value;
-        var __based = !!this.__based;
-
         if (this.options.falling) {
-            if (value > this._falling
-                && value > base
-                || value < this._falling
-                && value < base) {
-                this._falling = value;
+            if (this.options.value > this._falling
+            && this.options.value > this.options.base
+            || this.options.value < this._falling
+            && this.options.value < this.options.base) {
+                this._falling = this.options.value;
                 this.__falling = false;
             } else if (typeof value == "undefined") {
-                if (this._falling > base)
+                if (this._falling > this.options.base)
                     this._falling -= Math.min(Math.abs(
-                        this._falling - base
+                        this._falling - this.options.base
                     ), Math.abs(this.options.falling));
-                else if (this._falling < base)
+                else if (this._falling < this.options.base)
                     this._falling += Math.min(Math.abs(
-                        base - this._falling
+                        this.options.base - this._falling
                     ), Math.abs(this.options.falling));
                 _c = false;
                 this.__falling = true;
             }
-            value = this._falling;
+            this.options.value = this._falling;
             this._falling_timeout();
         }
         if (this.options.peak_label !== false
-            && value > this.options.label
-            && value > base
-            || value < this.options.label
-            && value < base) {
-            this.set("label", value);
+        && this.options.value > this.options.label
+        && this.options.value > this.options.base
+        || this.options.value < this.options.label
+        && this.options.value < this.options.base) {
+            this.set("label", this.options.value);
         }
         if (this.options.auto_peak !== false
-            && value > this.options.peak
-            && value > base
-            || value < this.options.peak
-            && value < base) {
-            this.set("peak", value);
+        && this.options.value > this.options.peak
+        && this.options.value > this.options.base
+        || this.options.value < this.options.peak
+        && this.options.value < this.options.base) {
+            this.set("peak", this.options.value);
         }
         if (this.options.auto_clip !== false
-            && _c
-            && value > this.options.clipping
-            && !__based) {
+        && _c
+        && this.options.value > this.options.clipping
+        && !this.__based) {
             this.set("clip", true);
         }
         if (this.options.auto_hold !== false
-            && this.options.show_hold
-            && value > this.options.top) {
-            this.set("top", value, true);
+        && this.options.show_hold
+        && this.options.value > this.options.top) {
+            this.set("top", this.options.value, true);
         }
         if (this.options.auto_hold !== false
-            && this.options.show_hold
-            && value < this.options.bottom
-            && __based) {
-            this.set("bottom", value, true);
+        && this.options.show_hold
+        && this.options.value < this.options.bottom
+        && this.__based) {
+            this.set("bottom", this.options.value, true);
         }
 
         var vert = !!this._vert();
@@ -302,12 +298,14 @@ LevelMeter = $class({
             var m4 = this._mask4.style;
            
             // shorten things
-            var r         = !!this.options.reverse;
-            var size      = +this.options.basis;
-            var top       = +this.options.top;
-            var bottom    = +this.options.bottom;
-            var hold_size = +this.options.hold_size;
-            var segment   = +this.options.segment;
+            var r         = this.options.reverse;
+            var base      = this.options.base;
+            var size      = this.options.basis;
+            var value     = this.options.value;
+            var top       = this.options.top;
+            var bottom    = this.options.bottom;
+            var hold_size = this.options.hold_size;
+            var segment   = this.options.segment;
             
             var _top      = +this._val2seg(Math.max(top, base));
             var top_val   = +this._val2seg(Math.max(value, base));
