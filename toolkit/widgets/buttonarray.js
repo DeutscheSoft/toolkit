@@ -200,7 +200,6 @@ ButtonArray = $class({
     },
     
     set: function (key, value, hold) {
-        this.options[key] = value;
         switch (key) {
             case "buttons":
                 if (hold)

@@ -28,6 +28,8 @@ STRIP MOOTOOLS FROM TOOLKIT:
 
 OTHER IMPROVEMENTS
 ------------------
+* "use strict"; in all files
+
 * LevelMeter renders uneccessary parent elements
   drawing of peak and masks leaks outsinde the meterbase div
 
