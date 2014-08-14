@@ -1336,21 +1336,20 @@ ResponseHandle = $class({
     },
     _touchmove: function (e) {
         if (!this.__active) return;
-        if (e.event.touches && e.event.touches.length > 1
-        && this._tdist === false) {
-            var x = e.event.touches[1].pageX - (this.x + this._offsetX);
-            var y = e.event.touches[1].pageY - (this.y + this._offsetY);
+        if (e.touches && e.touches.length > 1 && this._tdist === false) {
+            var x = e.touches[1].pageX - (this.x + this._offsetX);
+            var y = e.touches[1].pageY - (this.y + this._offsetY);
             this._tdist = Math.sqrt(y*y + x*x);
             this.__z = this.options.z;
         }
-        if (e.event.touches && e.event.touches.length >= 2) {
-            var x = e.event.touches[1].pageX - (this.x + this._offsetX);
-            var y = e.event.touches[1].pageY - (this.y + this._offsetY);
+        if (e.touches && e.touches.length >= 2) {
+            var x = e.touches[1].pageX - (this.x + this._offsetX);
+            var y = e.touches[1].pageY - (this.y + this._offsetY);
             var tdist = Math.sqrt(y * y + x * x);
             var z = Math.min(this.__z * (tdist / this._tdist));
             if (z >= this.range_z.get("max") || z <= this.range_z.get("min")) {
-                var x = e.event.touches[1].pageX - (this.x + this._offsetX);
-                var y = e.event.touches[1].pageY - (this.y + this._offsetY);
+                var x = e.touches[1].pageX - (this.x + this._offsetX);
+                var y = e.touches[1].pageY - (this.y + this._offsetY);
                 this._tdist = Math.sqrt(y * y + x * x);
                 this.__z = this.options.z;
                 this.warning(this.element);
