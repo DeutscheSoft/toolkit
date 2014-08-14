@@ -91,7 +91,7 @@
 
 
 .toolkit-pager .toolkit-clip > .toolkit-container .toolkit-page {
-    
+    position: relative;
 }
 
 .toolkit-pager.toolkit-horizontal > .toolkit-clip > .toolkit-container > .toolkit-page {

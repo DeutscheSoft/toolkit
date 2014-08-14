@@ -144,6 +144,7 @@ Pager = $class({
             this.pages[this.options.show].fire_event(type, a);
             break;
         case "resize":
+            this.resized();
             for (i = 0; i < this.pages.length; i++)
                 this.pages[i].fire_event(type, [ this ].concat(a));
             break;
@@ -171,6 +172,7 @@ Pager = $class({
     resized: function (hold) {
         if (!hold)
             this.redraw();
+        this._scroll_to(this.options.show, true); 
     },
     
     _scroll_to: function (id, force) {

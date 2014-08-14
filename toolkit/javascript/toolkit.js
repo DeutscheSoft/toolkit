@@ -59,7 +59,6 @@ toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-bottom"));
         }
         if (typeof height !== "undefined") {
-            
             if (toolkit.box_sizing(element) == "content-box") {
                 var css = toolkit.css_space(element, "padding", "border");
                 height -= css.top + css.bottom;
