@@ -272,6 +272,6 @@ Pager = $class({
             case "pages":
                 return this.pages;
         }
-        Container.prototype.get.call(this, key);
+        return Container.prototype.get.call(this, key);
     }
 });
