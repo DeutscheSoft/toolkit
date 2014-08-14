@@ -1,4 +1,21 @@
 toolkit = {
+    delayed_callback : function(timeout, cb, once) {
+        var tid;
+        var args;
+
+        var my_cb = function() {
+            tid = null;
+            cb.apply(this, args);
+        };
+        return function() {
+            args = Array.prototype.slice.call(arguments);
+
+            if (tid)
+                window.clearTimeout(tid);
+            else if (once) once();
+            tid = window.setTimeout(my_cb, timeout);
+        };
+    },
     set_styles : function(elem, styles) {
         var key, v;
         var s = elem.style;
