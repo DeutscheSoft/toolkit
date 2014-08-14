@@ -47,7 +47,10 @@ Pager = $class({
         this.element.className += " toolkit-pager";
         this.buttonarray = new ButtonArray({
             container: this.element,
-            onChanged: (function (but, id) { this._scroll_to(id); }).bind(this)
+            onChanged: (function (but, id) {
+                this._scroll_to(id);
+                this.fire_event("clicked", [ this, id ]);
+            }).bind(this)
         });
         this._clip      = toolkit.element("div", "toolkit-clip");
         this._container = toolkit.element("div", "toolkit-container");
@@ -111,7 +114,6 @@ Pager = $class({
         if (typeof button === "string")
             button = {label: button};
         this.buttonarray.add_button(button, pos);
-
         if (typeof content === "string") {
             p = new Container({content: content, "class": "toolkit-page"});
         } else {
