@@ -48,7 +48,7 @@ Pager = $class({
         this.buttonarray = new ButtonArray({
             container: this.element,
             onClicked: (function (id, but) {
-                this._scroll_to(this.buttonarray.buttons.indexOf(but));
+                this._scroll_to(id);
                 this.fire_event("clicked", [ id, this ]);
             }).bind(this)
         });
@@ -183,6 +183,7 @@ Pager = $class({
         /* hand over a page instance or a number */
         if (typeof id == "object")
             id = this.pages.indexOf(id);
+        
         if (id < 0 || id >= this.pages.length || (id == cid && !force))
             return;
         if (cid >= 0 && cid < this.pages.length)
@@ -264,6 +265,7 @@ Pager = $class({
                 break;
             case "show":
                 this.buttonarray._scroll_to(value);
+                this._scroll_to(value);
         }
         Container.prototype.set.call(this, key, value, hold);
     },
