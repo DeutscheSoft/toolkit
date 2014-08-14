@@ -47,9 +47,9 @@ Pager = $class({
         this.element.className += " toolkit-pager";
         this.buttonarray = new ButtonArray({
             container: this.element,
-            onChanged: (function (but, id) {
-                this._scroll_to(id);
-                this.fire_event("clicked", [ this, id ]);
+            onClicked: (function (id, but) {
+                this._scroll_to(this.buttonarray.buttons.indexOf(but));
+                this.fire_event("clicked", [ id, this ]);
             }).bind(this)
         });
         this._clip      = toolkit.element("div", "toolkit-clip");
