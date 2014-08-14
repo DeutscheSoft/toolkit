@@ -36,8 +36,53 @@ Widget = $class({
         disabled:  false  // Widgets can be disabled by setting this to true
     },
     Implements: [AudioMath],
+    register_children : function(a) {
+        if (!(a instanceof Array)) {
+            this.children.push(a);
+        } else {
+            this.children = this.children.concat(a);
+        }
+    },
+    unregister_children : function() {
+
+    },
+    share_event : function(type) {
+        this.shared_events[type] = true;
+        var a, i;
+        a = this.children;
+
+        for (i = 0; i < a.length; i++) {
+            a[i].share_event(type);
+        }
+    },
+    unshare_event : function(type) {
+        this.shared_events[type] = false;
+
+        for (i = 0; i < a.length; i++) {
+            a[i].unshare_event(type);
+        }
+    },
+    fire_event : function(type, a) {
+        var c, i, args;
+
+        BASE.prototype.fire_event.call(this, type, a);
+
+        if (this.shared_events[type]) {
+            c = this.children;
+            if (a) args = [ this ].concat(a);
+            else args = [ this ];
+            for (i = 0; i < c.length; i++) {
+                c[i].fire_event(type, args);
+            }
+        }
+    },
+    shared_events : { "resize" : true },
     initialize: function (options) {
         BASE.prototype.initialize.call(this);
+        this.children = [];
+        if (this.shared_events) {
+            this.shared_events = Object.create(this.shared_events);
+        }
         // Main actions every widget needs to take
         this.fire_event("initialize", this);
         this.setOptions(options);

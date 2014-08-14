@@ -52,6 +52,8 @@ Pager = $class({
                 this.fire_event("clicked", [ id, this ]);
             }).bind(this)
         });
+        this.register_children(this.buttonarray);
+        this.add_event("resize", this.resized);
         this._clip      = toolkit.element("div", "toolkit-clip");
         this._container = toolkit.element("div", "toolkit-container");
         this._clip.appendChild(this._container);
@@ -121,6 +123,8 @@ Pager = $class({
             p = new content({ "class" : "toolkit-page" });
         }
 
+        this.register_children(p);
+
         var len = this.options.pages.length;
 
         if (pos == len || typeof pos == "undefined") {
@@ -138,21 +142,15 @@ Pager = $class({
     },
 
     fire_event : function(type, a) {
-        var i;
-        Widget.prototype.fire_event.call(this, type, a);
-        switch (type) {
-        case "hide":
-        case "show":
-            this.pages[this.options.show].fire_event(type, a);
-            break;
-        case "resize":
-            this.resized();
-            for (i = 0; i < this.pages.length; i++)
-                this.pages[i].fire_event(type, [ this ].concat(a));
-            break;
-        }
+        if (type == "show" || type == "hide") {
+            // hide and show are only for the active page and the button array
+            // and this widget itself
+            this.buttonarray.fire_event(type);
+            this.pages[this.options.show].fire_event(type);
+            BASE.prototype.fire_event.call(this, type, a);
+        } else Container.prototype.fire_event.call(this, type, a);
     },
-    
+
     remove_page: function (page) {
         if (typeof page == "object")
             page = this.pages.indexOf(page);
@@ -162,6 +160,7 @@ Pager = $class({
         this.buttonarray.remove_button(page);
         this.pages[page].destroy();
         this.pages.splice(page, 1);
+        this.remove_children(this.pages[page]);
         this.pages[this.options.show].element.className.replace(" toolkit-active", "");
         this.pages[this.options.show].element.className.replace("  ", " ");
         console.log(this.options.show)
@@ -171,9 +170,8 @@ Pager = $class({
         this._scroll_to(this.options.show);
     },
     
-    resized: function (hold) {
-        if (!hold)
-            this.redraw();
+    resized: function () {
+        this.redraw();
         this._scroll_to(this.options.show, true); 
     },
     

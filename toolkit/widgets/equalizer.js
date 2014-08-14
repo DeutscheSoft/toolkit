@@ -141,6 +141,7 @@ var Equalizer = $class({
         b.add_event("set", this.redraw.bind(this));
         this.redraw();
         this.fire_event("bandadded", [b, this]);
+        this.register_children(b);
         return b;
     },
     add_bands: function (bands) {
@@ -151,6 +152,7 @@ var Equalizer = $class({
     remove_band: function (h) {
         for (var i = 0; i < this.bands.length; i++) {
             if (this.bands[i] == h) {
+                this.unregister_children(bands[i]);
                 this.bands[i].destroy();
                 this.bands.splice(i, 1);
                 this.fire_event("bandremoved", this);
