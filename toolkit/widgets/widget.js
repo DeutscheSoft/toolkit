@@ -56,6 +56,8 @@ Widget = $class({
     },
     destroy: function () {
         this.fire_event("destroy", this);
+        this.__events = null;
+        BASE.prototype.destroy.call(this);
         return this;
     },
     delegate: function (element) {

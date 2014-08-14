@@ -61,6 +61,11 @@ BASE = $class({
             this.__event_target = false;
         }
     },
+    destroy : function() {
+        this.__events = null;
+        this.__event_target = null;
+        this.options = null;
+    },
     setOptions : function(o) {
         var opt = this.options;
         var key, a, b;
