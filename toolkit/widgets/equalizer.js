@@ -73,7 +73,7 @@ var Equalizer = $class({
         if (this.baseline) {
             var dots = [];
             var c = 0;
-            var end = this.range_x.get("basis");
+            var end = this.range_x.get("basis") | 0;
             var step = this.options.accuracy;
             var x_px_to_val = this.range_x.gen_px2val(true);
             var y_val_to_px = this.range_y.gen_val2px(true);
