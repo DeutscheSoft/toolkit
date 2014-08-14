@@ -14,8 +14,10 @@ WidgetContainer = $class({
         case "hide":
         case "show":
         case "resize":
+            if (a) a = [this].concat(a);
+            else a = [ this ];
             for (i = 0; i < this.widgets.length; i++)
-                this.widgets[i].fire_event(type, [ this ]);
+                this.widgets[i].fire_event(type, a);
             break;
         }
     }

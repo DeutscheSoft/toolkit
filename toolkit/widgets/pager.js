@@ -145,7 +145,7 @@ Pager = $class({
             break;
         case "resize":
             for (i = 0; i < this.pages.length; i++)
-                this.pages[i].fire_event(type, [ this ]);
+                this.pages[i].fire_event(type, [ this ].concat(a));
             break;
         }
     },
