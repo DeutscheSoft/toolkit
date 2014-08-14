@@ -153,7 +153,7 @@ ButtonArray = $class({
         if (typeof id == "object")
             id = this.buttons.indexOf(id);
         if (id < 0 || id >= this.buttons.length || (id == this.options.show && !force))
-            return;
+            return this.options.show;
         if (this.options.show >= 0 && this.options.show < this.buttons.length)
             this.buttons[this.options.show].set("state", false);
         var dir      = this.options.direction == _TOOLKIT_VERTICAL;
@@ -173,6 +173,7 @@ ButtonArray = $class({
         if (tmp != id) {
             this.fire_event("changed", [this.buttons[id], id, this]);
         }
+        return id;
     },
     
     _list_size: function () {
@@ -188,15 +189,15 @@ ButtonArray = $class({
     },
     
     _prev_clicked: function (e) {
-        this._scroll_to(this.options.show - 1);
+        this.fire_event("clicked", [this._scroll_to(this.options.show - 1), this]);
     },
     
     _next_clicked: function (e) {
-        this._scroll_to(this.options.show + 1);
+        this.fire_event("clicked", [this._scroll_to(this.options.show + 1), this]);
     },
     
     _button_clicked: function (button) {
-        this._scroll_to(button);
+        this.fire_event("clicked", [this._scroll_to(button), this]);
     },
     
     set: function (key, value, hold) {
