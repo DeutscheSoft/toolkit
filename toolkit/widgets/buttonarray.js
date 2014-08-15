@@ -152,7 +152,10 @@ ButtonArray = $class({
         /* hand over a button instance or a number */
         if (typeof id == "object")
             id = this.buttons.indexOf(id);
-        if (id < 0 || id >= this.buttons.length || (id == this.options.show && !force))
+        // TODO: the id==this.options.show check breaks the button array. for some reason
+        // the style calculations here can be completely wrong on the first time and get
+        // ignored henceforward
+        if (id < 0 || id >= this.buttons.length/* || (id == this.options.show && !force)*/)
             return this.options.show;
         if (this.options.show >= 0 && this.options.show < this.buttons.length)
             this.buttons[this.options.show].set("state", false);
