@@ -111,16 +111,22 @@ Pager = $class({
             this.add_page(options[i].label, options[i].content);
     },
     
-    add_page: function (button, content, pos) {
+    add_page: function (button, content, pos, options) {
         var p;
         if (typeof button === "string")
             button = {label: button};
         this.buttonarray.add_button(button, pos);
+        if (!options) {
+            options = {};
+        }
+        options["class"] = "toolkit-page";
+
         if (typeof content === "string") {
-            p = new Container({content: content, "class": "toolkit-page"});
+            options.content = content;
+            p = new Container(options);
         } else {
             // assume here content is a subclass of Container
-            p = new content({ "class" : "toolkit-page" });
+            p = new content(options);
         }
 
         this.register_children(p);
