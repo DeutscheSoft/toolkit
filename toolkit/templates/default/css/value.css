@@ -26,5 +26,5 @@
 .toolkit-value.toolkit-active .toolkit-input {
     background: #002a42;
     color: white;
-    border: none;
+    border: 1px solid transparent;
 }

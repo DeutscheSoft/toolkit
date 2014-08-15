@@ -82,6 +82,26 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 
+// VALUEKNOB
+run_valueknob = function () {
+    if (typeof valueknob != "undefined") {
+        // remove valueknob
+        valueknob.destroy();
+        valueknob = undefined;
+        $("sc_valueknob").removeClass("box");
+        return;
+    }
+    valueknob = new ValueKnob({
+        container: $("sc_valueknob"),
+        min: -100,
+        max: 100,
+        value: -20,
+        snap: 0.01
+    });
+    $("sc_valueknob").addClass("box");
+}
+
+
 // PAGER
 run_pager = function () {
     if (typeof pager1 != "undefined") {

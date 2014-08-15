@@ -1,0 +1,15 @@
+.toolkit-valueknob {
+    display: inline-block;
+}
+
+.toolkit-valueknob .toolkit-knob {
+    
+}
+
+.toolkit-valueknob .toolkit-value {
+    margin-top: -5px;
+}
+
+.toolkit-valueknob .toolkit-input {
+    border: 1px solid transparent;
+}

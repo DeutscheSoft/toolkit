@@ -26,6 +26,7 @@ ValueButton = $class({
     options:  {
         value: 0,
         value_format:   function (val) { return val.toFixed(2); },
+        value_size:     5,
         bar_direction:  _TOOLKIT_HORIZONTAL,
         drag_direction: _TOOLKIT_POLAR,
         rotation:       45,
@@ -146,6 +147,9 @@ ValueButton = $class({
             case "value_format":
                 this.value.set("format", value);
                 if (!hold) this.redraw();
+                break;
+            case "value_size":
+                this.value.set("size", value);
                 break;
             case "drag_direction":
                 this.drag.set("direction", value);

@@ -27,6 +27,7 @@ Value = $class({
     options: {
         value: 0,
         format: function (val) { return val.toFixed(2); },
+        size: 5,
         set: false // set a callback function if value is editable or
                    // false to disable editing. A function has to return
                    // the value treated by the parent widget.
@@ -69,7 +70,7 @@ Value = $class({
         
         if (this.options.container)
             this.set("container", this.options.container);
-        
+        this.set("size", this.options.size);
         this.set("value", this.options.value);
         this.__clicked = false;
     },
@@ -147,6 +148,9 @@ Value = $class({
                 break;
             case "format":
                 if (!hold) this.redraw();
+                break;
+            case "size":
+                this._input.setAttribute("size", value);
                 break;
         }
         Widget.prototype.set.call(this, key, value, hold);
