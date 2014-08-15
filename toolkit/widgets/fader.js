@@ -251,7 +251,7 @@ Fader = $class({
     },
     _touchend : function (ev) {
         this.__entered = false;
-        ev.event = ev.changedTouches[0];
+        ev = ev.changedTouches[0];
         this._clicked(ev);
         event.preventDefault();
     },
