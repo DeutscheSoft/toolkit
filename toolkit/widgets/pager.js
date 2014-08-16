@@ -152,7 +152,8 @@ Pager = $class({
             // hide and show are only for the active page and the button array
             // and this widget itself
             this.buttonarray.fire_event(type);
-            this.pages[this.options.show].fire_event(type);
+            if (this.pages.length && this.options.show >= 0)
+                this.pages[this.options.show].fire_event(type);
             BASE.prototype.fire_event.call(this, type, a);
         } else Container.prototype.fire_event.call(this, type, a);
     },
