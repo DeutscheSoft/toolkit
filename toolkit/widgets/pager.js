@@ -200,7 +200,7 @@ Pager = $class({
         if (cid != id) {
             this.fire_event("changed", [this.pages[id], id, this]);
             this.pages[id].fire_event("show");
-            if (cid > 0 && cid < this.pages.length)
+            if (cid >= 0 && cid < this.pages.length)
                 this.pages[cid].fire_event("hide");
         }
         this.options.show = id;
