@@ -36,10 +36,10 @@ var _get_coords_single = function (deg, inner, pos) {
         y: Math.sin(deg) * inner + pos
     }
 };
-var format_path = toolkit.FORMAT("M %.3f,%.3f " +
-                                 "A %.3f,%.3f 0 %d,%d %.3f,%.3f " +
-                                 "L %.3f,%.3f " +
-                                 "A %.3f,%.3f 0 %d,%d %.3f,%.3f z");
+var format_path = toolkit.FORMAT("M %f,%f " +
+                                 "A %f,%f 0 %d,%d %f,%f " +
+                                 "L %f,%f " +
+                                 "A %f,%f 0 %d,%d %f,%f z");
 Circular = $class({
     // Circular is a SVG group element containing two paths for displaying
     // numerical values in a circular manner. Circular is able to draw labels,
