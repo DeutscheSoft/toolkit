@@ -48,9 +48,9 @@ ButtonArray = $class({
         
         vert = this.get("direction") == _TOOLKIT_VERTICAL;
         
-        this.prev = new Button({label: vert ? "▲" : "◀",
+        this.prev = new Button({label: vert ? "▲" : "◄",
                                 class: "toolkit-previous"});
-        this.next = new Button({label: vert ? "▼" : "▶",
+        this.next = new Button({label: vert ? "▼" : "►",
                                 class: "toolkit-next"});
         this.prev.add_event("click", this._prev_clicked.bind(this));
         this.next.add_event("click", this._next_clicked.bind(this));
@@ -61,6 +61,11 @@ ButtonArray = $class({
         this.add_buttons(this.options.buttons);
         this._scroll_to(this.options.show, true);
         this.initialized();
+    },
+    
+    resize: function () {
+        this._check_arrows();
+        this._scroll_to(this.options.show);
     },
     
     add_buttons: function (options) {

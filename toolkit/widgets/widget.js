@@ -88,6 +88,8 @@ Widget = $class({
         this.setOptions(options);
         if (!this.options.id)
             this.options.id = String.uniqueID();
+        if (this.resize)
+            this.add_event("resize", this.resize)
         return this;
     },
     initialized: function () {

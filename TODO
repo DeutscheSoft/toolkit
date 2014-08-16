@@ -58,3 +58,6 @@ REMINDERS
 
 * ButtonArray and Pager do class manipulation via string operations
   for downward compatibility to IE9
+  
+* Implement resize() for all widgets who benefit from auto resizing
+  (and don't forget to call parent class if there's one !)
