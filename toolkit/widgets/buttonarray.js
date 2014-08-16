@@ -63,6 +63,11 @@ ButtonArray = $class({
         this.initialized();
     },
     
+    resize: function () {
+        this._check_arrows();
+        this._scroll_to(this.options.show);
+    },
+    
     add_buttons: function (options) {
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);

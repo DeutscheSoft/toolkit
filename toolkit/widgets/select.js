@@ -71,7 +71,7 @@ Select = $class({
     add_options: function (list) {
         for (var i = 0; i < list.length; i++)
             this.add_option(list[i], true);
-        this.resize();
+        this.set_size();
     },
     add_option: function (option, hold) {
         var li = toolkit.element("li", "toolkit-option");
@@ -96,7 +96,7 @@ Select = $class({
             this.select(opt.value);
         }
         
-        if (!hold) this.resize();
+        if (!hold) this.set_size();
     },
     remove_option: function (key) {
         key = key.toString();
@@ -112,7 +112,7 @@ Select = $class({
         for (var i = 0; i < list.length; i++)
             this.remove_option(list[i]);
     },
-    resize: function () {
+    set_size: function () {
         if (!this.options.auto_size) {
             delete this.element.style["width"];
             return;

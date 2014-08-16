@@ -53,7 +53,6 @@ Pager = $class({
             }).bind(this)
         });
         this.register_children(this.buttonarray);
-        this.add_event("resize", this.resized);
         this._clip      = toolkit.element("div", "toolkit-clip");
         this._container = toolkit.element("div", "toolkit-container");
         this._clip.appendChild(this._container);
