@@ -33,6 +33,7 @@ ValueKnob = $class({
             con.appendChild(this._container);
         options.container = this._container;
         Knob.prototype.initialize.call(this, options);
+        this.widgetize(this._container, true, true, true);
         this.value = new Value({
             container: this._container,
             value: this.options.value,
