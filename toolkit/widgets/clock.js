@@ -83,6 +83,9 @@ Clock = $class({
         this.element.appendChild(this._label);
         this.element.appendChild(this._label_upper);
         this.element.appendChild(this._label_lower);
+
+        this.add_event("hide", this._onhide);
+        this.add_event("show", this._onshow);
         
         var circ_options = {
             container: this.element,
@@ -227,6 +230,17 @@ Clock = $class({
             + "scale(" + (scale * this.options.label_scale) + ")");
         this._draw_time(true);
     },
+
+    _onhide : function() {
+        if (this.__to) {
+            window.clearTimeout(this.__to);
+            this.__to = false;
+        }
+    },
+
+    _onshow : function() {
+        this._timeout();
+    },
     
     _timeout : function () {
         if (this.__to)
@@ -248,7 +262,7 @@ Clock = $class({
                 targ += (this.options.timeadd|0) - ((ts % 1000)|0)
             }
             this.__to = window.setTimeout(this.__timeout, targ);
-        }
+        } else this.__to = false;
     },
     
     // GETTERS & SETTERS
