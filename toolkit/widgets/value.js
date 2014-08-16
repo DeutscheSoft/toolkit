@@ -37,7 +37,7 @@ Value = $class({
         this.element = this.widgetize(toolkit.element("form", "toolkit-value"),
                                       true, true, true);
         this._input  = toolkit.element("input", "toolkit-input");
-        this._input.type = "text";
+        this._input.type = "number";
         this.element.appendChild(this._input);
         
         this.__touch_start_cb = function (e) {
