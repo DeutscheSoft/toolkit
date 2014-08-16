@@ -44,7 +44,7 @@ Select = $class({
             onComplete: this._hide_list.bind(this),
             duration: 200
         });
-        document.addEventListener("mousedown", function () {
+        document.addEventListener("pointerdown", function () {
             if (this.__open && !this.__transition) {
                 this.show_list(false);
             }
@@ -85,7 +85,7 @@ Select = $class({
                                                 : option.value.toString();
         
         li.innerHTML = opt.title;
-        li.addEventListener("mouseup", function (e) {
+        li.addEventListener("pointerup", function (e) {
             this.select(opt.value);
             this.fire_event("select", [opt.value, li, this, opt]);
         }.bind(this));

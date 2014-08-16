@@ -60,11 +60,9 @@ Value = $class({
             return false;
         });
         
-        this.element.addEventListener("mousedown",  this.__start_cb);
-        this.element.addEventListener("touchstart", this.__touch_start_cb);
-        this.element.addEventListener("mouseup",  this.__end_cb);
-        this.element.addEventListener("touchend", this.__touch_end_cb);
-        
+        this.element.addEventListener("pointerdown",  this.__start_cb);
+        this.element.addEventListener("pointerup",  this.__end_cb);
+                
         this._input.addEventListener("keyup",      this._value_typing.bind(this));
         this._input.addEventListener("blur",       this._value_done.bind(this));
         
