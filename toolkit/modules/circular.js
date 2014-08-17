@@ -311,12 +311,10 @@ Circular = $class({
                         ? l.align : this.options.label.align) == _TOOLKIT_INNER;
             var pos     = Math.min(this.options.max,
                           Math.max(this.options.min, l.pos));
-            var bb      = p.getBoundingClientRect();
+            var bb      = p.getBBox();
             var angle   = (this.val2real(pos) + this.options.start) % 360;
             var outer_p = outer - margin;
             var coords  = _get_coords_single(angle, outer_p, outer);
-            
-            bb.width = bb.width;
             
             var mx = ((coords.x - outer) / outer_p) * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
             var my = ((coords.y - outer) / outer_p) * bb.height / (align ? -2 : 2);
