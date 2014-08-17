@@ -239,7 +239,10 @@ Fader = $class({
     _move: function (ev) {
         if (!this.options.tooltip) return;
         var s = this.__dragging ? this.get("value") : this._get_value(ev);
-        this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
+        // NOTE: mouseenter/mouseleave do not fire when left mouse button is pressed
+        // so dont show tooltip here
+        if (this.__entered)
+            this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
     },
     _mouseenter : function (ev) {
         this.__entered = true;
