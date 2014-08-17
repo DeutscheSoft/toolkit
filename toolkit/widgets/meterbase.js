@@ -257,8 +257,9 @@ var MeterBase = $class({
         this.set("show_scale", this.options.show_scale);
         
         var options = $mixin({}, this.options);
-        options. base = this.__based?this.options.base:this.options.scale_base;
+        options.base = this.__based?this.options.base:this.options.scale_base;
         options.container = this._scale,
+        options.id = false;
         this.scale = new Scale(options);
         
         this.delegate(this._bar);
