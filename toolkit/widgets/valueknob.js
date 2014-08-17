@@ -32,8 +32,6 @@ ValueKnob = $class({
         if (con)
             con.appendChild(this._container);
         options.container = this._container;
-        Knob.prototype.initialize.call(this, options);
-        this.widgetize(this._container, true, true, true);
         this.value = new Value({
             container: this._container,
             value: this.options.value,
@@ -45,6 +43,13 @@ ValueKnob = $class({
         });
         this.value.add_event("valueclicked", this._value_clicked.bind(this));
         this.value.add_event("valuedone", this._value_done.bind(this));
+        Knob.prototype.initialize.call(this, options);
+        this.widgetize(this._container, true, true, true);
+    },
+    
+    redraw: function () {
+        this.value.set("value", this.options.value);
+        Knob.prototype.redraw.call(this);
     },
     
     destroy: function () {
