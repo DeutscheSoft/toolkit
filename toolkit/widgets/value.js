@@ -87,11 +87,11 @@ Value = $class({
     // HELPERS & STUFF
     _value_clicked: function (e) {
         // TODO: FIXME by finishing the dedicated keyboard widget
-        //if (this.os() == "Android") {
-            //e.preventDefault();
-            ////e.stopPropagation();
-            //return false;
-        //}
+        if (toolkit.os() == "Android") {
+            e.preventDefault();
+            //e.stopPropagation();
+            return false;
+        }
         // TODO
         if (!this.__clicked)
             return;
