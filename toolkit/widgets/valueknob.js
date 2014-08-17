@@ -32,6 +32,7 @@ ValueKnob = $class({
         if (con)
             con.appendChild(this._container);
         options.container = this._container;
+        Knob.prototype.initialize.call(this, options);
         this.value = new Value({
             container: this._container,
             value: this.options.value,
@@ -43,13 +44,7 @@ ValueKnob = $class({
         });
         this.value.add_event("valueclicked", this._value_clicked.bind(this));
         this.value.add_event("valuedone", this._value_done.bind(this));
-        Knob.prototype.initialize.call(this, options);
         this.widgetize(this._container, true, true, true);
-    },
-    
-    redraw: function () {
-        this.value.set("value", this.options.value);
-        Knob.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -70,10 +65,6 @@ ValueKnob = $class({
     set: function (key, value, hold) {
         Knob.prototype.set.call(this, key, value, hold);
         switch (key) {
-            case "value_format":
-                this.value.set("format", value);
-                if (!hold) this.redraw();
-                break;
             case "value_size":
                 this.value.set("size", value);
                 break;
@@ -83,7 +74,7 @@ ValueKnob = $class({
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fire_event("valuechanged", [this.options.value, this]);
-                if (!hold) this.redraw();
+                this.value.set("value", this.options.value);
                 return;
             case "drag_direction":
                 this.drag.set("direction", value);
