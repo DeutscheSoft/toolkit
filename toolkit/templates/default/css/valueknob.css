@@ -1,5 +1,6 @@
 .toolkit-valueknob {
     display: inline-block;
+    position: relative;
     width: 100px;
     height: 100px;
 }
@@ -10,7 +11,10 @@
 }
 
 .toolkit-valueknob .toolkit-value {
-    margin-top: -5px;
+    width: 80%;
+    position: absolute;
+    bottom: -10%;
+    left: 10%;
 }
 
 .toolkit-valueknob .toolkit-input {
