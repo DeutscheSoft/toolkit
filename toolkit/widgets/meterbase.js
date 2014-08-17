@@ -268,6 +268,11 @@ var MeterBase = $class({
         this.initialized();
         return this;
     },
+    
+    resize: function () {
+        this.redraw();
+    },
+    
     destroy: function () {
         this._label.destroy();
         this._scale.destroy();
