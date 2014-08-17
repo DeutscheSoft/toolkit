@@ -98,6 +98,7 @@ EqBand = $class({
             case "freq":
                 key = "x"
             case "x":
+                value = Math.max(Math.min(this.options.x_max, value), this.options.x_min);
                 this.filter.set("freq",
                                 Math.max(Math.min(value, this.range_x.get("max")),
                                          this.range_x.get("min")), hold);
@@ -105,6 +106,7 @@ EqBand = $class({
             case "gain":
                 key = "y"
             case "y":
+                value = Math.max(Math.min(this.options.y_max, value), this.options.y_min);
                 switch (this.range_y.get("mode")) {
                     default:
                     case _TOOLKIT_LINEAR:
