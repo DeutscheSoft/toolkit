@@ -51,7 +51,7 @@ Circular = $class({
     Implements: [Warning, Ranged],
     options: {
         value:      0,     // the value to show
-        size:       120,   // the diameter of the circle
+        size:       100,   // the diameter of the circle
         thickness:  3,     // the thickness of the circle
         margin:     0,     // margin of base and value circles
         hand:       {width: 2, length: 30, margin: 10}, // if you want to draw a hand set its dimensions
