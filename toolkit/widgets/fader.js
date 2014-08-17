@@ -89,7 +89,7 @@ Fader = $class({
         
         this.set("layout", this.options.layout);
         
-        this.element.addEventListener("pointerdown",  function () { this.__down = true; }.bind(this));
+        this.add_event("pointerdown",  function () { this.__down = true; }.bind(this));
         this.element.addEventListener("mouseup",    this._clicked.bind(this));
         this.element.addEventListener("touchend",   this._touchend.bind(this));
         this.element.addEventListener("mouseenter", this._mouseenter.bind(this));
