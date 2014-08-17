@@ -50,6 +50,7 @@ ValueButton = $class({
             value: this.options.value,
             format: this.options.value_format,
             set: function (val) {
+                    val = parseFloat(val);
                     this.set("value", val);
                     this.fire_event("useraction", ["value", val, this]);
                     return this.options.value; }.bind(this)

@@ -28,9 +28,10 @@ Value = $class({
         value: 0,
         format: function (val) { return val.toFixed(2); },
         size: 5,
-        set: false // set a callback function if value is editable or
-                   // false to disable editing. A function has to return
-                   // the value treated by the parent widget.
+        // set a callback function if value is editable or
+        // false to disable editing. A function has to return
+        // the value treated by the parent widget.
+        set: function (val) { return parseFloat(val || 0); }
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
@@ -120,8 +121,7 @@ Value = $class({
                 break;
             case 13:
                 // ENTER
-                var val = parseFloat(this._input.get("value") || 0);
-                val = this.options.set(val);
+                var val = this.options.set(this._input.get("value"));
                 this.set("value", val, true);
                 this._value_done();
                 this.fire_event("valueset", [this.options.value, this]);

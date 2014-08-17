@@ -38,7 +38,7 @@ ValueKnob = $class({
             value: this.options.value,
             format: this.options.value_format,
             set: function (val) {
-                this.set("value", val);
+                this.set("value", parseFloat(val));
                 return this.options.value;
             }.bind(this)
         });
