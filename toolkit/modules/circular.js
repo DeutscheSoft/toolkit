@@ -141,7 +141,7 @@ Circular = $class({
         this.set("label", this.options.label, true);
         this.set("labels", this.options.labels);
         
-        this.redraw();
+        this.redraw(true);
         this.initialized();
     },
     

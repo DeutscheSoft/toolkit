@@ -470,7 +470,7 @@ function run_knob () {
     }
     knob1 = new Knob({
         container: $("sc_knob"),
-        size: 50,
+        "class": "knob1",
         margin: 2,
         thickness: 3,
         min: -96,
@@ -486,6 +486,7 @@ function run_knob () {
     });
     knob = new Knob({
         container: $("sc_knob"),
+        "class": "knob",
         min: -96,
         max: 24,
         value: -20,

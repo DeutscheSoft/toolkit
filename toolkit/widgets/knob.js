@@ -91,8 +91,7 @@ Knob = $class({
         this.options[key] = value;
         switch (key) {
             case "size":
-                this._svg.set("width", value);
-                this._svg.set("height", value);
+                this._svg.set("viewBox", sprintf("0 0 %d %d", value, value));
                 if (!hold) this.redraw();
                 break;
             case "direction":
