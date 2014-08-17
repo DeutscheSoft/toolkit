@@ -73,7 +73,21 @@ ValueKnob = $class({
                 this.value.set("size", value);
                 break;
             case "value":
-                this.value.set("value", this.options.value);
+                this.options.value = this.snap_value(Math.min(this.options.max,
+                                     Math.max(this.options.min, value)));
+                if (value > this.options.max || value < this.options.min)
+                    this.warning(this.element);
+                this.fire_event("valuechanged", [this.options.value, this]);
+                if (!hold) this.redraw();
+                return;
+            case "drag_direction":
+                this.drag.set("direction", value);
+                break;
+            case "rotation":
+                this.drag.set("rotation", value);
+                break;
+            case "blind_angle":
+                this.drag.set("blind_angle", value);
                 break;
         }
         
