@@ -44,12 +44,17 @@ Select = $class({
             onComplete: this._hide_list.bind(this),
             duration: 200
         });
-        document.addEventListener("pointerdown", function () {
+        document.addEventListener("touchstart", function (e) {
+            if (this.__open && !this.__transition) {
+                this.show_list(false);
+            }
+            e.preventDefault();
+        }.bind(this));
+        document.addEventListener("mousedown", function () {
             if (this.__open && !this.__transition) {
                 this.show_list(false);
             }
         }.bind(this));
-        
         this._arrow = toolkit.element("div", "toolkit-arrow");
         this.element.appendChild(this._arrow);
         
