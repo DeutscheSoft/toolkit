@@ -211,7 +211,9 @@ Fader = $class({
         
         Widget.prototype.redraw.call(this);
     },
-    
+    resize: function () {
+        this.redraw();
+    }
     destroy: function () {
         this._background_top.destroy();
         this._background_bottom.destroy();
