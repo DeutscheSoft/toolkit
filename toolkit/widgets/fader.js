@@ -213,7 +213,7 @@ Fader = $class({
     },
     resize: function () {
         this.redraw();
-    }
+    },
     destroy: function () {
         this._background_top.destroy();
         this._background_bottom.destroy();
