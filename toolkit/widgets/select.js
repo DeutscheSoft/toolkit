@@ -94,8 +94,13 @@ Select = $class({
             this.select(opt.value);
             this.fire_event("select", [opt.value, li, this, opt]);
         }.bind(this);
+        var end_cb = function (e) {
+            e.preventDefault();
+            this.select(opt.value);
+            this.fire_event("select", [opt.value, li, this, opt]);
+        }.bind(this);
         li.addEventListener("mouseup", up_cb);
-        li.addEventListener("touchend", up_cb);
+        li.addEventListener("touchend", end_cb);
         
         this.list[opt.value] = opt;
         
