@@ -90,10 +90,12 @@ Select = $class({
                                                 : option.value.toString();
         
         li.innerHTML = opt.title;
-        li.addEventListener("pointerup", function (e) {
+        var up_cb = function (e) {
             this.select(opt.value);
             this.fire_event("select", [opt.value, li, this, opt]);
-        }.bind(this));
+        }.bind(this);
+        li.addEventListener("mouseup", up_cb);
+        li.addEventListener("touchend", up_cb);
         
         this.list[opt.value] = opt;
         
