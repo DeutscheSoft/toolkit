@@ -33,8 +33,8 @@ Toggle = $class({
     initialize: function (options, hold) {
         Button.prototype.initialize.call(this, options, hold);
         this.element.classList.add("toolkit-toggle");
-        this.element.addEventListener("pointerdown", this._mousedown.bind(this));
-        this.element.addEventListener("pointerup", this._mouseup.bind(this));
+        this.add_event("pointerdown", this._mousedown.bind(this));
+        this.add_event("pointerup", this._mouseup.bind(this));
     },
     
     redraw: function () {
