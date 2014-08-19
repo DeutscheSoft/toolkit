@@ -86,6 +86,17 @@ ValueButton = $class({
             }.bind(this),
             events: function () { return this }.bind(this)
         });
+        
+        if (typeof this.options.reset == "undefined")
+            this.options.reset = this.options.value;
+        this.element.addEventListener("dblclick", function () {
+            this.set("value", this.options.reset);
+        }.bind(this));
+        
+        this._input.addEventListener("dblclick", function (e) {
+            e.stopPropagation();
+        });
+        
         this.redraw();
         this.initialized();
     },

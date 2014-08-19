@@ -38,7 +38,7 @@ Knob = $class({
         label: {margin: 10, align: _TOOLKIT_OUTER, format: function(val){return val;}},
         direction: _TOOLKIT_POLAR,
         rotation:       45,
-        blind_angle:    20,
+        blind_angle:    20
     },
     
     initialize: function (options) {
@@ -76,6 +76,13 @@ Knob = $class({
             }.bind(this),
             events: function () { return this }.bind(this),
         });
+        
+        if (typeof this.options.reset == "undefined")
+            this.options.reset = this.options.value;
+        this._svg.addEventListener("dblclick", function () {
+            this.set("value", this.options.reset);
+        }.bind(this));
+        
         this.set("size", this.options.size);
         this.initialized();
     },

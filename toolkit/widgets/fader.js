@@ -96,6 +96,12 @@ Fader = $class({
         this.element.addEventListener("mouseleave", this._mouseleave.bind(this));
         this.element.addEventListener("mousemove",  this._move.bind(this));
         
+        if (typeof this.options.reset == "undefined")
+            this.options.reset = this.options.value;
+        this.element.addEventListener("dblclick", function () {
+            this.set("value", this.options.reset);
+        }.bind(this));
+        
         this.drag.add_event("dragging", function (ev) {
             this.__down = false;
             this.__dragging = true;
