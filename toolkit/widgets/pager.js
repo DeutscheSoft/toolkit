@@ -268,8 +268,11 @@ Pager = $class({
                 }
                 break;
             case "show":
+                if (value < 0) value = 0;
+                else if (value >= this.pages.length) value = this.pages.length - 1;
                 this.buttonarray._scroll_to(value);
                 this._scroll_to(value);
+                break;
         }
         Container.prototype.set.call(this, key, value, hold);
     },
