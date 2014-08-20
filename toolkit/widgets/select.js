@@ -32,6 +32,7 @@ Select = $class({
     initialize: function (options)  {
         this.__open = false;
         this.__width = 0;
+        this.list = {};
         Button.prototype.initialize.call(this, options);
         this.element.classList.add("toolkit-select");
         
@@ -62,7 +63,6 @@ Select = $class({
         
         this.initialized();
     },
-    list: {},
     destroy: function () {
         this._list.destroy();
         this.element.destroy();

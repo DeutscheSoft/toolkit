@@ -714,9 +714,11 @@ Window = $class({
                 if (!hold) this._set_position();
                 break;
             case "content":
+                while (this._content.firstChild)
+                    this._content.removeChild(this._content.firstChild);
                 if (typeof value === "string")
                     this._content.innerHTML = value;
-                else
+                else if (typeof value === "object")
                     this._content.appendChild(value);
                 break;
             case "shrink":

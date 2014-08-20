@@ -180,6 +180,7 @@ BASE = $class({
             return;
         }
         ev = this.__events;
+        if (!ev) debugger;
         if (!ev.hasOwnProperty(e))
             // unknown event, return.
             return;
