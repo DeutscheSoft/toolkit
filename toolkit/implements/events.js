@@ -94,8 +94,18 @@ BASE = $class({
     },
     delegate_events: function (element) {
         // hand over a DOM element all native events will be bound to
+        var ev = this.__events;
+        this.__events = {};
         this.__event_target = element;
         this.fire_event("delegated", [element, this]);
+
+        if (element)
+            for (var key in ev) if (ev.hasOwnProperty(key)) {
+                for (var i = 0; i < ev[key].queue.length; i++) {
+                    this.add_event(key, ev[key].queue[i]);
+                }
+            }
+
         return element;
     },
     add_event: function (e, fun, prevent, stop) {
