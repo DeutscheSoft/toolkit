@@ -81,7 +81,8 @@ Window = $class({
                                            // _TOOLKIT_SHRINK,
                                            // _TOOLKIT_MAXIMIZE, _TOOLKIT_MAXIMIZE_VERT
                                            // _TOOLKIT_MAXIMIZE_HORIZ
-        active:        true
+        active:        true,
+        hide_status:   0 // if set to !0 status message hides after n milliseconds
     },
     initialize: function (options) {
         this.__inited = false;
@@ -159,6 +160,7 @@ Window = $class({
         this.set("y", this.options.y, true);
         this.set("z_index", this.options.z_index);
         this.set("title", this.options.title);
+        this.set("hide_status", this.options.hide_status);
         this.set("status", this.options.status);
         this.set("icon", this.options.icon);
         this.set("active", this.options.active);
@@ -677,7 +679,21 @@ Window = $class({
                 if (!hold) this._title.innerHTML = value;
                 break;
             case "status":
-                if (!hold) this._status.innerHTML = value;
+                if (!hold) {
+                    if (value)
+                        this._status.innerHTML = value;
+                    else
+                        this._status.innerHTML = "";
+                    if (this.options.hide_status) {
+                        if (this.__status_to)
+                            window.clearTimeout(this.__status_to);
+                        if (value)
+                            this.__status_to = window.setTimeout(function () {
+                                this.set("status", false);
+                                this.__status_to = false;
+                            }.bind(this), this.options.hide_status);
+                    }
+                }
                 break;
             case "icon":
                 if (!hold) {
