@@ -91,6 +91,7 @@ ValueButton = $class({
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
             this.set("value", this.options.reset);
+            this.fire_event("doubleclick", [this.options.value, this]);
         }.bind(this));
         
         this._input.addEventListener("dblclick", function (e) {

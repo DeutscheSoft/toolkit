@@ -81,6 +81,7 @@ Knob = $class({
             this.options.reset = this.options.value;
         this._svg.addEventListener("dblclick", function () {
             this.set("value", this.options.reset);
+            this.fire_event("doubleclick", [this.options.value, this]);
         }.bind(this));
         
         this.set("size", this.options.size);

@@ -100,6 +100,7 @@ Fader = $class({
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
             this.set("value", this.options.reset);
+            this.fire_event("doubleclick", [this.options.value, this]);
         }.bind(this));
         
         this.drag.add_event("dragging", function (ev) {
