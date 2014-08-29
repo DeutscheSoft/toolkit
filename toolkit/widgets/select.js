@@ -36,7 +36,7 @@ Select = $class({
         Button.prototype.initialize.call(this, options);
         this.element.classList.add("toolkit-select");
         
-        this.add_event("click", function (e) {
+        this.add_event("pointerdown", function (e) {
             this.show_list(!this.__open);
         }.bind(this));
         
