@@ -48,8 +48,16 @@ Select = $class({
         document.addEventListener("touchstart", function (e) {
             if (this.__open && !this.__transition) {
                 this.show_list(false);
+                e.preventDefault();
             }
-            e.preventDefault();
+            // preventing the default for a _global_ touch event will
+            // prevent standard browser functionality from working. for
+            // instance, scroll bars will not function anymore
+            // I am not sure what this is supposed to do, but we disable it for
+            // now.
+            //
+            //  /arne
+            //e.preventDefault();
         }.bind(this));
         document.addEventListener("mousedown", function () {
             if (this.__open && !this.__transition) {
