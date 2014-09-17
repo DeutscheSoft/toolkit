@@ -95,20 +95,21 @@ BASE = $class({
     delegate_events: function (element) {
         // hand over a DOM element all native events will be bound to
         var ev = this.__events;
-        this.__events = {};
-        this.__event_target = element;
+        var old_target = this.__event_target;
         this.fire_event("delegated", [element, this]);
 
-        if (element)
-            for (var key in ev) if (ev.hasOwnProperty(key)) {
-                for (var i = 0; i < ev[key].queue.length; i++) {
-                    this.add_event(key, ev[key].queue[i]);
-                }
-            }
+        for (var e in ev) if (ev.hasOwnProperty(e) && __native_events[e]) {
+            if (element) element.addEventListener(e, ev[e].callback);
+            if (old_target) old_target.removeEventListener(e, ev[e].callback);
+        }
+
+        this.__event_target = element;
 
         return element;
     },
     add_event: function (e, fun, prevent, stop) {
+        var ev;
+        var cb;
         // add an event listener to a widget. These can be native DOM
         // events if the widget has a delegated element and the widgets
         // native events.
@@ -116,34 +117,36 @@ BASE = $class({
             // it's a native event which needs one or more replacement
             // events like pointerdown -> mousedown/touchstart as
             // stated in the list below
-            var ev = __event_replacements[e];
+            ev = __event_replacements[e];
             for (var i = 0; i < ev.length; i++)
                 this.add_event(ev[i].event, fun, ev[i].prevent, ev[i].stop);
             return;
         }
-        cb = null;
         ev = this.__events;
-        if (this.__event_target
-        && __native_events[e]
-        && !ev.hasOwnProperty(e)) {
-            // seems it's a DOM event and we have a delegation and
-            // there's no callback bound to this event by now, so add
-            // a "real" event listener to the delegated DOM element
-            var p = prevent;
-            var s = stop;
-            cb = function (event) {
-                this.fire_event("" + e, [event]);
-                if (s) event.stopPropagation();
-                if (p) {
-                    event.preventDefault();
-                    return false;
-                }
-            }.bind(this)
-            this.__event_target.addEventListener(e, cb);
-        }
-        if (!ev.hasOwnProperty(e))
+        if (!ev.hasOwnProperty(e)) {
+            if (__native_events[e]) {
+                // seems it's a DOM event and there's no callback bound
+                // to this event by now
+                //
+                // we create a callback even if we have no DOM element currently
+                // the necessary callbacks will be bound on delegate_events()
+                cb = function (event) {
+                    /* just in case fire_event throws an exception,
+                     * we make sure to do the preventDefault, etc first
+                     */
+                    if (stop) event.stopPropagation();
+                    if (prevent) event.preventDefault();
+
+                    this.fire_event("" + e, [event]);
+
+                    if (prevent) return false;
+                }.bind(this)
+                if (this.__event_target)
+                    this.__event_target.addEventListener(e, cb);
+            }
             // add to the internal __events list
             ev[e] = { callback: cb, queue: [] };
+        }
         ev[e].queue.push(fun);
     },
     remove_event: function (e, fun) {
