@@ -36,7 +36,7 @@ Select = $class({
         Button.prototype.initialize.call(this, options);
         this.element.classList.add("toolkit-select");
         
-        this.add_event("pointerdown", function (e) {
+        this.add_event("pointerup", function (e) {
             this.show_list(!this.__open);
         }.bind(this));
         
@@ -107,8 +107,8 @@ Select = $class({
             this.select(opt.value);
             this.fire_event("select", [opt.value, li, this, opt]);
         }.bind(this);
-        li.addEventListener("mouseup", up_cb);
-        li.addEventListener("touchend", end_cb);
+        li.addEventListener("mousedown", up_cb);
+        li.addEventListener("touchstart", end_cb);
         
         this.list[opt.value] = opt;
         
