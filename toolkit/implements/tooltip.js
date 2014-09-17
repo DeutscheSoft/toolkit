@@ -26,6 +26,7 @@ Tooltip = $class({
     _class: "Tooltip",
     _tooltip: false,
     tooltip: function (cont, tt) {
+        if (!cont && !tt) return;
         if (!this._tooltip) {
             // build tooltip container
             this._tooltip = toolkit.element("ul", "toolkit-tooltip");
@@ -37,7 +38,7 @@ Tooltip = $class({
             this.__tt_count = 0;
             this.fire_event("tooltipshow", [this]);
         }
-        if(!cont && tt) {
+        if (!cont) {
             // destroy a tooltip
             this.fire_event("tooltipremoved", [tt, this]);
             tt.destroy();
