@@ -386,7 +386,7 @@ run_select = function () {
         return;
     }
     select = new Select({
-        list: [
+        entries: [
             "haha",
             "huu",
             "höhö",
@@ -396,7 +396,7 @@ run_select = function () {
             "wtf"
         ],
         container: $("sc_select"),
-        selected: "bar"
+        selected: 4
     });
     $("sc_select").addClass("box");
 }

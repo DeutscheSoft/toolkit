@@ -74,7 +74,7 @@ Button = $class({
                 break;
             case "label":
                 if (!hold) {
-                    if (value) {
+                    if (value !== false) {
                         this._label.innerHTML = value;
                         this._label.style["display"] = null;
                     } else {

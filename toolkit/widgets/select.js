@@ -21,18 +21,19 @@
 
 Select = $class({
     // Select provides a button with a select list to choose from
-    // different options.
+    // different entries.
     _class: "Select",
     Extends: Button,
     options: {
-        list: [],
+        entries: [], // A list of strings or objects: {title: "Title", value: 1}
         selected: false,
+        value: false,
         auto_size: true
     },
     initialize: function (options)  {
         this.__open = false;
         this.__width = 0;
-        this.list = {};
+        this.entries = [];
         Button.prototype.initialize.call(this, options);
         this.element.classList.add("toolkit-select");
         
@@ -66,9 +67,9 @@ Select = $class({
         }.bind(this));
         this._arrow = toolkit.element("div", "toolkit-arrow");
         this.element.appendChild(this._arrow);
-        
-        this.set("options", this.options.list);
-        
+        var sel = this.options.selected;
+        this.set("entries",  this.options.entries);
+        this.set("selected", sel);
         this.initialized();
     },
     destroy: function () {
@@ -76,86 +77,133 @@ Select = $class({
         this.element.destroy();
         Button.prototype.destroy.call(this);
     },
-    set_options: function (list) {
-        this._list.empty();
-        this.list = {};
-        this.add_options(list);
+    
+    select: function (id) {
+        // Select an entry. Hand over the ID (position in the list) or
+        // false if nothing should be selected.
+        if (id < 0 || id >= this.entries.length)
+            return;
+            
+        var sel = this.options.selected;
+        this.options.selected = id;
+        
+        // remove active style from last selected
+        if (sel !== false)
+            this.entries[sel].element.classList.remove("toolkit-active");
+        
+        if (id !== false) {
+            // add active style to selection
+            this.entries[id].element.classList.add("toolkit-active");
+            // and set the selected value to options
+            this.options.value = this.entries[id].value;
+        }
+            
+        // label
+        if (id !== false)
+            this.set("label", this.entries[id].title);
+        else
+            this.set("label", "");
     },
-    add_options: function (list) {
-        for (var i = 0; i < list.length; i++)
-            this.add_option(list[i], true);
+    
+    select_value: function (value) {
+        this.select(this._get_entry_by_value(value, true));
+    },
+    
+    set_entries: function (entries) {
+        // Replace all entries with a new options list
+        this.clear();
+        this.add_entries(entries);
+    },
+    add_entries: function (entries) {
+        for (var i = 0; i < entries.length; i++)
+            this.add_entry(entries[i], true);
         this.set_size();
     },
-    add_option: function (option, hold) {
+    add_entry: function (ent, hold) {
         var li = toolkit.element("li", "toolkit-option");
         this._list.appendChild(li);
-        var opt = {};
-        opt.element = li;
-        opt.title = (typeof option == "string")
-                       ? option : (typeof option.title != "undefined")
-                       ? option.title : option.value
-        opt.value = (typeof option == "string") ? option
-                                                : option.value.toString();
+        var entry = {};
+        entry.element = li;
+        entry.value = (typeof ent == "string") ? ent
+                                               : ent.value;
+        entry.title = (typeof ent == "string")
+                       ? ent : (typeof ent.title != "undefined")
+                       ? ent.title : ent.value.toString()
         
-        li.innerHTML = opt.title;
+        li.innerHTML = entry.title;
+        
+        this.entries.push(entry);
+        var id = this.entries.length - 1;
         var up_cb = function (e) {
-            this.select(opt.value);
-            this.fire_event("select", [opt.value, li, this, opt]);
+            this.select(id);
+            this.fire_event("select", [entry.value, id, entry.title, this]);
         }.bind(this);
         var end_cb = function (e) {
             e.preventDefault();
-            this.select(opt.value);
-            this.fire_event("select", [opt.value, li, this, opt]);
+            this.select(id);
+            this.fire_event("select", [entry.value, id, entry.title, this]);
         }.bind(this);
         li.addEventListener("mousedown", up_cb);
         li.addEventListener("touchstart", end_cb);
-        
-        this.list[opt.value] = opt;
-        
-        if (this.options.selected == opt.value) {
-            this.select(opt.value);
+        if (this.options.selected === id) {
+            this.select(id);
+        } 
+        if (this.options.selected > id) {
+            this.select(this.options.selected+1);
         }
         
         if (!hold) this.set_size();
     },
-    remove_option: function (key) {
-        key = key.toString();
-        if (typeof this.list[key] != "undefined") {
-            this.list.key.destroy();
-        }
-        if (this.options.selected == key) {
+    remove_value: function (val) {
+        this.remove_id(this._get_entry_by_value(val, true));
+    },
+    remove_title: function (title) {
+        this.remove_id(this._get_entry_by_title(title, true));
+    },
+    remove_entry: function (entry) {
+        this.remove_id(this._get_entry(entry, true));
+    },
+    remove_id: function (id) {
+        // in range?
+        if (id === false || id < 0 || id >= this.options.length)
+            return;
+        // remove DOM element
+        this.entries[id].element.parentNode.removeChild(this.entries[id].element);
+        // remove from list
+        this.entries.splice(id, 1);
+        // selection
+        var sel = this.options.selected;
+        if (sel !== false && sel > id)
+            this.options.selected --;
+        else if (sel !== false && sel == id) {
             this.options.selected = false;
             this.set("label", "");
         }
+        this.select(this.options.selected)
     },
-    remove_options: function (list) {
-        for (var i = 0; i < list.length; i++)
-            this.remove_option(list[i]);
+    clear: function () {
+        this.set("label", "");
+        this._list.innerHTML = "";
+        //this.options.selected = false;
+        this.entries = [];
     },
     set_size: function () {
-        if (!this.options.auto_size) {
-            delete this.element.style["width"];
+        if (!this.options.auto_size)
             return;
-        };
-        for (var i in this.list) {
-            var t = this._label.get("html");
-            this._label.innerHTML = this.list[i].title;
-            this.__width = Math.max(this.__width, toolkit.outer_width(this.element, true));
-            toolkit.outer_width(this.element, true, this.__width + 1);
-            this._label.innerHTML = t;
+        // set all possible titles into the buttons label, measure the
+        // max width and set it as style afterwards
+        this.__width = 0;
+        this.element.style.width = "auto";
+        var t = this._label.get("html");
+        for (var i = 0; i < this.entries.length; i++) {
+            this.set("label", this.entries[i].title);
+            var act = toolkit.outer_width(this.element, true);
+            this.__width = Math.max(this.__width, act);
         }
+        toolkit.outer_width(this.element, true, this.__width);
+        this._label.innerHTML = t;
     },
-    select: function (key) {
-        key = key.toString();
-        if (this.list[key]) {
-            this.set("label", this.list[key].title);
-            if (this.options.selected !== false) {
-                this.list[this.options.selected].element.classList.remove("toolkit-active");
-            }
-            this.list[key].element.classList.add("toolkit-active");
-            this.options.selected = key;
-        }
-    },
+    
     show_list: function (show) {
         if (show) {
             var pos = this.element.getPosition();
@@ -191,20 +239,43 @@ Select = $class({
             this._list.dispose()
         }
     },
-    
+    _get_entry_by_value: function (val, id) {
+        for (var i = 0; i < this.entries.length; i++) {
+            if (this.entries[i].value === val)
+                return id ? i : this.entries[i];
+        }
+        return false;
+    },
+    _get_entry_by_title: function (title, id) {
+        for (var i = 0; i < this.entries.length; i++) {
+            if (this.entries[i].title === title)
+                return id ? i : this.entries[i];
+        }
+        return false;
+    },
+    _get_entry: function (option, id) {
+        for (var i = 0; i < this.entries.length; i++) {
+            if (this.entries[i] === option)
+                return id ? i : this.entries[i];
+        }
+        return false;
+    },
     set: function (key, value, hold) {
         switch (key) {
             case "selected":
                 this.select(value);
                 break;
+            case "value":
+                this.select_value(value);
+                break;
         }
         this.options[key] = value;
         switch (key) {
-            case "options":
-                this.set_options(value);
+            case "entries":
+                this.set_entries(value);
                 break;
             case "auto_size":
-                this.resize();
+                this.set_size();
                 break;
         }
         Button.prototype.set.call(this, key, value, hold);
