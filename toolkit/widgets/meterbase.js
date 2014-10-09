@@ -66,7 +66,10 @@ var MeterBase = $class({
                                           // callback function for formatting
                                           // the labels of the scale
         gap_dots:         4,              // minimum gap between dots (pixel)
-        gap_labels:       40              // minimum gap between labels (pixel)
+        gap_labels:       40,             // minimum gap between labels (pixel)
+        show_max:         true,           // always show label and dot for max value
+        show_min:         true,           // always show label and dot for min value
+        show_base:        true            // always show label and dot for base value
     },
     
     initialize: function (options, hold) {
@@ -255,6 +258,10 @@ var MeterBase = $class({
         this.set("show_label", this.options.show_label);
         this.set("show_title", this.options.show_title);
         this.set("show_scale", this.options.show_scale);
+        
+        this.set("show_max", this.options.show_max, true);
+        this.set("show_min", this.options.show_min, true);
+        this.set("show_base", this.options.show_base);
         
         var options = $mixin({}, this.options);
         options.base = this.__based?this.options.base:this.options.scale_base;

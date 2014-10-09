@@ -50,6 +50,11 @@ Scale = $class({
         gap_dots:         4,              // minimum gap between dots (pixel)
         gap_labels:       40,             // minimum gap between labels (pixel)
         show_labels:      true            // if labels should be drawn
+        show_labels:      true,           // if labels should be drawn
+        show_min:         true,           // always draw a label at min
+        show_max:         true,           // always draw a label at max
+        show_base:        true            // always draw a label at base
+
     },
     
     initialize: function (options, hold) {
@@ -93,19 +98,20 @@ Scale = $class({
         this.element.empty();
         
         // draw base
-        this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
-        this.draw_label(this.options.base, "toolkit-base");
-        
+        if (this.options.show_base) {
+            this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
+            this.draw_label(this.options.base, "toolkit-base");
+        }
         // draw top
         if (this._val2px(this.options.base - this.options.min)
-            >= this.options.gap_labels) {
+            >= this.options.gap_labels && this.options.show_min) {
             this.draw_dot(this.options.min, "toolkit-min");
             this.draw_label(this.options.min, "toolkit-min");
         }
         
         // draw bottom
         if (this._val2px(this.options.max - this.options.base)
-            >= this.options.gap_labels) {
+            >= this.options.gap_labels && this.options.show_max) {
             this.draw_dot(this.options.max, "toolkit-max");
             this.draw_label(this.options.max, "toolkit-max");
         }
@@ -293,6 +299,11 @@ Scale = $class({
                 this.fire_event("basechanged", [value, this]);
                 if (!hold) this.redraw();
                 key = false;
+                break;
+            case "show_min":
+            case "show_max":
+            case "show_base":
+                if (!hold) this.redraw();
                 break;
         }
         Widget.prototype.set.call(this, key, value, hold);
