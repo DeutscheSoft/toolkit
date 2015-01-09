@@ -32,7 +32,9 @@ Fader = $class({
         show_labels: true,
         labels: function (val) { return val.toFixed(2); },
         tooltip: false,
-        layout: _TOOLKIT_LEFT
+        layout: _TOOLKIT_LEFT,
+        fixed_dots: false,
+        fixed_labels: false
     },
     initialize: function (options) {
         this.__tt = false;

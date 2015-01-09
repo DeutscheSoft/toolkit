@@ -49,12 +49,15 @@ Scale = $class({
                                           // the labels
         gap_dots:         4,              // minimum gap between dots (pixel)
         gap_labels:       40,             // minimum gap between labels (pixel)
-        show_labels:      true            // if labels should be drawn
+        show_labels:      true,           // if labels should be drawn
         show_labels:      true,           // if labels should be drawn
         show_min:         true,           // always draw a label at min
         show_max:         true,           // always draw a label at max
-        show_base:        true            // always draw a label at base
-
+        show_base:        true,           // always draw a label at base
+        fixed_dots:       false,          // if fixed dots should be drawn.
+                                          // array containing real values or false
+        fixed_labels:     false           // if fixed labels should be drawn.
+                                          // array contianing real values or false
     },
     
     initialize: function (options, hold) {
@@ -98,22 +101,34 @@ Scale = $class({
         this.element.empty();
         
         // draw base
-        if (this.options.show_base) {
             this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
+        if (this.options.show_base) {
             this.draw_label(this.options.base, "toolkit-base");
         }
         // draw top
         if (this._val2px(this.options.base - this.options.min)
-            >= this.options.gap_labels && this.options.show_min) {
+            >= this.options.gap_labels) {
             this.draw_dot(this.options.min, "toolkit-min");
-            this.draw_label(this.options.min, "toolkit-min");
+            if (this.options.show_min)
+                this.draw_label(this.options.min, "toolkit-min");
         }
         
         // draw bottom
         if (this._val2px(this.options.max - this.options.base)
-            >= this.options.gap_labels && this.options.show_max) {
+            >= this.options.gap_labels) {
             this.draw_dot(this.options.max, "toolkit-max");
-            this.draw_label(this.options.max, "toolkit-max");
+            if (this.options.show_max)
+                this.draw_label(this.options.max, "toolkit-max");
+        }
+        
+        if (this.options.fixed_dots && this.options.fixed_labels) {
+            for (var i = 0; i < this.options.fixed_dots.length; i++) {
+                this.draw_dot(this.options.fixed_dots[i]);
+            }
+            for (var i = 0; i < this.options.fixed_labels.length; i++) {
+                this.draw_label(this.options.fixed_labels[i]);
+            }
+            return this;
         }
         
         var level;
