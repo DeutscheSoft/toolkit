@@ -68,8 +68,16 @@ Select = $class({
         this._arrow = toolkit.element("div", "toolkit-arrow");
         this.element.appendChild(this._arrow);
         var sel = this.options.selected;
+        var val = this.options.value; 
         this.set("entries",  this.options.entries);
-        this.set("selected", sel);
+        if (sel == false && val != false)
+        {
+          this.set("value", val);
+        }        
+        else
+        {
+          this.set("selected", sel);
+        }      
         this.initialized();
     },
     destroy: function () {
@@ -80,39 +88,39 @@ Select = $class({
     
     select: function (id) {
         // Select an entry. Hand over the ID (position in the list) or
-        // false if nothing should be selected.
-        if (id < 0 || id >= this.entries.length)
-            return;
-            
+        // false if nothing should be selected.            
         var sel = this.options.selected;
         this.options.selected = id;
         
         // remove active style from last selected
-        if (sel !== false)
+        if (sel !== false && sel >= 0 && sel < this.entries.length)
             this.entries[sel].element.classList.remove("toolkit-active");
         
-        if (id !== false) {
+        if (id !== false && id >= 0 && id < this.entries.length) {
             // add active style to selection
             this.entries[id].element.classList.add("toolkit-active");
             // and set the selected value to options
             this.options.value = this.entries[id].value;
-        }
-            
-        // label
-        if (id !== false)
+            // label
             this.set("label", this.entries[id].title);
-        else
-            this.set("label", "");
+        }else
+        {
+//          this.options.value = false;
+          this.set("label", "");
+        }
     },
     
     select_value: function (value) {
-        this.select(this._get_entry_by_value(value, true));
+        var id = this._get_entry_by_value(value, true);
+        if (id != false || value == false)
+          this.select(id);
     },
     
     set_entries: function (entries) {
         // Replace all entries with a new options list
         this.clear();
         this.add_entries(entries);
+        this.select(this._get_entry_by_value(this.options.value, true));
     },
     add_entries: function (entries) {
         for (var i = 0; i < entries.length; i++)
@@ -184,7 +192,7 @@ Select = $class({
     clear: function () {
         this.set("label", "");
         this._list.innerHTML = "";
-        //this.options.selected = false;
+        this.select(false);
         this.entries = [];
     },
     set_size: function () {

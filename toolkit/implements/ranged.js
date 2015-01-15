@@ -157,7 +157,7 @@ Ranged = $class({
     },
     gen_from_scale : function() {
         if (typeof this.options.scale == "function") {
-            var f = this.options.svale;
+            var f = this.options.scale;
             var op = this.options;
             var bas = this.options.basis;
             return function (value) {
@@ -233,6 +233,7 @@ Ranged = $class({
         var coef = 0;
         if (typeof this.options.scale == "function")
             coef = this.options.scale(value, this.options, false) * basis;
+        else
         switch (this.options.scale) {
             default:
             case _TOOLKIT_LINEAR:
@@ -270,7 +271,8 @@ Ranged = $class({
         var value = 0;
         if (this.options.reverse) coef = -coef + basis;
         if (typeof this.options.scale == "function")
-            value = this.options.scale(coef, this.options, true);
+            value = this.options.scale(coef / basis, this.options, true);
+        else
         switch (this.options.scale) {
             default:
             case _TOOLKIT_LINEAR:

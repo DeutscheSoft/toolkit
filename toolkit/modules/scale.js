@@ -50,7 +50,6 @@ Scale = $class({
         gap_dots:         4,              // minimum gap between dots (pixel)
         gap_labels:       40,             // minimum gap between labels (pixel)
         show_labels:      true,           // if labels should be drawn
-        show_labels:      true,           // if labels should be drawn
         show_min:         true,           // always draw a label at min
         show_max:         true,           // always draw a label at max
         show_base:        true,           // always draw a label at base

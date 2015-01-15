@@ -259,15 +259,15 @@ var MeterBase = $class({
         this.set("show_title", this.options.show_title);
         this.set("show_scale", this.options.show_scale);
         
-        this.set("show_max", this.options.show_max, true);
-        this.set("show_min", this.options.show_min, true);
-        this.set("show_base", this.options.show_base);
-        
         var options = $mixin({}, this.options);
         options.base = this.__based?this.options.base:this.options.scale_base;
         options.container = this._scale,
         options.id = false;
         this.scale = new Scale(options);
+        
+        this.set("show_max", this.options.show_max, true);
+        this.set("show_min", this.options.show_min, true);
+        this.set("show_base", this.options.show_base, true);
         
         this.delegate(this._bar);
         
