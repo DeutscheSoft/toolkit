@@ -70,14 +70,11 @@ Select = $class({
         var sel = this.options.selected;
         var val = this.options.value; 
         this.set("entries",  this.options.entries);
-        if (sel == false && val != false)
-        {
-          this.set("value", val);
-        }        
-        else
-        {
-          this.set("selected", sel);
-        }      
+        if (sel === false && val !== false) {
+            this.set("value", val);
+        } else {
+            this.set("selected", sel);
+        }
         this.initialized();
     },
     destroy: function () {
@@ -103,17 +100,16 @@ Select = $class({
             this.options.value = this.entries[id].value;
             // label
             this.set("label", this.entries[id].title);
-        }else
-        {
+        } else {
 //          this.options.value = false;
-          this.set("label", "");
+            this.set("label", "");
         }
     },
     
     select_value: function (value) {
         var id = this._get_entry_by_value(value, true);
-        if (id != false || value == false)
-          this.select(id);
+        if (id !== false || value === false)
+            this.select(id);
     },
     
     set_entries: function (entries) {
