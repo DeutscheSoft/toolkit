@@ -104,11 +104,19 @@
         <script src="toolkit/widgets/pager.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/valueknob.css">
         <script src="toolkit/widgets/valueknob.js"></script>
+        <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/table.css">
+        <script src="toolkit/widgets/table.js"></script>
         <link rel="stylesheet" type="text/css" href="css/screen.css"/>
         <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
         
         <script type="text/javascript">
-            
+            //window.addEventListener("load", function () {
+                //document.body.innerHTML=""
+                //t = new Table({container:document.body});
+                //t.add_cell({x:2,y:2,width:3,height:3});
+                //t.add_cell({x:5,y:5,width:1,height:1});
+                
+            //});
         </script>
         
         <style type="text/css">
@@ -2030,6 +2038,21 @@
                         <td>gap_labels</td>
                         <td>Minimum gap (in pixels) between labels for the scale widget.</td>
                         <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>show_min</td>
+                        <td>Draw a label for minimum value</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show_max</td>
+                        <td>Draw a label for maximum value</td>
+                        <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>show_base</td>
+                        <td>Draw a label for base value</td>
+                        <td>true</td>
                     </tr>
                 </table>
                 
