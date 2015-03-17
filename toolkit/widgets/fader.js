@@ -305,6 +305,10 @@ Fader = $class({
                 this.element.classList.remove("toolkit-bottom");
                 var c = this._vert() ? "vertical" : "horizontal";
                 this.element.classList.add("toolkit-" + c);
+                var d = value == _TOOLKIT_LEFT   ? "left" :
+                        value == _TOOLKIT_RIGHT  ? "right" :
+                        value == _TOOLKIT_TOP    ? "top" : "bottom";
+                this.element.classList.add("toolkit-" + d);
                 this.scale.set("layout", value);
                 this.options.direction = this._vert() ? _TOOLKIT_VERT
                                                       : _TOOLKIT_HORIZ;
