@@ -387,13 +387,13 @@ run_select = function () {
     }
     select = new Select({
         entries: [
-            "haha",
-            "huu",
-            "höhö",
-            "foo",
-            "bar",
-            "foobar",
-            "wtf"
+            {title:"haha", value:11},
+            {title:"huu", value:12},
+            {title:"höhö", value:13},
+            {title:"foo", value:14},
+            {title:"bar", value:15},
+            {title:"foobar",value:16},
+            {title:"wtf",value:17}
         ],
         container: $("sc_select"),
         selected: 4
@@ -417,12 +417,47 @@ run_fader = function () {
     for (var i = 0; i < 8; i ++) {
         faders.push(new Fader({
             container: $("sc_fader"),
-            min: -60,
-            max: 12,
-            base: 0,
-            value: 0,
-            scale: _TOOLKIT_DB,
+            min: -580,
+                    max: 60,
+                    value: 0,
+                    labels: toolkit.FORMAT("%d", "%/4"),
+                    format: toolkit.FORMAT("%.2f dB", "%/4"),
+                    tooltip: toolkit.FORMAT("%.2f dB", "%/4"),
+                    step: 1,
+                    levels: [5, 10, 15],
+                    base: 0,
+                    gap_dots: 1,
+                    gap_labels: 1,
+                    log_factor: 4,
+                    division: 1,
+                    snap: 1,
+            scale: i ? _TOOLKIT_DB : function(value, opt, coef) 
+                    { 
+                      if (coef)
+                      {
+                          value /= opt.basis;
+                        if      (value < 0.0408) { return  -580 +  value           * 300 / 0.0408; }
+                        else if (value < 0.0918) { return  -280 + (value - 0.0408) *  80 / 0.0510; } 
+                        else if (value < 0.1530) { return  -200 + (value - 0.0918) *  40 / 0.0612; } 
+                        else if (value < 0.2259) { return  -160 + (value - 0.1530) *  40 / 0.0729; } 
+                        else if (value < 0.3092) { return  -120 + (value - 0.2259) *  40 / 0.0833; } 
+                        else if (value < 0.3925) { return  - 80 + (value - 0.3092) *  20 / 0.0833; } 
+                        else                     { return  - 60 + (value - 0.3925) * 120 / 0.6075; } 
+                      }
+                      else
+                      {
+                        if      (value < -280) { return          0.0408 * (value + 580) / 300; }
+                        else if (value < -200) { return 0.0408 + 0.0510 * (value + 280) /  80; } 
+                        else if (value < -160) { return 0.0918 + 0.0612 * (value + 200) /  40; } 
+                        else if (value < -120) { return 0.1530 + 0.0729 * (value + 160) /  40; } 
+                        else if (value < - 80) { return 0.2259 + 0.0833 * (value + 120) /  40; } 
+                        else if (value < - 60) { return 0.3092 + 0.0833 * (value +  80) /  20; } 
+                        else                   { return 0.3925 + 0.6075 * (value +  60) / 120; } 
+                      }
+                    },
             log_factor: 2,
+            fixed_dots: [40, 20, -20, -40, -60, -80, -120, -160, -200, -280],
+            fixed_labels: [40, 20, -20, -40, -60, -80, -120, -160, -200, -280] 
             //snap: [-60, -50, -40, -30, -20, -10, 0, 10, 12]
         }));
     }
