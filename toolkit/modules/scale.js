@@ -83,7 +83,7 @@ Scale = $class({
                 this.element.classList.add("toolkit-bottom");
                 break;
         }
-        this.element.style.position = "relative";
+        //this.element.style.position = "relative";
         
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);

@@ -131,80 +131,81 @@ Fader = $class({
     redraw: function () {
         if (this._vert()) {
             // VERTICAL
-            toolkit.set_styles(this._background_top, {
-                position: "absolute",
-                top: "0px",
-                left: undefined
-            });
-            toolkit.set_styles(this._background_bottom, {
-                position: "absolute",
-                bottom: "0px",
-                right: undefined
-            });
+            //toolkit.set_styles(this._background_top, {
+                //position: "absolute",
+                //top: "0px",
+                //left: undefined
+            //});
+            //toolkit.set_styles(this._background_bottom, {
+                //position: "absolute",
+                //bottom: "0px",
+                //right: undefined
+            //});
             
             var h  = toolkit.inner_height(this.element);
-            var hl = toolkit.outer_height(this._background_top, true);
-            var hr = toolkit.outer_height(this._background_bottom, true);
+            //var hl = toolkit.outer_height(this._background_top, true);
+            //var hr = toolkit.outer_height(this._background_bottom, true);
             
-            toolkit.set_styles(this._background_center, {
-                position: "absolute",
-                top: hl + "px",
-                left: undefined,
-                height: (h - hl - hr) + "px"
-            });
+            //toolkit.set_styles(this._background_center, {
+                //position: "absolute",
+                //top: hl + "px",
+                //left: undefined,
+                //height: (h - hl - hr) + "px"
+            //});
             
-            var p = toolkit.inner_width(this.element);
-            toolkit.outer_width(this._background_top, true, p);
-            toolkit.outer_width(this._background_bottom, true, p);
-            toolkit.outer_width(this._background_center, true, p);
-            toolkit.outer_width(this._scale, true, p);
+            //var p = toolkit.inner_width(this.element);
+            //toolkit.outer_width(this._background_top, true, p);
+            //toolkit.outer_width(this._background_bottom, true, p);
+            //toolkit.outer_width(this._background_center, true, p);
+            //toolkit.outer_width(this._scale, true, p);
             
-            toolkit.set_styles(this._handle, {
-                position: "absolute",
-                bottom: "0px",
-                right: undefined
-            });
+            //toolkit.set_styles(this._handle, {
+                //position: "absolute",
+                //bottom: "0px",
+                //right: undefined
+            //});
             this._handlesize = toolkit.outer_height(this._handle, true);
-            toolkit.outer_height(this._scale, true, h - this._handlesize);
-            this._scale.style["top"] = (this._handlesize / 2) + "px";
+            //toolkit.outer_height(this._scale, true, h - this._handlesize);
+            //this._scale.style["top"] = (this._handlesize / 2) + "px";
         } else {
             // HORIZONTAL
-            toolkit.set_styles(this._background_top, {
-                position: "absolute",
-                left: "0px",
-                top: undefined
-            });
-            toolkit.set_styles(this._background_bottom, {
-                position: "absolute",
-                right: "0px",
-                bottom: undefined
-            });
+            
+            //toolkit.set_styles(this._background_top, {
+                //position: "absolute",
+                //left: "0px",
+                //top: undefined
+            //});
+            //toolkit.set_styles(this._background_bottom, {
+                //position: "absolute",
+                //right: "0px",
+                //bottom: undefined
+            //});
             
             var h  = toolkit.inner_width(this.element);
-            var hl = toolkit.outer_width(this._background_top, true);
-            var hr = toolkit.outer_width(this._background_bottom, true);
+            //var hl = toolkit.outer_width(this._background_top, true);
+            //var hr = toolkit.outer_width(this._background_bottom, true);
             
-            toolkit.set_styles(this._background_center, {
-                position: "absolute",
-                left: hl + "px",
-                top: undefined,
-                width: (h - hl - hr) + "px"
-            });
+            //toolkit.set_styles(this._background_center, {
+                //position: "absolute",
+                //left: hl + "px",
+                //top: undefined,
+                //width: (h - hl - hr) + "px"
+            //});
             
-            var p = toolkit.inner_height(this.element);
-            toolkit.outer_height(this._background_top, true, p);
-            toolkit.outer_height(this._background_bottom, true, p);
-            toolkit.outer_height(this._background_center, true, p);
-            toolkit.outer_height(this._scale, true, p);
+            //var p = toolkit.inner_height(this.element);
+            //toolkit.outer_height(this._background_top, true, p);
+            //toolkit.outer_height(this._background_bottom, true, p);
+            //toolkit.outer_height(this._background_center, true, p);
+            //toolkit.outer_height(this._scale, true, p);
             
-            toolkit.set_styles(this._handle, {
-                position: "absolute",
-                right: "0px",
-                bottom: undefined
-            });
+            //toolkit.set_styles(this._handle, {
+                //position: "absolute",
+                //right: "0px",
+                //bottom: undefined
+            //});
             this._handlesize = toolkit.outer_width(this._handle, true);
-            toolkit.outer_width(this._scale, true, h - this._handlesize);
-            this._scale.style["left"] = (this._handlesize / 2) + "px";
+            //toolkit.outer_width(this._scale, true, h - this._handlesize);
+            //this._scale.style["left"] = (this._handlesize / 2) + "px";
         }
         var s = h - this._handlesize;
         if (s != this.options.basis) {
@@ -214,9 +215,9 @@ Fader = $class({
         this.set("value", this.options.value);
         this.scale.redraw();
         
-        toolkit.inner_width(this.element,
-                            Math.max(toolkit.outer_width(this._handle, true),
-                                     toolkit.outer_width(this._scale, true)));
+        //toolkit.inner_width(this.element,
+                            //Math.max(toolkit.outer_width(this._handle, true),
+                                     //toolkit.outer_width(this._scale, true)));
         
         Widget.prototype.redraw.call(this);
     },
