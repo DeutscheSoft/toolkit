@@ -506,18 +506,19 @@ function run_knob () {
     knob1 = new Knob({
         container: $("sc_knob"),
         "class": "knob1",
-        margin: 2,
+        margin: 5.5,
         thickness: 3,
         min: -96,
         max: 24,
         value: -20,
         dot: {length: 3, margin: 2, width: 1},
-        marker: {thickness: 3, margin: 2},
+        marker: {thickness: 3, margin: 5.5},
         markers: [
             {from: 0, to: 24}
         ],
         
-        hand: {width: 2, length: 4, margin: 11.5},
+        hand: {width: 1, length: 12, margin: 21.5},
+        styles: {backgroundSize: "100%"}
     });
     knob = new Knob({
         container: $("sc_knob"),
@@ -558,7 +559,7 @@ function run_knob () {
             {pos: 10000, label: "10k"}, {pos: 20000, label:"20k"}
         ],
         hand: {width: 2, length: 3.5, margin: 32},
-        styles: {backgroundSize: "56%"}
+        styles: {backgroundSize: "50%"}
     });
     repositionSVGs()
 }
