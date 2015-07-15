@@ -5,6 +5,8 @@ div.toolkit-scale span.toolkit-label {
     height: 7px;
     line-height: 7px;
     color: #aaa;
+    white-space: nowrap;
+    margin: 0 0 0 0;
 }
 div.toolkit-scale span.toolkit-label.toolkit-base {
     color: #951c26;
@@ -69,6 +71,13 @@ div.toolkit-scale.toolkit-vertical div.toolkit-dot.toolkit-marker {
 
 div.toolkit-scale.toolkit-vertical.toolkit-left {
     text-align: left;
+    padding-right: 0px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 div.toolkit-scale.toolkit-vertical.toolkit-left span.toolkit-label {
     left: 6px;
@@ -102,6 +111,13 @@ div.toolkit-scale.toolkit-vertical.toolkit-left div.toolkit-dot.toolkit-marker {
 
 div.toolkit-scale.toolkit-vertical.toolkit-right {
     text-align: right;
+    padding-left: 0px;
+    -webkit-border-top-right-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 div.toolkit-scale.toolkit-vertical.toolkit-right span.toolkit-label {
     right: 6px;

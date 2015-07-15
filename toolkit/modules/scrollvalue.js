@@ -58,8 +58,8 @@ ScrollValue = $class({
     _scrollwheel: function (e) {
         if (!this.options.active) return;
         e.preventDefault();
-        var d = e.hasOwnProperty("wheelDelta") ? e.wheelDelta : -e.detail;
-        e.wheel = d > 0 ? 1 : -1;;
+        var d = e.wheelDelta ? e.wheelDelta : -e.detail;
+        e.wheel = d > 0 ? 1 : -1;
         this.options.classes.classList.add("toolkit-scrolling");
         var range = this.options.range();
         
