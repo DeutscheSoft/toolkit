@@ -95,5 +95,15 @@ div.toolkit-fader.toolkit-horizontal.toolkit-warn .toolkit-handle {
 
 div.toolkit-fader .toolkit-scale {
     z-index: 1;
-    margin-left: 60px;
+    position: absolute;
+    top: 50px;
+    bottom: 50px;
+}
+
+div.toolkit-fader.toolkit-left .toolkit-scale {
+    left: 64px;
+}
+
+div.toolkit-fader.toolkit-right .toolkit-scale {
+    right: 64px;
 }

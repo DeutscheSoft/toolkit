@@ -220,7 +220,7 @@ Scale = $class({
         var styles = { }
         var pos = Math.round(this.val2px(val));
         var size = toolkit[this._vert() ? "outer_height" : "outer_width"](label, true);
-        pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
+        pos = pos - size / 2;
         styles[this._vert() ? "bottom" : "left"] = pos + "px";
         toolkit.set_styles(label, styles);
         
