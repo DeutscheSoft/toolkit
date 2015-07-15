@@ -51,6 +51,7 @@ EqBand = $class({
                 case _TOOLKIT_LOWSHELF:
                 case _TOOLKIT_HISHELF:
                     options.mode = _TOOLKIT_LINE_VERT;
+                    options.show_axis = true;
                     break;
             }
         }

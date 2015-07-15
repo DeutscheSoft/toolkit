@@ -64,7 +64,8 @@ ResponseHandle = $class({
         y_max:            false,        // restrict movement on y axis
         z_min:            false,        // restrict movement on z axis
         z_max:            false,        // restrict movement on z axis
-        active:           true
+        active:           true,
+        show_axis:        false         // show both axis on circular and opposite axis on block or line handle
     },
     
     initialize: function (options, hold) {
@@ -1033,16 +1034,18 @@ ResponseHandle = $class({
         // LINES
         switch (this.options.mode) {
             case _TOOLKIT_CIRCULAR:
-                //var _x = Math.max(width / 2 + this.options.margin,
-                                  //this.label.x2 - rnd.x + this.options.margin);
-                //var _y = Math.max(height / 2 + this.options.margin,
-                                  //this.label.y2 - this.y + this.options.margin);
-                //this._line1.set("d", "M "  + _x + " 0" + this._add + " L"
-                                           //+ (this.range_x.get("basis") - (x - _x))
-                                           //+ " 0" + this._add);
-                //this._line2.set("d", "M 0" + this._add + " " + _y + " L 0"
-                                           //+ this._add + " "
-                                           //+ (this.range_y.get("basis") - (y - _y)));
+                if (this.options.show_axis) {
+                    var _x = Math.max(width / 2 + this.options.margin,
+                                      this.label.x2 - rnd.x + this.options.margin);
+                    var _y = Math.max(height / 2 + this.options.margin,
+                                      this.label.y2 - this.y + this.options.margin);
+                    this._line1.set("d", "M "  + _x + " 0" + this._add + " L"
+                                               + (this.range_x.get("basis") - (x - _x))
+                                               + " 0" + this._add);
+                    this._line2.set("d", "M 0" + this._add + " " + _y + " L 0"
+                                               + this._add + " "
+                                               + (this.range_y.get("basis") - (y - _y)));
+                }
                 break;
             case _TOOLKIT_LINE_VERTICAL:
             case _TOOLKIT_BLOCK_LEFT:
@@ -1050,9 +1053,13 @@ ResponseHandle = $class({
                 this._line1.set("d", "M " + (rnd.x + this._add) + " " + y
                                           + " L " + (rnd.x + this._add) + " "
                                           + (y + height));
-                this._line2.set("d", "M " + (rnd.x + this._add) + " 0 L "
-                                          + (rnd.x + this._add) + " "
-                                          + this.range_y.get("basis"));
+                if (this.options.show_axis) {
+                    this._line2.set("d", "M 0 " + (rnd.y + this._add) + " L "
+                                                + this.range_x.get("basis") + " "
+                                                + (rnd.y + this._add));
+                } else {
+                    this._line2.set("d", "M 0 0");
+                }
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
             case _TOOLKIT_BLOCK_TOP:
@@ -1060,9 +1067,13 @@ ResponseHandle = $class({
                 this._line1.set("d", "M "   + x + " " + (rnd.y + this._add)
                                             + " L " + (x + width) + " "
                                             + (rnd.y + this._add));
-                this._line2.set("d", "M 0 " + (rnd.y + this._add) + " L "
-                                            + this.range_x.get("basis") + " "
-                                            + (rnd.y + this._add));
+                if (this.options.show_axis) {
+                    this._line2.set("d", "M " + (rnd.x + this._add) + " 0 L "
+                                              + (rnd.x + this._add) + " "
+                                              + this.range_y.get("basis"));
+                } else {
+                    this._line2.set("d", "M 0 0");
+                }
                 break;
         }
         Widget.prototype.redraw.call(this);

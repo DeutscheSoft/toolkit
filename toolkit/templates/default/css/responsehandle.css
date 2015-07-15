@@ -174,10 +174,10 @@
     opacity: 0.6;
 }
 .toolkit-response-handle.toolkit-line:hover .toolkit-line-1 {
-    
+    stroke-dasharray: 0;
 }
 .toolkit-response-handle.toolkit-line.toolkit-active .toolkit-line-1 {
-    
+    stroke-dasharray: 0;
 }
 .toolkit-response-handle.toolkit-line .toolkit-line-2 {
     stroke: #fff;
@@ -194,10 +194,11 @@
     opacity: 0.6;
 }
 .toolkit-response-handle.toolkit-block:hover .toolkit-line-1 {
-    
+    stroke-dasharray: 0;
 }
 .toolkit-response-handle.toolkit-block.toolkit-active .toolkit-line-1 {
-    
+    stroke-dasharray: 0;
+    opacity: 0.9;
 }
 .toolkit-response-handle.toolkit-block .toolkit-line-2 {
     stroke: #fff;
