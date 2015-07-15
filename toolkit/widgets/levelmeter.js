@@ -318,7 +318,7 @@ LevelMeter = $class({
                             : (r ? "left" : "right")] = (size - top_bot) + "px";
             m3[vert ? "height" : "width"] = top_size + "px";
             
-            if (__based) {
+            if (this.__based) {
                 var _bot     = +this._val2seg(Math.min(bottom, base));
                 var bot_val  = +this._val2seg(Math.min(value, base));
                 var bot_bot  = Math.min(bot_val, _bot);
