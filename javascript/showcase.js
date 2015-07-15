@@ -1187,12 +1187,12 @@ function run_equalizer () {
                      preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
                                    _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                     label: function (title, x, y, z) { return title + "\n" + x + " Hz"; } },
+                     label: function (title, x, y, z) { return title + "\n" + toolkit.sprintf("%.2f", x) + " Hz"; } },
         {x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass",
                      preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                    _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                     label: function (title, x, y, z) { return title + "\n" + x + " Hz"; } }]
+                     label: function (title, x, y, z) { return title + "\n" + toolkit.sprintf("%.2f", x) + " Hz"; } }]
     });
     repositionSVGs()
 }
