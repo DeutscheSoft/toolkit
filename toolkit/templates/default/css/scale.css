@@ -1,5 +1,6 @@
 div.toolkit-scale {
     font-size: 8px;
+    position: relative;
 }
 div.toolkit-scale span.toolkit-label {
     height: 7px;
