@@ -38,7 +38,7 @@ Gauge = $class({
         BASE.prototype.initialize.call(this);
         if (typeof options.title == "string")
             options.title = {title: options.title};
-        this.setOptions(options);
+        this.set_options(options);
         this._svg = makeSVG("svg", {
             "class": "toolkit-gauge",
             "width": this.options.width,

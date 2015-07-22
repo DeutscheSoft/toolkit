@@ -32,7 +32,7 @@ Filter = $class({
 
     initialize: function (options) {
         BASE.prototype.initialize.call(this);
-        this.setOptions(options);
+        this.set_options(options);
         this.reset();
         this.fire_event("initialized", this);
     },

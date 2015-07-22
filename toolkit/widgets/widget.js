@@ -85,7 +85,7 @@ Widget = $class({
         }
         // Main actions every widget needs to take
         this.fire_event("initialize", this);
-        this.setOptions(options);
+        this.set_options(options);
         if (!this.options.id)
             this.options.id = String.uniqueID();
         if (this.resize)

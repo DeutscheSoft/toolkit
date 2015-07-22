@@ -66,7 +66,7 @@ BASE = $class({
         this.__event_target = null;
         this.options = null;
     },
-    setOptions : function(o) {
+    set_options : function(o) {
         var opt = this.options;
         var key, a, b;
         if (typeof(o) != "object") {

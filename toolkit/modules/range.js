@@ -84,7 +84,7 @@ Range = $class({
     
     initialize: function (options, hold) {
         BASE.prototype.initialize.call(this);
-        this.setOptions(options);
+        this.set_options(options);
         this.fire_event("initialize", this);
         this.fire_event("initialized", this);
         return this;
