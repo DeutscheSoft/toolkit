@@ -20,53 +20,94 @@
  */
 
 window.addEventListener('DOMContentLoaded', function () {
-    $$(".collapse").each(function (e) {
-        var toggle = new Element("div", {"class":"toolkit-button", html:e.get("title") + " (" + (e.getChildren()[0].getChildren().length - 1) + ")"});
-        toggle.inject(e.getParent().getChildren(".buttons")[0]);
-        var toggleFx = new Fx.Slide(e).hide();
-        toggle.addEventListener("click", function(){toggleFx.toggle()});
-    });
-    var c = 0;
-    $$("ul.wrapper>li").each( function (e) {
-        var id = e.get("id");
-        var cls   = e.get("class");
-        if (!cls || !id) return;
-        id = id.toLowerCase();
-        var title = e.get("id");
-        var ctitle = cls.charAt(0).toUpperCase() + cls.substr(1);
+    var col = TK.get_class("collapse");
+    for (var i = 0; i < col.length; i++) {
+        var c = col[i];
+        var t = TK.element("div", "toolkit-button");
+        t.innerHTML = c.getAttribute("title") + " (" + (c.children[0].children.length - 1) + ")";
+        TK.get_class("buttons", c.parentElement)[0].appendChild(t);
+        c.style.display = "none";
+        t.addEventListener("click", (function (c) {
+            return function (e) { c.style.display = c.style.display ? "" : "none"; }
+        })(c));
+    }
+    var wrp = TK.get_class("wrapper");
+    var lis = TK.get_id("wrapper").children;
+    for (var i = 0; i < lis.length; i++) {
+        var e = lis[i];
+        var id  = e.getAttribute("id");
+        var cls = e.getAttribute("class");
+        if (!id)
+            continue;
         
         // SUBMENU
-        if (!$$("#navigation ul." + cls).length) {
-            var l = new Element("li").inject($("navigation"));
-            var t = new Element("span", {html: ctitle + "s"}).inject(l);
-            var m = new Element("ul." + cls, {id: cls}).inject(l);
-            var toggleFx = new Fx.Slide(m, {duration:300}).hide();
-            t.addEventListener("click", function(){toggleFx.toggle()});
-            m.addEventListener("click", function(){toggleFx.toggle()});
+        var n = TK.get_id("navigation");
+        if (!TK.get_class(cls, n).length) {
+            var _l = TK.element("li");
+            var s = TK.element("span");
+            var m = TK.element("ul", cls);
+            s.innerHTML = cls.charAt(0).toUpperCase() + cls.substr(1) + "s";
+            m.setAttribute("id", cls);
+            _l.appendChild(s);
+            _l.appendChild(m);
+            n.appendChild(_l);
+            s.addEventListener("click", (function (m) {
+                return function (e) { m.classList.toggle("show"); }
+            })(m));
+            m.addEventListener("click", (function (m) {
+                return function (e) { m.classList.toggle("show"); }
+            })(m));
         }
         
-        // MENU
-        var l = new Element("a", {href: "#" + id, html: title, style: e.get("style")}).inject(new Element("li").inject($(cls)));
+        // MENU ENTRY
+        var li = TK.element("li");
+        var a  = TK.element("a");
+        a.setAttribute("href", "#" + id);
+        a.setAttribute("style", e.getAttribute("style"));
+        a.innerHTML = id;
+        TK.get_id(cls).appendChild(li).appendChild(a);
         
         // HEADLINE
-        var h = new Element("h2", {html: "<a name=\"" + id + "\"></a>" + title}).inject(e, "top");
+        var h = TK.element("h2");
+        h.innerHTML = id;
+        e.insertBefore(h, e.firstChild);
+        
+        // ANCHOR
+        var a = TK.element("a");
+        a.setAttribute("name", id);
+        e.insertBefore(a, e.firstChild);
         
         // UP BUTTON
-        var up = new Element("a.button", {style:"float: right; margin: 0 0 24px 24px;", href: "#", html: "up ⤴"}).inject(e, "bottom");
-        var hr = new Element("hr").inject(e, "bottom");
+        var b = TK.element("a", "button");
+        b.setAttribute("href", "#");
+        b.setAttribute("style", "float: right; margin: 0 0 24px 24px;");
+        b.innerHTML = "up ⤴";
+        e.appendChild(b);
+        e.appendChild(TK.element("hr"));
         
         // EXAMPLE STUFF
+        id = id.toLowerCase();
         if (typeof window["run_" + id] != "undefined") {
-            var but = new Element("div.toolkit-button", {html: "⚄ Example"}).inject(e.getChildren(".buttons")[0]);
+            var bl  = TK.get_class("buttons", e)[0];
+            console.log(bl);
+            var but = TK.element("div", "toolkit-button");
+            but.innerHTML = "⚄ Example";
             but.addEventListener("click", window["run_" + id]);
-            l.addEventListener("click", window["run_" + id]);
-            
-            var pre = new Element("pre.box", {html: "<code data-language='python'>" + window["run_" + id].toString() + "</code>"}).inject(e.getChildren(".buttons")[0], "after");
-            var tog = new Element("div.toolkit-button", {html: "⌨ Code"}).inject(e.getChildren(".buttons")[0]);
-            var togFx = new Fx.Slide(pre).hide();
-            tog.addEventListener("click", function(){togFx.toggle()});
+            li.addEventListener("click", window["run_" + id]);
+            bl.appendChild(but);
+            var pre = TK.element("pre", "box", "code");
+            pre.innerHTML = "<code data-language='python'>" + window["run_" + id].toString() + "</code>";
+            bl.parentNode.insertBefore(pre, bl.nextSibling);
+            var tog = TK.element("div", "toolkit-button");
+            tog.innerHTML = "⌨ Code";
+            bl.appendChild(tog);
+            tog.addEventListener("click", (function (pre) {
+                return function (e) {
+                    pre.classList.toggle("show");
+                }
+            })(pre));
         }
-    });
+    }
     var modex = window.location.hash.substring(1);
     if (modex == "all") {
         for (var name in window) {

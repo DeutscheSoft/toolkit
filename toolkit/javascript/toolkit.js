@@ -255,5 +255,14 @@ toolkit = {
                 toolkit._monitored_resize_events = -1;
             }
         }
+    },
+    
+    get_id: function (id) {
+        return document.getElementById(id);
+    },
+    get_class: function (cls, elm) {
+        return (elm ? elm : document).getElementsByClassName(cls);
     }
+    
 };
+TK = toolkit;
