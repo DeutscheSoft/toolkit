@@ -1,1 +1,0 @@
-sprintf = toolkit.sprintf;

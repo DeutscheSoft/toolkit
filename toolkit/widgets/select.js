@@ -216,10 +216,8 @@ Select = $class({
             document.body.appendChild(this._list);
             var cw = window.getSize().x;
             var ch = window.getSize().y;
-            var sx = (window.pageXOffset !== undefined) ? window.pageXOffset
-                   : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
-            var sy = (window.pageYOffset !== undefined) ? window.pageYOffset
-                   : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+            var sx = scroll_left();
+            var sy = scroll_top();
             toolkit.set_styles(this._list, {
                 "opacity": 0,
                 "maxHeight": ch,
