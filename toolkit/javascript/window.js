@@ -19,27 +19,6 @@
  * Boston, MA  02110-1301  USA
  */
 
-is_touch = function () {
-    return 'ontouchstart' in window // works on most browsers 
-      || 'onmsgesturechange' in window; // works on ie10
-}
-os = function () {
-    var ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf("android") > -1)
-        return "Android";
-    if (/iPad/i.test(ua) || /iPhone OS 3_1_2/i.test(ua) || /iPhone OS 3_2_2/i.test(ua))
-        return "iOS";
-    if ((ua.match(/iPhone/i)) || (ua.match(/iPod/i)))
-        return "iOS";
-    if (navigator.appVersion.indexOf("Win")!=-1)
-        return "Windows";
-    if (navigator.appVersion.indexOf("Mac")!=-1)
-        return "MacOS";
-    if (navigator.appVersion.indexOf("X11")!=-1)
-        return "UNIX";
-    if (navigator.appVersion.indexOf("Linux")!=-1)
-        return "Linux";
-},
 keep_inside = function (element, resize) {
     var ex = parseInt(element.getStyle("left"));
     var ey = parseInt(element.getStyle("top"));

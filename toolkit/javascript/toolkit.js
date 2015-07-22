@@ -223,5 +223,37 @@ toolkit = {
             return "UNIX";
         if (navigator.appVersion.indexOf("Linux")!=-1)
             return "Linux";
+    },
+    
+    _resize_events: [],
+    _monitored_resize_events: -1,
+    
+    monitor_resize_events: function () {
+        for (var i = 0; i < toolkit._resize_events.length; i++) {
+            var r = toolkit._resize_events[i];
+            if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
+                r.x = r.element.offsetWidth;
+                r.y = r.element.offsetHeight;
+                r.element.dispatchEvent("resize");
+            }
+        }
+        if (toolkit._resize_events.length) {
+            toolkit._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
+        }
+    },
+    add_resize_event: function (element) {
+        toolkit._resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
+        if (toolkit._monitored_resize_events < 0) {
+            toolkit._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
+        }
+    },
+    remove_resize_event: function (element) {
+        for (var i = 0; i < toolkit._resize_events; i++) {
+            if (element == toolkit._resize_events[i]) toolkit._resize_events.splice(i, 1);
+            if (!toolkit._resize_events.length && toolkit._monitored_resize_events < 0) {
+                window.clearTimeout(toolkit._monitored_resize_events);
+                toolkit._monitored_resize_events = -1;
+            }
+        }
     }
 };

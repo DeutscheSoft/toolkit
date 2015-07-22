@@ -122,6 +122,12 @@ BASE = $class({
                 this.add_event(ev[i].event, fun, ev[i].prevent, ev[i].stop);
             return;
         }
+        // handle resize events globally since there's no resize event
+        // for DOM elements
+        if (event == "resize") {
+            toolkit.add_resize_event(this);
+            return;
+        }
         ev = this.__events;
         if (!ev.hasOwnProperty(e)) {
             if (__native_events[e]) {
@@ -158,6 +164,12 @@ BASE = $class({
             var ev = __event_replacements[e];
             for (var i = 0; i < ev.length; i++)
                 this.remove_event(ev[i].event, fun);
+            return;
+        }
+        // handle resize events globally since there's no resize event
+        // for DOM elements
+        if (event == "resize") {
+            toolkit.remove_resize_event(this);
             return;
         }
         ev = this.__events;
