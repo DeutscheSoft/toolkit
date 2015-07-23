@@ -60,22 +60,22 @@ Clock = $class({
         this._margin = -1;
         Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
-        this.element = this.widgetize(makeSVG("svg", {"class": "toolkit-clock"}),
+        this.element = this.widgetize(TK.make_svg("svg", {"class": "toolkit-clock"}),
                                       true, true, true);
         
         this.set("container", this.options.container);
         
-        this._label       = makeSVG("text", {
+        this._label       = TK.make_svg("text", {
             "class":       "toolkit-label",
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"
         });
-        this._label_upper = makeSVG("text", {
+        this._label_upper = TK.make_svg("text", {
             "class": "toolkit-label-upper",
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"
         });
-        this._label_lower = makeSVG("text", {
+        this._label_lower = TK.make_svg("text", {
             "class": "toolkit-label-lower",
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"

@@ -89,14 +89,13 @@ window.addEventListener('DOMContentLoaded', function () {
         id = id.toLowerCase();
         if (typeof window["run_" + id] != "undefined") {
             var bl  = TK.get_class("buttons", e)[0];
-            console.log(bl);
             var but = TK.element("div", "toolkit-button");
             but.innerHTML = "⚄ Example";
             but.addEventListener("click", window["run_" + id]);
             li.addEventListener("click", window["run_" + id]);
             bl.appendChild(but);
             var pre = TK.element("pre", "box", "code");
-            pre.innerHTML = "<code data-language='python'>" + window["run_" + id].toString() + "</code>";
+            pre.innerHTML = "<code>" + window["run_" + id].toString() + "</code>";
             bl.parentNode.insertBefore(pre, bl.nextSibling);
             var tog = TK.element("div", "toolkit-button");
             tog.innerHTML = "⌨ Code";
@@ -133,7 +132,7 @@ run_valueknob = function () {
         return;
     }
     valueknob = new ValueKnob({
-        container: $("sc_valueknob"),
+        container: TK.get_id("sc_valueknob"),
         min: -100,
         max: 100,
         value: -20,
@@ -169,7 +168,7 @@ run_pager = function () {
         show: 4,
         position: _TOOLKIT_RIGHT,
         direction: _TOOLKIT_HORIZ,
-        container: $("sc_pager")
+        container: TK.get_id("sc_pager")
     });
     pager2 = new Pager({
         pages: [
@@ -187,7 +186,7 @@ run_pager = function () {
             {label: "Page #12", content: "<h1>Page #12</h1><p>This is Page #12.</p>"}
         ],
         show: 4,
-        container: $("sc_pager")
+        container: TK.get_id("sc_pager")
     });
 }
 
@@ -206,7 +205,7 @@ run_buttonarray = function () {
         return;
     }
     ba_horiz1 = new ButtonArray({
-        container: $("sc_buttonarray"),
+        container: TK.get_id("sc_buttonarray"),
         buttons: [
             {label: "Button 1"},
             {label: "Button 2"},
@@ -228,7 +227,7 @@ run_buttonarray = function () {
         show: 3
     });
     ba_horiz2 = new ButtonArray({
-        container: $("sc_buttonarray"),
+        container: TK.get_id("sc_buttonarray"),
         buttons: [
             {label: "Button 1"},
             {label: "Button 2"},
@@ -250,7 +249,7 @@ run_buttonarray = function () {
         show: 1
     });
     ba_vert1 = new ButtonArray({
-        container: $("sc_buttonarray"),
+        container: TK.get_id("sc_buttonarray"),
         direction: _TOOLKIT_VERT,
         buttons: [
             {label: "Button 1"},
@@ -273,7 +272,7 @@ run_buttonarray = function () {
         show: 8
     });
     ba_vert2 = new ButtonArray({
-        container: $("sc_buttonarray"),
+        container: TK.get_id("sc_buttonarray"),
         direction: _TOOLKIT_VERT,
         buttons: [
             {label: "Button 1"},
@@ -310,7 +309,7 @@ run_keyboard = function () {
     }
     
     value = new Value({
-        container: $("sc_keyboard"),
+        container: TK.get_id("sc_keyboard"),
         value: 123.97,
         format: toolkit.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
@@ -411,7 +410,7 @@ run_label = function () {
         return;
     }
     label = new Label({
-        container: $("sc_label"),
+        container: TK.get_id("sc_label"),
         label: "Lorem ipsum dolor sit amet"
     });
     $("sc_label").addClass("box");
@@ -436,7 +435,7 @@ run_select = function () {
             {title:"foobar",value:16},
             {title:"wtf",value:17}
         ],
-        container: $("sc_select"),
+        container: TK.get_id("sc_select"),
         selected: 4
     });
     $("sc_select").addClass("box");
@@ -457,7 +456,7 @@ run_fader = function () {
     faders = [];
     for (var i = 0; i < 8; i ++) {
         faders.push(new Fader({
-            container: $("sc_fader"),
+            container: TK.get_id("sc_fader"),
             min: -580,
                     max: 60,
                     value: 0,
@@ -504,7 +503,7 @@ run_fader = function () {
     }
     fadertt = new Toggle({
         label: "Tooltips",
-        container: $("sc_fader"),
+        container: TK.get_id("sc_fader"),
         onToggled: function (state) {
             var t = state ? toolkit.FORMAT("%.2f dB") : false;
             for (var i = 0; i < faders.length; i++) {
@@ -525,7 +524,7 @@ run_value = function () {
         return;
     }
     value = new Value({
-        container: $("sc_value"),
+        container: TK.get_id("sc_value"),
         value: 123.97,
         format: toolkit.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
@@ -545,7 +544,7 @@ function run_knob () {
         return;
     }
     knob1 = new Knob({
-        container: $("sc_knob"),
+        container: TK.get_id("sc_knob"),
         "class": "knob1",
         margin: 5.5,
         thickness: 3,
@@ -562,7 +561,7 @@ function run_knob () {
         styles: {backgroundSize: "100%"}
     });
     knob = new Knob({
-        container: $("sc_knob"),
+        container: TK.get_id("sc_knob"),
         "class": "knob",
         min: -96,
         max: 24,
@@ -579,7 +578,7 @@ function run_knob () {
         ]
     });
     knob2 = new Knob({
-        container: $("sc_knob"),
+        container: TK.get_id("sc_knob"),
         "class": "knob2",
         margin: 0,
         thickness: 4,
@@ -602,7 +601,7 @@ function run_knob () {
         hand: {width: 2, length: 3.5, margin: 32},
         styles: {backgroundSize: "50%"}
     });
-    repositionSVGs()
+    seat_all_svg()
 }
 
 
@@ -618,7 +617,7 @@ function run_window () {
         return;
     }
     winbutton = new Button({
-        container: $("sc_window"),
+        container: TK.get_id("sc_window"),
         label: "Demo Window",
         icon: "images/icons_big/window.png"
     });
@@ -666,9 +665,9 @@ function run_clock () {
         return;
     }
     clock = new Clock({
-        container: $("sc_clock"),
+        container: TK.get_id("sc_clock"),
     });
-    repositionSVGs()
+    seat_all_svg()
 }
 
 
@@ -708,7 +707,7 @@ function run_gauge () {
         label: {align:_TOOLKIT_OUTER, margin: 20},
         show_hand: true,
         hand: {margin: 29, length: 21, width: 2, color:"white"},
-        container: $("sc_gauge"),
+        container: TK.get_id("sc_gauge"),
         labels: [{pos:0},{pos:2},{pos:4},{pos:6},{pos:8},{pos:10}]
     });
     gauge[1] = new Gauge({
@@ -723,7 +722,7 @@ function run_gauge () {
         dot: {width: 1, length: 1, margin: 17},
         label: {align:_TOOLKIT_OUTER, margin:17},
         show_hand: false,
-        container: $("sc_gauge"),
+        container: TK.get_id("sc_gauge"),
         dots:[{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:25},{pos:30},
               {pos:35},{pos:40},{pos:45}, {pos:50},{pos:55}],
         labels: [{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:30},{pos:40},{pos:50}]
@@ -734,7 +733,7 @@ function run_gauge () {
         max:12,
         value:-10,
         title: "dBu",
-        container: $("sc_gauge"),
+        container: TK.get_id("sc_gauge"),
         markers: [{from:0, to:12}],
         dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},
               {pos:0},{pos:5},{pos:10},{pos:120}],
@@ -747,7 +746,7 @@ function run_gauge () {
         value:50,
         base: 0,
         title: "Temp °C",
-        container: $("sc_gauge"),
+        container: TK.get_id("sc_gauge"),
         label: {format: toolkit.FORMAT("%d °")},
         markers: [{from:80, to:100}, {from:-80, to:-100}],
         dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},
@@ -776,7 +775,7 @@ function run_gauge () {
         label: {margin: 12, align: _TOOLKIT_OUTER},
         title: {margin: 46, pos: 270, title: "VU"},
         show_value: false,
-        container: $("sc_gauge"),
+        container: TK.get_id("sc_gauge"),
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3}
         ],
@@ -813,7 +812,7 @@ function run_gauge () {
         label: {margin: 12, align: _TOOLKIT_OUTER},
         title: {margin: 46, pos: 270, title: "VU"},
         show_value: false,
-        container: $("sc_gauge"),
+        container: TK.get_id("sc_gauge"),
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3, color:"rgba(0,0,0,0.8)"}
         ],
@@ -829,7 +828,7 @@ function run_gauge () {
             {pos: -0, label:"100%", margin: 29, align:_TOOLKIT_INNER}
         ]
     });
-    repositionSVGs()
+    seat_all_svg()
 }
 
 
@@ -845,14 +844,14 @@ function run_toggle () {
         return;
     }
     toggle = new Toggle({
-        container: $("sc_toggle"),
+        container: TK.get_id("sc_toggle"),
         label: "Mic Active",
         label_active: "Mic Muted",
         icon: "images/icons_big/microphone.png",
         icon_active: "images/icons_big/microphone_muted.png"
     });
     press = new Toggle({
-        container: $("sc_toggle"),
+        container: TK.get_id("sc_toggle"),
         label: "Mic Active",
         label_active: "Mic Muted",
         icon: "images/icons_big/microphone.png",
@@ -873,7 +872,7 @@ function run_button () {
         return;
     }
     button = new Button({
-        container: $("sc_button"),
+        container: TK.get_id("sc_button"),
         label: "Demo Button",
         icon: "images/icons_big/showcase.png"
     });
@@ -979,7 +978,7 @@ function run_scale () {
     $("sc_scale").addClass("box");
     scales = {};
     scales.left = new Scale({
-        container: $("sc_scale"),
+        container: TK.get_id("sc_scale"),
         layout: _TOOLKIT_LEFT,
         division: 1,
         levels: [1, 6, 12],
@@ -991,7 +990,7 @@ function run_scale () {
         id: "sc_scale_v_l"
     })
     scales.right = new Scale({
-        container: $("sc_scale"),
+        container: TK.get_id("sc_scale"),
         layout: _TOOLKIT_RIGHT,
         division: 1,
         levels: [1, 6, 12],
@@ -1002,7 +1001,7 @@ function run_scale () {
         id: "sc_scale_v_r"
     })
     scales.top = new Scale({
-        container: $("sc_scale"),
+        container: TK.get_id("sc_scale"),
         layout: _TOOLKIT_TOP,
         division: 1,
         levels: [1, 6, 12],
@@ -1014,7 +1013,7 @@ function run_scale () {
         id: "sc_scale_h_t"
     })
     scales.bottom = new Scale({
-        container: $("sc_scale"),
+        container: TK.get_id("sc_scale"),
         layout: _TOOLKIT_BOTTOM,
         division: 1,
         levels: [1, 6, 12],
@@ -1042,7 +1041,7 @@ function run_chart () {
     chart = new Chart({
         range_x: {basis:908, scale: _TOOLKIT_LINEAR, min:0, max:1},
         range_y: {basis:300, scale: _TOOLKIT_LINEAR, min:0, max:1},
-        container: $("sc_chart"),
+        container: TK.get_id("sc_chart"),
         grid_x: [{pos:0.0, label:"0"},
                  {pos:0.1},
                  {pos:0.2, label:"20"},
@@ -1104,7 +1103,7 @@ function run_chart () {
         color: "#ffffff",
         key:   "baz"
     });
-    repositionSVGs()
+    seat_all_svg()
 }
 
 // FREQUENCY RESPONSE
@@ -1121,7 +1120,7 @@ function run_frequencyresponse () {
     fr = new FrequencyResponse({
         width: 906,
         height: 300,
-        container: $("sc_frequencyresponse"),
+        container: TK.get_id("sc_frequencyresponse"),
         db_grid: 12
     });
     frgraph = fr.add_graph({
@@ -1136,7 +1135,7 @@ function run_frequencyresponse () {
         type: "H4",
         mode: _TOOLKIT_LINE
     });
-    repositionSVGs()
+    seat_all_svg()
 }
 
 // DYNAMICS
@@ -1156,7 +1155,7 @@ function run_dynamics () {
     $("sc_dynamics").addClass("box");
     comp = new Dynamics({
         size: 298,
-        container: $("sc_dynamics")
+        container: TK.get_id("sc_dynamics")
     });
     gcomp = comp.add_graph({
         dots: [{x:-96, y:-72},
@@ -1167,7 +1166,7 @@ function run_dynamics () {
     });
     expand = new Dynamics({
         size: 298,
-        container: $("sc_dynamics"),
+        container: TK.get_id("sc_dynamics"),
         type: _TOOLKIT_EXPANDER,
         threshold: -12,
         ratio: 4,
@@ -1175,7 +1174,7 @@ function run_dynamics () {
     });
     dyna = new Dynamics({
         size: 298,
-        container: $("sc_dynamics")
+        container: TK.get_id("sc_dynamics")
     });
     gdyna = dyna.add_graph({
         dots: [{x:-60, y:-96},
@@ -1186,7 +1185,7 @@ function run_dynamics () {
         ],
         mode: _TOOLKIT_LINE
     });
-    repositionSVGs()
+    seat_all_svg()
 }
 
 
@@ -1205,7 +1204,7 @@ function run_equalizer () {
         width: 908,
         height: 300,
         depth: 120,
-        container: $("sc_equalizer"),
+        container: TK.get_id("sc_equalizer"),
         db_grid: 12,
         range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true},
         bands: [{x:600, y:-12, z:3, type:_TOOLKIT_PARAMETRIC,
@@ -1235,7 +1234,7 @@ function run_equalizer () {
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
                      label: function (title, x, y, z) { return title + "\n" + toolkit.sprintf("%.2f", x) + " Hz"; } }]
     });
-    repositionSVGs()
+    seat_all_svg()
 }
 
 function run_spectralsignature () {
@@ -1248,7 +1247,7 @@ function run_spectralsignature () {
     }
     $("sc_ssig").addClass("box");
     ssig = new SpectralSignature.Widget({
-        container: $("sc_ssig"),
+        container: TK.get_id("sc_ssig"),
             range_x: {min: 40, max: 24000, basis: 800, scale: _TOOLKIT_FREQUENCY},
             range_y_upper: {min: -84, max: 0, basis: 200, scale: _TOOLKIT_LINEAR, step: 1, shift_up: 2, shift_down: 0.5},
             range_y_upper_norm: {min: -12, max: 12, basis: 200, base: 0, scale: _TOOLKIT_LINEAR, reverse: true},
@@ -1324,7 +1323,7 @@ function run_spectralsignature () {
             position_lower: _TOOLKIT_TOP_RIGHT
     });
     ssig.add_signature({}, [-10, 20, 30, -20, -40, 40, 20, 10], true);
-    repositionSVGs()
+    seat_all_svg()
 }
 
 
@@ -1343,7 +1342,7 @@ function run_responsehandler () {
         width: 908,
         height: 300,
         depth: 120,
-        container: $("sc_responsehandler"),
+        container: TK.get_id("sc_responsehandler"),
         db_grid: 12,
         range_z: {min: 1, max: 20, step: 0.1, shift_up: 5, shift_down: 0.2}
     });
@@ -1487,7 +1486,7 @@ function run_responsehandler () {
                        label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        })
     ]
-    repositionSVGs()
+    seat_all_svg()
 }
 
 
@@ -1513,39 +1512,39 @@ function run_state () {
     }
     $("sc_state").addClass("box");
     s1 = new State({
-        container: $("sc_state")
+        container: TK.get_id("sc_state")
     });
     s2 = new State({
-        container: $("sc_state"),
+        container: TK.get_id("sc_state"),
         color: "#00ff00"
     });
     s3 = new State({
-        container: $("sc_state"),
+        container: TK.get_id("sc_state"),
         color: "blue",
         state: 1
     });
     s4 = new State({
-        container: $("sc_state"),
+        container: TK.get_id("sc_state"),
         color: "blue",
         state: 1,
     });
     s5 = new State({
-        container: $("sc_state"),
+        container: TK.get_id("sc_state"),
         color: "#cc0000",
         state: 1,
     });
     s6 = new State({
-        container: $("sc_state"),
+        container: TK.get_id("sc_state"),
         color: "#ff8800",
         state: 1,
     });
     s7 = new State({
-        container: $("sc_state"),
+        container: TK.get_id("sc_state"),
         color: "grey",
         state: 1,
     });
     s8 = new State({
-        container: $("sc_state"),
+        container: TK.get_id("sc_state"),
         color: "#d00",
         state: 0,
         "class": "on_air"

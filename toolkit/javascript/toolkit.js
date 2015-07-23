@@ -225,6 +225,75 @@ toolkit = {
             return "Linux";
     },
     
+    browser: function () {
+        var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+        if (/trident/i.test(M[1])) {
+            tem = /\brv[ :]+(\d+)/g.exec(ua) || []; 
+            return { name : 'IE', version : (tem[1]||'') };
+        }   
+        if (M[1] === 'Chrome') {
+            tem = ua.match(/\bOPR\/(\d+)/)
+            if (tem!=null)
+                return { name : 'Opera', version : tem[1] };
+        }
+        M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+        if ((tem = ua.match(/version\/(\d+)/i)) != null) { M.splice(1, 1, tem[1]); }
+        return { name : M[0], version : M[1] };
+    },
+    
+    make_svg: function (tag, args) {
+        // creates and returns an SVG object
+        // 
+        // arguments:
+        // tag: the element to create as string, e.g. "line" or "g"
+        // args: the options to set in the element
+        // 
+        // returns: the newly created object
+        var el= document.createElementNS('http://www.w3.org/2000/svg', "svg:" + tag);
+        for (var k in args)
+            el.setAttribute(k, args[k]);
+        return $(el);
+    },
+    seat_all_svg: function () {
+        // searches all svg that don't have the class "fixed" and re-positions them
+        // for avoiding blurry lines
+        $$("svg:not(.svg-fixed)").each(function (e) {
+            TK.seat_svg(e);
+        });
+    },
+    seat_svg: function (e) {
+        // move svgs if their positions in viewport is not int
+        if (e.retrieve("margin-left") === null) {
+            e.store("margin-left", e.getStyle("margin-left").toFloat());
+        } else {
+            e.style.marginLeft = e.retrieve("margin-left");
+        }
+        var l = e.retrieve("margin-left").toFloat();
+        var b = e.getBoundingClientRect();
+        var x = b.left % 1;
+        if (x) {
+            
+            if (x < 0.5) l -= x;
+            else l += (1 - x);
+        }
+        if (e.getParent() && e.getParent().getStyle("text-align") == "center")
+            l += 0.5;
+        e.style.marginLeft = l + "px";
+        if (e.retrieve("margin-top") === null) {
+            e.store("margin-top", e.getStyle("margin-top").toFloat());
+        } else {
+            e.style.marginTop = e.retrieve("margin-top");
+        }
+        var t = e.retrieve("margin-top").toFloat();
+        var b = e.getBoundingClientRect();
+        var y = b.top % 1;
+        if (y) {
+            if (x < 0.5) t -= y;
+            else t += (1 - y);
+        }
+        e.style.marginTop = t + "px";
+    },
+    
     _resize_events: [],
     _monitored_resize_events: -1,
     
@@ -266,3 +335,109 @@ toolkit = {
     
 };
 TK = toolkit;
+
+
+
+
+
+// ARRAY PROTOTYPING
+
+Array.prototype._binarySearch = function (arr, val, insert) {
+    var high = arr.length, low = -1, mid;
+    while (high - low > 1) {
+        mid = (high + low) >> 1;
+        if (arr[mid] < val) low = mid;
+        else high = mid;
+    }
+    if (arr[high] == val || insert) {
+        return high;
+    } else {
+        return -1;
+    }
+}
+Array.prototype.next = function (val, sort) {
+    if (sort)
+    var arr = this.slice(0).sort( function (a, b) { return a-b; });
+    else var arr = this;
+    // Get index
+    var i = this._binarySearch(arr, val, true);
+    // Check boundaries
+    return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
+};
+
+
+// MATH PROTOTYPING
+
+Math.log2 = function (n) {
+    return Math.log(Math.max(1e-32, n)) / Math.LN2;
+}
+Math.log10 = function (n) {
+    return Math.log(Math.max(1e-32, n)) / Math.LN10;
+}
+
+
+// SVG PROTOTYPING
+
+SVGElement.prototype.addClass = function(classList) {
+    var currentClass = this.className.baseVal;
+    classList.split(' ').forEach(function (newClass) {
+        var tester = new RegExp('\\b' + newClass + '\\b', 'g');
+        if (-1 === currentClass.search(tester))
+            currentClass += ' ' + newClass;
+    });
+    this.setAttribute('class', currentClass);
+    return this;
+};
+
+SVGElement.prototype.removeClass = function(classList) {
+    var currentClass = this.className.baseVal;
+    classList.split(' ').forEach(function (newClass) {
+        var tester = new RegExp(' *\\b' + newClass + '\\b *', 'g');
+        currentClass = currentClass.replace(tester, ' ');
+    });
+    this.setAttribute('class', currentClass.trim());
+    return this;
+};
+
+
+// WINDOW PROTOTYPING
+
+keep_inside = function (element, resize) {
+    var ex = parseInt(element.getStyle("left"));
+    var ey = parseInt(element.getStyle("top"));
+    var ew = toolkit.outer_width(element, true);
+    var eh = toolkit.outer_height(element, true);
+    
+    if (element.getStyle("position") == "fixed") {
+        var pw = width();
+        var ph = height();
+        var w  = pw;
+        var h  = ph;
+        var x  = Math.min(Math.max(ex, 0), w - ew);
+        var y  = Math.min(Math.max(ey, 0), h - eh);
+    } else {
+        var p  = element.offsetParent;
+        var pw = p ? p.offsetWidth : width() - scroll_left();
+        var ph = p ? p.offsetHeight : height() - scroll_top();
+        var x = Math.min(Math.max(ex, 0), pw - ew);
+        var y = Math.min(Math.max(ey, 0), ph - eh);
+    }
+    if(resize) {
+        if (ew > pw) element.style.width = pw + "px";
+        if (eh > ph) element.style.height = ph + "px";
+    }
+    element.style.left = x + "px";
+    element.style.top = y + "px";
+}
+width = function () {
+    return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
+}
+height = function () {
+    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0, document.body.clientHeight || 0);
+}
+scroll_top = function () {
+    return Math.max(document.documentElement.scrollTop || 0, window.pageYOffset || 0, document.body.scrollTop || 0);
+}
+scroll_left = function () {
+    return Math.max(document.documentElement.scrollLeft, window.pageXOffset || 0, document.body.scrollLeft || 0);
+}

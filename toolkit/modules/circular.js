@@ -100,25 +100,25 @@ Circular = $class({
     initialize: function (options, hold) {
         Widget.prototype.initialize.call(this, options);
         
-        this.element = makeSVG("g", {"class": "toolkit-circular"});
+        this.element = TK.make_svg("g", {"class": "toolkit-circular"});
         if (!hold) this.widgetize(this.element, true, true, true);
         
-        this._base = makeSVG("path", {"class": "toolkit-base"});
+        this._base = TK.make_svg("path", {"class": "toolkit-base"});
         this.element.appendChild(this._base);
         
-        this._markers = makeSVG("g", {"class": "toolkit-markers"});
+        this._markers = TK.make_svg("g", {"class": "toolkit-markers"});
         this.element.appendChild(this._markers);
         
-        this._value = makeSVG("path", {"class": "toolkit-value"});
+        this._value = TK.make_svg("path", {"class": "toolkit-value"});
         this.element.appendChild(this._value);
         
-        this._dots = makeSVG("g", {"class": "toolkit-dots"});
+        this._dots = TK.make_svg("g", {"class": "toolkit-dots"});
         this.element.appendChild(this._dots);
         
-        this._labels = makeSVG("g", {"class": "toolkit-labels"});
+        this._labels = TK.make_svg("g", {"class": "toolkit-labels"});
         this.element.appendChild(this._labels);
         
-        this._hand = makeSVG("rect", {"class": "toolkit-hand"});
+        this._hand = TK.make_svg("rect", {"class": "toolkit-hand"});
         this.element.appendChild(this._hand);
         
         this.set("container", this.options.container);
@@ -219,7 +219,7 @@ Circular = $class({
         this._dots.empty();
         for (var i = 0; i < this.options.dots.length; i++) {
             var m = this.options.dots[i];
-            var r = makeSVG("rect", {"class": "toolkit-dot"});
+            var r = TK.make_svg("rect", {"class": "toolkit-dot"});
             
             var length = typeof m.length == "undefined"
                        ? this.options.dot.length : m.length;
@@ -274,7 +274,7 @@ Circular = $class({
                 var to      = Math.min(this.options.max,
                               Math.max(this.options.min, m.to));
             
-            var s = makeSVG("path", {"class": "toolkit-marker"});
+            var s = TK.make_svg("path", {"class": "toolkit-marker"});
             this._markers.appendChild(s);
             
             if (m["class"]) s.classList.add(m["class"]);
@@ -292,7 +292,7 @@ Circular = $class({
         
         for (var i = 0; i < this.options.labels.length; i++) {
             var l = this.options.labels[i];
-            var p = makeSVG("text", {"class": "toolkit-label",
+            var p = TK.make_svg("text", {"class": "toolkit-label",
                                      style: "dominant-baseline: central;"
             });
             this._labels.appendChild(p);

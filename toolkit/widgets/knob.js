@@ -43,7 +43,7 @@ Knob = $class({
     
     initialize: function (options) {
         BASE.prototype.initialize.call(this);
-        var svg = makeSVG("svg", {"class": "toolkit-knob"});
+        var svg = TK.make_svg("svg", {"class": "toolkit-knob"});
 
         if (options.container)
             options.container.appendChild(svg);

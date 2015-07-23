@@ -25,183 +25,183 @@ _TOOLKIT_VAR                         = -1;
 _TOOLKIT_NONE                        = -2;
 
 // POSITIONS
-_TOOLKIT_TOP                         = 0;
-_TOOLKIT_RIGHT                       = 1;
-_TOOLKIT_BOTTOM                      = 2;
-_TOOLKIT_LEFT                        = 3;
-_TOOLKIT_TOP_LEFT                    = 4;
-_TOOLKIT_TOP_RIGHT                   = 5;
-_TOOLKIT_BOTTOM_RIGHT                = 6;
-_TOOLKIT_BOTTOM_LEFT                 = 7;
-_TOOLKIT_CENTER                      = 8;
+_TOOLKIT_TOP                         = 0x00000000;
+_TOOLKIT_RIGHT                       = 0x00000001;
+_TOOLKIT_BOTTOM                      = 0x00000002;
+_TOOLKIT_LEFT                        = 0x00000003;
+_TOOLKIT_TOP_LEFT                    = 0x00000004;
+_TOOLKIT_TOP_RIGHT                   = 0x00000005;
+_TOOLKIT_BOTTOM_RIGHT                = 0x00000006;
+_TOOLKIT_BOTTOM_LEFT                 = 0x00000007;
+_TOOLKIT_CENTER                      = 0x00000008;
 
 // DIRECTIONS
-_TOOLKIT_N                           = 0;
-_TOOLKIT_UP                          = 0;
-_TOOLKIT_E                           = 1;
-_TOOLKIT_S                           = 2;
-_TOOLKIT_DOWN                        = 2;
-_TOOLKIT_W                           = 3;
-_TOOLKIT_NW                          = 4;
-_TOOLKIT_NE                          = 5;
-_TOOLKIT_SE                          = 6;
-_TOOLKIT_SW                          = 7;
-_TOOLKIT_C                           = 8;
+_TOOLKIT_N                           = 0x00000000;
+_TOOLKIT_UP                          = 0x00000000;
+_TOOLKIT_E                           = 0x00000001;
+_TOOLKIT_S                           = 0x00000002;
+_TOOLKIT_DOWN                        = 0x00000002;
+_TOOLKIT_W                           = 0x00000003;
+_TOOLKIT_NW                          = 0x00000004;
+_TOOLKIT_NE                          = 0x00000005;
+_TOOLKIT_SE                          = 0x00000006;
+_TOOLKIT_SW                          = 0x00000007;
+_TOOLKIT_C                           = 0x00000008;
 
-_TOOLKIT_HORIZONTAL                  = 10;
-_TOOLKIT_HORIZ                       = 10;
-_TOOLKIT_VERTICAL                    = 11;
-_TOOLKIT_VERT                        = 11;
+_TOOLKIT_HORIZONTAL                  = 0x00010000;
+_TOOLKIT_HORIZ                       = 0x00010000;
+_TOOLKIT_VERTICAL                    = 0x00010001;
+_TOOLKIT_VERT                        = 0x00010001;
 
-_TOOLKIT_X                           = 10;
-_TOOLKIT_Y                           = 11;
+_TOOLKIT_X                           = 0x00010000;
+_TOOLKIT_Y                           = 0x00010001;
 
-_TOOLKIT_POLAR                       = 12;
+_TOOLKIT_POLAR                       = 0x00010002;
 
 // DRAWING MODES
-_TOOLKIT_CIRCULAR                    = 20;
-_TOOLKIT_CIRC                        = 20;
-_TOOLKIT_LINE                        = 21;
-_TOOLKIT_BLOCK                       = 22;
-_TOOLKIT_LINE_HORIZONTAL             = 23;
-_TOOLKIT_LINE_HORIZ                  = 23;
-_TOOLKIT_LINE_VERTICAL               = 24;
-_TOOLKIT_LINE_VERT                   = 24;
-_TOOLKIT_LINE_X                      = 23;
-_TOOLKIT_LINE_Y                      = 24;
-_TOOLKIT_BLOCK_LEFT                  = 25;
-_TOOLKIT_BLOCK_RIGHT                 = 26;
-_TOOLKIT_BLOCK_TOP                   = 27;
-_TOOLKIT_BLOCK_BOTTOM                = 28;
-_TOOLKIT_BLOCK_CENTER                = 29;
+_TOOLKIT_CIRCULAR                    = 0x00020000;
+_TOOLKIT_CIRC                        = 0x00020000;
+_TOOLKIT_LINE                        = 0x00020001;
+_TOOLKIT_BLOCK                       = 0x00020002;
+_TOOLKIT_LINE_HORIZONTAL             = 0x00020003;
+_TOOLKIT_LINE_HORIZ                  = 0x00020003;
+_TOOLKIT_LINE_VERTICAL               = 0x00020004;
+_TOOLKIT_LINE_VERT                   = 0x00020004;
+_TOOLKIT_LINE_X                      = 0x00020003;
+_TOOLKIT_LINE_Y                      = 0x00020004;
+_TOOLKIT_BLOCK_LEFT                  = 0x00020005;
+_TOOLKIT_BLOCK_RIGHT                 = 0x00020006;
+_TOOLKIT_BLOCK_TOP                   = 0x00020007;
+_TOOLKIT_BLOCK_BOTTOM                = 0x00020008;
+_TOOLKIT_BLOCK_CENTER                = 0x00020009;
 
 // SVG ELEMENT MODES
-_TOOLKIT_OUTLINE                     = 40;
-_TOOLKIT_FILLED                      = 41;
-_TOOLKIT_FULL                        = 42;
+_TOOLKIT_OUTLINE                     = 0x00030000;
+_TOOLKIT_FILLED                      = 0x00030001;
+_TOOLKIT_FULL                        = 0x00030002;
 
 // VALUE MODES
-_TOOLKIT_PIXEL                       = 50;
-_TOOLKIT_PX                          = 50;
-_TOOLKIT_PERCENT                     = 51;
-_TOOLKIT_PERC                        = 51;
-_TOOLKIT_COEF                        = 52;
-_TOOLKIT_COEFF                       = 52;
-_TOOLKIT_COEFFICIENT                 = 52;
+_TOOLKIT_PIXEL                       = 0x00040000;
+_TOOLKIT_PX                          = 0x00040000;
+_TOOLKIT_PERCENT                     = 0x00040001;
+_TOOLKIT_PERC                        = 0x00040001;
+_TOOLKIT_COEF                        = 0x00040002;
+_TOOLKIT_COEFF                       = 0x00040002;
+_TOOLKIT_COEFFICIENT                 = 0x00040002;
 
 // SCALES
-_TOOLKIT_FLAT                        = 90;
-_TOOLKIT_LINEAR                      = 90;
-_TOOLKIT_LIN                         = 90;
+_TOOLKIT_FLAT                        = 0x00050000;
+_TOOLKIT_LINEAR                      = 0x00050000;
+_TOOLKIT_LIN                         = 0x00050000;
 
-_TOOLKIT_DECIBEL                     = 91;
-_TOOLKIT_DB                          = 91;
-_TOOLKIT_LOG2_REVERSE                = 91;
-_TOOLKIT_LOG2                        = 92;
-_TOOLKIT_DB_REVERSE                  = 92;
-_TOOLKIT_DECIBEL_REVERSE             = 92;
+_TOOLKIT_DECIBEL                     = 0x00050001;
+_TOOLKIT_DB                          = 0x00050001;
+_TOOLKIT_LOG2_REVERSE                = 0x00050001;
+_TOOLKIT_LOG2                        = 0x00050002;
+_TOOLKIT_DB_REVERSE                  = 0x00050002;
+_TOOLKIT_DECIBEL_REVERSE             = 0x00050002;
 
-_TOOLKIT_FREQUENCY                   = 95;
-_TOOLKIT_FREQ                        = 95;
-_TOOLKIT_FREQ_REVERSE                = 96;
-_TOOLKIT_FREQUENCY_REVERSE           = 96;
+_TOOLKIT_FREQUENCY                   = 0x00050005;
+_TOOLKIT_FREQ                        = 0x00050005;
+_TOOLKIT_FREQ_REVERSE                = 0x00050006;
+_TOOLKIT_FREQUENCY_REVERSE           = 0x00050006;
 
 // FILTERS
-_TOOLKIT_PARAMETRIC                  = 60;
-_TOOLKIT_PARAM                       = 60;
-_TOOLKIT_PEAK                        = 60;
-_TOOLKIT_NOTCH                       = 61;
-_TOOLKIT_LOWSHELF                    = 62;
-_TOOLKIT_LOSHELF                     = 62;
-_TOOLKIT_HIGHSHELF                   = 63;
-_TOOLKIT_HISHELF                     = 63;
-_TOOLKIT_LOWPASS_1                   = 64;
-_TOOLKIT_LOWPASS_2                   = 65;
-_TOOLKIT_LOWPASS_3                   = 66;
-_TOOLKIT_LOWPASS_4                   = 67;
-_TOOLKIT_LOPASS_1                    = 64;
-_TOOLKIT_LOPASS_2                    = 65;
-_TOOLKIT_LOPASS_3                    = 66;
-_TOOLKIT_LOPASS_4                    = 67;
-_TOOLKIT_LP1                         = 64;
-_TOOLKIT_LP2                         = 65;
-_TOOLKIT_LP3                         = 66;
-_TOOLKIT_LP4                         = 67;
-_TOOLKIT_HIGHPASS_1                  = 68;
-_TOOLKIT_HIGHPASS_2                  = 69;
-_TOOLKIT_HIGHPASS_3                  = 70;
-_TOOLKIT_HIGHPASS_4                  = 71;
-_TOOLKIT_HIPASS_1                    = 68;
-_TOOLKIT_HIPASS_2                    = 69;
-_TOOLKIT_HIPASS_3                    = 70;
-_TOOLKIT_HIPASS_4                    = 71;
-_TOOLKIT_HP1                         = 68;
-_TOOLKIT_HP2                         = 69;
-_TOOLKIT_HP3                         = 70;
-_TOOLKIT_HP4                         = 71;
+_TOOLKIT_PARAMETRIC                  = 0x00060000;
+_TOOLKIT_PARAM                       = 0x00060000;
+_TOOLKIT_PEAK                        = 0x00060000;
+_TOOLKIT_NOTCH                       = 0x00060001;
+_TOOLKIT_LOWSHELF                    = 0x00060002;
+_TOOLKIT_LOSHELF                     = 0x00060002;
+_TOOLKIT_HIGHSHELF                   = 0x00060003;
+_TOOLKIT_HISHELF                     = 0x00060003;
+_TOOLKIT_LOWPASS_1                   = 0x00060004;
+_TOOLKIT_LOWPASS_2                   = 0x00060005;
+_TOOLKIT_LOWPASS_3                   = 0x00060006;
+_TOOLKIT_LOWPASS_4                   = 0x00060007;
+_TOOLKIT_LOPASS_1                    = 0x00060004;
+_TOOLKIT_LOPASS_2                    = 0x00060005;
+_TOOLKIT_LOPASS_3                    = 0x00060006;
+_TOOLKIT_LOPASS_4                    = 0x00060007;
+_TOOLKIT_LP1                         = 0x00060004;
+_TOOLKIT_LP2                         = 0x00060005;
+_TOOLKIT_LP3                         = 0x00060006;
+_TOOLKIT_LP4                         = 0x00060007;
+_TOOLKIT_HIGHPASS_1                  = 0x00060008;
+_TOOLKIT_HIGHPASS_2                  = 0x00060009;
+_TOOLKIT_HIGHPASS_3                  = 0x0006000a;
+_TOOLKIT_HIGHPASS_4                  = 0x0006000b;
+_TOOLKIT_HIPASS_1                    = 0x00060008;
+_TOOLKIT_HIPASS_2                    = 0x00060009;
+_TOOLKIT_HIPASS_3                    = 0x0006000a;
+_TOOLKIT_HIPASS_4                    = 0x0006000b;
+_TOOLKIT_HP1                         = 0x00060008;
+_TOOLKIT_HP2                         = 0x00060009;
+_TOOLKIT_HP3                         = 0x0006000a;
+_TOOLKIT_HP4                         = 0x0006000b;
 
 // CIRULAR POSITIONS
-_TOOLKIT_INNER                       = 80;
-_TOOLKIT_OUTER                       = 81;
+_TOOLKIT_INNER                       = 0x00080000;
+_TOOLKIT_OUTER                       = 0x00080001;
 
 // WINDOWS
-_TOOLKIT_TITLE                       = 100;
-_TOOLKIT_CLOSE                       = 101;
-_TOOLKIT_MAXIMIZE                    = 102;
-_TOOLKIT_MAXIMIZE_X                  = 103;
-_TOOLKIT_MAXIMIZE_VERT               = 103;
-_TOOLKIT_MAXIMIZE_VERTICAL           = 103;
-_TOOLKIT_MAXIMIZE_Y                  = 104;
-_TOOLKIT_MAXIMIZE_HORIZ              = 104;
-_TOOLKIT_MAXIMIZE_HORIZONTAL         = 104;
-_TOOLKIT_MAX                         = 102;
-_TOOLKIT_MAX_X                       = 103;
-_TOOLKIT_MAX_VERT                    = 103;
-_TOOLKIT_MAX_VERTICAL                = 103;
-_TOOLKIT_MAX_Y                       = 104;
-_TOOLKIT_MAX_HORIZ                   = 104;
-_TOOLKIT_MAX_HORIZONTAL              = 104;
-_TOOLKIT_MINIMIZE                    = 105;
-_TOOLKIT_MIN                         = 105;
-_TOOLKIT_SHRINK                      = 106;
-_TOOLKIT_STATUS                      = 110;
-_TOOLKIT_RESIZE                      = 111;
-_TOOLKIT_ICON                        = 112;
+_TOOLKIT_TITLE                       = 0x00090000;
+_TOOLKIT_CLOSE                       = 0x00090001;
+_TOOLKIT_MAXIMIZE                    = 0x00090002;
+_TOOLKIT_MAXIMIZE_X                  = 0x00090003;
+_TOOLKIT_MAXIMIZE_VERT               = 0x00090003;
+_TOOLKIT_MAXIMIZE_VERTICAL           = 0x00090003;
+_TOOLKIT_MAXIMIZE_Y                  = 0x00090004;
+_TOOLKIT_MAXIMIZE_HORIZ              = 0x00090004;
+_TOOLKIT_MAXIMIZE_HORIZONTAL         = 0x00090004;
+_TOOLKIT_MAX                         = 0x00090002;
+_TOOLKIT_MAX_X                       = 0x00090003;
+_TOOLKIT_MAX_VERT                    = 0x00090003;
+_TOOLKIT_MAX_VERTICAL                = 0x00090003;
+_TOOLKIT_MAX_Y                       = 0x00090004;
+_TOOLKIT_MAX_HORIZ                   = 0x00090004;
+_TOOLKIT_MAX_HORIZONTAL              = 0x00090004;
+_TOOLKIT_MINIMIZE                    = 0x00090005;
+_TOOLKIT_MIN                         = 0x00090005;
+_TOOLKIT_SHRINK                      = 0x00090006;
+_TOOLKIT_STATUS                      = 0x000a0000;
+_TOOLKIT_RESIZE                      = 0x000a0001;
+_TOOLKIT_ICON                        = 0x000a0002;
 
 // UPDATE POLICY
-_TOOLKIT_CONTINUOUS                  = 120;
-_TOOLKIT_ALWAYS                      = 120;
-_TOOLKIT_CONTINUOUSLY                = 120;
-_TOOLKIT_COMPLETE                    = 121;
-_TOOLKIT_FINISHED                    = 121;
-_TOOLKIT_DONE                        = 121;
+_TOOLKIT_CONTINUOUS                  = 0x000b0000;
+_TOOLKIT_ALWAYS                      = 0x000b0000;
+_TOOLKIT_CONTINUOUSLY                = 0x000b0000;
+_TOOLKIT_COMPLETE                    = 0x000b0001;
+_TOOLKIT_FINISHED                    = 0x000b0001;
+_TOOLKIT_DONE                        = 0x000b0001;
 
 // ELEMENTS
-_TOOLKIT_ICON                        = 130;
-_TOOLKIT_LABEL                       = 131;
+_TOOLKIT_ICON                        = 0x000c0000;
+_TOOLKIT_LABEL                       = 0x000c0001;
 
 // DYNAMICS
-_TOOLKIT_COMPRESSOR                  = 150;
-_TOOLKIT_UPWARD_COMPRESSOR           = 150;
-_TOOLKIT_UPWARD_COMP                 = 150;
-_TOOLKIT_COMP                        = 150;
-_TOOLKIT_UPCOMP                      = 150;
-_TOOLKIT_LIMITER                     = 151;
-_TOOLKIT_GATE                        = 152;
-_TOOLKIT_NOISEGATE                   = 152;
-_TOOLKIT_EXPANDER                    = 153;
-_TOOLKIT_EXP                         = 153;
+_TOOLKIT_COMPRESSOR                  = 0x000d0000;
+_TOOLKIT_UPWARD_COMPRESSOR           = 0x000d0000;
+_TOOLKIT_UPWARD_COMP                 = 0x000d0000;
+_TOOLKIT_COMP                        = 0x000d0000;
+_TOOLKIT_UPCOMP                      = 0x000d0000;
+_TOOLKIT_LIMITER                     = 0x000d0001;
+_TOOLKIT_GATE                        = 0x000d0002;
+_TOOLKIT_NOISEGATE                   = 0x000d0002;
+_TOOLKIT_EXPANDER                    = 0x000d0003;
+_TOOLKIT_EXP                         = 0x000d0003;
 
 // KEYBOARDS
-_TOOLKIT_KEYBOARD_MAIN               = 160;
-_TOOLKIT_KEYBOARD_NUMPAD             = 161;
-_TOOLKIT_KEYBOARD_MIDI               = 162;
+_TOOLKIT_KEYBOARD_MAIN               = 0x000e0000;
+_TOOLKIT_KEYBOARD_NUMPAD             = 0x000e0001;
+_TOOLKIT_KEYBOARD_MIDI               = 0x000e0002;
 
 
 // LANGUAGES
-_TOOLKIT_LANGUAGE_ENGLISH            = 200;
-_TOOLKIT_LANGUAGE_GERMAN             = 201;
+_TOOLKIT_LANGUAGE_ENGLISH            = 0x000f0000;
+_TOOLKIT_LANGUAGE_GERMAN             = 0x000f0001;
 
 // KEYBOARD TEXT BUFFER TYPES
-_TOOLKIT_TEXT_INPUT                  = 220;
-_TOOLKIT_TEXT_AREA                   = 221;
+_TOOLKIT_TEXT_INPUT                  = 0x00100000;
+_TOOLKIT_TEXT_AREA                   = 0x00100001;

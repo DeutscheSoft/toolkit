@@ -5,18 +5,12 @@
         
         <!-- MAIN STUFF -->
         <script src="toolkit/javascript/class.js"></script>
+        <script src="toolkit/javascript/constants.js"></script>
         <script src="toolkit/javascript/toolkit.js"></script>
         <script src="toolkit/javascript/mootools-core-1.4.5.js"></script>
         <script src="javascript/showcase.js"></script>
         <link rel="stylesheet" type="text/css" href="toolkit/templates/default/css/toolkit.css"/>
         <!--<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300,400italic,300italic,700italic"/>-->
-        
-        <!-- LIBRARIES -->
-        <script src="toolkit/javascript/constants.js"></script>
-        <script src="toolkit/javascript/svgutils.js"></script>
-        <script src="toolkit/javascript/math.js"></script>
-        <script src="toolkit/javascript/array.js"></script>
-        <script src="toolkit/javascript/window.js"></script>
         
         <!-- IMPLEMENTS -->
         <script src="toolkit/implements/base.js"></script>
@@ -112,6 +106,11 @@
                 //t.add_cell({x:5,y:5,width:1,height:1});
                 
             //});
+            if (!TK.browser().name == "Firefox") {
+                //window.addEventListener('load', TK.seat_all_svg);
+                //window.addEventListener('scroll', TK.seat_all_svg);
+                //window.addEventListener('resize', TK.seat_all_svg);
+            }
         </script>
         
         <style type="text/css">

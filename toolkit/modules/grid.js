@@ -42,7 +42,7 @@ Grid = $class({
         this.__last = 0;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
-                       makeSVG("g", {"class": "toolkit-grid"}), true, true, true);
+                       TK.make_svg("g", {"class": "toolkit-grid"}), true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
         this.add_range(this.options.range_x, "range_x");
@@ -82,7 +82,7 @@ Grid = $class({
         // draw a line with label. obj contains pos, class and label
         var m = 0;
         if (obj.label) {
-            var label = makeSVG("text");
+            var label = TK.make_svg("text");
             label.textContent = obj.label;
             label.style["dominant-baseline"] = "central";
             label.classList.add("toolkit-grid-label");
@@ -120,7 +120,7 @@ Grid = $class({
         || (!mode && obj.pos == this.range_x.options.max))
             return;
             
-        var line = makeSVG("path");
+        var line = TK.make_svg("path");
         line.classList.add("toolkit-grid-line");
         line.classList.add(mode ? "toolkit-horizontal" : "toolkit-vertical");
         if (obj["class"]) line.classList.add(obj["class"]);

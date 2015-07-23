@@ -39,7 +39,7 @@ Gauge = $class({
         if (typeof options.title == "string")
             options.title = {title: options.title};
         this.set_options(options);
-        this._svg = makeSVG("svg", {
+        this._svg = TK.make_svg("svg", {
             "class": "toolkit-gauge",
             "width": this.options.width,
             "height": this.options.height
@@ -47,7 +47,7 @@ Gauge = $class({
         this.options.container.appendChild(this._svg);
         options.container = this._svg;
         
-        this._title = makeSVG("text", {"class": "toolkit-title"});
+        this._title = TK.make_svg("text", {"class": "toolkit-title"});
         this._svg.appendChild(this._title);
         
         this.set("title", this.options.title);

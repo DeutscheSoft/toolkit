@@ -58,7 +58,7 @@ var Graph = $class({
     
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        this.element = this.widgetize(makeSVG("path"), true, true, true);
+        this.element = this.widgetize(TK.make_svg("path"), true, true, true);
         this.element.classList.add("toolkit-graph");
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");

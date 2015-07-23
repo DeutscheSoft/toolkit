@@ -48,7 +48,7 @@ var ResponseHandler = $class({
 //         }.bind(this));
         
         this.element.classList.add("toolkit-response-handler");
-        this._handles = makeSVG("g", {"class": "toolkit-response-handles"});
+        this._handles = TK.make_svg("g", {"class": "toolkit-response-handles"});
         this.element.appendChild(this._handles);
         this.element.onselectstart = function () { return false; };
         var cb = function (e) {

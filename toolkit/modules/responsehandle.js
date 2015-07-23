@@ -97,7 +97,7 @@ ResponseHandle = $class({
             if (!hold) this.redraw();
         }.bind(this));
         
-        this.widgetize(this.element = makeSVG("g", {
+        this.widgetize(this.element = TK.make_svg("g", {
             "id":    this.options.id
         }), true, true);
         
@@ -134,21 +134,21 @@ ResponseHandle = $class({
         if (this.options.container)
             this.options.container.appendChild(this.element);
         
-        this._label = makeSVG("text", {
+        this._label = TK.make_svg("text", {
             "class": "toolkit-label"
         });
         this.element.appendChild(this._label);
         
-        this._line1 = makeSVG("path", {
+        this._line1 = TK.make_svg("path", {
             "class": "toolkit-line toolkit-line-1"
         });
         this.element.appendChild(this._line1);
-        this._line2 = makeSVG("path", {
+        this._line2 = TK.make_svg("path", {
             "class": "toolkit-line toolkit-line-2"
         });
         this.element.appendChild(this._line2);
         
-        this._handle = makeSVG(
+        this._handle = TK.make_svg(
             this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
                 "class": "toolkit-handle",
                 "r":     this.options.z_handle_size
@@ -156,7 +156,7 @@ ResponseHandle = $class({
         );
         this.element.appendChild(this._handle);
         
-        this._zhandle = makeSVG(
+        this._zhandle = TK.make_svg(
             this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
                 "class": "toolkit-z-handle",
                 "width":  this.options.z_handle_size,
@@ -565,7 +565,7 @@ ResponseHandle = $class({
         var n = c.length;
         if (a.length != c.length) {
             while (n < a.length) {
-                this._label.appendChild(makeSVG("tspan", {dy:"1.0em"}));
+                this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
                 n++;
             }
             while (n > a.length) {

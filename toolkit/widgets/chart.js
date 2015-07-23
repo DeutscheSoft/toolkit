@@ -57,7 +57,7 @@ var Chart = $class({
         if (this.options.height)
             this.set("height", this.options.height, true);
         
-        this.element = this.widgetize(makeSVG("svg", {
+        this.element = this.widgetize(TK.make_svg("svg", {
             width:  this.range_x.options.basis,
             height: this.range_y.options.basis
         }), true, true, true);
@@ -73,13 +73,13 @@ var Chart = $class({
             container: this.element
         });
         
-        this._title = makeSVG("text", {
+        this._title = TK.make_svg("text", {
             "class": "toolkit-title",
             style: "dominant-baseline: central;"
         });
         this.element.appendChild(this._title);
         
-        this._graphs = makeSVG("g", {"class": "toolkit-graphs"});
+        this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
         this.element.appendChild(this._graphs);
         
         this.range_x.add_event("set", function (key, value, hold) {
@@ -91,10 +91,10 @@ var Chart = $class({
         
         
         
-        this._key_background = makeSVG("rect",
+        this._key_background = TK.make_svg("rect",
             {"class": "toolkit-background"});
-        this._key = makeSVG("g", {"class": "toolkit-key"});
-        this._key_txt = makeSVG("text");
+        this._key = TK.make_svg("g", {"class": "toolkit-key"});
+        this._key_txt = TK.make_svg("text");
 
         this.element.appendChild(this._key_background);
         this.element.appendChild(this._key);
@@ -211,7 +211,7 @@ var Chart = $class({
         var lines = [];
         for (var i = 0; i < this.graphs.length; i++) {
             if (this.graphs[i].get("key") !== false) {
-                var t = makeSVG("tspan", {"class": "toolkit-label",
+                var t = TK.make_svg("tspan", {"class": "toolkit-label",
                                          style: "dominant-baseline: central;"
                 });
                 t.textContent = this.graphs[i].get("key");
@@ -237,7 +237,7 @@ var Chart = $class({
             }
         }
         for (var i = 0; i < lines.length; i++) {
-            var b = makeSVG("rect", {
+            var b = TK.make_svg("rect", {
                 "class": lines[i]["class"] + " toolkit-rect",
                 color:   lines[i].color,
                 style:   lines[i].style,
