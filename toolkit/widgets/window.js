@@ -529,14 +529,14 @@ Window = $class({
         this.dimensions.y2     = pos.y + this.dimensions.height;
     },
     __start_resize: function (el, ev) {
-        this.__docmouse = $$("body")[0].getStyle("cursor");
-        $$("body")[0].style["cursor"] = this._resize.getStyle("cursor");
+        this.__docmouse = document.body.getStyle("cursor");
+        document.body.style["cursor"] = this._resize.getStyle("cursor");
         this.resizing = true;
         this.element.classList.add("toolkit-resizing");
         this.fire_event("startresize", [this, ev]);
     },
     __stop_resize: function (el, ev) {
-        $$("body")[0].style["cursor"] = this.__docmouse;
+        document.body.style["cursor"] = this.__docmouse;
         this.resizing = false;
         this.element.classList.remove("toolkit-resizing");
         this._set_content();

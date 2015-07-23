@@ -128,7 +128,7 @@ run_valueknob = function () {
         // remove valueknob
         valueknob.destroy();
         valueknob = undefined;
-        $("sc_valueknob").removeClass("box");
+        TK.get_id("sc_valueknob").removeClass("box");
         return;
     }
     valueknob = new ValueKnob({
@@ -138,7 +138,7 @@ run_valueknob = function () {
         value: -20,
         snap: 0.01
     });
-    $("sc_valueknob").addClass("box");
+    TK.get_id("sc_valueknob").addClass("box");
 }
 
 
@@ -304,7 +304,7 @@ run_keyboard = function () {
         keyboard.destroy();
         value.destroy();
         keyboard = undefined;
-        $("sc_keyboard").removeClass("box");
+        TK.get_id("sc_keyboard").removeClass("box");
         return;
     }
     
@@ -323,7 +323,7 @@ run_keyboard = function () {
         keyboard = new Keyboard({
             width: 320,
             height: 240,
-            container: $$("body")[0],
+            container: document.body,
             buffer: value._input,
             rows: [
                 {
@@ -396,7 +396,7 @@ run_keyboard = function () {
             ],
         });
     });
-    $("sc_keyboard").addClass("box");
+    TK.get_id("sc_keyboard").addClass("box");
 }
 
 
@@ -406,14 +406,14 @@ run_label = function () {
         // remove label
         label.destroy();
         label = undefined;
-        $("sc_label").removeClass("box");
+        TK.get_id("sc_label").removeClass("box");
         return;
     }
     label = new Label({
         container: TK.get_id("sc_label"),
         label: "Lorem ipsum dolor sit amet"
     });
-    $("sc_label").addClass("box");
+    TK.get_id("sc_label").addClass("box");
 }
 
 // SELECT
@@ -422,7 +422,7 @@ run_select = function () {
         // remove example
         select.destroy();
         select = undefined;
-        $("sc_select").removeClass("box");
+        TK.get_id("sc_select").removeClass("box");
         return;
     }
     select = new Select({
@@ -438,7 +438,7 @@ run_select = function () {
         container: TK.get_id("sc_select"),
         selected: 4
     });
-    $("sc_select").addClass("box");
+    TK.get_id("sc_select").addClass("box");
 }
 
 // FADER
@@ -450,7 +450,7 @@ run_fader = function () {
         }
         faders = undefined;
         fadertt.destroy();
-        $("sc_fader").removeClass("box");
+        TK.get_id("sc_fader").removeClass("box");
         return;
     }
     faders = [];
@@ -511,7 +511,7 @@ run_fader = function () {
             }
         }
     });
-    $("sc_fader").addClass("box");
+    TK.get_id("sc_fader").addClass("box");
 }
 
 // VALUE
@@ -520,7 +520,7 @@ run_value = function () {
         // remove example
         value.destroy();
         value = undefined;
-        $("sc_value").removeClass("box");
+        TK.get_id("sc_value").removeClass("box");
         return;
     }
     value = new Value({
@@ -529,7 +529,7 @@ run_value = function () {
         format: toolkit.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
-    $("sc_value").addClass("box");
+    TK.get_id("sc_value").addClass("box");
 }
 
 
@@ -623,7 +623,7 @@ function run_window () {
     });
     winbutton.add_event("click", function () { 
         win = new Window({
-            container: $$("body")[0],
+            container: document.body,
             height: 233,
             width: 640,
             open: _TOOLKIT_CENTER,
@@ -682,10 +682,10 @@ function run_gauge () {
         gauge[4].destroy();
         gauge[5].destroy();
         gauge = undefined;
-        $("sc_gauge").removeClass("box");
+        TK.get_id("sc_gauge").removeClass("box");
         return;
     }
-    $("sc_gauge").addClass("box");
+    TK.get_id("sc_gauge").addClass("box");
     gauge = [];
     
     gauge[0] = new Gauge({
@@ -972,10 +972,10 @@ function run_scale () {
         scales.top.destroy();
         scales.bottom.destroy();
         scales = undefined;
-        $("sc_scale").removeClass("box");
+        TK.get_id("sc_scale").removeClass("box");
         return;
     }
-    $("sc_scale").addClass("box");
+    TK.get_id("sc_scale").addClass("box");
     scales = {};
     scales.left = new Scale({
         container: TK.get_id("sc_scale"),
@@ -1034,10 +1034,10 @@ function run_chart () {
         // remove example
         chart.destroy();
         chart = undefined;
-        $("sc_chart").removeClass("box");
+        TK.get_id("sc_chart").removeClass("box");
         return;
     }
-    $("sc_chart").addClass("box");
+    TK.get_id("sc_chart").addClass("box");
     chart = new Chart({
         range_x: {basis:908, scale: _TOOLKIT_LINEAR, min:0, max:1},
         range_y: {basis:300, scale: _TOOLKIT_LINEAR, min:0, max:1},
@@ -1113,10 +1113,10 @@ function run_frequencyresponse () {
         // remove example
         fr.destroy();
         fr = undefined;
-        $("sc_frequencyresponse").removeClass("box");
+        TK.get_id("sc_frequencyresponse").removeClass("box");
         return;
     }
-    $("sc_frequencyresponse").addClass("box");
+    TK.get_id("sc_frequencyresponse").addClass("box");
     fr = new FrequencyResponse({
         width: 906,
         height: 300,
@@ -1149,10 +1149,10 @@ function run_dynamics () {
         expand = undefined;
         dyna.destroy();
         dyna = undefined;
-        $("sc_dynamics").removeClass("box");
+        TK.get_id("sc_dynamics").removeClass("box");
         return;
     }
-    $("sc_dynamics").addClass("box");
+    TK.get_id("sc_dynamics").addClass("box");
     comp = new Dynamics({
         size: 298,
         container: TK.get_id("sc_dynamics")
@@ -1196,10 +1196,10 @@ function run_equalizer () {
         // remove example
         eq.destroy();
         eq = undefined;
-        $("sc_equalizer").removeClass("box");
+        TK.get_id("sc_equalizer").removeClass("box");
         return;
     }
-    $("sc_equalizer").addClass("box");
+    TK.get_id("sc_equalizer").addClass("box");
     eq = new Equalizer({
         width: 908,
         height: 300,
@@ -1242,10 +1242,10 @@ function run_spectralsignature () {
         // remove example
         ssig.destroy();
         ssig = undefined;
-        $("sc_ssig").removeClass("box");
+        TK.get_id("sc_ssig").removeClass("box");
         return;
     }
-    $("sc_ssig").addClass("box");
+    TK.get_id("sc_ssig").addClass("box");
     ssig = new SpectralSignature.Widget({
         container: TK.get_id("sc_ssig"),
             range_x: {min: 40, max: 24000, basis: 800, scale: _TOOLKIT_FREQUENCY},
@@ -1334,10 +1334,10 @@ function run_responsehandler () {
         // remove example
         rh.destroy();
         rh = undefined;
-        $("sc_responsehandler").removeClass("box");
+        TK.get_id("sc_responsehandler").removeClass("box");
         return;
     }
-    $("sc_responsehandler").addClass("box");
+    TK.get_id("sc_responsehandler").addClass("box");
     rh = new ResponseHandler({
         width: 908,
         height: 300,
@@ -1506,11 +1506,11 @@ function run_state () {
         s1 = undefined;
         s2 = undefined;
         s3 = undefined;
-        $("sc_state").empty();
-        $("sc_state").removeClass("box");
+        TK.get_id("sc_state").empty();
+        TK.get_id("sc_state").removeClass("box");
         return;
     }
-    $("sc_state").addClass("box");
+    TK.get_id("sc_state").addClass("box");
     s1 = new State({
         container: TK.get_id("sc_state")
     });
@@ -1549,7 +1549,7 @@ function run_state () {
         state: 0,
         "class": "on_air"
     });
-    var br = new Element("br", {style:"clear:both"}).inject($$("#sc_state")[0])
+    var br = new Element("br", {style:"clear:both"}).inject(TK.get_id("sc_state"))
     __s1();
     __s2();
     __s3();
@@ -1596,7 +1596,7 @@ function run_meterbase () {
         return;
     }
     mbvl = new MeterBase({
-        container: $$("#sc_meterbase")[0],
+        container: TK.get_id("sc_meterbase"),
         layout: _TOOLKIT_RIGHT,
         scale: _TOOLKIT_DECIBEL,
         segment: 2,
@@ -1612,7 +1612,7 @@ function run_meterbase () {
         gap_labels: 20
     });
     mbvr = new MeterBase({
-        container: $$("#sc_meterbase")[0],
+        container: TK.get_id("sc_meterbase"),
         layout: _TOOLKIT_LEFT,
         segment: 2,
         min: -96,
@@ -1627,7 +1627,7 @@ function run_meterbase () {
         gap_labels: 30
     });
     mbhb = new MeterBase({
-        container: $$("#sc_meterbase")[0],
+        container: TK.get_id("sc_meterbase"),
         layout: _TOOLKIT_BOTTOM,
         segment: 2,
         min: -15,
@@ -1642,7 +1642,7 @@ function run_meterbase () {
         levels: [1, 5]
     });
     mbht = new MeterBase({
-        container: $$("#sc_meterbase")[0],
+        container: TK.get_id("sc_meterbase"),
         layout: _TOOLKIT_TOP,
         segment: 2,
         min: -15,
@@ -1668,10 +1668,10 @@ function run_levelmeter () {
             meters[i].destroy();
             meters[i] = undefined;
         }
-        $("sc_levelmeter_buttons").style["display"] = "none";
+        TK.get_id("sc_levelmeter_buttons").style["display"] = "none";
         return;
     }
-    $("sc_levelmeter_buttons").style["display"] = "block";
+    TK.get_id("sc_levelmeter_buttons").style["display"] = "block";
     meters = {
         mvr: new LevelMeter({
             layout: _TOOLKIT_RIGHT,
@@ -1694,7 +1694,7 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1718,7 +1718,7 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1739,7 +1739,7 @@ function run_levelmeter () {
             show_hold: false,
             auto_hold: 2000,
             hold_size: 1,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1758,7 +1758,7 @@ function run_levelmeter () {
             show_hold: false,
             auto_hold: 2000,
             hold_size: 1,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1783,7 +1783,7 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1807,7 +1807,7 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1832,7 +1832,7 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 24,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1856,7 +1856,7 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 24,
-            container: $$("#sc_levelmeter")[0],
+            container: TK.get_id("sc_levelmeter"),
             gradient: {"0": "#001f83", "24": "#008bea"},
             levels: [1, 5, 10]
         })

@@ -252,13 +252,14 @@ toolkit = {
         var el= document.createElementNS('http://www.w3.org/2000/svg', "svg:" + tag);
         for (var k in args)
             el.setAttribute(k, args[k]);
-        return $(el);
+        return TK.get_id(el);
     },
-    seat_all_svg: function () {
+    seat_all_svg: function (parent) {
         // searches all svg that don't have the class "fixed" and re-positions them
         // for avoiding blurry lines
-        $$("svg:not(.svg-fixed)").each(function (e) {
-            TK.seat_svg(e);
+        TK.get_tag("svg").forEach(function (val, index, arr) {
+            if (!val.classList.contains("svg-fixed"))
+                TK.seat_svg(e);
         });
     },
     seat_svg: function (e) {
@@ -331,6 +332,9 @@ toolkit = {
     },
     get_class: function (cls, elm) {
         return (elm ? elm : document).getElementsByClassName(cls);
+    },
+    get_tag: function (tag, elm) {
+        return (elm ? elm : document).getElementsByTagName(tag);
     }
     
 };
