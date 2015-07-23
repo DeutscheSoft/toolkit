@@ -601,7 +601,7 @@ function run_knob () {
         hand: {width: 2, length: 3.5, margin: 32},
         styles: {backgroundSize: "50%"}
     });
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 
@@ -667,7 +667,7 @@ function run_clock () {
     clock = new Clock({
         container: TK.get_id("sc_clock"),
     });
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 
@@ -828,7 +828,7 @@ function run_gauge () {
             {pos: -0, label:"100%", margin: 29, align:_TOOLKIT_INNER}
         ]
     });
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 
@@ -1103,7 +1103,7 @@ function run_chart () {
         color: "#ffffff",
         key:   "baz"
     });
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 // FREQUENCY RESPONSE
@@ -1135,7 +1135,7 @@ function run_frequencyresponse () {
         type: "H4",
         mode: _TOOLKIT_LINE
     });
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 // DYNAMICS
@@ -1185,7 +1185,7 @@ function run_dynamics () {
         ],
         mode: _TOOLKIT_LINE
     });
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 
@@ -1234,7 +1234,7 @@ function run_equalizer () {
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
                      label: function (title, x, y, z) { return title + "\n" + toolkit.sprintf("%.2f", x) + " Hz"; } }]
     });
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 function run_spectralsignature () {
@@ -1323,7 +1323,7 @@ function run_spectralsignature () {
             position_lower: _TOOLKIT_TOP_RIGHT
     });
     ssig.add_signature({}, [-10, 20, 30, -20, -40, 40, 20, 10], true);
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 
@@ -1486,7 +1486,7 @@ function run_responsehandler () {
                        label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        })
     ]
-    seat_all_svg()
+    TK.seat_all_svg()
 }
 
 
