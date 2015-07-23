@@ -1549,7 +1549,9 @@ function run_state () {
         state: 0,
         "class": "on_air"
     });
-    var br = new Element("br", {style:"clear:both"}).inject(TK.get_id("sc_state"))
+    var br = TK.element("br");
+    br.setAttribute("style", "clear:both");
+    TK.get_id("sc_state").appendChild(br);
     __s1();
     __s2();
     __s3();
