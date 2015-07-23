@@ -1,12 +1,11 @@
 toolkit
 -------
 
-by Markus Schmidt <schmidt@boomshop.net> in 2013.
+by Markus Schmidt <schmidt@boomshop.net> 2013-2015
 
-This toolkit is a bunch of displays and controls to build audio-based
-applications for web-based user interfaces. toolkit. is in a quite early
-stage atm and is supposed to run in browsers like IE9+, Chrome and
-Firefox. toolkit was started in early 2013.
+toolkit is a JavaScript widget toolkit for professional audio and
+broadcast applications. toolkit is  supposed to run in browsers like
+IE9+, Chrome and Firefox.
 
 toolkit is missing some features and hides some bugs by now and is
 still under development. A version number is still missing. 
