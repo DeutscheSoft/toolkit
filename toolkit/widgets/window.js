@@ -186,28 +186,28 @@ Window = $class({
         this.element.addEventListener("mouseleave", this.__mout.bind(this));
         this._header.addEventListener("dblclick", this.__header_action.bind(this));
         
-        this.drag = false; //new Drag(this.element, {
-            //handle: this._header,
-            //onStart: this.__start_drag.bind(this),
-            //onComplete: this.__stop_drag.bind(this),
-            //onDrag: this.__dragging.bind(this),
-            //limit: {x: [0 - this.options.width + 20,
-                        //window.getSize().x - 20],
-                    //y: [0, window.getSize().y - 20]}
-        //});
+        this.drag = new Drag({
+            element    : this.element,
+            handle     : this._header,
+            onStart    : this.__start_drag.bind(this),
+            onStop     : this.__stop_drag.bind(this),
+            onDragging : this.__dragging.bind(this),
+            min        : {x: 0 - this.options.width + 20, y: 0},
+            max        : {x: window.getSize().x - 20, y: window.getSize().y - 20}
+        });
         
         this._resize = toolkit.element("div", "toolkit-resize");
         this.element.appendChild(this._resize);
         
         this.resize = new Resize({
-            element: this.element,
-            handle: this._resize,
-            min: {x: this.options.min_width, y: this.options.min_height},
-            max: {x: this.__max_width(), y: this.__max_height()}
+            element    : this.element,
+            handle     : this._resize,
+            min        : {x: this.options.min_width, y: this.options.min_height},
+            max        : {x: this.__max_width(), y: this.__max_height()},
+            onStart    : this.__start_resize.bind(this),
+            onStop     : this.__stop_resize.bind(this),
+            onResizing : this.__resizing.bind(this)
         });
-        this.resize.add_event("start",    this.__start_resize.bind(this));
-        this.resize.add_event("stop", this.__stop_resize.bind(this));
-        this.resize.add_event("resizing", this.__resizing.bind(this));
         
         this.set("resizable", this.options.resizable);
         this.set("draggable", this.options.draggable);
@@ -494,12 +494,12 @@ Window = $class({
         if (this.__horiz_max()) this.options.x = pos.x;
         if (this.__vert_max())  this.options.y = pos.y;
         
-        this.drag.value.now.x += x;
-        this.drag.mouse.now.x += x;
-        this.drag.mouse.pos.x -= x;
-        this.drag.value.now.y += y;
-        this.drag.mouse.now.y += y;
-        this.drag.mouse.pos.y -= y;
+        //this.drag.value.now.x += x;
+        //this.drag.mouse.now.x += x;
+        //this.drag.mouse.pos.x -= x;
+        //this.drag.value.now.y += y;
+        //this.drag.mouse.now.y += y;
+        //this.drag.mouse.pos.y -= y;
         
         // un-maximize
         if (this.__horiz_max()) this.set("maximize", {x: false});
