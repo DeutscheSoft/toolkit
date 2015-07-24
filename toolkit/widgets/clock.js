@@ -150,6 +150,8 @@ Clock = $class({
         this.circulars.seconds.destroy();
         this.circulars.minutes.destroy();
         this.circulars.hours.destroy();
+        if (this.__to)
+            window.clearTimeout(this.__to);
         Widget.prototype.destroy.call(this);
     },
     _draw_time: function (force) {
@@ -245,7 +247,8 @@ Clock = $class({
     _timeout : function () {
         if (this.__to)
             window.clearTimeout(this.__to);
-
+        if (!this.options)
+            return;
         if (this.options.timeout) {
             var d = this.options.time;
             var ts = +Date.now();

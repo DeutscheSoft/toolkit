@@ -257,7 +257,6 @@ toolkit = {
     seat_all_svg: function (parent) {
         // searches all svg that don't have the class "fixed" and re-positions them
         // for avoiding blurry lines
-        console.log(TK.get_tag("svg"))
         Array.prototype.forEach.call(TK.get_tag("svg"), function (val, index, arr) {
             if (!val.classList.contains("svg-fixed"))
                 TK.seat_svg(val);
