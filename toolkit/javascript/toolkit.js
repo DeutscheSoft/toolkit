@@ -249,17 +249,18 @@ toolkit = {
         // args: the options to set in the element
         // 
         // returns: the newly created object
-        var el= document.createElementNS('http://www.w3.org/2000/svg', "svg:" + tag);
+        var el = document.createElementNS('http://www.w3.org/2000/svg', "svg:" + tag);
         for (var k in args)
             el.setAttribute(k, args[k]);
-        return TK.get_id(el);
+        return el;
     },
     seat_all_svg: function (parent) {
         // searches all svg that don't have the class "fixed" and re-positions them
         // for avoiding blurry lines
-        TK.get_tag("svg").forEach(function (val, index, arr) {
+        console.log(TK.get_tag("svg"))
+        Array.prototype.forEach.call(TK.get_tag("svg"), function (val, index, arr) {
             if (!val.classList.contains("svg-fixed"))
-                TK.seat_svg(e);
+                TK.seat_svg(val);
         });
     },
     seat_svg: function (e) {
