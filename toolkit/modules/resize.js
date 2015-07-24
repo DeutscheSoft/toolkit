@@ -31,9 +31,9 @@ Resize = $class({
                                     // _TOOLKIT_NE, _TOOLKIT_SE, _TOOLKIT_SW, _TOOLKIT_NW,
         active    : true,           // set to false if resize is disabled
         min       : {x: -1, y: -1}, // object containing x and y determining minimum size
+                                    // a value of -1 means no min
         max       : {x: -1, y: -1}, // object containing x and y determining maximum size
-        
-                                
+                                    // a value of -1 means no max
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
@@ -53,18 +53,25 @@ Resize = $class({
         });
     },
     _dragstart: function (e, drag) {
+        if (!this.options.active)
         this._xstart = e.pageX;
         this._ystart = e.pageY;
         this._xsize  = this.options.element.offsetWidth;
         this._ysize  = this.options.element.offsetHeight;
         this._xpos   = this.options.element.offsetLeft;
         this._ypos   = this.options.element.offsetTop;
+        if (!this.options.active)
+            return;
         this.fire_event("start", [e, this]);
     },
     _dragend: function (e, drag) {
+        if (!this.options.active)
+            return;
         this.fire_event("stop", [e, this]);
     },
     _dragging: function (e, drag) {
+        if (!this.options.active)
+            return;
         var w = this._xsize + e.pageX - this._xstart;
         var h = this._ysize + e.pageY - this._ystart;
         if (this.options.min.x >= -1)
