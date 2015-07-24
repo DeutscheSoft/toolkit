@@ -75,7 +75,7 @@ Select = $class({
         } else {
             this.set("selected", sel);
         }
-        this.initialized();
+        Button.prototype.initialized.call(this);
     },
     destroy: function () {
         this._list.destroy();

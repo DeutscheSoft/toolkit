@@ -142,7 +142,7 @@ Circular = $class({
         this.set("labels", this.options.labels);
         
         this.redraw(true);
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     
     redraw: function (stuff) {

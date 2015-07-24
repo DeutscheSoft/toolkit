@@ -53,7 +53,7 @@ Button = $class({
         this.set("icon",        this.options.icon, hold);
         this.set("state_color", this.options.state_color, hold);
         this.set("state",       this.options.state, hold);
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     destroy: function () {
         this._icon.destroy();

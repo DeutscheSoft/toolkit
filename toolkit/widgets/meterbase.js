@@ -273,8 +273,7 @@ var MeterBase = $class({
         
         if (!hold)
             this.redraw();
-        this.initialized();
-        return this;
+        Widget.prototype.initialized.call(this);
     },
     
     resize: function () {

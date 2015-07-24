@@ -56,7 +56,7 @@ var Dynamics = $class({
             scale: _TOOLKIT_LINE
         });
         this.redraw();
-        this.initialized();
+        Chart.prototype.initialized.call(this);
     },
     
     redraw: function (graphs, grid) {

@@ -99,7 +99,7 @@ ValueButton = $class({
         });
         
         this.redraw();
-        this.initialized();
+        Button.prototype.initialized.call(this);
     },
     
     redraw: function () {

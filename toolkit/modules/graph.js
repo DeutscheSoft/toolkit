@@ -73,7 +73,7 @@ var Graph = $class({
         
         if (this.options.dots.length)
             this.redraw();
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {

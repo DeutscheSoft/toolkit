@@ -46,7 +46,7 @@ ScrollValue = $class({
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
         
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     destroy: function () {
         if (this.options.element) {

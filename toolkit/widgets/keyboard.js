@@ -67,7 +67,7 @@ Keyboard = $class({
         this.set("content", this.options.content);
         this.set("caret", this.options.caret);
         
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     
     build: function () {

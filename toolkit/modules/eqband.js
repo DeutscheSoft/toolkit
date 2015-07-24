@@ -77,7 +77,7 @@ EqBand = $class({
         this.element.classList.add("toolkit-eqband");
         
         this.filter.reset();
-        this.initialized();
+        ResponseHandle.prototype.initialized.call(this);
     },
 
     gen_freq2gain : function() {

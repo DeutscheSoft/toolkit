@@ -66,7 +66,7 @@ State = $class({
          && this.element.getStyle("position") != "relative")
             this.element.style["position"] = "relative";
         
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     destroy: function () {
         this._over.destroy();

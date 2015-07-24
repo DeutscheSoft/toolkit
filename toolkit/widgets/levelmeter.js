@@ -163,7 +163,7 @@ LevelMeter = $class({
         this.set("clip", this.options.clip);
         this.reset_label = this.reset_label.bind(this);
         this.redraw();
-        this.initialized();
+        MeterBase.prototype.initialized.call(this);
     },
     
     redraw: function () {

@@ -125,7 +125,7 @@ Fader = $class({
         }.bind(this));
         
         this.redraw();
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {

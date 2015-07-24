@@ -111,7 +111,7 @@ Clock = $class({
         //Widget.prototype.initialize.call(this, options);
 
         this.redraw();
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {

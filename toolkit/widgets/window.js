@@ -186,26 +186,28 @@ Window = $class({
         this.element.addEventListener("mouseleave", this.__mout.bind(this));
         this._header.addEventListener("dblclick", this.__header_action.bind(this));
         
-        this.drag = new Drag(this.element, {
-            handle: this._header,
-            onStart: this.__start_drag.bind(this),
-            onComplete: this.__stop_drag.bind(this),
-            onDrag: this.__dragging.bind(this),
-            limit: {x: [0 - this.options.width + 20,
-                        window.getSize().x - 20],
-                    y: [0, window.getSize().y - 20]}
-        });
+        this.drag = false; //new Drag(this.element, {
+            //handle: this._header,
+            //onStart: this.__start_drag.bind(this),
+            //onComplete: this.__stop_drag.bind(this),
+            //onDrag: this.__dragging.bind(this),
+            //limit: {x: [0 - this.options.width + 20,
+                        //window.getSize().x - 20],
+                    //y: [0, window.getSize().y - 20]}
+        //});
         
         this._resize = toolkit.element("div", "toolkit-resize");
-        this.element.appendChild(this._resize)
-        this.resize = this.element.makeResizable({
+        this.element.appendChild(this._resize);
+        
+        this.resize = new Resize({
+            element: this.element,
             handle: this._resize,
-            onStart: this.__start_resize.bind(this),
-            onComplete: this.__stop_resize.bind(this),
-            onDrag: this.__resizing.bind(this),
             limit: {x: [this.options.min_width, this.__max_width()],
                     y: [this.options.min_height, this.__max_height()]}
         });
+        this.resize.add_event("start",    this.__start_resize.bind(this));
+        this.resize.add_event("complete", this.__stop_resize.bind(this));
+        this.resize.add_event("resizing", this.__resizing.bind(this));
         
         this.set("resizable", this.options.resizable);
         this.set("draggable", this.options.draggable);
@@ -218,7 +220,7 @@ Window = $class({
         //this.set("minimize", this.options.minimize);
         
         this.redraw();
-        this.initialized();
+        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {
