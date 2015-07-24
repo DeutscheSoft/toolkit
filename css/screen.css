@@ -26,7 +26,7 @@ h1 {
     margin: 0px 0 20px 0;
     font-weight: normal;
     font-size: 3.1em;
-    color: #002f42;
+    color:#003050;
     text-align: center;
     height: 50px;
     line-height: 50px;
@@ -47,14 +47,14 @@ hr {
 }
 strong {
     font-weight: bold;
-    color: #00365f;
+    color: #003050;
 }
 small {
     font-size: 0.8em;
     color: #999;
 }
 a {
-    color: #00365f;
+    color: #003050;
 }
 ul {
     
@@ -65,7 +65,7 @@ li {
 
 .button {
     padding: 8px 16px;
-    color: #00365f;
+    color: #003050;
     text-shadow: 0px 1px 0px white;
     background-color: rgb(236,236,236);
     background-image: url(../toolkit/templates/default/images/gradients/grey_out.png);
@@ -87,7 +87,7 @@ li {
     text-decoration: none;
 }
 .button:hover {
-    border: 1px solid #00365f;
+    border: 1px solid #003050;
     background-size: 100% 150%;
     background-position: 50% 0;
     -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.1);

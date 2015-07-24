@@ -59,7 +59,7 @@ div.header {
     width: 930px;
     padding: 0 10px;
     height: 40px;
-    background-color: rgb(0, 56, 103);
+    background-color: #003050;
     background-image: url(../toolkit/templates/default/images/gradients/blue_out.png);
     background-repeat: repeat-x;
     background-size: 100% 250%;
@@ -95,7 +95,7 @@ ul#navigation a {
 }
 ul#navigation a:hover,
 ul#navigation span:hover{
-    color: rgb(0, 56, 103);
+    color: #003050;
     text-decoration: none;
     text-shadow: 0px 1px 0px white;
     background-color: rgb(236,236,236);
@@ -109,7 +109,7 @@ ul#navigation span:hover{
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
 }
 ul#navigation a:active {
-    color: rgb(0, 56, 103);
+    color: #003050;
     text-decoration: none;
     text-shadow: 0px 1px 0px white;
     background-color: rgb(236,236,236);
@@ -145,7 +145,7 @@ ul#navigation>li ul li {
     clear: left;
 }
 ul#navigation>li ul li a {
-    background-color: rgba(0, 42, 66, 1);
+    background-color: #003050;
     overflow: hidden;
     transition: height 333ms;
     height: 0;
