@@ -107,7 +107,7 @@ window.addEventListener('DOMContentLoaded', function () {
             })(pre));
         }
     }
-    var modex = window.location.hash.substring(1);
+    var modex = window.location.hash.substring(1).toLowerCase();
     if (modex == "all") {
         for (var name in window) {
             if (name.substr(0, 4) == "run_") {
