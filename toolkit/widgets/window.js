@@ -202,11 +202,11 @@ Window = $class({
         this.resize = new Resize({
             element: this.element,
             handle: this._resize,
-            limit: {x: [this.options.min_width, this.__max_width()],
-                    y: [this.options.min_height, this.__max_height()]}
+            min: {x: this.options.min_width, y: this.options.min_height},
+            max: {x: this.__max_width(), y: this.__max_height()}
         });
         this.resize.add_event("start",    this.__start_resize.bind(this));
-        this.resize.add_event("complete", this.__stop_resize.bind(this));
+        this.resize.add_event("stop", this.__stop_resize.bind(this));
         this.resize.add_event("resizing", this.__resizing.bind(this));
         
         this.set("resizable", this.options.resizable);
@@ -340,15 +340,15 @@ Window = $class({
         this.fire_event("positionchanged", [this, this.dimensions]);
     },
     _set_content: function () {
-        var elmt = toolkit.inner_height(this.element);
-        var head = toolkit.outer_height(this._header, true);
-        var foot = toolkit.outer_height(this._footer, true);
-        toolkit.outer_height(this._content, true, elmt - head - foot);
-        if (this.options.width == _TOOLKIT_VAR)
-            this._content.style["width"] = "auto";
-        else
-            toolkit.outer_width(this._content, true, toolkit.inner_width(this.element));
-        this._content.style["top"] = head + "px";
+        //var elmt = toolkit.inner_height(this.element);
+        //var head = toolkit.outer_height(this._header, true);
+        //var foot = toolkit.outer_height(this._footer, true);
+        //toolkit.outer_height(this._content, true, elmt - head - foot);
+        //if (this.options.width == _TOOLKIT_VAR)
+            //this._content.style["width"] = "auto";
+        //else
+            //toolkit.outer_width(this._content, true, toolkit.inner_width(this.element));
+        //this._content.style["top"] = head + "px";
         this.fire_event("contentresized", [this]);
     },
     _init_position: function (pos) {
@@ -758,16 +758,21 @@ Window = $class({
                 }
                 break;
             case "draggable":
-                if (value) this.drag.attach();
-                else this.drag.detach();
+                if (value) {
+                    //this.drag.set("active", true);
+                    this.element.classList.add("toolkit-draggable");
+                } else {
+                    //this.drag.set("active", false);
+                    this.element.classList.remove("toolkit-draggable");
+                }
                 break;
             case "resizable":
                 if (value) {
-                    this.resize.attach();
-                    this._resize.style["display"] = "block";
+                    this.resize.set("active", true);
+                    this.element.classList.add("toolkit-resizable");
                 } else {
-                    this.resize.detach();
-                    this._resize.style["display"] = "none";
+                    this.resize.set("active", false);
+                    this.element.classList.remove("toolit-resizable");
                 }
                 break;
             case "min_width":

@@ -171,7 +171,7 @@ DragValue = $class({
             this._cache_values(ev, dist);
         
         // fire event
-        this._fire_event("dragging", e);
+        this._fire_event("dragging", ev);
         
         return false;
     },
@@ -194,14 +194,14 @@ DragValue = $class({
     _fire_event: function (title, event) {
         // fire an event on this drag object and one with more
         // information on the draggified element
-        this.fire_event(title, [this, event]);
-        if (this.options.events())
-            this.options.events().fire_event(title, [event,
-                                              this.options.get(),
-                                              this.options.element,
-                                              this,
-                                              this.options.range()
-                                              ]);
+        this.fire_event(title, [event, this]);
+        //if (this.options.events)
+            //this.options.events.fire_event(title, [event,
+                                              //this.options.get(),
+                                              //this.options.element,
+                                              //this,
+                                              //this.options.range()
+                                              //]);
     },
     
     _angle_diff: function (a, b) {

@@ -17,9 +17,19 @@
     -moz-box-shadow:  0px 3px 10px 0px rgba(0, 0, 0, 0.2);
     box-shadow:  0px 3px 10px 0px rgba(0, 0, 0, 0.2);
 }
+
 .toolkit-window.toolkit-resizing,
 .toolkit-window.toolkit-dragging {
     opacity: 0.7;
+}
+
+.toolkit-window .toolkit-content {
+    position: absolute;
+    top: 30px;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
 .toolkit-window .toolkit-header {
@@ -28,6 +38,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 2;
     width: 100%;
     cursor: default;
     -webkit-touch-callout: none;
@@ -62,6 +73,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
+    z-index: 2;
     width: 100%;
     cursor: default;
     border-top: 1px solid rgba(255,255,255,0.6);
