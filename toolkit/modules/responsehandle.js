@@ -1306,7 +1306,7 @@ ResponseHandle = $class({
     },
     _scrollwheel: function (e) {
         e.preventDefault();
-        var d = e.hasOwnProperty("wheelDelta") ? e.wheelDelta : e.detail;
+        var d = typeof e.wheelDelta !== "undefined" && e.wheelDelta ? e.wheelDelta : e.detail;
         e.wheel = d / Math.abs(d);
         if (this.__sto) window.clearTimeout(this.__sto);
         this.element.classList.add("toolkit-active");
