@@ -93,7 +93,7 @@ Keyboard = $class({
         switch (this.options.buffer) {
             case _TOOLKIT_TEXT_INPUT:
                 this._buffer = toolkit.element("input","toolkit-buffer");
-                this._buffer.set("type", "text");
+                this._buffer.setAttribute("type", "text");
                 break;
             case _TOOLKIT_TEXT_AREA:
                 this._buffer = toolkit.element("textarea","toolkit-buffer");

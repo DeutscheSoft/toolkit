@@ -234,13 +234,13 @@ Circular = $class({
             if (m["class"]) r.classList.add(m["class"]);
             if (m["color"]) r.style["fill"] = m["color"];
                      
-            r.set("x", this.options.size - length - margin);
-            r.set("y", this.options.size / 2 - width / 2);
+            r.setAttribute("x", this.options.size - length - margin);
+            r.setAttribute("y", this.options.size / 2 - width / 2);
             
-            r.set("width",  length);
-            r.set("height", width);
+            r.setAttribute("width",  length);
+            r.setAttribute("height", width);
             
-            r.set("transform", "rotate("
+            r.setAttribute("transform", "rotate("
                 + this.val2real(pos) + " "
                 + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
         }
@@ -319,13 +319,13 @@ Circular = $class({
             var mx = ((coords.x - outer) / outer_p) * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
             var my = ((coords.y - outer) / outer_p) * bb.height / (align ? -2 : 2);
             
-            p.set("transform", "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
-            p.set("text-anchor", "middle");
+            p.setAttribute("transform", "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
+            p.setAttribute("text-anchor", "middle");
         }
         this.fire_event("labelsdrawn", [this]);
     },
     _draw_hand: function () {
-        this._hand.set("transform", "rotate("
+        this._hand.setAttribute("transform", "rotate("
             + this.val2real() + " "
             + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
         this.fire_event("handdrawn", [this]);
@@ -368,11 +368,11 @@ Circular = $class({
             case "start":
             case "x":
             case "y":
-                this.element.set("transform", "translate("
+                this.element.setAttribute("transform", "translate("
                     + this.options.x + " " + this.options.y + ") "
                     + "rotate(" + this.options.start + " "
                     + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
-                this._labels.set("transform", "rotate(-" + this.options.start + " "
+                this._labels.setAttribute("transform", "rotate(-" + this.options.start + " "
                     + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
                 break;
             case "value":
@@ -396,11 +396,11 @@ Circular = $class({
                 key = false;
                 break;
             case "show_base":
-                if (!value && !hold) this._base.set("d", null);
+                if (!value && !hold) this._base.setAttribute("d", null);
                 else if (!hold) this.redraw();
                 break;
             case "show_value":
-                if (!value && !hold) this._value.set("d", null);
+                if (!value && !hold) this._value.setAttribute("d", null);
                 else if (!hold) this.redraw();
                 break;
             case "show_hand":
@@ -408,13 +408,13 @@ Circular = $class({
                 if(value && !hold) this._draw_hand();
                 break;
             case "hand":
-                this._hand.set("x", this.options.size
+                this._hand.setAttribute("x", this.options.size
                                   - this.options.hand.length
                                   - this.options.hand.margin);
-                this._hand.set("y", this.options.size / 2
+                this._hand.setAttribute("y", this.options.size / 2
                                   - this.options.hand.width / 2);
-                this._hand.set("width",  this.options.hand.length);
-                this._hand.set("height", this.options.hand.width);
+                this._hand.setAttribute("width",  this.options.hand.length);
+                this._hand.setAttribute("height", this.options.hand.width);
                 if(!hold) this._draw_hand();
                 break;
             case "dot":

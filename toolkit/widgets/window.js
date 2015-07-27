@@ -147,8 +147,8 @@ Window = $class({
             this.__buttons[i].element.appendChild(
                 toolkit.element("div", "toolkit-icon")
             );
-            this.__buttons[i]._icon.dispose();
-            this.__buttons[i]._label.dispose();
+            this.__buttons[i]._icon.parentElement.removeChild(this.__buttons[i]._icon);
+            this.__buttons[i]._label.parentElement.removeChild(this.__buttons[i]._label);
         }
         
         if (this.options.container)
@@ -193,7 +193,7 @@ Window = $class({
             onStop     : this.__stop_drag.bind(this),
             onDragging : this.__dragging.bind(this),
             min        : {x: 0 - this.options.width + 20, y: 0},
-            max        : {x: window.getSize().x - 20, y: window.getSize().y - 20}
+            max        : {x: width() - 20, y: height() - 20}
         });
         
         this._resize = toolkit.element("div", "toolkit-resize");
@@ -285,8 +285,8 @@ Window = $class({
                                  Math.max(this.options.width,
                                           this.options.min_width));
             if (this.__horiz_max()) {
-                toolkit.outer_width(this.element, true, window.getSize().x);
-                this.dimensions.width = window.getSize().x;
+                toolkit.outer_width(this.element, true, width());
+                this.dimensions.width = width();
             } else {
                 toolkit.outer_width(this.element, true, this.options.width);
                 this.dimensions.width = this.options.width;
@@ -299,8 +299,8 @@ Window = $class({
                                   Math.max(this.options.height,
                                            this.options.min_height));
             if (this.__vert_max()) {
-                toolkit.outer_height(this.element, true, window.getSize().y);
-                this.dimensions.height = window.getSize().y;
+                toolkit.outer_height(this.element, true, height());
+                this.dimensions.height = height();
             } else {
                 toolkit.outer_height(this.element, true, this.options.height);
                 this.dimensions.height = this.options.height;
@@ -357,8 +357,8 @@ Window = $class({
             var y0 = this.options.fixed ? 0 : window.scrollY;
             var pos1 = this.translate_anchor(
                 this.options.open, x0, y0,
-                window.getSize().x - this.options.width,
-                window.getSize().y - this.options.height);
+                window.offsetWidth - this.options.width,
+                window.offsetHeight - this.options.height);
             var pos2 = this.translate_anchor(
                 this.options.anchor, pos1.x, pos1.y,
                 this.options.width,
@@ -423,9 +423,9 @@ Window = $class({
     
     _check_header: function (hold) {
         // checks whether to hide or show the header element
-        if (!this._header_left.get("html")
-         && !this._header_center.get("html")
-         && !this._header_right.get("html")) {
+        if (!this._header_left.innerHTML
+         && !this._header_center.innerHTML
+         && !this._header_right.innerHTML) {
             this._header.style["display"] = "none";
         } else {
             this._header.style["display"] = "block";
@@ -441,9 +441,9 @@ Window = $class({
     },
     _check_footer: function (hold) {
         // checks whether to hide or show the footer element
-        if (!this._footer_left.get("html")
-         && !this._footer_center.get("html")
-         && !this._footer_right.get("html")) {
+        if (!this._footer_left.innerHTML
+         && !this._footer_center.innerHTML
+         && !this._footer_right.innerHTML) {
             this._footer.style["display"] = "none";
         } else {
             this._footer.style["display"] = "block";
@@ -484,7 +484,7 @@ Window = $class({
             var y = (!this.options.fixed ? window.scrollY : 0);
         }
         if (this.__horiz_max()) {
-            var x = ev.client.x - (ev.client.x / window.getSize().x)
+            var x = ev.client.x - (ev.client.x / width())
                                 * this.options.width;
             x += (!this.options.fixed ? window.scrollX : 0);
         }
@@ -699,14 +699,14 @@ Window = $class({
                 break;
             case "icon":
                 if (!hold) {
-                    this._icon.set("src", value);
+                    this._icon.setAttribute("src", value);
                     this._icon.style["display"] = value ? "block" : "none"; 
                 }
                 break;
             case "header_left":
             case "header_right":
             case "header_center":
-                if (typeOf(value) != "array") {
+                if (!Array.isArray(value)) {
                     this.options[key] = [value];
                     value = [value];
                 }
@@ -718,7 +718,7 @@ Window = $class({
             case "footer_left":
             case "footer_right":
             case "footer_center":
-                if (typeOf(value) != "array") {
+                if (!Array.isArray(value)) {
                     this.options[key] = [value];
                     value = [value];
                 }
@@ -750,7 +750,7 @@ Window = $class({
             case "minimize":
                 if (!hold) {
                     if (value) {
-                        this.element.dispose()
+                        this.element.parentElement.removeChild(this.element);
                     } else {
                         this.set("container", this.options.container)
                         this.redraw();

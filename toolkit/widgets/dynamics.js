@@ -86,7 +86,7 @@ var Dynamics = $class({
         this.grid.set("grid_y", this.options.grid_y);
         
         if (this._steady)
-            this._steady.set("dots", [{x:this.options.min, y:this.options.min},
+            this._steady.setAttribute("dots", [{x:this.options.min, y:this.options.min},
                                       {x:this.options.max, y:this.options.max}]);
         Chart.prototype.redraw.call(this, graphs, false);
         this.draw_graph();

@@ -42,7 +42,7 @@ Toggle = $class({
         
         var icon  = this.options[value ? (this.options.icon_active
                                        ? "icon_active" : "icon") : "icon"];
-        if (icon) this._icon.set("src", icon);
+        if (icon) this._icon.setAttribute("src", icon);
                    
         var label = this.options[value ? (this.options.label_active
                                        ? "label_active" : "label") : "label"];

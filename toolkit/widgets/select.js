@@ -198,7 +198,7 @@ Select = $class({
         // max width and set it as style afterwards
         this.__width = 0;
         this.element.style.width = "auto";
-        var t = this._label.get("html");
+        var t = this._label.innerHTML;
         for (var i = 0; i < this.entries.length; i++) {
             this.set("label", this.entries[i].title);
             var act = toolkit.outer_width(this.element, true);
@@ -214,8 +214,8 @@ Select = $class({
             pos.y += toolkit.outer_height(this.element, true);
             var ew = toolkit.outer_width(this.element, true);
             document.body.appendChild(this._list);
-            var cw = window.getSize().x;
-            var ch = window.getSize().y;
+            var cw = width();
+            var ch = height();
             var sx = scroll_left();
             var sy = scroll_top();
             toolkit.set_styles(this._list, {
@@ -238,7 +238,7 @@ Select = $class({
     _hide_list: function () {
         this.__transition = false;
         if (!this.__open) {
-            this._list.dispose()
+            this._list.parentElement.removeChild(this._list);
         }
     },
     _get_entry_by_value: function (val, id) {

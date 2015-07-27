@@ -307,7 +307,7 @@ Ranged = $class({
         // if snapping is enabled, snaps the value to the grid
         if (!this.options.snap) return value;
         var snap  = this.options.snap;
-        if (typeOf(snap) == "array") {
+        if (Array.isArray(snap)) {
             return snap.next(value)
         } else {
             if (typeof this.___snapcoef["" + snap] == "undefined") {

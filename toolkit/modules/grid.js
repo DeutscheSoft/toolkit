@@ -107,8 +107,8 @@ Grid = $class({
             if (mode && y > this.__last || !mode && x < this.__last) {
                 label.destroy();
             } else {
-                label.set("x", x);
-                label.set("y", y);
+                label.setAttribute("x", x);
+                label.setAttribute("y", y);
                 m = mode ? tw + pl + pr : th + pt + pb;
                 this.__last = mode ? y - th : x + tw;
             }
@@ -124,15 +124,15 @@ Grid = $class({
         line.classList.add("toolkit-grid-line");
         line.classList.add(mode ? "toolkit-horizontal" : "toolkit-vertical");
         if (obj["class"]) line.classList.add(obj["class"]);
-        if (obj.color) line.set("style", "stroke:" + obj.color);
+        if (obj.color) line.setAttribute("style", "stroke:" + obj.color);
         if (mode) {
             // line from left to right
-            line.set("d", "M0 " + Math.round(this.range_y.val2px(obj.pos, true))
+            line.setAttribute("d", "M0 " + Math.round(this.range_y.val2px(obj.pos, true))
                 + ".5 L"  + (this.range_x.options.basis - m) + " "
                 + Math.round(this.range_y.val2px(obj.pos, true)) + ".5");
         } else {
             // line from top to bottom
-            line.set("d", "M" + Math.round(this.range_x.val2px(obj.pos, true))
+            line.setAttribute("d", "M" + Math.round(this.range_x.val2px(obj.pos, true))
                 + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos, true))
                 + ".5 " + (this.range_y.options.basis - m));
         }

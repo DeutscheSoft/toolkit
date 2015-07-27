@@ -210,7 +210,7 @@ Clock = $class({
             this._label.firstChild.nodeValue = s;
         } else this._label.appendChild(document.createTextNode(s));
         
-        this._label.set("transform", "");
+        this._label.setAttribute("transform", "");
         
         var bb = this._label.getBoundingClientRect();
         var mleft   = this._label.getStyle("margin-left").toInt() || 0;
@@ -221,14 +221,14 @@ Clock = $class({
         var scale   = space / bb.width;
         var pos     = this.options.size / 2;
         
-        this._label.set("transform", "translate(" + pos + "," + pos + ") "
+        this._label.setAttribute("transform", "translate(" + pos + "," + pos + ") "
             + "scale(" + scale + ")");
         
         var bb = this._label.getBoundingClientRect();
         
-        this._label_upper.set("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
+        this._label_upper.setAttribute("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
             + "scale(" + (scale * this.options.label_scale) + ")");
-        this._label_lower.set("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
+        this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
             + "scale(" + (scale * this.options.label_scale) + ")");
         this._draw_time(true);
     },
@@ -280,8 +280,8 @@ Clock = $class({
                 if (!hold) this.redraw();
                 break;
             case "size":
-                this.element.set("width", (typeof value == "number" ? value + "px" : value));
-                this.element.set("height", (typeof value == "number" ? value + "px" : value));
+                this.element.setAttribute("width", (typeof value == "number" ? value + "px" : value));
+                this.element.setAttribute("height", (typeof value == "number" ? value + "px" : value));
                 if (!hold) this.redraw();
                 break;
             case "time":

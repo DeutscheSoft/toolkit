@@ -20,12 +20,6 @@ REFERENCE / DEMO
 * ValueKnob
 * Select
   
-STRIP MOOTOOLS FROM TOOLKIT:
-----------------------------
-* svgutils.js
-* event.resize.js
-* [element].dispose()
-
 
 OTHER IMPROVEMENTS
 ------------------

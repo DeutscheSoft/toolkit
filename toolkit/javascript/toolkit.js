@@ -295,6 +295,33 @@ toolkit = {
         e.style.marginTop = t + "px";
     },
     
+    _unique_ids: [],
+    unique_id: function () {
+        var id;
+        while (TK._unique_ids.indexOf(id = TK.random_string(8, "aA#")) > -1)
+            1
+        TK._unique_ids.push(id);
+        return id;
+    },
+    
+    random_string: function (length, chars) {
+        // returns a random string with specified length and characters
+        // a = small chars
+        // A = uppercase chars
+        // # = numbers
+        // ! = other chars (~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\)
+        if (!length) length = 16;
+        if (!chars) chars = "aA#";
+        var mask = '';
+        if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+        if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (chars.indexOf('#') > -1) mask += '0123456789';
+        if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+        var result = '';
+        for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
+        return result;
+    },
+    
     _resize_events: [],
     _monitored_resize_events: -1,
     
@@ -369,6 +396,11 @@ Array.prototype.next = function (val, sort) {
     return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
 };
 
+if (typeof Array.isArray === 'undefined') {
+    Array.isArray = function(obj) {
+        return Object.prototype.toString.call(obj) === '[object Array]';
+    }
+};
 
 // MATH PROTOTYPING
 

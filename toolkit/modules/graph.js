@@ -85,7 +85,7 @@ var Graph = $class({
         var init;
 
         if (typeof this.options.dots == "string") {
-            this.element.set("d", this.options.dots);
+            this.element.setAttribute("d", this.options.dots);
             return;
         }
         
@@ -152,7 +152,7 @@ var Graph = $class({
                 s += _s;
         }
         if (s) {
-            this.element.set("d", s);
+            this.element.setAttribute("d", s);
         }
         Widget.prototype.redraw.call(this);
     },

@@ -76,7 +76,7 @@ Value = $class({
     
     redraw: function () {
         if (this.__editing) return;
-        this._input.set("value", this.options.format(this.options.value));
+        this._input.setAttribute("value", this.options.format(this.options.value));
     },
     
     destroy: function () {
@@ -100,7 +100,7 @@ Value = $class({
         if (!this.options.set) return;
         if (this.__editing) return false;
         this.element.classList.add("toolkit-active");
-        this._input.set("value", this.options.value);
+        this._input.setAttribute("value", this.options.value);
         this.__editing = true;
         this._input.focus();
         this.fire_event("valueclicked", [this.options.value, this]);
@@ -121,7 +121,7 @@ Value = $class({
                 break;
             case 13:
                 // ENTER
-                var val = this.options.set(this._input.get("value"));
+                var val = this.options.set(this._input.getAttribute("value"));
                 this.set("value", val, true);
                 this._value_done();
                 this.fire_event("valueset", [this.options.value, this]);

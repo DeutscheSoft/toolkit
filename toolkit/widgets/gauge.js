@@ -84,9 +84,9 @@ Gauge = $class({
             mx += this.options.x;
             my += this.options.y;
                    
-            this._title.set("transform",
+            this._title.setAttribute("transform",
                 "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
-            this._title.set("text-anchor", "middle");
+            this._title.setAttribute("text-anchor", "middle");
         }
         this.fire_event("titledrawn", [this]);
     },
@@ -95,10 +95,10 @@ Gauge = $class({
     set: function (key, value, hold) {
         switch (key) {
             case "width":
-                if (!hold) this._svg.set("width", value);
+                if (!hold) this._svg.setAttribute("width", value);
                 break;
             case "height":
-                if (!hold) this._svg.set("height", value);
+                if (!hold) this._svg.setAttribute("height", value);
                 break;
             case "title":
                 if (typeof value == "string") value = {title: value};

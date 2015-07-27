@@ -34,12 +34,12 @@ Ranges = $class({
         // is an object, too, both are merged before a range is created.
         // Returns the range.
         var r;
-        if (typeOf(from) == "function") {
+        if (typeof from == "function") {
             r = from();
         } else {
             if (name
             && this.options[name]
-            && typeOf(this.options[name] == "object"))
+            && typeof this.options[name] == "object")
                 from = $mixin({}, this.options[name], from)
             r = new Range(from);
         }

@@ -85,7 +85,7 @@ Button = $class({
             case "icon":
                 if (!hold) {
                     if (value) {
-                        this._icon.set("src", value);
+                        this._icon.setAttribute("src", value);
                         this._icon.style["display"] = null;
                     } else {
                         this._icon.style["display"] = "none";

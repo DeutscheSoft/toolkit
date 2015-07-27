@@ -87,7 +87,7 @@ Widget = $class({
         this.fire_event("initialize", this);
         this.set_options(options);
         if (!this.options.id)
-            this.options.id = String.uniqueID();
+            this.options.id = TK.unique_id();
         if (this.resize)
             this.add_event("resize", this.resize)
         return this;
@@ -142,7 +142,7 @@ Widget = $class({
         // instance
         element.classList.add("toolkit-widget");
         if (this.options.id)
-            element.set("id", this.options.id);
+            element.setAttribute("id", this.options.id);
         if (this.options["class"])
             element.classList.add(this.options["class"]);
         if (delegate)
