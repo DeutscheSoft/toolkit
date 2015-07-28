@@ -35,7 +35,7 @@ Select = $class({
         this.__width = 0;
         this.entries = [];
         Button.prototype.initialize.call(this, options);
-        this.element.classList.add("toolkit-select");
+        TK.add_class(this.element, "toolkit-select");
         
         this.add_event("pointerup", function (e) {
             this.show_list(!this.__open);
@@ -91,11 +91,11 @@ Select = $class({
         
         // remove active style from last selected
         if (sel !== false && sel >= 0 && sel < this.entries.length)
-            this.entries[sel].element.classList.remove("toolkit-active");
+            TK.remove_class(this.entries[sel].element, "toolkit-active");
         
         if (id !== false && id >= 0 && id < this.entries.length) {
             // add active style to selection
-            this.entries[id].element.classList.add("toolkit-active");
+            TK.add_class(this.entries[id].element, "toolkit-active");
             // and set the selected value to options
             this.options.value = this.entries[id].value;
             // label

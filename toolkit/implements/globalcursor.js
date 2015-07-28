@@ -25,11 +25,11 @@ GlobalCursor = $class({
     // the whole application
     _class: "GlobalCursor",
     global_cursor: function (cursor) {
-        document.html.classList.add("toolkit-cursor-" + cursor);
+        TK.add_class(document.html, "toolkit-cursor-" + cursor);
         this.fire_event("globalcursor", cursor);
     },
     remove_cursor: function (cursor) {
-        document.html.classList.remove("toolkit-cursor-" + cursor);
+        TK.remove_class(document.html, "toolkit-cursor-" + cursor);
         this.fire_event("cursorremoved", cursor);
     }
 });

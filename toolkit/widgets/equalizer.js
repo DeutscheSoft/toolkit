@@ -33,7 +33,7 @@ var Equalizer = $class({
     initialize: function (options) {
         this.bands = [];
         ResponseHandler.prototype.initialize.call(this, options);
-        this.element.classList.add("toolkit-equalizer");
+        TK.add_class(this.element, "toolkit-equalizer");
         this._bands = TK.make_svg("g", {"class": "toolkit-eqbands"});
         this.element.appendChild(this._bands);
             

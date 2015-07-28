@@ -70,7 +70,7 @@ Button = $class({
                 if (!hold) value.appendChild(this.element);
                 break;
             case "class":
-                if (!hold) this.element.classList.add(value);
+                if (!hold) TK.add_class(this.element, value);
                 break;
             case "label":
                 if (!hold) {
@@ -94,8 +94,8 @@ Button = $class({
                 break;
             case "state":
                 if (!hold) {
-                    if (value) this.element.classList.add("toolkit-active");
-                    else this.element.classList.remove("toolkit-active");
+                    if (value) TK.add_class(this.element, "toolkit-active");
+                    else TK.remove_class(this.element, "toolkit-active");
                     this._label.style.backgroundColor = 
                                          (this.options.state_color
                                        && this.options.state)

@@ -44,7 +44,7 @@ var Dynamics = $class({
     },
     initialize: function (options) {
         Chart.prototype.initialize.call(this, options, true);
-        this.element.classList.add("toolkit-dynamics");
+        TK.add_class(this.element, "toolkit-dynamics");
         this.set("scale", this.options.scale, true);
         this.set("size", this.options.size, true);
         this.set("min", this.options.min, true);

@@ -99,7 +99,7 @@ Value = $class({
         this.__clicked = false;
         if (!this.options.set) return;
         if (this.__editing) return false;
-        this.element.classList.add("toolkit-active");
+        TK.add_class(this.element, "toolkit-active");
         this._input.setAttribute("value", this.options.value);
         this.__editing = true;
         this._input.focus();
@@ -138,7 +138,7 @@ Value = $class({
     _value_done: function (e) {
         if (!this.__editing) return;
         this.__editing = false;
-        this.element.classList.remove("toolkit-active");
+        TK.remove_class(this.element, "toolkit-active");
         this._input.blur();
         this.fire_event("valuedone", [this.options.value, this]);
         this.redraw();

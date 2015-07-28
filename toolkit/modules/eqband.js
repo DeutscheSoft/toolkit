@@ -74,7 +74,7 @@ EqBand = $class({
         else if (typeof options.q !== "undefined")
             this.set("q", options.q, true);
         
-        this.element.classList.add("toolkit-eqband");
+        TK.add_class(this.element, "toolkit-eqband");
         
         this.filter.reset();
         ResponseHandle.prototype.initialized.call(this);

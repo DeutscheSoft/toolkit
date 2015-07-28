@@ -32,7 +32,7 @@ Toggle = $class({
     
     initialize: function (options, hold) {
         Button.prototype.initialize.call(this, options, hold);
-        this.element.classList.add("toolkit-toggle");
+        TK.add_class(this.element, "toolkit-toggle");
         this.add_event("pointerdown", this._mousedown.bind(this));
         this.add_event("pointerup", this._mouseup.bind(this));
     },

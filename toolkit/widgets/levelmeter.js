@@ -68,7 +68,7 @@ LevelMeter = $class({
     
     initialize: function (options) {
         MeterBase.prototype.initialize.call(this, options, true);
-        this.element.classList.add("toolkit-level-meter");
+        TK.add_class(this.element, "toolkit-level-meter");
         
         this.state = new State(Object.append({
             "class": "toolkit-clip"
@@ -462,20 +462,20 @@ LevelMeter = $class({
         switch (key) {
             case "show_peak":
                 if (!hold) {
-                    this.element.classList[value  ? "add" : "remove"]("toolkit-has-peak");
+                    TK[(value  ? "add" : "remove") + "_class"](this.element, "toolkit-has-peak");
                     this._peak.style["display"] =  value  ? "block" : "none";
                 }
                 break;
             case "show_clip":
                 if (!hold) {
                     this._clip.style["display"] =  value  ? "block" : "none";
-                    this.element.classList[value  ? "add" : "remove"]("toolkit-has-clip");
+                    TK[(value  ? "add" : "remove") + "_class"](this.element, "toolkit-has-clip");
                     this.redraw();
                 }
                 break;
             case "show_hold":
                 if (!hold) {
-                    this.element.classList[value  ? "add" : "remove"]("toolkit-has-hold");
+                    TK[(value  ? "add" : "remove") + "_class"](this.element, "toolkit-has-hold");
                     this.draw_meter();
                 }
                 break;
@@ -495,10 +495,10 @@ LevelMeter = $class({
                 this._clip_timeout();
                 if (!hold && value) {
                     this.fire_event("clipping");
-                    this.element.classList.add("toolkit-clipping");
+                    TK.add_class(this.element, "toolkit-clipping");
                     this.state.set("state", 1);
                 } else {
-                    this.element.classList.remove("toolkit-clipping");
+                    TK.remove_class(this.element, "toolkit-clipping");
                     this.state.set("state", 0);
                 }
                 break;

@@ -231,7 +231,7 @@ Circular = $class({
                           Math.max(this.options.min, m.pos));
             // TODO: consider adding them all at once
             this._dots.appendChild(r);
-            if (m["class"]) r.classList.add(m["class"]);
+            if (m["class"]) TK.add_class(r, m["class"]);
             if (m["color"]) r.style["fill"] = m["color"];
                      
             r.setAttribute("x", this.options.size - length - margin);
@@ -277,7 +277,7 @@ Circular = $class({
             var s = TK.make_svg("path", {"class": "toolkit-marker"});
             this._markers.appendChild(s);
             
-            if (m["class"]) s.classList.add(m["class"]);
+            if (m["class"]) TK.add_class(s, m["class"]);
             if (m["color"]) s.style["fill"] = m["color"];
             
             this._draw_slice(this.val2real(from),
@@ -297,7 +297,7 @@ Circular = $class({
             });
             this._labels.appendChild(p);
             
-            if (l["class"]) p.classList.add(l["class"]);
+            if (l["class"]) TK.add_class(p, l["class"]);
             if (l["color"]) p.style["fill"] = l["color"];
                      
             if (typeof l.label != "undefined")

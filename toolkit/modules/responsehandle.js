@@ -101,33 +101,33 @@ ResponseHandle = $class({
             "id":    this.options.id
         }), true, true);
         
-        this.element.classList.add("toolkit-response-handle");
+        TK.add_class(this.element, "toolkit-response-handle");
         switch (this.options.mode) {
             case _TOOLKIT_CIRCULAR:
-                this.element.classList.add("toolkit-circular"); break;
+                TK.add_class(this.element, "toolkit-circular"); break;
             case _TOOLKIT_LINE_VERTICAL:
-                this.element.classList.add("toolkit-line-vertical");
-                this.element.classList.add("toolkit-line");
+                TK.add_class(this.element, "toolkit-line-vertical");
+                TK.add_class(this.element, "toolkit-line");
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
-                this.element.classList.add("toolkit-line-horizontal");
-                this.element.classList.add("toolkit-line");
+                TK.add_class(this.element, "toolkit-line-horizontal");
+                TK.add_class(this.element, "toolkit-line");
                 break;
             case _TOOLKIT_BLOCK_LEFT:
-                this.element.classList.add("toolkit-block-left");
-                this.element.classList.add("toolkit-block");
+                TK.add_class(this.element, "toolkit-block-left");
+                TK.add_class(this.element, "toolkit-block");
                 break;
             case _TOOLKIT_BLOCK_RIGHT:
-                this.element.classList.add("toolkit-block-right")
-                this.element.classList.add("toolkit-block");
+                TK.add_class(this.element, "toolkit-block-right")
+                TK.add_class(this.element, "toolkit-block");
                 break;
             case _TOOLKIT_BLOCK_TOP:
-                this.element.classList.add("toolkit-block-top");
-                this.element.classList.add("toolkit-block");
+                TK.add_class(this.element, "toolkit-block-top");
+                TK.add_class(this.element, "toolkit-block");
                 break;
             case _TOOLKIT_BLOCK_BOTTOM:
-                this.element.classList.add("toolkit-block");
-                this.element.classList.add("toolkit-block-bottom");
+                TK.add_class(this.element, "toolkit-block");
+                TK.add_class(this.element, "toolkit-block-bottom");
                 break;
         }
         
@@ -1092,13 +1092,13 @@ ResponseHandle = $class({
     _mouseenter: function (e) {
         e.preventDefault();
         this._zwheel = false;
-        this.element.classList.add("toolkit-hover");
+        TK.add_class(this.element, "toolkit-hover");
         return false;
     },
     _mouseleave: function (e) {
         e.preventDefault();
         this._raised = false;
-        this.element.classList.remove("toolkit-hover");
+        TK.remove_class(this.element, "toolkit-hover");
         return false;
     },
     _mouseelement: function (e) {
@@ -1136,8 +1136,8 @@ ResponseHandle = $class({
         }
         
         // classes and stuff
-        this.element.classList.add("toolkit-active");
-        this.element.getParent().getParent().classList.add("toolkit-dragging");
+        TK.add_class(this.element, "toolkit-active");
+        TK.add_class(this.element.getParent().getParent(), "toolkit-dragging");
         this.global_cursor("move");
         this.__active = true;
         this._offsetX = ev.pageX - this.x;
@@ -1164,10 +1164,10 @@ ResponseHandle = $class({
     _mouseup: function (e) {
         if (!this.__active) return;
         e.preventDefault();
-        this.element.classList.remove("toolkit-active");
+        TK.remove_class(this.element, "toolkit-active");
         var parent = this.element.getParent().getParent();
         if (parent)
-            parent.classList.remove("toolkit-dragging");
+            TK.remove_class(parent, "toolkit-dragging");
         this.remove_cursor("move");
         if (!this._zhandling) {
             this.fire_event("handlereleased", [{
@@ -1309,9 +1309,9 @@ ResponseHandle = $class({
         var d = typeof e.wheelDelta !== "undefined" && e.wheelDelta ? e.wheelDelta : e.detail;
         e.wheel = d / Math.abs(d);
         if (this.__sto) window.clearTimeout(this.__sto);
-        this.element.classList.add("toolkit-active");
+        TK.add_class(this.element, "toolkit-active");
         this.__sto = window.setTimeout(function () {
-            this.element.classList.remove("toolkit-active");
+            TK.remove_class(this.element, "toolkit-active");
             this.fire_event("zchangeended", [this.options.z, this]);
         }.bind(this), 250);
         var s = this.range_z.get("step") * e.wheel;
@@ -1390,10 +1390,10 @@ ResponseHandle = $class({
                 break;
             case "active":
                 if (value) {
-                    this.element.classList.remove("toolkit-inactive");
+                    TK.remove_class(this.element, "toolkit-inactive");
                     this.redraw();
                 }
-                else this.element.classList.add("toolkit-inactive");
+                else TK.add_class(this.element, "toolkit-inactive");
                 break;
             case "x":
             case "y":

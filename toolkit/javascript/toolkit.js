@@ -545,14 +545,3 @@ if (typeof Array.isArray === 'undefined') {
         return Object.prototype.toString.call(obj) === '[object Array]';
     }
 };
-
-if (typeof HTMLElement.classList === 'undefined') {
-    HTMLElement.prototype.classList = {
-        add: function (cls) {
-            TK.add_class(this, cls);
-        },
-        remove: function (cls) {
-            TK.add_class(this, cls);
-        },
-    }
-}

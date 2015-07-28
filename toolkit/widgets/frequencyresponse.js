@@ -65,7 +65,7 @@ var FrequencyResponse = $class({
         if (options.scale)
             this.set("scale", options.scale, true);
         Chart.prototype.initialize.call(this, options);
-        this.element.classList.add("toolkit-frequency-response");
+        TK.add_class(this.element, "toolkit-frequency-response");
         this.set("db_grid", this.options.db_grid);
         this.range_y.add_event("set", function (key, value, hold) {
             if (key == "scale")

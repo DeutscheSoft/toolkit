@@ -36,7 +36,7 @@ ValueButton = $class({
     initialize: function (options) {
         Button.prototype.initialize.call(this, options);
         
-        this.element.classList.add("toolkit-valuebutton");
+        TK.add_class(this.element, "toolkit-valuebutton");
         
         this._bar     = toolkit.element("div","toolkit-bar");
         this._base    = toolkit.element("div","toolkit-base");
@@ -135,8 +135,8 @@ ValueButton = $class({
         this.options[key] = value;
         switch (key) {
             case "bar_direction":
-                this.element.classList.remove("toolkit-vertical");
-                this.element.classList.remove("toolkit-horizontal");
+                TK.remove_class(this.element, "toolkit-vertical");
+                TK.remove_class(this.element, "toolkit-horizontal");
                 switch (value) {
                     case _TOOLKIT_HORIZONTAL:
                     default:
@@ -146,7 +146,7 @@ ValueButton = $class({
                         var c = "toolkit-vertical";
                         break;
                 }
-                this.element.classList.add(c);
+                TK.add_class(this.element, c);
                 if (!hold) this.redraw();
                 break;
             case "value":

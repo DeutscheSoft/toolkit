@@ -60,13 +60,13 @@ ScrollValue = $class({
         e.preventDefault();
         var d = e.wheelDelta ? e.wheelDelta : -e.detail;
         e.wheel = d > 0 ? 1 : -1;
-        this.options.classes.classList.add("toolkit-scrolling");
+        TK.add_class(this.options.classes, "toolkit-scrolling");
         var range = this.options.range();
         
         // timeout for resetting the class
         if (this.__sto) window.clearTimeout(this.__sto);
         this.__sto = window.setTimeout(function () {
-            this.options.classes.classList.remove("toolkit-scrolling");
+            TK.remove_class(this.options.classes, "toolkit-scrolling");
             this._fire_event("scrollended", e);
             this._wheel = false;
         }.bind(this), 200);

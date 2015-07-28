@@ -85,9 +85,9 @@ Grid = $class({
             var label = TK.make_svg("text");
             label.textContent = obj.label;
             label.style["dominant-baseline"] = "central";
-            label.classList.add("toolkit-grid-label");
-            label.classList.add(mode ? "toolkit-horizontal" : "toolkit-vertical");
-            if (obj["class"]) label.classList.add(obj["class"]);
+            TK.add_class(label, "toolkit-grid-label");
+            TK.add_class(label, mode ? "toolkit-horizontal" : "toolkit-vertical");
+            if (obj["class"]) TK.add_class(label, obj["class"]);
 
             this.element.appendChild(label);
 
@@ -127,9 +127,9 @@ Grid = $class({
             return;
             
         var line = TK.make_svg("path");
-        line.classList.add("toolkit-grid-line");
-        line.classList.add(mode ? "toolkit-horizontal" : "toolkit-vertical");
-        if (obj["class"]) line.classList.add(obj["class"]);
+        TK.add_class(line, "toolkit-grid-line");
+        TK.add_class(line, mode ? "toolkit-horizontal" : "toolkit-vertical");
+        if (obj["class"]) TK.add_class(line, obj["class"]);
         if (obj.color) line.setAttribute("style", "stroke:" + obj.color);
         if (mode) {
             // line from left to right

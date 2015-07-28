@@ -191,8 +191,8 @@ Pager = $class({
         if (id < 0 || id >= this.pages.length || (id == cid && !force))
             return;
         if (cid >= 0 && cid < this.pages.length)
-            this.pages[cid].element.classList.remove("toolkit-active");
-        this.pages[id].element.classList.add("toolkit-active");
+            TK.remove_class(this.pages[cid].element, "toolkit-active");
+        TK.add_class(this.pages[id].element, "toolkit-active");
         var dir  = this.options.direction == _TOOLKIT_VERTICAL;
         var size = dir ? this.__page_height : this.__page_width;
         this._container.style[dir ? 'top' : 'left'] = (-size * id) + "px";
@@ -230,26 +230,26 @@ Pager = $class({
                 break;
             case "position":
                 this.options.position = value;
-                this.element.classList.remove("toolkit-top");
-                this.element.classList.remove("toolkit-right");
-                this.element.classList.remove("toolkit-bottom");
-                this.element.classList.remove("toolkit-left");
+                TK.remove_class(this.element, "toolkit-top");
+                TK.remove_class(this.element, "toolkit-right");
+                TK.remove_class(this.element, "toolkit-bottom");
+                TK.remove_class(this.element, "toolkit-left");
                 var badir;
                 switch (value) {
                     case _TOOLKIT_TOP:
-                        this.element.classList.add("toolkit-top");
+                        TK.add_class(this.element, "toolkit-top");
                         badir = _TOOLKIT_HORIZ;
                         break;
                     case _TOOLKIT_BOTTOM:
-                        this.element.classList.add("toolkit-bottom");
+                        TK.add_class(this.element, "toolkit-bottom");
                         badir = _TOOLKIT_HORIZ;
                         break;
                     case _TOOLKIT_LEFT:
-                        this.element.classList.add("toolkit-left");
+                        TK.add_class(this.element, "toolkit-left");
                         badir = _TOOLKIT_VERT;
                         break;
                     case _TOOLKIT_RIGHT:
-                        this.element.classList.add("toolkit-right");
+                        TK.add_class(this.element, "toolkit-right");
                         badir = _TOOLKIT_VERT;
                         break;
                 }
@@ -258,9 +258,9 @@ Pager = $class({
                     this.redraw();
                 break;
             case "direction":
-                this.element.classList.remove("toolkit-vertical");
-                this.element.classList.remove("toolkit-horizontal");
-                this.element.classList.add("toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
+                TK.remove_class(this.element, "toolkit-vertical");
+                TK.remove_class(this.element, "toolkit-horizontal");
+                TK.add_class(this.element, "toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
                 this.options.direction = value;
                 if (!hold) {
                     this.redraw();

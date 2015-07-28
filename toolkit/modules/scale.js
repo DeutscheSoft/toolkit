@@ -67,20 +67,20 @@ Scale = $class({
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
-                this.element.classList.add("toolkit-vertical");
-                this.element.classList.add("toolkit-left");
+                TK.add_class(this.element, "toolkit-vertical");
+                TK.add_class(this.element, "toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
-                this.element.classList.add("toolkit-vertical");
-                this.element.classList.add("toolkit-right");
+                TK.add_class(this.element, "toolkit-vertical");
+                TK.add_class(this.element, "toolkit-right");
                 break;
             case _TOOLKIT_TOP:
-                this.element.classList.add("toolkit-horizontal");
-                this.element.classList.add("toolkit-top");
+                TK.add_class(this.element, "toolkit-horizontal");
+                TK.add_class(this.element, "toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
-                this.element.classList.add("toolkit-horizontal");
-                this.element.classList.add("toolkit-bottom");
+                TK.add_class(this.element, "toolkit-horizontal");
+                TK.add_class(this.element, "toolkit-bottom");
                 break;
         }
         //this.element.style.position = "relative";
@@ -191,7 +191,7 @@ Scale = $class({
         
         // create dot element
         var d = toolkit.element("div", "toolkit-dot", { position: "absolute" });
-        if (cls) d.classList.add(cls);
+        if (cls) TK.add_class(d, cls);
         
         // position dot element
         var styles = { }
@@ -213,7 +213,7 @@ Scale = $class({
             cssFloat: "left"
         });
         label.innerHTML = this.options.labels(val);
-        if (cls) label.classList.add(cls);
+        if (cls) TK.add_class(label, cls);
         this.element.appendChild(label);
         
         // position label element

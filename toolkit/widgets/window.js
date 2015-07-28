@@ -506,13 +506,13 @@ Window = $class({
         if (this.__vert_max())  this.set("maximize", {y: false});
         
         this.dragging = true;
-        this.element.classList.add("toolkit-dragging");
+        TK.add_class(this.element, "toolkit-dragging");
         this.fire_event("startdrag", [this, ev]);
     },
     __stop_drag: function (el, ev) {
         this.dragging = false;
         this.__set_position();
-        this.element.classList.remove("toolkit-dragging");
+        TK.remove_class(this.element, "toolkit-dragging");
         this.fire_event("stopdrag", [this, ev]);
     },
     __dragging: function (el, ev) {
@@ -534,13 +534,13 @@ Window = $class({
         this.__docmouse = TK.get_style(document.body, "cursor");
         document.body.style["cursor"] = TK.get_style(this._resize, "cursor");
         this.resizing = true;
-        this.element.classList.add("toolkit-resizing");
+        TK.add_class(this.element, "toolkit-resizing");
         this.fire_event("startresize", [this, ev]);
     },
     __stop_resize: function (el, ev) {
         document.body.style["cursor"] = this.__docmouse;
         this.resizing = false;
-        this.element.classList.remove("toolkit-resizing");
+        TK.remove_class(this.element, "toolkit-resizing");
         this._set_content();
         this._check_header(true);
         this._check_footer(true);
@@ -567,11 +567,11 @@ Window = $class({
     
     __mout: function (e) {
         if(this.options.auto_active && !this.dragging && !this.resizing)
-            this.element.classList.remove("toolkit-active");
+            TK.remove_class(this.element, "toolkit-active");
     },
     __mover: function (e) {
         if(this.options.auto_active)
-            this.element.classList.add("toolkit-active");
+            TK.add_class(this.element, "toolkit-active");
     },
     __close: function () {
         this.fire_event("closeclicked");
@@ -632,14 +632,14 @@ Window = $class({
                 if (value === false) value = this.options.maximize = {x: false, y: false};
                 value = $mixin(this.options.maximize, value);
                 if (value.x) {
-                    this.element.classList.add("toolkit-maximized-horizontal");
+                    TK.add_class(this.element, "toolkit-maximized-horizontal");
                 } else {
-                    this.element.classList.remove("toolkit-maximized-horizontal");
+                    TK.remove_class(this.element, "toolkit-maximized-horizontal");
                 }
                 if (value.y) {
-                    this.element.classList.add("toolkit-maximized-vertical");
+                    TK.add_class(this.element, "toolkit-maximized-vertical");
                 } else {
-                    this.element.classList.remove("toolkit-maximized-vertical");
+                    TK.remove_class(this.element, "toolkit-maximized-vertical");
                 }
                 if (!hold) this.redraw();
                 break;
@@ -760,19 +760,19 @@ Window = $class({
             case "draggable":
                 if (value) {
                     //this.drag.set("active", true);
-                    this.element.classList.add("toolkit-draggable");
+                    TK.add_class(this.element, "toolkit-draggable");
                 } else {
                     //this.drag.set("active", false);
-                    this.element.classList.remove("toolkit-draggable");
+                    TK.remove_class(this.element, "toolkit-draggable");
                 }
                 break;
             case "resizable":
                 if (value) {
                     this.resize.set("active", true);
-                    this.element.classList.add("toolkit-resizable");
+                    TK.add_class(this.element, "toolkit-resizable");
                 } else {
                     this.resize.set("active", false);
-                    this.element.classList.remove("toolit-resizable");
+                    TK.remove_class(this.element, "toolit-resizable");
                 }
                 break;
             case "min_width":

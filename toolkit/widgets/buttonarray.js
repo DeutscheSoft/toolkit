@@ -141,13 +141,13 @@ ButtonArray = $class({
         if(show) {
             this.element.insertBefore(this._prev, this._clip);
             this.element.appendChild(this._next);
-            this.element.classList.add("toolkit-over");
+            TK.add_class(this.element, "toolkit-over");
         } else {
             if (this.element.firstChild == this._prev)
                 this.element.removeChild(this._prev);
             if (this.element.lastChild == this._next)
                 this.element.removeChild(this._next);
-            this.element.classList.remove("toolkit-over");
+            TK.remove_class(this.element, "toolkit-over");
         }
         this._scroll_to(this.options.show);
     },
@@ -219,9 +219,9 @@ ButtonArray = $class({
                 this.add_buttons(value);
                 break;
             case "direction":
-                this.element.classList.remove("toolkit-vertical");
-                this.element.classList.remove("toolkit-horizontal");
-                this.element.classList.add("toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
+                TK.remove_class(this.element, "toolkit-vertical");
+                TK.remove_class(this.element, "toolkit-horizontal");
+                TK.add_class(this.element, "toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
                 this.prev.set("label", value == _TOOLKIT_VERT ? "▲" : "◀");
                 this.next.set("label", value == _TOOLKIT_VERT ? "▼" : "▶");
                 break;

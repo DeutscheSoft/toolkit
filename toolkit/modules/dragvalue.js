@@ -81,7 +81,7 @@ DragValue = $class({
         // get the right event if touch
         var ev = this._get_event(e);
         // set stuff
-        this.options.classes.classList.add("toolkit-dragging");
+        TK.add_class(this.options.classes, "toolkit-dragging");
         if (this.options.direction == _TOOLKIT_VERT && this.options.cursor)
             this.global_cursor("row-resize");
         else if (this.options.cursor)
@@ -109,7 +109,7 @@ DragValue = $class({
         if (!this.__active) return;
         e.preventDefault();
         // set stuff
-        this.options.classes.classList.remove("toolkit-dragging");
+        TK.remove_class(this.options.classes, "toolkit-dragging");
         if (this.options.cursor) {
             this.remove_cursor("row-resize");
             this.remove_cursor("col-resize");
