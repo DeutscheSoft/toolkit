@@ -189,6 +189,8 @@ toolkit = {
         return o;
     },
     
+    // CSS AND CLASSES
+    
     set_styles : function(elem, styles) {
         var key, v;
         var s = elem.style;
@@ -199,6 +201,22 @@ toolkit = {
             } else {
                 s[key] = v;
             }
+        }
+    },
+    
+    has_class: function (e, cls) {
+        return e.getAttribute("class").match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+    },
+     
+    add_class: function (e, cls) {
+        if (!TK.has_class(e, cls)) e.setAttribute("class",
+            e.getAttribute("class") + " " + cls);
+    },
+     
+    remove_class: function (e, cls) {
+        if (TK.has_class(e, cls)) {
+            var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+            e.setAttribute("class", e.getAttribute("class").replace(reg, ' '));
         }
     },
     
@@ -454,7 +472,7 @@ toolkit = {
     
     // ARRAYS
     
-    _binary_array_search = function (arr, val, insert) {
+    _binary_array_search: function (arr, val, insert) {
         var high = arr.length, low = -1, mid;
         while (high - low > 1) {
             mid = (high + low) >> 1;
@@ -483,7 +501,6 @@ toolkit = {
 TK = toolkit;
 
 
-
 // POLYFILLS
 
 if (typeof Array.isArray === 'undefined') {
@@ -491,29 +508,3 @@ if (typeof Array.isArray === 'undefined') {
         return Object.prototype.toString.call(obj) === '[object Array]';
     }
 };
-
-// SVG PROTOTYPING
-
-SVGElement.prototype.addClass = function(classList) {
-    var currentClass = this.className.baseVal;
-    classList.split(' ').forEach(function (newClass) {
-        var tester = new RegExp('\\b' + newClass + '\\b', 'g');
-        if (-1 === currentClass.search(tester))
-            currentClass += ' ' + newClass;
-    });
-    this.setAttribute('class', currentClass);
-    return this;
-};
-
-SVGElement.prototype.removeClass = function(classList) {
-    var currentClass = this.className.baseVal;
-    classList.split(' ').forEach(function (newClass) {
-        var tester = new RegExp(' *\\b' + newClass + '\\b *', 'g');
-        currentClass = currentClass.replace(tester, ' ');
-    });
-    this.setAttribute('class', currentClass.trim());
-    return this;
-};
-
-
-// WINDOW PROTOTYPING

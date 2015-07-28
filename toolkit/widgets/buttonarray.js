@@ -141,13 +141,13 @@ ButtonArray = $class({
         if(show) {
             this.element.insertBefore(this._prev, this._clip);
             this.element.appendChild(this._next);
-            this.element.addClass("toolkit-over");
+            this.element.classList.add("toolkit-over");
         } else {
             if (this.element.firstChild == this._prev)
                 this.element.removeChild(this._prev);
             if (this.element.lastChild == this._next)
                 this.element.removeChild(this._next);
-            this.element.removeClass("toolkit-over");
+            this.element.classList.remove("toolkit-over");
         }
         this._scroll_to(this.options.show);
     },

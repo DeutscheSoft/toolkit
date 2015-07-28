@@ -128,7 +128,7 @@ run_valueknob = function () {
         // remove valueknob
         valueknob.destroy();
         valueknob = undefined;
-        TK.get_id("sc_valueknob").removeClass("box");
+        TK.get_id("sc_valueknob").classList.remove("box");
         return;
     }
     valueknob = new ValueKnob({
@@ -138,7 +138,7 @@ run_valueknob = function () {
         value: -20,
         snap: 0.01
     });
-    TK.get_id("sc_valueknob").addClass("box");
+    TK.get_id("sc_valueknob").classList.add("box");
 }
 
 
@@ -304,7 +304,7 @@ run_keyboard = function () {
         keyboard.destroy();
         value.destroy();
         keyboard = undefined;
-        TK.get_id("sc_keyboard").removeClass("box");
+        TK.get_id("sc_keyboard").classList.remove("box");
         return;
     }
     
@@ -396,7 +396,7 @@ run_keyboard = function () {
             ],
         });
     });
-    TK.get_id("sc_keyboard").addClass("box");
+    TK.get_id("sc_keyboard").classList.add("box");
 }
 
 
@@ -406,14 +406,14 @@ run_label = function () {
         // remove label
         label.destroy();
         label = undefined;
-        TK.get_id("sc_label").removeClass("box");
+        TK.get_id("sc_label").classList.remove("box");
         return;
     }
     label = new Label({
         container: TK.get_id("sc_label"),
         label: "Lorem ipsum dolor sit amet"
     });
-    TK.get_id("sc_label").addClass("box");
+    TK.get_id("sc_label").classList.add("box");
 }
 
 // SELECT
@@ -422,7 +422,7 @@ run_select = function () {
         // remove example
         select.destroy();
         select = undefined;
-        TK.get_id("sc_select").removeClass("box");
+        TK.get_id("sc_select").classList.remove("box");
         return;
     }
     select = new Select({
@@ -438,7 +438,7 @@ run_select = function () {
         container: TK.get_id("sc_select"),
         selected: 4
     });
-    TK.get_id("sc_select").addClass("box");
+    TK.get_id("sc_select").classList.add("box");
 }
 
 // FADER
@@ -450,7 +450,7 @@ run_fader = function () {
         }
         faders = undefined;
         fadertt.destroy();
-        TK.get_id("sc_fader").removeClass("box");
+        TK.get_id("sc_fader").classList.remove("box");
         return;
     }
     faders = [];
@@ -511,7 +511,7 @@ run_fader = function () {
             }
         }
     });
-    TK.get_id("sc_fader").addClass("box");
+    TK.get_id("sc_fader").classList.add("box");
 }
 
 // VALUE
@@ -520,7 +520,7 @@ run_value = function () {
         // remove example
         value.destroy();
         value = undefined;
-        TK.get_id("sc_value").removeClass("box");
+        TK.get_id("sc_value").classList.remove("box");
         return;
     }
     value = new Value({
@@ -529,7 +529,7 @@ run_value = function () {
         format: toolkit.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
-    TK.get_id("sc_value").addClass("box");
+    TK.get_id("sc_value").classList.add("box");
 }
 
 
@@ -682,10 +682,10 @@ function run_gauge () {
         gauge[4].destroy();
         gauge[5].destroy();
         gauge = undefined;
-        TK.get_id("sc_gauge").removeClass("box");
+        TK.get_id("sc_gauge").classList.remove("box");
         return;
     }
-    TK.get_id("sc_gauge").addClass("box");
+    TK.get_id("sc_gauge").classList.add("box");
     gauge = [];
     
     gauge[0] = new Gauge({
@@ -972,10 +972,10 @@ function run_scale () {
         scales.top.destroy();
         scales.bottom.destroy();
         scales = undefined;
-        TK.get_id("sc_scale").removeClass("box");
+        TK.get_id("sc_scale").classList.remove("box");
         return;
     }
-    TK.get_id("sc_scale").addClass("box");
+    TK.get_id("sc_scale").classList.add("box");
     scales = {};
     scales.left = new Scale({
         container: TK.get_id("sc_scale"),
@@ -1034,10 +1034,10 @@ function run_chart () {
         // remove example
         chart.destroy();
         chart = undefined;
-        TK.get_id("sc_chart").removeClass("box");
+        TK.get_id("sc_chart").classList.remove("box");
         return;
     }
-    TK.get_id("sc_chart").addClass("box");
+    TK.get_id("sc_chart").classList.add("box");
     chart = new Chart({
         range_x: {basis:908, scale: _TOOLKIT_LINEAR, min:0, max:1},
         range_y: {basis:300, scale: _TOOLKIT_LINEAR, min:0, max:1},
@@ -1113,10 +1113,10 @@ function run_frequencyresponse () {
         // remove example
         fr.destroy();
         fr = undefined;
-        TK.get_id("sc_frequencyresponse").removeClass("box");
+        TK.get_id("sc_frequencyresponse").classList.remove("box");
         return;
     }
-    TK.get_id("sc_frequencyresponse").addClass("box");
+    TK.get_id("sc_frequencyresponse").classList.add("box");
     fr = new FrequencyResponse({
         width: 906,
         height: 300,
@@ -1149,10 +1149,10 @@ function run_dynamics () {
         expand = undefined;
         dyna.destroy();
         dyna = undefined;
-        TK.get_id("sc_dynamics").removeClass("box");
+        TK.get_id("sc_dynamics").classList.remove("box");
         return;
     }
-    TK.get_id("sc_dynamics").addClass("box");
+    TK.get_id("sc_dynamics").classList.add("box");
     comp = new Dynamics({
         size: 298,
         container: TK.get_id("sc_dynamics")
@@ -1196,10 +1196,10 @@ function run_equalizer () {
         // remove example
         eq.destroy();
         eq = undefined;
-        TK.get_id("sc_equalizer").removeClass("box");
+        TK.get_id("sc_equalizer").classList.remove("box");
         return;
     }
-    TK.get_id("sc_equalizer").addClass("box");
+    TK.get_id("sc_equalizer").classList.add("box");
     eq = new Equalizer({
         width: 908,
         height: 300,
@@ -1242,10 +1242,10 @@ function run_spectralsignature () {
         // remove example
         ssig.destroy();
         ssig = undefined;
-        TK.get_id("sc_ssig").removeClass("box");
+        TK.get_id("sc_ssig").classList.remove("box");
         return;
     }
-    TK.get_id("sc_ssig").addClass("box");
+    TK.get_id("sc_ssig").classList.add("box");
     ssig = new SpectralSignature.Widget({
         container: TK.get_id("sc_ssig"),
             range_x: {min: 40, max: 24000, basis: 800, scale: _TOOLKIT_FREQUENCY},
@@ -1334,10 +1334,10 @@ function run_responsehandler () {
         // remove example
         rh.destroy();
         rh = undefined;
-        TK.get_id("sc_responsehandler").removeClass("box");
+        TK.get_id("sc_responsehandler").classList.remove("box");
         return;
     }
-    TK.get_id("sc_responsehandler").addClass("box");
+    TK.get_id("sc_responsehandler").classList.add("box");
     rh = new ResponseHandler({
         width: 908,
         height: 300,
@@ -1507,10 +1507,10 @@ function run_state () {
         s2 = undefined;
         s3 = undefined;
         TK.get_id("sc_state").empty();
-        TK.get_id("sc_state").removeClass("box");
+        TK.get_id("sc_state").classList.remove("box");
         return;
     }
-    TK.get_id("sc_state").addClass("box");
+    TK.get_id("sc_state").classList.add("box");
     s1 = new State({
         container: TK.get_id("sc_state")
     });

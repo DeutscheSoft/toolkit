@@ -116,11 +116,11 @@ Widget = $class({
     classify: function (element) {
         // Takes a DOM element and adds its CSS functionality to the
         // widget instance
-        this.addClass    = function (c) { element.classList.add(c); }.bind(this);
-        this.removeClass = function (c) { element.classList.remove(c); }.bind(this);
-        this.setStyle    = function (c, d) { element.style[c] = d; }.bind(this);
-        this.setStyles   = toolkit.set_styles.bind(toolkit, element);
-        this.getStyle    = function (c) { return element.getStyle(c); }.bind(this);
+        this.add_class    = function (c) { element.classList.add(c); }.bind(this);
+        this.remove_class = function (c) { element.classList.remove(c); }.bind(this);
+        this.set_style    = function (c, d) { element.style[c] = d; }.bind(this);
+        this.set_styles   = toolkit.set_styles.bind(toolkit, element);
+        this.get_style    = function (c) { return element.getStyle(c); }.bind(this);
         this.__classified = element;
         this.fire_event("classified", [element, this]);
         return element;
