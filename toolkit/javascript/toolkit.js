@@ -20,7 +20,7 @@ toolkit = {
             if (typeof v == "object") {
                 toolkit.set_styles(n, v);
             } else if (typeof v == "string") {
-                n.classList.add(v);
+                TK.add_class(n, v);
             } else throw("unsupported argument to toolkit.element");
         }
         return n;
@@ -223,7 +223,9 @@ toolkit = {
     },
     
     has_class: function (e, cls) {
-        return e.getAttribute("class").match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+        return e.getAttribute("class")
+            ? e.getAttribute("class").match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
+            : false;
     },
      
     add_class: function (e, cls) {
@@ -388,7 +390,7 @@ toolkit = {
         // searches all svg that don't have the class "fixed" and re-positions them
         // for avoiding blurry lines
         Array.prototype.forEach.call(TK.get_tag("svg"), function (val, index, arr) {
-            if (!val.classList.contains("svg-fixed"))
+            if (!TK.has_class(val, "svg-fixed"))
                 TK.seat_svg(val);
         });
     },
@@ -407,7 +409,7 @@ toolkit = {
             if (x < 0.5) l -= x;
             else l += (1 - x);
         }
-        if (e.getParent() && e.getParent(TK.get_style(), "text-align") == "center")
+        if (e.parentElement && TK.get_style(e.parentElement, "text-align") == "center")
             l += 0.5;
         e.style.marginLeft = l + "px";
         if (TK.retrieve(e, "margin-top") === null) {
@@ -543,3 +545,14 @@ if (typeof Array.isArray === 'undefined') {
         return Object.prototype.toString.call(obj) === '[object Array]';
     }
 };
+
+if (typeof HTMLElement.classList === 'undefined') {
+    HTMLElement.prototype.classList = {
+        add: function (cls) {
+            TK.add_class(this, cls);
+        },
+        remove: function (cls) {
+            TK.add_class(this, cls);
+        },
+    }
+}

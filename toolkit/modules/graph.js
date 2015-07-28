@@ -59,7 +59,7 @@ var Graph = $class({
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(TK.make_svg("path"), true, true, true);
-        this.element.classList.add("toolkit-graph");
+        this.element.setAttribute("class", "toolkit-graph");
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
         if (this.options.container)
@@ -241,10 +241,10 @@ var Graph = $class({
                 break;
             case "mode":
                 if (!hold) {
-                    this.element.classList.remove("toolkit-filled");
-                    this.element.classList.remove("toolkit-outline");
-                    this.element.classList.add(value == _TOOLKIT_LINE ?
-                                          "toolkit-outline" : "toolkit-filled");
+                    TK.remove_class(this.element, "toolkit-filled");
+                    TK.remove_class(this.element, "toolkit-outline");
+                    TK.add_class(this.element, value == _TOOLKIT_LINE ?
+                                              "toolkit-outline" : "toolkit-filled");
                     this.redraw();
                 }
                 break;

@@ -116,8 +116,8 @@ Widget = $class({
     classify: function (element) {
         // Takes a DOM element and adds its CSS functionality to the
         // widget instance
-        this.add_class    = function (c) { element.classList.add(c); }.bind(this);
-        this.remove_class = function (c) { element.classList.remove(c); }.bind(this);
+        this.add_class    = function (c) { TK.add_class(element, c); }.bind(this);
+        this.remove_class = function (c) { TK.remove_class(element, c); }.bind(this);
         this.set_style    = function (c, d) { element.style[c] = d; }.bind(this);
         this.set_styles   = toolkit.set_styles.bind(toolkit, element);
         this.get_style    = function (c) { return TK.get_style(element, c); }.bind(this);
@@ -140,11 +140,11 @@ Widget = $class({
         // events will be delegated from the element to the widget instance
         // if classify is true, CSS functions will be bound to the widget
         // instance
-        element.classList.add("toolkit-widget");
+        TK.add_class(element, "toolkit-widget");
         if (this.options.id)
             element.setAttribute("id", this.options.id);
         if (this.options["class"])
-            element.classList.add(this.options["class"]);
+            TK.add_class(element, this.options["class"]);
         if (delegate)
             this.delegate(element);
         if (classify)
@@ -170,24 +170,24 @@ Widget = $class({
                 break;
             case "class":
                 if (!hold && this.__classified)
-                    this.__classified.classList.add(this.options["class"]);
+                    TK.add_class(this.__classified, this.options["class"]);
                 break;
             case "styles":
                 if (!hold && this.__stylized)
-                    toolkit.set_styles(this.__stylized, value);
+                    TK.set_styles(this.__stylized, value);
                 break;
             case "active":
                 if (!hold && this.__stylized)
                     if (value)
-                        this.__stylized.classList.remove("toolkit-inactive")
+                        TK.remove_class(this.__stylized, "toolkit-inactive")
                     else
-                        this.__stylized.classList.add("toolkit-inactive")
+                        TK.add_class(this.__stylized, "toolkit-inactive")
             case "disabled":
                 if (!hold && this.__stylized)
                     if (value)
-                        this.__stylized.classList.add("toolkit-disabled")
+                        TK.add_class(this.__stylized, "toolkit-disabled")
                     else
-                        this.__stylized.classList.remove("toolkit-disabled")
+                        TK.remove_class(this.__stylized, "toolkit-disabled")
         }
         this.fire_event("set", [key, value, hold, this]);
         this.fire_event("set_" + key, [value, hold, this]);

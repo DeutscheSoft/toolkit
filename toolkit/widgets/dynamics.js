@@ -49,7 +49,7 @@ var Dynamics = $class({
         this.set("size", this.options.size, true);
         this.set("min", this.options.min, true);
         this.set("max", this.options.max, true);
-        this._steady = this.add_graph({
+        this.steady = this.add_graph({
             dots: [{x:this.options.min, y:this.options.min},
                    {x:this.options.max, y:this.options.max}],
             "class": "toolkit-steady",
@@ -85,9 +85,9 @@ var Dynamics = $class({
         this.grid.set("grid_x", this.options.grid_x, true);
         this.grid.set("grid_y", this.options.grid_y);
         
-        if (this._steady)
-            this._steady.setAttribute("dots", [{x:this.options.min, y:this.options.min},
-                                      {x:this.options.max, y:this.options.max}]);
+        if (this.steady)
+            this.steady.set("dots", [{x:this.options.min, y:this.options.min},
+                                     {x:this.options.max, y:this.options.max}]);
         Chart.prototype.redraw.call(this, graphs, false);
         this.draw_graph();
     },

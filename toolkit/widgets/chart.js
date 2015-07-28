@@ -227,7 +227,7 @@ var Chart = $class({
                     y:       Math.round(top),
                     width:   Math.round(bb.width),
                     height:  Math.round(bb.height),
-                    "class": this.graphs[i].element.getAttribute("class").baseVal,
+                    "class": this.graphs[i].element.getAttribute("class"),
                     color:   (this.graphs[i].element.getAttribute("color") || ""),
                     style:   this.graphs[i].element.getAttribute("style")
                 })
