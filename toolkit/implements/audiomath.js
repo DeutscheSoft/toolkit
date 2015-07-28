@@ -29,7 +29,7 @@ AudioMath = $class({
         factor = factor || 1;
         var logfac = Math.max(1, Math.pow(2, factor) - 1);
         if (reverse) value = max - (value - min);
-        value = Math.log2(1 + (value - min) / (max - min) * logfac) / factor;
+        value = TK.log2(1 + (value - min) / (max - min) * logfac) / factor;
         if (reverse) value = -value + 1;
         return value;
     },
@@ -45,7 +45,7 @@ AudioMath = $class({
         factor = factor || 1;
         var logfac = Math.max(1, Math.pow(2, factor) - 1);
         if (reverse) value = max - (value - min);
-        value = Math.log2(1 + (value - min) / (max - min) * logfac) / factor;
+        value = TK.log2(1 + (value - min) / (max - min) * logfac) / factor;
         if (reverse) value = -value + 1;
         return value * scale;
     },
@@ -61,33 +61,33 @@ AudioMath = $class({
     // FREQUENCY CALCULATIONS
     freq2coef: function (value, min, max, reverse, prescaled, factor) {
         if (reverse) value = max - (value - min);
-        min   = Math.log10(min);
-        max   = Math.log10(max);
-        value = ((Math.log10(value) - min) / (max - min));
+        min   = TK.log10(min);
+        max   = TK.log10(max);
+        value = ((TK.log10(value) - min) / (max - min));
         if (reverse) value = -value + 1;
         return value;
     },
     coef2freq: function (coef, min, max, reverse) {
         if (reverse) coef = -coef + 1;
-        min  = Math.log10(min);
-        max  = Math.log10(max);
+        min  = TK.log10(min);
+        max  = TK.log10(max);
         coef = Math.pow(10, (coef * (max - min) + min));
         if (reverse) coef = max - coef + min;
         return coef
     },
     freq2scale: function (value, min, max, scale, reverse) {
         if (reverse) value = max - (value - min);
-        min   = Math.log10(min);
-        max   = Math.log10(max);
-        value = ((Math.log10(value) - min) / (max - min));
+        min   = TK.log10(min);
+        max   = TK.log10(max);
+        value = ((TK.log10(value) - min) / (max - min));
         if (reverse) value = -value + 1;
         return value * scale;
     },
     scale2freq: function (value, min, max, scale, reverse) {
         value /= scale;
         if (reverse) value = -value + 1;
-        min  = Math.log10(min);
-        max  = Math.log10(max);
+        min  = TK.log10(min);
+        max  = TK.log10(max);
         value = Math.pow(10, (value * (max - min) + min));
         if (reverse) value = max - value + min;
         return value;

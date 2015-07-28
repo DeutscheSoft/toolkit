@@ -365,8 +365,15 @@ toolkit = {
     },
     get_tag: function (tag, elm) {
         return (elm ? elm : document).getElementsByTagName(tag);
-    }
+    },
     
+    log2: function (n) {
+        return Math.log(Math.max(1e-32, n)) / Math.LN2;
+    },
+    log10: function (n) {
+        return Math.log(Math.max(1e-32, n)) / Math.LN10;
+    },
+
 };
 TK = toolkit;
 
@@ -407,12 +414,7 @@ if (typeof Array.isArray === 'undefined') {
 
 // MATH PROTOTYPING
 
-Math.log2 = function (n) {
-    return Math.log(Math.max(1e-32, n)) / Math.LN2;
-}
-Math.log10 = function (n) {
-    return Math.log(Math.max(1e-32, n)) / Math.LN10;
-}
+
 
 
 // SVG PROTOTYPING

@@ -66,7 +66,7 @@ Filter = $class({
             var Im  = -w * wo;
             var den = wo2 + w2;
 
-            return 20 * Math.log10(
+            return 20 * TK.log10(
                 Math.sqrt((Re2) + (Im * Im)) / den);
         };
     },
@@ -89,7 +89,7 @@ Filter = $class({
             var den    = wo2w22
                                + (betha / Q2);
 
-            return 20 * Math.log10(Math.sqrt( (Re * Re) + (Im * Im)) / den);
+            return 20 * TK.log10(Math.sqrt( (Re * Re) + (Im * Im)) / den);
         };
     },
 
@@ -118,7 +118,7 @@ Filter = $class({
             var Im  = w * wo;
             var den = wo2 + w2;
 
-            return 20 * Math.log10(Math.sqrt( (w2 * w2) +(Im * Im)) / den);
+            return 20 * TK.log10(Math.sqrt( (w2 * w2) +(Im * Im)) / den);
         };
     },
 
@@ -138,7 +138,7 @@ Filter = $class({
             var Im     = woQ * w * w2;
             var den    = wo2w22 + (betha / Q2);
 
-            return 20 * Math.log10(Math.sqrt( (Re * Re) +(Im * Im)) / den);
+            return 20 * TK.log10(Math.sqrt( (Re * Re) +(Im * Im)) / den);
         };
     },
 
@@ -179,7 +179,7 @@ Filter = $class({
             var den = den * den;
             var den = den + AQ2wo2 * w2;
 
-            var r = 20 * Math.log10(Math.sqrt( (Re * Re) + (Im * Im)) / den);
+            var r = 20 * TK.log10(Math.sqrt( (Re * Re) + (Im * Im)) / den);
 
             //Force zero to avoid some drawing noise
             if (r < 0.1 && r > -0.1) {
@@ -210,7 +210,7 @@ Filter = $class({
             var den = den * den;
             var den = den + AQ2wo2 * w2;
 
-            var r =  20 * Math.log10(Math.sqrt( (Re * Re) + (Im * Im)) / den);
+            var r =  20 * TK.log10(Math.sqrt( (Re * Re) + (Im * Im)) / den);
 
             //Force zero to avoid some drawing noise
             if (r < 0.1 && r > -0.1) {
@@ -242,7 +242,7 @@ Filter = $class({
             var Im     = gamma * ((wo3 * w) - (wo * w2 * w));
             var den    = wo2w22 + (betha / A2);
 
-            return 20 * Math.log10(Math.sqrt((Re * Re) + (Im * Im)) / den);
+            return 20 * TK.log10(Math.sqrt((Re * Re) + (Im * Im)) / den);
         };
     },
 
@@ -266,7 +266,7 @@ Filter = $class({
             if (w >= wo) {
                 return -100.0;
             } else {
-                return 20 * Math.log10(Math.sqrt( (Re * Re)
+                return 20 * TK.log10(Math.sqrt( (Re * Re)
                       + (Im * Im)) / den);
             }
         };
