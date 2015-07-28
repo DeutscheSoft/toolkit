@@ -470,84 +470,68 @@ ResponseHandle = $class({
                     switch (this.options.z_handle) {
                         case _TOOLKIT_TOP_LEFT:
                         default:
-                            this._zhandle.set({
-                                "x":      x,
-                                "y":      y,
-                                "width":  this.options.z_handle_size,
-                                "height": this.options.z_handle_size
-                            });
+                            this._zhandle.setAttribute("x",      x);
+                            this._zhandle.setAttribute("y",      y);
+                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
+                            this._zhandle.setAttribute("height", this.options.z_handle_size);
                             break;
                         case _TOOLKIT_TOP:
                             var _s = this.options.z_handle_centered < 1
                                    ? width * this.options.z_handle_centered
                                    : this.options.z_handle_centered
                             Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.set({
-                                "x":      x + width / 2 - _s / 2,
-                                "y":      y,
-                                "width":  _s,
-                                "height": this.options.z_handle_size
-                            });
+                            this._zhandle.setAttribute("x",      x + width / 2 - _s / 2);
+                            this._zhandle.setAttribute("y",      y);
+                            this._zhandle.setAttribute("width",  _s);
+                            this._zhandle.setAttribute("height", this.options.z_handle_size);
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            this._zhandle.set({
-                                "x":      x + width - this.options.z_handle_size,
-                                "y":      y,
-                                "width":  this.options.z_handle_size,
-                                "height": this.options.z_handle_size
-                            });
+                            this._zhandle.setAttribute("x",      x + width - this.options.z_handle_size);
+                            this._zhandle.setAttribute("y",      y);
+                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
+                            this._zhandle.setAttribute("height", this.options.z_handle_size);
                             break;
                         case _TOOLKIT_LEFT:
                             var _s = this.options.z_handle_centered < 1
                                    ? height * this.options.z_handle_centered
                                    : this.options.z_handle_centered
                             Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.set({
-                                "x":      x,
-                                "y":      y + height / 2 - _s / 2,
-                                "width":  this.options.z_handle_size,
-                                "height": _s
-                            });
+                            this._zhandle.setAttribute("x",      x);
+                            this._zhandle.setAttribute("y",      y + height / 2 - _s / 2);
+                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
+                            this._zhandle.setAttribute("height", _s);
                             break;
                         case _TOOLKIT_RIGHT:
                             var _s = this.options.z_handle_centered < 1
                                    ? height * this.options.z_handle_centered
                                    : this.options.z_handle_centered
                             Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.set({
-                                "x":      x + width - this.options.z_handle_size,
-                                "y":      y + height / 2 - _s / 2,
-                                "width":  this.options.z_handle_size,
-                                "height": _s
-                            });
+                            this._zhandle.setAttribute("x",      x + width - this.options.z_handle_size);
+                            this._zhandle.setAttribute("y",      y + height / 2 - _s / 2);
+                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
+                            this._zhandle.setAttribute("height", _s);
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            this._zhandle.set({
-                                "x":      x,
-                                "y":      y + height - this.options.z_handle_size,
-                                "width":  this.options.z_handle_size,
-                                "height": this.options.z_handle_size
-                            });
+                            this._zhandle.setAttribute("x",      x);
+                            this._zhandle.setAttribute("y",      y + height - this.options.z_handle_size);
+                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
+                            this._zhandle.setAttribute("height", this.options.z_handle_size);
                             break;
                         case _TOOLKIT_BOTTOM:
                             var _s = this.options.z_handle_centered < 1
                                    ? width * this.options.z_handle_centered
                                    : this.options.z_handle_centered
                             Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.set({
-                                "x":      x + width / 2 - _s / 2,
-                                "y":      y + height - this.options.z_handle_size,
-                                "width":  _s,
-                                "height": this.options.z_handle_size
-                            });
+                            this._zhandle.setAttribute("x",      x + width / 2 - _s / 2);
+                            this._zhandle.setAttribute("y",      y + height - this.options.z_handle_size);
+                            this._zhandle.setAttribute("width",  _s);
+                            this._zhandle.setAttribute("height", this.options.z_handle_size);
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            this._zhandle.set({
-                                "x":      x + width - this.options.z_handle_size,
-                                "y":      y + height - this.options.z_handle_size,
-                                "width":  this.options.z_handle_size,
-                                "height": this.options.z_handle_size
-                            });
+                            this._zhandle.setAttribute("x",      x + width - this.options.z_handle_size);
+                            this._zhandle.setAttribute("y",      y + height - this.options.z_handle_size);
+                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
+                            this._zhandle.setAttribute("height", this.options.z_handle_size);
                             break;
                     }
                     break;
@@ -563,7 +547,7 @@ ResponseHandle = $class({
                     this.options.y,
                     this.options.z);
         var a = t.split("\n");
-        var c = this._label.getChildren();
+        var c = this._label.children;
         var n = c.length;
         if (a.length != c.length) {
             while (n < a.length) {
@@ -571,11 +555,11 @@ ResponseHandle = $class({
                 n++;
             }
             while (n > a.length) {
-                this._label.getChildren()[n-1].destroy();
+                this._label.children[n-1].destroy();
                 n--;
             }
         }
-        var c = this._label.getChildren();
+        var c = this._label.children;
         var w = 0;
         for (var i = 0; i < a.length; i++) {
             c[i].textContent = a[i];
@@ -1026,8 +1010,10 @@ ResponseHandle = $class({
         })[0];
         this._label.setAttribute("x", (pos.xl) + "px");
         this._label.setAttribute("y", (pos.yl) + "px");
-        this._label.setProperty("text-anchor", pos.align);
-        this._label.getChildren().setAttribute("x", (pos.xl) + "px");
+        this._label.setAttribute("text-anchor", pos.align);
+        var c = this._label.children;
+        for (var i = 0; i < c.length; i++)
+            c[i].setAttribute("x", (pos.xl) + "px");
         this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
                 
         
@@ -1137,7 +1123,7 @@ ResponseHandle = $class({
         
         // classes and stuff
         TK.add_class(this.element, "toolkit-active");
-        TK.add_class(this.element.getParent().getParent(), "toolkit-dragging");
+        TK.add_class(this.element.parentElement.parentElement, "toolkit-dragging");
         this.global_cursor("move");
         this.__active = true;
         this._offsetX = ev.pageX - this.x;
@@ -1165,7 +1151,7 @@ ResponseHandle = $class({
         if (!this.__active) return;
         e.preventDefault();
         TK.remove_class(this.element, "toolkit-active");
-        var parent = this.element.getParent().getParent();
+        var parent = this.element.parentElement.parentElement;
         if (parent)
             TK.remove_class(parent, "toolkit-dragging");
         this.remove_cursor("move");

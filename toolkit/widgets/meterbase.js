@@ -327,15 +327,19 @@ var MeterBase = $class({
             this.scale.redraw();
             if (this.options.show_marker) {
                 TK.empty(this._mark);
-                this.scale.element.getChildren(".toolkit-dot").each(
-                    function (e) {
-                        var d = e.clone();
-                        var p = e.getPosition(this._scale)[this._vert()?"y":"x"];
-                        d.style[this._vert() ? "width" : "height"] = "100%";
-                        d.style[this._vert() ? "top" : "left"] = 
-                                   (p + p % this.options.segment) + "px";
-                        this._mark.appendChild(d);
-                    }.bind(this));
+                var c = this.scale.element.children;
+                for (var i = 0; i < c.length; i++) {
+                    var e = c[i];
+                    if (!TK.has_class(e, "toolkit-dot"))
+                        return;
+                    
+                    var d = e.clone();
+                    var p = e.getPosition(this._scale)[this._vert()?"y":"x"];
+                    d.style[this._vert() ? "width" : "height"] = "100%";
+                    d.style[this._vert() ? "top" : "left"] = 
+                               (p + p % this.options.segment) + "px";
+                    this._mark.appendChild(d);
+                }
             }
         }
         if (this._vert())

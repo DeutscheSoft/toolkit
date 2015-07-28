@@ -322,7 +322,7 @@ Ranged = $class({
                               ? snap - multi : -multi);
             var digit = snap.toString().split(".");
             digit = digit.length > 1 ? digit[1].length : 0;
-            return parseInt(res * (Math.pow(10, digits))) / Math.pow(10, digits);
+            return parseInt(res * (Math.pow(10, digit))) / Math.pow(10, digit);
         }
     },
     ___snapcoef: {}

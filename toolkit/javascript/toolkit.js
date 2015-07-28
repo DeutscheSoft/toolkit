@@ -84,15 +84,24 @@ toolkit = {
     
     scroll_top: function (e) {
         if (e)
-            return e.scrollTop();
+            return e.scrollTop;
         return Math.max(document.documentElement.scrollTop || 0, window.pageYOffset || 0, document.body.scrollTop || 0);
     },
     scroll_left: function (e) {
         if (e)
-            return e.scrollLeft();
+            return e.scrollLeft;
         return Math.max(document.documentElement.scrollLeft, window.pageXOffset || 0, document.body.scrollLeft || 0);
     },
-    
+    scroll_all_top: function (e) {
+        var v = 0;
+        while (e = e.parentNode) v += e.scrollTop || 0;
+        return v;
+    },
+    scroll_all_left: function (e) {
+        var v = 0;
+        while (e = e.parentNode) v += e.scrollLeft || 0;
+        return v;
+    },
     outer_width : function (element, margin, width) {
         var cs = getComputedStyle(element, null);
         var w = element.getBoundingClientRect().width;
