@@ -10,6 +10,9 @@ IE9+, Chrome and Firefox.
 toolkit is missing some features and hides some bugs by now and is under
 development. A version number is still missing. 
 
+*Actually toolkit is in a broken state! wait until there's the first
+version number available*
+
 Demo
 ----
 
