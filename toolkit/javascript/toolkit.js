@@ -1,33 +1,17 @@
 toolkit = {
-    delayed_callback : function(timeout, cb, once) {
-        var tid;
-        var args;
-
-        var my_cb = function() {
-            tid = null;
-            cb.apply(this, args);
-        };
-        return function() {
-            args = Array.prototype.slice.call(arguments);
-
-            if (tid)
-                window.clearTimeout(tid);
-            else if (once) once();
-            tid = window.setTimeout(my_cb, timeout);
-        };
+    
+    // ELEMENTS
+    
+    get_id: function (id) {
+        return document.getElementById(id);
     },
-    set_styles : function(elem, styles) {
-        var key, v;
-        var s = elem.style;
-        for (key in styles) if (styles.hasOwnProperty(key)) {
-            v = styles[key];
-            if (typeof v != "number" && !v) {
-                delete s[key];
-            } else {
-                s[key] = v;
-            }
-        }
+    get_class: function (cls, elm) {
+        return (elm ? elm : document).getElementsByClassName(cls);
     },
+    get_tag: function (tag, elm) {
+        return (elm ? elm : document).getElementsByTagName(tag);
+    },
+    
     element : function(tag) {
         var n = document.createElement(tag);
         var i, v, j;
@@ -41,14 +25,67 @@ toolkit = {
         }
         return n;
     },
+    
     destroy: function (e) {
         e.parentElement.remove(e);
     },
+    
     set_text : function(node, s) {
         if (node.firstChild) {
             node.firstChild.nodeValue = s;
         } else node.appendChild(document.createTextNode(s));
     },
+    
+    keep_inside: function (element, resize) {
+        var ex = parseInt(element.getStyle("left"));
+        var ey = parseInt(element.getStyle("top"));
+        var ew = toolkit.outer_width(element, true);
+        var eh = toolkit.outer_height(element, true);
+        
+        if (element.getStyle("position") == "fixed") {
+            var pw = width();
+            var ph = height();
+            var w  = pw;
+            var h  = ph;
+            var x  = Math.min(Math.max(ex, 0), w - ew);
+            var y  = Math.min(Math.max(ey, 0), h - eh);
+        } else {
+            var p  = element.offsetParent;
+            var pw = p ? p.offsetWidth : width() - TK.scroll_left();
+            var ph = p ? p.offsetHeight : height() - TK.scroll_top();
+            var x = Math.min(Math.max(ex, 0), pw - ew);
+            var y = Math.min(Math.max(ey, 0), ph - eh);
+        }
+        if(resize) {
+            if (ew > pw) element.style.width = pw + "px";
+            if (eh > ph) element.style.height = ph + "px";
+        }
+        element.style.left = x + "px";
+        element.style.top = y + "px";
+    },
+    
+    // WINDOW
+    
+    width: function () {
+        return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
+    },
+    height: function () {
+        return Math.max(document.documentElement.clientHeight, window.innerHeight || 0, document.body.clientHeight || 0);
+    },
+    
+    // DIMENSIONS
+    
+    scroll_top: function (e) {
+        if (e)
+            return e.scrollTop();
+        return Math.max(document.documentElement.scrollTop || 0, window.pageYOffset || 0, document.body.scrollTop || 0);
+    },
+    scroll_left: function (e) {
+        if (e)
+            return e.scrollLeft();
+        return Math.max(document.documentElement.scrollLeft, window.pageXOffset || 0, document.body.scrollLeft || 0);
+    },
+    
     outer_width : function (element, margin, width) {
         var cs = getComputedStyle(element, null);
         var w = element.getBoundingClientRect().width;
@@ -70,6 +107,7 @@ toolkit = {
         }
         return w + m;
     },
+    
     outer_height : function (element, margin, height) {
         var cs = getComputedStyle(element, null);
         var h = element.getBoundingClientRect().height;
@@ -91,6 +129,7 @@ toolkit = {
         }
         return h + m;
     },
+    
     inner_width: function (element, width) {
         var cs = getComputedStyle(element, null);
         var w = element.getBoundingClientRect().width;
@@ -106,6 +145,7 @@ toolkit = {
         }
         return w - x;
     },
+    
     inner_height: function (element, height) {
         var cs = getComputedStyle(element, null);
         var h = element.getBoundingClientRect().height;
@@ -121,6 +161,7 @@ toolkit = {
         }
         return h - y;
     },
+    
     box_sizing: function (element) {
         var cs = getComputedStyle(element, null);
         if (cs.getPropertyValue("box-sizing")) return cs.getPropertyValue("box-sizing");
@@ -129,6 +170,7 @@ toolkit = {
         if (cs.getPropertyValue("-ms-box-sizing")) return cs.getPropertyValue("-ms-box-sizing");
         if (cs.getPropertyValue("-khtml-box-sizing")) return cs.getPropertyValue("-khtml-box-sizing");
     },
+    
     css_space: function (element) {
         var cs = getComputedStyle(element, null);
         var o = {top: 0, right: 0, bottom: 0, left: 0};
@@ -145,6 +187,48 @@ toolkit = {
             }
         }
         return o;
+    },
+    
+    set_styles : function(elem, styles) {
+        var key, v;
+        var s = elem.style;
+        for (key in styles) if (styles.hasOwnProperty(key)) {
+            v = styles[key];
+            if (typeof v != "number" && !v) {
+                delete s[key];
+            } else {
+                s[key] = v;
+            }
+        }
+    },
+    
+    // STRINGS
+    
+    _unique_ids: [],
+    unique_id: function () {
+        var id;
+        while (TK._unique_ids.indexOf(id = TK.random_string(8, "aA#")) > -1)
+            1
+        TK._unique_ids.push(id);
+        return id;
+    },
+    
+    random_string: function (length, chars) {
+        // returns a random string with specified length and characters
+        // a = small chars
+        // A = uppercase chars
+        // # = numbers
+        // ! = other chars (~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\)
+        if (!length) length = 16;
+        if (!chars) chars = "aA#";
+        var mask = '';
+        if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+        if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (chars.indexOf('#') > -1) mask += '0123456789';
+        if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+        var result = '';
+        for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
+        return result;
     },
     
     FORMAT : function() {
@@ -203,9 +287,14 @@ toolkit = {
             cache[cache_key] = fun;
             return fun;
     } }(),
+    
     sprintf : function (fmt) {
         return toolkit.FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
     },
+    
+    
+    // OS AND BROWSER CAPABILITIES
+    
     is_touch: function () {
         return 'ontouchstart' in window // works on most browsers 
           || 'onmsgesturechange' in window; // works on ie10
@@ -243,6 +332,8 @@ toolkit = {
         if ((tem = ua.match(/version\/(\d+)/i)) != null) { M.splice(1, 1, tem[1]); }
         return { name : M[0], version : M[1] };
     },
+    
+    // SVG
     
     make_svg: function (tag, args) {
         // creates and returns an SVG object
@@ -298,31 +389,25 @@ toolkit = {
         e.style.marginTop = t + "px";
     },
     
-    _unique_ids: [],
-    unique_id: function () {
-        var id;
-        while (TK._unique_ids.indexOf(id = TK.random_string(8, "aA#")) > -1)
-            1
-        TK._unique_ids.push(id);
-        return id;
-    },
     
-    random_string: function (length, chars) {
-        // returns a random string with specified length and characters
-        // a = small chars
-        // A = uppercase chars
-        // # = numbers
-        // ! = other chars (~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\)
-        if (!length) length = 16;
-        if (!chars) chars = "aA#";
-        var mask = '';
-        if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
-        if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        if (chars.indexOf('#') > -1) mask += '0123456789';
-        if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
-        var result = '';
-        for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
-        return result;
+    // EVENTS
+    
+    delayed_callback : function(timeout, cb, once) {
+        var tid;
+        var args;
+
+        var my_cb = function() {
+            tid = null;
+            cb.apply(this, args);
+        };
+        return function() {
+            args = Array.prototype.slice.call(arguments);
+
+            if (tid)
+                window.clearTimeout(tid);
+            else if (once) once();
+            tid = window.setTimeout(my_cb, timeout);
+        };
     },
     
     _resize_events: [],
@@ -357,15 +442,8 @@ toolkit = {
         }
     },
     
-    get_id: function (id) {
-        return document.getElementById(id);
-    },
-    get_class: function (cls, elm) {
-        return (elm ? elm : document).getElementsByClassName(cls);
-    },
-    get_tag: function (tag, elm) {
-        return (elm ? elm : document).getElementsByTagName(tag);
-    },
+    
+    // MATH
     
     log2: function (n) {
         return Math.log(Math.max(1e-32, n)) / Math.LN2;
@@ -373,49 +451,46 @@ toolkit = {
     log10: function (n) {
         return Math.log(Math.max(1e-32, n)) / Math.LN10;
     },
+    
+    // ARRAYS
+    
+    _binary_array_search = function (arr, val, insert) {
+        var high = arr.length, low = -1, mid;
+        while (high - low > 1) {
+            mid = (high + low) >> 1;
+            if (arr[mid] < val) low = mid;
+            else high = mid;
+        }
+        if (arr[high] == val || insert) {
+            return high;
+        } else {
+            return -1;
+        }
+    },
+    
+    find_next: function (array, val, sort) {
+        if (sort)
+            var arr = array.slice(0).sort( function (a, b) { return a-b; });
+        else
+            var arr = array;
+        // Get index
+        var i = TK._binary_array_search(arr, val, true);
+        // Check boundaries
+        return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
+    },
 
 };
 TK = toolkit;
 
 
 
-
-
-// ARRAY PROTOTYPING
-
-Array.prototype._binarySearch = function (arr, val, insert) {
-    var high = arr.length, low = -1, mid;
-    while (high - low > 1) {
-        mid = (high + low) >> 1;
-        if (arr[mid] < val) low = mid;
-        else high = mid;
-    }
-    if (arr[high] == val || insert) {
-        return high;
-    } else {
-        return -1;
-    }
-}
-Array.prototype.next = function (val, sort) {
-    if (sort)
-    var arr = this.slice(0).sort( function (a, b) { return a-b; });
-    else var arr = this;
-    // Get index
-    var i = this._binarySearch(arr, val, true);
-    // Check boundaries
-    return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
-};
+// POLYFILLS
 
 if (typeof Array.isArray === 'undefined') {
     Array.isArray = function(obj) {
         return Object.prototype.toString.call(obj) === '[object Array]';
     }
 };
-
-// MATH PROTOTYPING
-
-
-
 
 // SVG PROTOTYPING
 
@@ -442,43 +517,3 @@ SVGElement.prototype.removeClass = function(classList) {
 
 
 // WINDOW PROTOTYPING
-
-keep_inside = function (element, resize) {
-    var ex = parseInt(element.getStyle("left"));
-    var ey = parseInt(element.getStyle("top"));
-    var ew = toolkit.outer_width(element, true);
-    var eh = toolkit.outer_height(element, true);
-    
-    if (element.getStyle("position") == "fixed") {
-        var pw = width();
-        var ph = height();
-        var w  = pw;
-        var h  = ph;
-        var x  = Math.min(Math.max(ex, 0), w - ew);
-        var y  = Math.min(Math.max(ey, 0), h - eh);
-    } else {
-        var p  = element.offsetParent;
-        var pw = p ? p.offsetWidth : width() - scroll_left();
-        var ph = p ? p.offsetHeight : height() - scroll_top();
-        var x = Math.min(Math.max(ex, 0), pw - ew);
-        var y = Math.min(Math.max(ey, 0), ph - eh);
-    }
-    if(resize) {
-        if (ew > pw) element.style.width = pw + "px";
-        if (eh > ph) element.style.height = ph + "px";
-    }
-    element.style.left = x + "px";
-    element.style.top = y + "px";
-}
-width = function () {
-    return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
-}
-height = function () {
-    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0, document.body.clientHeight || 0);
-}
-scroll_top = function () {
-    return Math.max(document.documentElement.scrollTop || 0, window.pageYOffset || 0, document.body.scrollTop || 0);
-}
-scroll_left = function () {
-    return Math.max(document.documentElement.scrollLeft, window.pageXOffset || 0, document.body.scrollLeft || 0);
-}

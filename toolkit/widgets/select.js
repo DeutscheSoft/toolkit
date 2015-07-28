@@ -216,8 +216,8 @@ Select = $class({
             document.body.appendChild(this._list);
             var cw = width();
             var ch = height();
-            var sx = scroll_left();
-            var sy = scroll_top();
+            var sx = TK.scroll_left();
+            var sy = TK.scroll_top();
             toolkit.set_styles(this._list, {
                 "opacity": 0,
                 "maxHeight": ch,

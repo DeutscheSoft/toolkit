@@ -308,7 +308,7 @@ Ranged = $class({
         if (!this.options.snap) return value;
         var snap  = this.options.snap;
         if (Array.isArray(snap)) {
-            return snap.next(value)
+            return TK.find_next(snap, value)
         } else {
             if (typeof this.___snapcoef["" + snap] == "undefined") {
                 p = ("" + snap).split(".");
