@@ -62,7 +62,7 @@ Grid = $class({
     },
     
     redraw: function () {
-        this.element.empty();
+        TK.empty(this.element);
         this.__last = 0;
         for (var i = 0; i < this.options.grid_x.length; i++) {
             this._draw_line(this.options.grid_x[i], 0);

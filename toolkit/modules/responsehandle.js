@@ -556,7 +556,7 @@ ResponseHandle = $class({
         
         
         // LABEL
-        this._label.empty();
+        TK.empty(this._label);
         var t = this.options.label(
                     this.options.title,
                     this.options.x,

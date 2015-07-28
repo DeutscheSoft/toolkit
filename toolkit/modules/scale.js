@@ -97,7 +97,7 @@ Scale = $class({
         this.__size = 0;
         if (this.options.base === false)
             this.options.base = this.options.max
-        this.element.empty();
+        TK.empty(this.element);
         
         // draw base
             this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
@@ -179,7 +179,7 @@ Scale = $class({
         return this;
     },
     destroy: function () {
-        this.element.empty();
+        TK.empty(this.element);
         TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
         // ??

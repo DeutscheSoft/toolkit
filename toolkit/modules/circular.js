@@ -216,7 +216,7 @@ Circular = $class({
         this.fire_event("slicedrawn", [this]);
     },
     _draw_dots: function () {
-        this._dots.empty();
+        TK.empty(this._dots);
         for (var i = 0; i < this.options.dots.length; i++) {
             var m = this.options.dots[i];
             var r = TK.make_svg("rect", {"class": "toolkit-dot"});
@@ -247,7 +247,7 @@ Circular = $class({
         this.fire_event("dotsdrawn", [this]);
     },
     _draw_markers: function () {
-        this._markers.empty();
+        TK.empty(this._markers);
         
         var stroke  = this._get_stroke();
         var outer   = this.options.size / 2;
@@ -286,7 +286,7 @@ Circular = $class({
         this.fire_event("markersdrawn", [this]);
     },
     _draw_labels: function () {
-        this._labels.empty();
+        TK.empty(this._labels);
         
         var outer   = this.options.size / 2;
         

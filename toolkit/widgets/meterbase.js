@@ -326,7 +326,7 @@ var MeterBase = $class({
         if (this.options.show_scale) {
             this.scale.redraw();
             if (this.options.show_marker) {
-                this._mark.empty();
+                TK.empty(this._mark);
                 this.scale.element.getChildren(".toolkit-dot").each(
                     function (e) {
                         var d = e.clone();

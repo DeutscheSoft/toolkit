@@ -180,8 +180,8 @@ var Chart = $class({
     
     // HELPERS & STUFF
     _draw_key: function () {
-        this._key_txt.empty();
-        this._key.empty();
+        TK.empty(this._key_txt);
+        TK.empty(this._key);
         
         if (this.options.key === false) {
             this._key.style["display"] = "none";

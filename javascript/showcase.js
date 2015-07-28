@@ -1506,7 +1506,7 @@ function run_state () {
         s1 = undefined;
         s2 = undefined;
         s3 = undefined;
-        TK.get_id("sc_state").empty();
+        TK.empty(TK.get_id("sc_state"));
         TK.get_id("sc_state").classList.remove("box");
         return;
     }

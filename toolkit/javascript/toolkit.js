@@ -30,6 +30,12 @@ toolkit = {
         e.parentElement.remove(e);
     },
     
+    empty: function (e) {
+        while (e.hasChildNodes()) {
+            e.removeChild(e.lastChild);
+        }
+    },
+    
     set_text : function(node, s) {
         if (node.firstChild) {
             node.firstChild.nodeValue = s;
@@ -499,7 +505,6 @@ toolkit = {
 
 };
 TK = toolkit;
-
 
 // POLYFILLS
 

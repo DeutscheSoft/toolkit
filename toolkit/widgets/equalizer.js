@@ -48,7 +48,7 @@ var Equalizer = $class({
     },
     
     destroy: function () {
-        this.empty();
+        this.empty(); // ???
         TK.destroy(this._bands);
         ResponseHandler.prototype.destroy.call(this);
     },
