@@ -334,8 +334,8 @@ Circular = $class({
         if (this.hasOwnProperty("_stroke")) return this._stroke;
         // TODO: this uses getComputedStyle which is bad in many ways.
         // lets calculate this once and reuse the value
-        var strokeb = this._base.getStyle("stroke-width").toInt() || 0;
-        var strokev = this._value.getStyle("stroke-width").toInt() || 0;
+        var strokeb = TK.get_style(this._base, "stroke-width").toInt() || 0;
+        var strokev = TK.get_style(this._value, "stroke-width").toInt() || 0;
         this._stroke = strokeb > strokev ? strokeb : strokev;
         return this._stroke;
     },

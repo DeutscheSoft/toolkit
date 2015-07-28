@@ -82,8 +82,8 @@ var MeterBase = $class({
         if (this.options.reverse)
             this.element.classList.add("toolkit-reverse");
         
-        if (this.element.getStyle("position") != "absolute"
-            && this.element.getStyle("position") != "relative")
+        if (TK.get_style(this.element, "position") != "absolute"
+            && TK.get_style(this.element, "position") != "relative")
             this.element.style["position"] = "relative";
         
         this._title  = toolkit.element("div", "toolkit-title");

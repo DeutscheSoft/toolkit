@@ -120,7 +120,7 @@ Widget = $class({
         this.remove_class = function (c) { element.classList.remove(c); }.bind(this);
         this.set_style    = function (c, d) { element.style[c] = d; }.bind(this);
         this.set_styles   = toolkit.set_styles.bind(toolkit, element);
-        this.get_style    = function (c) { return element.getStyle(c); }.bind(this);
+        this.get_style    = function (c) { return TK.get_style(element, c); }.bind(this);
         this.__classified = element;
         this.fire_event("classified", [element, this]);
         return element;

@@ -194,16 +194,16 @@ var Chart = $class({
         
         var disp = "none";
         var gpad = {
-            top:    this._key.getStyle("padding-top").toInt() || 0,
-            right:  this._key.getStyle("padding-right").toInt() || 0,
-            bottom: this._key.getStyle("padding-bottom").toInt() || 0,
-            left:   this._key.getStyle("padding-left").toInt() || 0
+            top:    TK.get_style(this._key, "padding-top").toInt() || 0,
+            right:  TK.get_style(this._key, "padding-right").toInt() || 0,
+            bottom: TK.get_style(this._key, "padding-bottom").toInt() || 0,
+            left:   TK.get_style(this._key, "padding-left").toInt() || 0
         }
         var gmarg = {
-            top:    this._key.getStyle("margin-top").toInt() || 0,
-            right:  this._key.getStyle("margin-right").toInt() || 0,
-            bottom: this._key.getStyle("margin-bottom").toInt() || 0,
-            left:   this._key.getStyle("margin-left").toInt() || 0
+            top:    TK.get_style(this._key, "margin-top").toInt() || 0,
+            right:  TK.get_style(this._key, "margin-right").toInt() || 0,
+            bottom: TK.get_style(this._key, "margin-bottom").toInt() || 0,
+            left:   TK.get_style(this._key, "margin-left").toInt() || 0
         }
         var c   = 0;
         var w   = 0;
@@ -219,11 +219,11 @@ var Chart = $class({
                 this._key_txt.appendChild(t);
                 
                 if (!bb) bb = this._key.getBoundingClientRect();
-                top += c ? t.getStyle("line-height").toInt() : gpad.top;
+                top += c ? TK.get_style(t, "line-height").toInt() : gpad.top;
                 t.setAttribute("y", top + bb.height / 2);
                 
                 lines.push({
-                    x:       (t.getStyle("margin-right").toInt() || 0),
+                    x:       (TK.get_style(t, "margin-right").toInt() || 0),
                     y:       Math.round(top),
                     width:   Math.round(bb.width),
                     height:  Math.round(bb.height),
@@ -297,10 +297,10 @@ var Chart = $class({
     },
     _draw_title: function () {
         this._title.textContent = this.options.title;
-        var mtop    = (this._title.getStyle("margin-top") || 0).toInt();
-        var mleft   = (this._title.getStyle("margin-left") || 0).toInt();
-        var mbottom = (this._title.getStyle("margin-bottom") || 0).toInt();
-        var mright  = (this._title.getStyle("margin-right") || 0).toInt();
+        var mtop    = (TK.get_style(this._title, "margin-top") || 0).toInt();
+        var mleft   = (TK.get_style(this._title, "margin-left") || 0).toInt();
+        var mbottom = (TK.get_style(this._title, "margin-bottom") || 0).toInt();
+        var mright  = (TK.get_style(this._title, "margin-right") || 0).toInt();
         var bb      = this._title.getBoundingClientRect();
         switch (this.options.title_position) {
             case _TOOLKIT_TOP_LEFT:

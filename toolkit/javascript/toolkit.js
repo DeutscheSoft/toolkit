@@ -43,12 +43,12 @@ toolkit = {
     },
     
     keep_inside: function (element, resize) {
-        var ex = parseInt(element.getStyle("left"));
-        var ey = parseInt(element.getStyle("top"));
+        var ex = parseInt(TK.get_style(element, "left"));
+        var ey = parseInt(TK.get_style(element, "top"));
         var ew = toolkit.outer_width(element, true);
         var eh = toolkit.outer_height(element, true);
         
-        if (element.getStyle("position") == "fixed") {
+        if (TK.get_style(element, "position") == "fixed") {
             var pw = width();
             var ph = height();
             var w  = pw;
@@ -208,6 +208,17 @@ toolkit = {
                 s[key] = v;
             }
         }
+    },
+    set_style: function (e, style, value) {
+        if (typeof value == "number")
+            value += "px";
+        e.style[style] = value;
+    },
+    get_style: function (e, style) {
+        if (e.currentStyle)
+            return e.currentStyle[style];
+        else if (window.getComputedStyle)
+            return document.defaultView.getComputedStyle(e).getPropertyValue(style);
     },
     
     has_class: function (e, cls) {
@@ -383,7 +394,7 @@ toolkit = {
     seat_svg: function (e) {
         // move svgs if their positions in viewport is not int
         if (e.retrieve("margin-left") === null) {
-            e.store("margin-left", e.getStyle("margin-left").toFloat());
+            e.store("margin-left", TK.get_style(e, "margin-left").toFloat());
         } else {
             e.style.marginLeft = e.retrieve("margin-left");
         }
@@ -395,11 +406,11 @@ toolkit = {
             if (x < 0.5) l -= x;
             else l += (1 - x);
         }
-        if (e.getParent() && e.getParent().getStyle("text-align") == "center")
+        if (e.getParent() && e.getParent(TK.get_style(), "text-align") == "center")
             l += 0.5;
         e.style.marginLeft = l + "px";
         if (e.retrieve("margin-top") === null) {
-            e.store("margin-top", e.getStyle("margin-top").toFloat());
+            e.store("margin-top", TK.get_style(e, "margin-top").toFloat());
         } else {
             e.style.marginTop = e.retrieve("margin-top");
         }

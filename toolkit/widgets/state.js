@@ -62,8 +62,8 @@ State = $class({
             "width"  : "100%",
             "height" : "100%"
         });
-        if (this.element.getStyle("position") != "absolute"
-         && this.element.getStyle("position") != "relative")
+        if (TK.get_style(this.element, "position") != "absolute"
+         && TK.get_style(this.element, "position") != "relative")
             this.element.style["position"] = "relative";
         
         Widget.prototype.initialized.call(this);

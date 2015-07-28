@@ -531,8 +531,8 @@ Window = $class({
         this.dimensions.y2     = pos.y + this.dimensions.height;
     },
     __start_resize: function (el, ev) {
-        this.__docmouse = document.body.getStyle("cursor");
-        document.body.style["cursor"] = this._resize.getStyle("cursor");
+        this.__docmouse = TK.get_style(document.body, "cursor");
+        document.body.style["cursor"] = TK.get_style(this._resize, "cursor");
         this.resizing = true;
         this.element.classList.add("toolkit-resizing");
         this.fire_event("startresize", [this, ev]);

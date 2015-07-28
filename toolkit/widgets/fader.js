@@ -43,8 +43,8 @@ Fader = $class({
         this.element = this.widgetize(toolkit.element("div","toolkit-fader"),
                        true, true, true);
         
-        if (this.element.getStyle("position") != "absolute"
-            && this.element.getStyle("position") != "relative")
+        if (TK.get_style(this.element, "position") != "absolute"
+            && TK.get_style(this.element, "position") != "relative")
             this.element.style["position"] = "relative";
             
         this._background_top    = toolkit.element("div", "toolkit-background-top-left");

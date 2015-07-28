@@ -213,10 +213,10 @@ Clock = $class({
         this._label.setAttribute("transform", "");
         
         var bb = this._label.getBoundingClientRect();
-        var mleft   = this._label.getStyle("margin-left").toInt() || 0;
-        var mright  = this._label.getStyle("margin-right").toInt() || 0;
-        var mtop    = this._label.getStyle("margin-top").toInt() || 0;
-        var mbottom = this._label.getStyle("margin-bottom").toInt() || 0;
+        var mleft   = TK.get_style(this._label, "margin-left").toInt() || 0;
+        var mright  = TK.get_style(this._label, "margin-right").toInt() || 0;
+        var mtop    = TK.get_style(this._label, "margin-top").toInt() || 0;
+        var mbottom = TK.get_style(this._label, "margin-bottom").toInt() || 0;
         var space   = this.options.size - mleft - mright - this._margin * 2;
         var scale   = space / bb.width;
         var pos     = this.options.size / 2;
