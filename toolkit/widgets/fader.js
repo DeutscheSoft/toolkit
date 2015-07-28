@@ -225,12 +225,12 @@ Fader = $class({
         this.redraw();
     },
     destroy: function () {
-        this._background_top.destroy();
-        this._background_bottom.destroy();
-        this._background_center.destroy();
-        this._handle.destroy();
+        TK.destroy(this._background_top);
+        TK.destroy(this._background_bottom);
+        TK.destroy(this._background_center);
+        TK.destroy(this._handle);
         this.scale.destroy();
-        this.element.destroy();
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     

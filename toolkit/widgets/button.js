@@ -56,9 +56,9 @@ Button = $class({
         Widget.prototype.initialized.call(this);
     },
     destroy: function () {
-        this._icon.destroy();
-        this._label.destroy();
-        this.element.destroy();
+        TK.destroy(this._icon);
+        TK.destroy(this._label);
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     

@@ -410,7 +410,7 @@ ResponseHandle = $class({
         // Z-HANDLE
         if (this.options.z_handle === false) {
             if (this._zinjected) {
-                this._zhandle.parentElement.removeChild(this._zhandle);
+                TK.destroy(this._zhandle);
                 this._zinjected = false;
             }
         } else {
@@ -1079,11 +1079,11 @@ ResponseHandle = $class({
         Widget.prototype.redraw.call(this);
     },
     destroy: function () {
-        this._line1.destroy();
-        this._line2.destroy();
-        this._label.destroy();
-        this._handle.destroy();
-        this.element.destroy();
+        TK.destroy(this._line1);
+        TK.destroy(this._line2);
+        TK.destroy(this._label);
+        TK.destroy(this._handle);
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     // HELPERS & STUFF

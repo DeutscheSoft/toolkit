@@ -68,7 +68,7 @@ var ResponseHandler = $class({
     
     destroy: function () {
         this.empty();
-        this._handles.destroy();
+        TK.destroy(this._handles);
         FrequencyResponse.prototype.destroy.call(this);
     },
     

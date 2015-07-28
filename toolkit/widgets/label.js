@@ -41,7 +41,7 @@ Label = $class({
     },
     
     destroy: function () {
-        this.element.destroy();
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     

@@ -143,10 +143,10 @@ Clock = $class({
     },
     
     destroy: function () {
-        this._label.destroy();
-        this._label_upper.destroy();
-        this._label_lower.destroy();
-        this.element.destroy();
+        TK.destroy(this._label);
+        TK.destroy(this._label_upper);
+        TK.destroy(this._label_lower);
+        TK.destroy(this.element);
         this.circulars.seconds.destroy();
         this.circulars.minutes.destroy();
         this.circulars.hours.destroy();

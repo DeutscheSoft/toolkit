@@ -91,7 +91,7 @@ Knob = $class({
     destroy: function () {
         this.drag.destroy();
         this.scroll.destroy();
-        this._svg.destroy();
+        TK.destroy(this._svg);
         Circular.prototype.destroy.call(this);
     },
     

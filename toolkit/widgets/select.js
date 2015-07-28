@@ -78,8 +78,8 @@ Select = $class({
         Button.prototype.initialized.call(this);
     },
     destroy: function () {
-        this._list.destroy();
-        this.element.destroy();
+        TK.destroy(this._list);
+        TK.destroy(this.element);
         Button.prototype.destroy.call(this);
     },
     
@@ -238,7 +238,7 @@ Select = $class({
     _hide_list: function () {
         this.__transition = false;
         if (!this.__open) {
-            this._list.parentElement.removeChild(this._list);
+            TK.destroy(this._list);
         }
     },
     _get_entry_by_value: function (val, id) {

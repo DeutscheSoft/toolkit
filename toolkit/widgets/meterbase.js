@@ -281,16 +281,16 @@ var MeterBase = $class({
     },
     
     destroy: function () {
-        this._label.destroy();
-        this._scale.destroy();
-        this._bar.destroy();
-        this._title.destroy();
-        this._base.destroy();
-        this._mark.destroy();
-        this._over.destroy();
-        this._mask1.destroy();
-        this._mask2.destroy();
-        this.element.destroy();
+        TK.destroy(this._label);
+        TK.destroy(this._scale);
+        TK.destroy(this._bar);
+        TK.destroy(this._title);
+        TK.destroy(this._base);
+        TK.destroy(this._mark);
+        TK.destroy(this._over);
+        TK.destroy(this._mask1);
+        TK.destroy(this._mask2);
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     redraw: function () {

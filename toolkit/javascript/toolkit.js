@@ -41,6 +41,9 @@ toolkit = {
         }
         return n;
     },
+    destroy: function (e) {
+        e.parentElement.remove(e);
+    },
     set_text : function(node, s) {
         if (node.firstChild) {
             node.firstChild.nodeValue = s;

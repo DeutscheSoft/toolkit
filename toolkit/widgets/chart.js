@@ -136,8 +136,8 @@ var Chart = $class({
         for (var i = 0; i < this._graphs.length; i++) {
             this._graphs[i].destroy();
         }
-        this._graphs.destroy();
-        this.element.destroy();
+        TK.destroy(this._graphs);
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     add_graph: function (options) {

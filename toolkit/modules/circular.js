@@ -173,11 +173,11 @@ Circular = $class({
     },
     
     destroy: function () {
-        this._dots.destroy();
-        this._markers.destroy();
-        this._base.destroy();
-        this._value.destroy();
-        this.element.destroy();
+        TK.destroy(this._dots);
+        TK.destroy(this._markers);
+        TK.destroy(this._base);
+        TK.destroy(this._value);
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     _get_coords: function (deg, inner, outer, pos, single) {

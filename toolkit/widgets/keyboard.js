@@ -176,9 +176,9 @@ Keyboard = $class({
         for (var i = 0; i < this.keys.length; i++) {
             this.keys[i].button.destroy();
         }
-        this._buffer.destroy();
-        this._wrapper.destroy();
-        this.element.destroy();
+        TK.destroy(this._buffer);
+        TK.destroy(this._wrapper);
+        TK.destroy(this.element);
         this.window.destroy();
         Widget.prototype.destroy.call(this);
     },

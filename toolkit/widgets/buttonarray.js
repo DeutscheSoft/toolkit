@@ -120,8 +120,8 @@ ButtonArray = $class({
             this.buttons[i].destroy();
         this.prev.destroy();
         this.next.destroy();
-        this._container.destroy();
-        this._clip.destroy();
+        TK.destroy(this._container);
+        TK.destroy(this._clip);
         Container.prototype.destroy.call(this);
     },
     

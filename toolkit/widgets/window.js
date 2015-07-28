@@ -147,8 +147,8 @@ Window = $class({
             this.__buttons[i].element.appendChild(
                 toolkit.element("div", "toolkit-icon")
             );
-            this.__buttons[i]._icon.parentElement.removeChild(this.__buttons[i]._icon);
-            this.__buttons[i]._label.parentElement.removeChild(this.__buttons[i]._label);
+            TK.destroy(this.__buttons[i]._icon);
+            TK.destroy(this.__buttons[i]._label);
         }
         
         if (this.options.container)
@@ -231,26 +231,26 @@ Window = $class({
     },
     
     destroy: function () {
-        this._title.destroy();
-        this._status.destroy();
-        this._icon.destroy();
-        this._content.destroy();
-        this._header_left.destroy();
-        this._header_center.destroy();
-        this._header_right.destroy();
-        this._footer_left.destroy();
-        this._footer_center.destroy();
-        this._footer_right.destroy();
-        this._header.destroy();
-        this._footer.destroy();
-        this._resize.destroy();
+        TK.destroy(this._title);
+        TK.destroy(this._status);
+        TK.destroy(this._icon);
+        TK.destroy(this._content);
+        TK.destroy(this._header_left);
+        TK.destroy(this._header_center);
+        TK.destroy(this._header_right);
+        TK.destroy(this._footer_left);
+        TK.destroy(this._footer_center);
+        TK.destroy(this._footer_right);
+        TK.destroy(this._header);
+        TK.destroy(this._footer);
+        TK.destroy(this._resize);
         this.close.destroy();
         this.maximize.destroy();
         this.maximize_vert.destroy();
         this.maximize_horiz.destroy();
         this.minimize.destroy();
         this.shrink.destroy();
-        this.element.destroy();
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     
@@ -750,7 +750,7 @@ Window = $class({
             case "minimize":
                 if (!hold) {
                     if (value) {
-                        this.element.parentElement.removeChild(this.element);
+                        TK.destroy(this.element);
                     } else {
                         this.set("container", this.options.container)
                         this.redraw();

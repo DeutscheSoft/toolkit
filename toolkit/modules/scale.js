@@ -180,7 +180,7 @@ Scale = $class({
     },
     destroy: function () {
         this.element.empty();
-        this.element.destroy();
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
         // ??
         return this;

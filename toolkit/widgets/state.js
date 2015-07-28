@@ -69,9 +69,9 @@ State = $class({
         Widget.prototype.initialized.call(this);
     },
     destroy: function () {
-        this._over.destroy();
-        this._mask.destroy();
-        this.element.destroy();
+        TK.destroy(this._over);
+        TK.destroy(this._mask);
+        TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
     

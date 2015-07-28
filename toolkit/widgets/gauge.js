@@ -57,7 +57,7 @@ Gauge = $class({
         Circular.prototype.initialized.call(this);
     },
     destroy: function () {
-        this._svg.destroy();
+        TK.destroy(this._svg);
         Circular.prototype.destroy.call(this);
     },
     
