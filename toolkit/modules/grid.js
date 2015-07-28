@@ -96,10 +96,16 @@ Grid = $class({
             var tw = label.getBBox().width;
             var th = label.getBBox().height;
             var p  = TK.get_style(label, "padding").split(" ");
-            var pt = p[0].toInt() || 0;
-            var pr = p[1].toInt() || 0;
-            var pb = p[2].toInt() || 0;
-            var pl = p[3].toInt() || 0;
+            if (p.length < 2)
+                p[1] = p[2] = p[3] = p[0];
+            if (p.length < 3)
+                p[2] = p[0]; p[3] = p[1];
+            if (p.length < 4)
+                p[3] = p[1];
+            var pt = parseInt(p[0]) || 0;
+            var pr = parseInt(p[1]) || 0;
+            var pb = parseInt(p[2]) || 0;
+            var pl = parseInt(p[3]) || 0;
             var x  = mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl,
                             this.range_x.val2px(obj.pos, true) - tw / 2));
             var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt,

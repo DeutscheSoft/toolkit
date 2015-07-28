@@ -27,7 +27,8 @@ toolkit = {
     },
     
     destroy: function (e) {
-        e.parentElement.remove(e);
+        if (e.parentElement)
+            e.parentElement.removeChild(e);
     },
     
     empty: function (e) {
@@ -393,12 +394,12 @@ toolkit = {
     },
     seat_svg: function (e) {
         // move svgs if their positions in viewport is not int
-        if (e.retrieve("margin-left") === null) {
-            e.store("margin-left", TK.get_style(e, "margin-left").toFloat());
+        if (TK.retrieve(e, "margin-left") === null) {
+            TK.store(e, "margin-left", parseFloat(TK.get_style(e, "margin-left")));
         } else {
-            e.style.marginLeft = e.retrieve("margin-left");
+            e.style.marginLeft = TK.retrieve(e, "margin-left");
         }
-        var l = e.retrieve("margin-left").toFloat();
+        var l = parseFloat(TK.retrieve(e, "margin-left"));
         var b = e.getBoundingClientRect();
         var x = b.left % 1;
         if (x) {
@@ -409,12 +410,12 @@ toolkit = {
         if (e.getParent() && e.getParent(TK.get_style(), "text-align") == "center")
             l += 0.5;
         e.style.marginLeft = l + "px";
-        if (e.retrieve("margin-top") === null) {
-            e.store("margin-top", TK.get_style(e, "margin-top").toFloat());
+        if (TK.retrieve(e, "margin-top") === null) {
+            TK.store(e, "margin-top", parseFloat(TK.get_style(e, "margin-top")));
         } else {
-            e.style.marginTop = e.retrieve("margin-top");
+            e.style.marginTop = TK.retrieve(e, "margin-top");
         }
-        var t = e.retrieve("margin-top").toFloat();
+        var t = parseFloat(TK.retrieve(e, "margin-top"));
         var b = e.getBoundingClientRect();
         var y = b.top % 1;
         if (y) {
@@ -513,7 +514,25 @@ toolkit = {
         // Check boundaries
         return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
     },
-
+    
+    
+    // OTHER
+    
+    __store_keys: [],
+    __store_values: [],
+    store: function (e, key, val) {
+        var k = TK.__store_keys.indexOf(e);
+        if (k == -1) {
+            k = TK.__store_keys.push(e) - 1;
+            TK.__store_values[k] = {};
+        }
+        TK.__store_values[k][key] = val;
+    },
+    retrieve: function (e, key) {
+        var k = TK.__store_keys.indexOf(e);
+        if (k > -1 && TK.__store_values[k].hasOwnProperty(key))
+            return TK.__store_values[k][key];
+    },
 };
 TK = toolkit;
 
