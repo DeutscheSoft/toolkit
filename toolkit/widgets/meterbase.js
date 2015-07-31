@@ -334,7 +334,7 @@ var MeterBase = $class({
                         return;
                     
                     var d = e.clone();
-                    var p = e.getPosition(this._scale)[this._vert()?"y":"x"];
+                    var p = TK["position_" + this._vert() ? "top" : "left"](e, this._scale);
                     d.style[this._vert() ? "width" : "height"] = "100%";
                     d.style[this._vert() ? "top" : "left"] = 
                                (p + p % this.options.segment) + "px";

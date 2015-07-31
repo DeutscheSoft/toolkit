@@ -41,7 +41,7 @@ Tooltip = $class({
         if (!cont) {
             // destroy a tooltip
             this.fire_event("tooltipremoved", [tt, this]);
-            tt.destroy();
+            TK.destroy(tt);
             tt = false;
             this.__tt_count --;
             if (this.__tt_count <= 0) {
@@ -80,7 +80,7 @@ Tooltip = $class({
             top: e.clientY,
             left: e.clientX
         });
-        keep_inside(this._tooltip);
+        TK.keep_inside(this._tooltip);
     },
     _get_event: function (event) {
         // return the right event if touch surface is used

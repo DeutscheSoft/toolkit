@@ -210,7 +210,7 @@ Select = $class({
     
     show_list: function (show) {
         if (show) {
-            var pos = this.element.getPosition();
+            var pos = TK.position_top(this.element);
             pos.y += toolkit.outer_height(this.element, true);
             var ew = toolkit.outer_width(this.element, true);
             document.body.appendChild(this._list);
@@ -227,8 +227,8 @@ Select = $class({
             var lw = toolkit.outer_width(this._list, true);
             var lh = toolkit.outer_height(this._list, true);
             toolkit.set_styles(this._list, {
-                "top": Math.min(this.element.getPosition().y + toolkit.outer_height(this.element, true), ch + sy - lh) + "px",
-                "left": Math.min(this.element.getPosition().x, cw + sx - lw) + "px",
+                "top": Math.min(TK.position_top(this.element).y + toolkit.outer_height(this.element, true), ch + sy - lh) + "px",
+                "left": Math.min(TK.position_left(this.element).x, cw + sx - lw) + "px",
             });
         }
         this.__transition = true;

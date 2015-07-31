@@ -50,8 +50,8 @@ toolkit = {
         var eh = toolkit.outer_height(element, true);
         
         if (TK.get_style(element, "position") == "fixed") {
-            var pw = width();
-            var ph = height();
+            var pw = TK.width();
+            var ph = TK.height();
             var w  = pw;
             var h  = ph;
             var x  = Math.min(Math.max(ex, 0), w - ew);
@@ -102,8 +102,24 @@ toolkit = {
         while (e = e.parentNode) v += e.scrollLeft || 0;
         return v;
     },
+    
+    position_top: function (e, rel) {
+        var top    = parseInt(e.getBoundingClientRect().top);
+        var fixed  = TK.fixed(e) ? 0 : TK.scroll_top();
+        return top + fixed - (rel ? TK.position_top(rel) : 0);
+    },
+    position_left: function (e, rel) {
+        var left   = parseInt(e.getBoundingClientRect().left);
+        var fixed  = TK.fixed(e) ? 0 : TK.scroll_left();
+        return left + fixed - (rel ? TK.position_left(rel) : 0);
+    },
+    
+    fixed: function (e) {
+        return getComputedStyle(e).getPropertyValue("position") == "fixed";
+    },
+    
     outer_width : function (element, margin, width) {
-        var cs = getComputedStyle(element, null);
+        var cs = getComputedStyle(element);
         var w = element.getBoundingClientRect().width;
         var m = 0;
         if (margin) {

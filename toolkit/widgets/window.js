@@ -520,15 +520,16 @@ Window = $class({
         this.fire_event("dragging", [this, ev]);
     },
     __set_position: function () {
-        var pos  = this.element.getPosition();
-        var pos1 = this.translate_anchor(this.options.anchor, pos.x, pos.y,
+        var posx  = TK.position_left(this.element);
+        var posy  = TK.position_top(this.element);
+        var pos1 = this.translate_anchor(this.options.anchor, posx, posy,
                                           this.options.width, this.options.height);
         this.dimensions.x      = this.options.x = pos1.x;
         this.dimensions.y      = this.options.y = pos1.y;
-        this.dimensions.x1     = pos.x;
-        this.dimensions.y1     = pos.y;
-        this.dimensions.x2     = pos.x + this.dimensions.width;
-        this.dimensions.y2     = pos.y + this.dimensions.height;
+        this.dimensions.x1     = posx;
+        this.dimensions.y1     = posy;
+        this.dimensions.x2     = posx + this.dimensions.width;
+        this.dimensions.y2     = posy + this.dimensions.height;
     },
     __start_resize: function (el, ev) {
         this.__docmouse = TK.get_style(document.body, "cursor");

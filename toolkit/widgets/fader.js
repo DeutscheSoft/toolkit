@@ -270,14 +270,14 @@ Fader = $class({
         event.preventDefault();
     },
     _get_value: function (ev) {
-        var pos   = this.element.getPosition()[
-                     this._vert() ? "y" : "x"] + this._handlesize / 2;
+        var pos   = TK[this._vert() ? "position_top" : "position_left"](this.element) + this._handlesize / 2;
         var click = ev[
-                     this._vert() ? "pageY" : "pageX"];
+                    this._vert() ? "pageY" : "pageX"];
         var size  = toolkit[
-                     this._vert() ? "outer_height" : "outer_width"](this._scale, true);
+                    this._vert() ? "outer_height" : "outer_width"](this._scale, true);
         var real = click - pos
         if (this._vert()) real = size - real;
+        console.log(pos, click, size)
         return Math.max(this.options.min,
                Math.min(this.real2val(real), this.options.max));
     },
