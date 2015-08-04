@@ -33,6 +33,7 @@
     -moz-box-shadow:    0px 2px 5px rgba(0, 0, 0, 0.2);
     box-shadow:         0px 2px 5px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
+    transition: opacity 200ms;
 }
 
 .toolkit-select-list .toolkit-option {

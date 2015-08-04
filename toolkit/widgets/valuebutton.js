@@ -60,7 +60,7 @@ ValueButton = $class({
         
         this._input = this.value._input;
         
-        this._bar.inject(this.element, "bottom");
+        this.element.appendChild(this._bar);
         
         this.set("bar_direction", this.options.bar_direction, true);
         

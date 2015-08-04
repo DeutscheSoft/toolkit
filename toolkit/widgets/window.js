@@ -193,7 +193,7 @@ Window = $class({
             onStop     : this.__stop_drag.bind(this),
             onDragging : this.__dragging.bind(this),
             min        : {x: 0 - this.options.width + 20, y: 0},
-            max        : {x: width() - 20, y: height() - 20}
+            max        : {x: TK.width() - 20, y: TK.height() - 20}
         });
         
         this._resize = toolkit.element("div", "toolkit-resize");

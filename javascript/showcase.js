@@ -646,7 +646,7 @@ function run_window () {
             container: win._content
         });
         ok.add_event("click", win.destroy.bind(win));
-        ok.setStyles({
+        TK.set_styles(ok.element, {
             position: "absolute",
             bottom: 0,
             right: 0

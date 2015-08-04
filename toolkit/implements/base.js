@@ -124,7 +124,7 @@ BASE = $class({
         }
         // handle resize events globally since there's no resize event
         // for DOM elements
-        if (event == "resize") {
+        if (e == "resize") {
             toolkit.add_resize_event(this);
             return;
         }

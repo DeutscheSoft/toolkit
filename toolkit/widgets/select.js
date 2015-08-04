@@ -32,6 +32,7 @@ Select = $class({
     },
     initialize: function (options)  {
         this.__open = false;
+        this.__timeout = -1;
         this.__width = 0;
         this.entries = [];
         Button.prototype.initialize.call(this, options);
@@ -41,11 +42,7 @@ Select = $class({
             this.show_list(!this.__open);
         }.bind(this));
         
-        this._list = toolkit.element("ul", "toolkit-select-list");
-        this._list.set("tween", {
-            onComplete: this._hide_list.bind(this),
-            duration: 200
-        });
+        this._list = TK.element("ul", "toolkit-select-list");
         document.addEventListener("touchstart", function (e) {
             if (this.__open && !this.__transition) {
                 this.show_list(false);
@@ -65,7 +62,7 @@ Select = $class({
                 this.show_list(false);
             }
         }.bind(this));
-        this._arrow = toolkit.element("div", "toolkit-arrow");
+        this._arrow = TK.element("div", "toolkit-arrow");
         this.element.appendChild(this._arrow);
         var sel = this.options.selected;
         var val = this.options.value; 
@@ -124,7 +121,7 @@ Select = $class({
         this.set_size();
     },
     add_entry: function (ent, hold) {
-        var li = toolkit.element("li", "toolkit-option");
+        var li = TK.element("li", "toolkit-option");
         this._list.appendChild(li);
         var entry = {};
         entry.element = li;
@@ -201,42 +198,47 @@ Select = $class({
         var t = this._label.innerHTML;
         for (var i = 0; i < this.entries.length; i++) {
             this.set("label", this.entries[i].title);
-            var act = toolkit.outer_width(this.element, true);
+            var act = TK.outer_width(this.element, true);
             this.__width = Math.max(this.__width, act);
         }
-        toolkit.outer_width(this.element, true, this.__width);
+        TK.outer_width(this.element, true, this.__width);
         this._label.innerHTML = t;
     },
     
     show_list: function (show) {
         if (show) {
             var pos = TK.position_top(this.element);
-            pos.y += toolkit.outer_height(this.element, true);
-            var ew = toolkit.outer_width(this.element, true);
+            pos.y += TK.outer_height(this.element, true);
+            var ew = TK.outer_width(this.element, true);
             document.body.appendChild(this._list);
-            var cw = width();
-            var ch = height();
+            var cw = TK.width();
+            var ch = TK.height();
             var sx = TK.scroll_left();
             var sy = TK.scroll_top();
-            toolkit.set_styles(this._list, {
+            TK.set_styles(this._list, {
                 "opacity": 0,
                 "maxHeight": ch,
                 "maxWidth": cw,
                 "minWidth": ew
             });
-            var lw = toolkit.outer_width(this._list, true);
-            var lh = toolkit.outer_height(this._list, true);
-            toolkit.set_styles(this._list, {
-                "top": Math.min(TK.position_top(this.element).y + toolkit.outer_height(this.element, true), ch + sy - lh) + "px",
-                "left": Math.min(TK.position_left(this.element).x, cw + sx - lw) + "px",
+            var lw = TK.outer_width(this._list, true);
+            var lh = TK.outer_height(this._list, true);
+            TK.set_styles(this._list, {
+                "top": Math.min(TK.position_top(this.element) + TK.outer_height(this.element, true), ch + sy - lh) + "px",
+                "left": Math.min(TK.position_left(this.element), cw + sx - lw) + "px",
             });
         }
+        TK.set_style(this._list, "opacity", show ? "1" : "0");
         this.__transition = true;
-        this._list.tween("opacity", show ? 1 : 0);
         this.__open = show;
+        if (this.__timeout < 0)
+            window.clearTimeout(this.__timeout);
+        var dur = parseFloat(TK.get_style(this._list, "transition-duration"));
+        this.__timeout = window.setTimeout(this._hide_list.bind(this), dur * 1000);
     },
     _hide_list: function () {
         this.__transition = false;
+        this.__timeout = -1;
         if (!this.__open) {
             TK.destroy(this._list);
         }

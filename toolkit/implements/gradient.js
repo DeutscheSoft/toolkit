@@ -125,36 +125,36 @@ var Gradient = $class({
             m_regular = m_regular.substr(0, m_regular.length -2);
             m_webkit  = m_regular.substr(0, m_webkit.length -2);
             
-            if (Browser.ie && Browser.version <= 8)
+            if (TK.browser.name == "IE" && TK.browser.version <= 8)
                     bg = (toolkit.sprintf(s_ms, ms_last, ms_first, this._vert() ? 0:1));
                 
-            else if (Browser.ie9)
+            else if (TK.browser.name == "IE" && TK.browser.version == 9)
                 bg = (toolkit.sprintf(s_svg, this.options.id,
                       d_ms["s"+this.options.layout],
                       m_svg, this.options.id));
             
-            else if (Browser.ie && Browser.version >= 10)
+            else if (TK.browser.name == "IE" && TK.browser.version >= 10)
                 bg = (toolkit.sprintf(s_regular, "-ms-",
                       d_regular["s" + this.options.layout],
                       m_regular));
             
-            else if (Browser.firefox)
+            else if (TK.browser.name=="Firefox")
                 bg = (toolkit.sprintf(s_regular, "-moz-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
-            else if (Browser.opera && Browser.version >= 11)
+            else if (TK.browser.name == "Opera" && TK.browser.version >= 11)
                 bg = (toolkit.sprintf(s_regular, "-o-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
-            else if (Browser.chrome && Browser.version < 10
-                  || Browser.safari && Browser.version < 5.1)
+            else if (TK.browser.name == "Chrome" && TK.browser.version < 10
+                  || TK.browser.name == "Safari" && TK.browser.version < 5.1)
                 bg = (toolkit.sprintf(s_webkit,
                       d_webkit["s"+this.options.layout],
                       m_regular));
             
-            else if (Browser.chrome || Browser.safari)
+            else if (TK.browser.name == "Chrome" || TK.browser.name == "Safari")
                 bg = (toolkit.sprintf(s_regular, "-webkit-",
                       d_regular["s"+this.options.layout],
                       m_regular));
