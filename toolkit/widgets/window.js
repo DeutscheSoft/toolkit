@@ -285,28 +285,28 @@ Window = $class({
                                  Math.max(this.options.width,
                                           this.options.min_width));
             if (this.__horiz_max()) {
-                toolkit.outer_width(this.element, true, width());
-                this.dimensions.width = width();
+                TK.outer_width(this.element, true, TK.width());
+                this.dimensions.width = TK.width();
             } else {
-                toolkit.outer_width(this.element, true, this.options.width);
+                TK.outer_width(this.element, true, this.options.width);
                 this.dimensions.width = this.options.width;
             }
         } else {
-            this.dimensions.width = toolkit.outer_width(this.element);
+            this.dimensions.width = TK.outer_width(this.element);
         }
         if (this.options.height >= 0) {
             this.options.height = Math.min(this.__max_height(),
                                   Math.max(this.options.height,
                                            this.options.min_height));
             if (this.__vert_max()) {
-                toolkit.outer_height(this.element, true, height());
-                this.dimensions.height = height();
+                TK.outer_height(this.element, true, TK.height());
+                this.dimensions.height = TK.height();
             } else {
-                toolkit.outer_height(this.element, true, this.options.height);
+                TK.outer_height(this.element, true, this.options.height);
                 this.dimensions.height = this.options.height;
             }
         } else {
-            this.dimensions.height = toolkit.outer_height(this.element, true);
+            this.dimensions.height = TK.outer_height(this.element, true);
         }
         this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
         this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
@@ -314,8 +314,8 @@ Window = $class({
         this.fire_event("dimensionschanged", [this, this.dimensions]);
     },
     _set_position: function () {
-        var width  = toolkit.inner_width(this.element);
-        var height = toolkit.inner_height(this.element);
+        var width  = TK.inner_width(this.element);
+        var height = TK.inner_height(this.element);
         pos = this.translate_anchor(this.options.anchor,
                                      this.options.x,
                                      this.options.y,
@@ -476,7 +476,7 @@ Window = $class({
     },
     
     // EVENT STUFF
-    __start_drag: function (el, ev) {
+    __start_drag: function (ev, el) {
         // if window is maximized, we have to replace the window according
         // to the position of the mouse
         var x = y = 0;
@@ -484,7 +484,7 @@ Window = $class({
             var y = (!this.options.fixed ? window.scrollY : 0);
         }
         if (this.__horiz_max()) {
-            var x = ev.client.x - (ev.client.x / width())
+            var x = ev.clientX - (ev.clientX / TK.width())
                                 * this.options.width;
             x += (!this.options.fixed ? window.scrollX : 0);
         }
@@ -509,13 +509,13 @@ Window = $class({
         TK.add_class(this.element, "toolkit-dragging");
         this.fire_event("startdrag", [this, ev]);
     },
-    __stop_drag: function (el, ev) {
+    __stop_drag: function (ev, el) {
         this.dragging = false;
         this.__set_position();
         TK.remove_class(this.element, "toolkit-dragging");
         this.fire_event("stopdrag", [this, ev]);
     },
-    __dragging: function (el, ev) {
+    __dragging: function (ev, el) {
         this.__set_position();
         this.fire_event("dragging", [this, ev]);
     },

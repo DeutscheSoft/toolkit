@@ -58,8 +58,8 @@ toolkit = {
             var y  = Math.min(Math.max(ey, 0), h - eh);
         } else {
             var p  = element.offsetParent;
-            var pw = p ? p.offsetWidth : width() - TK.scroll_left();
-            var ph = p ? p.offsetHeight : height() - TK.scroll_top();
+            var pw = p ? p.offsetWidth : TK.width() - TK.scroll_left();
+            var ph = p ? p.offsetHeight : TK.height() - TK.scroll_top();
             var x = Math.min(Math.max(ex, 0), pw - ew);
             var y = Math.min(Math.max(ey, 0), ph - eh);
         }
