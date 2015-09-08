@@ -54,6 +54,7 @@ Resize = $class({
     },
     _dragstart: function (e, drag) {
         if (!this.options.active)
+            return;
         this._xstart = e.pageX;
         this._ystart = e.pageY;
         this._xsize  = this.options.element.offsetWidth;
