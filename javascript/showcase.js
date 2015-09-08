@@ -95,7 +95,12 @@ window.addEventListener('DOMContentLoaded', function () {
             li.addEventListener("click", window["run_" + id]);
             bl.appendChild(but);
             var pre = TK.element("pre", "box", "code");
-            pre.innerHTML = "<code>" + window["run_" + id].toString() + "</code>";
+            pre.innerHTML = "<code>" + window["run_" + id].toString()
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;") + "</code>";
             bl.parentNode.insertBefore(pre, bl.nextSibling);
             var tog = TK.element("div", "toolkit-button");
             tog.innerHTML = "⌨ Code";
