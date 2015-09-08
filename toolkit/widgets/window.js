@@ -468,11 +468,11 @@ Window = $class({
     },
     __max_width: function () {
         // returns the max width of the window
-        return (this.options.max_width < 0 ? 999999999 : this.options.max_width);
+        return (this.options.max_width < 0 ? Number.MAX_SAFE_INTEGER : this.options.max_width);
     },
     __max_height: function () {
         // returns the max height of the window
-        return (this.options.max_height < 0 ? 999999999 : this.options.max_height);
+        return (this.options.max_height < 0 ? Number.MAX_SAFE_INTEGER : this.options.max_height);
     },
     
     // EVENT STUFF
