@@ -29,9 +29,9 @@ Drag = $class({
                                     // element is used
         active    : true,           // set to false if resize is disabled
         min       : {x: -1, y: -1}, // object containing x and y determining minimum size
-                                    // a value of -1 means no min
+                                    // a value of false means no min
         max       : {x: -1, y: -1}, // object containing x and y determining maximum size
-                                    // a value of -1 means no max
+                                    // a value of false means no max
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
@@ -52,6 +52,7 @@ Drag = $class({
     },
     _dragstart: function (e, drag) {
         if (!this.options.active)
+            return;
         this._xstart = e.pageX;
         this._ystart = e.pageY;
         this._xpos   = this.options.element.offsetLeft;
@@ -70,13 +71,13 @@ Drag = $class({
             return;
         var x = this._xpos + e.pageX - this._xstart;
         var y = this._ypos + e.pageY - this._ystart;
-        if (this.options.min.x >= -1)
+        if (this.options.min.x !== false)
             x = Math.max(this.options.min.x, x);
-        if (this.options.max.x >= -1)
+        if (this.options.max.x !== false)
             x = Math.min(this.options.max.x, x);
-        if (this.options.min.y >= -1)
+        if (this.options.min.y !== false)
             y = Math.max(this.options.min.y, y);
-        if (this.options.max.y >= -1)
+        if (this.options.max.y !== false)
             y = Math.min(this.options.max.y, y);
         this.options.element.style.top = y + "px";
         this.options.element.style.left = x + "px";
