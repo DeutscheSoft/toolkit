@@ -277,7 +277,6 @@ Fader = $class({
                     this._vert() ? "outer_height" : "outer_width"](this._scale, true);
         var real = click - pos
         if (this._vert()) real = size - real;
-        console.log(pos, click, size)
         return Math.max(this.options.min,
                Math.min(this.real2val(real), this.options.max));
     },

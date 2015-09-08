@@ -475,7 +475,6 @@ run_fader = function () {
                     { 
                       if (coef)
                       {
-                          value /= opt.basis;
                         if      (value < 0.0408) { return  -580 +  value           * 300 / 0.0408; }
                         else if (value < 0.0918) { return  -280 + (value - 0.0408) *  80 / 0.0510; } 
                         else if (value < 0.1530) { return  -200 + (value - 0.0918) *  40 / 0.0612; } 
