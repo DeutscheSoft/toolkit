@@ -76,7 +76,7 @@ Value = $class({
     
     redraw: function () {
         if (this.__editing) return;
-        this._input.setAttribute("value", this.options.format(this.options.value));
+        this._input.value = this.options.format(this.options.value);
     },
     
     destroy: function () {
@@ -121,7 +121,7 @@ Value = $class({
                 break;
             case 13:
                 // ENTER
-                var val = this.options.set(this._input.getAttribute("value"));
+                var val = this.options.set(this._input.value);
                 this.set("value", val, true);
                 this._value_done();
                 this.fire_event("valueset", [this.options.value, this]);

@@ -531,7 +531,7 @@ run_value = function () {
         container: TK.get_id("sc_value"),
         value: 123.97,
         format: TK.FORMAT("%.3f Hz"),
-        set: function (val) { console.log("the value was set to " + val); return val; }
+        set: function (val) { val = parseFloat(val); console.log("the value was set to " + val); return val; }
     });
     TK.add_class(TK.get_id("sc_value"), "box");
 }
