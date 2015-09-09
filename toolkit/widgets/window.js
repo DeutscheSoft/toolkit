@@ -500,12 +500,8 @@ Window = $class({
         if (this.__horiz_max()) this.options.x = pos.x;
         if (this.__vert_max())  this.options.y = pos.y;
         
-        //this.drag.value.now.x += x;
-        //this.drag.mouse.now.x += x;
-        //this.drag.mouse.pos.x -= x;
-        //this.drag.value.now.y += y;
-        //this.drag.mouse.now.y += y;
-        //this.drag.mouse.pos.y -= y;
+        this.drag._xpos += x;
+        this.drag._ypos += y;
         
         // un-maximize
         if (this.__horiz_max()) this.set("maximize", {x: false});
