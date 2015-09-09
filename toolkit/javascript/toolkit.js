@@ -43,6 +43,13 @@ toolkit = {
         } else node.appendChild(document.createTextNode(s));
     },
     
+    insert_after: function (newn, refn) {
+        refn.parentNode.insertBefore(newn, refn.nextSibling);
+    },
+    insert_before: function (newn, refn) {
+        refn.parentNode.insertBefore(newn, refn);
+    },
+    
     keep_inside: function (element, resize) {
         var ex = parseInt(TK.get_style(element, "left"));
         var ey = parseInt(TK.get_style(element, "top"));

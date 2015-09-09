@@ -70,17 +70,16 @@ LevelMeter = $class({
         MeterBase.prototype.initialize.call(this, options, true);
         TK.add_class(this.element, "toolkit-level-meter");
         
-        this.state = new State(Object.append({
+        this.state = new State(Object.assign({
             "class": "toolkit-clip"
         }, this.options.clip_options));
         this._clip = this.state.element;
         
         if (this.options.layout == _TOOLKIT_TOP
-        || this.options.layout == _TOOLKIT_BOTTOM) {
-            this.state.element.inject(this._bar, "after");
-        } else {
-            this.state.element.inject(this._scale, "before");
-        }
+        || this.options.layout == _TOOLKIT_BOTTOM)
+            TK.insert_after(this.state.element, this._bar);
+        else
+            TK.insert_before(this.state.element, this._scale);
         this._peak       = TK.element("div","toolkit-peak");
         this._peak_label = TK.element("div","toolkit-peak-label");
         this._mask3      = TK.element("div","toolkit-mask","toolkit-mask3");
