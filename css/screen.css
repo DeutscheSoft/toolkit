@@ -1,8 +1,8 @@
 body{
     color: #666;
-    font-family: Arial, sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: normal;
-    font-size: 13px;
+    font-size: 0.9em;
     overflow-y: scroll;
     padding: 20px;
     line-height: 1.5em;
@@ -14,7 +14,7 @@ h2 {
     font-size: 4.1em;
     line-height: 1em;
     text-align: right;
-    color: #bbb;
+    color: #003050;
     background: none;
     text-transform: none;
     margin: 0;
@@ -25,11 +25,10 @@ h2 {
 h1 {
     margin: 0px 0 20px 0;
     font-weight: normal;
-    font-size: 3.1em;
+    font-size: 4.1em;
     color:#003050;
     text-align: center;
-    height: 50px;
-    line-height: 50px;
+    line-height: 1em;
 }
 p {
     margin-bottom: 20px;
