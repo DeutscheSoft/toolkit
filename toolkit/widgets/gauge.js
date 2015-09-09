@@ -102,7 +102,7 @@ Gauge = $class({
                 break;
             case "title":
                 if (typeof value == "string") value = {title: value};
-                this.options.title = $mixin(this.options.title, value);
+                this.options.title = Object.assign(this.options.title, value);
                 this.fire_event("set", [key, value, hold, this]);
                 this.fire_event("set_" + key, [value, hold, this]);
                 key = false;

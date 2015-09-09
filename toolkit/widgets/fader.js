@@ -58,7 +58,7 @@ Fader = $class({
         if (this.options.container)
             this.set("container", this.options.container);
         
-        var opt = $mixin({}, this.options, {
+        var opt = Object.assign({}, this.options, {
             container:   this.element,
         });
         this.scale = new Scale(opt);

@@ -259,7 +259,7 @@ var MeterBase = $class({
         this.set("show_title", this.options.show_title);
         this.set("show_scale", this.options.show_scale);
         
-        var options = $mixin({}, this.options);
+        var options = Object.assign({}, this.options);
         options.base = this.__based?this.options.base:this.options.scale_base;
         options.container = this._scale,
         options.id = false;

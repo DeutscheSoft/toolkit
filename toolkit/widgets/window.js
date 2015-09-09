@@ -574,28 +574,28 @@ Window = $class({
         if(this.options.auto_active)
             TK.add_class(this.element, "toolkit-active");
     },
-    __close: function () {
+    __close: function (e) {
         this.fire_event("closeclicked");
         if (this.options.auto_close)
             this.destroy();
     },
-    __maximize: function () {
+    __maximize: function (e) {
         if (this.options.auto_maximize) this.toggle_maximize();
         this.fire_event("maximizeclicked", [this, this.options.maximize]);
     },
-    __maximizevertical: function () {
+    __maximizevertical: function (e) {
         if (this.options.auto_maximize) this.toggle_maximize_vertical();
         this.fire_event("maximizeverticalclicked", [this, this.options.maximize.y]);
     },
-    __maximizehorizontal: function () {
-        if (this.options.auto_maximize) this.toggle_maximize_horizontal();
+    __maximizehorizontal: function (e) {
+        if (this.options.auto_maximize) this.toggle_maximize_horizontal();console.log(e)
         this.fire_event("maximizehorizontalclicked", [this, this.options.maximize.x]);
     },
-    __minimize: function () {
+    __minimize: function (e) {
         if (this.options.auto_minimize) this.toggle_minimize();
         this.fire_event("minimizeclicked", [this, this.options.minimize]);
     },
-    __shrink: function () {
+    __shrink: function (e) {
         if (this.options.auto_shrink) this.toggle_shrink();
         this.fire_event("shrinkclicked", [this, this.options.shrink]);
     },
@@ -631,7 +631,7 @@ Window = $class({
                     this._footer.style["display"] = "block";
                 this.options.shrink = false;
                 if (value === false) value = this.options.maximize = {x: false, y: false};
-                value = $mixin(this.options.maximize, value);
+                else value = Object.assign(this.options.maximize, value);
                 if (value.x) {
                     TK.add_class(this.element, "toolkit-maximized-horizontal");
                 } else {

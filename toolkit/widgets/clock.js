@@ -95,11 +95,11 @@ Clock = $class({
             min: 0
         };
 
-        this.circulars.seconds = new Circular($mixin({}, circ_options,
+        this.circulars.seconds = new Circular(Object.assign({}, circ_options,
             {max: 60, "class": "toolkit-seconds"}));
-        this.circulars.minutes = new Circular($mixin({}, circ_options,
+        this.circulars.minutes = new Circular(Object.assign({}, circ_options,
             {max: 60, "class": "toolkit-minutes"}));
-        this.circulars.hours   = new Circular($mixin({}, circ_options,
+        this.circulars.hours   = new Circular(Object.assign({}, circ_options,
             {max: 12, "class": "toolkit-hours"}));
         
         this.set("size", this.options.size, true);

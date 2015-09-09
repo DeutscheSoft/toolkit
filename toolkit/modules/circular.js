@@ -421,7 +421,7 @@ Circular = $class({
                 if (!hold) this._draw_dots();
                 break;
             case "dots":
-                this.options.dots = $mixin(this.options.dots, value);
+                this.options.dots = Object.assign(this.options.dots, value);
                 key = false;
                 if (!hold) this._draw_dots();
                 break;
@@ -429,7 +429,7 @@ Circular = $class({
                 if (!hold) this._draw_markers();
                 break;
             case "markers":
-                this.options.markers = $mixin(this.options.markers, value);
+                this.options.markers = Object.assign(this.options.markers, value);
                 key = false;
                 if (!hold) this._draw_markers();
                 break;
@@ -437,7 +437,7 @@ Circular = $class({
                 if (!hold) this._draw_labels();
                 break;
             case "labels":
-                this.options.labels = $mixin(this.options.labels, value);
+                this.options.labels = Object.assign(this.options.labels, value);
                 key = false;
                 if (!hold) this._draw_labels();
                 break;

@@ -40,7 +40,7 @@ Ranges = $class({
             if (name
             && this.options[name]
             && typeof this.options[name] == "object")
-                from = $mixin({}, this.options[name], from)
+                from = Object.assign({}, this.options[name], from)
             r = new Range(from);
         }
         if (name) {

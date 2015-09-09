@@ -70,7 +70,7 @@ BASE = $class({
         var opt = this.options;
         var key, a, b;
         if (typeof(o) != "object") {
-            delete this.optios;
+            delete this.options;
             o = {};
         } else if (typeof(opt) == "object") for (key in o) if (o.hasOwnProperty(key)) {
             a = o[key];
