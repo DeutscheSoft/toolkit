@@ -34,11 +34,6 @@ OTHER IMPROVEMENTS
 
 * Responsehandle: extract crosshairs and add them to Responsehandler
 
-* Strip multiple background elements from Fader and replace with
-  multiple CSS3 background images (hm.. stating edge distance for
-  background isn't supported by Safari >= 6 which is present on lots of
-  iPhone/iPad devices :(
-  
 * Make use of calc() in CSS and remove unneccessary positioning stuff
   from widgets
 
