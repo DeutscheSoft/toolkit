@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -92,9 +92,9 @@ Window = $class({
         this.element = this.widgetize(toolkit.element("div", "toolkit-window"),
                                       true, true, true);
         
-        this._header = toolkit.element("div", "toolkit-header");
-        this._footer = toolkit.element("div", "toolkit-footer");
-        this._content = toolkit.element("div", "toolkit-content");
+        this._header = TK.element("div", "toolkit-header");
+        this._footer = TK.element("div", "toolkit-footer");
+        this._content = TK.element("div", "toolkit-content");
 
         this.element.appendChild(this._header);
         this.element.appendChild(this._footer);
@@ -119,33 +119,39 @@ Window = $class({
         this._footer.appendChild(this._footer_center);
         this._footer.appendChild(this._footer_right);
             
-        this._title  = toolkit.element("div", "toolkit-title");
-        this._status = toolkit.element("div", "toolkit-status");
-        this._icon   = toolkit.element("img", "toolkit-icon");
+        this._title  = TK.element("div", "toolkit-title");
+        this._status = TK.element("div", "toolkit-status");
+        this._icon   = TK.element("img", "toolkit-icon");
         
         this.close = new Button({"class": "toolkit-close"});
         this.close.add_event("click", this.__close.bind(this));
+        this.close.add_event("mousedown", function (e) { e.stopPropagation(); });
         
         this.maximize = new Button({"class": "toolkit-maximize"});
         this.maximize.add_event("click", this.__maximize.bind(this));
+        this.maximize.add_event("mousedown", function (e) { e.stopPropagation(); });
         
         this.maximize_vert = new Button({"class": "toolkit-maximize-vertical"});
         this.maximize_vert.add_event("click", this.__maximizevertical.bind(this));
+        this.maximize_vert.add_event("mousedown", function (e) { e.stopPropagation(); });
         
         this.maximize_horiz = new Button({"class": "toolkit-maximize-horizontal"});
         this.maximize_horiz.add_event("click", this.__maximizehorizontal.bind(this));
+        this.maximize_horiz.add_event("mousedown", function (e) { e.stopPropagation(); });
         
         this.minimize = new Button({"class": "toolkit-minimize"});
         this.minimize.add_event("click", this.__minimize.bind(this));
+        this.minimize.add_event("mousedown", function (e) { e.stopPropagation(); });
         
         this.shrink = new Button({"class": "toolkit-shrink"});
         this.shrink.add_event("click", this.__shrink.bind(this));
+        this.shrink.add_event("mousedown", function (e) { e.stopPropagation(); });
         
         this.__buttons = [this.close, this.maximize, this.maximize_vert,
                           this.maximize_horiz, this.minimize, this.shrink];
         for (var i = 0; i < this.__buttons.length; i++) {
             this.__buttons[i].element.appendChild(
-                toolkit.element("div", "toolkit-icon")
+                TK.element("div", "toolkit-icon")
             );
             TK.destroy(this.__buttons[i]._icon);
             TK.destroy(this.__buttons[i]._label);
@@ -196,7 +202,7 @@ Window = $class({
             max        : {x: TK.width() - 20, y: TK.height() - 20}
         });
         
-        this._resize = toolkit.element("div", "toolkit-resize");
+        this._resize = TK.element("div", "toolkit-resize");
         this.element.appendChild(this._resize);
         
         this.resize = new Resize({
@@ -340,14 +346,14 @@ Window = $class({
         this.fire_event("positionchanged", [this, this.dimensions]);
     },
     _set_content: function () {
-        //var elmt = toolkit.inner_height(this.element);
-        //var head = toolkit.outer_height(this._header, true);
-        //var foot = toolkit.outer_height(this._footer, true);
+        //var elmt = TK.inner_height(this.element);
+        //var head = TK.outer_height(this._header, true);
+        //var foot = TK.outer_height(this._footer, true);
         //toolkit.outer_height(this._content, true, elmt - head - foot);
         //if (this.options.width == _TOOLKIT_VAR)
             //this._content.style["width"] = "auto";
         //else
-            //toolkit.outer_width(this._content, true, toolkit.inner_width(this.element));
+            //toolkit.outer_width(this._content, true, TK.inner_width(this.element));
         //this._content.style["top"] = head + "px";
         this.fire_event("contentresized", [this]);
     },
@@ -429,15 +435,15 @@ Window = $class({
             this._header.style["display"] = "none";
         } else {
             this._header.style["display"] = "block";
-            this._header_center.style["left"] = toolkit.outer_width(this._header_left, true) + "px";
+            this._header_center.style["left"] = TK.outer_width(this._header_left, true) + "px";
             this.__size_header();
         }
     },
     __size_header: function () {
-        toolkit.outer_width(this._header_center, true,
-          toolkit.inner_width(this._header)
-        - toolkit.outer_width(this._header_left, true)
-        - toolkit.outer_width(this._header_right, true));
+        TK.outer_width(this._header_center, true,
+          TK.inner_width(this._header)
+        - TK.outer_width(this._header_left, true)
+        - TK.outer_width(this._header_right, true));
     },
     _check_footer: function (hold) {
         // checks whether to hide or show the footer element
@@ -447,15 +453,15 @@ Window = $class({
             this._footer.style["display"] = "none";
         } else {
             this._footer.style["display"] = "block";
-            this._footer_center.style["left"] = toolkit.outer_width(this._footer_left, true) + "px";
+            this._footer_center.style["left"] = TK.outer_width(this._footer_left, true) + "px";
             this.__size_footer();
         }
     },
     __size_footer: function () {
-        toolkit.outer_width(this._footer_center, true,
-          toolkit.inner_width(this._footer)
-        - toolkit.outer_width(this._footer_left, true)
-        - toolkit.outer_width(this._footer_right, true));
+        TK.outer_width(this._footer_center, true,
+          TK.inner_width(this._footer)
+        - TK.outer_width(this._footer_left, true)
+        - TK.outer_width(this._footer_right, true));
     },
     
     __vert_max: function () {
@@ -558,8 +564,8 @@ Window = $class({
         this.fire_event("resizing", [this, ev]);
     },
     __set_dimensions: function () {
-        var x = toolkit.outer_width(this.element, true);
-        var y = toolkit.outer_height(this.element, true);
+        var x = TK.outer_width(this.element, true);
+        var y = TK.outer_height(this.element, true);
         this.dimensions.width  = this.options.width  = x;
         this.dimensions.height = this.options.height = y;
         this.dimensions.x2     = x + this.dimensions.x1;
@@ -588,7 +594,7 @@ Window = $class({
         this.fire_event("maximizeverticalclicked", [this, this.options.maximize.y]);
     },
     __maximizehorizontal: function (e) {
-        if (this.options.auto_maximize) this.toggle_maximize_horizontal();console.log(e)
+        if (this.options.auto_maximize) this.toggle_maximize_horizontal();
         this.fire_event("maximizehorizontalclicked", [this, this.options.maximize.x]);
     },
     __minimize: function (e) {
@@ -744,7 +750,7 @@ Window = $class({
                 this.options.maximize.y = false;
                 if (!hold) {
                     this.element.style["height"] = 
-                    (value ? toolkit.outer_height(this._header, true) : this.options.height) + "px";
+                    (value ? TK.outer_height(this._header, true) : this.options.height) + "px";
                     this._footer.style["display"] = value ? "none" : "block";
                 }
                 break;

@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -28,7 +28,7 @@ ValueKnob = $class({
     },
     initialize: function (options) {
         var con = options.container;
-        this._container = toolkit.element("div", "toolkit-valueknob");
+        this._container = TK.element("div", "toolkit-valueknob");
         if (con)
             con.appendChild(this._container);
         options.container = this._container;

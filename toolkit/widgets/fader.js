@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -40,16 +40,16 @@ Fader = $class({
         this.__tt = false;
         Widget.prototype.initialize.call(this, options);
         
-        this.element = this.widgetize(toolkit.element("div","toolkit-fader"),
+        this.element = this.widgetize(TK.element("div","toolkit-fader"),
                        true, true, true);
         
         if (TK.get_style(this.element, "position") != "absolute"
             && TK.get_style(this.element, "position") != "relative")
             this.element.style["position"] = "relative";
             
-        this._background_top    = toolkit.element("div", "toolkit-background-top-left");
-        this._background_center = toolkit.element("div", "toolkit-background-center");
-        this._background_bottom = toolkit.element("div", "toolkit-background-bottom-right");
+        this._background_top    = TK.element("div", "toolkit-background-top-left");
+        this._background_center = TK.element("div", "toolkit-background-center");
+        this._background_bottom = TK.element("div", "toolkit-background-bottom-right");
 
         this.element.appendChild(this._background_top);
         this.element.appendChild(this._background_center);
@@ -64,7 +64,7 @@ Fader = $class({
         this.scale = new Scale(opt);
         this._scale = this.scale.element;
         
-        this._handle = toolkit.element("div", "toolkit-handle");
+        this._handle = TK.element("div", "toolkit-handle");
         this.element.appendChild(this._handle);
             
         this.drag = new DragValue({
@@ -142,9 +142,9 @@ Fader = $class({
                 //right: undefined
             //});
             
-            var h  = toolkit.inner_height(this.element);
-            //var hl = toolkit.outer_height(this._background_top, true);
-            //var hr = toolkit.outer_height(this._background_bottom, true);
+            var h  = TK.inner_height(this.element);
+            //var hl = TK.outer_height(this._background_top, true);
+            //var hr = TK.outer_height(this._background_bottom, true);
             
             //toolkit.set_styles(this._background_center, {
                 //position: "absolute",
@@ -153,7 +153,7 @@ Fader = $class({
                 //height: (h - hl - hr) + "px"
             //});
             
-            //var p = toolkit.inner_width(this.element);
+            //var p = TK.inner_width(this.element);
             //toolkit.outer_width(this._background_top, true, p);
             //toolkit.outer_width(this._background_bottom, true, p);
             //toolkit.outer_width(this._background_center, true, p);
@@ -164,7 +164,7 @@ Fader = $class({
                 //bottom: "0px",
                 //right: undefined
             //});
-            this._handlesize = toolkit.outer_height(this._handle, true);
+            this._handlesize = TK.outer_height(this._handle, true);
             //toolkit.outer_height(this._scale, true, h - this._handlesize);
             //this._scale.style["top"] = (this._handlesize / 2) + "px";
         } else {
@@ -181,9 +181,9 @@ Fader = $class({
                 //bottom: undefined
             //});
             
-            var h  = toolkit.inner_width(this.element);
-            //var hl = toolkit.outer_width(this._background_top, true);
-            //var hr = toolkit.outer_width(this._background_bottom, true);
+            var h  = TK.inner_width(this.element);
+            //var hl = TK.outer_width(this._background_top, true);
+            //var hr = TK.outer_width(this._background_bottom, true);
             
             //toolkit.set_styles(this._background_center, {
                 //position: "absolute",
@@ -192,7 +192,7 @@ Fader = $class({
                 //width: (h - hl - hr) + "px"
             //});
             
-            //var p = toolkit.inner_height(this.element);
+            //var p = TK.inner_height(this.element);
             //toolkit.outer_height(this._background_top, true, p);
             //toolkit.outer_height(this._background_bottom, true, p);
             //toolkit.outer_height(this._background_center, true, p);
@@ -203,7 +203,7 @@ Fader = $class({
                 //right: "0px",
                 //bottom: undefined
             //});
-            this._handlesize = toolkit.outer_width(this._handle, true);
+            this._handlesize = TK.outer_width(this._handle, true);
             //toolkit.outer_width(this._scale, true, h - this._handlesize);
             //this._scale.style["left"] = (this._handlesize / 2) + "px";
         }
@@ -273,7 +273,7 @@ Fader = $class({
         var pos   = TK[this._vert() ? "position_top" : "position_left"](this.element) + this._handlesize / 2;
         var click = ev[
                     this._vert() ? "pageY" : "pageX"];
-        var size  = toolkit[
+        var size  = TK[
                     this._vert() ? "outer_height" : "outer_width"](this._scale, true);
         var real = click - pos
         if (this._vert()) real = size - real;

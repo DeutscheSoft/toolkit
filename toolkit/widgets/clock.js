@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -184,17 +184,17 @@ Clock = $class({
                     this.options.months,
                     this.options.days];
         if ((tmp = this.options.label.apply(this, args)) != this.__label || force) {
-            toolkit.set_text(this._label, tmp);
+            TK.set_text(this._label, tmp);
             this.__label = tmp;
             drawn = true;
         }
         if ((tmp = this.options.label_upper.apply(this, args)) != this.__upper || force) {
-            toolkit.set_text(this._label_upper, tmp);
+            TK.set_text(this._label_upper, tmp);
             this.__upper = tmp;
             drawn = true;
         }
         if ((tmp = this.options.label_lower.apply(this, args)) != this.__lower || force) {
-            toolkit.set_text(this._label_lower, tmp);
+            TK.set_text(this._label_lower, tmp);
             this.__lower = tmp;
             drawn = true;
         }

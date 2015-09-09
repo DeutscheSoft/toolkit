@@ -18,10 +18,10 @@ toolkit = {
         for (i = 1; i < arguments.length; i++) {
             v = arguments[i]; 
             if (typeof v == "object") {
-                toolkit.set_styles(n, v);
+                TK.set_styles(n, v);
             } else if (typeof v == "string") {
                 TK.add_class(n, v);
-            } else throw("unsupported argument to toolkit.element");
+            } else throw("unsupported argument to TK.element");
         }
         return n;
     },
@@ -46,8 +46,8 @@ toolkit = {
     keep_inside: function (element, resize) {
         var ex = parseInt(TK.get_style(element, "left"));
         var ey = parseInt(TK.get_style(element, "top"));
-        var ew = toolkit.outer_width(element, true);
-        var eh = toolkit.outer_height(element, true);
+        var ew = TK.outer_width(element, true);
+        var eh = TK.outer_height(element, true);
         
         if (TK.get_style(element, "position") == "fixed") {
             var pw = TK.width();
@@ -127,8 +127,8 @@ toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-right"));
         }
         if (typeof width !== "undefined") {
-            if (toolkit.box_sizing(element) == "content-box") {
-                var css = toolkit.css_space(element, "padding", "border");
+            if (TK.box_sizing(element) == "content-box") {
+                var css = TK.css_space(element, "padding", "border");
                 width -= css.left + css.right;
             }
             width -= m;
@@ -149,8 +149,8 @@ toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-bottom"));
         }
         if (typeof height !== "undefined") {
-            if (toolkit.box_sizing(element) == "content-box") {
-                var css = toolkit.css_space(element, "padding", "border");
+            if (TK.box_sizing(element) == "content-box") {
+                var css = TK.css_space(element, "padding", "border");
                 height -= css.top + css.bottom;
             }
             height -= m;
@@ -165,10 +165,10 @@ toolkit = {
     inner_width: function (element, width) {
         var cs = getComputedStyle(element, null);
         var w = element.getBoundingClientRect().width;
-        var css = toolkit.css_space(element, "padding", "border");
+        var css = TK.css_space(element, "padding", "border");
         var x = css.left + css.right;
         if (typeof width !== "undefined") {
-            if (toolkit.box_sizing(element) == "border-box")
+            if (TK.box_sizing(element) == "border-box")
                 width += x;
             // TODO: fixme
             if (width < 0) return 0;
@@ -181,10 +181,10 @@ toolkit = {
     inner_height: function (element, height) {
         var cs = getComputedStyle(element, null);
         var h = element.getBoundingClientRect().height;
-        var css = toolkit.css_space(element, "padding", "border");
+        var css = TK.css_space(element, "padding", "border");
         var y = css.top + css.bottom;
         if (typeof height !== "undefined") {
-            if (toolkit.box_sizing(element) == "border-box")
+            if (TK.box_sizing(element) == "border-box")
                 height += y;
             // TODO: fixme
             if (height < 0) return 0;
@@ -315,7 +315,7 @@ toolkit = {
                 argname = "a"+argnum;
                 args.push(argname);
                 if (argnum+1 < arguments.length) {
-                    argname = "(" + toolkit.sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
+                    argname = "(" + TK.sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
                 }
                 switch (res[2].charCodeAt(0)) {
                 case 100: // d
@@ -352,7 +352,7 @@ toolkit = {
     } }(),
     
     sprintf : function (fmt) {
-        return toolkit.FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
+        return TK.FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
     },
     
     
@@ -477,30 +477,30 @@ toolkit = {
     _monitored_resize_events: -1,
     
     monitor_resize_events: function () {
-        for (var i = 0; i < toolkit._resize_events.length; i++) {
-            var r = toolkit._resize_events[i];
+        for (var i = 0; i < TK._resize_events.length; i++) {
+            var r = TK._resize_events[i];
             if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
                 r.x = r.element.offsetWidth;
                 r.y = r.element.offsetHeight;
                 r.element.dispatchEvent("resize");
             }
         }
-        if (toolkit._resize_events.length) {
-            toolkit._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
+        if (TK._resize_events.length) {
+            TK._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
         }
     },
     add_resize_event: function (element) {
-        toolkit._resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
-        if (toolkit._monitored_resize_events < 0) {
-            toolkit._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
+        TK._resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
+        if (TK._monitored_resize_events < 0) {
+            TK._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
         }
     },
     remove_resize_event: function (element) {
-        for (var i = 0; i < toolkit._resize_events; i++) {
-            if (element == toolkit._resize_events[i]) toolkit._resize_events.splice(i, 1);
-            if (!toolkit._resize_events.length && toolkit._monitored_resize_events < 0) {
-                window.clearTimeout(toolkit._monitored_resize_events);
-                toolkit._monitored_resize_events = -1;
+        for (var i = 0; i < TK._resize_events; i++) {
+            if (element == TK._resize_events[i]) TK._resize_events.splice(i, 1);
+            if (!TK._resize_events.length && TK._monitored_resize_events < 0) {
+                window.clearTimeout(TK._monitored_resize_events);
+                TK._monitored_resize_events = -1;
             }
         }
     },

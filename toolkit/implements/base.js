@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -125,7 +125,7 @@ BASE = $class({
         // handle resize events globally since there's no resize event
         // for DOM elements
         if (e == "resize") {
-            toolkit.add_resize_event(this);
+            TK.add_resize_event(this);
             return;
         }
         ev = this.__events;
@@ -169,7 +169,7 @@ BASE = $class({
         // handle resize events globally since there's no resize event
         // for DOM elements
         if (event == "resize") {
-            toolkit.remove_resize_event(this);
+            TK.remove_resize_event(this);
             return;
         }
         ev = this.__events;

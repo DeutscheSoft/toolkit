@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -81,10 +81,10 @@ LevelMeter = $class({
         } else {
             this.state.element.inject(this._scale, "before");
         }
-        this._peak       = toolkit.element("div","toolkit-peak");
-        this._peak_label = toolkit.element("div","toolkit-peak-label");
-        this._mask3      = toolkit.element("div","toolkit-mask","toolkit-mask3");
-        this._mask4      = toolkit.element("div","toolkit-mask","toolkit-mask4");
+        this._peak       = TK.element("div","toolkit-peak");
+        this._peak_label = TK.element("div","toolkit-peak-label");
+        this._mask3      = TK.element("div","toolkit-mask","toolkit-mask3");
+        this._mask4      = TK.element("div","toolkit-mask","toolkit-mask4");
         this._peak.appendChild(this._peak_label);
         this.element.appendChild(this._peak);
         this._bar.appendChild(this._mask3);
@@ -98,34 +98,34 @@ LevelMeter = $class({
             this.options.top = this.options.value;
         if (this.options.bottom === false)
             this.options.bottom = this.options.value;
-        toolkit.set_styles(this._mask3, {
+        TK.set_styles(this._mask3, {
             position: "absolute",
             zIndex:  "1000"
         });
-        toolkit.set_styles(this._mask4, {
+        TK.set_styles(this._mask4, {
             position: "absolute",
             zIndex:  "1000"
         });
         if (this.options.layout == _TOOLKIT_LEFT
         || this.options.layout == _TOOLKIT_RIGHT) {
             if (this.options.reverse) {
-                toolkit.set_styles(this._mask3, {
+                TK.set_styles(this._mask3, {
                     width:  "100%",
                     height: "0px",
                     bottom: "0px"
                 });
-                toolkit.set_styles(this._mask4, {
+                TK.set_styles(this._mask4, {
                     width:  "100%",
                     height: "0px",
                     top: "0px"
                 });
             } else {
-                toolkit.set_styles(this._mask3, {
+                TK.set_styles(this._mask3, {
                     width:  "100%",
                     height: "0px",
                     top: "0px"
                 });
-                toolkit.set_styles(this._mask4, {
+                TK.set_styles(this._mask4, {
                     width:  "100%",
                     height: "0px",
                     bottom:    "0px"
@@ -133,23 +133,23 @@ LevelMeter = $class({
             }
         } else {
             if (this.options.reverse) {
-                toolkit.set_styles(this._mask3, {
+                TK.set_styles(this._mask3, {
                     height: "100%",
                     width:  "0px",
                     left:   "0px"
                 });
-                toolkit.set_styles(this._mask4, {
+                TK.set_styles(this._mask4, {
                     height: "100%",
                     width:  "0px",
                     right:  "0px"
                 });
             } else {
-                toolkit.set_styles(this._mask3, {
+                TK.set_styles(this._mask3, {
                     height: "100%",
                     width:  "0px",
                     right:  "0px"
                 });
-                toolkit.set_styles(this._mask4, {
+                TK.set_styles(this._mask4, {
                     height: "100%",
                     width:  "0px",
                     left:   "0px"
@@ -170,15 +170,15 @@ LevelMeter = $class({
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
             case _TOOLKIT_RIGHT:
-                this.__margin = toolkit.css_space(this._bar,
+                this.__margin = TK.css_space(this._bar,
                     "margin", "border", "padding"
                 ).top + TK.position_top(this._bar, this.element);
-                var m = (this.options.show_clip ? toolkit.outer_height(this._clip, true) : 0);
+                var m = (this.options.show_clip ? TK.outer_height(this._clip, true) : 0);
                 this._scale.style["top"] = m + "px";
                 break;
             case _TOOLKIT_TOP:
             case _TOOLKIT_BOTTOM:
-                this.__margin = toolkit.css_space(this._bar,
+                this.__margin = TK.css_space(this._bar,
                     "margin", "border", "padding"
                 ).left + TK.position_left(this._bar, this.element);
                 break;
@@ -377,7 +377,7 @@ LevelMeter = $class({
             var d = (this.options.layout == _TOOLKIT_LEFT
                   || this.options.layout == _TOOLKIT_RIGHT)
                    ? "outer_height" : "outer_width";
-            s -= toolkit[d](this._clip, true);
+            s -= TK[d](this._clip, true);
         }
         return s;
     },

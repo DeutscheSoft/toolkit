@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -29,7 +29,7 @@ Tooltip = $class({
         if (!cont && !tt) return;
         if (!this._tooltip) {
             // build tooltip container
-            this._tooltip = toolkit.element("ul", "toolkit-tooltip");
+            this._tooltip = TK.element("ul", "toolkit-tooltip");
             this.__tt_pos_cb = this._pos_tooltip.bind(this);
             document.addEventListener("mousemove", this.__tt_pos_cb);
             document.addEventListener("touchmove", this.__tt_pos_cb);
@@ -76,7 +76,7 @@ Tooltip = $class({
         if (!this.__tt_injected)
             return;
         e = this._get_event(e);
-        toolkit.set_styles(this._tooltip, {
+        TK.set_styles(this._tooltip, {
             top: e.clientY,
             left: e.clientX
         });

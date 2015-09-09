@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -63,7 +63,7 @@ Scale = $class({
         this.__size = 0;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
-                       toolkit.element("div","toolkit-scale"), true, true, true);
+                       TK.element("div","toolkit-scale"), true, true, true);
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
@@ -190,7 +190,7 @@ Scale = $class({
         // draws a dot at a certain value and adds a class if needed
         
         // create dot element
-        var d = toolkit.element("div", "toolkit-dot", { position: "absolute" });
+        var d = TK.element("div", "toolkit-dot", { position: "absolute" });
         if (cls) TK.add_class(d, cls);
         
         // position dot element
@@ -198,7 +198,7 @@ Scale = $class({
         var pos = Math.round(this.val2px(val));
         pos = Math.min(Math.max(0, pos), this.options.basis - 1);
         styles[this._vert() ? "bottom" : "left"] = pos + "px";
-        toolkit.set_styles(d, styles);
+        TK.set_styles(d, styles);
         this.element.appendChild(d);
         return this;
     },
@@ -207,7 +207,7 @@ Scale = $class({
         if (!this.options.show_labels) return;
                   
         // create label element
-        var label = toolkit.element("span", "toolkit-label", {
+        var label = TK.element("span", "toolkit-label", {
             position: "absolute",
             display: "block",
             cssFloat: "left"
@@ -219,13 +219,13 @@ Scale = $class({
         // position label element
         var styles = { }
         var pos = Math.round(this.val2px(val));
-        var size = toolkit[this._vert() ? "outer_height" : "outer_width"](label, true);
+        var size = TK[this._vert() ? "outer_height" : "outer_width"](label, true);
         if (this._vert)
             pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
         else
             pos = pos - size / 2;
         styles[this._vert() ? "bottom" : "left"] = pos + "px";
-        toolkit.set_styles(label, styles);
+        TK.set_styles(label, styles);
         
         // resize the main element if labels are wider
         // because absolute positioning destroys dimensions

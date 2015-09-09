@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -316,7 +316,7 @@ run_keyboard = function () {
     value = new Value({
         container: TK.get_id("sc_keyboard"),
         value: 123.97,
-        format: toolkit.FORMAT("%.3f Hz"),
+        format: TK.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
     value.add_event("click", function () {
@@ -465,9 +465,9 @@ run_fader = function () {
             min: -580,
                     max: 60,
                     value: 0,
-                    labels: toolkit.FORMAT("%d", "%/4"),
-                    format: toolkit.FORMAT("%.2f dB", "%/4"),
-                    tooltip: toolkit.FORMAT("%.2f dB", "%/4"),
+                    labels: TK.FORMAT("%d", "%/4"),
+                    format: TK.FORMAT("%.2f dB", "%/4"),
+                    tooltip: TK.FORMAT("%.2f dB", "%/4"),
                     step: 1,
                     levels: [5, 10, 15],
                     base: 0,
@@ -509,7 +509,7 @@ run_fader = function () {
         label: "Tooltips",
         container: TK.get_id("sc_fader"),
         onToggled: function (state) {
-            var t = state ? toolkit.FORMAT("%.2f dB") : false;
+            var t = state ? TK.FORMAT("%.2f dB") : false;
             for (var i = 0; i < faders.length; i++) {
                 faders[i].set("tooltip", t);
             }
@@ -530,7 +530,7 @@ run_value = function () {
     value = new Value({
         container: TK.get_id("sc_value"),
         value: 123.97,
-        format: toolkit.FORMAT("%.3f Hz"),
+        format: TK.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
     TK.add_class(TK.get_id("sc_value"), "box");
@@ -641,7 +641,7 @@ function run_window () {
             fixed: true,
             content: "<div style='margin: 6px'><img src=images/toolkit.png "
                    + "style=\"float: left; margin-right: 20px;\">"
-                   + "Thanks for testing toolkit. We hope you like "
+                   + "Thanks for testing TK. We hope you like "
                    + "the functionality, complexity and style. If you have any "
                    + "sugestions or bug reports, please let us know.</div>"
         });
@@ -751,7 +751,7 @@ function run_gauge () {
         base: 0,
         title: "Temp °C",
         container: TK.get_id("sc_gauge"),
-        label: {format: toolkit.FORMAT("%d °")},
+        label: {format: TK.FORMAT("%d °")},
         markers: [{from:80, to:100}, {from:-80, to:-100}],
         dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},
               {pos:-10},{pos:-20},{pos:-30},{pos:-40},{pos:-50},{pos:-60},{pos:-70},{pos:-80},{pos:-90},{pos:-100}],
@@ -905,7 +905,7 @@ function run_valuebutton () {
         label: "Threshold",
         icon: "images/icons_small/threshold.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: toolkit.FORMAT("%.1f dB"),
+        value_format: TK.FORMAT("%.1f dB"),
         min: -96,
         max: 24,
         step: 1,
@@ -920,7 +920,7 @@ function run_valuebutton () {
         label: "Attack",
         icon: "images/icons_small/attack.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: toolkit.FORMAT("%.1f ms"),
+        value_format: TK.FORMAT("%.1f ms"),
         min: 1,
         max: 1000,
         step: 1,
@@ -939,7 +939,7 @@ function run_valuebutton () {
         label: "Ratio",
         icon: "images/icons_small/ratio.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: toolkit.FORMAT("%.1f : 1"),
+        value_format: TK.FORMAT("%.1f : 1"),
         min: 1,
         max: 10,
         step: 1,
@@ -954,7 +954,7 @@ function run_valuebutton () {
         label: "Release",
         icon: "images/icons_small/release.png",
         value_position: _TOOLKIT_BOTTOM,
-        value_format: toolkit.FORMAT("%.1f ms"),
+        value_format: TK.FORMAT("%.1f ms"),
         min: 1,
         max: 1000,
         step: 1,
@@ -1231,12 +1231,12 @@ function run_equalizer () {
                      preferences: [_TOOLKIT_TOP_RIGHT, _TOOLKIT_TOP, _TOOLKIT_TOP_LEFT,
                                    _TOOLKIT_RIGHT, _TOOLKIT_CENTER, _TOOLKIT_LEFT,
                                    _TOOLKIT_BOTTOM_RIGHT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_LEFT],
-                     label: function (title, x, y, z) { return title + "\n" + toolkit.sprintf("%.2f", x) + " Hz"; } },
+                     label: function (title, x, y, z) { return title + "\n" + TK.sprintf("%.2f", x) + " Hz"; } },
         {x:15000, z: 1, type:_TOOLKIT_LP4, title:"Low Pass",
                      preferences: [_TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
                                    _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
-                     label: function (title, x, y, z) { return title + "\n" + toolkit.sprintf("%.2f", x) + " Hz"; } }]
+                     label: function (title, x, y, z) { return title + "\n" + TK.sprintf("%.2f", x) + " Hz"; } }]
     });
     TK.seat_all_svg()
 }

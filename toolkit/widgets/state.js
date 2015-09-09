@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -37,8 +37,8 @@ State = $class({
         this.element = this.widgetize(toolkit.element("div","toolkit-state"), true, true, true);
         this.element.id = this.options.id;
         
-        this._over   = toolkit.element("div","toolkit-over");
-        this._mask   = toolkit.element("div","toolkit-mask");
+        this._over   = TK.element("div","toolkit-over");
+        this._mask   = TK.element("div","toolkit-mask");
 
         this.element.appendChild(this._over);
         this.element.appendChild(this._mask);
@@ -50,13 +50,13 @@ State = $class({
         this.set("state", this.options.state);
         
         this.element.style.overflow = "hidden";
-        toolkit.set_styles(this._over, {
+        TK.set_styles(this._over, {
             "position": "absolute",
             "zIndex": "1",
             "width"  : "100%",
             "height" : "100%"
         });
-        toolkit.set_styles(this._mask, {
+        TK.set_styles(this._mask, {
             "position": "absolute",
             "zIndex": "2",
             "width"  : "100%",

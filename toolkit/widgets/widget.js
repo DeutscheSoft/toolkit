@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -119,7 +119,7 @@ Widget = $class({
         this.add_class    = function (c) { TK.add_class(element, c); }.bind(this);
         this.remove_class = function (c) { TK.remove_class(element, c); }.bind(this);
         this.set_style    = function (c, d) { element.style[c] = d; }.bind(this);
-        this.set_styles   = toolkit.set_styles.bind(toolkit, element);
+        this.set_styles   = TK.set_styles.bind(toolkit, element);
         this.get_style    = function (c) { return TK.get_style(element, c); }.bind(this);
         this.__classified = element;
         this.fire_event("classified", [element, this]);
@@ -129,7 +129,7 @@ Widget = $class({
         // Marks a DOM element as receiver for the "styles" options
         this.__stylized = element;
         if (this.options.styles) {
-            toolkit.set_styles(element, this.options.styles);
+            TK.set_styles(element, this.options.styles);
         }
         this.fire_event("stylized", [element, this]);
         return element;

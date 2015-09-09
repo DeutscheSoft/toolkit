@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -72,7 +72,7 @@ Keyboard = $class({
     
     build: function () {
         this.element = this.widgetize(
-                       toolkit.element("div","toolkit-container"), true, true, true);
+                       TK.element("div","toolkit-container"), true, true, true);
         this.window = new Window({
             container: this.options.container,
             content: this.element,
@@ -92,28 +92,28 @@ Keyboard = $class({
         this._buffer = false;
         switch (this.options.buffer) {
             case _TOOLKIT_TEXT_INPUT:
-                this._buffer = toolkit.element("input","toolkit-buffer");
+                this._buffer = TK.element("input","toolkit-buffer");
                 this._buffer.setAttribute("type", "text");
                 break;
             case _TOOLKIT_TEXT_AREA:
-                this._buffer = toolkit.element("textarea","toolkit-buffer");
+                this._buffer = TK.element("textarea","toolkit-buffer");
                 break;
             default:
-                this._buffer = toolkit.element("div","toolkit-dummy");
+                this._buffer = TK.element("div","toolkit-dummy");
         }
         if (this._buffer) {
             this.element.appendChild(this._buffer);
             this._buffer.focus();
         }
         
-        this._wrapper = toolkit.element("div","toolkit-wrapper");
+        this._wrapper = TK.element("div","toolkit-wrapper");
         this.element.appendChild(this._wrapper);
         
         for(var i = 0; i < this.options.rows.length; i++) {
             // rows
             var rd = this.options.rows[i];
             var rw = new Widget(rd);
-            var re = toolkit.element("div","toolkit-row");
+            var re = TK.element("div","toolkit-row");
             rw.widgetize(re, true, true, true);
             this._wrapper.appendChild(re);
             rd["container"] = re;
@@ -148,25 +148,25 @@ Keyboard = $class({
         var ph = 0;
         for (var j = 0; j < this.options.rows.length; j ++)
             ph += this.options.rows[j]["height"] ? this.options.rows[j]["height"] : 1;
-        var height  = toolkit.inner_height(this.element) - toolkit.outer_height(this._buffer, true);
+        var height  = TK.inner_height(this.element) - TK.outer_height(this._buffer, true);
         
-        toolkit.outer_height(this._wrapper, true, height);
+        TK.outer_height(this._wrapper, true, height);
         for(var i = 0; i < this.options.rows.length; i++) {
             // rows
             var rd = this.options.rows[i];
             var pw = 0;
             for (var j = 0; j < rd.keys.length; j ++)
                 pw += rd.keys[j]["width"] ? rd.keys[j]["width"] : 1;
-            var width = toolkit.inner_width(rd["container"]);
-            toolkit.outer_height(parseInt(rd["container"], true, parseFloat(rd["height"] ? rd["height"] : 1) / ph * height * 100) / 100);
+            var width = TK.inner_width(rd["container"]);
+            TK.outer_height(parseInt(rd["container"], true, parseFloat(rd["height"] ? rd["height"] : 1) / ph * height * 100) / 100);
             for (var j = 0; j < rd.keys.length; j ++) {
                 // keys
                 var kd = rd.keys[j];
                 var w = parseInt(parseFloat(kd["width"] ? kd["width"] : 1) / pw * width * 100) / 100;
                 var h = parseInt(parseFloat((rd["height"] ? rd["height"] : 1) * (kd["height"] ? kd["height"] : 1)) / ph * height * 100) / 100;
                 var b = kd["button"].element;
-                toolkit.outer_width(b, true, w);
-                toolkit.outer_height(b, true, h);
+                TK.outer_width(b, true, w);
+                TK.outer_height(b, true, h);
             }
         }
         Widget.prototype.redraw.call(this);

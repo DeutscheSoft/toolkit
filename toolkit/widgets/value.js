@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -37,7 +37,7 @@ Value = $class({
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(toolkit.element("form", "toolkit-value"),
                                       true, true, true);
-        this._input  = toolkit.element("input", "toolkit-input");
+        this._input  = TK.element("input", "toolkit-input");
         this._input.type = "text";
         this.element.appendChild(this._input);
         

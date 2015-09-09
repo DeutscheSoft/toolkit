@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -53,10 +53,10 @@ Pager = $class({
             }).bind(this)
         });
         this.register_children(this.buttonarray);
-        this._clip      = toolkit.element("div", "toolkit-clip");
-        this._container = toolkit.element("div", "toolkit-container");
+        this._clip      = TK.element("div", "toolkit-clip");
+        this._container = TK.element("div", "toolkit-container");
         this._clip.appendChild(this._container);
-        this._pagestyle = toolkit.element("style");
+        this._pagestyle = TK.element("style");
         this._pagestyle.setAttribute("type", "text/css");
         this.element.appendChild(this._pagestyle);
         this.set("direction", this.options.direction, true);
@@ -77,20 +77,20 @@ Pager = $class({
             switch (this.options.position) {
                 case _TOOLKIT_TOP:
                 case _TOOLKIT_BOTTOM:
-                    toolkit.outer_height(this._clip, true,
-                        toolkit.inner_height(this.element)
-                      - toolkit.outer_height(this.buttonarray.element, true));
+                    TK.outer_height(this._clip, true,
+                        TK.inner_height(this.element)
+                      - TK.outer_height(this.buttonarray.element, true));
                     break;
                 case _TOOLKIT_LEFT:
                 case _TOOLKIT_RIGHT:
-                    toolkit.outer_width(this._clip, true,
-                        toolkit.inner_width(this.element)
-                      - toolkit.outer_width(this.buttonarray.element, true));
+                    TK.outer_width(this._clip, true,
+                        TK.inner_width(this.element)
+                      - TK.outer_width(this.buttonarray.element, true));
                     break;
             }
         }
-        this.__page_width = toolkit.inner_width(this._clip);
-        this.__page_height = toolkit.inner_height(this._clip);
+        this.__page_width = TK.inner_width(this._clip);
+        this.__page_height = TK.inner_height(this._clip);
         var style;
         switch (this.options.direction) {
             case _TOOLKIT_VERT:
@@ -102,7 +102,7 @@ Pager = $class({
                 style += "    width: " + this.__page_width + "px;\n}";
                 break;
         }
-        toolkit.set_text(this._pagestyle, style);
+        TK.set_text(this._pagestyle, style);
     },
     
     add_pages: function (options) {

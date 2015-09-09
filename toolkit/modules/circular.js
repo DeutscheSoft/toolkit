@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -36,7 +36,7 @@ var _get_coords_single = function (deg, inner, pos) {
         y: Math.sin(deg) * inner + pos
     }
 };
-var format_path = toolkit.FORMAT("M %f,%f " +
+var format_path = TK.FORMAT("M %f,%f " +
                                  "A %f,%f 0 %d,%d %f,%f " +
                                  "L %f,%f " +
                                  "A %f,%f 0 %d,%d %f,%f z");

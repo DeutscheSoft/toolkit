@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -99,7 +99,7 @@ Knob = $class({
         this.options[key] = value;
         switch (key) {
             case "size":
-                this._svg.setAttribute("viewBox", toolkit.sprintf("0 0 %d %d", value, value));
+                this._svg.setAttribute("viewBox", TK.sprintf("0 0 %d %d", value, value));
                 if (!hold) this.redraw();
                 break;
             case "direction":

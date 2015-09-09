@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -77,7 +77,7 @@ var MeterBase = $class({
         this.__based = false;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
-                       toolkit.element("div", "toolkit-meter-base"), false, true, true);
+                       TK.element("div", "toolkit-meter-base"), false, true, true);
         
         if (this.options.reverse)
             TK.add_class(this.element, "toolkit-reverse");
@@ -86,10 +86,10 @@ var MeterBase = $class({
             && TK.get_style(this.element, "position") != "relative")
             this.element.style["position"] = "relative";
         
-        this._title  = toolkit.element("div", "toolkit-title");
-        this._label  = toolkit.element("div", "toolkit-label");
-        this._scale  = toolkit.element("div", "toolkit-meter-scale");
-        this._bar    = toolkit.element("div", "toolkit-bar");
+        this._title  = TK.element("div", "toolkit-title");
+        this._label  = TK.element("div", "toolkit-label");
+        this._scale  = TK.element("div", "toolkit-meter-scale");
+        this._bar    = TK.element("div", "toolkit-bar");
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
                 this.element.appendChild(this._label);
@@ -127,115 +127,115 @@ var MeterBase = $class({
                 throw("unsupported layout");
         }
         
-        this._base   = toolkit.element("div", "toolkit-base");
-        this._mark   = toolkit.element("div", "toolkit-mark");
-        this._over   = toolkit.element("div", "toolkit-over");
+        this._base   = TK.element("div", "toolkit-base");
+        this._mark   = TK.element("div", "toolkit-mark");
+        this._over   = TK.element("div", "toolkit-over");
 
         this._bar.appendChild(this._base);
         this._bar.appendChild(this._mark);
         this._bar.appendChild(this._over);
         
-        this._mask1  = toolkit.element("div", "toolkit-mask", "toolkit-mask1");
-        this._mask2  = toolkit.element("div", "toolkit-mask", "toolkit-mask2");
+        this._mask1  = TK.element("div", "toolkit-mask", "toolkit-mask1");
+        this._mask2  = TK.element("div", "toolkit-mask", "toolkit-mask2");
 
         this._bar.appendChild(this._mask1);
         this._bar.appendChild(this._mask2);
         
-        toolkit.set_styles(this._bar, {
+        TK.set_styles(this._bar, {
             position: "relative",
             overflow: "hidden"
         });
-        toolkit.set_styles(this._base, {
+        TK.set_styles(this._base, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   "0"
         });
-        toolkit.set_styles(this._mark, {
+        TK.set_styles(this._mark, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   "10"
         });
-        toolkit.set_styles(this._over, {
+        TK.set_styles(this._over, {
             position: "absolute",
             width:    "100%",
             height:   "100%",
             zIndex:   "100"
         });
-        toolkit.set_styles(this._mask1, {
+        TK.set_styles(this._mask1, {
             position: "absolute",
             zIndex:   "1000"
         });
-        toolkit.set_styles(this._mask2, {
+        TK.set_styles(this._mask2, {
             position: "absolute",
             zIndex:   "1000"
         });
         if (this.options.layout == _TOOLKIT_LEFT) {
-            toolkit.set_styles(this._scale, {
+            TK.set_styles(this._scale, {
                 "cssFloat": "right"
             });
-            toolkit.set_styles(this._bar, {
+            TK.set_styles(this._bar, {
                 "cssFloat": "left"
             });
         }
         if (this.options.layout == _TOOLKIT_RIGHT) {
-            toolkit.set_styles(this._scale, {
+            TK.set_styles(this._scale, {
                 "cssFloat": "left"
             });
-            toolkit.set_styles(this._bar, {
+            TK.set_styles(this._bar, {
                 "cssFloat": "right"
             });
         }
         if (this._vert()) {
             if (this.options.reverse) {
-                toolkit.set_styles(this._mask1, {
+                TK.set_styles(this._mask1, {
                     width:  "100%",
                     height: "0px",
                     bottom: "0px"
                 });
-                toolkit.set_styles(this._mask2, {
+                TK.set_styles(this._mask2, {
                     width:  "100%",
                     height: "0px",
                     top:    "0px"
                 });
             } else {
-                toolkit.set_styles(this._mask1, {
+                TK.set_styles(this._mask1, {
                     width:  "100%",
                     height: "0px",
                     top:    "0px"
                 });
-                toolkit.set_styles(this._mask2, {
+                TK.set_styles(this._mask2, {
                     width:  "100%",
                     height: "0px",
                     bottom: "0px"
                 });
             }
         } else {
-            toolkit.set_styles(this._scale, {
+            TK.set_styles(this._scale, {
                 "clear": "both"
             });
             //toolkit.set_styles(this._title, {
                 //"clear": "both"
             //});
             if (this.options.reverse) {
-                toolkit.set_styles(this._mask1, {
+                TK.set_styles(this._mask1, {
                     height: "100%",
                     width:  "0px",
                     left:   "0px"
                 });
-                toolkit.set_styles(this._mask2, {
+                TK.set_styles(this._mask2, {
                     height: "100%",
                     width:  "0px",
                     right:  "0px"
                 });
             } else {
-                toolkit.set_styles(this._mask1, {
+                TK.set_styles(this._mask1, {
                     height: "100%",
                     width:  "0px",
                     right:  "0px"
                 });
-                toolkit.set_styles(this._mask2, {
+                TK.set_styles(this._mask2, {
                     height: "100%",
                     width:  "0px",
                     left:   "0px"
@@ -301,21 +301,21 @@ var MeterBase = $class({
             case _TOOLKIT_LEFT:
             case _TOOLKIT_RIGHT:
                 var s = this._bar_size(this.options.layout);
-                toolkit.outer_height(this._bar, true, s);
-                toolkit.outer_height(this._scale, true, s);
-                var i = toolkit.inner_height(this._bar);
+                TK.outer_height(this._bar, true, s);
+                TK.outer_height(this._scale, true, s);
+                var i = TK.inner_height(this._bar);
                 if (i != this.options.basis) {
                     this.options.basis = i;
                     this.scale.set("basis", i);
                 }
-                toolkit.inner_height(this._scale, i);
+                TK.inner_height(this._scale, i);
                 break;
             case _TOOLKIT_TOP:
             case _TOOLKIT_BOTTOM:
                 var s = this._bar_size(this.options.layout);
-                toolkit.outer_width(this._bar, true, s);
-                toolkit.outer_width(this._scale, true, s);
-                var i = toolkit.inner_width(this._bar);
+                TK.outer_width(this._bar, true, s);
+                TK.outer_width(this._scale, true, s);
+                var i = TK.inner_width(this._bar);
                 if (i != this.options.basis) {
                     this.options.basis = i;
                     this.scale.set("basis", i);
@@ -343,9 +343,9 @@ var MeterBase = $class({
             }
         }
         if (this._vert())
-            toolkit.inner_width(this.element,
-                toolkit.outer_width(this._bar, true)
-                + (this.options.show_scale ? toolkit.outer_width(this._scale, true) : 0));
+            TK.inner_width(this.element,
+                TK.outer_width(this._bar, true)
+                + (this.options.show_scale ? TK.outer_width(this._scale, true) : 0));
         Widget.prototype.redraw.call(this);
         return this;
     },
@@ -376,9 +376,9 @@ var MeterBase = $class({
         // determine a size for the meter bar based on several conditions
         var s = toolkit[this._vert() ? "inner_height" : "inner_width"](this.element);
         if (this.options.show_label && this._vert())
-            s -= toolkit.outer_height(this._label, true);
+            s -= TK.outer_height(this._label, true);
         if (this.options.show_title && this._vert())
-            s -= toolkit.outer_height(this._title, true);
+            s -= TK.outer_height(this._title, true);
         return s;
     },
     _vert: function () {

@@ -1,4 +1,4 @@
- /* toolkit. provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -118,49 +118,49 @@ var Gradient = $class({
                 if (!ms_first) ms_first = grad[i];
                 ms_last = grad[keys[i] + ""];
                 
-                m_svg     += toolkit.sprintf(c_svg, ps, grad[keys[i] + ""]);
-                m_regular += toolkit.sprintf(c_regular, grad[keys[i] + ""], ps);
-                m_webkit  += toolkit.sprintf(c_webkit, ps, grad[keys[i] + ""]);
+                m_svg     += TK.sprintf(c_svg, ps, grad[keys[i] + ""]);
+                m_regular += TK.sprintf(c_regular, grad[keys[i] + ""], ps);
+                m_webkit  += TK.sprintf(c_webkit, ps, grad[keys[i] + ""]);
             }
             m_regular = m_regular.substr(0, m_regular.length -2);
             m_webkit  = m_regular.substr(0, m_webkit.length -2);
             
             if (TK.browser.name == "IE" && TK.browser.version <= 8)
-                    bg = (toolkit.sprintf(s_ms, ms_last, ms_first, this._vert() ? 0:1));
+                    bg = (TK.sprintf(s_ms, ms_last, ms_first, this._vert() ? 0:1));
                 
             else if (TK.browser.name == "IE" && TK.browser.version == 9)
-                bg = (toolkit.sprintf(s_svg, this.options.id,
+                bg = (TK.sprintf(s_svg, this.options.id,
                       d_ms["s"+this.options.layout],
                       m_svg, this.options.id));
             
             else if (TK.browser.name == "IE" && TK.browser.version >= 10)
-                bg = (toolkit.sprintf(s_regular, "-ms-",
+                bg = (TK.sprintf(s_regular, "-ms-",
                       d_regular["s" + this.options.layout],
                       m_regular));
             
             else if (TK.browser.name=="Firefox")
-                bg = (toolkit.sprintf(s_regular, "-moz-",
+                bg = (TK.sprintf(s_regular, "-moz-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
             else if (TK.browser.name == "Opera" && TK.browser.version >= 11)
-                bg = (toolkit.sprintf(s_regular, "-o-",
+                bg = (TK.sprintf(s_regular, "-o-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
             else if (TK.browser.name == "Chrome" && TK.browser.version < 10
                   || TK.browser.name == "Safari" && TK.browser.version < 5.1)
-                bg = (toolkit.sprintf(s_webkit,
+                bg = (TK.sprintf(s_webkit,
                       d_webkit["s"+this.options.layout],
                       m_regular));
             
             else if (TK.browser.name == "Chrome" || TK.browser.name == "Safari")
-                bg = (toolkit.sprintf(s_regular, "-webkit-",
+                bg = (TK.sprintf(s_regular, "-webkit-",
                       d_regular["s"+this.options.layout],
                       m_regular));
             
             else
-                bg = (toolkit.sprintf(s_regular, "",
+                bg = (TK.sprintf(s_regular, "",
                       d_w3c["s"+this.options.layout],
                       m_regular));
         }
