@@ -256,14 +256,15 @@ toolkit = {
     
     // STRINGS
     
-    _unique_ids: [],
     unique_id: function () {
-        var id;
-        while (TK._unique_ids.indexOf(id = TK.random_string(8, "aA#")) > -1)
-            1
-        TK._unique_ids.push(id);
-        return id;
-    },
+        var _ids = {};
+        return function() {
+            var id;
+            while (_ids.hasOwnProperty(id = TK.random_string(8, "aA#")) || document.getElementById(id)) {}
+            _ids[id] = 1;
+            return id;
+        };
+    }(),
     
     random_string: function (length, chars) {
         // returns a random string with specified length and characters
