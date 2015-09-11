@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', function () {
     for (var i = 0; i < col.length; i++) {
         var c = col[i];
         var t = TK.element("div", "toolkit-button");
-        t.innerHTML = c.getAttribute("title") + " (" + (c.children[0].children.length - 1) + ")";
+        TK.set_text(t, c.getAttribute("title") + " (" + (c.children[0].children.length - 1) + ")");
         TK.get_class("buttons", c.parentElement)[0].appendChild(t);
         c.style.display = "none";
         t.addEventListener("click", (function (c) {
@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', function () {
             var _l = TK.element("li");
             var s = TK.element("span");
             var m = TK.element("ul", cls);
-            s.innerHTML = cls.charAt(0).toUpperCase() + cls.substr(1) + "s";
+            TK.set_text(s, cls.charAt(0).toUpperCase() + cls.substr(1) + "s");
             m.setAttribute("id", cls);
             _l.appendChild(s);
             _l.appendChild(m);
@@ -64,12 +64,12 @@ window.addEventListener('DOMContentLoaded', function () {
         var a  = TK.element("a");
         a.setAttribute("href", "#" + id);
         a.setAttribute("style", e.getAttribute("style"));
-        a.innerHTML = id;
+        TK.set_text(a, id);
         TK.get_id(cls).appendChild(li).appendChild(a);
         
         // HEADLINE
         var h = TK.element("h2");
-        h.innerHTML = id;
+        TK.set_text(h, id);
         e.insertBefore(h, e.firstChild);
         
         // ANCHOR
@@ -81,7 +81,7 @@ window.addEventListener('DOMContentLoaded', function () {
         var b = TK.element("a", "button");
         b.setAttribute("href", "#");
         b.setAttribute("style", "float: right; margin: 0 0 24px 24px;");
-        b.innerHTML = "up ⤴";
+        TK.set_text(b, "up ⤴");
         e.appendChild(b);
         e.appendChild(TK.element("hr"));
         
@@ -90,20 +90,17 @@ window.addEventListener('DOMContentLoaded', function () {
         if (typeof window["run_" + id] != "undefined") {
             var bl  = TK.get_class("buttons", e)[0];
             var but = TK.element("div", "toolkit-button");
-            but.innerHTML = "⚄ Example";
+            TK.set_text(but, "⚄ Example");
             but.addEventListener("click", window["run_" + id]);
             li.addEventListener("click", window["run_" + id]);
             bl.appendChild(but);
             var pre = TK.element("pre", "box", "code");
-            pre.innerHTML = "<code>" + window["run_" + id].toString()
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;") + "</code>";
-            bl.parentNode.insertBefore(pre, bl.nextSibling);
+            var code = TK.element("code");
+            TK.set_text(code, window["run_" + id].toString());
+            pre.appendChild(code);
+            TK.insert_after(pre, bl);
             var tog = TK.element("div", "toolkit-button");
-            tog.innerHTML = "⌨ Code";
+            TK.set_text(tog, "⌨ Code");
             bl.appendChild(tog);
             tog.addEventListener("click", (function (pre) {
                 return function (e) {
@@ -897,7 +894,7 @@ function run_valuebutton () {
         attack = undefined;
         release.destroy();
         release = undefined;
-        vbutton.innerHTML = "";
+        TK.set_text(vbutton, "");
         return;
     }
     thres = new ValueButton({
