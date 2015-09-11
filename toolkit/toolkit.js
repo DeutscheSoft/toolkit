@@ -254,24 +254,6 @@ toolkit = {
             return document.defaultView.getComputedStyle(e).getPropertyValue(style);
     },
     
-    has_class: function (e, cls) {
-        return e.getAttribute("class")
-            ? e.getAttribute("class").match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
-            : false;
-    },
-     
-    add_class: function (e, cls) {
-        if (!TK.has_class(e, cls)) e.setAttribute("class",
-            e.getAttribute("class") + " " + cls);
-    },
-     
-    remove_class: function (e, cls) {
-        if (TK.has_class(e, cls)) {
-            var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-            e.setAttribute("class", e.getAttribute("class").replace(reg, ' '));
-        }
-    },
-    
     // STRINGS
     
     _unique_ids: [],
@@ -611,8 +593,43 @@ if (typeof Object.assign === 'undefined') {
   });
 }
 
+(function() {
+ if ('classList' in document.createElement("_")) {
+    TK.has_class = function (e, cls) { return e.classList.contains(cls); }
+    TK.add_class = function (e, cls) { e.classList.add(cls); }
+    TK.remove_class = function (e, cls) { e.classList.remove(cls); }
+ } else {
+    // IE9
+    TK.has_class = function (e, cls) {
+        return e.className.split(" ").indexOf(cls) !== -1;
+    };
+    TK.add_class = function (e, cls) {
+        var s = e.className;
+        if (!s.length) {
+            e.className = cls;
+            return;
+        }
+        var a = s.split(" ");
+        if (a.indexOf(cls) === -1) {
+            a.push(cls);
+            e.className = a.join(" ");
+        }
+    };
+    TK.remove_class = function(e, cls) {
+        var a = e.className.split(" ");
+        var i = a.indexOf(cls);
 
+        if (i !== -1) {
+            do {
+                a.splice(i, 1);
+                i = a.indexOf(cls);
+            } while (i !== -1);
 
+            e.className = a.join(" ");
+        }
+    };
+ }
+})()
 
 // CONSTANTS
 
