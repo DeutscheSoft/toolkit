@@ -282,18 +282,7 @@ BASE = $class({
         }
     },
     fire_event: function (e, args) {
-        var ev;
-        // fire all bound callbacks on a event. If the event isn't
-        // specified, nothing will happen at all.
-        if (__event_replacements.hasOwnProperty(e)) {
-            // it is an event which has one or more replacement events
-            // so fire all those replacements
-            ev = __event_replacements[e];
-            for (var i = 0; i < ev.length; i++)
-                this.fire_event(ev[i].event, args);
-            return;
-        }
-        ev = this.__events;
+        var ev = this.__events;
         if (!ev.hasOwnProperty(e))
             // unknown event, return.
             return;
