@@ -44,7 +44,6 @@ Widget = $class({
         }
     },
     unregister_children : function() {
-
     },
     share_event : function(type) {
         this.shared_events[type] = true;
@@ -90,6 +89,10 @@ Widget = $class({
             this.options.id = TK.unique_id();
         if (this.resize)
             this.add_event("resize", this.resize)
+        this.__classified = null;
+        this.__stylized = null;
+        this.__delegated = null;
+        this.__widgetized = null;
         return this;
     },
     initialized: function () {
@@ -113,17 +116,30 @@ Widget = $class({
         this.fire_event("delegated", [element, this]);
         return element;
     },
+    add_class: function (cls) {
+        TK.add_class(this.__classified, cls);
+    },
+    remove_class: function (cls) {
+        TK.remove_class(this.__classified, cls);
+    },
+    has_class: function (cls) {
+        return TK.has_class(this.__classified, cls);
+    },
     classify: function (element) {
         // Takes a DOM element and adds its CSS functionality to the
         // widget instance
-        this.add_class    = function (c) { TK.add_class(element, c); }.bind(this);
-        this.remove_class = function (c) { TK.remove_class(element, c); }.bind(this);
-        this.set_style    = function (c, d) { element.style[c] = d; }.bind(this);
-        this.set_styles   = TK.set_styles.bind(toolkit, element);
-        this.get_style    = function (c) { return TK.get_style(element, c); }.bind(this);
         this.__classified = element;
         this.fire_event("classified", [element, this]);
         return element;
+    },
+    set_style: function (name, value) {
+        TK.set_style(this.__stylized, name, value);
+    },
+    set_styles: function (styles) {
+        TK.set_styles(this.__stylized, styles);
+    },
+    get_style: function (name) {
+        return TK.get_style(this.__stylized, name);
     },
     stylize: function (element) {
         // Marks a DOM element as receiver for the "styles" options
