@@ -249,12 +249,6 @@ w.toolkit = {
             value += "px";
         e.style[style] = value;
     },
-    get_style: function (e, style) {
-        if (e.currentStyle)
-            return e.currentStyle[style];
-        else if (window.getComputedStyle)
-            return document.defaultView.getComputedStyle(e).getPropertyValue(style);
-    },
     
     // STRINGS
     
@@ -629,6 +623,16 @@ if ('classList' in document.createElement("_")) {
 
       e.className = a.join(" ");
     }
+  };
+}
+
+if ('getComputedStyle' in document.defaultView) {
+  TK.get_style = function(e, style) {
+    return document.defaultView.getComputedStyle(e).getPropertyValue(style);
+  };
+} else {
+  TK.get_style = function(e, style) {
+    return e.currentStyle[style];
   };
 }
 
