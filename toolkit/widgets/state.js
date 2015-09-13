@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-State = $class({
+"use strict";
+(function(w){ 
+w.State = $class({
     // The State widget is a multi-functional adaption of a traditional LED. It
     // is able to show different colors as well as on/off states. The
     // "brightness" can be set seamlessly. Classes can be used to display
@@ -92,3 +93,4 @@ State = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

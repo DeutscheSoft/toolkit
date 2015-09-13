@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-var Dynamics = $class({
+"use strict";
+(function(w){
+w.Dynamics = $class({
     // Dynamics are based on Charts and display the characteristics of dynamic
     // processors. They are square widgets drawing a Grid automatically based on
     // the range.
@@ -182,3 +183,4 @@ var Dynamics = $class({
         Chart.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

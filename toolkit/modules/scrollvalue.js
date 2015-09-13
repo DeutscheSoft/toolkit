@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-ScrollValue = $class({
+"use strict";
+(function(w) {
+w.ScrollValue = $class({
     // ScrollValue enables the scrollwheel for setting a value of an
     // object. ScrollValue is used e.g. in Knob for setting its value.
     _class: "ScrollValue",
@@ -143,3 +144,4 @@ ScrollValue = $class({
         //Widget.prototype.set.call(this, key, value, hold);
     }
 })
+})(this);

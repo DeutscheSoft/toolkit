@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-Drag = $class({
+"use strict";
+(function(w){
+w.Drag = $class({
     // Resize enables resizing of elements on the screen.
     _class: "Drag",
     Extends: Widget,
@@ -98,3 +99,4 @@ Drag = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Window = $class({
+"use strict";
+(function(w){ 
+w.Window = $class({
     _class: "Window",
     Extends: Widget,
     Implements: Anchor,
@@ -787,3 +788,4 @@ Window = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Anchor = $class({
+"use strict";
+(function(w){ 
+w.Anchor = $class({
     translate_anchor: function (anchor, x, y, width, height) {
         switch (anchor) {
             case _TOOLKIT_TOP_LEFT:
@@ -56,3 +57,4 @@ Anchor = $class({
         return {x: Math.round(x), y: Math.round(y)};
     }
 });
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-ValueKnob = $class({
+"use strict";
+(function(w){
+w.ValueKnob = $class({
     _class: "ValueKnob",
     Extends: Knob,
     options: {
@@ -90,3 +91,4 @@ ValueKnob = $class({
     }
     
 });
+})(this);

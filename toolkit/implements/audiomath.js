@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-AudioMath = $class({
+"use strict";
+(function(w){ 
+w.AudioMath = $class({
     // AudioMath provides a couple of functions for turning linear values into
     // logarithmic ones and vice versa. If you need an easy convertion between
     // dB or Hz and a linear scale implement this class.
@@ -93,3 +94,4 @@ AudioMath = $class({
         return value;
     }
 });
+})(this);

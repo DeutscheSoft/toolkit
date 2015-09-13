@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-Value = $class({
+"use strict";
+(function(w){
+w.Value = $class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
     _class: "Value",
@@ -161,3 +162,4 @@ Value = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

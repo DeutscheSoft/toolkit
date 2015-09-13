@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-ResponseHandle = $class({
+"use strict";
+(function(w){
+w.ResponseHandle = $class({
     _class: "ResponseHandle",
     Extends: Widget,
     Implements: [GlobalCursor, Ranges, Warning],
@@ -1392,3 +1393,4 @@ ResponseHandle = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

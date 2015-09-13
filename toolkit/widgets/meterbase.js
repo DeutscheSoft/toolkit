@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-var MeterBase = $class({
+"use strict";
+(function(w){ 
+w.MeterBase = $class({
     // MeterBase is a base class to build different meters like LevelMeter.
     // MeterBase extends Gradient and implements Widget.
     // MeterBase has a Scale widget.
@@ -481,3 +482,4 @@ var MeterBase = $class({
         return this;
     }
 });
+})(this);

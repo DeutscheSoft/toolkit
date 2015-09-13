@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-EqBand = $class({
+"use strict";
+(function(w){
+w.EqBand = $class({
     // An EqBand extends a ResponseHandle and holds a dependent Filter It is used
     // as a fully functional representation of a single equalizer band. EqBand
     // needs a Chart or other derivates to be drawn in.
@@ -131,3 +132,4 @@ EqBand = $class({
         ResponseHandle.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

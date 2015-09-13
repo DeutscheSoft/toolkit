@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-Tooltip = $class({
+"use strict";
+(function(w){
+w.Tooltip = $class({
     // Tooltip adds a tooltip list to a widget. Tooltip lists follow the
     // mouse pointer throughout the document and auto-show and auto-hide
     // automatically.
@@ -89,3 +90,4 @@ Tooltip = $class({
               ? event.touches[0] : event;
     }
 });
+})(this);

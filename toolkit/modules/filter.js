@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
-
-Filter = $class({
+"use strict";
+(function(w){
+w.Filter = $class({
     _class: "Filter",
     Extends: BASE,
     Implements: [AudioMath],
@@ -296,3 +297,4 @@ Filter = $class({
         return this.options[key];
     }
 });
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-DragValue = $class({
+"use strict";
+(function(w){ 
+w.DragValue = $class({
     // DragValue enables dragging an element and setting a value
     // according to the distance. DragValue is used e.g. in Knob for
     // setting its value.
@@ -239,3 +240,4 @@ DragValue = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

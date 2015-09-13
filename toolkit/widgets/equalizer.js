@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-var Equalizer = $class({
+"use strict";
+(function(w){
+w.Equalizer = $class({
     // Equalizer is a ResponseHandler adding some EqBands instead of
     // simple ResponseHandles.
     _class: "Equalizer",
@@ -179,3 +180,4 @@ var Equalizer = $class({
         }
     }
 });
+})(this);

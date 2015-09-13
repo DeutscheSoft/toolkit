@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-GlobalCursor = $class({
+"use strict";
+(function(w){ 
+w.GlobalCursor = $class({
     // GlobalCursor adds global cursor classes to enshure one of the
     // standard cursors (http://www.echoecho.com/csscursors.htm) in
     // the whole application
@@ -33,3 +34,4 @@ GlobalCursor = $class({
         this.fire_event("cursorremoved", cursor);
     }
 });
+})(this);

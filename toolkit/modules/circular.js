@@ -18,7 +18,8 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-(function () {
+"use strict";
+(function (w) {
 var __rad = Math.PI / 180;
 var _get_coords = function (deg, inner, outer, pos) {
     deg = deg * __rad;
@@ -40,7 +41,7 @@ var format_path = TK.FORMAT("M %f,%f " +
                                  "A %f,%f 0 %d,%d %f,%f " +
                                  "L %f,%f " +
                                  "A %f,%f 0 %d,%d %f,%f z");
-Circular = $class({
+w.Circular = $class({
     // Circular is a SVG group element containing two paths for displaying
     // numerical values in a circular manner. Circular is able to draw labels,
     // dots and markers and can show a hand. Circular e.g. is implemented by
@@ -445,4 +446,4 @@ Circular = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
-})();
+})(this);

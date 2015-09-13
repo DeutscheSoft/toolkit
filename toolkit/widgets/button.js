@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Button = $class({
+"use strict";
+(function(w){ 
+w.Button = $class({
     // Button is a simple, clickable widget to trigger funcions. They fire a
     // couple of click-related events and consist of a label and an icon.
     // Buttons are used as a base to build different other widgets from.
@@ -108,3 +109,4 @@ Button = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

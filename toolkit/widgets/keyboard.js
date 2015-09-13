@@ -33,8 +33,9 @@
     //"label_SHIFT": "Q",
     //"label_CTRL":
 //}
-
-Keyboard = $class({
+"use strict";
+(function(w){
+w.Keyboard = $class({
     // Keyboard provides an on-screen keyboard for textual input via
     // touch or mouse events
     _class: "Keyboard",
@@ -229,3 +230,4 @@ Keyboard = $class({
         }
     }
 });
+})(this);

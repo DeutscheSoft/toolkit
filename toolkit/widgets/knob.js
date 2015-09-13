@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Knob = $class({
+"use strict";
+(function(w){ 
+w.Knob = $class({
     // Knob is a Circular injected into a SVG and extended by ScrollValue
     // and DragValue to set its value. Knob uses DragValue and Scrollvalue
     // for setting its value.
@@ -115,3 +116,4 @@ Knob = $class({
         Circular.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

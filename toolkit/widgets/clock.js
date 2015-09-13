@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Clock = $class({
+"use strict";
+(function(w){ 
+w.Clock = $class({
     // Clock shows a customized clock with circulars displaying hours, minutes
     // and seconds. It has three free formatable labels.
     _class: "Clock",
@@ -300,3 +301,4 @@ Clock = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

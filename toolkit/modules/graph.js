@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-var Graph = $class({
+"use strict";
+(function(w) { 
+w.Graph = $class({
     // Graph is a single SVG path element. It provides some functions to easily
     // draw paths inside Charts and other derivates.
     _class: "Graph",
@@ -255,3 +256,4 @@ var Graph = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

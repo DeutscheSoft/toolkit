@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Gauge = $class({
+"use strict";
+(function(w){ 
+w.Gauge = $class({
     // Gauge simply puts a single Circular into a SVG image.
     _class: "Gauge",
     Extends: Circular,
@@ -117,3 +118,4 @@ Gauge = $class({
         Circular.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

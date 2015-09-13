@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Grid = $class({
+"use strict";
+(function(w) {
+w.Grid = $class({
     // A Grid creates a couple of lines and labels in a SVG image on the x and
     // y axis. It is used in e.g. Graphs and FrequencyResponses to draw markers
     // and values. Graphs need a parent SVG image do draw into. The base element
@@ -164,3 +165,4 @@ Grid = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-var ResponseHandler = $class({
+"use strict";
+(function(w){ 
+w.ResponseHandler = $class({
     // ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
     // meant as a universal user interface for equalizers and the like.
     _class: "ResponseHandler",
@@ -226,3 +227,4 @@ var ResponseHandler = $class({
         FrequencyResponse.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

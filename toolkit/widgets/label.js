@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Label = $class({
+"use strict";
+(function(w){ 
+w.Label = $class({
     // Label is a simple text field displaying strings
     _class: "Label",
     Extends: Widget,
@@ -56,3 +57,4 @@ Label = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-Fader = $class({
+"use strict";
+(function(w){
+w.Fader = $class({
     _class: "Fader",
     Extends: Widget,
     Implements: [Ranged, Warning, Tooltip, GlobalCursor],
@@ -330,3 +331,4 @@ Fader = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

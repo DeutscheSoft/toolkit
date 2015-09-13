@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-ValueButton = $class({
+"use strict";
+(function(w){
+w.ValueButton = $class({
     _class: "ValueButton",
     Extends: Button,
     Implements: [Warning, Ranged],
@@ -177,3 +178,4 @@ ValueButton = $class({
         Button.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

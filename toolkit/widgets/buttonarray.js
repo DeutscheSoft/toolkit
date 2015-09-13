@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-ButtonArray = $class({
+"use strict";
+(function(w){
+w.ButtonArray = $class({
     // ButtonArray is a list of buttons layouted either vertically or
     // horizontally. ButtonArray automatically adds arrow buttons if the
     // overal width is smaller than the buttons list.
@@ -241,3 +242,4 @@ ButtonArray = $class({
         return Container.prototype.get.call(this, key);
     }
 });
+})(this);

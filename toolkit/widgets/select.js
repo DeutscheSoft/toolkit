@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-Select = $class({
+"use strict";
+(function(w){
+w.Select = $class({
     // Select provides a button with a select list to choose from
     // different entries.
     _class: "Select",
@@ -285,3 +286,4 @@ Select = $class({
         Button.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

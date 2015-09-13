@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-var FrequencyResponse = $class({
+"use strict";
+(function(w){ 
+w.FrequencyResponse = $class({
     // FrequencyResponse is a Chart drawing frequencies on the x axis and dB
     // values on the y axis. This widget automatically draws a Grid depending
     // on the ranges.
@@ -107,3 +108,4 @@ var FrequencyResponse = $class({
         Chart.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

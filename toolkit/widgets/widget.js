@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Widget = $class({
+"use strict";
+(function(w){ 
+w.Widget = $class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
     // firing some events.Widget implements AudioMath, Options and Events.
@@ -214,3 +215,4 @@ Widget = $class({
         return this.options[key];
     }
 });
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-var Chart = $class({
+"use strict";
+(function(w){ 
+w.Chart = $class({
     // Chart is an SVG image containing one or more Graphs. There are functions
     // to add and remove graphs. Chart extends Widget and contains a Grid
     // and two Ranges.
@@ -386,3 +387,4 @@ var Chart = $class({
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
+})(this);

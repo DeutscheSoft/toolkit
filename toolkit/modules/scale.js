@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Scale = $class({
+"use strict";
+(function(w) { 
+w.Scale = $class({
     // Scale can be used to draw dots and labels as markers next to a meter, a
     // fader or a frequency response graph. Depending on some parameters it
     // tries to decide on its own where to draw labels and dots depending on the
@@ -327,3 +328,4 @@ Scale = $class({
         return this;
     }
 });
+})(this);

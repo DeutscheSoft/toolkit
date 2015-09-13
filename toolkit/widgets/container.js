@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Container = $class({
+"use strict";
+(function(w){ 
+w.Container = $class({
     // Container is a simple DIV
     _class: "Container",
     Extends: Widget,
@@ -59,3 +60,4 @@ Container = $class({
         Widget.prototype.set.call(this, key, value, hold);
     },
 });
+})(this);

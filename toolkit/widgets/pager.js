@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-Pager = $class({
+"use strict";
+(function(w){
+w.Pager = $class({
     /* Pager, also known as Notebook in other UI toolkits, provides
        multiple containers for displaying contents which are switchable
        via a ButtonArray. */
@@ -284,3 +285,4 @@ Pager = $class({
         return Container.prototype.get.call(this, key);
     }
 });
+})(this);

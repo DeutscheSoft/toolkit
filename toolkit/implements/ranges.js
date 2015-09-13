@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Ranges = $class({
+"use strict";
+(function(w){ 
+w.Ranges = $class({
     // Ranges provides a function to add different ranges to a widget for
     // building coordinate systems and the like.
     _class: "Ranges",
@@ -57,3 +58,4 @@ Ranges = $class({
         return r;
     }
 })
+})(this);

@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Warning = $class({
+"use strict";
+(function(w){ 
+w.Warning = $class({
     // warning sets a timed class "toolkit-warn" on an element. It is
     // used e.g. in ResponseHandle or Knob when the value exceeds the
     // range.
@@ -35,3 +36,4 @@ Warning = $class({
         this.fire_event("warning", this);
     }
 });
+})(this);

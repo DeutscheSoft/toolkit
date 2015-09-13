@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-Ranged = $class({
+"use strict";
+(function(w){
+w.Ranged = $class({
     // Ranged provides stuff for calculating linear scales from different values.
     // It is useful to build coordinate systems, calculating pixel positions
     // for different scale types and the like. Ranged is used e.g. in Scale,
@@ -327,3 +328,4 @@ Ranged = $class({
     },
     ___snapcoef: {}
 });
+})(this);

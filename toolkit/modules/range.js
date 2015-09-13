@@ -18,8 +18,9 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
- 
-Range = $class({
+"use strict";
+(function(w) { 
+w.Range = $class({
     // Ranges are classes for calculating linear scales from different values.
     // They are useful to build coordinate systems, calculating pixel positions
     // for different scale types and the like. Ranges are used e.g. in Scale,
@@ -105,3 +106,4 @@ Range = $class({
         return this.options[key];
     }
 });
+})(this);
