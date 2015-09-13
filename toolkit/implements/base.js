@@ -18,8 +18,8 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
-(function() {
+"use strict";
+(function(w) {
 var merge = function(dst) {
     //console.log("merging", src, "into", dst);
     var key, i, src;
@@ -60,8 +60,8 @@ if (typeof(Object.setPrototypeOf) != "function") {
         return o;
     };
 }
-$mixin = merge;
-$class = function(o) {
+w.$mixin = merge;
+w.$class = function(o) {
     var constructor;
     var methods;
     var tmp, i, c, key;
@@ -107,9 +107,6 @@ $class = function(o) {
     methods.constructor = constructor;
     return constructor;
 };
-})();
-
-(function() {
 var __native_events = {
     // mouse
     mouseenter : true,
@@ -158,7 +155,7 @@ var __event_replacements = {
         { event: "touchend", prevent: true, stop: false }
     ]
 };
-BASE = $class({
+w.BASE = $class({
     // Events provide an API for adding, removing and firing events.
     initialize : function() {
         if (!this.___events) {
@@ -341,5 +338,4 @@ BASE = $class({
         }
     }
 });
-
-})();
+})(this);
