@@ -111,19 +111,35 @@ $class = function(o) {
 
 (function() {
 var __native_events = {
+    // mouse
     mouseenter : true,
     mouseleave : true,
     mousewheel : true,
-    click      : true,
     mousedown  : true,
     mouseup    : true,
     mousemove  : true,
+    mouseover  : true,
+
+    click      : true,
+    dblclick   : true,
+
     startdrag  : true,
     stopdrag   : true,
+    drag       : true,
+    dragenter  : true,
+    dragleave  : true,
+    dragover   : true,
+    drop       : true,
+    dragend    : true,
+
+    // tourch
     touchstart : true,
     touchend   : true,
     touchmove  : true,
-    dblclick   : true,
+    touchenter : true,
+    touchleave : true,
+    touchcancel: true,
+
     keydown    : true,
     keypress   : true,
     keyup      : true,
@@ -149,6 +165,7 @@ BASE = $class({
             this.__events = {};
             this.__event_target = false;
         }
+        this.__event_target = null;
     },
     destroy : function() {
         this.__events = null;
