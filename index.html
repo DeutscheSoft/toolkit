@@ -323,6 +323,10 @@
                         <td>The base element of the widget. It draws the background color and acts as a container fo the other elements.</td>
                     </tr>
                     <tr>
+                        <td>button._cell ("div.toolkit-cell")</td>
+                        <td>An internal container for label and icon</td>
+                    </tr>
+                    <tr>
                         <td>button._label ("div.toolkit-label")</td>
                         <td>The text label of the button</td>
                     </tr>
@@ -377,8 +381,8 @@
                     <tr>
                         <td>buttons</td>
                         <td>An array of button option objects or label strings. It is used for the initial button list
-                        but can be set later to replace the whole button list with a new one.If get is
-                        called, the converted list of button instances is returned.</td>
+                        but can be set later to replace the whole button list with a new one. If get is
+                        called later, the converted list of button instances is returned.</td>
                         <td>[]</td>
                     </tr>
                     <tr>
@@ -393,7 +397,7 @@
                     </tr>
                     <tr>
                         <td>show</td>
-                        <td>A button or a id to show.</td>
+                        <td>A button or an id to show.</td>
                         <td>0</td>
                     </tr>
                 </table>
@@ -448,15 +452,15 @@
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
                     <tr>
-                        <td>added</td>
+                        <td>added (button, widget)</td>
                         <td>This event is fired when a button was added. Hands over the button instance.</td>
                     </tr>
                     <tr>
-                        <td>removed</td>
+                        <td>removed (button, widget)</td>
                         <td>This event is fired when a button is about being removed. Hands over the button instance to destroy.</td>
                     </tr>
                     <tr>
-                        <td>changed</td>
+                        <td>changed (button, id, widget)</td>
                         <td>This event is fired when the active button changed. Hands over the button instance and the id.</td>
                     </tr>
                 </table>
@@ -497,13 +501,13 @@
                         <td>range_x <i class="static">⚓</i></td>
                         <td>
                         An object with options for a <a href="#range">Range</a> for the x axis
-                    or a function returning a <a href="#range">Range</a> instance.</td>
+                        or a function returning a <a href="#range">Range</a> instance.</td>
                         <td>{}</td>
                     </tr>
                     <tr>
                         <td>range_y <i class="static">⚓</i></td>
                         <td>An object with options for a <a href="#range">Range</a> for the y axis
-                    or a function returning a <a href="#range">Range</a> instance.</td>
+                        or a function returning a <a href="#range">Range</a> instance.</td>
                         <td>{}</td>
                     </tr>
                     <tr>
@@ -513,7 +517,7 @@
                     </tr>
                     <tr>
                         <td>grid_y</td>
-                        <td>An array containing objects with the following members for the y axis: <br />{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
+                        <td>An array containing objects with the following members for the y axis: <br />{pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</td>
                         <td>[]</td>
                     </tr>
                     <tr>
@@ -545,7 +549,7 @@
                         <td>key_size</td>
                         <td>Width of the little rectangles displaying the style of a graph
                         in the key</td>
-                        <td>20</td>
+                        <td>{x:20, y:10}</td>
                     </tr>
                     <tr>
                         <td>title</td>
@@ -558,6 +562,7 @@
                         <ul>
                             <li>_TOOLKIT_TOP_LEFT</li>
                             <li>_TOOLKIT_TOP</li>
+                            <li>_TOOLKIT_TOP_RIGHT</li>
                             <li>_TOOLKIT_LEFT</li>
                             <li>_TOOLKIT_CENTER</li>
                             <li>_TOOLKIT_RIGHT</li>
@@ -638,19 +643,15 @@
                 <table class="events collapse" title="⚑ Events">
                     <tr><th>Event</th><th>Description</th></tr>
                     <tr>
-                        <td>graphadded</td>
+                        <td>graphadded (graph, id, widget)</td>
                         <td>Is fired when a Graph was added.</td>
                     </tr>
                     <tr>
-                        <td>graphremoved</td>
+                        <td>graphremoved (graph, id, widget)</td>
                         <td>Is fired when a Graph was removed.</td>
                     </tr>
                     <tr>
-                        <td>resized</td>
-                        <td>Is fired when the SVG was resized.</td>
-                    </tr>
-                    <tr>
-                        <td>emptied</td>
+                        <td>emptied (widget)</td>
                         <td>Is fired when Chart was emptied.</td>
                     </tr>
                 </table>
