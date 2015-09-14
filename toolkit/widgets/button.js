@@ -21,16 +21,26 @@
 "use strict";
 (function(w){ 
 w.Button = $class({
-    // Button is a simple, clickable widget to trigger funcions. They fire a
-    // couple of click-related events and consist of a label and an icon.
-    // Buttons are used as a base to build different other widgets from.
+    /* @class:  Button
+     * 
+     * @option: label;       String; "";    Text for the buttons label
+     * @option: icon;        String; "";    URL to an icon for the button
+     * @option: state;       Bool;   false; State of the button
+     * @option: state_color; Bool;   false; Background color of the state indication
+     * 
+     * @extends: Widget
+     * 
+     * @description:
+     * Button is a simple, clickable widget to trigger funcions. It fires a
+     * couple of click-related events and consists of a label and an icon.
+     * Buttons are used as a base to build different other widgets from, too. */
     _class: "Button",
     Extends: Widget,
     options: {
-        label:            "",    // text for the button
-        icon:             "",    // URL to an icon for this button
-        state:            false, // state of the button (bool)
-        state_color:      false  // background color of the state indication
+        label:            "",
+        icon:             "",
+        state:            false,
+        state_color:      false
     },
     
     initialize: function (options, hold) {

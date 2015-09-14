@@ -21,34 +21,49 @@
 "use strict";
 (function(w){
 w.ButtonArray = $class({
-    // ButtonArray is a list of buttons layouted either vertically or
-    // horizontally. ButtonArray automatically adds arrow buttons if the
-    // overal width is smaller than the buttons list.
+    /* @class: ButtonArray
+     * 
+     * @option: buttons; Array; []; A list of button options or label strings which
+     *                              is converted to button instances
+     *                              on init. If get is called, the
+     *                              converted list of button instances is
+     *                              returned.
+     * @option: auto_arrows; Bool, true; If arrow buttons are added automatically
+     * @option: direction; Int; The direction of the button list, one out of
+     *                          _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL
+     * @option: show; Int|Button; The button to scroll to, either an ID or a button instance
+     * 
+     * @extends: Container
+     * 
+     * @description:
+     * ButtonArray is a list of buttons (#Button) layouted either vertically or
+     * horizontally. ButtonArray automatically adds arrow buttons if the
+     * overal width is smaller than the buttons list.
+     */
     _class: "ButtonArray",
     Extends: Container,
     options: {
-        buttons: [],                    // a list of button options or label strings which
-                                        // is converted to button instances
-                                        // on init. If get is called, the
-                                        // converted list of button instances is
-                                        // returned.
-        auto_arrows: true,              // if arrow buttons are added automatically
-        direction: _TOOLKIT_HORIZONTAL, // the direction of the button list
-        show: -1                         // the button to scroll to, either
-                                        // an int or a button instance
+        buttons: [],
+        auto_arrows: true,
+        direction: _TOOLKIT_HORIZONTAL,
+        show: -1
     },
     
     initialize: function (options) {
         this.buttons = [];
         Container.prototype.initialize.call(this, options);
         this.element.className += " toolkit-buttonarray";
+        /* @element: _clip; div.toolkit-clip; A clipping area containing the list of buttons */
         this._clip      = TK.element("div", "toolkit-clip");
+        /* @element: _container; div.toolkit-container; A container for all the buttons */
         this._container = TK.element("div", "toolkit-container");
         this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         
-        vert = this.get("direction") == _TOOLKIT_VERTICAL;
+        var vert = this.get("direction") == _TOOLKIT_VERTICAL;
         
+        /* @module: prev; The previous arrow #Button instance
+         * @module: next; The next arrow #Button instance */
         this.prev = new Button({label: vert ? "▲" : "◄",
                                 class: "toolkit-previous"});
         this.next = new Button({label: vert ? "▼" : "►",
@@ -70,11 +85,18 @@ w.ButtonArray = $class({
     },
     
     add_buttons: function (options) {
+        /* @method: add_buttons
+         * @option: options; Array[String|Object]; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
+         * @description: Adds an array of buttons to the end of the list. */
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);
     },
     
     add_button: function (options, pos) {
+        /* @method: add_button
+         * @option: options; Object|String; An object containing options for the #Button to add or a string for the label
+         * @option: pos; Int|Undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
+         * description: Adds a #Button to the ButtonArray */
         if (typeof options === "string")
             options = {label: options}
         var b    = new Button(options);
@@ -98,14 +120,19 @@ w.ButtonArray = $class({
             this._button_clicked(c);
         }.bind(this));
         this._scroll_to(this.options.show);
+        /* @event: added; Button, Widget; A #Button was added to the ButtonArray */
         this.fire_event("added", [b, this]);
         return b;
     },
     remove_button: function (button) {
+        /* @method: remove_button
+         * @option: button; Int|Button; ID or #Button instance
+         * @description: Removes a #Button from the ButtonArray */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
             return;
+        /* @event: removed; Button, Widget; A #Button was removed from the ButtonArray */
         this.fire_event("removed", [this.buttons[button], this]);
         this.buttons[button].destroy();
         this.buttons.splice(button, 1);
@@ -179,6 +206,7 @@ w.ButtonArray = $class({
         var tmp = this.options.show;
         this.options.show = id;
         this.buttons[id].set("state", true);
+        /* @event: changed; Button, ID, Widget; A #Button was requested (clicked or scrolled to) */
         if (tmp != id) {
             this.fire_event("changed", [this.buttons[id], id, this]);
         }
@@ -198,7 +226,9 @@ w.ButtonArray = $class({
     },
     
     _prev_clicked: function (e) {
-        this.fire_event("clicked", [this._scroll_to(this.options.show - 1), this]);
+        /* @event: clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
+        var id = this._scroll_to(this.options.show - 1);
+        this.fire_event("clicked", [this.buttons[id], id, this]);
     },
     
     _next_clicked: function (e) {
