@@ -312,7 +312,7 @@ w.Ranged = $class({
             return TK.find_next(snap, value)
         } else {
             if (typeof this.___snapcoef["" + snap] == "undefined") {
-                p = ("" + snap).split(".");
+                var p = ("" + snap).split(".");
                 this.___snapcoef["" + snap] = p.length > 1
                                             ? Math.pow(10, p[1].length) : 1;
             }
