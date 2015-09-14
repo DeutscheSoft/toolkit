@@ -300,11 +300,14 @@ w.BASE = $class({
         if (!ev.hasOwnProperty(e))
             // unknown event, return.
             return;
+        ev = ev[e].queue;
+
+        if (!ev.length) return;
+
         if (!(args instanceof Array))
             // we need an array containing all arguments
             args = Array(args);
         args.push(this);
-        ev = ev[e].queue;
         for (var i = 0; i < ev.length; i++)
             // run callbacks in a loop
             ev[i].apply(this, args);
