@@ -114,7 +114,7 @@ w.Fader = $class({
         
         this.drag.add_event("stopdrag", function (ev) {
             this.__dragging = false;
-            this.__down = true;
+            this.__down = false;
             if (!this.__entered)
                 this.__tt = this.tooltip(false, this.__tt);
         }.bind(this));
@@ -242,6 +242,7 @@ w.Fader = $class({
     },
     _clicked: function (ev) {
         if (!this.__down) return;
+        this.__down = false;
         this.set("value", this._get_value(ev));
         if (!this.__entered)
             this.__tt = this.tooltip(false, this.__tt);
