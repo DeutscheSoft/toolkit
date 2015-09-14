@@ -11,6 +11,13 @@ KNOWN BUGS
   check why _label_timeout doesn't do a reset of the timeout but a return instead
 * State doesn't switch "state" on set() in FF
 
+WIDGETS
+-------
+
+Button: Get rid of cell element and do vertical positioning via *real* CSS
+Button: Get rid of state_color (should be done via CSS and classes)
+
+
 REFERENCE / DEMO
 ----------------
 
