@@ -295,38 +295,39 @@ w.MeterBase = $class({
         Widget.prototype.destroy.call(this);
     },
     redraw: function () {
-        this.set("title", this.options.title);
-        this.set("label", this.options.label);
-        this.set("value", this.options.value);
-        switch (this.options.layout) {
+        var O = this.options;
+        this.set("title", O.title);
+        this.set("label", O.label);
+        this.set("value", O.value);
+        switch (O.layout) {
             case _TOOLKIT_LEFT:
             case _TOOLKIT_RIGHT:
-                var s = this._bar_size(this.options.layout);
+                var s = this._bar_size(O.layout);
                 TK.outer_height(this._bar, true, s);
                 TK.outer_height(this._scale, true, s);
                 var i = TK.inner_height(this._bar);
-                if (i != this.options.basis) {
-                    this.options.basis = i;
+                if (i != O.basis) {
+                    O.basis = i;
                     this.scale.set("basis", i);
                 }
                 TK.inner_height(this._scale, i);
                 break;
             case _TOOLKIT_TOP:
             case _TOOLKIT_BOTTOM:
-                var s = this._bar_size(this.options.layout);
+                var s = this._bar_size(O.layout);
                 TK.outer_width(this._bar, true, s);
                 TK.outer_width(this._scale, true, s);
                 var i = TK.inner_width(this._bar);
-                if (i != this.options.basis) {
-                    this.options.basis = i;
+                if (i != O.basis) {
+                    O.basis = i;
                     this.scale.set("basis", i);
                 }
                 break;
         }
         this.draw_meter();
-        if (this.options.show_scale) {
+        if (O.show_scale) {
             this.scale.redraw();
-            if (this.options.show_marker) {
+            if (O.show_marker) {
                 TK.empty(this._mark);
                 var c = this.scale.element.children;
                 for (var i = 0; i < c.length; i++) {
@@ -338,7 +339,7 @@ w.MeterBase = $class({
                     var p = TK["position_" + this._vert() ? "top" : "left"](e, this._scale);
                     d.style[this._vert() ? "width" : "height"] = "100%";
                     d.style[this._vert() ? "top" : "left"] = 
-                               (p + p % this.options.segment) + "px";
+                               (p + p % O.segment) + "px";
                     this._mark.appendChild(d);
                 }
             }
@@ -346,20 +347,22 @@ w.MeterBase = $class({
         if (this._vert())
             TK.inner_width(this.element,
                 TK.outer_width(this._bar, true)
-                + (this.options.show_scale ? TK.outer_width(this._scale, true) : 0));
+                + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
         Widget.prototype.redraw.call(this);
         return this;
     },
     
-    draw_meter: function () {
+    draw_meter: function (value) {
+        var O = this.options;
+        if (value === undefined) value = O.value;
         // Set the mask elements according to options.value to show a value in
         // the meter bar
         var pos = Math.max(0,
-                  this._val2seg(Math.min(this.options.max, Math.max(this.options.base, this.options.value))));
-        this._mask1.style[this._vert() ? "height" : "width"] = (this.options.basis - pos).toFixed(0) + "px";
+                  this._val2seg(Math.min(O.max, Math.max(O.base, value))));
+        this._mask1.style[this._vert() ? "height" : "width"] = (O.basis - pos).toFixed(0) + "px";
         if (!this.__based) return;
         var pos = Math.max(0,
-                  this._val2seg(Math.min(this.options.base, this.options.value)));
+                  this._val2seg(Math.min(O.base, value)));
         this._mask2.style[this._vert() ? "height" : "width"] = pos + "px";
     },
     
@@ -422,8 +425,7 @@ w.MeterBase = $class({
                 break;
             case "value":
                 this.fire_event("valuechanged", value);
-                if (!hold)
-                    this.draw_meter(value);
+                this.trigger_draw();
                 break;
             case "title":
                 this.fire_event("titlechanged", value);

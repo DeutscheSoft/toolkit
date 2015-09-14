@@ -89,15 +89,24 @@ w.LevelMeter = $class({
         this.element.appendChild(this._peak);
         this._bar.appendChild(this._mask3);
         this._bar.appendChild(this._mask4);
-
+        this.value_time = performance.now();
+        this.will_draw = false;
+        this._reset_label = this.reset_label.bind(this);
+        this._reset_clip = this.reset_clip.bind(this);
+        this._reset_peak = this.reset_peak.bind(this);
+        this._reset_top = this.reset_top.bind(this);
+        this._reset_bottom = this.reset_bottom.bind(this);
+        this._draw_meter = this.draw_meter.bind(this);
         
-        this._falling = this.options.value;
         if (this.options.peak === false)
             this.options.peak = this.options.value;
         if (this.options.top === false)
             this.options.top = this.options.value;
         if (this.options.bottom === false)
             this.options.bottom = this.options.value;
+        if (this.options.falling < 0)
+            this.options.falling = -this.options.falling;
+
         TK.set_styles(this._mask3, {
             position: "absolute",
             zIndex:  "1000"
@@ -161,12 +170,6 @@ w.LevelMeter = $class({
         this.set("show_clip", this.options.show_clip);
         this.set("show_hold", this.options.show_hold);
         this.set("clip", this.options.clip);
-        this._reset_label = this.reset_label.bind(this);
-        this._reset_clip = this.reset_clip.bind(this);
-        this._reset_peak = this.reset_peak.bind(this);
-        this._reset_top = this.reset_top.bind(this);
-        this._reset_bottom = this.reset_bottom.bind(this);
-        this._draw_meter = this.draw_meter.bind(this);
         this.redraw();
         MeterBase.prototype.initialized.call(this);
     },
@@ -228,53 +231,74 @@ w.LevelMeter = $class({
         this.reset_top();
         this.reset_bottom();
     },
+
+    trigger_draw : function() {
+        if (!this.will_draw) {
+            this.will_draw = true;
+            TK.S.enqueue(this._draw_meter);
+        }
+    },
+
+    effective_value: function() {
+        var O = this.options;
+        var falling = +O.falling;
+        if (!O.falling) return O.value;
+        var age = +(performance.now() - this.value_time);
+        var value = +O.value;
+        var base = +O.base;
+
+        var frame_length = 1000.0 / O.falling_fps;
+
+        if (age > O.falling_init * frame_length) {
+            if (value > base) {
+                value -= falling * (age / frame_length);
+                if (value < base) value = base;
+            } else {
+                value += falling * (age / frame_length);
+                if (value > base) value = base;
+            }
+        }
+
+        return value;
+    },
     
-    draw_meter: function (value) {
+    draw_meter: function () {
+        this.will_draw = false;
         var _c = true;
         var O = this.options;
         var falling = +O.falling;
+        var value   = +O.value;
+        var base    = +O.base;
+
         if (falling) {
-            if (O.value > this._falling && O.value > O.base ||
-                O.value < this._falling && O.value < O.base) {
-                this._falling = O.value;
-                this.__falling = false;
-            } else if (typeof value == "undefined") {
-                if (this._falling > O.base)
-                    this._falling -= Math.min(Math.abs(
-                        this._falling - O.base
-                    ), Math.abs(falling));
-                else if (this._falling < O.base)
-                    this._falling += Math.min(Math.abs(
-                        O.base - this._falling
-                    ), Math.abs(falling));
-                _c = false;
-                this.__falling = true;
-            }
-            O.value = this._falling;
-            this._falling_timeout();
+            value = this.effective_value();
+            // continue animation
+            if (value !== base)
+                this.trigger_draw();
         }
-        if (O.peak_label !== false && O.value > O.label && O.value > O.base ||
-            O.value < O.label && O.value < O.base) {
-            this.set("label", O.value);
+
+        if (O.peak_label !== false && value > O.label && value > base ||
+            value < O.label && value < base) {
+            this.set("label", value);
         }
-        if (O.auto_peak !== false && O.value > O.peak && O.value > O.base ||
-            O.value < O.peak && O.value < O.base) {
-            this.set("peak", O.value);
+        if (O.auto_peak !== false && value > O.peak && value > base ||
+            value < O.peak && value < base) {
+            this.set("peak", value);
         }
-        if (O.auto_clip !== false && _c && O.value > O.clipping && !this.__based) {
+        if (_c && O.auto_clip !== false && value > O.clipping && !this.__based) {
             this.set("clip", true);
         }
-        if (O.auto_hold !== false && O.show_hold && O.value > O.top) {
-            this.set("top", O.value, true);
+        if (O.auto_hold !== false && O.show_hold && value > O.top) {
+            this.set("top", value, true);
         }
-        if (O.auto_hold !== false && O.show_hold && O.value < O.bottom && this.__based) {
-            this.set("bottom", O.value, true);
+        if (O.auto_hold !== false && O.show_hold && value < O.bottom && this.__based) {
+            this.set("bottom", value, true);
         }
 
         var vert = !!this._vert();
         
         if (!O.show_hold) {
-            MeterBase.prototype.draw_meter.call(this);
+            MeterBase.prototype.draw_meter.call(this, value);
             if (!this.__tres) {
                 this.__tres = true;
                 this._mask3.style[vert ? "height" : "width"] = 0;
@@ -284,17 +308,12 @@ w.LevelMeter = $class({
             this.__tres = false;
             
             var m1 = this._mask1.style;
-            var m2 = this._mask2.style;
             var m3 = this._mask3.style;
-            var m4 = this._mask4.style;
            
             // shorten things
             var r         = O.reverse;
-            var base      = O.base;
             var size      = O.basis;
-            var value     = O.value;
             var top       = O.top;
-            var bottom    = O.bottom;
             var hold_size = O.hold_size;
             var segment   = O.segment;
             
@@ -310,6 +329,10 @@ w.LevelMeter = $class({
             m3[vert ? "height" : "width"] = top_size + "px";
             
             if (this.__based) {
+                var bottom    = O.bottom;
+
+                var m2 = this._mask2.style;
+                var m4 = this._mask4.style;
                 var _bot     = +this._val2seg(Math.min(bottom, base));
                 var bot_val  = +this._val2seg(Math.min(value, base));
                 var bot_bot  = Math.min(bot_val, _bot);
@@ -432,22 +455,17 @@ w.LevelMeter = $class({
         else
             this.__bto = null;
     },
-    _falling_timeout: function () {
-        var O = this.options;
-        var f = +this._falling;
-        if (!O.falling) return false;
-        if (this.__fto) window.clearTimeout(this.__fto);
-        if (f > O.base && O.value > O.base || f < O.base && O.value < O.base)
-            this.__fto = window.setTimeout(
-                this._draw_meter,
-                1000 / O.falling_fps
-              * (this.__falling ? 1 : O.falling_init));
-        else
-            this.__fto = null;
-    },
-    
     // GETTER & SETTER
     set: function (key, value, hold) {
+        if (key == "value") {
+            if (this.options.falling) {
+                var v = this.effective_value();
+                var base = this.options.base;
+                if (v > base && value > base && value < v) return;
+                if (v < base && value < base && value > v) return;
+            }
+            this.value_time = performance.now();
+        }
         MeterBase.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "show_peak":
@@ -466,7 +484,7 @@ w.LevelMeter = $class({
             case "show_hold":
                 if (!hold) {
                     TK[(value  ? "add" : "remove") + "_class"](this.element, "toolkit-has-hold");
-                    this.draw_meter();
+                    this.trigger_draw();
                 }
                 break;
             case "peak":
@@ -494,16 +512,12 @@ w.LevelMeter = $class({
                 break;
             case "top":
                 this._top_timeout();
-                if (!hold) {
-                    this.draw_meter();
-                }
+                this.trigger_draw();
                 this.fire_event("topchanged");
                 break;
             case "bottom":
                 this._bottom_timeout();
-                if (!hold) {
-                    this.draw_meter();
-                }
+                this.trigger_draw();
                 this.fire_event("bottomchanged");
                 break;
             case "auto_clip":
