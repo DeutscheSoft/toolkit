@@ -46,14 +46,18 @@ w.Button = $class({
     initialize: function (options, hold) {
         // ??
         Widget.prototype.initialize.call(this, options, hold);
+        /* @element: element; div.toolkit-button; The main button element */
         this.element = this.widgetize(TK.element("div","toolkit-button"), true, true, true);
         this.element.id = this.options.id;
         
         if (this.options.container)
             this.set("container", this.options.container, hold);
         
+        /* @element: _cell; div.toolkit-cell; An internal container for label and icon */
         this._cell  = TK.element("div","toolkit-cell");
+        /* @element: _icon; img.toolkit-icon; The icon of the button */
         this._icon  = TK.element("img","toolkit-icon");
+        /* @element: _label; div.toolkit-label; The label of the button */
         this._label = TK.element("div","toolkit-label");
 
         this._cell.appendChild(this._icon);
