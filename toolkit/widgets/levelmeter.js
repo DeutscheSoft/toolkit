@@ -161,7 +161,12 @@ w.LevelMeter = $class({
         this.set("show_clip", this.options.show_clip);
         this.set("show_hold", this.options.show_hold);
         this.set("clip", this.options.clip);
-        this.reset_label = this.reset_label.bind(this);
+        this._reset_label = this.reset_label.bind(this);
+        this._reset_clip = this.reset_clip.bind(this);
+        this._reset_peak = this.reset_peak.bind(this);
+        this._reset_top = this.reset_top.bind(this);
+        this._reset_bottom = this.reset_bottom.bind(this);
+        this._draw_meter = this.draw_meter.bind(this);
         this.redraw();
         MeterBase.prototype.initialized.call(this);
     },
@@ -226,63 +231,49 @@ w.LevelMeter = $class({
     
     draw_meter: function (value) {
         var _c = true;
-        if (this.options.falling) {
-            if (this.options.value > this._falling
-            && this.options.value > this.options.base
-            || this.options.value < this._falling
-            && this.options.value < this.options.base) {
-                this._falling = this.options.value;
+        var O = this.options;
+        var falling = +O.falling;
+        if (falling) {
+            if (O.value > this._falling && O.value > O.base ||
+                O.value < this._falling && O.value < O.base) {
+                this._falling = O.value;
                 this.__falling = false;
             } else if (typeof value == "undefined") {
-                if (this._falling > this.options.base)
+                if (this._falling > O.base)
                     this._falling -= Math.min(Math.abs(
-                        this._falling - this.options.base
-                    ), Math.abs(this.options.falling));
-                else if (this._falling < this.options.base)
+                        this._falling - O.base
+                    ), Math.abs(falling));
+                else if (this._falling < O.base)
                     this._falling += Math.min(Math.abs(
-                        this.options.base - this._falling
-                    ), Math.abs(this.options.falling));
+                        O.base - this._falling
+                    ), Math.abs(falling));
                 _c = false;
                 this.__falling = true;
             }
-            this.options.value = this._falling;
+            O.value = this._falling;
             this._falling_timeout();
         }
-        if (this.options.peak_label !== false
-        && this.options.value > this.options.label
-        && this.options.value > this.options.base
-        || this.options.value < this.options.label
-        && this.options.value < this.options.base) {
-            this.set("label", this.options.value);
+        if (O.peak_label !== false && O.value > O.label && O.value > O.base ||
+            O.value < O.label && O.value < O.base) {
+            this.set("label", O.value);
         }
-        if (this.options.auto_peak !== false
-        && this.options.value > this.options.peak
-        && this.options.value > this.options.base
-        || this.options.value < this.options.peak
-        && this.options.value < this.options.base) {
-            this.set("peak", this.options.value);
+        if (O.auto_peak !== false && O.value > O.peak && O.value > O.base ||
+            O.value < O.peak && O.value < O.base) {
+            this.set("peak", O.value);
         }
-        if (this.options.auto_clip !== false
-        && _c
-        && this.options.value > this.options.clipping
-        && !this.__based) {
+        if (O.auto_clip !== false && _c && O.value > O.clipping && !this.__based) {
             this.set("clip", true);
         }
-        if (this.options.auto_hold !== false
-        && this.options.show_hold
-        && this.options.value > this.options.top) {
-            this.set("top", this.options.value, true);
+        if (O.auto_hold !== false && O.show_hold && O.value > O.top) {
+            this.set("top", O.value, true);
         }
-        if (this.options.auto_hold !== false
-        && this.options.show_hold
-        && this.options.value < this.options.bottom
-        && this.__based) {
-            this.set("bottom", this.options.value, true);
+        if (O.auto_hold !== false && O.show_hold && O.value < O.bottom && this.__based) {
+            this.set("bottom", O.value, true);
         }
 
         var vert = !!this._vert();
         
-        if (!this.options.show_hold) {
+        if (!O.show_hold) {
             MeterBase.prototype.draw_meter.call(this);
             if (!this.__tres) {
                 this.__tres = true;
@@ -298,14 +289,14 @@ w.LevelMeter = $class({
             var m4 = this._mask4.style;
            
             // shorten things
-            var r         = this.options.reverse;
-            var base      = this.options.base;
-            var size      = this.options.basis;
-            var value     = this.options.value;
-            var top       = this.options.top;
-            var bottom    = this.options.bottom;
-            var hold_size = this.options.hold_size;
-            var segment   = this.options.segment;
+            var r         = O.reverse;
+            var base      = O.base;
+            var size      = O.basis;
+            var value     = O.value;
+            var top       = O.top;
+            var bottom    = O.bottom;
+            var hold_size = O.hold_size;
+            var segment   = O.segment;
             
             var _top      = +this._val2seg(Math.max(top, base));
             var top_val   = +this._val2seg(Math.max(value, base));
@@ -386,7 +377,7 @@ w.LevelMeter = $class({
         if (this.__cto) return;
         if (this.options.clip)
             this.__cto = window.setTimeout(
-                this.reset_clip.bind(this),
+                this._reset_clip,
                 this.options.auto_clip);
         else
             this.__cto = null;
@@ -399,7 +390,7 @@ w.LevelMeter = $class({
         || this.options.peak < this.options.base
         && this.options.value < this.options.base)
             this.__pto = window.setTimeout(
-                this.reset_peak.bind(this),
+                this._reset_peak,
                 this.options.auto_peak);
         else
             this.__pto = null;
@@ -417,7 +408,7 @@ w.LevelMeter = $class({
         if (label > base && value > base ||
             label < base && value < base)
 
-            this.__lto = window.setTimeout(this.reset_label, peak_label);
+            this.__lto = window.setTimeout(this._reset_label, peak_label);
         else
             this.__lto = null;
     },
@@ -426,7 +417,7 @@ w.LevelMeter = $class({
         if (this.__tto) window.clearTimeout(this.__tto);
         if (this.options.top > this.options.base)
             this.__tto = window.setTimeout(
-                this.reset_top.bind(this),
+                this._reset_top,
                 this.options.auto_hold);
         else
             this.__tto = null;
@@ -436,22 +427,21 @@ w.LevelMeter = $class({
         if (this.__bto) window.clearTimeout(this.__bto);
         if (this.options.bottom < this.options.base)
             this.__bto = window.setTimeout(
-                this.reset_bottom.bind(this),
+                this._reset_bottom,
                 this.options.auto_hold);
         else
             this.__bto = null;
     },
     _falling_timeout: function () {
-        if (!this.options.falling) return false;
+        var O = this.options;
+        var f = +this._falling;
+        if (!O.falling) return false;
         if (this.__fto) window.clearTimeout(this.__fto);
-        if (this._falling > this.options.base
-        && this.options.value > this.options.base
-        || this._falling < this.options.base
-        && this.options.value < this.options.base)
+        if (f > O.base && O.value > O.base || f < O.base && O.value < O.base)
             this.__fto = window.setTimeout(
-                this.draw_meter.bind(this),
-                1000 / this.options.falling_fps
-              * (this.__falling ? 1 : this.options.falling_init));
+                this._draw_meter,
+                1000 / O.falling_fps
+              * (this.__falling ? 1 : O.falling_init));
         else
             this.__fto = null;
     },
