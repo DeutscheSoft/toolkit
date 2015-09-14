@@ -21,6 +21,7 @@ function monitor_resize_events() {
 w.toolkit = {
     
     // ELEMENTS
+    S: new DOMScheduler(),
     get_id: function (id) {
         return document.getElementById(id);
     },
