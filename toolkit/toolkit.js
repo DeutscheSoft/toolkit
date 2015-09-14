@@ -3,7 +3,6 @@
 w.toolkit = {
     
     // ELEMENTS
-    
     get_id: function (id) {
         return document.getElementById(id);
     },
@@ -594,6 +593,7 @@ if ('classList' in document.createElement("_")) {
   TK.has_class = function (e, cls) { return e.classList.contains(cls); }
   TK.add_class = function (e, cls) { e.classList.add(cls); }
   TK.remove_class = function (e, cls) { e.classList.remove(cls); }
+  TK.toggle_class = function (e, cls) { e.classList.toggle(cls); }
 } else {
   // IE9
   TK.has_class = function (e, cls) {
@@ -623,6 +623,13 @@ if ('classList' in document.createElement("_")) {
 
       e.className = a.join(" ");
     }
+  };
+  TK.toggle_class = function(e, cls) {
+      if (TK.has_class(e, cls)) {
+          TK.remove_class(e, cls);
+      } else {
+          TK.add_class(e, cls);
+      }
   };
 }
 
