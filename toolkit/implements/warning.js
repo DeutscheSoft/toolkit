@@ -33,7 +33,7 @@ w.Warning = $class({
         this.__wto = window.setTimeout(function () {
             TK.remove_class(element, "toolkit-warn");
         }.bind(this), timeout);
-        this.fire_event("warning", this);
+        this.fire_event("warning");
     }
 });
 })(this);

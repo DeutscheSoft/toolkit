@@ -106,14 +106,13 @@ w.ScrollValue = $class({
     _fire_event: function (title, event) {
         // fire an event on this drag object and one with more
         // information on the draggified element
-        this.fire_event(title, [this, event]);
+        this.fire_event(title, this, event);
         if (this.options.events())
-            this.options.events().fire_event(title, [event,
+            this.options.events().fire_event(title, event,
                                               this.options.get(),
                                               this.options.element,
                                               this,
-                                              this.options.range()
-                                              ]);
+                                              this.options.range());
     },
     
     // GETTERS & SETTERS

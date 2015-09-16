@@ -37,11 +37,11 @@ w.Tooltip = $class({
             document.body.appendChild(this._tooltip);
             this.__tt_injected = true;
             this.__tt_count = 0;
-            this.fire_event("tooltipshow", [this]);
+            this.fire_event("tooltipshow");
         }
         if (!cont) {
             // destroy a tooltip
-            this.fire_event("tooltipremoved", [tt, this]);
+            this.fire_event("tooltipremoved", tt);
             TK.destroy(tt);
             tt = false;
             this.__tt_count --;
@@ -51,13 +51,13 @@ w.Tooltip = $class({
                 TK.destroy(this._tooltip);
                 this._tooltip = false;
                 this.__tt_injected = false;
-                this.fire_event("tooltiphide", [tt, this]);
+                this.fire_event("tooltiphide", tt);
             }
             return;
         } else if (!tt) {
             // add a tooltip
             var tt = document.createElement("li");
-            this.fire_event("tooltipadded", [tt, cont, this]);
+            this.fire_event("tooltipadded", tt, cont);
             this.__tt_count ++;
         }
         
@@ -70,7 +70,7 @@ w.Tooltip = $class({
         this._tooltip.appendChild(tt);
         
         this.__tt_count = Math.max(0, this.__tt_count);
-        this.fire_event("tooltipset", [tt, this]);
+        this.fire_event("tooltipset", tt);
         return tt;
     },
     _pos_tooltip: function (e) {

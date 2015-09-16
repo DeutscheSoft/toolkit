@@ -168,7 +168,7 @@ w.Gradient = $class({
         
         if (element) {
             element.style["background"] = bg;
-            this.fire_event("backgroundchanged", element, bg, this);
+            this.fire_event("backgroundchanged", element, bg);
         }
         return bg;
     }

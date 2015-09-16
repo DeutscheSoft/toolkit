@@ -74,7 +74,7 @@ w.Fader = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fire_event("useraction", ["value", v, this]);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             events: function () { return this }.bind(this),
             direction: this.options.direction
@@ -85,7 +85,7 @@ w.Fader = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fire_event("useraction", ["value", v, this]);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             events: function () { return this }.bind(this),
         });
@@ -101,7 +101,7 @@ w.Fader = $class({
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
             this.set("value", this.options.reset);
-            this.fire_event("doubleclick", [this.options.value, this]);
+            this.fire_event("doubleclick", this.options.value);
         }.bind(this));
         
         this.drag.add_event("dragging", function (ev) {
@@ -241,7 +241,7 @@ w.Fader = $class({
         this.set("value", this._get_value(ev));
         if (!this.__entered)
             this.__tt = this.tooltip(false, this.__tt);
-        this.fire_event("useraction", ["value", this.get("value"), this]);
+        this.fire_event("useraction", "value", this.get("value"));
     },
     _move: function (ev) {
         if (!this.options.tooltip) return;
@@ -281,8 +281,8 @@ w.Fader = $class({
                                      Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
-                this.fire_event("set_value", [this.options.value, this]);
-                this.fire_event("set", ["value", this.options.value, this]);
+                this.fire_event("set_value", this.options.value);
+                this.fire_event("set", "value", this.options.value);
                 if (!hold) {
                     this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real() + "px";
                 }

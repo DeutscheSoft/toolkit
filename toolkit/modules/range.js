@@ -86,8 +86,8 @@ w.Range = $class({
     initialize: function (options, hold) {
         BASE.prototype.initialize.call(this);
         this.set_options(options);
-        this.fire_event("initialize", this);
-        this.fire_event("initialized", this);
+        this.fire_event("initialize");
+        this.fire_event("initialized");
         return this;
     },
     
@@ -97,12 +97,12 @@ w.Range = $class({
         switch (key) {
             
         }
-        this.fire_event("set", [key, value, hold, this]);
-        this.fire_event("set_" + key, [value, hold, this]);
+        this.fire_event("set", key, value, hold);
+        this.fire_event("set_" + key, value, hold);
         return this;
     },
     get: function (key) {
-        this.fire_event("get", [key, this.options[key], this]);
+        this.fire_event("get", key, this.options[key]);
         return this.options[key];
     }
 });

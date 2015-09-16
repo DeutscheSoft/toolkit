@@ -62,17 +62,17 @@ w.Widget = $class({
             a[i].unshare_event(type);
         }
     },
-    fire_event : function(type, a) {
-        var c, i, args;
+    fire_event : function(type) {
+        var c, i;
 
-        BASE.prototype.fire_event.call(this, type, a);
+        BASE.prototype.fire_event.apply(this, arguments);
 
         if (this.shared_events[type]) {
             c = this.children;
             if (a) args = [ this ].concat(a);
             else args = [ this ];
             for (i = 0; i < c.length; i++) {
-                c[i].fire_event(type, args);
+                c[i].fire_event.apply(c[i], arguments);
             }
         }
     },
@@ -84,7 +84,7 @@ w.Widget = $class({
             this.shared_events = Object.create(this.shared_events);
         }
         // Main actions every widget needs to take
-        this.fire_event("initialize", this);
+        this.fire_event("initialize");
         this.set_options(options);
         if (!this.options.id)
             this.options.id = TK.unique_id();
@@ -98,15 +98,15 @@ w.Widget = $class({
     },
     initialized: function () {
         // Main actions every widget needs to take
-        this.fire_event("initialized", this);
+        this.fire_event("initialized");
         return this;
     },
     redraw: function () {
-        this.fire_event("redraw", this);
+        this.fire_event("redraw");
         return this;
     },
     destroy: function () {
-        this.fire_event("destroy", this);
+        this.fire_event("destroy");
         this.__events = null;
         BASE.prototype.destroy.call(this);
         return this;
@@ -114,7 +114,7 @@ w.Widget = $class({
     delegate: function (element) {
         this.delegate_events(element);
         this.__delegated = element;
-        this.fire_event("delegated", [element, this]);
+        this.fire_event("delegated", element);
         return element;
     },
     add_class: function (cls) {
@@ -130,7 +130,7 @@ w.Widget = $class({
         // Takes a DOM element and adds its CSS functionality to the
         // widget instance
         this.__classified = element;
-        this.fire_event("classified", [element, this]);
+        this.fire_event("classified", element);
         return element;
     },
     set_style: function (name, value) {
@@ -148,7 +148,7 @@ w.Widget = $class({
         if (this.options.styles) {
             TK.set_styles(element, this.options.styles);
         }
-        this.fire_event("stylized", [element, this]);
+        this.fire_event("stylized", element);
         return element;
     },
     widgetize: function (element, delegate, classify, stylize) {
@@ -169,7 +169,7 @@ w.Widget = $class({
         if (stylize)
             this.stylize(element);
         this.__widgetized = element;
-        this.fire_event("widgetized", [element, this]);
+        this.fire_event("widgetized", element);
         return element;
     },
     
@@ -206,12 +206,12 @@ w.Widget = $class({
                     else
                         TK.remove_class(this.__stylized, "toolkit-disabled")
         }
-        this.fire_event("set", [key, value, hold, this]);
-        this.fire_event("set_" + key, [value, hold, this]);
+        this.fire_event("set", key, value, hold);
+        this.fire_event("set_" + key, value, hold);
         return this;
     },
     get: function (key) {
-        this.fire_event("get", [key, this.options[key], this]);
+        this.fire_event("get", key, this.options[key]);
         return this.options[key];
     }
 });

@@ -60,7 +60,7 @@ w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fire_event("useraction", ["value", v, this]);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             direction: this.options.direction,
             rotation: this.options.rotation,
@@ -73,7 +73,7 @@ w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
-                this.fire_event("useraction", ["value", v, this]);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             events: function () { return this }.bind(this),
         });
@@ -82,7 +82,7 @@ w.Knob = $class({
             this.options.reset = this.options.value;
         this._svg.addEventListener("dblclick", function () {
             this.set("value", this.options.reset);
-            this.fire_event("doubleclick", [this.options.value, this]);
+            this.fire_event("doubleclick", this.options.value);
         }.bind(this));
         
         this.set("size", this.options.size);

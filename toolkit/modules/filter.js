@@ -35,7 +35,7 @@ w.Filter = $class({
         BASE.prototype.initialize.call(this);
         this.set_options(options);
         this.reset();
-        this.fire_event("initialized", this);
+        this.fire_event("initialized");
     },
     reset: function () {
         switch (this.options.type) {
@@ -289,11 +289,11 @@ w.Filter = $class({
         if (!hold) {
             this.reset();
         }
-        this.fire_event("set", [key, value, hold, this]);
-        this.fire_event("set_" + key, [value, hold, this]);
+        this.fire_event("set", key, value, hold);
+        this.fire_event("set_" + key, value, hold);
     },
     get: function (key) {
-        this.fire_event("get", [key, this.options[key], this]);
+        this.fire_event("get", key, this.options[key]);
         return this.options[key];
     }
 });

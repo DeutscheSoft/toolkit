@@ -121,7 +121,7 @@ w.ButtonArray = $class({
         }.bind(this));
         this._scroll_to(this.options.show);
         /* @event: added; Button, Widget; A #Button was added to the ButtonArray */
-        this.fire_event("added", [b, this]);
+        this.fire_event("added", b);
         return b;
     },
     remove_button: function (button) {
@@ -133,7 +133,7 @@ w.ButtonArray = $class({
         if (button < 0 || button >= this.buttons.length)
             return;
         /* @event: removed; Button, Widget; A #Button was removed from the ButtonArray */
-        this.fire_event("removed", [this.buttons[button], this]);
+        this.fire_event("removed", this.buttons[button]);
         this.buttons[button].destroy();
         this.buttons.splice(button, 1);
         this._check_arrows();
@@ -208,7 +208,7 @@ w.ButtonArray = $class({
         this.buttons[id].set("state", true);
         /* @event: changed; Button, ID, Widget; A #Button was requested (clicked or scrolled to) */
         if (tmp != id) {
-            this.fire_event("changed", [this.buttons[id], id, this]);
+            this.fire_event("changed", this.buttons[id], id);
         }
         return id;
     },
@@ -228,15 +228,15 @@ w.ButtonArray = $class({
     _prev_clicked: function (e) {
         /* @event: clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
         var id = this._scroll_to(this.options.show - 1);
-        this.fire_event("clicked", [this.buttons[id], id, this]);
+        this.fire_event("clicked", this.buttons[id], id);
     },
     
     _next_clicked: function (e) {
-        this.fire_event("clicked", [this._scroll_to(this.options.show + 1), this]);
+        this.fire_event("clicked", this._scroll_to(this.options.show + 1));
     },
     
     _button_clicked: function (button) {
-        this.fire_event("clicked", [this._scroll_to(button), this]);
+        this.fire_event("clicked", this._scroll_to(button));
     },
     
     set: function (key, value, hold) {

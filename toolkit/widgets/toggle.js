@@ -53,8 +53,8 @@ w.Toggle = $class({
     toggle: function (hold) {
         this._clear_to();
         this.set("state", !this.options.state);
-        this.fire_event("toggled", [this.options.state, this]);
-        this.fire_event("useraction", ["state", this.options.state, this]);
+        this.fire_event("toggled", this.options.state);
+        this.fire_event("useraction", "state", this.options.state);
     },
     cancel_press: function () {
         if (!this.__tp)

@@ -195,7 +195,7 @@ w.DragValue = $class({
     _fire_event: function (title, event) {
         // fire an event on this drag object and one with more
         // information on the draggified element
-        this.fire_event(title, [event, this]);
+        this.fire_event(title, event);
         //if (this.options.events)
             //this.options.events.fire_event(title, [event,
                                               //this.options.get(),

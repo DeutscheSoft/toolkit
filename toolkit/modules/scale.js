@@ -299,7 +299,7 @@ w.Scale = $class({
             case "gap_dots":
             case "gap_labels":
             case "show_labels":
-                this.fire_event("scalechanged", this)
+                this.fire_event("scalechanged")
                 if (!hold) this.redraw();
                 break;
             case "basis":
@@ -314,7 +314,7 @@ w.Scale = $class({
                 } else {
                     this.__based = true;
                 }
-                this.fire_event("basechanged", [value, this]);
+                this.fire_event("basechanged", value);
                 if (!hold) this.redraw();
                 key = false;
                 break;

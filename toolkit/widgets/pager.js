@@ -50,7 +50,7 @@ w.Pager = $class({
             container: this.element,
             onClicked: (function (id, but) {
                 this._scroll_to(id);
-                this.fire_event("clicked", [ id, this ]);
+                this.fire_event("clicked", id);
             }).bind(this)
         });
         this.register_children(this.buttonarray);
@@ -142,20 +142,20 @@ w.Pager = $class({
                 this._container.childNodes[pos]);
         }
         this._scroll_to(this.options.show);
-        this.fire_event("added", [p, this]);
+        this.fire_event("added", p);
         return p;
         //var sb = b.element.getBoundingClientRect()[vert ? "height" : "width"];
     },
 
-    fire_event : function(type, a) {
+    fire_event : function(type) {
         if (type == "show" || type == "hide") {
             // hide and show are only for the active page and the button array
             // and this widget itself
             this.buttonarray.fire_event(type);
             if (this.pages.length && this.options.show >= 0)
                 this.pages[this.options.show].fire_event(type);
-            BASE.prototype.fire_event.call(this, type, a);
-        } else Container.prototype.fire_event.call(this, type, a);
+            BASE.prototype.fire_event.apply(this, arguments);
+        } else Container.prototype.fire_event.apply(this, arguments);
     },
 
     remove_page: function (page) {
@@ -163,7 +163,7 @@ w.Pager = $class({
             page = this.pages.indexOf(page);
         if (page < 0 || page >= this.pages.length)
             return;
-        this.fire_event("removed", [this.pages[page], this]);
+        this.fire_event("removed", this.pages[page]);
         this.buttonarray.remove_button(page);
         this.pages[page].destroy();
         this.pages.splice(page, 1);
@@ -199,7 +199,7 @@ w.Pager = $class({
         this._container.style[dir ? 'top' : 'left'] = (-size * id) + "px";
         this._container.style[dir ? 'left' : 'top'] = "";
         if (cid != id) {
-            this.fire_event("changed", [this.pages[id], id, this]);
+            this.fire_event("changed", this.pages[id], id);
             this.pages[id].fire_event("show");
             if (cid >= 0 && cid < this.pages.length)
                 this.pages[cid].fire_event("hide");

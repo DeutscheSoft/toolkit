@@ -104,7 +104,7 @@ w.Value = $class({
         this._input.setAttribute("value", this.options.value);
         this.__editing = true;
         this._input.focus();
-        this.fire_event("valueclicked", [this.options.value, this]);
+        this.fire_event("valueclicked", this.options.value);
         //e.stopPropagation();
     },
     _value_init: function (e) {
@@ -118,15 +118,15 @@ w.Value = $class({
             case 27:
                 // ESC
                 this._value_done();
-                this.fire_event("valueescape", [this.options.value, this]);
+                this.fire_event("valueescape", this.options.value);
                 break;
             case 13:
                 // ENTER
                 var val = this.options.set(this._input.value);
                 this.set("value", val, true);
                 this._value_done();
-                this.fire_event("valueset", [this.options.value, this]);
-                this.fire_event("useraction", ["value", this.options.value, this]);
+                this.fire_event("valueset", this.options.value);
+                this.fire_event("useraction", "value", this.options.value);
                 e.preventDefault();
                 return false;
                 break;
@@ -134,14 +134,14 @@ w.Value = $class({
                 //this.set("value", val, true);
                 break;
         }
-        this.fire_event("valuetyping", [e, this.options.value, this]);
+        this.fire_event("valuetyping", e, this.options.value);
     },
     _value_done: function (e) {
         if (!this.__editing) return;
         this.__editing = false;
         TK.remove_class(this.element, "toolkit-active");
         this._input.blur();
-        this.fire_event("valuedone", [this.options.value, this]);
+        this.fire_event("valuedone", this.options.value);
         this.redraw();
     },
     

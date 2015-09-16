@@ -53,7 +53,7 @@ w.ValueButton = $class({
             set: function (val) {
                     val = parseFloat(val);
                     this.set("value", val);
-                    this.fire_event("useraction", ["value", val, this]);
+                    this.fire_event("useraction", "value", val);
                     return this.options.value; }.bind(this)
         });
         this.value.add_event("valueclicked", this._value_clicked.bind(this));
@@ -71,7 +71,7 @@ w.ValueButton = $class({
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) {
                 this.set("value", v);
-                this.fire_event("useraction", ["value", v, this]);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             direction: this.options.drag_direction,
             rotation: this.options.rotation,
@@ -92,7 +92,7 @@ w.ValueButton = $class({
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
             this.set("value", this.options.reset);
-            this.fire_event("doubleclick", [this.options.value, this]);
+            this.fire_event("doubleclick", this.options.value);
         }.bind(this));
         
         this._input.addEventListener("dblclick", function (e) {
@@ -128,7 +128,7 @@ w.ValueButton = $class({
     _value_done: function () {
         this.scroll.set("active", true);
         this.drag.set("active", true);
-        this.fire_event("valueset", [this.options.value, this]);
+        this.fire_event("valueset", this.options.value);
     },
     
     // GETTERS & SETTERS
@@ -155,7 +155,7 @@ w.ValueButton = $class({
                                      Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
-                this.fire_event("valuechanged", [this.options.value, this]);
+                this.fire_event("valuechanged", this.options.value);
                 if (!hold) this.redraw();
                 return;
             case "value_format":

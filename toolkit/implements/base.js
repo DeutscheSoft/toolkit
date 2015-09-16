@@ -199,7 +199,7 @@ w.BASE = $class({
         // hand over a DOM element all native events will be bound to
         var ev = this.__events;
         var old_target = this.__event_target;
-        this.fire_event("delegated", [element, this]);
+        this.fire_event("delegated", element);
 
         for (var e in ev) if (ev.hasOwnProperty(e) && __native_events[e]) {
             if (element) element.addEventListener(e, ev[e].callback);
@@ -246,7 +246,7 @@ w.BASE = $class({
                     if (stop) event.stopPropagation();
                     if (prevent) event.preventDefault();
 
-                    this.fire_event("" + e, [event]);
+                    this.fire_event(e, event);
 
                     if (prevent) return false;
                 }.bind(this)
@@ -295,21 +295,21 @@ w.BASE = $class({
             }
         }
     },
-    fire_event: function (e, args) {
+    fire_event: function (e) {
         var ev = this.__events;
-        if (!ev.hasOwnProperty(e))
-            // unknown event, return.
-            return;
+
+        if (!ev.hasOwnProperty(e)) return;
+
         ev = ev[e].queue;
 
         if (!ev.length) return;
 
-        if (!(args instanceof Array))
-            // we need an array containing all arguments
-            args = Array(args);
-        args.push(this);
+        var args = new Array(arguments.length-1);
+
+        for (var i = 0; i < args.length; i++) {
+            args[i] = arguments[i+1];
+        }
         for (var i = 0; i < ev.length; i++)
-            // run callbacks in a loop
             ev[i].apply(this, args);
     },
     add_events: function (events, fun) {

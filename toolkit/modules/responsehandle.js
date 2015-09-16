@@ -1136,14 +1136,14 @@ w.ResponseHandle = $class({
         this._pageY   = ev.pageY;
         this.redraw();
         if (!this._zhandling) {
-            this.fire_event("handlegrabbed", [{
+            this.fire_event("handlegrabbed", {
                 x:     this.options.x,
                 y:     this.options.y,
                 pos_x: this.x,
                 pos_y: this.y
-            }, this]);
+            });
         } else {
-            this.fire_event("zchangestarted", [this.options.z, this]);
+            this.fire_event("zchangestarted", this.options.z);
         }
         //document.addEventListener("mouseup", this._mouseup.bind(this));
         return false;
@@ -1157,14 +1157,14 @@ w.ResponseHandle = $class({
             TK.remove_class(parent, "toolkit-dragging");
         this.remove_cursor("move");
         if (!this._zhandling) {
-            this.fire_event("handlereleased", [{
+            this.fire_event("handlereleased", {
                 x:     this.options.x,
                 y:     this.options.y,
                 pos_x: this.x,
                 pos_y: this.y
-            }, this]);
+            });
         } else {
-            this.fire_event("zchangeended", [this.options.z, this]);
+            this.fire_event("zchangeended", this.options.z);
             this._zhandling = false;
         }
         this.__active = false;
@@ -1208,7 +1208,7 @@ w.ResponseHandle = $class({
                 // movement to left
                 this.set("z",
                     this.range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz)));
-                this.fire_event("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", this.options.z);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_RIGHT
@@ -1227,7 +1227,7 @@ w.ResponseHandle = $class({
                 // movement to right
                 this.set("z",
                     this.range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz)));
-                this.fire_event("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", this.options.z);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_TOP
@@ -1246,7 +1246,7 @@ w.ResponseHandle = $class({
                 // movement to top
                 this.set("z",
                     this.range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz)));
-                this.fire_event("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", this.options.z);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             } else if (this.options.z_handle == _TOOLKIT_BOTTOM
@@ -1265,7 +1265,7 @@ w.ResponseHandle = $class({
                 // movement to bottom
                 this.set("z",
                     this.range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz)));
-                this.fire_event("zchanged", [this.options.z, this]);
+                this.fire_event("zchanged", this.options.z);
                 this._pageX = ev.pageX;
                 this._pageY = ev.pageY;
             }
@@ -1280,15 +1280,15 @@ w.ResponseHandle = $class({
                 + ((ev.pageX - this._offsetX) - this._clickX) * mx));
             this.set("y", this.range_y.px2val(this._clickY
                 + ((ev.pageY - this._offsetY) - this._clickY) * my));
-            this.fire_event("useraction", ["x", this.get("x"), this]);
-            this.fire_event("useraction", ["y", this.get("y"), this]);
+            this.fire_event("useraction", "x", this.get("x"));
+            this.fire_event("useraction", "y", this.get("y"));
         }
-        this.fire_event("handledragging", [{
+        this.fire_event("handledragging", {
             x:     this.options.x,
             y:     this.options.y,
             pos_x: this.x,
             pos_y: this.y
-        },this]);
+        });
         return false;
     },
     _scrollwheel: function (e) {
@@ -1299,7 +1299,7 @@ w.ResponseHandle = $class({
         TK.add_class(this.element, "toolkit-active");
         this.__sto = window.setTimeout(function () {
             TK.remove_class(this.element, "toolkit-active");
-            this.fire_event("zchangeended", [this.options.z, this]);
+            this.fire_event("zchangeended", this.options.z);
         }.bind(this), 250);
         var s = this.range_z.get("step") * e.wheel;
         if (e.ctrlKey && e.shiftKey)
@@ -1308,9 +1308,9 @@ w.ResponseHandle = $class({
             s *= this.range_z.get("shift_up");
         this.set("z", this.get("z") + s);
         if (!this._zwheel)
-            this.fire_event("zchangestarted", [this.options.z, this]);
-        this.fire_event("zchanged", [this.options.z, this]);
-        this.fire_event("useraction", ["z", this.options.z, this]);
+            this.fire_event("zchangestarted", this.options.z);
+        this.fire_event("zchanged", this.options.z);
+        this.fire_event("useraction", "z", this.options.z);
         this._zwheel = true;
     },
     _touchstart: function (e) {
@@ -1355,7 +1355,7 @@ w.ResponseHandle = $class({
             this.set("z", Math.max(
                 Math.min(z, this.range_z.get("max")),
                 this.range_z.get("min")));
-            this.fire_event("zchanged", [this.options.z, this]);
+            this.fire_event("zchanged", this.options.z);
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -1385,7 +1385,7 @@ w.ResponseHandle = $class({
             case "x":
             case "y":
             case "z":
-                this.fire_event("set_" + key, [value, hold, this])
+                this.fire_event("set_" + key, value, hold)
                 if (!hold) this.redraw();
                 key = false;
                 break;

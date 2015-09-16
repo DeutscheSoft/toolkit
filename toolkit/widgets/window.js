@@ -266,23 +266,23 @@ w.Window = $class({
             this.set("maximize", {x: true, y: true});
         else
             this.set("maximize", {x: false, y: false});
-        this.fire_event("maximizetoggled", [this, this.options.maximize]);
+        this.fire_event("maximizetoggled", this.options.maximize);
     },
     toggle_maximize_vertical: function () {
         this.set("maximize", {y: !this.options.maximize.y});
-        this.fire_event("maximizetoggled", [this, this.options.maximize]);
+        this.fire_event("maximizetoggled", this.options.maximize);
     },
     toggle_maximize_horizontal: function () {
         this.set("maximize", {x: !this.options.maximize.x});
-        this.fire_event("maximizetoggled", [this, this.options.maximize]);
+        this.fire_event("maximizetoggled", this.options.maximize);
     },
     toggle_minimize: function () {
         this.set("minimize", !this.options.minimize);
-        this.fire_event("minimizetoggled", [this, this.options.minimize]);
+        this.fire_event("minimizetoggled", this.options.minimize);
     },
     toggle_shrink: function () {
         this.set("shrink", !this.options.shrink);
-        this.fire_event("shrinktoggled", [this, this.options.shrink]);
+        this.fire_event("shrinktoggled", this.options.shrink);
     },
     
     // HELPERS & STUFF
@@ -318,7 +318,7 @@ w.Window = $class({
         this.dimensions.x2 = this.dimensions.x1 + this.dimensions.width;
         this.dimensions.y2 = this.dimensions.y1 + this.dimensions.height;
         this._set_content();
-        this.fire_event("dimensionschanged", [this, this.dimensions]);
+        this.fire_event("dimensionschanged", this.dimensions);
     },
     _set_position: function () {
         var width  = TK.inner_width(this.element);
@@ -344,7 +344,7 @@ w.Window = $class({
         this.dimensions.y1     = pos.y;
         this.dimensions.x2     = pos.x + this.dimensions.width;
         this.dimensions.y2     = pos.y + this.dimensions.height;
-        this.fire_event("positionchanged", [this, this.dimensions]);
+        this.fire_event("positionchanged", this.dimensions);
     },
     _set_content: function () {
         //var elmt = TK.inner_height(this.element);
@@ -356,7 +356,7 @@ w.Window = $class({
         //else
             //toolkit.outer_width(this._content, true, TK.inner_width(this.element));
         //this._content.style["top"] = head + "px";
-        this.fire_event("contentresized", [this]);
+        this.fire_event("contentresized");
     },
     _init_position: function (pos) {
         if (pos) {
@@ -382,14 +382,14 @@ w.Window = $class({
         this.__build_from_const("header_center");
         this.__build_from_const("header_right");
         this._check_header();
-        this.fire_event("headerchanged", [this]);
+        this.fire_event("headerchanged");
     },
     _build_footer: function () {
         this.__build_from_const("footer_left");
         this.__build_from_const("footer_center");
         this.__build_from_const("footer_right");
         this._check_footer();
-        this.fire_event("footerchanged", [this]);
+        this.fire_event("footerchanged");
     },
     __build_from_const: function (element) {
         for (var i = 0; i < this.options[element].length; i++) {
@@ -510,17 +510,17 @@ w.Window = $class({
         
         this.dragging = true;
         TK.add_class(this.element, "toolkit-dragging");
-        this.fire_event("startdrag", [this, ev]);
+        this.fire_event("startdrag", ev);
     },
     __stop_drag: function (ev, el) {
         this.dragging = false;
         this.__set_position();
         TK.remove_class(this.element, "toolkit-dragging");
-        this.fire_event("stopdrag", [this, ev]);
+        this.fire_event("stopdrag", ev);
     },
     __dragging: function (ev, el) {
         this.__set_position();
-        this.fire_event("dragging", [this, ev]);
+        this.fire_event("dragging", ev);
     },
     __set_position: function () {
         var posx  = TK.position_left(this.element);
@@ -539,7 +539,7 @@ w.Window = $class({
         document.body.style["cursor"] = TK.get_style(this._resize, "cursor");
         this.resizing = true;
         TK.add_class(this.element, "toolkit-resizing");
-        this.fire_event("startresize", [this, ev]);
+        this.fire_event("startresize", ev);
     },
     __stop_resize: function (el, ev) {
         document.body.style["cursor"] = this.__docmouse;
@@ -549,7 +549,7 @@ w.Window = $class({
         this._check_header(true);
         this._check_footer(true);
         this.__set_dimensions();
-        this.fire_event("stopresize", [this, ev]);
+        this.fire_event("stopresize", ev);
     },
     __resizing: function (el, ev) {
         if (this.options.resizing == _TOOLKIT_CONTINUOUS) {
@@ -558,7 +558,7 @@ w.Window = $class({
             this.__size_footer(true);
             this.__set_dimensions();
         }
-        this.fire_event("resizing", [this, ev]);
+        this.fire_event("resizing", ev);
     },
     __set_dimensions: function () {
         var x = TK.outer_width(this.element, true);
@@ -584,23 +584,23 @@ w.Window = $class({
     },
     __maximize: function (e) {
         if (this.options.auto_maximize) this.toggle_maximize();
-        this.fire_event("maximizeclicked", [this, this.options.maximize]);
+        this.fire_event("maximizeclicked", this.options.maximize);
     },
     __maximizevertical: function (e) {
         if (this.options.auto_maximize) this.toggle_maximize_vertical();
-        this.fire_event("maximizeverticalclicked", [this, this.options.maximize.y]);
+        this.fire_event("maximizeverticalclicked", this.options.maximize.y);
     },
     __maximizehorizontal: function (e) {
         if (this.options.auto_maximize) this.toggle_maximize_horizontal();
-        this.fire_event("maximizehorizontalclicked", [this, this.options.maximize.x]);
+        this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
     },
     __minimize: function (e) {
         if (this.options.auto_minimize) this.toggle_minimize();
-        this.fire_event("minimizeclicked", [this, this.options.minimize]);
+        this.fire_event("minimizeclicked", this.options.minimize);
     },
     __shrink: function (e) {
         if (this.options.auto_shrink) this.toggle_shrink();
-        this.fire_event("shrinkclicked", [this, this.options.shrink]);
+        this.fire_event("shrinkclicked", this.options.shrink);
     },
     __header_action: function () {
         switch (this.options.header_action) {
@@ -623,7 +623,7 @@ w.Window = $class({
                 this.destroy();
                 break;
         }
-        this.fire_event("headeraction", [this, this.options.header_action]);
+        this.fire_event("headeraction", this.options.header_action);
     },
         
     // GETTERS & SETTERS

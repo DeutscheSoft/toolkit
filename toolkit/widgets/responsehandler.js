@@ -106,7 +106,7 @@ w.ResponseHandler = $class({
             document.removeEventListener("touchmove", _touchmove);
             document.removeEventListener("touchend",  _touchend);
         }.bind(this));
-        this.fire_event("handleadded", [h, this]);
+        this.fire_event("handleadded", h);
         return h;
     },
     add_handles: function (handles) {
@@ -120,7 +120,7 @@ w.ResponseHandler = $class({
             if (this.handles[i] == handle) {
                 this.handles[i].destroy();
                 this.handles.splice(i, 1);
-                this.fire_event("handleremoved", this);
+                this.fire_event("handleremoved");
                 break;
             }
         }
@@ -131,7 +131,7 @@ w.ResponseHandler = $class({
             this.remove_handle(this.handles[i]);
         }
         this.handles = [];
-        this.fire_event("emptied", this)
+        this.fire_event("emptied")
     },
     
     intersect: function (x1, y1, x2, y2, id) {

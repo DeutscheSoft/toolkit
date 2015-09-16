@@ -60,12 +60,12 @@ w.Drag = $class({
         this._ypos   = this.options.element.offsetTop;
         if (!this.options.active)
             return;
-        this.fire_event("start", [e, this]);
+        this.fire_event("start", e);
     },
     _dragend: function (e, drag) {
         if (!this.options.active)
             return;
-        this.fire_event("stop", [e, this]);
+        this.fire_event("stop", e);
     },
     _dragging: function (e, drag) {
         if (!this.options.active)
@@ -83,7 +83,7 @@ w.Drag = $class({
         this.options.element.style.top = y + "px";
         this.options.element.style.left = x + "px";
         
-        this.fire_event("resizing", [e, x, y, this]);
+        this.fire_event("resizing", e, x, y);
     },
     // GETTERS & SETTERS
     set: function (key, value, hold) {

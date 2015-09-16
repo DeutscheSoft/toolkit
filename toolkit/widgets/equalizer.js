@@ -141,7 +141,7 @@ w.Equalizer = $class({
         }.bind(this));
         b.add_event("set", this.redraw.bind(this));
         this.redraw();
-        this.fire_event("bandadded", [b, this]);
+        this.fire_event("bandadded", b);
         this.register_children(b);
         return b;
     },
@@ -156,7 +156,7 @@ w.Equalizer = $class({
                 this.unregister_children(bands[i]);
                 this.bands[i].destroy();
                 this.bands.splice(i, 1);
-                this.fire_event("bandremoved", this);
+                this.fire_event("bandremoved");
                 break;
             }
         }
@@ -166,7 +166,7 @@ w.Equalizer = $class({
             this.remove_band(this.bands[i]);
         }
         this.bands = [];
-        this.fire_event("emptied", this);
+        this.fire_event("emptied");
     },
     
     // GETTER & SETTER

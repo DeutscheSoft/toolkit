@@ -155,14 +155,14 @@ w.Chart = $class({
             if (key == "color" || key == "class" || key == "key")
                 if (!hold) this._draw_key();
         }.bind(this));
-        this.fire_event("graphadded", [g, this.graphs.length - 1, this]);
+        this.fire_event("graphadded", g, this.graphs.length - 1);
         return g;
     },
     remove_graph: function (g) {
         // Remove a certain Graph from the Chart
         for (var i = 0; i < this.graphs.length; i++) {
             if (this.graphs[i] == g) {
-                this.fire_event("graphremoved", [this.graphs[i], i, this]);
+                this.fire_event("graphremoved", this.graphs[i], i);
                 this.graphs[i].destroy();
                 this.graphs.splice(i, 1);
                 break;
@@ -176,7 +176,7 @@ w.Chart = $class({
             this.remove_graph(this.graphs[i]);
         }
         this.graphs = [];
-        this.fire_event("emptied", [this]);
+        this.fire_event("emptied");
     },
     
     // HELPERS & STUFF

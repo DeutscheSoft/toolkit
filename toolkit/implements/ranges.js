@@ -54,7 +54,7 @@ w.Ranges = $class({
                 }
             }.bind(this));
         }
-        this.fire_event("rangeadded", [r, this]);
+        this.fire_event("rangeadded", r);
         return r;
     }
 })

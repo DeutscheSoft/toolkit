@@ -201,7 +201,7 @@ w.Clock = $class({
         }
         
         if (drawn)
-            this.fire_event("timedrawn", [this, this.options.time]);
+            this.fire_event("timedrawn", this.options.time);
     },
     _set_labels: function () {
         var s = this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,

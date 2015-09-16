@@ -60,7 +60,7 @@ w.ValueKnob = $class({
     _value_done: function () {
         this.scroll.set("active", true);
         this.drag.set("active", true);
-        this.fire_event("valueset", [this.options.value, this]);
+        this.fire_event("valueset", this.options.value);
     },
     
     set: function (key, value, hold) {
@@ -74,7 +74,7 @@ w.ValueKnob = $class({
                                      Math.max(this.options.min, value)));
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
-                this.fire_event("valuechanged", [this.options.value, this]);
+                this.fire_event("valuechanged", this.options.value);
                 this.value.set("value", this.options.value);
                 return;
             case "drag_direction":

@@ -411,7 +411,7 @@ w.MeterBase = $class({
                     this._scale.style["display"] = value ? "block" : "none";
                 break;
             case "label":
-                this.fire_event("labelchanged", [value, this]);
+                this.fire_event("labelchanged", value);
                 if (!hold) {
                     var s = this.options.format_label(value);
                     var n = this._label;
@@ -421,12 +421,12 @@ w.MeterBase = $class({
                 }
                 break;
             case "value":
-                this.fire_event("valuechanged", [value, this]);
+                this.fire_event("valuechanged", value);
                 if (!hold)
                     this.draw_meter(value);
                 break;
             case "title":
-                this.fire_event("titlechanged", [value, this]);
+                this.fire_event("titlechanged", value);
                 if (!hold)
                     this._title.innerHTML = value;
                 break;
@@ -451,16 +451,16 @@ w.MeterBase = $class({
             case "show_min":
             case "show_base":
                 this.scale.set(key, value, hold);
-                this.fire_event("scalechanged", [key, value, this]);
+                this.fire_event("scalechanged", key, value);
                 if (!hold) this.redraw();
                 break;
             case "format_labels":
-                this.fire_event("scalechanged", [key, value, this]);
+                this.fire_event("scalechanged", key, value);
                 this.scale.set("labels", value, hold);
                 if (!hold) this.redraw();
                 break;
             case "scale_base":
-                this.fire_event("scalechanged", [key, value, this]);
+                this.fire_event("scalechanged", key, value);
                 this.scale.set("base", value, hold);
                 if (!hold) this.redraw();
                 break;
@@ -471,7 +471,7 @@ w.MeterBase = $class({
                 } else {
                     this.__based = true;
                 }
-                this.fire_event("basechanged", [value, this]);
+                this.fire_event("basechanged", value);
                 if (!hold) this.redraw();
                 key = false;
                 break;

@@ -201,25 +201,25 @@ w.LevelMeter = $class({
     },
     reset_peak: function () {
         this.set("peak", this.options.value);
-        this.fire_event("resetpeak", this);
+        this.fire_event("resetpeak");
     },
     reset_label: function () {
          this.__lto = false;
         this.set("label", this.options.value);
-        this.fire_event("resetlabel", this);
+        this.fire_event("resetlabel");
     },
     reset_clip: function () {
         this.__cto = false;
         this.set("clip", false);
-        this.fire_event("resetclip", this);
+        this.fire_event("resetclip");
     },
     reset_top: function () {
         this.set("top", this.options.value);
-        this.fire_event("resettop", this);
+        this.fire_event("resettop");
     },
     reset_bottom: function () {
         this.set("bottom", this.options.value);
-        this.fire_event("resetbottom", this);
+        this.fire_event("resetbottom");
     },
     reset_all: function () {
         this.reset_label();
@@ -321,7 +321,7 @@ w.LevelMeter = $class({
                         : (r ? "right" : "left")] = bot_top + "px";
                 m4[vert ? "height" : "width"] = bot_size + "px";
             }
-            this.fire_event("drawmeter", this);
+            this.fire_event("drawmeter");
         }
     },
     
@@ -358,7 +358,7 @@ w.LevelMeter = $class({
         } else {
             this._peak.style["display"] = "none";
         }
-        this.fire_event("drawpeak", this);
+        this.fire_event("drawpeak");
     },
     
     // HELPERS & STUFF

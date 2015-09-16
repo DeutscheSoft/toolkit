@@ -87,7 +87,7 @@ w.Gauge = $class({
                 "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
             this._title.setAttribute("text-anchor", "middle");
         }
-        this.fire_event("titledrawn", [this]);
+        this.fire_event("titledrawn");
     },
     
     // GETTERS & SETTERS
@@ -102,8 +102,8 @@ w.Gauge = $class({
             case "title":
                 if (typeof value == "string") value = {title: value};
                 this.options.title = Object.assign(this.options.title, value);
-                this.fire_event("set", [key, value, hold, this]);
-                this.fire_event("set_" + key, [value, hold, this]);
+                this.fire_event("set", key, value, hold);
+                this.fire_event("set_" + key, value, hold);
                 key = false;
                 if (!hold) this._draw_title();
                 break;
