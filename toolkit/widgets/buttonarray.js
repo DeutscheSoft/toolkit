@@ -68,8 +68,8 @@ w.ButtonArray = $class({
                                 class: "toolkit-previous"});
         this.next = new Button({label: vert ? "▼" : "►",
                                 class: "toolkit-next"});
-        this.prev.add_event("pointerup", this._prev_clicked.bind(this));
-        this.next.add_event("pointerup", this._next_clicked.bind(this));
+        this.prev.add_event("click", this._prev_clicked.bind(this));
+        this.next.add_event("click", this._next_clicked.bind(this));
         this._prev = this.prev.element;
         this._next = this.next.element;
         
@@ -116,7 +116,7 @@ w.ButtonArray = $class({
         
         this._check_arrows();
         var c = b;
-        b.add_event("pointerup", function () {
+        b.add_event("click", function () {
             this._button_clicked(c);
         }.bind(this));
         this._scroll_to(this.options.show);
