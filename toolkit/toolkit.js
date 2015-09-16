@@ -593,16 +593,16 @@ if (typeof Object.assign === 'undefined') {
 }
 
 if ('classList' in document.createElement("_")) {
-  TK.has_class = function (e, cls) { return e.classList.contains(cls); }
-  TK.add_class = function (e, cls) { e.classList.add(cls); }
-  TK.remove_class = function (e, cls) { e.classList.remove(cls); }
-  TK.toggle_class = function (e, cls) { e.classList.toggle(cls); }
+  w.TK.has_class = function (e, cls) { return e.classList.contains(cls); }
+  w.TK.add_class = function (e, cls) { e.classList.add(cls); }
+  w.TK.remove_class = function (e, cls) { e.classList.remove(cls); }
+  w.TK.toggle_class = function (e, cls) { e.classList.toggle(cls); }
 } else {
   // IE9
-  TK.has_class = function (e, cls) {
+  w.TK.has_class = function (e, cls) {
     return e.className.split(" ").indexOf(cls) !== -1;
   };
-  TK.add_class = function (e, cls) {
+  w.TK.add_class = function (e, cls) {
     var s = e.className;
     if (!s.length) {
       e.className = cls;
@@ -614,7 +614,7 @@ if ('classList' in document.createElement("_")) {
       e.className = a.join(" ");
     }
   };
-  TK.remove_class = function(e, cls) {
+  w.TK.remove_class = function(e, cls) {
     var a = e.className.split(" ");
     var i = a.indexOf(cls);
 
@@ -627,7 +627,7 @@ if ('classList' in document.createElement("_")) {
       e.className = a.join(" ");
     }
   };
-  TK.toggle_class = function(e, cls) {
+  w.TK.toggle_class = function(e, cls) {
       if (this.has_class(e, cls)) {
           this.remove_class(e, cls);
       } else {
@@ -636,12 +636,12 @@ if ('classList' in document.createElement("_")) {
   };
 }
 
-if ('getComputedStyle' in document.defaultView) {
-  TK.get_style = function(e, style) {
+if ('getComputedStyle' in w) {
+  w.TK.get_style = function(e, style) {
     return document.defaultView.getComputedStyle(e).getPropertyValue(style);
   };
 } else {
-  TK.get_style = function(e, style) {
+  w.TK.get_style = function(e, style) {
     return e.currentStyle[style];
   };
 }
