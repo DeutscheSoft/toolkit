@@ -101,7 +101,7 @@ w.Dynamics = $class({
                        {x: this.options.max, y: this.options.max}]
             });
         }
-        curve = [];
+        var curve = [];
         switch (this.options.type) {
             case _TOOLKIT_COMPRESSOR:
                 curve.push({x: this.options.min,
