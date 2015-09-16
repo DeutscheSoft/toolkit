@@ -323,7 +323,7 @@ w.Window = $class({
     _set_position: function () {
         var width  = TK.inner_width(this.element);
         var height = TK.inner_height(this.element);
-        pos = this.translate_anchor(this.options.anchor,
+        var pos = this.translate_anchor(this.options.anchor,
                                      this.options.x,
                                      this.options.y,
                                      -width,
