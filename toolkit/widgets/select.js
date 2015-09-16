@@ -39,30 +39,19 @@ w.Select = $class({
         Button.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-select");
         
-        this.add_event("pointerup", function (e) {
+        this.add_event("click", function (e) {
             this.show_list(!this.__open);
         }.bind(this));
         
         this._list = TK.element("ul", "toolkit-select-list");
-        document.addEventListener("touchstart", function (e) {
-            if (this.__open && !this.__transition) {
-                this.show_list(false);
-                e.preventDefault();
-            }
-            // preventing the default for a _global_ touch event will
-            // prevent standard browser functionality from working. for
-            // instance, scroll bars will not function anymore
-            // I am not sure what this is supposed to do, but we disable it for
-            // now.
-            //
-            //  /arne
-            //e.preventDefault();
-        }.bind(this));
-        document.addEventListener("mousedown", function () {
-            if (this.__open && !this.__transition) {
+        this._global_touch_start = function (e) {
+            if (this.__open && !this.__transition &&
+                !TK.is_parent_of(this._list, e.target) &&
+                !TK.is_parent_of(this.element, e.target)) {
+
                 this.show_list(false);
             }
-        }.bind(this));
+        }.bind(this);
         this._arrow = TK.element("div", "toolkit-arrow");
         this.element.appendChild(this._arrow);
         var sel = this.options.selected;
@@ -139,14 +128,9 @@ w.Select = $class({
         var up_cb = function (e) {
             this.select(id);
             this.fire_event("select", [entry.value, id, entry.title, this]);
+            this.show_list(false);
         }.bind(this);
-        var end_cb = function (e) {
-            e.preventDefault();
-            this.select(id);
-            this.fire_event("select", [entry.value, id, entry.title, this]);
-        }.bind(this);
-        li.addEventListener("mousedown", up_cb);
-        li.addEventListener("touchstart", end_cb);
+        li.addEventListener("click", up_cb);
         if (this.options.selected === id) {
             this.select(id);
         } 
@@ -208,8 +192,6 @@ w.Select = $class({
     
     show_list: function (show) {
         if (show) {
-            var pos = TK.position_top(this.element);
-            pos.y += TK.outer_height(this.element, true);
             var ew = TK.outer_width(this.element, true);
             document.body.appendChild(this._list);
             var cw = TK.width();
@@ -228,20 +210,25 @@ w.Select = $class({
                 "top": Math.min(TK.position_top(this.element) + TK.outer_height(this.element, true), ch + sy - lh) + "px",
                 "left": Math.min(TK.position_left(this.element), cw + sx - lw) + "px",
             });
+        } else {
+            document.removeEventListener("touchstart", this._global_touch_start);
+            document.removeEventListener("mousedown", this._global_touch_start);
         }
         TK.set_style(this._list, "opacity", show ? "1" : "0");
         this.__transition = true;
         this.__open = show;
-        if (this.__timeout < 0)
-            window.clearTimeout(this.__timeout);
+        if (this.__timeout !== false) window.clearTimeout(this.__timeout);
         var dur = parseFloat(TK.get_style(this._list, "transition-duration"));
         this.__timeout = window.setTimeout(this._hide_list.bind(this), dur * 1000);
     },
     _hide_list: function () {
         this.__transition = false;
-        this.__timeout = -1;
+        this.__timeout = false;
         if (!this.__open) {
             TK.destroy(this._list);
+        } else {
+            document.addEventListener("touchstart", this._global_touch_start);
+            document.addEventListener("mousedown", this._global_touch_start);
         }
     },
     _get_entry_by_value: function (val, id) {
