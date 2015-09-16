@@ -1562,6 +1562,7 @@ var _s2 = 0;
 var _s3 = 0;
 
 function __s1 () {
+    if (!s1) return;
     _s1 = !_s1;
     s1.set("state", _s1);
     if(s1)
@@ -1569,6 +1570,7 @@ function __s1 () {
 }
 
 function __s2 () {
+    if (!s2) return;
     if (s2.get("state") >= 1)
         _s2 = -0.02;
     else if (s2.get("state") <= 0)
@@ -1579,6 +1581,7 @@ function __s2 () {
 }
 
 function __s3 () {
+    if (!s3) return;
     _s3 = !_s3;
     s3.set("color", _s3 ? "#def" : "#0af");
     if(s3)
