@@ -92,9 +92,7 @@ w.Fader = $class({
         
         this.set("layout", this.options.layout);
         
-        this.add_event("pointerdown",  function () { this.__down = true; }.bind(this));
-        this.element.addEventListener("mouseup",    this._clicked.bind(this));
-        this.element.addEventListener("touchend",   this._touchend.bind(this));
+        this.element.addEventListener("click",    this._clicked.bind(this));
         this.element.addEventListener("mouseenter", this._mouseenter.bind(this));
         this.element.addEventListener("mouseleave", this._mouseleave.bind(this));
         this.element.addEventListener("mousemove",  this._move.bind(this));
@@ -107,14 +105,12 @@ w.Fader = $class({
         }.bind(this));
         
         this.drag.add_event("dragging", function (ev) {
-            this.__down = false;
             this.__dragging = true;
             this._move(ev);
         }.bind(this));
         
         this.drag.add_event("stopdrag", function (ev) {
             this.__dragging = false;
-            this.__down = false;
             if (!this.__entered)
                 this.__tt = this.tooltip(false, this.__tt);
         }.bind(this));
@@ -241,8 +237,7 @@ w.Fader = $class({
             || this.options.layout == _TOOLKIT_RIGHT;
     },
     _clicked: function (ev) {
-        if (!this.__down) return;
-        this.__down = false;
+        if (TK.is_parent_of(this._handle, ev.target)) return;
         this.set("value", this._get_value(ev));
         if (!this.__entered)
             this.__tt = this.tooltip(false, this.__tt);
@@ -264,12 +259,6 @@ w.Fader = $class({
         if (!this.options.tooltip) return;
         if (!this.__dragging)
             this.__tt = this.tooltip(false, this.__tt);
-    },
-    _touchend : function (ev) {
-        this.__entered = false;
-        ev = ev.changedTouches[0];
-        this._clicked(ev);
-        event.preventDefault();
     },
     _get_value: function (ev) {
         var pos   = TK[this._vert() ? "position_top" : "position_left"](this.element) + this._handlesize / 2;
