@@ -75,8 +75,6 @@ w.Gauge = $class({
             var outer_p = outer - margin;
             var coords  = this._get_coords(angle, outer_p, outer_p, outer, true);
             
-            bb.width = bb.width;
-            
             var mx = ((coords.x - outer) / outer_p)
                    * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
             var my = ((coords.y - outer) / outer_p)
