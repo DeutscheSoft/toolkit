@@ -542,20 +542,11 @@ w.toolkit = {
     
     // OTHER
     
-    __store_keys: [],
-    __store_values: [],
     store: function (e, key, val) {
-        var k = this.__store_keys.indexOf(e);
-        if (k == -1) {
-            k = this.__store_keys.push(e) - 1;
-            this.__store_values[k] = {};
-        }
-        this.__store_values[k][key] = val;
+        this.data(e)[key] = val;
     },
     retrieve: function (e, key) {
-        var k = this.__store_keys.indexOf(e);
-        if (k > -1 && this.__store_values[k].hasOwnProperty(key))
-            return this.__store_values[k][key];
+        return this.data(e)[key];
     },
 };
 w.TK = w.toolkit;
@@ -653,6 +644,36 @@ if ('getComputedStyle' in document.defaultView) {
   TK.get_style = function(e, style) {
     return e.currentStyle[style];
   };
+}
+
+var data_store;
+
+if ('WeakMap' in w) {
+    w.TK.data = function(e) {
+        var r;
+        if (!data_store) data_store = new w.WeakMap();
+
+        r = data_store[e];
+
+        if (!r) {
+            data_store[e] = r = {};
+        }
+
+        return r;
+    };
+} else {
+    data_store = [];
+    var data_keys = [];
+    w.TK.data = function(e) {
+        if (typeof(e) !== "object") throw("Cannot store data for non-objects.");
+        var k = data_keys.indexOf(e);
+        var r;
+        if (k == -1) {
+            data_keys.push(e);
+            k = data_store.push({}) - 1;
+        }
+        return data_store[k];
+    };
 }
 
 // CONSTANTS
