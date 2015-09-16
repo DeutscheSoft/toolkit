@@ -1,5 +1,23 @@
 "use strict";
 (function(w) {
+var _resize_events = [];
+var _resize_event_id = false;
+
+function monitor_resize_events() {
+    for (var i = 0; i < TK._resize_events.length; i++) {
+        var r = _resize_events[i];
+        if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
+            r.x = r.element.offsetWidth;
+            r.y = r.element.offsetHeight;
+            r.element.dispatchEvent("resize");
+        }
+    }
+    if (_resize_events.length) {
+        _resize_event_id = window.setTimeout(monitor_resize_events, 100);
+    } else {
+        _resize_event_id = false;
+    }
+};
 w.toolkit = {
     
     // ELEMENTS
@@ -467,35 +485,19 @@ w.toolkit = {
         };
     },
     
-    _resize_events: [],
-    _monitored_resize_events: -1,
-    
-    monitor_resize_events: function () {
-        for (var i = 0; i < TK._resize_events.length; i++) {
-            var r = TK._resize_events[i];
-            if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
-                r.x = r.element.offsetWidth;
-                r.y = r.element.offsetHeight;
-                r.element.dispatchEvent("resize");
-            }
-        }
-        if (TK._resize_events.length) {
-            TK._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
-        }
-    },
     add_resize_event: function (element) {
-        TK._resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
-        if (TK._monitored_resize_events < 0) {
-            TK._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
+        _resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
+        if (_resize_event_id < 0) {
+            _resize_event_id = window.setTimeout(monitor_resize_events, 100);
         }
     },
     remove_resize_event: function (element) {
-        for (var i = 0; i < TK._resize_events; i++) {
-            if (element == TK._resize_events[i]) TK._resize_events.splice(i, 1);
-            if (!TK._resize_events.length && TK._monitored_resize_events < 0) {
-                window.clearTimeout(TK._monitored_resize_events);
-                TK._monitored_resize_events = -1;
-            }
+        for (var i = 0; i < _resize_events.length; i++) {
+            if (element == _resize_events[i]) _resize_events.splice(i, 1);
+        }
+        if (!_resize_events.length && _resize_event_id) {
+            window.clearTimeout(_resize_event_id);
+            _resize_event_id = false;
         }
     },
     
