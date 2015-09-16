@@ -37,7 +37,16 @@ w.toolkit = {
             e.removeChild(e.lastChild);
         }
     },
-    
+
+    is_parent_of: function(parent, child) {
+        while (child) {
+            if (child === parent) return true;
+            child = child.parentNode;
+        }
+
+        return false;
+    },
+
     set_text : function(node, s) {
         if (node.firstChild) {
             node.firstChild.nodeValue = s;
