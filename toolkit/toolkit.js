@@ -529,10 +529,7 @@ w.toolkit = {
     },
     
     find_next: function (array, val, sort) {
-        if (sort)
-            var arr = array.slice(0).sort( function (a, b) { return a-b; });
-        else
-            var arr = array;
+        if (sort) array = array.slice(0).sort( function (a, b) { return a-b; });
         // Get index
         var i = this._binary_array_search(arr, val, true);
         // Check boundaries
