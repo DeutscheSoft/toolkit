@@ -1,5 +1,23 @@
 "use strict";
 (function(w) {
+var _resize_events = [];
+var _resize_event_id = false;
+
+function monitor_resize_events() {
+    for (var i = 0; i < TK._resize_events.length; i++) {
+        var r = _resize_events[i];
+        if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
+            r.x = r.element.offsetWidth;
+            r.y = r.element.offsetHeight;
+            r.element.dispatchEvent("resize");
+        }
+    }
+    if (_resize_events.length) {
+        _resize_event_id = window.setTimeout(monitor_resize_events, 100);
+    } else {
+        _resize_event_id = false;
+    }
+};
 w.toolkit = {
     
     // ELEMENTS
@@ -19,9 +37,9 @@ w.toolkit = {
         for (i = 1; i < arguments.length; i++) {
             v = arguments[i]; 
             if (typeof v == "object") {
-                TK.set_styles(n, v);
+                this.set_styles(n, v);
             } else if (typeof v == "string") {
-                TK.add_class(n, v);
+                this.add_class(n, v);
             } else throw("unsupported argument to TK.element");
         }
         return n;
@@ -61,22 +79,22 @@ w.toolkit = {
     },
     
     keep_inside: function (element, resize) {
-        var ex = parseInt(TK.get_style(element, "left"));
-        var ey = parseInt(TK.get_style(element, "top"));
-        var ew = TK.outer_width(element, true);
-        var eh = TK.outer_height(element, true);
+        var ex = parseInt(this.get_style(element, "left"));
+        var ey = parseInt(this.get_style(element, "top"));
+        var ew = this.outer_width(element, true);
+        var eh = this.outer_height(element, true);
         
-        if (TK.get_style(element, "position") == "fixed") {
-            var pw = TK.width();
-            var ph = TK.height();
+        if (this.get_style(element, "position") == "fixed") {
+            var pw = this.width();
+            var ph = this.height();
             var w  = pw;
             var h  = ph;
             var x  = Math.min(Math.max(ex, 0), w - ew);
             var y  = Math.min(Math.max(ey, 0), h - eh);
         } else {
             var p  = element.offsetParent;
-            var pw = p ? p.offsetWidth : TK.width() - TK.scroll_left();
-            var ph = p ? p.offsetHeight : TK.height() - TK.scroll_top();
+            var pw = p ? p.offsetWidth : this.width() - this.scroll_left();
+            var ph = p ? p.offsetHeight : this.height() - this.scroll_top();
             var x = Math.min(Math.max(ex, 0), pw - ew);
             var y = Math.min(Math.max(ey, 0), ph - eh);
         }
@@ -122,13 +140,13 @@ w.toolkit = {
     
     position_top: function (e, rel) {
         var top    = parseInt(e.getBoundingClientRect().top);
-        var fixed  = TK.fixed(e) ? 0 : TK.scroll_top();
-        return top + fixed - (rel ? TK.position_top(rel) : 0);
+        var fixed  = this.fixed(e) ? 0 : this.scroll_top();
+        return top + fixed - (rel ? this.position_top(rel) : 0);
     },
     position_left: function (e, rel) {
         var left   = parseInt(e.getBoundingClientRect().left);
-        var fixed  = TK.fixed(e) ? 0 : TK.scroll_left();
-        return left + fixed - (rel ? TK.position_left(rel) : 0);
+        var fixed  = this.fixed(e) ? 0 : this.scroll_left();
+        return left + fixed - (rel ? this.position_left(rel) : 0);
     },
     
     fixed: function (e) {
@@ -144,8 +162,8 @@ w.toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-right"));
         }
         if (typeof width !== "undefined") {
-            if (TK.box_sizing(element) == "content-box") {
-                var css = TK.css_space(element, "padding", "border");
+            if (this.box_sizing(element) == "content-box") {
+                var css = this.css_space(element, "padding", "border");
                 width -= css.left + css.right;
             }
             width -= m;
@@ -166,8 +184,8 @@ w.toolkit = {
             m += parseFloat(cs.getPropertyValue("margin-bottom"));
         }
         if (typeof height !== "undefined") {
-            if (TK.box_sizing(element) == "content-box") {
-                var css = TK.css_space(element, "padding", "border");
+            if (this.box_sizing(element) == "content-box") {
+                var css = this.css_space(element, "padding", "border");
                 height -= css.top + css.bottom;
             }
             height -= m;
@@ -182,10 +200,10 @@ w.toolkit = {
     inner_width: function (element, width) {
         var cs = getComputedStyle(element, null);
         var w = element.getBoundingClientRect().width;
-        var css = TK.css_space(element, "padding", "border");
+        var css = this.css_space(element, "padding", "border");
         var x = css.left + css.right;
         if (typeof width !== "undefined") {
-            if (TK.box_sizing(element) == "border-box")
+            if (this.box_sizing(element) == "border-box")
                 width += x;
             // TODO: fixme
             if (width < 0) return 0;
@@ -198,10 +216,10 @@ w.toolkit = {
     inner_height: function (element, height) {
         var cs = getComputedStyle(element, null);
         var h = element.getBoundingClientRect().height;
-        var css = TK.css_space(element, "padding", "border");
+        var css = this.css_space(element, "padding", "border");
         var y = css.top + css.bottom;
         if (typeof height !== "undefined") {
-            if (TK.box_sizing(element) == "border-box")
+            if (this.box_sizing(element) == "border-box")
                 height += y;
             // TODO: fixme
             if (height < 0) return 0;
@@ -264,7 +282,7 @@ w.toolkit = {
         var _ids = {};
         return function() {
             var id;
-            while (_ids.hasOwnProperty(id = TK.random_string(8, "aA#")) || document.getElementById(id)) {}
+            while (_ids.hasOwnProperty(id = this.random_string(8, "aA#")) || document.getElementById(id)) {}
             _ids[id] = 1;
             return id;
         };
@@ -309,7 +327,7 @@ w.toolkit = {
                 argname = "a"+argnum;
                 args.push(argname);
                 if (argnum+1 < arguments.length) {
-                    argname = "(" + TK.sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
+                    argname = "(" + this.sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
                 }
                 switch (res[2].charCodeAt(0)) {
                 case 100: // d
@@ -346,7 +364,7 @@ w.toolkit = {
     } }(),
     
     sprintf : function (fmt) {
-        return TK.FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
+        return this.FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
     },
     
     
@@ -408,19 +426,20 @@ w.toolkit = {
     seat_all_svg: function (parent) {
         // searches all svg that don't have the class "fixed" and re-positions them
         // for avoiding blurry lines
-        Array.prototype.forEach.call(TK.get_tag("svg"), function (val, index, arr) {
-            if (!TK.has_class(val, "svg-fixed"))
-                TK.seat_svg(val);
-        });
+        var a = this.get_tag("svg");
+        for (var i = 0; i < a.length; i++) {
+            if (!this.has_class(a[i], "svg-fixed"))
+                this.seat_svg(a[i]);
+        }
     },
     seat_svg: function (e) {
         // move svgs if their positions in viewport is not int
-        if (TK.retrieve(e, "margin-left") === null) {
-            TK.store(e, "margin-left", parseFloat(TK.get_style(e, "margin-left")));
+        if (this.retrieve(e, "margin-left") === null) {
+            this.store(e, "margin-left", parseFloat(this.get_style(e, "margin-left")));
         } else {
-            e.style.marginLeft = TK.retrieve(e, "margin-left");
+            e.style.marginLeft = this.retrieve(e, "margin-left");
         }
-        var l = parseFloat(TK.retrieve(e, "margin-left"));
+        var l = parseFloat(this.retrieve(e, "margin-left"));
         var b = e.getBoundingClientRect();
         var x = b.left % 1;
         if (x) {
@@ -428,15 +447,15 @@ w.toolkit = {
             if (x < 0.5) l -= x;
             else l += (1 - x);
         }
-        if (e.parentElement && TK.get_style(e.parentElement, "text-align") == "center")
+        if (e.parentElement && this.get_style(e.parentElement, "text-align") == "center")
             l += 0.5;
         e.style.marginLeft = l + "px";
-        if (TK.retrieve(e, "margin-top") === null) {
-            TK.store(e, "margin-top", parseFloat(TK.get_style(e, "margin-top")));
+        if (this.retrieve(e, "margin-top") === null) {
+            this.store(e, "margin-top", parseFloat(this.get_style(e, "margin-top")));
         } else {
-            e.style.marginTop = TK.retrieve(e, "margin-top");
+            e.style.marginTop = this.retrieve(e, "margin-top");
         }
-        var t = parseFloat(TK.retrieve(e, "margin-top"));
+        var t = parseFloat(this.retrieve(e, "margin-top"));
         var b = e.getBoundingClientRect();
         var y = b.top % 1;
         if (y) {
@@ -467,35 +486,19 @@ w.toolkit = {
         };
     },
     
-    _resize_events: [],
-    _monitored_resize_events: -1,
-    
-    monitor_resize_events: function () {
-        for (var i = 0; i < TK._resize_events.length; i++) {
-            var r = TK._resize_events[i];
-            if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
-                r.x = r.element.offsetWidth;
-                r.y = r.element.offsetHeight;
-                r.element.dispatchEvent("resize");
-            }
-        }
-        if (TK._resize_events.length) {
-            TK._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
-        }
-    },
     add_resize_event: function (element) {
-        TK._resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
-        if (TK._monitored_resize_events < 0) {
-            TK._monitored_resize_events = window.setTimeout("toolkit.monitor_resize_events()", 100);
+        _resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
+        if (_resize_event_id < 0) {
+            _resize_event_id = window.setTimeout(monitor_resize_events, 100);
         }
     },
     remove_resize_event: function (element) {
-        for (var i = 0; i < TK._resize_events; i++) {
-            if (element == TK._resize_events[i]) TK._resize_events.splice(i, 1);
-            if (!TK._resize_events.length && TK._monitored_resize_events < 0) {
-                window.clearTimeout(TK._monitored_resize_events);
-                TK._monitored_resize_events = -1;
-            }
+        for (var i = 0; i < _resize_events.length; i++) {
+            if (element == _resize_events[i]) _resize_events.splice(i, 1);
+        }
+        if (!_resize_events.length && _resize_event_id) {
+            window.clearTimeout(_resize_event_id);
+            _resize_event_id = false;
         }
     },
     
@@ -526,12 +529,9 @@ w.toolkit = {
     },
     
     find_next: function (array, val, sort) {
-        if (sort)
-            var arr = array.slice(0).sort( function (a, b) { return a-b; });
-        else
-            var arr = array;
+        if (sort) array = array.slice(0).sort( function (a, b) { return a-b; });
         // Get index
-        var i = TK._binary_array_search(arr, val, true);
+        var i = this._binary_array_search(arr, val, true);
         // Check boundaries
         return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
     },
@@ -539,20 +539,11 @@ w.toolkit = {
     
     // OTHER
     
-    __store_keys: [],
-    __store_values: [],
     store: function (e, key, val) {
-        var k = TK.__store_keys.indexOf(e);
-        if (k == -1) {
-            k = TK.__store_keys.push(e) - 1;
-            TK.__store_values[k] = {};
-        }
-        TK.__store_values[k][key] = val;
+        this.data(e)[key] = val;
     },
     retrieve: function (e, key) {
-        var k = TK.__store_keys.indexOf(e);
-        if (k > -1 && TK.__store_values[k].hasOwnProperty(key))
-            return TK.__store_values[k][key];
+        return this.data(e)[key];
     },
 };
 w.TK = w.toolkit;
@@ -599,16 +590,16 @@ if (typeof Object.assign === 'undefined') {
 }
 
 if ('classList' in document.createElement("_")) {
-  TK.has_class = function (e, cls) { return e.classList.contains(cls); }
-  TK.add_class = function (e, cls) { e.classList.add(cls); }
-  TK.remove_class = function (e, cls) { e.classList.remove(cls); }
-  TK.toggle_class = function (e, cls) { e.classList.toggle(cls); }
+  w.TK.has_class = function (e, cls) { return e.classList.contains(cls); }
+  w.TK.add_class = function (e, cls) { e.classList.add(cls); }
+  w.TK.remove_class = function (e, cls) { e.classList.remove(cls); }
+  w.TK.toggle_class = function (e, cls) { e.classList.toggle(cls); }
 } else {
   // IE9
-  TK.has_class = function (e, cls) {
+  w.TK.has_class = function (e, cls) {
     return e.className.split(" ").indexOf(cls) !== -1;
   };
-  TK.add_class = function (e, cls) {
+  w.TK.add_class = function (e, cls) {
     var s = e.className;
     if (!s.length) {
       e.className = cls;
@@ -620,7 +611,7 @@ if ('classList' in document.createElement("_")) {
       e.className = a.join(" ");
     }
   };
-  TK.remove_class = function(e, cls) {
+  w.TK.remove_class = function(e, cls) {
     var a = e.className.split(" ");
     var i = a.indexOf(cls);
 
@@ -633,23 +624,53 @@ if ('classList' in document.createElement("_")) {
       e.className = a.join(" ");
     }
   };
-  TK.toggle_class = function(e, cls) {
-      if (TK.has_class(e, cls)) {
-          TK.remove_class(e, cls);
+  w.TK.toggle_class = function(e, cls) {
+      if (this.has_class(e, cls)) {
+          this.remove_class(e, cls);
       } else {
-          TK.add_class(e, cls);
+          this.add_class(e, cls);
       }
   };
 }
 
-if ('getComputedStyle' in document.defaultView) {
-  TK.get_style = function(e, style) {
+if ('getComputedStyle' in w) {
+  w.TK.get_style = function(e, style) {
     return document.defaultView.getComputedStyle(e).getPropertyValue(style);
   };
 } else {
-  TK.get_style = function(e, style) {
+  w.TK.get_style = function(e, style) {
     return e.currentStyle[style];
   };
+}
+
+var data_store;
+
+if ('WeakMap' in w) {
+    w.TK.data = function(e) {
+        var r;
+        if (!data_store) data_store = new w.WeakMap();
+
+        r = data_store[e];
+
+        if (!r) {
+            data_store[e] = r = {};
+        }
+
+        return r;
+    };
+} else {
+    data_store = [];
+    var data_keys = [];
+    w.TK.data = function(e) {
+        if (typeof(e) !== "object") throw("Cannot store data for non-objects.");
+        var k = data_keys.indexOf(e);
+        var r;
+        if (k == -1) {
+            data_keys.push(e);
+            k = data_store.push({}) - 1;
+        }
+        return data_store[k];
+    };
 }
 
 // CONSTANTS
