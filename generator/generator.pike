@@ -2,16 +2,16 @@
 
 import Stdio;
 
-#define OUT_FILE        "./javascript/documentation.js"
-#define CATEGORY_DIR    "./toolkit"
-#define CATEGORY_MARKER "@category: "
-#define KEYWORDS        ({ "class", "element", "event", "module", "method" })
-#define CLASS_KEYWORDS  ({ "implements", "extends", "option", "description" })
-#define METHOD_KEYWORDS ({ "option", "description" })
-#define ELEMENT_ATOMS   ({ "name", "class", "description" })
-#define MODULE_ATOMS    ({ "name", "description" })
-#define OPTION_ATOMS    ({ "name", "type", "default", "description" })
-#define EVENT_ATOMS     ({ "name", "arguments", "description" })
+constant OUT_FILE        = "./javascript/documentation.js";
+constant CATEGORY_DIR    = "./toolkit";
+constant CATEGORY_MARKER = "@category: ";
+constant KEYWORDS        = ({ "class", "element", "event", "module", "method" });
+constant CLASS_KEYWORDS  = ({ "implements", "extends", "option", "description" });
+constant METHOD_KEYWORDS = ({ "option", "description" });
+constant ELEMENT_ATOMS   = ({ "name", "class", "description" });
+constant MODULE_ATOMS    = ({ "name", "description" });
+constant OPTION_ATOMS    = ({ "name", "type", "default", "description" });
+constant EVENT_ATOMS     = ({ "name", "arguments", "description" });
 
 mapping(string:mixed) _recipient;
 
