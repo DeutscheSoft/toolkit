@@ -46,7 +46,7 @@ w.Button = $class({
     initialize: function (options, hold) {
         // ??
         Widget.prototype.initialize.call(this, options, hold);
-        /* @element: element; div.toolkit-button; The main button element */
+        /* @element: [d][c][s]element; div.toolkit-button; The main button element */
         this.element = this.widgetize(TK.element("div","toolkit-button"), true, true, true);
         this.element.id = this.options.id;
         

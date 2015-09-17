@@ -28,10 +28,10 @@ w.ButtonArray = $class({
      *                              on init. If get is called, the
      *                              converted list of button instances is
      *                              returned.
-     * @option: auto_arrows; Bool, true; If arrow buttons are added automatically
-     * @option: direction; Int; The direction of the button list, one out of
+     * @option: auto_arrows; Bool; true; If arrow buttons are added automatically
+     * @option: direction; Int; _TOOLKIT_HORIZONTAL; The direction of the button list, one out of
      *                          _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL
-     * @option: show; Int|Button; The button to scroll to, either an ID or a button instance
+     * @option: show; Int|Button; -1; The button to scroll to, either an ID or a button instance
      * 
      * @extends: Container
      * 
@@ -86,7 +86,7 @@ w.ButtonArray = $class({
     
     add_buttons: function (options) {
         /* @method: add_buttons
-         * @option: options; Array[String|Object]; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
+         * @option: options; Array[String|Object]; undefined; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
          * @description: Adds an array of buttons to the end of the list. */
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);
@@ -94,8 +94,8 @@ w.ButtonArray = $class({
     
     add_button: function (options, pos) {
         /* @method: add_button
-         * @option: options; Object|String; An object containing options for the #Button to add or a string for the label
-         * @option: pos; Int|Undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
+         * @option: options; Object|String; undefined; An object containing options for the #Button to add or a string for the label
+         * @option: pos; Int|Undefined; undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
          * description: Adds a #Button to the ButtonArray */
         if (typeof options === "string")
             options = {label: options}
@@ -126,7 +126,7 @@ w.ButtonArray = $class({
     },
     remove_button: function (button) {
         /* @method: remove_button
-         * @option: button; Int|Button; ID or #Button instance
+         * @option: button; Int|Button; undefined; ID or #Button instance
          * @description: Removes a #Button from the ButtonArray */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);
