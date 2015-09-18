@@ -1,4 +1,4 @@
 all : documentation
 
 documentation :
-	generator/generator.pike
+	generator/items.pike

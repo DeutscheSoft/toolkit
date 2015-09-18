@@ -1,0 +1,178 @@
+#sc_buttonarray .toolkit-vertical {
+    /*width: 20%;*/
+    height: 400px;
+    margin-right: 20px;
+    float: left;
+}
+#sc_buttonarray .toolkit-horizontal {
+    width: 75%;
+    float: right;
+    margin-bottom: 20px;
+}
+
+
+
+#sc_fader .toolkit-fader {
+    height: 400px;
+    margin-right: 8px;
+}
+
+
+
+#sc_gauge .toolkit-gauge {
+    margin-right: 6px;
+    margin-left: 6px;
+}
+#gauge0 .toolkit-base {
+    opacity: 1;
+    stroke-width: 12px;
+    stroke: rgba(0, 42, 66, 0.1);
+    fill: rgb(0, 42, 66);
+}
+#gauge0 .toolkit-hand {
+    fill: white;
+}
+#gauge0 .toolkit-dot {
+    fill: rgba(255,255,255,0.33);
+}
+
+#gauge1 .toolkit-label {
+    font-size: 9px;
+}
+
+#gauge3 {
+    background: url(images/gauge.svg) no-repeat 50% 0%;
+    background-size: contain;
+    fill: white;
+}
+#gauge3 .toolkit-dot {
+    fill: white;
+}
+#gauge3 .toolkit-title {
+    opacity: 0.9;
+    fill: white;
+}
+
+#gauge4 {
+    background: url(images/vumeter.png) no-repeat 50% 0%;
+    background-size: 100% 100%;
+    fill: white;
+}
+#gauge4 .toolkit-base {
+    opacity: 1;
+}
+#gauge4 .toolkit-hand {
+    opacity: 1;
+}
+#gauge4 .toolkit-marker {
+    fill: rgba(255,255,255,0.4);
+}
+#gauge4 .toolkit-title {
+    opacity: 0.9;
+    fill: white;
+}
+
+#gauge5 {
+    background: url(images/vumeter_light.png) no-repeat 50% 0%;
+    background-size: 100% 100%;
+    fill: rgba(0,0,0,0.8);
+}
+#gauge5 .toolkit-base {
+    opacity: 1;
+    fill: rgba(0,0,0,0.8);
+}
+#gauge5 .toolkit-hand {
+    opacity: 1;
+}
+#gauge5 .toolkit-title {
+    opacity: 0.9;
+}
+
+
+
+#sc_knob .toolkit-knob {
+    margin: 10px;
+}
+#sc_knob .toolkit-knob.knob2 .toolkit-value {
+    fill: rgba(0, 47, 66, 1);
+}
+#sc_knob .toolkit-knob.knob2 .toolkit-warn .toolkit-value {
+    fill: #c00;
+}
+#sc_knob .toolkit-knob.knob2 .toolkit-dot {
+    fill: white;
+}
+#sc_knob .toolkit-knob.knob2 .toolkit-base {
+    fill: rgba(0, 47, 66, 0.5);
+}
+
+#sc_knob .toolkit-knob.knob2 {
+    width: 120px;
+    heigh: 120px;
+}
+#sc_knob .toolkit-knob.knob {
+    width: 50px;
+    height: 50px;
+}
+#sc_knob .toolkit-knob.knob1 {
+    width: 80px;
+    height: 80px;
+}
+
+
+#sc_levelmeter .toolkit-meter-base.toolkit-vertical {
+    height: 354px;
+}
+
+
+
+#sc_meterbase {
+    margin-left: 80px;
+}
+#sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
+}
+#sc_meterbase .toolkit-meter-base.toolkit-vertical {
+    height: 200px;
+    margin-bottom: 30px;
+}
+#sc_meterbase .toolkit-meter-base.toolkit-horizontal {
+    width: 500px;
+}
+#sc_meterbase .toolkit-meter-base.toolkit-vertical .toolkit-bar {
+    width: 100px;
+}
+#sc_meterbase .toolkit-meter-base.toolkit-horizontal .toolkit-bar {
+    height: 50px;
+}
+
+
+
+#sc_pager .toolkit-pager {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 30px;
+}
+
+
+.toolkit-state {
+    float: left;
+}
+div.toolkit-state.on_air {
+    width: 250px;
+    height: 70px;
+}
+div.toolkit-state.on_air .toolkit-over {
+    background: url(images/on_air.png) no-repeat 50% 51%;
+}
+
+
+
+#sc_toggle .toolkit-button {
+    margin-right: 10px;
+}
+
+
+
+#sc_vbutton .toolkit-valuebutton {
+    width: 220px;
+}

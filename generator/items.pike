@@ -2,8 +2,11 @@
 
 import Stdio;
 
-constant OUT_FILE        = "./javascript/documentation.js";
+constant OUT_VARIABLE    = "items";
+constant OUT_FILE        = "./javascript/items.js";
 constant CATEGORY_DIR    = "./toolkit";
+constant CSS_DIR         = "./toolkit/templates/default/css";
+constant IMAGE_DIR       = "./toolkit/templates/default/images";
 constant CATEGORY_MARKER = "@category: ";
 constant KEYWORDS        = ({ "class", "element", "event", "module", "method" });
 constant CLASS_KEYWORDS  = ({ "implements", "extends", "option", "description" });
@@ -98,8 +101,18 @@ array(mapping) process_category (string dir) {
     foreach (get_dir(dir), string file) {
         if (!has_suffix(file, ".js")) continue;
         mapping(string:mixed) m = parse_code(read_bytes(combine_path(dir, file)));
-        if (!equal(m, ([])))
-            list += ({ m  });
+        if (!equal(m, ([]))) {
+            string f;
+            m->files = ({ combine_path(dir, file) });
+            f = combine_path(CSS_DIR, file[..sizeof(file)-4] + ".css");
+            write(f+"\n");
+            if (exist(f))
+                m->files += ({ f });
+            f = combine_path(IMAGE_DIR, file[..sizeof(file)-4]);
+            if (exist(f))
+                m->files += get_dir(f);
+            list += ({ m });
+        }
     }
     return list;
 }
@@ -124,6 +137,6 @@ array(mapping) traverse_categories (string cats) {
 
 int main () {
     array(mapping) cats = traverse_categories(CATEGORY_DIR);
-    Stdio.write_file(OUT_FILE, "documentation=" + string_to_utf8(Standards.JSON.encode(cats)));
+    Stdio.write_file(OUT_FILE, OUT_VARIABLE + "=" + string_to_utf8(Standards.JSON.encode(cats)));
     return 0;
 }
