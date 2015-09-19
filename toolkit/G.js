@@ -56,8 +56,20 @@ Scheduler.prototype = {
         var Q = this.Q;
         prio = prio|0;
         var q = Q[prio];
+        if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
         if (!q) Q[prio] = q = [];
         q.push(o);
+    },
+    dequeue : function(o, prio) {
+        var Q = this.Q;
+        prio = prio|0;
+        var q = Q[prio];
+        if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
+        if (!q) return;
+        var i = 0;
+        while ((i = q.indexOf(o, i)) !== -1) {
+            q.splice(i, 1);
+        }
     }
 };
 var DOMScheduler = function() {
@@ -78,5 +90,6 @@ DOMScheduler.prototype = {
         this.will_render = false;
         this.rid = 0;
         Scheduler.prototype.run.call(this);
-    }
+    },
+    dequeue : Scheduler.prototype.dequeue
 }
