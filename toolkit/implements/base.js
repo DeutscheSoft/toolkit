@@ -54,12 +54,6 @@ var mixin = function(dst, src, warn) {
 
     return dst;
 };
-if (typeof(Object.setPrototypeOf) != "function") {
-    Object.setPrototypeOf = function(o, proto) {
-        o.__proto__= proto;
-        return o;
-    };
-}
 w.$mixin = merge;
 w.$class = function(o) {
     var constructor;
@@ -74,9 +68,9 @@ w.$class = function(o) {
         }
         if (typeof(o.options) == "object" &&
             typeof(tmp.options) == "object") {
-            o.options = Object.setPrototypeOf(o.options, tmp.options);
+            o.options = Object.assign(Object.create(tmp.options), o.options);
         }
-        methods = Object.setPrototypeOf(o, tmp);
+        methods = Object.assign(Object.create(tmp), o);
     } else {
         methods = o;
     }
@@ -189,7 +183,7 @@ w.BASE = $class({
         if (this.hasOwnProperty("options") && typeof(opt) == "object") {
             this.options = $mixin(opt, o);
         } else {
-            this.options = Object.setPrototypeOf(o, opt);
+            this.options = Object.assign(Object.create(opt), o);
         }
         for (key in this.options) if (key.indexOf("on") == 0) {
             this.add_event(key.substr(2).toLowerCase(), this.options[key]);
