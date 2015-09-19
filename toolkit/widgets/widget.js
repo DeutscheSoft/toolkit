@@ -94,20 +94,40 @@ w.Widget = $class({
         this.__stylized = null;
         this.__delegated = null;
         this.__widgetized = null;
+        this.invalid = Object.create(null);
+        this.value_time = Object.create(null);
+        this.will_draw = false;
+        this._redraw = this.redraw.bind(this);
         return this;
     },
+
+    invalidate_all: function() {
+        for (var key in this.options) {
+            this.invalid[key] = true;
+        }
+    },
+    
+    trigger_draw : function() {
+        if (!this.will_draw) {
+            this.will_draw = true;
+            TK.S.enqueue(this._redraw);
+        }
+    },
+
     initialized: function () {
         // Main actions every widget needs to take
         this.fire_event("initialized");
+        this.invalidate_all();
+        this.trigger_draw();
         return this;
     },
     redraw: function () {
         this.fire_event("redraw");
-        return this;
     },
     destroy: function () {
         this.fire_event("destroy");
         this.__events = null;
+        if (this.will_draw) TK.S.dequeue(this._redraw);
         BASE.prototype.destroy.call(this);
         return this;
     },
@@ -176,6 +196,9 @@ w.Widget = $class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
+        this.value_time[key] = Date.now();
+        this.invalid[key] = true;
+        this.trigger_draw();
         switch (key) {
             case "container":
                 if (!hold && this.element)
