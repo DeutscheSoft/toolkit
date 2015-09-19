@@ -89,8 +89,6 @@ w.Scale = $class({
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);
         
-        if (!hold)
-            this.redraw();
         Widget.prototype.initialized.call(this);
     },
     
@@ -101,7 +99,7 @@ w.Scale = $class({
         TK.empty(this.element);
         
         // draw base
-            this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
+        this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
         if (this.options.show_base) {
             this.draw_label(this.options.base, "toolkit-base");
         }
@@ -177,7 +175,6 @@ w.Scale = $class({
                         this.options.levels.length - 1,
                         function (a, b) { return a < b });
         Widget.prototype.redraw.call(this);
-        return this;
     },
     destroy: function () {
         TK.empty(this.element);
@@ -291,7 +288,7 @@ w.Scale = $class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "division":
             case "levels":
@@ -300,7 +297,6 @@ w.Scale = $class({
             case "gap_labels":
             case "show_labels":
                 this.fire_event("scalechanged")
-                if (!hold) this.redraw();
                 break;
             case "basis":
                 if (this._vert()) this.element.style.height = value + "px";
@@ -315,16 +311,8 @@ w.Scale = $class({
                     this.__based = true;
                 }
                 this.fire_event("basechanged", value);
-                if (!hold) this.redraw();
-                key = false;
-                break;
-            case "show_min":
-            case "show_max":
-            case "show_base":
-                if (!hold) this.redraw();
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
         return this;
     }
 });

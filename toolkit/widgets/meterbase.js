@@ -74,9 +74,9 @@ w.MeterBase = $class({
     },
     
     initialize: function (options, hold) {
+        Widget.prototype.initialize.call(this, options);
         this.__margin = 0;
         this.__based = false;
-        Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        TK.element("div", "toolkit-meter-base"), false, true, true);
         
@@ -256,29 +256,17 @@ w.MeterBase = $class({
         
         this.set("base", this.options.base, true);
         
-        this.set("show_label", this.options.show_label);
-        this.set("show_title", this.options.show_title);
-        this.set("show_scale", this.options.show_scale);
-        
         var options = Object.assign({}, this.options);
         options.base = this.__based?this.options.base:this.options.scale_base;
         options.container = this._scale,
         options.id = false;
         this.scale = new Scale(options);
         
-        this.set("show_max", this.options.show_max, true);
-        this.set("show_min", this.options.show_min, true);
-        this.set("show_base", this.options.show_base, true);
-        
         this.delegate(this._bar);
-        
-        if (!hold)
-            this.redraw();
-        Widget.prototype.initialized.call(this);
     },
     
     resize: function () {
-        this.redraw();
+        this.trigger_draw();
     },
     
     destroy: function () {
@@ -295,61 +283,91 @@ w.MeterBase = $class({
         Widget.prototype.destroy.call(this);
     },
     redraw: function () {
+        var I = this.invalid;
         var O = this.options;
-        this.set("title", O.title);
-        this.set("label", O.label);
-        this.set("value", O.value);
-        switch (O.layout) {
-            case _TOOLKIT_LEFT:
-            case _TOOLKIT_RIGHT:
-                var s = this._bar_size(O.layout);
-                TK.outer_height(this._bar, true, s);
-                TK.outer_height(this._scale, true, s);
-                var i = TK.inner_height(this._bar);
-                if (i != O.basis) {
-                    O.basis = i;
-                    this.scale.set("basis", i);
-                }
-                TK.inner_height(this._scale, i);
-                break;
-            case _TOOLKIT_TOP:
-            case _TOOLKIT_BOTTOM:
-                var s = this._bar_size(O.layout);
-                TK.outer_width(this._bar, true, s);
-                TK.outer_width(this._scale, true, s);
-                var i = TK.inner_width(this._bar);
-                if (i != O.basis) {
-                    O.basis = i;
-                    this.scale.set("basis", i);
-                }
-                break;
+
+        if (I.title) {
+            I.title = false;
+            this._title.innerHTML = O.title;
         }
-        this.draw_meter();
-        if (O.show_scale) {
-            this.scale.redraw();
-            if (O.show_marker) {
-                TK.empty(this._mark);
-                var c = this.scale.element.children;
-                for (var i = 0; i < c.length; i++) {
-                    var e = c[i];
-                    if (!TK.has_class(e, "toolkit-dot"))
-                        return;
-                    
-                    var d = e.clone();
-                    var p = TK["position_" + this._vert() ? "top" : "left"](e, this._scale);
-                    d.style[this._vert() ? "width" : "height"] = "100%";
-                    d.style[this._vert() ? "top" : "left"] = 
-                               (p + p % O.segment) + "px";
-                    this._mark.appendChild(d);
-                }
+        if (I.label) {
+            I.label = false;
+            TK.set_text(this._label, O.format_label(O.label));
+        }
+        if (I.show_scale) {
+            I.show_scale = false;
+            this._scale.style["display"] = O.show_scale ? "block" : "none";
+        }
+        if (I.show_title) {
+            I.show_title = false;
+            this._title.style["display"] = O.show_title ? "block" : "none";
+        }
+        if (I.show_label) {
+            I.show_label = false;
+            this._label.style["display"] = O.show_label ? "block" : "none";
+        }
+        if (I.gradient || I.background) {
+            I.gradient = I.background = false;
+            this.draw_gradient(this._base, O.gradient);
+        }
+        if (I.layout) {
+            I.layout = false;
+            switch (O.layout) {
+                case _TOOLKIT_LEFT:
+                case _TOOLKIT_RIGHT:
+                    var s = this._bar_size(O.layout);
+                    TK.outer_height(this._bar, true, s);
+                    TK.outer_height(this._scale, true, s);
+                    var i = TK.inner_height(this._bar);
+                    if (i != O.basis) {
+                        O.basis = i;
+                        this.scale.set("basis", i);
+                    }
+                    TK.inner_height(this._scale, i);
+                    break;
+                case _TOOLKIT_TOP:
+                case _TOOLKIT_BOTTOM:
+                    var s = this._bar_size(O.layout);
+                    TK.outer_width(this._bar, true, s);
+                    TK.outer_width(this._scale, true, s);
+                    var i = TK.inner_width(this._bar);
+                    if (i != O.basis) {
+                        O.basis = i;
+                        this.scale.set("basis", i);
+                    }
+                    break;
             }
         }
-        if (this._vert())
-            TK.inner_width(this.element,
-                TK.outer_width(this._bar, true)
-                + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
+        if (I.value) {
+            I.value = false;
+            this.draw_meter();
+        }
+        if (I.show_scale) {
+            if (O.show_scale) {
+                this.scale.redraw();
+                if (O.show_marker) {
+                    TK.empty(this._mark);
+                    var c = this.scale.element.children;
+                    for (var i = 0; i < c.length; i++) {
+                        var e = c[i];
+                        if (!TK.has_class(e, "toolkit-dot"))
+                            return;
+                        
+                        var d = e.clone();
+                        var p = TK["position_" + this._vert() ? "top" : "left"](e, this._scale);
+                        d.style[this._vert() ? "width" : "height"] = "100%";
+                        d.style[this._vert() ? "top" : "left"] = 
+                                   (p + p % O.segment) + "px";
+                        this._mark.appendChild(d);
+                    }
+                }
+            }
+            if (this._vert())
+                TK.inner_width(this.element,
+                    TK.outer_width(this._bar, true)
+                    + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
+        }
         Widget.prototype.redraw.call(this);
-        return this;
     },
     
     draw_meter: function (value) {
@@ -372,7 +390,7 @@ w.MeterBase = $class({
         // always returns values without taking options.reverse into account
         var s = +this.val2px(val)
         s -= s % +this.options.segment;
-        if (!!this.options.reverse)
+        if (this.options.reverse)
             s = +this.options.basis - s;
         return s;
     },
@@ -393,48 +411,19 @@ w.MeterBase = $class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
-            case "gradient":
-            case "background":
-                if (!hold) {
-                    this.draw_gradient(this._base, this.options.gradient);
-                }
-                break;
-            case "show_label":
-                if (!hold)
-                    this._label.style["display"] = value ? "block" : "none";
-                break;
-            case "show_title":
-                if (!hold)
-                    this._title.style["display"] = value ? "block" : "none";
-                break;
-            case "show_scale":
-                if (!hold)
-                    this._scale.style["display"] = value ? "block" : "none";
-                break;
             case "label":
                 this.fire_event("labelchanged", value);
-                if (!hold) {
-                    var s = this.options.format_label(value);
-                    var n = this._label;
-                    if (n.firstChild) {
-                        n.firstChild.nodeValue = s;
-                    } else n.appendChild(document.createTextNode(s));
-                }
                 break;
             case "value":
                 this.fire_event("valuechanged", value);
-                this.trigger_draw();
                 break;
             case "title":
                 this.fire_event("titlechanged", value);
-                if (!hold)
-                    this._title.innerHTML = value;
                 break;
             case "segment":
-                if (!hold)
-                    this.set("value", this.options.value);
+                this.set("value", this.options.value);
                 break;
             case "division":
             case "min":
@@ -452,19 +441,16 @@ w.MeterBase = $class({
             case "show_max":
             case "show_min":
             case "show_base":
-                this.scale.set(key, value, hold);
                 this.fire_event("scalechanged", key, value);
-                if (!hold) this.redraw();
+                this.scale.set(key, value, hold);
                 break;
             case "format_labels":
                 this.fire_event("scalechanged", key, value);
                 this.scale.set("labels", value, hold);
-                if (!hold) this.redraw();
                 break;
             case "scale_base":
                 this.fire_event("scalechanged", key, value);
                 this.scale.set("base", value, hold);
-                if (!hold) this.redraw();
                 break;
             case "base":
                 if (value === false) {
@@ -474,14 +460,8 @@ w.MeterBase = $class({
                     this.__based = true;
                 }
                 this.fire_event("basechanged", value);
-                if (!hold) this.redraw();
-                key = false;
-                break;
-            default:
-                Widget.prototype.set.call(this, key, value, hold);
                 break;
         }
-        return this;
     }
 });
 })(this);

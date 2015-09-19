@@ -60,7 +60,6 @@ w.ResponseHandler = $class({
         this.element.addEventListener('mousewheel', cb);
         this.element.addEventListener('DOMMouseScroll', cb);
         this.add_handles(this.options.handles);
-        this.redraw();
     },
     
     redraw: function (graphs, grid) {

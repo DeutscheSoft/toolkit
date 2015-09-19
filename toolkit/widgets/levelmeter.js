@@ -69,6 +69,11 @@ w.LevelMeter = $class({
     
     initialize: function (options) {
         MeterBase.prototype.initialize.call(this, options, true);
+        this._reset_label = this.reset_label.bind(this);
+        this._reset_clip = this.reset_clip.bind(this);
+        this._reset_peak = this.reset_peak.bind(this);
+        this._reset_top = this.reset_top.bind(this);
+        this._reset_bottom = this.reset_bottom.bind(this);
         TK.add_class(this.element, "toolkit-level-meter");
         
         this.state = new State(Object.assign({
@@ -89,14 +94,6 @@ w.LevelMeter = $class({
         this.element.appendChild(this._peak);
         this._bar.appendChild(this._mask3);
         this._bar.appendChild(this._mask4);
-        this.value_time = performance.now();
-        this.will_draw = false;
-        this._reset_label = this.reset_label.bind(this);
-        this._reset_clip = this.reset_clip.bind(this);
-        this._reset_peak = this.reset_peak.bind(this);
-        this._reset_top = this.reset_top.bind(this);
-        this._reset_bottom = this.reset_bottom.bind(this);
-        this._draw_meter = this.draw_meter.bind(this);
         
         if (this.options.peak === false)
             this.options.peak = this.options.value;
@@ -165,34 +162,71 @@ w.LevelMeter = $class({
                 });
             }
         }
-        
-        this.set("show_peak", this.options.show_peak);
-        this.set("show_clip", this.options.show_clip);
-        this.set("show_hold", this.options.show_hold);
-        this.set("clip", this.options.clip);
-        this.redraw();
         MeterBase.prototype.initialized.call(this);
     },
     
     redraw: function () {
-        switch (this.options.layout) {
-            case _TOOLKIT_LEFT:
-            case _TOOLKIT_RIGHT:
-                this.__margin = TK.css_space(this._bar,
-                    "margin", "border", "padding"
-                ).top + TK.position_top(this._bar, this.element);
-                var m = (this.options.show_clip ? TK.outer_height(this._clip, true) : 0);
-                this._scale.style["top"] = m + "px";
-                break;
-            case _TOOLKIT_TOP:
-            case _TOOLKIT_BOTTOM:
-                this.__margin = TK.css_space(this._bar,
-                    "margin", "border", "padding"
-                ).left + TK.position_left(this._bar, this.element);
-                break;
+        var O = this.options;
+        var I = this.invalid;
+
+        this.will_draw = false;
+
+        if (I.layout) {
+            // will be invalidated by meterbase
+            switch (O.layout) {
+                case _TOOLKIT_LEFT:
+                case _TOOLKIT_RIGHT:
+                    this.__margin = TK.css_space(this._bar,
+                        "margin", "border", "padding"
+                    ).top + TK.position_top(this._bar, this.element);
+                    var m = (O.show_clip ? TK.outer_height(this._clip, true) : 0);
+                    this._scale.style["top"] = m + "px";
+                    break;
+                case _TOOLKIT_TOP:
+                case _TOOLKIT_BOTTOM:
+                    this.__margin = TK.css_space(this._bar,
+                        "margin", "border", "padding"
+                    ).left + TK.position_left(this._bar, this.element);
+                    break;
+            }
         }
-        this.set("peak", this.options.peak);
+
+        if (I.label) {
+            this._label_timeout();
+        }
+        if (I.clip) {
+            this._clip_timeout();
+        }
+
         MeterBase.prototype.redraw.call(this);
+
+        if (I.show_hold) {
+            I.show_hold = false;
+            (O.show_hold ? TK.add_class : TK.remove_class)(this.element, "toolkit-has-hold");
+        }
+        if (I.show_clip) {
+            I.show_clip = false;
+            this._clip.style["display"] =  O.show_clip  ? "block" : "none";
+            (O.show_clip ? TK.add_class : TK.remove_class)(this.element, "toolkit-has-clip");
+        }
+        if (I.show_peak) {
+            I.show_peak = false;
+            this._peak.style["display"] =  O.show_peak  ? "block" : "none";
+            (O.show_peak ? TK.add_class : TK.remove_class)(this.element, "toolkit-has-peak");
+        }
+        if (I.peak) {
+            I.peak = false;
+            this._peak_timeout();
+            this.draw_peak();
+        }
+        if (I.clip) {
+            I.clip = false;
+            if (O.clip) {
+                TK.add_class(this.element, "toolkit-clipping");
+            } else {
+                TK.remove_class(this.element, "toolkit-clipping");
+            }
+        }
     },
     destroy: function () {
         this.state.destroy();
@@ -203,25 +237,23 @@ w.LevelMeter = $class({
         MeterBase.prototype.destroy.call(this);
     },
     reset_peak: function () {
-        this.set("peak", this.options.value);
+        this.set("peak", this.effective_value());
         this.fire_event("resetpeak");
     },
     reset_label: function () {
-         this.__lto = false;
-        this.set("label", this.options.value);
+        this.set("label", this.effective_value());
         this.fire_event("resetlabel");
     },
     reset_clip: function () {
-        this.__cto = false;
         this.set("clip", false);
         this.fire_event("resetclip");
     },
     reset_top: function () {
-        this.set("top", this.options.value);
+        this.set("top", this.effective_value());
         this.fire_event("resettop");
     },
     reset_bottom: function () {
-        this.set("bottom", this.options.value);
+        this.set("bottom", this.effective_value());
         this.fire_event("resetbottom");
     },
     reset_all: function () {
@@ -232,22 +264,14 @@ w.LevelMeter = $class({
         this.reset_bottom();
     },
 
-    trigger_draw : function() {
-        if (!this.will_draw) {
-            this.will_draw = true;
-            TK.S.enqueue(this._draw_meter);
-        }
-    },
-
     effective_value: function() {
         var O = this.options;
         var falling = +O.falling;
-        if (!O.falling) return O.value;
-        var age = +(performance.now() - this.value_time);
-        var value = +O.value;
-        var base = +O.base;
+        if (O.falling <= 0) return O.value;
+        var value = +O.value, base = +O.base;
+        var age = +(Date.now() - this.value_time.value);
 
-        var frame_length = 1000.0 / O.falling_fps;
+        var frame_length = 1000.0 / +O.falling_fps;
 
         if (age > O.falling_init * frame_length) {
             if (value > base) {
@@ -263,7 +287,6 @@ w.LevelMeter = $class({
     },
     
     draw_meter: function () {
-        this.will_draw = false;
         var _c = true;
         var O = this.options;
         var falling = +O.falling;
@@ -273,8 +296,10 @@ w.LevelMeter = $class({
         if (falling) {
             value = this.effective_value();
             // continue animation
-            if (value !== base)
+            if (value !== base) {
+                this.invalid.value = true;
                 this.trigger_draw();
+            }
         }
 
         if (O.peak_label !== false && value > O.label && value > base ||
@@ -464,81 +489,44 @@ w.LevelMeter = $class({
                 if (v > base && value > base && value < v) return;
                 if (v < base && value < base && value > v) return;
             }
-            this.value_time = performance.now();
         }
         MeterBase.prototype.set.call(this, key, value, hold);
         switch (key) {
-            case "show_peak":
-                if (!hold) {
-                    TK[(value  ? "add" : "remove") + "_class"](this.element, "toolkit-has-peak");
-                    this._peak.style["display"] =  value  ? "block" : "none";
-                }
-                break;
-            case "show_clip":
-                if (!hold) {
-                    this._clip.style["display"] =  value  ? "block" : "none";
-                    TK[(value  ? "add" : "remove") + "_class"](this.element, "toolkit-has-clip");
-                    this.redraw();
-                }
-                break;
-            case "show_hold":
-                if (!hold) {
-                    TK[(value  ? "add" : "remove") + "_class"](this.element, "toolkit-has-hold");
-                    this.trigger_draw();
-                }
-                break;
             case "peak":
-                if (!hold) {
-                    this._peak_timeout();
-                    this.draw_peak();
-                }
                 this.fire_event("peakchanged");
                 break;
-            case "label":
-                if (!hold) {
-                    this._label_timeout();
-                }
-                break;
             case "clip":
-                this._clip_timeout();
-                if (!hold && value) {
-                    this.fire_event("clipping");
-                    TK.add_class(this.element, "toolkit-clipping");
-                    this.state.set("state", 1);
-                } else {
-                    TK.remove_class(this.element, "toolkit-clipping");
-                    this.state.set("state", 0);
-                }
+                if (value) this.fire_event("clipping");
+                this.state.set("state", value);
                 break;
             case "top":
                 this._top_timeout();
-                this.trigger_draw();
                 this.fire_event("topchanged");
                 break;
             case "bottom":
                 this._bottom_timeout();
-                this.trigger_draw();
                 this.fire_event("bottomchanged");
                 break;
             case "auto_clip":
-                if (this.__cto && !value || value < 0)
+                if (this.__cto && 0|value <=0)
                     window.clearTimeout(this.__cto);
                 break;
             case "auto_peak":
-                if (this.__pto && !value || value < 0)
+                if (this.__pto && 0|value <=0)
                     window.clearTimeout(this.__pto);
                 break;
             case "peak_label":
-                if (this.__lto && !value || value < 0)
+                if (this.__lto && 0|value <=0)
                     window.clearTimeout(this.__lto);
                 break;
             case "auto_hold":
-                if (this.__tto && !value || value < 0)
+                if (this.__tto && 0|value <=0)
                     window.clearTimeout(this.__tto);
-                if (this.__bto && !value || value < 0)
+                if (this.__bto && 0|value <=0)
                     window.clearTimeout(this.__bto);
                 break;
         }
+        return this;
     }
 });
 })(this);

@@ -121,7 +121,6 @@ w.Fader = $class({
                 this.get("value")), this.__tt);
         }.bind(this));
         
-        this.redraw();
         Widget.prototype.initialized.call(this);
     },
     

@@ -99,7 +99,6 @@ w.ValueButton = $class({
             e.stopPropagation();
         });
         
-        this.redraw();
         Button.prototype.initialized.call(this);
     },
     

@@ -38,10 +38,6 @@ w.Container = $class({
         this.set("content", this.options.content);
     },
     
-    redraw: function () {
-        
-    },
-    
     destroy: function () {
         TK.destroy(this.element);
         Widget.prototype.destroy.call(this);

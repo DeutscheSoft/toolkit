@@ -142,7 +142,6 @@ w.Keyboard = $class({
                 this.keys.push(kd);
             }
         }
-        this.redraw();
     },
     
     redraw: function () {
