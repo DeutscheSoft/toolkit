@@ -19,79 +19,151 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
-w.AudioMath = $class({
+this.AudioMath = (function(stdlib, foreign, heap) {
+    "use asm";
     // AudioMath provides a couple of functions for turning linear values into
     // logarithmic ones and vice versa. If you need an easy convertion between
     // dB or Hz and a linear scale implement this class.
-    _class: "AudioMath",
-    // DECIBEL CALCULATIONS
-    db2coef: function (value, min, max, reverse, factor) {
-        factor = factor || 1;
-        var logfac = Math.max(1, Math.pow(2, factor) - 1);
+    var exp = stdlib.Math.exp;
+    var log = stdlib.Math.log;
+    var pow = stdlib.Math.pow;
+    var MAX = stdlib.Math.max;
+    var LN2 = stdlib.Math.LN2;
+    var LN10 = stdlib.Math.LN10;
+
+    function log2(v) {
+        v = +v;
+        return +log(v) / LN2;
+    }
+
+    function log10(v) {
+        v = +v;
+        return +log(v) / LN10;
+    }
+
+    function db2coef(value, min, max, reverse, factor) {
+        value = +value;
+        min = +min;
+        max = +max;
+        reverse = reverse|0;
+        factor = +factor;
+        var logfac = 2.0;
+        if (factor == 0.0) factor = 1.0;
+        else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
         if (reverse) value = max - (value - min);
-        value = TK.log2(1 + (value - min) / (max - min) * logfac) / factor;
-        if (reverse) value = -value + 1;
+        value = +log2(1.0 + (value - min) / (max - min) * logfac) / factor;
+        if (reverse) value = -value + 1.0;
         return value;
-    },
-    coef2db: function (coef, min, max, reverse, factor) {
-        factor = factor || 1;
-        var logfac = Math.max(1, Math.pow(2, factor) - 1);
-        if (reverse) coef = -coef + 1;
-        coef = (Math.pow(2, coef * factor) - 1) / logfac * (max - min) + min;
+    }
+
+    function coef2db(coef, min, max, reverse, factor) {
+        coef = +coef;
+        min = +min;
+        max = +max;
+        reverse = reverse|0;
+        factor = +factor;
+        var logfac = 2.0;
+        if (factor == 0.0) factor = 1.0;
+        else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
+        if (reverse) coef = -coef + 1.0;
+        coef = (+pow(2.0, coef * factor) - 1.0) / logfac * (max - min) + min;
         if (reverse) coef = max - coef + min;
         return coef;
-    },
-    db2scale: function (value, min, max, scale, reverse, factor) {
-        factor = factor || 1;
-        var logfac = Math.max(1, Math.pow(2, factor) - 1);
+    }
+    function db2scale(value, min, max, scale, reverse, factor) {
+        value = +value;
+        min = +min;
+        max = +max;
+        scale = +scale;
+        reverse = reverse|0;
+        factor = +factor;
+        var logfac = 2.0;
+        if (factor == 0.0) factor = 1.0;
+        else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
         if (reverse) value = max - (value - min);
-        value = TK.log2(1 + (value - min) / (max - min) * logfac) / factor;
-        if (reverse) value = -value + 1;
+        value = +log2(1.0 + (value - min) / (max - min) * logfac) / factor;
+        if (reverse) value = -value + 1.0;
         return value * scale;
-    },
-    scale2db: function (value, min, max, scale, reverse, factor) {
-        value /= scale;
-        factor = factor || 1;
-        var logfac = Math.max(1, Math.pow(2, factor) - 1);
-        if (reverse) value = -value + 1;
-        value = (Math.pow(2, value * factor) - 1) / logfac * (max - min) + min;
-        if (reverse) value = max - value + min;
-        return value;
-    },
-    // FREQUENCY CALCULATIONS
-    freq2coef: function (value, min, max, reverse, prescaled, factor) {
-        if (reverse) value = max - (value - min);
-        min   = TK.log10(min);
-        max   = TK.log10(max);
-        value = ((TK.log10(value) - min) / (max - min));
-        if (reverse) value = -value + 1;
-        return value;
-    },
-    coef2freq: function (coef, min, max, reverse) {
-        if (reverse) coef = -coef + 1;
-        min  = TK.log10(min);
-        max  = TK.log10(max);
-        coef = Math.pow(10, (coef * (max - min) + min));
-        if (reverse) coef = max - coef + min;
-        return coef
-    },
-    freq2scale: function (value, min, max, scale, reverse) {
-        if (reverse) value = max - (value - min);
-        min   = TK.log10(min);
-        max   = TK.log10(max);
-        value = ((TK.log10(value) - min) / (max - min));
-        if (reverse) value = -value + 1;
-        return value * scale;
-    },
-    scale2freq: function (value, min, max, scale, reverse) {
-        value /= scale;
-        if (reverse) value = -value + 1;
-        min  = TK.log10(min);
-        max  = TK.log10(max);
-        value = Math.pow(10, (value * (max - min) + min));
+    }
+    function scale2db(value, min, max, scale, reverse, factor) {
+        value = +value;
+        min = +min;
+        max = +max;
+        scale = +scale;
+        reverse = reverse|0;
+        factor = +factor;
+        var logfac = 2.0;
+        if (factor == 0.0) factor = 1.0;
+        else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
+        value = value / scale;
+        if (reverse) value = -value + 1.0;
+        value = (+pow(2.0, value * factor) - 1.0) / logfac * (max - min) + min;
         if (reverse) value = max - value + min;
         return value;
     }
-});
+    function freq2coef(value, min, max, reverse/*, prescaled, factor*/) {
+        value = +value;
+        min = +min;
+        max = +max;
+        reverse = reverse|0;
+         // FIXME: unused
+        if (reverse) value = max - (value - min);
+        min   = +log10(min);
+        max   = +log10(max);
+        value = ((+log10(value) - min) / (max - min));
+        if (reverse) value = -value + 1.0;
+        return value;
+    }
+    function coef2freq(coef, min, max, reverse) {
+        coef = +coef;
+        min = +min;
+        max = +max;
+        reverse = reverse|0;
+        if (reverse) coef = -coef + 1.0;
+        min  = +log10(min);
+        max  = +log10(max);
+        coef = +pow(10.0, (coef * (max - min) + min));
+        if (reverse) coef = max - coef + min;
+        return coef;
+    }
+    function freq2scale(value, min, max, scale, reverse) {
+        value = +value;
+        min = +min;
+        max = +max;
+        scale = +scale;
+        reverse = reverse|0;
+        if (reverse) value = max - (value - min);
+        min   = +log10(min);
+        max   = +log10(max);
+        value = ((+log10(value) - min) / (max - min));
+        if (reverse) value = -value + 1.0;
+        return value * scale;
+    }
+    function scale2freq(value, min, max, scale, reverse) {
+        value = +value;
+        min = +min;
+        max = +max;
+        scale = +scale;
+        reverse = reverse|0;
+        value = value / scale;
+        if (reverse) value = -value + 1.0;
+        min  = +log10(min);
+        max  = +log10(max);
+        value = pow(10.0, (value * (max - min) + min));
+        if (reverse) value = max - value + min;
+        return value;
+    }
+
+    return {
+        // DECIBEL CALCULATIONS
+        db2coef: db2coef,
+        coef2db: coef2db,
+        db2scale: db2scale,
+        scale2db: scale2db,
+        // FREQUENCY CALCULATIONS
+        freq2coef: freq2coef,
+        coef2freq: coef2freq,
+        freq2scale: freq2scale,
+        scale2freq: scale2freq
+    }
 })(this);
