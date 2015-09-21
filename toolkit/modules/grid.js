@@ -112,7 +112,7 @@ w.Grid = $class({
             var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt,
                             this.range_y.val2px(obj.pos, true))) : h-th/2-pt;
             if (mode && y > this.__last || !mode && x < this.__last) {
-                label.destroy();
+                TK.destroy(label);
             } else {
                 label.setAttribute("x", x);
                 label.setAttribute("y", y);
