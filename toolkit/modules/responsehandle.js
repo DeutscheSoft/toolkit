@@ -556,6 +556,7 @@ w.ResponseHandle = $class({
                 n++;
             }
             while (n > a.length) {
+                // FIXME: bad call of destroy here?
                 this._label.children[n-1].destroy();
                 n--;
             }
