@@ -4,7 +4,6 @@ documentation :
 	generator/items.pike
 
 js_input_files = \
-    toolkit/G.js\
     toolkit/toolkit.js\
     toolkit/implements/base.js\
     toolkit/implements/audiomath.js\
