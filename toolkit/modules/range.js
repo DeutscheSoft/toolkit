@@ -94,9 +94,6 @@ w.Range = $class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
-        switch (key) {
-            
-        }
         this.fire_event("set", key, value, hold);
         this.fire_event("set_" + key, value, hold);
         return this;

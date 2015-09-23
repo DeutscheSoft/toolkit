@@ -82,9 +82,6 @@ w.ScrollValue = $class({
         if (!this._wheel)
             this._lastPos = range.val2real(this.options.get());
         
-        if (this.options.snap) {
-            
-        }
         this._lastPos += step;
         this.options.set(range.real2val(this._lastPos, true));
         
