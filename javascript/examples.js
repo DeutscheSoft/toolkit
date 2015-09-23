@@ -1550,6 +1550,7 @@ function run_levelmeter () {
             meters[i] = undefined;
         }
         TK.get_id("sc_levelmeter_buttons").style["display"] = "none";
+        running = false;
         return;
     }
     TK.get_id("sc_levelmeter_buttons").style["display"] = "block";
@@ -1758,52 +1759,62 @@ function run () {
     run8();
 }
 function run1 () {
+    if (!running) return;
     var v = Math.random() * 118 - 96;
     meters.mvl.set("value", v);
-    if (running) window.setTimeout(run1, Math.random() * 500); 
+    window.setTimeout(run1, Math.random() * 500); 
 }
 function run2 () {
+    if (!running) return;
     var v = Math.random() * 118 - 96;
     meters.mvr.set("value", v);
-    if (running) window.setTimeout(run2, Math.random() * 500); 
+    window.setTimeout(run2, Math.random() * 500); 
 }
 function run3 () {
+    if (!running) return;
     var v = Math.random() * 118 - 96;
     meters.mht.set("value", v);
-    if (running) window.setTimeout(run3, Math.random() * 500); 
+    window.setTimeout(run3, Math.random() * 500); 
 }
 function run4 () {
+    if (!running) return;
     var v = Math.random() * 118 - 96;
     meters.mhb.set("value", v);
-    if (running) window.setTimeout(run4, Math.random() * 500); 
+    window.setTimeout(run4, Math.random() * 500); 
 }
 function run5 () {
+    if (!running) return;
     var v = Math.random() * 44 - 22;
     meters.mvlr.set("value", v);
-    if (running) window.setTimeout(run5, Math.random() * 500); 
+    window.setTimeout(run5, Math.random() * 500); 
 }
 function run6 () {
+    if (!running) return;
     var v = Math.random() * 44 - 22;
     meters.mvrr.set("value", v);
-    if (running) window.setTimeout(run6, Math.random() * 500); 
+    window.setTimeout(run6, Math.random() * 500); 
 }
 function run7 () {
+    if (!running) return;
     var v = Math.random() * 22;
     meters.mhtr.set("value", v);
-    if (running) window.setTimeout(run7, Math.random() * 500); 
+    window.setTimeout(run7, Math.random() * 500); 
 }
 function run8 () {
+    if (!running) return;
     var v = Math.random() * 22;
     meters.mhbr.set("value", v);
-    if (running) window.setTimeout(run8, Math.random() * 500); 
+    window.setTimeout(run8, Math.random() * 500); 
 }
     
 function reset () {
+    if (!running) return;
     for(i in meters) {
         meters[i].reset_peak();
     }
 }
 function hold (h) {
+    if (!running) return;
     h = !meters.mhbr.get("show_hold");
     for(var i = 0; i < Object.keys(meters).length; i++) {
         meters[Object.keys(meters)[i]].set("show_hold", h);
