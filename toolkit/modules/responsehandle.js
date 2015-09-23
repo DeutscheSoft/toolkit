@@ -479,8 +479,8 @@ w.ResponseHandle = $class({
                         case _TOOLKIT_TOP:
                             var _s = this.options.z_handle_centered < 1
                                    ? width * this.options.z_handle_centered
-                                   : this.options.z_handle_centered
-                            Math.max(_s, this.options.z_handle_size);
+                                   : this.options.z_handle_centered;
+                            _s = Math.max(_s, this.options.z_handle_size);
                             this._zhandle.setAttribute("x",      x + width / 2 - _s / 2);
                             this._zhandle.setAttribute("y",      y);
                             this._zhandle.setAttribute("width",  _s);
@@ -495,8 +495,8 @@ w.ResponseHandle = $class({
                         case _TOOLKIT_LEFT:
                             var _s = this.options.z_handle_centered < 1
                                    ? height * this.options.z_handle_centered
-                                   : this.options.z_handle_centered
-                            Math.max(_s, this.options.z_handle_size);
+                                   : this.options.z_handle_centered;
+                            _s = Math.max(_s, this.options.z_handle_size);
                             this._zhandle.setAttribute("x",      x);
                             this._zhandle.setAttribute("y",      y + height / 2 - _s / 2);
                             this._zhandle.setAttribute("width",  this.options.z_handle_size);
@@ -505,8 +505,8 @@ w.ResponseHandle = $class({
                         case _TOOLKIT_RIGHT:
                             var _s = this.options.z_handle_centered < 1
                                    ? height * this.options.z_handle_centered
-                                   : this.options.z_handle_centered
-                            Math.max(_s, this.options.z_handle_size);
+                                   : this.options.z_handle_centered;
+                            _s = Math.max(_s, this.options.z_handle_size);
                             this._zhandle.setAttribute("x",      x + width - this.options.z_handle_size);
                             this._zhandle.setAttribute("y",      y + height / 2 - _s / 2);
                             this._zhandle.setAttribute("width",  this.options.z_handle_size);
@@ -521,8 +521,8 @@ w.ResponseHandle = $class({
                         case _TOOLKIT_BOTTOM:
                             var _s = this.options.z_handle_centered < 1
                                    ? width * this.options.z_handle_centered
-                                   : this.options.z_handle_centered
-                            Math.max(_s, this.options.z_handle_size);
+                                   : this.options.z_handle_centered;
+                            _s = Math.max(_s, this.options.z_handle_size);
                             this._zhandle.setAttribute("x",      x + width / 2 - _s / 2);
                             this._zhandle.setAttribute("y",      y + height - this.options.z_handle_size);
                             this._zhandle.setAttribute("width",  _s);
