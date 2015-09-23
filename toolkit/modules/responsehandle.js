@@ -195,39 +195,40 @@ w.ResponseHandle = $class({
     },
     
     redraw: function () {
+        var O = this.options;
         var x      = 0;
         var y      = 0;
         var width  = 0;
         var height = 0;
-        var m      = this.options.margin;
+        var m      = O.margin;
         
         if ((this._zhandling || this._zwheel)
-        && (this.options.z >= this.options.z_max && this.options.z_max !== false
-        ||  this.options.z <= this.options.z_min && this.options.z_min !== false)) {
+        && (O.z >= O.z_max && O.z_max !== false
+        ||  O.z <= O.z_min && O.z_min !== false)) {
             this.warning(this.element);
         }
         
         // do we have to restrict movement?
-        if (this.options.x_min !== false)
-            this.options.x = Math.max(this.options.x_min, this.options.x);
-        if (this.options.x_max !== false)
-            this.options.x = Math.min(this.options.x_max, this.options.x);
-        if (this.options.y_min !== false)
-            this.options.y = Math.max(this.options.y_min, this.options.y);
-        if (this.options.y_max !== false)
-            this.options.y = Math.min(this.options.y_max, this.options.y);
-        if (this.options.z_min !== false)
-            this.options.z = Math.max(this.options.z_min, this.options.z);
-        if (this.options.z_max !== false)
-            this.options.z = Math.min(this.options.z_max, this.options.z);
+        if (O.x_min !== false)
+            O.x = Math.max(O.x_min, O.x);
+        if (O.x_max !== false)
+            O.x = Math.min(O.x_max, O.x);
+        if (O.y_min !== false)
+            O.y = Math.max(O.y_min, O.y);
+        if (O.y_max !== false)
+            O.y = Math.min(O.y_max, O.y);
+        if (O.z_min !== false)
+            O.z = Math.max(O.z_min, O.z);
+        if (O.z_max !== false)
+            O.z = Math.min(O.z_max, O.z);
         
-        this.options.x = this.range_x.snap_value(this.options.x);
-        this.options.y = this.range_y.snap_value(this.options.y);
-        this.options.z = this.range_z.snap_value(this.options.z);
+        O.x = this.range_x.snap_value(O.x);
+        O.y = this.range_y.snap_value(O.y);
+        O.z = this.range_z.snap_value(O.z);
         
-        this.x = this.range_x.val2px(this.options.x);
-        this.y = this.range_y.val2px(this.options.y);
-        this.z = this.range_z.val2px(this.options.z);
+        this.x = this.range_x.val2px(O.x);
+        this.y = this.range_y.val2px(O.y);
+        this.z = this.range_z.val2px(O.z);
         
         var rnd = {
             x: Math.round(this.x),
@@ -236,12 +237,12 @@ w.ResponseHandle = $class({
         }
         
         // ELEMENT / HANDLE / MAIN COORDS
-        switch (this.options.mode) {
+        switch (O.mode) {
             case _TOOLKIT_CIRCULAR:
                 // circle
                 x      = rnd.x;
                 y      = rnd.y;
-                width  = Math.max(this.options.min_size, rnd.z);
+                width  = Math.max(O.min_size, rnd.z);
                 height = width;
                 this._handle.setAttribute("r", width / 2);
                 this.element.setAttribute("transform",  "translate(" + x + "," + y + ")");
@@ -254,7 +255,7 @@ w.ResponseHandle = $class({
                 break;
             case _TOOLKIT_LINE_VERTICAL:
                 // line vertical
-                width  = Math.round(Math.max(this.options.min_size, rnd.z));
+                width  = Math.round(Math.max(O.min_size, rnd.z));
                 x      = Math.round(
                             Math.min(
                                 this.range_x.get("basis") - width / 2,
@@ -262,14 +263,14 @@ w.ResponseHandle = $class({
                 y      = Math.round(
                             Math.max(
                                 0,
-                                this.options.y_max === false ?
-                                0 : this.range_y.val2px(this.options.y_max)));
+                                O.y_max === false ?
+                                0 : this.range_y.val2px(O.y_max)));
                 height = Math.round(
                              Math.min(
                                  this.range_y.get("basis"),
-                                 this.options.y_min === false
+                                 O.y_min === false
                                      ? this.range_y.get("basis")
-                                     : this.range_y.val2px(this.options.y_min)) - y);
+                                     : this.range_y.val2px(O.y_min)) - y);
                 this._handle.setAttribute("x", x);
                 this._handle.setAttribute("y", y);
                 this._handle.setAttribute("width", width);
@@ -279,7 +280,7 @@ w.ResponseHandle = $class({
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
                 // line horizontal
-                height = Math.round(Math.max(this.options.min_size, rnd.z));
+                height = Math.round(Math.max(O.min_size, rnd.z));
                 y      = Math.round(
                             Math.min(
                                 this.range_y.get("basis") - height / 2,
@@ -287,14 +288,14 @@ w.ResponseHandle = $class({
                 x      = Math.round(
                             Math.max(
                                 0,
-                                this.options.x_min === false
-                                    ? 0 : this.range_x.val2px(this.options.x_min)));
+                                O.x_min === false
+                                    ? 0 : this.range_x.val2px(O.x_min)));
                 width  = Math.round(
                              Math.min(
                                  this.range_x.get("basis"),
-                                 this.options.x_max === false
+                                 O.x_max === false
                                      ? this.range_x.get("basis")
-                                     : this.range_x.val2px(this.options.x_max)) - x);
+                                     : this.range_x.val2px(O.x_max)) - x);
                 this._handle.setAttribute("x", x);
                 this._handle.setAttribute("y", y);
                 this._handle.setAttribute("width", width);
@@ -308,18 +309,18 @@ w.ResponseHandle = $class({
                 y      = Math.round(
                             Math.max(
                                 0,
-                                this.options.y_max === false
-                                    ? 0 : this.range_y.val2px(this.options.y_max)));
+                                O.y_max === false
+                                    ? 0 : this.range_y.val2px(O.y_max)));
                 width  = Math.round(
                             Math.max(
-                                this.options.min_size / 2,
+                                O.min_size / 2,
                                 Math.min(rnd.x, this.range_x.get("basis"))));
                 height = Math.round(
                             Math.min(
                                 this.range_y.get("basis"),
-                                this.options.y_min === false
+                                O.y_min === false
                                     ? this.range_y.get("basis")
-                                    : this.range_y.val2px(this.options.y_min)) - y);
+                                    : this.range_y.val2px(O.y_min)) - y);
                 this._handle.setAttribute("x", x);
                 this._handle.setAttribute("y", y);
                 this._handle.setAttribute("width", width);
@@ -333,21 +334,21 @@ w.ResponseHandle = $class({
                             0,
                             Math.min(
                                 rnd.x,
-                                this.range_x.get("basis") - this.options.min_size / 2));
+                                this.range_x.get("basis") - O.min_size / 2));
                 y      = Math.round(
                             Math.max(
                                 0,
-                                this.options.y_max === false
-                                    ? 0 : this.range_y.val2px(this.options.y_max)));
+                                O.y_max === false
+                                    ? 0 : this.range_y.val2px(O.y_max)));
                 width  = Math.max(
-                            this.options.min_size / 2,
+                            O.min_size / 2,
                             this.range_x.get("basis") - x);
                 height = Math.round(
                             Math.min(
                                 this.range_y.get("basis"),
-                                this.options.y_min === false
+                                O.y_min === false
                                     ? this.range_y.get("basis")
-                                    : this.range_y.val2px(this.options.y_min)) - y);
+                                    : this.range_y.val2px(O.y_min)) - y);
                 this._handle.setAttribute("x", x);
                 this._handle.setAttribute("y", y);
                 this._handle.setAttribute("width", width);
@@ -359,18 +360,18 @@ w.ResponseHandle = $class({
                 // rect top
                 x      = Math.round(Math.max(
                             0,
-                            this.options.x_min === false
-                                ? 0 : this.range_x.val2px(this.options.x_min)));
+                            O.x_min === false
+                                ? 0 : this.range_x.val2px(O.x_min)));
                 y      = 0;
                 width  = Math.round(
                             Math.min(
                                 this.range_x.get("basis"),
-                                this.options.x_max === false
+                                O.x_max === false
                                     ? this.range_x.get("basis")
-                                    : this.range_x.val2px(this.options.x_max)) - x);
+                                    : this.range_x.val2px(O.x_max)) - x);
                 height = Math.round(
                             Math.max(
-                                this.options.min_size / 2,
+                                O.min_size / 2,
                                 Math.min(rnd.y, this.range_y.get("basis"))));
                 this._handle.setAttribute("x", x);
                 this._handle.setAttribute("y", y);
@@ -383,20 +384,20 @@ w.ResponseHandle = $class({
                 // rect bottom
                 x      = Math.round(Math.max(
                             0,
-                            this.options.x_min === false
-                                ? 0 : this.range_x.val2px(this.options.x_min)));
+                            O.x_min === false
+                                ? 0 : this.range_x.val2px(O.x_min)));
                 y      = Math.max(
                             0,
                             Math.min(
                                 rnd.y,
-                                this.range_y.get("basis") - this.options.min_size / 2));
+                                this.range_y.get("basis") - O.min_size / 2));
                 width  = Math.round(Math.min(
                             this.range_x.get("basis"),
-                            this.options.x_max === false
+                            O.x_max === false
                                 ? this.range_x.get("basis")
-                                : this.range_x.val2px(this.options.x_max)) - x);
+                                : this.range_x.val2px(O.x_max)) - x);
                 height = Math.max(
-                            this.options.min_size / 2,
+                            O.min_size / 2,
                             this.range_y.get("basis") - y);
                 this._handle.setAttribute("x", x);
                 this._handle.setAttribute("y", y);
@@ -409,130 +410,131 @@ w.ResponseHandle = $class({
         
         
         // Z-HANDLE
-        if (this.options.z_handle === false) {
+        if (O.z_handle === false) {
             if (this._zinjected) {
                 TK.destroy(this._zhandle);
                 this._zinjected = false;
             }
         } else {
+            var zhandle = this._zhandle;
             if (!this._zinjected) {
                 this.element.appendChild(this._zhandle);
                 this._zinjected = true;
             }
-            switch (this.options.mode) {
+            switch (O.mode) {
                 // circular handles
                 case _TOOLKIT_CIRCULAR:
-                    switch (this.options.z_handle) {
+                    switch (O.z_handle) {
                         case _TOOLKIT_TOP_LEFT:
-                            this._zhandle.setAttribute("cx", width/-2 + this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("cy", height/-2 + this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("r",  this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
+                            zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
+                            zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
                         case _TOOLKIT_TOP:
-                            this._zhandle.setAttribute("cx", 0);
-                            this._zhandle.setAttribute("cy", height/-2 + this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("r",  this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", 0);
+                            zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
+                            zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            this._zhandle.setAttribute("cx", width/2 - this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("cy", height/-2 + this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("r",  this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
+                            zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
+                            zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
                         case _TOOLKIT_LEFT:
-                            this._zhandle.setAttribute("cx", width/-2 + this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("cy", 0);
-                            this._zhandle.setAttribute("r", this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
+                            zhandle.setAttribute("cy", 0);
+                            zhandle.setAttribute("r", O.z_handle_size / 2);
                             break;
                         case _TOOLKIT_RIGHT:
                         default:
-                            this._zhandle.setAttribute("cx", width/2 - this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("cy", 0);
-                            this._zhandle.setAttribute("r",  this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
+                            zhandle.setAttribute("cy", 0);
+                            zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            this._zhandle.setAttribute("cx", width/-2 + this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("cy", height/2 - this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("r", this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
+                            zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
+                            zhandle.setAttribute("r", O.z_handle_size / 2);
                             break;
                         case _TOOLKIT_BOTTOM:
-                            this._zhandle.setAttribute("cx", 0);
-                            this._zhandle.setAttribute("cy", height/2 - this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("r",  this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", 0);
+                            zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
+                            zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            this._zhandle.setAttribute("cx", width/2 - this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("cy", height/2 - this.options.z_handle_size / 2);
-                            this._zhandle.setAttribute("r",  this.options.z_handle_size / 2);
+                            zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
+                            zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
+                            zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
                     }
                     break;
                 default:
                     // all other handle types (lines/blocks)
-                    switch (this.options.z_handle) {
+                    switch (O.z_handle) {
                         case _TOOLKIT_TOP_LEFT:
                         default:
-                            this._zhandle.setAttribute("x",      x);
-                            this._zhandle.setAttribute("y",      y);
-                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
-                            this._zhandle.setAttribute("height", this.options.z_handle_size);
+                            zhandle.setAttribute("x",      x);
+                            zhandle.setAttribute("y",      y);
+                            zhandle.setAttribute("width",  O.z_handle_size);
+                            zhandle.setAttribute("height", O.z_handle_size);
                             break;
                         case _TOOLKIT_TOP:
-                            var _s = this.options.z_handle_centered < 1
-                                   ? width * this.options.z_handle_centered
-                                   : this.options.z_handle_centered;
-                            _s = Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.setAttribute("x",      x + width / 2 - _s / 2);
-                            this._zhandle.setAttribute("y",      y);
-                            this._zhandle.setAttribute("width",  _s);
-                            this._zhandle.setAttribute("height", this.options.z_handle_size);
+                            var _s = O.z_handle_centered < 1
+                                   ? width * O.z_handle_centered
+                                   : O.z_handle_centered;
+                            _s = Math.max(_s, O.z_handle_size);
+                            zhandle.setAttribute("x",      x + width / 2 - _s / 2);
+                            zhandle.setAttribute("y",      y);
+                            zhandle.setAttribute("width",  _s);
+                            zhandle.setAttribute("height", O.z_handle_size);
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            this._zhandle.setAttribute("x",      x + width - this.options.z_handle_size);
-                            this._zhandle.setAttribute("y",      y);
-                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
-                            this._zhandle.setAttribute("height", this.options.z_handle_size);
+                            zhandle.setAttribute("x",      x + width - O.z_handle_size);
+                            zhandle.setAttribute("y",      y);
+                            zhandle.setAttribute("width",  O.z_handle_size);
+                            zhandle.setAttribute("height", O.z_handle_size);
                             break;
                         case _TOOLKIT_LEFT:
-                            var _s = this.options.z_handle_centered < 1
-                                   ? height * this.options.z_handle_centered
-                                   : this.options.z_handle_centered;
-                            _s = Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.setAttribute("x",      x);
-                            this._zhandle.setAttribute("y",      y + height / 2 - _s / 2);
-                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
-                            this._zhandle.setAttribute("height", _s);
+                            var _s = O.z_handle_centered < 1
+                                   ? height * O.z_handle_centered
+                                   : O.z_handle_centered;
+                            _s = Math.max(_s, O.z_handle_size);
+                            zhandle.setAttribute("x",      x);
+                            zhandle.setAttribute("y",      y + height / 2 - _s / 2);
+                            zhandle.setAttribute("width",  O.z_handle_size);
+                            zhandle.setAttribute("height", _s);
                             break;
                         case _TOOLKIT_RIGHT:
-                            var _s = this.options.z_handle_centered < 1
-                                   ? height * this.options.z_handle_centered
-                                   : this.options.z_handle_centered;
-                            _s = Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.setAttribute("x",      x + width - this.options.z_handle_size);
-                            this._zhandle.setAttribute("y",      y + height / 2 - _s / 2);
-                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
-                            this._zhandle.setAttribute("height", _s);
+                            var _s = O.z_handle_centered < 1
+                                   ? height * O.z_handle_centered
+                                   : O.z_handle_centered;
+                            _s = Math.max(_s, O.z_handle_size);
+                            zhandle.setAttribute("x",      x + width - O.z_handle_size);
+                            zhandle.setAttribute("y",      y + height / 2 - _s / 2);
+                            zhandle.setAttribute("width",  O.z_handle_size);
+                            zhandle.setAttribute("height", _s);
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            this._zhandle.setAttribute("x",      x);
-                            this._zhandle.setAttribute("y",      y + height - this.options.z_handle_size);
-                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
-                            this._zhandle.setAttribute("height", this.options.z_handle_size);
+                            zhandle.setAttribute("x",      x);
+                            zhandle.setAttribute("y",      y + height - O.z_handle_size);
+                            zhandle.setAttribute("width",  O.z_handle_size);
+                            zhandle.setAttribute("height", O.z_handle_size);
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var _s = this.options.z_handle_centered < 1
-                                   ? width * this.options.z_handle_centered
-                                   : this.options.z_handle_centered;
-                            _s = Math.max(_s, this.options.z_handle_size);
-                            this._zhandle.setAttribute("x",      x + width / 2 - _s / 2);
-                            this._zhandle.setAttribute("y",      y + height - this.options.z_handle_size);
-                            this._zhandle.setAttribute("width",  _s);
-                            this._zhandle.setAttribute("height", this.options.z_handle_size);
+                            var _s = O.z_handle_centered < 1
+                                   ? width * O.z_handle_centered
+                                   : O.z_handle_centered;
+                            _s = Math.max(_s, O.z_handle_size);
+                            zhandle.setAttribute("x",      x + width / 2 - _s / 2);
+                            zhandle.setAttribute("y",      y + height - O.z_handle_size);
+                            zhandle.setAttribute("width",  _s);
+                            zhandle.setAttribute("height", O.z_handle_size);
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            this._zhandle.setAttribute("x",      x + width - this.options.z_handle_size);
-                            this._zhandle.setAttribute("y",      y + height - this.options.z_handle_size);
-                            this._zhandle.setAttribute("width",  this.options.z_handle_size);
-                            this._zhandle.setAttribute("height", this.options.z_handle_size);
+                            zhandle.setAttribute("x",      x + width - O.z_handle_size);
+                            zhandle.setAttribute("y",      y + height - O.z_handle_size);
+                            zhandle.setAttribute("width",  O.z_handle_size);
+                            zhandle.setAttribute("height", O.z_handle_size);
                             break;
                     }
                     break;
@@ -542,11 +544,11 @@ w.ResponseHandle = $class({
         
         // LABEL
         TK.empty(this._label);
-        var t = this.options.label(
-                    this.options.title,
-                    this.options.x,
-                    this.options.y,
-                    this.options.z);
+        var t = O.label(
+                    O.title,
+                    O.x,
+                    O.y,
+                    O.z);
         var a = t.split("\n");
         var c = this._label.children;
         var n = c.length;
@@ -577,43 +579,46 @@ w.ResponseHandle = $class({
         try { bbox = this._label.getBBox(); } catch(e) { /* Mozilla fuckup, lables are destroyed afterwards. Do a redraw on realization */ return; }
         try { bbox.width = w; } catch(e) { /* ie8: No Modification Allowed Error */ }
         
-        switch (this.options.mode) {
+        var x1, y1, xl, yl, align, x2, y2, i;
+        var pref = O.preferences;
+
+        switch (O.mode) {
             case _TOOLKIT_CIRCULAR:
-                for (var i = 0; i < this.options.preferences.length; i++) {
-                    switch (this.options.preferences[i]) {
+                for (i = 0; i < pref.length; i++) {
+                    switch (pref[i]) {
                         case _TOOLKIT_TOP:
-                            var x1 = x - bbox.width / 2;
-                            var y1 = y - height / 2 - m - bbox.height;
-                            var xl = x;
-                            var yl = y1;
-                            var align = "middle";
+                            x1 = x - bbox.width / 2;
+                            y1 = y - height / 2 - m - bbox.height;
+                            xl = x;
+                            yl = y1;
+                            align = "middle";
                             break;
                         case _TOOLKIT_RIGHT:
-                            var x1 = x + width / 2 + m;
-                            var y1 = y - bbox.height / 2;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + width / 2 + m;
+                            y1 = y - bbox.height / 2;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = x - bbox.height / 2;
-                            var y1 = y + height / 2 + m;
-                            var xl = x;
-                            var yl = y1;
-                            var align = "middle";
+                            x1 = x - bbox.height / 2;
+                            y1 = y + height / 2 + m;
+                            xl = x;
+                            yl = y1;
+                            align = "middle";
                             break;
                         case _TOOLKIT_LEFT:
-                            var x1 = x - width / 2 - m - bbox.width;
-                            var y1 = y - bbox.height / 2;
-                            var xl = x1 + bbox.width;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x - width / 2 - m - bbox.width;
+                            y1 = y - bbox.height / 2;
+                            xl = x1 + bbox.width;
+                            yl = y1;
+                            align = "end";
                             break;
                     }
-                    var x2 = x1 + bbox.width;
-                    var y2 = y1 + bbox.height;
-                    inter[i] = this.options.intersect(x1, y1, x2, y2,
-                                                      this.options.id);
+                    x2 = x1 + bbox.width;
+                    y2 = y1 + bbox.height;
+                    inter[i] = O.intersect(x1, y1, x2, y2,
+                                                      O.id);
                     inter[i].x1 = x1;
                     inter[i].y1 = y1;
                     inter[i].x2 = x2;
@@ -628,55 +633,54 @@ w.ResponseHandle = $class({
                 }
                 break;
             case _TOOLKIT_LINE_VERTICAL:
-                for (var i = 0; i < this.options.preferences.length; i++) {
-                    switch (this.options.preferences[i]) {
+                for (i = 0; i < pref.length; i++) {
+                    switch (pref[i]) {
                         case _TOOLKIT_TOP_LEFT:
-                            var x1 = x - m - bbox.width;
-                            var y1 = y + m;
-                            var xl = x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x - m - bbox.width;
+                            y1 = y + m;
+                            xl = x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            var x1 = x + width + m;
-                            var y1 = y + m;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + width + m;
+                            y1 = y + m;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            var x1 = x - m - bbox.width;
-                            var y1 = y + height - bbox.height - m;
-                            var xl = x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x - m - bbox.width;
+                            y1 = y + height - bbox.height - m;
+                            xl = x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            var x1 = x + width + m;
-                            var y1 = y + height - bbox.height - m;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + width + m;
+                            y1 = y + height - bbox.height - m;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_LEFT:
-                            var x1 = x - m - bbox.width;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x1 + bbox.width;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x - m - bbox.width;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x1 + bbox.width;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_RIGHT:
-                            var x1 = x + width + m;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + width + m;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                     }
-                    var x2 = x1 + bbox.width;
-                    var y2 = y1 + bbox.height;
-                    inter[i] = this.options.intersect(x1, y1, x2, y2,
-                                                      this.options.id);
+                    x2 = x1 + bbox.width;
+                    y2 = y1 + bbox.height;
+                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
                     inter[i].x1 = x1;
                     inter[i].y1 = y1;
                     inter[i].x2 = x2;
@@ -691,55 +695,54 @@ w.ResponseHandle = $class({
                 }
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
-                for (var i = 0; i < this.options.preferences.length; i++) {
-                    switch (this.options.preferences[i]) {
+                for (i = 0; i < pref.length; i++) {
+                    switch (pref[i]) {
                         case _TOOLKIT_TOP_LEFT:
-                            var x1 = x + m;
-                            var y1 = y - m - bbox.height;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y - m - bbox.height;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            var x1 = x + width - bbox.width - m;
-                            var y1 = y - m - bbox.height;
-                            var xl = x + width - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x + width - bbox.width - m;
+                            y1 = y - m - bbox.height;
+                            xl = x + width - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            var x1 = x + m;
-                            var y1 = y + height + m;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y + height + m;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            var x1 = x + width - bbox.width - m;
-                            var y1 = y - m - bbox.height;
-                            var xl = x + width - m;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + width - bbox.width - m;
+                            y1 = y - m - bbox.height;
+                            xl = x + width - m;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_TOP:
-                            var x1 = x + width / 2 - bbox.width / 2;
-                            var y1 = y - m - bbox.height;
-                            var xl = x + width / 2;
-                            var yl = y1;
-                            var align = "middle";
+                            x1 = x + width / 2 - bbox.width / 2;
+                            y1 = y - m - bbox.height;
+                            xl = x + width / 2;
+                            yl = y1;
+                            align = "middle";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = x + width / 2 - bbox.width / 2;
-                            var y1 = y + height + m;
-                            var xl = x + width / 2;
-                            var yl = y1;
-                            var align = "middle";
+                            x1 = x + width / 2 - bbox.width / 2;
+                            y1 = y + height + m;
+                            xl = x + width / 2;
+                            yl = y1;
+                            align = "middle";
                             break;
                     }
-                    var x2 = x1 + bbox.width;
-                    var y2 = y1 + bbox.height;
-                    inter[i] = this.options.intersect(x1, y1, x2, y2,
-                                                      this.options.id);
+                    x2 = x1 + bbox.width;
+                    y2 = y1 + bbox.height;
+                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
                     inter[i].x1 = x1;
                     inter[i].y1 = y1;
                     inter[i].x2 = x2;
@@ -754,76 +757,75 @@ w.ResponseHandle = $class({
                 }
                 break;
             case _TOOLKIT_BLOCK_LEFT:
-                for (var i = 0; i < this.options.preferences.length; i++) {
-                    switch (this.options.preferences[i]) {
+                for (i = 0; i < pref.length; i++) {
+                    switch (pref[i]) {
                         case _TOOLKIT_TOP_LEFT:
-                            var x1 = m;
-                            var y1 = y + m;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = m;
+                            y1 = y + m;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_TOP:
-                            var x1 = rnd.x - m - bbox.width;
-                            var y1 = y + m;
-                            var xl = rnd.x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = rnd.x - m - bbox.width;
+                            y1 = y + m;
+                            xl = rnd.x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            var x1 = width + m;
-                            var y1 = y + m;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = width + m;
+                            y1 = y + m;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_LEFT:
-                            var x1 = m;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = m;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_CENTER:
-                            var x1 = rnd.x - m - bbox.width;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = rnd.x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = rnd.x - m - bbox.width;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = rnd.x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_RIGHT:
-                            var x1 = width + m;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = width + m;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            var x1 = m;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = m;
+                            y1 = y + height - m - bbox.height;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = rnd.x - m - bbox.width;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = rnd.x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = rnd.x - m - bbox.width;
+                            y1 = y + height - m - bbox.height;
+                            xl = rnd.x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            var x1 = width + m;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = width + m;
+                            y1 = y + height - m - bbox.height;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                     }
-                    var x2 = x1 + bbox.width;
-                    var y2 = y1 + bbox.height;
-                    inter[i] = this.options.intersect(x1, y1, x2, y2,
-                                                      this.options.id);
+                    x2 = x1 + bbox.width;
+                    y2 = y1 + bbox.height;
+                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
                     inter[i].x1 = x1;
                     inter[i].y1 = y1;
                     inter[i].x2 = x2;
@@ -838,76 +840,75 @@ w.ResponseHandle = $class({
                 }
                 break;
             case _TOOLKIT_BLOCK_RIGHT:
-                for (var i = 0; i < this.options.preferences.length; i++) {
-                    switch (this.options.preferences[i]) {
+                for (i = 0; i < pref.length; i++) {
+                    switch (pref[i]) {
                         case _TOOLKIT_TOP_LEFT:
-                            var x1 = x - m - bbox.width;
-                            var y1 = y + m;
-                            var xl = x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x - m - bbox.width;
+                            y1 = y + m;
+                            xl = x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_TOP:
-                            var x1 = x + m;
-                            var y1 = y + m;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y + m;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            var x1 = width + x - m - bbox.width;
-                            var y1 = y + m;
-                            var xl = width + x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = width + x - m - bbox.width;
+                            y1 = y + m;
+                            xl = width + x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_LEFT:
-                            var x1 = x - m - bbox.width;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x - m - bbox.width;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_CENTER:
-                            var x1 = x + m;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_RIGHT:
-                            var x1 = width + x - m - bbox.width;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = width + x + m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = width + x - m - bbox.width;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = width + x + m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            var x1 = x - m - bbox.width;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = x - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x - m - bbox.width;
+                            y1 = y + height - m - bbox.height;
+                            xl = x - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = x + m;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y + height - m - bbox.height;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            var x1 = width + x - m - bbox.width;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = width + x + m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = width + x - m - bbox.width;
+                            y1 = y + height - m - bbox.height;
+                            xl = width + x + m;
+                            yl = y1;
+                            align = "end";
                             break;
                     }
-                    var x2 = x1 + bbox.width;
-                    var y2 = y1 + bbox.height;
-                    inter[i] = this.options.intersect(x1, y1, x2, y2,
-                                                      this.options.id);
+                    x2 = x1 + bbox.width;
+                    y2 = y1 + bbox.height;
+                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
                     inter[i].x1 = x1;
                     inter[i].y1 = y1;
                     inter[i].x2 = x2;
@@ -923,76 +924,75 @@ w.ResponseHandle = $class({
                 break;
             case _TOOLKIT_BLOCK_TOP:
             case _TOOLKIT_BLOCK_BOTTOM:
-                for (var i = 0; i < this.options.preferences.length; i++) {
-                    switch (this.options.preferences[i]) {
+                for (var i = 0; i < pref.length; i++) {
+                    switch (pref[i]) {
                         case _TOOLKIT_TOP_LEFT:
-                            var x1 = x + m;
-                            var y1 = y + m;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y + m;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_TOP:
-                            var x1 = x + width / 2 - bbox.width / 2;
-                            var y1 = y + m;
-                            var xl = x + width / 2;
-                            var yl = y1;
-                            var align = "middle";
+                            x1 = x + width / 2 - bbox.width / 2;
+                            y1 = y + m;
+                            xl = x + width / 2;
+                            yl = y1;
+                            align = "middle";
                             break;
                         case _TOOLKIT_TOP_RIGHT:
-                            var x1 = x + width - m - bbox.width;
-                            var y1 = y + m;
-                            var xl = x + width - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x + width - m - bbox.width;
+                            y1 = y + m;
+                            xl = x + width - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_LEFT:
-                            var x1 = x + m;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_CENTER:
-                            var x1 = x + width / 2 - bbox.width / 2;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x + width / 2;
-                            var yl = y1;
-                            var align = "middle";
+                            x1 = x + width / 2 - bbox.width / 2;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x + width / 2;
+                            yl = y1;
+                            align = "middle";
                             break;
                         case _TOOLKIT_RIGHT:
-                            var x1 = x + width - m - bbox.width;
-                            var y1 = y + height / 2 - bbox.height / 2;
-                            var xl = x + width - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x + width - m - bbox.width;
+                            y1 = y + height / 2 - bbox.height / 2;
+                            xl = x + width - m;
+                            yl = y1;
+                            align = "end";
                             break;
                         case _TOOLKIT_BOTTOM_LEFT:
-                            var x1 = x + m;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = x1;
-                            var yl = y1;
-                            var align = "start";
+                            x1 = x + m;
+                            y1 = y + height - m - bbox.height;
+                            xl = x1;
+                            yl = y1;
+                            align = "start";
                             break;
                         case _TOOLKIT_BOTTOM:
-                            var x1 = x + width / 2 - bbox.width / 2;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = x + width / 2;
-                            var yl = y1;
-                            var align = "middle";
+                            x1 = x + width / 2 - bbox.width / 2;
+                            y1 = y + height - m - bbox.height;
+                            xl = x + width / 2;
+                            yl = y1;
+                            align = "middle";
                             break;
                         case _TOOLKIT_BOTTOM_RIGHT:
-                            var x1 = x + width - m - bbox.width;
-                            var y1 = y + height - m - bbox.height;
-                            var xl = x + width - m;
-                            var yl = y1;
-                            var align = "end";
+                            x1 = x + width - m - bbox.width;
+                            y1 = y + height - m - bbox.height;
+                            xl = x + width - m;
+                            yl = y1;
+                            align = "end";
                             break;
                     }
-                    var x2 = x1 + bbox.width;
-                    var y2 = y1 + bbox.height;
-                    inter[i] = this.options.intersect(x1, y1, x2, y2,
-                                                      this.options.id);
+                    x2 = x1 + bbox.width;
+                    y2 = y1 + bbox.height;
+                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
                     inter[i].x1 = x1;
                     inter[i].y1 = y1;
                     inter[i].x2 = x2;
@@ -1020,13 +1020,13 @@ w.ResponseHandle = $class({
                 
         
         // LINES
-        switch (this.options.mode) {
+        switch (O.mode) {
             case _TOOLKIT_CIRCULAR:
-                if (this.options.show_axis) {
-                    var _x = Math.max(width / 2 + this.options.margin,
-                                      this.label.x2 - rnd.x + this.options.margin);
-                    var _y = Math.max(height / 2 + this.options.margin,
-                                      this.label.y2 - this.y + this.options.margin);
+                if (O.show_axis) {
+                    var _x = Math.max(width / 2 + O.margin,
+                                      this.label.x2 - rnd.x + O.margin);
+                    var _y = Math.max(height / 2 + O.margin,
+                                      this.label.y2 - this.y + O.margin);
                     this._line1.setAttribute("d", "M "  + _x + " 0" + this._add + " L"
                                                + (this.range_x.get("basis") - (x - _x))
                                                + " 0" + this._add);
@@ -1041,7 +1041,7 @@ w.ResponseHandle = $class({
                 this._line1.setAttribute("d", "M " + (rnd.x + this._add) + " " + y
                                           + " L " + (rnd.x + this._add) + " "
                                           + (y + height));
-                if (this.options.show_axis) {
+                if (O.show_axis) {
                     this._line2.setAttribute("d", "M 0 " + (rnd.y + this._add) + " L "
                                                 + this.range_x.get("basis") + " "
                                                 + (rnd.y + this._add));
@@ -1055,7 +1055,7 @@ w.ResponseHandle = $class({
                 this._line1.setAttribute("d", "M "   + x + " " + (rnd.y + this._add)
                                             + " L " + (x + width) + " "
                                             + (rnd.y + this._add));
-                if (this.options.show_axis) {
+                if (O.show_axis) {
                     this._line2.setAttribute("d", "M " + (rnd.x + this._add) + " 0 L "
                                               + (rnd.x + this._add) + " "
                                               + this.range_y.get("basis"));

@@ -45,14 +45,15 @@ w.Dynamics = $class({
     },
     initialize: function (options) {
         Chart.prototype.initialize.call(this, options, true);
+        var O = this.options;
         TK.add_class(this.element, "toolkit-dynamics");
-        this.set("scale", this.options.scale, true);
-        this.set("size", this.options.size, true);
-        this.set("min", this.options.min, true);
-        this.set("max", this.options.max, true);
+        this.set("scale", O.scale, true);
+        this.set("size", O.size, true);
+        this.set("min", O.min, true);
+        this.set("max", O.max, true);
         this.steady = this.add_graph({
-            dots: [{x:this.options.min, y:this.options.min},
-                   {x:this.options.max, y:this.options.max}],
+            dots: [{x:O.min, y:O.min},
+                   {x:O.max, y:O.max}],
             "class": "toolkit-steady",
             scale: _TOOLKIT_LINE
         });
@@ -61,90 +62,91 @@ w.Dynamics = $class({
     },
     
     redraw: function (graphs, grid) {
-        this.options.grid_x = [];
-        this.options.grid_y = [];
+        var O = this.options;
+        O.grid_x = [];
+        O.grid_y = [];
         for (var i = this.range_x.get("min");
             i <= this.range_x.get("max");
-            i += this.options.db_grid) {
+            i += O.db_grid) {
             var cls = "";
             if (i == 0) {
                 cls = "toolkit-highlight";
             }
-            this.options.grid_x.push({
+            O.grid_x.push({
                 pos:     i,
                 label:   i == this.range_x.get("min") ? ""
-                            : this.options.grid_labels(i),
+                            : O.grid_labels(i),
                 "class": cls
             });
-            this.options.grid_y.push({
+            O.grid_y.push({
                 pos:     i,
                 label:   i == this.range_x.get("min") ? ""
-                            : this.options.grid_labels(i),
+                            : O.grid_labels(i),
                 "class": cls
             });
         }
-        this.grid.set("grid_x", this.options.grid_x, true);
-        this.grid.set("grid_y", this.options.grid_y);
+        this.grid.set("grid_x", O.grid_x, true);
+        this.grid.set("grid_y", O.grid_y);
         
         if (this.steady)
-            this.steady.set("dots", [{x:this.options.min, y:this.options.min},
-                                     {x:this.options.max, y:this.options.max}]);
+            this.steady.set("dots", [{x:O.min, y:O.min}, {x:O.max, y:O.max}]);
         Chart.prototype.redraw.call(this, graphs, false);
         this.draw_graph();
     },
     
     draw_graph: function () {
-        if (this.options.type === false) return;
+        var O = this.options;
+        if (O.type === false) return;
         if (!this.graph) {
             this.graph = this.add_graph({
-                dots: [{x: this.options.min, y: this.options.min},
-                       {x: this.options.max, y: this.options.max}]
+                dots: [{x: O.min, y: O.min},
+                       {x: O.max, y: O.max}]
             });
         }
         var curve = [];
-        switch (this.options.type) {
+        switch (O.type) {
             case _TOOLKIT_COMPRESSOR:
-                curve.push({x: this.options.min,
-                            y: this.options.min + this.options.makeup});
-                curve.push({x: this.options.threshold,
-                            y: this.options.threshold + this.options.makeup});
-                curve.push({x: this.options.max,
-                            y: this.options.threshold + (this.options.max - this.options.threshold) / this.options.ratio + this.options.makeup});
+                curve.push({x: O.min,
+                            y: O.min + O.makeup});
+                curve.push({x: O.threshold,
+                            y: O.threshold + O.makeup});
+                curve.push({x: O.max,
+                            y: O.threshold + (O.max - O.threshold) / O.ratio + O.makeup});
                 break;
             case _TOOLKIT_LIMITER:
-                curve.push({x: this.options.min,
-                            y: this.options.min + this.options.makeup});
-                curve.push({x: this.options.threshold,
-                            y: this.options.threshold + this.options.makeup});
-                curve.push({x: this.options.max,
-                            y: this.options.threshold + this.options.makeup});
+                curve.push({x: O.min,
+                            y: O.min + O.makeup});
+                curve.push({x: O.threshold,
+                            y: O.threshold + O.makeup});
+                curve.push({x: O.max,
+                            y: O.threshold + O.makeup});
                 break;
             case _TOOLKIT_GATE:
-                curve.push({x: this.options.threshold,
-                            y: this.options.min});
-                curve.push({x: this.options.threshold,
-                            y: this.options.threshold + this.options.makeup});
-                curve.push({x: this.options.max,
-                            y: this.opions.max + this.options.makeup});
+                curve.push({x: O.threshold,
+                            y: O.min});
+                curve.push({x: O.threshold,
+                            y: O.threshold + O.makeup});
+                curve.push({x: O.max,
+                            y: this.opions.max + O.makeup});
                 break;
             case _TOOLKIT_EXPANDER:
-                if (this.options.ratio != 1) {
-                    curve.push({x: this.options.min,
-                                y: this.options.min + this.options.makeup + this.options.range});
-                    var range = this.options.range;
-                    var ratio = this.options.ratio;
-                    var thres = this.options.threshold;
+                if (O.ratio != 1) {
+                    curve.push({x: O.min,
+                                y: O.min + O.makeup + O.range});
+                    var range = O.range;
+                    var ratio = O.ratio;
+                    var thres = O.threshold;
                     var y = (ratio * range + (ratio - 1) * thres) / (ratio - 1);
                     curve.push({x: y - range,
-                                y: y + this.options.makeup});
-                    curve.push({x: this.options.threshold,
-                                y: this.options.threshold + this.options.makeup});
+                                y: y + O.makeup});
+                    curve.push({x: O.threshold,
+                                y: O.threshold + O.makeup});
                 }
                 else
-                    curve.push({x: this.options.min,
-                                y: this.options.min + this.options.makeup});
-                curve.push({x: this.options.max,
-                            y: this.options.max + this.options.makeup});
+                    curve.push({x: O.min,
+                                y: O.min + O.makeup});
+                curve.push({x: O.max,
+                            y: O.max + O.makeup});
                 break;
         }
         this.graph.set("dots", curve);

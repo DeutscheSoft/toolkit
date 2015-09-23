@@ -297,59 +297,60 @@ w.Chart = $class({
         this._key_background.setAttribute("height", this.__key.y2 - this.__key.y1);
     },
     _draw_title: function () {
-        this._title.textContent = this.options.title;
-        var mtop    = parseInt(TK.get_style(this._title, "margin-top") || 0);
-        var mleft   = parseInt(TK.get_style(this._title, "margin-left") || 0);
-        var mbottom = parseInt(TK.get_style(this._title, "margin-bottom") || 0);
-        var mright  = parseInt(TK.get_style(this._title, "margin-right") || 0);
-        var bb      = this._title.getBoundingClientRect();
+        var _title  = this._title;
+        _title.textContent = this.options.title;
+        var mtop    = parseInt(TK.get_style(_title, "margin-top") || 0);
+        var mleft   = parseInt(TK.get_style(_title, "margin-left") || 0);
+        var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);
+        var mright  = parseInt(TK.get_style(_title, "margin-right") || 0);
+        var bb      = _title.getBoundingClientRect();
         switch (this.options.title_position) {
             case _TOOLKIT_TOP_LEFT:
-                this._title.setAttribute("text-anchor", "start");
-                this._title.setAttribute("x", mleft);
-                this._title.setAttribute("y", mtop + bb.height / 2);
+                _title.setAttribute("text-anchor", "start");
+                _title.setAttribute("x", mleft);
+                _title.setAttribute("y", mtop + bb.height / 2);
                 break;
             case _TOOLKIT_TOP:
-                this._title.setAttribute("text-anchor", "middle");
-                this._title.setAttribute("x", this.range_x.options.basis / 2);
-                this._title.setAttribute("y", mtop + bb.height / 2);
+                _title.setAttribute("text-anchor", "middle");
+                _title.setAttribute("x", this.range_x.options.basis / 2);
+                _title.setAttribute("y", mtop + bb.height / 2);
                 break;
             case _TOOLKIT_TOP_RIGHT:
-                this._title.setAttribute("text-anchor", "end");
-                this._title.setAttribute("x", this.range_x.options.basis - mright);
-                this._title.setAttribute("y", mtop + bb.height / 2);
+                _title.setAttribute("text-anchor", "end");
+                _title.setAttribute("x", this.range_x.options.basis - mright);
+                _title.setAttribute("y", mtop + bb.height / 2);
                 break;
             case _TOOLKIT_LEFT:
-                this._title.setAttribute("text-anchor", "start");
-                this._title.setAttribute("x", mleft);
-                this._title.setAttribute("y", this.range_y.options.basis / 2);
+                _title.setAttribute("text-anchor", "start");
+                _title.setAttribute("x", mleft);
+                _title.setAttribute("y", this.range_y.options.basis / 2);
                 break;
             case _TOOLKIT_CENTER:
-                this._title.setAttribute("text-anchor", "middle");
-                this._title.setAttribute("x", this.range_x.options.basis / 2);
-                this._title.setAttribute("y", this.range_y.options.basis / 2);
+                _title.setAttribute("text-anchor", "middle");
+                _title.setAttribute("x", this.range_x.options.basis / 2);
+                _title.setAttribute("y", this.range_y.options.basis / 2);
                 break;
             case _TOOLKIT_RIGHT:
-                this._title.setAttribute("text-anchor", "end");
-                this._title.setAttribute("x", this.range_x.options.basis - mright);
-                this._title.setAttribute("y", this.range_y.options.basis / 2);
+                _title.setAttribute("text-anchor", "end");
+                _title.setAttribute("x", this.range_x.options.basis - mright);
+                _title.setAttribute("y", this.range_y.options.basis / 2);
                 break;
             case _TOOLKIT_BOTTOM_LEFT:
-                this._title.setAttribute("text-anchor", "start");
-                this._title.setAttribute("x", mleft);
-                this._title.setAttribute("y",
+                _title.setAttribute("text-anchor", "start");
+                _title.setAttribute("x", mleft);
+                _title.setAttribute("y",
                     this.range_y.options.basis - mtop - bb.height / 2);
                 break;
             case _TOOLKIT_BOTTOM:
-                this._title.setAttribute("text-anchor", "middle");
-                this._title.setAttribute("x", this.range_x.options.basis / 2);
-                this._title.setAttribute("y",
+                _title.setAttribute("text-anchor", "middle");
+                _title.setAttribute("x", this.range_x.options.basis / 2);
+                _title.setAttribute("y",
                     this.range_y.options.basis - mtop - bb.height / 2);
                 break;
             case _TOOLKIT_BOTTOM_RIGHT:
-                this._title.setAttribute("text-anchor", "end");
-                this._title.setAttribute("x", this.range_x.options.basis - mright);
-                this._title.setAttribute("y",
+                _title.setAttribute("text-anchor", "end");
+                _title.setAttribute("x", this.range_x.options.basis - mright);
+                _title.setAttribute("y",
                     this.range_y.options.basis - mtop - bb.height / 2);
                 break;
         }

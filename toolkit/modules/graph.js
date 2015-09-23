@@ -79,76 +79,82 @@ w.Graph = $class({
     
     redraw: function () {
         var a = 0.5;
-        var w = this.range_x.options.basis;
-        var h = this.range_y.options.basis;
+        var O = this.options;
+        var range_x = this.range_x;
+        var range_y = this.range_y;
+        var w = range_x.options.basis;
+        var h = range_y.options.basis;
         
         var s = "";
         var init;
 
-        if (typeof this.options.dots == "string") {
-            this.element.setAttribute("d", this.options.dots);
+        var dots = O.dots;
+
+        if (typeof dots == "string") {
+            this.element.setAttribute("d", dots);
             return;
         }
         
-        if (typeof this.options.dots[0] != "undefined") {
-            var _s = this._start(this.options.dots[0])
+        if (typeof dots[0] != "undefined") {
+            var _s = this._start(dots[0])
             if (_s) {
                 s += _s;
                 init = true;
             }
         }
-        for (var _d = 0; _d < this.options.dots.length; _d ++) {
-            var d  = this.options.dots[_d];
-            var t = init ? this.options.type : "T";
+        var _d, d, t, _t, _x, _y, _x1, _y1, _x2, _y2, f, _q;
+        for (_d = 0; _d < dots.length; _d ++) {
+            d  = dots[_d];
+            t = init ? O.type : "T";
             switch (t.substr(0,1)) {
                 case "L":
                 case "T":
                     // line to and smooth quadric bezier
-                    var _t = init ? " " + t : "M";
-                    var _x = (this.range_x.val2px(d.x, true) + a);
-                    var _y = (this.range_y.val2px(d.y, true) + a);
+                    _t = init ? " " + t : "M";
+                    _x = (range_x.val2px(d.x, true) + a);
+                    _y = (range_y.val2px(d.y, true) + a);
                     s += _t + " " + _x + " " + _y;
                     break;
                 case "Q":
                 case "S":
                     // cubic bezier with reflection (S)
                     // and smooth quadratic bezier with reflection of beforehand
-                    var _x = (this.range_x.val2px(d.x, true) + a);
-                    var _y = (this.range_y.val2px(d.y, true) + a);
-                    var _x1 = (this.range_x.val2px(d.x1, true) + a);
-                    var _y1 = (this.range_y.val2px(d.y1, true) + a);
+                    _x = (range_x.val2px(d.x, true) + a);
+                    _y = (range_y.val2px(d.y, true) + a);
+                    _x1 = (range_x.val2px(d.x1, true) + a);
+                    _y1 = (range_y.val2px(d.y1, true) + a);
                     s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
                     break;
                 case "C":
                     // cubic bezier
-                    var _t = init ? " " + t : "M";
-                    var _x = (this.range_x.val2px(d.x, true) + a);
-                    var _y = (this.range_y.val2px(d.y, true) + a);
-                    var _x1 = (this.range_x.val2px(d.x1, true) + a);
-                    var _y1 = (this.range_y.val2px(d.y1, true) + a);
-                    var _x2 = (this.range_x.val2px(d.x2, true) + a);
-                    var _y2 = (this.range_y.val2px(d.y2, true) + a);
+                    _t = init ? " " + t : "M";
+                    _x = (range_x.val2px(d.x, true) + a);
+                    _y = (range_y.val2px(d.y, true) + a);
+                    _x1 = (range_x.val2px(d.x1, true) + a);
+                    _y1 = (range_y.val2px(d.y1, true) + a);
+                    _x2 = (range_x.val2px(d.x2, true) + a);
+                    _y2 = (range_y.val2px(d.y2, true) + a);
                     s += t_ + " " + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
                          + _x + "," + _y;
                     break;
                 case "H":
-                    var f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
-                    var _x = (this.range_x.val2px(d.x, true));
-                    var _y = _y1 = (this.range_y.val2px(d.y, true) + a);
-                    if (_d && _d != (this.options.dots.length - 1)) {
-                        var _q = this.range_x.val2px(
-                                 this.options.dots[_d - 1].x, true);
-                        var _x1 =  (_x - Math.round((_x - _q) / f) + a);
+                    f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
+                    _x = (range_x.val2px(d.x, true));
+                    _y = _y1 = (range_y.val2px(d.y, true) + a);
+                    if (_d && _d != (dots.length - 1)) {
+                        _q = range_x.val2px(
+                                 dots[_d - 1].x, true);
+                        _x1 =  (_x - Math.round((_x - _q) / f) + a);
                     } else {
-                        var _x1 = _x;
+                        _x1 = _x;
                     }
                     s += " S" + _x1 + "," + _y1 + " " + _x + "," + _y;
                     break;
             }
             init = true;
         }
-        if (typeof this.options.dots[this.options.dots.length-1] != "undefined") {
-            var _s = this._end(this.options.dots[this.options.dots.length - 1])
+        if (typeof dots[dots.length-1] != "undefined") {
+            _s = this._end(dots[dots.length - 1])
             if (_s)
                 s += _s;
         }
