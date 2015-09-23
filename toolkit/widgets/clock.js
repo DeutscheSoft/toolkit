@@ -207,9 +207,7 @@ w.Clock = $class({
         var s = this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
                                                    30, 6, 24, 59, 59, 999, 999,
                                                    this.options.months, this.options.days);
-        if (this._label.firstChild) {
-            this._label.firstChild.nodeValue = s;
-        } else this._label.appendChild(document.createTextNode(s));
+        TK.set_text(this._label, s);
         
         this._label.setAttribute("transform", "");
         

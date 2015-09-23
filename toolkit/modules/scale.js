@@ -93,38 +93,37 @@ w.Scale = $class({
     },
     
     redraw: function () {
+        var O = this.options;
         this.__size = 0;
-        if (this.options.base === false)
-            this.options.base = this.options.max
+        if (O.base === false)
+            O.base = O.max
         TK.empty(this.element);
         
         // draw base
-        this.draw_dot(this.options.base, this.__based ? "toolkit-base" : "toolkit-base");
-        if (this.options.show_base) {
-            this.draw_label(this.options.base, "toolkit-base");
+        this.draw_dot(O.base, this.__based ? "toolkit-base" : "toolkit-base");
+        if (O.show_base) {
+            this.draw_label(O.base, "toolkit-base");
         }
         // draw top
-        if (this._val2px(this.options.base - this.options.min)
-            >= this.options.gap_labels) {
-            this.draw_dot(this.options.min, "toolkit-min");
-            if (this.options.show_min)
-                this.draw_label(this.options.min, "toolkit-min");
+        if (this._val2px(O.base - O.min) >= O.gap_labels) {
+            this.draw_dot(O.min, "toolkit-min");
+            if (O.show_min)
+                this.draw_label(O.min, "toolkit-min");
         }
         
         // draw bottom
-        if (this._val2px(this.options.max - this.options.base)
-            >= this.options.gap_labels) {
-            this.draw_dot(this.options.max, "toolkit-max");
-            if (this.options.show_max)
-                this.draw_label(this.options.max, "toolkit-max");
+        if (this._val2px(O.max - O.base) >= O.gap_labels) {
+            this.draw_dot(O.max, "toolkit-max");
+            if (O.show_max)
+                this.draw_label(O.max, "toolkit-max");
         }
         
-        if (this.options.fixed_dots && this.options.fixed_labels) {
-            for (var i = 0; i < this.options.fixed_dots.length; i++) {
-                this.draw_dot(this.options.fixed_dots[i]);
+        if (O.fixed_dots && O.fixed_labels) {
+            for (var i = 0; i < O.fixed_dots.length; i++) {
+                this.draw_dot(O.fixed_dots[i]);
             }
-            for (var i = 0; i < this.options.fixed_labels.length; i++) {
-                this.draw_label(this.options.fixed_labels[i]);
+            for (var i = 0; i < O.fixed_labels.length; i++) {
+                this.draw_label(O.fixed_labels[i]);
             }
             return this;
         }
@@ -132,15 +131,15 @@ w.Scale = $class({
         var level;
         
         // draw beneath base
-        var iter = this.options.base;
+        var iter = O.base;
         this.__last = iter;
-        while (iter > this.options.min) {
-            //console.log("beneath", this.options.reverse, iter)
-            iter -= this.options.division;
-            if (level = this._check_label(iter, this.options.division)) {
+        while (iter > O.min) {
+            //console.log("beneath", O.reverse, iter)
+            iter -= O.division;
+            if (level = this._check_label(iter, O.division)) {
                 this._check_dots(this.__last,
                                 iter,
-                               -this.options.division,
+                               -O.division,
                                 level,
                                 function (a, b) { return a > b });
                 this.__last = iter;
@@ -149,20 +148,20 @@ w.Scale = $class({
         // draw dots between last label and min
         this._check_dots(this.__last,
                         iter,
-                       -this.options.division,
-                        this.options.levels.length - 1,
+                       -O.division,
+                        O.levels.length - 1,
                         function (a, b) { return a > b });
         
         // draw above base
-        var iter = this.options.base;
+        var iter = O.base;
         this.__last = iter;
-        while (iter < this.options.max) {
-            //console.log("above", this.options.reverse, iter)
-            iter += this.options.division;
-            if (level = this._check_label(iter, this.options.division)) {
+        while (iter < O.max) {
+            //console.log("above", O.reverse, iter)
+            iter += O.division;
+            if (level = this._check_label(iter, O.division)) {
                 this._check_dots(this.__last,
                                 iter,
-                                this.options.division,
+                                O.division,
                                 level,
                                 function (a, b) { return a < b });
                 this.__last = iter;
@@ -171,8 +170,8 @@ w.Scale = $class({
         // draw dots between last label and max
         this._check_dots(this.__last,
                         iter,
-                        this.options.division,
-                        this.options.levels.length - 1,
+                        O.division,
+                        O.levels.length - 1,
                         function (a, b) { return a < b });
         Widget.prototype.redraw.call(this);
     },
@@ -237,17 +236,18 @@ w.Scale = $class({
     
     // HELPERS & STUFF
     _check_label: function (iter, step) {
+        var O = this.options;
         // test if a label can be draw at a position and trigger drawing if so
-        for (var i = this.options.levels.length - 1; i >= 0; i--) {
-            var level = this.options.levels[i];
-            var diff = Math.abs(this.options.base - iter);
+        for (var i = O.levels.length - 1; i >= 0; i--) {
+            var level = O.levels[i];
+            var diff = Math.abs(O.base - iter);
             if (!(diff % level)
             && (level >= Math.abs(this.__last - iter)
-                || i == this.options.levels.length - 1)
+                || i == O.levels.length - 1)
             && this._val2px(Math.abs(this.__last - iter)
-                + this.options.min) >= this.options.gap_labels
-            && this._val2px(iter) >= this.options.gap_labels) {
-                if (iter > this.options.min && iter < this.options.max) {
+                + O.min) >= O.gap_labels
+            && this._val2px(iter) >= O.gap_labels) {
+                if (iter > O.min && iter < O.max) {
                     this.draw_label(iter);
                     this.draw_dot(iter, "toolkit-marker");
                 }
@@ -257,17 +257,18 @@ w.Scale = $class({
         return false;
     },
     _check_dots: function (start, stop, step, level, comp) {
+        var O = this.options;
         // test if dots can be drawn between two positions and trigger drawing
         var iter = start;
         while (comp(iter, stop - step)) {
             iter += step;
             for (var i = level - 1; i >= 0; i--) {
-                var l = this.options.levels[i];
+                var l = O.levels[i];
                 var diff = Math.abs(start - iter);
                 if (!(diff % l)
                 && this._val2px(Math.abs(start - iter)
-                    + this.options.min) >= this.options.gap_dots
-                && this._val2px(iter) >= this.options.gap_dots) {
+                    + O.min) >= O.gap_dots
+                && this._val2px(iter) >= O.gap_dots) {
                     this.draw_dot(iter);
                     start = iter;
                 }
