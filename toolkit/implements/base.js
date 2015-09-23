@@ -31,7 +31,7 @@ var merge = function(dst) {
     }
     return dst;
 };
-var mixin = function(dst, src, warn) {
+var mixin = function(dst, src) {
     var fun, key;
     for (key in src) if (!dst[key]) {
         if (key === "constructor" ||
@@ -43,12 +43,6 @@ var mixin = function(dst, src, warn) {
 
         fun = src[key];
 
-        if (warn && typeof(fun) == "object") {
-            //console.log("static variable", key, ":", fun);
-        }
-        if (warn && dst.hasOwnProperty(key)) {
-            //console.log("overwriting", key, "in", dst, "with", fun);
-        }
         dst[key] = fun;
     }
 
