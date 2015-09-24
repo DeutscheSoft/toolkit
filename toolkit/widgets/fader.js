@@ -122,6 +122,7 @@ w.Fader = $class({
         }.bind(this));
         
         Widget.prototype.initialized.call(this);
+        this.update_ranged();
     },
     
     redraw: function () {
@@ -276,8 +277,7 @@ w.Fader = $class({
         this.options[key] = value;
         switch (key) {
             case "value":
-                this.options.value = this.snap_value(Math.min(this.options.max,
-                                     Math.max(this.options.min, value)));
+                this.options.value = this.snap_value(value);
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fire_event("set_value", this.options.value);
@@ -307,11 +307,12 @@ w.Fader = $class({
                 break;
             case "min":
             case "max":
+            case "snap":
+                this.update_ranged();
             case "reverse":
             case "log_factor":
             case "step":
             case "round":
-            case "snap":
             case "scale":
             case "basis":
                 if (!hold) this.redraw();

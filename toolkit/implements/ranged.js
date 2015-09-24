@@ -20,6 +20,116 @@
  */
 "use strict";
 (function(w){
+function LinearSnapModule(stdlib, foreign) {
+    "use asm";
+    var min = +foreign.min;
+    var max = +foreign.max;
+    var step = +foreign.step;
+    var base = +foreign.base;
+
+    var floor = stdlib.Math.floor;
+    var ceil  = stdlib.Math.ceil;
+    var round = stdlib.Math.round;
+
+    function low_snap(v, direction) {
+        v = +v;
+        direction = +direction;
+        var n = 0;
+        var t = 0.0;
+
+        if (v < min) {
+            v = min;
+            direction = 1.0;
+        } else if (v > max) {
+            v = max;
+            direction = +1.0;
+        }
+
+        t = (v - base)/step;
+
+        if (direction > 0.0) n = ceil(t)|0;
+        else if (direction < 0.0) n = floor(t)|0;
+        else n = round(t)|0;
+
+        return base + step * n;
+    }
+
+    function snap_up(v) {
+        v = +v;
+        return +low_snap(v, 1.0);
+    }
+
+    function snap_down(v) {
+        v = +v;
+        return +low_snap(v, -1.0);
+    }
+
+    function snap(v) {
+        v = +v;
+        return +low_snap(v, 0.0);
+    }
+
+    return {
+        snap_up : snap_up,
+        snap_down : snap_down,
+        snap : snap
+    };
+}
+
+function ArraySnapModule(stdlib, foreign, heap) {
+    "use asm";
+    var len = foreign.length|0;
+    var values = new stdlib.Float64Array(heap);
+
+    function low_snap(v, direction) {
+        v = +v;
+        direction = +direction;
+        var a = 0;
+        var mid = 0;
+        var b = 0;
+        var t = 0.0;
+
+        b = len;
+
+        if (v >= +values[b << 3 >> 3]) return +values[b << 3 >> 3];
+        if (v <= +values[a << 3 >> 3]) return +values[0];
+
+        do {
+            mid = (a + b) >>> 1;
+            t = +values[mid << 3 >> 3];
+            if (v > t) a = mid;
+            else if (v < t) b = mid;
+            else return t;
+        } while (((b - a)|0) > 1);
+
+        if (direction > 0.0) return +values[b << 3 >> 3];
+        else if (direction < 0.0) return +values[a << 3 >> 3];
+
+        if (values[b << 3 >> 3] - v <= v - values[a << 3 >> 3]) return +values[b << 3 >> 3];
+        return +values[a << 3 >> 3];
+    }
+
+    function snap_up(v) {
+        v = +v;
+        return +low_snap(v, 1.0);
+    }
+
+    function snap_down(v) {
+        v = +v;
+        return +low_snap(v, -1.0);
+    }
+
+    function snap(v) {
+        v = +v;
+        return +low_snap(v, 0.0);
+    }
+
+    return {
+        snap_up : snap_up,
+        snap_down : snap_down,
+        snap : snap
+    };
+}
 w.Ranged = $class({
     // Ranged provides stuff for calculating linear scales from different values.
     // It is useful to build coordinate systems, calculating pixel positions
@@ -136,7 +246,7 @@ w.Ranged = $class({
         var lf = +this.options.log_factor;
 
         if (!nosnap) {
-            var snap = this.snap_value.bind(this);
+            var snap = this.snap;
             return function (x) {
                 x = +snap(x);
                 x = +trafo(x, min, max, basis, reverse, lf);
@@ -189,7 +299,7 @@ w.Ranged = $class({
         var lf = this.options.log_factor;
 
         if (!nosnap) {
-            var snap = this.snap_value.bind(this);
+            var snap = this.snap;
             return function (x) {
                 if (rev) x = -x + basis;
                 x = trafo(x, min, max, basis, reverse, lf);
@@ -230,7 +340,7 @@ w.Ranged = $class({
         // according to basis
         if (typeof value == "undefined") value = this.options.value;
         basis = basis || 1;
-        if (!nosnap) value = this.snap_value(value);
+        if (!nosnap) value = this.snap(value);
         var coef = 0;
         if (typeof this.options.scale == "function")
             coef = this.options.scale(value, this.options, false) * basis;
@@ -302,30 +412,18 @@ w.Ranged = $class({
                 break;
         }
         if (nosnap) return value;
-        return this.snap_value(value);
+        return this.snap(value);
     },
-    snap_value: function (value) {
-        // if snapping is enabled, snaps the value to the grid
-        if (!this.options.snap) return value;
-        var snap  = this.options.snap;
-        if (Array.isArray(snap)) {
-            return TK.find_next(snap, value)
+    update_ranged: function() {
+        var O = this.options;
+        // Notify that the ranged options have been modified
+        if (Array.isArray(O.snap)) {
+            Object.assign(this, ArraySnapModule(window, O, new Float64Array(O.snap).buffer));
+        } else if (typeof O.snap === "number" && O.snap) {
+            Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: 0.0 }));
         } else {
-            if (typeof this.___snapcoef["" + snap] == "undefined") {
-                var p = ("" + snap).split(".");
-                this.___snapcoef["" + snap] = p.length > 1
-                                            ? Math.pow(10, p[1].length) : 1;
-            }
-            var scoef = this.___snapcoef["" + snap];
-            
-            var multi = ((value * scoef) % (snap * scoef)) / scoef;
-            var res   = value + ((this.options.round && (multi > snap / 2.0))
-                              ? snap - multi : -multi);
-            var digit = snap.toString().split(".");
-            digit = digit.length > 1 ? digit[1].length : 0;
-            return parseInt(res * (Math.pow(10, digit))) / Math.pow(10, digit);
+            this.snap = this.snap_up = this.snap_down = function(v) { return v; };
         }
     },
-    ___snapcoef: {}
 });
 })(this);

@@ -100,6 +100,7 @@ w.Circular = $class({
     
     initialize: function (options, hold) {
         Widget.prototype.initialize.call(this, options);
+        this.update_ranged();
         
         this.element = TK.make_svg("g", {"class": "toolkit-circular"});
         if (!hold) this.widgetize(this.element, true, true, true);
@@ -347,11 +348,13 @@ w.Circular = $class({
         switch (key) {
             case "min":
             case "max":
+            case "snap":
+                this.update_ranged();
+                break;
             case "reverse":
             case "log_factor":
             case "step":
             case "round":
-            case "snap":
             case "scale":
             case "basis":
             case "thickness":
@@ -377,8 +380,7 @@ w.Circular = $class({
                     + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
                 break;
             case "value":
-                this.options.value = this.snap_value(Math.min(this.options.max,
-                                     Math.max(this.options.min, value)));
+                this.options.value = this.snap(value);
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fire_event("set_value", this.options.value);

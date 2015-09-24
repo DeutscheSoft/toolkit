@@ -70,8 +70,7 @@ w.ValueKnob = $class({
                 this.value.set("size", value);
                 break;
             case "value":
-                this.options.value = this.snap_value(Math.min(this.options.max,
-                                     Math.max(this.options.min, value)));
+                this.options.value = this.snap(value);
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fire_event("valuechanged", this.options.value);

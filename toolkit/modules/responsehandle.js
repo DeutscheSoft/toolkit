@@ -222,9 +222,9 @@ w.ResponseHandle = $class({
         if (O.z_max !== false)
             O.z = Math.min(O.z_max, O.z);
         
-        O.x = this.range_x.snap_value(O.x);
-        O.y = this.range_y.snap_value(O.y);
-        O.z = this.range_z.snap_value(O.z);
+        O.x = this.range_x.snap(O.x);
+        O.y = this.range_y.snap(O.y);
+        O.z = this.range_z.snap(O.z);
         
         this.x = this.range_x.val2px(O.x);
         this.y = this.range_y.val2px(O.y);

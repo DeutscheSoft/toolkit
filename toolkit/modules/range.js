@@ -88,6 +88,7 @@ w.Range = $class({
         this.set_options(options);
         this.fire_event("initialize");
         this.fire_event("initialized");
+        this.update_ranged();
         return this;
     },
     
@@ -96,6 +97,13 @@ w.Range = $class({
         this.options[key] = value;
         this.fire_event("set", key, value, hold);
         this.fire_event("set_" + key, value, hold);
+        switch (key) {
+        case "min":
+        case "max":
+        case "snap":
+            this.update_ranged();
+            break;
+        }
         return this;
     },
     get: function (key) {

@@ -263,6 +263,7 @@ w.MeterBase = $class({
         this.scale = new Scale(options);
         
         this.delegate(this._bar);
+        this.update_ranged();
     },
     
     resize: function () {
@@ -425,14 +426,15 @@ w.MeterBase = $class({
             case "segment":
                 this.set("value", this.options.value);
                 break;
-            case "division":
             case "min":
             case "max":
+            case "snap":
+                this.update_ranged();
+            case "division":
             case "reverse":
             case "log_factor":
             case "step":
             case "round":
-            case "snap":
             case "scale":
             case "basis":
             case "gap_dots":

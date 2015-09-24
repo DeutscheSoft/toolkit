@@ -100,6 +100,7 @@ w.ValueButton = $class({
         });
         
         Button.prototype.initialized.call(this);
+        this.update_ranged();
     },
     
     redraw: function () {
@@ -150,8 +151,7 @@ w.ValueButton = $class({
                 if (!hold) this.redraw();
                 break;
             case "value":
-                this.options.value = this.snap_value(Math.min(this.options.max,
-                                     Math.max(this.options.min, value)));
+                this.options.value = this.snap(value);
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fire_event("valuechanged", this.options.value);
@@ -172,6 +172,11 @@ w.ValueButton = $class({
                 break;
             case "blind_angle":
                 this.drag.set("blind_angle", value);
+                break;
+            case "min":
+            case "max":
+            case "snap":
+                this.update_ranged();
                 break;
         }
         Button.prototype.set.call(this, key, value, hold);

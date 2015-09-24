@@ -90,6 +90,7 @@ w.Scale = $class({
         if (this.options["class"]) this.set("class", this.options["class"]);
         
         Widget.prototype.initialized.call(this);
+        this.update_ranged();
     },
     
     redraw: function () {
@@ -125,7 +126,7 @@ w.Scale = $class({
             for (var i = 0; i < O.fixed_labels.length; i++) {
                 this.draw_label(O.fixed_labels[i]);
             }
-            return this;
+            return;
         }
         
         var level;
@@ -312,6 +313,11 @@ w.Scale = $class({
                     this.__based = true;
                 }
                 this.fire_event("basechanged", value);
+                break;
+            case "min":
+            case "max":
+            case "snap":
+                this.update_ranged();
                 break;
         }
         return this;
