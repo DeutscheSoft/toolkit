@@ -227,7 +227,6 @@ w.Window = $class({
         //this.set("minimize", this.options.minimize);
         
         this.redraw();
-        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {

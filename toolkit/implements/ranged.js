@@ -198,6 +198,10 @@ w.Ranged = $class({
                                          // used range of the logarithmic curve
                                             
     },
+
+    initialize: function (options) {
+        this.update_ranged();
+    },
     
     val2real: function (n, nosnap) {
         // calculates "real world" values (positions, coefficients, ...)

@@ -62,12 +62,11 @@ w.DragValue = $class({
         this.__pointer_down = this._pointer_down.bind(this);
 
         Widget.prototype.initialize.call(this, options);
+
         if (this.options.element)
             this.set("element", this.options.element);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
-        
-        Widget.prototype.initialized.call(this);
     },
     destroy: function () {
         document.removeEventListener("mousemove", this.__pointer_move);

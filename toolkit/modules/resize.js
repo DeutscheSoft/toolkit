@@ -39,7 +39,6 @@ w.Resize = $class({
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         this.set("handle", this.options.handle);
-        Widget.prototype.initialized.call(this);
     },
     _set_handle: function () {
         var h = this.options.handle;

@@ -265,6 +265,8 @@ w.Filter = $class({
         BASE.prototype.initialize.call(this);
         this.set_options(options);
         this.freq2gain = function(){};
+    },
+    initialized: function () {
         this.reset();
         this.fire_event("initialized");
     },

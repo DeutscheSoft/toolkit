@@ -44,7 +44,6 @@ w.Button = $class({
     },
     
     initialize: function (options, hold) {
-        // ??
         Widget.prototype.initialize.call(this, options, hold);
         /* @element: [d][c][s]element; div.toolkit-button; The main button element */
         this.element = this.widgetize(TK.element("div","toolkit-button"), true, true, true);
@@ -68,7 +67,6 @@ w.Button = $class({
         this.set("icon",        this.options.icon, hold);
         this.set("state_color", this.options.state_color, hold);
         this.set("state",       this.options.state, hold);
-        Widget.prototype.initialized.call(this);
     },
     destroy: function () {
         TK.destroy(this._icon);

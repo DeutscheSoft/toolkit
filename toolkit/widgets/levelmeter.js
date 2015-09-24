@@ -162,7 +162,6 @@ w.LevelMeter = $class({
                 });
             }
         }
-        MeterBase.prototype.initialized.call(this);
     },
     
     redraw: function () {

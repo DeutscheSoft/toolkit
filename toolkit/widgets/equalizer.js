@@ -45,7 +45,6 @@ w.Equalizer = $class({
             dots: [{x: 20, y: 0}, {x: 20000, y: 0}]
         });
         this.add_bands(this.options.bands);
-        ResponseHandler.prototype.initialized.call(this);
     },
     
     destroy: function () {

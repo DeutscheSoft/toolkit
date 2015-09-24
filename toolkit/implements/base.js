@@ -54,8 +54,6 @@ w.$class = function(o) {
     var methods;
     var tmp, i, c, key;
 
-    constructor = o.initialize || (function() {});
-
     if (tmp = o.Extends) {
         if (typeof(tmp) == "function") {
             tmp = tmp.prototype;
@@ -90,6 +88,19 @@ w.$class = function(o) {
             methods = mixin(methods, c, true);
         }
     }
+
+    var init = methods.initialize;
+    var post_init = methods.initialized;
+
+    if (post_init) {
+        constructor = function() {
+            var args = new Array(arguments.length);
+            var i;
+            for (i = 0; i < arguments.length; i++) args[i] = arguments[i];
+            init.apply(this, args);
+            post_init.call(this);
+        };
+    } else constructor = init || (function() {});
 
     constructor.prototype = methods;
     methods.constructor = constructor;

@@ -98,8 +98,6 @@ w.ValueButton = $class({
         this._input.addEventListener("dblclick", function (e) {
             e.stopPropagation();
         });
-        
-        Button.prototype.initialized.call(this);
         this.update_ranged();
     },
     

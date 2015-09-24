@@ -66,8 +66,6 @@ w.State = $class({
         if (TK.get_style(this.element, "position") != "absolute"
          && TK.get_style(this.element, "position") != "relative")
             this.element.style["position"] = "relative";
-        
-        Widget.prototype.initialized.call(this);
     },
     destroy: function () {
         TK.destroy(this._over);

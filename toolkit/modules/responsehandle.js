@@ -190,8 +190,6 @@ w.ResponseHandle = $class({
         
         this.set("active", this.options.active, true);
         if (!hold) this.redraw();
-        
-        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {

@@ -87,9 +87,12 @@ w.Range = $class({
         BASE.prototype.initialize.call(this);
         this.set_options(options);
         this.fire_event("initialize");
-        this.fire_event("initialized");
         this.update_ranged();
         return this;
+    },
+
+    initialized: function() {
+        this.fire_event("initialized");
     },
     
     // GETTER & SETTER

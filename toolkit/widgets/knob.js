@@ -86,7 +86,6 @@ w.Knob = $class({
         }.bind(this));
         
         this.set("size", this.options.size);
-        Circular.prototype.initialized.call(this);
     },
     
     destroy: function () {

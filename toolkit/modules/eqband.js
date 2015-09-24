@@ -78,7 +78,6 @@ w.EqBand = $class({
         TK.add_class(this.element, "toolkit-eqband");
         
         this.filter.reset();
-        ResponseHandle.prototype.initialized.call(this);
     },
 
     gen_freq2gain : function() {

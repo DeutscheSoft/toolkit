@@ -46,8 +46,6 @@ w.ScrollValue = $class({
             this.set("element", this.options.element);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
-        
-        Widget.prototype.initialized.call(this);
     },
     destroy: function () {
         if (this.options.element) {

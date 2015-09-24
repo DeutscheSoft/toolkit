@@ -109,10 +109,7 @@ w.Clock = $class({
         this.__timeout = this._timeout.bind(this);
         this._timeout();
         
-        //Widget.prototype.initialize.call(this, options);
-
         this.redraw();
-        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {

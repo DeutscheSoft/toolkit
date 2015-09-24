@@ -62,7 +62,6 @@ w.Select = $class({
         } else {
             this.set("selected", sel);
         }
-        Button.prototype.initialized.call(this);
     },
     destroy: function () {
         TK.destroy(this._list);

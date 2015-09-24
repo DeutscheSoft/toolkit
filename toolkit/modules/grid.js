@@ -59,7 +59,6 @@ w.Grid = $class({
             if (!hold) this.redraw();
         }.bind(this));
         if (!hold) this.redraw();
-        Widget.prototype.initialized.call(this);
     },
     
     redraw: function () {

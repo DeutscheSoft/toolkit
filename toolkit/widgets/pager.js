@@ -67,7 +67,6 @@ w.Pager = $class({
         this.redraw();
         this.set("show", this.options.show);
         this._scroll_to(this.options.show, true);
-        Container.prototype.initialized.call(this);
     },
     
     redraw: function () {

@@ -112,8 +112,6 @@ w.Chart = $class({
         
         this.set("title", this.options.title, true);
         this.set("title_position", this.options.title_position);
-        
-        Widget.prototype.initialized.call(this);
     },
     redraw: function (graphs, grid) {
         var w = this.range_x.get("basis") + "px";

@@ -72,7 +72,6 @@ w.FrequencyResponse = $class({
             if (key == "scale")
                 this.options.scale = value;
         }.bind(this));
-        Chart.prototype.initialized.call(this);
     },
     
     set: function (key, value, hold) {

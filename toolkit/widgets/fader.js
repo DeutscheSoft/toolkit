@@ -120,8 +120,6 @@ w.Fader = $class({
             this.__tt = this.tooltip(this.options.tooltip(
                 this.get("value")), this.__tt);
         }.bind(this));
-        
-        Widget.prototype.initialized.call(this);
         this.update_ranged();
     },
     
