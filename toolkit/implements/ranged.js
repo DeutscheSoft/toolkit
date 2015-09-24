@@ -418,6 +418,14 @@ w.Ranged = $class({
         if (nosnap) return value;
         return this.snap(value);
     },
+    set: function(key, value) {
+        switch (key) {
+        case "min":
+        case "max":
+        case "snap":
+            this.update_ranged(); 
+        }
+    },
     update_ranged: function() {
         var O = this.options;
         // Notify that the ranged options have been modified
@@ -426,7 +434,7 @@ w.Ranged = $class({
         } else if (typeof O.snap === "number" && O.snap) {
             Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: 0.0 }));
         } else {
-            this.snap = this.snap_up = this.snap_down = function(v) { return v; };
+            this.snap = this.snap_up = this.snap_down = function(v) { return Math.max(O.min, Math.min(O.max, v)); };
         }
     },
 });
