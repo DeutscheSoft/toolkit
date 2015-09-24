@@ -275,7 +275,7 @@ w.Fader = $class({
         this.options[key] = value;
         switch (key) {
             case "value":
-                this.options.value = this.snap_value(value);
+                this.options.value = this.snap(value);
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 this.fire_event("set_value", this.options.value);
