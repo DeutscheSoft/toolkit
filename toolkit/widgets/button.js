@@ -38,19 +38,16 @@ w.Button = $class({
     Extends: Widget,
     options: {
         label:            "",
-        icon:             "",
+        icon:             false,
         state:            false,
-        state_color:      false
+        state_color:      false,
+        container:        false
     },
     
     initialize: function (options, hold) {
         Widget.prototype.initialize.call(this, options, hold);
         /* @element: [d][c][s]element; div.toolkit-button; The main button element */
         this.element = this.widgetize(TK.element("div","toolkit-button"), true, true, true);
-        this.element.id = this.options.id;
-        
-        if (this.options.container)
-            this.set("container", this.options.container, hold);
         
         /* @element: _cell; div.toolkit-cell; An internal container for label and icon */
         this._cell  = TK.element("div","toolkit-cell");
@@ -62,11 +59,6 @@ w.Button = $class({
         this._cell.appendChild(this._icon);
         this._cell.appendChild(this._label);
         this.element.appendChild(this._cell);
-        
-        this.set("label",       this.options.label, hold);
-        this.set("icon",        this.options.icon, hold);
-        this.set("state_color", this.options.state_color, hold);
-        this.set("state",       this.options.state, hold);
     },
     destroy: function () {
         TK.destroy(this._icon);
@@ -74,51 +66,69 @@ w.Button = $class({
         TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
-    
+
+    redraw: function() {
+        Widget.prototype.redraw.call(this);
+        var I = this.invalid;
+        var O = this.options;
+        var E = this.element;
+        var _icon = this._icon;
+        var _label = this._label;
+        var value;
+
+        if (I["class"]) {
+            I["class"] = false;
+            if (O["class"])
+                TK.add_class(E, O["class"]);
+        }
+        if (I.label) {
+            I.label = false;
+            value = O.label;
+            if (value !== false) {
+                _label.innerHTML = value;
+                _label.style["display"] = null;
+            } else {
+                _label.style["display"] = "none";
+            }
+        }
+        if (I.icon) {
+            I.icon = false;
+            value = O.icon;
+            if (value) {
+                _icon.setAttribute("src", value);
+                _icon.style["display"] = null;
+            } else {
+                _icon.style["display"] = "none";
+            }
+        }
+        if (I.state || I.state_color) {
+            I.state_color = I.state = false;
+            value = O.state;
+            if (value) {
+                TK.add_class(E, "toolkit-active");
+                _label.style.backgroundColor = (O.state_color && value) ? O.state_color : null;
+            } else {
+                TK.remove_class(E, "toolkit-active");
+            }
+        }
+    },
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "container":
-                if (!hold) value.appendChild(this.element);
                 break;
             case "class":
-                if (!hold) TK.add_class(this.element, value);
                 break;
             case "label":
-                if (!hold) {
-                    if (value !== false) {
-                        this._label.innerHTML = value;
-                        this._label.style["display"] = null;
-                    } else {
-                        this._label.style["display"] = "none";
-                    }
-                }
                 break;
             case "icon":
-                if (!hold) {
-                    if (value) {
-                        this._icon.setAttribute("src", value);
-                        this._icon.style["display"] = null;
-                    } else {
-                        this._icon.style["display"] = "none";
-                    }
-                }
                 break;
             case "state":
-                if (!hold) {
-                    if (value) TK.add_class(this.element, "toolkit-active");
-                    else TK.remove_class(this.element, "toolkit-active");
-                    this._label.style.backgroundColor = 
-                                         (this.options.state_color
-                                       && this.options.state)
-                                        ? this.options.state_color : null;
-                }
                 break;
             case "state_color":
-                if (!hold) this.set("state", this.options.state);
+                break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

@@ -123,6 +123,23 @@ w.Widget = $class({
     },
     redraw: function () {
         this.fire_event("redraw");
+        this.will_draw = false;
+        var I = this.invalid;
+        var O = this.options;
+        var E = this.element;
+
+        if (E) {
+            if (I.id) {
+                I.id = false;
+                E.setAttribute("id", O.id);
+            }
+
+            if (I.container) {
+                I.container = false;
+                if (O.container) O.container.appendChild(E);
+            }
+        }
+
     },
     destroy: function () {
         this.fire_event("destroy");

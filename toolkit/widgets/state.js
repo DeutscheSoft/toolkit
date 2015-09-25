@@ -30,6 +30,7 @@ w.State = $class({
     options: {
         state:           0,     // the initial state (0 ... 1)
         color:           "red", // the base color
+        container:       false,
         opacity:         0.8    // the opacity of the mask when state = 0
     },
     initialize: function (options) {
@@ -44,12 +45,6 @@ w.State = $class({
         this.element.appendChild(this._over);
         this.element.appendChild(this._mask);
         
-        if (this.options.container)
-            this.set("container",  this.options.container);
-        
-        this.set("color", this.options.color);
-        this.set("state", this.options.state);
-        
         this.element.style.overflow = "hidden";
         TK.set_styles(this._over, {
             "position": "absolute",
@@ -63,8 +58,8 @@ w.State = $class({
             "width"  : "100%",
             "height" : "100%"
         });
-        if (TK.get_style(this.element, "position") != "absolute"
-         && TK.get_style(this.element, "position") != "relative")
+        var pos = TK.get_style(this.element, "position");
+        if (pos != "absolute" && pos != "relative")
             this.element.style["position"] = "relative";
     },
     destroy: function () {
@@ -73,22 +68,34 @@ w.State = $class({
         TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
+
+    redraw: function() {
+        Widget.prototype.redraw.call(this);
+        var I = this.invalid;
+        var O = this.options;
+
+        if (I.color) {
+            I.color = false;
+            this.element.style["background"] = O.color;
+        }
+
+        if (I.state || I.opacity) {
+            I.state = I.opacity = false;
+            this._mask.style["opacity"] = "" + ((1 - (O.state ? 1 : 0)) * O.opacity);
+        }
+    },
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "color":
-                if (!hold) this.element.style["background"] = value;
                 this.fire_event("colorchanged", value);
                 break;
             case "state":
-            case "opacity":
-                if (!hold) this._mask.style["opacity"] = "" + ((1 - +value) * this.options.opacity);
                 this.fire_event("statechanged", value);
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

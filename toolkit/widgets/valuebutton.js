@@ -63,8 +63,6 @@ w.ValueButton = $class({
         
         this.element.appendChild(this._bar);
         
-        this.set("bar_direction", this.options.bar_direction, true);
-        
         this.drag = new DragValue({
             element:   this.element,
             range:     function () { return this; }.bind(this),
@@ -102,10 +100,28 @@ w.ValueButton = $class({
     },
     
     redraw: function () {
-        this.value.set("value", this.options.value);
-        this._base.style[this.options.bar_direction == _TOOLKIT_HORIZONTAL
-            ? "width" : "height"] = this.val2perc() + "%";
         Button.prototype.redraw.call(this);
+        var I = this.invalid;
+        var O = this.options;
+
+        if (I.bar_direction) {
+            I.bar_direction = false;
+            switch (O.bar_direction) {
+                case _TOOLKIT_HORIZONTAL:
+                default:
+                    TK.remove_class(this.element, "toolkit-vertical");
+                    TK.add_class(this.element, "toolkit-horizontal");
+                    break;
+                case _TOOLKIT_VERTICAL:
+                    TK.remove_class(this.element, "toolkit-horizontal");
+                    TK.add_class(this.element, "toolkit-vertical");
+                    break;
+            }
+        }
+        if (I.value) {
+            I.value = false;
+            this._base.style[O.bar_direction == _TOOLKIT_HORIZONTAL ? "width" : "height"] = this.val2perc() + "%";
+        }
     },
     
     destroy: function () {
@@ -131,33 +147,21 @@ w.ValueButton = $class({
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        this.options[key] = value;
+        if (key === "value") {
+            if (value > this.options.max || value < this.options.min)
+                this.warning(this.element);
+            value = this.snap(value);
+        }
+        Button.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "bar_direction":
-                TK.remove_class(this.element, "toolkit-vertical");
-                TK.remove_class(this.element, "toolkit-horizontal");
-                switch (value) {
-                    case _TOOLKIT_HORIZONTAL:
-                    default:
-                        var c = "toolkit-horizontal";
-                        break;
-                    case _TOOLKIT_VERTICAL:
-                        var c = "toolkit-vertical";
-                        break;
-                }
-                TK.add_class(this.element, c);
-                if (!hold) this.redraw();
                 break;
             case "value":
-                this.options.value = this.snap(value);
-                if (value > this.options.max || value < this.options.min)
-                    this.warning(this.element);
-                this.fire_event("valuechanged", this.options.value);
-                if (!hold) this.redraw();
-                return;
+                this.value.set("value", value);
+                this.fire_event("valuechanged", value);
+                break;
             case "value_format":
                 this.value.set("format", value);
-                if (!hold) this.redraw();
                 break;
             case "value_size":
                 this.value.set("size", value);
@@ -177,7 +181,6 @@ w.ValueButton = $class({
                 this.update_ranged();
                 break;
         }
-        Button.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

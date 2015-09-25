@@ -29,6 +29,7 @@ w.Value = $class({
         value: 0,
         format: function (val) { return val.toFixed(2); },
         size: 5,
+        container: false,
         // set a callback function if value is editable or
         // false to disable editing. A function has to return
         // the value treated by the parent widget.
@@ -68,16 +69,25 @@ w.Value = $class({
         this._input.addEventListener("keyup",      this._value_typing.bind(this));
         this._input.addEventListener("blur",       this._value_done.bind(this));
         
-        if (this.options.container)
-            this.set("container", this.options.container);
-        this.set("size", this.options.size);
-        this.set("value", this.options.value);
         this.__clicked = false;
     },
     
     redraw: function () {
-        if (this.__editing) return;
-        this._input.value = this.options.format(this.options.value);
+        var I = this.invalid;
+        var O = this.options;
+        var E = this._input;
+
+        Widget.prototype.redraw.call(this);
+
+        if (I.size) {
+            I.size = 0;
+            E.setAttribute("size", O.size);
+        }
+
+        if ((I.value || I.format) && !this.__editing) {
+            I.format = I.value = false;
+            E.value = O.format(O.value);
+        }
     },
     
     destroy: function () {
@@ -142,23 +152,12 @@ w.Value = $class({
         TK.remove_class(this.element, "toolkit-active");
         this._input.blur();
         this.fire_event("valuedone", this.options.value);
-        this.redraw();
+        this.invalid.value = true;
+        this.trigger_draw();
     },
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        this.options[key] = value;
-        switch (key) {
-            case "value":
-                if (!hold) this.redraw();
-                break;
-            case "format":
-                if (!hold) this.redraw();
-                break;
-            case "size":
-                this._input.setAttribute("size", value);
-                break;
-        }
         Widget.prototype.set.call(this, key, value, hold);
     }
 });
