@@ -52,7 +52,7 @@ w.ButtonArray = $class({
     initialize: function (options) {
         this.buttons = [];
         Container.prototype.initialize.call(this, options);
-        this.element.className += " toolkit-buttonarray";
+        TK.add_class(this.element, "toolkit-buttonarray");
         /* @element: _clip; div.toolkit-clip; A clipping area containing the list of buttons */
         this._clip      = TK.element("div", "toolkit-clip");
         /* @element: _container; div.toolkit-container; A container for all the buttons */
