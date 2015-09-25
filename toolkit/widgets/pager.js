@@ -169,10 +169,8 @@ w.Pager = $class({
         this.remove_children(this.pages[page]);
         this.pages[this.options.show].element.className.replace(" toolkit-active", "");
         this.pages[this.options.show].element.className.replace("  ", " ");
-        console.log(this.options.show)
         if (page < this.options.show)
             this.options.show--;
-        console.log(this.options.show)
         this._scroll_to(this.options.show);
     },
     
