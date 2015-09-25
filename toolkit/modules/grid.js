@@ -98,8 +98,10 @@ w.Grid = $class({
             var p  = TK.get_style(label, "padding").split(" ");
             if (p.length < 2)
                 p[1] = p[2] = p[3] = p[0];
-            if (p.length < 3)
-                p[2] = p[0]; p[3] = p[1];
+            if (p.length < 3) {
+                p[2] = p[0];
+                p[3] = p[1];
+            }
             if (p.length < 4)
                 p[3] = p[1];
             var pt = parseInt(p[0]) || 0;
