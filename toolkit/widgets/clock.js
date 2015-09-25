@@ -113,31 +113,54 @@ w.Clock = $class({
     },
     
     redraw: function () {
-        var margin = 0;
-        for (var i in this.circulars) {
-            var circ = this.circulars[i];
-            if (this.options["show_" + i]) {
-                circ.set("thickness", this.options.thickness);
-                circ.set("show_base", true);
-                circ.set("show_value", true);
-                circ.set("size", this.options.size);
-                circ.set("margin", margin);
-                margin += this.options.thickness;
-                margin += circ._get_stroke();
-                margin += this.options.margin;
-            } else {
-                circ.set("show_base", false);
-                circ.set("show_value", false);
-            }
-        }
-        if(this._margin < 0) {
-            this._margin = margin;
-            this._set_labels();
-        } else {
-            this._margin = margin;
-        }
-        this._set_labels();
+        var I = this.invalid, O = this.options;
+
         Widget.prototype.redraw.call(this);
+
+        if (I.size) {
+            var tmp = O.size;
+            this.element.setAttribute("width", (typeof tmp == "number" ? tmp + "px" : tmp));
+            this.element.setAttribute("height", (typeof tmp == "number" ? tmp + "px" : tmp));
+        }
+
+        if (I.show_hours || I.show_minutes || I.show_seconds ||
+            I.thickness || I.size || I.margin) {
+            I.show_hours = I.show_minutes = I.show_seconds = I.thickness = I.margin = false;
+            var margin = 0;
+            for (var i in this.circulars) {
+                var circ = this.circulars[i];
+                if (O["show_" + i]) {
+                    circ.set("thickness", O.thickness);
+                    circ.set("show_base", true);
+                    circ.set("show_value", true);
+                    circ.set("size", O.size);
+                    circ.set("margin", margin);
+                    margin += O.thickness;
+                    margin += circ._get_stroke();
+                    margin += O.margin;
+                } else {
+                    circ.set("show_base", false);
+                    circ.set("show_value", false);
+                }
+            }
+            if(this._margin < 0) {
+                this._margin = margin;
+            } else {
+                this._margin = margin;
+            }
+            // force set_labels
+            I.label = true;
+        }
+
+        if (I.label || I.months || I.days || I.size || I.label_scale) {
+            I.label = I.months = I.days = I.size = I.label_scale = false;
+            this._set_labels();
+        }
+
+        if (I.time || I.label || I.label_upper || I.label_lower || I.label_scale) {
+            I.time = I.label = I.label_upper = I.label_lower = I.label_scale = false;
+            this._draw_time();
+        }
     },
     
     destroy: function () {
@@ -154,7 +177,8 @@ w.Clock = $class({
     },
     _draw_time: function (force) {
         var tmp, drawn;
-        var t = this.options.time;
+        var O = this.options;
+        var t = O.time;
 
         if ((tmp = t.getSeconds()) != this.__sec || force) {
             this.circulars.seconds.set("value", tmp);
@@ -178,54 +202,56 @@ w.Clock = $class({
                     t.getMinutes(),
                     t.getSeconds(),
                     t.getMilliseconds(),
-                    Math.round(t.getMilliseconds() / (1000 / this.options.fps)),
-                    this.options.months,
-                    this.options.days];
-        if ((tmp = this.options.label.apply(this, args)) != this.__label || force) {
+                    Math.round(t.getMilliseconds() / (1000 / O.fps)),
+                    O.months,
+                    O.days];
+        if ((tmp = O.label.apply(this, args)) != this.__label || force) {
             TK.set_text(this._label, tmp);
             this.__label = tmp;
             drawn = true;
         }
-        if ((tmp = this.options.label_upper.apply(this, args)) != this.__upper || force) {
+        if ((tmp = O.label_upper.apply(this, args)) != this.__upper || force) {
             TK.set_text(this._label_upper, tmp);
             this.__upper = tmp;
             drawn = true;
         }
-        if ((tmp = this.options.label_lower.apply(this, args)) != this.__lower || force) {
+        if ((tmp = O.label_lower.apply(this, args)) != this.__lower || force) {
             TK.set_text(this._label_lower, tmp);
             this.__lower = tmp;
             drawn = true;
         }
         
         if (drawn)
-            this.fire_event("timedrawn", this.options.time);
+            this.fire_event("timedrawn", O.time);
     },
     _set_labels: function () {
-        var s = this.options.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
+        var O = this.options;
+        var E = this._label;
+        var s = O.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
                                                    30, 6, 24, 59, 59, 999, 999,
-                                                   this.options.months, this.options.days);
-        TK.set_text(this._label, s);
+                                                   O.months, O.days);
+        TK.set_text(E, s);
         
-        this._label.setAttribute("transform", "");
+        E.setAttribute("transform", "");
         
-        var bb = this._label.getBoundingClientRect();
-        var mleft   = parseInt(TK.get_style(this._label, "margin-left")) || 0;
-        var mright  = parseInt(TK.get_style(this._label, "margin-right")) || 0;
-        var mtop    = parseInt(TK.get_style(this._label, "margin-top")) || 0;
-        var mbottom = parseInt(TK.get_style(this._label, "margin-bottom")) || 0;
-        var space   = this.options.size - mleft - mright - this._margin * 2;
+        var bb = E.getBoundingClientRect();
+        var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;
+        var mright  = parseInt(TK.get_style(E, "margin-right")) || 0;
+        var mtop    = parseInt(TK.get_style(E, "margin-top")) || 0;
+        var mbottom = parseInt(TK.get_style(E, "margin-bottom")) || 0;
+        var space   = O.size - mleft - mright - this._margin * 2;
         var scale   = space / bb.width;
-        var pos     = this.options.size / 2;
+        var pos     = O.size / 2;
         
-        this._label.setAttribute("transform", "translate(" + pos + "," + pos + ") "
+        E.setAttribute("transform", "translate(" + pos + "," + pos + ") "
             + "scale(" + scale + ")");
         
-        var bb = this._label.getBoundingClientRect();
+        var bb = E.getBoundingClientRect();
         
         this._label_upper.setAttribute("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
-            + "scale(" + (scale * this.options.label_scale) + ")");
+            + "scale(" + (scale * O.label_scale) + ")");
         this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
-            + "scale(" + (scale * this.options.label_scale) + ")");
+            + "scale(" + (scale * O.label_scale) + ")");
         this._draw_time(true);
     },
 
@@ -266,34 +292,12 @@ w.Clock = $class({
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
-            case "thickness":
-            case "margin":
-            case "show_hours":
-            case "show_minutes":
-            case "show_seconds":
-                if (!hold) this.redraw();
-                break;
-            case "size":
-                this.element.setAttribute("width", (typeof value == "number" ? value + "px" : value));
-                this.element.setAttribute("height", (typeof value == "number" ? value + "px" : value));
-                if (!hold) this.redraw();
-                break;
-            case "time":
-                if (!hold) this._draw_time();
-                break;
             case "timeout":
                 this._timeout();
                 break;
-            case "label":
-            case "label_lower":
-            case "label_upper":
-            case "label_scale":
-                this._set_labels();
-                break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

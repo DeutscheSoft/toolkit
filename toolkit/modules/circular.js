@@ -100,76 +100,106 @@ w.Circular = $class({
     
     initialize: function (options, hold) {
         Widget.prototype.initialize.call(this, options);
+        var E;
         this.update_ranged();
         
-        this.element = TK.make_svg("g", {"class": "toolkit-circular"});
-        if (!hold) this.widgetize(this.element, true, true, true);
+        this.element = E = TK.make_svg("g", {"class": "toolkit-circular"});
+        if (!hold) this.widgetize(E, true, true, true);
         
         this._base = TK.make_svg("path", {"class": "toolkit-base"});
-        this.element.appendChild(this._base);
+        E.appendChild(this._base);
         
         this._markers = TK.make_svg("g", {"class": "toolkit-markers"});
-        this.element.appendChild(this._markers);
+        E.appendChild(this._markers);
         
         this._value = TK.make_svg("path", {"class": "toolkit-value"});
-        this.element.appendChild(this._value);
+        E.appendChild(this._value);
         
         this._dots = TK.make_svg("g", {"class": "toolkit-dots"});
-        this.element.appendChild(this._dots);
+        E.appendChild(this._dots);
         
         this._labels = TK.make_svg("g", {"class": "toolkit-labels"});
-        this.element.appendChild(this._labels);
+        E.appendChild(this._labels);
         
         this._hand = TK.make_svg("rect", {"class": "toolkit-hand"});
-        this.element.appendChild(this._hand);
-        
-        this.set("container", this.options.container);
-        
-        this.set("base", this.options.base, true);
-        this.set("show_value", this.options.show_value, true);
-        this.set("show_base", this.options.show_base, true);
-        
-        this.set("hand", this.options.hand, true);
-        this.set("show_hand", this.options.show_hand, true);
-        
-        this.set("start", this.options.start);
-        
-        this.set("dot", this.options.dot, true);
-        this.set("dots", this.options.dots);
-        
-        this.set("marker", this.options.marker, true);
-        this.set("markers", this.options.markers);
-        
-        this.set("label", this.options.label, true);
-        this.set("labels", this.options.labels);
-        this.redraw(true);
+        E.appendChild(this._hand);
     },
     
-    redraw: function (stuff) {
-        var stroke  = this._get_stroke();
-        var outer   = this.options.size / 2;
-        var inner   = outer - this.options.thickness;
-        var outer_p = outer - stroke / 2 - this.options.margin;
-        var inner_p = inner - stroke / 2 - this.options.margin;
-        
-        if (this.options.show_value) {
-            this._draw_slice(this.val2real(this.options.base),
-                             this.val2real(), inner_p, outer_p, outer,
-                             this._value);
+    redraw: function () {
+        Widget.prototype.redraw.call(this);
+        var I = this.invalid;
+        var O = this.options;
+        var E = this.element;
+        var outer   = O.size / 2;
+        var tmp;
+
+        if (I.start || I.x || I.y || I.size) {
+            I.x = I.y = false;
+            E.setAttribute("transform", TK.sprintf("translate(%f %f) rotate(%f %f %f)",
+                                                   O.x, O.y, O.start, outer, outer));
+            this._labels.setAttribute("transform", TK.sprintf("rotate(%f %f %f)", -O.start, outer, outer));
         }
-        if (this.options.show_base) {
-            this._draw_slice(0, this.options.basis,
-                             inner_p, outer_p, outer, this._base);
-        }
-        if (this.options.show_hand) {
-            this._draw_hand();
-        }
-        if (stuff) {
+
+        if (I.labels || I.label || I.size || I.min || I.max || I.start) {
+            I.labels = I.label = false;
             this._draw_labels();
+        }
+
+        if (I.dots || I.dot || I.min || I.max || I.size) {
+            I.dots = I.dot = false;
             this._draw_dots();
+        }
+
+        if (I.markers || I.marker || I.size || I.min || I.max) {
+            I.markers = I.marker = false;
             this._draw_markers();
         }
-        Widget.prototype.redraw.call(this);
+
+        var stroke  = this._get_stroke();
+        var inner   = outer - O.thickness;
+        var outer_p = outer - stroke / 2 - O.margin;
+        var inner_p = inner - stroke / 2 - O.margin;
+        
+        if (I.show_value || I.value) {
+            I.show_value = false;
+            if (O.show_value) {
+                this._draw_slice(this.val2real(O.base),
+                                 this.val2real(), inner_p, outer_p, outer,
+                                 this._value);
+            } else {
+                this._value.removeAttribute("d");
+            }
+        }
+
+        if (I.show_base) {
+            I.show_base = false;
+            if (O.show_base) {
+                this._draw_slice(0, O.basis,
+                                 inner_p, outer_p, outer, this._base);
+            } else {
+                this._base.setAttribute("d", null);
+            }
+        }
+        if (I.show_hand) {
+            I.show_hand = false;
+            if (O.show_hand) {
+                this._hand.style["display"] = "block";
+            } else {
+                this._hand.style["display"] = "none";
+            }
+        }
+        if (I.size || I.hand || I.value) {
+            I.hand = false;
+            tmp = this._hand;
+            tmp.setAttribute("x", O.size - O.hand.length - O.hand.margin);
+            tmp.setAttribute("y", (O.size - O.hand.width) / 2.0);
+            tmp.setAttribute("width", O.hand.length);
+            tmp.setAttribute("height",O.hand.width);
+            tmp.setAttribute("transform",
+                             TK.sprintf("rotate(%f %f %f)", this.val2real(), O.size / 2, O.size / 2));
+            this.fire_event("handdrawn");
+        }
+        I.value = I.size = I.min = I.max = I.start = false;
     },
     
     destroy: function () {
@@ -216,63 +246,71 @@ w.Circular = $class({
         this.fire_event("slicedrawn");
     },
     _draw_dots: function () {
-        TK.empty(this._dots);
-        for (var i = 0; i < this.options.dots.length; i++) {
-            var m = this.options.dots[i];
+        // depends on dots, dot, min, max, size
+        var _dots = this._dots;
+        var O = this.options;
+        var dots = O.dots;
+        var dot = O.dot;
+        TK.empty(_dots);
+        for (var i = 0; i < dots.length; i++) {
+            var m = dots[i];
             var r = TK.make_svg("rect", {"class": "toolkit-dot"});
             
             var length = typeof m.length == "undefined"
-                       ? this.options.dot.length : m.length;
+                       ? dot.length : m.length;
             var width  = typeof m.width == "undefined"
-                       ? this.options.dot.width : m.width;
+                       ? dot.width : m.width;
             var margin = typeof m.margin == "undefined"
-                       ? this.options.dot.margin : m.margin;
-            var pos    = Math.min(this.options.max,
-                          Math.max(this.options.min, m.pos));
+                       ? dot.margin : m.margin;
+            var pos    = Math.min(O.max, Math.max(O.min, m.pos));
             // TODO: consider adding them all at once
-            this._dots.appendChild(r);
+            _dots.appendChild(r);
             if (m["class"]) TK.add_class(r, m["class"]);
             if (m["color"]) r.style["fill"] = m["color"];
                      
-            r.setAttribute("x", this.options.size - length - margin);
-            r.setAttribute("y", this.options.size / 2 - width / 2);
+            r.setAttribute("x", O.size - length - margin);
+            r.setAttribute("y", O.size / 2 - width / 2);
             
             r.setAttribute("width",  length);
             r.setAttribute("height", width);
             
             r.setAttribute("transform", "rotate("
                 + this.val2real(pos) + " "
-                + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
+                + (O.size / 2) + " " + (this.options.size / 2) + ")");
         }
         this.fire_event("dotsdrawn");
     },
     _draw_markers: function () {
+        // depends on size, markers, marker, min, max
+        var I = this.invalid;
+        var O = this.options;
+        var markers = O.markers;
+        var marker = O.marker;
         TK.empty(this._markers);
         
         var stroke  = this._get_stroke();
-        var outer   = this.options.size / 2;
+        var outer   = O.size / 2;
         
-        for (var i = 0; i < this.options.markers.length; i++) {
-            var m       = this.options.markers[i];
+        for (var i = 0; i < markers.length; i++) {
+            var m       = markers[i];
             var thick   = typeof m.thickness == "undefined"
-                        ? this.options.marker.thickness : m.thickness;
+                        ? marker.thickness : m.thickness;
             var margin  = typeof m.margin == "undefined"
-                        ? this.options.marker.margin : m.margin;
+                        ? marker.margin : m.margin;
             var inner   = outer - thick;
             var outer_p = outer - margin - stroke / 2;
             var inner_p = inner - margin - stroke / 2;
+            var from, to;
             
             if (typeof m.from == "undefined")
-                var from = this.options.min;
+                from = O.min;
             else
-                var from    = Math.min(this.options.max,
-                              Math.max(this.options.min, m.from));
+                from = Math.min(O.max, Math.max(O.min, m.from));
             
             if (typeof m.to == "undefined")
-                var to = this.options.max;
+                to = O.max;
             else
-                var to      = Math.min(this.options.max,
-                              Math.max(this.options.min, m.to));
+                to = Math.min(O.max, Math.max(O.min, m.to));
             
             var s = TK.make_svg("path", {"class": "toolkit-marker"});
             this._markers.appendChild(s);
@@ -286,16 +324,20 @@ w.Circular = $class({
         this.fire_event("markersdrawn");
     },
     _draw_labels: function () {
+        // depends on size, labels, label, min, max, start
+        var _labels = this._labels;
+        var O = this.options;
+        var labels = O.labels;
         TK.empty(this._labels);
         
-        var outer   = this.options.size / 2;
+        var outer   = O.size / 2;
         
-        for (var i = 0; i < this.options.labels.length; i++) {
-            var l = this.options.labels[i];
+        for (var i = 0; i < labels.length; i++) {
+            var l = labels[i];
             var p = TK.make_svg("text", {"class": "toolkit-label",
                                      style: "dominant-baseline: central;"
             });
-            this._labels.appendChild(p);
+            _labels.appendChild(p);
             
             if (l["class"]) TK.add_class(p, l["class"]);
             if (l["color"]) p.style["fill"] = l["color"];
@@ -303,37 +345,29 @@ w.Circular = $class({
             if (typeof l.label != "undefined")
                 p.textContent = l.label;
             else
-                p.textContent = this.options.label.format(l.pos);
+                p.textContent = O.label.format(l.pos);
                      
             var margin  = typeof l.margin != "undefined"
-                        ? l.margin : this.options.label.margin;
+                        ? l.margin : O.label.margin;
             var align   = (typeof l.align != "undefined"
-                        ? l.align : this.options.label.align) == _TOOLKIT_INNER;
-            var pos     = Math.min(this.options.max,
-                          Math.max(this.options.min, l.pos));
+                        ? l.align : O.label.align) == _TOOLKIT_INNER;
+            var pos     = Math.min(O.max,
+                          Math.max(O.min, l.pos));
             var bb      = p.getBBox();
-            var angle   = (this.val2real(pos) + this.options.start) % 360;
+            var angle   = (this.val2real(pos) + O.start) % 360;
             var outer_p = outer - margin;
             var coords  = _get_coords_single(angle, outer_p, outer);
             
             var mx = ((coords.x - outer) / outer_p) * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
             var my = ((coords.y - outer) / outer_p) * bb.height / (align ? -2 : 2);
             
-            p.setAttribute("transform", "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
+            p.setAttribute("transform", TK.sprintf("translate(%f, %f)", coords.x + mx, coords.y + my));
             p.setAttribute("text-anchor", "middle");
         }
         this.fire_event("labelsdrawn");
     },
-    _draw_hand: function () {
-        this._hand.setAttribute("transform", "rotate("
-            + this.val2real() + " "
-            + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
-        this.fire_event("handdrawn");
-    },
     _get_stroke: function () {
         if (this.hasOwnProperty("_stroke")) return this._stroke;
-        // TODO: this uses getComputedStyle which is bad in many ways.
-        // lets calculate this once and reuse the value
         var strokeb = parseInt(TK.get_style(this._base, "stroke-width")) || 0;
         var strokev = parseInt(TK.get_style(this._value, "stroke-width")) || 0;
         this._stroke = strokeb > strokev ? strokeb : strokev;
@@ -342,108 +376,35 @@ w.Circular = $class({
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        this.options[key] = value;
+        switch (key) {
+        case "dots":
+        case "markers":
+        case "labels":
+            value = Object.assign(this.options[key], value);
+            break;
+        case "base":
+            if (value === false) {
+                value = this.options.min;
+                this.__based = false;
+            } else {
+                this.__based = true;
+            }
+            this.fire_event("basechanged", value);
+            break;
+        case "value":
+            if (value > this.options.max || value < this.options.min)
+                this.warning(this.element);
+            value = this.snap(value);
+            break;
+        }
+        Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "min":
             case "max":
             case "snap":
                 this.update_ranged();
                 break;
-            case "reverse":
-            case "log_factor":
-            case "step":
-            case "round":
-            case "scale":
-            case "basis":
-            case "thickness":
-            case "margin":
-            case "size":
-                if (!hold) {
-                    this._draw_dots();
-                    this._draw_markers();
-                    this._draw_labels();
-                    this._draw_hand();
-                    this.redraw();
-                }
-                this.set("hand", this.options.hand);
-                if (key != "size") break;
-            case "start":
-            case "x":
-            case "y":
-                this.element.setAttribute("transform", "translate("
-                    + this.options.x + " " + this.options.y + ") "
-                    + "rotate(" + this.options.start + " "
-                    + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
-                this._labels.setAttribute("transform", "rotate(-" + this.options.start + " "
-                    + (this.options.size / 2) + " " + (this.options.size / 2) + ")");
-                break;
-            case "value":
-                this.options.value = this.snap(value);
-                if (value > this.options.max || value < this.options.min)
-                    this.warning(this.element);
-                this.fire_event("set_value", this.options.value);
-                this.fire_event("set", "value", this.options.value);
-                if (!hold) this.redraw();
-                return;
-            case "base":
-                if (value === false) {
-                    this.options.base = this.options.min;
-                    this.__based = false;
-                } else {
-                    this.__based = true;
-                }
-                this.fire_event("basechanged", value);
-                if (!hold) this.redraw();
-                key = false;
-                break;
-            case "show_base":
-                if (!value && !hold) this._base.setAttribute("d", null);
-                else if (!hold) this.redraw();
-                break;
-            case "show_value":
-                if (!value && !hold) this._value.setAttribute("d", null);
-                else if (!hold) this.redraw();
-                break;
-            case "show_hand":
-                this._hand.style["display"] = value ? "block" : "none";
-                if(value && !hold) this._draw_hand();
-                break;
-            case "hand":
-                this._hand.setAttribute("x", this.options.size
-                                  - this.options.hand.length
-                                  - this.options.hand.margin);
-                this._hand.setAttribute("y", this.options.size / 2
-                                  - this.options.hand.width / 2);
-                this._hand.setAttribute("width",  this.options.hand.length);
-                this._hand.setAttribute("height", this.options.hand.width);
-                if(!hold) this._draw_hand();
-                break;
-            case "dot":
-                if (!hold) this._draw_dots();
-                break;
-            case "dots":
-                this.options.dots = Object.assign(this.options.dots, value);
-                key = false;
-                if (!hold) this._draw_dots();
-                break;
-            case "marker":
-                if (!hold) this._draw_markers();
-                break;
-            case "markers":
-                this.options.markers = Object.assign(this.options.markers, value);
-                key = false;
-                if (!hold) this._draw_markers();
-                break;
-            case "label":
-                if (!hold) this._draw_labels();
-                break;
-            case "labels":
-                this.options.labels = Object.assign(this.options.labels, value);
-                key = false;
-                if (!hold) this._draw_labels();
-                break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

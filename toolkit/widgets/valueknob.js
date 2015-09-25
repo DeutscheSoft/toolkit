@@ -70,12 +70,8 @@ w.ValueKnob = $class({
                 this.value.set("size", value);
                 break;
             case "value":
-                this.options.value = this.snap(value);
-                if (value > this.options.max || value < this.options.min)
-                    this.warning(this.element);
-                this.fire_event("valuechanged", this.options.value);
-                this.value.set("value", this.options.value);
-                return;
+                this.value.set("value", value);
+                break;
             case "drag_direction":
                 this.drag.set("direction", value);
                 break;

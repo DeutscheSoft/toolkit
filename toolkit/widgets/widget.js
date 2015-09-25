@@ -106,6 +106,19 @@ w.Widget = $class({
             this.invalid[key] = true;
         }
     },
+
+    assert_none_invalid: function() {
+        var warn = [];
+        for (var key in this.invalid) {
+            if (this.invalid[key]) {
+                warn.push(key);
+            }
+        }
+
+        if (warn.length) {
+            console.log("found", warn.length, "invalid in", this, ":", warn);
+        }
+    },
     
     trigger_draw : function() {
         if (!this.will_draw) {

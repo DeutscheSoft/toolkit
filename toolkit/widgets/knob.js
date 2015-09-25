@@ -84,8 +84,6 @@ w.Knob = $class({
             this.set("value", this.options.reset);
             this.fire_event("doubleclick", this.options.value);
         }.bind(this));
-        
-        this.set("size", this.options.size);
     },
     
     destroy: function () {
@@ -94,25 +92,28 @@ w.Knob = $class({
         TK.destroy(this._svg);
         Circular.prototype.destroy.call(this);
     },
+
+    redraw: function() {
+        var I = this.invalid;
+        var O = this.options;
+
+        if (I.size) {
+            this._svg.setAttribute("viewBox", TK.sprintf("0 0 %d %d", O.size, O.size));
+        }
+
+        Circular.prototype.redraw.call(this);
+
+    },
     
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Circular.prototype.set.call(this, key, value, hold);
         switch (key) {
-            case "size":
-                this._svg.setAttribute("viewBox", TK.sprintf("0 0 %d %d", value, value));
-                if (!hold) this.redraw();
-                break;
             case "direction":
-                this.drag.set("direction", value);
-                break;
             case "rotation":
-                this.drag.set("rotation", value);
-                break;
             case "blind_angle":
-                this.drag.set("blind_angle", value);
+                this.drag.set(key, value);
                 break;
         }
-        Circular.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

@@ -51,8 +51,6 @@ w.Gauge = $class({
         this._title = TK.make_svg("text", {"class": "toolkit-title"});
         this._svg.appendChild(this._title);
         
-        this.set("title", this.options.title);
-        
         Circular.prototype.initialize.call(this, options);
         this._svg = this.widgetize(this._svg);
     },
@@ -60,57 +58,54 @@ w.Gauge = $class({
         TK.destroy(this._svg);
         Circular.prototype.destroy.call(this);
     },
-    
-    // HELPERS & STUFF
-    _draw_title: function () {
-        this._title.textContent = this.options.title.title;
-        if (this.options.title.title) {
-            var t = this.options.title;
-            var outer   = this.options.size / 2;
-            var margin  = t.margin;
-            var align   = t.align == _TOOLKIT_INNER;
-            var bb      = this._title.getBoundingClientRect();
-            var angle   = t.pos % 360;
-            var outer_p = outer - margin;
-            var coords  = this._get_coords(angle, outer_p, outer_p, outer, true);
-            
-            var mx = ((coords.x - outer) / outer_p)
-                   * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
-            var my = ((coords.y - outer) / outer_p)
-                   * bb.height / (align ? -2 : 2);
-            
-            mx += this.options.x;
-            my += this.options.y;
-                   
-            this._title.setAttribute("transform",
-                "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
-            this._title.setAttribute("text-anchor", "middle");
+    redraw: function() {
+        var I = this.invalid, O = this.options;
+        Circular.prototype.redraw.call(this);
+
+        if (I.width) {
+            I.width = false;
+            this._svg.setAttribute("width", O.width);
         }
-        this.fire_event("titledrawn");
+        if (I.height) {
+            I.height = false;
+            this._svg.setAttribute("height", O.height);
+        }
+
+        if (I.title || I.size || I.x || I.y) {
+            I.title = I.size = I.x = I.y = false;
+            var _title = this._title;
+            _title.textContent = O.title.title;
+            if (O.title.title) {
+                var t = O.title;
+                var outer   = O.size / 2;
+                var margin  = t.margin;
+                var align   = t.align == _TOOLKIT_INNER;
+                var bb      = _title.getBoundingClientRect();
+                var angle   = t.pos % 360;
+                var outer_p = outer - margin;
+                var coords  = this._get_coords(angle, outer_p, outer_p, outer, true);
+                
+                var mx = ((coords.x - outer) / outer_p)
+                       * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
+                var my = ((coords.y - outer) / outer_p)
+                       * bb.height / (align ? -2 : 2);
+                
+                mx += O.x;
+                my += O.y;
+                       
+                _title.setAttribute("transform",
+                    "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
+                _title.setAttribute("text-anchor", "middle");
+            }
+            this.fire_event("titledrawn");
+        }
     },
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        switch (key) {
-            case "width":
-                if (!hold) this._svg.setAttribute("width", value);
-                break;
-            case "height":
-                if (!hold) this._svg.setAttribute("height", value);
-                break;
-            case "title":
-                if (typeof value == "string") value = {title: value};
-                this.options.title = Object.assign(this.options.title, value);
-                this.fire_event("set", key, value, hold);
-                this.fire_event("set_" + key, value, hold);
-                key = false;
-                if (!hold) this._draw_title();
-                break;
-            case "x":
-            case "y":
-                this.options[key] = value;
-                if (!hold) this._draw_title();
-                break;
+        if (key === "title") {
+            if (typeof value == "string") value = {title: value};
+            value = Object.assign(this.options.title, value);
         }
         Circular.prototype.set.call(this, key, value, hold);
     }
