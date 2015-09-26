@@ -20,6 +20,13 @@
  */
 "use strict";
 (function(w){ 
+function _get_coords_single(deg, inner, pos) {
+    deg = deg * Math.PI / 180;
+    return {
+        x: Math.cos(deg) * inner + pos,
+        y: Math.sin(deg) * inner + pos
+    }
+}
 w.Gauge = $class({
     // Gauge simply puts a single Circular into a SVG image.
     _class: "Gauge",
@@ -83,7 +90,7 @@ w.Gauge = $class({
                 var bb      = _title.getBoundingClientRect();
                 var angle   = t.pos % 360;
                 var outer_p = outer - margin;
-                var coords  = this._get_coords(angle, outer_p, outer_p, outer, true);
+                var coords  = _get_coords_single(angle, outer_p, outer);
                 
                 var mx = ((coords.x - outer) / outer_p)
                        * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
