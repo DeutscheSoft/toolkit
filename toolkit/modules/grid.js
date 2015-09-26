@@ -20,6 +20,116 @@
  */
 "use strict";
 (function(w) {
+function draw_lines(a, mode, last) {
+    var labels = new Array(a.length);
+    var coords = new Array(a.length);
+    var i, label, obj;
+
+    for (i = 0; i < a.length; i++) {
+        obj = a[i];
+        if (obj.label) {
+            label = TK.make_svg("text");
+            label.textContent = obj.label;
+            label.style["dominant-baseline"] = "central";
+            TK.add_class(label, "toolkit-grid-label");
+            TK.add_class(label, mode ? "toolkit-horizontal" : "toolkit-vertical");
+            if (obj["class"]) TK.add_class(label, obj["class"]);
+
+            this.element.appendChild(label);
+            labels[i] = label;
+        }
+    }
+
+    var w  = this.range_x.options.basis;
+    var h  = this.range_y.options.basis;
+
+    for (i = 0; i < a.length; i++) {
+        obj = a[i];
+        label = labels[i];
+        if (!label) continue;
+        var bb = label.getBBox();
+        var tw = bb.width;
+        var th = bb.height;
+        var p  = TK.get_style(label, "padding").split(" ");
+        if (p.length < 2)
+            p[1] = p[2] = p[3] = p[0];
+        if (p.length < 3) {
+            p[2] = p[0];
+            p[3] = p[1];
+        }
+        if (p.length < 4)
+            p[3] = p[1];
+        var pt = parseInt(p[0]) || 0;
+        var pr = parseInt(p[1]) || 0;
+        var pb = parseInt(p[2]) || 0;
+        var pl = parseInt(p[3]) || 0;
+        var x, y;
+        if (mode) {
+            y = Math.max(th / 2, Math.min(h - th / 2 - pt, this.range_y.val2px(obj.pos, true)));
+            if (y > last) continue;
+            x = w - tw - pl;
+            coords[i] = {
+                x : x,
+                y : y,
+                m : tw + pl + pr,
+            };
+            last = y - th;
+        } else {
+            x = Math.max(pl, Math.min(w - tw - pl, this.range_x.val2px(obj.pos, true) - tw / 2));
+            if (x < last) continue;
+            y = h-th/2-pt;
+            coords[i] = {
+                x : x,
+                y : y,
+                m : th + pt + pb,
+            };
+            last = x + tw;
+        }
+    }
+    for (i = 0; i < a.length; i++) {
+        label = labels[i];
+        if (label) {
+            obj = coords[i];
+            if (obj) {
+                label.setAttribute("x", obj.x);
+                label.setAttribute("y", obj.y);
+            } else {
+                this.element.removeChild(label);
+            }
+        }
+    }
+
+    for (i = 0; i < a.length; i++) {
+        obj = a[i];
+        label = coords[i];
+        var m;
+        if (label) m = label.m;
+        else m = 0;
+
+        if ((mode && obj.pos == this.range_y.options.min)
+        || ( mode && obj.pos == this.range_y.options.max)
+        || (!mode && obj.pos == this.range_x.options.min)
+        || (!mode && obj.pos == this.range_x.options.max))
+            continue;
+        var line = TK.make_svg("path");
+        TK.add_class(line, "toolkit-grid-line");
+        TK.add_class(line, mode ? "toolkit-horizontal" : "toolkit-vertical");
+        if (obj["class"]) TK.add_class(line, obj["class"]);
+        if (obj.color) line.setAttribute("style", "stroke:" + obj.color);
+        if (mode) {
+            // line from left to right
+            line.setAttribute("d", "M0 " + Math.round(this.range_y.val2px(obj.pos, true))
+                + ".5 L"  + (this.range_x.options.basis - m) + " "
+                + Math.round(this.range_y.val2px(obj.pos, true)) + ".5");
+        } else {
+            // line from top to bottom
+            line.setAttribute("d", "M" + Math.round(this.range_x.val2px(obj.pos, true))
+                + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos, true))
+                + ".5 " + (this.range_y.options.basis - m));
+        }
+        this.element.appendChild(line);
+    }
+}
 w.Grid = $class({
     // A Grid creates a couple of lines and labels in a SVG image on the x and
     // y axis. It is used in e.g. Graphs and FrequencyResponses to draw markers
@@ -40,7 +150,6 @@ w.Grid = $class({
         height:  0      // the height of the Grid (only use it in set/get)
     },
     initialize: function (options, hold) {
-        this.__last = 0;
         Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        TK.make_svg("g", {"class": "toolkit-grid"}), true, true, true);
@@ -53,23 +162,23 @@ w.Grid = $class({
         if (this.options.height)
             this.set("height", this.options.width);
         this.range_x.add_event("set", function (key, value, hold) {
-            if (!hold) this.redraw();
+            this.invalid.range_x = true;
+            this.trigger_draw();
         }.bind(this));
         this.range_y.add_event("set", function (key, value, hold) {
-            if (!hold) this.redraw();
+            this.invalid.range_y = true;
+            this.trigger_draw();
         }.bind(this));
-        if (!hold) this.redraw();
     },
     
     redraw: function () {
-        TK.empty(this.element);
-        this.__last = 0;
-        for (var i = 0; i < this.options.grid_x.length; i++) {
-            this._draw_line(this.options.grid_x[i], 0);
-        }
-        this.__last = this.range_y.options.basis;
-        for (var i = 0; i < this.options.grid_y.length; i++) {
-            this._draw_line(this.options.grid_y[i], 1);
+        var I = this.invalid, O = this.options;
+        if (I.grid_x || I.grid_y) {
+            I.grid_x = I.grid_y = false;
+            TK.empty(this.element);
+
+            draw_lines.call(this, O.grid_x, false, 0);
+            draw_lines.call(this, O.grid_y, true, this.range_y.options.basis);
         }
         Widget.prototype.redraw.call(this);
     },
@@ -77,76 +186,6 @@ w.Grid = $class({
         TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
-    // HELPERS & STUFF
-    _draw_line: function (obj, mode) {
-        // draw a line with label. obj contains pos, class and label
-        var m = 0;
-        if (obj.label) {
-            var label = TK.make_svg("text");
-            label.textContent = obj.label;
-            label.style["dominant-baseline"] = "central";
-            TK.add_class(label, "toolkit-grid-label");
-            TK.add_class(label, mode ? "toolkit-horizontal" : "toolkit-vertical");
-            if (obj["class"]) TK.add_class(label, obj["class"]);
-
-            this.element.appendChild(label);
-
-            var w  = this.range_x.options.basis;
-            var h  = this.range_y.options.basis;
-            var tw = label.getBBox().width;
-            var th = label.getBBox().height;
-            var p  = TK.get_style(label, "padding").split(" ");
-            if (p.length < 2)
-                p[1] = p[2] = p[3] = p[0];
-            if (p.length < 3) {
-                p[2] = p[0];
-                p[3] = p[1];
-            }
-            if (p.length < 4)
-                p[3] = p[1];
-            var pt = parseInt(p[0]) || 0;
-            var pr = parseInt(p[1]) || 0;
-            var pb = parseInt(p[2]) || 0;
-            var pl = parseInt(p[3]) || 0;
-            var x  = mode ? w - tw - pl : Math.max(pl, Math.min(w - tw - pl,
-                            this.range_x.val2px(obj.pos, true) - tw / 2));
-            var y  = mode ? Math.max(th / 2, Math.min(h - th / 2 - pt,
-                            this.range_y.val2px(obj.pos, true))) : h-th/2-pt;
-            if (mode && y > this.__last || !mode && x < this.__last) {
-                TK.destroy(label);
-            } else {
-                label.setAttribute("x", x);
-                label.setAttribute("y", y);
-                m = mode ? tw + pl + pr : th + pt + pb;
-                this.__last = mode ? y - th : x + tw;
-            }
-        }
-        
-        if ((mode && obj.pos == this.range_y.options.min)
-        || ( mode && obj.pos == this.range_y.options.max)
-        || (!mode && obj.pos == this.range_x.options.min)
-        || (!mode && obj.pos == this.range_x.options.max))
-            return;
-            
-        var line = TK.make_svg("path");
-        TK.add_class(line, "toolkit-grid-line");
-        TK.add_class(line, mode ? "toolkit-horizontal" : "toolkit-vertical");
-        if (obj["class"]) TK.add_class(line, obj["class"]);
-        if (obj.color) line.setAttribute("style", "stroke:" + obj.color);
-        if (mode) {
-            // line from left to right
-            line.setAttribute("d", "M0 " + Math.round(this.range_y.val2px(obj.pos, true))
-                + ".5 L"  + (this.range_x.options.basis - m) + " "
-                + Math.round(this.range_y.val2px(obj.pos, true)) + ".5");
-        } else {
-            // line from top to bottom
-            line.setAttribute("d", "M" + Math.round(this.range_x.val2px(obj.pos, true))
-                + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos, true))
-                + ".5 " + (this.range_y.options.basis - m));
-        }
-        this.element.appendChild(line);
-    },
-    
     // GETTER & SETTER
     set: function (key, value, hold) {
         this.options[key] = value;
@@ -154,7 +193,6 @@ w.Grid = $class({
             case "grid_x":
             case "grid_y":
                 this.fire_event("gridchanged");
-                if (!hold) this.redraw();
                 break;
             case "width":
                 this.range_x.set("basis", value, hold);
