@@ -64,23 +64,20 @@ w.Dynamics = $class({
         var O = this.options;
         O.grid_x = [];
         O.grid_y = [];
-        for (var i = this.range_x.get("min");
-            i <= this.range_x.get("max");
-            i += O.db_grid) {
-            var cls = "";
-            if (i == 0) {
-                cls = "toolkit-highlight";
-            }
+        var min = this.range_x.get("min");
+        var max = this.range_x.get("max");
+        var step = O.db_grid;
+        var cls;
+        for (var i = min; i <= max; i += step) {
+            cls = i ? "" : "toolkit-highlight";
             O.grid_x.push({
                 pos:     i,
-                label:   i == this.range_x.get("min") ? ""
-                            : O.grid_labels(i),
+                label:   i === min ? "" : O.grid_labels(i),
                 "class": cls
             });
             O.grid_y.push({
                 pos:     i,
-                label:   i == this.range_x.get("min") ? ""
-                            : O.grid_labels(i),
+                label:   i === min ? "" : O.grid_labels(i),
                 "class": cls
             });
         }
