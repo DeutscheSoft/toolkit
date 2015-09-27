@@ -111,7 +111,6 @@ w.ButtonArray = $class({
             this._container.insertBefore(b.element,
                 this._container.childNodes[pos]);
         }
-        var sb = b.element.getBoundingClientRect()[vert ? "height" : "width"];
         
         this._check_arrows();
         var c = b;
