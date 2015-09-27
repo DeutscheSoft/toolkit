@@ -20,6 +20,17 @@
  */
 "use strict";
 (function(w){
+function hide_arrows() {
+    var E = this.element;
+    if (E.firstChild == this._prev) E.removeChild(this._prev);
+    if (E.lastChild == this._next) E.removeChild(this._next);
+    TK.remove_class(E, "toolkit-over");
+}
+function show_arrows() {
+    this.element.insertBefore(this._prev, this._clip);
+    this.element.appendChild(this._next);
+    TK.add_class(this.element, "toolkit-over");
+}
 w.ButtonArray = $class({
     /* @class: ButtonArray
      * 
@@ -75,12 +86,11 @@ w.ButtonArray = $class({
         
         this.set("direction", this.options.direction);
         this.add_buttons(this.options.buttons);
-        this._scroll_to(this.options.show, true);
     },
     
     resize: function () {
         this._check_arrows();
-        this._scroll_to(this.options.show);
+        this.set("show", this.options.show);
     },
     
     add_buttons: function (options) {
@@ -117,7 +127,6 @@ w.ButtonArray = $class({
         b.add_event("click", function () {
             this._button_clicked(c);
         }.bind(this));
-        this._scroll_to(this.options.show);
         /* @event: added; Button, Widget; A #Button was added to the ButtonArray */
         this.fire_event("added", b);
         return b;
@@ -137,8 +146,7 @@ w.ButtonArray = $class({
         this._check_arrows();
         this.buttons[this.options.show].set("state", false);
         if (button < this.options.show)
-            this.options.show--;
-        this._scroll_to(this.options.show);
+            this.set("show", this.options.show - 1);
     },
     
     destroy: function () {
@@ -150,32 +158,54 @@ w.ButtonArray = $class({
         TK.destroy(this._clip);
         Container.prototype.destroy.call(this);
     },
-    
-    _check_arrows: function (force) {
-        /* check if we need to show or hide arrow buttons */
-        if (!this.options.auto_arrows && !force)
-            return;
-        var erect = this.element.getBoundingClientRect();
-        var brect = this._list_size();
-        var vert  = this.options.direction == _TOOLKIT_VERT;
-        this._show_arrows((vert ? brect > erect.height
-                                : brect > erect.width)
-                                && this.options.auto_arrows);
+
+    redraw: function() {
+        Container.prototype.redraw.call(this);
+        var I = this.invalid;
+        var O = this.options;
+
+        if (I.auto_arrows) {
+            I.auto_arrows = false;
+            if (!O.auto_arrows) {
+                hide_arrows.call(this);
+                I.show = true;
+            } else {
+                I.check_arrows = true;
+            }
+        }
+
+        if (I.check_arrows) {
+            I.check_arrows = false;
+            if (O.auto_arrows) {
+                var erect = this.element.getBoundingClientRect();
+                var brect = this._list_size();
+                if (O.direction == _TOOLKIT_VERT) {
+                    erect = erect.height;
+                } else {
+                    erect = erect.width;
+                }
+                if (brect > erect) {
+                    show_arrows.call(this);
+                } else {
+                    hide_arrows.call(this);
+                }
+                I.show = true;
+            }
+        }
+
+        if (I.show) {
+            I.show = false;
+            this._scroll_to(O.show);
+        }
     },
     
-    _show_arrows: function (show) {
-        if(show) {
-            this.element.insertBefore(this._prev, this._clip);
-            this.element.appendChild(this._next);
-            TK.add_class(this.element, "toolkit-over");
-        } else {
-            if (this.element.firstChild == this._prev)
-                this.element.removeChild(this._prev);
-            if (this.element.lastChild == this._next)
-                this.element.removeChild(this._next);
-            TK.remove_class(this.element, "toolkit-over");
+    _check_arrows: function (force) {
+        var I = this.invalid;
+        var O = this.options;
+        if (!I.check_arrows && O.auto_arrows) {
+            I.check_arrows = true;
+            this.trigger_draw();
         }
-        this._scroll_to(this.options.show);
     },
     
     _scroll_to: function (id, force) {
@@ -254,11 +284,6 @@ w.ButtonArray = $class({
                 this.prev.set("label", value == _TOOLKIT_VERT ? "▲" : "◀");
                 this.next.set("label", value == _TOOLKIT_VERT ? "▼" : "▶");
                 break;
-            case "auto_arrows":
-                this._check_arrows(true);
-                break;
-            case "show":
-                this._scroll_to(value);
         }
         Container.prototype.set.call(this, key, value, hold);
     },
