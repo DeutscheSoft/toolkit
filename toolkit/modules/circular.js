@@ -126,28 +126,43 @@ function draw_labels() {
     TK.empty(this._labels);
     
     var outer   = O.size / 2;
+
+    var a = new Array(labels.length);
+    var i;
+
+    console.log("labels", labels.length);
+    var l, p, positions = new Array(labels.length);
     
-    for (var i = 0; i < labels.length; i++) {
-        var l = labels[i];
-        var p = TK.make_svg("text", {"class": "toolkit-label",
+    for (i = 0; i < labels.length; i++) {
+        l = labels[i];
+        p = TK.make_svg("text", {"class": "toolkit-label",
                                  style: "dominant-baseline: central;"
         });
-        _labels.appendChild(p);
         
         if (l["class"]) TK.add_class(p, l["class"]);
         if (l["color"]) p.style["fill"] = l["color"];
+
                  
         if (typeof l.label != "undefined")
             p.textContent = l.label;
         else
             p.textContent = O.label.format(l.pos);
+
+        p.setAttribute("text-anchor", "middle");
                  
-        var margin  = typeof l.margin != "undefined"
-                    ? l.margin : O.label.margin;
-        var align   = (typeof l.align != "undefined"
-                    ? l.align : O.label.align) == _TOOLKIT_INNER;
-        var pos     = Math.min(O.max,
-                      Math.max(O.min, l.pos));
+        _labels.appendChild(p);
+        a[i] = p;
+    }
+
+    var fmt = TK.FORMAT("translate(%f, %f)");
+
+    for (i = 0; i < labels.length; i++) {
+        l = labels[i];
+        p = a[i];
+
+        var margin  = typeof l.margin != "undefined" ? l.margin : O.label.margin;
+        var align   = (typeof l.align != "undefined" ? l.align : O.label.align) == _TOOLKIT_INNER;
+        var pos     = Math.min(O.max, Math.max(O.min, l.pos));
         var bb      = p.getBBox();
         var angle   = (this.val2real(pos) + O.start) % 360;
         var outer_p = outer - margin;
@@ -155,9 +170,13 @@ function draw_labels() {
         
         var mx = ((coords.x - outer) / outer_p) * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
         var my = ((coords.y - outer) / outer_p) * bb.height / (align ? -2 : 2);
-        
-        p.setAttribute("transform", TK.sprintf("translate(%f, %f)", coords.x + mx, coords.y + my));
-        p.setAttribute("text-anchor", "middle");
+
+        positions[i] = fmt(coords.x + mx, coords.y + my);
+    }
+
+    for (i = 0; i < labels.length; i++) {
+        p = a[i];
+        p.setAttribute("transform", positions[i]);
     }
     this.fire_event("labelsdrawn");
 }
