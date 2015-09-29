@@ -92,86 +92,91 @@ w.Scale = $class({
     },
     
     redraw: function () {
+        var I = this.invalid;
         var O = this.options;
-        this.__size = 0;
-        if (O.base === false)
-            O.base = O.max
-        TK.empty(this.element);
-        
-        // draw base
-        this.draw_dot(O.base, this.__based ? "toolkit-base" : "toolkit-base");
-        if (O.show_base) {
-            this.draw_label(O.base, "toolkit-base");
-        }
-        // draw top
-        if (this._val2px(O.base - O.min) >= O.gap_labels) {
-            this.draw_dot(O.min, "toolkit-min");
-            if (O.show_min)
-                this.draw_label(O.min, "toolkit-min");
-        }
-        
-        // draw bottom
-        if (this._val2px(O.max - O.base) >= O.gap_labels) {
-            this.draw_dot(O.max, "toolkit-max");
-            if (O.show_max)
-                this.draw_label(O.max, "toolkit-max");
-        }
-        
-        if (O.fixed_dots && O.fixed_labels) {
-            for (var i = 0; i < O.fixed_dots.length; i++) {
-                this.draw_dot(O.fixed_dots[i]);
+
+        if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
+                       "fixed_dots", "fixed_labels", "levels")) {
+            this.__size = 0;
+            if (O.base === false)
+                O.base = O.max
+            TK.empty(this.element);
+            
+            // draw base
+            this.draw_dot(O.base, this.__based ? "toolkit-base" : "toolkit-base");
+            if (O.show_base) {
+                this.draw_label(O.base, "toolkit-base");
             }
-            for (var i = 0; i < O.fixed_labels.length; i++) {
-                this.draw_label(O.fixed_labels[i]);
+            // draw top
+            if (this._val2px(O.base - O.min) >= O.gap_labels) {
+                this.draw_dot(O.min, "toolkit-min");
+                if (O.show_min)
+                    this.draw_label(O.min, "toolkit-min");
             }
-            return;
-        }
-        
-        var level;
-        
-        // draw beneath base
-        var iter = O.base;
-        this.__last = iter;
-        while (iter > O.min) {
-            //console.log("beneath", O.reverse, iter)
-            iter -= O.division;
-            if (level = this._check_label(iter, O.division)) {
-                this._check_dots(this.__last,
-                                iter,
-                               -O.division,
-                                level,
-                                function (a, b) { return a > b });
-                this.__last = iter;
+            
+            // draw bottom
+            if (this._val2px(O.max - O.base) >= O.gap_labels) {
+                this.draw_dot(O.max, "toolkit-max");
+                if (O.show_max)
+                    this.draw_label(O.max, "toolkit-max");
             }
-        }
-        // draw dots between last label and min
-        this._check_dots(this.__last,
-                        iter,
-                       -O.division,
-                        O.levels.length - 1,
-                        function (a, b) { return a > b });
-        
-        // draw above base
-        var iter = O.base;
-        this.__last = iter;
-        while (iter < O.max) {
-            //console.log("above", O.reverse, iter)
-            iter += O.division;
-            if (level = this._check_label(iter, O.division)) {
-                this._check_dots(this.__last,
-                                iter,
-                                O.division,
-                                level,
-                                function (a, b) { return a < b });
-                this.__last = iter;
+            
+            if (O.fixed_dots && O.fixed_labels) {
+                for (var i = 0; i < O.fixed_dots.length; i++) {
+                    this.draw_dot(O.fixed_dots[i]);
+                }
+                for (var i = 0; i < O.fixed_labels.length; i++) {
+                    this.draw_label(O.fixed_labels[i]);
+                }
+                return;
             }
+            
+            var level;
+            
+            // draw beneath base
+            var iter = O.base;
+            this.__last = iter;
+            while (iter > O.min) {
+                //console.log("beneath", O.reverse, iter)
+                iter -= O.division;
+                if (level = this._check_label(iter, O.division)) {
+                    this._check_dots(this.__last,
+                                    iter,
+                                   -O.division,
+                                    level,
+                                    function (a, b) { return a > b });
+                    this.__last = iter;
+                }
+            }
+            // draw dots between last label and min
+            this._check_dots(this.__last,
+                            iter,
+                           -O.division,
+                            O.levels.length - 1,
+                            function (a, b) { return a > b });
+            
+            // draw above base
+            var iter = O.base;
+            this.__last = iter;
+            while (iter < O.max) {
+                //console.log("above", O.reverse, iter)
+                iter += O.division;
+                if (level = this._check_label(iter, O.division)) {
+                    this._check_dots(this.__last,
+                                    iter,
+                                    O.division,
+                                    level,
+                                    function (a, b) { return a < b });
+                    this.__last = iter;
+                }
+            }
+            // draw dots between last label and max
+            this._check_dots(this.__last,
+                            iter,
+                            O.division,
+                            O.levels.length - 1,
+                            function (a, b) { return a < b });
         }
-        // draw dots between last label and max
-        this._check_dots(this.__last,
-                        iter,
-                        O.division,
-                        O.levels.length - 1,
-                        function (a, b) { return a < b });
         Widget.prototype.redraw.call(this);
     },
     destroy: function () {
