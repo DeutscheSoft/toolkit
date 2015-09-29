@@ -51,14 +51,74 @@ function check_label(iter, step, last) {
         && this._val2px(Math.abs(last - iter)
             + O.min) >= O.gap_labels
         && this._val2px(iter) >= O.gap_labels) {
+            var label;
             if (iter > O.min && iter < O.max) {
-                this.draw_label(iter);
+                label = low_draw_label.call(this, iter);
                 this.draw_dot(iter, "toolkit-marker");
             }
-            return i;
+            return [ i, label ];
         }
     }
     return false;
+}
+function low_draw_label(val, cls) {
+    var label = TK.element("span", "toolkit-label", {
+        position: "absolute",
+        display: "block",
+        cssFloat: "left"
+    });
+    label.innerHTML = this.options.labels(val);
+    if (cls) TK.add_class(label, cls);
+    this.element.appendChild(label);
+
+    return [val, label];
+}
+function correct_labels() {
+    var i, label;
+    var position_prop, size_fun, lsize_fun;
+    var vert = this._vert();
+    if (vert) {
+        position_prop = "bottom";
+        size_fun = TK.outer_width;
+        lsize_fun = TK.outer_height;
+    } else {
+        position_prop = "left";
+        size_fun = TK.outer_height;
+        lsize_fun = TK.outer_width;
+    }
+    var sizes = [];
+
+    // calculate the size of all labels for positioning
+    for (i = 0; i < arguments.length; i++) {
+        label = arguments[i][1];
+        sizes[i] = lsize_fun(label, true);
+    }
+
+    // position all labels
+    for (i = 0; i < arguments.length; i++) {
+        label = arguments[i][1];
+        var pos = Math.round(this.val2px(arguments[i][0]));
+        var size = sizes[i];
+        if (vert)
+            pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
+        else
+            pos = pos - size / 2;
+        label.style[position_prop] = pos + "px";
+    }
+
+    var new_size = 0, tmp;
+
+    // calculate the size of all labels for positioning
+    for (i = 0; i < arguments.length; i++) {
+        label = arguments[i][1];
+        tmp = size_fun(label, true);
+
+        if (tmp > new_size) new_size = tmp;
+    }
+
+    if (new_size > size_fun(this.element, true)) {
+        size_fun(this.element, true, new_size);
+    }
 }
 w.Scale = $class({
     // Scale can be used to draw dots and labels as markers next to a meter, a
@@ -141,69 +201,78 @@ w.Scale = $class({
             if (O.base === false)
                 O.base = O.max
             TK.empty(this.element);
+
+            var labels = [];
             
             // draw base
             this.draw_dot(O.base, this.__based ? "toolkit-base" : "toolkit-base");
             if (O.show_base) {
-                this.draw_label(O.base, "toolkit-base");
+                labels.push(low_draw_label.call(this, O.base, "toolkit-base"));
             }
             // draw top
             if (this._val2px(O.base - O.min) >= O.gap_labels) {
                 this.draw_dot(O.min, "toolkit-min");
                 if (O.show_min)
-                    this.draw_label(O.min, "toolkit-min");
+                    labels.push(low_draw_label.call(this, O.min, "toolkit-min"));
             }
             
             // draw bottom
             if (this._val2px(O.max - O.base) >= O.gap_labels) {
                 this.draw_dot(O.max, "toolkit-max");
                 if (O.show_max)
-                    this.draw_label(O.max, "toolkit-max");
+                    labels.push(low_draw_label.call(this, O.max, "toolkit-max"));
             }
             
             if (O.fixed_dots && O.fixed_labels) {
                 for (var i = 0; i < O.fixed_dots.length; i++) {
                     this.draw_dot(O.fixed_dots[i]);
                 }
-                for (var i = 0; i < O.fixed_labels.length; i++) {
-                    this.draw_label(O.fixed_labels[i]);
+                Array.prototype.push.apply(labels, O.fixed_labels.map(low_draw_label, this));
+            } else {
+                
+                var level;
+                
+                // draw beneath base
+                var iter = O.base;
+                var last = iter;
+                while (iter > O.min) {
+                    //console.log("beneath", O.reverse, iter)
+                    iter -= O.division;
+                    if (level = check_label.call(this, iter, O.division, last)) {
+                        if (level[1]) {
+                            labels.push(level[1]);
+                        }
+                        level = level[0];
+                        check_dots.call(this, last, iter, -O.division, level,
+                                        function (a, b) { return a > b });
+                        last = iter;
+                    }
                 }
-                return;
-            }
-            
-            var level;
-            
-            // draw beneath base
-            var iter = O.base;
-            var last = iter;
-            while (iter > O.min) {
-                //console.log("beneath", O.reverse, iter)
-                iter -= O.division;
-                if (level = check_label.call(this, iter, O.division, last)) {
-                    check_dots.call(this, last, iter, -O.division, level,
-                                    function (a, b) { return a > b });
-                    last = iter;
+                // draw dots between last label and min
+                check_dots.call(this, last, iter, -O.division, O.levels.length - 1,
+                                function (a, b) { return a > b });
+                
+                // draw above base
+                iter = O.base;
+                last = iter;
+                while (iter < O.max) {
+                    //console.log("above", O.reverse, iter)
+                    iter += O.division;
+                    if (level = check_label.call(this, iter, O.division, last)) {
+                        if (level[1]) {
+                            labels.push(level[1]);
+                        }
+                        level = level[0];
+                        check_dots.call(this, last, iter, O.division, level,
+                                        function (a, b) { return a < b });
+                        last = iter;
+                    }
                 }
+                // draw dots between last label and max
+                check_dots.call(this, last, iter, O.division, O.levels.length - 1,
+                                function (a, b) { return a < b });
             }
-            // draw dots between last label and min
-            check_dots.call(this, last, iter, -O.division, O.levels.length - 1,
-                            function (a, b) { return a > b });
-            
-            // draw above base
-            iter = O.base;
-            last = iter;
-            while (iter < O.max) {
-                //console.log("above", O.reverse, iter)
-                iter += O.division;
-                if (level = check_label.call(this, iter, O.division, last)) {
-                    check_dots.call(this, last, iter, O.division, level,
-                                    function (a, b) { return a < b });
-                    last = iter;
-                }
-            }
-            // draw dots between last label and max
-            check_dots.call(this, last, iter, O.division, O.levels.length - 1,
-                            function (a, b) { return a < b });
+            correct_labels.apply(this, labels);
         }
         Widget.prototype.redraw.call(this);
     },
@@ -236,33 +305,10 @@ w.Scale = $class({
         if (!this.options.show_labels) return;
                   
         // create label element
-        var label = TK.element("span", "toolkit-label", {
-            position: "absolute",
-            display: "block",
-            cssFloat: "left"
-        });
-        label.innerHTML = this.options.labels(val);
-        if (cls) TK.add_class(label, cls);
-        this.element.appendChild(label);
-        
-        // position label element
-        var styles = { }
-        var pos = Math.round(this.val2px(val));
-        var size = TK[this._vert() ? "outer_height" : "outer_width"](label, true);
-        if (this._vert)
-            pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
-        else
-            pos = pos - size / 2;
-        styles[this._vert() ? "bottom" : "left"] = pos + "px";
-        TK.set_styles(label, styles);
-        
+        var label = low_draw_label.call(this, val, cls); 
         // resize the main element if labels are wider
         // because absolute positioning destroys dimensions
-        var s = toolkit[this._vert() ? "outer_width" : "outer_height"](label, true);
-        if (s > this.__size) {
-            this.__size = s;
-            toolkit[this._vert() ? "outer_width" : "outer_height"](this.element, true, s);
-        }
+        correct_labels.call(this, label);
         return this;
     },
     
