@@ -1,7 +1,96 @@
 "use strict";
 (function(w) {
-var _resize_events = [];
-var _resize_event_id = false;
+
+var has_class, add_class, remove_class, toggle_class;
+
+if ('classList' in document.createElement("_")) {
+  has_class = function (e, cls) { return e.classList.contains(cls); }
+  add_class = function (e, cls) { e.classList.add(cls); }
+  remove_class = function (e, cls) { e.classList.remove(cls); }
+  toggle_class = function (e, cls) { e.classList.toggle(cls); }
+} else {
+  // IE9
+  has_class = function (e, cls) {
+    return e.className.split(" ").indexOf(cls) !== -1;
+  };
+  add_class = function (e, cls) {
+    var s = e.className;
+    if (!s.length) {
+      e.className = cls;
+      return;
+    }
+    var a = s.split(" ");
+    if (a.indexOf(cls) === -1) {
+      a.push(cls);
+      e.className = a.join(" ");
+    }
+  };
+  remove_class = function(e, cls) {
+    var a = e.className.split(" ");
+    var i = a.indexOf(cls);
+
+    if (i !== -1) {
+      do {
+        a.splice(i, 1);
+        i = a.indexOf(cls);
+      } while (i !== -1);
+
+      e.className = a.join(" ");
+    }
+  };
+  toggle_class = function(e, cls) {
+      if (has_class(e, cls)) {
+          remove_class(e, cls);
+      } else {
+          add_class(e, cls);
+      }
+  };
+}
+
+var data_store;
+var data;
+
+if ('WeakMap' in w) {
+    data = function(e) {
+        var r;
+        if (!data_store) data_store = new w.WeakMap();
+
+        r = data_store[e];
+
+        if (!r) {
+            data_store[e] = r = {};
+        }
+
+        return r;
+    };
+} else {
+    data_store = [];
+    var data_keys = [];
+    data = function(e) {
+        if (typeof(e) !== "object") throw("Cannot store data for non-objects.");
+        var k = data_keys.indexOf(e);
+        var r;
+        if (k == -1) {
+            data_keys.push(e);
+            k = data_store.push({}) - 1;
+        }
+        return data_store[k];
+    };
+}
+
+var get_style;
+
+if ('getComputedStyle' in w) {
+  get_style = function(e, style) {
+    return document.defaultView.getComputedStyle(e).getPropertyValue(style);
+  };
+} else {
+  get_style = function(e, style) {
+    return e.currentStyle[style];
+  };
+}
+
+
 
 function monitor_resize_events() {
     for (var i = 0; i < TK._resize_events.length; i++) {
@@ -13,385 +102,536 @@ function monitor_resize_events() {
         }
     }
     if (_resize_events.length) {
-        _resize_event_id = window.setTimeout(monitor_resize_events, 100);
+        _resize_event_id = w.setTimeout(monitor_resize_events, 100);
     } else {
         _resize_event_id = false;
     }
-};
-w.toolkit = {
+}
+function get_id(id) {
+    return document.getElementById(id);
+}
+function get_class(cls, elm) {
+    return (elm ? elm : document).getElementsByClassName(cls);
+}
+function get_tag(tag, elm) {
+    return (elm ? elm : document).getElementsByTagName(tag);
+}
+function element(tag) {
+    var n = document.createElement(tag);
+    var i, v, j;
+    for (i = 1; i < arguments.length; i++) {
+        v = arguments[i]; 
+        if (typeof v == "object") {
+            set_styles(n, v);
+        } else if (typeof v == "string") {
+            add_class(n, v);
+        } else throw("unsupported argument to TK.element");
+    }
+    return n;
+}
+function destroy(e) {
+    if (e.parentElement)
+        e.parentElement.removeChild(e);
+}
+function empty(e) {
+    while (e.hasChildNodes()) {
+        e.removeChild(e.lastChild);
+    }
+}
+function is_parent_of(parent, child) {
+        while (child) {
+        if (child === parent) return true;
+        child = child.parentNode;
+    }
+
+    return false;
+}
+function set_text(node, s) {
+    if (node.firstChild) {
+        node.firstChild.nodeValue = s;
+    } else node.appendChild(document.createTextNode(s));
+}
+function insert_after(newn, refn) {
+    refn.parentNode.insertBefore(newn, refn.nextSibling);
+}
+function insert_before(newn, refn) {
+    refn.parentNode.insertBefore(newn, refn);
+}
+function keep_inside(element, resize) {
+    var ex = parseInt(get_style(element, "left"));
+    var ey = parseInt(get_style(element, "top"));
+    var ew = outer_width(element, true);
+    var eh = outer_height(element, true);
     
+    if (get_style(element, "position") == "fixed") {
+        var pw = width();
+        var ph = height();
+        var w  = pw;
+        var h  = ph;
+        var x  = Math.min(Math.max(ex, 0), w - ew);
+        var y  = Math.min(Math.max(ey, 0), h - eh);
+    } else {
+        var p  = element.offsetParent;
+        var pw = p ? p.offsetWidth : width() - scroll_left();
+        var ph = p ? p.offsetHeight : height() - scroll_top();
+        var x = Math.min(Math.max(ex, 0), pw - ew);
+        var y = Math.min(Math.max(ey, 0), ph - eh);
+    }
+    if(resize) {
+        if (ew > pw) element.style.width = pw + "px";
+        if (eh > ph) element.style.height = ph + "px";
+    }
+    element.style.left = x + "px";
+    element.style.top = y + "px";
+}
+function width() {
+    return Math.max(document.documentElement.clientWidth || 0, w.innerWidth || 0, document.body.clientWidth || 0);
+}
+function height() {
+    return Math.max(document.documentElement.clientHeight, w.innerHeight || 0, document.body.clientHeight || 0);
+}
+function scroll_top(e) {
+    if (e)
+        return e.scrollTop;
+    return Math.max(document.documentElement.scrollTop || 0, w.pageYOffset || 0, document.body.scrollTop || 0);
+}
+function scroll_left(e) {
+    if (e)
+        return e.scrollLeft;
+    return Math.max(document.documentElement.scrollLeft, w.pageXOffset || 0, document.body.scrollLeft || 0);
+}
+function scroll_all_top(e) {
+    var v = 0;
+    while (e = e.parentNode) v += e.scrollTop || 0;
+    return v;
+}
+function scroll_all_left(e) {
+    var v = 0;
+    while (e = e.parentNode) v += e.scrollLeft || 0;
+    return v;
+}
+function position_top(e, rel) {
+    var top    = parseInt(e.getBoundingClientRect().top);
+    var f  = fixed(e) ? 0 : scroll_top();
+    return top + f - (rel ? position_top(rel) : 0);
+}
+function position_left(e, rel) {
+    var left   = parseInt(e.getBoundingClientRect().left);
+    var f = fixed(e) ? 0 : scroll_left();
+    return left + f - (rel ? position_left(rel) : 0);
+}
+function fixed(e) {
+    return getComputedStyle(e).getPropertyValue("position") == "fixed";
+}
+function outer_width(element, margin, width) {
+    var cs = getComputedStyle(element);
+    var w = element.getBoundingClientRect().width;
+    var m = 0;
+    if (margin) {
+        m += parseFloat(cs.getPropertyValue("margin-left"));
+        m += parseFloat(cs.getPropertyValue("margin-right"));
+    }
+    if (typeof width !== "undefined") {
+        if (box_sizing(element) == "content-box") {
+            var css = css_space(element, "padding", "border");
+            width -= css.left + css.right;
+        }
+        width -= m;
+        // TODO: fixme
+        if (width < 0) return 0;
+        element.style.width = width + "px";
+        return width;
+    }
+    return w + m;
+}
+function outer_height(element, margin, height) {
+    var cs = getComputedStyle(element, null);
+    var h = element.getBoundingClientRect().height;
+    var m = 0;
+    if (margin) {
+        m += parseFloat(cs.getPropertyValue("margin-top"));
+        m += parseFloat(cs.getPropertyValue("margin-bottom"));
+    }
+    if (typeof height !== "undefined") {
+        if (box_sizing(element) == "content-box") {
+            var css = css_space(element, "padding", "border");
+            height -= css.top + css.bottom;
+        }
+        height -= m;
+        // TODO: fixme
+        if (height < 0) return 0;
+        element.style.height = height + "px";
+        return height;
+    }
+    return h + m;
+}
+function inner_width(element, width) {
+    var cs = getComputedStyle(element, null);
+    var w = element.getBoundingClientRect().width;
+    var css = css_space(element, "padding", "border");
+    var x = css.left + css.right;
+    if (typeof width !== "undefined") {
+        if (box_sizing(element) == "border-box")
+            width += x;
+        // TODO: fixme
+        if (width < 0) return 0;
+        element.style.width = width + "px";
+        return width;
+    }
+    return w - x;
+}
+function inner_height(element, height) {
+    var cs = getComputedStyle(element, null);
+    var h = element.getBoundingClientRect().height;
+    var css = css_space(element, "padding", "border");
+    var y = css.top + css.bottom;
+    if (typeof height !== "undefined") {
+        if (box_sizing(element) == "border-box")
+            height += y;
+        // TODO: fixme
+        if (height < 0) return 0;
+        element.style.height = height + "px";
+        return height;
+    }
+    return h - y;
+}
+function box_sizing(element) {
+    var cs = getComputedStyle(element, null);
+    if (cs.getPropertyValue("box-sizing")) return cs.getPropertyValue("box-sizing");
+    if (cs.getPropertyValue("-moz-box-sizing")) return cs.getPropertyValue("-moz-box-sizing");
+    if (cs.getPropertyValue("-webkit-box-sizing")) return cs.getPropertyValue("-webkit-box-sizing");
+    if (cs.getPropertyValue("-ms-box-sizing")) return cs.getPropertyValue("-ms-box-sizing");
+    if (cs.getPropertyValue("-khtml-box-sizing")) return cs.getPropertyValue("-khtml-box-sizing");
+}
+function css_space(element) {
+    var cs = getComputedStyle(element, null);
+    var o = {top: 0, right: 0, bottom: 0, left: 0};
+    var a;
+    var s;
+    for (var i = 1; i < arguments.length; i++) {
+        a = arguments[i];
+        for (var p in o) {
+            if (o.hasOwnProperty(p)) {
+                s = a + "-" + p;
+                if (a == "border") s += "-width";
+            }
+            o[p] += parseFloat(cs.getPropertyValue(s));
+        }
+    }
+    return o;
+}
+function set_styles(elem, styles) {
+    var key, v;
+    var s = elem.style;
+    for (key in styles) if (styles.hasOwnProperty(key)) {
+        v = styles[key];
+        if (typeof v !== "number" && !v) {
+            delete s[key];
+        } else {
+            s[key] = v;
+        }
+    }
+}
+function set_style(e, style, value) {
+    if (typeof value === "number")
+        value += "px";
+    e.style[style] = value;
+}
+var _ids = {};
+function unique_id() {
+    var id;
+    while (_ids.hasOwnProperty(id = random_string(8, "aA#")) || document.getElementById(id)) {}
+    _ids[id] = 1;
+    return id;
+};
+function random_string(length, chars) {
+    // returns a random string with specified length and characters
+    // a = small chars
+    // A = uppercase chars
+    // # = numbers
+    // ! = other chars (~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\)
+    if (!length) length = 16;
+    if (!chars) chars = "aA#";
+    var mask = '';
+    if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+    if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (chars.indexOf('#') > -1) mask += '0123456789';
+    if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+    var result = '';
+    for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
+    return result;
+}
+var cache = {};
+function FORMAT(fmt) {
+    var cache_key = Array.prototype.join.call(arguments, "\0");
+    if (cache.hasOwnProperty(cache_key)) return cache[cache_key];
+    var args = [];
+    var s = "return ";
+    var res;
+    var last = 0;
+    var argnum = 0;
+    var precision;
+    var regexp = /%(\.\d+)?([bcdefgos%])/g;
+    var argname;
+
+    while (res = regexp.exec(fmt)) {
+        if (argnum) s += "+";
+        s += JSON.stringify(fmt.substr(last, regexp.lastIndex - res[0].length - last));
+        s += "+";
+        argname = "a"+argnum;
+        args.push(argname);
+        if (argnum+1 < arguments.length) {
+            argname = "(" + sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
+        }
+        switch (res[2].charCodeAt(0)) {
+        case 100: // d
+            s += "("+argname+" | 0)";
+            break;
+        case 102: // f
+            if (res[1]) { // length qualifier
+                precision = parseInt(res[1].substr(1));
+                s += "(+"+argname+").toFixed("+precision+")";
+            } else {
+                s += "(+"+argname+")";
+            }
+            break;
+        case 115: // s
+            s += argname;
+            break;
+        case 37:
+            s += "\"%\"";
+            break;
+        default:
+            throw("unknown format:"+res[0]);
+            break;
+        }
+        argnum++;
+        last = regexp.lastIndex;
+    }
+
+    if (argnum) s += "+";
+    s += JSON.stringify(fmt.substr(last));
+
+    var fun = new Function(args, s);
+    cache[cache_key] = fun;
+    return fun;
+}
+function sprintf(fmt) {
+    return FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
+}
+function is_touch() {
+    return 'ontouchstart' in w // works on most browsers 
+      || 'onmsgesturechange' in w; // works on ie10
+}
+function os() {
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf("android") > -1)
+        return "Android";
+    if (/iPad/i.test(ua) || /iPhone OS 3_1_2/i.test(ua) || /iPhone OS 3_2_2/i.test(ua))
+        return "iOS";
+    if ((ua.match(/iPhone/i)) || (ua.match(/iPod/i)))
+        return "iOS";
+    if (navigator.appVersion.indexOf("Win")!=-1)
+        return "Windows";
+    if (navigator.appVersion.indexOf("Mac")!=-1)
+        return "MacOS";
+    if (navigator.appVersion.indexOf("X11")!=-1)
+        return "UNIX";
+    if (navigator.appVersion.indexOf("Linux")!=-1)
+        return "Linux";
+}
+function make_svg(tag, args) {
+    // creates and returns an SVG object
+    // 
+    // arguments:
+    // tag: the element to create as string, e.g. "line" or "g"
+    // args: the options to set in the element
+    // 
+    // returns: the newly created object
+    var el = document.createElementNS('http://www.w3.org/2000/svg', "svg:" + tag);
+    for (var k in args)
+        el.setAttribute(k, args[k]);
+    return el;
+}
+function seat_all_svg(parent) {
+    // searches all svg that don't have the class "fixed" and re-positions them
+    // for avoiding blurry lines
+    var a = get_tag("svg");
+    for (var i = 0; i < a.length; i++) {
+        if (!has_class(a[i], "svg-fixed"))
+            seat_svg(a[i]);
+    }
+}
+function seat_svg(e) {
+    // move svgs if their positions in viewport is not int
+    if (retrieve(e, "margin-left") === null) {
+        store(e, "margin-left", parseFloat(get_style(e, "margin-left")));
+    } else {
+        e.style.marginLeft = retrieve(e, "margin-left");
+    }
+    var l = parseFloat(retrieve(e, "margin-left"));
+    var b = e.getBoundingClientRect();
+    var x = b.left % 1;
+    if (x) {
+        
+        if (x < 0.5) l -= x;
+        else l += (1 - x);
+    }
+    if (e.parentElement && get_style(e.parentElement, "text-align") == "center")
+        l += 0.5;
+    e.style.marginLeft = l + "px";
+    if (retrieve(e, "margin-top") === null) {
+        store(e, "margin-top", parseFloat(get_style(e, "margin-top")));
+    } else {
+        e.style.marginTop = retrieve(e, "margin-top");
+    }
+    var t = parseFloat(retrieve(e, "margin-top"));
+    var b = e.getBoundingClientRect();
+    var y = b.top % 1;
+    if (y) {
+        if (x < 0.5) t -= y;
+        else t += (1 - y);
+    }
+    e.style.marginTop = t + "px";
+}
+function delayed_callback(timeout, cb, once) {
+    var tid;
+    var args;
+
+    var my_cb = function() {
+        tid = null;
+        cb.apply(this, args);
+    };
+    return function() {
+        args = Array.prototype.slice.call(arguments);
+
+        if (tid)
+            w.clearTimeout(tid);
+        else if (once) once();
+        tid = w.setTimeout(my_cb, timeout);
+    };
+}
+
+var _resize_events = [];
+var _resize_event_id = false;
+
+function add_resize_event(element) {
+    _resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
+    if (_resize_event_id < 0) {
+        _resize_event_id = w.setTimeout(monitor_resize_events, 100);
+    }
+}
+function remove_resize_event(element) {
+    for (var i = 0; i < _resize_events.length; i++) {
+        if (element == _resize_events[i]) _resize_events.splice(i, 1);
+    }
+    if (!_resize_events.length && _resize_event_id) {
+        w.clearTimeout(_resize_event_id);
+        _resize_event_id = false;
+    }
+}
+function log2(n) {
+    return Math.log(Math.max(1e-32, n)) / Math.LN2;
+}
+function log10(n) {
+    return Math.log(Math.max(1e-32, n)) / Math.LN10;
+}
+function _binary_array_search(arr, val, insert) {
+    var high = arr.length, low = -1, mid;
+    while (high - low > 1) {
+        mid = (high + low) >> 1;
+        if (arr[mid] < val) low = mid;
+        else high = mid;
+    }
+    if (arr[high] == val || insert) {
+        return high;
+    } else {
+        return -1;
+    }
+}
+function find_next(array, val, sort) {
+    if (sort) array = array.slice(0).sort( function (a, b) { return a-b; });
+    // Get index
+    var i = _binary_array_search(arr, val, true);
+    // Check boundaries
+    return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
+}
+function store(e, key, val) {
+    data(e)[key] = val;
+}
+function retrieve(e, key) {
+    return data(e)[key];
+}
+w.TK = w.toolkit = {
     // ELEMENTS
     S: new DOMScheduler(),
-    get_id: function (id) {
-        return document.getElementById(id);
-    },
-    get_class: function (cls, elm) {
-        return (elm ? elm : document).getElementsByClassName(cls);
-    },
-    get_tag: function (tag, elm) {
-        return (elm ? elm : document).getElementsByTagName(tag);
-    },
+    get_id: get_id,
+    get_class: get_class,
+    get_tag: get_tag,
+    element : element,    
+    destroy: destroy,
+    empty: empty,
+    is_parent_of: is_parent_of,
+    set_text : set_text,
+    has_class : has_class,
+    remove_class : remove_class,
+    add_class : add_class,
+    toggle_class : toggle_class,
     
-    element : function(tag) {
-        var n = document.createElement(tag);
-        var i, v, j;
-        for (i = 1; i < arguments.length; i++) {
-            v = arguments[i]; 
-            if (typeof v == "object") {
-                this.set_styles(n, v);
-            } else if (typeof v == "string") {
-                this.add_class(n, v);
-            } else throw("unsupported argument to TK.element");
-        }
-        return n;
-    },
+    insert_after: insert_after,
+    insert_before: insert_before,
     
-    destroy: function (e) {
-        if (e.parentElement)
-            e.parentElement.removeChild(e);
-    },
-    
-    empty: function (e) {
-        while (e.hasChildNodes()) {
-            e.removeChild(e.lastChild);
-        }
-    },
-
-    is_parent_of: function(parent, child) {
-        while (child) {
-            if (child === parent) return true;
-            child = child.parentNode;
-        }
-
-        return false;
-    },
-
-    set_text : function(node, s) {
-        if (node.firstChild) {
-            node.firstChild.nodeValue = s;
-        } else node.appendChild(document.createTextNode(s));
-    },
-    
-    insert_after: function (newn, refn) {
-        refn.parentNode.insertBefore(newn, refn.nextSibling);
-    },
-    insert_before: function (newn, refn) {
-        refn.parentNode.insertBefore(newn, refn);
-    },
-    
-    keep_inside: function (element, resize) {
-        var ex = parseInt(this.get_style(element, "left"));
-        var ey = parseInt(this.get_style(element, "top"));
-        var ew = this.outer_width(element, true);
-        var eh = this.outer_height(element, true);
-        
-        if (this.get_style(element, "position") == "fixed") {
-            var pw = this.width();
-            var ph = this.height();
-            var w  = pw;
-            var h  = ph;
-            var x  = Math.min(Math.max(ex, 0), w - ew);
-            var y  = Math.min(Math.max(ey, 0), h - eh);
-        } else {
-            var p  = element.offsetParent;
-            var pw = p ? p.offsetWidth : this.width() - this.scroll_left();
-            var ph = p ? p.offsetHeight : this.height() - this.scroll_top();
-            var x = Math.min(Math.max(ex, 0), pw - ew);
-            var y = Math.min(Math.max(ey, 0), ph - eh);
-        }
-        if(resize) {
-            if (ew > pw) element.style.width = pw + "px";
-            if (eh > ph) element.style.height = ph + "px";
-        }
-        element.style.left = x + "px";
-        element.style.top = y + "px";
-    },
+    keep_inside: keep_inside,
     
     // WINDOW
     
-    width: function () {
-        return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
-    },
-    height: function () {
-        return Math.max(document.documentElement.clientHeight, window.innerHeight || 0, document.body.clientHeight || 0);
-    },
+    width: width,
+    height: height,
     
     // DIMENSIONS
     
-    scroll_top: function (e) {
-        if (e)
-            return e.scrollTop;
-        return Math.max(document.documentElement.scrollTop || 0, window.pageYOffset || 0, document.body.scrollTop || 0);
-    },
-    scroll_left: function (e) {
-        if (e)
-            return e.scrollLeft;
-        return Math.max(document.documentElement.scrollLeft, window.pageXOffset || 0, document.body.scrollLeft || 0);
-    },
-    scroll_all_top: function (e) {
-        var v = 0;
-        while (e = e.parentNode) v += e.scrollTop || 0;
-        return v;
-    },
-    scroll_all_left: function (e) {
-        var v = 0;
-        while (e = e.parentNode) v += e.scrollLeft || 0;
-        return v;
-    },
+    scroll_top: scroll_top,
+    scroll_left: scroll_left,
+    scroll_all_top: scroll_all_top,
+    scroll_all_left: scroll_all_left,
     
-    position_top: function (e, rel) {
-        var top    = parseInt(e.getBoundingClientRect().top);
-        var fixed  = this.fixed(e) ? 0 : this.scroll_top();
-        return top + fixed - (rel ? this.position_top(rel) : 0);
-    },
-    position_left: function (e, rel) {
-        var left   = parseInt(e.getBoundingClientRect().left);
-        var fixed  = this.fixed(e) ? 0 : this.scroll_left();
-        return left + fixed - (rel ? this.position_left(rel) : 0);
-    },
+    position_top: position_top,
+    position_left: position_left,
     
-    fixed: function (e) {
-        return getComputedStyle(e).getPropertyValue("position") == "fixed";
-    },
+    fixed: fixed,
     
-    outer_width : function (element, margin, width) {
-        var cs = getComputedStyle(element);
-        var w = element.getBoundingClientRect().width;
-        var m = 0;
-        if (margin) {
-            m += parseFloat(cs.getPropertyValue("margin-left"));
-            m += parseFloat(cs.getPropertyValue("margin-right"));
-        }
-        if (typeof width !== "undefined") {
-            if (this.box_sizing(element) == "content-box") {
-                var css = this.css_space(element, "padding", "border");
-                width -= css.left + css.right;
-            }
-            width -= m;
-            // TODO: fixme
-            if (width < 0) return 0;
-            element.style.width = width + "px";
-            return width;
-        }
-        return w + m;
-    },
+    outer_width : outer_width,
     
-    outer_height : function (element, margin, height) {
-        var cs = getComputedStyle(element, null);
-        var h = element.getBoundingClientRect().height;
-        var m = 0;
-        if (margin) {
-            m += parseFloat(cs.getPropertyValue("margin-top"));
-            m += parseFloat(cs.getPropertyValue("margin-bottom"));
-        }
-        if (typeof height !== "undefined") {
-            if (this.box_sizing(element) == "content-box") {
-                var css = this.css_space(element, "padding", "border");
-                height -= css.top + css.bottom;
-            }
-            height -= m;
-            // TODO: fixme
-            if (height < 0) return 0;
-            element.style.height = height + "px";
-            return height;
-        }
-        return h + m;
-    },
+    outer_height : outer_height,
     
-    inner_width: function (element, width) {
-        var cs = getComputedStyle(element, null);
-        var w = element.getBoundingClientRect().width;
-        var css = this.css_space(element, "padding", "border");
-        var x = css.left + css.right;
-        if (typeof width !== "undefined") {
-            if (this.box_sizing(element) == "border-box")
-                width += x;
-            // TODO: fixme
-            if (width < 0) return 0;
-            element.style.width = width + "px";
-            return width;
-        }
-        return w - x;
-    },
+    inner_width: inner_width,
     
-    inner_height: function (element, height) {
-        var cs = getComputedStyle(element, null);
-        var h = element.getBoundingClientRect().height;
-        var css = this.css_space(element, "padding", "border");
-        var y = css.top + css.bottom;
-        if (typeof height !== "undefined") {
-            if (this.box_sizing(element) == "border-box")
-                height += y;
-            // TODO: fixme
-            if (height < 0) return 0;
-            element.style.height = height + "px";
-            return height;
-        }
-        return h - y;
-    },
+    inner_height: inner_height,
     
-    box_sizing: function (element) {
-        var cs = getComputedStyle(element, null);
-        if (cs.getPropertyValue("box-sizing")) return cs.getPropertyValue("box-sizing");
-        if (cs.getPropertyValue("-moz-box-sizing")) return cs.getPropertyValue("-moz-box-sizing");
-        if (cs.getPropertyValue("-webkit-box-sizing")) return cs.getPropertyValue("-webkit-box-sizing");
-        if (cs.getPropertyValue("-ms-box-sizing")) return cs.getPropertyValue("-ms-box-sizing");
-        if (cs.getPropertyValue("-khtml-box-sizing")) return cs.getPropertyValue("-khtml-box-sizing");
-    },
+    box_sizing: box_sizing,
     
-    css_space: function (element) {
-        var cs = getComputedStyle(element, null);
-        var o = {top: 0, right: 0, bottom: 0, left: 0};
-        var a;
-        var s;
-        for (var i = 1; i < arguments.length; i++) {
-            a = arguments[i];
-            for (var p in o) {
-                if (o.hasOwnProperty(p)) {
-                    s = a + "-" + p;
-                    if (a == "border") s += "-width";
-                }
-                o[p] += parseFloat(cs.getPropertyValue(s));
-            }
-        }
-        return o;
-    },
+    css_space: css_space,
     
     // CSS AND CLASSES
     
-    set_styles : function(elem, styles) {
-        var key, v;
-        var s = elem.style;
-        for (key in styles) if (styles.hasOwnProperty(key)) {
-            v = styles[key];
-            if (typeof v != "number" && !v) {
-                delete s[key];
-            } else {
-                s[key] = v;
-            }
-        }
-    },
-    set_style: function (e, style, value) {
-        if (typeof value == "number")
-            value += "px";
-        e.style[style] = value;
-    },
+    set_styles : set_styles,
+    set_style: set_style,
+    get_style: get_style,
     
     // STRINGS
     
-    unique_id: function () {
-        var _ids = {};
-        return function() {
-            var id;
-            while (_ids.hasOwnProperty(id = this.random_string(8, "aA#")) || document.getElementById(id)) {}
-            _ids[id] = 1;
-            return id;
-        };
-    }(),
+    unique_id: unique_id,
     
-    random_string: function (length, chars) {
-        // returns a random string with specified length and characters
-        // a = small chars
-        // A = uppercase chars
-        // # = numbers
-        // ! = other chars (~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\)
-        if (!length) length = 16;
-        if (!chars) chars = "aA#";
-        var mask = '';
-        if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
-        if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        if (chars.indexOf('#') > -1) mask += '0123456789';
-        if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
-        var result = '';
-        for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
-        return result;
-    },
+    random_string: random_string,
     
-    FORMAT : function() {
-        var cache = {};
-        return function(fmt) {
-            var cache_key = Array.prototype.join.call(arguments, "\0");
-            if (cache.hasOwnProperty(cache_key)) return cache[cache_key];
-            var args = [];
-            var s = "return ";
-            var res;
-            var last = 0;
-            var argnum = 0;
-            var precision;
-            var regexp = /%(\.\d+)?([bcdefgos%])/g;
-            var argname;
-
-            while (res = regexp.exec(fmt)) {
-                if (argnum) s += "+";
-                s += JSON.stringify(fmt.substr(last, regexp.lastIndex - res[0].length - last));
-                s += "+";
-                argname = "a"+argnum;
-                args.push(argname);
-                if (argnum+1 < arguments.length) {
-                    argname = "(" + this.sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
-                }
-                switch (res[2].charCodeAt(0)) {
-                case 100: // d
-                    s += "("+argname+" | 0)";
-                    break;
-                case 102: // f
-                    if (res[1]) { // length qualifier
-                        precision = parseInt(res[1].substr(1));
-                        s += "(+"+argname+").toFixed("+precision+")";
-                    } else {
-                        s += "(+"+argname+")";
-                    }
-                    break;
-                case 115: // s
-                    s += argname;
-                    break;
-                case 37:
-                    s += "\"%\"";
-                    break;
-                default:
-                    throw("unknown format:"+res[0]);
-                    break;
-                }
-                argnum++;
-                last = regexp.lastIndex;
-            }
-
-            if (argnum) s += "+";
-            s += JSON.stringify(fmt.substr(last));
-
-            var fun = new Function(args, s);
-            cache[cache_key] = fun;
-            return fun;
-    } }(),
+    FORMAT : FORMAT,
     
-    sprintf : function (fmt) {
-        return this.FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
-    },
-    
+    sprintf : sprintf,
     
     // OS AND BROWSER CAPABILITIES
     
-    is_touch: function () {
-        return 'ontouchstart' in window // works on most browsers 
-          || 'onmsgesturechange' in window; // works on ie10
-    },
-    os: function () {
-        var ua = navigator.userAgent.toLowerCase();
-        if (ua.indexOf("android") > -1)
-            return "Android";
-        if (/iPad/i.test(ua) || /iPhone OS 3_1_2/i.test(ua) || /iPhone OS 3_2_2/i.test(ua))
-            return "iOS";
-        if ((ua.match(/iPhone/i)) || (ua.match(/iPod/i)))
-            return "iOS";
-        if (navigator.appVersion.indexOf("Win")!=-1)
-            return "Windows";
-        if (navigator.appVersion.indexOf("Mac")!=-1)
-            return "MacOS";
-        if (navigator.appVersion.indexOf("X11")!=-1)
-            return "UNIX";
-        if (navigator.appVersion.indexOf("Linux")!=-1)
-            return "Linux";
-    },
+    is_touch: is_touch,
+    os: os,
     
     browser: function () {
         var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
@@ -411,143 +651,34 @@ w.toolkit = {
     
     // SVG
     
-    make_svg: function (tag, args) {
-        // creates and returns an SVG object
-        // 
-        // arguments:
-        // tag: the element to create as string, e.g. "line" or "g"
-        // args: the options to set in the element
-        // 
-        // returns: the newly created object
-        var el = document.createElementNS('http://www.w3.org/2000/svg', "svg:" + tag);
-        for (var k in args)
-            el.setAttribute(k, args[k]);
-        return el;
-    },
-    seat_all_svg: function (parent) {
-        // searches all svg that don't have the class "fixed" and re-positions them
-        // for avoiding blurry lines
-        var a = this.get_tag("svg");
-        for (var i = 0; i < a.length; i++) {
-            if (!this.has_class(a[i], "svg-fixed"))
-                this.seat_svg(a[i]);
-        }
-    },
-    seat_svg: function (e) {
-        // move svgs if their positions in viewport is not int
-        if (this.retrieve(e, "margin-left") === null) {
-            this.store(e, "margin-left", parseFloat(this.get_style(e, "margin-left")));
-        } else {
-            e.style.marginLeft = this.retrieve(e, "margin-left");
-        }
-        var l = parseFloat(this.retrieve(e, "margin-left"));
-        var b = e.getBoundingClientRect();
-        var x = b.left % 1;
-        if (x) {
-            
-            if (x < 0.5) l -= x;
-            else l += (1 - x);
-        }
-        if (e.parentElement && this.get_style(e.parentElement, "text-align") == "center")
-            l += 0.5;
-        e.style.marginLeft = l + "px";
-        if (this.retrieve(e, "margin-top") === null) {
-            this.store(e, "margin-top", parseFloat(this.get_style(e, "margin-top")));
-        } else {
-            e.style.marginTop = this.retrieve(e, "margin-top");
-        }
-        var t = parseFloat(this.retrieve(e, "margin-top"));
-        var b = e.getBoundingClientRect();
-        var y = b.top % 1;
-        if (y) {
-            if (x < 0.5) t -= y;
-            else t += (1 - y);
-        }
-        e.style.marginTop = t + "px";
-    },
+    make_svg: make_svg,
+    seat_all_svg: seat_all_svg,
+    seat_svg: seat_svg,
     
     
     // EVENTS
     
-    delayed_callback : function(timeout, cb, once) {
-        var tid;
-        var args;
-
-        var my_cb = function() {
-            tid = null;
-            cb.apply(this, args);
-        };
-        return function() {
-            args = Array.prototype.slice.call(arguments);
-
-            if (tid)
-                window.clearTimeout(tid);
-            else if (once) once();
-            tid = window.setTimeout(my_cb, timeout);
-        };
-    },
+    delayed_callback : delayed_callback,
     
-    add_resize_event: function (element) {
-        _resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
-        if (_resize_event_id < 0) {
-            _resize_event_id = window.setTimeout(monitor_resize_events, 100);
-        }
-    },
-    remove_resize_event: function (element) {
-        for (var i = 0; i < _resize_events.length; i++) {
-            if (element == _resize_events[i]) _resize_events.splice(i, 1);
-        }
-        if (!_resize_events.length && _resize_event_id) {
-            window.clearTimeout(_resize_event_id);
-            _resize_event_id = false;
-        }
-    },
+    add_resize_event: add_resize_event,
+    remove_resize_event: remove_resize_event,
     
     
     // MATH
     
-    log2: function (n) {
-        return Math.log(Math.max(1e-32, n)) / Math.LN2;
-    },
-    log10: function (n) {
-        return Math.log(Math.max(1e-32, n)) / Math.LN10;
-    },
+    log2: log2,
+    log10: log10,
     
     // ARRAYS
     
-    _binary_array_search: function (arr, val, insert) {
-        var high = arr.length, low = -1, mid;
-        while (high - low > 1) {
-            mid = (high + low) >> 1;
-            if (arr[mid] < val) low = mid;
-            else high = mid;
-        }
-        if (arr[high] == val || insert) {
-            return high;
-        } else {
-            return -1;
-        }
-    },
-    
-    find_next: function (array, val, sort) {
-        if (sort) array = array.slice(0).sort( function (a, b) { return a-b; });
-        // Get index
-        var i = this._binary_array_search(arr, val, true);
-        // Check boundaries
-        return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
-    },
-    
+    find_next: find_next,
     
     // OTHER
     
-    store: function (e, key, val) {
-        this.data(e)[key] = val;
-    },
-    retrieve: function (e, key) {
-        return this.data(e)[key];
-    },
+    data: data,
+    store: store,
+    retrieve: retrieve,
 };
-w.TK = w.toolkit;
 
 // POLYFILLS
 
@@ -588,90 +719,6 @@ if (typeof Object.assign === 'undefined') {
       return to;
     }
   });
-}
-
-if ('classList' in document.createElement("_")) {
-  w.TK.has_class = function (e, cls) { return e.classList.contains(cls); }
-  w.TK.add_class = function (e, cls) { e.classList.add(cls); }
-  w.TK.remove_class = function (e, cls) { e.classList.remove(cls); }
-  w.TK.toggle_class = function (e, cls) { e.classList.toggle(cls); }
-} else {
-  // IE9
-  w.TK.has_class = function (e, cls) {
-    return e.className.split(" ").indexOf(cls) !== -1;
-  };
-  w.TK.add_class = function (e, cls) {
-    var s = e.className;
-    if (!s.length) {
-      e.className = cls;
-      return;
-    }
-    var a = s.split(" ");
-    if (a.indexOf(cls) === -1) {
-      a.push(cls);
-      e.className = a.join(" ");
-    }
-  };
-  w.TK.remove_class = function(e, cls) {
-    var a = e.className.split(" ");
-    var i = a.indexOf(cls);
-
-    if (i !== -1) {
-      do {
-        a.splice(i, 1);
-        i = a.indexOf(cls);
-      } while (i !== -1);
-
-      e.className = a.join(" ");
-    }
-  };
-  w.TK.toggle_class = function(e, cls) {
-      if (this.has_class(e, cls)) {
-          this.remove_class(e, cls);
-      } else {
-          this.add_class(e, cls);
-      }
-  };
-}
-
-if ('getComputedStyle' in w) {
-  w.TK.get_style = function(e, style) {
-    return document.defaultView.getComputedStyle(e).getPropertyValue(style);
-  };
-} else {
-  w.TK.get_style = function(e, style) {
-    return e.currentStyle[style];
-  };
-}
-
-var data_store;
-
-if ('WeakMap' in w) {
-    w.TK.data = function(e) {
-        var r;
-        if (!data_store) data_store = new w.WeakMap();
-
-        r = data_store[e];
-
-        if (!r) {
-            data_store[e] = r = {};
-        }
-
-        return r;
-    };
-} else {
-    data_store = [];
-    var data_keys = [];
-    w.TK.data = function(e) {
-        if (typeof(e) !== "object") throw("Cannot store data for non-objects.");
-        var k = data_keys.indexOf(e);
-        var r;
-        if (k == -1) {
-            data_keys.push(e);
-            k = data_store.push({}) - 1;
-        }
-        return data_store[k];
-    };
 }
 
 // CONSTANTS
