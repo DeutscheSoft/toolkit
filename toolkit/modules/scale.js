@@ -20,6 +20,46 @@
  */
 "use strict";
 (function(w) { 
+function check_dots(start, stop, step, level, comp) {
+    var O = this.options;
+    // test if dots can be drawn between two positions and trigger drawing
+    var iter = start;
+    while (comp(iter, stop - step)) {
+        iter += step;
+        for (var i = level - 1; i >= 0; i--) {
+            var l = O.levels[i];
+            var diff = Math.abs(start - iter);
+            if (!(diff % l)
+            && this._val2px(Math.abs(start - iter)
+                + O.min) >= O.gap_dots
+            && this._val2px(iter) >= O.gap_dots) {
+                this.draw_dot(iter);
+                start = iter;
+            }
+        }
+    }
+}
+function check_label(iter, step) {
+    var O = this.options;
+    // test if a label can be draw at a position and trigger drawing if so
+    for (var i = O.levels.length - 1; i >= 0; i--) {
+        var level = O.levels[i];
+        var diff = Math.abs(O.base - iter);
+        if (!(diff % level)
+        && (level >= Math.abs(this.__last - iter)
+            || i == O.levels.length - 1)
+        && this._val2px(Math.abs(this.__last - iter)
+            + O.min) >= O.gap_labels
+        && this._val2px(iter) >= O.gap_labels) {
+            if (iter > O.min && iter < O.max) {
+                this.draw_label(iter);
+                this.draw_dot(iter, "toolkit-marker");
+            }
+            return i;
+        }
+    }
+    return false;
+}
 w.Scale = $class({
     // Scale can be used to draw dots and labels as markers next to a meter, a
     // fader or a frequency response graph. Depending on some parameters it
@@ -139,20 +179,14 @@ w.Scale = $class({
             while (iter > O.min) {
                 //console.log("beneath", O.reverse, iter)
                 iter -= O.division;
-                if (level = this._check_label(iter, O.division)) {
-                    this._check_dots(this.__last,
-                                    iter,
-                                   -O.division,
-                                    level,
+                if (level = check_label.call(this, iter, O.division)) {
+                    check_dots.call(this, this.__last, iter, -O.division, level,
                                     function (a, b) { return a > b });
                     this.__last = iter;
                 }
             }
             // draw dots between last label and min
-            this._check_dots(this.__last,
-                            iter,
-                           -O.division,
-                            O.levels.length - 1,
+            check_dots.call(this, this.__last, iter, -O.division, O.levels.length - 1,
                             function (a, b) { return a > b });
             
             // draw above base
@@ -161,20 +195,14 @@ w.Scale = $class({
             while (iter < O.max) {
                 //console.log("above", O.reverse, iter)
                 iter += O.division;
-                if (level = this._check_label(iter, O.division)) {
-                    this._check_dots(this.__last,
-                                    iter,
-                                    O.division,
-                                    level,
+                if (level = check_label.call(this, iter, O.division)) {
+                    check_dots.call(this, this.__last, iter, O.division, level,
                                     function (a, b) { return a < b });
                     this.__last = iter;
                 }
             }
             // draw dots between last label and max
-            this._check_dots(this.__last,
-                            iter,
-                            O.division,
-                            O.levels.length - 1,
+            check_dots.call(this, this.__last, iter, O.division, O.levels.length - 1,
                             function (a, b) { return a < b });
         }
         Widget.prototype.redraw.call(this);
@@ -239,46 +267,6 @@ w.Scale = $class({
     },
     
     // HELPERS & STUFF
-    _check_label: function (iter, step) {
-        var O = this.options;
-        // test if a label can be draw at a position and trigger drawing if so
-        for (var i = O.levels.length - 1; i >= 0; i--) {
-            var level = O.levels[i];
-            var diff = Math.abs(O.base - iter);
-            if (!(diff % level)
-            && (level >= Math.abs(this.__last - iter)
-                || i == O.levels.length - 1)
-            && this._val2px(Math.abs(this.__last - iter)
-                + O.min) >= O.gap_labels
-            && this._val2px(iter) >= O.gap_labels) {
-                if (iter > O.min && iter < O.max) {
-                    this.draw_label(iter);
-                    this.draw_dot(iter, "toolkit-marker");
-                }
-                return i;
-            }
-        }
-        return false;
-    },
-    _check_dots: function (start, stop, step, level, comp) {
-        var O = this.options;
-        // test if dots can be drawn between two positions and trigger drawing
-        var iter = start;
-        while (comp(iter, stop - step)) {
-            iter += step;
-            for (var i = level - 1; i >= 0; i--) {
-                var l = O.levels[i];
-                var diff = Math.abs(start - iter);
-                if (!(diff % l)
-                && this._val2px(Math.abs(start - iter)
-                    + O.min) >= O.gap_dots
-                && this._val2px(iter) >= O.gap_dots) {
-                    this.draw_dot(iter);
-                    start = iter;
-                }
-            }
-        }
-    },
     _val2px: function (value) {
         // returns a positions according to a value without taking
         // options.reverse into account
