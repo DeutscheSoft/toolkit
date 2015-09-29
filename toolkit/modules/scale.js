@@ -39,16 +39,16 @@ function check_dots(start, stop, step, level, comp) {
         }
     }
 }
-function check_label(iter, step) {
+function check_label(iter, step, last) {
     var O = this.options;
     // test if a label can be draw at a position and trigger drawing if so
     for (var i = O.levels.length - 1; i >= 0; i--) {
         var level = O.levels[i];
         var diff = Math.abs(O.base - iter);
         if (!(diff % level)
-        && (level >= Math.abs(this.__last - iter)
+        && (level >= Math.abs(last - iter)
             || i == O.levels.length - 1)
-        && this._val2px(Math.abs(this.__last - iter)
+        && this._val2px(Math.abs(last - iter)
             + O.min) >= O.gap_labels
         && this._val2px(iter) >= O.gap_labels) {
             if (iter > O.min && iter < O.max) {
@@ -175,34 +175,34 @@ w.Scale = $class({
             
             // draw beneath base
             var iter = O.base;
-            this.__last = iter;
+            var last = iter;
             while (iter > O.min) {
                 //console.log("beneath", O.reverse, iter)
                 iter -= O.division;
-                if (level = check_label.call(this, iter, O.division)) {
-                    check_dots.call(this, this.__last, iter, -O.division, level,
+                if (level = check_label.call(this, iter, O.division, last)) {
+                    check_dots.call(this, last, iter, -O.division, level,
                                     function (a, b) { return a > b });
-                    this.__last = iter;
+                    last = iter;
                 }
             }
             // draw dots between last label and min
-            check_dots.call(this, this.__last, iter, -O.division, O.levels.length - 1,
+            check_dots.call(this, last, iter, -O.division, O.levels.length - 1,
                             function (a, b) { return a > b });
             
             // draw above base
-            var iter = O.base;
-            this.__last = iter;
+            iter = O.base;
+            last = iter;
             while (iter < O.max) {
                 //console.log("above", O.reverse, iter)
                 iter += O.division;
-                if (level = check_label.call(this, iter, O.division)) {
-                    check_dots.call(this, this.__last, iter, O.division, level,
+                if (level = check_label.call(this, iter, O.division, last)) {
+                    check_dots.call(this, last, iter, O.division, level,
                                     function (a, b) { return a < b });
-                    this.__last = iter;
+                    last = iter;
                 }
             }
             // draw dots between last label and max
-            check_dots.call(this, this.__last, iter, O.division, O.levels.length - 1,
+            check_dots.call(this, last, iter, O.division, O.levels.length - 1,
                             function (a, b) { return a < b });
         }
         Widget.prototype.redraw.call(this);
