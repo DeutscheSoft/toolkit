@@ -20,6 +20,30 @@
  */
 "use strict";
 (function(w){ 
+var invalid_prototype = {
+    validate : function() {
+        var i = 0, key;
+        var ret = false;
+        for (i = 0; i < arguments.length; i++) {
+            key = arguments[i];
+            if (this.hasOwnProperty(key) && this[key]) {
+                this[key] = false;
+                ret = true;
+            }
+        }
+
+        return ret;
+    },
+    test : function() {
+        var i = 0, key;
+        for (i = 0; i < arguments.length; i++) {
+            key = arguments[i];
+            if (this.hasOwnProperty(key) && this[key]) {
+                return true;
+            }
+        }
+    }
+};
 w.Widget = $class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
@@ -94,7 +118,7 @@ w.Widget = $class({
         this.__stylized = null;
         this.__delegated = null;
         this.__widgetized = null;
-        this.invalid = Object.create(null);
+        this.invalid = Object.create(invalid_prototype);
         this.value_time = Object.create(null);
         this.will_draw = false;
         this._redraw = this.redraw.bind(this);
