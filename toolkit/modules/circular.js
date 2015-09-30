@@ -130,7 +130,6 @@ function draw_labels() {
     var a = new Array(labels.length);
     var i;
 
-    console.log("labels", labels.length);
     var l, p, positions = new Array(labels.length);
     
     for (i = 0; i < labels.length; i++) {
