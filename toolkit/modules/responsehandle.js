@@ -20,6 +20,279 @@
  */
 "use strict";
 (function(w){
+function mouseenter(e) {
+    e.preventDefault();
+    this._zwheel = false;
+    TK.add_class(this.element, "toolkit-hover");
+    return false;
+}
+function mouseleave(e) {
+    e.preventDefault();
+    this._raised = false;
+    TK.remove_class(this.element, "toolkit-hover");
+    return false;
+}
+function mouseelement(e) {
+    var C = this.options.container;
+    e.preventDefault();
+    // NOTE: the second check is most likely cheaper
+    if (C && !this._raised) {
+        C.appendChild(this.element);
+        this._raised = true;
+    }
+    return false;
+    //e.stopPropagation();
+}
+function mousedown(e) {
+    e.preventDefault();
+    this._zwheel = false;
+    if (this.options.min_drag)
+        this._sticky = true;
+    if (!this.options.active) return false;
+    
+    // order
+    if (this.options.container) {
+        if (e.rightClick) {
+            this.element.inject(this.options.container, "top");
+            return false;
+        } else {
+            this.options.container.appendChild(this.element);
+        }
+    }
+    
+    // touch
+    if (e.touches && e.touches.length) {
+        var ev = e.touches[e.touches.length - 1];
+    } else {
+        ev = e;
+    }
+    
+    // classes and stuff
+    TK.add_class(this.element, "toolkit-active");
+    TK.add_class(this.element.parentElement.parentElement, "toolkit-dragging");
+    this.global_cursor("move");
+    this.__active = true;
+    this._offsetX = ev.pageX - this.x;
+    this._offsetY = ev.pageY - this.y;
+    this._clickX  = this.x;
+    this._clickY  = this.y;
+    this._clickZ  = this.z;
+    this._pageX   = ev.pageX;
+    this._pageY   = ev.pageY;
+    this.redraw();
+    if (!this._zhandling) {
+        this.fire_event("handlegrabbed", {
+            x:     this.options.x,
+            y:     this.options.y,
+            pos_x: this.x,
+            pos_y: this.y
+        });
+    } else {
+        this.fire_event("zchangestarted", this.options.z);
+    }
+    //document.addEventListener("mouseup", this._mouseup.bind(this));
+    return false;
+}
+function mouseup(e) {
+    if (!this.__active) return;
+    e.preventDefault();
+    TK.remove_class(this.element, "toolkit-active");
+    var parent = this.element.parentElement.parentElement;
+    if (parent)
+        TK.remove_class(parent, "toolkit-dragging");
+    this.remove_cursor("move");
+    if (!this._zhandling) {
+        this.fire_event("handlereleased", {
+            x:     this.options.x,
+            y:     this.options.y,
+            pos_x: this.x,
+            pos_y: this.y
+        });
+    } else {
+        this.fire_event("zchangeended", this.options.z);
+        this._zhandling = false;
+    }
+    this.__active = false;
+    return false;
+}
+function mousemove(e) {
+    if (!this.__active) return;
+    var O = this.options;
+    e.preventDefault();
+    
+    var ev;
+
+    if (e.touches && e.touches.length) {
+        ev = e.touches[e.touches.length - 1];
+    } else {
+        ev = e;
+    }
+    var mx = this.range_x.options.step || 1;
+    var my = this.range_y.options.step || 1;
+    var mz = this.range_z.options.step || 1;
+    if (e.ctrlKey && e.shiftKey) {
+        mx *= this.range_x.get("shift_down");
+        my *= this.range_y.get("shift_down");
+        mz *= this.range_z.get("shift_down");
+    } else if (e.shiftKey) {
+        mx *= this.range_x.get("shift_up");
+        my *= this.range_y.get("shift_up");
+        mz *= this.range_z.get("shift_up");
+    }
+    if (this._zhandling) {
+        if (O.z_handle == _TOOLKIT_LEFT
+            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_TOP_LEFT
+            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_BOTTOM_LEFT
+            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_TOP_LEFT
+            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_BOTTOM_LEFT
+            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_TOP_LEFT
+            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_LEFT) {
+            // movement to left
+            this.set("z",
+                this.range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz)));
+            this.fire_event("zchanged", O.z);
+            this._pageX = ev.pageX;
+            this._pageY = ev.pageY;
+        } else if (O.z_handle == _TOOLKIT_RIGHT
+            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_TOP_RIGHT
+            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_TOP_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_TOP_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
+            // movement to right
+            this.set("z",
+                this.range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz)));
+            this.fire_event("zchanged", O.z);
+            this._pageX = ev.pageX;
+            this._pageY = ev.pageY;
+        } else if (O.z_handle == _TOOLKIT_TOP
+            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_TOP_LEFT
+            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_TOP_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_TOP_LEFT
+            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_TOP_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_TOP_LEFT
+            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_TOP_RIGHT) {
+            // movement to top
+            this.set("z",
+                this.range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz)));
+            this.fire_event("zchanged", O.z);
+            this._pageX = ev.pageX;
+            this._pageY = ev.pageY;
+        } else if (O.z_handle == _TOOLKIT_BOTTOM
+            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_BOTTOM_LEFT
+            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_BOTTOM_LEFT
+            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
+            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_BOTTOM_LEFT
+            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
+            // movement to bottom
+            this.set("z",
+                this.range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz)));
+            this.fire_event("zchanged", O.z);
+            this._pageX = ev.pageX;
+            this._pageY = ev.pageY;
+        }
+    } else if (this._sticky) {
+        var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
+        var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > O.min_drag)
+            this._sticky = false;
+    } else {
+        this.set("x", this.range_x.px2val(this._clickX
+            + ((ev.pageX - this._offsetX) - this._clickX) * mx));
+        this.set("y", this.range_y.px2val(this._clickY
+            + ((ev.pageY - this._offsetY) - this._clickY) * my));
+        this.fire_event("useraction", "x", this.get("x"));
+        this.fire_event("useraction", "y", this.get("y"));
+    }
+    this.fire_event("handledragging", {
+        x:     O.x,
+        y:     O.y,
+        pos_x: this.x,
+        pos_y: this.y
+    });
+    return false;
+}
+function scrollwheel(e) {
+    e.preventDefault();
+    var d = typeof e.wheelDelta !== "undefined" && e.wheelDelta ? e.wheelDelta : e.detail;
+    e.wheel = d / Math.abs(d);
+    if (this.__sto) window.clearTimeout(this.__sto);
+    TK.add_class(this.element, "toolkit-active");
+    this.__sto = window.setTimeout(function () {
+        TK.remove_class(this.element, "toolkit-active");
+        this.fire_event("zchangeended", this.options.z);
+    }.bind(this), 250);
+    var s = this.range_z.get("step") * e.wheel;
+    if (e.ctrlKey && e.shiftKey)
+        s *= this.range_z.get("shift_down");
+    else if (e.shiftKey)
+        s *= this.range_z.get("shift_up");
+    this.set("z", this.get("z") + s);
+    if (!this._zwheel)
+        this.fire_event("zchangestarted", this.options.z);
+    this.fire_event("zchanged", this.options.z);
+    this.fire_event("useraction", "z", this.options.z);
+    this._zwheel = true;
+}
+function touchstart(e) {
+    if (e.touches && e.touches.length == 2) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    } else {
+        this._mousedown(e);
+    }
+}
+function touchend(e) {
+    this._tdist = false;
+    if (e.touches && e.touches.length >= 1) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    } else {
+        this._mouseup(e);
+    }
+}
+function touchmove(e) {
+    var O = this.options;
+    if (!this.__active) return;
+    if (e.touches && e.touches.length > 1 && this._tdist === false) {
+        var x = e.touches[1].pageX - (this.x + this._offsetX);
+        var y = e.touches[1].pageY - (this.y + this._offsetY);
+        this._tdist = Math.sqrt(y*y + x*x);
+        this.__z = O.z;
+    }
+    if (e.touches && e.touches.length >= 2) {
+        var x = e.touches[1].pageX - (this.x + this._offsetX);
+        var y = e.touches[1].pageY - (this.y + this._offsetY);
+        var tdist = Math.sqrt(y * y + x * x);
+        var z = Math.min(this.__z * (tdist / this._tdist));
+        if (z >= this.range_z.get("max") || z <= this.range_z.get("min")) {
+            var x = e.touches[1].pageX - (this.x + this._offsetX);
+            var y = e.touches[1].pageY - (this.y + this._offsetY);
+            this._tdist = Math.sqrt(y * y + x * x);
+            this.__z = O.z;
+            this.warning(this.element);
+        }
+        this.set("z", Math.max(
+            Math.min(z, this.range_z.get("max")),
+            this.range_z.get("min")));
+        this.fire_event("zchanged", O.z);
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    } else {
+        this._mousemove(e);
+        e.preventDefault();
+    }
+}
+function zhandledown(e) {
+    this._zhandling = true;
+}
+    
 w.ResponseHandle = $class({
     _class: "ResponseHandle",
     Extends: Widget,
@@ -83,113 +356,126 @@ w.ResponseHandle = $class({
         this._zwheel = false;
         this._sticky = false;
         Widget.prototype.initialize.call(this, options);
+        var O = this.options;
         
-        this.add_range(this.options.range_x, "range_x");
-        this.add_range(this.options.range_y, "range_y");
-        this.add_range(this.options.range_z, "range_z");
+        this.add_range(O.range_x, "range_x");
+        this.add_range(O.range_y, "range_y");
+        this.add_range(O.range_z, "range_z");
+
+        var set_cb = this.trigger_draw.bind(this);
         
-        this.range_x.add_event("set", function (key, value, hold) {
-            if (!hold) this.redraw();
-        }.bind(this));
-        this.range_y.add_event("set", function (key, value, hold) {
-            if (!hold) this.redraw();
-        }.bind(this));
-        this.range_z.add_event("set", function (key, value, hold) {
-            if (!hold) this.redraw();
-        }.bind(this));
+        this.range_x.add_event("set", set_cb);
+        this.range_y.add_event("set", set_cb);
+        this.range_z.add_event("set", set_cb);
+
+        var E;
         
-        this.widgetize(this.element = TK.make_svg("g", {
-            "id":    this.options.id
+        this.widgetize(this.element = E = TK.make_svg("g", {
+            "id":    O.id
         }), true, true);
         
-        TK.add_class(this.element, "toolkit-response-handle");
-        switch (this.options.mode) {
+        TK.add_class(E, "toolkit-response-handle");
+        switch (O.mode) {
             case _TOOLKIT_CIRCULAR:
-                TK.add_class(this.element, "toolkit-circular"); break;
+                TK.add_class(E, "toolkit-circular"); break;
             case _TOOLKIT_LINE_VERTICAL:
-                TK.add_class(this.element, "toolkit-line-vertical");
-                TK.add_class(this.element, "toolkit-line");
+                TK.add_class(E, "toolkit-line-vertical");
+                TK.add_class(E, "toolkit-line");
                 break;
             case _TOOLKIT_LINE_HORIZONTAL:
-                TK.add_class(this.element, "toolkit-line-horizontal");
-                TK.add_class(this.element, "toolkit-line");
+                TK.add_class(E, "toolkit-line-horizontal");
+                TK.add_class(E, "toolkit-line");
                 break;
             case _TOOLKIT_BLOCK_LEFT:
-                TK.add_class(this.element, "toolkit-block-left");
-                TK.add_class(this.element, "toolkit-block");
+                TK.add_class(E, "toolkit-block-left");
+                TK.add_class(E, "toolkit-block");
                 break;
             case _TOOLKIT_BLOCK_RIGHT:
-                TK.add_class(this.element, "toolkit-block-right")
-                TK.add_class(this.element, "toolkit-block");
+                TK.add_class(E, "toolkit-block-right")
+                TK.add_class(E, "toolkit-block");
                 break;
             case _TOOLKIT_BLOCK_TOP:
-                TK.add_class(this.element, "toolkit-block-top");
-                TK.add_class(this.element, "toolkit-block");
+                TK.add_class(E, "toolkit-block-top");
+                TK.add_class(E, "toolkit-block");
                 break;
             case _TOOLKIT_BLOCK_BOTTOM:
-                TK.add_class(this.element, "toolkit-block");
-                TK.add_class(this.element, "toolkit-block-bottom");
+                TK.add_class(E, "toolkit-block");
+                TK.add_class(E, "toolkit-block-bottom");
                 break;
         }
         
-        if (this.options.container)
-            this.options.container.appendChild(this.element);
+        if (O.container)
+            O.container.appendChild(E);
         
         this._label = TK.make_svg("text", {
             "class": "toolkit-label"
         });
-        this.element.appendChild(this._label);
+        E.appendChild(this._label);
         
         this._line1 = TK.make_svg("path", {
             "class": "toolkit-line toolkit-line-1"
         });
-        this.element.appendChild(this._line1);
+        E.appendChild(this._line1);
         this._line2 = TK.make_svg("path", {
             "class": "toolkit-line toolkit-line-2"
         });
-        this.element.appendChild(this._line2);
+        E.appendChild(this._line2);
         
         this._handle = TK.make_svg(
-            this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
+            O.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
                 "class": "toolkit-handle",
-                "r":     this.options.z_handle_size
+                "r":     O.z_handle_size
             }
         );
-        this.element.appendChild(this._handle);
+        E.appendChild(this._handle);
         
         this._zhandle = TK.make_svg(
-            this.options.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
+            O.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
                 "class": "toolkit-z-handle",
-                "width":  this.options.z_handle_size,
-                "height": this.options.z_handle_size
+                "width":  O.z_handle_size,
+                "height": O.z_handle_size
             }
         );
+
+        this._mouseenter = mouseenter.bind(this);
+        this._mouseleave = mouseleave.bind(this);
+        this._mouseelement = mouseelement.bind(this);
+        this._mousedown = mousedown.bind(this); 
+        this._mouseup = mouseup.bind(this);
+        this._mousemove = mousemove.bind(this);
+        this._scrollwheel = scrollwheel.bind(this);
+        this._touchstart = touchstart.bind(this);
+        this._touchend = touchend.bind(this);
+        this._touchmove = touchmove.bind(this);
+        this._zhandledown = zhandledown.bind(this);
+
+        E.addEventListener("mouseenter",     this._mouseenter);
+        E.addEventListener("mouseleave",     this._mouseleave);
+        E.addEventListener("mousedown",      this._mousedown);
+        E.addEventListener("touchstart",     this._touchstart);
         
-        this.element.addEventListener("mouseenter",     this._mouseenter.bind(this));
-        this.element.addEventListener("mouseleave",     this._mouseleave.bind(this));
-        this.element.addEventListener("mousedown",      this._mousedown.bind(this));
-        this.element.addEventListener("touchstart",     this._touchstart.bind(this));
+        E = this._label;
+        E.addEventListener("mouseenter",      this._mouseelement);
+        E.addEventListener("touchstart",      this._mouseelement);
+        E.addEventListener("mousewheel",      this._scrollwheel);
+        E.addEventListener("DOMMouseScroll",  this._scrollwheel);
+        E.addEventListener("contextmenu",     function () { return false; });
         
-        this._label.addEventListener("mouseenter",      this._mouseelement.bind(this));
-        this._label.addEventListener("touchstart",      this._mouseelement.bind(this));
-        this._label.addEventListener("mousewheel",      this._scrollwheel.bind(this));
-        this._label.addEventListener("DOMMouseScroll",  this._scrollwheel.bind(this));
-        this._label.addEventListener("contextmenu",     function () { return false; });
+        E = this._handle;
+        E.addEventListener("mouseenter",     this._mouseelement);
+        E.addEventListener("touchstart",     this._mouseelement);
+        E.addEventListener("mousewheel",     this._scrollwheel);
+        E.addEventListener("DOMMouseScroll", this._scrollwheel);
+        E.addEventListener("contextmenu",    function () { return false; });
+        E.addEventListener("touchstart",     this._touchstart);
         
-        this._handle.addEventListener("mouseenter",     this._mouseelement.bind(this));
-        this._handle.addEventListener("touchstart",     this._mouseelement.bind(this));
-        this._handle.addEventListener("mousewheel",     this._scrollwheel.bind(this));
-        this._handle.addEventListener("DOMMouseScroll", this._scrollwheel.bind(this));
-        this._handle.addEventListener("contextmenu",    function () { return false; });
-        this._handle.addEventListener("touchstart",     this._touchstart.bind(this));
-        
-        this._zhandle.addEventListener("mousedown",     this._zhandledown.bind(this));
-        this._zhandle.addEventListener("touchstart",    this._zhandledown.bind(this));
+        E = this._zhandle;
+        E.addEventListener("mousedown",     this._zhandledown);
+        E.addEventListener("touchstart",    this._zhandledown);
         
         this._handle.onselectstart = function () { return false; };
         
-        this.set("active", this.options.active, true);
-        if (!hold) this.redraw();
+        this.set("active", O.active, true);
     },
     
     redraw: function () {
@@ -233,6 +519,8 @@ w.ResponseHandle = $class({
             y: Math.round(this.y),
             z: Math.round(this.z)
         }
+
+        var _handle = this._handle;
         
         // ELEMENT / HANDLE / MAIN COORDS
         switch (O.mode) {
@@ -242,7 +530,7 @@ w.ResponseHandle = $class({
                 y      = rnd.y;
                 width  = Math.max(O.min_size, rnd.z);
                 height = width;
-                this._handle.setAttribute("r", width / 2);
+                _handle.setAttribute("r", width / 2);
                 this.element.setAttribute("transform",  "translate(" + x + "," + y + ")");
                 this.handle = {
                     x1: x - width / 2,
@@ -269,10 +557,10 @@ w.ResponseHandle = $class({
                                  O.y_min === false
                                      ? this.range_y.get("basis")
                                      : this.range_y.val2px(O.y_min)) - y);
-                this._handle.setAttribute("x", x);
-                this._handle.setAttribute("y", y);
-                this._handle.setAttribute("width", width);
-                this._handle.setAttribute("height", height);
+                _handle.setAttribute("x", x);
+                _handle.setAttribute("y", y);
+                _handle.setAttribute("width", width);
+                _handle.setAttribute("height", height);
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
@@ -294,10 +582,10 @@ w.ResponseHandle = $class({
                                  O.x_max === false
                                      ? this.range_x.get("basis")
                                      : this.range_x.val2px(O.x_max)) - x);
-                this._handle.setAttribute("x", x);
-                this._handle.setAttribute("y", y);
-                this._handle.setAttribute("width", width);
-                this._handle.setAttribute("height", height);
+                _handle.setAttribute("x", x);
+                _handle.setAttribute("y", y);
+                _handle.setAttribute("width", width);
+                _handle.setAttribute("height", height);
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
@@ -319,10 +607,10 @@ w.ResponseHandle = $class({
                                 O.y_min === false
                                     ? this.range_y.get("basis")
                                     : this.range_y.val2px(O.y_min)) - y);
-                this._handle.setAttribute("x", x);
-                this._handle.setAttribute("y", y);
-                this._handle.setAttribute("width", width);
-                this._handle.setAttribute("height", height);
+                _handle.setAttribute("x", x);
+                _handle.setAttribute("y", y);
+                _handle.setAttribute("width", width);
+                _handle.setAttribute("height", height);
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
@@ -347,10 +635,10 @@ w.ResponseHandle = $class({
                                 O.y_min === false
                                     ? this.range_y.get("basis")
                                     : this.range_y.val2px(O.y_min)) - y);
-                this._handle.setAttribute("x", x);
-                this._handle.setAttribute("y", y);
-                this._handle.setAttribute("width", width);
-                this._handle.setAttribute("height", height);
+                _handle.setAttribute("x", x);
+                _handle.setAttribute("y", y);
+                _handle.setAttribute("width", width);
+                _handle.setAttribute("height", height);
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
@@ -371,10 +659,10 @@ w.ResponseHandle = $class({
                             Math.max(
                                 O.min_size / 2,
                                 Math.min(rnd.y, this.range_y.get("basis"))));
-                this._handle.setAttribute("x", x);
-                this._handle.setAttribute("y", y);
-                this._handle.setAttribute("width", width);
-                this._handle.setAttribute("height", height);
+                _handle.setAttribute("x", x);
+                _handle.setAttribute("y", y);
+                _handle.setAttribute("width", width);
+                _handle.setAttribute("height", height);
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
@@ -397,10 +685,10 @@ w.ResponseHandle = $class({
                 height = Math.max(
                             O.min_size / 2,
                             this.range_y.get("basis") - y);
-                this._handle.setAttribute("x", x);
-                this._handle.setAttribute("y", y);
-                this._handle.setAttribute("width", width);
-                this._handle.setAttribute("height", height);
+                _handle.setAttribute("x", x);
+                _handle.setAttribute("y", y);
+                _handle.setAttribute("width", width);
+                _handle.setAttribute("height", height);
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
@@ -1075,321 +1363,14 @@ w.ResponseHandle = $class({
     // HELPERS & STUFF
     
     // CALLBACKS / EVENT HANDLING
-    _mouseenter: function (e) {
-        e.preventDefault();
-        this._zwheel = false;
-        TK.add_class(this.element, "toolkit-hover");
-        return false;
-    },
-    _mouseleave: function (e) {
-        e.preventDefault();
-        this._raised = false;
-        TK.remove_class(this.element, "toolkit-hover");
-        return false;
-    },
-    _mouseelement: function (e) {
-        e.preventDefault();
-        // NOTE: the second check is most likely cheaper
-        if (this.options.container && !this._raised) {
-            this.options.container.appendChild(this.element);
-            this._raised = true;
-        }
-        return false;
-        //e.stopPropagation();
-    },
-    _mousedown: function (e) {
-        e.preventDefault();
-        this._zwheel = false;
-        if (this.options.min_drag)
-            this._sticky = true;
-        if (!this.options.active) return false;
-        
-        // order
-        if (this.options.container) {
-            if (e.rightClick) {
-                this.element.inject(this.options.container, "top");
-                return false;
-            } else {
-                this.options.container.appendChild(this.element);
-            }
-        }
-        
-        // touch
-        if (e.touches && e.touches.length) {
-            var ev = e.touches[e.touches.length - 1];
-        } else {
-            ev = e;
-        }
-        
-        // classes and stuff
-        TK.add_class(this.element, "toolkit-active");
-        TK.add_class(this.element.parentElement.parentElement, "toolkit-dragging");
-        this.global_cursor("move");
-        this.__active = true;
-        this._offsetX = ev.pageX - this.x;
-        this._offsetY = ev.pageY - this.y;
-        this._clickX  = this.x;
-        this._clickY  = this.y;
-        this._clickZ  = this.z;
-        this._pageX   = ev.pageX;
-        this._pageY   = ev.pageY;
-        this.redraw();
-        if (!this._zhandling) {
-            this.fire_event("handlegrabbed", {
-                x:     this.options.x,
-                y:     this.options.y,
-                pos_x: this.x,
-                pos_y: this.y
-            });
-        } else {
-            this.fire_event("zchangestarted", this.options.z);
-        }
-        //document.addEventListener("mouseup", this._mouseup.bind(this));
-        return false;
-    },
-    _mouseup: function (e) {
-        if (!this.__active) return;
-        e.preventDefault();
-        TK.remove_class(this.element, "toolkit-active");
-        var parent = this.element.parentElement.parentElement;
-        if (parent)
-            TK.remove_class(parent, "toolkit-dragging");
-        this.remove_cursor("move");
-        if (!this._zhandling) {
-            this.fire_event("handlereleased", {
-                x:     this.options.x,
-                y:     this.options.y,
-                pos_x: this.x,
-                pos_y: this.y
-            });
-        } else {
-            this.fire_event("zchangeended", this.options.z);
-            this._zhandling = false;
-        }
-        this.__active = false;
-        return false;
-    },
-    _mousemove: function (e) {
-        if (!this.__active) return;
-        e.preventDefault();
-        
-        if (e.touches && e.touches.length) {
-            var ev = e.touches[e.touches.length - 1];
-        } else {
-            var ev = e;
-        }
-        var mx = this.range_x.options.step || 1;
-        var my = this.range_y.options.step || 1;
-        var mz = this.range_z.options.step || 1;
-        if (e.ctrlKey && e.shiftKey) {
-            mx *= this.range_x.get("shift_down");
-            my *= this.range_y.get("shift_down");
-            mz *= this.range_z.get("shift_down");
-        } else if (e.shiftKey) {
-            mx *= this.range_x.get("shift_up");
-            my *= this.range_y.get("shift_up");
-            mz *= this.range_z.get("shift_up");
-        }
-        if (this._zhandling) {
-            if (this.options.z_handle == _TOOLKIT_LEFT
-                || this.options.mode == _TOOLKIT_LINE_VERTICAL
-                && this.options.z_handle == _TOOLKIT_TOP_LEFT
-                || this.options.mode == _TOOLKIT_LINE_VERTICAL
-                && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_LEFT
-                && this.options.z_handle == _TOOLKIT_TOP_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_LEFT
-                && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_RIGHT
-                && this.options.z_handle == _TOOLKIT_TOP_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_RIGHT
-                && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT) {
-                // movement to left
-                this.set("z",
-                    this.range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz)));
-                this.fire_event("zchanged", this.options.z);
-                this._pageX = ev.pageX;
-                this._pageY = ev.pageY;
-            } else if (this.options.z_handle == _TOOLKIT_RIGHT
-                || this.options.mode == _TOOLKIT_LINE_VERTICAL
-                && this.options.z_handle == _TOOLKIT_TOP_RIGHT
-                || this.options.mode == _TOOLKIT_LINE_VERTICAL
-                && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_LEFT
-                && this.options.z_handle == _TOOLKIT_TOP_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_LEFT
-                && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_RIGHT
-                && this.options.z_handle == _TOOLKIT_TOP_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_RIGHT
-                && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
-                // movement to right
-                this.set("z",
-                    this.range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz)));
-                this.fire_event("zchanged", this.options.z);
-                this._pageX = ev.pageX;
-                this._pageY = ev.pageY;
-            } else if (this.options.z_handle == _TOOLKIT_TOP
-                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
-                && this.options.z_handle == _TOOLKIT_TOP_LEFT
-                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
-                && this.options.z_handle == _TOOLKIT_TOP_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_TOP
-                && this.options.z_handle == _TOOLKIT_TOP_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_TOP
-                && this.options.z_handle == _TOOLKIT_TOP_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM
-                && this.options.z_handle == _TOOLKIT_TOP_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM
-                && this.options.z_handle == _TOOLKIT_TOP_RIGHT) {
-                // movement to top
-                this.set("z",
-                    this.range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz)));
-                this.fire_event("zchanged", this.options.z);
-                this._pageX = ev.pageX;
-                this._pageY = ev.pageY;
-            } else if (this.options.z_handle == _TOOLKIT_BOTTOM
-                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
-                && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
-                || this.options.mode == _TOOLKIT_LINE_HORIZONTAL
-                && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_TOP
-                && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_TOP
-                && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT
-                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM
-                && this.options.z_handle == _TOOLKIT_BOTTOM_LEFT
-                || this.options.mode == _TOOLKIT_BLOCK_BOTTOM
-                && this.options.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
-                // movement to bottom
-                this.set("z",
-                    this.range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz)));
-                this.fire_event("zchanged", this.options.z);
-                this._pageX = ev.pageX;
-                this._pageY = ev.pageY;
-            }
-        } else if (this._sticky) {
-            var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
-            var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist > this.options.min_drag)
-                this._sticky = false;
-        } else {
-            this.set("x", this.range_x.px2val(this._clickX
-                + ((ev.pageX - this._offsetX) - this._clickX) * mx));
-            this.set("y", this.range_y.px2val(this._clickY
-                + ((ev.pageY - this._offsetY) - this._clickY) * my));
-            this.fire_event("useraction", "x", this.get("x"));
-            this.fire_event("useraction", "y", this.get("y"));
-        }
-        this.fire_event("handledragging", {
-            x:     this.options.x,
-            y:     this.options.y,
-            pos_x: this.x,
-            pos_y: this.y
-        });
-        return false;
-    },
-    _scrollwheel: function (e) {
-        e.preventDefault();
-        var d = typeof e.wheelDelta !== "undefined" && e.wheelDelta ? e.wheelDelta : e.detail;
-        e.wheel = d / Math.abs(d);
-        if (this.__sto) window.clearTimeout(this.__sto);
-        TK.add_class(this.element, "toolkit-active");
-        this.__sto = window.setTimeout(function () {
-            TK.remove_class(this.element, "toolkit-active");
-            this.fire_event("zchangeended", this.options.z);
-        }.bind(this), 250);
-        var s = this.range_z.get("step") * e.wheel;
-        if (e.ctrlKey && e.shiftKey)
-            s *= this.range_z.get("shift_down");
-        else if (e.shiftKey)
-            s *= this.range_z.get("shift_up");
-        this.set("z", this.get("z") + s);
-        if (!this._zwheel)
-            this.fire_event("zchangestarted", this.options.z);
-        this.fire_event("zchanged", this.options.z);
-        this.fire_event("useraction", "z", this.options.z);
-        this._zwheel = true;
-    },
-    _touchstart: function (e) {
-        if (e.touches && e.touches.length == 2) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        } else {
-            this._mousedown(e);
-        }
-    },
-    _touchend: function (e) {
-        this._tdist = false;
-        if (e.touches && e.touches.length >= 1) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        } else {
-            this._mouseup(e);
-        }
-    },
-    _touchmove: function (e) {
-        if (!this.__active) return;
-        if (e.touches && e.touches.length > 1 && this._tdist === false) {
-            var x = e.touches[1].pageX - (this.x + this._offsetX);
-            var y = e.touches[1].pageY - (this.y + this._offsetY);
-            this._tdist = Math.sqrt(y*y + x*x);
-            this.__z = this.options.z;
-        }
-        if (e.touches && e.touches.length >= 2) {
-            var x = e.touches[1].pageX - (this.x + this._offsetX);
-            var y = e.touches[1].pageY - (this.y + this._offsetY);
-            var tdist = Math.sqrt(y * y + x * x);
-            var z = Math.min(this.__z * (tdist / this._tdist));
-            if (z >= this.range_z.get("max") || z <= this.range_z.get("min")) {
-                var x = e.touches[1].pageX - (this.x + this._offsetX);
-                var y = e.touches[1].pageY - (this.y + this._offsetY);
-                this._tdist = Math.sqrt(y * y + x * x);
-                this.__z = this.options.z;
-                this.warning(this.element);
-            }
-            this.set("z", Math.max(
-                Math.min(z, this.range_z.get("max")),
-                this.range_z.get("min")));
-            this.fire_event("zchanged", this.options.z);
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        } else {
-            this._mousemove(e);
-            e.preventDefault();
-        }
-    },
-    _zhandledown: function (e) {
-        this._zhandling = true;
-    },
-    
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
-        switch (key) {
-            default:
-                if (!hold) this.redraw();
-                break;
-            case "active":
-                if (value) {
-                    TK.remove_class(this.element, "toolkit-inactive");
-                    this.redraw();
-                }
-                else TK.add_class(this.element, "toolkit-inactive");
-                break;
-            case "x":
-            case "y":
-            case "z":
-                this.fire_event("set_" + key, value, hold)
-                if (!hold) this.redraw();
-                key = false;
-                break;
-        }
         Widget.prototype.set.call(this, key, value, hold);
+        if (key == "active") {
+            if (value) {
+                TK.remove_class(this.element, "toolkit-inactive");
+            } else TK.add_class(this.element, "toolkit-inactive");
+        }
     }
 });
 })(this);
