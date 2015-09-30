@@ -235,7 +235,7 @@ w.Fader = $class({
             || this.options.layout == _TOOLKIT_RIGHT;
     },
     _clicked: function (ev) {
-        if (TK.is_parent_of(this._handle, ev.target)) return;
+        if (this._handle.contains(ev.target)) return;
         this.set("value", this._get_value(ev));
         if (!this.__entered)
             this.__tt = this.tooltip(false, this.__tt);

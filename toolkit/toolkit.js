@@ -138,14 +138,6 @@ function empty(e) {
         e.removeChild(e.lastChild);
     }
 }
-function is_parent_of(parent, child) {
-        while (child) {
-        if (child === parent) return true;
-        child = child.parentNode;
-    }
-
-    return false;
-}
 function set_text(node, s) {
     if (node.firstChild) {
         node.firstChild.nodeValue = s;
@@ -573,7 +565,6 @@ w.TK = w.toolkit = {
     element : element,    
     destroy: destroy,
     empty: empty,
-    is_parent_of: is_parent_of,
     set_text : set_text,
     has_class : has_class,
     remove_class : remove_class,

@@ -46,8 +46,8 @@ w.Select = $class({
         this._list = TK.element("ul", "toolkit-select-list");
         this._global_touch_start = function (e) {
             if (this.__open && !this.__transition &&
-                !TK.is_parent_of(this._list, e.target) &&
-                !TK.is_parent_of(this.element, e.target)) {
+                !this._list.contains(e.target) &&
+                !this.element.contains(e.target)) {
 
                 this.show_list(false);
             }
