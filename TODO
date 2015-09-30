@@ -56,3 +56,17 @@ REMINDERS
   
 * Implement resize() for all widgets who benefit from auto resizing
   (and don't forget to call parent class if there's one !)
+
+SCHEDULING TODO
+---------------
+
+Main performance bugs
+
+* Tooltip: The tooltip mousemove callback currently calls keep_inside.
+  This is a bad idea, because it will force a relayout on every mousemove,
+  which will completely destroy performance with concurrent animations.
+
+  Possible fixes: Either change the way positioning of the tooltip works,
+  e.g. by placing it on the left when approaching the bottom/right window
+  border. Or simply ignore the problem, I think the performance problem is
+  worse than tooltip leaving the window.

@@ -20,6 +20,21 @@
  */
 "use strict";
 (function(w){
+function get_event(event) {
+    // return the right event if touch surface is used
+    // with multiple fingers
+    return (event.touches && event.touches.length)
+          ? event.touches[0] : event;
+}
+function pos_tooltip(e) {
+    var T = this._tooltip;
+    if (!this.__tt_injected)
+        return;
+    e = get_event(e);
+
+    T.style.left = e.clientX + "px";
+    T.style.top = e.clientY + "px";
+}
 w.Tooltip = $class({
     // Tooltip adds a tooltip list to a widget. Tooltip lists follow the
     // mouse pointer throughout the document and auto-show and auto-hide
@@ -31,7 +46,7 @@ w.Tooltip = $class({
         if (!this._tooltip) {
             // build tooltip container
             this._tooltip = TK.element("ul", "toolkit-tooltip");
-            this.__tt_pos_cb = this._pos_tooltip.bind(this);
+            this.__tt_pos_cb = pos_tooltip.bind(this);
             document.addEventListener("mousemove", this.__tt_pos_cb);
             document.addEventListener("touchmove", this.__tt_pos_cb);
             document.body.appendChild(this._tooltip);
@@ -73,21 +88,5 @@ w.Tooltip = $class({
         this.fire_event("tooltipset", tt);
         return tt;
     },
-    _pos_tooltip: function (e) {
-        if (!this.__tt_injected)
-            return;
-        e = this._get_event(e);
-        TK.set_styles(this._tooltip, {
-            top: e.clientY,
-            left: e.clientX
-        });
-        TK.keep_inside(this._tooltip);
-    },
-    _get_event: function (event) {
-        // return the right event if touch surface is used
-        // with multiple fingers
-        return (event.touches && event.touches.length)
-              ? event.touches[0] : event;
-    }
 });
 })(this);
