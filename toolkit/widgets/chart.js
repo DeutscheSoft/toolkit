@@ -46,6 +46,7 @@ w.Chart = $class({
         title_position: _TOOLKIT_TOP_RIGHT // the position of the title
     },
     initialize: function (options, hold) {
+        var E;
         this.graphs = [];
         Widget.prototype.initialize.call(this, options, hold);
         
@@ -53,16 +54,11 @@ w.Chart = $class({
         this.add_range(this.options.range_y, "range_y");
         this.range_y.set("reverse", true, true, true);
         
-        if (this.options.width)
-            this.set("width", this.options.width, true);
-        if (this.options.height)
-            this.set("height", this.options.height, true);
-        
-        this.element = this.widgetize(TK.make_svg("svg", {
+        this.element = E = this.widgetize(TK.make_svg("svg", {
             width:  this.range_x.options.basis,
             height: this.range_y.options.basis
         }), true, true, true);
-        TK.add_class(this.element, "toolkit-chart");
+        TK.add_class(E, "toolkit-chart");
         if (this.options.container)
             this.set("container", this.options.container);
         
@@ -71,35 +67,31 @@ w.Chart = $class({
             grid_y: this.options.grid_y,
             range_x: function () { return this.range_x; }.bind(this),
             range_y: function () { return this.range_y; }.bind(this),
-            container: this.element
+            container: E
         });
         
         this._title = TK.make_svg("text", {
             "class": "toolkit-title",
             style: "dominant-baseline: central;"
         });
-        this.element.appendChild(this._title);
+        E.appendChild(this._title);
         
         this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
-        this.element.appendChild(this._graphs);
+        E.appendChild(this._graphs);
         
-        this.range_x.add_event("set", function (key, value, hold) {
-            if (!hold) this.redraw();
-        }.bind(this));
-        this.range_y.add_event("set", function (key, value, hold) {
-            if (!hold) this.redraw();
-        }.bind(this));
-        
-        
+        var redraw_cb = this.trigger_draw.bind(this);
+
+        this.range_x.add_event("set", redraw_cb);
+        this.range_y.add_event("set", redraw_cb); 
         
         this._key_background = TK.make_svg("rect",
             {"class": "toolkit-background"});
         this._key = TK.make_svg("g", {"class": "toolkit-key"});
         this._key_txt = TK.make_svg("text");
 
-        this.element.appendChild(this._key_background);
-        this.element.appendChild(this._key);
-        this.element.appendChild(this._key_txt);
+        E.appendChild(this._key_background);
+        E.appendChild(this._key);
+        E.appendChild(this._key_txt);
         
         this._key_background.addEventListener("mouseenter", function () {
                 TK.add_class(this._key, "toolkit-hover");
@@ -109,27 +101,32 @@ w.Chart = $class({
                 TK.remove_class(this._key, "toolkit-hover");
                 TK.remove_class(this._key_background, "toolkit-hover");
             }.bind(this));
-        
-        this.set("title", this.options.title, true);
-        this.set("title_position", this.options.title_position);
     },
     redraw: function (graphs, grid) {
-        var w = this.range_x.get("basis") + "px";
-        var h = this.range_y.get("basis") + "px";
-        this.element.setAttribute("width", w);
-        this.element.setAttribute("height", h);
-        this.element.style.width = w;
-        this.element.style.height = h;
-        if (grid) {
-            this.grid.redraw();
+        Widget.prototype.redraw.call(this);
+        var I = this.invalid;
+        var E = this.element;
+
+        if (I.width || I.height) {
+            var w = this.range_x.get("basis") + "px";
+            var h = this.range_y.get("basis") + "px";
+            E.setAttribute("width", w);
+            E.setAttribute("height", h);
+            E.style.width = w;
+            E.style.height = h;
         }
-        if (graphs) {
+
+        if (I.graphs) {
             for (var i = 0; i < this.graphs.length; i++) {
                 this.graphs[i].redraw();
             }
         }
-        this._draw_key();
-        Widget.prototype.redraw.call(this);
+        if (I.validate("width", "height", "title", "title_position")) {
+            this._draw_title();
+        }
+        if (I.validate("key", "key_size", "graphs")) {
+            this._draw_key();
+        }
     },
     destroy: function () {
         for (var i = 0; i < this._graphs.length; i++) {
@@ -148,44 +145,44 @@ w.Chart = $class({
             options.range_y = function () { return this.range_y; }.bind(this);
         var g = new Graph(options);
         this.graphs.push(g);
-        this._draw_key();
         g.add_event("set", function (key, value, hold, obj) {
-            if (key == "color" || key == "class" || key == "key")
-                if (!hold) this._draw_key();
+            if (key == "color" || key == "class" || key == "key") {
+                this.invalid.graphs = true;
+                this.trigger_draw();
+            }
         }.bind(this));
         this.fire_event("graphadded", g, this.graphs.length - 1);
+        this.invalid.graphs = true;
         return g;
     },
     remove_graph: function (g) {
         // Remove a certain Graph from the Chart
-        for (var i = 0; i < this.graphs.length; i++) {
-            if (this.graphs[i] == g) {
-                this.fire_event("graphremoved", this.graphs[i], i);
-                this.graphs[i].destroy();
-                this.graphs.splice(i, 1);
-                break;
-            }
+        var i;
+        if ((i = this.graphs.indexOf(g)) !== -1) {
+            this.fire_event("graphremoved", this.graphs[i], i);
+            this.graphs[i].destroy();
+            this.graphs.splice(i, 1);
+            this.invalid.graphs = true;
+            this.trigger_draw();
         }
-        this._draw_key();
     },
     empty: function () {
         // Remove all Graphs from the Chart
-        for (var i = 0; i < this.graphs.length; i++) {
-            this.remove_graph(this.graphs[i]);
-        }
-        this.graphs = [];
+        this.graphs.map(this.remove_graph, this);
+        this.invalid.graphs = true;
+        this.trigger_draw();
         this.fire_event("emptied");
     },
     
     // HELPERS & STUFF
     _draw_key: function () {
+        var __key, bb;
         TK.empty(this._key_txt);
         TK.empty(this._key);
         
         if (this.options.key === false) {
             this._key.style["display"] = "none";
             this._key_background.style["display"] = "none";
-            this.__key = {x1: 0, x2: 0, y1: 0, y2: 0};
             return;
         }
         
@@ -250,13 +247,13 @@ w.Chart = $class({
         this._key_background.style["display"] = disp;
         this._key.style["display"] = disp;
         
-        var bb     = this._key.getBoundingClientRect();
+        if (!bb) bb     = this._key.getBoundingClientRect();
         var width  = this.range_x.options.basis;
         var height = this.range_y.options.basis;
         
         switch (this.options.key) {
             case _TOOLKIT_TOP_LEFT:
-                this.__key = {
+                __key = {
                     x1: gmarg.left,
                     y1: gmarg.top,
                     x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
@@ -264,7 +261,7 @@ w.Chart = $class({
                 }
                 break;
             case _TOOLKIT_TOP_RIGHT:
-                this.__key = {
+                __key = {
                     x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
                     y1: gmarg.top,
                     x2: width - gmarg.right,
@@ -272,7 +269,7 @@ w.Chart = $class({
                 }
                 break;
             case _TOOLKIT_BOTTOM_LEFT:
-                this.__key = {
+                __key = {
                     x1: gmarg.left,
                     y1: height - gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
                     x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
@@ -280,7 +277,7 @@ w.Chart = $class({
                 }
                 break;
             case _TOOLKIT_BOTTOM_RIGHT:
-                this.__key = {
+                __key = {
                     x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
                     y1: height -gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
                     x2: width - gmarg.right,
@@ -288,11 +285,11 @@ w.Chart = $class({
                 }
                 break;
         }
-        this._key.setAttribute("transform", "translate(" + this.__key.x1 + "," + this.__key.y1 + ")");
-        this._key_background.setAttribute("x", this.__key.x1);
-        this._key_background.setAttribute("y", this.__key.y1);
-        this._key_background.setAttribute("width", this.__key.x2 - this.__key.x1);
-        this._key_background.setAttribute("height", this.__key.y2 - this.__key.y1);
+        this._key.setAttribute("transform", "translate(" + __key.x1 + "," + __key.y1 + ")");
+        this._key_background.setAttribute("x", __key.x1);
+        this._key_background.setAttribute("y", __key.y1);
+        this._key_background.setAttribute("width", __key.x2 - __key.x1);
+        this._key_background.setAttribute("height", __key.y2 - __key.y1);
     },
     _draw_title: function () {
         var _title  = this._title;
@@ -302,61 +299,62 @@ w.Chart = $class({
         var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);
         var mright  = parseInt(TK.get_style(_title, "margin-right") || 0);
         var bb      = _title.getBoundingClientRect();
+        var x,y,anchor, range_x = this.range_x, range_y = this.range_y;
         switch (this.options.title_position) {
             case _TOOLKIT_TOP_LEFT:
-                _title.setAttribute("text-anchor", "start");
-                _title.setAttribute("x", mleft);
-                _title.setAttribute("y", mtop + bb.height / 2);
+                anchor = "start";
+                x = mleft;
+                y = mtop + bb.height / 2;
                 break;
             case _TOOLKIT_TOP:
-                _title.setAttribute("text-anchor", "middle");
-                _title.setAttribute("x", this.range_x.options.basis / 2);
-                _title.setAttribute("y", mtop + bb.height / 2);
+                anchor = "middle";
+                x = range_x.options.basis / 2;
+                y = mtop + bb.height / 2;
                 break;
             case _TOOLKIT_TOP_RIGHT:
-                _title.setAttribute("text-anchor", "end");
-                _title.setAttribute("x", this.range_x.options.basis - mright);
-                _title.setAttribute("y", mtop + bb.height / 2);
+                anchor = "end";
+                x = range_x.options.basis - mright;
+                y = mtop + bb.height / 2;
                 break;
             case _TOOLKIT_LEFT:
-                _title.setAttribute("text-anchor", "start");
-                _title.setAttribute("x", mleft);
-                _title.setAttribute("y", this.range_y.options.basis / 2);
+                anchor = "start";
+                x = mleft;
+                y = range_y.options.basis / 2;
                 break;
             case _TOOLKIT_CENTER:
-                _title.setAttribute("text-anchor", "middle");
-                _title.setAttribute("x", this.range_x.options.basis / 2);
-                _title.setAttribute("y", this.range_y.options.basis / 2);
+                anchor = "middle";
+                x = range_x.options.basis / 2;
+                y = range_y.options.basis / 2;
                 break;
             case _TOOLKIT_RIGHT:
-                _title.setAttribute("text-anchor", "end");
-                _title.setAttribute("x", this.range_x.options.basis - mright);
-                _title.setAttribute("y", this.range_y.options.basis / 2);
+                anchor = "end";
+                x = range_x.options.basis - mright;
+                y = range_y.options.basis / 2;
                 break;
             case _TOOLKIT_BOTTOM_LEFT:
-                _title.setAttribute("text-anchor", "start");
-                _title.setAttribute("x", mleft);
-                _title.setAttribute("y",
-                    this.range_y.options.basis - mtop - bb.height / 2);
+                anchor = "start";
+                x = mleft;
+                y = range_y.options.basis - mtop - bb.height / 2;
                 break;
             case _TOOLKIT_BOTTOM:
-                _title.setAttribute("text-anchor", "middle");
-                _title.setAttribute("x", this.range_x.options.basis / 2);
-                _title.setAttribute("y",
-                    this.range_y.options.basis - mtop - bb.height / 2);
+                anchor = "middle";
+                x = range_x.options.basis / 2;
+                y = range_y.options.basis - mtop - bb.height / 2;
                 break;
             case _TOOLKIT_BOTTOM_RIGHT:
-                _title.setAttribute("text-anchor", "end");
-                _title.setAttribute("x", this.range_x.options.basis - mright);
-                _title.setAttribute("y",
-                    this.range_y.options.basis - mtop - bb.height / 2);
+                anchor = "end";
+                x = range_x.options.basis - mright;
+                y = range_y.options.basis - mtop - bb.height / 2;
                 break;
         }
+        _title.setAttribute("text-anchor", anchor);
+        _title.setAttribute("x", x);
+        _title.setAttribute("y", y);
     },
     
     // GETTER & SETER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "grid_x":
                 this.grid.set("grid_x", value, hold);
@@ -366,24 +364,11 @@ w.Chart = $class({
                 break;
             case "width":
                 this.range_x.set("basis", value, hold);
-                if (!hold) this._draw_title();
                 break;
             case "height":
                 this.range_y.set("basis", value, hold);
-                if (!hold) this._draw_title();
-                break;
-            case "key":
-                if (!hold) this._draw_key();
-                break;
-            case "key_size":
-                if (!hold) this._draw_key();
-                break;
-            case "title":
-            case "title_position":
-                if (!hold) this._draw_title();
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);
