@@ -220,7 +220,7 @@ w.Scale = $class({
         var styles = { }
         var pos = Math.round(this.val2px(val));
         var size = TK[this._vert() ? "outer_height" : "outer_width"](label, true);
-        if (this._vert)
+        if (this._vert())
             pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
         else
             pos = pos - size / 2;
