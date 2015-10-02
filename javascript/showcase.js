@@ -52,10 +52,10 @@ window.addEventListener('DOMContentLoaded', function () {
             _l.appendChild(m);
             n.appendChild(_l);
             s.addEventListener("click", (function (m) {
-                return function (e) { m.classList.toggle("show"); }
+                return function (e) { TK.toggle_class(m, "show"); }
             })(m));
             m.addEventListener("click", (function (m) {
-                return function (e) { m.classList.toggle("show"); }
+                return function (e) { TK.toggle_class(m, "show"); }
             })(m));
         }
         
@@ -104,7 +104,7 @@ window.addEventListener('DOMContentLoaded', function () {
             bl.appendChild(tog);
             tog.addEventListener("click", (function (pre) {
                 return function (e) {
-                    pre.classList.toggle("show");
+                    TK.toggle_class(pre, "show");
                 }
             })(pre));
         }
