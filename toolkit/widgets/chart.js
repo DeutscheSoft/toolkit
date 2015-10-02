@@ -61,6 +61,10 @@ w.Chart = $class({
         TK.add_class(E, "toolkit-chart");
         if (this.options.container)
             this.set("container", this.options.container);
+        if (!this.options.width)
+            this.options.width = this.range_x.options.basis;
+        if (!this.options.height)
+            this.options.height = this.range_y.options.basis;
         
         this.grid = new Grid({
             grid_x: this.options.grid_x,
@@ -101,6 +105,8 @@ w.Chart = $class({
                 TK.remove_class(this._key, "toolkit-hover");
                 TK.remove_class(this._key_background, "toolkit-hover");
             }.bind(this));
+        this.set("width", this.options.width);
+        this.set("height", this.options.height);
     },
     redraw: function (graphs, grid) {
         Widget.prototype.redraw.call(this);
@@ -152,7 +158,9 @@ w.Chart = $class({
             }
         }.bind(this));
         this.fire_event("graphadded", g, this.graphs.length - 1);
+
         this.invalid.graphs = true;
+        this.trigger_draw();
         return g;
     },
     remove_graph: function (g) {
