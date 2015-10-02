@@ -282,7 +282,7 @@ w.toolkit = {
         var _ids = {};
         return function() {
             var id;
-            while (_ids.hasOwnProperty(id = this.random_string(8, "aA#")) || document.getElementById(id)) {}
+            while (_ids.hasOwnProperty(id = "tk-" + this.random_string(8, "aA#")) || document.getElementById(id)) {}
             _ids[id] = 1;
             return id;
         };
