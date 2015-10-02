@@ -45,7 +45,7 @@ w.Pager = $class({
     initialize: function (options) {
         this.pages = [];
         Container.prototype.initialize.call(this, options);
-        this.element.className += " toolkit-pager";
+        TK.add_class(this.element, "toolkit-pager");
         this.buttonarray = new ButtonArray({
             container: this.element,
             onClicked: (function (id, but) {
@@ -168,8 +168,7 @@ w.Pager = $class({
         this.pages[page].destroy();
         this.pages.splice(page, 1);
         this.remove_children(this.pages[page]);
-        this.pages[this.options.show].element.className.replace(" toolkit-active", "");
-        this.pages[this.options.show].element.className.replace("  ", " ");
+        TK.remove_class(this.pages[this.options.show].element, "toolkit-active");
         console.log(this.options.show)
         if (page < this.options.show)
             this.options.show--;
