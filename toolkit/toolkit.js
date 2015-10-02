@@ -332,7 +332,7 @@ function set_style(e, style, value) {
 var _ids = {};
 function unique_id() {
     var id;
-    while (_ids.hasOwnProperty(id = random_string(8, "aA#")) || document.getElementById(id)) {}
+    while (_ids.hasOwnProperty(id = "tk-" + random_string(8, "aA#")) || document.getElementById(id)) {}
     _ids[id] = 1;
     return id;
 };
