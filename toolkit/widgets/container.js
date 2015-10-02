@@ -25,7 +25,8 @@ w.Container = $class({
     _class: "Container",
     Extends: Widget,
     options: {
-        content: "" // the content of the container. It can either be
+        /*content: ""*/
+                    // the content of the container. It can either be
                     // a string which is interpreted as HTML or a
                     // ready-to-use DOM node.
     },
@@ -35,24 +36,33 @@ w.Container = $class({
                                       true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
-        this.set("content", this.options.content);
     },
     
     destroy: function () {
         TK.destroy(this.element);
         Widget.prototype.destroy.call(this);
     },
+
+    redraw: function() {
+        var O = this.options;
+        var I = this.invalid;
+        var E = this.element;
+
+        Widget.prototype.redraw.call(this);
+
+        if (I.content) {
+            I.content = false;
+            TK.empty(E);
+
+            if (typeof O.content === "string")
+                E.innerHTML = O.content;
+            else if (typeof value === "object")
+                E.appendChild(O.content);
+        }
+    },
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        if (key == "content") {
-            while (this.element.firstChild)
-                this.element.removeChild(this.element.firstChild);
-            if (typeof value === "string")
-                this.element.innerHTML = value;
-            else if (typeof value === "object")
-                this.element.appendChild(value);
-        }
         Widget.prototype.set.call(this, key, value, hold);
     },
 });

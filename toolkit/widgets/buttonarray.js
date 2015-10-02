@@ -31,6 +31,69 @@ function show_arrows() {
     this.element.appendChild(this._next);
     TK.add_class(this.element, "toolkit-over");
 }
+function check_arrows(force) {
+    var I = this.invalid;
+    var O = this.options;
+    if (!I.check_arrows && O.auto_arrows) {
+        I.check_arrows = true;
+        this.trigger_draw();
+    }
+}
+
+function list_size() {
+    var dir      = this.options.direction == _TOOLKIT_VERTICAL;
+    var subd     = dir ? 'top' : 'left';
+    var subs     = dir ? 'height' : 'width';
+    var subm2    = dir ? 'marginBottom' : 'marginRight';
+    var btn      = this._container.lastChild;
+    var btnstyle = btn.currentStyle || window.getComputedStyle(btn);
+    var lastrect = this._container.lastChild.getBoundingClientRect();
+    var conrect  = this._container.getBoundingClientRect();
+    return lastrect[subd] - conrect[subd] + lastrect[subs] + parseInt(btnstyle[subm2]);
+}
+
+function prev_clicked(e) {
+    /* @event: clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
+    this.set("show", this.options.show - 1);
+}
+
+function next_clicked(e) {
+    this.set("show", this.options.show + 1);
+}
+
+function button_clicked(button) {
+    this.set("show", this.buttons.indexOf(button));
+}
+
+function scroll_to() {
+    /* move the container so that the requested button is shown */
+    /* hand over a button instance or a number */
+
+    // TODO: the id==this.options.show check breaks the button array. for some reason
+    // the style calculations here can be completely wrong on the first time and get
+    // ignored henceforward
+    var current = this.current();
+    if (current) {
+        var n = this.buttons.indexOf(current);
+        var dir      = this.options.direction == _TOOLKIT_VERTICAL;
+        var subd     = dir ? 'top' : 'left';
+        var subs     = dir ? 'height' : 'width';
+        var btn      = this._container.childNodes[n];
+
+        /* FORCE_RELAYOUT */
+
+        var btnrect  = btn.getBoundingClientRect();
+        var conrect  = this._container.getBoundingClientRect();
+        var btnsize  = toolkit["outer_" + subs](btn);
+        var btnpos   = btnrect[subd] - conrect[subd];
+        var listsize = list_size.call(this);
+        var clipsize = this._clip.getBoundingClientRect()[subs];
+
+        /* WILL_INVALIDATE */
+
+        this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
+    }
+}
 w.ButtonArray = $class({
     /* @class: ButtonArray
      * 
@@ -79,8 +142,8 @@ w.ButtonArray = $class({
                                 class: "toolkit-previous"});
         this.next = new Button({label: vert ? "▼" : "►",
                                 class: "toolkit-next"});
-        this.prev.add_event("click", this._prev_clicked.bind(this));
-        this.next.add_event("click", this._next_clicked.bind(this));
+        this.prev.add_event("click", prev_clicked.bind(this));
+        this.next.add_event("click", next_clicked.bind(this));
         this._prev = this.prev.element;
         this._next = this.next.element;
         
@@ -89,7 +152,7 @@ w.ButtonArray = $class({
     },
     
     resize: function () {
-        this._check_arrows();
+        check_arrows.call(this);
         this.set("show", this.options.show);
     },
     
@@ -121,14 +184,14 @@ w.ButtonArray = $class({
             this._container.insertBefore(b.element,
                 this._container.childNodes[pos]);
         }
-        
-        this._check_arrows();
-        var c = b;
+
+        check_arrows.call(this);
         b.add_event("click", function () {
-            this._button_clicked(c);
+            button_clicked.call(this, b);
         }.bind(this));
         /* @event: added; Button, Widget; A #Button was added to the ButtonArray */
         this.fire_event("added", b);
+
         return b;
     },
     remove_button: function (button) {
@@ -141,12 +204,14 @@ w.ButtonArray = $class({
             return;
         /* @event: removed; Button, Widget; A #Button was removed from the ButtonArray */
         this.fire_event("removed", this.buttons[button]);
+        if (this.current() && button <= this.options.show) {
+            this.options.show --;
+            this.invalid.show = true;
+            this.trigger_draw();
+        }
         this.buttons[button].destroy();
         this.buttons.splice(button, 1);
-        this._check_arrows();
-        this.buttons[this.options.show].set("state", false);
-        if (button < this.options.show)
-            this.set("show", this.options.show - 1);
+        check_arrows.call(this);
     },
     
     destroy: function () {
@@ -164,7 +229,14 @@ w.ButtonArray = $class({
         var I = this.invalid;
         var O = this.options;
 
-        if (I.auto_arrows) {
+        if (I.direction) {
+            var E = this.element;
+            TK.remove_class(E, "toolkit-vertical");
+            TK.remove_class(E, "toolkit-horizontal");
+            TK.add_class(E, O.direction == _TOOLKIT_VERT ? "toolkit-vertical" : "toolkit-horizontal");
+        }
+
+        if (I.auto_arrows || I.direction) {
             I.auto_arrows = false;
             if (!O.auto_arrows) {
                 hide_arrows.call(this);
@@ -174,11 +246,11 @@ w.ButtonArray = $class({
             }
         }
 
-        if (I.check_arrows) {
+        if (I.check_arrows || I.direction) {
             I.check_arrows = false;
             if (O.auto_arrows) {
                 var erect = this.element.getBoundingClientRect();
-                var brect = this._list_size();
+                var brect = list_size.call(this);
                 if (O.direction == _TOOLKIT_VERT) {
                     erect = erect.height;
                 } else {
@@ -193,82 +265,39 @@ w.ButtonArray = $class({
             }
         }
 
-        if (I.show) {
+        if (I.validate("show", "direction")) {
             I.show = false;
-            this._scroll_to(O.show);
+            scroll_to.call(this, O.show);
         }
     },
     
-    _check_arrows: function (force) {
-        var I = this.invalid;
-        var O = this.options;
-        if (!I.check_arrows && O.auto_arrows) {
-            I.check_arrows = true;
-            this.trigger_draw();
+    current: function() {
+        var n = this.options.show;
+        if (n >= 0 && n < this.buttons.length) {
+            return this.buttons[n];
         }
-    },
-    
-    _scroll_to: function (id, force) {
-        /* move the container so that the requested button is shown */
-        /* hand over a button instance or a number */
-        if (typeof id == "object")
-            id = this.buttons.indexOf(id);
-        // TODO: the id==this.options.show check breaks the button array. for some reason
-        // the style calculations here can be completely wrong on the first time and get
-        // ignored henceforward
-        if (id < 0 || id >= this.buttons.length/* || (id == this.options.show && !force)*/)
-            return this.options.show;
-        if (this.options.show >= 0 && this.options.show < this.buttons.length)
-            this.buttons[this.options.show].set("state", false);
-        var dir      = this.options.direction == _TOOLKIT_VERTICAL;
-        var subd     = dir ? 'top' : 'left';
-        var subs     = dir ? 'height' : 'width';
-        var btn      = this._container.childNodes[id];
-        var btnrect  = btn.getBoundingClientRect();
-        var conrect  = this._container.getBoundingClientRect();
-        var btnsize  = toolkit["outer_" + subs](btn);
-        var btnpos   = btnrect[subd] - conrect[subd];
-        var listsize = this._list_size();
-        var clipsize = this._clip.getBoundingClientRect()[subs];
-        this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
-        var tmp = this.options.show;
-        this.options.show = id;
-        this.buttons[id].set("state", true);
-        /* @event: changed; Button, ID, Widget; A #Button was requested (clicked or scrolled to) */
-        if (tmp != id) {
-            this.fire_event("changed", this.buttons[id], id);
-        }
-        return id;
-    },
-    
-    _list_size: function () {
-        var dir      = this.options.direction == _TOOLKIT_VERTICAL;
-        var subd     = dir ? 'top' : 'left';
-        var subs     = dir ? 'height' : 'width';
-        var subm2    = dir ? 'marginBottom' : 'marginRight';
-        var btn      = this._container.lastChild;
-        var btnstyle = btn.currentStyle || window.getComputedStyle(btn);
-        var lastrect = this._container.lastChild.getBoundingClientRect();
-        var conrect  = this._container.getBoundingClientRect();
-        return lastrect[subd] - conrect[subd] + lastrect[subs] + parseInt(btnstyle[subm2]);
-    },
-    
-    _prev_clicked: function (e) {
-        /* @event: clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
-        var id = this._scroll_to(this.options.show - 1);
-        this.fire_event("clicked", this.buttons[id], id);
-    },
-    
-    _next_clicked: function (e) {
-        this.fire_event("clicked", this._scroll_to(this.options.show + 1));
-    },
-    
-    _button_clicked: function (button) {
-        this.fire_event("clicked", this._scroll_to(button));
+        return null;
     },
     
     set: function (key, value, hold) {
+        var button;
+        if (key === "show") {
+            if (value < 0) value = 0;
+            if (value >= this.buttons.length) value = this.buttons.length - 1;
+            if (value === this.options.show) return;
+
+            button = this.current();
+            if (button) button.set("state", false);
+        }
+        Container.prototype.set.call(this, key, value, hold);
         switch (key) {
+            case "show":
+                button = this.current();
+                if (button) {
+                    button.set("state", true);
+                    this.fire_event("changed", button, value);
+                }
+                break;
             case "buttons":
                 if (hold)
                     break;
@@ -278,14 +307,10 @@ w.ButtonArray = $class({
                 this.add_buttons(value);
                 break;
             case "direction":
-                TK.remove_class(this.element, "toolkit-vertical");
-                TK.remove_class(this.element, "toolkit-horizontal");
-                TK.add_class(this.element, "toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
                 this.prev.set("label", value == _TOOLKIT_VERT ? "▲" : "◀");
                 this.next.set("label", value == _TOOLKIT_VERT ? "▼" : "▶");
                 break;
         }
-        Container.prototype.set.call(this, key, value, hold);
     },
     get: function (key) {
         switch (key) {

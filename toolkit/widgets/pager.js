@@ -20,6 +20,15 @@
  */
 "use strict";
 (function(w){
+function do_scroll(n) {
+    var O = this.options;
+    var page = this.pages[n];
+
+    var dir  = this.options.direction == _TOOLKIT_VERTICAL;
+    var size = dir ? this.__page_height : this.__page_width;
+    this._container.style[dir ? 'top' : 'left'] = (-size * n) + "px";
+    this._container.style[dir ? 'left' : 'top'] = null;
+}
 w.Pager = $class({
     /* Pager, also known as Notebook in other UI toolkits, provides
        multiple containers for displaying contents which are switchable
@@ -48,10 +57,9 @@ w.Pager = $class({
         this.element.className += " toolkit-pager";
         this.buttonarray = new ButtonArray({
             container: this.element,
-            onClicked: (function (id, but) {
-                this._scroll_to(id);
-                this.fire_event("clicked", id);
-            }).bind(this)
+            onchanged: function(button, n) {
+                this.set("show", n); 
+            }.bind(this),
         });
         this.register_children(this.buttonarray);
         this._clip      = TK.element("div", "toolkit-clip");
@@ -60,49 +68,95 @@ w.Pager = $class({
         this._pagestyle = TK.element("style");
         this._pagestyle.setAttribute("type", "text/css");
         this.element.appendChild(this._pagestyle);
-        this.set("direction", this.options.direction, true);
-        this.set("position", this.options.position, true);
         this.add_pages(this.options.pages);
         this.element.appendChild(this._clip);
-        this.redraw();
-        this.set("show", this.options.show);
-        this._scroll_to(this.options.show, true);
+        this.set("position", this.options.position);
     },
     
     redraw: function () {
-        if (this.options.overlap) {
-            this._clip.style.width = "";
-            this._clip.style.height = "";
-        } else {
-            switch (this.options.position) {
+        Container.prototype.redraw.call(this);
+        var O = this.options;
+        var I = this.invalid;
+        var E = this.element;
+
+        if (I.position) {
+            TK.remove_class(E, "toolkit-top");
+            TK.remove_class(E, "toolkit-right");
+            TK.remove_class(E, "toolkit-bottom");
+            TK.remove_class(E, "toolkit-left");
+            switch (O.position) {
                 case _TOOLKIT_TOP:
+                    TK.add_class(E, "toolkit-top");
+                    break;
                 case _TOOLKIT_BOTTOM:
-                    TK.outer_height(this._clip, true,
-                        TK.inner_height(this.element)
-                      - TK.outer_height(this.buttonarray.element, true));
+                    TK.add_class(E, "toolkit-bottom");
                     break;
                 case _TOOLKIT_LEFT:
+                    TK.add_class(E, "toolkit-left");
+                    break;
                 case _TOOLKIT_RIGHT:
-                    TK.outer_width(this._clip, true,
-                        TK.inner_width(this.element)
-                      - TK.outer_width(this.buttonarray.element, true));
+                    TK.add_class(E, "toolkit-right");
                     break;
             }
         }
-        this.__page_width = TK.inner_width(this._clip);
-        this.__page_height = TK.inner_height(this._clip);
-        var style;
-        switch (this.options.direction) {
-            case _TOOLKIT_VERT:
-                style = "#" + this.options.id + " > .toolkit-clip > .toolkit-container > .toolkit-page {\n";
-                style += "    height: " + this.__page_height + "px;\n}";
-                break;
-            case _TOOLKIT_HORIZ:
-                style = "#" + this.options.id + " > .toolkit-clip > .toolkit-container > .toolkit-page {\n";
-                style += "    width: " + this.__page_width + "px;\n}";
-                break;
+
+        if (I.direction) {
+            TK.remove_class(E, "toolkit-vertical");
+            TK.remove_class(E, "toolkit-horizontal");
+            TK.add_class(E, O.direction == _TOOLKIT_VERT ? "toolkit-vertical" : "toolkit-horizontal");
         }
-        TK.set_text(this._pagestyle, style);
+
+        if (I.validate("position", "overlap")) {
+            /* FORCE_RELAYOUT */
+            if (O.overlap) {
+                this._clip.style.width = "";
+                this._clip.style.height = "";
+            } else {
+                switch (O.position) {
+                    case _TOOLKIT_TOP:
+                    case _TOOLKIT_BOTTOM:
+                        TK.outer_height(this._clip, true,
+                            TK.inner_height(this.element)
+                          - TK.outer_height(this.buttonarray.element, true));
+                        break;
+                    case _TOOLKIT_LEFT:
+                    case _TOOLKIT_RIGHT:
+                        TK.outer_width(this._clip, true,
+                            TK.inner_width(this.element)
+                          - TK.outer_width(this.buttonarray.element, true));
+                        break;
+                }
+            }
+            var n = TK.inner_width(this._clip);
+            this.__page_width = n;
+            this.__page_height = TK.inner_height(this._clip);
+
+            /* force the below drawing */
+            I.direction = true;
+            I.show = true;
+        }
+
+        if (I.validate("direction")) {
+            var style;
+            switch (O.direction) {
+                case _TOOLKIT_VERT:
+                    style = "#" + O.id + " > .toolkit-clip > .toolkit-container > .toolkit-page {\n";
+                    style += "    height: " + this.__page_height + "px;\n}";
+                    break;
+                case _TOOLKIT_HORIZ:
+                    style = "#" + O.id + " > .toolkit-clip > .toolkit-container > .toolkit-page {\n";
+                    style += "    width: " + this.__page_width + "px;\n}";
+                    break;
+            }
+            TK.set_text(this._pagestyle, style);
+            I.show = true;
+        }
+
+        if (I.show) {
+            I.show = false;
+
+            do_scroll.call(this, O.show);
+        }
     },
     
     add_pages: function (options) {
@@ -137,10 +191,8 @@ w.Pager = $class({
             this._container.appendChild(p.element);
         } else {
             this.pages.splice(pos, 0, p);
-            this._container.insertBefore(p.element,
-                this._container.childNodes[pos]);
+            this._container.insertBefore(p.element, this._container.childNodes[pos]);
         }
-        this._scroll_to(this.options.show);
         this.fire_event("added", p);
         return p;
         //var sb = b.element.getBoundingClientRect()[vert ? "height" : "width"];
@@ -148,11 +200,11 @@ w.Pager = $class({
 
     fire_event : function(type) {
         if (type == "show" || type == "hide") {
+            var page = this.current();
             // hide and show are only for the active page and the button array
             // and this widget itself
             this.buttonarray.fire_event(type);
-            if (this.pages.length && this.options.show >= 0)
-                this.pages[this.options.show].fire_event(type);
+            if (page) page.fire_event(type);
             BASE.prototype.fire_event.apply(this, arguments);
         } else Container.prototype.fire_event.apply(this, arguments);
     },
@@ -164,60 +216,60 @@ w.Pager = $class({
             return;
         this.fire_event("removed", this.pages[page]);
         this.buttonarray.remove_button(page);
+        if (this.current() && page < this.options.show) {
+            this.options.show--;
+            this.invalid.show = true;
+            this.trigger_draw();
+        }
         this.pages[page].destroy();
         this.pages.splice(page, 1);
         this.remove_children(this.pages[page]);
-        this.pages[this.options.show].element.className.replace(" toolkit-active", "");
-        this.pages[this.options.show].element.className.replace("  ", " ");
-        if (page < this.options.show)
-            this.options.show--;
-        this._scroll_to(this.options.show);
     },
     
     resize: function () {
         this.redraw();
         this._scroll_to(this.options.show, true); 
     },
-    
-    _scroll_to: function (id, force) {
-        var cid = this.options.show;
-        /* move the container so that the requested page is shown */
-        /* hand over a page instance or a number */
-        if (typeof id == "object")
-            id = this.pages.indexOf(id);
-        
-        if (id < 0 || id >= this.pages.length || (id == cid && !force))
-            return;
-        if (cid >= 0 && cid < this.pages.length)
-            TK.remove_class(this.pages[cid].element, "toolkit-active");
-        TK.add_class(this.pages[id].element, "toolkit-active");
-        var dir  = this.options.direction == _TOOLKIT_VERTICAL;
-        var size = dir ? this.__page_height : this.__page_width;
-        this._container.style[dir ? 'top' : 'left'] = (-size * id) + "px";
-        this._container.style[dir ? 'left' : 'top'] = "";
-        if (cid != id) {
-            this.fire_event("changed", this.pages[id], id);
-            this.pages[id].fire_event("show");
-            if (cid >= 0 && cid < this.pages.length)
-                this.pages[cid].fire_event("hide");
+
+    current: function() {
+        var n = this.options.show;
+        if (n >= 0 && n < this.pages.length) {
+            return this.pages[n];
         }
-        this.options.show = id;
-    },
-    
-    _list_size: function () {
-        var dir       = this.options.direction == _TOOLKIT_VERTICAL;
-        var subd      = dir ? 'top' : 'left';
-        var subs      = dir ? 'height' : 'width';
-        var subm2     = dir ? 'marginBottom' : 'marginRight';
-        var item      = this._container.lastChild;
-        var itemstyle = item.currentStyle || window.getComputedStyle(item);
-        var lastrect  = this._container.lastChild.getBoundingClientRect();
-        var conrect   = this._container.getBoundingClientRect();
-        return lastrect[subd] - conrect[subd] + lastrect[subs] + parseInt(itemstyle[subm2]);
+        return null;
     },
     
     set: function (key, value, hold) {
+        var page;
+        if (key === "show") {
+            if (value < 0) value = 0;
+            else if (value >= this.pages.length) value = this.pages.length - 1;
+
+            if (value === this.options.show) return;
+
+            page = this.current();
+
+            if (page) {
+                page.set("active", false);
+                page.fire_event("hide");
+                page.remove_class("toolkit-active");
+            }
+
+            this.buttonarray.set("show", value);
+        }
+        Container.prototype.set.call(this, key, value, hold);
         switch(key) {
+            case "show":
+                page = this.current();
+
+                if (page) {
+                    page.set("active", true);
+                    page.add_class("toolkit-active");
+                    page.fire_event("show");
+                    this.fire_event("changed", page, value);
+                }
+
+                break;
             case "pages":
                 if (hold)
                     break;
@@ -227,52 +279,15 @@ w.Pager = $class({
                 this.add_pages(value);
                 break;
             case "position":
-                this.options.position = value;
-                TK.remove_class(this.element, "toolkit-top");
-                TK.remove_class(this.element, "toolkit-right");
-                TK.remove_class(this.element, "toolkit-bottom");
-                TK.remove_class(this.element, "toolkit-left");
                 var badir;
-                switch (value) {
-                    case _TOOLKIT_TOP:
-                        TK.add_class(this.element, "toolkit-top");
-                        badir = _TOOLKIT_HORIZ;
-                        break;
-                    case _TOOLKIT_BOTTOM:
-                        TK.add_class(this.element, "toolkit-bottom");
-                        badir = _TOOLKIT_HORIZ;
-                        break;
-                    case _TOOLKIT_LEFT:
-                        TK.add_class(this.element, "toolkit-left");
-                        badir = _TOOLKIT_VERT;
-                        break;
-                    case _TOOLKIT_RIGHT:
-                        TK.add_class(this.element, "toolkit-right");
-                        badir = _TOOLKIT_VERT;
-                        break;
+                if (value === _TOOLKIT_TOP || value === _TOOLKIT_BOTTOM) {
+                    badir = _TOOLKIT_HORIZ;
+                } else {
+                    badir = _TOOLKIT_VERT;
                 }
                 this.buttonarray.set("direction", badir);
-                if (!hold)
-                    this.redraw();
-                break;
-            case "direction":
-                TK.remove_class(this.element, "toolkit-vertical");
-                TK.remove_class(this.element, "toolkit-horizontal");
-                TK.add_class(this.element, "toolkit-" + (value == _TOOLKIT_VERT ? "vertical" : "horizontal"));
-                this.options.direction = value;
-                if (!hold) {
-                    this.redraw();
-                    this._scroll_to(this.options.show, true);
-                }
-                break;
-            case "show":
-                if (value < 0) value = 0;
-                else if (value >= this.pages.length) value = this.pages.length - 1;
-                this.buttonarray._scroll_to(value);
-                this._scroll_to(value);
                 break;
         }
-        Container.prototype.set.call(this, key, value, hold);
     },
     get: function (key) {
         switch (key) {
