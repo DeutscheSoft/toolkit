@@ -325,7 +325,8 @@ w.toolkit = {
                 s += JSON.stringify(fmt.substr(last, regexp.lastIndex - res[0].length - last));
                 s += "+";
                 argname = "a"+argnum;
-                args.push(argname);
+                if (args.indexOf(argname) == -1)
+                    args.push(argname);
                 if (argnum+1 < arguments.length) {
                     argname = "(" + this.sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
                 }
@@ -346,6 +347,7 @@ w.toolkit = {
                     break;
                 case 37:
                     s += "\"%\"";
+                    argnum--;
                     break;
                 default:
                     throw("unknown format:"+res[0]);
