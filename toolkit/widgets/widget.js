@@ -276,12 +276,14 @@ w.Widget = $class({
                         TK.remove_class(this.__stylized, "toolkit-inactive")
                     else
                         TK.add_class(this.__stylized, "toolkit-inactive")
+                break;
             case "disabled":
                 if (!hold && this.__stylized)
                     if (value)
                         TK.add_class(this.__stylized, "toolkit-disabled")
                     else
                         TK.remove_class(this.__stylized, "toolkit-disabled")
+                break;
         }
         this.fire_event("set", key, value, hold);
         this.fire_event("set_" + key, value, hold);
