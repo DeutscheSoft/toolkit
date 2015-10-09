@@ -20,6 +20,113 @@
  */
 "use strict";
 (function(w){ 
+function draw_time(force) {
+    var tmp, drawn;
+    var O = this.options;
+    var t = O.time;
+
+    if ((tmp = t.getSeconds()) != this.__sec || force) {
+        this.circulars.seconds.set("value", tmp);
+        this.__sec = tmp;
+    }
+    if ((tmp = t.getMinutes()) != this.__min || force) {
+        this.circulars.minutes.set("value", tmp);
+        this.__min = tmp;
+    }
+    if ((tmp = t.getHours() % 12) != this.__hour || force) {
+        this.circulars.hours.set("value", tmp);
+        this.__hour = tmp;
+    }
+    
+    var args = [t,
+                t.getFullYear(),
+                t.getMonth(),
+                t.getDate(),
+                t.getDay(),
+                t.getHours(),
+                t.getMinutes(),
+                t.getSeconds(),
+                t.getMilliseconds(),
+                Math.round(t.getMilliseconds() / (1000 / O.fps)),
+                O.months,
+                O.days];
+    if ((tmp = O.label.apply(this, args)) != this.__label || force) {
+        TK.set_text(this._label, tmp);
+        this.__label = tmp;
+        drawn = true;
+    }
+    if ((tmp = O.label_upper.apply(this, args)) != this.__upper || force) {
+        TK.set_text(this._label_upper, tmp);
+        this.__upper = tmp;
+        drawn = true;
+    }
+    if ((tmp = O.label_lower.apply(this, args)) != this.__lower || force) {
+        TK.set_text(this._label_lower, tmp);
+        this.__lower = tmp;
+        drawn = true;
+    }
+    
+    if (drawn)
+        this.fire_event("timedrawn", O.time);
+}
+function set_labels() {
+    var O = this.options;
+    var E = this._label;
+    var s = O.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
+                                               30, 6, 24, 59, 59, 999, 999,
+                                               O.months, O.days);
+    TK.set_text(E, s);
+    
+    E.setAttribute("transform", "");
+
+    /* FORCE_RELAYOUT */
+    
+    var bb = E.getBoundingClientRect();
+    var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;
+    var mright  = parseInt(TK.get_style(E, "margin-right")) || 0;
+    var mtop    = parseInt(TK.get_style(E, "margin-top")) || 0;
+    var mbottom = parseInt(TK.get_style(E, "margin-bottom")) || 0;
+    var space   = O.size - mleft - mright - this._margin * 2;
+    var scale   = space / bb.width;
+    var pos     = O.size / 2;
+    
+    E.setAttribute("transform", "translate(" + pos + "," + pos + ") "
+        + "scale(" + scale + ")");
+
+    /* FORCE_RELAYOUT */
+    
+    bb = E.getBoundingClientRect();
+    
+    this._label_upper.setAttribute("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
+        + "scale(" + (scale * O.label_scale) + ")");
+    this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
+        + "scale(" + (scale * O.label_scale) + ")");
+    draw_time.call(this, true);
+}
+function timeout() {
+    if (this.__to)
+        window.clearTimeout(this.__to);
+    var O = this.options;
+    if (!O) return;
+    if (O.timeout) {
+        var d = O.time;
+        var ts = +Date.now();
+
+        if (O.offset) {
+            ts += (O.offset|0);
+        }
+
+        d.setTime(ts);
+        this.set("time", d);
+            
+        var targ = (O.timeout|0);
+        if (O.timeadd) {
+            targ += (O.timeadd|0) - ((ts % 1000)|0)
+        }
+        this.__to = w.setTimeout(this.__timeout, targ);
+    } else this.__to = false;
+}
+
 w.Clock = $class({
     // Clock shows a customized clock with circulars displaying hours, minutes
     // and seconds. It has three free formatable labels.
@@ -106,10 +213,8 @@ w.Clock = $class({
         this.set("size", this.options.size, true);
 
         // start the clock
-        this.__timeout = this._timeout.bind(this);
-        this._timeout();
-        
-        this.redraw();
+        this.__timeout = timeout.bind(this);
+        timeout.call(this);
     },
     
     redraw: function () {
@@ -123,9 +228,7 @@ w.Clock = $class({
             this.element.setAttribute("height", (typeof tmp == "number" ? tmp + "px" : tmp));
         }
 
-        if (I.show_hours || I.show_minutes || I.show_seconds ||
-            I.thickness || I.size || I.margin) {
-            I.show_hours = I.show_minutes = I.show_seconds = I.thickness = I.margin = false;
+        if (I.validate("show_hours", "show_minutes", "show_seconds", "thickness", "margin") || I.size) {
             var margin = 0;
             for (var i in this.circulars) {
                 var circ = this.circulars[i];
@@ -152,14 +255,12 @@ w.Clock = $class({
             I.label = true;
         }
 
-        if (I.label || I.months || I.days || I.size || I.label_scale) {
-            I.label = I.months = I.days = I.size = I.label_scale = false;
-            this._set_labels();
+        if (I.validate("label", "months", "days", "size", "label_scale")) {
+            set_labels.call(this);
         }
 
-        if (I.time || I.label || I.label_upper || I.label_lower || I.label_scale) {
-            I.time = I.label = I.label_upper = I.label_lower = I.label_scale = false;
-            this._draw_time();
+        if (I.validate("time", "label", "label_upper", "label_lower", "label_scale")) {
+            draw_time.call(this, false);
         }
     },
     
@@ -175,88 +276,6 @@ w.Clock = $class({
             window.clearTimeout(this.__to);
         Widget.prototype.destroy.call(this);
     },
-    _draw_time: function (force) {
-        var tmp, drawn;
-        var O = this.options;
-        var t = O.time;
-
-        if ((tmp = t.getSeconds()) != this.__sec || force) {
-            this.circulars.seconds.set("value", tmp);
-            this.__sec = tmp;
-        }
-        if ((tmp = t.getMinutes()) != this.__min || force) {
-            this.circulars.minutes.set("value", tmp);
-            this.__min = tmp;
-        }
-        if ((tmp = t.getHours() % 12) != this.__hour || force) {
-            this.circulars.hours.set("value", tmp);
-            this.__hour = tmp;
-        }
-        
-        var args = [t,
-                    t.getFullYear(),
-                    t.getMonth(),
-                    t.getDate(),
-                    t.getDay(),
-                    t.getHours(),
-                    t.getMinutes(),
-                    t.getSeconds(),
-                    t.getMilliseconds(),
-                    Math.round(t.getMilliseconds() / (1000 / O.fps)),
-                    O.months,
-                    O.days];
-        if ((tmp = O.label.apply(this, args)) != this.__label || force) {
-            TK.set_text(this._label, tmp);
-            this.__label = tmp;
-            drawn = true;
-        }
-        if ((tmp = O.label_upper.apply(this, args)) != this.__upper || force) {
-            TK.set_text(this._label_upper, tmp);
-            this.__upper = tmp;
-            drawn = true;
-        }
-        if ((tmp = O.label_lower.apply(this, args)) != this.__lower || force) {
-            TK.set_text(this._label_lower, tmp);
-            this.__lower = tmp;
-            drawn = true;
-        }
-        
-        if (drawn)
-            this.fire_event("timedrawn", O.time);
-    },
-    _set_labels: function () {
-        var O = this.options;
-        var E = this._label;
-        var s = O.label(new Date(2000, 8, 30, 24, 59, 59, 999), 2000, 8,
-                                                   30, 6, 24, 59, 59, 999, 999,
-                                                   O.months, O.days);
-        TK.set_text(E, s);
-        
-        E.setAttribute("transform", "");
-
-        /* FORCE_RELAYOUT */
-        
-        var bb = E.getBoundingClientRect();
-        var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;
-        var mright  = parseInt(TK.get_style(E, "margin-right")) || 0;
-        var mtop    = parseInt(TK.get_style(E, "margin-top")) || 0;
-        var mbottom = parseInt(TK.get_style(E, "margin-bottom")) || 0;
-        var space   = O.size - mleft - mright - this._margin * 2;
-        var scale   = space / bb.width;
-        var pos     = O.size / 2;
-        
-        E.setAttribute("transform", "translate(" + pos + "," + pos + ") "
-            + "scale(" + scale + ")");
-        
-        var bb = E.getBoundingClientRect();
-        
-        this._label_upper.setAttribute("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
-            + "scale(" + (scale * O.label_scale) + ")");
-        this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
-            + "scale(" + (scale * O.label_scale) + ")");
-        this._draw_time(true);
-    },
-
     _onhide : function() {
         if (this.__to) {
             window.clearTimeout(this.__to);
@@ -265,41 +284,13 @@ w.Clock = $class({
     },
 
     _onshow : function() {
-        this._timeout();
-    },
-    
-    _timeout : function () {
-        if (this.__to)
-            window.clearTimeout(this.__to);
-        if (!this.options)
-            return;
-        if (this.options.timeout) {
-            var d = this.options.time;
-            var ts = +Date.now();
-
-            if (this.options.offset) {
-                ts += (this.options.offset|0);
-            }
-
-            d.setTime(ts);
-            this.set("time", d);
-                
-            var targ = (this.options.timeout|0);
-            if (this.options.timeadd) {
-                targ += (this.options.timeadd|0) - ((ts % 1000)|0)
-            }
-            this.__to = window.setTimeout(this.__timeout, targ);
-        } else this.__to = false;
+        timeout.call(this);
     },
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
         Widget.prototype.set.call(this, key, value, hold);
-        switch (key) {
-            case "timeout":
-                this._timeout();
-                break;
-        }
+        if (key == "timeout") timeout.call(this);
     }
 });
 })(this);
