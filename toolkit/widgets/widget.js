@@ -91,10 +91,9 @@ w.Widget = $class({
 
         BASE.prototype.fire_event.apply(this, arguments);
 
-        if (this.shared_events[type]) {
+        if (this.shared_events[type] && this.children.length) {
+            var args = [ this ].concat(arguments);
             c = this.children;
-            if (a) args = [ this ].concat(a);
-            else args = [ this ];
             for (i = 0; i < c.length; i++) {
                 c[i].fire_event.apply(c[i], arguments);
             }
