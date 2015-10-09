@@ -303,25 +303,21 @@ w.Circular = $class({
         var outer   = O.size / 2;
         var tmp;
 
-        if (I.start || I.x || I.y || I.size) {
-            I.x = I.y = false;
+        if (I.validate("x", "y") || I.start || I.size) {
             E.setAttribute("transform", TK.sprintf("translate(%f %f) rotate(%f %f %f)",
                                                    O.x, O.y, O.start, outer, outer));
             this._labels.setAttribute("transform", TK.sprintf("rotate(%f %f %f)", -O.start, outer, outer));
         }
 
-        if (I.labels || I.label || I.size || I.min || I.max || I.start) {
-            I.labels = I.label = false;
+        if (I.validate("labels", "label") || I.size || I.min || I.max || I.start) {
             draw_labels.call(this);
         }
 
-        if (I.dots || I.dot || I.min || I.max || I.size) {
-            I.dots = I.dot = false;
+        if (I.validate("dots", "dot") || I.min || I.max || I.size) {
             draw_dots.call(this);
         }
 
-        if (I.markers || I.marker || I.size || I.min || I.max) {
-            I.markers = I.marker = false;
+        if (I.validate("markers", "marker") || I.size || I.min || I.max) {
             draw_markers.call(this);
         }
 
@@ -356,8 +352,7 @@ w.Circular = $class({
                 this._hand.style["display"] = "none";
             }
         }
-        if (I.size || I.hand || I.value) {
-            I.hand = false;
+        if (I.validate("size", "value", "hand")) {
             tmp = this._hand;
             tmp.setAttribute("x", O.size - O.hand.length - O.hand.margin);
             tmp.setAttribute("y", (O.size - O.hand.width) / 2.0);
@@ -367,7 +362,6 @@ w.Circular = $class({
                              TK.sprintf("rotate(%f %f %f)", this.val2real(), O.size / 2, O.size / 2));
             this.fire_event("handdrawn");
         }
-        I.value = I.size = I.min = I.max = I.start = false;
     },
     
     destroy: function () {
