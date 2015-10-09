@@ -43,6 +43,8 @@ function draw_lines(a, mode, last) {
     var w  = this.range_x.options.basis;
     var h  = this.range_y.options.basis;
 
+    /* FORCE_RELAYOUT */
+
     for (i = 0; i < a.length; i++) {
         obj = a[i];
         label = labels[i];

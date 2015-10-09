@@ -177,6 +177,7 @@ w.Select = $class({
             return;
         // set all possible titles into the buttons label, measure the
         // max width and set it as style afterwards
+        /* FORCE_RELAYOUT */
         this.__width = 0;
         this.element.style.width = "auto";
         var t = this._label.innerHTML;

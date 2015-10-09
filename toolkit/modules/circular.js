@@ -155,6 +155,8 @@ function draw_labels() {
 
     var fmt = TK.FORMAT("translate(%f, %f)");
 
+    /* FORCE_RELAYOUT */
+
     for (i = 0; i < labels.length; i++) {
         l = labels[i];
         p = a[i];

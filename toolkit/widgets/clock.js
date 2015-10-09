@@ -233,6 +233,8 @@ w.Clock = $class({
         TK.set_text(E, s);
         
         E.setAttribute("transform", "");
+
+        /* FORCE_RELAYOUT */
         
         var bb = E.getBoundingClientRect();
         var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;

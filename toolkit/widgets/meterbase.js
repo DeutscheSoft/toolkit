@@ -312,6 +312,7 @@ w.MeterBase = $class({
             this.draw_gradient(this._base, O.gradient);
         }
         if (I.layout) {
+            /* FORCE_RELAYOUT */
             I.layout = false;
             switch (O.layout) {
                 case _TOOLKIT_LEFT:

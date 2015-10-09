@@ -172,6 +172,7 @@ w.LevelMeter = $class({
 
         if (I.layout) {
             // will be invalidated by meterbase
+            /* FORCE_RELAYOUT */
             switch (O.layout) {
                 case _TOOLKIT_LEFT:
                 case _TOOLKIT_RIGHT:

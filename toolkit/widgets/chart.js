@@ -302,6 +302,9 @@ w.Chart = $class({
     _draw_title: function () {
         var _title  = this._title;
         _title.textContent = this.options.title;
+
+        /* FORCE_RELAYOUT */
+
         var mtop    = parseInt(TK.get_style(_title, "margin-top") || 0);
         var mleft   = parseInt(TK.get_style(_title, "margin-left") || 0);
         var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);
