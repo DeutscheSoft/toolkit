@@ -353,17 +353,14 @@ function random_string(length, chars) {
     for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
     return result;
 }
-var cache = {};
 function FORMAT(fmt) {
-    var cache_key = Array.prototype.join.call(arguments, "\0");
-    if (cache.hasOwnProperty(cache_key)) return cache[cache_key];
     var args = [];
     var s = "return ";
     var res;
     var last = 0;
     var argnum = 0;
     var precision;
-    var regexp = /%(\.\d+)?([bcdefgos%])/g;
+    var regexp = /%(\.\d+)?([bcdefgosO%])/g;
     var argname;
 
     while (res = regexp.exec(fmt)) {
@@ -395,6 +392,9 @@ function FORMAT(fmt) {
             s += "\"%\"";
             argnum--;
             break;
+        case 79:
+            s += "JSON.stringify("+argname+")";
+            break;
         default:
             throw("unknown format:"+res[0]);
             break;
@@ -406,12 +406,67 @@ function FORMAT(fmt) {
     if (argnum) s += "+";
     s += JSON.stringify(fmt.substr(last));
 
-    var fun = new Function(args, s);
-    cache[cache_key] = fun;
-    return fun;
+    return new Function(args, s);
 }
 function sprintf(fmt) {
-    return FORMAT(fmt).apply(this, Array.prototype.slice.call(arguments, 1));
+    var arg_len = arguments.length;
+    var i, last_fmt;
+    var c, arg_num = 1;
+    var ret = [];
+    var precision, s;
+    var has_precision = false;
+
+    for (last_fmt = 0; -1 !== (i = fmt.indexOf("%", last_fmt)); last_fmt = i+1) {
+        if (last_fmt < i) {
+            ret.push(fmt.substring(last_fmt, i));
+        }
+
+        i ++;
+
+        if (has_precision = (fmt.charCodeAt(i) === 46 /* '.' */)) {
+            i++;
+            precision = parseInt(fmt.substr(i));
+            while ((c = fmt.charCodeAt(i)) >= 48 && c <= 57) i++;
+        }
+
+        c = fmt.charCodeAt(i);
+
+        if (c == 37) {
+            ret.push("%");
+            continue;
+        }
+
+        s = arguments[arg_num++];
+
+        switch (fmt.charCodeAt(i)) {
+        case 102: /* f */
+            s = +s;
+            if (has_precision) {
+                s = s.toFixed(precision);
+            }
+            break;
+        case 100: /* d */
+            s = s|0;
+            break;
+        case 115: /* s */
+            break;
+        case 79: /* O */
+            s = JSON.stringify(s);
+            break;
+        default:
+            throw("Unsupported format.");
+        }
+
+        ret.push(s);
+
+        last_fmt = i+1;
+    }
+
+    if (last_fmt < fmt.length) {
+        ret.push(fmt.substring(last_fmt, fmt.length));
+    }
+
+    return ret.join("");
 }
 function is_touch() {
     return 'ontouchstart' in w // works on most browsers 
