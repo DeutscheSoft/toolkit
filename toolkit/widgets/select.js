@@ -50,21 +50,6 @@ function hide_list() {
         document.addEventListener("mousedown", this._global_touch_start);
     }
 }
-function set_size() {
-    // set all possible titles into the buttons label, measure the
-    // max width and set it as style afterwards
-    /* FORCE_RELAYOUT */
-    this.__width = 0;
-    this.element.style.width = "auto";
-    var t = this._label.innerHTML;
-    for (var i = 0; i < this.entries.length; i++) {
-        this.set("label", this.entries[i].title);
-        var act = TK.outer_width(this.element, true);
-        this.__width = Math.max(this.__width, act);
-    }
-    TK.outer_width(this.element, true, this.__width);
-    this._label.innerHTML = t;
-}
 function show_list(show) {
     if (show) {
         var ew = TK.outer_width(this.element, true);
@@ -110,7 +95,6 @@ w.Select = $class({
     initialize: function (options)  {
         this.__open = false;
         this.__timeout = -1;
-        this.__width = 0;
         this.entries = [];
         this._active = null;
         Button.prototype.initialize.call(this, options);
@@ -243,10 +227,8 @@ w.Select = $class({
 
         var I = this.invalid;
         var O = this.options;
-
-        if (I.validate("entries", "auto_size")) {
-            if (O.auto_size) set_size.call(this);
-        }
+        var E = this.element;
+        var L;
 
         if (I.selected) {
             if (this._active) {
@@ -259,6 +241,27 @@ w.Select = $class({
                 TK.add_class(entry.element, "toolkit-active");
             } else {
                 this._active = null;
+            }
+        }
+
+        if (I.validate("entries", "auto_size")) {
+            if (O.auto_size) {
+                L = this._label;
+                var width = 0;
+                E.style.width = "auto";
+                var t = L.innerHTML;
+                var tmp = "";
+                for (var i = 0; i < this.entries.length; i++) {
+                    tmp += this.entries[i].title + "<br>";
+                }
+                L.innerHTML = tmp;
+                TK.S.enqueue(function() {
+                    width = TK.outer_width(E, true);
+                    TK.S.enqueue(function() {
+                        L.innerHTML = t;
+                        TK.outer_width(E, true, width);
+                    });
+                }, 1);
             }
         }
     },
