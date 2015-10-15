@@ -157,29 +157,33 @@ function draw_labels() {
 
     /* FORCE_RELAYOUT */
 
-    for (i = 0; i < labels.length; i++) {
-        l = labels[i];
-        p = a[i];
+    TK.S.enqueue(function() {
+        for (i = 0; i < labels.length; i++) {
+            l = labels[i];
+            p = a[i];
 
-        var margin  = typeof l.margin != "undefined" ? l.margin : O.label.margin;
-        var align   = (typeof l.align != "undefined" ? l.align : O.label.align) == _TOOLKIT_INNER;
-        var pos     = Math.min(O.max, Math.max(O.min, l.pos));
-        var bb      = p.getBBox();
-        var angle   = (this.val2real(pos) + O.start) % 360;
-        var outer_p = outer - margin;
-        var coords  = _get_coords_single(angle, outer_p, outer);
-        
-        var mx = ((coords.x - outer) / outer_p) * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
-        var my = ((coords.y - outer) / outer_p) * bb.height / (align ? -2 : 2);
+            var margin  = typeof l.margin != "undefined" ? l.margin : O.label.margin;
+            var align   = (typeof l.align != "undefined" ? l.align : O.label.align) == _TOOLKIT_INNER;
+            var pos     = Math.min(O.max, Math.max(O.min, l.pos));
+            var bb      = p.getBBox();
+            var angle   = (this.val2real(pos) + O.start) % 360;
+            var outer_p = outer - margin;
+            var coords  = _get_coords_single(angle, outer_p, outer);
+            
+            var mx = ((coords.x - outer) / outer_p) * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
+            var my = ((coords.y - outer) / outer_p) * bb.height / (align ? -2 : 2);
 
-        positions[i] = fmt(coords.x + mx, coords.y + my);
-    }
+            positions[i] = fmt(coords.x + mx, coords.y + my);
+        }
 
-    for (i = 0; i < labels.length; i++) {
-        p = a[i];
-        p.setAttribute("transform", positions[i]);
-    }
-    this.fire_event("labelsdrawn");
+        TK.S.enqueue(function() {
+            for (i = 0; i < labels.length; i++) {
+                p = a[i];
+                p.setAttribute("transform", positions[i]);
+            }
+            this.fire_event("labelsdrawn");
+        }.bind(this));
+    }.bind(this), 1);
 }
 function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     // enshure from != to
