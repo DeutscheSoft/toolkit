@@ -81,27 +81,35 @@ function set_labels() {
 
     /* FORCE_RELAYOUT */
     
-    var bb = E.getBoundingClientRect();
-    var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;
-    var mright  = parseInt(TK.get_style(E, "margin-right")) || 0;
-    var mtop    = parseInt(TK.get_style(E, "margin-top")) || 0;
-    var mbottom = parseInt(TK.get_style(E, "margin-bottom")) || 0;
-    var space   = O.size - mleft - mright - this._margin * 2;
-    var scale   = space / bb.width;
-    var pos     = O.size / 2;
-    
-    E.setAttribute("transform", "translate(" + pos + "," + pos + ") "
-        + "scale(" + scale + ")");
+    TK.S.enqueue(function() {
+        var bb = E.getBoundingClientRect();
+        var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;
+        var mright  = parseInt(TK.get_style(E, "margin-right")) || 0;
+        var mtop    = parseInt(TK.get_style(E, "margin-top")) || 0;
+        var mbottom = parseInt(TK.get_style(E, "margin-bottom")) || 0;
+        var space   = O.size - mleft - mright - this._margin * 2;
+        var scale   = space / bb.width;
+        var pos     = O.size / 2;
+        
+        TK.S.enqueue(function() {
+            E.setAttribute("transform", "translate(" + pos + "," + pos + ") "
+                + "scale(" + scale + ")");
 
-    /* FORCE_RELAYOUT */
-    
-    bb = E.getBoundingClientRect();
-    
-    this._label_upper.setAttribute("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
-        + "scale(" + (scale * O.label_scale) + ")");
-    this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
-        + "scale(" + (scale * O.label_scale) + ")");
-    draw_time.call(this, true);
+            /* FORCE_RELAYOUT */
+            
+            TK.S.enqueue(function() {
+                bb = E.getBoundingClientRect();
+                
+                TK.S.enqueue(function() {
+                    this._label_upper.setAttribute("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
+                        + "scale(" + (scale * O.label_scale) + ")");
+                    this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
+                        + "scale(" + (scale * O.label_scale) + ")");
+                    draw_time.call(this, true);
+                }.bind(this));
+            }.bind(this), 1);
+        }.bind(this));
+    }.bind(this), 1);
 }
 function timeout() {
     if (this.__to)
