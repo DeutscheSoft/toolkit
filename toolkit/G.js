@@ -2,29 +2,38 @@
 var Scheduler = function() {
     this.Q = [];
     this.tmp = [];
+    this.debug = true;
 };
 Scheduler.prototype = {
     run : function() {
         var Q = this.Q;
-        var not_done = true;
+        var empty;
         var runs = 0;
+        var debug = this.debug;
+        var calls = 0;
+        var t;
 
-        while (not_done) {
+        if (debug) t = performance.now();
+
+        while (!empty) {
             var i;
             runs++;
 
-            not_done = false;
+            empty = true;
 
             for (i = 0; i < Q.length; i++) {
                 var q = Q[i], o, ret, v;
 
                 if (!q || !q.length) continue;
 
+                empty = false;
+
                 Q[i] = this.tmp;
                 this.tmp = q;
 
                 for (var j = 0; j < q.length; j++) {
                     o = q[j];
+                    calls++;
                     if (typeof(o) === "function") {
                         o = o();
                         if (typeof(o) === "object")
@@ -35,7 +44,6 @@ Scheduler.prototype = {
                     if (ret.done || (v = ret.value) === false) {
                         continue;
                     }
-                    not_done = true;
                     if (v !== undefined) {
                         v = v|0;
                         if (v !== i) {
@@ -48,6 +56,11 @@ Scheduler.prototype = {
 
                 q.length = 0;
             }
+        }
+
+        if (debug) {
+            t = performance.now() - t;
+            console.log("DOMScheduler did %d runs and %d calls: %f ms", runs, calls, t);
         }
 
         return runs;
