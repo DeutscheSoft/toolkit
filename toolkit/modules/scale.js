@@ -73,7 +73,7 @@ function low_draw_label(val, cls) {
 
     return [val, label];
 }
-function correct_labels() {
+function correct_labels(labels) {
     var i, label;
     var position_prop, size_fun, lsize_fun;
     var vert = this._vert();
@@ -87,38 +87,39 @@ function correct_labels() {
         lsize_fun = TK.outer_width;
     }
     var sizes = [];
-
-    // calculate the size of all labels for positioning
-    for (i = 0; i < arguments.length; i++) {
-        label = arguments[i][1];
-        sizes[i] = lsize_fun(label, true);
-    }
-
-    // position all labels
-    for (i = 0; i < arguments.length; i++) {
-        label = arguments[i][1];
-        var pos = Math.round(this.val2px(arguments[i][0]));
-        var size = sizes[i];
-        if (vert)
-            pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
-        else
-            pos = pos - size / 2;
-        label.style[position_prop] = pos + "px";
-    }
-
     var new_size = 0, tmp;
+    var elem_size;
 
-    // calculate the size of all labels for positioning
-    for (i = 0; i < arguments.length; i++) {
-        label = arguments[i][1];
-        tmp = size_fun(label, true);
+    TK.S.enqueue(function() {
+        // calculate the size of all labels for positioning
+        for (i = 0; i < labels.length; i++) {
+            label = labels[i][1];
+            sizes[i] = lsize_fun(label, true);
 
-        if (tmp > new_size) new_size = tmp;
-    }
+            tmp = size_fun(label, true);
+            if (tmp > new_size) new_size = tmp;
+        }
 
-    if (new_size > size_fun(this.element, true)) {
-        size_fun(this.element, true, new_size);
-    }
+        elem_size = size_fun(this.element, true);
+
+        TK.S.enqueue(function() {
+            // position all labels
+            for (i = 0; i < labels.length; i++) {
+                label = labels[i][1];
+                var pos = Math.round(this.val2px(labels[i][0]));
+                var size = sizes[i];
+                if (vert)
+                    pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
+                else
+                    pos = pos - size / 2;
+                label.style[position_prop] = pos + "px";
+            }
+
+            if (new_size > elem_size) {
+                size_fun(this.element, true, new_size);
+            }
+        }.bind(this));
+    }.bind(this), 1);
 }
 w.Scale = $class({
     // Scale can be used to draw dots and labels as markers next to a meter, a
@@ -192,8 +193,16 @@ w.Scale = $class({
     },
     
     redraw: function () {
+        Widget.prototype.redraw.call(this);
+
         var I = this.invalid;
         var O = this.options;
+
+        if (I.basis) {
+            I.basis = false;
+            if (this._vert()) this.element.style.height = O.basis + "px";
+            else this.element.style.width = O.basis + "px";
+        }
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
                        "fixed_dots", "fixed_labels", "levels")) {
@@ -272,9 +281,8 @@ w.Scale = $class({
                 check_dots.call(this, last, iter, O.division, O.levels.length - 1,
                                 function (a, b) { return a < b });
             }
-            correct_labels.apply(this, labels);
+            correct_labels.call(this, labels);
         }
-        Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         TK.empty(this.element);
@@ -336,11 +344,6 @@ w.Scale = $class({
             case "gap_labels":
             case "show_labels":
                 this.fire_event("scalechanged")
-                break;
-            case "basis":
-                if (this._vert()) this.element.style.height = value + "px";
-                else this.element.style.width = value + "px";
-
                 break;
             case "base":
                 if (value === false) {
