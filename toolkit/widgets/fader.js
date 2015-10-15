@@ -124,97 +124,54 @@ w.Fader = $class({
     },
     
     redraw: function () {
-        if (this._vert()) {
-            // VERTICAL
-            //toolkit.set_styles(this._background_top, {
-                //position: "absolute",
-                //top: "0px",
-                //left: undefined
-            //});
-            //toolkit.set_styles(this._background_bottom, {
-                //position: "absolute",
-                //bottom: "0px",
-                //right: undefined
-            //});
-            
-            var h  = TK.inner_height(this.element);
-            //var hl = TK.outer_height(this._background_top, true);
-            //var hr = TK.outer_height(this._background_bottom, true);
-            
-            //toolkit.set_styles(this._background_center, {
-                //position: "absolute",
-                //top: hl + "px",
-                //left: undefined,
-                //height: (h - hl - hr) + "px"
-            //});
-            
-            //var p = TK.inner_width(this.element);
-            //toolkit.outer_width(this._background_top, true, p);
-            //toolkit.outer_width(this._background_bottom, true, p);
-            //toolkit.outer_width(this._background_center, true, p);
-            //toolkit.outer_width(this._scale, true, p);
-            
-            //toolkit.set_styles(this._handle, {
-                //position: "absolute",
-                //bottom: "0px",
-                //right: undefined
-            //});
-            this._handlesize = TK.outer_height(this._handle, true);
-            //toolkit.outer_height(this._scale, true, h - this._handlesize);
-            //this._scale.style["top"] = (this._handlesize / 2) + "px";
-        } else {
-            // HORIZONTAL
-            
-            //toolkit.set_styles(this._background_top, {
-                //position: "absolute",
-                //left: "0px",
-                //top: undefined
-            //});
-            //toolkit.set_styles(this._background_bottom, {
-                //position: "absolute",
-                //right: "0px",
-                //bottom: undefined
-            //});
-            
-            var h  = TK.inner_width(this.element);
-            //var hl = TK.outer_width(this._background_top, true);
-            //var hr = TK.outer_width(this._background_bottom, true);
-            
-            //toolkit.set_styles(this._background_center, {
-                //position: "absolute",
-                //left: hl + "px",
-                //top: undefined,
-                //width: (h - hl - hr) + "px"
-            //});
-            
-            //var p = TK.inner_height(this.element);
-            //toolkit.outer_height(this._background_top, true, p);
-            //toolkit.outer_height(this._background_bottom, true, p);
-            //toolkit.outer_height(this._background_center, true, p);
-            //toolkit.outer_height(this._scale, true, p);
-            
-            //toolkit.set_styles(this._handle, {
-                //position: "absolute",
-                //right: "0px",
-                //bottom: undefined
-            //});
-            this._handlesize = TK.outer_width(this._handle, true);
-            //toolkit.outer_width(this._scale, true, h - this._handlesize);
-            //this._scale.style["left"] = (this._handlesize / 2) + "px";
-        }
-        var s = h - this._handlesize;
-        if (s != this.options.basis) {
-            this.options.basis = s;
-            this.scale.set("basis", s);
-        }
-        this.set("value", this.options.value);
-        this.scale.redraw();
-        
-        //toolkit.inner_width(this.element,
-                            //Math.max(toolkit.outer_width(this._handle, true),
-                                     //toolkit.outer_width(this._scale, true)));
-        
         Widget.prototype.redraw.call(this);
+        var I = this.invalid;
+        var O = this.options;
+        var E = this.element;
+        var value;
+        var h;
+
+        if (I.layout) {
+            I.layout = false;
+            value = O.layout;
+            TK.remove_class(E, "toolkit-vertical");
+            TK.remove_class(E, "toolkit-horizontal");
+            TK.remove_class(E, "toolkit-left");
+            TK.remove_class(E, "toolkit-right");
+            TK.remove_class(E, "toolkit-top");
+            TK.remove_class(E, "toolkit-bottom");
+            var c = this._vert() ? "vertical" : "horizontal";
+            TK.add_class(E, "toolkit-" + c);
+            var d = value == _TOOLKIT_LEFT   ? "left" :
+                    value == _TOOLKIT_RIGHT  ? "right" :
+                    value == _TOOLKIT_TOP    ? "top" : "bottom";
+            TK.add_class(E, "toolkit-" + d);
+        }
+
+        if (I.value) {
+            I.value = false;
+            this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real() + "px";
+        }
+
+        if (I.validate("reverse", "log_factor", "step", "round", "scale", "basis")) {
+            TK.S.enqueue(function() {
+                if (this._vert()) {
+                    h  = TK.inner_height(E);
+                    this._handlesize = TK.outer_height(this._handle, true);
+                } else {
+                    h  = TK.inner_width(E);
+                    this._handlesize = TK.outer_width(this._handle, true);
+                }
+                var s = h - this._handlesize;
+                if (s != O.basis) {
+                    O.basis = s;
+                    this.scale.set("basis", s);
+                }
+                this.scale.trigger_draw();
+                I.value = true;
+                this.trigger_draw();
+            }.bind(this), 1);
+        }
     },
     resize: function () {
         this.redraw();
@@ -272,34 +229,15 @@ w.Fader = $class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
         switch (key) {
             case "value":
-                this.options.value = this.snap(value);
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
-                this.fire_event("set_value", this.options.value);
-                this.fire_event("set", "value", this.options.value);
-                if (!hold) {
-                    this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real() + "px";
-                }
-                return;
+                value = this.snap(value);
+                break;
             case "layout":
-                TK.remove_class(this.element, "toolkit-vertical");
-                TK.remove_class(this.element, "toolkit-horizontal");
-                TK.remove_class(this.element, "toolkit-left");
-                TK.remove_class(this.element, "toolkit-right");
-                TK.remove_class(this.element, "toolkit-top");
-                TK.remove_class(this.element, "toolkit-bottom");
-                var c = this._vert() ? "vertical" : "horizontal";
-                TK.add_class(this.element, "toolkit-" + c);
-                var d = value == _TOOLKIT_LEFT   ? "left" :
-                        value == _TOOLKIT_RIGHT  ? "right" :
-                        value == _TOOLKIT_TOP    ? "top" : "bottom";
-                TK.add_class(this.element, "toolkit-" + d);
                 this.scale.set("layout", value);
-                this.options.direction = this._vert() ? _TOOLKIT_VERT
-                                                      : _TOOLKIT_HORIZ;
+                this.options.direction = this._vert() ? _TOOLKIT_VERT : _TOOLKIT_HORIZ;
                 this.drag.set("direction", this.options.direction);
                 this.scroll.set("direction", this.options.direction);
                 break;
@@ -307,13 +245,6 @@ w.Fader = $class({
             case "max":
             case "snap":
                 this.update_ranged();
-            case "reverse":
-            case "log_factor":
-            case "step":
-            case "round":
-            case "scale":
-            case "basis":
-                if (!hold) this.redraw();
                 break;
         }
         Widget.prototype.set.call(this, key, value, hold);
