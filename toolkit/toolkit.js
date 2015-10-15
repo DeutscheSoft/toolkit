@@ -216,10 +216,9 @@ function fixed(e) {
     return getComputedStyle(e).getPropertyValue("position") == "fixed";
 }
 function outer_width(element, margin, width) {
-    var cs = getComputedStyle(element);
-    var w = element.getBoundingClientRect().width;
     var m = 0;
     if (margin) {
+        var cs = getComputedStyle(element);
         m += parseFloat(cs.getPropertyValue("margin-left"));
         m += parseFloat(cs.getPropertyValue("margin-right"));
     }
@@ -233,14 +232,15 @@ function outer_width(element, margin, width) {
         if (width < 0) return 0;
         element.style.width = width + "px";
         return width;
+    } else {
+        var w = element.getBoundingClientRect().width;
+        return w + m;
     }
-    return w + m;
 }
 function outer_height(element, margin, height) {
-    var cs = getComputedStyle(element, null);
-    var h = element.getBoundingClientRect().height;
     var m = 0;
     if (margin) {
+        var cs = getComputedStyle(element, null);
         m += parseFloat(cs.getPropertyValue("margin-top"));
         m += parseFloat(cs.getPropertyValue("margin-bottom"));
     }
@@ -254,12 +254,12 @@ function outer_height(element, margin, height) {
         if (height < 0) return 0;
         element.style.height = height + "px";
         return height;
+    } else {
+        var h = element.getBoundingClientRect().height;
+        return h + m;
     }
-    return h + m;
 }
 function inner_width(element, width) {
-    var cs = getComputedStyle(element, null);
-    var w = element.getBoundingClientRect().width;
     var css = css_space(element, "padding", "border");
     var x = css.left + css.right;
     if (typeof width !== "undefined") {
@@ -269,12 +269,12 @@ function inner_width(element, width) {
         if (width < 0) return 0;
         element.style.width = width + "px";
         return width;
+    } else {
+        var w = element.getBoundingClientRect().width;
+        return w - x;
     }
-    return w - x;
 }
 function inner_height(element, height) {
-    var cs = getComputedStyle(element, null);
-    var h = element.getBoundingClientRect().height;
     var css = css_space(element, "padding", "border");
     var y = css.top + css.bottom;
     if (typeof height !== "undefined") {
@@ -284,8 +284,10 @@ function inner_height(element, height) {
         if (height < 0) return 0;
         element.style.height = height + "px";
         return height;
+    } else {
+        var h = element.getBoundingClientRect().height;
+        return h - y;
     }
-    return h - y;
 }
 function box_sizing(element) {
     var cs = getComputedStyle(element, null);
