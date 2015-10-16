@@ -80,10 +80,6 @@ w.EqBand = $class({
         this.filter.reset();
     },
 
-    gen_freq2gain : function() {
-        return this.filter.freq2gain;
-    },
-    
     freq2gain: function (freq) {
         return this.filter.freq2gain(freq);
     },
