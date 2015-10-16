@@ -2,7 +2,7 @@
 var Scheduler = function() {
     this.Q = [];
     this.tmp = [];
-    this.debug = true;
+    this.debug = 10;
 };
 Scheduler.prototype = {
     run : function() {
@@ -60,7 +60,8 @@ Scheduler.prototype = {
 
         if (debug) {
             t = performance.now() - t;
-            console.log("DOMScheduler did %d runs and %d calls: %f ms", runs, calls, t);
+            if (t > debug)
+                console.log("DOMScheduler did %d runs and %d calls: %f ms", runs, calls, t);
         }
 
         return runs;
