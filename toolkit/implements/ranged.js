@@ -206,22 +206,22 @@ w.Ranged = $class({
     val2real: function (n, nosnap) {
         // calculates "real world" values (positions, coefficients, ...)
         // depending on options.basis
-        return this.val2based(n, this.options.basis, nosnap);
+        return this.val2based(n, this.options.basis || 1, nosnap);
     },
     real2val: function (n, nosnap) {
         // returns a point on the scale for the "real world" value (positions,
         // coefficients, ...) based on options.basis
-        return this.based2val(n, this.options.basis, nosnap);
+        return this.based2val(n, this.options.basis || 1, nosnap);
     },
     val2px: function (n, nosnap) {
         // just a wrapper for having understandable code and backward
         // compatibility
-        return this.val2based(n, this.options.basis, nosnap);
+        return this.val2based(n, this.options.basis || 1, nosnap);
     },
     px2val: function (n, nosnap) {
         // just a wrapper for having understandable code and backward
         // compatibility
-        return this.based2val(n, this.options.basis, nosnap);
+        return this.based2val(n, this.options.basis || 1, nosnap);
     },
     val2coef: function (n, nosnap) {
         // calculates a coefficient for the value
@@ -242,9 +242,15 @@ w.Ranged = $class({
     val2based: function (value, basis, nosnap) {
         // takes a value and returns the corresponding point on the scale
         // according to basis
-        if (typeof value == "undefined") value = this.options.value;
-        basis = basis || 1;
-        if (!nosnap) value = this.snap(value);
+        if (typeof value == "undefined") {
+            throw("Unsupported optional argument: value.\n");
+        }
+        if (!basis) {
+            throw("Unsupported optional argument: basis.\n");
+        }
+        if (!nosnap) {
+            throw("Unsupported optional argument: nosnap.\n");
+        }
         var coef = 0;
         if (typeof this.options.scale == "function")
             coef = this.options.scale(value, this.options, false) * basis;
@@ -283,6 +289,12 @@ w.Ranged = $class({
         // takes a point on the scale according to basis and returns the
         // corresponding value
         basis = basis || 1;
+        if (!basis) {
+            throw("Unsupported optional argument: basis.\n");
+        }
+        if (!nosnap) {
+            throw("Unsupported optional argument: nosnap.\n");
+        }
         var value = 0;
         if (this.options.reverse) coef = -coef + basis;
         if (typeof this.options.scale == "function")
@@ -315,8 +327,7 @@ w.Ranged = $class({
                        true);
                 break;
         }
-        if (nosnap) return value;
-        return this.snap(value);
+        return value;
     },
     set: function(key, value) {
         switch (key) {

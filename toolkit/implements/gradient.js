@@ -115,7 +115,7 @@ w.Gradient = $class({
                 function (a,b) { return b-a } : function (a,b) { return a-b });
             
             for (var i = 0; i < keys.length; i++) {
-                var ps = range.val2perc(keys[i]).toFixed(2);
+                var ps = range.val2perc(range.snap(keys[i]), true).toFixed(2);
                 if (!ms_first) ms_first = grad[i];
                 ms_last = grad[keys[i] + ""];
                 

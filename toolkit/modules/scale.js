@@ -106,7 +106,7 @@ function correct_labels(labels) {
             // position all labels
             for (i = 0; i < labels.length; i++) {
                 label = labels[i][1];
-                var pos = Math.round(this.val2px(labels[i][0]));
+                var pos = Math.round(this.val2px(this.snap(labels[i][0]), true));
                 var size = sizes[i];
                 if (vert)
                     pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
@@ -301,7 +301,7 @@ w.Scale = $class({
         
         // position dot element
         var styles = { }
-        var pos = Math.round(this.val2px(val));
+        var pos = Math.round(this.val2px(this.snap(val), true));
         pos = Math.min(Math.max(0, pos), this.options.basis - 1);
         styles[this._vert() ? "bottom" : "left"] = pos + "px";
         TK.set_styles(d, styles);
@@ -325,7 +325,7 @@ w.Scale = $class({
         // returns a positions according to a value without taking
         // options.reverse into account
         return this.options.reverse ?
-            this.options.basis - this.val2px(value) : this.val2px(value);
+            this.options.basis - this.val2px(this.snap(value), true) : this.val2px(this.snap(value), true);
     },
     _vert: function () {
         // returns true if the meter is drawn vertically

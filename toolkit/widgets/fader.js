@@ -150,7 +150,7 @@ w.Fader = $class({
 
         if (I.value) {
             I.value = false;
-            this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real() + "px";
+            this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real(this.snap(O.value), true) + "px";
         }
 
         if (I.validate("reverse", "log_factor", "step", "round", "scale", "basis")) {
@@ -223,8 +223,7 @@ w.Fader = $class({
                     this._vert() ? "outer_height" : "outer_width"](this._scale, true);
         var real = click - pos
         if (this._vert()) real = size - real;
-        return Math.max(this.options.min,
-               Math.min(this.real2val(real), this.options.max));
+        return this.snap(this.real2val(real, true));
     },
     
     // GETTER & SETTER

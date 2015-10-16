@@ -71,7 +71,7 @@ function draw_dots() {
         r.setAttribute("height", width);
         
         r.setAttribute("transform", "rotate("
-            + this.val2real(pos) + " "
+            + this.val2real(this.snap(pos), true) + " "
             + (O.size / 2) + " " + (this.options.size / 2) + ")");
     }
     this.fire_event("dotsdrawn");
@@ -114,7 +114,7 @@ function draw_markers() {
         if (m["class"]) TK.add_class(s, m["class"]);
         if (m["color"]) s.style["fill"] = m["color"];
         
-        draw_slice.call(this, this.val2real(from), this.val2real(to), inner_p, outer_p, outer, s);
+        draw_slice.call(this, this.val2real(this.snap(from), true), this.val2real(this.snap(to), true), inner_p, outer_p, outer, s);
     }
     this.fire_event("markersdrawn");
 }
@@ -166,7 +166,7 @@ function draw_labels() {
             var align   = (typeof l.align != "undefined" ? l.align : O.label.align) == _TOOLKIT_INNER;
             var pos     = Math.min(O.max, Math.max(O.min, l.pos));
             var bb      = p.getBBox();
-            var angle   = (this.val2real(pos) + O.start) % 360;
+            var angle   = (this.val2real(this.snap(pos), true) + O.start) % 360;
             var outer_p = outer - margin;
             var coords  = _get_coords_single(angle, outer_p, outer);
             
@@ -333,7 +333,7 @@ w.Circular = $class({
         if (I.show_value || I.value) {
             I.show_value = false;
             if (O.show_value) {
-                draw_slice.call(this, this.val2real(O.base), this.val2real(), inner_p, outer_p, outer,
+                draw_slice.call(this, this.val2real(this.snap(O.base), true), this.val2real(this.snap(O.value), true), inner_p, outer_p, outer,
                                 this._value);
             } else {
                 this._value.removeAttribute("d");
@@ -363,7 +363,7 @@ w.Circular = $class({
             tmp.setAttribute("width", O.hand.length);
             tmp.setAttribute("height",O.hand.width);
             tmp.setAttribute("transform",
-                             TK.sprintf("rotate(%f %f %f)", this.val2real(), O.size / 2, O.size / 2));
+                             TK.sprintf("rotate(%f %f %f)", this.val2real(this.snap(O.value), true), O.size / 2, O.size / 2));
             this.fire_event("handdrawn");
         }
     },

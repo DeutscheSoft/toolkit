@@ -141,8 +141,7 @@ w.Graph = $class({
                     _x = (range_x.val2px(d.x, true));
                     _y = _y1 = (range_y.val2px(d.y, true) + a);
                     if (_d && _d != (dots.length - 1)) {
-                        _q = range_x.val2px(
-                                 dots[_d - 1].x, true);
+                        _q = range_x.val2px(dots[_d - 1].x, true);
                         _x1 =  (_x - Math.round((_x - _q) / f) + a);
                     } else {
                         _x1 = _x;

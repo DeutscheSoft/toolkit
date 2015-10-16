@@ -88,7 +88,9 @@ w.DragValue = $class({
             this.global_cursor("col-resize");
         this.__active  = true;
         
-        this._clickPos = this.options.range().val2real(this.options.get());
+        var range = this.options.range();
+
+        this._clickPos = range.val2real(range.snap(this.options.get()), true);
         this._pageX = ev.pageX;
         this._pageY = ev.pageY
             
@@ -164,7 +166,8 @@ w.DragValue = $class({
         }
         
         var val = this.options.get();
-        this.options.set(this.options.range().px2val(this._clickPos + dist));
+        var range = this.options.range();
+        this.options.set(range.snap(range.px2val(this._clickPos + dist, true)));
         
         // remember stuff
         if (val != this.options.get())

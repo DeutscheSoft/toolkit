@@ -121,23 +121,26 @@ function mousemove(e) {
     e.preventDefault();
     
     var ev;
+    var range_x = this.range_x;
+    var range_y = this.range_y;
+    var range_z = this.range_z;
 
     if (e.touches && e.touches.length) {
         ev = e.touches[e.touches.length - 1];
     } else {
         ev = e;
     }
-    var mx = this.range_x.options.step || 1;
-    var my = this.range_y.options.step || 1;
-    var mz = this.range_z.options.step || 1;
+    var mx = range_x.options.step || 1;
+    var my = range_y.options.step || 1;
+    var mz = range_z.options.step || 1;
     if (e.ctrlKey && e.shiftKey) {
-        mx *= this.range_x.get("shift_down");
-        my *= this.range_y.get("shift_down");
-        mz *= this.range_z.get("shift_down");
+        mx *= range_x.get("shift_down");
+        my *= range_y.get("shift_down");
+        mz *= range_z.get("shift_down");
     } else if (e.shiftKey) {
-        mx *= this.range_x.get("shift_up");
-        my *= this.range_y.get("shift_up");
-        mz *= this.range_z.get("shift_up");
+        mx *= range_x.get("shift_up");
+        my *= range_y.get("shift_up");
+        mz *= range_z.get("shift_up");
     }
     if (this._zhandling) {
         if (O.z_handle == _TOOLKIT_LEFT
@@ -149,7 +152,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_LEFT) {
             // movement to left
             this.set("z",
-                this.range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz)));
+                range_z.snap(range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz), true)));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -162,7 +165,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
             // movement to right
             this.set("z",
-                this.range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz)));
+                range_z.snap(range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz), true)));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -175,7 +178,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_TOP_RIGHT) {
             // movement to top
             this.set("z",
-                this.range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz)));
+                this.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz), true)));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -188,7 +191,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
             // movement to bottom
             this.set("z",
-                this.range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz)));
+                range_z.snap(range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz), true)));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -200,10 +203,8 @@ function mousemove(e) {
         if (dist > O.min_drag)
             this._sticky = false;
     } else {
-        this.set("x", this.range_x.px2val(this._clickX
-            + ((ev.pageX - this._offsetX) - this._clickX) * mx));
-        this.set("y", this.range_y.px2val(this._clickY
-            + ((ev.pageY - this._offsetY) - this._clickY) * my));
+        this.set("x", range_x.snap(range_x.px2val(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx, true)));
+        this.set("y", range_y.snap(range_y.px2val(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my, true)));
         this.fire_event("useraction", "x", this.get("x"));
         this.fire_event("useraction", "y", this.get("y"));
     }
@@ -485,6 +486,10 @@ w.ResponseHandle = $class({
         var width  = 0;
         var height = 0;
         var m      = O.margin;
+
+        var range_x = this.range_x;
+        var range_y = this.range_y;
+        var range_z = this.range_z;
         
         if ((this._zhandling || this._zwheel)
         && (O.z >= O.z_max && O.z_max !== false
@@ -506,13 +511,13 @@ w.ResponseHandle = $class({
         if (O.z_max !== false)
             O.z = Math.min(O.z_max, O.z);
         
-        O.x = this.range_x.snap(O.x);
-        O.y = this.range_y.snap(O.y);
-        O.z = this.range_z.snap(O.z);
+        O.x = range_x.snap(O.x);
+        O.y = range_y.snap(O.y);
+        O.z = range_z.snap(O.z);
         
-        this.x = this.range_x.val2px(O.x);
-        this.y = this.range_y.val2px(O.y);
-        this.z = this.range_z.val2px(O.z);
+        this.x = range_x.val2px(O.x, true);
+        this.y = range_y.val2px(O.y, true);
+        this.z = range_z.val2px(O.z, true);
         
         var rnd = {
             x: Math.round(this.x),
@@ -544,19 +549,19 @@ w.ResponseHandle = $class({
                 width  = Math.round(Math.max(O.min_size, rnd.z));
                 x      = Math.round(
                             Math.min(
-                                this.range_x.get("basis") - width / 2,
+                                range_x.get("basis") - width / 2,
                                 Math.max(width / -2, rnd.x - width / 2)));
                 y      = Math.round(
                             Math.max(
                                 0,
                                 O.y_max === false ?
-                                0 : this.range_y.val2px(O.y_max)));
+                                0 : range_y.val2px(range_y.snap(O.y_max), true)));
                 height = Math.round(
                              Math.min(
-                                 this.range_y.get("basis"),
+                                 range_y.get("basis"),
                                  O.y_min === false
-                                     ? this.range_y.get("basis")
-                                     : this.range_y.val2px(O.y_min)) - y);
+                                     ? range_y.get("basis")
+                                     : range_y.val2px(range_y.snap(O.y_min), true)) - y);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -569,19 +574,19 @@ w.ResponseHandle = $class({
                 height = Math.round(Math.max(O.min_size, rnd.z));
                 y      = Math.round(
                             Math.min(
-                                this.range_y.get("basis") - height / 2,
+                                range_y.get("basis") - height / 2,
                                 Math.max(height / -2, rnd.y - height / 2)));
                 x      = Math.round(
                             Math.max(
                                 0,
                                 O.x_min === false
-                                    ? 0 : this.range_x.val2px(O.x_min)));
+                                    ? 0 : range_x.val2px(range_x.snap(O.x_min), true)));
                 width  = Math.round(
                              Math.min(
-                                 this.range_x.get("basis"),
+                                 range_x.get("basis"),
                                  O.x_max === false
-                                     ? this.range_x.get("basis")
-                                     : this.range_x.val2px(O.x_max)) - x);
+                                     ? range_x.get("basis")
+                                     : range_x.val2px(range_x.snap(O.x_max), true)) - x);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -596,17 +601,17 @@ w.ResponseHandle = $class({
                             Math.max(
                                 0,
                                 O.y_max === false
-                                    ? 0 : this.range_y.val2px(O.y_max)));
+                                    ? 0 : range_y.val2px(range_y.snap(O.y_max), true)));
                 width  = Math.round(
                             Math.max(
                                 O.min_size / 2,
-                                Math.min(rnd.x, this.range_x.get("basis"))));
+                                Math.min(rnd.x, range_x.get("basis"))));
                 height = Math.round(
                             Math.min(
-                                this.range_y.get("basis"),
+                                range_y.get("basis"),
                                 O.y_min === false
-                                    ? this.range_y.get("basis")
-                                    : this.range_y.val2px(O.y_min)) - y);
+                                    ? range_y.get("basis")
+                                    : range_y.val2px(range_y.snap(O.y_min), true)) - y);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -620,21 +625,21 @@ w.ResponseHandle = $class({
                             0,
                             Math.min(
                                 rnd.x,
-                                this.range_x.get("basis") - O.min_size / 2));
+                                range_x.get("basis") - O.min_size / 2));
                 y      = Math.round(
                             Math.max(
                                 0,
                                 O.y_max === false
-                                    ? 0 : this.range_y.val2px(O.y_max)));
+                                    ? 0 : range_y.val2px(range_y.snap(O.y_max), true)));
                 width  = Math.max(
                             O.min_size / 2,
-                            this.range_x.get("basis") - x);
+                            range_x.get("basis") - x);
                 height = Math.round(
                             Math.min(
-                                this.range_y.get("basis"),
+                                range_y.get("basis"),
                                 O.y_min === false
-                                    ? this.range_y.get("basis")
-                                    : this.range_y.val2px(O.y_min)) - y);
+                                    ? range_y.get("basis")
+                                    : range_y.val2px(range_y.snap(O.y_min), true)) - y);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -647,18 +652,18 @@ w.ResponseHandle = $class({
                 x      = Math.round(Math.max(
                             0,
                             O.x_min === false
-                                ? 0 : this.range_x.val2px(O.x_min)));
+                                ? 0 : range_x.val2px(range_x.snap(O.x_min), true)));
                 y      = 0;
                 width  = Math.round(
                             Math.min(
-                                this.range_x.get("basis"),
+                                range_x.get("basis"),
                                 O.x_max === false
-                                    ? this.range_x.get("basis")
-                                    : this.range_x.val2px(O.x_max)) - x);
+                                    ? range_x.get("basis")
+                                    : range_x.val2px(range_x.snap(O.x_max), true)) - x);
                 height = Math.round(
                             Math.max(
                                 O.min_size / 2,
-                                Math.min(rnd.y, this.range_y.get("basis"))));
+                                Math.min(rnd.y, range_y.get("basis"))));
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -671,20 +676,20 @@ w.ResponseHandle = $class({
                 x      = Math.round(Math.max(
                             0,
                             O.x_min === false
-                                ? 0 : this.range_x.val2px(O.x_min)));
+                                ? 0 : range_x.val2px(range_x.snap(O.x_min), true)));
                 y      = Math.max(
                             0,
                             Math.min(
                                 rnd.y,
-                                this.range_y.get("basis") - O.min_size / 2));
+                                range_y.get("basis") - O.min_size / 2));
                 width  = Math.round(Math.min(
-                            this.range_x.get("basis"),
+                            range_x.get("basis"),
                             O.x_max === false
-                                ? this.range_x.get("basis")
-                                : this.range_x.val2px(O.x_max)) - x);
+                                ? range_x.get("basis")
+                                : range_x.val2px(range_x.snap(O.x_max), true)) - x);
                 height = Math.max(
                             O.min_size / 2,
-                            this.range_y.get("basis") - y);
+                            range_y.get("basis") - y);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -1314,11 +1319,11 @@ w.ResponseHandle = $class({
                     var _y = Math.max(height / 2 + O.margin,
                                       this.label.y2 - this.y + O.margin);
                     this._line1.setAttribute("d", "M "  + _x + " 0" + this._add + " L"
-                                               + (this.range_x.get("basis") - (x - _x))
+                                               + (range_x.get("basis") - (x - _x))
                                                + " 0" + this._add);
                     this._line2.setAttribute("d", "M 0" + this._add + " " + _y + " L 0"
                                                + this._add + " "
-                                               + (this.range_y.get("basis") - (y - _y)));
+                                               + (range_y.get("basis") - (y - _y)));
                 }
                 break;
             case _TOOLKIT_LINE_VERTICAL:
@@ -1329,7 +1334,7 @@ w.ResponseHandle = $class({
                                           + (y + height));
                 if (O.show_axis) {
                     this._line2.setAttribute("d", "M 0 " + (rnd.y + this._add) + " L "
-                                                + this.range_x.get("basis") + " "
+                                                + range_x.get("basis") + " "
                                                 + (rnd.y + this._add));
                 } else {
                     this._line2.setAttribute("d", "M 0 0");
@@ -1344,7 +1349,7 @@ w.ResponseHandle = $class({
                 if (O.show_axis) {
                     this._line2.setAttribute("d", "M " + (rnd.x + this._add) + " 0 L "
                                               + (rnd.x + this._add) + " "
-                                              + this.range_y.get("basis"));
+                                              + range_y.get("basis"));
                 } else {
                     this._line2.setAttribute("d", "M 0 0");
                 }
