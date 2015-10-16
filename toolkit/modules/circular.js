@@ -275,7 +275,6 @@ w.Circular = $class({
     initialize: function (options, hold) {
         Widget.prototype.initialize.call(this, options);
         var E;
-        this.update_ranged();
         
         this.element = E = TK.make_svg("g", {"class": "toolkit-circular"});
         if (!hold) this.widgetize(E, true, true, true);
@@ -297,6 +296,11 @@ w.Circular = $class({
         
         this._hand = TK.make_svg("rect", {"class": "toolkit-hand"});
         E.appendChild(this._hand);
+    },
+
+    initialized: function () {
+        Widget.prototype.initialized.call(this);
+        Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
@@ -408,13 +412,7 @@ w.Circular = $class({
             break;
         }
         Widget.prototype.set.call(this, key, value, hold);
-        switch (key) {
-            case "min":
-            case "max":
-            case "snap":
-                this.update_ranged();
-                break;
-        }
+        Ranged.prototype.set.call(this, key, value);
     }
 });
 })(this);

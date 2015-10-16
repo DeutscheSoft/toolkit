@@ -75,10 +75,10 @@ w.Equalizer = $class({
             var c = 0;
             var end = this.range_x.get("basis") | 0;
             var step = this.options.accuracy;
-            var x_px_to_val = this.range_x.px2val.bind(this.range_x);
-            var y_val_to_px = this.range_y.val2px.bind(this.range_y);
+            var x_px_to_val = this.range_x.px2val;
+            var y_val_to_px = this.range_y.val2px;
             var f = [];
-            var y = 0, x = x_px_to_val(0, true);
+            var y = 0, x = x_px_to_val(0);
 
             for (var i = 0; i < this.bands.length; i++) {
                 if (this.bands[i].get("active")) {
@@ -91,14 +91,14 @@ w.Equalizer = $class({
             var d = new Array(end / step);
             c = 1;
 
-            d[0] = "M0," + y_val_to_px(y, true).toFixed(1);
+            d[0] = "M0," + y_val_to_px(y).toFixed(1);
 
             for (var i = 1; i < end; i += step) {
-                x = x_px_to_val(i, true);
+                x = x_px_to_val(i);
                 y = 0;
                 for (var j = 0; j < f.length; j++) y += f[j](x);
 
-                d[c ++] = "L" + i + "," + y_val_to_px(y, true).toFixed(1);
+                d[c ++] = "L" + i + "," + y_val_to_px(y).toFixed(1);
             }
             //console.log(d.join(""));
             this.baseline.set("dots", d.join(""));

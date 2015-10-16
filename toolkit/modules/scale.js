@@ -189,7 +189,11 @@ w.Scale = $class({
         
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);
-        this.update_ranged();
+    },
+
+    initialized: function() {
+        Widget.prototype.initialized.call(this);
+        Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
@@ -354,13 +358,9 @@ w.Scale = $class({
                 }
                 this.fire_event("basechanged", value);
                 break;
-            case "min":
-            case "max":
-            case "snap":
-                this.update_ranged();
-                break;
         }
-        return this;
+
+        Ranged.prototype.set.call(this, key, value);
     }
 });
 })(this);

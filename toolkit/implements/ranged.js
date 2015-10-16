@@ -130,6 +130,230 @@ function ArraySnapModule(stdlib, foreign, heap) {
         snap : snap
     };
 }
+function update_snap() {
+    var O = this.options;
+    // Notify that the ranged options have been modified
+    if (Array.isArray(O.snap)) {
+        Object.assign(this, ArraySnapModule(window, O, new Float64Array(O.snap).buffer));
+    } else if (typeof O.snap === "number" && O.snap) {
+        Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: 0.0 }));
+    } else {
+        this.snap = this.snap_up = this.snap_down = function(v) { return Math.max(O.min, Math.min(O.max, v)); };
+    }
+}
+function TRAFO_FUNCTION(stdlib, foreign) {
+    var reverse = foreign.reverse|0;
+    var min = +foreign.min;
+    var max = +foreign.max;
+    var scale = foreign.scale;
+    var basis = +foreign.basis;
+    function val2based(value, size) {
+        value = +value;
+        size = +size;
+        value = scale(value, foreign, false) * size;
+        if (reverse) value = size - value;
+        return value;
+    }
+    function based2val(coef, size) {
+        coef = +coef;
+        size = +size;
+        if (reverse) coef = size - coef;
+        coef = scale(coef/size, foreign, true);
+        return coef;
+    }
+    function val2real(n) { return val2based(n, basis || 1); }
+    function real2val(n) { return based2val(n, basis || 1); }
+    function val2px(n) { return val2based(n, basis || 1); }
+    function px2val(n) { return based2val(n, basis || 1); }
+    function val2coef(n) { return val2based(n, 1); }
+    function coef2val(n) { return based2val(n, 1); }
+    function val2perc(n) { return val2based(n, 100); }
+    function perc2val(n) { return based2val(n, 100); }
+    return {
+        val2based:val2based,
+        based2val:based2val,
+        val2real:val2real,
+        real2val:real2val,
+        val2px:val2px,
+        px2val:px2val,
+        val2coef:val2coef,
+        coef2val:coef2val,
+        val2perc:val2perc,
+        perc2val:perc2val,
+    };
+}
+function TRAFO_LINEAR(stdlib, foreign) {
+    "use asm";
+    var reverse = foreign.reverse|0;
+    var min = +foreign.min;
+    var max = +foreign.max;
+    var basis = +foreign.basis;
+    function val2based(value, size) {
+        value = +value;
+        size = +size;
+        value = ((value - min) / (max - min)) * size;
+        if (reverse) value = size - value;
+        return value;
+    }
+    function based2val(coef, size) {
+        coef = +coef;
+        size = +size;
+        if (reverse) coef = size - coef;
+        coef = (coef / size) * (max - min) + min;
+        return coef;
+    }
+    // calculates "real world" values (positions, coefficients, ...)
+    // depending on options.basis
+    function val2real(n) { n = +n; if (basis == 0.0) basis = 1.0; return +val2based(n, basis); }
+    // returns a point on the scale for the "real world" value (positions,
+    // coefficients, ...) based on options.basis
+    function real2val(n) { n = +n; if (basis == 0.0) basis = 1.0; return +based2val(n, basis); }
+    // just a wrapper for having understandable code and backward
+    // compatibility
+    function val2px(n) { n = +n; if (basis == 0.0) basis = 1.0; return +val2based(n, basis); }
+    // just a wrapper for having understandable code and backward
+    // compatibility
+    function px2val(n) { n = +n; if (basis == 0.0) basis = 1.0; return +based2val(n, basis); }
+    // calculates a coefficient for the value
+    function val2coef(n) { n = +n; return +val2based(n, 1.0); }
+    // calculates a value from a coefficient
+    function coef2val(n) { n = +n; return +based2val(n, 1.0); }
+    // calculates percents on the scale from a value
+    function val2perc(n) { n = +n; return +val2based(n, 100.0); }
+    // calculates a value from percents of the scale
+    function perc2val(n) { n = +n; return +based2val(n, 100.0); }
+    return {
+        val2based:val2based,
+        based2val:based2val,
+        val2real:val2real,
+        real2val:real2val,
+        val2px:val2px,
+        px2val:px2val,
+        val2coef:val2coef,
+        coef2val:coef2val,
+        val2perc:val2perc,
+        perc2val:perc2val,
+    };
+}
+function TRAFO_LOG(stdlib, foreign) {
+    var db2scale = stdlib.AudioMath.db2scale;
+    var scale2db = stdlib.AudioMath.scale2db;
+    var reverse = foreign.reverse|0;
+    var min = +foreign.min;
+    var max = +foreign.max;
+    var log_factor = +foreign.log_factor;
+    var trafo_reverse = foreign.trafo_reverse|0;
+    var basis = +foreign.basis;
+    function val2based(value, size) {
+        value = +value;
+        size = +size;
+        value = +db2scale(value, min, max, size, trafo_reverse, log_factor);
+        if (reverse) value = size - value;
+        return value;
+    }
+    function based2val(coef, size) {
+        coef = +coef;
+        size = +size;
+        if (reverse) coef = size - coef;
+        coef = +scale2db(coef, min, max, size, trafo_reverse, log_factor);
+        return coef;
+    }
+    function val2real(n) { return val2based(n, basis || 1); }
+    function real2val(n) { return based2val(n, basis || 1); }
+    function val2px(n) { return val2based(n, basis || 1); }
+    function px2val(n) { return based2val(n, basis || 1); }
+    function val2coef(n) { return val2based(n, 1); }
+    function coef2val(n) { return based2val(n, 1); }
+    function val2perc(n) { return val2based(n, 100); }
+    function perc2val(n) { return based2val(n, 100); }
+    return {
+        val2based:val2based,
+        based2val:based2val,
+        val2real:val2real,
+        real2val:real2val,
+        val2px:val2px,
+        px2val:px2val,
+        val2coef:val2coef,
+        coef2val:coef2val,
+        val2perc:val2perc,
+        perc2val:perc2val,
+    };
+}
+function TRAFO_FREQ(stdlib, foreign) {
+    var freq2scale = stdlib.AudioMath.freq2scale;
+    var scale2freq = stdlib.AudioMath.scale2freq;
+    var reverse = foreign.reverse|0;
+    var min = +foreign.min;
+    var max = +foreign.max;
+    var trafo_reverse = foreign.trafo_reverse|0;
+    var basis = +foreign.basis;
+    function val2based(value, size) {
+        value = +value;
+        size = +size;
+        value = +freq2scale(value, min, max, size, trafo_reverse);
+        if (reverse) value = size - value;
+        return value;
+    }
+    function based2val(coef, size) {
+        coef = +coef;
+        size = +size;
+        if (reverse) coef = size - coef;
+        coef = +scale2freq(coef, min, max, size, trafo_reverse);
+        return coef;
+    }
+    function val2real(n) { return val2based(n, basis || 1); }
+    function real2val(n) { return based2val(n, basis || 1); }
+    function val2px(n) { return val2based(n, basis || 1); }
+    function px2val(n) { return based2val(n, basis || 1); }
+    function val2coef(n) { return val2based(n, 1); }
+    function coef2val(n) { return based2val(n, 1); }
+    function val2perc(n) { return val2based(n, 100); }
+    function perc2val(n) { return based2val(n, 100); }
+    return {
+        val2based:val2based,
+        based2val:based2val,
+        val2real:val2real,
+        real2val:real2val,
+        val2px:val2px,
+        px2val:px2val,
+        val2coef:val2coef,
+        coef2val:coef2val,
+        val2perc:val2perc,
+        perc2val:perc2val,
+    };
+}
+function update_transformation() {
+    var O = this.options;
+    var scale = O.scale;
+
+    var module;
+
+    if (typeof scale === "function") {
+        module = TRAFO_FUNCTION(w, O);
+    } else switch (scale) {
+        case _TOOLKIT_LINEAR:
+            module = TRAFO_LINEAR(w, O);
+            break;
+        case _TOOLKIT_DB:
+            O.trafo_revserse = 1;
+            module = TRAFO_LOG(w, O);
+            break;
+        case _TOOLKIT_LOG2:
+            O.trafo_revserse = 0;
+            module = TRAFO_LOG(w, O);
+            break;
+        case _TOOLKIT_FREQ:
+            O.trafo_revserse = 0;
+            module = TRAFO_FREQ(w, O);
+            break;
+        case _TOOLKIT_FREQ_REVERSE:
+            O.trafo_revserse = 1;
+            module = TRAFO_FREQ(w, O);
+            break;
+    }
+
+    Object.assign(this, module);
+}
 w.Ranged = $class({
     // Ranged provides stuff for calculating linear scales from different values.
     // It is useful to build coordinate systems, calculating pixel positions
@@ -138,7 +362,6 @@ w.Ranged = $class({
     // a value on an arbitrary scale. Range implements AudioMath, Options and
     // Events.
     _class: "Ranged",
-    Implements: AudioMath,
     options: {
         scale:          _TOOLKIT_LINEAR, // What kind of value are we having?
                                          // _TOOLKIT_LINEAR
@@ -199,137 +422,24 @@ w.Ranged = $class({
                                             
     },
 
-    initialize: function (options) {
-        this.update_ranged();
+    initialized: function (options) {
+        update_snap.call(this);
+        update_transformation.call(this);
     },
-    
-    val2real: function (n) {
-        // calculates "real world" values (positions, coefficients, ...)
-        // depending on options.basis
-        return this.val2based(n, this.options.basis || 1);
-    },
-    real2val: function (n) {
-        // returns a point on the scale for the "real world" value (positions,
-        // coefficients, ...) based on options.basis
-        return this.based2val(n, this.options.basis || 1);
-    },
-    val2px: function (n) {
-        // just a wrapper for having understandable code and backward
-        // compatibility
-        return this.val2based(n, this.options.basis || 1);
-    },
-    px2val: function (n) {
-        // just a wrapper for having understandable code and backward
-        // compatibility
-        return this.based2val(n, this.options.basis || 1);
-    },
-    val2coef: function (n) {
-        // calculates a coefficient for the value
-        return this.val2based(n, 1);
-    },
-    coef2val: function (n) {
-        // calculates a value from a coefficient
-        return this.based2val(n, 1);
-    },
-    val2perc: function (n) {
-        // calculates percents on the scale from a value
-        return this.val2based(n, 100);
-    },
-    perc2val: function (n) {
-        // calculates a value from percents of the scale
-        return this.based2val(n, 100);
-    },
-    val2based: function (value, basis) {
-        // takes a value and returns the corresponding point on the scale
-        // according to basis
-        var coef = 0;
-        if (typeof this.options.scale == "function")
-            coef = this.options.scale(value, this.options, false) * basis;
-        else
-        switch (this.options.scale) {
-            default:
-            case _TOOLKIT_LINEAR:
-                coef = ((((this.options.min - value) * -1)
-                    / (this.options.max - this.options.min)) || 0) * basis;
-                break;
-            case _TOOLKIT_DB:
-                coef = this.db2scale(
-                       value, this.options.min, this.options.max, basis,
-                       true, this.options.log_factor);
-                break;
-            case _TOOLKIT_LOG2:
-                coef = this.db2scale(
-                       value, this.options.min, this.options.max, basis,
-                       false, this.options.log_factor);
-                break;
-            case _TOOLKIT_FREQ:
-                coef = this.freq2scale(
-                       value, this.options.min, this.options.max, basis,
-                       false);
-                break;
-            case _TOOLKIT_FREQ_REVERSE:
-                coef = this.freq2scale(
-                       value, this.options.min, this.options.max, basis,
-                       true);
-                break;
-        }
-        if (this.options.reverse) coef = -coef + basis;
-        return coef;
-    },
-    based2val: function (coef, basis) {
-        // takes a point on the scale according to basis and returns the
-        // corresponding value
-        var value = 0;
-        if (this.options.reverse) coef = -coef + basis;
-        if (typeof this.options.scale == "function")
-            value = this.options.scale(coef / basis, this.options, true);
-        else
-        switch (this.options.scale) {
-            default:
-            case _TOOLKIT_LINEAR:
-                value = (coef / basis)
-                    * (this.options.max - this.options.min) + this.options.min;
-                break;
-            case _TOOLKIT_DB:
-                value = this.scale2db(
-                       coef, this.options.min, this.options.max, basis,
-                       true, this.options.log_factor);
-                break;
-            case _TOOLKIT_LOG2:
-                value = this.scale2db(
-                       coef, this.options.min, this.options.max, basis,
-                       false, this.options.log_factor);
-                break;
-            case _TOOLKIT_FREQ:
-                value = this.scale2freq(
-                       coef, this.options.min, this.options.max, basis,
-                       false);
-                break;
-            case _TOOLKIT_FREQ_REVERSE:
-                value = this.scale2freq(
-                       coef, this.options.min, this.options.max, basis,
-                       true);
-                break;
-        }
-        return value;
-    },
+
     set: function(key, value) {
         switch (key) {
         case "min":
         case "max":
         case "snap":
-            this.update_ranged(); 
-        }
-    },
-    update_ranged: function() {
-        var O = this.options;
-        // Notify that the ranged options have been modified
-        if (Array.isArray(O.snap)) {
-            Object.assign(this, ArraySnapModule(window, O, new Float64Array(O.snap).buffer));
-        } else if (typeof O.snap === "number" && O.snap) {
-            Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: 0.0 }));
-        } else {
-            this.snap = this.snap_up = this.snap_down = function(v) { return Math.max(O.min, Math.min(O.max, v)); };
+            update_snap.call(this); 
+            /* fall through */
+        case "log_factor":
+        case "scale":
+        case "reverse":
+        case "basis":
+            update_transformation.call(this);
+            break;
         }
     },
 });

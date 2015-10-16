@@ -27,7 +27,7 @@ w.MeterBase = $class({
     
     _class: "MeterBase",
     Extends: Widget,
-    Implements: [Ranged, Gradient],
+    Implements: [Gradient],
     options: {
         layout:           _TOOLKIT_LEFT,  // how to draw the meter:
                                           // _TOOLKIT_LEFT:   vertical, meter on
@@ -263,7 +263,11 @@ w.MeterBase = $class({
         this.scale = new Scale(options);
         
         this.delegate(this._bar);
-        this.update_ranged();
+    },
+
+    initialized: function () {
+        Widget.prototype.initialized.call(this);
+        Ranged.prototype.initialized.call(this);
     },
     
     resize: function () {
@@ -414,6 +418,7 @@ w.MeterBase = $class({
     // GETTER & SETTER
     set: function (key, value, hold) {
         Widget.prototype.set.call(this, key, value);
+        Ranged.prototype.set.call(this, key, value);
         switch (key) {
             case "label":
                 this.fire_event("labelchanged", value);
@@ -427,10 +432,6 @@ w.MeterBase = $class({
             case "segment":
                 this.set("value", this.options.value);
                 break;
-            case "min":
-            case "max":
-            case "snap":
-                this.update_ranged();
             case "division":
             case "reverse":
             case "log_factor":

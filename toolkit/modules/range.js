@@ -87,12 +87,11 @@ w.Range = $class({
         BASE.prototype.initialize.call(this);
         this.set_options(options);
         this.fire_event("initialize");
-        this.update_ranged();
-        return this;
     },
 
     initialized: function() {
         this.fire_event("initialized");
+        Ranged.prototype.initialized.call(this);
     },
     
     // GETTER & SETTER
@@ -100,14 +99,7 @@ w.Range = $class({
         this.options[key] = value;
         this.fire_event("set", key, value, hold);
         this.fire_event("set_" + key, value, hold);
-        switch (key) {
-        case "min":
-        case "max":
-        case "snap":
-            this.update_ranged();
-            break;
-        }
-        return this;
+        Ranged.prototype.set.call(this, key, value);
     },
     get: function (key) {
         this.fire_event("get", key, this.options[key]);

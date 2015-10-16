@@ -96,7 +96,11 @@ w.ValueButton = $class({
         this._input.addEventListener("dblclick", function (e) {
             e.stopPropagation();
         });
-        this.update_ranged();
+    },
+
+    initialized: function() {
+        Button.prototype.initialized.call(this);
+        Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
@@ -153,6 +157,7 @@ w.ValueButton = $class({
             value = this.snap(value);
         }
         Button.prototype.set.call(this, key, value, hold);
+        Ranged.prototype.set.call(this, key, value);
         switch (key) {
             case "bar_direction":
                 break;
@@ -174,11 +179,6 @@ w.ValueButton = $class({
                 break;
             case "blind_angle":
                 this.drag.set("blind_angle", value);
-                break;
-            case "min":
-            case "max":
-            case "snap":
-                this.update_ranged();
                 break;
         }
     }

@@ -120,7 +120,11 @@ w.Fader = $class({
             this.__tt = this.tooltip(this.options.tooltip(
                 this.get("value")), this.__tt);
         }.bind(this));
-        this.update_ranged();
+    },
+
+    initialized: function () {
+        Widget.prototype.initialized.call(this);
+        Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
@@ -240,13 +244,9 @@ w.Fader = $class({
                 this.drag.set("direction", this.options.direction);
                 this.scroll.set("direction", this.options.direction);
                 break;
-            case "min":
-            case "max":
-            case "snap":
-                this.update_ranged();
-                break;
         }
         Widget.prototype.set.call(this, key, value, hold);
+        Ranged.prototype.set.call(this, key, value);
     }
 });
 })(this);
