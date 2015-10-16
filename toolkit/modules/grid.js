@@ -69,7 +69,7 @@ function draw_lines(a, mode, last) {
             var pl = parseInt(p[3]) || 0;
             var x, y;
             if (mode) {
-                y = Math.max(th / 2, Math.min(h - th / 2 - pt, this.range_y.val2px(obj.pos, true)));
+                y = Math.max(th / 2, Math.min(h - th / 2 - pt, this.range_y.val2px(obj.pos)));
                 if (y > last) continue;
                 x = w - tw - pl;
                 coords[i] = {
@@ -79,7 +79,7 @@ function draw_lines(a, mode, last) {
                 };
                 last = y - th;
             } else {
-                x = Math.max(pl, Math.min(w - tw - pl, this.range_x.val2px(obj.pos, true) - tw / 2));
+                x = Math.max(pl, Math.min(w - tw - pl, this.range_x.val2px(obj.pos) - tw / 2));
                 if (x < last) continue;
                 y = h-th/2-pt;
                 coords[i] = {
@@ -124,13 +124,13 @@ function draw_lines(a, mode, last) {
                 if (obj.color) line.setAttribute("style", "stroke:" + obj.color);
                 if (mode) {
                     // line from left to right
-                    line.setAttribute("d", "M0 " + Math.round(this.range_y.val2px(obj.pos, true))
+                    line.setAttribute("d", "M0 " + Math.round(this.range_y.val2px(obj.pos))
                         + ".5 L"  + (this.range_x.options.basis - m) + " "
-                        + Math.round(this.range_y.val2px(obj.pos, true)) + ".5");
+                        + Math.round(this.range_y.val2px(obj.pos)) + ".5");
                 } else {
                     // line from top to bottom
-                    line.setAttribute("d", "M" + Math.round(this.range_x.val2px(obj.pos, true))
-                        + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos, true))
+                    line.setAttribute("d", "M" + Math.round(this.range_x.val2px(obj.pos))
+                        + ".5 0 L"  + Math.round(this.range_x.val2px(obj.pos))
                         + ".5 " + (this.range_y.options.basis - m));
                 }
                 this.element.appendChild(line);

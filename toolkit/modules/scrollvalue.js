@@ -78,12 +78,12 @@ w.ScrollValue = $class({
             step *= range.options.shift_up;
         }
         if (!this._wheel)
-            this._lastPos = range.val2real(range.snap(this.options.get()), true);
+            this._lastPos = range.val2real(range.snap(this.options.get()));
         
         this._lastPos += step;
-        this.options.set(range.real2val(this._lastPos, true));
+        this.options.set(range.real2val(this._lastPos));
         
-        this._lastPos = range.val2real(Math.max(Math.min(range.real2val(this._lastPos, true), range.options.max), range.options.min), true);
+        this._lastPos = range.val2real(Math.max(Math.min(range.real2val(this._lastPos), range.options.max), range.options.min));
         
         if (!this._wheel)
             this._fire_event("scrollstarted", e);

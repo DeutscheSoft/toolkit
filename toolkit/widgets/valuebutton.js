@@ -120,7 +120,7 @@ w.ValueButton = $class({
         }
         if (I.value) {
             I.value = false;
-            this._base.style[O.bar_direction == _TOOLKIT_HORIZONTAL ? "width" : "height"] = this.val2perc(this.snap(O.value), true) + "%";
+            this._base.style[O.bar_direction == _TOOLKIT_HORIZONTAL ? "width" : "height"] = this.val2perc(this.snap(O.value)) + "%";
         }
     },
     

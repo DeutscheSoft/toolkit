@@ -152,7 +152,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_LEFT) {
             // movement to left
             this.set("z",
-                range_z.snap(range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz), true)));
+                range_z.snap(range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -165,7 +165,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
             // movement to right
             this.set("z",
-                range_z.snap(range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz), true)));
+                range_z.snap(range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -178,7 +178,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_TOP_RIGHT) {
             // movement to top
             this.set("z",
-                this.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz), true)));
+                this.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -191,7 +191,7 @@ function mousemove(e) {
             || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
             // movement to bottom
             this.set("z",
-                range_z.snap(range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz), true)));
+                range_z.snap(range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
@@ -203,8 +203,8 @@ function mousemove(e) {
         if (dist > O.min_drag)
             this._sticky = false;
     } else {
-        this.set("x", range_x.snap(range_x.px2val(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx, true)));
-        this.set("y", range_y.snap(range_y.px2val(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my, true)));
+        this.set("x", range_x.snap(range_x.px2val(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx)));
+        this.set("y", range_y.snap(range_y.px2val(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my)));
         this.fire_event("useraction", "x", this.get("x"));
         this.fire_event("useraction", "y", this.get("y"));
     }
@@ -515,9 +515,9 @@ w.ResponseHandle = $class({
         O.y = range_y.snap(O.y);
         O.z = range_z.snap(O.z);
         
-        this.x = range_x.val2px(O.x, true);
-        this.y = range_y.val2px(O.y, true);
-        this.z = range_z.val2px(O.z, true);
+        this.x = range_x.val2px(O.x);
+        this.y = range_y.val2px(O.y);
+        this.z = range_z.val2px(O.z);
         
         var rnd = {
             x: Math.round(this.x),
@@ -555,13 +555,13 @@ w.ResponseHandle = $class({
                             Math.max(
                                 0,
                                 O.y_max === false ?
-                                0 : range_y.val2px(range_y.snap(O.y_max), true)));
+                                0 : range_y.val2px(range_y.snap(O.y_max))));
                 height = Math.round(
                              Math.min(
                                  range_y.get("basis"),
                                  O.y_min === false
                                      ? range_y.get("basis")
-                                     : range_y.val2px(range_y.snap(O.y_min), true)) - y);
+                                     : range_y.val2px(range_y.snap(O.y_min))) - y);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -580,13 +580,13 @@ w.ResponseHandle = $class({
                             Math.max(
                                 0,
                                 O.x_min === false
-                                    ? 0 : range_x.val2px(range_x.snap(O.x_min), true)));
+                                    ? 0 : range_x.val2px(range_x.snap(O.x_min))));
                 width  = Math.round(
                              Math.min(
                                  range_x.get("basis"),
                                  O.x_max === false
                                      ? range_x.get("basis")
-                                     : range_x.val2px(range_x.snap(O.x_max), true)) - x);
+                                     : range_x.val2px(range_x.snap(O.x_max))) - x);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -601,7 +601,7 @@ w.ResponseHandle = $class({
                             Math.max(
                                 0,
                                 O.y_max === false
-                                    ? 0 : range_y.val2px(range_y.snap(O.y_max), true)));
+                                    ? 0 : range_y.val2px(range_y.snap(O.y_max))));
                 width  = Math.round(
                             Math.max(
                                 O.min_size / 2,
@@ -611,7 +611,7 @@ w.ResponseHandle = $class({
                                 range_y.get("basis"),
                                 O.y_min === false
                                     ? range_y.get("basis")
-                                    : range_y.val2px(range_y.snap(O.y_min), true)) - y);
+                                    : range_y.val2px(range_y.snap(O.y_min))) - y);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -630,7 +630,7 @@ w.ResponseHandle = $class({
                             Math.max(
                                 0,
                                 O.y_max === false
-                                    ? 0 : range_y.val2px(range_y.snap(O.y_max), true)));
+                                    ? 0 : range_y.val2px(range_y.snap(O.y_max))));
                 width  = Math.max(
                             O.min_size / 2,
                             range_x.get("basis") - x);
@@ -639,7 +639,7 @@ w.ResponseHandle = $class({
                                 range_y.get("basis"),
                                 O.y_min === false
                                     ? range_y.get("basis")
-                                    : range_y.val2px(range_y.snap(O.y_min), true)) - y);
+                                    : range_y.val2px(range_y.snap(O.y_min))) - y);
                 _handle.setAttribute("x", x);
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
@@ -652,14 +652,14 @@ w.ResponseHandle = $class({
                 x      = Math.round(Math.max(
                             0,
                             O.x_min === false
-                                ? 0 : range_x.val2px(range_x.snap(O.x_min), true)));
+                                ? 0 : range_x.val2px(range_x.snap(O.x_min))));
                 y      = 0;
                 width  = Math.round(
                             Math.min(
                                 range_x.get("basis"),
                                 O.x_max === false
                                     ? range_x.get("basis")
-                                    : range_x.val2px(range_x.snap(O.x_max), true)) - x);
+                                    : range_x.val2px(range_x.snap(O.x_max))) - x);
                 height = Math.round(
                             Math.max(
                                 O.min_size / 2,
@@ -676,7 +676,7 @@ w.ResponseHandle = $class({
                 x      = Math.round(Math.max(
                             0,
                             O.x_min === false
-                                ? 0 : range_x.val2px(range_x.snap(O.x_min), true)));
+                                ? 0 : range_x.val2px(range_x.snap(O.x_min))));
                 y      = Math.max(
                             0,
                             Math.min(
@@ -686,7 +686,7 @@ w.ResponseHandle = $class({
                             range_x.get("basis"),
                             O.x_max === false
                                 ? range_x.get("basis")
-                                : range_x.val2px(range_x.snap(O.x_max), true)) - x);
+                                : range_x.val2px(range_x.snap(O.x_max))) - x);
                 height = Math.max(
                             O.min_size / 2,
                             range_y.get("basis") - y);

@@ -388,7 +388,7 @@ w.LevelMeter = $class({
                 case _TOOLKIT_LEFT:
                 case _TOOLKIT_RIGHT:
                     pos = this.options.basis
-                        - this.val2px(this.snap(this.options.peak), true)
+                        - this.val2px(this.snap(this.options.peak))
                         + this.__margin;
                     pos = Math.max(this.__margin, pos);
                     pos = Math.min(this.options.basis + this.__margin, pos);
@@ -396,7 +396,7 @@ w.LevelMeter = $class({
                     break;
                 case _TOOLKIT_TOP:
                 case _TOOLKIT_BOTTOM:
-                    pos = this.val2px(this.snap(this.options.peak), true)
+                    pos = this.val2px(this.snap(this.options.peak))
                         + this.__margin;
                     pos = Math.max(this.__margin, pos);
                     pos = Math.min(this.options.basis + this.__margin, pos)

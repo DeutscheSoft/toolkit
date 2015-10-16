@@ -203,54 +203,45 @@ w.Ranged = $class({
         this.update_ranged();
     },
     
-    val2real: function (n, nosnap) {
+    val2real: function (n) {
         // calculates "real world" values (positions, coefficients, ...)
         // depending on options.basis
-        return this.val2based(n, this.options.basis || 1, nosnap);
+        return this.val2based(n, this.options.basis || 1);
     },
-    real2val: function (n, nosnap) {
+    real2val: function (n) {
         // returns a point on the scale for the "real world" value (positions,
         // coefficients, ...) based on options.basis
-        return this.based2val(n, this.options.basis || 1, nosnap);
+        return this.based2val(n, this.options.basis || 1);
     },
-    val2px: function (n, nosnap) {
+    val2px: function (n) {
         // just a wrapper for having understandable code and backward
         // compatibility
-        return this.val2based(n, this.options.basis || 1, nosnap);
+        return this.val2based(n, this.options.basis || 1);
     },
-    px2val: function (n, nosnap) {
+    px2val: function (n) {
         // just a wrapper for having understandable code and backward
         // compatibility
-        return this.based2val(n, this.options.basis || 1, nosnap);
+        return this.based2val(n, this.options.basis || 1);
     },
-    val2coef: function (n, nosnap) {
+    val2coef: function (n) {
         // calculates a coefficient for the value
-        return this.val2based(n, 1, nosnap);
+        return this.val2based(n, 1);
     },
-    coef2val: function (n, nosnap) {
+    coef2val: function (n) {
         // calculates a value from a coefficient
-        return this.based2val(n, 1, nosnap);
+        return this.based2val(n, 1);
     },
-    val2perc: function (n, nosnap) {
+    val2perc: function (n) {
         // calculates percents on the scale from a value
-        return this.val2based(n, 100, nosnap);
+        return this.val2based(n, 100);
     },
-    perc2val: function (n, nosnap) {
+    perc2val: function (n) {
         // calculates a value from percents of the scale
-        return this.based2val(n, 100, nosnap);
+        return this.based2val(n, 100);
     },
-    val2based: function (value, basis, nosnap) {
+    val2based: function (value, basis) {
         // takes a value and returns the corresponding point on the scale
         // according to basis
-        if (typeof value == "undefined") {
-            throw("Unsupported optional argument: value.\n");
-        }
-        if (!basis) {
-            throw("Unsupported optional argument: basis.\n");
-        }
-        if (!nosnap) {
-            throw("Unsupported optional argument: nosnap.\n");
-        }
         var coef = 0;
         if (typeof this.options.scale == "function")
             coef = this.options.scale(value, this.options, false) * basis;
@@ -285,16 +276,9 @@ w.Ranged = $class({
         if (this.options.reverse) coef = -coef + basis;
         return coef;
     },
-    based2val: function (coef, basis, nosnap) {
+    based2val: function (coef, basis) {
         // takes a point on the scale according to basis and returns the
         // corresponding value
-        basis = basis || 1;
-        if (!basis) {
-            throw("Unsupported optional argument: basis.\n");
-        }
-        if (!nosnap) {
-            throw("Unsupported optional argument: nosnap.\n");
-        }
         var value = 0;
         if (this.options.reverse) coef = -coef + basis;
         if (typeof this.options.scale == "function")

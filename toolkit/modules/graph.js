@@ -110,38 +110,38 @@ w.Graph = $class({
                 case "T":
                     // line to and smooth quadric bezier
                     _t = init ? " " + t : "M";
-                    _x = (range_x.val2px(d.x, true) + a);
-                    _y = (range_y.val2px(d.y, true) + a);
+                    _x = (range_x.val2px(d.x) + a);
+                    _y = (range_y.val2px(d.y) + a);
                     s += _t + " " + _x + " " + _y;
                     break;
                 case "Q":
                 case "S":
                     // cubic bezier with reflection (S)
                     // and smooth quadratic bezier with reflection of beforehand
-                    _x = (range_x.val2px(d.x, true) + a);
-                    _y = (range_y.val2px(d.y, true) + a);
-                    _x1 = (range_x.val2px(d.x1, true) + a);
-                    _y1 = (range_y.val2px(d.y1, true) + a);
+                    _x = (range_x.val2px(d.x) + a);
+                    _y = (range_y.val2px(d.y) + a);
+                    _x1 = (range_x.val2px(d.x1) + a);
+                    _y1 = (range_y.val2px(d.y1) + a);
                     s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
                     break;
                 case "C":
                     // cubic bezier
                     _t = init ? " " + t : "M";
-                    _x = (range_x.val2px(d.x, true) + a);
-                    _y = (range_y.val2px(d.y, true) + a);
-                    _x1 = (range_x.val2px(d.x1, true) + a);
-                    _y1 = (range_y.val2px(d.y1, true) + a);
-                    _x2 = (range_x.val2px(d.x2, true) + a);
-                    _y2 = (range_y.val2px(d.y2, true) + a);
+                    _x = (range_x.val2px(d.x) + a);
+                    _y = (range_y.val2px(d.y) + a);
+                    _x1 = (range_x.val2px(d.x1) + a);
+                    _y1 = (range_y.val2px(d.y1) + a);
+                    _x2 = (range_x.val2px(d.x2) + a);
+                    _y2 = (range_y.val2px(d.y2) + a);
                     s += t_ + " " + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
                          + _x + "," + _y;
                     break;
                 case "H":
                     f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
-                    _x = (range_x.val2px(d.x, true));
-                    _y = _y1 = (range_y.val2px(d.y, true) + a);
+                    _x = (range_x.val2px(d.x));
+                    _y = _y1 = (range_y.val2px(d.y) + a);
                     if (_d && _d != (dots.length - 1)) {
-                        _q = range_x.val2px(dots[_d - 1].x, true);
+                        _q = range_x.val2px(dots[_d - 1].x);
                         _x1 =  (_x - Math.round((_x - _q) / f) + a);
                     } else {
                         _x1 = _x;
@@ -177,25 +177,25 @@ w.Graph = $class({
         switch (m) {
             case _TOOLKIT_BOTTOM:
                 // fill the lower part of the graph
-                s += "M " + (this.range_x.val2px(d.x, true) - 1) + " ";
+                s += "M " + (this.range_x.val2px(d.x) - 1) + " ";
                 s += (h + 1) + a + " " + t + " ";
-                s += (this.range_x.val2px(d.x, true) - 1 + a) + " ";
-                s += (this.range_y.val2px(d.y, true) + a);
+                s += (this.range_x.val2px(d.x) - 1 + a) + " ";
+                s += (this.range_y.val2px(d.y) + a);
                 return s;
             case _TOOLKIT_TOP:
                 // fill the upper part of the graph
-                s += "M " + (this.range_x.val2px(d.x, true) - 1) + " " + (-1 + a);
-                s += " " + t + " " + (this.range_x.val2px(d.x, true) - 1 + a) + " "
-                s += (this.range_y.val2px(d.y, true) + a);
+                s += "M " + (this.range_x.val2px(d.x) - 1) + " " + (-1 + a);
+                s += " " + t + " " + (this.range_x.val2px(d.x) - 1 + a) + " "
+                s += (this.range_y.val2px(d.y) + a);
                 return s;
             case _TOOLKIT_CENTER:
                 // fill from the mid
-                s += "M " + (this.range_x.val2px(d.x, true) - 1 + a) + " ";
+                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
                 s += (0.5 * h) + a;
                 return s;
             case _TOOLKIT_VARIABLE:
                 // fill from variable point
-                s += "M " + (this.range_x.val2px(d.x, true) - 1 + a) + " ";
+                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
                 s += ((-this.options.base + 1) * h + a);
                 return s;
         }
@@ -209,19 +209,19 @@ w.Graph = $class({
         switch (m) {
             case _TOOLKIT_BOTTOM:
                 // fill the graph below
-                return " " + t + " " + (this.range_x.val2px(d.x, true) + a) + " "
+                return " " + t + " " + (this.range_x.val2px(d.x) + a) + " "
                        + parseInt(h + 1) + a + " Z";
             case _TOOLKIT_TOP:
                 // fill the upper part of the graph
-                return " " + t + " " + (this.range_x.val2px(d.x, true) + 1 + a)
+                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a)
                        + " -1" + a + " Z";
             case _TOOLKIT_CENTER:
                 // fill from mid
-                return " " + t + " " + (this.range_x.val2px(d.x, true) + 1 + a) + " "
+                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
                        + (0.5 * h) + a + " Z";
             case _TOOLKIT_VARIABLE:
                 // fill from variable point
-                return " " + t + " " + (this.range_x.val2px(d.x, true) + 1 + a) + " "
+                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
                        + ((-m + 1) * h) + a + " Z";
         }
         return "";

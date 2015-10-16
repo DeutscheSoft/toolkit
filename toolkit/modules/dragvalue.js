@@ -90,7 +90,7 @@ w.DragValue = $class({
         
         var range = this.options.range();
 
-        this._clickPos = range.val2real(range.snap(this.options.get()), true);
+        this._clickPos = range.val2real(range.snap(this.options.get()));
         this._pageX = ev.pageX;
         this._pageY = ev.pageY
             
@@ -167,7 +167,7 @@ w.DragValue = $class({
         
         var val = this.options.get();
         var range = this.options.range();
-        this.options.set(range.snap(range.px2val(this._clickPos + dist, true)));
+        this.options.set(range.snap(range.px2val(this._clickPos + dist)));
         
         // remember stuff
         if (val != this.options.get())

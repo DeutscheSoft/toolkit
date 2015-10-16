@@ -390,7 +390,7 @@ w.MeterBase = $class({
     _val2seg: function (val) {
         // rounds values to fit in the segments size
         // always returns values without taking options.reverse into account
-        var s = +this.val2px(this.snap(val), true)
+        var s = +this.val2px(this.snap(val))
         s -= s % +this.options.segment;
         if (this.options.reverse)
             s = +this.options.basis - s;
