@@ -178,7 +178,6 @@ w.Widget = $class({
     },
     destroy: function () {
         this.fire_event("destroy");
-        this.__events = null;
         if (this.will_draw) TK.S.dequeue(this._redraw);
         BASE.prototype.destroy.call(this);
         return this;

@@ -153,7 +153,17 @@ var __event_replacements = {
         { event: "mouseup", prevent: false, stop: false },
         { event: "touchend", prevent: true, stop: false }
     ]
-};
+}
+function remove_native_events(element, events) {
+    var type;
+    for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
+        element.removeEventListener(type, events[type].callback);
+}
+function add_native_events(element, events) {
+    var type;
+    for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
+        element.addEventListener(type, events[type].callback);
+}
 w.BASE = $class({
     // Events provide an API for adding, removing and firing events.
     initialize : function() {
@@ -164,6 +174,10 @@ w.BASE = $class({
         this.__event_target = null;
     },
     destroy : function() {
+        if (this.__event_target) {
+            remove_native_events(this.__event_target, this.__events);
+        }
+
         this.__events = null;
         this.__event_target = null;
         this.options = null;
@@ -200,10 +214,8 @@ w.BASE = $class({
         var old_target = this.__event_target;
         this.fire_event("delegated", element);
 
-        for (var e in ev) if (ev.hasOwnProperty(e) && __native_events[e]) {
-            if (element) element.addEventListener(e, ev[e].callback);
-            if (old_target) old_target.removeEventListener(e, ev[e].callback);
-        }
+        if (old_target) remove_native_events(old_target, ev);
+        if (element) add_native_events(element, ev);
 
         this.__event_target = element;
 
