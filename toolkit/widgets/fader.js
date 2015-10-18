@@ -134,11 +134,11 @@ w.Fader = $class({
         
         this.set("layout", this.options.layout);
         
-        this.element.addEventListener("click",      clicked.bind(this));
-        this.element.addEventListener("mouseenter", mouseenter.bind(this));
-        this.element.addEventListener("mouseleave", mouseleave.bind(this));
-        this.element.addEventListener("mousemove",  move.bind(this));
-        this.element.addEventListener("dblclick",   dblclick.bind(this));
+        this.add_event("click", clicked);
+        this.add_event("mouseenter", mouseenter);
+        this.add_event("mouseleave", mouseleave);
+        this.add_event("mousemove", move);
+        this.add_event("dblclick", dblclick);
         
         if (typeof this.options.reset == "undefined")
             this.options.reset = this.options.value;
