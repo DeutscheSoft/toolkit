@@ -15,7 +15,7 @@ div.toolkit-level-meter div.toolkit-peak div.toolkit-peak-label {
     background: rgba(0,0,0,0.5);
 }
 div.toolkit-level-meter div.toolkit-clip {
-    background: #f60 !important;
+    background-color: #f60 !important;
 }
 div.toolkit-level-meter.toolkit-clipping div.toolkit-label {
     color: #ff8000;

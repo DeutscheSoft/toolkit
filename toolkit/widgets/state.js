@@ -39,33 +39,12 @@ w.State = $class({
         var E = toolkit.element("div","toolkit-state");
         
         this.element = this.widgetize(E, true, true, true);
-        E.id = this.options.id;
         
-        this._over   = TK.element("div","toolkit-over");
         this._mask   = TK.element("div","toolkit-mask");
 
-        E.appendChild(this._over);
         E.appendChild(this._mask);
-        
-        E.style.overflow = "hidden";
-        TK.set_styles(this._over, {
-            "position": "absolute",
-            "zIndex": "1",
-            "width"  : "100%",
-            "height" : "100%"
-        });
-        TK.set_styles(this._mask, {
-            "position": "absolute",
-            "zIndex": "2",
-            "width"  : "100%",
-            "height" : "100%"
-        });
-        var pos = TK.get_style(E, "position");
-        if (pos != "absolute" && pos != "relative")
-            E.style["position"] = "relative";
     },
     destroy: function () {
-        this._over.remove();
         this._mask.remove();
         this.element.remove();
         Widget.prototype.destroy.call(this);
