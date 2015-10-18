@@ -98,7 +98,7 @@ w.DragValue = $class({
         this._cache_values(ev, 0);
         
         // fire event
-        this._fire_event("startdrag", e);
+        this.fire_event("startdrag", e);
 
         document.addEventListener("mousemove", this.__pointer_move);
         document.addEventListener("mouseup",   this.__pointer_up);
@@ -122,7 +122,7 @@ w.DragValue = $class({
         document.removeEventListener("touchend",  this.__pointer_up);
         this.__active = false;
         // fire event
-        this._fire_event("stopdrag", e);
+        this.fire_event("stopdrag", e);
         
         return false;
     },
@@ -174,7 +174,7 @@ w.DragValue = $class({
             this._cache_values(ev, dist);
         
         // fire event
-        this._fire_event("dragging", ev);
+        this.fire_event("dragging", ev);
         
         return false;
     },
@@ -192,19 +192,6 @@ w.DragValue = $class({
         // with multiple fingers
         return (event.touches && event.touches.length)
               ? event.touches[0] : event;
-    },
-    
-    _fire_event: function (title, event) {
-        // fire an event on this drag object and one with more
-        // information on the draggified element
-        this.fire_event(title, event);
-        //if (this.options.events)
-            //this.options.events.fire_event(title, [event,
-                                              //this.options.get(),
-                                              //this.options.element,
-                                              //this,
-                                              //this.options.range()
-                                              //]);
     },
     
     _angle_diff: function (a, b) {
