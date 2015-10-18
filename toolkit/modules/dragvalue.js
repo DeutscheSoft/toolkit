@@ -1,6 +1,6 @@
- /* toolkit provides different widgets, implements and modules for 
+ /* toolkit provides different widgets, implements and modules for
  * building audio based applications in webbrowsers.
- * 
+ *
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
  *
  * This program is free software; you can redistribute it and/or
@@ -15,11 +15,135 @@
  *
  * You should have received a copy of the GNU Lesser General
  * Public License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w){
+function pointer_down(e) {
+    if (!this.options.active) return;
+    e.preventDefault();
+    // get the right event if touch
+    var ev = get_event(e);
+    // set stuff
+    TK.add_class(this.options.classes, "toolkit-dragging");
+    if (this.options.direction == _TOOLKIT_VERT && this.options.cursor)
+        this.global_cursor("row-resize");
+    else if (this.options.cursor)
+        this.global_cursor("col-resize");
+    this.__active  = true;
+
+    var range = this.options.range();
+
+    this._clickPos = range.val2real(range.snap(this.options.get()));
+    this._pageX = ev.pageX;
+    this._pageY = ev.pageY
+
+    // remember stuff
+    this._cache_values(ev, 0);
+
+    // fire event
+    this.fire_event("startdrag", e);
+
+    document.addEventListener("mousemove", this.__pointer_move);
+    document.addEventListener("mouseup",   this.__pointer_up);
+    document.addEventListener("touchmove", this.__pointer_move);
+    document.addEventListener("touchend",  this.__pointer_up);
+
+    return false;
+}
+function pointer_up(e) {
+    if (!this.__active) return;
+    e.preventDefault();
+    // set stuff
+    TK.remove_class(this.options.classes, "toolkit-dragging");
+    if (this.options.cursor) {
+        this.remove_cursor("row-resize");
+        this.remove_cursor("col-resize");
+    }
+    document.removeEventListener("mousemove", this.__pointer_move);
+    document.removeEventListener("mouseup",   this.__pointer_up);
+    document.removeEventListener("touchmove", this.__pointer_move);
+    document.removeEventListener("touchend",  this.__pointer_up);
+    this.__active = false;
+    // fire event
+    this.fire_event("stopdrag", e);
+
+    return false;
+}
+function pointer_move(e) {
+    if (!this.__active) return;
+    if (!this.options.active) return;
+    e.preventDefault();
+    // get the right event if touch
+    var ev = get_event(e);
+    // calc multiplier depending on step, shift up and shift down
+    var multi = this.options.range().options.step || 1;
+    if (e.ctrlKey && e.shiftKey) {
+        multi *= this.options.range().options.shift_down;
+    } else if (e.shiftKey) {
+        multi *= this.options.range().options.shift_up;
+    }
+    var dist = 0;
+    switch(this.options.direction) {
+        case _TOOLKIT_POLAR:
+            var x = ev.pageX - this._pageX;
+            var y = this._pageY - ev.pageY;
+            var r = Math.sqrt(x * x + y * y) * multi;
+            var a = Math.atan2(x, y) * (180 / Math.PI) + 360;
+            if (angle_diff(this.options.rotation, a)
+              < 90 - this.options.blind_angle / 2) {
+                dist = r * multi;
+                break;
+            }
+            if (angle_diff(this.options.rotation + 180, a)
+              < 90 - this.options.blind_angle / 2) {
+                dist = -r * multi;
+                break;
+            }
+            break;
+        case _TOOLKIT_VERT:
+            dist = (this._pageY - ev.pageY) * multi;
+            break;
+        case _TOOLKIT_HORIZ:
+            dist = (ev.pageX - this._pageX) * multi;
+            break;
+    }
+
+    var val = this.options.get();
+    var range = this.options.range();
+    this.options.set(range.snap(range.px2val(this._clickPos + dist)));
+
+    // remember stuff
+    if (val != this.options.get())
+        cache_values.call(ev, dist);
+
+    // fire event
+    this.fire_event("dragging", ev);
+
+    return false;
+}
+
+// HELPERS & STUFF
+function cache_values(event, dist) {
+    // store some poitions and values
+    this._pageX    = event.pageX;
+    this._pageY    = event.pageY;
+    this._clickPos = this._clickPos + dist;
+}
+
+function get_event(event) {
+    // return the right event if touch surface is used
+    // with multiple fingers
+    return (event.touches && event.touches.length)
+          ? event.touches[0] : event;
+}
+
+function angle_diff(a, b) {
+    // returns an unsigned difference between two angles
+    var d = (Math.abs(a - b) + 360) % 360;
+    return d > 180 ? 360 - d : d;
+}
 w.DragValue = $class({
     // DragValue enables dragging an element and setting a value
     // according to the distance. DragValue is used e.g. in Knob for
@@ -57,9 +181,9 @@ w.DragValue = $class({
                                                // right directions
     },
     initialize: function (options) {
-        this.__pointer_move = this._pointer_move.bind(this);
-        this.__pointer_up = this._pointer_up.bind(this);
-        this.__pointer_down = this._pointer_down.bind(this);
+        this.__pointer_move = pointer_move.bind(this);
+        this.__pointer_up = pointer_up.bind(this);
+        this.__pointer_down = pointer_down.bind(this);
 
         Widget.prototype.initialize.call(this, options);
 
@@ -75,131 +199,7 @@ w.DragValue = $class({
         document.removeEventListener("touchend",  this.__pointer_up);
         Widget.prototype.destroy.call(this);
     },
-    _pointer_down: function (e) {
-        if (!this.options.active) return;
-        e.preventDefault();
-        // get the right event if touch
-        var ev = this._get_event(e);
-        // set stuff
-        TK.add_class(this.options.classes, "toolkit-dragging");
-        if (this.options.direction == _TOOLKIT_VERT && this.options.cursor)
-            this.global_cursor("row-resize");
-        else if (this.options.cursor)
-            this.global_cursor("col-resize");
-        this.__active  = true;
-        
-        var range = this.options.range();
 
-        this._clickPos = range.val2real(range.snap(this.options.get()));
-        this._pageX = ev.pageX;
-        this._pageY = ev.pageY
-            
-        // remember stuff
-        this._cache_values(ev, 0);
-        
-        // fire event
-        this.fire_event("startdrag", e);
-
-        document.addEventListener("mousemove", this.__pointer_move);
-        document.addEventListener("mouseup",   this.__pointer_up);
-        document.addEventListener("touchmove", this.__pointer_move);
-        document.addEventListener("touchend",  this.__pointer_up);
-        
-        return false;
-    },
-    _pointer_up: function (e) {
-        if (!this.__active) return;
-        e.preventDefault();
-        // set stuff
-        TK.remove_class(this.options.classes, "toolkit-dragging");
-        if (this.options.cursor) {
-            this.remove_cursor("row-resize");
-            this.remove_cursor("col-resize");
-        }
-        document.removeEventListener("mousemove", this.__pointer_move);
-        document.removeEventListener("mouseup",   this.__pointer_up);
-        document.removeEventListener("touchmove", this.__pointer_move);
-        document.removeEventListener("touchend",  this.__pointer_up);
-        this.__active = false;
-        // fire event
-        this.fire_event("stopdrag", e);
-        
-        return false;
-    },
-    _pointer_move: function (e) {
-        if (!this.__active) return;
-        if (!this.options.active) return;
-        e.preventDefault();
-        // get the right event if touch
-        var ev = this._get_event(e);
-        // calc multiplier depending on step, shift up and shift down
-        var multi = this.options.range().options.step || 1;
-        if (e.ctrlKey && e.shiftKey) {
-            multi *= this.options.range().options.shift_down;
-        } else if (e.shiftKey) {
-            multi *= this.options.range().options.shift_up;
-        }
-        var dist = 0;
-        switch(this.options.direction) {
-            case _TOOLKIT_POLAR:
-                var x = ev.pageX - this._pageX;
-                var y = this._pageY - ev.pageY;
-                var r = Math.sqrt(x * x + y * y) * multi;
-                var a = Math.atan2(x, y) * (180 / Math.PI) + 360;
-                if (this._angle_diff(this.options.rotation, a)
-                  < 90 - this.options.blind_angle / 2) {
-                    dist = r * multi;
-                    break;
-                }
-                if (this._angle_diff(this.options.rotation + 180, a)
-                  < 90 - this.options.blind_angle / 2) {
-                    dist = -r * multi;
-                    break;
-                }
-                break;
-            case _TOOLKIT_VERT:
-                dist = (this._pageY - ev.pageY) * multi;
-                break;
-            case _TOOLKIT_HORIZ:
-                dist = (ev.pageX - this._pageX) * multi;
-                break;
-        }
-        
-        var val = this.options.get();
-        var range = this.options.range();
-        this.options.set(range.snap(range.px2val(this._clickPos + dist)));
-        
-        // remember stuff
-        if (val != this.options.get())
-            this._cache_values(ev, dist);
-        
-        // fire event
-        this.fire_event("dragging", ev);
-        
-        return false;
-    },
-    
-    // HELPERS & STUFF
-    _cache_values: function (event, dist) {
-        // store some poitions and values
-        this._pageX    = event.pageX;
-        this._pageY    = event.pageY;
-        this._clickPos = this._clickPos + dist;
-    },
-    
-    _get_event: function (event) {
-        // return the right event if touch surface is used
-        // with multiple fingers
-        return (event.touches && event.touches.length)
-              ? event.touches[0] : event;
-    },
-    
-    _angle_diff: function (a, b) {
-        // returns an unsigned difference between two angles
-        var d = (Math.abs(a - b) + 360) % 360;
-        return d > 180 ? 360 - d : d;
-    },
-    
     // GETTERS & SETTERS
     set: function (key, value, hold) {
         this.options[key] = value;
