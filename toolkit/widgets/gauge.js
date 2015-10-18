@@ -27,6 +27,7 @@ function _get_coords_single(deg, inner, pos) {
         y: Math.sin(deg) * inner + pos
     }
 }
+var format_translate = TK.FORMAT("translate(%f, %f)");
 w.Gauge = $class({
     // Gauge simply puts a single Circular into a SVG image.
     _class: "Gauge",
@@ -78,33 +79,36 @@ w.Gauge = $class({
             this._svg.setAttribute("height", O.height);
         }
 
-        if (I.title || I.size || I.x || I.y) {
-            I.title = I.size = I.x = I.y = false;
+        if (I.validate("title", "size", "x", "y")) {
             var _title = this._title;
             _title.textContent = O.title.title;
+
             if (O.title.title) {
-                var t = O.title;
-                var outer   = O.size / 2;
-                var margin  = t.margin;
-                var align   = t.align == _TOOLKIT_INNER;
-                var bb      = _title.getBoundingClientRect();
-                var angle   = t.pos % 360;
-                var outer_p = outer - margin;
-                var coords  = _get_coords_single(angle, outer_p, outer);
-                
-                var mx = ((coords.x - outer) / outer_p)
-                       * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
-                var my = ((coords.y - outer) / outer_p)
-                       * bb.height / (align ? -2 : 2);
-                
-                mx += O.x;
-                my += O.y;
-                       
-                _title.setAttribute("transform",
-                    "translate(" + (coords.x + mx) + "," + (coords.y + my) + ")");
-                _title.setAttribute("text-anchor", "middle");
+                TK.S.enqueue(function() {
+                    var t = O.title;
+                    var outer   = O.size / 2;
+                    var margin  = t.margin;
+                    var align   = t.align == _TOOLKIT_INNER;
+                    var bb      = _title.getBoundingClientRect();
+                    var angle   = t.pos % 360;
+                    var outer_p = outer - margin;
+                    var coords  = _get_coords_single(angle, outer_p, outer);
+                    
+                    var mx = ((coords.x - outer) / outer_p)
+                           * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
+                    var my = ((coords.y - outer) / outer_p)
+                           * bb.height / (align ? -2 : 2);
+                    
+                    mx += O.x;
+                    my += O.y;
+                           
+                    TK.S.enqueue(function() {
+                        _title.setAttribute("transform", format_translate(coords.x + mx, coords.y + my));
+                        _title.setAttribute("text-anchor", "middle");
+                    }.bind(this));
+                    this.fire_event("titledrawn");
+                }.bind(this), 1);
             }
-            this.fire_event("titledrawn");
         }
     },
     
