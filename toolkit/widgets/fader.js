@@ -103,14 +103,6 @@ w.Fader = $class({
             && TK.get_style(this.element, "position") != "relative")
             this.element.style["position"] = "relative";
             
-        this._background_top    = TK.element("div", "toolkit-background-top-left");
-        this._background_center = TK.element("div", "toolkit-background-center");
-        this._background_bottom = TK.element("div", "toolkit-background-bottom-right");
-
-        this.element.appendChild(this._background_top);
-        this.element.appendChild(this._background_center);
-        this.element.appendChild(this._background_bottom);
-
         var opt = Object.assign({}, this.options, {
             container:   this.element,
         });
@@ -214,9 +206,6 @@ w.Fader = $class({
         this.redraw();
     },
     destroy: function () {
-        this._background_top.remove();
-        this._background_bottom.remove();
-        this._background_center.remove();
         this._handle.remove();
         this.scale.destroy();
         this.element.remove();

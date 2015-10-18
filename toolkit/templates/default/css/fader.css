@@ -9,59 +9,35 @@ div.toolkit-fader {
     margin: 4px;
     padding: 0px;
     box-sizing: border-box;
+    background-repeat: no-repeat;
 }
 
 div.toolkit-fader.toolkit-vertical {
     width: 100px;
+    background-image: url(../images/fader/background_top.png),
+                      url(../images/fader/background_vertical_center.png),
+                      url(../images/fader/background_bottom.png);
+    background-size: 66px 100px, 66px calc(100% - 200px), 66px 100px;
+}
+div.toolkit-fader.toolkit-left {
+    background-position: 0 0, 0 100px, 0 100%;
+}
+div.toolkit-fader.toolkit-right {
+    background-position: 100% 0, 100% 100px, 100% 100%;
 }
 
 div.toolkit-fader.toolkit-horizontal {
     height: 80px;
+    background-image: url(../images/fader/background_left.png),
+                      url(../images/fader/background_horizontal_center.png),
+                      url(../images/fader/background_right.png);
+    background-size: 100px 66px, calc(100% - 200px) 66px, 100px 66px;
 }
-
-div.toolkit-fader.toolkit-vertical .toolkit-background-top-left,
-div.toolkit-fader.toolkit-vertical .toolkit-background-center,
-div.toolkit-fader.toolkit-vertical .toolkit-background-bottom-right {
-    z-index: 0;
-    width: 100%;
+div.toolkit-fader.toolkit-top {
+    background-position: 0 0, 100px 0, calc(100% - 200px) 0;
 }
-
-div.toolkit-fader .toolkit-background-top-left {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-div.toolkit-fader .toolkit-background-bottom-right {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
-div.toolkit-fader.toolkit-vertical .toolkit-background-top-left{
-    background: url(../images/fader/background_top.png) no-repeat 0 0;
-    height: 40px;
-}
-div.toolkit-fader.toolkit-vertical .toolkit-background-center {
-    background: url(../images/fader/background_vertical_center.png) repeat-y 0% 0%;
-    position: absolute;
-    top: 40px;
-    bottom: 40px;
-    left: 0;
-    right: 0;
-}
-div.toolkit-fader.toolkit-vertical .toolkit-background-bottom-right {
-    background: url(../images/fader/background_bottom.png) no-repeat 0 100%;
-    height: 40px;
-}
-
-div.toolkit-fader.toolkit-right .toolkit-background-top-left {
-    background-position: 100% 0%;
-}
-div.toolkit-fader.toolkit-right .toolkit-background-center {
-    background-position: 100% 0%;
-}
-div.toolkit-fader.toolkit-right .toolkit-background-bottom-right {
-    background-position: 100% 100%;
+div.toolkit-fader.toolkit-bottom {
+    background-position: 0 100%, 100px 100%, 100% 100%;
 }
 
 div.toolkit-fader .toolkit-handle {
