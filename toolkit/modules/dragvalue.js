@@ -36,11 +36,9 @@ function pointer_down(e) {
     var range = this.options.range();
 
     this._clickPos = range.val2real(range.snap(this.options.get()));
-    this._pageX = ev.pageX;
-    this._pageY = ev.pageY
 
     // remember stuff
-    this._cache_values(ev, 0);
+    cache_values.call(this, ev, 0);
 
     // fire event
     this.fire_event("startdrag", e);
@@ -116,7 +114,7 @@ function pointer_move(e) {
 
     // remember stuff
     if (val != this.options.get())
-        cache_values.call(ev, dist);
+        cache_values.call(this, ev, dist);
 
     // fire event
     this.fire_event("dragging", ev);
