@@ -142,63 +142,64 @@ function draw_title() {
     _title.textContent = this.options.title;
 
     /* FORCE_RELAYOUT */
-
-    var mtop    = parseInt(TK.get_style(_title, "margin-top") || 0);
-    var mleft   = parseInt(TK.get_style(_title, "margin-left") || 0);
-    var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);
-    var mright  = parseInt(TK.get_style(_title, "margin-right") || 0);
-    var bb      = _title.getBoundingClientRect();
-    var x,y,anchor, range_x = this.range_x, range_y = this.range_y;
-    switch (this.options.title_position) {
-        case _TOOLKIT_TOP_LEFT:
-            anchor = "start";
-            x = mleft;
-            y = mtop + bb.height / 2;
-            break;
-        case _TOOLKIT_TOP:
-            anchor = "middle";
-            x = range_x.options.basis / 2;
-            y = mtop + bb.height / 2;
-            break;
-        case _TOOLKIT_TOP_RIGHT:
-            anchor = "end";
-            x = range_x.options.basis - mright;
-            y = mtop + bb.height / 2;
-            break;
-        case _TOOLKIT_LEFT:
-            anchor = "start";
-            x = mleft;
-            y = range_y.options.basis / 2;
-            break;
-        case _TOOLKIT_CENTER:
-            anchor = "middle";
-            x = range_x.options.basis / 2;
-            y = range_y.options.basis / 2;
-            break;
-        case _TOOLKIT_RIGHT:
-            anchor = "end";
-            x = range_x.options.basis - mright;
-            y = range_y.options.basis / 2;
-            break;
-        case _TOOLKIT_BOTTOM_LEFT:
-            anchor = "start";
-            x = mleft;
-            y = range_y.options.basis - mtop - bb.height / 2;
-            break;
-        case _TOOLKIT_BOTTOM:
-            anchor = "middle";
-            x = range_x.options.basis / 2;
-            y = range_y.options.basis - mtop - bb.height / 2;
-            break;
-        case _TOOLKIT_BOTTOM_RIGHT:
-            anchor = "end";
-            x = range_x.options.basis - mright;
-            y = range_y.options.basis - mtop - bb.height / 2;
-            break;
-    }
-    _title.setAttribute("text-anchor", anchor);
-    _title.setAttribute("x", x);
-    _title.setAttribute("y", y);
+    TK.S.enqueue(function() {
+        var mtop    = parseInt(TK.get_style(_title, "margin-top") || 0);
+        var mleft   = parseInt(TK.get_style(_title, "margin-left") || 0);
+        var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);
+        var mright  = parseInt(TK.get_style(_title, "margin-right") || 0);
+        var bb      = _title.getBoundingClientRect();
+        var x,y,anchor, range_x = this.range_x, range_y = this.range_y;
+        switch (this.options.title_position) {
+            case _TOOLKIT_TOP_LEFT:
+                anchor = "start";
+                x = mleft;
+                y = mtop + bb.height / 2;
+                break;
+            case _TOOLKIT_TOP:
+                anchor = "middle";
+                x = range_x.options.basis / 2;
+                y = mtop + bb.height / 2;
+                break;
+            case _TOOLKIT_TOP_RIGHT:
+                anchor = "end";
+                x = range_x.options.basis - mright;
+                y = mtop + bb.height / 2;
+                break;
+            case _TOOLKIT_LEFT:
+                anchor = "start";
+                x = mleft;
+                y = range_y.options.basis / 2;
+                break;
+            case _TOOLKIT_CENTER:
+                anchor = "middle";
+                x = range_x.options.basis / 2;
+                y = range_y.options.basis / 2;
+                break;
+            case _TOOLKIT_RIGHT:
+                anchor = "end";
+                x = range_x.options.basis - mright;
+                y = range_y.options.basis / 2;
+                break;
+            case _TOOLKIT_BOTTOM_LEFT:
+                anchor = "start";
+                x = mleft;
+                y = range_y.options.basis - mtop - bb.height / 2;
+                break;
+            case _TOOLKIT_BOTTOM:
+                anchor = "middle";
+                x = range_x.options.basis / 2;
+                y = range_y.options.basis - mtop - bb.height / 2;
+                break;
+            case _TOOLKIT_BOTTOM_RIGHT:
+                anchor = "end";
+                x = range_x.options.basis - mright;
+                y = range_y.options.basis - mtop - bb.height / 2;
+                break;
+        }
+        _title.setAttribute("text-anchor", anchor);
+        _title.setAttribute("x", x);
+        _title.setAttribute("y", y);
+    }.bind(this), 1);
 }
     
 w.Chart = $class({
