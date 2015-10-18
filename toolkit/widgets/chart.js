@@ -289,7 +289,7 @@ w.Chart = $class({
         this.set("width", this.options.width);
         this.set("height", this.options.height);
     },
-    redraw: function (graphs, grid) {
+    redraw: function () {
         Widget.prototype.redraw.call(this);
         var I = this.invalid;
         var E = this.element;
@@ -358,8 +358,6 @@ w.Chart = $class({
     empty: function () {
         // Remove all Graphs from the Chart
         this.graphs.map(this.remove_graph, this);
-        this.invalid.graphs = true;
-        this.trigger_draw();
         this.fire_event("emptied");
     },
     
