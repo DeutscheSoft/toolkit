@@ -20,6 +20,187 @@
  */
 "use strict";
 (function(w){ 
+// HELPERS & STUFF
+function draw_key() {
+    var __key, bb;
+    TK.empty(this._key_txt);
+    TK.empty(this._key);
+    
+    if (this.options.key === false) {
+        this._key.style["display"] = "none";
+        this._key_background.style["display"] = "none";
+        return;
+    }
+    
+    this._key.appendChild(this._key_txt);
+    
+    var disp = "none";
+    var gpad = {
+        top:    parseInt(TK.get_style(this._key, "padding-top")) || 0,
+        right:  parseInt(TK.get_style(this._key, "padding-right")) || 0,
+        bottom: parseInt(TK.get_style(this._key, "padding-bottom")) || 0,
+        left:   parseInt(TK.get_style(this._key, "padding-left")) || 0
+    }
+    var gmarg = {
+        top:    parseInt(TK.get_style(this._key, "margin-top")) || 0,
+        right:  parseInt(TK.get_style(this._key, "margin-right")) || 0,
+        bottom: parseInt(TK.get_style(this._key, "margin-bottom")) || 0,
+        left:   parseInt(TK.get_style(this._key, "margin-left")) || 0
+    }
+    var c   = 0;
+    var w   = 0;
+    var top = 0;
+    var lines = [];
+    for (var i = 0; i < this.graphs.length; i++) {
+        if (this.graphs[i].get("key") !== false) {
+            var t = TK.make_svg("tspan", {"class": "toolkit-label",
+                                     style: "dominant-baseline: central;"
+            });
+            t.textContent = this.graphs[i].get("key");
+            t.setAttribute("x", gpad.left);
+            this._key_txt.appendChild(t);
+            
+            if (!bb) bb = this._key.getBoundingClientRect();
+            top += c ? parseInt(TK.get_style(t, "line-height")) : gpad.top;
+            t.setAttribute("y", top + bb.height / 2);
+            
+            lines.push({
+                x:       (parseInt(TK.get_style(t, "margin-right")) || 0),
+                y:       Math.round(top),
+                width:   Math.round(bb.width),
+                height:  Math.round(bb.height),
+                "class": this.graphs[i].element.getAttribute("class"),
+                color:   (this.graphs[i].element.getAttribute("color") || ""),
+                style:   this.graphs[i].element.getAttribute("style")
+            })
+            w = Math.max(w, t.getComputedTextLength());
+            disp = "block";
+            c++;
+        }
+    }
+    for (var i = 0; i < lines.length; i++) {
+        var b = TK.make_svg("rect", {
+            "class": lines[i]["class"] + " toolkit-rect",
+            color:   lines[i].color,
+            style:   lines[i].style,
+            x:       lines[i].x + 0.5 + w + gpad.left,
+            y:       lines[i].y + 0.5 + parseInt(lines[i].height / 2 - this.options.key_size.y / 2),
+            height:  this.options.key_size.y,
+            width:   this.options.key_size.x
+        });
+        this._key.appendChild(b);
+    }
+    this._key_background.style["display"] = disp;
+    this._key.style["display"] = disp;
+    
+    if (!bb) bb     = this._key.getBoundingClientRect();
+    var width  = this.range_x.options.basis;
+    var height = this.range_y.options.basis;
+    
+    switch (this.options.key) {
+        case _TOOLKIT_TOP_LEFT:
+            __key = {
+                x1: gmarg.left,
+                y1: gmarg.top,
+                x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
+                y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
+            }
+            break;
+        case _TOOLKIT_TOP_RIGHT:
+            __key = {
+                x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
+                y1: gmarg.top,
+                x2: width - gmarg.right,
+                y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
+            }
+            break;
+        case _TOOLKIT_BOTTOM_LEFT:
+            __key = {
+                x1: gmarg.left,
+                y1: height - gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
+                x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
+                y2: height - gmarg.bottom
+            }
+            break;
+        case _TOOLKIT_BOTTOM_RIGHT:
+            __key = {
+                x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
+                y1: height -gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
+                x2: width - gmarg.right,
+                y2: height - gmarg.bottom
+            }
+            break;
+    }
+    this._key.setAttribute("transform", "translate(" + __key.x1 + "," + __key.y1 + ")");
+    this._key_background.setAttribute("x", __key.x1);
+    this._key_background.setAttribute("y", __key.y1);
+    this._key_background.setAttribute("width", __key.x2 - __key.x1);
+    this._key_background.setAttribute("height", __key.y2 - __key.y1);
+}
+function draw_title() {
+    var _title  = this._title;
+    _title.textContent = this.options.title;
+
+    /* FORCE_RELAYOUT */
+
+    var mtop    = parseInt(TK.get_style(_title, "margin-top") || 0);
+    var mleft   = parseInt(TK.get_style(_title, "margin-left") || 0);
+    var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);
+    var mright  = parseInt(TK.get_style(_title, "margin-right") || 0);
+    var bb      = _title.getBoundingClientRect();
+    var x,y,anchor, range_x = this.range_x, range_y = this.range_y;
+    switch (this.options.title_position) {
+        case _TOOLKIT_TOP_LEFT:
+            anchor = "start";
+            x = mleft;
+            y = mtop + bb.height / 2;
+            break;
+        case _TOOLKIT_TOP:
+            anchor = "middle";
+            x = range_x.options.basis / 2;
+            y = mtop + bb.height / 2;
+            break;
+        case _TOOLKIT_TOP_RIGHT:
+            anchor = "end";
+            x = range_x.options.basis - mright;
+            y = mtop + bb.height / 2;
+            break;
+        case _TOOLKIT_LEFT:
+            anchor = "start";
+            x = mleft;
+            y = range_y.options.basis / 2;
+            break;
+        case _TOOLKIT_CENTER:
+            anchor = "middle";
+            x = range_x.options.basis / 2;
+            y = range_y.options.basis / 2;
+            break;
+        case _TOOLKIT_RIGHT:
+            anchor = "end";
+            x = range_x.options.basis - mright;
+            y = range_y.options.basis / 2;
+            break;
+        case _TOOLKIT_BOTTOM_LEFT:
+            anchor = "start";
+            x = mleft;
+            y = range_y.options.basis - mtop - bb.height / 2;
+            break;
+        case _TOOLKIT_BOTTOM:
+            anchor = "middle";
+            x = range_x.options.basis / 2;
+            y = range_y.options.basis - mtop - bb.height / 2;
+            break;
+        case _TOOLKIT_BOTTOM_RIGHT:
+            anchor = "end";
+            x = range_x.options.basis - mright;
+            y = range_y.options.basis - mtop - bb.height / 2;
+            break;
+    }
+    _title.setAttribute("text-anchor", anchor);
+    _title.setAttribute("x", x);
+    _title.setAttribute("y", y);
+}
+    
 w.Chart = $class({
     // Chart is an SVG image containing one or more Graphs. There are functions
     // to add and remove graphs. Chart extends Widget and contains a Grid
@@ -128,10 +309,10 @@ w.Chart = $class({
             }
         }
         if (I.validate("width", "height", "title", "title_position")) {
-            this._draw_title();
+            draw_title.call(this);
         }
         if (I.validate("key", "key_size", "graphs")) {
-            this._draw_key();
+            draw_key.call(this);
         }
     },
     destroy: function () {
@@ -180,187 +361,6 @@ w.Chart = $class({
         this.invalid.graphs = true;
         this.trigger_draw();
         this.fire_event("emptied");
-    },
-    
-    // HELPERS & STUFF
-    _draw_key: function () {
-        var __key, bb;
-        TK.empty(this._key_txt);
-        TK.empty(this._key);
-        
-        if (this.options.key === false) {
-            this._key.style["display"] = "none";
-            this._key_background.style["display"] = "none";
-            return;
-        }
-        
-        this._key.appendChild(this._key_txt);
-        
-        var disp = "none";
-        var gpad = {
-            top:    parseInt(TK.get_style(this._key, "padding-top")) || 0,
-            right:  parseInt(TK.get_style(this._key, "padding-right")) || 0,
-            bottom: parseInt(TK.get_style(this._key, "padding-bottom")) || 0,
-            left:   parseInt(TK.get_style(this._key, "padding-left")) || 0
-        }
-        var gmarg = {
-            top:    parseInt(TK.get_style(this._key, "margin-top")) || 0,
-            right:  parseInt(TK.get_style(this._key, "margin-right")) || 0,
-            bottom: parseInt(TK.get_style(this._key, "margin-bottom")) || 0,
-            left:   parseInt(TK.get_style(this._key, "margin-left")) || 0
-        }
-        var c   = 0;
-        var w   = 0;
-        var top = 0;
-        var lines = [];
-        for (var i = 0; i < this.graphs.length; i++) {
-            if (this.graphs[i].get("key") !== false) {
-                var t = TK.make_svg("tspan", {"class": "toolkit-label",
-                                         style: "dominant-baseline: central;"
-                });
-                t.textContent = this.graphs[i].get("key");
-                t.setAttribute("x", gpad.left);
-                this._key_txt.appendChild(t);
-                
-                if (!bb) bb = this._key.getBoundingClientRect();
-                top += c ? parseInt(TK.get_style(t, "line-height")) : gpad.top;
-                t.setAttribute("y", top + bb.height / 2);
-                
-                lines.push({
-                    x:       (parseInt(TK.get_style(t, "margin-right")) || 0),
-                    y:       Math.round(top),
-                    width:   Math.round(bb.width),
-                    height:  Math.round(bb.height),
-                    "class": this.graphs[i].element.getAttribute("class"),
-                    color:   (this.graphs[i].element.getAttribute("color") || ""),
-                    style:   this.graphs[i].element.getAttribute("style")
-                })
-                w = Math.max(w, t.getComputedTextLength());
-                disp = "block";
-                c++;
-            }
-        }
-        for (var i = 0; i < lines.length; i++) {
-            var b = TK.make_svg("rect", {
-                "class": lines[i]["class"] + " toolkit-rect",
-                color:   lines[i].color,
-                style:   lines[i].style,
-                x:       lines[i].x + 0.5 + w + gpad.left,
-                y:       lines[i].y + 0.5 + parseInt(lines[i].height / 2 - this.options.key_size.y / 2),
-                height:  this.options.key_size.y,
-                width:   this.options.key_size.x
-            });
-            this._key.appendChild(b);
-        }
-        this._key_background.style["display"] = disp;
-        this._key.style["display"] = disp;
-        
-        if (!bb) bb     = this._key.getBoundingClientRect();
-        var width  = this.range_x.options.basis;
-        var height = this.range_y.options.basis;
-        
-        switch (this.options.key) {
-            case _TOOLKIT_TOP_LEFT:
-                __key = {
-                    x1: gmarg.left,
-                    y1: gmarg.top,
-                    x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
-                    y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
-                }
-                break;
-            case _TOOLKIT_TOP_RIGHT:
-                __key = {
-                    x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
-                    y1: gmarg.top,
-                    x2: width - gmarg.right,
-                    y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
-                }
-                break;
-            case _TOOLKIT_BOTTOM_LEFT:
-                __key = {
-                    x1: gmarg.left,
-                    y1: height - gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
-                    x2: gmarg.left + parseInt(bb.width) + gpad.left + gpad.right,
-                    y2: height - gmarg.bottom
-                }
-                break;
-            case _TOOLKIT_BOTTOM_RIGHT:
-                __key = {
-                    x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
-                    y1: height -gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
-                    x2: width - gmarg.right,
-                    y2: height - gmarg.bottom
-                }
-                break;
-        }
-        this._key.setAttribute("transform", "translate(" + __key.x1 + "," + __key.y1 + ")");
-        this._key_background.setAttribute("x", __key.x1);
-        this._key_background.setAttribute("y", __key.y1);
-        this._key_background.setAttribute("width", __key.x2 - __key.x1);
-        this._key_background.setAttribute("height", __key.y2 - __key.y1);
-    },
-    _draw_title: function () {
-        var _title  = this._title;
-        _title.textContent = this.options.title;
-
-        /* FORCE_RELAYOUT */
-
-        var mtop    = parseInt(TK.get_style(_title, "margin-top") || 0);
-        var mleft   = parseInt(TK.get_style(_title, "margin-left") || 0);
-        var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);
-        var mright  = parseInt(TK.get_style(_title, "margin-right") || 0);
-        var bb      = _title.getBoundingClientRect();
-        var x,y,anchor, range_x = this.range_x, range_y = this.range_y;
-        switch (this.options.title_position) {
-            case _TOOLKIT_TOP_LEFT:
-                anchor = "start";
-                x = mleft;
-                y = mtop + bb.height / 2;
-                break;
-            case _TOOLKIT_TOP:
-                anchor = "middle";
-                x = range_x.options.basis / 2;
-                y = mtop + bb.height / 2;
-                break;
-            case _TOOLKIT_TOP_RIGHT:
-                anchor = "end";
-                x = range_x.options.basis - mright;
-                y = mtop + bb.height / 2;
-                break;
-            case _TOOLKIT_LEFT:
-                anchor = "start";
-                x = mleft;
-                y = range_y.options.basis / 2;
-                break;
-            case _TOOLKIT_CENTER:
-                anchor = "middle";
-                x = range_x.options.basis / 2;
-                y = range_y.options.basis / 2;
-                break;
-            case _TOOLKIT_RIGHT:
-                anchor = "end";
-                x = range_x.options.basis - mright;
-                y = range_y.options.basis / 2;
-                break;
-            case _TOOLKIT_BOTTOM_LEFT:
-                anchor = "start";
-                x = mleft;
-                y = range_y.options.basis - mtop - bb.height / 2;
-                break;
-            case _TOOLKIT_BOTTOM:
-                anchor = "middle";
-                x = range_x.options.basis / 2;
-                y = range_y.options.basis - mtop - bb.height / 2;
-                break;
-            case _TOOLKIT_BOTTOM_RIGHT:
-                anchor = "end";
-                x = range_x.options.basis - mright;
-                y = range_y.options.basis - mtop - bb.height / 2;
-                break;
-        }
-        _title.setAttribute("text-anchor", anchor);
-        _title.setAttribute("x", x);
-        _title.setAttribute("y", y);
     },
     
     // GETTER & SETER
