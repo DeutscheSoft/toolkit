@@ -38,9 +38,13 @@ function _get_coords_single(deg, inner, pos) {
     }
 }
 var format_path = TK.FORMAT("M %f,%f " +
-                                 "A %f,%f 0 %d,%d %f,%f " +
-                                 "L %f,%f " +
-                                 "A %f,%f 0 %d,%d %f,%f z");
+                            "A %f,%f 0 %d,%d %f,%f " +
+                            "L %f,%f " +
+                            "A %f,%f 0 %d,%d %f,%f z");
+var format_translate = TK.FORMAT("translate(%f, %f)");
+var format_translate_rotate = TK.FORMAT("translate(%f %f) rotate(%f %f %f)");
+var format_rotate = TK.FORMAT("rotate(%f %f %f)");
+
 function draw_dots() {
     // depends on dots, dot, min, max, size
     var _dots = this._dots;
@@ -124,9 +128,10 @@ function draw_labels() {
     var O = this.options;
     var labels = O.labels;
     TK.empty(this._labels);
+
+    if (!labels.length) return;
     
     var outer   = O.size / 2;
-
     var a = new Array(labels.length);
     var i;
 
@@ -152,12 +157,10 @@ function draw_labels() {
         _labels.appendChild(p);
         a[i] = p;
     }
-
-    var fmt = TK.FORMAT("translate(%f, %f)");
-
     /* FORCE_RELAYOUT */
 
     TK.S.enqueue(function() {
+        var i, p;
         for (i = 0; i < labels.length; i++) {
             l = labels[i];
             p = a[i];
@@ -173,7 +176,7 @@ function draw_labels() {
             var mx = ((coords.x - outer) / outer_p) * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
             var my = ((coords.y - outer) / outer_p) * bb.height / (align ? -2 : 2);
 
-            positions[i] = fmt(coords.x + mx, coords.y + my);
+            positions[i] = format_translate(coords.x + mx, coords.y + my);
         }
 
         TK.S.enqueue(function() {
@@ -312,9 +315,8 @@ w.Circular = $class({
         var tmp;
 
         if (I.validate("x", "y") || I.start || I.size) {
-            E.setAttribute("transform", TK.sprintf("translate(%f %f) rotate(%f %f %f)",
-                                                   O.x, O.y, O.start, outer, outer));
-            this._labels.setAttribute("transform", TK.sprintf("rotate(%f %f %f)", -O.start, outer, outer));
+            E.setAttribute("transform", format_translate_rotate(O.x, O.y, O.start, outer, outer));
+            this._labels.setAttribute("transform", format_rotate(-O.start, outer, outer));
         }
 
         if (I.validate("labels", "label") || I.size || I.min || I.max || I.start) {
@@ -367,7 +369,7 @@ w.Circular = $class({
             tmp.setAttribute("width", O.hand.length);
             tmp.setAttribute("height",O.hand.width);
             tmp.setAttribute("transform",
-                             TK.sprintf("rotate(%f %f %f)", this.val2real(this.snap(O.value)), O.size / 2, O.size / 2));
+                             format_rotate(this.val2real(this.snap(O.value)), O.size / 2, O.size / 2));
             this.fire_event("handdrawn");
         }
     },
