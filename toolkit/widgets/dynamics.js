@@ -47,47 +47,56 @@ w.Dynamics = $class({
         Chart.prototype.initialize.call(this, options, true);
         var O = this.options;
         TK.add_class(this.element, "toolkit-dynamics");
-        this.set("scale", O.scale, true);
-        this.set("size", O.size, true);
-        this.set("min", O.min, true);
-        this.set("max", O.max, true);
+        this.set("scale", O.scale);
+        this.set("size", O.size);
+        this.set("min", O.min);
+        this.set("max", O.max);
         this.steady = this.add_graph({
             dots: [{x:O.min, y:O.min},
                    {x:O.max, y:O.max}],
             "class": "toolkit-steady",
             scale: _TOOLKIT_LINE
         });
-        this.redraw();
     },
     
-    redraw: function (graphs, grid) {
+    redraw: function () {
         var O = this.options;
-        O.grid_x = [];
-        O.grid_y = [];
-        var min = this.range_x.get("min");
-        var max = this.range_x.get("max");
-        var step = O.db_grid;
-        var cls;
-        for (var i = min; i <= max; i += step) {
-            cls = i ? "" : "toolkit-highlight";
-            O.grid_x.push({
-                pos:     i,
-                label:   i === min ? "" : O.grid_labels(i),
-                "class": cls
-            });
-            O.grid_y.push({
-                pos:     i,
-                label:   i === min ? "" : O.grid_labels(i),
-                "class": cls
-            });
+        var I = this.invalid;
+
+        if (I.validate("size", "min", "max", "scale")) {
+            var grid_x = [];
+            var grid_y = [];
+            var min = this.range_x.get("min");
+            var max = this.range_x.get("max");
+            var step = O.db_grid;
+            var cls;
+            for (var i = min; i <= max; i += step) {
+                cls = i ? "" : "toolkit-highlight";
+                grid_x.push({
+                    pos:     i,
+                    label:   i === min ? "" : O.grid_labels(i),
+                    "class": cls
+                });
+                grid_y.push({
+                    pos:     i,
+                    label:   i === min ? "" : O.grid_labels(i),
+                    "class": cls
+                });
+            }
+            this.grid.set("grid_x", grid_x);
+            this.grid.set("grid_y", grid_y);
+
+            if (this.steady)
+                this.steady.set("dots", [{x:O.min, y:O.min}, {x:O.max, y:O.max}]);
         }
-        this.grid.set("grid_x", O.grid_x, true);
-        this.grid.set("grid_y", O.grid_y);
         
-        if (this.steady)
-            this.steady.set("dots", [{x:O.min, y:O.min}, {x:O.max, y:O.max}]);
-        Chart.prototype.redraw.call(this, graphs, false);
-        this.draw_graph();
+
+        if (I.validate("ratio", "threshold", "range", "makeup")) {
+            this.draw_graph();
+        }
+
+
+        Chart.prototype.redraw.call(this);
     },
     
     draw_graph: function () {
@@ -149,36 +158,19 @@ w.Dynamics = $class({
     },
     
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Chart.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "size":
-                this.range_x.set("basis", value, hold);
-                this.range_y.set("basis", value, hold);
-                if (!hold) this.redraw();
+                this.range_x.set("basis", value);
+                this.range_y.set("basis", value);
                 break;
             case "min":
-                this.range_x.set("min", value, hold);
-                this.range_y.set("min", value, hold);
-                if (!hold) this.redraw();
-                break;
             case "max":
-                this.range_x.set("max", value, hold);
-                this.range_y.set("max", value, hold);
-                if (!hold) this.redraw();
-                break;
             case "scale":
-                this.range_y.set("scale", value, hold);
-                this.range_x.set("scale", value, hold);
-                if (!hold) this.redraw();
-                break;
-            case "ratio":
-            case "threshold":
-            case "range":
-            case "makeup":
-                if (!hold) this.draw_graph();
+                this.range_x.set(key, value);
+                this.range_y.set(key, value);
                 break;
         }
-        Chart.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);
