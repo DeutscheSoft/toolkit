@@ -20,6 +20,55 @@
  */
 "use strict";
 (function(w) {
+function scrollwheel(e) {
+    var O = this.options;
+    if (!O.active) return;
+    e.preventDefault();
+    var d = e.wheelDelta ? e.wheelDelta : -e.detail;
+    var direction = d > 0 ? 1 : -1;
+    TK.add_class(O.classes, "toolkit-scrolling");
+    var range = O.range();
+    
+    // timeout for resetting the class
+    if (this.__sto) window.clearTimeout(this.__sto);
+    this.__sto = window.setTimeout(function () {
+        TK.remove_class(O.classes, "toolkit-scrolling");
+        fire_event.call(this, "scrollended", e);
+        this._wheel = false;
+    }.bind(this), 200);
+    
+    // calc step depending on options.step, .shift up and .shift down
+    var step = (range.options.step || 1) * direction;
+    if (e.ctrlKey && e.shiftKey) {
+        step *= range.options.shift_down;
+    } else if (e.shiftKey) {
+        step *= range.options.shift_up;
+    }
+    if (!this._wheel)
+        this._lastPos = range.val2real(range.snap(O.get()));
+    
+    this._lastPos += step;
+    O.set(range.real2val(this._lastPos));
+    
+    this._lastPos = range.val2real(Math.max(Math.min(range.real2val(this._lastPos), range.options.max), range.options.min));
+    
+    if (!this._wheel)
+        fire_event.call(this, "scrollstarted", e);
+    
+    fire_event.call(this, "scrolling", e);
+    
+    this._wheel = true;
+    
+    return false;
+}
+function fire_event(title, event) {
+    var O = this.options;
+    // fire an event on this drag object and one with more
+    // information on the draggified element
+    this.fire_event(title, this, event);
+    if (O.events())
+        O.events().fire_event(title, event, O.get(), O.element, this, O.range());
+}
 w.ScrollValue = $class({
     // ScrollValue enables the scrollwheel for setting a value of an
     // object. ScrollValue is used e.g. in Knob for setting its value.
@@ -40,7 +89,7 @@ w.ScrollValue = $class({
         active:    true                        // deactivate the event
     },
     initialize: function (options) {
-        this._scrollwheel = this._scrollwheel.bind(this);
+        this._scrollwheel = scrollwheel.bind(this);
         Widget.prototype.initialize.call(this, options);
         if (this.options.element)
             this.set("element", this.options.element);
@@ -54,60 +103,6 @@ w.ScrollValue = $class({
         }
         Widget.prototype.destroy.call(this);
     },
-    _scrollwheel: function (e) {
-        if (!this.options.active) return;
-        e.preventDefault();
-        var d = e.wheelDelta ? e.wheelDelta : -e.detail;
-        e.wheel = d > 0 ? 1 : -1;
-        TK.add_class(this.options.classes, "toolkit-scrolling");
-        var range = this.options.range();
-        
-        // timeout for resetting the class
-        if (this.__sto) window.clearTimeout(this.__sto);
-        this.__sto = window.setTimeout(function () {
-            TK.remove_class(this.options.classes, "toolkit-scrolling");
-            this._fire_event("scrollended", e);
-            this._wheel = false;
-        }.bind(this), 200);
-        
-        // calc step depending on options.step, .shift up and .shift down
-        var step = (range.options.step || 1) * e.wheel;
-        if (e.ctrlKey && e.shiftKey) {
-            step *= range.options.shift_down;
-        } else if (e.shiftKey) {
-            step *= range.options.shift_up;
-        }
-        if (!this._wheel)
-            this._lastPos = range.val2real(range.snap(this.options.get()));
-        
-        this._lastPos += step;
-        this.options.set(range.real2val(this._lastPos));
-        
-        this._lastPos = range.val2real(Math.max(Math.min(range.real2val(this._lastPos), range.options.max), range.options.min));
-        
-        if (!this._wheel)
-            this._fire_event("scrollstarted", e);
-        
-        this._fire_event("scrolling", e);
-        
-        this._wheel = true;
-        
-        return false;
-    },
-    
-    // HELPERS & STUFF
-    _fire_event: function (title, event) {
-        // fire an event on this drag object and one with more
-        // information on the draggified element
-        this.fire_event(title, this, event);
-        if (this.options.events())
-            this.options.events().fire_event(title, event,
-                                              this.options.get(),
-                                              this.options.element,
-                                              this,
-                                              this.options.range());
-    },
-    
     // GETTERS & SETTERS
     set: function (key, value, hold) {
         this.options[key] = value;
