@@ -41,7 +41,7 @@
 }
 
 #gauge3 {
-    background: url(images/gauge.svg) no-repeat 50% 0%;
+    background: url(../images/gauge.svg) no-repeat 50% 0%;
     background-size: contain;
     fill: white;
 }
@@ -54,7 +54,7 @@
 }
 
 #gauge4 {
-    background: url(images/vumeter.png) no-repeat 50% 0%;
+    background: url(../images/vumeter.png) no-repeat 50% 0%;
     background-size: 100% 100%;
     fill: white;
 }
@@ -73,7 +73,7 @@
 }
 
 #gauge5 {
-    background: url(images/vumeter_light.png) no-repeat 50% 0%;
+    background: url(../images/vumeter_light.png) no-repeat 50% 0%;
     background-size: 100% 100%;
     fill: rgba(0,0,0,0.8);
 }
@@ -162,7 +162,7 @@ div.toolkit-state.on_air {
     height: 70px;
 }
 div.toolkit-state.on_air .toolkit-over {
-    background: url(images/on_air.png) no-repeat 50% 51%;
+    background: url(../images/on_air.png) no-repeat 50% 51%;
 }
 
 
