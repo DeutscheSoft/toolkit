@@ -20,6 +20,48 @@
  */
 "use strict";
 (function(w){
+function mouseenter (ev) {
+    this.__entered = true;
+}
+function clicked(ev) {
+    if (this._handle.contains(ev.target)) return;
+    this.set("value", this._get_value(ev));
+    if (!this.__entered)
+        this.__tt = this.tooltip(false, this.__tt);
+    this.fire_event("useraction", "value", this.get("value"));
+}
+function mouseleave (ev) {
+    this.__entered = false;
+    if (!this.options.tooltip) return;
+    if (!this.__dragging)
+        this.__tt = this.tooltip(false, this.__tt);
+}
+function dragging(ev) {
+    this.__dragging = true;
+    move.call(this, ev);
+}
+function stopdrag(ev) {
+    this.__dragging = false;
+    if (!this.__entered)
+        this.__tt = this.tooltip(false, this.__tt);
+}
+function scrolling(ev) {
+    if (!this.options.tooltip) return;
+    this.__tt = this.tooltip(this.options.tooltip(
+        this.get("value")), this.__tt);
+}
+function dblclick(ev) {
+    this.set("value", this.options.reset);
+    this.fire_event("doubleclick", this.options.value);
+}
+function move(ev) {
+    if (!this.options.tooltip) return;
+    var s = this.__dragging ? this.get("value") : this._get_value(ev);
+    // NOTE: mouseenter/mouseleave do not fire when left mouse button is pressed
+    // so dont show tooltip here
+    if (this.__entered)
+        this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
+}
 w.Fader = $class({
     _class: "Fader",
     Extends: Widget,
@@ -92,34 +134,18 @@ w.Fader = $class({
         
         this.set("layout", this.options.layout);
         
-        this.element.addEventListener("click",    this._clicked.bind(this));
-        this.element.addEventListener("mouseenter", this._mouseenter.bind(this));
-        this.element.addEventListener("mouseleave", this._mouseleave.bind(this));
-        this.element.addEventListener("mousemove",  this._move.bind(this));
+        this.element.addEventListener("click",      clicked.bind(this));
+        this.element.addEventListener("mouseenter", mouseenter.bind(this));
+        this.element.addEventListener("mouseleave", mouseleave.bind(this));
+        this.element.addEventListener("mousemove",  move.bind(this));
+        this.element.addEventListener("dblclick",   dblclick.bind(this));
         
         if (typeof this.options.reset == "undefined")
             this.options.reset = this.options.value;
-        this.element.addEventListener("dblclick", function () {
-            this.set("value", this.options.reset);
-            this.fire_event("doubleclick", this.options.value);
-        }.bind(this));
         
-        this.drag.add_event("dragging", function (ev) {
-            this.__dragging = true;
-            this._move(ev);
-        }.bind(this));
-        
-        this.drag.add_event("stopdrag", function (ev) {
-            this.__dragging = false;
-            if (!this.__entered)
-                this.__tt = this.tooltip(false, this.__tt);
-        }.bind(this));
-        
-        this.scroll.add_event("scrolling", function (ev) {
-            if (!this.options.tooltip) return;
-            this.__tt = this.tooltip(this.options.tooltip(
-                this.get("value")), this.__tt);
-        }.bind(this));
+        this.drag.add_event("dragging", dragging.bind(this));
+        this.drag.add_event("stopdrag", stopdrag.bind(this));
+        this.scroll.add_event("scrolling", scrolling.bind(this));
     },
 
     initialized: function () {
@@ -194,30 +220,6 @@ w.Fader = $class({
     _vert: function () {
         return this.options.layout == _TOOLKIT_LEFT
             || this.options.layout == _TOOLKIT_RIGHT;
-    },
-    _clicked: function (ev) {
-        if (this._handle.contains(ev.target)) return;
-        this.set("value", this._get_value(ev));
-        if (!this.__entered)
-            this.__tt = this.tooltip(false, this.__tt);
-        this.fire_event("useraction", "value", this.get("value"));
-    },
-    _move: function (ev) {
-        if (!this.options.tooltip) return;
-        var s = this.__dragging ? this.get("value") : this._get_value(ev);
-        // NOTE: mouseenter/mouseleave do not fire when left mouse button is pressed
-        // so dont show tooltip here
-        if (this.__entered)
-            this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
-    },
-    _mouseenter : function (ev) {
-        this.__entered = true;
-    },
-    _mouseleave : function (ev) {
-        this.__entered = false;
-        if (!this.options.tooltip) return;
-        if (!this.__dragging)
-            this.__tt = this.tooltip(false, this.__tt);
     },
     _get_value: function (ev) {
         var pos   = TK[this._vert() ? "position_top" : "position_left"](this.element) + this._handlesize / 2;
