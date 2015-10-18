@@ -168,7 +168,7 @@ w.Fader = $class({
                 }
                 var s = h - this._handlesize;
                 if (s != O.basis) {
-                    O.basis = s;
+                    this.set("basis", s);
                     this.scale.set("basis", s);
                 }
                 this.scale.trigger_draw();
