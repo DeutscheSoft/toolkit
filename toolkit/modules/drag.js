@@ -20,6 +20,46 @@
  */
 "use strict";
 (function(w){
+function dragstart(e, drag) {
+    var O = this.options;
+    if (!O.active) return;
+    this._xstart = e.pageX;
+    this._ystart = e.pageY;
+    this._xpos   = O.element.offsetLeft;
+    this._ypos   = O.element.offsetTop;
+    this.fire_event("start", e);
+}
+function dragend(e, drag) {
+    if (!this.options.active) return;
+    this.fire_event("stop", e);
+}
+function dragging(e, drag) {
+    var O = this.options;
+    if (!O.active) return;
+    var x = this._xpos + e.pageX - this._xstart;
+    var y = this._ypos + e.pageY - this._ystart;
+    if (O.min.x !== false) x = Math.max(O.min.x, x);
+    if (O.max.x !== false) x = Math.min(O.max.x, x);
+    if (O.min.y !== false) y = Math.max(O.min.y, y);
+    if (O.max.y !== false) y = Math.min(O.max.y, y);
+    O.element.style.top = y + "px";
+    O.element.style.left = x + "px";
+    
+    this.fire_event("resizing", e, x, y);
+}
+function set_handle() {
+    var h = this.options.handle;
+    if (this.drag)
+        this.drag.destroy();
+    var range = new Range({});
+    this.drag = new DragValue({
+        element: h,
+        range: function () { return range; },
+        onStartdrag  : this._dragstart,
+        onStopdrag   : this._dragend,
+        onDragging   : this._dragging
+    });
+}
 w.Drag = $class({
     // Resize enables resizing of elements on the screen.
     _class: "Drag",
@@ -37,65 +77,18 @@ w.Drag = $class({
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         this.set("handle", this.options.handle);
-    },
-    _set_handle: function () {
-        var h = this.options.handle;
-        if (this.drag)
-            this.drag.destroy();
-        var range = new Range({});
-        this.drag = new DragValue({ element: h,
-            range: function () { return range; },
-            onStartdrag  : this._dragstart.bind(this),
-            onStopdrag   : this._dragend.bind(this),
-            onDragging   : this._dragging.bind(this)
-        });
-    },
-    _dragstart: function (e, drag) {
-        if (!this.options.active)
-            return;
-        this._xstart = e.pageX;
-        this._ystart = e.pageY;
-        this._xpos   = this.options.element.offsetLeft;
-        this._ypos   = this.options.element.offsetTop;
-        if (!this.options.active)
-            return;
-        this.fire_event("start", e);
-    },
-    _dragend: function (e, drag) {
-        if (!this.options.active)
-            return;
-        this.fire_event("stop", e);
-    },
-    _dragging: function (e, drag) {
-        if (!this.options.active)
-            return;
-        var x = this._xpos + e.pageX - this._xstart;
-        var y = this._ypos + e.pageY - this._ystart;
-        if (this.options.min.x !== false)
-            x = Math.max(this.options.min.x, x);
-        if (this.options.max.x !== false)
-            x = Math.min(this.options.max.x, x);
-        if (this.options.min.y !== false)
-            y = Math.max(this.options.min.y, y);
-        if (this.options.max.y !== false)
-            y = Math.min(this.options.max.y, y);
-        this.options.element.style.top = y + "px";
-        this.options.element.style.left = x + "px";
-        
-        this.fire_event("resizing", e, x, y);
+        this._dragging = dragging.bind(this);
+        this._dragstart = dragstart.bind(this);
+        this._dragend = dragend.bind(this);
     },
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        this.options[key] = value;
-        switch (key) {
-            case "handle":
-                if (!value)
-                    this.options.handle = this.options.element;
-                if (!hold)
-                    this._set_handle();
-                break;
-        }
+        if (key === "handle" && !value)
+            value = this.options.element;
+
         Widget.prototype.set.call(this, key, value, hold);
+
+        if (key === "handle") set_handle.call(this);
     }
 });
 })(this);
