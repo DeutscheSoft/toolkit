@@ -20,22 +20,25 @@
  */
 "use strict";
 (function(w) {
+function scroll_timeout() {
+    fire_event.call(this, "scrollended");
+    this._wheel = false;
+    this.__sto = false;
+    this.set("scrolling", false);
+    TK.remove_class(this.options.classes, "toolkit-scrolling");
+}
 function scrollwheel(e) {
     var O = this.options;
     if (!O.active) return;
     e.preventDefault();
     var d = e.wheelDelta ? e.wheelDelta : -e.detail;
     var direction = d > 0 ? 1 : -1;
-    TK.add_class(O.classes, "toolkit-scrolling");
     var range = O.range();
-    
+
     // timeout for resetting the class
     if (this.__sto) window.clearTimeout(this.__sto);
-    this.__sto = window.setTimeout(function () {
-        TK.remove_class(O.classes, "toolkit-scrolling");
-        fire_event.call(this, "scrollended", e);
-        this._wheel = false;
-    }.bind(this), 200);
+    else TK.add_class(this.options.classes, "toolkit-scrolling");
+    this.__sto = window.setTimeout(scroll_timeout.bind(this), 200);
     
     // calc step depending on options.step, .shift up and .shift down
     var step = (range.options.step || 1) * direction;
@@ -44,13 +47,21 @@ function scrollwheel(e) {
     } else if (e.shiftKey) {
         step *= range.options.shift_up;
     }
-    if (!this._wheel)
-        this._lastPos = range.val2real(range.snap(O.get()));
+
+    var pos = range.val2real(O.get());
+    var value;
     
-    this._lastPos += step;
-    O.set(range.real2val(this._lastPos));
-    
-    this._lastPos = range.val2real(Math.max(Math.min(range.real2val(this._lastPos), range.options.max), range.options.min));
+    pos += step;
+
+    value = range.real2val(pos);
+
+    if (d > 0) {
+        value = range.snap_up(value);
+    } else {
+        value = range.snap_down(value);
+    }
+
+    O.set(value);
     
     if (!this._wheel)
         fire_event.call(this, "scrollstarted", e);
@@ -66,8 +77,8 @@ function fire_event(title, event) {
     // fire an event on this drag object and one with more
     // information on the draggified element
     this.fire_event(title, this, event);
-    if (O.events())
-        O.events().fire_event(title, event, O.get(), O.element, this, O.range());
+    var e = O.events();
+    if (e) e.fire_event(title, event, O.get(), O.element, this, O.range());
 }
 w.ScrollValue = $class({
     // ScrollValue enables the scrollwheel for setting a value of an
@@ -97,9 +108,10 @@ w.ScrollValue = $class({
         this.set("classes", this.options.classes);
     },
     destroy: function () {
-        if (this.options.element) {
-            this.options.element.removeEventListener("mousewheel", this._scrollwheel);
-            this.options.element.removeEventListener("DOMMouseScroll", this._scrollwheel);
+        var E = this.options.element;
+        if (E) {
+            E.removeEventListener("mousewheel", this._scrollwheel);
+            E.removeEventListener("DOMMouseScroll", this._scrollwheel);
         }
         Widget.prototype.destroy.call(this);
     },
