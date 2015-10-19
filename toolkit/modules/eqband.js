@@ -86,45 +86,36 @@ w.EqBand = $class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        var range;
         switch (key) {
-            case "type":
-                this.filter.set("type", value);
-                this.filter.reset();
-                break;
             case "freq":
-                key = "x"
-            case "x":
-                this.filter.set("freq",
-                                Math.max(Math.min(value, this.range_x.get("max")),
-                                         this.range_x.get("min")), hold);
+                key = "x";
+                break;
+            case "q":
+                key = "z";
                 break;
             case "gain":
                 key = "y"
-            case "y":
-                switch (this.range_y.get("mode")) {
-                    default:
-                    case _TOOLKIT_LINEAR:
-                        this.filter.set("gain",
-                                Math.max(Math.min(value, this.range_y.get("max")),
-                                         this.range_y.get("min")), hold);
-                        break;
-                    case _TOOLKIT_DECIBEL:
-                        this.filter.set("gain",
-                                Math.max(Math.min(value, this.range_y.get("max")),
-                                         this.range_y.get("min")), hold);
-                        break;
-                }
-                break;
-            case "q":
-                key = "z"
-            case "z":
-                this.filter.set("q",
-                                Math.max(Math.min(value, this.range_z.get("max")),
-                                         this.range_z.get("min")), hold);
                 break;
         }
         ResponseHandle.prototype.set.call(this, key, value, hold);
+        switch (key) {
+            case "type":
+                this.filter.set("type", value);
+                break;
+            case "x":
+                range = this.range_x.options;
+                this.filter.set("freq", Math.max(Math.min(value, range.max), range.min), hold);
+                break;
+            case "y":
+                range = this.range_y.options;
+                this.filter.set("gain", Math.max(Math.min(value, range.max), range.min), hold);
+                break;
+            case "z":
+                range = this.range_z.options;
+                this.filter.set("q", Math.max(Math.min(value, range.max), range.min), hold);
+                break;
+        }
     }
 });
 })(this);
