@@ -81,7 +81,7 @@ function set_labels() {
 
     /* FORCE_RELAYOUT */
     
-    TK.S.enqueue(function() {
+    TK.S.add(function() {
         var bb = E.getBoundingClientRect();
         var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;
         var mright  = parseInt(TK.get_style(E, "margin-right")) || 0;
@@ -91,16 +91,16 @@ function set_labels() {
         var scale   = space / bb.width;
         var pos     = O.size / 2;
         
-        TK.S.enqueue(function() {
+        TK.S.add(function() {
             E.setAttribute("transform", "translate(" + pos + "," + pos + ") "
                 + "scale(" + scale + ")");
 
             /* FORCE_RELAYOUT */
             
-            TK.S.enqueue(function() {
+            TK.S.add(function() {
                 bb = E.getBoundingClientRect();
                 
-                TK.S.enqueue(function() {
+                TK.S.add(function() {
                     this._label_upper.setAttribute("transform", "translate(" + pos + "," + (pos - bb.height / 2 - mtop) + ") "
                         + "scale(" + (scale * O.label_scale) + ")");
                     this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "

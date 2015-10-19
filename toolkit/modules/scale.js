@@ -90,7 +90,7 @@ function correct_labels(labels) {
     var new_size = 0, tmp;
     var elem_size;
 
-    TK.S.enqueue(function() {
+    TK.S.add(function() {
         // calculate the size of all labels for positioning
         for (i = 0; i < labels.length; i++) {
             label = labels[i][1];
@@ -102,7 +102,7 @@ function correct_labels(labels) {
 
         elem_size = size_fun(this.element, true);
 
-        TK.S.enqueue(function() {
+        TK.S.add(function() {
             // position all labels
             for (i = 0; i < labels.length; i++) {
                 label = labels[i][1];

@@ -159,7 +159,7 @@ function draw_labels() {
     }
     /* FORCE_RELAYOUT */
 
-    TK.S.enqueue(function() {
+    TK.S.add(function() {
         var i, p;
         for (i = 0; i < labels.length; i++) {
             l = labels[i];
@@ -179,7 +179,7 @@ function draw_labels() {
             positions[i] = format_translate(coords.x + mx, coords.y + my);
         }
 
-        TK.S.enqueue(function() {
+        TK.S.add(function() {
             for (i = 0; i < labels.length; i++) {
                 p = a[i];
                 p.setAttribute("transform", positions[i]);

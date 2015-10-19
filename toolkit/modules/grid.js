@@ -44,7 +44,7 @@ function draw_lines(a, mode, last) {
     var h  = this.range_y.options.basis;
 
 
-    TK.S.enqueue(function() {
+    TK.S.add(function() {
         /* FORCE_RELAYOUT */
 
         for (i = 0; i < a.length; i++) {
@@ -91,7 +91,7 @@ function draw_lines(a, mode, last) {
             }
         }
 
-        TK.S.enqueue(function() {
+        TK.S.add(function() {
             for (i = 0; i < a.length; i++) {
                 label = labels[i];
                 if (label) {

@@ -184,7 +184,7 @@ w.Fader = $class({
         }
 
         if (I.validate("reverse", "log_factor", "step", "round", "scale", "basis")) {
-            TK.S.enqueue(function() {
+            TK.S.add(function() {
                 if (this._vert()) {
                     h  = TK.inner_height(E);
                     this._handlesize = TK.outer_height(this._handle, true);

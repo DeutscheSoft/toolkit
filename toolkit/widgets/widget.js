@@ -145,7 +145,14 @@ w.Widget = $class({
     trigger_draw : function() {
         if (!this.will_draw) {
             this.will_draw = true;
-            TK.S.enqueue(this._redraw);
+            TK.S.add(this._redraw);
+        }
+    },
+
+    trigger_draw_next : function() {
+        if (!this.will_draw) {
+            this.will_draw = true;
+            TK.S.add_next(this._redraw);
         }
     },
 

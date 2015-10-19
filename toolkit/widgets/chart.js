@@ -142,7 +142,7 @@ function draw_title() {
     _title.textContent = this.options.title;
 
     /* FORCE_RELAYOUT */
-    TK.S.enqueue(function() {
+    TK.S.add(function() {
         var mtop    = parseInt(TK.get_style(_title, "margin-top") || 0);
         var mleft   = parseInt(TK.get_style(_title, "margin-left") || 0);
         var mbottom = parseInt(TK.get_style(_title, "margin-bottom") || 0);

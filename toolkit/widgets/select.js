@@ -255,9 +255,9 @@ w.Select = $class({
                     tmp += this.entries[i].title + "<br>";
                 }
                 L.innerHTML = tmp;
-                TK.S.enqueue(function() {
+                TK.S.add(function() {
                     width = TK.outer_width(E, true);
-                    TK.S.enqueue(function() {
+                    TK.S.add(function() {
                         L.innerHTML = t;
                         TK.outer_width(E, true, width);
                     });

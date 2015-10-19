@@ -298,7 +298,8 @@ w.LevelMeter = $class({
             // continue animation
             if (value !== base) {
                 this.invalid.value = true;
-                this.trigger_draw();
+                // request another frame
+                this.trigger_draw_next();
             }
         }
 

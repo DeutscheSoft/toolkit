@@ -84,7 +84,7 @@ w.Gauge = $class({
             _title.textContent = O.title.title;
 
             if (O.title.title) {
-                TK.S.enqueue(function() {
+                TK.S.add(function() {
                     var t = O.title;
                     var outer   = O.size / 2;
                     var margin  = t.margin;
@@ -102,7 +102,7 @@ w.Gauge = $class({
                     mx += O.x;
                     my += O.y;
                            
-                    TK.S.enqueue(function() {
+                    TK.S.add(function() {
                         _title.setAttribute("transform", format_translate(coords.x + mx, coords.y + my));
                         _title.setAttribute("text-anchor", "middle");
                     }.bind(this));
