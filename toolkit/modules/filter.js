@@ -304,7 +304,6 @@ w.Filter = $class({
         this.fire_event("set_" + key, value, hold);
     },
     get: function (key) {
-        this.fire_event("get", key, this.options[key]);
         return this.options[key];
     }
 });
