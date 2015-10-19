@@ -132,11 +132,9 @@ w.MeterBase = $class({
                 throw("unsupported layout");
         }
         
-        this._base   = TK.element("div", "toolkit-base");
         this._mark   = TK.element("div", "toolkit-mark");
         this._over   = TK.element("div", "toolkit-over");
 
-        this._bar.appendChild(this._base);
         this._bar.appendChild(this._mark);
         this._bar.appendChild(this._over);
         
@@ -149,12 +147,6 @@ w.MeterBase = $class({
         TK.set_styles(this._bar, {
             position: "relative",
             overflow: "hidden"
-        });
-        TK.set_styles(this._base, {
-            position: "absolute",
-            width:    "100%",
-            height:   "100%",
-            zIndex:   "0"
         });
         TK.set_styles(this._mark, {
             position: "absolute",
@@ -270,7 +262,6 @@ w.MeterBase = $class({
         this._scale.remove();
         this._bar.remove();
         this._title.remove();
-        this._base.remove();
         this._mark.remove();
         this._over.remove();
         this._mask1.remove();
@@ -303,7 +294,7 @@ w.MeterBase = $class({
         }
         if (I.gradient || I.background) {
             I.gradient = I.background = false;
-            this.draw_gradient(this._base, O.gradient);
+            this.draw_gradient(this._bar, O.gradient);
         }
 
         Widget.prototype.redraw.call(this);
