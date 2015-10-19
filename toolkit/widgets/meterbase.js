@@ -326,7 +326,7 @@ w.MeterBase = $class({
                     TK.outer_height(this._scale, true, s);
                     var i = TK.inner_height(this._bar);
                     if (i != O.basis) {
-                        O.basis = i;
+                        this.set("basis", i);
                         this.scale.set("basis", i);
                     }
                     TK.inner_height(this._scale, i);
@@ -338,7 +338,7 @@ w.MeterBase = $class({
                     TK.outer_width(this._scale, true, s);
                     var i = TK.inner_width(this._bar);
                     if (i != O.basis) {
-                        O.basis = i;
+                        this.set("basis", i);
                         this.scale.set("basis", i);
                     }
                     break;
