@@ -39,7 +39,7 @@ w.Container = $class({
     },
     
     destroy: function () {
-        TK.destroy(this.element);
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
 

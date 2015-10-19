@@ -89,7 +89,7 @@ w.Knob = $class({
     destroy: function () {
         this.drag.destroy();
         this.scroll.destroy();
-        TK.destroy(this._svg);
+        this._svg.remove();
         Circular.prototype.destroy.call(this);
     },
 

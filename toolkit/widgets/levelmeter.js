@@ -230,10 +230,10 @@ w.LevelMeter = $class({
     },
     destroy: function () {
         this.state.destroy();
-        TK.destroy(this._peak);
-        TK.destroy(this._peak_label);
-        TK.destroy(this._mask3);
-        TK.destroy(this._mask4);
+        this._peak.remove();
+        this._peak_label.remove();
+        this._mask3.remove();
+        this._mask4.remove();
         MeterBase.prototype.destroy.call(this);
     },
     reset_peak: function () {

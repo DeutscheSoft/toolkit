@@ -375,11 +375,11 @@ w.Circular = $class({
     },
     
     destroy: function () {
-        TK.destroy(this._dots);
-        TK.destroy(this._markers);
-        TK.destroy(this._base);
-        TK.destroy(this._value);
-        TK.destroy(this.element);
+        this._dots.remove();
+        this._markers.remove();
+        this._base.remove();
+        this._value.remove();
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
     _get_stroke: function () {

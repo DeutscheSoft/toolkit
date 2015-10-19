@@ -63,7 +63,7 @@ w.Gauge = $class({
         this._svg = this.widgetize(this._svg);
     },
     destroy: function () {
-        TK.destroy(this._svg);
+        this._svg.remove();
         Circular.prototype.destroy.call(this);
     },
     redraw: function() {

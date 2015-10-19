@@ -154,8 +154,8 @@ w.Window = $class({
             this.__buttons[i].element.appendChild(
                 TK.element("div", "toolkit-icon")
             );
-            TK.destroy(this.__buttons[i]._icon);
-            TK.destroy(this.__buttons[i]._label);
+            this.__buttons[i]._icon.remove();
+            this.__buttons[i]._label.remove();
         }
         
         if (this.options.container)
@@ -237,26 +237,26 @@ w.Window = $class({
     },
     
     destroy: function () {
-        TK.destroy(this._title);
-        TK.destroy(this._status);
-        TK.destroy(this._icon);
-        TK.destroy(this._content);
-        TK.destroy(this._header_left);
-        TK.destroy(this._header_center);
-        TK.destroy(this._header_right);
-        TK.destroy(this._footer_left);
-        TK.destroy(this._footer_center);
-        TK.destroy(this._footer_right);
-        TK.destroy(this._header);
-        TK.destroy(this._footer);
-        TK.destroy(this._resize);
+        this._title.remove();
+        this._status.remove();
+        this._icon.remove();
+        this._content.remove();
+        this._header_left.remove();
+        this._header_center.remove();
+        this._header_right.remove();
+        this._footer_left.remove();
+        this._footer_center.remove();
+        this._footer_right.remove();
+        this._header.remove();
+        this._footer.remove();
+        this._resize.remove();
         this.close.destroy();
         this.maximize.destroy();
         this.maximize_vert.destroy();
         this.maximize_horiz.destroy();
         this.minimize.destroy();
         this.shrink.destroy();
-        TK.destroy(this.element);
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
     
@@ -753,7 +753,7 @@ w.Window = $class({
             case "minimize":
                 if (!hold) {
                     if (value) {
-                        TK.destroy(this.element);
+                        this.element.remove();
                     } else {
                         this.set("container", this.options.container)
                         this.redraw();

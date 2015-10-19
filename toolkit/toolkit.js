@@ -129,10 +129,6 @@ function element(tag) {
     }
     return n;
 }
-function destroy(e) {
-    if (e.parentElement)
-        e.parentElement.removeChild(e);
-}
 function empty(e) {
     while (e.hasChildNodes()) {
         e.removeChild(e.lastChild);
@@ -620,7 +616,6 @@ w.TK = w.toolkit = {
     get_class: get_class,
     get_tag: get_tag,
     element : element,    
-    destroy: destroy,
     empty: empty,
     set_text : set_text,
     has_class : has_class,
@@ -769,6 +764,12 @@ if (typeof Object.assign === 'undefined') {
       return to;
     }
   });
+}
+
+if (!('remove' in Element.prototype)) {
+    Element.prototype.remove = function() {
+        this.parentNode.removeChild(this);
+    };
 }
 
 // CONSTANTS

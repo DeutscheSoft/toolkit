@@ -63,9 +63,9 @@ w.State = $class({
             this.element.style["position"] = "relative";
     },
     destroy: function () {
-        TK.destroy(this._over);
-        TK.destroy(this._mask);
-        TK.destroy(this.element);
+        this._over.remove();
+        this._mask.remove();
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
 

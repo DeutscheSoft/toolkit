@@ -61,9 +61,9 @@ w.Button = $class({
         this.element.appendChild(this._cell);
     },
     destroy: function () {
-        TK.destroy(this._icon);
-        TK.destroy(this._label);
-        TK.destroy(this.element);
+        this._icon.remove();
+        this._label.remove();
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
 

@@ -191,7 +191,7 @@ w.Grid = $class({
         Widget.prototype.redraw.call(this);
     },
     destroy: function () {
-        TK.destroy(this.element);
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
     // GETTER & SETTER

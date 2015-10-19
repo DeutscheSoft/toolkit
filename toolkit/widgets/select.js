@@ -44,7 +44,7 @@ function hide_list() {
     this.__transition = false;
     this.__timeout = false;
     if (!this.__open) {
-        TK.destroy(this._list);
+        this._list.remove();
     } else {
         document.addEventListener("touchstart", this._global_touch_start);
         document.addEventListener("mousedown", this._global_touch_start);
@@ -125,8 +125,8 @@ w.Select = $class({
         }
     },
     destroy: function () {
-        TK.destroy(this._list);
-        TK.destroy(this.element);
+        this._list.remove();
+        this.element.remove();
         Button.prototype.destroy.call(this);
     },
     

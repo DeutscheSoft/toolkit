@@ -132,9 +132,9 @@ w.ValueButton = $class({
         this.drag.destroy();
         this.scroll.destroy();
         this.value.destroy();
-        TK.destroy(this._over);
-        TK.destroy(this._base);
-        TK.destroy(this._bar);
+        this._over.remove();
+        this._base.remove();
+        this._bar.remove();
         Button.prototype.destroy.call(this);
     },
     

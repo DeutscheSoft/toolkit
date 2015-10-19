@@ -49,7 +49,7 @@ w.Equalizer = $class({
     
     destroy: function () {
         this.empty(); // ???
-        TK.destroy(this._bands);
+        this._bands.remove();
         ResponseHandler.prototype.destroy.call(this);
     },
     __deferring: false,

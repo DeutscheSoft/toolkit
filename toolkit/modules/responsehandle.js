@@ -703,7 +703,7 @@ w.ResponseHandle = $class({
         // Z-HANDLE
         if (O.z_handle === false) {
             if (this._zinjected) {
-                TK.destroy(this._zhandle);
+                this._zhandle.remove();
                 this._zinjected = false;
             }
         } else {
@@ -1358,11 +1358,11 @@ w.ResponseHandle = $class({
         Widget.prototype.redraw.call(this);
     },
     destroy: function () {
-        TK.destroy(this._line1);
-        TK.destroy(this._line2);
-        TK.destroy(this._label);
-        TK.destroy(this._handle);
-        TK.destroy(this.element);
+        this._line1.remove();
+        this._line2.remove();
+        this._label.remove();
+        this._handle.remove();
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
     // HELPERS & STUFF

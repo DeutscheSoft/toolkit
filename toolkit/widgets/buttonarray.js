@@ -219,8 +219,8 @@ w.ButtonArray = $class({
             this.buttons[i].destroy();
         this.prev.destroy();
         this.next.destroy();
-        TK.destroy(this._container);
-        TK.destroy(this._clip);
+        this._container.remove();
+        this._clip.remove();
         Container.prototype.destroy.call(this);
     },
 

@@ -57,13 +57,13 @@ w.Tooltip = $class({
         if (!cont) {
             // destroy a tooltip
             this.fire_event("tooltipremoved", tt);
-            TK.destroy(tt);
+            tt.remove();
             tt = false;
             this.__tt_count --;
             if (this.__tt_count <= 0) {
                 document.removeEventListener("mousemove", this.__tt_pos_cb);
                 document.removeEventListener("touchmove", this.__tt_pos_cb);
-                TK.destroy(this._tooltip);
+                this._tooltip.remove();
                 this._tooltip = false;
                 this.__tt_injected = false;
                 this.fire_event("tooltiphide", tt);

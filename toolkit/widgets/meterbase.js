@@ -275,16 +275,16 @@ w.MeterBase = $class({
     },
     
     destroy: function () {
-        TK.destroy(this._label);
-        TK.destroy(this._scale);
-        TK.destroy(this._bar);
-        TK.destroy(this._title);
-        TK.destroy(this._base);
-        TK.destroy(this._mark);
-        TK.destroy(this._over);
-        TK.destroy(this._mask1);
-        TK.destroy(this._mask2);
-        TK.destroy(this.element);
+        this._label.remove();
+        this._scale.remove();
+        this._bar.remove();
+        this._title.remove();
+        this._base.remove();
+        this._mark.remove();
+        this._over.remove();
+        this._mask1.remove();
+        this._mask2.remove();
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
     redraw: function () {

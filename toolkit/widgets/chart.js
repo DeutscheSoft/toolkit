@@ -320,8 +320,8 @@ w.Chart = $class({
         for (var i = 0; i < this._graphs.length; i++) {
             this._graphs[i].destroy();
         }
-        TK.destroy(this._graphs);
-        TK.destroy(this.element);
+        this._graphs.remove();
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
     add_graph: function (options) {

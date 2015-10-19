@@ -273,10 +273,10 @@ w.Clock = $class({
     },
     
     destroy: function () {
-        TK.destroy(this._label);
-        TK.destroy(this._label_upper);
-        TK.destroy(this._label_lower);
-        TK.destroy(this.element);
+        this._label.remove();
+        this._label_upper.remove();
+        this._label_lower.remove();
+        this.element.remove();
         this.circulars.seconds.destroy();
         this.circulars.minutes.destroy();
         this.circulars.hours.destroy();

@@ -91,8 +91,8 @@ w.Value = $class({
     },
     
     destroy: function () {
-        TK.destroy(this._input);
-        TK.destroy(this.element);
+        this._input.remove();
+        this.element.remove();
         Widget.prototype.destroy.call(this);
     },
     
