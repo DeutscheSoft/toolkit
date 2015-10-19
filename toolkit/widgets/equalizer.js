@@ -20,6 +20,10 @@
  */
 "use strict";
 (function(w){
+function invalidate_bands() {
+    this.invalid.bands = true;
+    this.trigger_draw();
+}
 w.Equalizer = $class({
     // Equalizer is a ResponseHandler adding some EqBands instead of
     // simple ResponseHandles.
@@ -28,7 +32,6 @@ w.Equalizer = $class({
     options: {
         accuracy: 1, // the distance between points of curves on the x axis
         bands: [],   // list of bands to create on init
-        deferrer: 40  // set a timeout for drawing the curve
     },
     
     initialize: function (options) {
@@ -52,59 +55,43 @@ w.Equalizer = $class({
         this._bands.remove();
         ResponseHandler.prototype.destroy.call(this);
     },
-    __deferring: false,
     redraw: function () {
-        if (this.options.deferrer) {
-            if (!this._defer_to) {
-                this._defer_to = window.setTimeout(
-                    function () {
-                        this.__deferring = true;
-                        this.redraw()
-                        this.__deferring = false;
-                        this._defer_to = null;
-                    }.bind(this),
-                    Math.max(5, this.options.deferrer));
-                return;
-            } else if (!this.__deferring) {
-                return;
-            }
-        }
-        var t = new Date();
-        if (this.baseline) {
-            var dots = [];
-            var c = 0;
-            var end = this.range_x.get("basis") | 0;
-            var step = this.options.accuracy;
-            var x_px_to_val = this.range_x.px2val;
-            var y_val_to_px = this.range_y.val2px;
-            var f = [];
-            var y = 0, x = x_px_to_val(0);
-
-            for (var i = 0; i < this.bands.length; i++) {
-                if (this.bands[i].get("active")) {
-                    f[c] = this.bands[i].filter.freq2gain;
-                    y += f[c](x);
-                    c++;
-                }
-            }
-
-            var d = new Array(end / step);
-            c = 1;
-
-            d[0] = "M0," + y_val_to_px(y).toFixed(1);
-
-            for (var i = 1; i < end; i += step) {
-                x = x_px_to_val(i);
-                y = 0;
-                for (var j = 0; j < f.length; j++) y += f[j](x);
-
-                d[c ++] = "L" + i + "," + y_val_to_px(y).toFixed(1);
-            }
-            //console.log(d.join(""));
-            this.baseline.set("dots", d.join(""));
-        }
-        //console.log("redraw took", new Date() - t, "ms");
+        var I = this.invalid;
+        var O = this.options;
         ResponseHandler.prototype.redraw.call(this);
+        if (I.validate("bands", "accuracy")) {
+            if (this.baseline) {
+                var c = 0;
+                var end = this.range_x.get("basis") | 0;
+                var step = O.accuracy;
+                var x_px_to_val = this.range_x.px2val;
+                var y_val_to_px = this.range_y.val2px;
+                var f = [];
+                var y = 0, x = x_px_to_val(0);
+
+                for (var i = 0; i < this.bands.length; i++) {
+                    if (this.bands[i].get("active")) {
+                        f[c] = this.bands[i].filter.freq2gain;
+                        y += f[c](x);
+                        c++;
+                    }
+                }
+
+                var d = new Array(end / step);
+                c = 1;
+
+                d[0] = "M0," + y_val_to_px(y).toFixed(1);
+
+                for (var i = 1; i < end; i += step) {
+                    x = x_px_to_val(i);
+                    y = 0;
+                    for (var j = 0; j < f.length; j++) y += f[j](x);
+
+                    d[c ++] = "L" + i + "," + y_val_to_px(y).toFixed(1);
+                }
+                this.baseline.set("dots", d.join(""));
+            }
+        }
     },
     
     add_band: function (options) {
@@ -138,10 +125,10 @@ w.Equalizer = $class({
             document.removeEventListener("touchmove", _touchmove);
             document.removeEventListener("touchend",  _touchend);
         }.bind(this));
-        b.add_event("set", this.redraw.bind(this));
-        this.redraw();
+        b.add_event("set", invalidate_bands.bind(this)); 
         this.fire_event("bandadded", b);
         this.register_children(b);
+        invalidate_bands.call(this);
         return b;
     },
     add_bands: function (bands) {
@@ -166,17 +153,12 @@ w.Equalizer = $class({
         }
         this.bands = [];
         this.fire_event("emptied");
+        invalidate_bands.call(this);
     },
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        //this.options[key] = value;
         ResponseHandler.prototype.set.call(this, key, value, hold);
-        switch (key) {
-            case "accuracy":
-                if (!hold) this.redraw();
-                break;
-        }
     }
 });
 })(this);
