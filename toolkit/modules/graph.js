@@ -77,87 +77,103 @@ w.Graph = $class({
     },
     
     redraw: function () {
-        var a = 0.5;
+        var I = this.invalid;
         var O = this.options;
-        var range_x = this.range_x;
-        var range_y = this.range_y;
-        var w = range_x.options.basis;
-        var h = range_y.options.basis;
-        
-        var s = "";
-        var init;
+        var E = this.element;
 
-        var dots = O.dots;
+        if (I.color) {
+            I.color = false;
+            E.style["stroke"] = O.color;
+        }
 
-        if (typeof dots == "string") {
-            this.element.setAttribute("d", dots);
-            return;
+        if (I.mode) {
+            I.mode = false;
+                TK.remove_class(E, "toolkit-filled");
+                TK.remove_class(E, "toolkit-outline");
+                TK.add_class(E, O.mode == _TOOLKIT_LINE ?  "toolkit-outline" : "toolkit-filled");
         }
+
+        if (I.validate("dots", "type", "width", "height")) {
+            var a = 0.5;
+            var dots = O.dots;
+            var range_x = this.range_x;
+            var range_y = this.range_y;
+            var w = range_x.options.basis;
+            var h = range_y.options.basis;
         
-        if (typeof dots[0] != "undefined") {
-            var _s = this._start(dots[0])
-            if (_s) {
-                s += _s;
-                init = true;
-            }
-        }
-        var _d, d, t, _t, _x, _y, _x1, _y1, _x2, _y2, f, _q;
-        for (_d = 0; _d < dots.length; _d ++) {
-            d  = dots[_d];
-            t = init ? O.type : "T";
-            switch (t.substr(0,1)) {
-                case "L":
-                case "T":
-                    // line to and smooth quadric bezier
-                    _t = init ? " " + t : "M";
-                    _x = (range_x.val2px(d.x) + a);
-                    _y = (range_y.val2px(d.y) + a);
-                    s += _t + " " + _x + " " + _y;
-                    break;
-                case "Q":
-                case "S":
-                    // cubic bezier with reflection (S)
-                    // and smooth quadratic bezier with reflection of beforehand
-                    _x = (range_x.val2px(d.x) + a);
-                    _y = (range_y.val2px(d.y) + a);
-                    _x1 = (range_x.val2px(d.x1) + a);
-                    _y1 = (range_y.val2px(d.y1) + a);
-                    s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
-                    break;
-                case "C":
-                    // cubic bezier
-                    _t = init ? " " + t : "M";
-                    _x = (range_x.val2px(d.x) + a);
-                    _y = (range_y.val2px(d.y) + a);
-                    _x1 = (range_x.val2px(d.x1) + a);
-                    _y1 = (range_y.val2px(d.y1) + a);
-                    _x2 = (range_x.val2px(d.x2) + a);
-                    _y2 = (range_y.val2px(d.y2) + a);
-                    s += t_ + " " + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
-                         + _x + "," + _y;
-                    break;
-                case "H":
-                    f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
-                    _x = (range_x.val2px(d.x));
-                    _y = _y1 = (range_y.val2px(d.y) + a);
-                    if (_d && _d != (dots.length - 1)) {
-                        _q = range_x.val2px(dots[_d - 1].x);
-                        _x1 =  (_x - Math.round((_x - _q) / f) + a);
-                    } else {
-                        _x1 = _x;
+            var s;
+            var init;
+
+
+            if (typeof dots === "string") {
+                s = dots;
+            } else {
+                s = "";
+                
+                if (typeof dots[0] != "undefined") {
+                    var _s = this._start(dots[0])
+                    if (_s) {
+                        s += _s;
+                        init = true;
                     }
-                    s += " S" + _x1 + "," + _y1 + " " + _x + "," + _y;
-                    break;
+                }
+                var _d, d, t, _t, _x, _y, _x1, _y1, _x2, _y2, f, _q;
+                for (_d = 0; _d < dots.length; _d ++) {
+                    d  = dots[_d];
+                    t = init ? O.type : "T";
+                    switch (t.substr(0,1)) {
+                        case "L":
+                        case "T":
+                            // line to and smooth quadric bezier
+                            _t = init ? " " + t : "M";
+                            _x = (range_x.val2px(d.x) + a);
+                            _y = (range_y.val2px(d.y) + a);
+                            s += _t + " " + _x + " " + _y;
+                            break;
+                        case "Q":
+                        case "S":
+                            // cubic bezier with reflection (S)
+                            // and smooth quadratic bezier with reflection of beforehand
+                            _x = (range_x.val2px(d.x) + a);
+                            _y = (range_y.val2px(d.y) + a);
+                            _x1 = (range_x.val2px(d.x1) + a);
+                            _y1 = (range_y.val2px(d.y1) + a);
+                            s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
+                            break;
+                        case "C":
+                            // cubic bezier
+                            _t = init ? " " + t : "M";
+                            _x = (range_x.val2px(d.x) + a);
+                            _y = (range_y.val2px(d.y) + a);
+                            _x1 = (range_x.val2px(d.x1) + a);
+                            _y1 = (range_y.val2px(d.y1) + a);
+                            _x2 = (range_x.val2px(d.x2) + a);
+                            _y2 = (range_y.val2px(d.y2) + a);
+                            s += t_ + " " + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
+                                 + _x + "," + _y;
+                            break;
+                        case "H":
+                            f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
+                            _x = (range_x.val2px(d.x));
+                            _y = _y1 = (range_y.val2px(d.y) + a);
+                            if (_d && _d != (dots.length - 1)) {
+                                _q = range_x.val2px(dots[_d - 1].x);
+                                _x1 =  (_x - Math.round((_x - _q) / f) + a);
+                            } else {
+                                _x1 = _x;
+                            }
+                            s += " S" + _x1 + "," + _y1 + " " + _x + "," + _y;
+                            break;
+                    }
+                    init = true;
+                }
+                if (typeof dots[dots.length-1] != "undefined") {
+                    _s = this._end(dots[dots.length - 1])
+                    if (_s)
+                        s += _s;
+                }
             }
-            init = true;
-        }
-        if (typeof dots[dots.length-1] != "undefined") {
-            _s = this._end(dots[dots.length - 1])
-            if (_s)
-                s += _s;
-        }
-        if (s) {
-            this.element.setAttribute("d", s);
+            if (s) E.setAttribute("d", s);
         }
         Widget.prototype.redraw.call(this);
     },
@@ -229,7 +245,7 @@ w.Graph = $class({
     
     // GETTER & SETTER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "width":
                 this.range_x.set("basis", value, hold);
@@ -238,26 +254,9 @@ w.Graph = $class({
                 this.range_y.set("basis", value, hold);
                 break;
             case "dots":
-                if (!hold) this.redraw();
                 this.fire_event("graphchanged");
                 break;
-            case "color":
-                if (!hold) this.element.style["stroke"] = value;
-                break;
-            case "mode":
-                if (!hold) {
-                    TK.remove_class(this.element, "toolkit-filled");
-                    TK.remove_class(this.element, "toolkit-outline");
-                    TK.add_class(this.element, value == _TOOLKIT_LINE ?
-                                              "toolkit-outline" : "toolkit-filled");
-                    this.redraw();
-                }
-                break;
-            case "type":
-                if (!hold) this.redraw();
-                break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);
