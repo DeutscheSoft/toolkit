@@ -75,14 +75,15 @@ w.LevelMeter = $class({
         this._reset_top = this.reset_top.bind(this);
         this._reset_bottom = this.reset_bottom.bind(this);
         TK.add_class(this.element, "toolkit-level-meter");
+
+        var O = this.options;
         
         this.state = new State(Object.assign({
             "class": "toolkit-clip"
-        }, this.options.clip_options));
+        }, O.clip_options));
         this._clip = this.state.element;
         
-        if (this.options.layout == _TOOLKIT_TOP
-        || this.options.layout == _TOOLKIT_BOTTOM)
+        if (O.layout == _TOOLKIT_TOP || O.layout == _TOOLKIT_BOTTOM)
             TK.insert_after(this.state.element, this._bar);
         else
             TK.insert_before(this.state.element, this._scale);
@@ -95,14 +96,14 @@ w.LevelMeter = $class({
         this._bar.appendChild(this._mask3);
         this._bar.appendChild(this._mask4);
         
-        if (this.options.peak === false)
-            this.options.peak = this.options.value;
-        if (this.options.top === false)
-            this.options.top = this.options.value;
-        if (this.options.bottom === false)
-            this.options.bottom = this.options.value;
-        if (this.options.falling < 0)
-            this.options.falling = -this.options.falling;
+        if (O.peak === false)
+            O.peak = O.value;
+        if (O.top === false)
+            O.top = O.value;
+        if (O.bottom === false)
+            O.bottom = O.value;
+        if (O.falling < 0)
+            O.falling = -O.falling;
 
         TK.set_styles(this._mask3, {
             position: "absolute",
@@ -112,9 +113,8 @@ w.LevelMeter = $class({
             position: "absolute",
             zIndex:  "1000"
         });
-        if (this.options.layout == _TOOLKIT_LEFT
-        || this.options.layout == _TOOLKIT_RIGHT) {
-            if (this.options.reverse) {
+        if (O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT) {
+            if (O.reverse) {
                 TK.set_styles(this._mask3, {
                     width:  "100%",
                     height: "0px",
@@ -138,7 +138,7 @@ w.LevelMeter = $class({
                 });
             }
         } else {
-            if (this.options.reverse) {
+            if (O.reverse) {
                 TK.set_styles(this._mask3, {
                     height: "100%",
                     width:  "0px",
@@ -374,32 +374,31 @@ w.LevelMeter = $class({
     },
     
     draw_peak: function () {
+        var O = this.options;
         var n = this._peak_label;
-        var v = this.options.format_peak(this.options.peak);
+        var v = O.format_peak(O.peak);
         if (n.firstChild) {
             n.firstChild.nodeValue = v;
         } else n.appendChild(document.createTextNode(v));
-        if (this.options.peak > this.options.min
-        && this.options.peak < this.options.max
-        && this.options.show_peak) {
+        if (O.peak > O.min && O.peak < O.max && O.show_peak) {
             this._peak.style["display"] = "block";
             var pos = 0;
-            switch (this.options.layout) {
+            switch (O.layout) {
                 case _TOOLKIT_LEFT:
                 case _TOOLKIT_RIGHT:
-                    pos = this.options.basis
-                        - this.val2px(this.snap(this.options.peak))
+                    pos = O.basis
+                        - this.val2px(this.snap(O.peak))
                         + this.__margin;
                     pos = Math.max(this.__margin, pos);
-                    pos = Math.min(this.options.basis + this.__margin, pos);
+                    pos = Math.min(O.basis + this.__margin, pos);
                     this._peak.style["top"] = pos + "px";
                     break;
                 case _TOOLKIT_TOP:
                 case _TOOLKIT_BOTTOM:
-                    pos = this.val2px(this.snap(this.options.peak))
+                    pos = this.val2px(this.snap(O.peak))
                         + this.__margin;
                     pos = Math.max(this.__margin, pos);
-                    pos = Math.min(this.options.basis + this.__margin, pos)
+                    pos = Math.min(O.basis + this.__margin, pos)
                     this._peak.style["left"] = pos + "px";
                     break;
             }

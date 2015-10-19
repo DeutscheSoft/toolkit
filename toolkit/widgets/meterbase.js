@@ -74,18 +74,18 @@ w.MeterBase = $class({
     },
     
     initialize: function (options, hold) {
+        var E;
         Widget.prototype.initialize.call(this, options);
         this.__margin = 0;
         this.__based = false;
-        this.element = this.widgetize(
-                       TK.element("div", "toolkit-meter-base"), false, true, true);
+        this.element = this.widgetize(E = TK.element("div", "toolkit-meter-base"), false, true, true);
         
         if (this.options.reverse)
-            TK.add_class(this.element, "toolkit-reverse");
+            TK.add_class(E, "toolkit-reverse");
         
-        if (TK.get_style(this.element, "position") != "absolute"
-            && TK.get_style(this.element, "position") != "relative")
-            this.element.style["position"] = "relative";
+        if (TK.get_style(E, "position") != "absolute"
+            && TK.get_style(E, "position") != "relative")
+            E.style["position"] = "relative";
         
         this._title  = TK.element("div", "toolkit-title");
         this._label  = TK.element("div", "toolkit-label");
@@ -93,36 +93,36 @@ w.MeterBase = $class({
         this._bar    = TK.element("div", "toolkit-bar");
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
-                this.element.appendChild(this._label);
-                this.element.appendChild(this._scale);
-                this.element.appendChild(this._bar);
-                this.element.appendChild(this._title);
-                TK.add_class(this.element, "toolkit-vertical");
-                TK.add_class(this.element, "toolkit-left");
+                E.appendChild(this._label);
+                E.appendChild(this._scale);
+                E.appendChild(this._bar);
+                E.appendChild(this._title);
+                TK.add_class(E, "toolkit-vertical");
+                TK.add_class(E, "toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
-                this.element.appendChild(this._label);
-                this.element.appendChild(this._scale);
-                this.element.appendChild(this._bar);
-                this.element.appendChild(this._title);
-                TK.add_class(this.element, "toolkit-vertical");
-                TK.add_class(this.element, "toolkit-right");
+                E.appendChild(this._label);
+                E.appendChild(this._scale);
+                E.appendChild(this._bar);
+                E.appendChild(this._title);
+                TK.add_class(E, "toolkit-vertical");
+                TK.add_class(E, "toolkit-right");
                 break;
             case _TOOLKIT_TOP:
-                this.element.appendChild(this._bar);
-                this.element.appendChild(this._scale);
-                this.element.appendChild(this._label);
-                this.element.appendChild(this._title);
-                TK.add_class(this.element, "toolkit-horizontal");
-                TK.add_class(this.element, "toolkit-top");
+                E.appendChild(this._bar);
+                E.appendChild(this._scale);
+                E.appendChild(this._label);
+                E.appendChild(this._title);
+                TK.add_class(E, "toolkit-horizontal");
+                TK.add_class(E, "toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
-                this.element.appendChild(this._title);
-                this.element.appendChild(this._label);
-                this.element.appendChild(this._scale);
-                this.element.appendChild(this._bar);
-                TK.add_class(this.element, "toolkit-horizontal");
-                TK.add_class(this.element, "toolkit-bottom");
+                E.appendChild(this._title);
+                E.appendChild(this._label);
+                E.appendChild(this._scale);
+                E.appendChild(this._bar);
+                TK.add_class(E, "toolkit-horizontal");
+                TK.add_class(E, "toolkit-bottom");
                 break;
             default:
                 throw("unsupported layout");
