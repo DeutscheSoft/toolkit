@@ -290,10 +290,7 @@ w.Pager = $class({
         }
     },
     get: function (key) {
-        switch (key) {
-            case "pages":
-                return this.pages;
-        }
+        if (key == "pages") return this.pages;
         return Container.prototype.get.call(this, key);
     }
 });
