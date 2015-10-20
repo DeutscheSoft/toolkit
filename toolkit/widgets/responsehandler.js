@@ -87,9 +87,9 @@ w.ResponseHandler = $class({
             e.preventDefault();
             e.stopPropagation();
             return false;
-        }.bind(this);
-        this.element.addEventListener('mousewheel', cb);
-        this.element.addEventListener('DOMMouseScroll', cb);
+        };
+        this.add_event("mousewheel", cb);
+        this.add_event("DOMMouseScroll", cb);
         this.add_handles(this.options.handles);
     },
     
