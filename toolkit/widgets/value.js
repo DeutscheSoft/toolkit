@@ -113,7 +113,7 @@ w.Value = $class({
             return false;
         }.bind(this);
         
-        this.element.addEventListener("submit", function (e) { 
+        this.add_event("submit", function (e) {
             e.preventDefault();
             return false;
         });

@@ -142,7 +142,9 @@ var __native_events = {
     scroll     : true,
     focus      : true,
     blur       : true,
-    DOMMouseScroll : true
+    DOMMouseScroll : true,
+
+    submit     : true,
 };
 var __event_replacements = {
     pointerdown: [
