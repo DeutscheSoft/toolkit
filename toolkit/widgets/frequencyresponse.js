@@ -20,6 +20,28 @@
  */
 "use strict";
 (function(w){ 
+function calculate_grid(range, step) {
+    var min = range.get("min");
+    var max = range.get("max");
+    var grid = [];
+    var i, cls;
+
+
+    for (i = min; i <= max; i += step) {
+        if (i === ((max + min) / 2)) {
+            cls = "toolkit-highlight";
+        } else {
+            cls = "";
+        }
+        grid.push({
+            pos:     i,
+            label:   i === min ? "" : i + "dB",
+            "class": cls
+        });
+    }
+
+    return grid;
+}
 w.FrequencyResponse = $class({
     // FrequencyResponse is a Chart drawing frequencies on the x axis and dB
     // values on the y axis. This widget automatically draws a Grid depending
@@ -73,35 +95,28 @@ w.FrequencyResponse = $class({
                 this.options.scale = value;
         }.bind(this));
     },
+
+    redraw: function() {
+        var I = this.invalid;
+        var O = this.options;
+
+        if (I.scale) {
+            I.scale = false;
+            // tell chart to redraw
+            I.ranges = true;
+        }
+
+        Chart.prototype.redraw.call(this);
+    },
     
     set: function (key, value, hold) {
-        this.options[key] = value;
         switch (key) {
             case "scale":
                 this.range_y.set("scale", value);
-                if (!hold) this.redraw();
                 break;
             case "db_grid":
-                if (!hold) {
-                    this.options.grid_y = []
-                    for (var i = this.range_y.get("min");
-                        i <= this.range_y.get("max");
-                        i += this.options.db_grid) {
-                        
-                        var cls = "";
-                        if (i == ((this.range_y.get("max")
-                               - this.range_y.get("min")) / 2
-                               + this.range_y.get("min"))) {
-                            cls = "toolkit-highlight";
-                        }
-                        this.options.grid_y.push({
-                            pos:     i,
-                            label:   i == this.range_y.get("min") ? "" : i + "dB",
-                            "class": cls
-                        });
-                    }
-                    this.grid.set("grid_y", this.options.grid_y);
-                }
+                key = "grid_y";
+                value = calculate_grid(this.range_y, value);
                 break;
         }
         Chart.prototype.set.call(this, key, value, hold);
