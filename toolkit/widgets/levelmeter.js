@@ -20,6 +20,9 @@
  */
 "use strict";
 (function(w){ 
+function vert(O) {
+    return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
+}
 w.LevelMeter = $class({
     // LevelMeter is a fully functional display of numerical values. They are
     // enhanced MeterBases containing a clip LED, a peak pin with value label
@@ -321,14 +324,14 @@ w.LevelMeter = $class({
             this.set("bottom", value, true);
         }
 
-        var vert = !!this._vert();
+        var is_vertical = !!vert(O);
         
         if (!O.show_hold) {
             MeterBase.prototype.draw_meter.call(this, value);
             if (!this.__tres) {
                 this.__tres = true;
-                this._mask3.style[vert ? "height" : "width"] = 0;
-                this._mask4.style[vert ? "height" : "width"] = 0;
+                this._mask3.style[is_vertical ? "height" : "width"] = 0;
+                this._mask4.style[is_vertical ? "height" : "width"] = 0;
             }
         } else {
             this.__tres = false;
@@ -349,10 +352,10 @@ w.LevelMeter = $class({
             var top_bot   = top_top - segment * hold_size;
             var top_size  = Math.max(0, _top - top_val - segment * hold_size);
             
-            m1[vert ? "height" : "width"] = Math.max(0, size - top_top) + "px";
-            m3[vert ? (r ? "bottom" : "top")
+            m1[is_vertical ? "height" : "width"] = Math.max(0, size - top_top) + "px";
+            m3[is_vertical ? (r ? "bottom" : "top")
                             : (r ? "left" : "right")] = (size - top_bot) + "px";
-            m3[vert ? "height" : "width"] = top_size + "px";
+            m3[is_vertical ? "height" : "width"] = top_size + "px";
             
             if (this.__based) {
                 var bottom    = O.bottom;
@@ -365,10 +368,10 @@ w.LevelMeter = $class({
                 var bot_top  = bot_bot + segment * hold_size;
                 var bot_size = Math.max(0, bot_val - bot_top);
                 
-                m2[vert ? "height" : "width"] = Math.max(0, bot_bot) + "px";
-                m4[vert ? (r ? "top" : "bottom")
+                m2[is_vertical ? "height" : "width"] = Math.max(0, bot_bot) + "px";
+                m4[is_vertical ? (r ? "top" : "bottom")
                         : (r ? "right" : "left")] = bot_top + "px";
-                m4[vert ? "height" : "width"] = bot_size + "px";
+                m4[is_vertical ? "height" : "width"] = bot_size + "px";
             }
             this.fire_event("drawmeter");
         }
@@ -384,24 +387,19 @@ w.LevelMeter = $class({
         if (O.peak > O.min && O.peak < O.max && O.show_peak) {
             this._peak.style["display"] = "block";
             var pos = 0;
-            switch (O.layout) {
-                case _TOOLKIT_LEFT:
-                case _TOOLKIT_RIGHT:
-                    pos = O.basis
-                        - this.val2px(this.snap(O.peak))
-                        + this.__margin;
-                    pos = Math.max(this.__margin, pos);
-                    pos = Math.min(O.basis + this.__margin, pos);
-                    this._peak.style["top"] = pos + "px";
-                    break;
-                case _TOOLKIT_TOP:
-                case _TOOLKIT_BOTTOM:
-                    pos = this.val2px(this.snap(O.peak))
-                        + this.__margin;
-                    pos = Math.max(this.__margin, pos);
-                    pos = Math.min(O.basis + this.__margin, pos)
-                    this._peak.style["left"] = pos + "px";
-                    break;
+            if (vert(O)) {
+                pos = O.basis
+                    - this.val2px(this.snap(O.peak))
+                    + this.__margin;
+                pos = Math.max(this.__margin, pos);
+                pos = Math.min(O.basis + this.__margin, pos);
+                this._peak.style["top"] = pos + "px";
+            } else {
+                pos = this.val2px(this.snap(O.peak))
+                    + this.__margin;
+                pos = Math.max(this.__margin, pos);
+                pos = Math.min(O.basis + this.__margin, pos)
+                this._peak.style["left"] = pos + "px";
             }
         } else {
             this._peak.style["display"] = "none";
@@ -411,43 +409,38 @@ w.LevelMeter = $class({
     
     // HELPERS & STUFF
     _bar_size: function () {
+        var O = this.options;
         var s = MeterBase.prototype._bar_size.call(this);
-        if (this.options.show_clip) {
-            var d = (this.options.layout == _TOOLKIT_LEFT
-                  || this.options.layout == _TOOLKIT_RIGHT)
-                   ? "outer_height" : "outer_width";
+        if (O.show_clip) {
+            var d = vert(O) ? "outer_height" : "outer_width";
             s -= TK[d](this._clip, true);
         }
         return s;
     },
     _clip_timeout: function () {
-        if (!this.options.auto_clip || this.options.auto_clip < 0) return false;
+        var O = this.options;
+        if (!O.auto_clip || O.auto_clip < 0) return false;
         if (this.__cto) return;
-        if (this.options.clip)
-            this.__cto = window.setTimeout(
-                this._reset_clip,
-                this.options.auto_clip);
+        if (O.clip)
+            this.__cto = window.setTimeout(this._reset_clip, O.auto_clip);
         else
             this.__cto = null;
     },
     _peak_timeout: function () {
-        if (!this.options.auto_peak || this.options.auto_peak < 0) return false;
+        var O = this.options;
+        if (!O.auto_peak || O.auto_peak < 0) return false;
         if (this.__pto) window.clearTimeout(this.__pto);
-        if (this.options.peak > this.options.base
-        && this.options.value > this.options.base
-        || this.options.peak < this.options.base
-        && this.options.value < this.options.base)
-            this.__pto = window.setTimeout(
-                this._reset_peak,
-                this.options.auto_peak);
+        if (O.peak > O.base && O.value > O.base || O.peak < O.base && O.value < O.base)
+            this.__pto = window.setTimeout(this._reset_peak, O.auto_peak);
         else
             this.__pto = null;
     },
     _label_timeout: function () {
-        var peak_label = (0 | this.options.peak_label);
-        var base = +this.options.base;
-        var label = +this.options.label;
-        var value = +this.options.value;
+        var O = this.options;
+        var peak_label = (0 | O.peak_label);
+        var base = +O.base;
+        var label = +O.label;
+        var value = +O.value;
 
         if (peak_label <= 0) return false;
 
@@ -461,22 +454,22 @@ w.LevelMeter = $class({
             this.__lto = null;
     },
     _top_timeout: function () {
-        if (!this.options.auto_hold || this.options.auto_hold < 0) return false;
+        var O = this.options;
+        if (!O.auto_hold || O.auto_hold < 0) return false;
         if (this.__tto) window.clearTimeout(this.__tto);
-        if (this.options.top > this.options.base)
+        if (O.top > O.base)
             this.__tto = window.setTimeout(
                 this._reset_top,
-                this.options.auto_hold);
+                O.auto_hold);
         else
             this.__tto = null;
     },
     _bottom_timeout: function () {
-        if (!this.options.auto_hold || this.options.auto_hold < 0) return false;
+        var O = this.options;
+        if (!O.auto_hold || O.auto_hold < 0) return false;
         if (this.__bto) window.clearTimeout(this.__bto);
-        if (this.options.bottom < this.options.base)
-            this.__bto = window.setTimeout(
-                this._reset_bottom,
-                this.options.auto_hold);
+        if (O.bottom < O.base)
+            this.__bto = window.setTimeout(this._reset_bottom, O.auto_hold);
         else
             this.__bto = null;
     },
@@ -526,7 +519,6 @@ w.LevelMeter = $class({
                     window.clearTimeout(this.__bto);
                 break;
         }
-        return this;
     }
 });
 })(this);

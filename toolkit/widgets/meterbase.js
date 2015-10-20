@@ -20,6 +20,9 @@
  */
 "use strict";
 (function(w){ 
+function vert(O) {
+    return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
+}
 w.MeterBase = $class({
     // MeterBase is a base class to build different meters like LevelMeter.
     // MeterBase extends Gradient and implements Widget.
@@ -76,11 +79,12 @@ w.MeterBase = $class({
     initialize: function (options, hold) {
         var E;
         Widget.prototype.initialize.call(this, options);
+        var O = this.options;
         this.__margin = 0;
         this.__based = false;
         this.element = this.widgetize(E = TK.element("div", "toolkit-meter-base"), false, true, true);
         
-        if (this.options.reverse)
+        if (O.reverse)
             TK.add_class(E, "toolkit-reverse");
         
         if (TK.get_style(E, "position") != "absolute"
@@ -91,7 +95,7 @@ w.MeterBase = $class({
         this._label  = TK.element("div", "toolkit-label");
         this._scale  = TK.element("div", "toolkit-meter-scale");
         this._bar    = TK.element("div", "toolkit-bar");
-        switch (this.options.layout) {
+        switch (O.layout) {
             case _TOOLKIT_LEFT:
                 E.appendChild(this._label);
                 E.appendChild(this._scale);
@@ -172,7 +176,7 @@ w.MeterBase = $class({
             position: "absolute",
             zIndex:   "1000"
         });
-        if (this.options.layout == _TOOLKIT_LEFT) {
+        if (O.layout == _TOOLKIT_LEFT) {
             TK.set_styles(this._scale, {
                 "cssFloat": "right"
             });
@@ -180,7 +184,7 @@ w.MeterBase = $class({
                 "cssFloat": "left"
             });
         }
-        if (this.options.layout == _TOOLKIT_RIGHT) {
+        if (O.layout == _TOOLKIT_RIGHT) {
             TK.set_styles(this._scale, {
                 "cssFloat": "left"
             });
@@ -188,8 +192,8 @@ w.MeterBase = $class({
                 "cssFloat": "right"
             });
         }
-        if (this._vert()) {
-            if (this.options.reverse) {
+        if (vert(O)) {
+            if (O.reverse) {
                 TK.set_styles(this._mask1, {
                     width:  "100%",
                     height: "0px",
@@ -219,7 +223,7 @@ w.MeterBase = $class({
             //toolkit.set_styles(this._title, {
                 //"clear": "both"
             //});
-            if (this.options.reverse) {
+            if (O.reverse) {
                 TK.set_styles(this._mask1, {
                     height: "100%",
                     width:  "0px",
@@ -244,20 +248,20 @@ w.MeterBase = $class({
             }
         }
         
-        if (this.options.container)
-            this.set("container", this.options.container);
-        if (this.options.background)
-            this.set("background", this.options.background);
-        if (this.options.gradient)
-            this.set("gradient", this.options.gradient);
+        if (O.container)
+            this.set("container", O.container);
+        if (O.background)
+            this.set("background", O.background);
+        if (O.gradient)
+            this.set("gradient", O.gradient);
         
-        if (this.options.label === false)
-            this.options.label = this.options.value;
+        if (O.label === false)
+            O.label = O.value;
         
-        this.set("base", this.options.base, true);
+        this.set("base", O.base, true);
         
-        var options = Object.assign({}, this.options);
-        options.base = this.__based?this.options.base:this.options.scale_base;
+        var options = Object.assign({}, O);
+        options.base = this.__based ? O.base : O.scale_base;
         options.container = this._scale,
         options.id = false;
         this.scale = new Scale(options);
@@ -318,30 +322,25 @@ w.MeterBase = $class({
         if (I.layout) {
             /* FORCE_RELAYOUT */
             I.layout = false;
-            switch (O.layout) {
-                case _TOOLKIT_LEFT:
-                case _TOOLKIT_RIGHT:
-                    var s = this._bar_size(O.layout);
-                    TK.outer_height(this._bar, true, s);
-                    TK.outer_height(this._scale, true, s);
-                    var i = TK.inner_height(this._bar);
-                    if (i != O.basis) {
-                        this.set("basis", i);
-                        this.scale.set("basis", i);
-                    }
-                    TK.inner_height(this._scale, i);
-                    break;
-                case _TOOLKIT_TOP:
-                case _TOOLKIT_BOTTOM:
-                    var s = this._bar_size(O.layout);
-                    TK.outer_width(this._bar, true, s);
-                    TK.outer_width(this._scale, true, s);
-                    var i = TK.inner_width(this._bar);
-                    if (i != O.basis) {
-                        this.set("basis", i);
-                        this.scale.set("basis", i);
-                    }
-                    break;
+            if (vert(O)) {
+                var s = this._bar_size(O.layout);
+                TK.outer_height(this._bar, true, s);
+                TK.outer_height(this._scale, true, s);
+                var i = TK.inner_height(this._bar);
+                if (i != O.basis) {
+                    this.set("basis", i);
+                    this.scale.set("basis", i);
+                }
+                TK.inner_height(this._scale, i);
+            } else {
+                var s = this._bar_size(O.layout);
+                TK.outer_width(this._bar, true, s);
+                TK.outer_width(this._scale, true, s);
+                var i = TK.inner_width(this._bar);
+                if (i != O.basis) {
+                    this.set("basis", i);
+                    this.scale.set("basis", i);
+                }
             }
         }
         if (I.value) {
@@ -349,6 +348,7 @@ w.MeterBase = $class({
             this.draw_meter();
         }
         if (I.show_scale) {
+            var is_vertical = vert(O);
             if (O.show_scale) {
                 this.scale.redraw();
                 if (O.show_marker) {
@@ -360,15 +360,14 @@ w.MeterBase = $class({
                             return;
                         
                         var d = e.clone();
-                        var p = TK["position_" + this._vert() ? "top" : "left"](e, this._scale);
-                        d.style[this._vert() ? "width" : "height"] = "100%";
-                        d.style[this._vert() ? "top" : "left"] = 
-                                   (p + p % O.segment) + "px";
+                        var p = TK[is_vertical ? "position_top" : "position_left"](e, this._scale);
+                        d.style[is_vertical ? "width" : "height"] = "100%";
+                        d.style[is_vertical ? "top" : "left"] = (p + p % O.segment) + "px";
                         this._mark.appendChild(d);
                     }
                 }
             }
-            if (this._vert())
+            if (is_vertical)
                 TK.inner_width(this.element,
                     TK.outer_width(this._bar, true)
                     + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
@@ -378,16 +377,17 @@ w.MeterBase = $class({
     
     draw_meter: function (value) {
         var O = this.options;
+        var is_vertical = vert(O);
         if (value === undefined) value = O.value;
         // Set the mask elements according to options.value to show a value in
         // the meter bar
         var pos = Math.max(0,
                   this._val2seg(Math.min(O.max, Math.max(O.base, value))));
-        this._mask1.style[this._vert() ? "height" : "width"] = (O.basis - pos).toFixed(0) + "px";
+        this._mask1.style[is_vertical ? "height" : "width"] = (O.basis - pos).toFixed(0) + "px";
         if (!this.__based) return;
         var pos = Math.max(0,
                   this._val2seg(Math.min(O.base, value)));
-        this._mask2.style[this._vert() ? "height" : "width"] = pos + "px";
+        this._mask2.style[is_vertical ? "height" : "width"] = pos + "px";
     },
     
     // HELPERS & STUFF
@@ -401,11 +401,13 @@ w.MeterBase = $class({
         return s;
     },
     _bar_size: function () {
+        var O = this.options;
+        var is_vertical = vert(O);
         // determine a size for the meter bar based on several conditions
-        var s = toolkit[this._vert() ? "inner_height" : "inner_width"](this.element);
-        if (this.options.show_label && this._vert())
+        var s = TK[is_vertical ? "inner_height" : "inner_width"](this.element);
+        if (O.show_label && is_vertical)
             s -= TK.outer_height(this._label, true);
-        if (this.options.show_title && this._vert())
+        if (O.show_title && is_vertical)
             s -= TK.outer_height(this._title, true);
         return s;
     },
