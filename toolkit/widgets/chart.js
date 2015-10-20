@@ -295,7 +295,8 @@ w.Chart = $class({
         var I = this.invalid;
         var E = this.element;
 
-        if (I.width || I.height) {
+        if (I.width || I.height || I.ranges) {
+            I.ranges = true;
             var w = this.range_x.get("basis") + "px";
             var h = this.range_y.get("basis") + "px";
             E.setAttribute("width", w);
