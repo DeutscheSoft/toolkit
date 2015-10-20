@@ -432,6 +432,7 @@ w.MeterBase = $class({
                 this.fire_event("titlechanged", value);
                 break;
             case "segment":
+                // what is this supposed to do
                 this.set("value", this.options.value);
                 break;
             case "division":

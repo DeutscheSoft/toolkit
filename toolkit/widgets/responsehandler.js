@@ -93,8 +93,8 @@ w.ResponseHandler = $class({
         this.add_handles(this.options.handles);
     },
     
-    redraw: function (graphs, grid) {
-        FrequencyResponse.prototype.redraw.call(this, graphs, grid);
+    redraw: function () {
+        FrequencyResponse.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -217,13 +217,12 @@ w.ResponseHandler = $class({
     
     // GETTER & SETER
     set: function (key, value, hold) {
-        this.options[key] = value;
+        FrequencyResponse.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "depth":
                 this.range_z.set("basis", value, hold);
                 break;
         }
-        FrequencyResponse.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

@@ -102,7 +102,6 @@ w.Range = $class({
         Ranged.prototype.set.call(this, key, value);
     },
     get: function (key) {
-        this.fire_event("get", key, this.options[key]);
         return this.options[key];
     }
 });

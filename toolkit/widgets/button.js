@@ -111,24 +111,6 @@ w.Button = $class({
                 TK.remove_class(E, "toolkit-active");
             }
         }
-    },
-    // GETTER & SETTER
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
-        switch (key) {
-            case "container":
-                break;
-            case "class":
-                break;
-            case "label":
-                break;
-            case "icon":
-                break;
-            case "state":
-                break;
-            case "state_color":
-                break;
-        }
     }
 });
 })(this);

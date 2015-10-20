@@ -118,10 +118,5 @@ w.Toggle = $class({
         var state = !this.options.state;
         this.set("state", state);
     },
-    
-    // GETTER & SETTER
-    set: function (key, value, hold) {
-        Button.prototype.set.call(this, key, value, hold);
-    }
 });
 })(this);

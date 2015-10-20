@@ -154,11 +154,6 @@ w.Equalizer = $class({
         this.bands = [];
         this.fire_event("emptied");
         invalidate_bands.call(this);
-    },
-    
-    // GETTER & SETTER
-    set: function (key, value, hold) {
-        ResponseHandler.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

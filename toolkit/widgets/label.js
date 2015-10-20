@@ -53,10 +53,5 @@ w.Label = $class({
         this.element.remove();
         Widget.prototype.destroy.call(this);
     },
-    
-    // GETTERS & SETTERS
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
-    }
 });
 })(this);

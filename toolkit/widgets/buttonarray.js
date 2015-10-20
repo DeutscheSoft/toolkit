@@ -313,10 +313,7 @@ w.ButtonArray = $class({
         }
     },
     get: function (key) {
-        switch (key) {
-            case "buttons":
-                return this.buttons;
-        }
+        if (key == "buttons") return this.buttons;
         return Container.prototype.get.call(this, key);
     }
 });

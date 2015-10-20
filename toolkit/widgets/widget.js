@@ -294,7 +294,6 @@ w.Widget = $class({
         return this;
     },
     get: function (key) {
-        this.fire_event("get", key, this.options[key]);
         return this.options[key];
     }
 });

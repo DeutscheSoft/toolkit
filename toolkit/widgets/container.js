@@ -60,10 +60,5 @@ w.Container = $class({
                 E.appendChild(O.content);
         }
     },
-    
-    // GETTERS & SETTERS
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
-    },
 });
 })(this);

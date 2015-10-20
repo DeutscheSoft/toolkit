@@ -157,8 +157,6 @@ w.ValueButton = $class({
         Button.prototype.set.call(this, key, value, hold);
         Ranged.prototype.set.call(this, key, value);
         switch (key) {
-            case "bar_direction":
-                break;
             case "value":
                 this.value.set("value", value);
                 this.fire_event("valuechanged", value);
