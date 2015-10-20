@@ -12,39 +12,305 @@
     background: url(../images/meterbase/bevel_strong_vertical.png);
     background: url(../images/meterbase/bevel_soft_horizontal.png);
     background: url(../images/meterbase/bevel_strong_horizontal.png);
+    
+    
+    
+    REMINDER
+    scale-height: 20px
+    scale-width: 32px
+    text-height: 1.2em
+    margin: 5px
+    bar-margin-x: 3px
+    bar-margin-y: 2px
+    
 */
 
-/* UNIVERSAL */
+/* BASE */
 
 div.toolkit-meter-base {
-    float: left;
-    padding: 6px;
+    display: inline-block;
     overflow: hidden;
+    position: relative;
+    padding: 0;
 }
+div.toolkit-meter-base.toolkit-vertical {
+    width: 120px;
+    height: 320px;
+}
+div.toolkit-meter-base.toolkit-horizontal {
+    width: 320px;
+    height: 120px;
+}
+div.toolkit-meter-base.toolkit-left {
+    margin: 10px 10px 10px 2px;
+}
+div.toolkit-meter-base.toolkit-right {
+    margin: 10px 2px 10px 10px;
+}
+div.toolkit-meter-base.toolkit-top {
+    margin: 2px 10px 10px 10px;
+}
+div.toolkit-meter-base.toolkit-bottom {
+    margin: 10px 10px 2px 10px;
+}
+/* LABEL */
+
 div.toolkit-meter-base div.toolkit-label {
-    height: 16px;
-    line-height: 16px;
+    position: absolute;
+    display: none;
+    line-height: 1.2em;
+    height: 1.2em;
     white-space: nowrap;
 }
+div.toolkit-meter-base.toolkit-has-label div.toolkit-label {
+    display: block;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-label {
+    text-align: center;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-label {
+    text-align: right;
+}
+div.toolkit-meter-base.toolkit-top div.toolkit-label {
+    left: 49%;
+    right: 5px;
+    bottom: 5px;
+}
+div.toolkit-meter-base.toolkit-right div.toolkit-label {
+    left: 32px;
+    right: 5px;
+    top: 5px;
+}
+div.toolkit-meter-base.toolkit-bottom div.toolkit-label {
+    left: 49%;
+    right: 5px;
+    top: 5px;
+}
+div.toolkit-meter-base.toolkit-left div.toolkit-label {
+    left: 5px;
+    right: 32px;
+    top: 5px;
+}
+
+/* TITLE */
+
 div.toolkit-meter-base div.toolkit-title {
-    height: 16px;
-    line-height: 16px;
+    position: absolute;
+    display: none;
+    line-height: 1.2em;
+    height: 1.2em;
+    white-space: nowrap;
 }
-div.toolkit-meter-base div.toolkit-meter-scale {
-    position: relative;
+div.toolkit-meter-base.toolkit-has-title div.toolkit-title {
+    display: block;
+    
 }
+div.toolkit-meter-base.toolkit-vertical div.toolkit-title {
+    text-align: center;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-title {
+    text-align: left;
+}
+div.toolkit-meter-base.toolkit-top div.toolkit-title {
+    left: 5px;
+    right: 49%;
+    bottom: 5px;
+}
+div.toolkit-meter-base.toolkit-right div.toolkit-title {
+    left: 32px;
+    right: 5px;
+    bottom: 5px;
+}
+div.toolkit-meter-base.toolkit-bottom div.toolkit-title {
+    left: 5px;
+    right: 49%;
+    top: 5px;
+}
+div.toolkit-meter-base.toolkit-left div.toolkit-title {
+    left: 5px;
+    right: 32px;
+    bottom: 5px;
+}
+
+/* SCALE */
+
+div.toolkit-meter-base div.toolkit-scale {
+    position: absolute;
+    display: none;
+    color: #aaa;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-scale {
+    width: 32px;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-scale {
+    height: 20px;
+}
+div.toolkit-meter-base.toolkit-has-scale div.toolkit-scale {
+    display: block;
+}
+
+div.toolkit-meter-base.toolkit-top div.toolkit-scale {
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+}
+div.toolkit-meter-base.toolkit-right div.toolkit-scale {
+    left: 0px;
+    top: 5px;
+    bottom: 5px;
+}
+div.toolkit-meter-base.toolkit-bottom div.toolkit-scale {
+    left: 5px;
+    right: 5px;
+    top: 5px;
+}
+div.toolkit-meter-base.toolkit-left div.toolkit-scale {
+    right: 0px;
+    top: 5px;
+    bottom: 5px;
+}
+
+div.toolkit-meter-base.toolkit-top.toolkit-has-label div.toolkit-scale,
+div.toolkit-meter-base.toolkit-top.toolkit-has-title div.toolkit-scale {
+    bottom: calc(1.2em + 5px + 5px);
+}
+div.toolkit-meter-base.toolkit-bottom.toolkit-has-label div.toolkit-scale,
+div.toolkit-meter-base.toolkit-bottom.toolkit-has-title div.toolkit-scale {
+    top: calc(1.2em + 5px + 5px);
+}
+
+div.toolkit-meter-base.toolkit-vertical.toolkit-has-label div.toolkit-scale {
+    top: calc(1.2em + 5px + 5px);
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-has-title div.toolkit-scale {
+    bottom: calc(1.2em + 5px + 5px);
+}
+
+div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-base {
+    color: #666;
+}
+
+/* BAR */
+
 div.toolkit-meter-base div.toolkit-bar {
-    
+    position: absolute;
+    overflow: hidden;
+    left: 3px;
+    right: 3px;
+    top: 2px;
+    bottom: 2px;
 }
-div.toolkit-meter-base div.toolkit-bar div.toolkit-mark {
-    
+
+div.toolkit-meter-base.toolkit-top.toolkit-has-label div.toolkit-bar,
+div.toolkit-meter-base.toolkit-top.toolkit-has-title div.toolkit-bar {
+    bottom: calc(1.2em + 5px + 5px);
 }
+div.toolkit-meter-base.toolkit-top.toolkit-has-scale div.toolkit-bar {
+    bottom: calc(20px + 5px);
+}
+div.toolkit-meter-base.toolkit-top.toolkit-has-label.toolkit-has-scale div.toolkit-bar,
+div.toolkit-meter-base.toolkit-top.toolkit-has-title.toolkit-has-scale div.toolkit-bar {
+    bottom: calc(1.2em + 5px + 5px + 20px);
+}
+
+div.toolkit-meter-base.toolkit-bottom.toolkit-has-label div.toolkit-bar,
+div.toolkit-meter-base.toolkit-bottom.toolkit-has-title div.toolkit-bar {
+    top: calc(1.2em + 5px + 5px);
+}
+div.toolkit-meter-base.toolkit-bottom.toolkit-has-scale div.toolkit-bar {
+    top: calc(20px + 5px);
+}
+div.toolkit-meter-base.toolkit-bottom.toolkit-has-label.toolkit-has-scale div.toolkit-bar,
+div.toolkit-meter-base.toolkit-bottom.toolkit-has-title.toolkit-has-scale div.toolkit-bar {
+    top: calc(1.2em + 5px + 5px + 20px);
+}
+
+div.toolkit-meter-base.toolkit-left.toolkit-has-label div.toolkit-bar,
+div.toolkit-meter-base.toolkit-right.toolkit-has-label div.toolkit-bar {
+    top: calc(1.2em + 5px + 2px);
+}
+div.toolkit-meter-base.toolkit-left.toolkit-has-title div.toolkit-bar,
+div.toolkit-meter-base.toolkit-right.toolkit-has-title div.toolkit-bar {
+    bottom: calc(1.2em + 5px + 2px);
+}
+div.toolkit-meter-base.toolkit-left.toolkit-has-scale div.toolkit-bar {
+    right: 32px;
+}
+div.toolkit-meter-base.toolkit-right.toolkit-has-scale div.toolkit-bar {
+    left: 32px;
+}
+
+/* OVER */
+
 div.toolkit-meter-base div.toolkit-bar div.toolkit-over {
-    opacity: 0.66;
+    opacity:  0.66;
+    position: absolute;
+    width:    100%;
+    height:   100%;
+    z-index:  100;
 }
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-over {
+    background: url(../images/meterbase/slim_soft_vertical.png);
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-over {
+    background: url(../images/meterbase/slim_soft_horizontal.png);
+}
+
+/* MASK */
+
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mask {
     background: black;
-    opacity: 0.66;
+    opacity:    0.66;
+    position:   absolute;
+    z-index:    1000;
+    margin: 0;
+}
+
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
+    width: 100%;
+    height: 0px;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask1 {
+    top: 0px;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
+    bottom: 0px;
+    top: auto;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask2 {
+    bottom: 0px;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
+    top: 0px;
+    bottom: auto;
+}
+
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
+    height: 100%;
+    width: 0px;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask1 {
+    right: 0px;
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
+    left: 0px;
+    right: auto;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask2 {
+    left: 0px;
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
+    right: 0px;
+    left: auto;
+}
+
+/* MARK */
+
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark {
+    position: absolute;
+    width:    100%;
+    height:   100%;
+    z-index:  10;
 }
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot {
     display: none;
@@ -56,252 +322,13 @@ div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-
     background: rgba(0,0,0,0.5);
     display: block;
 }
-div.toolkit-meter-base div.meter-scale div.toolkit-dot {
-    
-}
-
-/* VERTICAL */
-
-div.toolkit-meter-base.toolkit-vertical {
-    height: 250px;
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-label {
-    text-align: center;
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-title {
-    text-align: center;
-    clear: both;
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-meter-scale {
-    margin: 5px 2px;
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar {
-    width: 30px;
-    margin: 2px 0 2px 0;
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-base {
-    
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark {
-    
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-over {
-    background: url(../images/meterbase/slim_soft_vertical.png);
-    opacity: 0.5;
-}
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.reverse div.toolkit-bar div.toolkit-mask {
-    
-}
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark div.toolkit-dot {
     width: 100%;
     height: 1px;
     margin-top: 0px;
 }
-
-/* VERTICAL LEFT */
-
-div.toolkit-meter-base.toolkit-vertical.toolkit-left {
-    margin: 10px 10px 10px 2px;
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-label {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-title {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-meter-scale {
-    float: right;
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar {
-    float: left;
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-base {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-mark {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-over {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-left div.toolkit-bar div.toolkit-mask {
-    
-}
-
-
-/* VERTICAL RIGHT */
-
-div.toolkit-meter-base.toolkit-vertical.toolkit-right {
-    margin: 10px 2px 10px 10px;
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-label {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-title {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-meter-scale {
-    float: left;
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar {
-    float: right;
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-base {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-mark {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-over {
-    
-}
-div.toolkit-meter-base.toolkit-vertical.toolkit-right div.toolkit-bar div.toolkit-mask {
-    
-}
-
-
-/* HORIZONTAL */
-
-div.toolkit-meter-base.toolkit-horizontal {
-    width: 300px;
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-title {
-    text-align: left;
-    float: left;
-    width: 49%;
-    margin-bottom: 2px;
-    padding: 0 3px;
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-label {
-    text-align: right;
-    float: right;
-    width: 45%;
-    margin-bottom: 2px;
-    padding: 0 3px;
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-meter-scale {
-    margin: 2px 2px;
-    clear: both;
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar {
-    height: 30px;
-    float: left;
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-base {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-over {
-    background: url(../images/meterbase/slim_soft_horizontal.png);
-    opacity: 0.5;
-}
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.reverse div.toolkit-bar div.toolkit-mask {
-    
-}
 div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark div.toolkit-dot {
     width: 1px;
     height: 100%;
     margin-left: 0px;
-}
-
-/* HORIZONTAL TOP */
-
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top {
-    margin: 2px 10px 10px 10px;
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-title {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-label {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-meter-scale {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-base {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-mark {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-over {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-top div.toolkit-bar div.toolkit-mask {
-    
-}
-
-
-/* HORIZONTAL BOTTOM */
-
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom {
-    margin: 10px 10px 2px 10px;
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-title {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-label {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-meter-scale {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-base {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-mark {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-over {
-    
-}
-div.toolkit-meter-base.toolkit-horizontal.toolkit-bottom div.toolkit-bar div.toolkit-mask {
-    
-}
-
-
-/* SCALE */
-div.toolkit-meter-base div.toolkit-scale {
-    color: #aaa;
-}
-div.toolkit-meter-base div.toolkit-scale span.toolkit-label {
-    
-}
-div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-base {
-    color: #666;
-}
-div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-min {
-    
-}
-div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-max {
-    
-}
-div.toolkit-meter-base div.toolkit-scale div.toolkit-dot {
-    
-}
-div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-base {
-    
-}
-div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-min {
-    
-}
-div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-max {
-    
-}
-div.toolkit-meter-base div.toolkit-scale div.toolkit-dot.toolkit-marker {
-    
 }

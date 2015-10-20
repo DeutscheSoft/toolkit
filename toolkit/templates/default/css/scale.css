@@ -1,8 +1,8 @@
 div.toolkit-scale {
-    font-size: 8px;
     position: relative;
 }
 div.toolkit-scale span.toolkit-label {
+    font-size: 8px;
     height: 7px;
     line-height: 7px;
     color: #aaa;
@@ -39,19 +39,19 @@ div.toolkit-scale div.toolkit-dot.toolkit-marker {
 /* VERTICAL */
 
 div.toolkit-scale.toolkit-vertical {
-    
+    width: 32px;
 }
 div.toolkit-scale.toolkit-vertical span.toolkit-label {
-    
+    transform: translateY(50%);
 }
 div.toolkit-scale.toolkit-vertical span.toolkit-label.toolkit-base {
     
 }
 div.toolkit-scale.toolkit-vertical span.toolkit-label.toolkit-min {
-    
+    transform: translateY(0%);
 }
 div.toolkit-scale.toolkit-vertical span.toolkit-label.toolkit-max {
-    
+    transform: translateY(100%);
 }
 div.toolkit-scale.toolkit-vertical div.toolkit-dot {
     width: 2px;
@@ -151,19 +151,19 @@ div.toolkit-scale.toolkit-vertical.toolkit-right div.toolkit-dot.toolkit-marker 
 /* HORIZONTAL */
 
 div.toolkit-scale.toolkit-horizontal {
-    
+    height: 15px;
 }
 div.toolkit-scale.toolkit-horizontal span.toolkit-label {
-    
+    transform: translateX(-50%);
 }
 div.toolkit-scale.toolkit-horizontal span.toolkit-label.toolkit-base {
     
 }
 div.toolkit-scale.toolkit-horizontal span.toolkit-label.toolkit-min {
-    
+    transform: translateX(0%);
 }
 div.toolkit-scale.toolkit-horizontal span.toolkit-label.toolkit-max {
-    
+    transform: translateX(-100%);
 }
 div.toolkit-scale.toolkit-horizontal div.toolkit-dot {
     height: 2px;

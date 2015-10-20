@@ -127,22 +127,19 @@
 
 
 #sc_meterbase {
-    margin-left: 80px;
+    width: 100%;
 }
 #sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
+    
 }
 #sc_meterbase .toolkit-meter-base.toolkit-vertical {
-    height: 200px;
-    margin-bottom: 30px;
+    height: 280px;
+    float: left;
 }
 #sc_meterbase .toolkit-meter-base.toolkit-horizontal {
     width: 500px;
-}
-#sc_meterbase .toolkit-meter-base.toolkit-vertical .toolkit-bar {
-    width: 100px;
-}
-#sc_meterbase .toolkit-meter-base.toolkit-horizontal .toolkit-bar {
-    height: 50px;
+    float: left;
+    height: 137px;
 }
 
 

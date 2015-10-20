@@ -80,45 +80,38 @@ function correct_labels(labels) {
     if (vert) {
         position_prop = "bottom";
         size_fun = TK.outer_width;
-        lsize_fun = TK.outer_height;
     } else {
         position_prop = "left";
         size_fun = TK.outer_height;
-        lsize_fun = TK.outer_width;
     }
     var sizes = [];
     var new_size = 0, tmp;
-    var elem_size;
+    var elem_size, pos;
+    var auto_size = this.options.auto_size;
+
+    for (i = 0; i < labels.length; i++) {
+        label = labels[i][1];
+        pos = Math.round(this.val2px(this.snap(labels[i][0])));
+        label.style[position_prop] = pos + "px";
+    }
+
+    if (!this.options.auto_size) return;
 
     TK.S.add(function() {
         // calculate the size of all labels for positioning
         for (i = 0; i < labels.length; i++) {
             label = labels[i][1];
-            sizes[i] = lsize_fun(label, true);
-
             tmp = size_fun(label, true);
             if (tmp > new_size) new_size = tmp;
         }
 
-        elem_size = size_fun(this.element, true);
+        if (auto_size)
+            elem_size = size_fun(this.element, true);
 
-        TK.S.add(function() {
-            // position all labels
-            for (i = 0; i < labels.length; i++) {
-                label = labels[i][1];
-                var pos = Math.round(this.val2px(this.snap(labels[i][0])));
-                var size = sizes[i];
-                if (vert)
-                    pos = Math.min(Math.max(0, pos - size / 2), this.options.basis - size);
-                else
-                    pos = pos - size / 2;
-                label.style[position_prop] = pos + "px";
-            }
-
-            if (new_size > elem_size) {
+        if (new_size > elem_size)
+            TK.S.add(function() {
                 size_fun(this.element, true, new_size);
-            }
-        }.bind(this));
+            }.bind(this));
     }.bind(this), 1);
 }
 w.Scale = $class({
@@ -157,8 +150,10 @@ w.Scale = $class({
         show_base:        true,           // always draw a label at base
         fixed_dots:       false,          // if fixed dots should be drawn.
                                           // array containing real values or false
-        fixed_labels:     false           // if fixed labels should be drawn.
+        fixed_labels:     false,          // if fixed labels should be drawn.
                                           // array contianing real values or false
+        auto_size:        false           // the overall size can be set automatically
+                                          // according to labels width/height
     },
     
     initialize: function (options) {
@@ -198,9 +193,21 @@ w.Scale = $class({
         var I = this.invalid;
         var O = this.options;
 
+        if (I.auto_size) {
+            I.auto_size = false;
+            if (O.auto_size) {
+                I.basis = true;
+            } else {
+                this.element.style.removeProperty(this._vert() ? "height" : "width"); 
+            }
+        }
+
         if (I.basis) {
-            if (this._vert()) this.element.style.height = O.basis + "px";
-            else this.element.style.width = O.basis + "px";
+            I.auto_size = false;
+            if (O.auto_size) {
+                if (this._vert()) this.element.style.height = O.basis + "px";
+                else this.element.style.width = O.basis + "px";
+            }
         }
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
@@ -295,17 +302,13 @@ w.Scale = $class({
     
     draw_dot: function (val, cls) {
         // draws a dot at a certain value and adds a class if needed
-        
-        // create dot element
         var d = TK.element("div", "toolkit-dot", { position: "absolute" });
         if (cls) TK.add_class(d, cls);
         
         // position dot element
-        var styles = { }
         var pos = Math.round(this.val2px(this.snap(val)));
         pos = Math.min(Math.max(0, pos), this.options.basis - 1);
-        styles[this._vert() ? "bottom" : "left"] = pos + "px";
-        TK.set_styles(d, styles);
+        d.style[this._vert() ? "bottom" : "left"] = pos + "px";
         this.element.appendChild(d);
         return this;
     },

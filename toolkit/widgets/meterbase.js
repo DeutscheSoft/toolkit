@@ -84,47 +84,41 @@ w.MeterBase = $class({
         this.__based = false;
         this.element = this.widgetize(E = TK.element("div", "toolkit-meter-base"), false, true, true);
         
-        if (O.reverse)
-            TK.add_class(E, "toolkit-reverse");
-        
         if (TK.get_style(E, "position") != "absolute"
             && TK.get_style(E, "position") != "relative")
             E.style["position"] = "relative";
         
         this._title  = TK.element("div", "toolkit-title");
         this._label  = TK.element("div", "toolkit-label");
-        this._scale  = TK.element("div", "toolkit-meter-scale");
         this._bar    = TK.element("div", "toolkit-bar");
+        this._mark   = TK.element("div", "toolkit-mark");
+        this._over   = TK.element("div", "toolkit-over");
+        this._mask1  = TK.element("div", "toolkit-mask", "toolkit-mask1");
+        this._mask2  = TK.element("div", "toolkit-mask", "toolkit-mask2");
+        
+        E.appendChild(this._title);
+        E.appendChild(this._label);
+        E.appendChild(this._bar);
+
+        this._bar.appendChild(this._mask1);
+        this._bar.appendChild(this._mask2);
+        this._bar.appendChild(this._mark);
+        this._bar.appendChild(this._over);
+        
         switch (O.layout) {
             case _TOOLKIT_LEFT:
-                E.appendChild(this._label);
-                E.appendChild(this._scale);
-                E.appendChild(this._bar);
-                E.appendChild(this._title);
                 TK.add_class(E, "toolkit-vertical");
                 TK.add_class(E, "toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
-                E.appendChild(this._label);
-                E.appendChild(this._scale);
-                E.appendChild(this._bar);
-                E.appendChild(this._title);
                 TK.add_class(E, "toolkit-vertical");
                 TK.add_class(E, "toolkit-right");
                 break;
             case _TOOLKIT_TOP:
-                E.appendChild(this._bar);
-                E.appendChild(this._scale);
-                E.appendChild(this._label);
-                E.appendChild(this._title);
                 TK.add_class(E, "toolkit-horizontal");
                 TK.add_class(E, "toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
-                E.appendChild(this._title);
-                E.appendChild(this._label);
-                E.appendChild(this._scale);
-                E.appendChild(this._bar);
                 TK.add_class(E, "toolkit-horizontal");
                 TK.add_class(E, "toolkit-bottom");
                 break;
@@ -132,118 +126,16 @@ w.MeterBase = $class({
                 throw("unsupported layout");
         }
         
-        this._mark   = TK.element("div", "toolkit-mark");
-        this._over   = TK.element("div", "toolkit-over");
-
-        this._bar.appendChild(this._mark);
-        this._bar.appendChild(this._over);
-        
-        this._mask1  = TK.element("div", "toolkit-mask", "toolkit-mask1");
-        this._mask2  = TK.element("div", "toolkit-mask", "toolkit-mask2");
-
-        this._bar.appendChild(this._mask1);
-        this._bar.appendChild(this._mask2);
-        
-        TK.set_styles(this._bar, {
-            position: "relative",
-            overflow: "hidden"
-        });
-        TK.set_styles(this._mark, {
-            position: "absolute",
-            width:    "100%",
-            height:   "100%",
-            zIndex:   "10"
-        });
-        TK.set_styles(this._over, {
-            position: "absolute",
-            width:    "100%",
-            height:   "100%",
-            zIndex:   "100"
-        });
-        TK.set_styles(this._mask1, {
-            position: "absolute",
-            zIndex:   "1000"
-        });
-        TK.set_styles(this._mask2, {
-            position: "absolute",
-            zIndex:   "1000"
-        });
-        if (O.layout == _TOOLKIT_LEFT) {
-            TK.set_styles(this._scale, {
-                "cssFloat": "right"
-            });
-            TK.set_styles(this._bar, {
-                "cssFloat": "left"
-            });
-        } else if (O.layout == _TOOLKIT_RIGHT) {
-            TK.set_styles(this._scale, {
-                "cssFloat": "left"
-            });
-            TK.set_styles(this._bar, {
-                "cssFloat": "right"
-            });
-        }
-        if (vert(O)) {
-            if (O.reverse) {
-                TK.set_styles(this._mask1, {
-                    width:  "100%",
-                    height: "0px",
-                    bottom: "0px"
-                });
-                TK.set_styles(this._mask2, {
-                    width:  "100%",
-                    height: "0px",
-                    top:    "0px"
-                });
-            } else {
-                TK.set_styles(this._mask1, {
-                    width:  "100%",
-                    height: "0px",
-                    top:    "0px"
-                });
-                TK.set_styles(this._mask2, {
-                    width:  "100%",
-                    height: "0px",
-                    bottom: "0px"
-                });
-            }
-        } else {
-            TK.set_styles(this._scale, {
-                "clear": "both"
-            });
-            if (O.reverse) {
-                TK.set_styles(this._mask1, {
-                    height: "100%",
-                    width:  "0px",
-                    left:   "0px"
-                });
-                TK.set_styles(this._mask2, {
-                    height: "100%",
-                    width:  "0px",
-                    right:  "0px"
-                });
-            } else {
-                TK.set_styles(this._mask1, {
-                    height: "100%",
-                    width:  "0px",
-                    right:  "0px"
-                });
-                TK.set_styles(this._mask2, {
-                    height: "100%",
-                    width:  "0px",
-                    left:   "0px"
-                });
-            }
-        }
-        
         if (O.label === false)
             O.label = O.value;
         
         var options = TK.merge({}, O);
-        options.base = this.__based ? O.base : O.scale_base;
-        options.container = this._scale,
-        options.id = false;
-        this.scale = new Scale(options);
+        options.labels    = O.format_labels;
+        options.base      = this.__based ? O.base : O.scale_base;
+        options.container = E;
+        options.id        = false;
+        this.scale        = new Scale(options);
+        this._scale       = this.scale.element;
         
         this.delegate(this._bar);
     },
@@ -272,6 +164,7 @@ w.MeterBase = $class({
     redraw: function () {
         var I = this.invalid;
         var O = this.options;
+        var E = this.element;
 
         if (I.title) {
             I.title = false;
@@ -282,15 +175,20 @@ w.MeterBase = $class({
             TK.set_text(this._label, O.format_label(O.label));
         }
         if (I.show_scale) {
-            this._scale.style["display"] = O.show_scale ? "block" : "none";
+            (O.show_scale ? TK.add_class : TK.remove_class)(E, "toolkit-has-scale");
         }
         if (I.show_title) {
             I.show_title = false;
-            this._title.style["display"] = O.show_title ? "block" : "none";
+            (O.show_title ? TK.add_class : TK.remove_class)(E, "toolkit-has-title");
         }
         if (I.show_label) {
             I.show_label = false;
-            this._label.style["display"] = O.show_label ? "block" : "none";
+            (O.show_label ? TK.add_class : TK.remove_class)(E, "toolkit-has-label");
+        }
+        if (I.reverse) {
+            I.reverse = false;
+            (O.reverse ? TK.add_class : TK.remove_class)(E, "toolkit-reverse");
+
         }
         if (I.gradient || I.background) {
             I.gradient = I.background = false;
@@ -303,19 +201,19 @@ w.MeterBase = $class({
             /* FORCE_RELAYOUT */
             I.layout = false;
             if (vert(O)) {
-                var s = this._bar_size(O.layout);
-                TK.outer_height(this._bar, true, s);
-                TK.outer_height(this._scale, true, s);
+                //var s = this._bar_size(O.layout);
+                //TK.outer_height(this._bar, true, s);
+                //TK.outer_height(this._scale, true, s);
                 var i = TK.inner_height(this._bar);
                 if (i != O.basis) {
                     this.set("basis", i);
                     this.scale.set("basis", i);
                 }
-                TK.inner_height(this._scale, i);
+                //TK.inner_height(this._scale, i);
             } else {
-                var s = this._bar_size(O.layout);
-                TK.outer_width(this._bar, true, s);
-                TK.outer_width(this._scale, true, s);
+                //var s = this._bar_size(O.layout);
+                //TK.outer_width(this._bar, true, s);
+                //TK.outer_width(this._scale, true, s);
                 var i = TK.inner_width(this._bar);
                 if (i != O.basis) {
                     this.set("basis", i);
@@ -351,10 +249,10 @@ w.MeterBase = $class({
                     }
                 }
             }
-            if (is_vertical)
-                TK.inner_width(this.element,
-                    TK.outer_width(this._bar, true)
-                    + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
+            //if (is_vertical)
+            //    TK.inner_width(this.element,
+            //        TK.outer_width(this._bar, true)
+            //        + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
         }
     },
     
@@ -420,6 +318,8 @@ w.MeterBase = $class({
                 break;
             case "division":
             case "reverse":
+            case "min":
+            case "max":
             case "log_factor":
             case "step":
             case "round":
@@ -434,7 +334,17 @@ w.MeterBase = $class({
                 this.fire_event("scalechanged", key, value);
                 this.scale.set(key, value);
                 break;
+            case "reverse":
+                if (value && !hold)
+                    TK.add_class(this.element, "toolkit-reverse");
+                if (!value && !hold)
+                    TK.remove_class(this.element, "toolkit-reverse");
+                this.scale.set(key, value, hold);
+                this.fire_event("scalechanged", key, value);
+                if (!hold) this.redraw();
+                break;
             case "format_labels":
+                console.log(value)
                 this.fire_event("scalechanged", key, value);
                 this.scale.set("labels", value);
                 break;
