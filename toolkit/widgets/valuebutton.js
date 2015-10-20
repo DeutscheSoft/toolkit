@@ -20,6 +20,16 @@
  */
 "use strict";
 (function(w){
+function value_clicked() {
+    this.scroll.set("active", false);
+    this.drag.set("active", false);
+}
+function value_done() {
+    this.scroll.set("active", true);
+    this.drag.set("active", true);
+    this.fire_event("valueset", this.options.value);
+}
+    
 w.ValueButton = $class({
     _class: "ValueButton",
     Extends: Button,
@@ -56,8 +66,8 @@ w.ValueButton = $class({
                     this.fire_event("useraction", "value", val);
                     return this.options.value; }.bind(this)
         });
-        this.value.add_event("valueclicked", this._value_clicked.bind(this));
-        this.value.add_event("valuedone", this._value_done.bind(this));
+        this.value.add_event("valueclicked", value_clicked.bind(this));
+        this.value.add_event("valuedone", value_done.bind(this));
         
         this._input = this.value._input;
         
@@ -137,18 +147,6 @@ w.ValueButton = $class({
         this._bar.remove();
         Button.prototype.destroy.call(this);
     },
-    
-    
-    _value_clicked: function () {
-        this.scroll.set("active", false);
-        this.drag.set("active", false);
-    },
-    _value_done: function () {
-        this.scroll.set("active", true);
-        this.drag.set("active", true);
-        this.fire_event("valueset", this.options.value);
-    },
-    
     // GETTERS & SETTERS
     set: function (key, value, hold) {
         if (key === "value") {

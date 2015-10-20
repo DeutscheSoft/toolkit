@@ -20,12 +20,24 @@
  */
 "use strict";
 (function(w){
+function vert(O) {
+    return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
+}
+function get_value(ev) {
+    var is_vertical = vert(this.options);
+    var pos   = TK[is_vertical ? "position_top" : "position_left"](this.element) + this._handlesize / 2;
+    var click = ev[is_vertical ? "pageY" : "pageX"];
+    var size  = TK[is_vertical ? "outer_height" : "outer_width"](this._scale, true);
+    var real = click - pos
+    if (is_vertical) real = size - real;
+    return this.snap(this.real2val(real));
+}
 function mouseenter (ev) {
     this.__entered = true;
 }
 function clicked(ev) {
     if (this._handle.contains(ev.target)) return;
-    this.set("value", this._get_value(ev));
+    this.set("value", get_value.call(this, ev));
     if (!this.__entered)
         this.__tt = this.tooltip(false, this.__tt);
     this.fire_event("useraction", "value", this.get("value"));
@@ -56,12 +68,13 @@ function dblclick(ev) {
 }
 function move(ev) {
     if (!this.options.tooltip) return;
-    var s = this.__dragging ? this.get("value") : this._get_value(ev);
+    var s = this.__dragging ? this.get("value") : get_value.call(this, ev);
     // NOTE: mouseenter/mouseleave do not fire when left mouse button is pressed
     // so dont show tooltip here
     if (this.__entered)
         this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
 }
+    
 w.Fader = $class({
     _class: "Fader",
     Extends: Widget,
@@ -170,22 +183,21 @@ w.Fader = $class({
             TK.remove_class(E, "toolkit-right");
             TK.remove_class(E, "toolkit-top");
             TK.remove_class(E, "toolkit-bottom");
-            var c = this._vert() ? "vertical" : "horizontal";
-            TK.add_class(E, "toolkit-" + c);
-            var d = value == _TOOLKIT_LEFT   ? "left" :
-                    value == _TOOLKIT_RIGHT  ? "right" :
-                    value == _TOOLKIT_TOP    ? "top" : "bottom";
-            TK.add_class(E, "toolkit-" + d);
+            TK.add_class(E, vert(O) ? "toolkit-vertical" : "toolkit-horizontal");
+            var d = value == _TOOLKIT_LEFT   ? "toolkit-left" :
+                    value == _TOOLKIT_RIGHT  ? "toolkit-right" :
+                    value == _TOOLKIT_TOP    ? "toolkit-top" : "toolkit-bottom";
+            TK.add_class(E, d);
         }
 
         if (I.value) {
             I.value = false;
-            this._handle.style[this._vert() ? "bottom" : "right"] = this.val2real(this.snap(O.value)) + "px";
+            this._handle.style[vert(O) ? "bottom" : "right"] = this.val2real(this.snap(O.value)) + "px";
         }
 
         if (I.validate("reverse", "log_factor", "step", "round", "scale", "basis")) {
             TK.S.add(function() {
-                if (this._vert()) {
+                if (vert(O)) {
                     h  = TK.inner_height(E);
                     this._handlesize = TK.outer_height(this._handle, true);
                 } else {
@@ -216,22 +228,6 @@ w.Fader = $class({
         Widget.prototype.destroy.call(this);
     },
     
-    // HELPERS & STUFF
-    _vert: function () {
-        return this.options.layout == _TOOLKIT_LEFT
-            || this.options.layout == _TOOLKIT_RIGHT;
-    },
-    _get_value: function (ev) {
-        var pos   = TK[this._vert() ? "position_top" : "position_left"](this.element) + this._handlesize / 2;
-        var click = ev[
-                    this._vert() ? "pageY" : "pageX"];
-        var size  = TK[
-                    this._vert() ? "outer_height" : "outer_width"](this._scale, true);
-        var real = click - pos
-        if (this._vert()) real = size - real;
-        return this.snap(this.real2val(real));
-    },
-    
     // GETTER & SETTER
     set: function (key, value, hold) {
         switch (key) {
@@ -242,7 +238,7 @@ w.Fader = $class({
                 break;
             case "layout":
                 this.scale.set("layout", value);
-                this.options.direction = this._vert() ? _TOOLKIT_VERT : _TOOLKIT_HORIZ;
+                this.options.direction = vert(this.options) ? _TOOLKIT_VERT : _TOOLKIT_HORIZ;
                 this.drag.set("direction", this.options.direction);
                 this.scroll.set("direction", this.options.direction);
                 break;

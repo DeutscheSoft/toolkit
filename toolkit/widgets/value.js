@@ -20,6 +20,64 @@
  */
 "use strict";
 (function(w){
+function value_clicked(e) {
+    // TODO: FIXME by finishing the dedicated keyboard widget
+    if (toolkit.os() == "Android") {
+        e.preventDefault();
+        //e.stopPropagation();
+        return false;
+    }
+    // TODO
+    if (!this.__clicked)
+        return;
+    this.__clicked = false;
+    if (!this.options.set) return;
+    if (this.__editing) return false;
+    TK.add_class(this.element, "toolkit-active");
+    this._input.setAttribute("value", this.options.value);
+    this.__editing = true;
+    this._input.focus();
+    this.fire_event("valueclicked", this.options.value);
+    //e.stopPropagation();
+}
+function value_init(e) {
+    this.__clicked = true;
+}
+function value_typing(e) {
+    if (!this.options.set) return;
+    if (!this.__editing) return;
+    switch (e.keyCode) {
+        case 27:
+            // ESC
+            value_done.call(this);
+            this.fire_event("valueescape", this.options.value);
+            break;
+        case 13:
+            // ENTER
+            var val = this.options.set(this._input.value);
+            this.set("value", val);
+            value_done.call(this);
+            this.fire_event("valueset", this.options.value);
+            this.fire_event("useraction", "value", this.options.value);
+            e.preventDefault();
+            return false;
+            break;
+        default:
+            //this.set("value", val, true);
+            break;
+    }
+    this.fire_event("valuetyping", e, this.options.value);
+}
+function value_done(e) {
+    if (!this.__editing) return;
+    this.__editing = false;
+    TK.remove_class(this.element, "toolkit-active");
+    this._input.blur();
+    this.fire_event("valuedone", this.options.value);
+    this.invalid.value = true;
+    this.trigger_draw();
+}
+    
 w.Value = $class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
@@ -45,29 +103,29 @@ w.Value = $class({
         
         this.__touch_start_cb = function (e) {
             e.preventDefault();
-            this._value_init(e);
+            value_init.call(e);
             return false;
         }.bind(this);
         
         this.__touch_end_cb = function (e) {
             e.preventDefault();
-            this._value_clicked(e);
+            value_clicked.call(this, e);
             return false;
         }.bind(this);
-        
-        this.__start_cb = this._value_init.bind(this);
-        this.__end_cb   = this._value_clicked.bind(this);
         
         this.element.addEventListener("submit", function (e) { 
             e.preventDefault();
             return false;
         });
         
-        this.add_event("pointerdown",  this.__start_cb);
-        this.add_event("pointerup",  this.__end_cb);
+        this.add_event("pointerdown", value_init);
+        this.add_event("pointerup", value_clicked);
+
+        this._value_typing = value_typing.bind(this);
+        this._value_done = value_done.bind(this);
                 
-        this._input.addEventListener("keyup",      this._value_typing.bind(this));
-        this._input.addEventListener("blur",       this._value_done.bind(this));
+        this._input.addEventListener("keyup", this._value_typing);
+        this._input.addEventListener("blur", this._value_done);
         
         this.__clicked = false;
     },
@@ -91,69 +149,11 @@ w.Value = $class({
     },
     
     destroy: function () {
+        this._input.removeEventListener("keyup", this._value_typing);
+        this._input.removeEventListener("blur", this._value_done);
         this._input.remove();
         this.element.remove();
         Widget.prototype.destroy.call(this);
-    },
-    
-    // HELPERS & STUFF
-    _value_clicked: function (e) {
-        // TODO: FIXME by finishing the dedicated keyboard widget
-        if (toolkit.os() == "Android") {
-            e.preventDefault();
-            //e.stopPropagation();
-            return false;
-        }
-        // TODO
-        if (!this.__clicked)
-            return;
-        this.__clicked = false;
-        if (!this.options.set) return;
-        if (this.__editing) return false;
-        TK.add_class(this.element, "toolkit-active");
-        this._input.setAttribute("value", this.options.value);
-        this.__editing = true;
-        this._input.focus();
-        this.fire_event("valueclicked", this.options.value);
-        //e.stopPropagation();
-    },
-    _value_init: function (e) {
-        this.__clicked = true;
-    },
-    
-    _value_typing: function (e) {
-        if (!this.options.set) return;
-        if (!this.__editing) return;
-        switch (e.keyCode) {
-            case 27:
-                // ESC
-                this._value_done();
-                this.fire_event("valueescape", this.options.value);
-                break;
-            case 13:
-                // ENTER
-                var val = this.options.set(this._input.value);
-                this.set("value", val, true);
-                this._value_done();
-                this.fire_event("valueset", this.options.value);
-                this.fire_event("useraction", "value", this.options.value);
-                e.preventDefault();
-                return false;
-                break;
-            default:
-                //this.set("value", val, true);
-                break;
-        }
-        this.fire_event("valuetyping", e, this.options.value);
-    },
-    _value_done: function (e) {
-        if (!this.__editing) return;
-        this.__editing = false;
-        TK.remove_class(this.element, "toolkit-active");
-        this._input.blur();
-        this.fire_event("valuedone", this.options.value);
-        this.invalid.value = true;
-        this.trigger_draw();
     },
     
     // GETTERS & SETTERS

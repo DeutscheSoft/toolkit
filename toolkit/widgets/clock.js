@@ -134,6 +134,12 @@ function timeout() {
         this.__to = w.setTimeout(this.__timeout, targ);
     } else this.__to = false;
 }
+function onhide() {
+    if (this.__to) {
+        window.clearTimeout(this.__to);
+        this.__to = false;
+    }
+}
 
 w.Clock = $class({
     // Clock shows a customized clock with circulars displaying hours, minutes
@@ -172,12 +178,13 @@ w.Clock = $class({
                                    // compared to the main label
     },
     initialize: function (options) {
+        var E;
         this.circulars = {};
         this._margin = -1;
         Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
-        this.element = this.widgetize(TK.make_svg("svg", {"class": "toolkit-clock"}),
-                                      true, true, true);
+        E = TK.make_svg("svg", {"class": "toolkit-clock"});
+        this.element = this.widgetize(E, true, true, true);
         
         this.set("container", this.options.container);
         
@@ -196,15 +203,15 @@ w.Clock = $class({
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"
         });
-        this.element.appendChild(this._label);
-        this.element.appendChild(this._label_upper);
-        this.element.appendChild(this._label_lower);
+        E.appendChild(this._label);
+        E.appendChild(this._label_upper);
+        E.appendChild(this._label_lower);
 
-        this.add_event("hide", this._onhide);
-        this.add_event("show", this._onshow);
+        this.add_event("hide", onhide);
+        this.add_event("show", timeout);
         
         var circ_options = {
-            container: this.element,
+            container: E,
             show_hand: false,
             start: 270,
             basis: 360,
@@ -283,16 +290,6 @@ w.Clock = $class({
         if (this.__to)
             window.clearTimeout(this.__to);
         Widget.prototype.destroy.call(this);
-    },
-    _onhide : function() {
-        if (this.__to) {
-            window.clearTimeout(this.__to);
-            this.__to = false;
-        }
-    },
-
-    _onshow : function() {
-        timeout.call(this);
     },
     
     // GETTERS & SETTERS

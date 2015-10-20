@@ -20,6 +20,37 @@
  */
 "use strict";
 (function(w){ 
+function hit_test(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
+    // hit test takes two defined rectangles and calculates the overlapping
+    // pixels.
+    var aw = ax2 - ax1;
+    var bw = bx2 - bx1;
+    var zw = bx1 - ax1;
+    var ow = 0;
+    if (zw < aw && -bw < zw) {
+        if (0 <= zw && zw <= aw) {
+            ow = aw - zw;
+        } else if (-bw <= zw && zw <= 0) {
+            ow = bw + zw;
+        }
+    }
+    if (!ow) return 0;
+                
+    var ah = ay2 - ay1;
+    var bh = by2 - by1;
+    var zh = by1 - ay1;
+    var oh = 0;
+    if (zh < ah && -bh < zh) {
+        if (0 <= zh && zh <= ah) {
+            oh = ah - zh;
+        } else if (-bh <= zh && zh <= 0) {
+            oh = bh + zh;
+        }
+    }
+    if (!oh) return 0;
+    return Math.min(Math.min(aw, bw), ow) * Math.min(Math.min(ah, bh), oh);
+}
+    
 w.ResponseHandler = $class({
     // ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
     // meant as a universal user interface for equalizers and the like.
@@ -145,14 +176,14 @@ w.ResponseHandler = $class({
             var h = this.handles[i];
             if (h.options.id == id || !h.get("active")) continue;
             
-            var _a = this._hit_test(
+            var _a = hit_test(
                      x1, y1, x2, y2,
                      h.handle.x1, h.handle.y1, h.handle.x2, h.handle.y2)
                      * this.options.importance_handle;
             if (_a) c ++;
             a += _a;
             
-            var _a = this._hit_test(x1, y1, x2, y2,
+            var _a = hit_test(x1, y1, x2, y2,
                      h.label.x1, h.label.y1, h.label.x2, h.label.y2)
                      * this.options.importance_label;
             if (_a) c ++;
@@ -163,56 +194,25 @@ w.ResponseHandler = $class({
                 var b = this.bands[i];
                 if (b.options.id == id || !b.get("active")) continue;
                 
-                var _a = this._hit_test(
+                var _a = hit_test(
                          x1, y1, x2, y2,
                          b.handle.x1, b.handle.y1, b.handle.x2, b.handle.y2)
                          * this.options.importance_handle;
                 if (_a) c ++;
                 a += _a;
                 
-                var _a = this._hit_test(x1, y1, x2, y2,
+                var _a = hit_test(x1, y1, x2, y2,
                          b.label.x1, b.label.y1, b.label.x2, b.label.y2)
                          * this.options.importance_label;
                 if (_a) c ++;
                 a += _a;
             }
         }
-        a += ((x2 - x1) * (y2 - y1) - this._hit_test(
+        a += ((x2 - x1) * (y2 - y1) - hit_test(
              x1, y1, x2, y2, 0, 0,
              this.range_x.get("basis"), this.range_y.get("basis")))
              * this.options.importance_border;
         return {intersect: a, count: c};
-    },
-    
-    _hit_test: function (ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
-        // hit test takes two defined rectangles and calculates the overlapping
-        // pixels.
-        var aw = ax2 - ax1;
-        var bw = bx2 - bx1;
-        var zw = bx1 - ax1;
-        var ow = 0;
-        if (zw < aw && -bw < zw) {
-            if (0 <= zw && zw <= aw) {
-                ow = aw - zw;
-            } else if (-bw <= zw && zw <= 0) {
-                ow = bw + zw;
-            }
-        }
-        if (!ow) return 0;
-                    
-        var ah = ay2 - ay1;
-        var bh = by2 - by1;
-        var zh = by1 - ay1;
-        var oh = 0;
-        if (zh < ah && -bh < zh) {
-            if (0 <= zh && zh <= ah) {
-                oh = ah - zh;
-            } else if (-bh <= zh && zh <= 0) {
-                oh = bh + zh;
-            }
-        }
-        if (!oh) return 0;
-        return Math.min(Math.min(aw, bw), ow) * Math.min(Math.min(ah, bh), oh);
     },
     
     // GETTER & SETER

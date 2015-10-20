@@ -164,28 +164,27 @@ w.Scale = $class({
     initialize: function (options, hold) {
         this.__size = 0;
         Widget.prototype.initialize.call(this, options);
-        this.element = this.widgetize(
-                       TK.element("div","toolkit-scale"), true, true, true);
+        var E = TK.element("div","toolkit-scale");
+        this.element = this.widgetize(E, true, true, true);
         
         switch (this.options.layout) {
             case _TOOLKIT_LEFT:
-                TK.add_class(this.element, "toolkit-vertical");
-                TK.add_class(this.element, "toolkit-left");
+                TK.add_class(E, "toolkit-vertical");
+                TK.add_class(E, "toolkit-left");
                 break;
             case _TOOLKIT_RIGHT:
-                TK.add_class(this.element, "toolkit-vertical");
-                TK.add_class(this.element, "toolkit-right");
+                TK.add_class(E, "toolkit-vertical");
+                TK.add_class(E, "toolkit-right");
                 break;
             case _TOOLKIT_TOP:
-                TK.add_class(this.element, "toolkit-horizontal");
-                TK.add_class(this.element, "toolkit-top");
+                TK.add_class(E, "toolkit-horizontal");
+                TK.add_class(E, "toolkit-top");
                 break;
             case _TOOLKIT_BOTTOM:
-                TK.add_class(this.element, "toolkit-horizontal");
-                TK.add_class(this.element, "toolkit-bottom");
+                TK.add_class(E, "toolkit-horizontal");
+                TK.add_class(E, "toolkit-bottom");
                 break;
         }
-        //this.element.style.position = "relative";
         
         if (this.options.container) this.set("container", this.options.container);
         if (this.options["class"]) this.set("class", this.options["class"]);

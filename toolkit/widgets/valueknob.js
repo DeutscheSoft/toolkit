@@ -20,6 +20,15 @@
  */
 "use strict";
 (function(w){
+function value_clicked() {
+    this.scroll.set("active", false);
+    this.drag.set("active", false);
+}
+function value_done() {
+    this.scroll.set("active", true);
+    this.drag.set("active", true);
+    this.fire_event("valueset", this.options.value);
+}
 w.ValueKnob = $class({
     _class: "ValueKnob",
     Extends: Knob,
@@ -43,24 +52,14 @@ w.ValueKnob = $class({
                 return this.options.value;
             }.bind(this)
         });
-        this.value.add_event("valueclicked", this._value_clicked.bind(this));
-        this.value.add_event("valuedone", this._value_done.bind(this));
+        this.value.add_event("valueclicked", value_clicked.bind(this));
+        this.value.add_event("valuedone", value_done.bind(this));
         this.widgetize(this._container, true, true, true);
     },
     
     destroy: function () {
         this.value.destroy();
         Knob.prototype.destroy.call(this);
-    },
-    
-    _value_clicked: function () {
-        this.scroll.set("active", false);
-        this.drag.set("active", false);
-    },
-    _value_done: function () {
-        this.scroll.set("active", true);
-        this.drag.set("active", true);
-        this.fire_event("valueset", this.options.value);
     },
     
     set: function (key, value, hold) {

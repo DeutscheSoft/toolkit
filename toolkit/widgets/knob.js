@@ -20,6 +20,7 @@
  */
 "use strict";
 (function(w){ 
+var format_viewbox = TK.FORMAT("0 0 %d %d");
 w.Knob = $class({
     // Knob is a Circular injected into a SVG and extended by ScrollValue
     // and DragValue to set its value. Knob uses DragValue and Scrollvalue
@@ -98,7 +99,7 @@ w.Knob = $class({
         var O = this.options;
 
         if (I.size) {
-            this._svg.setAttribute("viewBox", TK.sprintf("0 0 %d %d", O.size, O.size));
+            this._svg.setAttribute("viewBox", format_viewbox(O.size, O.size));
         }
 
         Circular.prototype.redraw.call(this);
