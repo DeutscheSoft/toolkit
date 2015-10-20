@@ -38,7 +38,15 @@ w.Label = $class({
     },
     
     redraw: function () {
-        TK.set_text(this.element, this.options.label);
+        var I = this.invalid;
+        var O = this.options;
+
+        Widget.prototype.redraw.call(this);
+
+        if (I.label) {
+            I.label = false;
+            TK.set_text(this.element, O.label);
+        }
     },
     
     destroy: function () {
@@ -48,12 +56,6 @@ w.Label = $class({
     
     // GETTERS & SETTERS
     set: function (key, value, hold) {
-        this.options[key] = value;
-        switch (key) {
-            case "label":
-                if (!hold) this.redraw();
-                break;
-        }
         Widget.prototype.set.call(this, key, value, hold);
     }
 });

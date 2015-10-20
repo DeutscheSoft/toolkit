@@ -75,44 +75,53 @@ w.Toggle = $class({
     
     redraw: function () {
         var O = this.options;
-        var value = O.state;
-        
-        var icon  = O[value ? (O.icon_active
-                                       ? "icon_active" : "icon") : "icon"];
-        if (icon) this._icon.setAttribute("src", icon);
-                   
-        var label = O[value ? (O.label_active
-                                       ? "label_active" : "label") : "label"];
-                                       
-        if (label) this._label.innerHTML = label;
+        var I = this.invalid;
+        var tmp;
+
+        if (I.validate("icon_active", "icon") || I.state) {
+
+            if (O.state) {
+                tmp = O.icon_active || O.icon;
+            } else {
+                tmp = O.icon;
+            }
+
+            if (tmp) this._icon.setAttribute("src", tmp);
+            else this._icon.removeAttribute("src");
+        }
+
+        if (I.validate("label_active", "label", "state")) {
+            if (O.state) {
+                tmp = O.label_active || O.label;
+            } else {
+                tmp = O.label;
+            }
+
+            this._label.innerHTML = tmp || "";
+        }
+
+        // NOTE: we do not call Button.redraw here, since it overwrites labels and icons
+        Widget.prototype.redraw.call(this);
     },
     toggle: function (hold) {
+        var state = !this.options.state;
         clear_to.call(this);
-        this.set("state", !this.options.state);
-        this.fire_event("toggled", this.options.state);
-        this.fire_event("useraction", "state", this.options.state);
+        this.set("state", state);
+        this.fire_event("toggled", state);
+        this.fire_event("useraction", "state", state);
     },
     cancel_press: function () {
-        if (!this.__tp)
-            return;
+        if (!this.__tp) return;
         this.__tp = false;
         this.__tt = false;
         this.__tm = false;
-        this.set("state", !this.get("state"));
+        var state = !this.options.state;
+        this.set("state", state);
     },
     
     // GETTER & SETTER
     set: function (key, value, hold) {
         Button.prototype.set.call(this, key, value, hold);
-        switch (key) {
-            case "icon_active":
-            case "icon":
-            case "label_active":
-            case "label":
-            case "state":
-                if (!hold) this.redraw();
-                break;
-        }
     }
 });
 })(this);
