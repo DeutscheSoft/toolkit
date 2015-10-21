@@ -201,19 +201,12 @@ w.MeterBase = $class({
             /* FORCE_RELAYOUT */
             I.layout = false;
             if (vert(O)) {
-                //var s = this._bar_size(O.layout);
-                //TK.outer_height(this._bar, true, s);
-                //TK.outer_height(this._scale, true, s);
                 var i = TK.inner_height(this._bar);
                 if (i != O.basis) {
                     this.set("basis", i);
                     this.scale.set("basis", i);
                 }
-                //TK.inner_height(this._scale, i);
             } else {
-                //var s = this._bar_size(O.layout);
-                //TK.outer_width(this._bar, true, s);
-                //TK.outer_width(this._scale, true, s);
                 var i = TK.inner_width(this._bar);
                 if (i != O.basis) {
                     this.set("basis", i);
@@ -249,10 +242,6 @@ w.MeterBase = $class({
                     }
                 }
             }
-            //if (is_vertical)
-            //    TK.inner_width(this.element,
-            //        TK.outer_width(this._bar, true)
-            //        + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
         }
     },
     
