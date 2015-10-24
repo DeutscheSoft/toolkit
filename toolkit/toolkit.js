@@ -328,9 +328,10 @@ function set_style(e, style, value) {
     e.style[style] = value;
 }
 var _ids = {};
+var _id_cnt = 0;
 function unique_id() {
     var id;
-    while (_ids.hasOwnProperty(id = "tk-" + random_string(8, "aA#")) || document.getElementById(id)) {}
+    while (_ids.hasOwnProperty(id = "tk-" + (_id_cnt++)) || document.getElementById(id)) {}
     _ids[id] = 1;
     return id;
 };
