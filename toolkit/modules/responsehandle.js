@@ -1365,17 +1365,5 @@ w.ResponseHandle = $class({
         this.element.remove();
         Widget.prototype.destroy.call(this);
     },
-    // HELPERS & STUFF
-    
-    // CALLBACKS / EVENT HANDLING
-    // GETTER & SETTER
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
-        if (key == "active") {
-            if (value) {
-                TK.remove_class(this.element, "toolkit-inactive");
-            } else TK.add_class(this.element, "toolkit-inactive");
-        }
-    }
 });
 })(this);

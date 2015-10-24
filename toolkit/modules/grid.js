@@ -195,7 +195,7 @@ w.Grid = $class({
         Widget.prototype.destroy.call(this);
     },
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         this.options[key] = value;
         switch (key) {
             case "grid_x":
@@ -203,13 +203,13 @@ w.Grid = $class({
                 this.fire_event("gridchanged");
                 break;
             case "width":
-                this.range_x.set("basis", value, hold);
+                this.range_x.set("basis", value);
                 break;
             case "height":
-                this.range_y.set("basis", value, hold);
+                this.range_y.set("basis", value);
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
+        Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

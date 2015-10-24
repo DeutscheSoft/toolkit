@@ -181,8 +181,8 @@ w.Keyboard = $class({
         Widget.prototype.destroy.call(this);
     },
     
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "buffer":
                 if (typeof value !== "number") {

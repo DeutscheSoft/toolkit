@@ -66,8 +66,8 @@ w.Toggle = $class({
         state:         false
     },
     
-    initialize: function (options, hold) {
-        Button.prototype.initialize.call(this, options, hold);
+    initialize: function (options) {
+        Button.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-toggle");
         this.add_event("pointerdown", mousedown);
         this.add_event("pointerup", mouseup);
@@ -103,7 +103,7 @@ w.Toggle = $class({
         // NOTE: we do not call Button.redraw here, since it overwrites labels and icons
         Widget.prototype.redraw.call(this);
     },
-    toggle: function (hold) {
+    toggle: function () {
         var state = !this.options.state;
         clear_to.call(this);
         this.set("state", state);

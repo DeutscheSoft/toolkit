@@ -155,6 +155,16 @@ w.Pager = $class({
         if (I.show) {
             I.show = false;
 
+            for (var i = 0; i < this.pages.length; i ++) {
+                var page = this.pages[i];
+
+                if (i == O.show) {
+                    page.add_class("toolkit-active");
+                } else {
+                    page.remove_class("toolkit-active");
+                }
+            }
+
             do_scroll.call(this, O.show);
         }
     },
@@ -227,8 +237,8 @@ w.Pager = $class({
     },
     
     resize: function () {
-        this.redraw();
-        this._scroll_to(this.options.show, true); 
+        this.invalid.show = true;
+        this.trigger_draw();
     },
 
     current: function() {
@@ -239,7 +249,7 @@ w.Pager = $class({
         return null;
     },
     
-    set: function (key, value, hold) {
+    set: function (key, value) {
         var page;
         if (key === "show") {
             if (value < 0) value = 0;
@@ -252,27 +262,23 @@ w.Pager = $class({
             if (page) {
                 page.set("active", false);
                 page.fire_event("hide");
-                page.remove_class("toolkit-active");
             }
 
             this.buttonarray.set("show", value);
         }
-        Container.prototype.set.call(this, key, value, hold);
+        Container.prototype.set.call(this, key, value);
         switch(key) {
             case "show":
                 page = this.current();
 
                 if (page) {
                     page.set("active", true);
-                    page.add_class("toolkit-active");
                     page.fire_event("show");
                     this.fire_event("changed", page, value);
                 }
 
                 break;
             case "pages":
-                if (hold)
-                    break;
                 for (var i = 0; i < this.pages.length; i++)
                     this.pages[i].destroy();
                 this.pages = [];

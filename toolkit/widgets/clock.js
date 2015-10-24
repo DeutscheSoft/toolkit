@@ -293,8 +293,8 @@ w.Clock = $class({
     },
     
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Widget.prototype.set.call(this, key, value);
         if (key == "timeout") timeout.call(this);
     }
 });

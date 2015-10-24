@@ -62,8 +62,8 @@ w.ValueKnob = $class({
         Knob.prototype.destroy.call(this);
     },
     
-    set: function (key, value, hold) {
-        Knob.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Knob.prototype.set.call(this, key, value);
         switch (key) {
             case "value_size":
                 this.value.set("size", value);

@@ -227,10 +227,10 @@ w.Chart = $class({
         title:   "", // a title for the chart
         title_position: _TOOLKIT_TOP_RIGHT // the position of the title
     },
-    initialize: function (options, hold) {
+    initialize: function (options) {
         var E;
         this.graphs = [];
-        Widget.prototype.initialize.call(this, options, hold);
+        Widget.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
@@ -334,7 +334,7 @@ w.Chart = $class({
             options.range_y = function () { return this.range_y; }.bind(this);
         var g = new Graph(options);
         this.graphs.push(g);
-        g.add_event("set", function (key, value, hold, obj) {
+        g.add_event("set", function (key, value, obj) {
             if (key == "color" || key == "class" || key == "key") {
                 this.invalid.graphs = true;
                 this.trigger_draw();
@@ -364,20 +364,20 @@ w.Chart = $class({
     },
     
     // GETTER & SETER
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "grid_x":
-                this.grid.set("grid_x", value, hold);
+                this.grid.set("grid_x", value);
                 break;
             case "grid_y":
-                this.grid.set("grid_y", value, hold);
+                this.grid.set("grid_y", value);
                 break;
             case "width":
-                this.range_x.set("basis", value, hold);
+                this.range_x.set("basis", value);
                 break;
             case "height":
-                this.range_y.set("basis", value, hold);
+                this.range_y.set("basis", value);
                 break;
         }
     }

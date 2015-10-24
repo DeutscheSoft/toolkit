@@ -106,8 +106,8 @@ w.Knob = $class({
 
     },
     
-    set: function (key, value, hold) {
-        Circular.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Circular.prototype.set.call(this, key, value);
         switch (key) {
             case "direction":
             case "rotation":

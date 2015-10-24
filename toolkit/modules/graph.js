@@ -244,14 +244,14 @@ w.Graph = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "width":
-                this.range_x.set("basis", value, hold);
+                this.range_x.set("basis", value);
                 break;
             case "height":
-                this.range_y.set("basis", value, hold);
+                this.range_y.set("basis", value);
                 break;
             case "dots":
                 this.fire_event("graphchanged");

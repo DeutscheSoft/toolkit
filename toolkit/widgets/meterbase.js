@@ -76,7 +76,7 @@ w.MeterBase = $class({
         show_base:        true            // always show label and dot for base value
     },
     
-    initialize: function (options, hold) {
+    initialize: function (options) {
         var E;
         Widget.prototype.initialize.call(this, options);
         var O = this.options;
@@ -248,17 +248,8 @@ w.MeterBase = $class({
             }
         }
         
-        if (O.container)
-            this.set("container", O.container);
-        if (O.background)
-            this.set("background", O.background);
-        if (O.gradient)
-            this.set("gradient", O.gradient);
-        
         if (O.label === false)
             O.label = O.value;
-        
-        this.set("base", O.base, true);
         
         var options = Object.assign({}, O);
         options.base = this.__based ? O.base : O.scale_base;
@@ -319,6 +310,9 @@ w.MeterBase = $class({
             I.gradient = I.background = false;
             this.draw_gradient(this._base, O.gradient);
         }
+
+        Widget.prototype.redraw.call(this);
+
         if (I.layout) {
             /* FORCE_RELAYOUT */
             I.layout = false;
@@ -343,10 +337,12 @@ w.MeterBase = $class({
                 }
             }
         }
+
         if (I.value) {
             I.value = false;
             this.draw_meter();
         }
+
         if (I.show_scale) {
             var is_vertical = vert(O);
             if (O.show_scale) {
@@ -372,7 +368,6 @@ w.MeterBase = $class({
                     TK.outer_width(this._bar, true)
                     + (O.show_scale ? TK.outer_width(this._scale, true) : 0));
         }
-        Widget.prototype.redraw.call(this);
     },
     
     draw_meter: function (value) {
@@ -418,7 +413,7 @@ w.MeterBase = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         Widget.prototype.set.call(this, key, value);
         Ranged.prototype.set.call(this, key, value);
         switch (key) {
@@ -449,15 +444,15 @@ w.MeterBase = $class({
             case "show_min":
             case "show_base":
                 this.fire_event("scalechanged", key, value);
-                this.scale.set(key, value, hold);
+                this.scale.set(key, value);
                 break;
             case "format_labels":
                 this.fire_event("scalechanged", key, value);
-                this.scale.set("labels", value, hold);
+                this.scale.set("labels", value);
                 break;
             case "scale_base":
                 this.fire_event("scalechanged", key, value);
-                this.scale.set("base", value, hold);
+                this.scale.set("base", value);
                 break;
             case "base":
                 if (value === false) {

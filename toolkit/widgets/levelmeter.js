@@ -475,7 +475,7 @@ w.LevelMeter = $class({
         return s;
     },
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         if (key == "value") {
             if (this.options.falling) {
                 var v = this.effective_value();
@@ -484,7 +484,7 @@ w.LevelMeter = $class({
                 if (v < base && value < base && value > v) return;
             }
         }
-        MeterBase.prototype.set.call(this, key, value, hold);
+        MeterBase.prototype.set.call(this, key, value);
         switch (key) {
             case "peak":
                 this.fire_event("peakchanged");

@@ -116,8 +116,9 @@ w.ScrollValue = $class({
         Widget.prototype.destroy.call(this);
     },
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
+    set: function (key, value) {
         this.options[key] = value;
+        //Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "element":
                 value.addEventListener("mousewheel", this._scrollwheel);
@@ -140,7 +141,6 @@ w.ScrollValue = $class({
                 }
                 break;
         }
-        //Widget.prototype.set.call(this, key, value, hold);
     }
 })
 })(this);

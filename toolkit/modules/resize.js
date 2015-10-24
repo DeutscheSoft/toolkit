@@ -82,19 +82,17 @@ w.Resize = $class({
         this.set("handle", this.options.handle);
     },
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
-        this.options[key] = value;
+    set: function (key, value) {
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "handle":
                 if (!value)
                     this.options.handle = this.options.element;
             case "handle":
             case "direction":
-                if (!hold)
-                    set_handle.call(this);
+                set_handle.call(this);
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

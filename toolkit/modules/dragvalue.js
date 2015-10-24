@@ -199,7 +199,7 @@ w.DragValue = $class({
     },
 
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
+    set: function (key, value) {
         this.options[key] = value;
         switch (key) {
             case "element":
@@ -224,7 +224,7 @@ w.DragValue = $class({
                 }
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
+        Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

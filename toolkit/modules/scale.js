@@ -161,7 +161,7 @@ w.Scale = $class({
                                           // array contianing real values or false
     },
     
-    initialize: function (options, hold) {
+    initialize: function (options) {
         this.__size = 0;
         Widget.prototype.initialize.call(this, options);
         var E = TK.element("div","toolkit-scale");
@@ -337,7 +337,7 @@ w.Scale = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "division":

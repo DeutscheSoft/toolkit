@@ -88,8 +88,8 @@ w.State = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
-        Widget.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "color":
                 this.fire_event("colorchanged", value);

@@ -279,7 +279,7 @@ w.ButtonArray = $class({
         return null;
     },
     
-    set: function (key, value, hold) {
+    set: function (key, value) {
         var button;
         if (key === "show") {
             if (value < 0) value = 0;
@@ -289,7 +289,7 @@ w.ButtonArray = $class({
             button = this.current();
             if (button) button.set("state", false);
         }
-        Container.prototype.set.call(this, key, value, hold);
+        Container.prototype.set.call(this, key, value);
         switch (key) {
             case "show":
                 button = this.current();

@@ -148,13 +148,13 @@ w.ValueButton = $class({
         Button.prototype.destroy.call(this);
     },
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
+    set: function (key, value) {
         if (key === "value") {
             if (value > this.options.max || value < this.options.min)
                 this.warning(this.element);
             value = this.snap(value);
         }
-        Button.prototype.set.call(this, key, value, hold);
+        Button.prototype.set.call(this, key, value);
         Ranged.prototype.set.call(this, key, value);
         switch (key) {
             case "value":

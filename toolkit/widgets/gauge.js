@@ -114,12 +114,12 @@ w.Gauge = $class({
     },
     
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
+    set: function (key, value) {
         if (key === "title") {
             if (typeof value == "string") value = {title: value};
             value = Object.assign(this.options.title, value);
         }
-        Circular.prototype.set.call(this, key, value, hold);
+        Circular.prototype.set.call(this, key, value);
     }
 });
 })(this);

@@ -82,11 +82,11 @@ w.Drag = $class({
         this._dragend = dragend.bind(this);
     },
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
+    set: function (key, value) {
         if (key === "handle" && !value)
             value = this.options.element;
 
-        Widget.prototype.set.call(this, key, value, hold);
+        Widget.prototype.set.call(this, key, value);
 
         if (key === "handle") set_handle.call(this);
     }

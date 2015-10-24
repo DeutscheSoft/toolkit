@@ -182,6 +182,34 @@ w.Widget = $class({
             }
         }
 
+        E = this.classified;
+
+        if (E) {
+            if (I["class"]) {
+                I["class"] = false;
+                TK.add_class(E, O["class"]);
+            }
+        }
+
+        E = this.stylized;
+
+        if (E) {
+            if (I.active) {
+                I.active = false;
+                (O.active ? TK.remove_class : TK.add_class)(E, "toolkit-inactive");
+            }
+
+            if (I.disabled) {
+                I.disabled = false;
+                (O.disabled ? TK.add_class : TK.remove_class)(E, "toolkit-disabled");
+            }
+
+            if (I.styles) {
+                I.styles = false;
+                TK.set_styles(E, O.styles);
+            }
+        }
+
     },
     destroy: function () {
         this.fire_event("destroy");
@@ -252,45 +280,13 @@ w.Widget = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         this.options[key] = value;
         this.value_time[key] = Date.now();
         this.invalid[key] = true;
         this.trigger_draw();
-        switch (key) {
-            case "container":
-                if (!hold && this.element)
-                    this.options.container.appendChild(this.element);
-                break;
-            case "id":
-                if (!hold && this.element)
-                    this.element.set("id", this.options.id);
-                break;
-            case "class":
-                if (!hold && this.__classified)
-                    TK.add_class(this.__classified, this.options["class"]);
-                break;
-            case "styles":
-                if (!hold && this.__stylized)
-                    TK.set_styles(this.__stylized, value);
-                break;
-            case "active":
-                if (!hold && this.__stylized)
-                    if (value)
-                        TK.remove_class(this.__stylized, "toolkit-inactive")
-                    else
-                        TK.add_class(this.__stylized, "toolkit-inactive")
-                break;
-            case "disabled":
-                if (!hold && this.__stylized)
-                    if (value)
-                        TK.add_class(this.__stylized, "toolkit-disabled")
-                    else
-                        TK.remove_class(this.__stylized, "toolkit-disabled")
-                break;
-        }
-        this.fire_event("set", key, value, hold);
-        this.fire_event("set_" + key, value, hold);
+        this.fire_event("set", key, value);
+        this.fire_event("set_" + key, value);
         return this;
     },
     get: function (key) {

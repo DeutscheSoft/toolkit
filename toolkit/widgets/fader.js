@@ -111,9 +111,6 @@ w.Fader = $class({
         this.element.appendChild(this._background_center);
         this.element.appendChild(this._background_bottom);
 
-        if (this.options.container)
-            this.set("container", this.options.container);
-        
         var opt = Object.assign({}, this.options, {
             container:   this.element,
         });
@@ -144,8 +141,6 @@ w.Fader = $class({
             }.bind(this),
             events: function () { return this }.bind(this),
         });
-        
-        this.set("layout", this.options.layout);
         
         this.add_event("click", clicked);
         this.add_event("mouseenter", mouseenter);
@@ -229,7 +224,7 @@ w.Fader = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         switch (key) {
             case "value":
                 if (value > this.options.max || value < this.options.min)
@@ -243,7 +238,7 @@ w.Fader = $class({
                 this.scroll.set("direction", this.options.direction);
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
+        Widget.prototype.set.call(this, key, value);
         Ranged.prototype.set.call(this, key, value);
     }
 });

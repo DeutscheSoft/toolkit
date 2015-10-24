@@ -30,7 +30,7 @@ w.EqBand = $class({
         type:    _TOOLKIT_PARAMETRIC // The type of the filter.
     },
     
-    initialize: function (options, hold) {
+    initialize: function (options) {
         if (typeof options.mode == "undefined") {
             switch (options.type) {
                 case _TOOLKIT_PARAM:
@@ -85,7 +85,7 @@ w.EqBand = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         var range;
         switch (key) {
             case "freq":
@@ -98,22 +98,22 @@ w.EqBand = $class({
                 key = "y"
                 break;
         }
-        ResponseHandle.prototype.set.call(this, key, value, hold);
+        ResponseHandle.prototype.set.call(this, key, value);
         switch (key) {
             case "type":
                 this.filter.set("type", value);
                 break;
             case "x":
                 range = this.range_x.options;
-                this.filter.set("freq", Math.max(Math.min(value, range.max), range.min), hold);
+                this.filter.set("freq", Math.max(Math.min(value, range.max), range.min));
                 break;
             case "y":
                 range = this.range_y.options;
-                this.filter.set("gain", Math.max(Math.min(value, range.max), range.min), hold);
+                this.filter.set("gain", Math.max(Math.min(value, range.max), range.min));
                 break;
             case "z":
                 range = this.range_z.options;
-                this.filter.set("q", Math.max(Math.min(value, range.max), range.min), hold);
+                this.filter.set("q", Math.max(Math.min(value, range.max), range.min));
                 break;
         }
     }

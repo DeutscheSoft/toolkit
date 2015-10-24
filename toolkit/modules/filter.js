@@ -290,7 +290,7 @@ w.Filter = $class({
         }
         this.fire_event("reset");
     },
-    set: function (key, value, hold) {
+    set: function (key, value) {
         this.options[key] = value;
         switch (key) {
         case "freq":
@@ -300,8 +300,8 @@ w.Filter = $class({
             this.reset();
             break;
         }
-        this.fire_event("set", key, value, hold);
-        this.fire_event("set_" + key, value, hold);
+        this.fire_event("set", key, value);
+        this.fire_event("set_" + key, value);
     },
     get: function (key) {
         return this.options[key];

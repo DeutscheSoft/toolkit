@@ -157,8 +157,8 @@ w.Dynamics = $class({
         this.graph.set("dots", curve);
     },
     
-    set: function (key, value, hold) {
-        Chart.prototype.set.call(this, key, value, hold);
+    set: function (key, value) {
+        Chart.prototype.set.call(this, key, value);
         switch (key) {
             case "size":
                 this.range_x.set("basis", value);

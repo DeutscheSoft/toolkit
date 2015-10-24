@@ -83,7 +83,7 @@ w.Range = $class({
                                      // again.
     },
     
-    initialize: function (options, hold) {
+    initialize: function (options) {
         BASE.prototype.initialize.call(this);
         this.set_options(options);
         this.fire_event("initialize");
@@ -95,10 +95,10 @@ w.Range = $class({
     },
     
     // GETTER & SETTER
-    set: function (key, value, hold) {
+    set: function (key, value) {
         this.options[key] = value;
-        this.fire_event("set", key, value, hold);
-        this.fire_event("set_" + key, value, hold);
+        this.fire_event("set", key, value);
+        this.fire_event("set_" + key, value);
         Ranged.prototype.set.call(this, key, value);
     },
     get: function (key) {

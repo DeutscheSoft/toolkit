@@ -149,7 +149,7 @@ w.Select = $class({
         for (var i = 0; i < entries.length; i++)
             this.add_entry(entries[i], true);
     },
-    add_entry: function (ent, hold) {
+    add_entry: function (ent) {
         var li = TK.element("li", "toolkit-option");
         var entry = {};
         entry.element = li;
@@ -268,14 +268,14 @@ w.Select = $class({
     current: function() {
         return this.entries[this.options.selected];
     },
-    set: function (key, value, hold) {
+    set: function (key, value) {
         if (key === "value") {
             var index = index_by_value.call(this, value);
             if (index === false) return;
             key = "selected";
             value = index;
         }
-        Button.prototype.set.call(this, key, value, hold);
+        Button.prototype.set.call(this, key, value);
         switch (key) {
             case "selected":
                 var entry = this.current();

@@ -275,12 +275,12 @@ w.Circular = $class({
         
     },
     
-    initialize: function (options, hold) {
+    initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         var E;
         
         this.element = E = TK.make_svg("g", {"class": "toolkit-circular"});
-        if (!hold) this.widgetize(E, true, true, true);
+        this.widgetize(E, true, true, true);
         
         this._base = TK.make_svg("path", {"class": "toolkit-base"});
         E.appendChild(this._base);
@@ -391,7 +391,7 @@ w.Circular = $class({
     },
     
     // GETTERS & SETTERS
-    set: function (key, value, hold) {
+    set: function (key, value) {
         switch (key) {
         case "dots":
         case "markers":
@@ -413,7 +413,7 @@ w.Circular = $class({
             value = this.snap(value);
             break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
+        Widget.prototype.set.call(this, key, value);
         Ranged.prototype.set.call(this, key, value);
     }
 });
