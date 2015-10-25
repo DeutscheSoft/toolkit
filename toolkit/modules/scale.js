@@ -185,9 +185,6 @@ w.Scale = $class({
                 TK.add_class(E, "toolkit-bottom");
                 break;
         }
-        
-        if (this.options.container) this.set("container", this.options.container);
-        if (this.options["class"]) this.set("class", this.options["class"]);
     },
 
     initialized: function() {
@@ -207,7 +204,7 @@ w.Scale = $class({
         }
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
-                       "fixed_dots", "fixed_labels", "levels", "basis")) {
+                       "fixed_dots", "fixed_labels", "levels", "basis", "scale", "reverse")) {
             this.__size = 0;
             if (O.base === false)
                 O.base = O.max
@@ -238,7 +235,9 @@ w.Scale = $class({
                 for (var i = 0; i < O.fixed_dots.length; i++) {
                     this.draw_dot(O.fixed_dots[i]);
                 }
-                Array.prototype.push.apply(labels, O.fixed_labels.map(low_draw_label, this));
+                for (var i = 0; i < O.fixed_labels.length; i++) {
+                    labels.push(low_draw_label.call(this, O.fixed_labels[i]));
+                }
             } else {
                 
                 var level;
@@ -338,6 +337,7 @@ w.Scale = $class({
     // GETTER & SETTER
     set: function (key, value) {
         Widget.prototype.set.call(this, key, value);
+        Ranged.prototype.set.call(this, key, value);
         switch (key) {
             case "division":
             case "levels":
@@ -357,8 +357,6 @@ w.Scale = $class({
                 this.fire_event("basechanged", value);
                 break;
         }
-
-        Ranged.prototype.set.call(this, key, value);
     }
 });
 })(this);
