@@ -610,6 +610,17 @@ function store(e, key, val) {
 function retrieve(e, key) {
     return data(e)[key];
 }
+function merge(dst) {
+    //console.log("merging", src, "into", dst);
+    var key, i, src;
+    for (i = 1; i < arguments.length; i++) {
+        src = arguments[i];
+        for (key in src) {
+            dst[key] = src[key];
+        }
+    }
+    return dst;
+}
 w.TK = w.toolkit = {
     // ELEMENTS
     S: new DOMScheduler(),
@@ -724,6 +735,7 @@ w.TK = w.toolkit = {
     data: data,
     store: store,
     retrieve: retrieve,
+    merge: merge,
 };
 
 // POLYFILLS
