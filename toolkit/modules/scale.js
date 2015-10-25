@@ -202,13 +202,12 @@ w.Scale = $class({
         var O = this.options;
 
         if (I.basis) {
-            I.basis = false;
             if (this._vert()) this.element.style.height = O.basis + "px";
             else this.element.style.width = O.basis + "px";
         }
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
-                       "fixed_dots", "fixed_labels", "levels")) {
+                       "fixed_dots", "fixed_labels", "levels", "basis")) {
             this.__size = 0;
             if (O.base === false)
                 O.base = O.max
