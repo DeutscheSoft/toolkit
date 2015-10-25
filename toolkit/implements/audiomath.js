@@ -47,7 +47,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         max = +max;
         reverse = reverse|0;
         factor = +factor;
-        var logfac = 2.0;
+        var logfac = 1.0;
         if (factor == 0.0) factor = 1.0;
         else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
         if (reverse) value = max - (value - min);
@@ -62,7 +62,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         max = +max;
         reverse = reverse|0;
         factor = +factor;
-        var logfac = 2.0;
+        var logfac = 1.0;
         if (factor == 0.0) factor = 1.0;
         else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
         if (reverse) coef = -coef + 1.0;
@@ -77,7 +77,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         scale = +scale;
         reverse = reverse|0;
         factor = +factor;
-        var logfac = 2.0;
+        var logfac = 1.0;
         if (factor == 0.0) factor = 1.0;
         else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
         if (reverse) value = max - (value - min);
@@ -92,7 +92,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         scale = +scale;
         reverse = reverse|0;
         factor = +factor;
-        var logfac = 2.0;
+        var logfac = 1.0;
         if (factor == 0.0) factor = 1.0;
         else logfac = +MAX(1.0, +pow(2.0, factor) - 1.0);
         value = value / scale;
