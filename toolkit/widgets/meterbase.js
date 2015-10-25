@@ -247,7 +247,7 @@ w.MeterBase = $class({
         if (O.label === false)
             O.label = O.value;
         
-        var options = Object.assign({}, O);
+        var options = TK.merge({}, O);
         options.base = this.__based ? O.base : O.scale_base;
         options.container = this._scale,
         options.id = false;
