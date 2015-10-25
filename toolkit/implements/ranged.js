@@ -335,19 +335,19 @@ function update_transformation() {
             module = TRAFO_LINEAR(w, O);
             break;
         case _TOOLKIT_DB:
-            O.trafo_revserse = 1;
+            O.trafo_reverse = 1;
             module = TRAFO_LOG(w, O);
             break;
         case _TOOLKIT_LOG2:
-            O.trafo_revserse = 0;
+            O.trafo_reverse = 0;
             module = TRAFO_LOG(w, O);
             break;
         case _TOOLKIT_FREQ:
-            O.trafo_revserse = 0;
+            O.trafo_reverse = 0;
             module = TRAFO_FREQ(w, O);
             break;
         case _TOOLKIT_FREQ_REVERSE:
-            O.trafo_revserse = 1;
+            O.trafo_reverse = 1;
             module = TRAFO_FREQ(w, O);
             break;
     }
