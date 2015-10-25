@@ -295,7 +295,6 @@ w.MeterBase = $class({
             TK.set_text(this._label, O.format_label(O.label));
         }
         if (I.show_scale) {
-            I.show_scale = false;
             this._scale.style["display"] = O.show_scale ? "block" : "none";
         }
         if (I.show_title) {
@@ -344,8 +343,10 @@ w.MeterBase = $class({
         }
 
         if (I.show_scale) {
+            I.show_scale = false;
             var is_vertical = vert(O);
             if (O.show_scale) {
+                this.scale.invalidate_all();
                 this.scale.redraw();
                 if (O.show_marker) {
                     TK.empty(this._mark);
