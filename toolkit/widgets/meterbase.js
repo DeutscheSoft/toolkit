@@ -183,8 +183,7 @@ w.MeterBase = $class({
             TK.set_styles(this._bar, {
                 "cssFloat": "left"
             });
-        }
-        if (O.layout == _TOOLKIT_RIGHT) {
+        } else if (O.layout == _TOOLKIT_RIGHT) {
             TK.set_styles(this._scale, {
                 "cssFloat": "left"
             });
@@ -220,9 +219,6 @@ w.MeterBase = $class({
             TK.set_styles(this._scale, {
                 "clear": "both"
             });
-            //toolkit.set_styles(this._title, {
-                //"clear": "both"
-            //});
             if (O.reverse) {
                 TK.set_styles(this._mask1, {
                     height: "100%",
