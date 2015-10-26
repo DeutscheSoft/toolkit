@@ -152,7 +152,7 @@ w.LevelMeter = $class({
                                //     -1:    infinite positioning
                                //     n:     in milliseconds to auto-reset
                                //     false: no auto hold
-        format_peak: function (value) { return value.toFixed(2); },
+        format_peak: function (value) { return (+value).toFixed(2); },
         clip_options: {}       // add options for the clipping LED
     },
     
@@ -170,20 +170,18 @@ w.LevelMeter = $class({
         this.state = new State(Object.assign({
             "class": "toolkit-clip"
         }, O.clip_options));
-        this._clip = this.state.element;
-        
-        if (O.layout == _TOOLKIT_TOP || O.layout == _TOOLKIT_BOTTOM)
-            TK.insert_after(this.state.element, this._bar);
-        else
-            TK.insert_before(this.state.element, this._scale);
+
+        this._clip       = this.state.element;
         this._peak       = TK.element("div","toolkit-peak");
         this._peak_label = TK.element("div","toolkit-peak-label");
         this._mask3      = TK.element("div","toolkit-mask","toolkit-mask3");
         this._mask4      = TK.element("div","toolkit-mask","toolkit-mask4");
+        
+        this.element.appendChild(this._clip);
         this._peak.appendChild(this._peak_label);
-        this.element.appendChild(this._peak);
         this._bar.appendChild(this._mask3);
         this._bar.appendChild(this._mask4);
+        this._bar.appendChild(this._peak);
         
         if (O.peak === false)
             O.peak = O.value;
@@ -193,93 +191,12 @@ w.LevelMeter = $class({
             O.bottom = O.value;
         if (O.falling < 0)
             O.falling = -O.falling;
-
-        TK.set_styles(this._mask3, {
-            position: "absolute",
-            zIndex:  "1000"
-        });
-        TK.set_styles(this._mask4, {
-            position: "absolute",
-            zIndex:  "1000"
-        });
-        if (O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT) {
-            if (O.reverse) {
-                TK.set_styles(this._mask3, {
-                    width:  "100%",
-                    height: "0px",
-                    bottom: "0px"
-                });
-                TK.set_styles(this._mask4, {
-                    width:  "100%",
-                    height: "0px",
-                    top: "0px"
-                });
-            } else {
-                TK.set_styles(this._mask3, {
-                    width:  "100%",
-                    height: "0px",
-                    top: "0px"
-                });
-                TK.set_styles(this._mask4, {
-                    width:  "100%",
-                    height: "0px",
-                    bottom:    "0px"
-                });
-            }
-        } else {
-            if (O.reverse) {
-                TK.set_styles(this._mask3, {
-                    height: "100%",
-                    width:  "0px",
-                    left:   "0px"
-                });
-                TK.set_styles(this._mask4, {
-                    height: "100%",
-                    width:  "0px",
-                    right:  "0px"
-                });
-            } else {
-                TK.set_styles(this._mask3, {
-                    height: "100%",
-                    width:  "0px",
-                    right:  "0px"
-                });
-                TK.set_styles(this._mask4, {
-                    height: "100%",
-                    width:  "0px",
-                    left:   "0px"
-                });
-            }
-        }
     },
     
     redraw: function () {
         var O = this.options;
         var I = this.invalid;
         var E = this.element;
-
-        this.will_draw = false;
-
-        if (I.layout) {
-            // will be invalidated by meterbase
-            /* FORCE_RELAYOUT */
-            switch (O.layout) {
-                case _TOOLKIT_LEFT:
-                case _TOOLKIT_RIGHT:
-                    this.__margin = TK.css_space(this._bar,
-                        "margin", "border", "padding"
-                    ).top + TK.position_top(this._bar, E);
-                    var m = (O.show_clip ? TK.outer_height(this._clip, true) : 0);
-                    this._scale.style["top"] = m + "px";
-                    break;
-                case _TOOLKIT_TOP:
-                case _TOOLKIT_BOTTOM:
-                    this.__margin = TK.css_space(this._bar,
-                        "margin", "border", "padding"
-                    ).left + TK.position_left(this._bar, E);
-                    break;
-            }
-        }
 
         if (I.label) {
             label_timeout.call(this);
@@ -415,14 +332,7 @@ w.LevelMeter = $class({
         
         if (!O.show_hold) {
             MeterBase.prototype.draw_meter.call(this, value);
-            if (!this.__tres) {
-                this.__tres = true;
-                this._mask3.style[is_vertical ? "height" : "width"] = 0;
-                this._mask4.style[is_vertical ? "height" : "width"] = 0;
-            }
         } else {
-            this.__tres = false;
-            
             var m1 = this._mask1.style;
             var m3 = this._mask3.style;
            
@@ -464,16 +374,6 @@ w.LevelMeter = $class({
         }
     },
     
-    // HELPERS & STUFF
-    _bar_size: function () {
-        var O = this.options;
-        var s = MeterBase.prototype._bar_size.call(this);
-        if (O.show_clip) {
-            var d = vert(O) ? "outer_height" : "outer_width";
-            s -= TK[d](this._clip, true);
-        }
-        return s;
-    },
     // GETTER & SETTER
     set: function (key, value) {
         if (key == "value") {

@@ -264,21 +264,10 @@ w.MeterBase = $class({
     _val2seg: function (val) {
         // rounds values to fit in the segments size
         // always returns values without taking options.reverse into account
-        var s = +this.val2px(this.snap(val))
+        var s = +this.val2px(this.snap(val));
         s -= s % +this.options.segment;
         if (this.options.reverse)
             s = +this.options.basis - s;
-        return s;
-    },
-    _bar_size: function () {
-        var O = this.options;
-        var is_vertical = vert(O);
-        // determine a size for the meter bar based on several conditions
-        var s = TK[is_vertical ? "inner_height" : "inner_width"](this.element);
-        if (O.show_label && is_vertical)
-            s -= TK.outer_height(this._label, true);
-        if (O.show_title && is_vertical)
-            s -= TK.outer_height(this._title, true);
         return s;
     },
     _vert: function () {
@@ -333,7 +322,6 @@ w.MeterBase = $class({
                 if (!hold) this.redraw();
                 break;
             case "format_labels":
-                console.log(value)
                 this.fire_event("scalechanged", key, value);
                 this.scale.set("labels", value);
                 break;

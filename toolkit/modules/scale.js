@@ -161,8 +161,29 @@ w.Scale = $class({
         Widget.prototype.initialize.call(this, options);
         var E = TK.element("div","toolkit-scale");
         this.element = this.widgetize(E, true, true, true);
-        
-        switch (this.options.layout) {
+    },
+
+    initialized: function() {
+        Widget.prototype.initialized.call(this);
+        Ranged.prototype.initialized.call(this);
+    },
+    
+    redraw: function () {
+        Widget.prototype.redraw.call(this);
+
+        var I = this.invalid;
+        var O = this.options;
+        var E = this.element;
+
+        if (I.layout) {
+            I.layout = false;
+            TK.remove_class(E, "toolkit-vertical");
+            TK.remove_class(E, "toolkit-horizontal");
+            TK.remove_class(E, "toolkit-top");
+            TK.remove_class(E, "toolkit-bottom");
+            TK.remove_class(E, "toolkit-right");
+            TK.remove_class(E, "toolkit-left");
+            switch (O.layout) {
             case _TOOLKIT_LEFT:
                 TK.add_class(E, "toolkit-vertical");
                 TK.add_class(E, "toolkit-left");
@@ -179,19 +200,8 @@ w.Scale = $class({
                 TK.add_class(E, "toolkit-horizontal");
                 TK.add_class(E, "toolkit-bottom");
                 break;
+            }
         }
-    },
-
-    initialized: function() {
-        Widget.prototype.initialized.call(this);
-        Ranged.prototype.initialized.call(this);
-    },
-    
-    redraw: function () {
-        Widget.prototype.redraw.call(this);
-
-        var I = this.invalid;
-        var O = this.options;
 
         if (I.auto_size) {
             I.auto_size = false;

@@ -34,12 +34,12 @@ div.toolkit-meter-base {
     padding: 0;
 }
 div.toolkit-meter-base.toolkit-vertical {
-    width: 120px;
+    width: 80px;
     height: 320px;
 }
 div.toolkit-meter-base.toolkit-horizontal {
     width: 320px;
-    height: 120px;
+    height: 90px;
 }
 div.toolkit-meter-base.toolkit-left {
     margin: 10px 10px 10px 2px;
@@ -225,12 +225,10 @@ div.toolkit-meter-base.toolkit-bottom.toolkit-has-title.toolkit-has-scale div.to
     top: calc(1.2em + 5px + 5px + 20px);
 }
 
-div.toolkit-meter-base.toolkit-left.toolkit-has-label div.toolkit-bar,
-div.toolkit-meter-base.toolkit-right.toolkit-has-label div.toolkit-bar {
+div.toolkit-meter-base.toolkit-vertical.toolkit-has-label div.toolkit-bar {
     top: calc(1.2em + 5px + 2px);
 }
-div.toolkit-meter-base.toolkit-left.toolkit-has-title div.toolkit-bar,
-div.toolkit-meter-base.toolkit-right.toolkit-has-title div.toolkit-bar {
+div.toolkit-meter-base.toolkit-vertical.toolkit-has-title div.toolkit-bar {
     bottom: calc(1.2em + 5px + 2px);
 }
 div.toolkit-meter-base.toolkit-left.toolkit-has-scale div.toolkit-bar {
