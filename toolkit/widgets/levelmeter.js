@@ -29,8 +29,6 @@ function clip_timeout() {
     if (this.__cto) return;
     if (O.clip)
         this.__cto = window.setTimeout(this._reset_clip, O.auto_clip);
-    else
-        this.__cto = null;
 }
 function peak_timeout() {
     var O = this.options;
@@ -38,8 +36,6 @@ function peak_timeout() {
     if (this.__pto) window.clearTimeout(this.__pto);
     if (O.peak > O.base && O.value > O.base || O.peak < O.base && O.value < O.base)
         this.__pto = window.setTimeout(this._reset_peak, O.auto_peak);
-    else
-        this.__pto = null;
 }
 function label_timeout() {
     var O = this.options;
@@ -56,8 +52,6 @@ function label_timeout() {
         label < base && value < base)
 
         this.__lto = window.setTimeout(this._reset_label, peak_label);
-    else
-        this.__lto = null;
 }
 function top_timeout() {
     var O = this.options;
@@ -201,6 +195,7 @@ w.LevelMeter = $class({
         if (I.label) {
             label_timeout.call(this);
         }
+
         if (I.clip) {
             clip_timeout.call(this);
         }
@@ -244,14 +239,17 @@ w.LevelMeter = $class({
         MeterBase.prototype.destroy.call(this);
     },
     reset_peak: function () {
+        this.__pto = false;
         this.set("peak", this.effective_value());
         this.fire_event("resetpeak");
     },
     reset_label: function () {
+        this.__lto = false;
         this.set("label", this.effective_value());
         this.fire_event("resetlabel");
     },
     reset_clip: function () {
+        this.__cto = false;
         this.set("clip", false);
         this.fire_event("resetclip");
     },
