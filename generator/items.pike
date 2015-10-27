@@ -96,8 +96,8 @@ mapping(string:mixed) parse_code(string code) {
     return map;
 }
 
-array(mapping) process_category (string dir) {
-    array(mapping) list = ({});
+mapping(string:mapping) process_category (string dir) {
+    mapping(string:mapping) list = ([]);
     foreach (get_dir(dir), string file) {
         if (!has_suffix(file, ".js")) continue;
         mapping(string:mixed) m = parse_code(read_bytes(combine_path(dir, file)));
@@ -111,32 +111,33 @@ array(mapping) process_category (string dir) {
             f = combine_path(IMAGE_DIR, file[..sizeof(file)-4]);
             if (exist(f))
                 m->files += get_dir(f);
-            list += ({ m });
+            list[m->name] = m;
         }
     }
     return list;
 }
 
-array(mapping) traverse_categories (string cats) {
-    array(mapping) categories = ({});
+mapping(string:mapping) traverse_categories (string cats) {
+    mapping(string:mapping) categories = ([]);
     foreach (get_dir(cats), string dir) {
-        dir = combine_path(cats, dir);
-        if (!is_dir(dir)) continue;
-        string fname = combine_path(dir, "README");
+        string dir_ = combine_path(cats, dir);
+        if (!is_dir(dir_)) continue;
+        string fname = combine_path(dir_, "README");
         if (exist(fname)
         && Stdio.read_bytes(fname, 0, sizeof(CATEGORY_MARKER)) == CATEGORY_MARKER) {
+            string name = String.trim_all_whites(Stdio.read_file(fname, 0, 1)[sizeof(CATEGORY_MARKER)..]);
             mapping(string:mixed) map = ([]);
-            map->name = String.trim_all_whites(Stdio.read_file(fname, 0, 1)[sizeof(CATEGORY_MARKER)..]);
             map->description = String.trim_all_whites(Stdio.read_file(fname, 1));
-            map->items = process_category(dir);
-            categories += ({ map });
+            map->items = process_category(dir_);
+            map->name = name;
+            categories[dir] = map;
         }
     }
     return categories;
 }
 
 int main () {
-    array(mapping) cats = traverse_categories(CATEGORY_DIR);
-    Stdio.write_file(OUT_FILE, OUT_VARIABLE + "=" + string_to_utf8(Standards.JSON.encode(cats)));
+    mapping(string:mapping) cats = traverse_categories(CATEGORY_DIR);
+    Stdio.write_file(OUT_FILE, OUT_VARIABLE + "=" + string_to_utf8(Standards.JSON.encode(cats,  Standards.JSON.HUMAN_READABLE)));
     return 0;
 }
