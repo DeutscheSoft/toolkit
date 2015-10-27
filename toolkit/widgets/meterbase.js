@@ -201,19 +201,9 @@ w.MeterBase = $class({
         if (I.layout) {
             /* FORCE_RELAYOUT */
             I.layout = false;
-            if (vert(O)) {
-                var i = TK.inner_height(this._bar);
-                if (i != O.basis) {
-                    this.set("basis", i);
-                    this.scale.set("basis", i);
-                }
-            } else {
-                var i = TK.inner_width(this._bar);
-                if (i != O.basis) {
-                    this.set("basis", i);
-                    this.scale.set("basis", i);
-                }
-            }
+            var i = TK["inner_" + (vert(O) ? "height" : "width")](this._bar);
+            if (i != O.basis)
+                this.set("basis", i);
         }
 
         if (I.value) {
