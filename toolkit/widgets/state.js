@@ -57,7 +57,7 @@ w.State = $class({
 
         if (I.color) {
             I.color = false;
-            this.element.style["background"] = O.color;
+            this.element.style["background-color"] = O.color;
         }
 
         if (I.state || I.opacity) {
