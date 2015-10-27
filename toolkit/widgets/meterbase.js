@@ -128,6 +128,7 @@ w.MeterBase = $class({
         
         if (O.label === false)
             O.label = O.value;
+        this.set("base", O.base);
         
         var options = TK.merge({}, O);
         options.labels    = O.format_labels;
