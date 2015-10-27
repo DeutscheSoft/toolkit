@@ -165,7 +165,7 @@ div.toolkit-state.on_air {
     width: 250px;
     height: 70px;
 }
-div.toolkit-state.on_air .toolkit-over {
+div.toolkit-state.on_air {
     background: url(../images/on_air.png) no-repeat 50% 51%;
 }
 
