@@ -200,8 +200,6 @@ w.LevelMeter = $class({
             clip_timeout.call(this);
         }
 
-        MeterBase.prototype.redraw.call(this);
-
         if (I.show_hold) {
             I.show_hold = false;
             (O.show_hold ? TK.add_class : TK.remove_class)(E, "toolkit-has-hold");
@@ -216,6 +214,9 @@ w.LevelMeter = $class({
             this._peak.style["display"] =  O.show_peak  ? "block" : "none";
             (O.show_peak ? TK.add_class : TK.remove_class)(E, "toolkit-has-peak");
         }
+
+        MeterBase.prototype.redraw.call(this);
+
         if (I.peak) {
             I.peak = false;
             peak_timeout.call(this);
