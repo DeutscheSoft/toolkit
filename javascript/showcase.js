@@ -88,15 +88,19 @@ window.addEventListener('DOMContentLoaded', function () {
         var div = TK.element("div");
         div.setAttribute("id", "item");
         
+        var top = TK.element("div");
+        top.setAttribute("id", "top");
+        
         var header = TK.element("h2");
         TK.set_text(header, item.name);
-        div.appendChild(header);
+        top.appendChild(header);
         
         if (item.hasOwnProperty("description")) {
             var desc = TK.element("p");
             desc.innerHTML = this.process_text(item.description);
-            div.appendChild(desc);
+            top.appendChild(desc);
         }
+        div.appendChild(top);
         
         // subnavigation
         var subnav = TK.element("ul");
@@ -177,7 +181,15 @@ window.addEventListener('DOMContentLoaded', function () {
                 var ex = this.find_extension(item[_e][i], id);
                 if (!ex) continue;
                 var h = TK.element("h4");
-                TK.set_text(h, "Inherited from " + ex.name + ":");
+                var l = TK.element("a");
+                TK.set_text(l, ex.name);
+                l.onclick = (function (that, item) {
+                    return function () {
+                        that.show_item(item);
+                    }
+                })(this, ex);
+                TK.set_text(h, "Inherited from ");
+                h.appendChild(l);
                 div.appendChild(h);
                 this.build_tables_recursively(id, ex, div);
             }
@@ -290,6 +302,9 @@ window.addEventListener('DOMContentLoaded', function () {
         if (i)
             document.body.removeChild(i);
         document.body.appendChild(this.build_item(item));
+        setTimeout(function(){
+            document.body.scrollTop = 0;
+        }, 100);
     }
 
     this.init(items);
