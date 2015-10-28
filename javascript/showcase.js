@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', function () {
     
     this.sections = [
         { "id" : "extends",    "name" : " Extends",      "description" : "This item is based on other items. Click on an item to switch to its full documentation." },
-        { "id" : "implements", "name" : " Implements",   "description" : "This item implements the functionality of other items. Click on an item to switch to its full documentation." },
+        { "id" : "implements", "name" : " Implements",   "description" : "This item implements the functionality of other items. Click on an item to switch to its full documentation." },
         { "id" : "options",    "name" : " Options",      "description" : "These options are accessible via item.set() and item.get() and can be set in the options object for the constructor." },
         { "id" : "elements",   "name" : " DOM-Elements", "description" : "The item has one or more elements added to the DOM which are listed here with their classes." },
         { "id" : "methods",    "name" : " Methods",      "description" : "A list of public methods." },
@@ -121,19 +121,7 @@ window.addEventListener('DOMContentLoaded', function () {
         this.build_section_header(sect, div, subnav);
         switch(sect.id) {
             default:
-                div.appendChild(this.build_table(item[sect.id]));
-                for (var e in this.extensions) {
-                    var _e = this.extensions[e]
-                    if (!item.hasOwnProperty(_e)) continue;
-                    for (var i = 0; i < item[_e].length; i++) {
-                        var ex = this.find_extension(item[_e][i], sect.id);
-                        if (!ex) continue;
-                        var h = TK.element("h4");
-                        TK.set_text(h, "Extended by " + ex.name + ":");
-                        div.appendChild(h);
-                        div.appendChild(this.build_table(ex[sect.id]));
-                    }
-                }
+                this.build_tables_recursively(sect.id, item, div);
                 break;
             case "extends":
             case "implements":
@@ -178,6 +166,22 @@ window.addEventListener('DOMContentLoaded', function () {
             ul.appendChild(a);
         }
         return ul;
+    }
+    
+    this.build_tables_recursively = function (id, item, div) {
+        div.appendChild(this.build_table(item[id]));
+        for (var e in this.extensions) {
+            var _e = this.extensions[e]
+            if (!item.hasOwnProperty(_e)) continue;
+            for (var i = 0; i < item[_e].length; i++) {
+                var ex = this.find_extension(item[_e][i], id);
+                if (!ex) continue;
+                var h = TK.element("h4");
+                TK.set_text(h, "Inherited from " + ex.name + ":");
+                div.appendChild(h);
+                this.build_tables_recursively(id, ex, div);
+            }
+        }
     }
     
     this.build_table = function (data) {
