@@ -20,17 +20,16 @@
  */
     
 window.addEventListener('DOMContentLoaded', function () {
-    
     this.sections = [
-        { "id" : "extends",    "name" : " Extends",      "description" : "This item is based on other items. Click on an item to switch to its full documentation." },
-        { "id" : "implements", "name" : " Implements",   "description" : "This item implements the functionality of other items. Click on an item to switch to its full documentation." },
-        { "id" : "options",    "name" : " Options",      "description" : "These options are accessible via item.set() and item.get() and can be set in the options object for the constructor." },
-        { "id" : "elements",   "name" : " DOM-Elements", "description" : "The item has one or more elements added to the DOM which are listed here with their classes." },
-        { "id" : "methods",    "name" : " Methods",      "description" : "A list of public methods." },
-        { "id" : "modules",    "name" : " Modules",      "description" : "This item implements one or more other items as distinct objects." }, 
-        { "id" : "events",     "name" : " Events",       "description" : "Bind callback functions to events via item.add_event()." },
-        { "id" : "files",      "name" : " Files",        "description" : "The item uses the following external files:" },
-        { "id" : "example",    "name" : " Example",      "description" : "See the item in action." }
+        { "id" : "extends",    "name" : "Extends",      "description" : "This item is based on other items. Click on an item to switch to its full documentation." },
+        { "id" : "implements", "name" : "Implements",   "description" : "This item implements the functionality of other items. Click on an item to switch to its full documentation." },
+        { "id" : "options",    "name" : "Options",      "description" : "These options are accessible via item.set() and item.get() and can be set in the options object for the constructor." },
+        { "id" : "elements",   "name" : "DOM-Elements", "description" : "The item has one or more elements added to the DOM which are listed here with their classes." },
+        { "id" : "methods",    "name" : "Methods",      "description" : "A list of public methods." },
+        { "id" : "modules",    "name" : "Modules",      "description" : "This item implements one or more other items as distinct objects." }, 
+        { "id" : "events",     "name" : "Events",       "description" : "Bind callback functions to events via item.add_event()." },
+        { "id" : "files",      "name" : "Files",        "description" : "The item uses the following external files:" },
+        { "id" : "example",    "name" : "Example",      "description" : "See the item in action." }
     ]
     
     this.extensions = [ "extends", "implements" ];
@@ -38,8 +37,19 @@ window.addEventListener('DOMContentLoaded', function () {
     
     this.init = function (items) {
         this.items = items;
-        this.build_navigation(items);
+        this.tm = new this.timemachine;
         
+        var t = this;
+        var back = TK.element("div", "back", "hidden");
+        back.setAttribute("id", "back");
+        back.onclick = function () { t.tm.back() };
+        document.body.appendChild(back);
+        var next = TK.element("div", "next", "hidden");
+        next.setAttribute("id", "next");
+        next.onclick = function () { t.tm.next() };
+        document.body.appendChild(next);
+        
+        this.build_navigation(items);
         //var modex = window.location.hash.substring(1).toLowerCase();
         //if (modex == "all") {
             //for (var name in window) {
@@ -74,6 +84,7 @@ window.addEventListener('DOMContentLoaded', function () {
             var type = TK.element("li");
             nav.appendChild(type);
             TK.set_text(type, _i.name);
+            //type.setAttribute("title", _i.description);
             var list = TK.element("ul");
             type.appendChild(list);
             for (var j in _i.items) {
@@ -88,7 +99,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 })(this, _j)
             }
         }
-        document.body.appendChild(c);
+        TK.get_id("wrapper").appendChild(c);
     }
     
     this.build_item = function (item) {
@@ -108,7 +119,6 @@ window.addEventListener('DOMContentLoaded', function () {
             top.appendChild(desc);
         }
         div.appendChild(top);
-        
         // subnavigation
         var subnav = TK.element("ul");
         subnav.setAttribute("id", "subnav");
@@ -136,6 +146,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 break;
             case "extends":
             case "implements":
+                div.appendChild(this.build_list(item[sect.id], sect.id, true));
+                break;
             case "files":
                 div.appendChild(this.build_list(item[sect.id], sect.id));
                 break;
@@ -150,30 +162,34 @@ window.addEventListener('DOMContentLoaded', function () {
     
     this.build_section_header = function (sect, div, subnav) {
         var l = TK.element("li");
-        var a = TK.element("a");
+        var a = TK.element("a", sect.id, "icon");
         l.appendChild(a);
-        a.setAttribute("href", "#" + sect.name);
+        a.setAttribute("href", "#" + sect.id);
         TK.set_text(a, sect.name);
         subnav.appendChild(l);
-        var h = TK.element("h3");
-        h.innerHTML = this.style_header(sect.name);
+        var h = TK.element("h3", sect.id, "icon");
+        h.innerHTML = "<a name='" + sect.id + "'></a>" + sect.name;
         var p = TK.element("p");
         p.innerHTML = this.process_text(sect.description);
         div.appendChild(h);
         div.appendChild(p);
     }
     
-    this.build_list = function (list, id) {
+    this.build_list = function (list, id, name) {
         //builds an ul>li list of an array
         var ul = TK.element("ul", id);
         for (var i = 0; i < list.length; i++) {
             var a = TK.element("li");
             TK.set_text(a, list[i]);
-            //if (items.widgets.hasOwnProperty(item[sect.id][i])) {
-                //a.onclick = (function (t, i) {
-                    //return function () { t.show_item(i); }
-                //})(this, items.widgets[item[sect.id][i]]);
-            //}
+            if (name) {
+                var it = find_item(list[i]);
+                if (it) {
+                    a.onclick = (function (t, i) {
+                        return function () { t.show_item(i); }
+                    })(this, it);
+                    TK.add_class(a, "clickable");
+                }
+            }
             ul.appendChild(a);
         }
         return ul;
@@ -185,7 +201,7 @@ window.addEventListener('DOMContentLoaded', function () {
             var _e = this.extensions[e]
             if (!item.hasOwnProperty(_e)) continue;
             for (var i = 0; i < item[_e].length; i++) {
-                var ex = this.find_extension(item[_e][i], id);
+                var ex = this.find_item(item[_e][i], id);
                 if (!ex) continue;
                 var h = TK.element("h4");
                 var l = TK.element("a");
@@ -281,7 +297,7 @@ window.addEventListener('DOMContentLoaded', function () {
         })(pre));
     }
     
-    this.find_extension = function (name, section) {
+    this.find_item = function (name, section) {
         // this function searches for additional sections of extended
         // or implemented items
         for (var m in this.itemids ) {
@@ -290,14 +306,10 @@ window.addEventListener('DOMContentLoaded', function () {
             for (var e in items[_m].items) {
                 if (!items[_m].items.hasOwnProperty(e)) continue;
                 if (items[_m].items[e].name == name
-                 && items[_m].items[e].hasOwnProperty(section))
+                 && (!section || items[_m].items[e].hasOwnProperty(section)))
                         return items[_m].items[e];
             }
         }
-    }
-    
-    this.style_header = function (header) {
-        return "<a name='" + header + "'></a><span class=icon>" + header.split(" ", 2)[0] + "</span>" + header.split(" ", 2)[1]
     }
     
     this.process_text = function (text) {
@@ -305,15 +317,47 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.show_item = function (item) {
+        this._show_item(item);
+        this.tm.push(item);
+    }
+    
+    this._show_item = function (item) {
         var i = TK.get_id("item");
         if (i)
-            document.body.removeChild(i);
-        document.body.appendChild(this.build_item(item));
+            TK.get_id("wrapper").removeChild(i);
+        TK.get_id("wrapper").appendChild(this.build_item(item));
         setTimeout(function(){
             document.body.scrollTop = 0;
         }, 100);
         TK.add_class(TK.get_id("navigation"), "hidden");
     }
-
+    
+    this.timemachine = function (parent) {
+        this.hist = [];
+        this.pointer = -1;
+        this.push = function (item) {
+            if (this.hist[this.hist.length-1] != item)
+                this.hist.push(item);
+            this.pointer = this.hist.length - 1;
+            this.arrows();
+        }
+        this.back = function () {
+            this.pointer = Math.max(-1, this.pointer-1);
+            if (this.pointer > -1 && this.hist.length)
+                _show_item(this.hist[this.pointer]);
+            this.arrows();
+        }
+        this.next = function () {
+            this.pointer = Math.min(this.hist.length-1, this.pointer+1);
+            if (this.pointer > -1 && this.hist.length)
+                _show_item(this.hist[this.pointer]);
+            this.arrows();
+        }
+        this.arrows = function () {
+            TK[(this.pointer > 0 ? "remove" : "add") + "_class"](TK.get_id("back"), "hidden");
+            TK[(this.pointer < this.hist.length-1 ? "remove" : "add") + "_class"](TK.get_id("next"), "hidden");
+        }
+    }
+    
     this.init(items);
 });

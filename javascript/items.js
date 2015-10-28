@@ -1,41 +1,21 @@
 items={
   "implements": {
+    "id": "implements",
     "name": "Implements",
     "items": {},
     "description": ""
   },
   "widgets": {
+    "id": "widgets",
     "name": "Widgets",
     "items": {
       "Button": {
+        "id": "button",
         "name": "Button",
         "files": [
           "./toolkit/widgets/button.js",
           "./toolkit/templates/default/css/button.css"
         ],
-        "elements": [
-          {
-            "description": "The main button element",
-            "class": "div.toolkit-button",
-            "name": "[d][c][s]element"
-          },
-          {
-            "description": "An internal container for label and icon",
-            "class": "div.toolkit-cell",
-            "name": "_cell"
-          },
-          {
-            "description": "The icon of the button",
-            "class": "img.toolkit-icon",
-            "name": "_icon"
-          },
-          {
-            "description": "The label of the button",
-            "class": "div.toolkit-label",
-            "name": "_label"
-          }
-        ],
-        "description": "Button is a simple, clickable widget to trigger funcions. It fires a couple of click-related events and consists of a label and an icon. Buttons are used as a base to build different other widgets from, too.",
         "extends": ["Widget"],
         "options": [
           {
@@ -62,28 +42,43 @@ items={
             "type": "Bool",
             "name": "state_color"
           }
-        ]
-      },
-      "ButtonArray": {
+        ],
         "elements": [
           {
-            "description": "A clipping area containing the list of buttons",
-            "class": "div.toolkit-clip",
-            "name": "_clip"
+            "description": "The main button element",
+            "class": "div.toolkit-button",
+            "name": "[d][c][s]element"
           },
           {
-            "description": "A container for all the buttons",
-            "class": "div.toolkit-container",
-            "name": "_container"
+            "description": "An internal container for label and icon",
+            "class": "div.toolkit-cell",
+            "name": "_cell"
+          },
+          {
+            "description": "The icon of the button",
+            "class": "img.toolkit-icon",
+            "name": "_icon"
+          },
+          {
+            "description": "The label of the button",
+            "class": "div.toolkit-label",
+            "name": "_label"
           }
         ],
-        "name": "ButtonArray",
-        "files": [
-          "./toolkit/widgets/buttonarray.js",
-          "./toolkit/templates/default/css/buttonarray.css"
+        "description": "Button is a simple, clickable widget to trigger funcions. It fires a couple of click-related events and consists of a label and an icon. Buttons are used as a base to build different other widgets from, too."
+      },
+      "ButtonArray": {
+        "id": "buttonarray",
+        "modules": [
+          {
+            "description": "The previous arrow #Button instance",
+            "name": "prev"
+          },
+          {
+            "description": "The next arrow #Button instance",
+            "name": "next"
+          }
         ],
-        "extends": ["Button"],
-        "description": "ButtonArray is a list of buttons (#Button) layouted either vertically or horizontally. ButtonArray automatically adds arrow buttons if the overal width is smaller than the buttons list.",
         "events": [
           {
             "description": "When a #Button or an arrow gets clicked",
@@ -100,6 +95,11 @@ items={
             "arguments": "Button, Widget",
             "name": "removed"
           }
+        ],
+        "name": "ButtonArray",
+        "files": [
+          "./toolkit/widgets/buttonarray.js",
+          "./toolkit/templates/default/css/buttonarray.css"
         ],
         "methods": [
           {
@@ -140,16 +140,7 @@ items={
             }]
           }
         ],
-        "modules": [
-          {
-            "description": "The previous arrow #Button instance",
-            "name": "prev"
-          },
-          {
-            "description": "The next arrow #Button instance",
-            "name": "next"
-          }
-        ],
+        "extends": ["Button"],
         "options": [
           {
             "description": "A list of button options or label strings which is converted to button instances on init. If get is called, the converted list of button instances is returned.",
@@ -175,7 +166,20 @@ items={
             "type": "Int|Button",
             "name": "show"
           }
-        ]
+        ],
+        "elements": [
+          {
+            "description": "A clipping area containing the list of buttons",
+            "class": "div.toolkit-clip",
+            "name": "_clip"
+          },
+          {
+            "description": "A container for all the buttons",
+            "class": "div.toolkit-container",
+            "name": "_container"
+          }
+        ],
+        "description": "ButtonArray is a list of buttons (#Button) layouted either vertically or horizontally. ButtonArray automatically adds arrow buttons if the overal width is smaller than the buttons list."
       }
     },
     "description": "Widgets are fully functional elements to build user interfaces.\nThey typically rely on other elements like #Modules and #Implements and\nare somehow based on #Widget itself or other widgets."

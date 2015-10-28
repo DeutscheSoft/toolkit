@@ -7,19 +7,18 @@ body{
     padding: 20px;
     line-height: 1.5em;
     background: #f2f2f2 url(../images/background2.png) repeat; /* fixed */
+    text-align: center;
 }
 
 h2 {
     font-weight: normal;
     font-size: 4.1em;
     line-height: 1em;
-    text-align: right;
     color: #003050;
     background: none;
     text-transform: none;
     margin: 0;
     padding: 0px 0 20px 0;
-    float: left;
     margin-right: 30px;
 }
 h1 {
@@ -33,6 +32,7 @@ h1 {
 h3 {
     font-size: 2em;
     line-height: 1.3em;
+    clear: left;
 }
 h4 {
     font-size: 1.5em;
@@ -71,7 +71,8 @@ ul {
     margin-bottom: 1em;
 }
 li {
-    
+    list-style: disc;
+    margin-left: 20px;
 }
 
 pre {
@@ -143,18 +144,10 @@ h3 .icon {
     margin-right: 0.25em;
 }
 
-
-
-div.demo {
-    clear: both;
-    margin: 10px 0;
+.clickable {
+    cursor: pointer;
+    color: #003050;
 }
-div.buttons {
-    height: 50px;
-    clear: both;
-    margin: 20px 0 0 0;
-}
-
 
 i.static,
 i.delegated,
@@ -181,6 +174,13 @@ pre.code {
 }
 pre.code.show {
     display: block;
+}
+
+#wrapper {
+    text-align: left;
+    margin: auto;
+    max-width: 900px;
+    width: 100%;
 }
 
 #top {
@@ -219,19 +219,42 @@ pre.code.show {
     margin: 1em 0;
 }
 
-
-
+div#back,
+div#next {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 32px;
+    cursor: pointer;
+    background-size: auto 24px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+div#back {
+    left: 0;
+    background-image: url(../images/back.png);
+}
+div#next {
+    right: 0;
+    background-image: url(../images/next.png);
+}
+div#back.hidden,
+div#next.hidden {
+    display: none;
+}
 
 #navigation {
     background: rgba(255, 255, 255, 0.9);
     transition: transform 0.5s ease-in-out;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     padding: 20px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    z-index: 10;
 }
 #navigation.hidden {
     transform: translateY(-100%);
@@ -248,6 +271,7 @@ pre.code.show {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 0 5px;
     cursor: pointer;
+    z-index: 10;
 }
 
 #navigation > li {
@@ -258,7 +282,11 @@ pre.code.show {
     margin: 1em;
     text-align: left;
 }
-
+#navigation > li > p.description {
+    font-size: 0.5em;
+    color: #666;
+    width: 20%;
+}
 #navigation > li > ul {
     margin-top: 0.5em;
 }
@@ -269,4 +297,27 @@ pre.code.show {
 }
 #navigation > li > ul > li:hover {
     color: #003050;
+}
+
+
+.icon.elements, .icon.options, .icon.modules, .icon.methods, .icon.extends, .icon.implements, .icon.events, .icon.files, .icon.example {
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.icon.elements { background-image: url(../images/icons/elements.png); }
+.icon.options { background-image: url(../images/icons/options.png); }
+.icon.modules { background-image: url(../images/icons/modules.png); }
+.icon.methods { background-image: url(../images/icons/methods.png); }
+.icon.extends { background-image: url(../images/icons/extends.png); }
+.icon.implements { background-image: url(../images/icons/implements.png); }
+.icon.events { background-image: url(../images/icons/events.png); }
+.icon.files { background-image: url(../images/icons/files.png); }
+.icon.example { background-image: url(../images/icons/examples.png); }
+
+a.icon {
+    padding-left: 2em;
+}
+h3.icon {
+    padding-left: 1.7em;
 }

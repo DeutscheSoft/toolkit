@@ -103,8 +103,10 @@ mapping(string:mapping) process_category (string dir) {
         mapping(string:mixed) m = parse_code(read_bytes(combine_path(dir, file)));
         if (!equal(m, ([]))) {
             string f;
+            string id = file[..sizeof(file)-4];
+            m->id = id;
             m->files = ({ combine_path(dir, file) });
-            f = combine_path(CSS_DIR, file[..sizeof(file)-4] + ".css");
+            f = combine_path(CSS_DIR, id + ".css");
             write(f+"\n");
             if (exist(f))
                 m->files += ({ f });
@@ -130,6 +132,7 @@ mapping(string:mapping) traverse_categories (string cats) {
             map->description = String.trim_all_whites(Stdio.read_file(fname, 1));
             map->items = process_category(dir_);
             map->name = name;
+            map->id = dir;
             categories[dir] = map;
         }
     }
