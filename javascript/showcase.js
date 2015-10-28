@@ -37,7 +37,6 @@ window.addEventListener('DOMContentLoaded', function () {
     this.itemids = [ "widgets", "modules", "implements" ];
     
     this.init = function (items) {
-        document.body.innerHTML = "";
         this.items = items;
         this.build_navigation(items);
         
@@ -57,9 +56,17 @@ window.addEventListener('DOMContentLoaded', function () {
     
     this.build_navigation = function (items) {
         var c = document.createDocumentFragment();
-        var nav = TK.element("ul");
+        var nav = TK.element("ul", "hidden");
         nav.setAttribute("id", "navigation");
         c.appendChild(nav);
+        var but = TK.element("div");
+        but.setAttribute("id", "navbutton");
+        nav.appendChild(but);
+        TK.set_text(but, "MENU");
+        but.onclick = function () {
+            TK.toggle_class(TK.get_id("navigation"), "hidden");
+        }
+        
         for (var i in items) {
             // loop over categories
             if (!items.hasOwnProperty(i)) continue;
@@ -305,6 +312,7 @@ window.addEventListener('DOMContentLoaded', function () {
         setTimeout(function(){
             document.body.scrollTop = 0;
         }, 100);
+        TK.add_class(TK.get_id("navigation"), "hidden");
     }
 
     this.init(items);

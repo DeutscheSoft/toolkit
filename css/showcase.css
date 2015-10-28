@@ -183,11 +183,12 @@ pre.code.show {
     display: block;
 }
 
-
 #top {
     float: left;
     width: calc(100% - 160px);
     box-sizing: border-box;
+    padding-right: 40px;
+    margin-bottom: 40px;
 }
 
 #subnav {
@@ -195,9 +196,77 @@ pre.code.show {
     float: right;
 }
 
+#item {
+    width: 100%;
+    min-height: 100%;
+}
 
+#teaser {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    text-align: center;
+}
+#teaser img {
+    
+}
 #demo {
     margin: 1em 0;
 }
 #code {
     margin: 1em 0;
+}
+
+
+
+
+#navigation {
+    background: rgba(255, 255, 255, 0.9);
+    transition: transform 0.5s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+#navigation.hidden {
+    transform: translateY(-100%);
+}
+
+#navigation #navbutton {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px;
+    position: absolute;
+    bottom: -32px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 0 5px;
+    cursor: pointer;
+}
+
+#navigation > li {
+    font-size: 2em;
+    color: #003050;
+    display: inline-block;
+    vertical-align: top;
+    margin: 1em;
+    text-align: left;
+}
+
+#navigation > li > ul {
+    margin-top: 0.5em;
+}
+#navigation > li > ul > li{
+    font-size: 0.5em;
+    color: #666;
+    cursor: pointer;
+}
+#navigation > li > ul > li:hover {
+    color: #003050;
+}
