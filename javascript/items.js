@@ -82,7 +82,7 @@ items={
           "./toolkit/widgets/buttonarray.js",
           "./toolkit/templates/default/css/buttonarray.css"
         ],
-        "extends": ["Container"],
+        "extends": ["Button"],
         "description": "ButtonArray is a list of buttons (#Button) layouted either vertically or horizontally. ButtonArray automatically adds arrow buttons if the overal width is smaller than the buttons list.",
         "events": [
           {
