@@ -418,7 +418,6 @@ window.addEventListener('DOMContentLoaded', function () {
             this.arrows();
         }
         this.arrows = function () {
-            console.log(this.pointer, this.hist.length, this.hist)
             TK[(this.pointer > 0 ? "remove" : "add") + "_class"](TK.get_id("back"), "hidden");
             TK[(this.pointer < this.hist.length-1 ? "remove" : "add") + "_class"](TK.get_id("next"), "hidden");
         }
