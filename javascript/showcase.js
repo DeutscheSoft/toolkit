@@ -382,17 +382,17 @@ window.addEventListener('DOMContentLoaded', function () {
     this.show_item = function (item) {
         if (typeof item == "string")
             item = this.find_item(item);
-        this._show_item(item);
         this.tm.push(item);
+        this._show_item(item);
     }
     
-    this._show_item = function (item) {
+    this._show_item = function (item, pos) {
         var i = TK.get_id("item");
         if (i)
             TK.get_id("wrapper").removeChild(i);
         TK.get_id("wrapper").appendChild(this.build_item(item));
         setTimeout(function(){
-            document.body.scrollTop = 0;
+            document.body.scrollTop = pos;
         }, 100);
         TK.add_class(TK.get_id("navigation"), "hidden");
     }
@@ -401,26 +401,33 @@ window.addEventListener('DOMContentLoaded', function () {
         this.hist = [];
         this.pointer = -1;
         this.push = function (item) {
+            this.set_position();
             if (this.hist[this.hist.length-1] != item)
-                this.hist.push(item);
+                this.hist.push({ item : item, position : 0 });
             this.pointer = this.hist.length - 1;
             this.arrows();
         }
         this.back = function () {
+            this.set_position();
             this.pointer = Math.max(-1, this.pointer-1);
             if (this.pointer > -1 && this.hist.length)
-                _show_item(this.hist[this.pointer]);
+                _show_item(this.hist[this.pointer].item, this.hist[this.pointer].position);
             this.arrows();
         }
         this.next = function () {
+            this.set_position();
             this.pointer = Math.min(this.hist.length-1, this.pointer+1);
             if (this.pointer > -1 && this.hist.length)
-                _show_item(this.hist[this.pointer]);
+                _show_item(this.hist[this.pointer].item, this.hist[this.pointer].position);
             this.arrows();
         }
         this.arrows = function () {
             TK[(this.pointer > 0 ? "remove" : "add") + "_class"](TK.get_id("back"), "hidden");
             TK[(this.pointer < this.hist.length-1 ? "remove" : "add") + "_class"](TK.get_id("next"), "hidden");
+        }
+        this.set_position = function () {
+            if (this.hist.length && this.hist.length > this.pointer)
+                this.hist[this.pointer].position = document.body.scrollTop;
         }
     }
     
