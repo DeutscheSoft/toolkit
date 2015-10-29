@@ -56,19 +56,10 @@ window.addEventListener('DOMContentLoaded', function () {
         this.build_navigation(items);
         window["SC"] = this;
         
-        this.show_item("ButtonArray");
-        //var modex = window.location.hash.substring(1).toLowerCase();
-        //if (modex == "all") {
-            //for (var name in window) {
-                //if (name.substr(0, 4) == "run_") {
-                    //try {
-                        //window[name]();
-                    //} catch (e) {};
-                //}
-            //}
-        //} else if (modex && typeof window["run_" + modex] != "undefined") {
-            //window["run_" + modex]();
-        //}
+        
+        var modex = window.location.hash.substring(1);
+        if (modex && typeof window["run_" + modex.toLowerCase()] != "undefined")
+            this.show_item(modex);
     }
     
     this.build_navigation = function (items) {
@@ -327,7 +318,6 @@ window.addEventListener('DOMContentLoaded', function () {
     this.process_text = function (text) {
         if (!text) return;
         var r = this.replacements;
-        console.log(text);
         for (var i in r) {
             text = text.replace(i, r[i]);
         }
