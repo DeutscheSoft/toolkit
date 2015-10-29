@@ -194,27 +194,25 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.build_tables_recursively = function (id, item, div) {
-        div.appendChild(this.build_table(item[id]));
-        for (var e in this.extensions) {
-            var _e = this.extensions[e]
-            if (!item.hasOwnProperty(_e)) continue;
-            for (var i = 0; i < item[_e].length; i++) {
-                var ex = this.find_item(item[_e][i], id);
-                if (!ex) continue;
+        c = 0;
+        this.bubble_tree(item, function (it) {
+            if (!it.hasOwnProperty(id)) return;
+            if (c) {
                 var h = TK.element("h4");
                 var l = TK.element("a");
-                TK.set_text(l, ex.name);
+                TK.set_text(l, it.name);
                 l.onclick = (function (that, item) {
                     return function () {
                         that.show_item(item);
                     }
-                })(this, ex);
+                })(this, it);
                 TK.set_text(h, "Inherited from ");
                 h.appendChild(l);
                 div.appendChild(h);
-                this.build_tables_recursively(id, ex, div);
             }
-        }
+            div.appendChild(this.build_table(it[id]));
+            c++;
+        });
     }
     
     this.build_table = function (data) {
@@ -313,7 +311,16 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.bubble_tree = function (item, fun) {
-        
+        fun.call(this, item);
+        for (var e in this.extensions) {
+            var _e = this.extensions[e];
+            if (!item.hasOwnProperty(_e)) continue;
+            for (var i = 0; i < item[_e].length; i++) {
+                var ex = this.find_item(item[_e][i]);
+                if (!ex) continue;
+                this.bubble_tree(ex, fun);
+            }
+        }
     }
     this.process_text = function (text) {
         if (!text) return;
