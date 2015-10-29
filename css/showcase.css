@@ -140,13 +140,13 @@ table table {
     border: none;
 }
 table table th {
-    background: transparent;
+    background: #D8D8D8;
     padding: 3px;
 }
 table table td {
     background: transparent;
     padding: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid #D8D8D8;
 }
 table table td:first-child {
     width: auto;
@@ -166,13 +166,17 @@ i.static,
 i.delegated,
 i.classified,
 i.stylized {
-    color: #951c26;
+    color: white;
     font-style: normal;
     font-weight: 800;
-    background: rgba(255,255,255,0.5);
-    padding: 1px 3px;
-    border: 1px solid white;
-    border-radius: 3px;
+    background: #003050;
+    border-radius: 100%;
+    margin: 0 0.1em;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    text-align: center;
 }
 
 pre.code {

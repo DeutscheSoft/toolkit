@@ -45,9 +45,9 @@ items={
         ],
         "elements": [
           {
-            "description": "The main button element",
+            "description": "The main button element [d][c][s]",
             "class": "div.toolkit-button",
-            "name": "[d][c][s]element"
+            "name": "element"
           },
           {
             "description": "An internal container for label and icon",

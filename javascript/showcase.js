@@ -32,9 +32,9 @@ window.addEventListener('DOMContentLoaded', function () {
         { "id" : "example",    "name" : "Example",      "description" : "See the item in action." }
     ]
     this.replacements = {
-        "[c]" : "<i class=classified></i>",
-        "[d]" : "<i class=delegated></i>",
-        "[s]" : "<i class=stylized></i>",
+        "[c]" : "<i class=classified title='This element is classified. E.g. calling item.add_class() affects this element.'>❇</i>",
+        "[d]" : "<i class=delegated title='This element is delegated. E.g. calling item.add_event() is delegated to this element.'>⇄</i>",
+        "[s]" : "<i class=stylized title='This element is stylized. E.g. calling item.set_style() sets the css styles on this element.'>✎</i>",
     }
     this.itemids = [ "widgets", "modules", "implements" ];
     this.process_cols = [ "name", "description", "text" ];
@@ -226,16 +226,10 @@ window.addEventListener('DOMContentLoaded', function () {
         var ul = TK.element("ul", id);
         for (var i = 0; i < list.length; i++) {
             var a = TK.element("li");
-            TK.set_text(a, list[i]);
-            if (name) {
-                var it = find_item(list[i]);
-                if (it) {
-                    a.onclick = (function (t, i) {
-                        return function () { t.show_item(i); }
-                    })(this, it);
-                    TK.add_class(a, "clickable");
-                }
-            }
+            if (name)
+                li.appendChild(this.link_item(list[i]));
+            else
+                TK.set_text(a, list[i]);
             ul.appendChild(a);
         }
         return ul;
@@ -297,7 +291,7 @@ window.addEventListener('DOMContentLoaded', function () {
             table.appendChild(row);
             for (var c in cols) {
                 var td = TK.element("td");
-                if (cols[c] in this.process_cols)
+                if (this.process_cols.indexOf(cols[c]) >= 0)
                     td.innerHTML = this.process_text(item[cols[c]]);
                 else if (typeof item[cols[c]] == "object")
                     td.appendChild(this.build_table(item[cols[c]]));
@@ -402,8 +396,10 @@ window.addEventListener('DOMContentLoaded', function () {
         this.pointer = -1;
         this.push = function (item) {
             this.set_position();
-            if (this.hist[this.hist.length-1] != item)
-                this.hist.push({ item : item, position : 0 });
+            if (this.hist[this.pointer] == item)
+                return;
+            this.hist.splice(this.pointer + 1, this.hist.length - this.pointer);
+            this.hist.push({ item : item, position : 0 });
             this.pointer = this.hist.length - 1;
             this.arrows();
         }
@@ -422,6 +418,7 @@ window.addEventListener('DOMContentLoaded', function () {
             this.arrows();
         }
         this.arrows = function () {
+            console.log(this.pointer, this.hist.length, this.hist)
             TK[(this.pointer > 0 ? "remove" : "add") + "_class"](TK.get_id("back"), "hidden");
             TK[(this.pointer < this.hist.length-1 ? "remove" : "add") + "_class"](TK.get_id("next"), "hidden");
         }
