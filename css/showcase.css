@@ -199,6 +199,22 @@ pre.code.show {
     margin-bottom: 40px;
 }
 
+#tree {
+    display: block;
+    width: 100%;
+    margin-bottom: 2em;
+}
+#tree li {
+    width: 100%;
+    display:block;
+}
+#tree .arrow_down {
+    padding-left: 0.5em;
+}
+#tree .arrow_left {
+    display: inline-block;
+    padding: 0 0.5em;
+}
 #subnav {
     width: 160px;
     float: right;

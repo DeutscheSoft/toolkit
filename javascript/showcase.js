@@ -21,8 +21,8 @@
     
 window.addEventListener('DOMContentLoaded', function () {
     this.sections = [
-        { "id" : "extends",    "name" : "Extends",      "description" : "This item is based on other items. Click on an item to switch to its full documentation." },
-        { "id" : "implements", "name" : "Implements",   "description" : "This item implements the functionality of other items. Click on an item to switch to its full documentation." },
+        { "id" : "extends",    "name" : "Inheritance",      "description" : "This item is based on other items. Click on an item to switch to its full documentation." },
+        //{ "id" : "implements", "name" : "Implements",   "description" : "This item implements the functionality of other items. Click on an item to switch to its full documentation." },
         { "id" : "options",    "name" : "Options",      "description" : "These options are accessible via item.set() and item.get() and can be set in the options object for the constructor." },
         { "id" : "elements",   "name" : "DOM-Elements", "description" : "The item has one or more elements added to the DOM which are listed here with their classes." },
         { "id" : "methods",    "name" : "Methods",      "description" : "A list of public methods." },
@@ -36,7 +36,6 @@ window.addEventListener('DOMContentLoaded', function () {
         "[d]" : "<i class=delegated></i>",
         "[s]" : "<i class=stylized></i>",
     }
-    this.extensions = [ "extends", "implements" ];
     this.itemids = [ "widgets", "modules", "implements" ];
     this.process_cols = [ "name", "description", "text" ];
     this.init = function (items) {
@@ -117,6 +116,7 @@ window.addEventListener('DOMContentLoaded', function () {
             top.appendChild(desc);
         }
         div.appendChild(top);
+        
         // subnavigation
         var subnav = TK.element("ul");
         subnav.setAttribute("id", "subnav");
@@ -136,6 +136,52 @@ window.addEventListener('DOMContentLoaded', function () {
         return div;
     }
     
+    this.build_tree = function (item) {
+        var lst = [];
+        var ul = TK.element("ul", "tree");
+        ul.setAttribute("id", "tree");
+        this.bubble_tree(item, function (it) {
+            lst.push(it);
+        }, ["extends"])
+        if (lst.length > 1) {
+            for (var i = lst.length - 1; i >= 0; i--) {
+                var li = TK.element("li");
+                var a = this.link_item(lst[i].name);
+                li.appendChild(a);
+                if (lst[i].hasOwnProperty("implements")) {
+                    for (var j = 0; j < lst[i].implements.length; j++) {
+                        var arr = TK.element("span", "arrow_left");
+                        TK.set_text(arr, "⬅");
+                        li.appendChild(arr);
+                        li.appendChild(this.link_item(lst[i].implements[j]));
+                    }
+                }
+                if (i) {
+                    var arr = TK.element("div", "arrow_down");
+                    TK.set_text(arr, "⬇");
+                    li.appendChild(arr);
+                }
+                ul.appendChild(li);
+            }
+        }
+        return ul;
+    }
+    
+    this.link_item = function (name) {
+        var it = this.find_item(name);
+        if (it) {
+            var a = TK.element("a");
+            var t = this;
+            a.onclick = function (e) {
+                e.preventDefault();
+                t.show_item(it);
+            }
+        } else
+            var a = TK.element("span");
+        TK.set_text(a, name);
+        return a;
+    }
+    
     this.build_section = function (sect, item, div, subnav) {
         this.build_section_header(sect, div, subnav);
         switch(sect.id) {
@@ -143,6 +189,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 this.build_tables_recursively(sect.id, item, div);
                 break;
             case "extends":
+                div.appendChild(this.build_tree(item));
+                break;
             case "implements":
                 div.appendChild(this.build_list(item[sect.id], sect.id, true));
                 break;
@@ -212,7 +260,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
             div.appendChild(this.build_table(it[id]));
             c++;
-        });
+        }, ["extends", "implements"]);
     }
     
     this.build_table = function (data) {
@@ -310,15 +358,15 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
     
-    this.bubble_tree = function (item, fun) {
+    this.bubble_tree = function (item, fun, extensions) {
         fun.call(this, item);
-        for (var e in this.extensions) {
-            var _e = this.extensions[e];
+        for (var e in extensions) {
+            var _e = extensions[e];
             if (!item.hasOwnProperty(_e)) continue;
             for (var i = 0; i < item[_e].length; i++) {
                 var ex = this.find_item(item[_e][i]);
                 if (!ex) continue;
-                this.bubble_tree(ex, fun);
+                this.bubble_tree(ex, fun, extensions);
             }
         }
     }

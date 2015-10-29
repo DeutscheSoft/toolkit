@@ -141,6 +141,7 @@ items={
           }
         ],
         "extends": ["Button"],
+        "implements" : ["Range", "AudioMath"],
         "options": [
           {
             "description": "A list of button options or label strings which is converted to button instances on init. If get is called, the converted list of button instances is returned.",
