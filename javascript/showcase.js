@@ -31,10 +31,14 @@ window.addEventListener('DOMContentLoaded', function () {
         { "id" : "files",      "name" : "Files",        "description" : "The item uses the following external files:" },
         { "id" : "example",    "name" : "Example",      "description" : "See the item in action." }
     ]
-    
+    this.replacements = {
+        "[c]" : "<i class=classified></i>",
+        "[d]" : "<i class=delegated></i>",
+        "[s]" : "<i class=stylized></i>",
+    }
     this.extensions = [ "extends", "implements" ];
     this.itemids = [ "widgets", "modules", "implements" ];
-    
+    this.process_cols = [ "name", "description", "text" ];
     this.init = function (items) {
         this.items = items;
         this.tm = new this.timemachine;
@@ -50,6 +54,9 @@ window.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(next);
         
         this.build_navigation(items);
+        window["SC"] = this;
+        
+        this.show_item("ButtonArray");
         //var modex = window.location.hash.substring(1).toLowerCase();
         //if (modex == "all") {
             //for (var name in window) {
@@ -253,10 +260,12 @@ window.addEventListener('DOMContentLoaded', function () {
             table.appendChild(row);
             for (var c in cols) {
                 var td = TK.element("td");
-                if (cols[c] == "description")
+                if (cols[c] in this.process_cols)
                     td.innerHTML = this.process_text(item[cols[c]]);
+                else if (typeof item[cols[c]] == "object")
+                    td.appendChild(this.build_table(item[cols[c]]));
                 else
-                    TK.set_text(td, item[cols[c]]);
+                    td.innerHTML = item[cols[c]];
                 row.appendChild(td);
             }
         }
@@ -312,11 +321,22 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
     
+    this.bubble_tree = function (item, fun) {
+        
+    }
     this.process_text = function (text) {
+        if (!text) return;
+        var r = this.replacements;
+        console.log(text);
+        for (var i in r) {
+            text = text.replace(i, r[i]);
+        }
         return text;
     }
     
     this.show_item = function (item) {
+        if (typeof item == "string")
+            item = this.find_item(item);
         this._show_item(item);
         this.tm.push(item);
     }

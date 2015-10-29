@@ -63,6 +63,7 @@ small {
 a {
     color: #003050;
     text-decoration: none;
+    cursor: pointer;
 }
 a:hover {
     text-decoration: underline;
@@ -135,9 +136,22 @@ table tr td:first-child {
 table tr.inherit {
     color: #aaa;
 }
-
-
-
+table table {
+    margin: 0;
+    border: none;
+}
+table table th {
+    background: transparent;
+    padding: 3px;
+}
+table table td {
+    background: transparent;
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+table table td:first-child {
+    width: auto;
+}
 h3 .icon {
     color: #003050;
     display: inline-block;
