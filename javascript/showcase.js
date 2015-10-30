@@ -55,7 +55,13 @@ window.addEventListener('DOMContentLoaded', function () {
         this.build_navigation(items);
         window["SC"] = this;
         
-        
+        var regex = "#(";
+        var lst = this.all_items();
+        for (var i = 0; i < lst.length; i++) {
+            regex += lst[i].name + "|"; 
+        }
+        if (regex) regex = regex.substr(0, regex.length-1);
+        this.proc_text_regex = new RegExp(regex + ")", "i");
         var modex = window.location.hash.substring(1);
         if (modex && typeof window["run_" + modex.toLowerCase()] != "undefined")
             this.show_item(modex);
@@ -370,6 +376,9 @@ window.addEventListener('DOMContentLoaded', function () {
         for (var i in r) {
             text = text.replace(i, r[i]);
         }
+        while (text.match(this.proc_text_regex)) {
+            text = text.replace(this.proc_text_regex, "<a onclick='SC.show_item(\"\$1\")'>\$1</a>")
+        }
         return text;
     }
     
@@ -425,6 +434,17 @@ window.addEventListener('DOMContentLoaded', function () {
             if (this.hist.length && this.hist.length > this.pointer)
                 this.hist[this.pointer].position = document.body.scrollTop;
         }
+    }
+    
+    this.all_items = function () {
+        var a = [];
+        if (this.items.hasOwnProperty("implements")) for(var i in this.items.implements.items)
+            a.push(this.items.implements.items[i])
+        if (this.items.hasOwnProperty("modules")) for(var i in this.items.modules.items)
+            a.push(this.items.modules.items[i])
+        if (this.items.hasOwnProperty("widgets")) for(var i in this.items.widgets.items)
+            a.push(this.items.widgets.items[i])
+        return a;
     }
     
     this.init(items);
