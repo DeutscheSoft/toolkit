@@ -10,13 +10,7 @@ items={
     "name": "Widgets",
     "items": {
       "Button": {
-        "id": "button",
-        "name": "Button",
-        "files": [
-          "./toolkit/widgets/button.js",
-          "./toolkit/templates/default/css/button.css"
-        ],
-        "extends": ["Widget"],
+        "description": "Button is a simple, clickable widget to trigger funcions. It fires a couple of click-related events and consists of a label and an icon. Buttons are used as a base to build different other widgets from, too.",
         "options": [
           {
             "description": "Text for the buttons label",
@@ -43,11 +37,12 @@ items={
             "name": "state_color"
           }
         ],
+        "id": "button",
         "elements": [
           {
-            "description": "The main button element [d][c][s]",
+            "description": "The main button element",
             "class": "div.toolkit-button",
-            "name": "element"
+            "name": "[d][c][s]element"
           },
           {
             "description": "An internal container for label and icon",
@@ -65,20 +60,16 @@ items={
             "name": "_label"
           }
         ],
-        "description": "Button is a simple, clickable widget to trigger funcions. It fires a couple of click-related events and consists of a label and an icon. Buttons are used as a base to build different other widgets from, too."
+        "extends": ["Widget"],
+        "name": "Button",
+        "implements" : [ "AudioMath", "Range" ],
+        "files": [
+          "/home/markus/DeusO/toolkit/toolkit/widgets/button.js",
+          "/home/markus/DeusO/toolkit/toolkit/templates/default/css/button.css"
+        ]
       },
       "ButtonArray": {
-        "id": "buttonarray",
-        "modules": [
-          {
-            "description": "The previous arrow #Button instance",
-            "name": "prev"
-          },
-          {
-            "description": "The next arrow #Button instance",
-            "name": "next"
-          }
-        ],
+        "description": "ButtonArray is a list of buttons (#Button) layouted either vertically or horizontally. ButtonArray automatically adds arrow buttons if the overal width is smaller than the buttons list.",
         "events": [
           {
             "description": "When a #Button or an arrow gets clicked",
@@ -96,52 +87,6 @@ items={
             "name": "removed"
           }
         ],
-        "name": "ButtonArray",
-        "files": [
-          "./toolkit/widgets/buttonarray.js",
-          "./toolkit/templates/default/css/buttonarray.css"
-        ],
-        "methods": [
-          {
-            "description": "Adds an array of buttons to the end of the list.",
-            "name": "add_buttons",
-            "options": [{
-              "description": "An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels",
-              "default": "undefined",
-              "type": "Array[String|Object]",
-              "name": "options"
-            }]
-          },
-          {
-            "name": "add_button",
-            "options": [
-              {
-                "description": "An object containing options for the #Button to add or a string for the label",
-                "default": "undefined",
-                "type": "Object|String",
-                "name": "options"
-              },
-              {
-                "description": "The position to add the #Button to. If avoided the #Button is added to the end of the list description: Adds a #Button to the ButtonArray",
-                "default": "undefined",
-                "type": "Int|Undefined",
-                "name": "pos"
-              }
-            ]
-          },
-          {
-            "description": "Removes a #Button from the ButtonArray",
-            "name": "remove_button",
-            "options": [{
-              "description": "ID or #Button instance",
-              "default": "undefined",
-              "type": "Int|Button",
-              "name": "button"
-            }]
-          }
-        ],
-        "extends": ["Button"],
-        "implements" : ["Range", "AudioMath"],
         "options": [
           {
             "description": "A list of button options or label strings which is converted to button instances on init. If get is called, the converted list of button instances is returned.",
@@ -168,6 +113,17 @@ items={
             "name": "show"
           }
         ],
+        "id": "buttonarray",
+        "modules": [
+          {
+            "description": "The previous arrow #Button instance",
+            "name": "prev"
+          },
+          {
+            "description": "The next arrow #Button instance",
+            "name": "next"
+          }
+        ],
         "elements": [
           {
             "description": "A clipping area containing the list of buttons",
@@ -180,7 +136,51 @@ items={
             "name": "_container"
           }
         ],
-        "description": "ButtonArray is a list of buttons (#Button) layouted either vertically or horizontally. ButtonArray automatically adds arrow buttons if the overal width is smaller than the buttons list."
+        "extends": ["Button"],
+        "methods": [
+          {
+            "name": "add_buttons",
+            "description": "Adds an array of buttons to the end of the list.",
+            "options": [{
+              "description": "An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels",
+              "default": "undefined",
+              "type": "Array[String|Object]",
+              "name": "options"
+            }]
+          },
+          {
+            "name": "add_button",
+            "options": [
+              {
+                "description": "An object containing options for the #Button to add or a string for the label",
+                "default": "undefined",
+                "type": "Object|String",
+                "name": "options"
+              },
+              {
+                "description": "The position to add the #Button to. If avoided the #Button is added to the end of the list description: Adds a #Button to the ButtonArray",
+                "default": "undefined",
+                "type": "Int|Undefined",
+                "name": "pos"
+              }
+            ]
+          },
+          {
+            "name": "remove_button",
+            "description": "Removes a #Button from the ButtonArray",
+            "options": [{
+              "description": "ID or #Button instance",
+              "default": "undefined",
+              "type": "Int|Button",
+              "name": "button"
+            }]
+          }
+        ],
+        "name": "ButtonArray",
+        "files": [
+          "/home/markus/DeusO/toolkit/toolkit/widgets/buttonarray.js",
+          "/home/markus/DeusO/toolkit/toolkit/templates/default/css/buttonarray.css"
+        ]
       }
     },
     "description": "Widgets are fully functional elements to build user interfaces.\nThey typically rely on other elements like #Modules and #Implements and\nare somehow based on #Widget itself or other widgets."

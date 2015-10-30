@@ -2,12 +2,12 @@
 
 import Stdio;
 
-constant OUT_VARIABLE    = "items";
-constant OUT_FILE        = "./javascript/items.js";
-constant CATEGORY_DIR    = "./toolkit";
-constant CSS_DIR         = "./toolkit/templates/default/css";
-constant IMAGE_DIR       = "./toolkit/templates/default/images";
-constant CATEGORY_MARKER = "@category: ";
+string OUT_VARIABLE    = "items";
+string OUT_FILE        = combine_path(dirname(__FILE__), "..", "javascript", "items.js");
+string CATEGORY_DIR    = combine_path(dirname(__FILE__), "..", "toolkit");
+string CSS_DIR         = combine_path(dirname(__FILE__), "..", "toolkit", "templates", "default", "css");
+string IMAGE_DIR       = combine_path(dirname(__FILE__), "..", "toolkit", "templates", "default", "images");
+string CATEGORY_MARKER = "@category: ";
 constant KEYWORDS        = ({ "class", "element", "event", "module", "method" });
 constant CLASS_KEYWORDS  = ({ "implements", "extends", "option", "description" });
 constant METHOD_KEYWORDS = ({ "option", "description" });
