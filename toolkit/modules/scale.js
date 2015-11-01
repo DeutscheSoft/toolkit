@@ -212,7 +212,7 @@ w.Scale = $class({
             }
         }
 
-        if (I.basis) {
+        if (I.basis || I.auto_size) {
             I.auto_size = false;
             if (O.auto_size) {
                 if (this._vert()) this.element.style.height = O.basis + "px";
