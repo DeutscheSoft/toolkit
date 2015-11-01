@@ -21,6 +21,7 @@ function low_remove(Q, o, prio) {
     var i = 0;
     while ((i = q.indexOf(o, i)) !== -1) {
         q.splice(i, 1);
+        return;
     }
 }
 function request_frame() {
@@ -113,23 +114,22 @@ function DOMScheduler() {
     this.running = false;
     this.bound_run = this.run.bind(this);
 };
-DOMScheduler.prototype = {
-    add_next : function(o, prio) {
-        Scheduler.prototype.add_next.call(this, o, prio);
-        if (!this.will_render) request_frame.call(this);
-    },
-    add : function(o, prio) {
-        Scheduler.prototype.add.call(this, o, prio);
-        if (!this.running && !this.will_render) request_frame.call(this);
-    },
-    run : function() {
-        this.will_render = false;
-        this.rid = 0;
-        this.running = true;
-        Scheduler.prototype.run.call(this);
-        this.running = false;
-    },
-}
+DOMScheduler.prototype = Object.create(Scheduler.prototype);
+DOMScheduler.prototype.add_next = function(o, prio) {
+    Scheduler.prototype.add_next.call(this, o, prio);
+    if (!this.will_render) request_frame.call(this);
+};
+DOMScheduler.prototype.add = function(o, prio) {
+    Scheduler.prototype.add.call(this, o, prio);
+    if (!this.running && !this.will_render) request_frame.call(this);
+};
+DOMScheduler.prototype.run = function() {
+    this.will_render = false;
+    this.rid = 0;
+    this.running = true;
+    Scheduler.prototype.run.call(this);
+    this.running = false;
+};
 w.Scheduler = Scheduler;
 w.DOMScheduler = DOMScheduler;
 })(this);
