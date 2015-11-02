@@ -74,7 +74,16 @@ function move(ev) {
     if (this.__entered)
         this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
 }
-    
+function GET() {
+    return this.value;
+}
+function THIS() {
+    return this;
+}
+function SET(v) {
+    this.set("value", v);
+    this.fire_event("useraction", "value", v);
+}
 w.Fader = $class({
     _class: "Fader",
     Extends: Widget,
@@ -95,43 +104,40 @@ w.Fader = $class({
     initialize: function (options) {
         this.__tt = false;
         Widget.prototype.initialize.call(this, options);
+
+        var E, O = this.options;
         
-        this.element = this.widgetize(TK.element("div","toolkit-fader"),
-                       true, true, true);
+        this.element = this.widgetize(E = TK.element("div","toolkit-fader"), true, true, true);
         
-        if (TK.get_style(this.element, "position") != "absolute"
-            && TK.get_style(this.element, "position") != "relative")
-            this.element.style["position"] = "relative";
-            
-        var opt = Object.assign({}, this.options, {
-            container:   this.element,
-        });
-        this.scale = new Scale(opt);
+        this.scale = new Scale(TK.merge({}, O, { container: E }));
         this._scale = this.scale.element;
         
         this._handle = TK.element("div", "toolkit-handle");
         this.element.appendChild(this._handle);
+
+        if (typeof O.reset === "undefined")
+            O.reset = O.value;
+
+        if (typeof O.direction === "undefined")
+            O.direction = vert(O) ? _TOOLKIT_VERT : _TOOLKIT_HORIZ;
             
+        var self = THIS.bind(this);
+        var get = GET.bind(O);
+        var set = SET.bind(this);
         this.drag = new DragValue({
             element: this._handle,
-            range:   function () { return this }.bind(this),
-            get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) {
-                this.set("value", v);
-                this.fire_event("useraction", "value", v);
-            }.bind(this),
-            events: function () { return this }.bind(this),
-            direction: this.options.direction
+            range:   self,
+            get:     get,
+            set:     set,
+            events:  self,
+            direction: O.direction
         });
         this.scroll = new ScrollValue({
             element: this.element,
-            range:   function () { return this }.bind(this),
-            get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) {
-                this.set("value", v);
-                this.fire_event("useraction", "value", v);
-            }.bind(this),
-            events: function () { return this }.bind(this),
+            range:   self,
+            get:     get,
+            set:     set,
+            events:  self
         });
         
         this.add_event("click", clicked);
@@ -139,9 +145,6 @@ w.Fader = $class({
         this.add_event("mouseleave", mouseleave);
         this.add_event("mousemove", move);
         this.add_event("dblclick", dblclick);
-        
-        if (typeof this.options.reset == "undefined")
-            this.options.reset = this.options.value;
         
         this.drag.add_event("dragging", dragging.bind(this));
         this.drag.add_event("stopdrag", stopdrag.bind(this));
