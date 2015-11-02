@@ -153,7 +153,10 @@ w.ButtonArray = $class({
     
     resize: function () {
         check_arrows.call(this);
-        this.set("show", this.options.show);
+        this.invalid.show = true;
+        this.trigger_draw();
+
+        Container.prototype.resize.call(this);
     },
     
     add_buttons: function (options) {

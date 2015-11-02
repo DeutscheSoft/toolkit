@@ -206,7 +206,10 @@ w.Fader = $class({
         }
     },
     resize: function () {
-        this.redraw();
+        this.invalid.reverse = true;
+        this.trigger_draw();
+
+        Widget.prototype.resize.call(this);
     },
     destroy: function () {
         this._handle.remove();

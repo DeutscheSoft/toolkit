@@ -143,7 +143,12 @@ w.MeterBase = $class({
     },
     
     resize: function () {
+        // its enough to invalidate the layout variable for
+        // the resize to happen
+        this.invalid.layout = true;
         this.trigger_draw();
+
+        Widget.prototype.resize.call(this);
     },
     
     destroy: function () {

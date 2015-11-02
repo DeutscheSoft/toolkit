@@ -240,6 +240,8 @@ w.Pager = $class({
     resize: function () {
         this.invalid.show = true;
         this.trigger_draw();
+
+        Container.prototype.resize.call(this);
     },
 
     current: function() {

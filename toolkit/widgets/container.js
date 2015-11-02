@@ -70,38 +70,6 @@ w.Container = $class({
         for (var i = 0; i < a.length; i++)
             this.remove_child(a[i]);
     },
-    share_event : function(type) {
-        this.shared_events[type] = true;
-        var a, i;
-        a = this.children;
-
-        for (i = 0; i < a.length; i++) {
-            if (a[i].share_event)
-                a[i].share_event(type);
-        }
-    },
-    unshare_event : function(type) {
-        this.shared_events[type] = false;
-
-        for (i = 0; i < a.length; i++) {
-            if (a[i].unshare_event)
-                a[i].unshare_event(type);
-        }
-    },
-    fire_event : function(type) {
-        var c, i;
-
-        BASE.prototype.fire_event.apply(this, arguments);
-
-        if (this.shared_events[type] && this.children.length) {
-            c = this.children;
-            for (i = 0; i < c.length; i++) {
-                c[i].fire_event.apply(c[i], arguments);
-            }
-        }
-    },
-    shared_events : { "resize" : true },
-
     hide: function() {
         var C = this.children;
         Widget.prototype.hide.call(this);
@@ -123,6 +91,14 @@ w.Container = $class({
         Widget.prototype.show.call(this);
         for (var i = 0; i < C.length; i++) {
             if (!H[i]) C[i].show();
+        }
+    },
+
+    resize: function() {
+        var C = this.children;
+        Widget.prototype.resize.call(this);
+        for (var i = 0; i < C.length; i++) {
+            C[i].resize();
         }
     },
 

@@ -72,8 +72,6 @@ w.Widget = $class({
         this.set_options(options);
         if (!this.options.id)
             this.options.id = TK.unique_id();
-        if (this.resize)
-            this.add_event("resize", this.resize)
         this.__classified = null;
         this.__stylized = null;
         this.__delegated = null;
@@ -103,6 +101,10 @@ w.Widget = $class({
         if (warn.length) {
             console.log("found", warn.length, "invalid in", this, ":", warn);
         }
+    },
+
+    resize: function() {
+        this.fire_event("resize");
     },
     
     trigger_draw : function() {
