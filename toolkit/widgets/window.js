@@ -206,7 +206,7 @@ w.Window = $class({
         this._resize = TK.element("div", "toolkit-resize");
         this.element.appendChild(this._resize);
         
-        this.resize = new Resize({
+        this.Resize = new Resize({
             element    : this.element,
             handle     : this._resize,
             min        : {x: this.options.min_width, y: this.options.min_height},
@@ -771,10 +771,10 @@ w.Window = $class({
                 break;
             case "resizable":
                 if (value) {
-                    this.resize.set("active", true);
+                    this.Resize.set("active", true);
                     TK.add_class(this.element, "toolkit-resizable");
                 } else {
-                    this.resize.set("active", false);
+                    this.Resize.set("active", false);
                     TK.remove_class(this.element, "toolit-resizable");
                 }
                 break;
