@@ -74,21 +74,19 @@
     margin-left: 10px;
 }
 
-
 .toolkit-pager > .toolkit-clip > .toolkit-container {
     position: relative;
     transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
     padding: 20px;
 }
-.toolkit-pager.toolkit-horizontal > .toolkit-clip > .toolkit-container {
-    width: 200000px;
+.toolkit-pager > .toolkit-clip > .toolkit-container {
+    width: 100%;
     height: 100%;
 }
-.toolkit-pager.toolkit-vertical > .toolkit-clip > .toolkit-container {
-    width: 100%;
-    height: 100000px
-}
 
+.toolkit-page.toolkit-hidden {
+    display: none;
+}
 
 .toolkit-pager .toolkit-clip > .toolkit-container .toolkit-page {
     position: relative;

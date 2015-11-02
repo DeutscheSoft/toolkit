@@ -32,6 +32,8 @@ w.Container = $class({
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
+        this.children = [];
+        this.hidden_children = [];
         this.element = this.widgetize(TK.element("div", "toolkit-container"),
                                       true, true, true);
         if (this.options.container)
@@ -42,11 +44,143 @@ w.Container = $class({
         this.element.remove();
         Widget.prototype.destroy.call(this);
     },
+    add_children : function (a) {
+        this.children = this.children.concat(a);
+    },
+    add_child : function(child) {
+        var C = this.children;
+        C.push(child);
+        if (this.hidden()) {
+            child.force_hidden();
+        } else {
+            child.show();
+        }
+        return C;
+    },
+    remove_child : function(child) {
+        var C = this.children;
+        var H = this.hidden_children;
+        var i = C.indexOf(child);
+        if (i !== -1) {
+            C.splice(i, 1);
+            H.splice(i, 1);
+        }
+    },
+    remove_children : function(a) {
+        for (var i = 0; i < a.length; i++)
+            this.remove_child(a[i]);
+    },
+    share_event : function(type) {
+        this.shared_events[type] = true;
+        var a, i;
+        a = this.children;
+
+        for (i = 0; i < a.length; i++) {
+            if (a[i].share_event)
+                a[i].share_event(type);
+        }
+    },
+    unshare_event : function(type) {
+        this.shared_events[type] = false;
+
+        for (i = 0; i < a.length; i++) {
+            if (a[i].unshare_event)
+                a[i].unshare_event(type);
+        }
+    },
+    fire_event : function(type) {
+        var c, i;
+
+        BASE.prototype.fire_event.apply(this, arguments);
+
+        if (this.shared_events[type] && this.children.length) {
+            c = this.children;
+            for (i = 0; i < c.length; i++) {
+                c[i].fire_event.apply(c[i], arguments);
+            }
+        }
+    },
+    shared_events : { "resize" : true },
+
+    hide: function() {
+        var C = this.children;
+        Widget.prototype.hide.call(this);
+        for (var i = 0; i < C.length; i++) {
+            C[i].hide();
+        }
+    },
+    force_hidden: function() {
+        var C = this.children;
+        Widget.prototype.hide.call(this);
+        for (var i = 0; i < C.length; i++) {
+            C[i].force_hidden();
+        }
+    },
+
+    show: function() {
+        var C = this.children;
+        var H = this.hidden_children;
+        Widget.prototype.show.call(this);
+        for (var i = 0; i < C.length; i++) {
+            if (!H[i]) C[i].show();
+        }
+    },
+
+    hide_child: function(i) {
+        var C = this.children;
+        var H = this.hidden_children;
+
+        if (typeof i !== "number") {
+            i = C.indexOf(i);
+            if (i === -1) return;
+        }
+
+        H[i] = true;
+        C[i].hide();
+    },
+
+    show_child: function(i) {
+        var C = this.children;
+        var H = this.hidden_children;
+
+        if (typeof i !== "number") {
+            i = C.indexOf(i);
+            if (i === -1) return;
+        }
+
+        if (H[i]) {
+            H[i] = false;
+            if (!this.hidden()) C[i].show();
+        }
+    },
 
     redraw: function() {
         var O = this.options;
         var I = this.invalid;
         var E = this.element;
+
+        if (this.__hidden === 1) {
+            this.__hidden = 2;
+            if (E) {
+                TK.add_class(E, "toolkit-hide");
+                var style = TK.get_style(E);
+                var t = parseFloat(style["transition-duration"]);
+                if (t > 0.0) {
+                    window.setTimeout(function() {
+                        if (this.__hidden = 2)
+                            TK.add_class(E, "toolkit-hidden");
+                    }.bind(this), t*1000);
+                } else {
+                    TK.add_class(E, "toolkit-hidden");
+                }
+            }
+            return;
+        } else if (this.__hidden === 0) {
+            if (E) {
+                TK.remove_class(E, "toolkit-hide");
+                TK.remove_class(E, "toolkit-hidden");
+            }
+        }
 
         Widget.prototype.redraw.call(this);
 

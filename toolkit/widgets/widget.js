@@ -20,6 +20,7 @@
  */
 "use strict";
 (function(w){ 
+
 var invalid_prototype = {
     validate : function() {
         var i = 0, key;
@@ -61,47 +62,8 @@ w.Widget = $class({
         disabled:  false  // Widgets can be disabled by setting this to true
     },
     Implements: [AudioMath],
-    register_children : function(a) {
-        if (!(a instanceof Array)) {
-            this.children.push(a);
-        } else {
-            this.children = this.children.concat(a);
-        }
-    },
-    unregister_children : function() {
-    },
-    share_event : function(type) {
-        this.shared_events[type] = true;
-        var a, i;
-        a = this.children;
-
-        for (i = 0; i < a.length; i++) {
-            a[i].share_event(type);
-        }
-    },
-    unshare_event : function(type) {
-        this.shared_events[type] = false;
-
-        for (i = 0; i < a.length; i++) {
-            a[i].unshare_event(type);
-        }
-    },
-    fire_event : function(type) {
-        var c, i;
-
-        BASE.prototype.fire_event.apply(this, arguments);
-
-        if (this.shared_events[type] && this.children.length) {
-            c = this.children;
-            for (i = 0; i < c.length; i++) {
-                c[i].fire_event.apply(c[i], arguments);
-            }
-        }
-    },
-    shared_events : { "resize" : true },
     initialize: function (options) {
         BASE.prototype.initialize.call(this);
-        this.children = [];
         if (this.shared_events) {
             this.shared_events = Object.create(this.shared_events);
         }
@@ -120,6 +82,7 @@ w.Widget = $class({
         this.value_time = Object.create(null);
         this.will_draw = false;
         this._redraw = this.redraw.bind(this);
+        this.__hidden = 0;
         return this;
     },
 
@@ -145,14 +108,14 @@ w.Widget = $class({
     trigger_draw : function() {
         if (!this.will_draw) {
             this.will_draw = true;
-            TK.S.add(this._redraw);
+            if (this.__hidden !== 2) TK.S.add(this._redraw);
         }
     },
 
     trigger_draw_next : function() {
         if (!this.will_draw) {
             this.will_draw = true;
-            TK.S.add_next(this._redraw);
+            if (this.__hidden !== 2) TK.S.add_next(this._redraw);
         }
     },
 
@@ -178,7 +141,7 @@ w.Widget = $class({
 
             if (I.container) {
                 I.container = false;
-                if (O.container) O.container.appendChild(E);
+                if (O.container && E.parentNode !== O.container) O.container.appendChild(E);
             }
         }
 
@@ -213,7 +176,7 @@ w.Widget = $class({
     },
     destroy: function () {
         this.fire_event("destroy");
-        if (this.will_draw) TK.S.dequeue(this._redraw);
+        if (this.will_draw) TK.S.remove(this._redraw);
         BASE.prototype.destroy.call(this);
         return this;
     },
@@ -291,6 +254,34 @@ w.Widget = $class({
     },
     get: function (key) {
         return this.options[key];
-    }
+    },
+    hide: function () {
+        if (this.__hidden === 0) {
+            this.__hidden = 1;
+            this.trigger_draw();
+            this.fire_event("hide");
+        }
+    },
+    force_hidden: function() {
+        if (this.__hidden !== 2) {
+            this.__hidden = 2;
+            var E = this.classified;
+            if (E) TK.add_class(E, "toolkit-hidden");
+            if (this.will_draw) TK.S.remove(this._redraw);
+            this.fire_event("hide");
+        }
+    },
+    show: function () {
+        if (this.__hidden !== 0) {
+            this.__hidden = 0;
+            if (this._hidden !== 1 && this.will_draw) {
+                TK.S.add(this._redraw);
+            }
+            this.fire_event("show");
+        }
+    },
+    hidden: function() {
+        return !!this.__hidden;
+    },
 });
 })(this);

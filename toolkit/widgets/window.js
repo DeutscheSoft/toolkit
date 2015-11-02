@@ -22,7 +22,7 @@
 (function(w){ 
 w.Window = $class({
     _class: "Window",
-    Extends: Widget,
+    Extends: Container,
     Implements: Anchor,
     options: {
         width:         500,   // initial width, can be a css length, an int (pixels)
@@ -88,7 +88,7 @@ w.Window = $class({
     initialize: function (options) {
         this.__inited = false;
         this.dimensions = {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
-        Widget.prototype.initialize.call(this, options);
+        Container.prototype.initialize.call(this, options);
         
         this.element = this.widgetize(toolkit.element("div", "toolkit-window"),
                                       true, true, true);
@@ -233,7 +233,7 @@ w.Window = $class({
         this._set_dimensions();
         this._set_position();
         this._set_content();
-        Widget.prototype.redraw.call(this);
+        Container.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -257,7 +257,7 @@ w.Window = $class({
         this.minimize.destroy();
         this.shrink.destroy();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        Container.prototype.destroy.call(this);
     },
     
     toggle_maximize: function () {
@@ -784,7 +784,7 @@ w.Window = $class({
             case "max_height":
                 break;
         }
-        Widget.prototype.set.call(this, key, value, hold);
+        Container.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

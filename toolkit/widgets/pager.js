@@ -20,15 +20,6 @@
  */
 "use strict";
 (function(w){
-function do_scroll(n) {
-    var O = this.options;
-    var page = this.pages[n];
-
-    var dir  = this.options.direction == _TOOLKIT_VERTICAL;
-    var size = dir ? this.__page_height : this.__page_width;
-    this._container.style[dir ? 'top' : 'left'] = (-size * n) + "px";
-    this._container.style[dir ? 'left' : 'top'] = null;
-}
 w.Pager = $class({
     /* Pager, also known as Notebook in other UI toolkits, provides
        multiple containers for displaying contents which are switchable
@@ -61,7 +52,7 @@ w.Pager = $class({
                 this.set("show", n); 
             }.bind(this),
         });
-        this.register_children(this.buttonarray);
+        this.add_child(this.buttonarray);
         this._clip      = TK.element("div", "toolkit-clip");
         this._container = TK.element("div", "toolkit-container");
         this._clip.appendChild(this._container);
@@ -71,6 +62,7 @@ w.Pager = $class({
         this.add_pages(this.options.pages);
         this.element.appendChild(this._clip);
         this.set("position", this.options.position);
+        this.set("show", this.options.show);
     },
     
     redraw: function () {
@@ -164,8 +156,6 @@ w.Pager = $class({
                     page.remove_class("toolkit-active");
                 }
             }
-
-            do_scroll.call(this, O.show);
         }
     },
     
@@ -179,33 +169,44 @@ w.Pager = $class({
         if (typeof button === "string")
             button = {label: button};
         this.buttonarray.add_button(button, pos);
-        if (!options) {
-            options = {};
-        }
-        options["class"] = "toolkit-page";
 
         if (typeof content === "string") {
+            if (!options) options = {}; 
             options.content = content;
             p = new Container(options);
-        } else {
+        } else if (typeof content === "function") {
             // assume here content is a subclass of Container
             p = new content(options);
+        } else {
+            p = content;
         }
 
-        this.register_children(p);
+        p.add_class("toolkit-page");
+        p.set("container", this._container);
 
-        var len = this.options.pages.length;
+        var len = this.pages.length;
 
-        if (pos == len || typeof pos == "undefined") {
-            this.pages.push(p);
-            this._container.appendChild(p.element);
-        } else {
+        if (pos >= 0 && pos < len - 1) {
             this.pages.splice(pos, 0, p);
             this._container.insertBefore(p.element, this._container.childNodes[pos]);
+        } else {
+            pos = len;
+            this.pages.push(p);
+            this._container.appendChild(p.element);
         }
         this.fire_event("added", p);
+
+        this.add_child(p);
+
+        // TODO: not always necessary
+        if (this.current() === p) {
+            this.set("show", this.options.show);
+        } else {
+            this.hide_child(p);
+            p.force_hidden();
+        }
+
         return p;
-        //var sb = b.element.getBoundingClientRect()[vert ? "height" : "width"];
     },
 
     fire_event : function(type) {
@@ -224,16 +225,16 @@ w.Pager = $class({
             page = this.pages.indexOf(page);
         if (page < 0 || page >= this.pages.length)
             return;
-        this.fire_event("removed", this.pages[page]);
         this.buttonarray.remove_button(page);
-        if (this.current() && page < this.options.show) {
-            this.options.show--;
-            this.invalid.show = true;
-            this.trigger_draw();
-        }
-        this.pages[page].destroy();
+        if (page < this.options.show)
+            this.set("show", this.options.show-1);
+        else if (page === this.options.show)
+            this.set("show", this.options.show);
+        var p = this.pages[page];
         this.pages.splice(page, 1);
-        this.remove_children(this.pages[page]);
+        p.destroy();
+        this.remove_child(p);
+        this.fire_event("removed", p);
     },
     
     resize: function () {
@@ -260,6 +261,7 @@ w.Pager = $class({
             page = this.current();
 
             if (page) {
+                this.hide_child(page);
                 page.set("active", false);
                 page.fire_event("hide");
             }
@@ -273,6 +275,7 @@ w.Pager = $class({
 
                 if (page) {
                     page.set("active", true);
+                    this.show_child(page);
                     page.fire_event("show");
                     this.fire_event("changed", page, value);
                 }

@@ -127,7 +127,7 @@ w.Equalizer = $class({
         }.bind(this));
         b.add_event("set", invalidate_bands.bind(this)); 
         this.fire_event("bandadded", b);
-        this.register_children(b);
+        this.add_child(b);
         invalidate_bands.call(this);
         return b;
     },
@@ -139,7 +139,7 @@ w.Equalizer = $class({
     remove_band: function (h) {
         for (var i = 0; i < this.bands.length; i++) {
             if (this.bands[i] == h) {
-                this.unregister_children(bands[i]);
+                this.remove_child(bands[i]);
                 this.bands[i].destroy();
                 this.bands.splice(i, 1);
                 this.fire_event("bandremoved");
