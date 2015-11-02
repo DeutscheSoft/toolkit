@@ -77,7 +77,11 @@ function value_done(e) {
     this.invalid.value = true;
     this.trigger_draw();
 }
-    
+
+function submit_cb(e) {
+    e.preventDefault();
+    return false;
+}
 w.Value = $class({
     // Value is a formatted text field displaying numbers and providing
     // a input field for editing the value
@@ -101,22 +105,7 @@ w.Value = $class({
         this._input.type = "text";
         this.element.appendChild(this._input);
         
-        this.__touch_start_cb = function (e) {
-            e.preventDefault();
-            value_init.call(e);
-            return false;
-        }.bind(this);
-        
-        this.__touch_end_cb = function (e) {
-            e.preventDefault();
-            value_clicked.call(this, e);
-            return false;
-        }.bind(this);
-        
-        this.add_event("submit", function (e) {
-            e.preventDefault();
-            return false;
-        });
+        this.add_event("submit", submit_cb);
         
         this.add_event("pointerdown", value_init);
         this.add_event("pointerup", value_clicked);
