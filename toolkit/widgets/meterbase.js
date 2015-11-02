@@ -84,10 +84,6 @@ w.MeterBase = $class({
         this.__based = false;
         this.element = this.widgetize(E = TK.element("div", "toolkit-meter-base"), false, true, true);
         
-        if (TK.get_style(E, "position") != "absolute"
-            && TK.get_style(E, "position") != "relative")
-            E.style["position"] = "relative";
-        
         this._title  = TK.element("div", "toolkit-title");
         this._label  = TK.element("div", "toolkit-label");
         this._bar    = TK.element("div", "toolkit-bar");
