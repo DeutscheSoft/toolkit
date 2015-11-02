@@ -62,9 +62,22 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         if (regex) regex = regex.substr(0, regex.length-1);
         this.proc_text_regex = new RegExp(regex + ")", "i");
-        var modex = window.location.hash.substring(1);
-        if (modex && typeof window["run_" + modex.toLowerCase()] != "undefined")
-            this.show_item(modex);
+        
+        var item = window.location.href.split("?", 2);
+        if (item.length > 1) {
+            var i = this.find_item(item[1].split("#")[0]);
+            if (i)
+                this.show_item(i);
+            var hash = window.location.hash.substring(1);
+            if (hash && typeof window["run_" + hash] == "function") {
+                var that = this;
+                setTimeout( function () {
+                    document.body.scrollTop = TK.get_id("anchor_" + hash).offsetTop;
+                    if (hash == "example")
+                        that.run_example(i.id);
+                }, 100);
+            }
+        }
     }
     
     this.build_navigation = function (items) {
@@ -114,7 +127,11 @@ window.addEventListener('DOMContentLoaded', function () {
         
         var header = TK.element("h2");
         TK.set_text(header, item.name);
-        top.appendChild(header);
+        
+        var a = TK.element("a");
+        a.setAttribute("href", "index.html?" + item.name);
+        a.appendChild(header);
+        top.appendChild(a);
         
         if (item.hasOwnProperty("description")) {
             var desc = TK.element("p");
@@ -213,14 +230,16 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.build_section_header = function (sect, div, subnav) {
+        // subnav
         var l = TK.element("li");
         var a = TK.element("a", sect.id, "icon");
         l.appendChild(a);
         a.setAttribute("href", "#" + sect.id);
         TK.set_text(a, sect.name);
         subnav.appendChild(l);
+        // header and description
         var h = TK.element("h3", sect.id, "icon");
-        h.innerHTML = "<a name='" + sect.id + "'></a>" + sect.name;
+        h.innerHTML = "<a name='" + sect.id + "' id='anchor_" + sect.id + "'></a>" + sect.name;
         var p = TK.element("p");
         p.innerHTML = this.process_text(sect.description);
         div.appendChild(h);
@@ -311,36 +330,54 @@ window.addEventListener('DOMContentLoaded', function () {
     
     this.build_example = function (id, div, button) {
         var but = TK.element("div", "toolkit-button")
-        but.addEventListener("click", (function (fun) {
-            return function () {
-                window[fun]();
-                setTimeout(function(){
-                    document.body.scrollTop = TK.get_id("demo").offsetTop;
-                }, 100);
-            }
-        })("run_" + id));
+        but.addEventListener("click", (function (that, id) {
+            return function (e) { that.run_example(id); }
+        })(this, id));
         TK.set_text(but, button);
         div.appendChild(but);
-        var tog = TK.element("div", "toolkit-button");
-        TK.set_text(tog, " Code");
-        div.appendChild(tog);
-        var demo = TK.element("div");
+    }
+    
+    this.run_example = function (id) {
+        var fun = "run_" + id;
+        
+        var dover = TK.element("div", "demo_overlay");
+        dover.setAttribute("id", "demo_overlay");
+        var demo = TK.element("div", "demo");
         demo.setAttribute("id", "demo");
-        div.appendChild(demo);
-        var pre = TK.element("pre", "box", "code");
-        var code = TK.element("code");
+        dover.appendChild(demo);
+        document.body.appendChild(dover);
+        
+        var code = TK.element("code", "code", "hidden");
         code.setAttribute("id", "code");
         TK.set_text(code, window["run_" + id].toString());
-        pre.appendChild(code);
-        div.appendChild(pre);
-        tog.addEventListener("click", (function (pre) {
+        dover.appendChild(code);
+        
+        var menu = TK.element("div", "menu");
+        dover.appendChild(menu);
+        
+        var tog = TK.element("div", "toolkit-button");
+        tog.setAttribute("id", "code_button");
+        TK.set_text(tog, "Show Code");
+        menu.appendChild(tog);
+        tog.addEventListener("click", (function (demo, code) {
             return function (e) {
-                TK.toggle_class(pre, "show");
-                setTimeout(function(){
-                    document.body.scrollTop = TK.get_id("code").offsetTop;
-                }, 100);
+                TK.toggle_class(demo, "hidden");
+                TK.toggle_class(code, "hidden");
             }
-        })(pre));
+        })(demo, code));
+        
+        var exit = TK.element("div", "toolkit-button");
+        exit.setAttribute("id", "exit_button");
+        TK.set_text(exit, "Close");
+        menu.appendChild(exit);
+        exit.addEventListener("click", (function (dover) {
+            return function (e) { window[fun](); dover.parentElement.removeChild(dover); }
+        })(dover));
+        
+        dover.onscroll = function (e) { console.log("scroll"); e.preventDefault(); e.stopPropagation(); }
+        
+        setTimeout(window[fun], 100);
+        
     }
     
     this.find_item = function (name, section) {
