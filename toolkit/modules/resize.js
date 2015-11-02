@@ -23,12 +23,13 @@
 function dragstart(e, drag) {
     var O = this.options;
     if (!O.active) return;
+    var E = this.element;
     this._xstart = e.pageX;
     this._ystart = e.pageY;
-    this._xsize  = O.element.offsetWidth;
-    this._ysize  = O.element.offsetHeight;
-    this._xpos   = O.element.offsetLeft;
-    this._ypos   = O.element.offsetTop;
+    this._xsize  = E.offsetWidth;
+    this._ysize  = E.offsetHeight;
+    this._xpos   = E.offsetLeft;
+    this._ypos   = E.offsetTop;
     this.fire_event("start", e);
 }
 function dragend(e, drag) {
