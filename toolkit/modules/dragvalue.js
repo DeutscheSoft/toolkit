@@ -204,7 +204,7 @@ w.DragValue = $class({
 
     // GETTERS & SETTERS
     set: function (key, value) {
-        this.options[key] = value;
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "element":
                 value.addEventListener("contextmenu", function () {return false;});
@@ -228,7 +228,6 @@ w.DragValue = $class({
                 }
                 break;
         }
-        Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);
