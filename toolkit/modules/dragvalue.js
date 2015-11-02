@@ -71,31 +71,33 @@ function pointer_up(e) {
 }
 function pointer_move(e) {
     if (!this.__active) return;
-    if (!this.options.active) return;
+    var O = this.options;
+    if (!O.active) return;
     e.preventDefault();
     // get the right event if touch
     var ev = get_event(e);
     // calc multiplier depending on step, shift up and shift down
-    var multi = this.options.range().options.step || 1;
+    var range = O.range();
+    var multi = range.options.step || 1;
     if (e.ctrlKey && e.shiftKey) {
-        multi *= this.options.range().options.shift_down;
+        multi *= range.options.shift_down;
     } else if (e.shiftKey) {
-        multi *= this.options.range().options.shift_up;
+        multi *= range.options.shift_up;
     }
     var dist = 0;
-    switch(this.options.direction) {
+    switch(O.direction) {
         case _TOOLKIT_POLAR:
             var x = ev.pageX - this._pageX;
             var y = this._pageY - ev.pageY;
             var r = Math.sqrt(x * x + y * y) * multi;
             var a = Math.atan2(x, y) * (180 / Math.PI) + 360;
-            if (angle_diff(this.options.rotation, a)
-              < 90 - this.options.blind_angle / 2) {
+            if (angle_diff(O.rotation, a)
+              < 90 - O.blind_angle / 2) {
                 dist = r * multi;
                 break;
             }
-            if (angle_diff(this.options.rotation + 180, a)
-              < 90 - this.options.blind_angle / 2) {
+            if (angle_diff(O.rotation + 180, a)
+              < 90 - O.blind_angle / 2) {
                 dist = -r * multi;
                 break;
             }
@@ -108,12 +110,11 @@ function pointer_move(e) {
             break;
     }
 
-    var val = this.options.get();
-    var range = this.options.range();
-    this.options.set(range.snap(range.px2val(this._clickPos + dist)));
+    var val = O.get();
+    O.set(range.snap(range.px2val(this._clickPos + dist)));
 
     // remember stuff
-    if (val != this.options.get())
+    if (val != O.get())
         cache_values.call(this, ev, dist);
 
     // fire event
@@ -182,6 +183,9 @@ w.DragValue = $class({
         this.__pointer_move = pointer_move.bind(this);
         this.__pointer_up = pointer_up.bind(this);
         this.__pointer_down = pointer_down.bind(this);
+
+        // make sure not to set these later.
+        cache_values.call(this, {}, 0);
 
         Widget.prototype.initialize.call(this, options);
 
