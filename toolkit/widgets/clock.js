@@ -234,7 +234,6 @@ w.Clock = $class({
 
         // start the clock
         this.__timeout = timeout.bind(this);
-        timeout.call(this);
     },
 
     redraw: function () {
