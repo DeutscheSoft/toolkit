@@ -187,24 +187,15 @@ w.Pager = $class({
 
         // TODO: not always necessary
         if (this.current() === p) {
-            this.set("show", this.options.show);
+            this.options.show = pos;
+            this.buttonarray.set("show", pos);
+            p.set("active", true);
+            if (!this.hidden()) p.show();
         } else {
             this.hide_child(p);
-            p.force_hidden();
         }
 
         return p;
-    },
-
-    fire_event : function(type) {
-        if (type == "show" || type == "hide") {
-            var page = this.current();
-            // hide and show are only for the active page and the #ButtonArray
-            // and this widget itself
-            this.buttonarray.fire_event(type);
-            if (page) page.fire_event(type);
-            BASE.prototype.fire_event.apply(this, arguments);
-        } else Container.prototype.fire_event.apply(this, arguments);
     },
 
     remove_page: function (page) {
@@ -258,7 +249,6 @@ w.Pager = $class({
             if (page) {
                 this.hide_child(page);
                 page.set("active", false);
-                page.fire_event("hide");
             }
 
             this.buttonarray.set("show", value);
@@ -271,7 +261,6 @@ w.Pager = $class({
                 if (page) {
                     page.set("active", true);
                     this.show_child(page);
-                    page.fire_event("show");
                     this.fire_event("changed", page, value);
                 }
 
