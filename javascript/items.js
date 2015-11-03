@@ -80,7 +80,7 @@ items={
             "name": "next"
           }
         ],
-        "extends": ["Container"],
+        "extends": ["Button"],
         "files": [
           "/home/markus/DeusO/toolkit/toolkit/widgets/buttonarray.js",
           "/home/markus/DeusO/toolkit/toolkit/templates/default/css/buttonarray.css"

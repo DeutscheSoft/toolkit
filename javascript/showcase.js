@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', function () {
         { "id" : "modules",    "name" : "Modules",      "description" : "This item implements one or more other items as distinct objects." }, 
         { "id" : "events",     "name" : "Events",       "description" : "Bind callback functions to events via item.add_event()." },
         { "id" : "files",      "name" : "Files",        "description" : "The item uses the following external files:" },
-        { "id" : "example",    "name" : "Example",      "description" : "See the item in action." }
+        { "id" : "example",    "name" : "Example",      "description" : "See the item in action and take a look on the corresponding code." }
     ]
     this.replacements = {
         "[c]" : "<i class=classified title='This element is classified. E.g. calling item.add_class() affects this element.'>❇</i>",
@@ -215,11 +215,13 @@ window.addEventListener('DOMContentLoaded', function () {
             case "extends":
                 div.appendChild(this.build_tree(item));
                 break;
-            case "implements":
-                div.appendChild(this.build_list(item[sect.id], sect.id, true));
-                break;
             case "files":
-                div.appendChild(this.build_list(item[sect.id], sect.id));
+                var a = [];
+                this.bubble_tree(item, function (i) {
+                    if (!i.hasOwnProperty("files")) return;
+                    a = a.concat(i.files);
+                }, ['extends', 'implements']);
+                div.appendChild(this.build_list(a, sect.id));
                 break;
             case "example":
                 id = item.name.toLowerCase();
