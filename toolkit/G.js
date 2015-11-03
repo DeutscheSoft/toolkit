@@ -5,6 +5,7 @@ function Scheduler() {
     this.Q_tmp = [];
     this.tmp = [];
     this.debug = 10;
+    this.after_frame_cbs = [];
 };
 function low_add(Q, o, prio) {
     prio = prio|0;
@@ -24,6 +25,13 @@ function low_remove(Q, o, prio) {
         return;
     }
 }
+function low_has(Q, o, prio) {
+    prio = prio|0;
+    var q = Q[prio];
+    if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
+    if (!q) return false;
+    return -1 !== q.indexOf(o);
+}
 function request_frame() {
     this.will_render = true;
     this.rid = window.requestAnimationFrame(this.bound_run);
@@ -37,12 +45,14 @@ Scheduler.prototype = {
         var debug = this.debug;
         var calls = 0;
         var t;
+        var i;
 
         if (debug) t = performance.now();
 
         while (!empty) {
-            var i;
             runs++;
+
+            if (runs > 20) throw("something is not right");
 
             empty = true;
 
@@ -92,6 +102,14 @@ Scheduler.prototype = {
                 console.log("DOMScheduler did %d runs and %d calls: %f ms", runs, calls, t);
         }
 
+        Q = this.after_frame_cbs;
+
+        if (Q.length) {
+            this.after_frame_cbs = [];
+            for (i = 0; i < Q.length; i++)
+                Q[i]();
+        }
+
         return runs;
     },
     add : function(o, prio) {
@@ -105,7 +123,16 @@ Scheduler.prototype = {
     },
     remove_next : function(o, prio) {
         low_remove(this.Q_next, o, prio);
-    }
+    },
+    has: function(o, prio) {
+        return low_has(this.Q, o, prio);
+    },
+    has_next: function(o, prio) {
+        return low_has(this.Q_next, o, prio);
+    },
+    after_frame: function(fun) {
+        this.after_frame_cbs.push(fun);
+    },
 };
 function DOMScheduler() {
     Scheduler.call(this);
