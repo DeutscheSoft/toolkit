@@ -238,12 +238,6 @@ w.BASE = $class({
                 this.add_event(ev[i].event, fun, ev[i].prevent, ev[i].stop);
             return;
         }
-        // handle resize events globally since there's no resize event
-        // for DOM elements
-        if (e == "resize") {
-            TK.add_resize_event(this);
-            return;
-        }
         ev = this.__events;
         if (!ev.hasOwnProperty(e)) {
             if (__native_events[e]) {
@@ -322,8 +316,24 @@ w.BASE = $class({
         for (var i = 0; i < args.length; i++) {
             args[i] = arguments[i+1];
         }
-        for (var i = 0; i < ev.length; i++)
-            ev[i].apply(this, args);
+        for (var i = 0; i < ev.length; i++) {
+            try {
+                ev[i].apply(this, args);
+            } catch (e) {
+                console.log("event handler", ev[i], "threw", e);
+            }
+        }
+    },
+
+    has_event_listeners: function (e) {
+        var ev = this.__events;
+
+        if (!ev.hasOwnProperty(e)) return false;
+
+        ev = ev[e].queue;
+
+        if (!ev.length) return false;
+        return true;
     },
     add_events: function (events, fun) {
         var i;
