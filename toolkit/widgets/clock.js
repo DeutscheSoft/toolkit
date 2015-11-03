@@ -83,6 +83,7 @@ function set_labels() {
     
     TK.S.add(function() {
         var bb = E.getBoundingClientRect();
+        if (bb.width === 0) return; // we are hidden
         var mleft   = parseInt(TK.get_style(E, "margin-left")) || 0;
         var mright  = parseInt(TK.get_style(E, "margin-right")) || 0;
         var mtop    = parseInt(TK.get_style(E, "margin-top")) || 0;
@@ -145,7 +146,7 @@ w.Clock = $class({
     // Clock shows a customized clock with circulars displaying hours, minutes
     // and seconds. It has three free formatable labels.
     _class: "Clock",
-    Extends: Widget,
+    Extends: Container,
     options: {
         thickness:    10,         // thickness of the rings
         margin:       0,          // margin between the circulars
@@ -181,7 +182,7 @@ w.Clock = $class({
         var E;
         this.circulars = {};
         this._margin = -1;
-        Widget.prototype.initialize.call(this, options);
+        Container.prototype.initialize.call(this, options);
         this.options.time = new Date();
         E = TK.make_svg("svg", {"class": "toolkit-clock"});
         this.element = this.widgetize(E, true, true, true);
@@ -224,6 +225,10 @@ w.Clock = $class({
             {max: 60, "class": "toolkit-minutes"}));
         this.circulars.hours   = new Circular(Object.assign({}, circ_options,
             {max: 12, "class": "toolkit-hours"}));
+
+        this.add_child(this.circulars.seconds);
+        this.add_child(this.circulars.minutes);
+        this.add_child(this.circulars.hours);
         
         this.set("size", this.options.size, true);
 
@@ -231,11 +236,11 @@ w.Clock = $class({
         this.__timeout = timeout.bind(this);
         timeout.call(this);
     },
-    
+
     redraw: function () {
         var I = this.invalid, O = this.options;
 
-        Widget.prototype.redraw.call(this);
+        Container.prototype.redraw.call(this);
 
         if (I.size) {
             var tmp = O.size;
@@ -289,12 +294,12 @@ w.Clock = $class({
         this.circulars.hours.destroy();
         if (this.__to)
             window.clearTimeout(this.__to);
-        Widget.prototype.destroy.call(this);
+        Container.prototype.destroy.call(this);
     },
     
     // GETTERS & SETTERS
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        Container.prototype.set.call(this, key, value);
         if (key == "timeout") timeout.call(this);
     }
 });

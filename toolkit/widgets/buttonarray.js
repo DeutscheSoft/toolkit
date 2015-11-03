@@ -188,6 +188,8 @@ w.ButtonArray = $class({
                 this._container.childNodes[pos]);
         }
 
+        this.add_child(b);
+
         check_arrows.call(this);
         b.add_event("click", function () {
             button_clicked.call(this, b);
