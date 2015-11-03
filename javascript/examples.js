@@ -16,6 +16,7 @@ run_valueknob = function () {
         snap: 0.01
     });
     TK.add_class(TK.get_id("demo"), "box");
+    valueknob.show();
 }
 
 
@@ -23,8 +24,9 @@ run_valueknob = function () {
 run_pager = function () {
     if (typeof pager1 != "undefined") {
         pager1.destroy();
-        pager1 = undefined;
+        pager1 = null;
         pager2.destroy();
+        pager2 = null;
         return;
     }
     pager1 = new Pager({
@@ -65,6 +67,8 @@ run_pager = function () {
         show: 4,
         container: TK.get_id("demo")
     });
+    pager1.show();
+    pager2.show();
 }
 
 // BUTTONARRAY
@@ -171,6 +175,10 @@ run_buttonarray = function () {
         ],
         show: 15
     });
+    ba_vert1.show();
+    ba_horiz1.show();
+    ba_vert2.show();
+    ba_horiz2.show();
 }
 
 
@@ -272,8 +280,10 @@ run_keyboard = function () {
                 }
             ],
         });
+        keyboard.show();
     });
     TK.add_class(TK.get_id("demo"), "box");
+    value.show();
 }
 
 
