@@ -45,6 +45,10 @@ var invalid_prototype = {
         }
     }
 };
+function redraw() {
+    this.needs_redraw = false;
+    this.redraw();
+}
 w.Widget = $class({
     // Widget is the base class for all widgets drawing DOM elements. It
     // provides basic functionality like delegating events, setting options and
@@ -64,9 +68,6 @@ w.Widget = $class({
     Implements: [AudioMath],
     initialize: function (options) {
         BASE.prototype.initialize.call(this);
-        if (this.shared_events) {
-            this.shared_events = Object.create(this.shared_events);
-        }
         // Main actions every widget needs to take
         this.fire_event("initialize");
         this.set_options(options);
@@ -78,10 +79,9 @@ w.Widget = $class({
         this.__widgetized = null;
         this.invalid = Object.create(invalid_prototype);
         this.value_time = Object.create(null);
-        this.will_draw = false;
-        this._redraw = this.redraw.bind(this);
-        this.__hidden = 0;
-        return this;
+        this.needs_redraw = false;
+        this._redraw = redraw.bind(this);
+        this.__hidden = 2;
     },
 
     invalidate_all: function() {
@@ -105,19 +105,21 @@ w.Widget = $class({
 
     resize: function() {
         this.fire_event("resize");
+        this.invalid.resize = true;
+        this.trigger_draw();
     },
-    
+
     trigger_draw : function() {
-        if (!this.will_draw) {
-            this.will_draw = true;
-            if (this.__hidden !== 2) TK.S.add(this._redraw);
+        if (!this.needs_redraw) {
+            this.needs_redraw = true;
+            if (this.__hidden === 0) TK.S.add(this._redraw);
         }
     },
 
     trigger_draw_next : function() {
-        if (!this.will_draw) {
-            this.will_draw = true;
-            if (this.__hidden !== 2) TK.S.add_next(this._redraw);
+        if (!this.needs_redraw) {
+            this.needs_redraw = true;
+            if (this.__hidden === 0) TK.S.add_next(this._redraw);
         }
     },
 
@@ -126,11 +128,9 @@ w.Widget = $class({
         this.fire_event("initialized");
         this.invalidate_all();
         this.trigger_draw();
-        return this;
     },
     redraw: function () {
         this.fire_event("redraw");
-        this.will_draw = false;
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
@@ -175,10 +175,18 @@ w.Widget = $class({
             }
         }
 
+        if (I.resize) {
+            I.resize = false;
+            if (this.has_event_listeners("resized")) {
+                TK.S.after_frame(function() {
+                    this.fire_event("resized");
+                }.bind(this));
+            }
+        }
     },
     destroy: function () {
         this.fire_event("destroy");
-        if (this.will_draw) TK.S.remove(this._redraw);
+        if (this.needs_redraw) TK.S.remove(this._redraw);
         BASE.prototype.destroy.call(this);
         return this;
     },
@@ -252,38 +260,33 @@ w.Widget = $class({
         this.trigger_draw();
         this.fire_event("set", key, value);
         this.fire_event("set_" + key, value);
-        return this;
     },
     get: function (key) {
         return this.options[key];
     },
-    hide: function () {
-        if (this.__hidden === 0) {
-            this.__hidden = 1;
-            this.trigger_draw();
-            this.fire_event("hide");
-        }
-    },
-    force_hidden: function() {
-        if (this.__hidden !== 2) {
-            this.__hidden = 2;
-            var E = this.classified;
-            if (E) TK.add_class(E, "toolkit-hidden");
-            if (this.will_draw) TK.S.remove(this._redraw);
-            this.fire_event("hide");
-        }
-    },
     show: function () {
         if (this.__hidden !== 0) {
             this.__hidden = 0;
-            if (this._hidden !== 1 && this.will_draw) {
+            if (this.needs_redraw) {
                 TK.S.add(this._redraw);
             }
             this.fire_event("show");
         }
     },
+    hide: function () {
+        if (this.__hidden === 0) {
+            this.__hidden = 2;
+            if (this.needs_redraw) {
+                TK.S.remove(this._redraw);
+            }
+            this.fire_event("hide");
+        }
+    },
+    force_hidden: function() {
+        this.hide();
+    },
     hidden: function() {
-        return !!this.__hidden;
+        return this.__hidden !== 0;
     },
 });
 })(this);

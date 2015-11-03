@@ -38,6 +38,7 @@ w.Container = $class({
                                       true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
+        this.__hidden = 2;
     },
     
     destroy: function () {
@@ -45,11 +46,13 @@ w.Container = $class({
         Widget.prototype.destroy.call(this);
     },
     add_children : function (a) {
-        this.children = this.children.concat(a);
+        a.map(this.add_child, this);
     },
     add_child : function(child) {
         var C = this.children;
+        var H = this.hidden_children;
         C.push(child);
+        H.push(false);
         if (this.hidden()) {
             child.force_hidden();
         } else {
@@ -70,11 +73,27 @@ w.Container = $class({
         for (var i = 0; i < a.length; i++)
             this.remove_child(a[i]);
     },
-    hide: function() {
-        var C = this.children;
-        Widget.prototype.hide.call(this);
-        for (var i = 0; i < C.length; i++) {
-            C[i].hide();
+    hide: function () {
+        if (this.__hidden === 0) {
+            this.trigger_draw();
+            this.__hidden = 1;
+            this.fire_event("hide");
+            var C = this.children;
+            var H = this.hidden_children;
+            for (var i = 0; i < C.length; i++) {
+                if (H[i] !== true) C[i].hide();
+            }
+        }
+    },
+    force_hidden: function() {
+        if (this.__hidden !== 2) {
+            this.__hidden = 2;
+            var E = this.element;
+            if (E) TK.add_class(E, "toolkit-hidden");
+            if (this.needs_redraw) {
+                TK.S.remove(this._redraw);
+            }
+            this.fire_event("hide");
         }
     },
     force_hidden: function() {
@@ -84,13 +103,22 @@ w.Container = $class({
             C[i].force_hidden();
         }
     },
-
     show: function() {
-        var C = this.children;
-        var H = this.hidden_children;
-        Widget.prototype.show.call(this);
-        for (var i = 0; i < C.length; i++) {
-            if (!H[i]) C[i].show();
+        if (this.__hidden !== 0) {
+            this.needs_redraw = true;
+            if (this.__hidden === 2) {
+                TK.S.add(this._redraw);
+            }
+            this.__hidden = 0;
+            this.fire_event("show");
+
+            var C = this.children;
+            var H = this.hidden_children;
+            for (var i = 0; i < C.length; i++) {
+                if (!H[i]) {
+                    C[i].show();
+                }
+            }
         }
     },
 
@@ -108,7 +136,7 @@ w.Container = $class({
 
         if (typeof i !== "number") {
             i = C.indexOf(i);
-            if (i === -1) return;
+            if (i === -1) throw("Cannot find child.");
         }
 
         H[i] = true;
@@ -121,7 +149,7 @@ w.Container = $class({
 
         if (typeof i !== "number") {
             i = C.indexOf(i);
-            if (i === -1) return;
+            if (i === -1) throw("Cannot find child.");
         }
 
         if (H[i]) {
@@ -150,7 +178,6 @@ w.Container = $class({
                     TK.add_class(E, "toolkit-hidden");
                 }
             }
-            return;
         } else if (this.__hidden === 0) {
             if (E) {
                 TK.remove_class(E, "toolkit-hide");
