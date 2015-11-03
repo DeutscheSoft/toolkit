@@ -21,46 +21,54 @@
 "use strict";
 (function(w){
 w.Pager = $class({
-    /* Pager, also known as Notebook in other UI toolkits, provides
-       multiple containers for displaying contents which are switchable
-       via a ButtonArray. */
+    /* @class:  Pager
+     * 
+     * @option: position;  Int; _TOOLKIT_TOP;    The position of the ButtonArray
+     * @option: direction; Int; _TOOLKIT_RIGHT; Direction the pages appearance
+     * @option: pages;     Array;   []; an array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
+     * @option: show;      Int;   -1; The page to show
+     * @option: overlap;   Bool;   false; if true pages aren't resized so the #ButtonArray overlaps the contents
+     *
+     * @extends: Container
+     * 
+     * @description:
+     * Pager, also known as Notebook in other UI toolkits, provides
+     * multiple containers for displaying contents which are switchable
+     * via a #ButtonArray. */
     _class: "Pager",
     Extends: Container,
     options: {
-        position:  _TOOLKIT_TOP,      // the default position of the ButtonArray
-        direction: _TOOLKIT_VERTICAL, // the direction of the pages
-        pages:     [],                // an array of mappings (objects) containing
-                                      // the members "label" and "content". label
-                                      // is a string for the buttons label or an
-                                      // object containing options for a button
-                                      // and content is a string containing HTML
-                                      // or a ready-to-use DOM node, e.g.
-                                      // [{label: "Empty Page 1", content: document.createElement("span")},
-                                      //  {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
-        show:      -1,                // the page to show
-        overlap:   false              // if true pages aren't resized so
-                                      // the buttonarray overlaps the contents
+        position:  _TOOLKIT_TOP,
+        direction: _TOOLKIT_VERTICAL,
+        pages:     [],
+        show:      -1,
+        overlap:   false
     },
     
     initialize: function (options) {
         this.pages = [];
         Container.prototype.initialize.call(this, options);
+        /* @element: element [d][c][s];     div.toolkit-container.toolkit-pager;             The main pager element */
+        /* @element: _buttonarray_wrapper; div.toolkit-wrapper.toolkit-buttonarray-wrapper; An internal container for layout purposes containing the #ButtonArray. */
+        /* @element: _container_wrapper;   div.toolkit-wrapper.toolkit-container-wrapper;   An internal container for layout purposes containing the _clip element. */
+        /* @element: _clip;                div.toolkit-clip;                                The clipping area containing the pages containers */
         this.element.className += " toolkit-pager";
+        /* @module: buttonarray; The #ButtonArray instance acting as the menu */
         this.buttonarray = new ButtonArray({
             container: this.element,
             onchanged: function(button, n) {
                 this.set("show", n); 
             }.bind(this),
         });
+        this._buttonarray_wrapper = TK.element("div", "toolkit-wrapper", "toolkit-buttonarray-wrapper");
+        this._container_wrapper = TK.element("div", "toolkit-wrapper", "toolkit-container-wrapper");
+        this._clip = TK.element("div", "toolkit-clip");
+        this._container_wrapper.appendChild(this._clip);
+        this.element.appendChild(this._buttonarray_wrapper);
+        this.element.appendChild(this._container_wrapper);
+        
         this.add_child(this.buttonarray);
-        this._clip      = TK.element("div", "toolkit-clip");
-        this._container = TK.element("div", "toolkit-container");
-        this._clip.appendChild(this._container);
-        this._pagestyle = TK.element("style");
-        this._pagestyle.setAttribute("type", "text/css");
-        this.element.appendChild(this._pagestyle);
         this.add_pages(this.options.pages);
-        this.element.appendChild(this._clip);
         this.set("position", this.options.position);
         this.set("show", this.options.show);
     },
@@ -71,7 +79,10 @@ w.Pager = $class({
         var I = this.invalid;
         var E = this.element;
 
-        if (I.position) {
+        if (I.overlap)
+            TK[(O.overlap ? "add_" : "remove_") + "class"](E, "toolkit-overlap");
+        
+        if (I.direction) {
             TK.remove_class(E, "toolkit-top");
             TK.remove_class(E, "toolkit-right");
             TK.remove_class(E, "toolkit-bottom");
@@ -91,80 +102,55 @@ w.Pager = $class({
                     break;
             }
         }
-
-        if (I.direction) {
-            TK.remove_class(E, "toolkit-vertical");
-            TK.remove_class(E, "toolkit-horizontal");
-            TK.add_class(E, O.direction == _TOOLKIT_VERT ? "toolkit-vertical" : "toolkit-horizontal");
-        }
-
-        if (I.validate("position", "overlap")) {
-            /* FORCE_RELAYOUT */
-            if (O.overlap) {
-                this._clip.style.width = "";
-                this._clip.style.height = "";
-            } else {
-                switch (O.position) {
-                    case _TOOLKIT_TOP:
-                    case _TOOLKIT_BOTTOM:
-                        TK.outer_height(this._clip, true,
-                            TK.inner_height(this.element)
-                          - TK.outer_height(this.buttonarray.element, true));
-                        break;
-                    case _TOOLKIT_LEFT:
-                    case _TOOLKIT_RIGHT:
-                        TK.outer_width(this._clip, true,
-                            TK.inner_width(this.element)
-                          - TK.outer_width(this.buttonarray.element, true));
-                        break;
-                }
-            }
-            var n = TK.inner_width(this._clip);
-            this.__page_width = n;
-            this.__page_height = TK.inner_height(this._clip);
-
-            /* force the below drawing */
-            I.direction = true;
-            I.show = true;
-        }
-
-        if (I.validate("direction")) {
-            var style;
-            switch (O.direction) {
-                case _TOOLKIT_VERT:
-                    style = "#" + O.id + " > .toolkit-clip > .toolkit-container > .toolkit-page {\n";
-                    style += "    height: " + this.__page_height + "px;\n}";
+        
+        if (I.position) {
+            TK.remove_class(E, "toolkit-layout-top");
+            TK.remove_class(E, "toolkit-layout-right");
+            TK.remove_class(E, "toolkit-layout-bottom");
+            TK.remove_class(E, "toolkit-layout-left");
+            switch (O.position) {
+                case _TOOLKIT_TOP:
+                    TK.add_class(E, "toolkit-layout-top");
                     break;
-                case _TOOLKIT_HORIZ:
-                    style = "#" + O.id + " > .toolkit-clip > .toolkit-container > .toolkit-page {\n";
-                    style += "    width: " + this.__page_width + "px;\n}";
+                case _TOOLKIT_BOTTOM:
+                    TK.add_class(E, "toolkit-layout-bottom");
+                    break;
+                case _TOOLKIT_LEFT:
+                    TK.add_class(E, "toolkit-layout-left");
+                    break;
+                case _TOOLKIT_RIGHT:
+                    TK.add_class(E, "toolkit-layout-right");
                     break;
             }
-            TK.set_text(this._pagestyle, style);
-            I.show = true;
         }
-
+        
         if (I.show) {
             I.show = false;
-
             for (var i = 0; i < this.pages.length; i ++) {
                 var page = this.pages[i];
-
-                if (i == O.show) {
+                if (i == O.show)
                     page.add_class("toolkit-active");
-                } else {
+                else
                     page.remove_class("toolkit-active");
-                }
             }
         }
     },
     
     add_pages: function (options) {
+        /* @method: add_pages
+         * @option: options; Array[{label:String, content:Container|String}[, ...]]; undefined; An Array containing objects with options for the page and its button. Members are: label - a string for the #Button, content: a string or a #Container instance.
+         * @description: Adds an array of pages. */
         for (var i = 0; i < options.length; i++)
             this.add_page(options[i].label, options[i].content);
     },
     
     add_page: function (button, content, pos, options) {
+        /* @method: add_page
+         * @option: button;  String|Object;       undefined; A string with the #Button s label or an object cotaining options for the #Button
+         * @option: content; Widget|Class|String; undefined; The content of the page. Either a #Container (or derivate)  widget, a class (needs option "options" to be set) or a string which get embedded in a new #Container
+         * @option: options; Object;              undefined; An object containing options for the #Container to add as a page
+         * @option: pos;     Int|Undefined;       undefined; The position to add the new page to. If avoided the page is added to the end of the list
+         * @description: Adds a #Container to the Pager and a #Button to the pagers #ButtonArray */
         var p;
         if (typeof button === "string")
             button = {label: button};
@@ -182,18 +168,19 @@ w.Pager = $class({
         }
 
         p.add_class("toolkit-page");
-        p.set("container", this._container);
+        p.set("container", this._clip);
 
         var len = this.pages.length;
 
         if (pos >= 0 && pos < len - 1) {
             this.pages.splice(pos, 0, p);
-            this._container.insertBefore(p.element, this._container.childNodes[pos]);
+            this._clip.insertBefore(p.element, this._clip.childNodes[pos]);
         } else {
             pos = len;
             this.pages.push(p);
-            this._container.appendChild(p.element);
+            this._clip.appendChild(p.element);
         }
+        /* @event: added; Page, Widget; A page was added to the Pager */
         this.fire_event("added", p);
 
         this.add_child(p);
@@ -212,7 +199,7 @@ w.Pager = $class({
     fire_event : function(type) {
         if (type == "show" || type == "hide") {
             var page = this.current();
-            // hide and show are only for the active page and the button array
+            // hide and show are only for the active page and the #ButtonArray
             // and this widget itself
             this.buttonarray.fire_event(type);
             if (page) page.fire_event(type);
@@ -221,6 +208,9 @@ w.Pager = $class({
     },
 
     remove_page: function (page) {
+        /* @method: remove_page
+         * @option: page; Int|Container; undefined; The container to remove. Either a position or the #Container widget generated by add_page
+         * @description: Removes a page from the Pager. */
         if (typeof page == "object")
             page = this.pages.indexOf(page);
         if (page < 0 || page >= this.pages.length)
@@ -234,6 +224,7 @@ w.Pager = $class({
         this.pages.splice(page, 1);
         p.destroy();
         this.remove_child(p);
+        /* @event: removed; Page, Widget; A page was removed from the Pager */
         this.fire_event("removed", p);
     },
     
@@ -245,6 +236,8 @@ w.Pager = $class({
     },
 
     current: function() {
+        /* @method: current
+         * @description: Returns the index of the actual displayed page or null if none is shown */
         var n = this.options.show;
         if (n >= 0 && n < this.pages.length) {
             return this.pages[n];

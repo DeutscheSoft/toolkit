@@ -57,11 +57,12 @@ window.addEventListener('DOMContentLoaded', function () {
         
         var regex = "#(";
         var lst = this.all_items();
-        for (var i = 0; i < lst.length; i++) {
+        for (var i = lst.length-1; i >= 0 ; i--) {
+            // TODO: reversing is just a trashy fix of matching only Button in ButtonArray
             regex += lst[i].name + "|"; 
         }
         if (regex) regex = regex.substr(0, regex.length-1);
-        this.proc_text_regex = new RegExp(regex + ")", "i");
+        this.proc_text_regex = new RegExp(regex + ")", "ig");
         
         var item = window.location.href.split("?", 2);
         if (item.length > 1) {
@@ -320,7 +321,7 @@ window.addEventListener('DOMContentLoaded', function () {
                     td.innerHTML = this.process_text(item[cols[c]]);
                 else if (typeof item[cols[c]] == "object")
                     td.appendChild(this.build_table(item[cols[c]]));
-                else
+                else if (item[cols[c]])
                     td.innerHTML = item[cols[c]];
                 row.appendChild(td);
             }
@@ -409,6 +410,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     this.process_text = function (text) {
         if (!text) return;
+        text = TK.escapeHTML(text);
         var r = this.replacements;
         for (var i in r) {
             text = text.replace(i, r[i]);

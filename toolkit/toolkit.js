@@ -465,6 +465,18 @@ function sprintf(fmt) {
 
     return ret.join("");
 }
+
+function escapeHTML(text) {
+    var map = {
+        '&' : '&amp;',
+        '<' : '&lt;',
+        '>' : '&gt;',
+        '"' : '&quot;',
+        "'" : '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 function is_touch() {
     return 'ontouchstart' in w // works on most browsers 
       || 'onmsgesturechange' in w; // works on ie10
@@ -682,6 +694,8 @@ w.TK = w.toolkit = {
     FORMAT : FORMAT,
     
     sprintf : sprintf,
+    
+    escapeHTML : escapeHTML,
     
     // OS AND BROWSER CAPABILITIES
     
@@ -972,4 +986,3 @@ w._TOOLKIT_LANGUAGE_GERMAN             = 0x000f0001;
 w._TOOLKIT_TEXT_INPUT                  = 0x00100000;
 w._TOOLKIT_TEXT_AREA                   = 0x00100001;
 })(this);
-

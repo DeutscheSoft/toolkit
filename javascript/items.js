@@ -10,7 +10,13 @@ items={
     "name": "Widgets",
     "items": {
       "Button": {
-        "description": "Button is a simple, clickable widget to trigger funcions. It fires a couple of click-related events and consists of a label and an icon. Buttons are used as a base to build different other widgets from, too.",
+        "name": "Button",
+        "id": "button",
+        "extends": ["Widget"],
+        "files": [
+          "/home/markus/DeusO/toolkit/toolkit/widgets/button.js",
+          "/home/markus/DeusO/toolkit/toolkit/templates/default/css/button.css"
+        ],
         "options": [
           {
             "description": "Text for the buttons label",
@@ -37,12 +43,11 @@ items={
             "name": "state_color"
           }
         ],
-        "id": "button",
         "elements": [
           {
             "description": "The main button element",
             "class": "div.toolkit-button",
-            "name": "[d][c][s]element"
+            "name": "element [d][c][s]"
           },
           {
             "description": "An internal container for label and icon",
@@ -60,16 +65,26 @@ items={
             "name": "_label"
           }
         ],
-        "extends": ["Widget"],
-        "name": "Button",
-        "implements" : [ "AudioMath", "Range" ],
-        "files": [
-          "/home/markus/DeusO/toolkit/toolkit/widgets/button.js",
-          "/home/markus/DeusO/toolkit/toolkit/templates/default/css/button.css"
-        ]
+        "description": "Button is a simple, clickable widget to trigger funcions. It fires a couple of click-related events and consists of a label and an icon. Buttons are used as a base to build different other widgets from, too."
       },
       "ButtonArray": {
-        "description": "ButtonArray is a list of buttons (#Button) layouted either vertically or horizontally. ButtonArray automatically adds arrow buttons if the overal width is smaller than the buttons list.",
+        "name": "ButtonArray",
+        "id": "buttonarray",
+        "modules": [
+          {
+            "description": "The previous arrow #Button instance",
+            "name": "prev"
+          },
+          {
+            "description": "The next arrow #Button instance",
+            "name": "next"
+          }
+        ],
+        "extends": ["Container"],
+        "files": [
+          "/home/markus/DeusO/toolkit/toolkit/widgets/buttonarray.js",
+          "/home/markus/DeusO/toolkit/toolkit/templates/default/css/buttonarray.css"
+        ],
         "events": [
           {
             "description": "When a #Button or an arrow gets clicked",
@@ -113,17 +128,6 @@ items={
             "name": "show"
           }
         ],
-        "id": "buttonarray",
-        "modules": [
-          {
-            "description": "The previous arrow #Button instance",
-            "name": "prev"
-          },
-          {
-            "description": "The next arrow #Button instance",
-            "name": "next"
-          }
-        ],
         "elements": [
           {
             "description": "A clipping area containing the list of buttons",
@@ -136,20 +140,19 @@ items={
             "name": "_container"
           }
         ],
-        "extends": ["Button"],
+        "description": "ButtonArray is a list of buttons (#Button) layouted either vertically or horizontally. ButtonArray automatically adds arrow buttons if the overal width is smaller than the buttons list.",
         "methods": [
           {
-            "name": "add_buttons",
             "description": "Adds an array of buttons to the end of the list.",
             "options": [{
               "description": "An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels",
               "default": "undefined",
               "type": "Array[String|Object]",
               "name": "options"
-            }]
+            }],
+            "name": "add_buttons"
           },
           {
-            "name": "add_button",
             "options": [
               {
                 "description": "An object containing options for the #Button to add or a string for the label",
@@ -163,23 +166,155 @@ items={
                 "type": "Int|Undefined",
                 "name": "pos"
               }
-            ]
+            ],
+            "name": "add_button"
           },
           {
-            "name": "remove_button",
             "description": "Removes a #Button from the ButtonArray",
             "options": [{
               "description": "ID or #Button instance",
               "default": "undefined",
               "type": "Int|Button",
               "name": "button"
-            }]
+            }],
+            "name": "remove_button"
+          }
+        ]
+      },
+      "Pager": {
+        "name": "Pager",
+        "id": "pager",
+        "modules": [{
+          "description": "The #ButtonArray instance acting as the menu",
+          "name": "buttonarray"
+        }],
+        "extends": ["Container"],
+        "files": [
+          "/home/markus/DeusO/toolkit/toolkit/widgets/pager.js",
+          "/home/markus/DeusO/toolkit/toolkit/templates/default/css/pager.css"
+        ],
+        "events": [
+          {
+            "description": "A page was added to the Pager",
+            "arguments": "Page, Widget",
+            "name": "added"
+          },
+          {
+            "description": "A page was removed from the Pager",
+            "arguments": "Page, Widget",
+            "name": "removed"
           }
         ],
-        "name": "ButtonArray",
-        "files": [
-          "/home/markus/DeusO/toolkit/toolkit/widgets/buttonarray.js",
-          "/home/markus/DeusO/toolkit/toolkit/templates/default/css/buttonarray.css"
+        "options": [
+          {
+            "description": "The position of the ButtonArray",
+            "default": "_TOOLKIT_TOP",
+            "type": "Int",
+            "name": "position"
+          },
+          {
+            "description": "Direction the pages appearance",
+            "default": "_TOOLKIT_RIGHT",
+            "type": "Int",
+            "name": "direction"
+          },
+          {
+            "description": "an array of mappings (objects) containing the members \"label\" and \"content\". \"label\" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: \"Empty Page 1\", content: document.createElement(\"span\")}, {label: {label:\"Foobar\", class:\"foobar\"}, content: \"<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>\"}]",
+            "default": "[]",
+            "type": "Array",
+            "name": "pages"
+          },
+          {
+            "description": "The page to show",
+            "default": "-1",
+            "type": "Int",
+            "name": "show"
+          },
+          {
+            "description": "if true pages aren't resized so the #ButtonArray overlaps the contents",
+            "default": "false",
+            "type": "Bool",
+            "name": "overlap"
+          }
+        ],
+        "elements": [
+          {
+            "description": "The main pager element",
+            "class": "div.toolkit-container.toolkit-pager",
+            "name": "element [d][c][s]"
+          },
+          {
+            "description": "An internal container for layout purposes containing the #ButtonArray.",
+            "class": "div.toolkit-wrapper.toolkit-buttonarray-wrapper",
+            "name": "_buttonarray_wrapper"
+          },
+          {
+            "description": "An internal container for layout purposes containing the _clip element.",
+            "class": "div.toolkit-wrapper.toolkit-container-wrapper",
+            "name": "_container_wrapper"
+          },
+          {
+            "description": "The clipping area containing the pages containers",
+            "class": "div.toolkit-clip",
+            "name": "_clip"
+          }
+        ],
+        "description": "Pager, also known as Notebook in other UI toolkits, provides multiple containers for displaying contents which are switchable via a #ButtonArray.",
+        "methods": [
+          {
+            "description": "Adds an array of pages.",
+            "options": [{
+              "description": "An Array containing objects with options for the page and its button. Members are: label - a string for the #Button, content: a string or a #Container instance.",
+              "default": "undefined",
+              "type": "Array[{label:String, content:Container|String}[, ...]]",
+              "name": "options"
+            }],
+            "name": "add_pages"
+          },
+          {
+            "description": "Adds a #Container to the Pager and a #Button to the pagers #ButtonArray",
+            "options": [
+              {
+                "description": "A string with the #Button s label or an object cotaining options for the #Button",
+                "default": "undefined",
+                "type": "String|Object",
+                "name": "button"
+              },
+              {
+                "description": "The content of the page. Either a #Container (or derivate) widget, a class (needs option \"options\" to be set) or a string which get embedded in a new #Container",
+                "default": "undefined",
+                "type": "Widget|Class|String",
+                "name": "content"
+              },
+              {
+                "description": "An object containing options for the #Container to add as a page",
+                "default": "undefined",
+                "type": "Object",
+                "name": "options"
+              },
+              {
+                "description": "The position to add the new page to. If avoided the page is added to the end of the list",
+                "default": "undefined",
+                "type": "Int|Undefined",
+                "name": "pos"
+              }
+            ],
+            "name": "add_page"
+          },
+          {
+            "description": "Removes a page from the Pager.",
+            "options": [{
+              "description": "The container to remove. Either a position or the #Container widget generated by add_page",
+              "default": "undefined",
+              "type": "Int|Container",
+              "name": "page"
+            }],
+            "name": "remove_page"
+          },
+          {
+            "description": "Returns the index of the actual displayed page or null if none is shown",
+            "name": "current"
+          }
         ]
       }
     },
