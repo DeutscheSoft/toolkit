@@ -24,9 +24,9 @@ run_valueknob = function () {
 run_pager = function () {
     if (typeof pager1 != "undefined") {
         pager1.destroy();
-        pager1 = null;
+        pager1 = undefined;
         pager2.destroy();
-        pager2 = null;
+        pager2 = undefined;
         return;
     }
     pager1 = new Pager({
