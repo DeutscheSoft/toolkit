@@ -156,6 +156,7 @@ DOMScheduler.prototype.run = function() {
     this.running = true;
     Scheduler.prototype.run.call(this);
     this.running = false;
+    if (this.Q.length) request_frame.call(this);
 };
 w.Scheduler = Scheduler;
 w.DOMScheduler = DOMScheduler;
