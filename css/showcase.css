@@ -378,12 +378,14 @@ h3.icon {
     left: 50%;
     transform: translate(-50%, -50%);
     overflow: auto;
+    box-sizing: border-box;
 }
 
 #demo_overlay .menu {
     position: absolute;
     top: 1em;
     right: 1em;
+    z-index: 2;
 }
 
 #demo_overlay #code,

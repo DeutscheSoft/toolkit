@@ -1,10 +1,10 @@
-#sc_buttonarray .toolkit-vertical {
+#demo.buttonarray .toolkit-vertical {
     /*width: 20%;*/
     height: 400px;
     margin-right: 20px;
     float: left;
 }
-#sc_buttonarray .toolkit-horizontal {
+#demo.buttonarray .toolkit-horizontal {
     width: 75%;
     float: right;
     margin-bottom: 20px;
@@ -12,14 +12,14 @@
 
 
 
-#sc_fader .toolkit-fader {
+#demo.fader .toolkit-fader {
     height: 400px;
     margin-right: 8px;
 }
 
 
 
-#sc_gauge .toolkit-gauge {
+#demo.gauge .toolkit-gauge {
     margin-right: 6px;
     margin-left: 6px;
 }
@@ -90,53 +90,53 @@
 
 
 
-#sc_knob .toolkit-knob {
+#demo.knob .toolkit-knob {
     margin: 10px;
 }
-#sc_knob .toolkit-knob.knob2 .toolkit-value {
+#demo.knob .toolkit-knob.knob2 .toolkit-value {
     fill: rgba(0, 47, 66, 1);
 }
-#sc_knob .toolkit-knob.knob2 .toolkit-warn .toolkit-value {
+#demo.knob .toolkit-knob.knob2 .toolkit-warn .toolkit-value {
     fill: #c00;
 }
-#sc_knob .toolkit-knob.knob2 .toolkit-dot {
+#demo.knob .toolkit-knob.knob2 .toolkit-dot {
     fill: white;
 }
-#sc_knob .toolkit-knob.knob2 .toolkit-base {
+#demo.knob .toolkit-knob.knob2 .toolkit-base {
     fill: rgba(0, 47, 66, 0.5);
 }
 
-#sc_knob .toolkit-knob.knob2 {
+#demo.knob .toolkit-knob.knob2 {
     width: 120px;
     heigh: 120px;
 }
-#sc_knob .toolkit-knob.knob {
+#demo.knob .toolkit-knob.knob {
     width: 50px;
     height: 50px;
 }
-#sc_knob .toolkit-knob.knob1 {
+#demo.knob .toolkit-knob.knob1 {
     width: 80px;
     height: 80px;
 }
 
 
-#sc_levelmeter .toolkit-meter-base.toolkit-vertical {
+#demo.levelmeter .toolkit-meter-base.toolkit-vertical {
     height: 354px;
 }
 
 
 
-#sc_meterbase {
+#demo.meterbase {
     width: 100%;
 }
-#sc_meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
+#demo.meterbase .toolkit-meter-base.toolkit-vertical.toolkit-right {
     
 }
-#sc_meterbase .toolkit-meter-base.toolkit-vertical {
+#demo.meterbase .toolkit-meter-base.toolkit-vertical {
     height: 280px;
     float: left;
 }
-#sc_meterbase .toolkit-meter-base.toolkit-horizontal {
+#demo.meterbase .toolkit-meter-base.toolkit-horizontal {
     width: 500px;
     float: left;
     height: 137px;
@@ -144,14 +144,14 @@
 
 
 
-#sc_levelmeter .toolkit-level-meter {
+#demo.levelmeter .toolkit-level-meter {
     height: 80px;
     float: left;
 }
 
 
 
-#sc_pager .toolkit-pager {
+.toolkit-pager {
     width: 100%;
     height: 200px;
     margin-bottom: 30px;
@@ -171,12 +171,12 @@ div.toolkit-state.on_air {
 
 
 
-#sc_toggle .toolkit-button {
+#demo.toggle .toolkit-button {
     margin-right: 10px;
 }
 
 
 
-#sc_vbutton .toolkit-valuebutton {
+#demo.valuebutton .toolkit-valuebutton {
     width: 220px;
 }

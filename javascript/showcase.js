@@ -359,7 +359,7 @@ window.addEventListener('DOMContentLoaded', function () {
         
         var dover = TK.element("div", "demo_overlay");
         dover.setAttribute("id", "demo_overlay");
-        var demo = TK.element("div", "demo", "box");
+        var demo = TK.element("div", "demo", "box", id);
         demo.setAttribute("id", "demo");
         dover.appendChild(demo);
         document.body.appendChild(dover);

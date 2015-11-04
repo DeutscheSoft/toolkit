@@ -23,11 +23,11 @@
 w.Pager = $class({
     /* @class:  Pager
      * 
-     * @option: position;  Int; _TOOLKIT_TOP;    The position of the ButtonArray
-     * @option: direction; Int; _TOOLKIT_RIGHT; Direction the pages appearance
-     * @option: pages;     Array;   []; an array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
-     * @option: show;      Int;   -1; The page to show
-     * @option: overlap;   Bool;   false; if true pages aren't resized so the #ButtonArray overlaps the contents
+     * @option: position;  Int;   _TOOLKIT_TOP;   The position of the ButtonArray
+     * @option: direction; Int;   _TOOLKIT_RIGHT; Direction from which the pages appear
+     * @option: pages;     Array; [];             An array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
+     * @option: show;      Int;   -1;             The page to show
+     * @option: overlap;   Bool;  false;          If true pages aren't resized so the #ButtonArray overlaps the contents
      *
      * @extends: Container
      * 
@@ -60,12 +60,9 @@ w.Pager = $class({
                 this.set("show", n); 
             }.bind(this),
         });
-        this._buttonarray_wrapper = TK.element("div", "toolkit-wrapper", "toolkit-buttonarray-wrapper");
-        this._container_wrapper = TK.element("div", "toolkit-wrapper", "toolkit-container-wrapper");
+        
         this._clip = TK.element("div", "toolkit-clip");
-        this._container_wrapper.appendChild(this._clip);
-        this.element.appendChild(this._buttonarray_wrapper);
-        this.element.appendChild(this._container_wrapper);
+        this.element.appendChild(this._clip);
         
         this.add_child(this.buttonarray);
         this.add_pages(this.options.pages);
@@ -83,6 +80,7 @@ w.Pager = $class({
             TK[(O.overlap ? "add_" : "remove_") + "class"](E, "toolkit-overlap");
         
         if (I.direction) {
+            I.direction = false;
             TK.remove_class(E, "toolkit-top");
             TK.remove_class(E, "toolkit-right");
             TK.remove_class(E, "toolkit-bottom");
@@ -104,22 +102,52 @@ w.Pager = $class({
         }
         
         if (I.position) {
+            if (this.buttonarray.element.parentElement == null) {
+                this.trigger_draw();
+                return;
+            }
+            this.buttonarray.invalid.show = true;
+            this.buttonarray.trigger_draw();
+            I.position = false;
             TK.remove_class(E, "toolkit-layout-top");
             TK.remove_class(E, "toolkit-layout-right");
             TK.remove_class(E, "toolkit-layout-bottom");
             TK.remove_class(E, "toolkit-layout-left");
+            TK.remove_class(E, "toolkit-layout-vertical");
+            TK.remove_class(E, "toolkit-layout-horizontal");
             switch (O.position) {
+                // NOTE: some break statements left out for trickle down
                 case _TOOLKIT_TOP:
+                    this._clip.style.top = TK.outer_height(this.buttonarray.element) + "px";
+                    this._clip.style.bottom = null;
+                    this._clip.style.left = null;
+                    this._clip.style.right = null;
                     TK.add_class(E, "toolkit-layout-top");
+                    TK.add_class(E, "toolkit-layout-vertical");
                     break;
                 case _TOOLKIT_BOTTOM:
+                    this._clip.style.bottom = TK.outer_height(this.buttonarray.element) + "px";
+                    this._clip.style.top = null;
+                    this._clip.style.left = null;
+                    this._clip.style.right = null;
                     TK.add_class(E, "toolkit-layout-bottom");
+                    TK.add_class(E, "toolkit-layout-vertical");
                     break;
                 case _TOOLKIT_LEFT:
+                    this._clip.style.left = TK.outer_width(this.buttonarray.element) + "px";
+                    this._clip.style.right = null;
+                    this._clip.style.top = null;
+                    this._clip.style.bottom = null;
                     TK.add_class(E, "toolkit-layout-left");
+                    TK.add_class(E, "toolkit-layout-horizontal");
                     break;
                 case _TOOLKIT_RIGHT:
+                    this._clip.style.right = TK.outer_width(this.buttonarray.element) + "px";
+                    this._clip.style.left = null;
+                    this._clip.style.top = null;
+                    this._clip.style.bottom = null;
                     TK.add_class(E, "toolkit-layout-right");
+                    TK.add_class(E, "toolkit-layout-horizontal");
                     break;
             }
         }

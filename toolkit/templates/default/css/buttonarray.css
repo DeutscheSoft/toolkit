@@ -86,14 +86,14 @@
 .toolkit-buttonarray .toolkit-clip .toolkit-container {
     position: relative;
     transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+    display: inline-block;
 }
 
 .toolkit-buttonarray.toolkit-horizontal .toolkit-clip .toolkit-container {
-    width: 20000px;
     height: 100%;
+    white-space: nowrap;
 }
 .toolkit-buttonarray.toolkit-vertical .toolkit-clip .toolkit-container {
-    height: 10000px;
     width: 100%;
 }
 

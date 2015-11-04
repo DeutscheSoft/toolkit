@@ -1,8 +1,47 @@
+/* GENERAL */
+
 .toolkit-pager {
     position: relative;
     box-sizing: border-box;
 }
 
+
+
+.toolkit-pager > .toolkit-clip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.toolkit-page.toolkit-hidden {
+    display: none;
+}
+
+
+/* BUTTONARRAY */
+
+.toolkit-pager .toolkit-buttonarray{
+    
+}
+.toolkit-pager.toolkit-layout-top .toolkit-buttonarray {
+    
+}
+.toolkit-pager.toolkit-layout-right .toolkit-buttonarray {
+    float: right;
+}
+.toolkit-pager.toolkit-layout-bottom .toolkit-buttonarray {
+    
+}
+.toolkit-pager.toolkit-layout-left .toolkit-buttonarray {
+    
+}
+
+
+
+
+/*
 .toolkit-pager.toolkit-top {
     
 }
@@ -15,8 +54,10 @@
 .toolkit-pager.toolkit-left {
     
 }
+*/
 
 
+/*
 .toolkit-pager > .toolkit-buttonarray {
     position: absolute;
 }
@@ -99,3 +140,4 @@
 .toolkit-pager.toolkit-vertical > .toolkit-clip > .toolkit-container > .toolkit-page {
     width: 100%;
 }
+*/

@@ -40,18 +40,6 @@ function check_arrows(force) {
     }
 }
 
-function list_size() {
-    var dir      = this.options.direction == _TOOLKIT_VERTICAL;
-    var subd     = dir ? 'top' : 'left';
-    var subs     = dir ? 'height' : 'width';
-    var subm2    = dir ? 'marginBottom' : 'marginRight';
-    var btn      = this._container.lastChild;
-    var btnstyle = btn.currentStyle || window.getComputedStyle(btn);
-    var lastrect = this._container.lastChild.getBoundingClientRect();
-    var conrect  = this._container.getBoundingClientRect();
-    return lastrect[subd] - conrect[subd] + lastrect[subs] + parseInt(btnstyle[subm2]);
-}
-
 function prev_clicked(e) {
     /* @event: clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
     this.set("show", this.options.show - 1);
@@ -78,16 +66,15 @@ function scroll_to() {
         var dir      = this.options.direction == _TOOLKIT_VERTICAL;
         var subd     = dir ? 'top' : 'left';
         var subs     = dir ? 'height' : 'width';
-        var btn      = this._container.childNodes[n];
 
         /* FORCE_RELAYOUT */
 
-        var btnrect  = btn.getBoundingClientRect();
+        var btnrect  = this._container.childNodes[n].getBoundingClientRect();
         var conrect  = this._container.getBoundingClientRect();
-        var btnsize  = toolkit["outer_" + subs](btn);
-        var btnpos   = btnrect[subd] - conrect[subd];
-        var listsize = list_size.call(this);
         var clipsize = this._clip.getBoundingClientRect()[subs];
+        var listsize = conrect[subs];
+        var btnsize  = btnrect[subs];
+        var btnpos   = btnrect[subd] - conrect[subd];
 
         /* WILL_INVALIDATE */
 
@@ -148,6 +135,7 @@ w.ButtonArray = $class({
         this._next = this.next.element;
         
         this.set("direction", this.options.direction);
+        this.add_children([this.prev, this.next]);
         this.add_buttons(this.options.buttons);
     },
     
@@ -258,25 +246,18 @@ w.ButtonArray = $class({
             I.check_arrows = false;
             if (O.auto_arrows) {
                 var erect = this.element.getBoundingClientRect();
-                var brect = list_size.call(this);
-                if (O.direction == _TOOLKIT_VERT) {
-                    erect = erect.height;
-                } else {
-                    erect = erect.width;
-                }
-                if (brect > erect) {
+                var brect = this._container.getBoundingClientRect();
+                var subs  = O.direction == _TOOLKIT_VERT ? "height" : "width";
+                if (brect[subs] > erect[subs])
                     show_arrows.call(this);
-                } else {
+                else
                     hide_arrows.call(this);
-                }
                 I.show = true;
             }
         }
 
-        if (I.validate("show", "direction")) {
-            I.show = false;
+        if (I.validate("show", "direction"))
             scroll_to.call(this, O.show);
-        }
     },
     
     current: function() {
