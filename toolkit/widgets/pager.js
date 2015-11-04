@@ -102,12 +102,6 @@ w.Pager = $class({
         }
         
         if (I.position) {
-            if (this.buttonarray.element.parentElement == null) {
-                this.trigger_draw();
-                return;
-            }
-            this.buttonarray.invalid.show = true;
-            this.buttonarray.trigger_draw();
             I.position = false;
             TK.remove_class(E, "toolkit-layout-top");
             TK.remove_class(E, "toolkit-layout-right");
@@ -118,38 +112,62 @@ w.Pager = $class({
             switch (O.position) {
                 // NOTE: some break statements left out for trickle down
                 case _TOOLKIT_TOP:
-                    this._clip.style.top = TK.outer_height(this.buttonarray.element) + "px";
-                    this._clip.style.bottom = null;
-                    this._clip.style.left = null;
-                    this._clip.style.right = null;
                     TK.add_class(E, "toolkit-layout-top");
                     TK.add_class(E, "toolkit-layout-vertical");
                     break;
                 case _TOOLKIT_BOTTOM:
-                    this._clip.style.bottom = TK.outer_height(this.buttonarray.element) + "px";
-                    this._clip.style.top = null;
-                    this._clip.style.left = null;
-                    this._clip.style.right = null;
                     TK.add_class(E, "toolkit-layout-bottom");
                     TK.add_class(E, "toolkit-layout-vertical");
                     break;
                 case _TOOLKIT_LEFT:
-                    this._clip.style.left = TK.outer_width(this.buttonarray.element) + "px";
-                    this._clip.style.right = null;
-                    this._clip.style.top = null;
-                    this._clip.style.bottom = null;
                     TK.add_class(E, "toolkit-layout-left");
                     TK.add_class(E, "toolkit-layout-horizontal");
                     break;
                 case _TOOLKIT_RIGHT:
-                    this._clip.style.right = TK.outer_width(this.buttonarray.element) + "px";
-                    this._clip.style.left = null;
-                    this._clip.style.top = null;
-                    this._clip.style.bottom = null;
                     TK.add_class(E, "toolkit-layout-right");
                     TK.add_class(E, "toolkit-layout-horizontal");
                     break;
             }
+            // the following code will fire after the buttonarray.element
+            // has been added to the dom. We are sure that is the case because it happens
+            // with priority 0 and the following code is executed in priority 1.
+            TK.S.add(function() {
+                var size;
+                if (O.position == _TOOLKIT_TOP || O.position == _TOOLKIT_BOTTOM) {
+                    size = TK.outer_height(this.buttonarray.element) + "px";
+                } else {
+                    size = TK.outer_width(this.buttonarray.element) + "px";
+                }
+                TK.S.add(function() {
+                    switch (O.position) {
+                        // NOTE: some break statements left out for trickle down
+                        case _TOOLKIT_TOP:
+                            this._clip.style.top = size;
+                            this._clip.style.bottom = null;
+                            this._clip.style.left = null;
+                            this._clip.style.right = null;
+                            break;
+                        case _TOOLKIT_BOTTOM:
+                            this._clip.style.bottom = size;
+                            this._clip.style.top = null;
+                            this._clip.style.left = null;
+                            this._clip.style.right = null;
+                            break;
+                        case _TOOLKIT_LEFT:
+                            this._clip.style.left = size;
+                            this._clip.style.right = null;
+                            this._clip.style.top = null;
+                            this._clip.style.bottom = null;
+                            break;
+                        case _TOOLKIT_RIGHT:
+                            this._clip.style.right = size;
+                            this._clip.style.left = null;
+                            this._clip.style.top = null;
+                            this._clip.style.bottom = null;
+                            break;
+                    }
+                }.bind(this));
+            }.bind(this), 1);
         }
         
         if (I.show) {
