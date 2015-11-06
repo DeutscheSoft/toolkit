@@ -1,10 +1,6 @@
 .toolkit-tooltip {
-    pointer-events: none;
     background: #e7e7e7;
-    margin: 24px 0 0 24px;
     color: black;
-    position: fixed;
-    z-index: 9999999999999999;
     opacity: 0.9;
     font-size: 11px;
     color: #666;
@@ -15,6 +11,6 @@
     border: 1px solid #f3f3f3;
 }
 
-.toolkit-tooltip li {
-    
+.toolkit-tt-container {
+    padding: 24px 0 0 24px;
 }

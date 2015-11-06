@@ -11,11 +11,11 @@ js_input_files = \
     toolkit/implements/anchor.js\
     toolkit/implements/ranges.js\
     toolkit/implements/globalcursor.js\
-    toolkit/implements/tooltip.js\
     toolkit/implements/ranged.js\
     toolkit/implements/warning.js\
     toolkit/implements/gradient.js\
     toolkit/widgets/widget.js\
+    toolkit/widgets/tooltips.js\
     toolkit/modules/grid.js\
     toolkit/modules/range.js\
     toolkit/modules/scale.js\

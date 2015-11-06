@@ -32,47 +32,39 @@ function get_value(ev) {
     if (is_vertical) real = size - real;
     return this.snap(this.real2val(real));
 }
+function tooltip_by_position(ev, tt) {
+    var val = get_value.call(this, ev);
+    tt.innerText = this.options.tooltip(val);
+}
+function tooltip_by_value(ev, tt) {
+    tt.innerText = this.options.tooltip(this.options.value);
+}
 function mouseenter (ev) {
-    this.__entered = true;
+    TK.tooltip.add(1, this.tooltip_by_position);
 }
 function clicked(ev) {
     if (this._handle.contains(ev.target)) return;
     this.set("value", get_value.call(this, ev));
-    if (!this.__entered)
-        this.__tt = this.tooltip(false, this.__tt);
+    TK.tooltip._entry.innerText = this.options.tooltip(this.options.value);
     this.fire_event("useraction", "value", this.get("value"));
 }
 function mouseleave (ev) {
-    this.__entered = false;
     if (!this.options.tooltip) return;
-    if (!this.__dragging)
-        this.__tt = this.tooltip(false, this.__tt);
+    TK.tooltip.remove(1, this.tooltip_by_position);
 }
-function dragging(ev) {
-    this.__dragging = true;
-    move.call(this, ev);
+function startdrag(ev) {
+    TK.tooltip.add(0, this.tooltip_by_value);
 }
 function stopdrag(ev) {
-    this.__dragging = false;
-    if (!this.__entered)
-        this.__tt = this.tooltip(false, this.__tt);
+    TK.tooltip.remove(0, this.tooltip_by_value);
 }
 function scrolling(ev) {
     if (!this.options.tooltip) return;
-    this.__tt = this.tooltip(this.options.tooltip(
-        this.get("value")), this.__tt);
+    TK.tooltip._entry.innerText = this.options.tooltip(this.options.value);
 }
 function dblclick(ev) {
     this.set("value", this.options.reset);
     this.fire_event("doubleclick", this.options.value);
-}
-function move(ev) {
-    if (!this.options.tooltip) return;
-    var s = this.__dragging ? this.get("value") : get_value.call(this, ev);
-    // NOTE: mouseenter/mouseleave do not fire when left mouse button is pressed
-    // so dont show tooltip here
-    if (this.__entered)
-        this.__tt = this.tooltip(this.options.tooltip(s), this.__tt);
 }
 function GET() {
     return this.value;
@@ -87,7 +79,7 @@ function SET(v) {
 w.Fader = $class({
     _class: "Fader",
     Extends: Container,
-    Implements: [Ranged, Warning, Tooltip, GlobalCursor],
+    Implements: [Ranged, Warning, GlobalCursor],
     options: {
         value: 0,
         division: 1,
@@ -141,14 +133,16 @@ w.Fader = $class({
             set:     set,
             events:  self
         });
+
+        this.tooltip_by_position = tooltip_by_position.bind(this);
+        this.tooltip_by_value = tooltip_by_value.bind(this);
         
         this.add_event("click", clicked);
         this.add_event("mouseenter", mouseenter);
         this.add_event("mouseleave", mouseleave);
-        this.add_event("mousemove", move);
         this.add_event("dblclick", dblclick);
         
-        this.drag.add_event("dragging", dragging.bind(this));
+        this.drag.add_event("startdrag", startdrag.bind(this));
         this.drag.add_event("stopdrag", stopdrag.bind(this));
         this.scroll.add_event("scrolling", scrolling.bind(this));
     },
