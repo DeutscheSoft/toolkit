@@ -87,20 +87,19 @@ w.Container = $class({
     },
     force_hidden: function() {
         if (this.__hidden !== 2) {
+            if (this.__hidden === 0)
+                this.fire_event("hide");
             this.__hidden = 2;
             var E = this.element;
             if (E) TK.add_class(E, "toolkit-hidden");
             if (this.needs_redraw) {
                 TK.S.remove(this._redraw);
             }
-            this.fire_event("hide");
-        }
-    },
-    force_hidden: function() {
-        var C = this.children;
-        Widget.prototype.hide.call(this);
-        for (var i = 0; i < C.length; i++) {
-            C[i].force_hidden();
+            this.fire_event("hidden");
+            var C = this.children;
+            for (var i = 0; i < C.length; i++) {
+                C[i].force_hidden();
+            }
         }
     },
     show: function() {
