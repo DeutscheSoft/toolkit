@@ -429,9 +429,9 @@ w.Window = $class({
     
     _check_header: function (hold) {
         // checks whether to hide or show the header element
-        if (!this._header_left.innerHTML
-         && !this._header_center.innerHTML
-         && !this._header_right.innerHTML) {
+        if (!this._header_left.firstChild
+         && !this._header_center.firstChild
+         && !this._header_right.firstChild) {
             this._header.style["display"] = "none";
         } else {
             this._header.style["display"] = "block";
@@ -447,9 +447,9 @@ w.Window = $class({
     },
     _check_footer: function (hold) {
         // checks whether to hide or show the footer element
-        if (!this._footer_left.innerHTML
-         && !this._footer_center.innerHTML
-         && !this._footer_right.innerHTML) {
+        if (!this._footer_left.firstChild
+         && !this._footer_center.firstChild
+         && !this._footer_right.firstChild) {
             this._footer.style["display"] = "none";
         } else {
             this._footer.style["display"] = "block";
@@ -681,14 +681,14 @@ w.Window = $class({
                 if (!hold) this.element.style.zIndex = value;
                 break;
             case "title":
-                if (!hold) this._title.innerHTML = value;
+                if (!hold) TK.set_content(this._title, value);
                 break;
             case "status":
                 if (!hold) {
                     if (value)
-                        this._status.innerHTML = value;
+                        TK.set_content(this._status, value);
                     else
-                        this._status.innerHTML = "";
+                        TK.empty(this._status);
                     if (this.options.hide_status) {
                         if (this.__status_to)
                             window.clearTimeout(this.__status_to);
@@ -735,12 +735,7 @@ w.Window = $class({
                 if (!hold) this._set_position();
                 break;
             case "content":
-                while (this._content.firstChild)
-                    this._content.removeChild(this._content.firstChild);
-                if (typeof value === "string")
-                    this._content.innerHTML = value;
-                else if (typeof value === "object")
-                    this._content.appendChild(value);
+                TK.set_content(this._content, value);
                 break;
             case "shrink":
                 this.options.maximize.y = false;

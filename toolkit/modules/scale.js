@@ -67,7 +67,7 @@ function low_draw_label(val, cls) {
         display: "block",
         cssFloat: "left"
     });
-    label.innerHTML = this.options.labels(val);
+    TK.set_content(label, this.options.labels(val));
     if (cls) TK.add_class(label, cls);
     this.element.appendChild(label);
 

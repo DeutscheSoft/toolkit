@@ -130,14 +130,26 @@ function element(tag) {
     return n;
 }
 function empty(e) {
-    while (e.hasChildNodes()) {
-        e.removeChild(e.lastChild);
-    }
+    while (e.lastChild) e.removeChild(e.lastChild);
 }
 function set_text(node, s) {
-    if (node.firstChild) {
-        node.firstChild.nodeValue = s;
-    } else node.appendChild(document.createTextNode(s));
+    node.textContent = s;
+}
+function html(s) {
+    /* NOTE: setting innerHTML on a document fragment is not supported */
+    var e = document.createElement("div");
+    var f = document.createDocumentFragment();
+    e.innerHTML = s;
+    while (e.lastChild) f.appendChild(e.lastChild);
+    return f;
+}
+function set_content(node, s) {
+    if (typeof s === "string") {
+        set_text(node, s);
+    } else {
+        empty(node);
+        node.appendChild(s);
+    }
 }
 function insert_after(newn, refn) {
     refn.parentNode.insertBefore(newn, refn.nextSibling);
@@ -640,6 +652,7 @@ w.TK = w.toolkit = {
     element : element,    
     empty: empty,
     set_text : set_text,
+    set_content : set_content,
     has_class : has_class,
     remove_class : remove_class,
     add_class : add_class,
@@ -694,6 +707,7 @@ w.TK = w.toolkit = {
     FORMAT : FORMAT,
     
     sprintf : sprintf,
+    html : html,
     
     escapeHTML : escapeHTML,
     

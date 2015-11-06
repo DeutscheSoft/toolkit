@@ -170,7 +170,7 @@ w.MeterBase = $class({
 
         if (I.title) {
             I.title = false;
-            this._title.innerHTML = O.title;
+            TK.set_content(this._title, O.title);
         }
         if (I.label) {
             I.label = false;

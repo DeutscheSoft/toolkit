@@ -85,7 +85,7 @@ w.Button = $class({
             I.label = false;
             value = O.label;
             if (value !== false) {
-                _label.innerHTML = value;
+                TK.set_content(_label, value);
                 _label.style["display"] = null;
             } else {
                 _label.style["display"] = "none";

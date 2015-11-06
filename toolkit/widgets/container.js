@@ -190,10 +190,7 @@ w.Container = $class({
             I.content = false;
             TK.empty(E);
 
-            if (typeof O.content === "string")
-                E.innerHTML = O.content;
-            else if (typeof value === "object")
-                E.appendChild(O.content);
+            TK.set_content(E, O.content);
         }
     },
 });
