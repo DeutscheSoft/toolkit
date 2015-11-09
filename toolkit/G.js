@@ -102,6 +102,8 @@ Scheduler.prototype = {
                 console.log("DOMScheduler did %d runs and %d calls: %f ms", runs, calls, t);
         }
 
+        this.running = false;
+
         Q = this.after_frame_cbs;
 
         if (Q.length) {
@@ -156,7 +158,6 @@ DOMScheduler.prototype.run = function() {
     this.running = true;
     Scheduler.prototype.run.call(this);
     this.running = false;
-    if (this.Q.length) request_frame.call(this);
 };
 w.Scheduler = Scheduler;
 w.DOMScheduler = DOMScheduler;
