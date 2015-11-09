@@ -249,19 +249,27 @@ w.ButtonArray = $class({
         if (I.check_arrows || I.direction) {
             I.check_arrows = false;
             if (O.auto_arrows) {
-                var erect = this.element.getBoundingClientRect();
-                var brect = this._container.getBoundingClientRect();
-                var subs  = O.direction == _TOOLKIT_VERT ? "height" : "width";
-                if (brect[subs] > erect[subs])
-                    show_arrows.call(this);
-                else
-                    hide_arrows.call(this);
-                I.show = true;
+                /* we invalidate show and direction here because the scroll_to case
+                 * will be trigger from here later */
+                I.show = I.direction = false;
+                TK.S.add(function() {
+                    var erect = this.element.getBoundingClientRect();
+                    var brect = this._container.getBoundingClientRect();
+                    var subs  = O.direction == _TOOLKIT_VERT ? "height" : "width";
+                    TK.S.add(function() {
+                        if (brect[subs] > erect[subs])
+                            show_arrows.call(this);
+                        else
+                            hide_arrows.call(this);
+
+                        scroll_to.call(this);
+                    }.bind(this));
+                }.bind(this), 1);
             }
         }
-
-        if (I.validate("show", "direction"))
+        if (I.validate("show", "direction")) {
             scroll_to.call(this);
+        }
     },
     
     current: function() {
