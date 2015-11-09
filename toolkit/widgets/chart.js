@@ -255,6 +255,7 @@ w.Chart = $class({
             range_y: function () { return this.range_y; }.bind(this),
             container: E
         });
+        this.add_child(this.grid);
         
         this._title = TK.make_svg("text", {
             "class": "toolkit-title",
