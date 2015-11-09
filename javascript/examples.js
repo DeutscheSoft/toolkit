@@ -556,6 +556,7 @@ function run_clock () {
     clock = new Clock({
         container: TK.get_id("demo"),
     });
+    clock.show();
     TK.seat_all_svg()
 }
 
@@ -748,6 +749,8 @@ function run_toggle () {
         press: 200,
         toggle: true
     });
+    toggle.show();
+    press.show();
 }
 
 
@@ -1213,6 +1216,7 @@ function run_spectralsignature () {
             position_lower: _TOOLKIT_TOP_RIGHT
     });
     ssig.add_signature({}, [-10, 20, 30, -20, -40, 40, 20, 10], true);
+    ssig.show();
     TK.seat_all_svg()
 }
 
@@ -1375,7 +1379,8 @@ function run_responsehandler () {
                        preferences: [_TOOLKIT_BOTTOM, _TOOLKIT_CENTER, _TOOLKIT_TOP],
                        label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        })
-    ]
+    ];
+    rh.show();
     TK.seat_all_svg()
 }
 
@@ -1445,6 +1450,14 @@ function run_state () {
     __s1();
     __s2();
     __s3();
+    s1.show();
+    s2.show();
+    s3.show();
+    s4.show();
+    s5.show();
+    s6.show();
+    s7.show();
+    s8.show();
 }
 var _s1 = 0;
 var _s2 = 0;
@@ -1551,6 +1564,10 @@ function run_meterbase () {
         gradient: {"-15": "#001f83", "0": "#008bea", "15": "#001f83"},
         levels: [1, 5]
     });
+    mbvl.show();
+    mbvr.show();
+    mbhb.show();
+    mbht.show();
 }
 
 
@@ -1756,6 +1773,9 @@ function run_levelmeter () {
             gradient: {"0": "#001f83", "24": "#008bea"},
             levels: [1, 5, 10]
         })
+    }
+    for(var i in meters) {
+        meters[i].show();
     }
 }
 
