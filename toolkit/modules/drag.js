@@ -76,10 +76,10 @@ w.Drag = $class({
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        this.set("handle", this.options.handle);
         this._dragging = dragging.bind(this);
         this._dragstart = dragstart.bind(this);
         this._dragend = dragend.bind(this);
+        this.set("handle", this.options.handle);
     },
     // GETTERS & SETTERS
     set: function (key, value) {

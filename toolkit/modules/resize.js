@@ -23,7 +23,7 @@
 function dragstart(e, drag) {
     var O = this.options;
     if (!O.active) return;
-    var E = this.element;
+    var E = O.element;
     this._xstart = e.pageX;
     this._ystart = e.pageY;
     this._xsize  = E.offsetWidth;
