@@ -93,21 +93,27 @@ window.addEventListener('DOMContentLoaded', function () {
         but.onclick = function () {
             TK.toggle_class(TK.get_id("navigation"), "hidden");
         }
+
+        var keys = Object.keys(items);
+
+        keys.sort();
         
-        for (var i in items) {
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
             // loop over categories
-            if (!items.hasOwnProperty(i)) continue;
-            var _i = items[i];
+            var _i = items[key];
             var type = TK.element("li");
             nav.appendChild(type);
             TK.set_text(type, _i.name);
             //type.setAttribute("title", _i.description);
             var list = TK.element("ul");
             type.appendChild(list);
-            for (var j in _i.items) {
+            var widgets = Object.keys(_i.items);
+            widgets.sort();
+            for (var j = 0; j < widgets.length; j++) {
+                var w_name = widgets[j];
                 // loop over items in category
-                if (!_i.items.hasOwnProperty(j)) continue;
-                var _j = _i.items[j];
+                var _j = _i.items[w_name];
                 var item = TK.element("li");
                 list.appendChild(item);
                 TK.set_text(item, _j.name);
