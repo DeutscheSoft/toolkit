@@ -197,6 +197,9 @@ w.ButtonArray = $class({
         /* @event: added; Button, Widget; A #Button was added to the ButtonArray */
         this.fire_event("added", b);
 
+        if (b === this.current())
+            b.set("state", true);
+
         return b;
     },
     remove_button: function (button) {
