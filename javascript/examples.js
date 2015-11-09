@@ -521,11 +521,11 @@ function run_window () {
                            _TOOLKIT_MINIMIZE, _TOOLKIT_SHRINK, _TOOLKIT_CLOSE],
             footer_left: _TOOLKIT_STATUS,
             fixed: true,
-            content: "<div style='margin: 6px'><img src=images/toolkit.png "
+            content: TK.html("<div style='margin: 6px'><img src=images/toolkit.png "
                    + "style=\"float: left; margin-right: 20px;\">"
                    + "Thanks for testing TK. We hope you like "
                    + "the functionality, complexity and style. If you have any "
-                   + "sugestions or bug reports, please let us know.</div>"
+                   + "sugestions or bug reports, please let us know.</div>")
         });
         var ok = new Button({
             label: "OK",
@@ -537,7 +537,10 @@ function run_window () {
             bottom: 0,
             right: 0
         });
+        ok.show();
+        win.show();
     });
+    winbutton.show();
 }
 
 
