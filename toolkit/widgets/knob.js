@@ -22,9 +22,11 @@
 (function(w){ 
 var format_viewbox = TK.FORMAT("0 0 %d %d");
 w.Knob = $class({
-    // Knob is a Circular injected into a SVG and extended by ScrollValue
-    // and DragValue to set its value. Knob uses DragValue and Scrollvalue
-    // for setting its value.
+    /* @class: Knob
+     * @description: Knob is a Circular injected into a SVG and extended by ScrollValue
+     * and DragValue to set its value. Knob uses DragValue and Scrollvalue
+     * for setting its value.
+     */
     _class: "Knob",
     Extends: Circular,
     options: {

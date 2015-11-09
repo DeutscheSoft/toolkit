@@ -82,8 +82,10 @@ function show_list(show) {
     this.__timeout = window.setTimeout(hide_list.bind(this), dur * 1000);
 }
 w.Select = $class({
-    // Select provides a button with a select list to choose from
-    // different entries.
+    /* @class: Select
+     * @description: Select provides a button with a select list to choose from
+     * different entries.
+     */
     _class: "Select",
     Extends: Button,
     options: {

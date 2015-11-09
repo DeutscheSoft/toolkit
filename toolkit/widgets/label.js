@@ -21,7 +21,9 @@
 "use strict";
 (function(w){ 
 w.Label = $class({
-    // Label is a simple text field displaying strings
+    /* @class: Label
+     * @description: Label is a simple text field displaying strings
+     */
     _class: "Label",
     Extends: Widget,
     options: {

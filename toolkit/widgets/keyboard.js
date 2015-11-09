@@ -36,8 +36,10 @@
 "use strict";
 (function(w){
 w.Keyboard = $class({
-    // Keyboard provides an on-screen keyboard for textual input via
-    // touch or mouse events
+    /* @class: Keyboard
+     * @description: Keyboard provides an on-screen keyboard for textual input via
+     * touch or mouse events
+     */
     _class: "Keyboard",
     Extends: Widget,
     Implements: Anchor,

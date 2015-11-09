@@ -83,8 +83,10 @@ function submit_cb(e) {
     return false;
 }
 w.Value = $class({
-    // Value is a formatted text field displaying numbers and providing
-    // a input field for editing the value
+    /* @class: Value
+     * @description: Value is a formatted text field displaying numbers and providing
+     * a input field for editing the value
+     */
     _class: "Value",
     Extends: Widget,
     options: {

@@ -31,6 +31,8 @@ function value_done() {
 }
     
 w.ValueButton = $class({
+    /* @class: ValueButton
+     */
     _class: "ValueButton",
     Extends: Button,
     Implements: [Warning, Ranged],

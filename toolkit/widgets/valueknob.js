@@ -30,6 +30,8 @@ function value_done() {
     this.fire_event("valueset", this.options.value);
 }
 w.ValueKnob = $class({
+    /* @class: ValueKnob
+     */
     _class: "ValueKnob",
     Extends: Knob,
     options: {

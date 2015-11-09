@@ -56,6 +56,8 @@ function clear_to() {
 }
     
 w.Toggle = $class({
+    /* @class: Toggle
+     */
     _class: "Toggle",
     Extends: Button,
     options: {

@@ -77,6 +77,8 @@ function SET(v) {
     this.fire_event("useraction", "value", v);
 }
 w.Fader = $class({
+    /* @class: Fader
+     */
     _class: "Fader",
     Extends: Container,
     Implements: [Ranged, Warning, GlobalCursor],

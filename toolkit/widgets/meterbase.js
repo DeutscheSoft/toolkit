@@ -24,9 +24,12 @@ function vert(O) {
     return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
 }
 w.MeterBase = $class({
-    // MeterBase is a base class to build different meters like LevelMeter.
-    // MeterBase extends Gradient and implements Widget.
-    // MeterBase has a Scale widget.
+    /* @class: MeterBase
+     * @description: 
+     * MeterBase is a base class to build different meters like LevelMeter.
+     * MeterBase extends Gradient and implements Widget.
+     * MeterBase has a Scale widget.
+     */
     
     _class: "MeterBase",
     Extends: Widget,

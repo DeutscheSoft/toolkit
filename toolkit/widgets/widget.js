@@ -50,9 +50,11 @@ function redraw() {
     this.redraw();
 }
 w.Widget = $class({
-    // Widget is the base class for all widgets drawing DOM elements. It
-    // provides basic functionality like delegating events, setting options and
-    // firing some events.Widget implements AudioMath, Options and Events.
+    /* @class: Widget
+     * @description: Widget is the base class for all widgets drawing DOM elements. It
+     * provides basic functionality like delegating events, setting options and
+     * firing some events.Widget implements AudioMath, Options and Events.
+     */
     Extends : BASE,
     _class: "Widget",
     options: {

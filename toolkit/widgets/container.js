@@ -21,7 +21,9 @@
 "use strict";
 (function(w){ 
 w.Container = $class({
-    // Container is a simple DIV
+    /* @class: Container
+     * @description: Container represents a <DIV> element.
+     */
     _class: "Container",
     Extends: Widget,
     options: {

@@ -21,9 +21,11 @@
 "use strict";
 (function(w){
 w.Dynamics = $class({
-    // Dynamics are based on Charts and display the characteristics of dynamic
-    // processors. They are square widgets drawing a Grid automatically based on
-    // the range.
+    /* @class: Dynamics
+     * @description: Dynamics are based on Charts and display the characteristics of dynamic
+     * processors. They are square widgets drawing a Grid automatically based on
+     * the range.
+     */
     _class: "Dynamics",
     Extends: Chart,
     options: {

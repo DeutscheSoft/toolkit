@@ -203,9 +203,11 @@ function draw_title() {
 }
     
 w.Chart = $class({
-    // Chart is an SVG image containing one or more Graphs. There are functions
-    // to add and remove graphs. Chart extends Widget and contains a Grid
-    // and two Ranges.
+    /* @class: Chart
+     * @description: Chart is an SVG image containing one or more Graphs. There are functions
+     * to add and remove graphs. Chart extends Widget and contains a Grid
+     * and two Ranges.
+     */
     _class: "Chart",
     
     Extends: Container,

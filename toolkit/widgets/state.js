@@ -21,10 +21,12 @@
 "use strict";
 (function(w){ 
 w.State = $class({
-    // The State widget is a multi-functional adaption of a traditional LED. It
-    // is able to show different colors as well as on/off states. The
-    // "brightness" can be set seamlessly. Classes can be used to display
-    // different styles. State extends Widget.
+    /* @class: State
+     * @description: The State widget is a multi-functional adaption of a traditional LED. It
+     * is able to show different colors as well as on/off states. The
+     * "brightness" can be set seamlessly. Classes can be used to display
+     * different styles. State extends Widget.
+     */
     _class: "State",
     Extends: Widget,
     options: {
