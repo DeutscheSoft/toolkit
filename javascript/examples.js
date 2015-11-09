@@ -1124,6 +1124,7 @@ function run_equalizer () {
                      label: function (title, x, y, z) { return title + "\n" + TK.sprintf("%.2f", x) + " Hz"; } }]
     });
     TK.seat_all_svg()
+    eq.show();
 }
 
 function run_spectralsignature () {
