@@ -106,6 +106,9 @@
 }
 .toolkit-buttonarray .toolkit-clip .toolkit-container .toolkit-button .toolkit-label {
     white-space: nowrap;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }
 .toolkit-buttonarray.toolkit-horizontal .toolkit-clip .toolkit-container .toolkit-button {
     height: 100%;

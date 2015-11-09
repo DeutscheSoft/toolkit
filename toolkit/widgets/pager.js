@@ -60,7 +60,6 @@ w.Pager = $class({
                 this.set("show", n); 
             }.bind(this),
         });
-        
         this._clip = TK.element("div", "toolkit-clip");
         this.element.appendChild(this._clip);
         
@@ -128,9 +127,14 @@ w.Pager = $class({
                     TK.add_class(E, "toolkit-layout-horizontal");
                     break;
             }
+            I.layout = true;
+        }
+        
+        if (I.layout) {
             // the following code will fire after the buttonarray.element
             // has been added to the dom. We are sure that is the case because it happens
             // with priority 0 and the following code is executed in priority 1.
+            I.layout = false;
             TK.S.add(function() {
                 var size;
                 if (O.position == _TOOLKIT_TOP || O.position == _TOOLKIT_BOTTOM) {
@@ -140,7 +144,6 @@ w.Pager = $class({
                 }
                 TK.S.add(function() {
                     switch (O.position) {
-                        // NOTE: some break statements left out for trickle down
                         case _TOOLKIT_TOP:
                             this._clip.style.top = size;
                             this._clip.style.bottom = null;
@@ -240,7 +243,8 @@ w.Pager = $class({
         } else {
             this.hide_child(p);
         }
-
+        this.invalid.layout = true;
+        this.trigger_draw();
         return p;
     },
 
@@ -261,6 +265,8 @@ w.Pager = $class({
         this.pages.splice(page, 1);
         p.destroy();
         this.remove_child(p);
+        this.invalid.layout = true;
+        this.trigger_draw();
         /* @event: removed; Page, Widget; A page was removed from the Pager */
         this.fire_event("removed", p);
     },
