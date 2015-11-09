@@ -205,7 +205,7 @@ w.Pager = $class({
             button = {label: button};
         this.buttonarray.add_button(button, pos);
 
-        if (typeof content === "string") {
+        if (typeof content === "string" || TK.is_dom_node(content)) {
             if (!options) options = {}; 
             options.content = content;
             p = new Container(options);

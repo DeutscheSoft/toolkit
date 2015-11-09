@@ -643,9 +643,14 @@ function merge(dst) {
     }
     return dst;
 }
+function is_dom_node(o) {
+    /* this is broken for SVG */
+    return typeof o === "object" && o instanceof HTMLElement;
+}
 w.TK = w.toolkit = {
     // ELEMENTS
     S: new DOMScheduler(),
+    is_dom_node: is_dom_node,
     get_id: get_id,
     get_class: get_class,
     get_tag: get_tag,
