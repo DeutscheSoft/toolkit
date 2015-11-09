@@ -31,18 +31,18 @@ run_pager = function () {
     }
     pager1 = new Pager({
         pages: [
-            {label: "Page #1", content: "<h1>Page #1</h1><p>This is Page #1.</p>"},
-            {label: "Page #2", content: "<h1>Page #2</h1><p>This is Page #2.</p>"},
-            {label: "Page #3", content: "<h1>Page #3</h1><p>This is Page #3.</p>"},
-            {label: "Page #4", content: "<h1>Page #4</h1><p>This is Page #4.</p>"},
-            {label: "Page #5", content: "<h1>Page #5</h1><p>This is Page #5.</p>"},
-            {label: "Page #6", content: "<h1>Page #6</h1><p>This is Page #6.</p>"},
-            {label: "Page #7", content: "<h1>Page #7</h1><p>This is Page #7.</p>"},
-            {label: "Page #8", content: "<h1>Page #8</h1><p>This is Page #8.</p>"},
-            {label: "Page #9", content: "<h1>Page #9</h1><p>This is Page #9.</p>"},
-            {label: "Page #10", content: "<h1>Page #10</h1><p>This is Page #10.</p>"},
-            {label: "Page #11", content: "<h1>Page #11</h1><p>This is Page #11.</p>"},
-            {label: "Page #12", content: "<h1>Page #12</h1><p>This is Page #12.</p>"}
+            {label: "Page #1", content: TK.html("<h1>Page #1</h1><p>This is Page #1.</p>") },
+            {label: "Page #2", content: TK.html("<h1>Page #2</h1><p>This is Page #2.</p>") },
+            {label: "Page #3", content: TK.html("<h1>Page #3</h1><p>This is Page #3.</p>") },
+            {label: "Page #4", content: TK.html("<h1>Page #4</h1><p>This is Page #4.</p>") },
+            {label: "Page #5", content: TK.html("<h1>Page #5</h1><p>This is Page #5.</p>") },
+            {label: "Page #6", content: TK.html("<h1>Page #6</h1><p>This is Page #6.</p>") },
+            {label: "Page #7", content: TK.html("<h1>Page #7</h1><p>This is Page #7.</p>") },
+            {label: "Page #8", content: TK.html("<h1>Page #8</h1><p>This is Page #8.</p>") },
+            {label: "Page #9", content: TK.html("<h1>Page #9</h1><p>This is Page #9.</p>") },
+            {label: "Page #10", content: TK.html("<h1>Page #10</h1><p>This is Page #10.</p>") },
+            {label: "Page #11", content: TK.html("<h1>Page #11</h1><p>This is Page #11.</p>") },
+            {label: "Page #12", content: TK.html("<h1>Page #12</h1><p>This is Page #12.</p>") }
         ],
         show: 4,
         position: _TOOLKIT_RIGHT,
@@ -51,18 +51,18 @@ run_pager = function () {
     });
     pager2 = new Pager({
         pages: [
-            {label: "Page #1", content: "<h1>Page #1</h1><p>This is Page #1.</p>"},
-            {label: "Page #2", content: "<h1>Page #2</h1><p>This is Page #2.</p>"},
-            {label: "Page #3", content: "<h1>Page #3</h1><p>This is Page #3.</p>"},
-            {label: "Page #4", content: "<h1>Page #4</h1><p>This is Page #4.</p>"},
-            {label: "Page #5", content: "<h1>Page #5</h1><p>This is Page #5.</p>"},
-            {label: "Page #6", content: "<h1>Page #6</h1><p>This is Page #6.</p>"},
-            {label: "Page #7", content: "<h1>Page #7</h1><p>This is Page #7.</p>"},
-            {label: "Page #8", content: "<h1>Page #8</h1><p>This is Page #8.</p>"},
-            {label: "Page #9", content: "<h1>Page #9</h1><p>This is Page #9.</p>"},
-            {label: "Page #10", content: "<h1>Page #10</h1><p>This is Page #10.</p>"},
-            {label: "Page #11", content: "<h1>Page #11</h1><p>This is Page #11.</p>"},
-            {label: "Page #12", content: "<h1>Page #12</h1><p>This is Page #12.</p>"}
+            {label: "Page #1", content: TK.html("<h1>Page #1</h1><p>This is Page #1.</p>") },
+            {label: "Page #2", content: TK.html("<h1>Page #2</h1><p>This is Page #2.</p>") },
+            {label: "Page #3", content: TK.html("<h1>Page #3</h1><p>This is Page #3.</p>") },
+            {label: "Page #4", content: TK.html("<h1>Page #4</h1><p>This is Page #4.</p>") },
+            {label: "Page #5", content: TK.html("<h1>Page #5</h1><p>This is Page #5.</p>") },
+            {label: "Page #6", content: TK.html("<h1>Page #6</h1><p>This is Page #6.</p>") },
+            {label: "Page #7", content: TK.html("<h1>Page #7</h1><p>This is Page #7.</p>") },
+            {label: "Page #8", content: TK.html("<h1>Page #8</h1><p>This is Page #8.</p>") },
+            {label: "Page #9", content: TK.html("<h1>Page #9</h1><p>This is Page #9.</p>") },
+            {label: "Page #10", content: TK.html("<h1>Page #10</h1><p>This is Page #10.</p>") },
+            {label: "Page #11", content: TK.html("<h1>Page #11</h1><p>This is Page #11.</p>") },
+            {label: "Page #12", content: TK.html("<h1>Page #12</h1><p>This is Page #12.</p>") }
         ],
         show: 4,
         container: TK.get_id("demo")
