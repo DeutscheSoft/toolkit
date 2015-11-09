@@ -193,9 +193,9 @@ w.BASE = $class({
         } else if (typeof(opt) == "object") for (key in o) if (o.hasOwnProperty(key)) {
             a = o[key];
             b = opt[key];
-            if (typeof a == "object" &&
+            if (typeof a == "object" && a &&
                 Object.getPrototypeOf(Object.getPrototypeOf(a)) === null &&
-                typeof b == "object" &&
+                typeof b == "object" && b &&
                 Object.getPrototypeOf(Object.getPrototypeOf(b)) === null
                 ) {
                 o[key] = $mixin({}, b, a);
