@@ -69,16 +69,20 @@ function scroll_to() {
 
         /* FORCE_RELAYOUT */
 
-        var btnrect  = this._container.childNodes[n].getBoundingClientRect();
-        var conrect  = this._container.getBoundingClientRect();
-        var clipsize = this._clip.getBoundingClientRect()[subs];
-        var listsize = conrect[subs];
-        var btnsize  = btnrect[subs];
-        var btnpos   = btnrect[subd] - conrect[subd];
+        TK.S.add(function() {
+            var btnrect  = this._container.childNodes[n].getBoundingClientRect();
+            var conrect  = this._container.getBoundingClientRect();
+            var clipsize = this._clip.getBoundingClientRect()[subs];
+            var listsize = conrect[subs];
+            var btnsize  = btnrect[subs];
+            var btnpos   = btnrect[subd] - conrect[subd];
 
-        /* WILL_INVALIDATE */
+            /* WILL_INVALIDATE */
 
-        this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
+            TK.S.add(function() {
+                this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
+            }.bind(this));
+        }.bind(this), 1);
     }
 }
 w.ButtonArray = $class({
@@ -257,7 +261,7 @@ w.ButtonArray = $class({
         }
 
         if (I.validate("show", "direction"))
-            scroll_to.call(this, O.show);
+            scroll_to.call(this);
     },
     
     current: function() {
