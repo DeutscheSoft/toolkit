@@ -127,10 +127,11 @@ table td {
     background: rgba(0,0,0,0.033);
     padding: 8px;
     border: 1px solid rgba(255,255,255,0.33);
+    vertical-align: top;
 }
 table tr td:first-child {
-    font-weight: 500;
-    width: 200px;
+    font-weight: 800;
+    width: 100px;
 }
 table tr.inherit {
     color: #aaa;

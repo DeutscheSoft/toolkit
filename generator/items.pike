@@ -2,6 +2,8 @@
 
 import Stdio;
 
+constant DEBUG = 0;
+
 string OUT_VARIABLE    = "items";
 string OUT_FILE        = combine_path(dirname(__FILE__), "..", "javascript", "items.js");
 string CATEGORY_DIR    = combine_path(dirname(__FILE__), "..", "toolkit");
@@ -34,7 +36,7 @@ mapping(string:string) get_atoms_mapping (string c, array(string) keys) {
 }
 
 void process_element (string type, string content, mapping map) {
-    write("type: " + type + "\n" + content + "\n\n");
+    if (DEBUG) write("type: " + type + "\n" + content + "\n\n");
     string c = String.trim_all_whites(content);
     switch (type) {
         case "class":

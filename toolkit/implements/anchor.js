@@ -21,7 +21,23 @@
 "use strict";
 (function(w){ 
 w.Anchor = $class({
+    /* @class: Anchor
+     * @description: Anchor provides a single function translate_anchor
+     * which returns real x and y values from a relative positioning.
+     * For example positioning a #Window with anchor _TOOLKIT_CENTER
+     * needs to subtract half of its width from y and half of its height
+     * from x to appear at the correct position.
+     */
     translate_anchor: function (anchor, x, y, width, height) {
+        /* @method: translate_anchor
+         * @option: anchor; Int; _TOOLKIT_TOP_LEFT; Position of the anchor
+         * @option: x; Number; undefined; X position to translate
+         * @option: y; Number; undefined; Y position to translate
+         * @option: width; Number; undefined; Width of the element
+         * @option: height; Number; undefined; Height of the element
+         * @returns: Object; Object with members x and y as numbers
+         * @description: returns real x and y values from a relative positioning
+         */
         switch (anchor) {
             case _TOOLKIT_TOP_LEFT:
                 break;
@@ -52,6 +68,9 @@ w.Anchor = $class({
             case _TOOLKIT_BOTTOM_RIGHT:
                 x += width;
                 y += height;
+                break;
+            default:
+                throw("Unknown anchor position");
                 break;
         }
         return {x: Math.round(x), y: Math.round(y)};
