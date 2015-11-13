@@ -14,6 +14,7 @@ constant METHOD_KEYWORDS = ({ "option", "description" });
 constant ELEMENT_ATOMS   = ({ "name", "class", "description" });
 constant MODULE_ATOMS    = ({ "name", "description" });
 constant OPTION_ATOMS    = ({ "name", "type", "default", "description" });
+constant RETURN_ATOMS    = ({ "type", "description" });
 constant EVENT_ATOMS     = ({ "name", "arguments", "description" });
 
 mapping(string:mixed) _recipient;
@@ -33,7 +34,7 @@ mapping(string:string) get_atoms_mapping (string c, array(string) keys) {
 }
 
 void process_element (string type, string content, mapping map) {
-    //write("type: " + type + "\n" + content + "\n\n");
+    write("type: " + type + "\n" + content + "\n\n");
     string c = String.trim_all_whites(content);
     switch (type) {
         case "class":
@@ -61,6 +62,9 @@ void process_element (string type, string content, mapping map) {
             break;
         case "option":
             _recipient->options += ({ get_atoms_mapping(c, OPTION_ATOMS) });
+            break;
+        case "returns":
+            _recipient->returns += ({ get_atoms_mapping(c, RETURN_ATOMS) });
             break;
         case "description":
             _recipient->description = c;
@@ -107,7 +111,6 @@ mapping(string:mapping) process_category (string dir) {
             m->id = id;
             m->files = ({ combine_path(dir, file) });
             f = combine_path(CSS_DIR, id + ".css");
-            write(f+"\n");
             if (exist(f))
                 m->files += ({ f });
             f = combine_path(IMAGE_DIR, file[..sizeof(file)-4]);

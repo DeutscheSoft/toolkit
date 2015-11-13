@@ -213,15 +213,17 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.build_section = function (sect, item, div, subnav) {
-        this.build_section_header(sect, div, subnav);
         switch(sect.id) {
             default:
+                this.build_section_header(sect, div, subnav);
                 this.build_tables_recursively(sect.id, item, div);
                 break;
             case "extends":
+                this.build_section_header(sect, div, subnav);
                 div.appendChild(this.build_tree(item));
                 break;
             case "files":
+                this.build_section_header(sect, div, subnav);
                 var a = [];
                 this.bubble_tree(item, function (i) {
                     if (!i.hasOwnProperty("files")) return;
@@ -232,7 +234,8 @@ window.addEventListener('DOMContentLoaded', function () {
             case "example":
                 id = item.name.toLowerCase();
                 if (typeof window["run_" + id] != "undefined") {
-                    this.build_example(id, div, sect.name)
+                    this.build_section_header(sect, div, subnav);
+                    this.build_example(id, div, sect.name);
                 }
                 break;
         }
