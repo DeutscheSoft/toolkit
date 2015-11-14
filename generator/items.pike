@@ -3,6 +3,7 @@
 import Stdio;
 
 bool VERBOSE = 0;
+bool COMPACT = 0;
 
 string OUT_VARIABLE    = "items";
 string OUT_FILE        = combine_path(dirname(__FILE__), "..", "javascript", "items.js");
@@ -148,8 +149,11 @@ int main (int argc, array(string) argv) {
     foreach(argv, string arg) {
         if (equal(arg, "-v"))
             VERBOSE = 1;
+        if (equal(arg, "-c"))
+            COMPACT = 1;
     }
     mapping(string:mapping) cats = traverse_categories(CATEGORY_DIR);
-    Stdio.write_file(OUT_FILE, OUT_VARIABLE + "=" + string_to_utf8(Standards.JSON.encode(cats,  Standards.JSON.HUMAN_READABLE)));
+    int flag = COMPACT ? 0 : Standards.JSON.HUMAN_READABLE;
+    Stdio.write_file(OUT_FILE, OUT_VARIABLE + "=" + string_to_utf8(Standards.JSON.encode(cats, flag)));
     return 0;
 }
