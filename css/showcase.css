@@ -129,9 +129,9 @@ table td {
     border: 1px solid rgba(255,255,255,0.33);
     vertical-align: top;
 }
-table tr td:first-child {
+table td:first-child {
     font-weight: 800;
-    width: 100px;
+    width: 120px;
 }
 table tr.inherit {
     color: #aaa;
@@ -148,6 +148,10 @@ table table td {
     background: transparent;
     padding: 6px;
     border: 1px solid #D8D8D8;
+}
+table table td:first-child {
+    font-weight: normal;
+    width: auto;
 }
 table table td:first-child {
     width: auto;
@@ -167,7 +171,7 @@ i.static,
 i.delegated,
 i.classified,
 i.stylized {
-    color: white;
+    color: rgb(219, 219, 219);
     font-style: normal;
     font-weight: 800;
     background: #003050;

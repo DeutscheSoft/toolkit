@@ -167,7 +167,10 @@ function add_native_events(element, events) {
         element.addEventListener(type, events[type].callback);
 }
 w.BASE = $class({
-    // Events provide an API for adding, removing and firing events.
+    /* @class: BASE
+     * @description: This is the base class for all widgets in toolkit.
+     * It provides an API for event handling and other basic implementations.
+     */
     initialize : function() {
         if (!this.___events) {
             this.__events = {};
@@ -176,6 +179,9 @@ w.BASE = $class({
         this.__event_target = null;
     },
     destroy : function() {
+        /* @method: destroy
+         * @description: Destroys all event handlers and the options object
+         */
         if (this.__event_target) {
             remove_native_events(this.__event_target, this.__events);
         }
@@ -185,6 +191,14 @@ w.BASE = $class({
         this.options = null;
     },
     set_options : function(o) {
+        /* @method: set_options
+         * @option: options; Object; { }; An object containing initial options
+         * @description: merges a new options object into the existing one
+         * including deep copies of objects. If an option key begins with
+         * the string "on" it is considered as event handler. In this case
+         * the value should be the handler function for the event with
+         * the corresponding name without the first "on" characters.
+         */
         var opt = this.options;
         var key, a, b;
         if (typeof(o) != "object") {
@@ -211,7 +225,9 @@ w.BASE = $class({
         }
     },
     delegate_events: function (element) {
-        // hand over a DOM element all native events will be bound to
+        /* @method: delegate_events
+         * @option: element; HTMLElement; undefined; The element all native events should be bound to
+         * @returns: HTMLElement; The element */
         var ev = this.__events;
         var old_target = this.__event_target;
         this.fire_event("delegated", element);
@@ -224,6 +240,11 @@ w.BASE = $class({
         return element;
     },
     add_event: function (e, fun, prevent, stop) {
+        /* @method: add_event
+         * @option: event; String; undefined; The event descriptor
+         * @option: function; Function; undefined; The function to call when the event happens
+         * @option: prevent; Bool; undefined; Set to true if the event should prevent the default behavior
+         * @option: stop_propagation; Bool; undefined; Set to true if the event should stop bubbling up the tree */
         var ev;
         var cb;
         // add an event listener to a widget. These can be native DOM
@@ -266,8 +287,12 @@ w.BASE = $class({
         ev[e].queue.push(fun);
     },
     remove_event: function (e, fun) {
-        // remove an event from the list. If it is a native DOM event,
-        // remove the DOM event listener as well.
+        /* @method: remove_event
+         * @option: event; String; undefined; The event descriptor
+         * @option: function; Function; undefined; The function to remove
+         * @description: Removes the given function from the event queue.
+         * If it is a native DOM event, it removes the DOM event listener
+         * as well. */
         if (__event_replacements.hasOwnProperty(e)) {
             // it is an event which has one or more replacement events
             // so remove all those replacements
@@ -303,6 +328,9 @@ w.BASE = $class({
         }
     },
     fire_event: function (e) {
+        /* @method: fire_event
+         * @option: event; String; undefined; The event descriptor
+         * @description: Calls all functions in the events queue */
         var ev = this.__events;
 
         if (!ev.hasOwnProperty(e)) return;
@@ -326,6 +354,10 @@ w.BASE = $class({
     },
 
     has_event_listeners: function (e) {
+        /* @method: has_event_listeners
+         * @option: event; String; undefined; The event desriptor
+         * @returns: Bool; True if the event has some handler functions in the queue, false if not
+         * @description: Test if the event descriptor has some handler functions in the queue */
         var ev = this.__events;
 
         if (!ev.hasOwnProperty(e)) return false;
@@ -336,6 +368,10 @@ w.BASE = $class({
         return true;
     },
     add_events: function (events, fun) {
+        /* @method: add_events
+         * @option: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires a handler function as the second argument.
+         * @option: function; Function; undefined; A function to add as event handler if the first argument is an array of event desriptors
+         * @description: Add multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
@@ -347,6 +383,10 @@ w.BASE = $class({
         }
     },
     remove_events: function (events, fun) {
+        /* @method: remove_events
+         * @option: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires the handler function as the second argument.
+         * @option: function; Function; undefined; A function to remove from event handler queue if the first argument is an array of event desriptors
+         * @description: Remove multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
@@ -358,6 +398,9 @@ w.BASE = $class({
         }
     },
     fire_events: function (events) {
+        /* @method: fire_events
+         * @option: events; Array; undefined; A list of event descriptors to fire
+         * @description: Calls the event handler functions of multiple events */
         for (var i in events) {
             if (events.hasOwnProperty(i))
                 this.fire_event(i, events[i]);

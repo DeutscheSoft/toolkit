@@ -298,16 +298,21 @@ window.addEventListener('DOMContentLoaded', function () {
         // build column order array
         var cols = [];
         if (data.length) {
-            var hasname = data[0].hasOwnProperty("name");
-            var hasdesc = data[0].hasOwnProperty("description");
-            if (hasname) cols.push("name");
-            if (hasdesc) cols.push("description");
-            for (var key in data[0]) {
-                if (!data[0].hasOwnProperty(key)) continue;
-                if (hasname && key == "name") continue;
-                if (hasdesc && key == "description") continue;
-                cols.push(key);
+            var hasname = 0;
+            var hasdesc = 0;
+            for(var i = 0; i < data.length; i++) {
+                for (var key in data[i]) {
+                    hasname = hasname || data[i].hasOwnProperty("name");
+                    hasdesc = hasdesc || data[i].hasOwnProperty("description");
+                    if (!data[i].hasOwnProperty(key)) continue;
+                    if (hasname && key == "name") continue;
+                    if (hasdesc && key == "description") continue;
+                    if (cols.indexOf(key) >= 0) continue;
+                    cols.push(key);
+                }
             }
+            if (hasdesc) cols.unshift("description");
+            if (hasname) cols.unshift("name");
         }
         
         // build table and header

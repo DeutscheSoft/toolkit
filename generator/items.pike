@@ -2,7 +2,7 @@
 
 import Stdio;
 
-constant DEBUG = 0;
+bool VERBOSE = 0;
 
 string OUT_VARIABLE    = "items";
 string OUT_FILE        = combine_path(dirname(__FILE__), "..", "javascript", "items.js");
@@ -36,7 +36,7 @@ mapping(string:string) get_atoms_mapping (string c, array(string) keys) {
 }
 
 void process_element (string type, string content, mapping map) {
-    if (DEBUG) write("type: " + type + "\n" + content + "\n\n");
+    if (VERBOSE) write("type: " + type + "\n" + content + "\n\n");
     string c = String.trim_all_whites(content);
     switch (type) {
         case "class":
@@ -144,7 +144,11 @@ mapping(string:mapping) traverse_categories (string cats) {
     return categories;
 }
 
-int main () {
+int main (int argc, array(string) argv) {
+    foreach(argv, string arg) {
+        if (equal(arg, "-v"))
+            VERBOSE = 1;
+    }
     mapping(string:mapping) cats = traverse_categories(CATEGORY_DIR);
     Stdio.write_file(OUT_FILE, OUT_VARIABLE + "=" + string_to_utf8(Standards.JSON.encode(cats,  Standards.JSON.HUMAN_READABLE)));
     return 0;
