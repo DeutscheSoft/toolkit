@@ -168,8 +168,8 @@ w.Container = $class({
             this.__hidden = 2;
             if (E) {
                 TK.add_class(E, "toolkit-hide");
-                var style = TK.get_style(E);
-                var t = parseFloat(style["transition-duration"]);
+                var style = TK.get_style(E, "transition-duration");
+                var t = parseFloat(style);
                 if (t > 0.0) {
                     window.setTimeout(function() {
                         if (this.__hidden = 2)
