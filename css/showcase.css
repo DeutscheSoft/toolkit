@@ -379,13 +379,17 @@ h3.icon {
     transform: translate(-50%, -50%);
     overflow: auto;
     box-sizing: border-box;
+    z-index: 0;
 }
 
 #demo_overlay .menu {
     position: absolute;
-    top: 1em;
-    right: 1em;
-    z-index: 2;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0 0 0 5px;
+    padding: 0.33em;
 }
 
 #demo_overlay #code,
