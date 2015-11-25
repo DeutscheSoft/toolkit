@@ -90,7 +90,30 @@ if ('getComputedStyle' in w) {
   };
 }
 
+function get_max_time(s) {
+    var ret = 0, i, tmp;
 
+    if (typeof(s) === "string") {
+        s = s.split(",");
+        for (i = 0; i < s.length; i++) {
+            tmp = parseFloat(s[i]);
+
+            if (tmp > 0) {
+                if (-1 === s[i].search("ms")) tmp *= 1000;
+                if (tmp > ret) ret = tmp;
+            }
+        }
+    }
+
+    return ret|0;
+}
+
+function get_transition_duration(e) {
+    var duration = get_style(e, "transition-duration");
+    var delay = get_style(e, "transition-delay");
+
+    return get_max_time(duration) + get_max_time(delay);
+}
 
 function monitor_resize_events() {
     for (var i = 0; i < TK._resize_events.length; i++) {
@@ -702,6 +725,7 @@ w.TK = w.toolkit = {
     set_styles : set_styles,
     set_style: set_style,
     get_style: get_style,
+    get_transition_duration: get_transition_duration,
     
     // STRINGS
     
