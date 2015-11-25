@@ -645,7 +645,7 @@ function merge(dst) {
 }
 function is_dom_node(o) {
     /* this is broken for SVG */
-    return typeof o === "object" && o instanceof HTMLElement;
+    return typeof o === "object" && o instanceof Node;
 }
 w.TK = w.toolkit = {
     // ELEMENTS
