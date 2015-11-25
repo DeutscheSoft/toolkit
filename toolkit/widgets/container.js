@@ -20,6 +20,28 @@
  */
 "use strict";
 (function(w){ 
+function hide_children() {
+    var C = this.children;
+    var H = this.hidden_children;
+    for (var i = 0; i < C.length; i++) {
+        if (!H[i]) C[i].hide();
+    }
+}
+function show_children() {
+    var C = this.children;
+    var H = this.hidden_children;
+    for (var i = 0; i < C.length; i++) {
+        if (!H[i]) C[i].show();
+    }
+}
+function after_hiding() {
+    this.__hide_id = false;
+    this.set("hidden_state", "hidden");
+}
+function after_showing() {
+    this.__hide_id = false;
+    this.set("hidden_state", "show");
+}
 w.Container = $class({
     /* @class: Container
      * @description: Container represents a <DIV> element.
@@ -40,7 +62,9 @@ w.Container = $class({
                                       true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
-        this.__hidden = 2;
+        this.__after_hiding = after_hiding.bind(this);
+        this.__after_showing = after_showing.bind(this);
+        this.__hide_id = false;
     },
     
     destroy: function () {
@@ -76,51 +100,32 @@ w.Container = $class({
             this.remove_child(a[i]);
     },
     hide: function () {
-        if (this.__hidden === 0) {
-            this.trigger_draw();
-            this.__hidden = 1;
-            this.fire_event("hide");
-            var C = this.children;
-            var H = this.hidden_children;
-            for (var i = 0; i < C.length; i++) {
-                if (H[i] !== true) C[i].hide();
-            }
-        }
+        var O = this.options;
+        if (O.hidden_state === "hidden" || O.hidden_state === "hiding") return;
+        this.set("hidden_state", "hiding");
     },
     force_hidden: function() {
-        if (this.__hidden !== 2) {
-            if (this.__hidden === 0)
-                this.fire_event("hide");
-            this.__hidden = 2;
-            var E = this.element;
-            if (E) TK.add_class(E, "toolkit-hidden");
-            if (this.needs_redraw) {
-                TK.S.remove(this._redraw);
-            }
-            this.fire_event("hidden");
-            var C = this.children;
-            for (var i = 0; i < C.length; i++) {
-                C[i].force_hidden();
-            }
+        var O = this.options;
+        if (O.hidden_state === "hidden") return;
+        this.set("hidden_state", "hidden");
+        Widget.prototype.hide.call(this);
+
+        if (this.needs_redraw)
+            TK.S.remove(this._redraw);
+        this.fire_event("hidden");
+        var C = this.children;
+        for (var i = 0; i < C.length; i++) {
+            C[i].force_hidden();
         }
     },
     show: function() {
-        if (this.__hidden !== 0) {
-            this.needs_redraw = true;
-            if (this.__hidden === 2) {
-                TK.S.add(this._redraw);
-            }
-            this.__hidden = 0;
-            this.fire_event("show");
+        var O = this.options;
+        if (O.hidden_state === "show" || O.hidden_state === "showing") return;
+        this.set("hidden_state", "showing");
+        this.fire_event("show");
 
-            var C = this.children;
-            var H = this.hidden_children;
-            for (var i = 0; i < C.length; i++) {
-                if (!H[i]) {
-                    C[i].show();
-                }
-            }
-        }
+        Widget.prototype.show.call(this);
+        show_children.call(this);
     },
 
     resize: function() {
@@ -164,25 +169,47 @@ w.Container = $class({
         var I = this.invalid;
         var E = this.element;
 
-        if (this.__hidden === 1) {
-            this.__hidden = 2;
-            if (E) {
-                TK.add_class(E, "toolkit-hide");
-                var style = TK.get_style(E, "transition-duration");
-                var t = parseFloat(style);
-                if (t > 0.0) {
-                    window.setTimeout(function() {
-                        if (this.__hidden = 2)
-                            TK.add_class(E, "toolkit-hidden");
-                    }.bind(this), t*1000);
-                } else {
-                    TK.add_class(E, "toolkit-hidden");
-                }
+        if (I.hidden_state) {
+            var time;
+            TK.remove_class(E, "toolkit-hiding");
+            TK.remove_class(E, "toolkit-hidden");
+            TK.remove_class(E, "toolkit-showing");
+            TK.remove_class(E, "toolkit-show");
+
+            if (this.__hide_id) {
+                w.clearTimeout(this.__hide_id);
+                this.__hide_id = false;
             }
-        } else if (this.__hidden === 0) {
-            if (E) {
-                TK.remove_class(E, "toolkit-hide");
-                TK.remove_class(E, "toolkit-hidden");
+
+            switch (O.hidden_state) {
+            case "hiding":
+                TK.add_class(E, "toolkit-hiding");
+                time = TK.get_transition_duration(E);
+                if (time > 0) {
+                    this.__hide_id = w.setTimeout(this.__after_hiding, time);
+                    break;
+                }
+                O.hidden_state = "hidden";
+                TK.remove_class(E, "toolkit-hiding");
+                /* FALL THROUGH */
+            case "hidden":
+                TK.add_class(E, "toolkit-hidden");
+                hide_children.call(this);
+                Widget.prototype.hide.call(this);
+                break;
+            case "showing":
+                TK.add_class(E, "toolkit-showing");
+                time = TK.get_transition_duration(E);
+                if (time > 0) {
+                    this.__hide_id = w.setTimeout(this.__after_showing, time);
+                    break;
+                }
+                O.hidden_state = "show";
+                TK.remove_class(E, "toolkit-showing");
+                /* FALL THROUGH */
+            case "show":
+                TK.add_class(E, "toolkit-show");
+                break;
             }
         }
 

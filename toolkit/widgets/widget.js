@@ -83,7 +83,7 @@ w.Widget = $class({
         this.value_time = Object.create(null);
         this.needs_redraw = false;
         this._redraw = redraw.bind(this);
-        this.__hidden = 2;
+        this.__hidden = true;
     },
 
     invalidate_all: function() {
@@ -114,14 +114,14 @@ w.Widget = $class({
     trigger_draw : function() {
         if (!this.needs_redraw) {
             this.needs_redraw = true;
-            if (this.__hidden === 0) TK.S.add(this._redraw);
+            if (!this.__hidden) TK.S.add(this._redraw);
         }
     },
 
     trigger_draw_next : function() {
         if (!this.needs_redraw) {
             this.needs_redraw = true;
-            if (this.__hidden === 0) TK.S.add_next(this._redraw);
+            if (!this.__hidden) TK.S.add_next(this._redraw);
         }
     },
 
@@ -267,8 +267,8 @@ w.Widget = $class({
         return this.options[key];
     },
     show: function () {
-        if (this.__hidden !== 0) {
-            this.__hidden = 0;
+        if (this.__hidden) {
+            this.__hidden = false;
             if (this.needs_redraw) {
                 TK.S.add(this._redraw);
             }
@@ -276,8 +276,8 @@ w.Widget = $class({
         }
     },
     hide: function () {
-        if (this.__hidden === 0) {
-            this.__hidden = 2;
+        if (!this.__hidden) {
+            this.__hidden = true;
             if (this.needs_redraw) {
                 TK.S.remove(this._redraw);
             }
@@ -288,7 +288,7 @@ w.Widget = $class({
         this.hide();
     },
     hidden: function() {
-        return this.__hidden !== 0;
+        return this.__hidden;
     },
 });
 })(this);
