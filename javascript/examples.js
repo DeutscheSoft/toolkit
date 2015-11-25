@@ -47,7 +47,8 @@ run_pager = function () {
         show: 4,
         position: _TOOLKIT_RIGHT,
         direction: _TOOLKIT_HORIZ,
-        container: TK.get_id("demo")
+        container: TK.get_id("demo"),
+        "class": "pager-newspaper",
     });
     pager2 = new Pager({
         pages: [
