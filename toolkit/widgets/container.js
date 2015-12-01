@@ -49,6 +49,7 @@ w.Container = $class({
     _class: "Container",
     Extends: Widget,
     options: {
+        hidden_state : "hidden",
         /*content: ""*/
                     // the content of the container. It can either be
                     // a string which is interpreted as HTML or a
@@ -65,6 +66,7 @@ w.Container = $class({
         this.__after_hiding = after_hiding.bind(this);
         this.__after_showing = after_showing.bind(this);
         this.__hide_id = false;
+        TK.add_class(this.element, "toolkit-hidden");
     },
     
     destroy: function () {
