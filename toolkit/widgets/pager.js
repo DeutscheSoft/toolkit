@@ -24,7 +24,6 @@ w.Pager = $class({
     /* @class:  Pager
      * 
      * @option: position;  Int;   _TOOLKIT_TOP;   The position of the ButtonArray
-     * @option: direction; Int;   _TOOLKIT_RIGHT; Direction from which the pages appear
      * @option: pages;     Array; [];             An array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
      * @option: show;      Int;   -1;             The page to show
      * @option: overlap;   Bool;  false;          If true pages aren't resized so the #ButtonArray overlaps the contents
@@ -39,7 +38,7 @@ w.Pager = $class({
     Extends: Container,
     options: {
         position:  _TOOLKIT_TOP,
-        direction: _TOOLKIT_VERTICAL,
+        direction: "forward",
         pages:     [],
         show:      -1,
         overlap:   false
@@ -80,51 +79,36 @@ w.Pager = $class({
         
         if (I.direction) {
             I.direction = false;
-            TK.remove_class(E, "toolkit-top");
-            TK.remove_class(E, "toolkit-right");
-            TK.remove_class(E, "toolkit-bottom");
-            TK.remove_class(E, "toolkit-left");
-            switch (O.position) {
-                case _TOOLKIT_TOP:
-                    TK.add_class(E, "toolkit-top");
-                    break;
-                case _TOOLKIT_BOTTOM:
-                    TK.add_class(E, "toolkit-bottom");
-                    break;
-                case _TOOLKIT_LEFT:
-                    TK.add_class(E, "toolkit-left");
-                    break;
-                case _TOOLKIT_RIGHT:
-                    TK.add_class(E, "toolkit-right");
-                    break;
-            }
+            TK.remove_class(E, "toolkit-forward");
+            TK.remove_class(E, "toolkit-backward");
+            TK.add_class(E, "toolkit-" + O.direction);
         }
         
         if (I.position) {
             I.position = false;
-            TK.remove_class(E, "toolkit-layout-top");
-            TK.remove_class(E, "toolkit-layout-right");
-            TK.remove_class(E, "toolkit-layout-bottom");
-            TK.remove_class(E, "toolkit-layout-left");
-            TK.remove_class(E, "toolkit-layout-vertical");
-            TK.remove_class(E, "toolkit-layout-horizontal");
+            TK.remove_class(E, "toolkit-top");
+            TK.remove_class(E, "toolkit-right");
+            TK.remove_class(E, "toolkit-bottom");
+            TK.remove_class(E, "toolkit-left");
+            TK.remove_class(E, "toolkit-vertical");
+            TK.remove_class(E, "toolkit-horizontal");
             switch (O.position) {
                 // NOTE: some break statements left out for trickle down
                 case _TOOLKIT_TOP:
-                    TK.add_class(E, "toolkit-layout-top");
-                    TK.add_class(E, "toolkit-layout-vertical");
+                    TK.add_class(E, "toolkit-top");
+                    TK.add_class(E, "toolkit-vertical");
                     break;
                 case _TOOLKIT_BOTTOM:
-                    TK.add_class(E, "toolkit-layout-bottom");
-                    TK.add_class(E, "toolkit-layout-vertical");
+                    TK.add_class(E, "toolkit-bottom");
+                    TK.add_class(E, "toolkit-vertical");
                     break;
                 case _TOOLKIT_LEFT:
-                    TK.add_class(E, "toolkit-layout-left");
-                    TK.add_class(E, "toolkit-layout-horizontal");
+                    TK.add_class(E, "toolkit-left");
+                    TK.add_class(E, "toolkit-horizontal");
                     break;
                 case _TOOLKIT_RIGHT:
-                    TK.add_class(E, "toolkit-layout-right");
-                    TK.add_class(E, "toolkit-layout-horizontal");
+                    TK.add_class(E, "toolkit-right");
+                    TK.add_class(E, "toolkit-horizontal");
                     break;
             }
             I.layout = true;
@@ -295,9 +279,12 @@ w.Pager = $class({
             else if (value >= this.pages.length) value = this.pages.length - 1;
 
             if (value === this.options.show) return;
-
+            if (value > this.options.show) {
+                this.set("direction", "forward");
+            } else {
+                this.set("direction", "backward");
+            }
             page = this.current();
-
             if (page) {
                 this.hide_child(page);
                 page.set("active", false);
