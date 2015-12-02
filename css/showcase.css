@@ -284,6 +284,8 @@ div#next.hidden {
     padding: 20px;
     text-align: center;
     z-index: 10;
+    max-height: 100%;
+    overflow-y: auto;
 }
 #navigation.hidden {
     transform: translateY(-100%);
