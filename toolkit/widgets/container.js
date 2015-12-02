@@ -24,23 +24,23 @@ function hide_children() {
     var C = this.children;
     var H = this.hidden_children;
     for (var i = 0; i < C.length; i++) {
-        if (!H[i]) C[i].hide();
+        if (!H[i]) C[i].force_hide();
     }
 }
 function show_children() {
     var C = this.children;
     var H = this.hidden_children;
     for (var i = 0; i < C.length; i++) {
-        if (!H[i]) C[i].show();
+        if (!H[i]) C[i].force_show();
     }
 }
 function after_hiding() {
     this.__hide_id = false;
-    this.set("hidden_state", "hidden");
+    this.set("display_state", "hide");
 }
 function after_showing() {
     this.__hide_id = false;
-    this.set("hidden_state", "show");
+    this.set("display_state", "show");
 }
 w.Container = $class({
     /* @class: Container
@@ -49,7 +49,7 @@ w.Container = $class({
     _class: "Container",
     Extends: Widget,
     options: {
-        hidden_state : "hidden",
+        display_state : "hide",
         /*content: ""*/
                     // the content of the container. It can either be
                     // a string which is interpreted as HTML or a
@@ -66,7 +66,7 @@ w.Container = $class({
         this.__after_hiding = after_hiding.bind(this);
         this.__after_showing = after_showing.bind(this);
         this.__hide_id = false;
-        TK.add_class(this.element, "toolkit-hidden");
+        TK.add_class(this.element, "toolkit-hide");
     },
     
     destroy: function () {
@@ -82,7 +82,7 @@ w.Container = $class({
         C.push(child);
         H.push(false);
         if (this.hidden()) {
-            child.force_hidden();
+            child.force_hide();
         } else {
             child.show();
         }
@@ -103,28 +103,29 @@ w.Container = $class({
     },
     hide: function () {
         var O = this.options;
-        if (O.hidden_state === "hidden" || O.hidden_state === "hiding") return;
-        this.set("hidden_state", "hiding");
+        if (O.display_state === "hide" || O.display_state === "hiding") return;
+        this.set("display_state", "hiding");
     },
-    force_hidden: function() {
+    force_hide: function() {
         var O = this.options;
-        if (O.hidden_state === "hidden") return;
-        this.set("hidden_state", "hidden");
-        Widget.prototype.hide.call(this);
+        if (O.display_state === "hide") return;
+        this.set("display_state", "hide");
 
-        if (this.needs_redraw)
-            TK.S.remove(this._redraw);
-        this.fire_event("hidden");
-        var C = this.children;
-        for (var i = 0; i < C.length; i++) {
-            C[i].force_hidden();
-        }
+        Widget.prototype.force_hide.call(this);
+        hide_children.call(this);
+    },
+    force_show: function() {
+        var O = this.options;
+        if (O.display_state === "show") return;
+        this.set("display_state", "show");
+
+        Widget.prototype.force_show.call(this);
+        show_children.call(this);
     },
     show: function() {
         var O = this.options;
-        if (O.hidden_state === "show" || O.hidden_state === "showing") return;
-        this.set("hidden_state", "showing");
-        this.fire_event("show");
+        if (O.display_state === "show" || O.display_state === "showing") return;
+        this.set("display_state", "showing");
 
         Widget.prototype.show.call(this);
         show_children.call(this);
@@ -171,19 +172,22 @@ w.Container = $class({
         var I = this.invalid;
         var E = this.element;
 
-        if (I.hidden_state) {
+        if (I.display_state) {
             var time;
             TK.remove_class(E, "toolkit-hiding");
-            TK.remove_class(E, "toolkit-hidden");
+            TK.remove_class(E, "toolkit-hide");
             TK.remove_class(E, "toolkit-showing");
             TK.remove_class(E, "toolkit-show");
+
+            /* if you ask about the following line, we will have to kill you */
+            TK.get_style(E, "display");
 
             if (this.__hide_id) {
                 w.clearTimeout(this.__hide_id);
                 this.__hide_id = false;
             }
 
-            switch (O.hidden_state) {
+            switch (O.display_state) {
             case "hiding":
                 TK.add_class(E, "toolkit-hiding");
                 time = TK.get_transition_duration(E);
@@ -191,11 +195,11 @@ w.Container = $class({
                     this.__hide_id = w.setTimeout(this.__after_hiding, time);
                     break;
                 }
-                O.hidden_state = "hidden";
+                O.display_state = "hide";
                 TK.remove_class(E, "toolkit-hiding");
                 /* FALL THROUGH */
-            case "hidden":
-                TK.add_class(E, "toolkit-hidden");
+            case "hide":
+                TK.add_class(E, "toolkit-hide");
                 hide_children.call(this);
                 Widget.prototype.hide.call(this);
                 break;
@@ -206,7 +210,7 @@ w.Container = $class({
                     this.__hide_id = w.setTimeout(this.__after_showing, time);
                     break;
                 }
-                O.hidden_state = "show";
+                O.display_state = "show";
                 TK.remove_class(E, "toolkit-showing");
                 /* FALL THROUGH */
             case "show":

@@ -22,14 +22,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    transition: all 0.33s ease-in-out;
+    transition: all 2s ease-in-out;
     opacity: 0;
 }
-.toolkit-pager .toolkit-page.toolkit-hidden {
-/*
+.toolkit-container.toolkit-hide {
     display: none;
-*/
-    opacity: 0;
 }
 .toolkit-pager .toolkit-page.toolkit-hiding {
     opacity: 0;

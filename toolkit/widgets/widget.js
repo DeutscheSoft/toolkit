@@ -284,8 +284,11 @@ w.Widget = $class({
             this.fire_event("hide");
         }
     },
-    force_hidden: function() {
-        this.hide();
+    force_hide: function() {
+        Widget.prototype.hide.call(this);
+    },
+    force_show: function() {
+        Widget.prototype.show.call(this);
     },
     hidden: function() {
         return this.__hidden;
