@@ -157,15 +157,6 @@
     margin-bottom: 30px;
 }
 
-.toolkit-pager.pager-newspaper .toolkit-hiding {
-    transition: opacity 0.5s;
-    opacity: 0;
-}
-.toolkit-pager.pager-newspaper .toolkit-showing {
-    transition: opacity 0.5s;
-    opacity: 1;
-}
-
 .toolkit-state {
     float: left;
 }

@@ -108,11 +108,11 @@ function get_max_time(s) {
     return ret|0;
 }
 
-function get_transition_duration(e) {
-    var duration = get_style(e, "transition-duration");
-    var delay = get_style(e, "transition-delay");
-
-    return get_max_time(duration) + get_max_time(delay);
+function get_duration(e) {
+    return Math.max(get_max_time(get_style(e, "animation-duration"))
+                  + get_max_time(get_style(e, "animation-delay")),
+                    get_max_time(get_style(e, "transition-duration"))
+                  + get_max_time(get_style(e, "transition-delay")));
 }
 
 function monitor_resize_events() {
@@ -725,7 +725,7 @@ w.TK = w.toolkit = {
     set_styles : set_styles,
     set_style: set_style,
     get_style: get_style,
-    get_transition_duration: get_transition_duration,
+    get_duration: get_duration,
     
     // STRINGS
     

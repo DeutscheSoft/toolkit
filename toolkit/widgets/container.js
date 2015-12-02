@@ -179,9 +179,6 @@ w.Container = $class({
             TK.remove_class(E, "toolkit-showing");
             TK.remove_class(E, "toolkit-show");
 
-            /* if you ask about the following line, we will have to kill you */
-            TK.get_style(E, "display");
-
             if (this.__hide_id) {
                 w.clearTimeout(this.__hide_id);
                 this.__hide_id = false;
@@ -190,7 +187,7 @@ w.Container = $class({
             switch (O.display_state) {
             case "hiding":
                 TK.add_class(E, "toolkit-hiding");
-                time = TK.get_transition_duration(E);
+                time = TK.get_duration(E);
                 if (time > 0) {
                     this.__hide_id = w.setTimeout(this.__after_hiding, time);
                     break;
@@ -205,7 +202,7 @@ w.Container = $class({
                 break;
             case "showing":
                 TK.add_class(E, "toolkit-showing");
-                time = TK.get_transition_duration(E);
+                time = TK.get_duration(E);
                 if (time > 0) {
                     this.__hide_id = w.setTimeout(this.__after_showing, time);
                     break;
