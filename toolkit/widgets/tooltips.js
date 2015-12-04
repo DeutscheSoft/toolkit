@@ -27,11 +27,10 @@ function get_event(event) {
           ? event.touches[0] : event;
 }
 w.GlobalTooltip = function() {
-    var doc = document;
-    var overlay = doc.createElement("div", "toolkit-tooltip");
-    var table = doc.createElement("div", "toolkit-table");
-    var row = doc.createElement("div", "toolkit-row");
-    var cell = doc.createElement("div", "toolkit-cell");
+    var overlay = TK.element("div", "toolkit-tooltip");
+    var table   = TK.element("div", "toolkit-table");
+    var row     = TK.element("div", "toolkit-row");
+    var cell    = TK.element("div", "toolkit-cell");
 
     var tmp = row.cloneNode();
 
