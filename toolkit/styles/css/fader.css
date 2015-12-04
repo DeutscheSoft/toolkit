@@ -1,14 +1,6 @@
 div.toolkit-fader {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: inline-block;
     margin: 4px;
     padding: 0px;
-    box-sizing: border-box;
     background-repeat: no-repeat;
 }
 
@@ -41,10 +33,8 @@ div.toolkit-fader.toolkit-bottom {
 }
 
 div.toolkit-fader .toolkit-handle {
-    position: absolute;
     cursor: pointer;
     cursor: hand;
-    z-index: 3;
 }
 
 div.toolkit-fader.toolkit-vertical .toolkit-handle {
@@ -72,8 +62,6 @@ div.toolkit-fader.toolkit-horizontal.toolkit-warn .toolkit-handle {
 div.toolkit-fader .toolkit-scale {
     z-index: 1;
     position: absolute;
-    top: 50px;
-    bottom: 50px;
 }
 
 div.toolkit-fader.toolkit-left .toolkit-scale {

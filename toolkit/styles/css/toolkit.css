@@ -1,0 +1,522 @@
+
+/* ############################ RESET CSS ########################### */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    outline: none;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+pre, code {
+    font-family: monospace;
+}
+
+
+/* ########################### GENERIC CSS ########################## */
+
+.toolkit-disabled {
+    opacity: 0.3;
+}
+
+
+/* #################### WIDGETS IMPORTANT STYLES #################### */
+/* The following styles are important for the widgets functionality
+ * and are not related to their appearance or design. */
+
+/* BUTTONARRAY */
+
+.toolkit-buttonarray {
+    box-sizing: border-box;
+    position: relative;
+}
+.toolkit-buttonarray.toolkit-vertical .toolkit-previous {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.toolkit-buttonarray.toolkit-vertical .toolkit-next {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.toolkit-buttonarray.toolkit-horizontal .toolkit-previous {
+    left: 0;
+    height: 100%;
+}
+.toolkit-buttonarray.toolkit-horizontal .toolkit-next {
+    top: 0;
+    right: 0px;
+    height: 100%;
+}
+.toolkit-buttonarray .toolkit-clip {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.toolkit-buttonarray .toolkit-clip .toolkit-container {
+    position: relative;
+    display: inline-block;
+}
+.toolkit-buttonarray.toolkit-horizontal .toolkit-clip .toolkit-container {
+    height: 100%;
+    white-space: nowrap;
+}
+.toolkit-buttonarray.toolkit-vertical .toolkit-clip .toolkit-container {
+    width: 100%;
+}
+
+/* CHART */
+
+.toolkit-chart {
+    overflow: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.toolkit-chart .toolkit-key {
+    pointer-events: none;
+}
+
+/* CLOCK */
+
+.toolkit-widget.toolkit-clock {
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+}
+
+/* FADER */
+
+iv.toolkit-fader {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+div.toolkit-fader .toolkit-handle {
+    position: absolute;
+    z-index: 3;
+}
+
+div.toolkit-fader .toolkit-scale {
+    z-index: 1;
+    position: absolute;
+}
+
+/* LEVELMETER */
+
+div.toolkit-level-meter div.toolkit-bar div.toolkit-mask3,
+div.toolkit-level-meter div.toolkit-bar div.toolkit-mask4 {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+}
+div.toolkit-level-meter.toolkit-has-hold div.toolkit-bar div.toolkit-mask3,
+div.toolkit-level-meter.toolkit-has-hold div.toolkit-bar div.toolkit-mask4 {
+    display: block;
+}
+
+div.toolkit-level-meter.toolkit-vertical div.toolkit-bar div.toolkit-mask3 {
+    width:  100%;
+    height: 0px;
+    top: 0px;
+}
+div.toolkit-level-meter.toolkit-vertical div.toolkit-bar div.toolkit-mask4 {
+    width:  100%;
+    height: 0px;
+    bottom: 0px;
+}
+div.toolkit-level-meter.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask3 {
+    bottom: 0px;
+    top: auto;
+}
+div.toolkit-level-meter.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask4 {
+    top: 0px;
+    bottom: auto;
+}
+
+div.toolkit-level-meter.toolkit-horizontal div.toolkit-bar div.toolkit-mask3 {
+    width:  0px;
+    height: 100%;
+    right: 0px;
+}
+div.toolkit-level-meter.toolkit-horizontal div.toolkit-bar div.toolkit-mask4 {
+    width:  0px;
+    height: 100%;
+    left: 0px;
+}
+div.toolkit-level-meter.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask3 {
+    left: 0px;
+    right: auto;
+}
+div.toolkit-level-meter.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask4 {
+    right: 0px;
+    left: auto;
+}
+div.toolkit-level-meter div.toolkit-clip {
+    display: none;
+    position: absolute;
+    margin: 0;
+    width: auto;
+    height: auto;
+}
+div.toolkit-level-meter.toolkit-has-clip div.toolkit-clip {
+    display: block;
+}
+div.toolkit-level-meter div.toolkit-peak {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+}
+div.toolkit-level-meter.toolkit-has-peak div.toolkit-peak {
+    display: block;
+}
+
+div.toolkit-level-meter.toolkit-vertical.toolkit-left div.toolkit-peak div.toolkit-peak-label {
+    float: left;
+}
+div.toolkit-level-meter.toolkit-vertical.toolkit-right div.toolkit-peak div.toolkit-peak-label {
+    float: right;
+}
+
+div.toolkit-level-meter.toolkit-horizontal div.toolkit-peak div.toolkit-peak-label {
+    transform: rotate(-90deg);
+}
+div.toolkit-level-meter.toolkit-horizontal.toolkit-top div.toolkit-peak div.toolkit-peak-label {
+    float: right;
+}
+div.toolkit-level-meter.toolkit-horizontal.toolkit-bottom div.toolkit-peak div.toolkit-peak-label {
+    float: left;
+}
+
+/* METERBASE */
+
+div.toolkit-meter-base {
+    overflow: hidden;
+    position: relative;
+}
+div.toolkit-meter-base div.toolkit-label {
+    position: absolute;
+    display: none;
+    white-space: nowrap;
+}
+div.toolkit-meter-base.toolkit-has-label div.toolkit-label {
+    display: block;
+}
+div.toolkit-meter-base div.toolkit-title {
+    position: absolute;
+    display: none;
+    white-space: nowrap;
+}
+div.toolkit-meter-base.toolkit-has-title div.toolkit-title {
+    display: block;
+}
+div.toolkit-meter-base div.toolkit-scale {
+    position: absolute;
+    display: none;
+}
+div.toolkit-meter-base.toolkit-has-scale div.toolkit-scale {
+    display: block;
+}
+div.toolkit-meter-base div.toolkit-bar {
+    position: absolute;
+    overflow: hidden;
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-over {
+    position: absolute;
+    width:    100%;
+    height:   100%;
+    z-index:  100;
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mask {
+    position:   absolute;
+    z-index:    1000;
+    margin: 0;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
+    width: 100%;
+    height: 0px;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask1 {
+    top: 0px;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
+    bottom: 0px;
+    top: auto;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask2 {
+    bottom: 0px;
+}
+div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
+    top: 0px;
+    bottom: auto;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
+    height: 100%;
+    width: 0px;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask1 {
+    right: 0px;
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
+    left: 0px;
+    right: auto;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask2 {
+    left: 0px;
+}
+div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
+    right: 0px;
+    left: auto;
+}
+div.toolkit-meter-base div.toolkit-bar div.toolkit-mark {
+    position: absolute;
+    width:    100%;
+    height:   100%;
+    z-index:  10;
+}
+div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark div.toolkit-dot {
+    width: 100%;
+    height: 1px;
+    margin-top: 0px;
+}
+div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark div.toolkit-dot {
+    width: 1px;
+    height: 100%;
+    margin-left: 0px;
+}
+
+/* PAGER */
+
+.toolkit-pager {
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.toolkit-pager > .toolkit-clip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.toolkit-pager .toolkit-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.toolkit-container.toolkit-hide {
+    display: none;
+}
+.toolkit-pager.toolkit-right .toolkit-buttonarray {
+    float: right;
+}
+
+/* RESPONSEHANDLE */
+
+.toolkit-response-handle {
+    display: block;
+}
+.toolkit-response-handle.toolkit-inactive {
+    display: none;
+}
+.toolkit-response-handle.toolkit-circular .toolkit-line {
+    display: none;
+}
+.toolkit-response-handle.toolkit-circular.toolkit-active .toolkit-line {
+    display: block;
+}
+.toolkit-response-handle.toolkit-line .toolkit-line-2 {
+    display: none;
+}
+.toolkit-response-handle.toolkit-line.toolkit-active .toolkit-line-2 {
+    display: block;
+}
+.toolkit-response-handle.toolkit-block .toolkit-line-2 {
+    display: none;
+}
+.toolkit-response-handle.toolkit-block.toolkit-active .toolkit-line-2 {
+    display: block;
+}
+
+/* SCALE */
+
+div.toolkit-scale {
+    position: relative;
+}
+
+/* SELECT */
+
+.toolkit-button.toolkit-select .toolkit-label {
+    float: left;
+}
+.toolkit-button.toolkit-select .toolkit-arrow {
+    float: right;
+}
+.toolkit-select-list {
+    position: absolute;
+    z-index: 100000;
+    box-sizing: border-box;
+}
+.toolkit-select-list .toolkit-option {
+    white-space: nowrap;
+}
+
+/* STATE */
+
+div.toolkit-state div.toolkit-mask {
+    width: 100%;
+    height: 100%;
+}
+
+/* VALUE */
+
+.toolkit-value .toolkit-input {
+    -webkit-user-select: auto !important;
+    -khtml-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    user-select: auto !important;
+}
+
+/* VALUEBUTTON */
+
+.toolkit-valuebutton {
+    position: relative;
+}
+
+/* VALUEKNOB */
+
+.toolkit-valueknob {
+    display: inline-block;
+    position: relative;
+}
+
+/* WINDOW */
+
+.toolkit-window {
+    position: absolute;
+    z-index: 10000;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.toolkit-window .toolkit-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    overflow: auto;
+}
+.toolkit-window .toolkit-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.toolkit-window .toolkit-header .toolkit-header-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.toolkit-window .toolkit-header .toolkit-header-center {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+.toolkit-window .toolkit-header .toolkit-header-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.toolkit-window .toolkit-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+}
+.toolkit-window .toolkit-footer .toolkit-footer-left {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.toolkit-window .toolkit-footer .toolkit-footer-center {
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
+}
+.toolkit-window .toolkit-footer .toolkit-footer-right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.toolkit-window .toolkit-title {
+    white-space: nowrap;
+}
+.toolkit-window .toolkit-status {
+    white-space: nowrap;
+}
+.toolkit-window .toolkit-resize {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 10000000;
+    cursor: se-resize;
+}

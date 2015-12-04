@@ -3,27 +3,16 @@
     padding-right: 8px;
 }
 
-.toolkit-button.toolkit-select .toolkit-arrow {
-    background-image: url(../images/select/arrow_down.png);
-    background-position: 50% 50%;
-    width: 16px;
-    height: 11px;
-    float: right;
-}
 .toolkit-button.toolkit-select .toolkit-label {
     margin-right: 5px;
-    float: left;
 }
 .toolkit-button.toolkit-select .toolkit-arrow {
     background: url(../images/select/arrow_down.png) 50% 50% no-repeat;
     width: 16px;
     height: 18px;
-    float: right;
 }
 
 .toolkit-select-list {
-    position: absolute;
-    z-index: 100000;
     list-style: none;
     background: #efefef;
     border: 1px solid white;
@@ -32,7 +21,6 @@
     -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     -moz-box-shadow:    0px 2px 5px rgba(0, 0, 0, 0.2);
     box-shadow:         0px 2px 5px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
     transition: opacity 200ms;
 }
 
@@ -40,7 +28,6 @@
     margin: 0;
     padding: 2px 5px;
     cursor: pointer;
-    white-space: nowrap;
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 

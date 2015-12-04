@@ -14,10 +14,12 @@ div.toolkit-state {
     background-image:  url(../images/state/circle.png);
     background-position: 0 0;
     background-size: 100% 100%;
+    border-top: 3px solid #ddd;
+    border-bottom: 3px solid #fff;
+    border-left: 2px solid #e8e8e8;
+    border-right: 2px solid #f3f3f3;
 }
 
 div.toolkit-state div.toolkit-mask {
-    width: 100%;
-    height: 100%;
     background: black;
 }

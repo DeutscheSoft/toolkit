@@ -1,12 +1,11 @@
 .toolkit-response-handle {
     fill: rgb(255,255,255);
-    display: block;
 }
 .toolkit-response-handle:hover {
     
 }
 .toolkit-response-handle.toolkit-inactive {
-    display: none;
+    
 }
 .toolkit-response-handle.toolkit-active {
     cursor: move !important;
@@ -66,7 +65,7 @@
 }
 
 .toolkit-response-handle .toolkit-label {
-    cursor:pointer;
+    cursor: pointer;
     font-size: 9px;
 }
 .toolkit-response-handle:hover .toolkit-label {
@@ -162,10 +161,9 @@
     stroke: white;
 /*     stroke-dasharray: 1,1; */
     opacity: 0.5;
-    display: none;
 }
 .toolkit-response-handle.toolkit-circular.toolkit-active .toolkit-line {
-    display: block;
+    
 }
 
 .toolkit-response-handle.toolkit-line .toolkit-line-1 {
@@ -182,10 +180,9 @@
 .toolkit-response-handle.toolkit-line .toolkit-line-2 {
     stroke: #fff;
     opacity: 0.5;
-    display: none;
 }
 .toolkit-response-handle.toolkit-line.toolkit-active .toolkit-line-2 {
-    display: block;
+    
 }
 
 .toolkit-response-handle.toolkit-block .toolkit-line-1 {
@@ -203,8 +200,7 @@
 .toolkit-response-handle.toolkit-block .toolkit-line-2 {
     stroke: #fff;
     opacity: 0.5;
-    display: none;
 }
 .toolkit-response-handle.toolkit-block.toolkit-active .toolkit-line-2 {
-    display: block;
+    
 }

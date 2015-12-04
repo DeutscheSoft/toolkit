@@ -29,9 +29,17 @@
 
 div.toolkit-meter-base {
     display: inline-block;
-    overflow: hidden;
-    position: relative;
     padding: 0;
+    background: #eee;
+    border: 1px solid #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius:    6px;
+    border-radius:         6px;
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
 }
 div.toolkit-meter-base.toolkit-vertical {
     width: 80px;
@@ -56,11 +64,8 @@ div.toolkit-meter-base.toolkit-bottom {
 /* LABEL */
 
 div.toolkit-meter-base div.toolkit-label {
-    position: absolute;
-    display: none;
     line-height: 1.2em;
     height: 1.2em;
-    white-space: nowrap;
 }
 div.toolkit-meter-base.toolkit-has-label div.toolkit-label {
     display: block;
@@ -95,14 +100,10 @@ div.toolkit-meter-base.toolkit-left div.toolkit-label {
 /* TITLE */
 
 div.toolkit-meter-base div.toolkit-title {
-    position: absolute;
-    display: none;
     line-height: 1.2em;
     height: 1.2em;
-    white-space: nowrap;
 }
 div.toolkit-meter-base.toolkit-has-title div.toolkit-title {
-    display: block;
     
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-title {
@@ -135,8 +136,6 @@ div.toolkit-meter-base.toolkit-left div.toolkit-title {
 /* SCALE */
 
 div.toolkit-meter-base div.toolkit-scale {
-    position: absolute;
-    display: none;
     color: #aaa;
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-scale {
@@ -146,7 +145,7 @@ div.toolkit-meter-base.toolkit-horizontal div.toolkit-scale {
     height: 20px;
 }
 div.toolkit-meter-base.toolkit-has-scale div.toolkit-scale {
-    display: block;
+    
 }
 
 div.toolkit-meter-base.toolkit-top div.toolkit-scale {
@@ -193,12 +192,14 @@ div.toolkit-meter-base div.toolkit-scale span.toolkit-label.toolkit-base {
 /* BAR */
 
 div.toolkit-meter-base div.toolkit-bar {
-    position: absolute;
-    overflow: hidden;
     left: 3px;
     right: 3px;
     top: 2px;
     bottom: 2px;
+    border-top: 3px solid #ddd;
+    border-bottom: 3px solid #fff;
+    border-left: 2px solid #e8e8e8;
+    border-right: 2px solid #f3f3f3;
 }
 
 div.toolkit-meter-base.toolkit-top.toolkit-has-label div.toolkit-bar,
@@ -242,10 +243,6 @@ div.toolkit-meter-base.toolkit-right.toolkit-has-scale div.toolkit-bar {
 
 div.toolkit-meter-base div.toolkit-bar div.toolkit-over {
     opacity:  0.66;
-    position: absolute;
-    width:    100%;
-    height:   100%;
-    z-index:  100;
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-over {
     background: url(../images/meterbase/slim_soft_vertical.png);
@@ -259,74 +256,57 @@ div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-over {
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mask {
     background: black;
     opacity:    0.66;
-    position:   absolute;
-    z-index:    1000;
-    margin: 0;
 }
 
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
-    width: 100%;
-    height: 0px;
+    
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask1 {
-    top: 0px;
+    
 }
 div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
-    bottom: 0px;
-    top: auto;
+    
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask2 {
-    bottom: 0px;
+    
 }
 div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
-    top: 0px;
-    bottom: auto;
+    
 }
 
 div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
-    height: 100%;
-    width: 0px;
+    
 }
 div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask1 {
-    right: 0px;
+    
 }
 div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
-    left: 0px;
-    right: auto;
+    
 }
 div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask2 {
-    left: 0px;
+    
 }
 div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
-    right: 0px;
-    left: auto;
+    
 }
 
 /* MARK */
 
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark {
-    position: absolute;
-    width:    100%;
-    height:   100%;
-    z-index:  10;
+    
 }
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot {
-    display: none;
+    
 }
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-marker,
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-min,
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-max,
 div.toolkit-meter-base div.toolkit-bar div.toolkit-mark div.toolkit-dot.toolkit-base {
     background: rgba(0,0,0,0.5);
-    display: block;
 }
 div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark div.toolkit-dot {
-    width: 100%;
-    height: 1px;
-    margin-top: 0px;
+    
 }
 div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark div.toolkit-dot {
-    width: 1px;
-    height: 100%;
-    margin-left: 0px;
+    
 }

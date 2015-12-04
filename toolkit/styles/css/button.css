@@ -9,7 +9,6 @@
     background-size: 100% 200%;
     background-position: 50% 0;
     border: 1px solid #aaa;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/grey_out.png',sizingMethod='scale');
     -webkit-border-radius: 6px;
     -moz-border-radius:    6px;
     border-radius:         6px;
