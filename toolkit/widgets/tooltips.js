@@ -28,30 +28,10 @@ function get_event(event) {
 }
 w.GlobalTooltip = function() {
     var doc = document;
-    var overlay = doc.createElement("div");
-    var style = overlay.style;
-    style.position = "fixed";
-    style.top = style.left = "0px";
-    style.width = "100vw";
-    style.height = "100vh";
-    style["pointer-events"] = "none";
-    style["z-index"] = "9999";
-
-    var table = doc.createElement("div");
-    style = table.style;
-    style.display = "table";
-    style.width = "100vw";
-    style.height = "100vh";
-    style.margin = style.padding = "0px";
-    style["table-layout"] = "auto";
-
-    var row = doc.createElement("div");
-    row.style.display = "table-row";
-
-    var cell = doc.createElement("div");
-    style = cell.style;
-    style.display = "table-cell";
-    style.width = style.height = "auto";
+    var overlay = doc.createElement("div", "toolkit-tooltip");
+    var table = doc.createElement("div", "toolkit-table");
+    var row = doc.createElement("div", "toolkit-row");
+    var cell = doc.createElement("div", "toolkit-cell");
 
     var tmp = row.cloneNode();
 
@@ -66,8 +46,7 @@ w.GlobalTooltip = function() {
     tmp = row.cloneNode();
 
     var entry = cell.cloneNode();
-    entry.className = "toolkit-tooltip";
-    entry.style["white-space"] = "nowrap";
+    entry.className = "toolkit-entry";
 
     var entry_tl = cell.cloneNode();
     entry_tl.className = "toolkit-tt-container";
