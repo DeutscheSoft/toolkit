@@ -35,8 +35,8 @@ w.Gradient = $class({
         gradient:        false,
         background:      "#00000"
     },
-    draw_gradient: function (element, grad, fallback, range) {
-        /* @method: draw_gradient
+    draw_gradient: function (element, gradient, fallback, range) {
+        /* @method: draw_gradient(element, gradient, fallback, range)
          * @parameter: element; DOMNode; undefined; The DOM node to appy the gradient to
          * @parameter: gradient; Object; undefined; Gradient definition for the background, e.g. {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
          * @parameter: fallback; String; undefined; If no gradient can be applied, use this as background color string
@@ -64,10 +64,10 @@ w.Gradient = $class({
         
         var bg = "";
         range = range || this;
-        if (!grad && !this.options.gradient)
+        if (!gradient && !this.options.gradient)
             bg = fallback || this.options.background;
         else {
-            grad = grad || this.options.gradient;
+            gradient = gradient || this.options.gradient;
             
             var ms_first   = "";
             var ms_last    = "";
@@ -114,7 +114,7 @@ w.Gradient = $class({
             d_ms["s"+_TOOLKIT_TOP]      = 'x1="100%" y1="0%" x2="0%" y2="0%"';
             d_ms["s"+_TOOLKIT_BOTTOM]   = 'x1="100%" y1="0%" x2="0%" y2="0%"';
             
-            var keys = Object.keys(grad);
+            var keys = Object.keys(gradient);
             for (var i = 0; i < keys.length; i++) {
                 keys[i] = parseFloat(keys[i]);
             }
@@ -123,12 +123,12 @@ w.Gradient = $class({
             
             for (var i = 0; i < keys.length; i++) {
                 var ps = range.val2perc(range.snap(keys[i])).toFixed(2);
-                if (!ms_first) ms_first = grad[i];
-                ms_last = grad[keys[i] + ""];
+                if (!ms_first) ms_first = gradient[i];
+                ms_last = gradient[keys[i] + ""];
                 
-                m_svg     += TK.sprintf(c_svg, ps, grad[keys[i] + ""]);
-                m_regular += TK.sprintf(c_regular, grad[keys[i] + ""], ps);
-                m_webkit  += TK.sprintf(c_webkit, ps, grad[keys[i] + ""]);
+                m_svg     += TK.sprintf(c_svg, ps, gradient[keys[i] + ""]);
+                m_regular += TK.sprintf(c_regular, gradient[keys[i] + ""], ps);
+                m_webkit  += TK.sprintf(c_webkit, ps, gradient[keys[i] + ""]);
             }
             m_regular = m_regular.substr(0, m_regular.length -2);
             m_webkit  = m_regular.substr(0, m_webkit.length -2);

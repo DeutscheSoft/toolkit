@@ -34,32 +34,32 @@ this.AudioMath = (function(stdlib, foreign, heap) {
     var LN2 = stdlib.Math.LN2;
     var LN10 = stdlib.Math.LN10;
 
-    function log2(v) {
-        /* @method: log2
+    function log2(value) {
+        /* @method: log2(value)
          * @parameter: value; Number; undefined; The value for the log
          * @returns: Number; The logarithm with base 2 of the value
          * @description: Calculate the logarithm with base 2 of a given
          * value. It is used for calculations with decibels in linear
          * scales.
          */
-        v = +v;
-        return +log(v) / LN2;
+        value = +value;
+        return +log(value) / LN2;
     }
 
-    function log10(v) {
-        /* @method: log10
+    function log10(value) {
+        /* @method: log10(value)
          * @parameter: value; Number; undefined; The value for the log
          * @returns: Number; The logarithm with base 10 of the value
          * @description: Calculate the logarithm with base 10 of a given
          * value. It is used for calculations with hertz in linear
          * scales.
          */
-        v = +v;
-        return +log(v) / LN10;
+        value = +value;
+        return +log(value) / LN10;
     }
 
     function db2coef(value, min, max, reverse, factor) {
-        /* @method: db2coef
+        /* @method: db2coef(value, min, max, reverse, factor)
          * @parameter: value; Number; undefined; The value in decibels
          * @parameter: min; Number; undefined; The minimum value in decibels
          * @parameter: max; Number; undefined; The maximum value in decibels
@@ -83,8 +83,8 @@ this.AudioMath = (function(stdlib, foreign, heap) {
     }
 
     function coef2db(coef, min, max, reverse, factor) {
-        /* @method: coef2db
-         * @parameter: value; Number; undefined; A value between 0.0 and 1.0
+        /* @method: coef2db(coef, min, max, reverse, factor)
+         * @parameter: coef; Number; undefined; A value between 0.0 and 1.0
          * @parameter: min; Number; undefined; The minimum value in decibels
          * @parameter: max; Number; undefined; The maximum value in decibels
          * @parameter: reverse; Bool; undefined; If the scale is reversed
@@ -106,7 +106,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         return coef;
     }
     function db2scale(value, min, max, scale, reverse, factor) {
-        /* @method: db2scale
+        /* @method: db2scale(value, min, max, scale, reverse, factor)
          * @parameter: value; Number; undefined; The value in decibels
          * @parameter: min; Number; undefined; The minimum value in decibels
          * @parameter: max; Number; undefined; The maximum value in decibels
@@ -131,7 +131,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         return value * scale;
     }
     function scale2db(value, min, max, scale, reverse, factor) {
-        /* @method: scale2db
+        /* @method: scale2db(value, min, max, scale, reverse, factor)
          * @parameter: value; Number; undefined; A value between 0.0 and scale
          * @parameter: min; Number; undefined; The minimum value in decibels
          * @parameter: max; Number; undefined; The maximum value in decibels
@@ -156,7 +156,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         return value;
     }
     function freq2coef(value, min, max, reverse/*, prescaled, factor*/) {
-        /* @method: freq2coef
+        /* @method: freq2coef(value, min, max, reverse)
          * @parameter: value; Number; undefined; The value in hertz
          * @parameter: min; Number; undefined; The minimum value in hertz
          * @parameter: max; Number; undefined; The maximum value in hertz
@@ -177,8 +177,8 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         return value;
     }
     function coef2freq(coef, min, max, reverse) {
-        /* @method: coef2freq
-         * @parameter: value; Number; undefined; A value between 0.0 and 1.0
+        /* @method: coef2freq(coef, min, max, reverse)
+         * @parameter: coef; Number; undefined; A value between 0.0 and 1.0
          * @parameter: min; Number; undefined; The minimum value in hertz
          * @parameter: max; Number; undefined; The maximum value in hertz
          * @parameter: reverse; Bool; undefined; If the scale is reversed
@@ -198,7 +198,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         return coef;
     }
     function freq2scale(value, min, max, scale, reverse) {
-        /* @method: freq2scale
+        /* @method: freq2scale(value, min, max, scale, reverse)
          * @parameter: value; Number; undefined; The value in hertz
          * @parameter: min; Number; undefined; The minimum value in hertz
          * @parameter: max; Number; undefined; The maximum value in hertz
@@ -219,7 +219,7 @@ this.AudioMath = (function(stdlib, foreign, heap) {
         return value * scale;
     }
     function scale2freq(value, min, max, scale, reverse) {
-        /* @method: scale2freq
+        /* @method: scale2freq(value, min, max, scale, reverse)
          * @parameter: value; Number; undefined; A value between 0.0 and scale
          * @parameter: min; Number; undefined; The minimum value in hertz
          * @parameter: max; Number; undefined; The maximum value in hertz

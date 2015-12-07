@@ -218,6 +218,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 this.build_section_header(sect, div, subnav);
                 this.build_tables_recursively(sect.id, item, div);
                 break;
+            case "methods":
+                this.build_section_header(sect, div, subnav);
+                this.build_tables_recursively(sect.id, item, div);
+                break;
             case "extends":
                 this.build_section_header(sect, div, subnav);
                 div.appendChild(this.build_tree(item));

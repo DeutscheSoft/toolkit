@@ -27,7 +27,7 @@ w.Warning = $class({
      * the range. */
     _class: "Warning",
     warning: function (element, timeout) {
-        /* @method: warning
+        /* @method: warning(element, timeout)
          * @parameter: element; DOMNode; undefined; The DOM node the class should be added to
          * @parameter: timeout; Number; 250; Te timeout in milliseconds until the class is removed again
          * @description: Adds the class "toolkit-warn" to the given element and

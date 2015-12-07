@@ -26,7 +26,7 @@ w.Ranges = $class({
      * might be used for e.g. building coordinate systems and the like. */
     _class: "Ranges",
     add_range: function (from, name) {
-        /* @method: add_range
+        /* @method: add_range(from, name)
          * @parameter: from; Function|Object; undefined; A function returning
          * a #Range instance or an object containing options for a new #Range.
          * @parameter name; String; undefined; Designator of the new #Range.

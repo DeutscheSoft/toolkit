@@ -177,17 +177,17 @@ w.Pager = $class({
             this.add_page(options[i].label, options[i].content);
     },
     
-    add_page: function (button, content, pos, options) {
-        /* @method: add_page
+    add_page: function (button, content, position, options) {
+        /* @method: add_page(button, content, pos, options)
          * @parameter: button;  String|Object;       undefined; A string with the #Button s label or an object cotaining options for the #Button
          * @parameter: content; Widget|Class|String; undefined; The content of the page. Either a #Container (or derivate)  widget, a class (needs option "options" to be set) or a string which get embedded in a new #Container
          * @parameter: options; Object;              undefined; An object containing options for the #Container to add as a page
-         * @parameter: pos;     Int|Undefined;       undefined; The position to add the new page to. If avoided the page is added to the end of the list
+         * @parameter: position;     Int|Undefined;       undefined; The position to add the new page to. If avoided the page is added to the end of the list
          * @description: Adds a #Container to the Pager and a #Button to the pagers #ButtonArray */
         var p;
         if (typeof button === "string")
             button = {label: button};
-        this.buttonarray.add_button(button, pos);
+        this.buttonarray.add_button(button, position);
 
         if (typeof content === "string" || TK.is_dom_node(content)) {
             if (!options) options = {}; 
@@ -205,11 +205,11 @@ w.Pager = $class({
 
         var len = this.pages.length;
 
-        if (pos >= 0 && pos < len - 1) {
-            this.pages.splice(pos, 0, p);
-            this._clip.insertBefore(p.element, this._clip.childNodes[pos]);
+        if (position >= 0 && position < len - 1) {
+            this.pages.splice(position, 0, p);
+            this._clip.insertBefore(p.element, this._clip.childNodes[position]);
         } else {
-            pos = len;
+            position = len;
             this.pages.push(p);
             this._clip.appendChild(p.element);
         }
@@ -220,8 +220,8 @@ w.Pager = $class({
 
         // TODO: not always necessary
         if (this.current() === p) {
-            this.options.show = pos;
-            this.buttonarray.set("show", pos);
+            this.options.show = position;
+            this.buttonarray.set("show", position);
             p.set("active", true);
             if (!this.hidden()) p.show();
         } else {

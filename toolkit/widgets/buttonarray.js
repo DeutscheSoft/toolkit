@@ -152,17 +152,17 @@ w.ButtonArray = $class({
     },
     
     add_buttons: function (options) {
-        /* @method: add_buttons
+        /* @method: add_buttons(options)
          * @parameter: options; Array[String|Object]; undefined; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
          * @description: Adds an array of buttons to the end of the list. */
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);
     },
     
-    add_button: function (options, pos) {
-        /* @method: add_button
+    add_button: function (options, position) {
+        /* @method: add_button(options, position)
          * @parameter: options; Object|String; undefined; An object containing options for the #Button to add or a string for the label
-         * @parameter: pos; Int|Undefined; undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
+         * @parameter: position; Int|Undefined; undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
          * @description: Adds a #Button to the ButtonArray 
          * @returns: Button; The #Button instance */
         if (typeof options === "string")
@@ -170,15 +170,15 @@ w.ButtonArray = $class({
         var b    = new Button(options);
         var len  = this.buttons.length;
         var vert = this.options.direction == _TOOLKIT_VERT;
-        if (typeof pos == "undefined")
-            pos = this.buttons.length;
-        if (pos == len) {
+        if (typeof position == "undefined")
+            position = this.buttons.length;
+        if (position == len) {
             this.buttons.push(b);
             this._container.appendChild(b.element);
         } else {
-            this.buttons.splice(pos, 0, b);
+            this.buttons.splice(position, 0, b);
             this._container.insertBefore(b.element,
-                this._container.childNodes[pos]);
+                this._container.childNodes[position]);
         }
 
         this.add_child(b);
@@ -196,7 +196,7 @@ w.ButtonArray = $class({
         return b;
     },
     remove_button: function (button) {
-        /* @method: remove_button
+        /* @method: remove_button(button)
          * @parameter: button; Int|Button; undefined; ID or #Button instance
          * @description: Removes a #Button from the ButtonArray */
         if (typeof button == "object")
@@ -274,7 +274,7 @@ w.ButtonArray = $class({
     },
     
     current: function() {
-        /* @method: current
+        /* @method: current()
          * @returns: Button; The selected #Button or null
          * @description: Get the actually selected #Button */
         var n = this.options.show;

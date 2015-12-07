@@ -29,7 +29,7 @@ w.Anchor = $class({
      * from x to appear at the correct position.
      */
     translate_anchor: function (anchor, x, y, width, height) {
-        /* @method: translate_anchor
+        /* @method: translate_anchor(anchor, x, y, width, height)
          * @parameter: anchor; Int; _TOOLKIT_TOP_LEFT; Position of the anchor
          * @parameter: x; Number; undefined; X position to translate
          * @parameter: y; Number; undefined; Y position to translate

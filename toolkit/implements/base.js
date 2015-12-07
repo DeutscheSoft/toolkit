@@ -179,7 +179,7 @@ w.BASE = $class({
         this.__event_target = null;
     },
     destroy : function() {
-        /* @method: destroy
+        /* @method: destroy()
          * @description: Destroys all event handlers and the options object
          */
         if (this.__event_target) {
@@ -191,7 +191,7 @@ w.BASE = $class({
         this.options = null;
     },
     set_options : function(o) {
-        /* @method: set_options
+        /* @method: set_options(options)
          * @parameter: options; Object; { }; An object containing initial options
          * @description: merges a new options object into the existing one
          * including deep copies of objects. If an option key begins with
@@ -225,7 +225,7 @@ w.BASE = $class({
         }
     },
     delegate_events: function (element) {
-        /* @method: delegate_events
+        /* @method: delegate_events(element)
          * @parameter: element; HTMLElement; undefined; The element all native events should be bound to
          * @returns: HTMLElement; The element */
         var ev = this.__events;
@@ -239,66 +239,66 @@ w.BASE = $class({
 
         return element;
     },
-    add_event: function (e, fun, prevent, stop) {
-        /* @method: add_event
+    add_event: function (event, func, prevent, stop) {
+        /* @method: add_event(event, func, prevent, stop)
          * @parameter: event; String; undefined; The event descriptor
-         * @parameter: function; Function; undefined; The function to call when the event happens
+         * @parameter: func; Function; undefined; The function to call when the event happens
          * @parameter: prevent; Bool; undefined; Set to true if the event should prevent the default behavior
-         * @parameter: stop_propagation; Bool; undefined; Set to true if the event should stop bubbling up the tree */
+         * @parameter: stop; Bool; undefined; Set to true if the event should stop bubbling up the tree */
         var ev;
         var cb;
         // add an event listener to a widget. These can be native DOM
         // events if the widget has a delegated element and the widgets
         // native events.
-        if (__event_replacements.hasOwnProperty(e)) {
+        if (__event_replacements.hasOwnProperty(event)) {
             // it's a native event which needs one or more replacement
             // events like pointerdown -> mousedown/touchstart as
             // stated in the list below
-            ev = __event_replacements[e];
+            ev = __event_replacements[event];
             for (var i = 0; i < ev.length; i++)
-                this.add_event(ev[i].event, fun, ev[i].prevent, ev[i].stop);
+                this.add_event(ev[i].event, func, ev[i].prevent, ev[i].stop);
             return;
         }
         ev = this.__events;
-        if (!ev.hasOwnProperty(e)) {
-            if (__native_events[e]) {
+        if (!ev.hasOwnProperty(event)) {
+            if (__native_events[event]) {
                 // seems it's a DOM event and there's no callback bound
                 // to this event by now
                 //
                 // we create a callback even if we have no DOM element currently
                 // the necessary callbacks will be bound on delegate_events()
-                cb = function (event) {
+                cb = function (evnt) {
                     /* just in case fire_event throws an exception,
                      * we make sure to do the preventDefault, etc first
                      */
-                    if (stop) event.stopPropagation();
-                    if (prevent) event.preventDefault();
+                    if (stop) evnt.stopPropagation();
+                    if (prevent) evnt.preventDefault();
 
-                    this.fire_event(e, event);
+                    this.fire_event(event, evnt);
 
                     if (prevent) return false;
                 }.bind(this)
                 if (this.__event_target)
-                    this.__event_target.addEventListener(e, cb);
+                    this.__event_target.addEventListener(event, cb);
             }
             // add to the internal __events list
-            ev[e] = { callback: cb, queue: [] };
+            ev[event] = { callback: cb, queue: [] };
         }
-        ev[e].queue.push(fun);
+        ev[event].queue.push(func);
     },
-    remove_event: function (e, fun) {
-        /* @method: remove_event
+    remove_event: function (event, func) {
+        /* @method: remove_event(event, func)
          * @parameter: event; String; undefined; The event descriptor
-         * @parameter: function; Function; undefined; The function to remove
+         * @parameter: func; Function; undefined; The function to remove
          * @description: Removes the given function from the event queue.
          * If it is a native DOM event, it removes the DOM event listener
          * as well. */
-        if (__event_replacements.hasOwnProperty(e)) {
+        if (__event_replacements.hasOwnProperty(event)) {
             // it is an event which has one or more replacement events
             // so remove all those replacements
-            var ev = __event_replacements[e];
+            var ev = __event_replacements[event];
             for (var i = 0; i < ev.length; i++)
-                this.remove_event(ev[i].event, fun);
+                this.remove_event(ev[i].event, func);
             return;
         }
         // handle resize events globally since there's no resize event
@@ -308,34 +308,34 @@ w.BASE = $class({
             return;
         }
         ev = this.__events;
-        if (ev.hasOwnProperty(e)) {
-            for (var j = ev[e].queue.length - 1; j >= 0; j--) {
+        if (ev.hasOwnProperty(event)) {
+            for (var j = ev[event].queue.length - 1; j >= 0; j--) {
                 // loop over the callback list of the event
-                if (ev[e].queue[j] === fun)
+                if (ev[event].queue[j] === func)
                     // remove the callback
-                    ev[e].queue.splice(j, 1);
+                    ev[event].queue.splice(j, 1);
             }
-            if (!ev[e].queue.length) {
+            if (!ev[event].queue.length) {
                 // no callbacks left
-                if (__native_events[e]
+                if (__native_events[event]
                 && this.__event_target
-                && ev[e].callback)
+                && ev[event].callback)
                     // remove native DOM event listener from __event_target
-                    this.__event_target.removeEventListener(e, ev[e].callback);
+                    this.__event_target.removeEventListener(event, ev[event].callback);
                 // delete event from the list
-                delete ev[e];
+                delete ev[event];
             }
         }
     },
-    fire_event: function (e) {
-        /* @method: fire_event
+    fire_event: function (event) {
+        /* @method: fire_event(event)
          * @parameter: event; String; undefined; The event descriptor
          * @description: Calls all functions in the events queue */
         var ev = this.__events;
 
-        if (!ev.hasOwnProperty(e)) return;
+        if (!ev.hasOwnProperty(event)) return;
 
-        ev = ev[e].queue;
+        ev = ev[event].queue;
 
         if (!ev.length) return;
 
@@ -353,8 +353,8 @@ w.BASE = $class({
         }
     },
 
-    has_event_listeners: function (e) {
-        /* @method: has_event_listeners
+    has_event_listeners: function (event) {
+        /* @method: has_event_listeners(event)
          * @parameter: event; String; undefined; The event desriptor
          * @returns: Bool; True if the event has some handler functions in the queue, false if not
          * @description: Test if the event descriptor has some handler functions in the queue */
@@ -362,35 +362,35 @@ w.BASE = $class({
 
         if (!ev.hasOwnProperty(e)) return false;
 
-        ev = ev[e].queue;
+        ev = ev[event].queue;
 
         if (!ev.length) return false;
         return true;
     },
-    add_events: function (events, fun) {
-        /* @method: add_events
+    add_events: function (events, func) {
+        /* @method: add_events(events, func)
          * @parameter: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires a handler function as the second argument.
-         * @parameter: function; Function; undefined; A function to add as event handler if the first argument is an array of event desriptors
+         * @parameter: func; Function; undefined; A function to add as event handler if the first argument is an array of event desriptors
          * @description: Add multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
-                this.add_event(events[i], fun);
+                this.add_event(events[i], func);
         } else {
             for (i in events) 
                 if (events.hasOwnProperty(i))
                     this.add_event(i, events[i]);
         }
     },
-    remove_events: function (events, fun) {
-        /* @method: remove_events
+    remove_events: function (events, func) {
+        /* @method: remove_events(events, func)
          * @parameter: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires the handler function as the second argument.
-         * @parameter: function; Function; undefined; A function to remove from event handler queue if the first argument is an array of event desriptors
+         * @parameter: func; Function; undefined; A function to remove from event handler queue if the first argument is an array of event desriptors
          * @description: Remove multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
-                this.remove_event(events[i], fun);
+                this.remove_event(events[i], func);
         } else {
             for (i in events)
                 if (events.hasOwnProperty(i))
@@ -398,7 +398,7 @@ w.BASE = $class({
         }
     },
     fire_events: function (events) {
-        /* @method: fire_events
+        /* @method: fire_events(events)
          * @parameter: events; Array; undefined; A list of event descriptors to fire
          * @description: Calls the event handler functions of multiple events */
         for (var i in events) {
