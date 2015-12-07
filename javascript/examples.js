@@ -779,8 +779,20 @@ function run_button () {
         layout: _TOOLKIT_HORIZONTAL,
         onclick: function () { alert("clicked") }
     });
+    button3 = new Button({
+        container: TK.get_id("demo"),
+        icon: "images/icons_big/showcase.png",
+        onclick: function () { alert("clicked") }
+    });
+    button4 = new Button({
+        container: TK.get_id("demo"),
+        label: "Demo Button",
+        onclick: function () { alert("clicked") }
+    });
     button.show();
     button2.show();
+    button3.show();
+    button4.show();
 }
 
 // VALUE BUTTON

@@ -74,7 +74,7 @@
     user-select: none;
 }
 .toolkit-button.toolkit-vertical img.toolkit-icon {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 .toolkit-button.toolkit-horizontal img.toolkit-icon {
     margin-right: 5px;
