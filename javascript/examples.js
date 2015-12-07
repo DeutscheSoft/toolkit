@@ -762,14 +762,26 @@ function run_button () {
         // remove example
         button.destroy();
         button = undefined;
+        button2.destroy();
+        button2 = undefined;
         return;
     }
     button = new Button({
         container: TK.get_id("demo"),
         label: "Demo Button",
-        icon: "images/icons_big/showcase.png"
+        icon: "images/icons_big/showcase.png",
+        onclick: function () { alert("clicked") }
     });
-    button.add_event("click", function () { alert("clicked") });
+    button.show();
+    button2 = new Button({
+        container: TK.get_id("demo"),
+        label: "Demo Button",
+        icon: "images/icons_big/showcase.png",
+        "class": "button2",
+        layout: _TOOLKIT_HORIZONTAL,
+        onclick: function () { alert("clicked") }
+    });
+    button2.show();
 }
 
 // VALUE BUTTON

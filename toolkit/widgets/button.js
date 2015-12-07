@@ -27,6 +27,8 @@ w.Button = $class({
      * @option: icon;        String; "";    URL to an icon for the button
      * @option: state;       Bool;   false; State of the button
      * @option: state_color; Bool;   false; Background color of the state indication
+     * @option: layout;      Int;    _TOOLKIT_VERTICAL; Determine the arrangement of label and icon.
+     * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
      * 
      * @extends: Widget
      * 
@@ -41,7 +43,7 @@ w.Button = $class({
         icon:             false,
         state:            false,
         state_color:      false,
-        container:        false
+        layout:           _TOOLKIT_VERTICAL
     },
     
     initialize: function (options) {
@@ -55,7 +57,7 @@ w.Button = $class({
         this._icon  = TK.element("img","toolkit-icon");
         /* @element: _label; div.toolkit-label; The label of the button */
         this._label = TK.element("div","toolkit-label");
-
+        
         this._cell.appendChild(this._icon);
         this._cell.appendChild(this._label);
         this.element.appendChild(this._cell);
@@ -75,6 +77,17 @@ w.Button = $class({
         var _icon = this._icon;
         var _label = this._label;
         var value;
+        
+        if (I.layout) {
+            I.layout = false;
+            if (O.layout == _TOOLKIT_VERTICAL) {
+                this.remove_class("toolkit-horizontal");
+                this.add_class("toolkit-vertical");
+            } else {
+                this.remove_class("toolkit-vertical");
+                this.add_class("toolkit-horizontal");
+            }
+        }
 
         if (I["class"]) {
             I["class"] = false;
