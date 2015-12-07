@@ -21,16 +21,25 @@
 "use strict";
 (function(w){ 
 w.GlobalCursor = $class({
-    // GlobalCursor adds global cursor classes to enshure one of the
-    // standard cursors (http://www.echoecho.com/csscursors.htm) in
-    // the whole application
+    /* @class: GlobalCursor
+     * @description: GlobalCursor adds global cursor classes to enshure
+     * one of the standard cursors (http://www.echoecho.com/csscursors.htm)
+     * is shown in the overall application */
     _class: "GlobalCursor",
     global_cursor: function (cursor) {
+        /* @method: global_cursor
+         * @option: cursor; String; undefined; The decriptor of the cursor to show (http://www.echoecho.com/csscursors.htm)
+         * @description: Adds a specific class to the body DOM node to show a specific cursor */
         TK.add_class(document.body, "toolkit-cursor-" + cursor);
+        /* @event: globalcursor; Cursor, Widget; Is fired when a cursor gets set */
         this.fire_event("globalcursor", cursor);
     },
     remove_cursor: function (cursor) {
+        /* @method: remove_cursor
+         * @option: cursor; String; undefined; The decriptor of the cursor to remove (http://www.echoecho.com/csscursors.htm)
+         * @description: Removes a specific class to the body DOM node to show a specific cursor */
         TK.remove_class(document.body, "toolkit-cursor-" + cursor);
+        /* @event: cursorremoved; Cursor, Widget; Is fired when a cursor is removed */
         this.fire_event("cursorremoved", cursor);
     }
 });

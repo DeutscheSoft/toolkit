@@ -21,11 +21,18 @@
 "use strict";
 (function(w){ 
 w.Warning = $class({
-    // warning sets a timed class "toolkit-warn" on an element. It is
-    // used e.g. in ResponseHandle or Knob when the value exceeds the
-    // range.
+    /* @class: Warning
+     * @decription: Sets a timed class "toolkit-warn" on an element. It
+     * is used e.g. in #ResponseHandle or #Knob when the value exceeds
+     * the range. */
     _class: "Warning",
     warning: function (element, timeout) {
+        /* @method: warning
+         * @option: element; DOMNode; undefined; The DOM node the class should be added to
+         * @option: timeout; Number; 250; Te timeout in milliseconds until the class is removed again
+         * @description: Adds the class "toolkit-warn" to the given element and
+         * sets a timeout after which the class is removed again. If there
+         * already is a timeout waiting it gets updated. */
         if (!timeout) timeout = 250;
         if (this.__wto) window.clearTimeout(this.__wto);
         this.__wto = null;
@@ -33,6 +40,7 @@ w.Warning = $class({
         this.__wto = window.setTimeout(function () {
             TK.remove_class(element, "toolkit-warn");
         }.bind(this), timeout);
+        /* @event: warning; Widget; Gets fired when a warning was requested */
         this.fire_event("warning");
     }
 });

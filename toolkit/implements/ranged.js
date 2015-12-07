@@ -355,71 +355,57 @@ function update_transformation() {
     Object.assign(this, module);
 }
 w.Ranged = $class({
-    // Ranged provides stuff for calculating linear scales from different values.
-    // It is useful to build coordinate systems, calculating pixel positions
-    // for different scale types and the like. Ranged is used e.g. in Scale,
-    // MeterBase and Graph to draw elements on a certain position according to
-    // a value on an arbitrary scale. Range implements AudioMath, Options and
-    // Events.
+    /* @class: Ranged
+     * @option: scale; Int|Function; _TOOLKIT_LINEAR; The type of the scale. Either an integer
+     * (_TOOLKIT_LINEAR, _TOOLKIT_DECIBEL|_TOOLKIT_LOG2, _TOOLKIT_FREQUENCY|_TOOLKIT_LOG10)
+     * or a function like function (value, options, coef) {}.
+     * If a function instead of an integer is handed over, it receives the
+     * actual options object as the second argument and is supposed to return a
+     * coefficient between 0 and 1. If the third argument "coef" is true, it is
+     * supposed to return a value depending on a coefficient handed over as the
+     * first argument.
+     * @option: reverse; Bool; false; Reverse the scale of the range
+     * @option: basis; Number; 0; Dimensions of the range. set to width/height
+     * in pixels if you need it for drawing purposes, to 100 if you need
+     * percentual values or to 1 if you just need a linear equivalent
+     * for a e.g. logarithmic scale.
+     * @option: min; Number; 0; Minimum value of the range
+     * @option: max; Number; 0; Maximum value of the range
+     * @option: step; Number; 0; Step size, needed for user interaction
+     * @option: shift_up; Number; 0; Multiplier if SHIFT is hold while stepping
+     * @option: shift_down; Number; 0; Multiplier if SHIFT + CONTROL is hold while stepping
+     * @option: snap; Number|Array; 0; Snap the value to a virtual grid with this distance.
+     * Using snap option with float values causes the range to reduce its
+     * minimum and maximum values depending on the amount of decimal digits
+     * because of the implementation of math in JavaScript.
+     * Using a step size of e.g. 1.125 reduces the maximum usable value
+     * from 9,007,199,254,740,992 to 9,007,199,254,740.992 (note the
+     * decimal point). Alternatively set this to an array containing possible values
+     * @option: round; Bool; true; If snap is set decide how to jump
+     * between snaps. Setting this to true slips to the next snap if the
+     * value is more than on its half way to it. Otherwise the value has
+     * to reach the next snap first until it is fixed there again.
+     * @option: log_factor; Number; 1; Used to range logarithmic curves.
+     * The factor is used to stretch the used range of the logarithmic curve
+     * @description: Ranged provides functions for calculating linear scales
+     * from different values. It is useful for building coordinate systems,
+     * calculating pixel positions for different scale types and the like.
+     * Ranged is used e.g. in #Scale, #MeterBase and #Graph to draw elements
+     * on a certain position according to a value on an arbitrary scale. */
+     
     _class: "Ranged",
     options: {
-        scale:          _TOOLKIT_LINEAR, // What kind of value are we having?
-                                         // _TOOLKIT_LINEAR
-                                         // _TOOLKIT_DECIBEL / _TOOLKIT_LOG2
-                                         // _TOOLKIT_FREQUENCY / _TOOLKIT_LOG10
-                                         // function (value, options, coef) {}
-                                         // 
-                                         // If a function instead of a constant
-                                         // is handed over, it receives the
-                                         // actual options object as the second
-                                         // argument and is supposed to return a
-                                         // coefficient between 0 and 1. If the
-                                         // third argument "coef" is true, it is
-                                         // supposed to return a value depending
-                                         // on a coefficient handed over as the 
-                                         // first argument.
-        reverse:        false,           // true if the range is reversed
-        basis:          0,               // Dimensions of the range, set to
-                                         // width/height in pixels, if you need
-                                         // it for drawing purposes, to 100 if
-                                         // you need percentual values or to 1
-                                         // if you just need a linear
-                                         // coefficient for a e.g. logarithmic
-                                         // scale.
-        min:            0,               // Minimum value of the range
-        max:            0,               // Maximum value of the range
-        step:           0,               // Step size, needed for e.g. user
-                                         // interaction
-        shift_up:       4,               // Multiplier for e.g. SHIFT pressed
-                                         // while stepping
-        shift_down:     0.25,            // Multiplier for e.g. SHIFT + CONTROL
-                                         // pressed while stepping
-        snap:           0,               // Snap the value to a virtual grid
-                                         // with this distance
-                                         // Using snap option with float values
-                                         // causes the range to reduce its
-                                         // minimum and maximum values depending
-                                         // on the amount of decimal digits
-                                         // because of the implementation of
-                                         // math in JavaScript.
-                                         // Using a step size of e.g. 1.125
-                                         // reduces the maximum usable value
-                                         // from 9,007,199,254,740,992 to
-                                         // 9,007,199,254,740.992 (note the
-                                         // decimal point)
-                                         // Alternatively set this to an array
-                                         // containing possible values
-        round:          true,            // if snap is set decide how to jump
-                                         // between snaps. Setting this to true
-                                         // slips to the next snap if the value
-                                         // is more than on its half way to it.
-                                         // Otherwise the value has to reach the
-                                         // next snap until it is hold there
-                                         // again.
-        log_factor:     1                // Used to range logarithmic curves.
-                                         // The factor is used to stretch the
-                                         // used range of the logarithmic curve
-                                            
+        scale:          _TOOLKIT_LINEAR,
+        reverse:        false,
+        basis:          0,
+        min:            0,
+        max:            0,
+        step:           0,
+        shift_up:       4,
+        shift_down:     0.25,
+        snap:           0,
+        round:          true,
+        log_factor:     1
     },
 
     initialized: function (options) {

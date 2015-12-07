@@ -21,19 +21,22 @@
 "use strict";
 (function(w){ 
 w.Ranges = $class({
-    // Ranges provides a function to add different ranges to a widget for
-    // building coordinate systems and the like.
+    /* @class: Ranges
+     * @description: Ranges provides multiple #Range for a widget. They
+     * might be used for e.g. building coordinate systems and the like. */
     _class: "Ranges",
     add_range: function (from, name) {
-        // add a range. From is a function returning a Range instance or an
-        // object containing options for a new Range. If name is set, the range
-        // is added to the main instance and a set function is created.
-        // this.set([name], {basis: 250, min: 0}); results in:
-        // this[name].set("basis", 250);
-        // this[name].set("min", 0);
-        // If name is set and this.options[name] exists, is an object and from
-        // is an object, too, both are merged before a range is created.
-        // Returns the range.
+        /* @method: add_range
+         * @option: from; Function|Object; undefined; A function returning
+         * a #Range instance or an object containing options for a new #Range.
+         * @option name; String; undefined; Designator of the new #Range.
+         * If a name is set a new set function is added to the item to
+         * set the options of the range. Use the set function like this:
+         * this.set("name", {key: value});
+         * @description: Add a new range. If name is set and this.options[name]
+         * exists, is an object and from is an object, too, both are merged
+         * before a range is created.
+         * @returns: Range; The newly created #Range */
         var r;
         if (typeof from == "function") {
             r = from();
@@ -54,6 +57,7 @@ w.Ranges = $class({
                 }
             }.bind(this));
         }
+        /* @event: rangeadded; Range; Gets fired when a new range is added */
         this.fire_event("rangeadded", r);
         return r;
     }

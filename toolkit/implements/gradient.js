@@ -21,31 +21,38 @@
 "use strict";
 (function(w){ 
 w.Gradient = $class({
-    // Gradient provides a function to set the background of a DOM element to a
-    // CSS gradient according on the users browser and version. Gradient
-    // needs a Range to be implemented on.
+    /* @class: Gradient
+     * @option: gradient; Bool|Object; false; Gradient definition for the background.
+     * Keys are ints or floats as string corresponding to the widgets scale.
+     * Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
+     * @option: background; String; "#000000"; Background color if no gradient is used
+     * @description: Gradient provides a function to set the background of a
+     * DOM element to a CSS gradient according on the users browser and version.
+     * Gradient needs a Range to be implemented on. */
     _class: "Gradient",
     Implements: Ranged,
     options: {
-        // these options are of less use and only here to show what we need
-        gradient:        false,           // gradient for the background
-                                          // keys are ints or floats as string
-                                          // corresponding to the chosen scale.
-                                          // values are valid css color strings
-                                          // like #ff8000 or rgb(0,56,103)
-        background:      "#00000"         // background if no gradient is used
+        gradient:        false,
+        background:      "#00000"
     },
     draw_gradient: function (element, grad, fallback, range) {
-        // This function generates a string from a given gradient object to set
-        // as a CSS background for a DOM element. If element is given, the function
-        // automatically sets the background. If grad is omitted, the
-        // gradient is taken from options. Fallback is used if no gradient
-        // can be created. If fallback is omitted, options.background is used.
-        // if no range is set Gradient assumes that the implementing instance
-        // has Range functionality.
+        /* @method: draw_gradient
+         * @option: element; DOMNode; undefined; The DOM node to appy the gradient to
+         * @option: gradient; Object; undefined; Gradient definition for the background, e.g. {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
+         * @option: fallback; String; undefined; If no gradient can be applied, use this as background color string
+         * @option: range; #Range; undefined; If a specific range is set, it is used for the calculations. If not, we expect the widget itself provides #Ranged functionality.
+         * @returns: String; A string to be used as background CSS
+         * @description: This function generates a string from a given
+         * gradient object to set as a CSS background for a DOM element.
+         * If element is given, the function automatically sets the
+         * background. If gradient is omitted, the gradient is taken from
+         * options. Fallback is used if no gradient can be created.
+         * If fallback is omitted, options.background is used. if no range
+         * is set Gradient assumes that the implementing instance has
+         * Range functionality. */
         
-        // the argument is like: {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
-        // The goal is:
+        //  {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
+        // becomes:
 //         background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><linearGradient id='gradient'><stop offset='10%' stop-color='#F00'/><stop offset='90%' stop-color='#fcc'/> </linearGradient><rect fill='url(#gradient)' x='0' y='0' width='100%' height='100%'/></svg>");
 //         background: -moz-linear-gradient(top, rgb(30,87,153) 0%, rgb(41,137,216) 50%, rgb(32,124,202) 51%, rgb(125,185,232) 100%);
 //         background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(30,87,153)), color-stop(50%,rgb(41,137,216)), color-stop(51%,rgb(32,124,202)), color-stop(100%,rgb(125,185,232)));
@@ -168,6 +175,7 @@ w.Gradient = $class({
         
         if (element) {
             element.style["background"] = bg;
+            /* @event: backgroundchanged; DOMNode, String; Is fired when the gradient was created */
             this.fire_event("backgroundchanged", element, bg);
         }
         return bg;
