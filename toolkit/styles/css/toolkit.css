@@ -66,13 +66,17 @@ pre, code {
     box-sizing: border-box;
     position: relative;
 }
-.toolkit-buttonarray.toolkit-vertical .toolkit-previous {
+.toolkit-buttonarray .toolkit-previous {
     position: absolute;
+}
+.toolkit-buttonarray .toolkit-next {
+    position: absolute;
+}
+.toolkit-buttonarray.toolkit-vertical .toolkit-previous {
     top: 0;
     width: 100%;
 }
 .toolkit-buttonarray.toolkit-vertical .toolkit-next {
-    position: absolute;
     bottom: 0;
     width: 100%;
 }
