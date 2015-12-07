@@ -136,6 +136,9 @@ table td:first-child {
 table td:nth-child(2) {
     width: 240px;
 }
+table td.headline {
+    background: rgba(255, 255, 255, 0.1);
+}
 table tr.inherit {
     color: #aaa;
 }

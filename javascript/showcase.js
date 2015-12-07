@@ -293,12 +293,12 @@ window.addEventListener('DOMContentLoaded', function () {
                 h.appendChild(l);
                 div.appendChild(h);
             }
-            div.appendChild(this.build_table(it[id]));
+            div.appendChild(this.build_table(it[id], id == "methods" ? "name" : false));
             c++;
         }, ["extends", "implements"]);
     }
     
-    this.build_table = function (data) {
+    this.build_table = function (data, headers) {
         // build column order array
         var cols = [];
         if (data.length) {
@@ -333,6 +333,16 @@ window.addEventListener('DOMContentLoaded', function () {
         for (var i in data) {
             if (!data.hasOwnProperty(i)) continue;
             var item = data[i];
+            if (headers && item.hasOwnProperty(headers)) {
+                // this is dirty like benders ass
+                var row = TK.element("tr");
+                var td = TK.element("td", "headline");
+                td.setAttribute("colspan", 999);
+                td.innerHTML = item[headers];
+                item[headers] = item[headers].split("(")[0];
+                row.appendChild(td);
+                table.appendChild(row);
+            }
             var row = TK.element("tr");
             table.appendChild(row);
             for (var c in cols) {
@@ -340,7 +350,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 if (this.process_cols.indexOf(cols[c]) >= 0)
                     td.innerHTML = this.process_text(item[cols[c]]);
                 else if (typeof item[cols[c]] == "object")
-                    td.appendChild(this.build_table(item[cols[c]]));
+                    td.appendChild(this.build_table(item[cols[c]], headers));
                 else if (item[cols[c]])
                     td.innerHTML = item[cols[c]];
                 row.appendChild(td);
