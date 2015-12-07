@@ -23,13 +23,13 @@
     height: auto;
 }
 
-#demo.buttonarray .toolkit-vertical {
+#demo.buttonarray .toolkit-buttonarray.toolkit-vertical {
     /*width: 20%;*/
     height: 400px;
     margin-right: 20px;
     float: left;
 }
-#demo.buttonarray .toolkit-horizontal {
+#demo.buttonarray .toolkit-buttonarray.toolkit-horizontal {
     width: 75%;
     float: right;
     margin-bottom: 20px;

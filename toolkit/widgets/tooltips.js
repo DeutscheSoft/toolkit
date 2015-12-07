@@ -100,17 +100,17 @@ w.GlobalTooltip = function() {
     var num_tooltips = 0;
 
     function hide() {
-        doc.removeEventListener("mousemove", onmove_mouse);
-        doc.removeEventListener("touchmove", onmove_touch);
+        document.removeEventListener("mousemove", onmove_mouse);
+        document.removeEventListener("touchmove", onmove_touch);
         overlay.style.display = "none";
         hidden = true;
     }
 
     function show() {
         if (!overlay.parentNode)
-            doc.body.appendChild(overlay);
-        doc.addEventListener("mousemove", onmove_mouse);
-        doc.addEventListener("touchmove", onmove_touch);
+            document.body.appendChild(overlay);
+        document.addEventListener("mousemove", onmove_mouse);
+        document.addEventListener("touchmove", onmove_touch);
         overlay.style.removeProperty("display");
         hidden = false;
     }
