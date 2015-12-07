@@ -192,7 +192,7 @@ w.BASE = $class({
     },
     set_options : function(o) {
         /* @method: set_options
-         * @option: options; Object; { }; An object containing initial options
+         * @parameter: options; Object; { }; An object containing initial options
          * @description: merges a new options object into the existing one
          * including deep copies of objects. If an option key begins with
          * the string "on" it is considered as event handler. In this case
@@ -226,7 +226,7 @@ w.BASE = $class({
     },
     delegate_events: function (element) {
         /* @method: delegate_events
-         * @option: element; HTMLElement; undefined; The element all native events should be bound to
+         * @parameter: element; HTMLElement; undefined; The element all native events should be bound to
          * @returns: HTMLElement; The element */
         var ev = this.__events;
         var old_target = this.__event_target;
@@ -241,10 +241,10 @@ w.BASE = $class({
     },
     add_event: function (e, fun, prevent, stop) {
         /* @method: add_event
-         * @option: event; String; undefined; The event descriptor
-         * @option: function; Function; undefined; The function to call when the event happens
-         * @option: prevent; Bool; undefined; Set to true if the event should prevent the default behavior
-         * @option: stop_propagation; Bool; undefined; Set to true if the event should stop bubbling up the tree */
+         * @parameter: event; String; undefined; The event descriptor
+         * @parameter: function; Function; undefined; The function to call when the event happens
+         * @parameter: prevent; Bool; undefined; Set to true if the event should prevent the default behavior
+         * @parameter: stop_propagation; Bool; undefined; Set to true if the event should stop bubbling up the tree */
         var ev;
         var cb;
         // add an event listener to a widget. These can be native DOM
@@ -288,8 +288,8 @@ w.BASE = $class({
     },
     remove_event: function (e, fun) {
         /* @method: remove_event
-         * @option: event; String; undefined; The event descriptor
-         * @option: function; Function; undefined; The function to remove
+         * @parameter: event; String; undefined; The event descriptor
+         * @parameter: function; Function; undefined; The function to remove
          * @description: Removes the given function from the event queue.
          * If it is a native DOM event, it removes the DOM event listener
          * as well. */
@@ -329,7 +329,7 @@ w.BASE = $class({
     },
     fire_event: function (e) {
         /* @method: fire_event
-         * @option: event; String; undefined; The event descriptor
+         * @parameter: event; String; undefined; The event descriptor
          * @description: Calls all functions in the events queue */
         var ev = this.__events;
 
@@ -355,7 +355,7 @@ w.BASE = $class({
 
     has_event_listeners: function (e) {
         /* @method: has_event_listeners
-         * @option: event; String; undefined; The event desriptor
+         * @parameter: event; String; undefined; The event desriptor
          * @returns: Bool; True if the event has some handler functions in the queue, false if not
          * @description: Test if the event descriptor has some handler functions in the queue */
         var ev = this.__events;
@@ -369,8 +369,8 @@ w.BASE = $class({
     },
     add_events: function (events, fun) {
         /* @method: add_events
-         * @option: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires a handler function as the second argument.
-         * @option: function; Function; undefined; A function to add as event handler if the first argument is an array of event desriptors
+         * @parameter: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires a handler function as the second argument.
+         * @parameter: function; Function; undefined; A function to add as event handler if the first argument is an array of event desriptors
          * @description: Add multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
         var i;
         if (events instanceof Array) {
@@ -384,8 +384,8 @@ w.BASE = $class({
     },
     remove_events: function (events, fun) {
         /* @method: remove_events
-         * @option: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires the handler function as the second argument.
-         * @option: function; Function; undefined; A function to remove from event handler queue if the first argument is an array of event desriptors
+         * @parameter: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires the handler function as the second argument.
+         * @parameter: function; Function; undefined; A function to remove from event handler queue if the first argument is an array of event desriptors
          * @description: Remove multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
         var i;
         if (events instanceof Array) {
@@ -399,7 +399,7 @@ w.BASE = $class({
     },
     fire_events: function (events) {
         /* @method: fire_events
-         * @option: events; Array; undefined; A list of event descriptors to fire
+         * @parameter: events; Array; undefined; A list of event descriptors to fire
          * @description: Calls the event handler functions of multiple events */
         for (var i in events) {
             if (events.hasOwnProperty(i))

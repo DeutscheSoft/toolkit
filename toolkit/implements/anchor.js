@@ -30,11 +30,11 @@ w.Anchor = $class({
      */
     translate_anchor: function (anchor, x, y, width, height) {
         /* @method: translate_anchor
-         * @option: anchor; Int; _TOOLKIT_TOP_LEFT; Position of the anchor
-         * @option: x; Number; undefined; X position to translate
-         * @option: y; Number; undefined; Y position to translate
-         * @option: width; Number; undefined; Width of the element
-         * @option: height; Number; undefined; Height of the element
+         * @parameter: anchor; Int; _TOOLKIT_TOP_LEFT; Position of the anchor
+         * @parameter: x; Number; undefined; X position to translate
+         * @parameter: y; Number; undefined; Y position to translate
+         * @parameter: width; Number; undefined; Width of the element
+         * @parameter: height; Number; undefined; Height of the element
          * @returns: Object; Object with members x and y as numbers
          * @description: returns real x and y values from a relative positioning
          */

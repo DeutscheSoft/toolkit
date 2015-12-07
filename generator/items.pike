@@ -13,10 +13,11 @@ string IMAGE_DIR       = combine_path(dirname(__FILE__), "..", "toolkit", "templ
 string CATEGORY_MARKER = "@category: ";
 constant KEYWORDS        = ({ "class", "element", "event", "module", "method" });
 constant CLASS_KEYWORDS  = ({ "implements", "extends", "option", "description" });
-constant METHOD_KEYWORDS = ({ "option", "description" });
+constant METHOD_KEYWORDS = ({ "parameter", "description", "returns" });
 constant ELEMENT_ATOMS   = ({ "name", "class", "description" });
 constant MODULE_ATOMS    = ({ "name", "description" });
 constant OPTION_ATOMS    = ({ "name", "type", "default", "description" });
+constant PARAMETER_ATOMS = ({ "name", "type", "default", "description" });
 constant RETURN_ATOMS    = ({ "type", "description" });
 constant EVENT_ATOMS     = ({ "name", "arguments", "description" });
 
@@ -65,6 +66,9 @@ void process_element (string type, string content, mapping map) {
             break;
         case "option":
             _recipient->options += ({ get_atoms_mapping(c, OPTION_ATOMS) });
+            break;
+        case "parameter":
+            _recipient->parameters += ({ get_atoms_mapping(c, PARAMETER_ATOMS) });
             break;
         case "returns":
             _recipient->returns += ({ get_atoms_mapping(c, RETURN_ATOMS) });

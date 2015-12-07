@@ -37,10 +37,10 @@ w.Gradient = $class({
     },
     draw_gradient: function (element, grad, fallback, range) {
         /* @method: draw_gradient
-         * @option: element; DOMNode; undefined; The DOM node to appy the gradient to
-         * @option: gradient; Object; undefined; Gradient definition for the background, e.g. {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
-         * @option: fallback; String; undefined; If no gradient can be applied, use this as background color string
-         * @option: range; #Range; undefined; If a specific range is set, it is used for the calculations. If not, we expect the widget itself provides #Ranged functionality.
+         * @parameter: element; DOMNode; undefined; The DOM node to appy the gradient to
+         * @parameter: gradient; Object; undefined; Gradient definition for the background, e.g. {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
+         * @parameter: fallback; String; undefined; If no gradient can be applied, use this as background color string
+         * @parameter: range; #Range; undefined; If a specific range is set, it is used for the calculations. If not, we expect the widget itself provides #Ranged functionality.
          * @returns: String; A string to be used as background CSS
          * @description: This function generates a string from a given
          * gradient object to set as a CSS background for a DOM element.

@@ -153,7 +153,7 @@ w.ButtonArray = $class({
     
     add_buttons: function (options) {
         /* @method: add_buttons
-         * @option: options; Array[String|Object]; undefined; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
+         * @parameter: options; Array[String|Object]; undefined; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
          * @description: Adds an array of buttons to the end of the list. */
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);
@@ -161,9 +161,10 @@ w.ButtonArray = $class({
     
     add_button: function (options, pos) {
         /* @method: add_button
-         * @option: options; Object|String; undefined; An object containing options for the #Button to add or a string for the label
-         * @option: pos; Int|Undefined; undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
-         * description: Adds a #Button to the ButtonArray */
+         * @parameter: options; Object|String; undefined; An object containing options for the #Button to add or a string for the label
+         * @parameter: pos; Int|Undefined; undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
+         * @description: Adds a #Button to the ButtonArray 
+         * @returns: Button; The #Button instance */
         if (typeof options === "string")
             options = {label: options}
         var b    = new Button(options);
@@ -196,7 +197,7 @@ w.ButtonArray = $class({
     },
     remove_button: function (button) {
         /* @method: remove_button
-         * @option: button; Int|Button; undefined; ID or #Button instance
+         * @parameter: button; Int|Button; undefined; ID or #Button instance
          * @description: Removes a #Button from the ButtonArray */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);
@@ -273,6 +274,9 @@ w.ButtonArray = $class({
     },
     
     current: function() {
+        /* @method: current
+         * @returns: Button; The selected #Button or null
+         * @description: Get the actually selected #Button */
         var n = this.options.show;
         if (n >= 0 && n < this.buttons.length) {
             return this.buttons[n];
