@@ -18,10 +18,9 @@
     border-right: 2px solid #f3f3f3;
 }
 
-#demo.button .toolkit-button.button2 .toolkit-icon {
-    width: 2em;
+#demo.button .toolkit-button .toolkit-icon {
+    width: 3em;
     height: auto;
-    margin: 0;
 }
 
 #demo.buttonarray .toolkit-vertical {
