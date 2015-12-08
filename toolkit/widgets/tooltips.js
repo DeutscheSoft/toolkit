@@ -123,10 +123,10 @@ w.GlobalTooltip = function() {
     }
 
     function remove(priority, onmove) {
-        if (!tooltips[priority]) throw("w00t");
+        if (!tooltips[priority]) return;
         var i = tooltips[priority].indexOf(onmove);
 
-        if (i === -1) throw("woot");
+        if (i === -1) return;
         if (tooltips[priority].length == 1) tooltips[priority] = null;
         else tooltips[priority].splice(i, 1);
         if (--num_tooltips === 0) hide();
