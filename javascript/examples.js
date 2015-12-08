@@ -302,6 +302,7 @@ run_label = function () {
         label: "Lorem ipsum dolor sit amet"
     });
     TK.add_class(TK.get_id("demo"), "box");
+    label.show();
 }
 
 // SELECT
@@ -327,6 +328,7 @@ run_select = function () {
         selected: 4
     });
     TK.add_class(TK.get_id("demo"), "box");
+    select.show();
 }
 
 // FADER
@@ -387,6 +389,7 @@ run_fader = function () {
             fixed_labels: [40, 20, -20, -40, -60, -80, -120, -160, -200, -280] 
             //snap: [-60, -50, -40, -30, -20, -10, 0, 10, 12]
         }));
+        faders[i].show();
     }
     fadertt = new Toggle({
         label: "Tooltips",
@@ -398,6 +401,7 @@ run_fader = function () {
             }
         }
     });
+    fadertt.show();
     TK.add_class(TK.get_id("demo"), "box");
 }
 
@@ -417,6 +421,7 @@ run_value = function () {
         set: function (val) { val = parseFloat(val); console.log("the value was set to " + val); return val; }
     });
     TK.add_class(TK.get_id("demo"), "box");
+    value.show();
 }
 
 
@@ -489,6 +494,9 @@ function run_knob () {
         styles: {backgroundSize: "50%"}
     });
     TK.seat_all_svg()
+    knob.show();
+    knob1.show();
+    knob2.show();
 }
 
 
@@ -720,6 +728,7 @@ function run_gauge () {
         ]
     });
     TK.seat_all_svg()
+    for (key in gauge) gauge[key].show();
 }
 
 
@@ -876,6 +885,10 @@ function run_valuebutton () {
         value: 100,
         scale: _TOOLKIT_FREQ
     });
+    thres.show();
+    attack.show();
+    ratio.show();
+    release.show();
 }
 
 // SCALE
@@ -940,6 +953,8 @@ function run_scale () {
         gap_labels: 50,
         id: "sc_scale_h_b"
     })
+
+    for (key in scales) scales[key].show();
 }
 
 
@@ -1020,6 +1035,7 @@ function run_chart () {
         key:   "baz"
     });
     TK.seat_all_svg()
+    chart.show();
 }
 
 // FREQUENCY RESPONSE
@@ -1052,6 +1068,7 @@ function run_frequencyresponse () {
         mode: _TOOLKIT_LINE
     });
     TK.seat_all_svg()
+    fr.show();
 }
 
 // DYNAMICS
@@ -1102,6 +1119,9 @@ function run_dynamics () {
         mode: _TOOLKIT_LINE
     });
     TK.seat_all_svg()
+    comp.show();
+    expand.show();
+    dyna.show();
 }
 
 
@@ -1468,9 +1488,6 @@ function run_state () {
         state: 0,
         "class": "on_air"
     });
-    var br = TK.element("br");
-    br.setAttribute("style", "clear:both");
-    TK.get_id("sc_state").appendChild(br);
     __s1();
     __s2();
     __s3();
