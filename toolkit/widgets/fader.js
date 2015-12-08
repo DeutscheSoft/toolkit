@@ -40,19 +40,21 @@ function tooltip_by_value(ev, tt) {
     tt.innerText = this.options.tooltip(this.options.value);
 }
 function mouseenter (ev) {
+    if (!this.options.tooltip) return;
     TK.tooltip.add(1, this.tooltip_by_position);
 }
 function clicked(ev) {
     if (this._handle.contains(ev.target)) return;
     this.set("value", get_value.call(this, ev));
-    TK.tooltip._entry.innerText = this.options.tooltip(this.options.value);
+    if (this.options.tooltip && TK.tooltip._entry)
+        TK.tooltip._entry.innerText = this.options.tooltip(this.options.value);
     this.fire_event("useraction", "value", this.get("value"));
 }
 function mouseleave (ev) {
-    if (!this.options.tooltip) return;
     TK.tooltip.remove(1, this.tooltip_by_position);
 }
 function startdrag(ev) {
+    if (!this.options.tooltip) return;
     TK.tooltip.add(0, this.tooltip_by_value);
 }
 function stopdrag(ev) {
@@ -214,11 +216,19 @@ w.Fader = $class({
         this.scale.destroy();
         this.element.remove();
         Container.prototype.destroy.call(this);
+        TK.tooltip.remove(0, this.tooltip_by_value);
+        TK.tooltip.remove(1, this.tooltip_by_position);
     },
     
     // GETTER & SETTER
     set: function (key, value) {
         switch (key) {
+            case "tooltip":
+                if (!value) {
+                    TK.tooltip.remove(0, this.tooltip_by_value);
+                    TK.tooltip.remove(1, this.tooltip_by_position);
+                }
+                break;
             case "value":
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
