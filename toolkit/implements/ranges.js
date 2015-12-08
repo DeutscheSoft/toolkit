@@ -27,9 +27,8 @@ w.Ranges = $class({
     _class: "Ranges",
     add_range: function (from, name) {
         /* @method: add_range(from, name)
-         * @parameter: from; Function|Object; undefined; A function returning
-         * a #Range instance or an object containing options for a new #Range.
-         * @parameter name; String; undefined; Designator of the new #Range.
+         * @parameter: from; Function|Object; undefined; A function returning a #Range instance or an object containing options for a new #Range.
+         * @parameter: name; String; undefined; Designator of the new #Range.
          * If a name is set a new set function is added to the item to
          * set the options of the range. Use the set function like this:
          * this.set("name", {key: value});
