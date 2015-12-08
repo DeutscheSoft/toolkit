@@ -360,7 +360,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 if (this.process_cols.indexOf(cols[c]) >= 0)
                     td.innerHTML = this.process_text(item[cols[c]]);
                 else if (typeof item[cols[c]] == "object")
-                    td.appendChild(this.build_table(item[cols[c]]s));
+                    td.appendChild(this.build_table(item[cols[c]]));
                 else if (item[cols[c]])
                     td.innerHTML = item[cols[c]];
                 row.appendChild(td);
