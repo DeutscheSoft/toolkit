@@ -248,7 +248,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 id = item.name.toLowerCase();
                 if (typeof window["run_" + id] != "undefined") {
                     this.build_section_header(sect, item, div, subnav);
-                    this.build_example(id, div, sect.name);
+                    this.build_example(item.name, div, sect.name);
                 }
                 break;
         }
@@ -369,8 +369,11 @@ window.addEventListener('DOMContentLoaded', function () {
         return table;
     }
     
-    this.build_example = function (id, div, button) {
-        var but = TK.element("div", "toolkit-button")
+    this.build_example = function (name, div, button) {
+        var id = name.toLowerCase();
+        var but = TK.element("a", "toolkit-button");
+        var url = window.location.href.split("#")[0] + "#" + name + this.hash_separator + "example";
+        but.setAttribute("href", url);
         but.addEventListener("click", (function (that, id) {
             return function (e) { that.run_example(id); }
         })(this, id));
@@ -407,8 +410,14 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         })(demo, code));
         
-        var exit = TK.element("div", "toolkit-button");
+        var exit = TK.element("a", "toolkit-button");
         exit.setAttribute("id", "exit_button");
+        var href = window.location.href;
+        var hash = window.location.hash;
+        var url = href;
+        if (hash.indexOf(this.hash_separator) > -1)
+            url = href.substr(0, href.lastIndexOf(this.hash_separator));
+        exit.setAttribute("href", url);
         TK.set_text(exit, "Close");
         menu.appendChild(exit);
         exit.addEventListener("click", (function (dover) {
