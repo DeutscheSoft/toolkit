@@ -36,18 +36,20 @@ window.addEventListener('DOMContentLoaded', function () {
         "[d]" : "<i class=delegated title='This element is delegated. E.g. calling item.add_event() is delegated to this element.'>⇄</i>",
         "[s]" : "<i class=stylized title='This element is stylized. E.g. calling item.set_style() sets the css styles on this element.'>✎</i>",
     }
+    this.app = "index.html";
+    this.hash_separator = ":";
     this.itemids = [ "widgets", "modules", "implements" ];
     this.process_cols = [ "name", "description", "text" ];
     this.init = function (items) {
         this.items = items;
-        this.tm = new this.timemachine;
+        this.tm = this.timemachine(this);
         
         var t = this;
-        var back = TK.element("div", "back", "hidden");
+        var back = TK.element("a", "back", "hidden");
         back.setAttribute("id", "back");
         back.onclick = function () { t.tm.back() };
         document.body.appendChild(back);
-        var next = TK.element("div", "next", "hidden");
+        var next = TK.element("a", "next", "hidden");
         next.setAttribute("id", "next");
         next.onclick = function () { t.tm.next() };
         document.body.appendChild(next);
@@ -65,11 +67,14 @@ window.addEventListener('DOMContentLoaded', function () {
         this.proc_text_regex = new RegExp(regex + ")", "ig");
         
         var item = window.location.href.split("?", 2);
-        if (item.length > 1) {
-            var i = this.find_item(item[1].split("#")[0]);
+        
+        var parts = window.location.hash.substring(1).split(this.hash_separator, 2);
+        var item = parts[0];
+        var hash = parts.length > 1 ? parts[1] : "";
+        if (item) {
+            var i = this.find_item(item);
             if (i)
-                this.show_item(i);
-            var hash = window.location.hash.substring(1);
+                this._show_item(i);
             if (hash && typeof window["run_" + hash] == "function") {
                 var that = this;
                 setTimeout( function () {
@@ -115,8 +120,11 @@ window.addEventListener('DOMContentLoaded', function () {
                 // loop over items in category
                 var _j = _i.items[w_name];
                 var item = TK.element("li");
+                var a = TK.element("a");
+                a.setAttribute("href", this.app + "#" + _j.name);
+                TK.set_text(a, _j.name);
                 list.appendChild(item);
-                TK.set_text(item, _j.name);
+                item.appendChild(a);
                 item.onclick = (function (t, i) { 
                     return function () { t.show_item(i); }
                 })(this, _j)
@@ -136,7 +144,7 @@ window.addEventListener('DOMContentLoaded', function () {
         TK.set_text(header, item.name);
         
         var a = TK.element("a");
-        a.setAttribute("href", "index.html?" + item.name);
+        a.setAttribute("href", this.app + "#" + item.name);
         a.appendChild(header);
         top.appendChild(a);
         
@@ -201,9 +209,10 @@ window.addEventListener('DOMContentLoaded', function () {
         var it = this.find_item(name);
         if (it) {
             var a = TK.element("a");
+            a.setAttribute("href", this.app + "#" + name);
             var t = this;
             a.onclick = function (e) {
-                e.preventDefault();
+                //e.preventDefault();
                 t.show_item(it);
             }
         } else
@@ -215,19 +224,19 @@ window.addEventListener('DOMContentLoaded', function () {
     this.build_section = function (sect, item, div, subnav) {
         switch(sect.id) {
             default:
-                this.build_section_header(sect, div, subnav);
+                this.build_section_header(sect, item, div, subnav);
                 this.build_tables_recursively(sect.id, item, div);
                 break;
             case "methods":
-                this.build_section_header(sect, div, subnav);
+                this.build_section_header(sect, item, div, subnav);
                 this.build_tables_recursively(sect.id, item, div);
                 break;
             case "extends":
-                this.build_section_header(sect, div, subnav);
+                this.build_section_header(sect, item, div, subnav);
                 div.appendChild(this.build_tree(item));
                 break;
             case "files":
-                this.build_section_header(sect, div, subnav);
+                this.build_section_header(sect, item, div, subnav);
                 var a = [];
                 this.bubble_tree(item, function (i) {
                     if (!i.hasOwnProperty("files")) return;
@@ -238,24 +247,24 @@ window.addEventListener('DOMContentLoaded', function () {
             case "example":
                 id = item.name.toLowerCase();
                 if (typeof window["run_" + id] != "undefined") {
-                    this.build_section_header(sect, div, subnav);
+                    this.build_section_header(sect, item, div, subnav);
                     this.build_example(id, div, sect.name);
                 }
                 break;
         }
     }
     
-    this.build_section_header = function (sect, div, subnav) {
+    this.build_section_header = function (sect, item, div, subnav) {
         // subnav
         var l = TK.element("li");
         var a = TK.element("a", sect.id, "icon");
         l.appendChild(a);
-        a.setAttribute("href", "#" + sect.id);
+        a.setAttribute("href", "#" + item.name + this.hash_separator + sect.id);
         TK.set_text(a, sect.name);
         subnav.appendChild(l);
         // header and description
         var h = TK.element("h3", sect.id, "icon");
-        h.innerHTML = "<a name='" + sect.id + "' id='anchor_" + sect.id + "'></a>" + sect.name;
+        h.innerHTML = "<a name='" + item.name + this.hash_separator + sect.id + "' id='anchor_" + sect.id + "'></a>" + sect.name;
         var p = TK.element("p");
         p.innerHTML = this.process_text(sect.description);
         div.appendChild(h);
@@ -284,6 +293,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 var h = TK.element("h4");
                 var l = TK.element("a");
                 TK.set_text(l, it.name);
+                l.setAttribute("href", this.app + "#" + it.name);
                 l.onclick = (function (that, item) {
                     return function () {
                         that.show_item(item);
@@ -334,7 +344,7 @@ window.addEventListener('DOMContentLoaded', function () {
             if (!data.hasOwnProperty(i)) continue;
             var item = data[i];
             if (headers && item.hasOwnProperty(headers)) {
-                // this is dirty like benders ass
+                // this is soooo dirty ^^
                 var row = TK.element("tr");
                 var td = TK.element("td", "headline");
                 td.setAttribute("colspan", 999);
@@ -446,9 +456,9 @@ window.addEventListener('DOMContentLoaded', function () {
             text = text.replace(i, r[i]);
         }
         while (text.match(this.proc_text_regex)) {
-            text = text.replace(this.proc_text_regex, "<a onclick='SC.show_item(\"\$1\")'>\$1</a>")
+            text = text.replace(this.proc_text_regex, "<a href='" + this.app + "*\$1' onclick='SC.show_item(\"\$1\")'>\$1</a>")
         }
-        return text;
+        return text.replace("href='" + this.app + "*", "href='" + this.app + "#");
     }
     
     this.show_item = function (item) {
@@ -459,50 +469,55 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this._show_item = function (item, pos) {
+        pos = pos || 0;
         var i = TK.get_id("item");
         if (i)
             TK.get_id("wrapper").removeChild(i);
         TK.get_id("wrapper").appendChild(this.build_item(item));
-        setTimeout(function(){
+        //window.location.href = this.app + "#" + item.name;
+        setTimeout(function() {
             document.body.scrollTop = pos;
         }, 100);
         TK.add_class(TK.get_id("navigation"), "hidden");
     }
     
     this.timemachine = function (parent) {
+        this.parent = parent;
         this.hist = [];
         this.pointer = -1;
         this.push = function (item) {
-            this.set_position();
+            this.set_scroll_pos();
             if (this.hist[this.pointer] == item)
                 return;
             this.hist.splice(this.pointer + 1, this.hist.length - this.pointer);
             this.hist.push({ item : item, position : 0 });
             this.pointer = this.hist.length - 1;
-            this.arrows();
+            this.arrows(this.pointer);
         }
         this.back = function () {
-            this.set_position();
-            this.pointer = Math.max(-1, this.pointer-1);
-            if (this.pointer > -1 && this.hist.length)
-                _show_item(this.hist[this.pointer].item, this.hist[this.pointer].position);
-            this.arrows();
+            this.show(Math.max(-1, this.pointer-1));
         }
         this.next = function () {
-            this.set_position();
-            this.pointer = Math.min(this.hist.length-1, this.pointer+1);
-            if (this.pointer > -1 && this.hist.length)
-                _show_item(this.hist[this.pointer].item, this.hist[this.pointer].position);
-            this.arrows();
+            this.show(Math.min(this.hist.length-1, this.pointer+1));
         }
-        this.arrows = function () {
-            TK[(this.pointer > 0 ? "remove" : "add") + "_class"](TK.get_id("back"), "hidden");
-            TK[(this.pointer < this.hist.length-1 ? "remove" : "add") + "_class"](TK.get_id("next"), "hidden");
+        this.show = function (p) {
+            this.set_scroll_pos();
+            this.pointer = p;
+            if (p > -1 && this.hist.length) {
+                window.location = this.parent.app + "#" + this.hist[p].item.name;
+                _show_item(this.hist[p].item, this.hist[p].position);
+            }
+            this.arrows(p);
         }
-        this.set_position = function () {
+        this.arrows = function (p) {
+            TK[(p > 0 ? "remove" : "add") + "_class"](TK.get_id("back"), "hidden");
+            TK[(p < this.hist.length-1 ? "remove" : "add") + "_class"](TK.get_id("next"), "hidden");
+        }
+        this.set_scroll_pos = function () {
             if (this.hist.length && this.hist.length > this.pointer)
                 this.hist[this.pointer].position = document.body.scrollTop;
         }
+        return this;
     }
     
     this.all_items = function () {
