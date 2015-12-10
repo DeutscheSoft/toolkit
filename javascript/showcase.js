@@ -181,7 +181,7 @@ window.addEventListener('DOMContentLoaded', function () {
         this.bubble_tree(item, function (it) {
             lst.push(it);
         }, ["extends"]);
-        if (lst.length || (lst[0].hasOwnProperty("implements") && lst[0].implements.length)) {
+        if (lst.length > 1 || (lst[0].hasOwnProperty("implements") && lst[0].implements.length)) {
             for (var i = lst.length - 1; i >= 0; i--) {
                 var li = TK.element("li");
                 var a = this.link_item(lst[i].name);
@@ -236,7 +236,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 break;
             case "extends":
                 this.build_section_header(sect, item, headf, subf);
-                divf.appendChild(this.build_tree(item));
+                var ul = this.build_tree(item);
+                if (ul.children.length)
+                    divf.appendChild(ul);
                 break;
             case "files":
                 this.build_section_header(sect, item, headf, subf);
