@@ -61,18 +61,22 @@ function set_handle() {
     });
 }
 w.Drag = $class({
-    // Resize enables resizing of elements on the screen.
+    /* @class: Drag
+     * @description: Drag enables dragging of elements on the screen.
+     * @option: element; DOMNode; undefined; The element to drag
+     * @option: handle; DOMNode|Bool; undefined; A DOM node to be used as a handle. If not set the element is used.
+     * @option: active; Bool; true; Enable or disable dragging
+     * @option: min; Object; {x: -1, y: -1}; Object containing x and y determining the minimum position. A value of false means no minimum.
+     * @option: max; Object; {x: -1, y: -1}; Object containing x and y determining the maximum position. A value of false means no maximum.
+     * @extends: Widget */
     _class: "Drag",
     Extends: Widget,
     options: {
-        element   : null,           // the element to resize
-        handle    : null,           // a DOM node used as handle. if none set
-                                    // element is used
-        active    : true,           // set to false if resize is disabled
-        min       : {x: -1, y: -1}, // object containing x and y determining minimum size
-                                    // a value of false means no min
-        max       : {x: -1, y: -1}, // object containing x and y determining maximum size
-                                    // a value of false means no max
+        element   : null,
+        handle    : null,
+        active    : true,
+        min       : {x: -1, y: -1},
+        max       : {x: -1, y: -1}
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
