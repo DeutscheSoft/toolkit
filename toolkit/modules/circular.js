@@ -189,9 +189,9 @@ function draw_labels() {
     }.bind(this), 1);
 }
 function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
-    // enshure from != to
+    // ensure from != to
     if(a_from % 360 == a_to % 360) a_from += 0.001;
-    // enshure from and to in bounds
+    // ensure from and to in bounds
     while (a_from < 0) a_from += 360;
     while (a_to < 0) a_to += 360;
     if (a_from > 360) a_from %= 360;
@@ -219,11 +219,32 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     this.fire_event("slicedrawn");
 }
 w.Circular = $class({
-    // Circular is a SVG group element containing two paths for displaying
-    // numerical values in a circular manner. Circular is able to draw labels,
-    // dots and markers and can show a hand. Circular e.g. is implemented by
-    // the clock to draw the hours, minutes and seconds. Circular extends Widget
-    // and implements Range.
+    /* @class: Circular
+     * @description: Circular is a SVG group element containing two paths for displaying
+     * numerical values in a circular manner. Circular is able to draw labels,
+     * dots and markers and can show a hand. Circular e.g. is implemented by
+     * #Clock to draw the hours, minutes and seconds.
+     * @option: value; Number; 0; The value to show
+     * @option: size; Number; 100; The diameter of the circle
+     * @option: thickness; Number; 3; The thickness of the circle
+     * @option: margin; Number; 0; The margin between base and value circles
+     * @option: hand; Object; {width: 2, length: 30, margin: 10}; Dimensions of the hand
+     * @option: start; Number; 135; The starting point in degrees
+     * @option: basis; Number; 270; The maximum degree of the rotation if value = max
+     * @option: base; Number|Bool; false; If a base value is set in degrees, circular starts drawing elements from this position
+     * @option: show_base; Bool; true; Draw the base ring
+     * @option: show_value; Bool; true; Draw the value ring
+     * @option: show_hand; Bool; true; Draw the hand
+     * @option: x; Number; 0; Re-position the circular horizontally
+     * @option: y; Number; 0; Re-position the circular vertically
+     * @option: dot; Object; {width: 2, length: 2, margin: 5}; Set dimensions of dots
+     * @option: dots; Array; []; An array containing members like {pos: (number)[, color: "colorstring"] [, class: "classname"][, width: (number)] [, length: (number)][, margin: (number)]}
+     * @option: marker; Object; {thickness: 3, margin: 0}; Set markers default dimensions
+     * @option: markers; Array; []; An array containing objects like {from: (number), to: (number)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, thickness: (number)]}
+     * @option: label; Object; {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}}; Labels ring position with following optional members: margin - (number) distance from size, align - _TOOLKIT_INNER or _TOOLKI_OUTER, format function receiving the value and returning a string
+     * @option: labels; Array; []; An array containing objects like {pos: (number), label: (string)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, margin: (number)]}
+     * @extends: Widget;
+     * @implements: Warning Ranged */
     _class: "Circular",
     Extends: Widget,
     Implements: [Warning, Ranged],
