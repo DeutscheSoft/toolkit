@@ -168,7 +168,7 @@ window.addEventListener('DOMContentLoaded', function () {
         for (var s in this.sections) {
             // add sections
             var sect = this.sections[s];
-            if (sect.id != "example" && !item.hasOwnProperty(sect.id)) continue;
+            //if (sect.id != "example" && !item.hasOwnProperty(sect.id)) continue;
             this.build_section(sect, item, div, subnav);
         }
         return div;
@@ -222,35 +222,43 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.build_section = function (sect, item, div, subnav) {
+        var subf = document.createDocumentFragment();
+        var headf = document.createDocumentFragment();
+        var divf = document.createDocumentFragment();
         switch(sect.id) {
             default:
-                this.build_section_header(sect, item, div, subnav);
-                this.build_tables_recursively(sect.id, item, div);
+                this.build_section_header(sect, item, headf, subf);
+                this.build_tables_recursively(sect.id, item, divf);
                 break;
             case "methods":
-                this.build_section_header(sect, item, div, subnav);
-                this.build_tables_recursively(sect.id, item, div);
+                this.build_section_header(sect, item, headf, subf);
+                this.build_tables_recursively(sect.id, item, divf);
                 break;
             case "extends":
-                this.build_section_header(sect, item, div, subnav);
-                div.appendChild(this.build_tree(item));
+                this.build_section_header(sect, item, headf, subf);
+                divf.appendChild(this.build_tree(item));
                 break;
             case "files":
-                this.build_section_header(sect, item, div, subnav);
+                this.build_section_header(sect, item, headf, subf);
                 var a = [];
                 this.bubble_tree(item, function (i) {
                     if (!i.hasOwnProperty("files")) return;
                     a = a.concat(i.files);
                 }, ['extends', 'implements']);
-                div.appendChild(this.build_list(a, sect.id));
+                divf.appendChild(this.build_list(a, sect.id));
                 break;
             case "example":
                 id = item.name.toLowerCase();
                 if (typeof window["run_" + id] != "undefined") {
-                    this.build_section_header(sect, item, div, subnav);
-                    this.build_example(item.name, div, sect.name);
+                    this.build_section_header(sect, item, headf, subf);
+                    this.build_example(item.name, divf, sect.name);
                 }
                 break;
+        }
+        if (divf.children.length) {
+            div.appendChild(headf);
+            div.appendChild(divf);
+            subnav.appendChild(subf);
         }
     }
     
@@ -286,10 +294,9 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.build_tables_recursively = function (id, item, div) {
-        c = 0;
         this.bubble_tree(item, function (it) {
             if (!it.hasOwnProperty(id)) return;
-            if (c) {
+            if (it.id != item.id) {
                 var h = TK.element("h4");
                 var l = TK.element("a");
                 TK.set_text(l, it.name);
@@ -304,7 +311,6 @@ window.addEventListener('DOMContentLoaded', function () {
                 div.appendChild(h);
             }
             div.appendChild(this.build_table(it[id], id == "methods" ? "name" : false));
-            c++;
         }, ["extends", "implements"]);
     }
     
