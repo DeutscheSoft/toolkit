@@ -249,50 +249,25 @@ w.Circular = $class({
     Extends: Widget,
     Implements: [Warning, Ranged],
     options: {
-        value:      0,     // the value to show
-        size:       100,   // the diameter of the circle
-        thickness:  3,     // the thickness of the circle
-        margin:     0,     // margin of base and value circles
-        hand:       {width: 2, length: 30, margin: 10}, // if you want to draw a hand set its dimensions
-                           // {width: (number), length: (number), margin: (number)}
-        start:      135,   // the starting point in degrees:
-                           // 0=right, 90=bottom, ...
-        basis:      270,   // the max degree of rotation when value = max
-        base:       false, // if base value is set, circular starts
-                           // at this point and shows values
-                           // above and beneath starting at base.
-                           // set to false if you don't need it
-                           // to save some cpu
-        show_base:  true,  // draw the base ring
-        show_value: true,  // draw the value ring
-        show_hand:  true,  // draw the hand
-        x:          0,     // re-position the circular
-        y:          0,     // re-position the circular
-        dot:        {width: 2, length: 2, margin: 5}, // set dots dimensions
-                           // {width: (number), length: (number), margin: (number)}
-        dots:       [],    // An array containing objects with the following
-                           // members for drawing dots: 
-                           // {pos: (number)[, color: "colorstring"]
-                           // [, class: "classname"][, width: (number)]
-                           // [, length: (number)][, margin: (number)]}
-        marker:     {thickness: 3, margin: 0}, // set markers default dimension
-                           // {thickness: (number), margin: (number)}
-        markers:    [],    // An array containing objects with the following
-                           // members for drawing markers: 
-                           // {from: (number), to: (number)[, color: "colorstring"]
-                           // [, class: "classname"][, margin: (number)]
-                           // [, thickness: (number)]}
-        label:      {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}}, // set
-                           // labels ring position as object with following
-                           // optional members:
-                           // margin: (number) distance from size
-                           // align: _TOOLKIT_INNER or _TOOLKI_OUTER
-                           // format function receiving the value, returning a string
-        labels:     []     // An array containing objects with the following
-                           // members for drawing labels: 
-                           // {pos: (number), label: (string)[, color: "colorstring"]
-                           // [, class: "classname"][, margin: (number)]
-                           // [, margin: (number)]}
+        value:      0,
+        size:       100,
+        thickness:  3,
+        margin:     0,
+        hand:       {width: 2, length: 30, margin: 10},
+        start:      135,
+        basis:      270,
+        base:       false,
+        show_base:  true,
+        show_value: true,
+        show_hand:  true,
+        x:          0,
+        y:          0,
+        dot:        {width: 2, length: 2, margin: 5},
+        dots:       [],
+        marker:     {thickness: 3, margin: 0},
+        markers:    [],
+        label:      {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}},
+        labels:     []
         
     },
     
