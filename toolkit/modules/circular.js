@@ -243,8 +243,8 @@ w.Circular = $class({
      * @option: markers; Array; []; An array containing objects like {from: (number), to: (number)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, thickness: (number)]}
      * @option: label; Object; {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}}; Labels ring position with following optional members: margin - (number) distance from size, align - _TOOLKIT_INNER or _TOOLKI_OUTER, format function receiving the value and returning a string
      * @option: labels; Array; []; An array containing objects like {pos: (number), label: (string)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, margin: (number)]}
-     * @extends: Widget;
-     * @implements: Warning Ranged */
+     * @extends: Widget
+     * @implements: Warning, Ranged */
     _class: "Circular",
     Extends: Widget,
     Implements: [Warning, Ranged],
