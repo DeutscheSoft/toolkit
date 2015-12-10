@@ -180,8 +180,8 @@ window.addEventListener('DOMContentLoaded', function () {
         ul.setAttribute("id", "tree");
         this.bubble_tree(item, function (it) {
             lst.push(it);
-        }, ["extends"])
-        if (lst.length > 1) {
+        }, ["extends"]);
+        if (lst.length || (lst[0].hasOwnProperty("implements") && lst[0].implements.length)) {
             for (var i = lst.length - 1; i >= 0; i--) {
                 var li = TK.element("li");
                 var a = this.link_item(lst[i].name);
