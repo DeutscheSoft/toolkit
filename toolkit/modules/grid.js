@@ -139,23 +139,30 @@ function draw_lines(a, mode, last) {
     }.bind(this), 1);
 }
 w.Grid = $class({
-    // A Grid creates a couple of lines and labels in a SVG image on the x and
-    // y axis. It is used in e.g. Graphs and FrequencyResponses to draw markers
-    // and values. Graphs need a parent SVG image do draw into. The base element
-    // of a Grid is a SVG group containing all the labels and lines. Grids
-    // extend Widget and implements Ranges.
+    /* @class: Grid
+     * @description: Grid creates a couple of lines and labels in a SVG
+     * image on the x and y axis. It is used in e.g. #Graph and
+     * #FrequencyResponse to draw markers and values. Grid needs a
+     * parent SVG image do draw into. The base element of a Grid is a
+     * SVG group containing all the labels and lines.
+     * @option: grid_x; Array; []; Array for vertical grid lines containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
+     * @option: grid_y; Array; []; Array for horizontal grid lines containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
+     * @option: range_x; Function|Object; {}; A function returning a #Range instance for vertical grid lines or an object containing options for a new #Range
+     * @option: range_y; Function|Object; {}; A function returning a #Range instance for horizontal grid lines or an object containing options for a new #Range
+     * @option: width; Number; 0; The width of the grid
+     * @option: height; Number; 0; The height of the grid
+     * @extends: Widget
+     * @implements: Ranges */
     _class: "Grid",
     Extends: Widget,
     Implements: Ranges,
     options: {
-        grid_x:  [],    // array containing {pos:x[, color: "colorstring"[,
-                        //       class: "classname"[, label:"labeltext"]]]}
-        grid_y:  [],    // array containing {pos:y[, color: "colorstring"[,
-                        //       class: "classname"[, label:"labeltext"]]]}
-        range_x: {},    // callback function returning a Range module for x axis
-        range_y: {},    // callback function returning a Range module for y axis
-        width:   0,     // the width of the Grid (only use it in set/get)
-        height:  0      // the height of the Grid (only use it in set/get)
+        grid_x:  [],
+        grid_y:  [],
+        range_x: {}, 
+        range_y: {},
+        width:   0,
+        height:  0
     },
     initialize: function (options, hold) {
         Widget.prototype.initialize.call(this, options);

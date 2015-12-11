@@ -144,9 +144,23 @@ function angle_diff(a, b) {
     return d > 180 ? 360 - d : d;
 }
 w.DragValue = $class({
-    // DragValue enables dragging an element and setting a value
-    // according to the distance. DragValue is used e.g. in Knob for
-    // setting its value.
+    /* @class: DragValue
+     * @description: DragValue enables dragging an element and setting a
+     * value according to the distance. DragValue is used e.g. in #Knob
+     * or #ValueButton for setting its value.
+     * @option: range; Function; function () { return {} }; The range object for calculating the value
+     * @option: element; DOMNode|Bool; false; An element receiving the users events or false to use the items element itself
+     * @option: events; DOMNode|Bool; false; An element firing the drag events or false to use the items element itself
+     * @option: classes; DOMNode|Bool; false; An element receiving the classes or false to use the items element itself
+     * @option: get; Function; function () { return; }; Callback function returning the value
+     * @option: set; Function; function () { return; }; Callback function setting the value
+     * @option: direction; Int; _TOOLKIT_POLAR; Direction changing the value, _TOOLKIT_POLAR|_TOOLKIT_VERTICAL|_TOOLKIT_HORIZONTAL
+     * @option: active; Bool; true; Deactivate the dragging
+     * @option: cursor; Bool; false; Enable global cursor
+     * @option: blind_angle; Number; 20; Used if direction is _TOOLKIT_POLAR, angle of separation between positive and negative value changes
+     * @option: rotation; Number; 45; Defines the angle of the center of the positive value changes. 0 means straight upward. E.g. a value of 45 does positive value changes in upper and right directions
+     * @extends: Widget
+     * @implements: GlobalCursor */
     _class: "DragValue",
     Extends: Widget,
     Implements: GlobalCursor,

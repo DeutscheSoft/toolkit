@@ -251,14 +251,23 @@ function FilterModule(stdlib, foreign, heap) {
 };
 
 w.Filter = $class({
+    /* @class: Filter
+     * @description: Filter provides the math for calculating a gain from
+     * a given frequency for different types of filters
+     * @option: type; Int; _TOOLKIT_PARAMETRIC; The type of the filter,  _TOOLKIT_PARAMETRIC|_TOOLKIT_PEAK|_TOOLKIT_NOTCH|_TOOLKIT_LOWSHELF|_TOOLKIT_HIGHSHELF|_TOOLKIT_LOWPASS_[n]|_TOOLKIT_HIGHPASS_[n]
+     * @option: freq; Number; 0; The initial frequency
+     * @option: gain; Number; 0; The initial gain
+     * @option: q; Number; 1; The initial Q of the filter
+     * @extends: BASE
+     * @implements: AudioMath */
     _class: "Filter",
     Extends: BASE,
     Implements: [AudioMath],
     options: {
-        type: _TOOLKIT_PARAMETRIC, // the type of the filter
-        freq: 0,                   // the initial frequency
-        gain: 0,                   // the initial gain of the filter
-        q:    1                    // the initial q of the filter
+        type: _TOOLKIT_PARAMETRIC,
+        freq: 0,
+        gain: 0,
+        q:    1
     },
 
     initialize: function (options) {
