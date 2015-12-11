@@ -27,6 +27,7 @@ function dragstart(e, drag) {
     this._ystart = e.pageY;
     this._xpos   = O.element.offsetLeft;
     this._ypos   = O.element.offsetTop;
+    TK.add_class(O.element, "toolkit-dragging");
     this.fire_event("start", e);
 }
 function dragend(e, drag) {
@@ -44,7 +45,7 @@ function dragging(e, drag) {
     if (O.max.y !== false) y = Math.min(O.max.y, y);
     O.element.style.top = y + "px";
     O.element.style.left = x + "px";
-    
+    TK.remove_class(O.element, "toolkit-dragging");
     this.fire_event("resizing", e, x, y);
 }
 function set_handle() {
@@ -62,7 +63,8 @@ function set_handle() {
 }
 w.Drag = $class({
     /* @class: Drag
-     * @description: Drag enables dragging of elements on the screen.
+     * @description: Drag enables dragging of absolutely positioned
+     * elements on the screen.
      * @option: element; DOMNode; undefined; The element to drag
      * @option: handle; DOMNode|Bool; undefined; A DOM node to be used as a handle. If not set the element is used.
      * @option: active; Bool; true; Enable or disable dragging
