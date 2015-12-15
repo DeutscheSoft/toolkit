@@ -111,7 +111,7 @@ mapping(string:mapping) process_category (string dir) {
     mapping(string:mapping) list = ([]);
     foreach (get_dir(dir), string file) {
         if (!has_suffix(file, ".js")) continue;
-        mapping(string:mixed) m = parse_code(read_bytes(combine_path(dir, file)));
+        mapping(string:mixed) m = parse_code(utf8_to_string(read_bytes(combine_path(dir, file))));
         if (!equal(m, ([]))) {
             string f;
             string id = file[..sizeof(file)-4];
@@ -136,10 +136,10 @@ mapping(string:mapping) traverse_categories (string cats) {
         if (!is_dir(dir_)) continue;
         string fname = combine_path(dir_, "README");
         if (exist(fname)
-        && Stdio.read_bytes(fname, 0, sizeof(CATEGORY_MARKER)) == CATEGORY_MARKER) {
-            string name = String.trim_all_whites(Stdio.read_file(fname, 0, 1)[sizeof(CATEGORY_MARKER)..]);
+        && utf8_to_string(Stdio.read_bytes(fname, 0, sizeof(CATEGORY_MARKER))) == CATEGORY_MARKER) {
+            string name = String.trim_all_whites(utf8_to_string(Stdio.read_file(fname, 0, 1))[sizeof(CATEGORY_MARKER)..]);
             mapping(string:mixed) map = ([]);
-            map->description = String.trim_all_whites(Stdio.read_file(fname, 1));
+            map->description = String.trim_all_whites(utf8_to_string(Stdio.read_file(fname, 1)));
             map->items = process_category(dir_);
             map->name = name;
             map->id = dir;
