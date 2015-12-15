@@ -138,6 +138,7 @@ w.ResponseHandler = $class({
             document.removeEventListener("touchmove", _touchmove);
             document.removeEventListener("touchend",  _touchend);
         }.bind(this));
+        this.add_child(h);
         this.fire_event("handleadded", h);
         return h;
     },
@@ -150,6 +151,7 @@ w.ResponseHandler = $class({
         // remove a handle from the widget.
         for (var i = 0; i < this.handles.length; i++) {
             if (this.handles[i] == handle) {
+                this.remove_child(handle);
                 this.handles[i].destroy();
                 this.handles.splice(i, 1);
                 this.fire_event("handleremoved");
