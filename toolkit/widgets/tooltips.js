@@ -45,10 +45,10 @@ w.GlobalTooltip = function() {
     tmp = row.cloneNode();
 
     var entry = cell.cloneNode();
-    entry.className = "toolkit-entry";
+    entry.className += " toolkit-entry";
 
     var entry_tl = cell.cloneNode();
-    entry_tl.className = "toolkit-tt-container";
+    entry_tl.className += " toolkit-tt-container";
     entry_tl.appendChild(entry);
 
     tmp.appendChild(cell.cloneNode());
