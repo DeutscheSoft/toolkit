@@ -39,7 +39,6 @@ js_input_files = \
     toolkit/widgets/levelmeter.js\
     toolkit/widgets/chart.js\
     toolkit/widgets/dynamics.js\
-    toolkit/widgets/keyboard.js\
     toolkit/widgets/gauge.js\
     toolkit/widgets/frequencyresponse.js\
     toolkit/widgets/responsehandler.js\
