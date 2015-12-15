@@ -93,7 +93,7 @@ function draw_key() {
     this._key_background.style["display"] = disp;
     this._key.style["display"] = disp;
     
-    if (!bb) bb     = this._key.getBoundingClientRect();
+    bb = this._key.getBoundingClientRect();
     var width  = this.range_x.options.basis;
     var height = this.range_y.options.basis;
     
@@ -196,9 +196,11 @@ function draw_title() {
                 y = range_y.options.basis - mtop - bb.height / 2;
                 break;
         }
-        _title.setAttribute("text-anchor", anchor);
-        _title.setAttribute("x", x);
-        _title.setAttribute("y", y);
+        TK.S.add(function() {
+            _title.setAttribute("text-anchor", anchor);
+            _title.setAttribute("x", x);
+            _title.setAttribute("y", y);
+        });
     }.bind(this), 1);
 }
     
