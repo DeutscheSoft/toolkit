@@ -360,7 +360,7 @@ w.BASE = $class({
          * @description: Test if the event descriptor has some handler functions in the queue */
         var ev = this.__events;
 
-        if (!ev.hasOwnProperty(e)) return false;
+        if (!ev.hasOwnProperty(event)) return false;
 
         ev = ev[event].queue;
 
