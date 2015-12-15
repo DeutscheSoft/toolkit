@@ -83,7 +83,6 @@ w.MeterBase = $class({
         var E;
         Widget.prototype.initialize.call(this, options);
         var O = this.options;
-        this.__margin = 0;
         this.__based = false;
         this.element = this.widgetize(E = TK.element("div", "toolkit-meter-base"), false, true, true);
         

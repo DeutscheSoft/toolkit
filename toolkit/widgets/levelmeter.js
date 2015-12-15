@@ -84,17 +84,12 @@ function draw_peak() {
         this._peak.style["display"] = "block";
         var pos = 0;
         if (vert(O)) {
-            pos = O.basis
-                - this.val2px(this.snap(O.peak))
-                + this.__margin;
-            pos = Math.max(this.__margin, pos);
-            pos = Math.min(O.basis + this.__margin, pos);
+            pos = O.basis - this.val2px(this.snap(O.peak));
+            pos = Math.min(O.basis, pos);
             this._peak.style["top"] = pos + "px";
         } else {
-            pos = this.val2px(this.snap(O.peak))
-                + this.__margin;
-            pos = Math.max(this.__margin, pos);
-            pos = Math.min(O.basis + this.__margin, pos)
+            pos = this.val2px(this.snap(O.peak));
+            pos = Math.min(O.basis, pos)
             this._peak.style["left"] = pos + "px";
         }
     } else {
