@@ -188,8 +188,7 @@ w.Grid = $class({
     
     redraw: function () {
         var I = this.invalid, O = this.options;
-        if (I.grid_x || I.grid_y) {
-            I.grid_x = I.grid_y = false;
+        if (I.validate("grid_x", "grid_y", "range_x", "range_y")) {
             TK.empty(this.element);
 
             draw_lines.call(this, O.grid_x, false, 0);
