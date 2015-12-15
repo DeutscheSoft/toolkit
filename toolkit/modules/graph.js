@@ -75,9 +75,14 @@ w.Graph = $class({
         
         this.set("color", this.options.color);
         this.set("mode",  this.options.mode);
+
+        var cb = function() {
+            this.invalidate_all();
+            this.trigger_draw();
+        }.bind(this);
         
-        this.range_x.add_event("set", this.redraw.bind(this));
-        this.range_y.add_event("set", this.redraw.bind(this));
+        this.range_x.add_event("set", cb);
+        this.range_y.add_event("set", cb);
         
         if (this.options.dots.length)
             this.redraw();
