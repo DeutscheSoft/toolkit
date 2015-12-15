@@ -143,6 +143,7 @@ div.toolkit-fader {
     user-select: none;
     display: inline-block;
     box-sizing: border-box;
+    position: relative;
 }
 
 div.toolkit-fader .toolkit-handle {
