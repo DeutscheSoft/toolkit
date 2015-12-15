@@ -96,7 +96,15 @@ w.Dynamics = $class({
         if (I.validate("ratio", "threshold", "range", "makeup")) {
             this.draw_graph();
         }
-
+        
+        if (I.resize) {
+            TK.S.add(function() {
+                var bb = this.element.getBoundingClientRect();
+                var s = Math.min(bb.width, bb.height);
+                if (s != O.size)
+                    this.set("size", s);
+            }.bind(this), 1);
+        }
 
         Chart.prototype.redraw.call(this);
     },
