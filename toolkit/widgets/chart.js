@@ -215,6 +215,7 @@ w.Chart = $class({
     Extends: Container,
     Implements: Ranges,
     options: {
+        resized: false,
         grid_x:  [], // array containing {pos:x[, color: "colorstring"[,
                      //       class: "classname"[, label:"labeltext"]]]}
         grid_y:  [], // array containing {pos:y[, color: "colorstring"[,
@@ -296,9 +297,20 @@ w.Chart = $class({
         this.set("height", this.options.height);
     },
     redraw: function () {
-        Container.prototype.redraw.call(this);
         var I = this.invalid;
         var E = this.element;
+
+        if (I.resize) {
+            TK.S.add(function() {
+                var bb = E.getBoundingClientRect();
+                if (bb.width != this.options.width)
+                    this.set("width", bb.width);
+                if (bb.height != this.options.height)
+                    this.set("height", bb.height);
+            }.bind(this), 1);
+        }
+
+        Container.prototype.redraw.call(this);
 
         if (I.width || I.height || I.ranges) {
             I.ranges = true;
