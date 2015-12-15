@@ -502,43 +502,7 @@ div.toolkit-state div.toolkit-mask {
     -ms-user-select: none;
     user-select: none;
 }
-.toolkit-window .toolkit-header .toolkit-header-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-.toolkit-window .toolkit-header .toolkit-header-center {
-    position: absolute;
-    top: 0;
-    overflow: hidden;
-}
-.toolkit-window .toolkit-header .toolkit-header-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-.toolkit-window .toolkit-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-}
-.toolkit-window .toolkit-footer .toolkit-footer-left {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-}
-.toolkit-window .toolkit-footer .toolkit-footer-center {
-    position: absolute;
-    bottom: 0;
-    overflow: hidden;
-}
-.toolkit-window .toolkit-footer .toolkit-footer-right {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
+
 .toolkit-window .toolkit-title {
     white-space: nowrap;
 }

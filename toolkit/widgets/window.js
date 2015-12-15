@@ -762,6 +762,15 @@ w.Window = $class({
             case "min_height":
             case "max_height":
                 break;
+            case "active":
+                if (value) {
+                    //this.drag.set("active", true);
+                    TK.add_class(this.element, "toolkit-active");
+                } else {
+                    //this.drag.set("active", false);
+                    TK.remove_class(this.element, "toolkit-active");
+                }
+                break;
         }
         Container.prototype.set.call(this, key, value, hold);
     }

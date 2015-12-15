@@ -36,16 +36,6 @@
     border-bottom: 1px solid rgba(0,0,0,0.033);
     background: rgba(255,255,255,0.33);
 }
-.toolkit-window .toolkit-header .toolkit-header-left {
-    
-}
-.toolkit-window .toolkit-header .toolkit-header-center {
-    padding: 0 5px;
-}
-.toolkit-window .toolkit-header .toolkit-header-right {
-    
-}
-
 .toolkit-window .toolkit-footer {
     height: 28px;
     line-height: 28px;
@@ -53,55 +43,82 @@
     border-top: 1px solid rgba(255,255,255,0.6);
     background: rgba(255,255,255,0.33);
 }
+.toolkit-window .toolkit-header .toolkit-header-left {
+    float: left;
+}
+.toolkit-window .toolkit-header .toolkit-header-center {
+    float: left;
+}
+.toolkit-window .toolkit-header .toolkit-header-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
 .toolkit-window .toolkit-footer .toolkit-footer-left {
-    
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 .toolkit-window .toolkit-footer .toolkit-footer-center {
-    
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
 }
 .toolkit-window .toolkit-footer .toolkit-footer-right {
-    
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
-.toolkit-window .toolkit-title {
+.toolkit-window .toolkit-header .toolkit-title {
     font-weight: 700;
     font-size: 14px;
-    color: #ccc;
+    color: #999;
     text-shadow: 0px 1px 0px white;
     margin: 0 5px;
 }
-.toolkit-window.toolkit-active .toolkit-title {
-    color: #999;
+.toolkit-window.toolkit-active .toolkit-header .toolkit-title {
+    color: #002f42;
 }
-.toolkit-window .toolkit-status {
-    color: #ccc;
+.toolkit-window .toolkit-footer .toolkit-status {
+    color: #999;
     margin: 0 5px;
 }
-.toolkit-window .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-icon {
     width: 24px;
     height: 24px;
     margin: 2px;
 }
-
-.toolkit-window .toolkit-button .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-button  {
+    padding: 2px;
+    border: 1px solid transparent;
+    background: transparent;
+    transition: border-color 0.33s;
+}
+.toolkit-window .toolkit-header .toolkit-button:hover  {
+    border-color: rgba(0, 0, 0, 0.25);
+}
+.toolkit-window .toolkit-header .toolkit-button .toolkit-icon {
     background-position: 50% 50%;
+    background-repeat: no-repeat;
+    height: 16px;
     margin: 0;
 }
-.toolkit-window .toolkit-button.toolkit-close .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-button.toolkit-close .toolkit-icon {
     background-image: url(../images/window/close.png);
 }
-.toolkit-window .toolkit-button.toolkit-maximize .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-button.toolkit-maximize .toolkit-icon {
     background-image: url(../images/window/maximize.png);
 }
-.toolkit-window .toolkit-button.toolkit-maximize-vertical .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-button.toolkit-maximize-vertical .toolkit-icon {
     background-image: url(../images/window/maximize_vert.png);
 }
-.toolkit-window .toolkit-button.toolkit-maximize-horizontal .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-button.toolkit-maximize-horizontal .toolkit-icon {
     background-image: url(../images/window/maximize_horiz.png);
 }
-.toolkit-window .toolkit-button.toolkit-minimize .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-button.toolkit-minimize .toolkit-icon {
     background-image: url(../images/window/minimize.png);
 }
-.toolkit-window .toolkit-button.toolkit-shrink .toolkit-icon {
+.toolkit-window .toolkit-header .toolkit-button.toolkit-shrink .toolkit-icon {
     background-image: url(../images/window/shrink.png);
 }
