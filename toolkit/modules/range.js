@@ -21,11 +21,16 @@
 "use strict";
 (function(w) { 
 w.Range = $class({
-    // Ranges are classes for calculating linear scales from different values.
-    // They are useful to build coordinate systems, calculating pixel positions
-    // for different scale types and the like. Ranges are used e.g. in Scale,
-    // MeterBase and Graph to draw elements on a certain position according to
-    // a value on an arbitrary scale. Range implements AudioMath.
+    /* @class: Range
+     * @description: Range is used for calculating linear scales from
+     * different values. They are useful to build coordinate systems,
+     * calculate pixel positions for different scale types and the like.
+     * Range is used e.g. in #Scale, #MeterBase and #Graph to draw
+     * elements on a certain position according to a value on an
+     * arbitrary scale.
+     * @extends: BASE
+     * @implements: Ranged
+     */
     Extends : BASE,
     _class: "Range",
     Implements: [Ranged],
