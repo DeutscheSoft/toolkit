@@ -347,6 +347,7 @@ w.Chart = $class({
 
         this.invalid.graphs = true;
         this.trigger_draw();
+        this.add_child(g);
         return g;
     },
     remove_graph: function (g) {
