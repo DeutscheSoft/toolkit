@@ -118,6 +118,7 @@ pre, code {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    box-sizing: content-box;
 }
 .toolkit-chart .toolkit-key {
     pointer-events: none;

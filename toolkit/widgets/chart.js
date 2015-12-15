@@ -302,11 +302,13 @@ w.Chart = $class({
 
         if (I.resize) {
             TK.S.add(function() {
-                var bb = E.getBoundingClientRect();
-                if (bb.width != this.options.width)
-                    this.set("width", bb.width);
-                if (bb.height != this.options.height)
-                    this.set("height", bb.height);
+                var w, h;
+                w = E.clientWidth;
+                h = E.clientHeight;
+                if (w != this.options.width)
+                    this.set("width", w);
+                if (h != this.options.height)
+                    this.set("height", h);
             }.bind(this), 1);
         }
 
@@ -318,8 +320,6 @@ w.Chart = $class({
             var h = this.range_y.get("basis") + "px";
             E.setAttribute("width", w);
             E.setAttribute("height", h);
-            E.style.width = w;
-            E.style.height = h;
         }
 
         if (I.graphs) {
