@@ -168,12 +168,14 @@
 }
 
 
-
 #demo.levelmeter .toolkit-level-meter {
-    height: 80px;
+    height: 82px;
     float: left;
 }
-
+#demo.levelmeter .toolkit-level-meter.toolkit-vertical {
+    width: 68px;
+    float: left;
+}
 
 
 .toolkit-pager {
