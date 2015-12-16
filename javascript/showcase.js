@@ -394,9 +394,16 @@ window.addEventListener('DOMContentLoaded', function () {
         
         var dover = TK.element("div", "demo_overlay");
         dover.setAttribute("id", "demo_overlay");
-        var demo = TK.element("div", "demo", "box", id);
-        demo.setAttribute("id", "demo");
-        dover.appendChild(demo);
+
+        var root = new Root({
+            container : dover,
+            "class" : "demo",
+            "id" : "demo",
+        });
+
+        root.add_class("box");
+        root.add_class(id);
+
         document.body.appendChild(dover);
         
         var code = TK.element("code", "code", "hidden");
@@ -411,12 +418,10 @@ window.addEventListener('DOMContentLoaded', function () {
         tog.setAttribute("id", "code_button");
         TK.set_text(tog, "Show Code");
         menu.appendChild(tog);
-        tog.addEventListener("click", (function (demo, code) {
-            return function (e) {
-                TK.toggle_class(demo, "hidden");
-                TK.toggle_class(code, "hidden");
-            }
-        })(demo, code));
+        tog.addEventListener("click", function (e) {
+            root.toggle_hidden();
+            TK.toggle_class(code, "hidden");
+        });
         
         var exit = TK.element("a", "toolkit-button");
         exit.setAttribute("id", "exit_button");
@@ -428,14 +433,14 @@ window.addEventListener('DOMContentLoaded', function () {
         exit.setAttribute("href", url);
         TK.set_text(exit, "Close");
         menu.appendChild(exit);
-        exit.addEventListener("click", (function (dover) {
-            return function (e) { window[fun](); dover.parentElement.removeChild(dover); }
-        })(dover));
+        exit.addEventListener("click", function () {
+            document.body.removeChild(dover);
+            root.destroy();
+        });
         
         dover.onscroll = function (e) { console.log("scroll"); e.preventDefault(); e.stopPropagation(); }
         
-        setTimeout(window[fun], 100);
-        
+        window[fun](root);
     }
     
     this.find_item = function (name, section) {

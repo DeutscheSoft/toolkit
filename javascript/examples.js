@@ -1,34 +1,19 @@
 
 // VALUEKNOB
-run_valueknob = function () {
-    if (typeof valueknob != "undefined") {
-        // remove valueknob
-        valueknob.destroy();
-        valueknob = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
+run_valueknob = function (root) {
     valueknob = new ValueKnob({
-        container: TK.get_id("demo"),
+        container: root.element,
         min: -100,
         max: 100,
         value: -20,
         snap: 0.01
     });
-    TK.add_class(TK.get_id("demo"), "box");
-    valueknob.show();
+    root.add_child(valueknob);
 }
 
 
 // PAGER
-run_pager = function () {
-    if (typeof pager1 != "undefined") {
-        pager1.destroy();
-        pager1 = undefined;
-        pager2.destroy();
-        pager2 = undefined;
-        return;
-    }
+run_pager = function (root) {
     pager1 = new Pager({
         pages: [
             {label: "Page #1", content: TK.html("<h1>Page #1</h1><p>This is Page #1.</p>") },
@@ -47,7 +32,6 @@ run_pager = function () {
         show: 4,
         position: _TOOLKIT_RIGHT,
         direction: _TOOLKIT_HORIZ,
-        container: TK.get_id("demo"),
         "class": "pager-newspaper",
     });
     pager2 = new Pager({
@@ -66,28 +50,14 @@ run_pager = function () {
             {label: "Page #12", content: TK.html("<h1>Page #12</h1><p>This is Page #12.</p>") }
         ],
         show: 4,
-        container: TK.get_id("demo")
     });
-    pager1.show();
-    pager2.show();
+    root.append_child(pager1);
+    root.append_child(pager2);
 }
 
 // BUTTONARRAY
-run_buttonarray = function () {
-    if (typeof ba_vert1 != "undefined") {
-        // remove buttonarray
-        ba_vert1.destroy();
-        ba_vert1 = undefined;
-        ba_horiz1.destroy();
-        ba_horiz1 = undefined;
-        ba_vert2.destroy();
-        ba_vert2 = undefined;
-        ba_horiz2.destroy();
-        ba_horiz2 = undefined;
-        return;
-    }
+run_buttonarray = function (root) {
     ba_horiz1 = new ButtonArray({
-        container: TK.get_id("demo"),
         buttons: [
             {label: "Button 1"},
             {label: "Button 2"},
@@ -109,7 +79,6 @@ run_buttonarray = function () {
         show: 3
     });
     ba_horiz2 = new ButtonArray({
-        container: TK.get_id("demo"),
         buttons: [
             {label: "Button 1"},
             {label: "Button 2"},
@@ -131,7 +100,6 @@ run_buttonarray = function () {
         show: 1
     });
     ba_vert1 = new ButtonArray({
-        container: TK.get_id("demo"),
         direction: _TOOLKIT_VERT,
         buttons: [
             {label: "Button 1"},
@@ -154,7 +122,6 @@ run_buttonarray = function () {
         show: 8
     });
     ba_vert2 = new ButtonArray({
-        container: TK.get_id("demo"),
         direction: _TOOLKIT_VERT,
         buttons: [
             {label: "Button 1"},
@@ -176,35 +143,27 @@ run_buttonarray = function () {
         ],
         show: 15
     });
-    ba_vert1.show();
-    ba_horiz1.show();
-    ba_vert2.show();
-    ba_horiz2.show();
+    root.append_child(ba_vert1);
+    root.append_child(ba_horiz1);
+    root.append_child(ba_vert2);
+    root.append_child(ba_horiz2);
 }
 
 
 // KEYBOARD
-run_keyboard = function () {
-    if (typeof keyboard != "undefined") {
-        // remove value and keyboard
-        keyboard.destroy();
-        value.destroy();
-        keyboard = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    
+run_keyboard = function (root) {
     value = new Value({
-        container: TK.get_id("demo"),
+        container: root.element,
         value: 123.97,
         format: TK.FORMAT("%.3f Hz"),
         set: function (val) { console.log("the value was set to " + val); return val; }
     });
+    root.add_child(value);
     value.add_event("click", function () {
         if (typeof keyboard !== "undefined") {
             keyboard.destroy()
             keyboard = undefined;
-            return
+            return;
         }
         keyboard = new Keyboard({
             width: 320,
@@ -283,37 +242,19 @@ run_keyboard = function () {
         });
         keyboard.show();
     });
-    TK.add_class(TK.get_id("demo"), "box");
-    value.show();
 }
 
 
 // LABEL
-run_label = function () {
-    if (typeof label != "undefined") {
-        // remove label
-        label.destroy();
-        label = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
+run_label = function (root) {
     label = new Label({
-        container: TK.get_id("demo"),
         label: "Lorem ipsum dolor sit amet"
     });
-    TK.add_class(TK.get_id("demo"), "box");
-    label.show();
+    root.append_child(label);
 }
 
 // SELECT
-run_select = function () {
-    if (typeof select != "undefined") {
-        // remove example
-        select.destroy();
-        select = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
+run_select = function (root) {
     select = new Select({
         entries: [
             {title:"haha", value:11},
@@ -324,29 +265,16 @@ run_select = function () {
             {title:"foobar",value:16},
             {title:"wtf",value:17}
         ],
-        container: TK.get_id("demo"),
         selected: 4
     });
-    TK.add_class(TK.get_id("demo"), "box");
-    select.show();
+    root.append_child(select);
 }
 
 // FADER
-run_fader = function () {
-    if (typeof faders != "undefined") {
-        // remove example
-        for (var i = 0; i < faders.length; i++) {
-            faders[i].destroy();
-        }
-        faders = undefined;
-        fadertt.destroy();
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
+run_fader = function (root) {
     faders = [];
     for (var i = 0; i < 8; i ++) {
         faders.push(new Fader({
-            container: TK.get_id("demo"),
             min: -580,
                     max: 60,
                     value: 0,
@@ -389,11 +317,11 @@ run_fader = function () {
             fixed_labels: [40, 20, -20, -40, -60, -80, -120, -160, -200, -280] 
             //snap: [-60, -50, -40, -30, -20, -10, 0, 10, 12]
         }));
-        faders[i].show();
     }
+    root.append_children(faders);
+
     fadertt = new Toggle({
         label: "Tooltips",
-        container: TK.get_id("demo"),
         onToggled: function (state) {
             var t = state ? TK.FORMAT("%.2f dB") : false;
             for (var i = 0; i < faders.length; i++) {
@@ -401,42 +329,24 @@ run_fader = function () {
             }
         }
     });
-    fadertt.show();
-    TK.add_class(TK.get_id("demo"), "box");
+    root.append_child(fadertt);
 }
 
 // VALUE
-run_value = function () {
-    if (typeof value != "undefined") {
-        // remove example
-        value.destroy();
-        value = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
+run_value = function (root) {
     value = new Value({
-        container: TK.get_id("demo"),
         value: 123.97,
         format: TK.FORMAT("%.3f Hz"),
         set: function (val) { val = parseFloat(val); console.log("the value was set to " + val); return val; }
     });
-    TK.add_class(TK.get_id("demo"), "box");
-    value.show();
+    root.append_child(value);
 }
 
 
 // KNOB
-function run_knob () {
-    if (typeof knob != "undefined") {
-        // remove example
-        knob.destroy();
-        knob = undefined;
-        knob1.destroy();
-        knob2.destroy();
-        return;
-    }
+function run_knob (root) {
     knob1 = new Knob({
-        container: TK.get_id("demo"),
+        container: root.element,
         "class": "knob1",
         margin: 5.5,
         thickness: 3,
@@ -453,7 +363,7 @@ function run_knob () {
         styles: {backgroundSize: "100%"}
     });
     knob = new Knob({
-        container: TK.get_id("demo"),
+        container: root.element,
         "class": "knob",
         min: -96,
         max: 24,
@@ -470,7 +380,7 @@ function run_knob () {
         ]
     });
     knob2 = new Knob({
-        container: TK.get_id("demo"),
+        container: root.element,
         "class": "knob2",
         margin: 0,
         thickness: 4,
@@ -493,10 +403,7 @@ function run_knob () {
         hand: {width: 2, length: 3.5, margin: 32},
         styles: {backgroundSize: "50%"}
     });
-    TK.seat_all_svg()
-    knob.show();
-    knob1.show();
-    knob2.show();
+    root.add_children([ knob, knob1, knob2 ]);
 }
 
 
@@ -504,18 +411,13 @@ function run_knob () {
 
 // WINDOW
 
-function run_window () {
-    if (typeof winbutton != "undefined") {
-        // remove example
-        winbutton.destroy();
-        winbutton = undefined;
-        return;
-    }
+function run_window (root) {
     winbutton = new Button({
-        container: TK.get_id("demo"),
         label: "Demo Window",
         icon: "images/icons_big/window.png"
     });
+    root.append_child(winbutton);
+
     winbutton.add_event("click", function () { 
         win = new Window({
             container: document.body,
@@ -538,55 +440,31 @@ function run_window () {
         });
         var ok = new Button({
             label: "OK",
-            container: win._content
         });
+        win.append_child(ok);
         ok.add_event("click", win.destroy.bind(win));
         TK.set_styles(ok.element, {
             position: "absolute",
             bottom: 0,
             right: 0
         });
-        ok.show();
-        win.show();
+        root.add_child(win);
     });
-    winbutton.show();
 }
 
 
 // CLOCK
 
-function run_clock () {
-    if (typeof clock != "undefined") {
-        // remove example
-        clock.destroy();
-        clock = undefined;
-        return;
-    }
-    clock = new Clock({
-        container: TK.get_id("demo"),
-    });
-    clock.show();
+function run_clock (root) {
+    clock = new Clock();
+    root.append_child(clock);
     TK.seat_all_svg()
 }
 
 
 // GAUGE
-function run_gauge () {
-    if (typeof gauge != "undefined") {
-        // remove example
-        gauge[0].destroy();
-        gauge[1].destroy();
-        gauge[2].destroy();
-        gauge[3].destroy();
-        gauge[4].destroy();
-        gauge[5].destroy();
-        gauge = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+function run_gauge (root) {
     gauge = [];
-    
     gauge[0] = new Gauge({
         id: "gauge0",
         min:0,
@@ -606,7 +484,7 @@ function run_gauge () {
         label: {align:_TOOLKIT_OUTER, margin: 20},
         show_hand: true,
         hand: {margin: 29, length: 21, width: 2, color:"white"},
-        container: TK.get_id("demo"),
+        container: root.element,
         labels: [{pos:0},{pos:2},{pos:4},{pos:6},{pos:8},{pos:10}]
     });
     gauge[1] = new Gauge({
@@ -621,7 +499,7 @@ function run_gauge () {
         dot: {width: 1, length: 1, margin: 17},
         label: {align:_TOOLKIT_OUTER, margin:17},
         show_hand: false,
-        container: TK.get_id("demo"),
+        container: root.element,
         dots:[{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:25},{pos:30},
               {pos:35},{pos:40},{pos:45}, {pos:50},{pos:55}],
         labels: [{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:30},{pos:40},{pos:50}]
@@ -632,7 +510,7 @@ function run_gauge () {
         max:12,
         value:-10,
         title: "dBu",
-        container: TK.get_id("demo"),
+        container: root.element,
         markers: [{from:0, to:12}],
         dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},
               {pos:0},{pos:5},{pos:10},{pos:120}],
@@ -645,7 +523,7 @@ function run_gauge () {
         value:50,
         base: 0,
         title: "Temp °C",
-        container: TK.get_id("demo"),
+        container: root.element,
         label: {format: TK.FORMAT("%d °")},
         markers: [{from:80, to:100}, {from:-80, to:-100}],
         dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},
@@ -674,7 +552,7 @@ function run_gauge () {
         label: {margin: 12, align: _TOOLKIT_OUTER},
         title: {margin: 46, pos: 270, title: "VU"},
         show_value: false,
-        container: TK.get_id("demo"),
+        container: root.element,
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3}
         ],
@@ -711,7 +589,7 @@ function run_gauge () {
         label: {margin: 12, align: _TOOLKIT_OUTER},
         title: {margin: 46, pos: 270, title: "VU"},
         show_value: false,
-        container: TK.get_id("demo"),
+        container: root.element,
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3, color:"rgba(0,0,0,0.8)"}
         ],
@@ -728,30 +606,20 @@ function run_gauge () {
         ]
     });
     TK.seat_all_svg()
-    for (key in gauge) gauge[key].show();
+    root.add_children(gauge);
 }
 
 
 // TOGGLE
 
-function run_toggle () {
-    if (typeof toggle != "undefined") {
-        // remove example
-        toggle.destroy();
-        toggle = undefined;
-        press.destroy();
-        press = undefined;
-        return;
-    }
+function run_toggle (root) {
     toggle = new Toggle({
-        container: TK.get_id("demo"),
         label: "Mic Active",
         label_active: "Mic Muted",
         icon: "images/icons_big/microphone.png",
         icon_active: "images/icons_big/microphone_muted.png"
     });
     press = new Toggle({
-        container: TK.get_id("demo"),
         label: "Mic Active",
         label_active: "Mic Muted",
         icon: "images/icons_big/microphone.png",
@@ -759,70 +627,40 @@ function run_toggle () {
         press: 200,
         toggle: true
     });
-    toggle.show();
-    press.show();
+    root.append_child(toggle);
+    root.append_child(press);
 }
 
 
 // BUTTON
 
 function run_button () {
-    if (typeof button != "undefined") {
-        // remove example
-        button.destroy();
-        button = undefined;
-        button2.destroy();
-        button2 = undefined;
-        return;
-    }
     button = new Button({
-        container: TK.get_id("demo"),
         label: "Demo Button",
         icon: "images/icons_big/showcase.png",
         onclick: function () { alert("clicked") }
     });
     button2 = new Button({
-        container: TK.get_id("demo"),
         label: "Demo Button",
         icon: "images/icons_big/showcase.png",
         layout: _TOOLKIT_HORIZONTAL,
         onclick: function () { alert("clicked") }
     });
     button3 = new Button({
-        container: TK.get_id("demo"),
         icon: "images/icons_big/showcase.png",
         onclick: function () { alert("clicked") }
     });
     button4 = new Button({
-        container: TK.get_id("demo"),
         label: "Demo Button",
         onclick: function () { alert("clicked") }
     });
-    button.show();
-    button2.show();
-    button3.show();
-    button4.show();
+    root.append_children([ button, button2, button3, button4 ]);
 }
 
 // VALUE BUTTON
 
-function run_valuebutton () {
-    var vbutton = document.getElementById("demo");
-    if (typeof thres != "undefined") {
-        // remove example
-        thres.destroy();
-        thres = undefined;
-        ratio.destroy();
-        ratio = undefined;
-        attack.destroy();
-        attack = undefined;
-        release.destroy();
-        release = undefined;
-        TK.set_text(vbutton, "");
-        return;
-    }
+function run_valuebutton (root) {
     thres = new ValueButton({
-        container: vbutton,
         label: "Threshold",
         icon: "images/icons_small/threshold.png",
         value_position: _TOOLKIT_BOTTOM,
@@ -835,9 +673,9 @@ function run_valuebutton () {
         shift_down: 0.25,
         value: 0,
     });
+
     attack = new ValueButton({
         "class": "attack",
-        container: vbutton,
         label: "Attack",
         icon: "images/icons_small/attack.png",
         value_position: _TOOLKIT_BOTTOM,
@@ -852,11 +690,7 @@ function run_valuebutton () {
         scale: _TOOLKIT_FREQ
     });
     
-    var br = document.createElement("br");
-    vbutton.appendChild(br);
-    
     ratio = new ValueButton({
-        container: vbutton,
         label: "Ratio",
         icon: "images/icons_small/ratio.png",
         value_position: _TOOLKIT_BOTTOM,
@@ -871,7 +705,6 @@ function run_valuebutton () {
     });
     
     release = new ValueButton({
-        container: vbutton,
         label: "Release",
         icon: "images/icons_small/release.png",
         value_position: _TOOLKIT_BOTTOM,
@@ -885,29 +718,15 @@ function run_valuebutton () {
         value: 100,
         scale: _TOOLKIT_FREQ
     });
-    thres.show();
-    attack.show();
-    ratio.show();
-    release.show();
+    
+    root.append_children([ thres, attack, ratio, release ]);
 }
 
 // SCALE
 
-function run_scale () {
-    if (typeof scales != "undefined") {
-        // remove example
-        scales.left.destroy();
-        scales.right.destroy();
-        scales.top.destroy();
-        scales.bottom.destroy();
-        scales = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+function run_scale (root) {
     scales = {};
     scales.left = new Scale({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_LEFT,
         division: 1,
         levels: [1, 6, 12],
@@ -919,7 +738,6 @@ function run_scale () {
         id: "sc_scale_v_l"
     })
     scales.right = new Scale({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_RIGHT,
         division: 1,
         levels: [1, 6, 12],
@@ -930,7 +748,6 @@ function run_scale () {
         id: "sc_scale_v_r"
     })
     scales.top = new Scale({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_TOP,
         division: 1,
         levels: [1, 6, 12],
@@ -942,7 +759,6 @@ function run_scale () {
         id: "sc_scale_h_t"
     })
     scales.bottom = new Scale({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_BOTTOM,
         division: 1,
         levels: [1, 6, 12],
@@ -954,25 +770,16 @@ function run_scale () {
         id: "sc_scale_h_b"
     })
 
-    for (key in scales) scales[key].show();
+    root.append_children([ scales.left, scales.right, scales.top, scales.bottom ]);
 }
 
 
 // CHART
 
-function run_chart () {
-    if (typeof chart != "undefined") {
-        // remove example
-        chart.destroy();
-        chart = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+function run_chart (root) {
     chart = new Chart({
         range_x: {basis:908, scale: _TOOLKIT_LINEAR, min:0, max:1},
         range_y: {basis:300, scale: _TOOLKIT_LINEAR, min:0, max:1},
-        container: TK.get_id("demo"),
         grid_x: [{pos:0.0, label:"0"},
                  {pos:0.1},
                  {pos:0.2, label:"20"},
@@ -1035,24 +842,15 @@ function run_chart () {
         key:   "baz"
     });
     TK.seat_all_svg()
-    chart.show();
+    root.append_child(chart);
 }
 
 // FREQUENCY RESPONSE
 
-function run_frequencyresponse () {
-    if (typeof fr != "undefined") {
-        // remove example
-        fr.destroy();
-        fr = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+function run_frequencyresponse (root) {
     fr = new FrequencyResponse({
         width: 906,
         height: 300,
-        container: TK.get_id("demo"),
         db_grid: 12
     });
     frgraph = fr.add_graph({
@@ -1067,28 +865,15 @@ function run_frequencyresponse () {
         type: "H4",
         mode: _TOOLKIT_LINE
     });
+    root.append_child(fr);
     TK.seat_all_svg()
-    fr.show();
 }
 
 // DYNAMICS
 
-function run_dynamics () {
-    if (typeof comp != "undefined") {
-        // remove example
-        comp.destroy();
-        comp = undefined;
-        expand.destroy();
-        expand = undefined;
-        dyna.destroy();
-        dyna = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+function run_dynamics (root) {
     comp = new Dynamics({
         size: 298,
-        container: TK.get_id("demo")
     });
     gcomp = comp.add_graph({
         dots: [{x:-96, y:-72},
@@ -1099,7 +884,6 @@ function run_dynamics () {
     });
     expand = new Dynamics({
         size: 298,
-        container: TK.get_id("demo"),
         type: _TOOLKIT_EXPANDER,
         threshold: -12,
         ratio: 4,
@@ -1107,7 +891,6 @@ function run_dynamics () {
     });
     dyna = new Dynamics({
         size: 298,
-        container: TK.get_id("demo")
     });
     gdyna = dyna.add_graph({
         dots: [{x:-60, y:-96},
@@ -1118,29 +901,18 @@ function run_dynamics () {
         ],
         mode: _TOOLKIT_LINE
     });
+    root.append_children([ comp, expand, dyna ]);
     TK.seat_all_svg()
-    comp.show();
-    expand.show();
-    dyna.show();
 }
 
 
 
 // EQUALIZER
-function run_equalizer () {
-    if (typeof eq != "undefined") {
-        // remove example
-        eq.destroy();
-        eq = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+function run_equalizer (root) {
     eq = new Equalizer({
         width: 908,
         height: 300,
         depth: 120,
-        container: TK.get_id("demo"),
         db_grid: 12,
         range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true},
         bands: [{x:600, y:-12, z:3, type:_TOOLKIT_PARAMETRIC,
@@ -1170,21 +942,13 @@ function run_equalizer () {
                                    _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT],
                      label: function (title, x, y, z) { return title + "\n" + TK.sprintf("%.2f", x) + " Hz"; } }]
     });
+    root.append_child(eq);
     TK.seat_all_svg()
-    eq.show();
 }
 
-function run_spectralsignature () {
-    if (typeof ssig != "undefined") {
-        // remove example
-        ssig.destroy();
-        ssig = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+/* TODO: remove this? */
+function run_spectralsignature (root) {
     ssig = new SpectralSignature.Widget({
-        container: TK.get_id("demo"),
             range_x: {min: 40, max: 24000, basis: 800, scale: _TOOLKIT_FREQUENCY},
             range_y_upper: {min: -84, max: 0, basis: 200, scale: _TOOLKIT_LINEAR, step: 1, shift_up: 2, shift_down: 0.5},
             range_y_upper_norm: {min: -12, max: 12, basis: 200, base: 0, scale: _TOOLKIT_LINEAR, reverse: true},
@@ -1260,27 +1024,17 @@ function run_spectralsignature () {
             position_lower: _TOOLKIT_TOP_RIGHT
     });
     ssig.add_signature({}, [-10, 20, 30, -20, -40, 40, 20, 10], true);
-    ssig.show();
+    root.append_child(ssig);
     TK.seat_all_svg()
 }
 
 
-
 // RESPONSE HANDLER
-function run_responsehandler () {
-    if (typeof rh != "undefined") {
-        // remove example
-        rh.destroy();
-        rh = undefined;
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
+function run_responsehandler (root) {
     rh = new ResponseHandler({
         width: 908,
         height: 300,
         depth: 120,
-        container: TK.get_id("demo"),
         db_grid: 12,
         range_z: {min: 1, max: 20, step: 0.1, shift_up: 5, shift_down: 0.2}
     });
@@ -1424,81 +1178,46 @@ function run_responsehandler () {
                        label: function (title, x, y, z) { return title + "\n" + (y|0) + " dB"; } 
                        })
     ];
-    rh.show();
+    root.append_child(rh);
     TK.seat_all_svg()
 }
 
 
 // STATE
 
-function run_state () {
-    if (typeof s1 != "undefined") {
-        // remove example
-        s1.destroy();
-        s2.destroy();
-        s3.destroy();
-        s4.destroy();
-        s5.destroy();
-        s6.destroy();
-        s7.destroy();
-        s8.destroy();
-        s1 = undefined;
-        s2 = undefined;
-        s3 = undefined;
-        TK.empty(TK.get_id("demo"));
-        TK.remove_class(TK.get_id("demo"), "box");
-        return;
-    }
-    TK.add_class(TK.get_id("demo"), "box");
-    s1 = new State({
-        container: TK.get_id("demo")
-    });
-    s2 = new State({
-        container: TK.get_id("demo"),
-        color: "#00ff00"
+function run_state (root) {
+    s1 = new State({ });
+    s2 = new State({ color: "#00ff00"
     });
     s3 = new State({
-        container: TK.get_id("demo"),
         color: "blue",
         state: 1
     });
     s4 = new State({
-        container: TK.get_id("demo"),
         color: "blue",
         state: 1,
     });
     s5 = new State({
-        container: TK.get_id("demo"),
         color: "#cc0000",
         state: 1,
     });
     s6 = new State({
-        container: TK.get_id("demo"),
         color: "#ff8800",
         state: 1,
     });
     s7 = new State({
-        container: TK.get_id("demo"),
         color: "grey",
         state: 1,
     });
     s8 = new State({
-        container: TK.get_id("demo"),
         color: "#d00",
         state: 0,
         "class": "on_air"
     });
+    root.append_children([ s1, s2, s3, s4, s5, s6, s7, s8 ]);
     __s1();
     __s2();
     __s3();
-    s1.show();
-    s2.show();
-    s3.show();
-    s4.show();
-    s5.show();
-    s6.show();
-    s7.show();
-    s8.show();
 }
 var _s1 = 0;
 var _s2 = 0;
@@ -1531,21 +1250,10 @@ function __s3 () {
         window.setTimeout(__s3, 500);
 }
 
-
 // METER BASE
 
-function run_meterbase () {
-    if (typeof mbvl != "undefined") {
-        // remove example
-        mbvl.destroy();
-        mbvr.destroy();
-        mbhb.destroy();
-        mbht.destroy();
-        mbvl = undefined;
-        return;
-    }
+function run_meterbase (root) {
     mbvl = new MeterBase({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_RIGHT,
         scale: _TOOLKIT_DECIBEL,
         segment: 2,
@@ -1561,7 +1269,6 @@ function run_meterbase () {
         gap_labels: 20
     });
     mbvr = new MeterBase({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_LEFT,
         segment: 2,
         min: -96,
@@ -1576,7 +1283,6 @@ function run_meterbase () {
         gap_labels: 30
     });
     mbhb = new MeterBase({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_BOTTOM,
         segment: 2,
         min: -15,
@@ -1591,7 +1297,6 @@ function run_meterbase () {
         levels: [1, 5]
     });
     mbht = new MeterBase({
-        container: TK.get_id("demo"),
         layout: _TOOLKIT_TOP,
         segment: 2,
         min: -15,
@@ -1605,27 +1310,13 @@ function run_meterbase () {
         gradient: {"-15": "#001f83", "0": "#008bea", "15": "#001f83"},
         levels: [1, 5]
     });
-    mbvl.show();
-    mbvr.show();
-    mbhb.show();
-    mbht.show();
+    root.append_children([ mbvl, mbvr, mbhb, mbht ]);
 }
 
 
 // LEVEL METER
 
-function run_levelmeter () {
-    if (typeof meters != "undefined" && typeof meters.mvr != "undefined") {
-        // remove example
-        for(var i in meters) {
-            meters[i].destroy();
-            meters[i] = undefined;
-        }
-        TK.get_id("demo").style["display"] = "none";
-        running = false;
-        return;
-    }
-    TK.get_id("demo").style["display"] = "block";
+function run_levelmeter (root) {
     meters = {
         mvr: new LevelMeter({
             layout: _TOOLKIT_RIGHT,
@@ -1648,7 +1339,6 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: TK.get_id("demo"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1672,11 +1362,9 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: TK.get_id("demo"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
-        
         mvrr: new LevelMeter({
             layout: _TOOLKIT_RIGHT,
             reverse: true,
@@ -1693,7 +1381,6 @@ function run_levelmeter () {
             show_hold: false,
             auto_hold: 2000,
             hold_size: 1,
-            container: TK.get_id("demo"),
             gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1712,7 +1399,6 @@ function run_levelmeter () {
             show_hold: false,
             auto_hold: 2000,
             hold_size: 1,
-            container: TK.get_id("demo"),
             gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1737,7 +1423,6 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: TK.get_id("demo"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1761,7 +1446,6 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 0,
-            container: TK.get_id("demo"),
             gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
             levels: [1, 6, 12]
         }),
@@ -1786,7 +1470,6 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 24,
-            container: TK.get_id("demo"),
             gradient: {"0": "#001f83", "24": "#008bea"},
             levels: [1, 6, 12]
         }),
@@ -1810,16 +1493,38 @@ function run_levelmeter () {
             auto_hold: 2000,
             hold_size: 1,
             clipping: 24,
-            container: TK.get_id("demo"),
             gradient: {"0": "#001f83", "24": "#008bea"},
             levels: [1, 5, 10]
         })
     }
-    for(var i in meters) {
-        meters[i].show();
-    }
-}
+    root.append_children([
+        meters.mvr,
+        meters.mvl,
+        meters.mvrr,
+        meters.mvlr,
+        meters.mhb,
+        meters.mht,
+        meters.mhbr,
+        meters.mhtr
+    ]);
+    root.append_child(new Button({
+        onclick: run,
+        label : "Run",
+    }));
+    root.append_child(new Button({
+        label : "Stop",
+        onclick: function() { running = false; }
+    }));
+    root.append_child(new Button({
+        onclick: reset,
+        label : "Reset",
+    }));
+    root.append_child(new Button({
+        onclick: hold,
+        label : "Toggle Hold",
+    }));
 
+}
 running = false
 function run () {
     if (running) return;

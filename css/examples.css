@@ -113,7 +113,10 @@
     opacity: 0.9;
 }
 
-
+#demo.chart,#demo.frequencyresponse,#demo.responsehandler .toolkit-chart {
+    width: 95%;
+    height: 95%;
+}
 
 #demo.knob .toolkit-knob {
     margin: 10px;
