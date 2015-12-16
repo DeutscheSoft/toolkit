@@ -36,11 +36,13 @@ function show_children() {
 }
 function after_hiding() {
     this.__hide_id = false;
-    this.set("display_state", "hide");
+    if (this.options.display_state == "hiding")
+        this.set("display_state", "hide");
 }
 function after_showing() {
     this.__hide_id = false;
-    this.set("display_state", "show");
+    if (this.options.display_state == "showing")
+        this.set("display_state", "show");
 }
 w.Container = $class({
     /* @class: Container
