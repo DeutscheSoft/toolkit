@@ -56,6 +56,7 @@ w.ValueKnob = $class({
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
+        this.add_child(this.value);
         this.widgetize(this._container, true, true, true);
     },
     

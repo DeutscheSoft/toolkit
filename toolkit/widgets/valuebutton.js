@@ -70,6 +70,7 @@ w.ValueButton = $class({
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
+        this.add_child(this.value);
         
         this._input = this.value._input;
         
