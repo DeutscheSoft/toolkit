@@ -192,7 +192,7 @@ w.Widget = $class({
         this.fire_event("destroy");
         if (this.needs_redraw) TK.S.remove(this._redraw);
         BASE.prototype.destroy.call(this);
-        return this;
+        if (this.parent) this.parent.remove_child(this);
     },
     delegate: function (element) {
         this.delegate_events(element);
