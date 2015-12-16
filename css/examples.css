@@ -36,12 +36,19 @@
 }
 
 
-
 #demo.fader .toolkit-fader {
-    height: 400px;
-    margin-right: 8px;
+    display: block;
+    float: left;
+    vertical-align: top;
 }
-
+#demo.fader .toolkit-fader:nth-child(1),
+#demo.fader .toolkit-fader:nth-child(2) {
+    height: 400px;
+}
+#demo.fader .toolkit-fader:nth-child(3),
+#demo.fader .toolkit-fader:nth-child(4) {
+    width: 400px;
+}
 
 
 #demo.gauge .toolkit-gauge {

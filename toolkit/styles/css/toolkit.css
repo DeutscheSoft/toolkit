@@ -148,12 +148,7 @@ div.toolkit-fader {
 
 div.toolkit-fader .toolkit-handle {
     position: absolute;
-    z-index: 3;
-}
-
-div.toolkit-fader .toolkit-scale {
-    z-index: 1;
-    position: absolute;
+    z-index: 10;
 }
 
 /* LEVELMETER */
