@@ -305,6 +305,10 @@ w.Widget = $class({
     hidden: function() {
         return this.__hidden;
     },
+    toggle_hidden: function() {
+        if (this.hidden()) this.show();
+        else this.hide();
+    },
     add_child: function(child) {
         var C = this.children;
         if (child.parent) child.parent.remove_child(child);
