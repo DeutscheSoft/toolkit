@@ -79,9 +79,16 @@ w.Toggle = $class({
         var O = this.options;
         var I = this.invalid;
         var tmp;
-
+        
+        // NOTE: we do not call Button.redraw here, since it overwrites labels and icons
+        // NOTE2: unfortunately this doesn't work cause button sets some CSS classes
+        // so the solution is to remember the relevant values and reset them after
+        // calling Button.prototype.redraw
+        var I_ = { icon_active: I.icon_active, label_active: I.label_active, icon: I.icon, label: I.label, state: I.state };
+        Button.prototype.redraw.call(this);
+        I.icon_active = I.icon_active; I.label_active = I_.label_active; I.icon = I_.icon; I.label = I_.label, I.state = I_.state;
+        
         if (I.validate("icon_active", "icon") || I.state) {
-
             if (O.state) {
                 tmp = O.icon_active || O.icon;
             } else {
@@ -101,9 +108,6 @@ w.Toggle = $class({
 
             this._label.innerHTML = tmp || "";
         }
-
-        // NOTE: we do not call Button.redraw here, since it overwrites labels and icons
-        Widget.prototype.redraw.call(this);
     },
     toggle: function () {
         var state = !this.options.state;
