@@ -57,7 +57,6 @@ w.Container = $class({
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        this.children = [];
         this.hidden_children = [];
         this.element = this.widgetize(TK.element("div", "toolkit-container"),
                                       true, true, true);
@@ -73,33 +72,21 @@ w.Container = $class({
         this.element.remove();
         Widget.prototype.destroy.call(this);
     },
-    add_children : function (a) {
-        a.map(this.add_child, this);
-    },
     add_child : function(child) {
         var C = this.children;
         var H = this.hidden_children;
-        C.push(child);
+        Widget.prototype.add_child.call(this, child);
         H.push(false);
-        if (this.hidden()) {
-            child.force_hide();
-        } else {
-            child.show();
-        }
-        return C;
     },
     remove_child : function(child) {
         var C = this.children;
         var H = this.hidden_children;
         var i = C.indexOf(child);
+        child.parent = null;
         if (i !== -1) {
             C.splice(i, 1);
             H.splice(i, 1);
         }
-    },
-    remove_children : function(a) {
-        for (var i = 0; i < a.length; i++)
-            this.remove_child(a[i]);
     },
     hide: function () {
         var O = this.options;
@@ -111,7 +98,7 @@ w.Container = $class({
         if (O.display_state === "hide") return;
         this.set("display_state", "hide");
 
-        Widget.prototype.force_hide.call(this);
+        this._low_hide();
         hide_children.call(this);
     },
     force_show: function() {
@@ -119,7 +106,7 @@ w.Container = $class({
         if (O.display_state === "show") return;
         this.set("display_state", "show");
 
-        Widget.prototype.force_show.call(this);
+        this._low_show();
         show_children.call(this);
     },
     show: function() {
@@ -127,7 +114,7 @@ w.Container = $class({
         if (O.display_state === "show" || O.display_state === "showing") return;
         this.set("display_state", "showing");
 
-        Widget.prototype.show.call(this);
+        this._low_show();
         show_children.call(this);
     },
 
@@ -198,7 +185,7 @@ w.Container = $class({
             case "hide":
                 TK.add_class(E, "toolkit-hide");
                 hide_children.call(this);
-                Widget.prototype.hide.call(this);
+                this._low_hide();
                 break;
             case "showing":
                 TK.add_class(E, "toolkit-showing");

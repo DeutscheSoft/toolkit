@@ -84,6 +84,8 @@ w.Widget = $class({
         this.needs_redraw = false;
         this._redraw = redraw.bind(this);
         this.__hidden = true;
+        this.parent = null;
+        this.children = [];
     },
 
     invalidate_all: function() {
@@ -266,7 +268,7 @@ w.Widget = $class({
     get: function (key) {
         return this.options[key];
     },
-    show: function () {
+    _low_show: function () {
         if (this.__hidden) {
             this.__hidden = false;
             if (this.needs_redraw) {
@@ -275,7 +277,12 @@ w.Widget = $class({
             this.fire_event("show");
         }
     },
-    hide: function () {
+    show: function () {
+        this._low_show();
+        var C = this.children;
+        for (var i = 0; i < C.length; i++) C[i].show();
+    },
+    _low_hide: function () {
         if (!this.__hidden) {
             this.__hidden = true;
             if (this.needs_redraw) {
@@ -283,6 +290,11 @@ w.Widget = $class({
             }
             this.fire_event("hide");
         }
+    },
+    hide: function () {
+        this._low_hide();
+        var C = this.children;
+        for (var i = 0; i < C.length; i++) C[i].hide();
     },
     force_hide: function() {
         Widget.prototype.hide.call(this);
@@ -292,6 +304,31 @@ w.Widget = $class({
     },
     hidden: function() {
         return this.__hidden;
+    },
+    add_child: function(child) {
+        var C = this.children;
+        if (child.parent) child.parent.remove_child(child);
+        child.parent = this;
+        C.push(child);
+        if (this.hidden()) {
+            child.force_hide();
+        } else {
+            child.show();
+        }
+    },
+    remove_child : function(child) {
+        var C = this.children;
+        var i = C.indexOf(child);
+        child.parent = null;
+        if (i !== -1) {
+            C.splice(i, 1);
+        }
+    },
+    remove_children : function(a) {
+        a.map(this.remove_child, this);
+    },
+    add_children : function (a) {
+        a.map(this.add_child, this);
     },
 });
 })(this);
