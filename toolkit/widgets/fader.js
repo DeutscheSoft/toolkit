@@ -82,7 +82,7 @@ w.Fader = $class({
     /* @class: Fader
      */
     _class: "Fader",
-    Extends: Container,
+    Extends: Widget,
     Implements: [Ranged, Warning, GlobalCursor],
     options: {
         value: 0,
@@ -99,7 +99,7 @@ w.Fader = $class({
     },
     initialize: function (options) {
         this.__tt = false;
-        Container.prototype.initialize.call(this, options);
+        Widget.prototype.initialize.call(this, options);
 
         var E, O = this.options;
         
@@ -152,12 +152,12 @@ w.Fader = $class({
     },
 
     initialized: function () {
-        Container.prototype.initialized.call(this);
+        Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
-        Container.prototype.redraw.call(this);
+        Widget.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
@@ -209,13 +209,13 @@ w.Fader = $class({
         this.invalid.reverse = true;
         this.trigger_draw();
 
-        Container.prototype.resize.call(this);
+        Widget.prototype.resize.call(this);
     },
     destroy: function () {
         this._handle.remove();
         this.scale.destroy();
         this.element.remove();
-        Container.prototype.destroy.call(this);
+        Widget.prototype.destroy.call(this);
         TK.tooltip.remove(0, this.tooltip_by_value);
         TK.tooltip.remove(1, this.tooltip_by_position);
     },
@@ -241,7 +241,7 @@ w.Fader = $class({
                 this.scroll.set("direction", this.options.direction);
                 break;
         }
-        Container.prototype.set.call(this, key, value);
+        Widget.prototype.set.call(this, key, value);
         Ranged.prototype.set.call(this, key, value);
     }
 });

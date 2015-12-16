@@ -148,7 +148,7 @@ w.Clock = $class({
      * and seconds. It has three free formatable labels.
      */
     _class: "Clock",
-    Extends: Container,
+    Extends: Widget,
     options: {
         thickness:    10,         // thickness of the rings
         margin:       0,          // margin between the circulars
@@ -184,7 +184,7 @@ w.Clock = $class({
         var E;
         this.circulars = {};
         this._margin = -1;
-        Container.prototype.initialize.call(this, options);
+        Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
         E = TK.make_svg("svg", {"class": "toolkit-clock"});
         this.element = this.widgetize(E, true, true, true);
@@ -241,7 +241,7 @@ w.Clock = $class({
     redraw: function () {
         var I = this.invalid, O = this.options;
 
-        Container.prototype.redraw.call(this);
+        Widget.prototype.redraw.call(this);
 
         if (I.size) {
             var tmp = O.size;
@@ -295,12 +295,12 @@ w.Clock = $class({
         this.circulars.hours.destroy();
         if (this.__to)
             window.clearTimeout(this.__to);
-        Container.prototype.destroy.call(this);
+        Widget.prototype.destroy.call(this);
     },
     
     // GETTERS & SETTERS
     set: function (key, value) {
-        Container.prototype.set.call(this, key, value);
+        Widget.prototype.set.call(this, key, value);
         if (key == "timeout") timeout.call(this);
     }
 });

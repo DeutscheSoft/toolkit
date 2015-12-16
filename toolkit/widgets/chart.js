@@ -212,7 +212,7 @@ w.Chart = $class({
      */
     _class: "Chart",
     
-    Extends: Container,
+    Extends: Widget,
     Implements: Ranges,
     options: {
         resized: false,
@@ -235,7 +235,7 @@ w.Chart = $class({
     initialize: function (options) {
         var E;
         this.graphs = [];
-        Container.prototype.initialize.call(this, options);
+        Widget.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
@@ -312,7 +312,7 @@ w.Chart = $class({
             }.bind(this), 1);
         }
 
-        Container.prototype.redraw.call(this);
+        Widget.prototype.redraw.call(this);
 
         if (I.width || I.height || I.ranges) {
             I.ranges = true;
@@ -340,7 +340,7 @@ w.Chart = $class({
         }
         this._graphs.remove();
         this.element.remove();
-        Container.prototype.destroy.call(this);
+        Widget.prototype.destroy.call(this);
     },
     add_graph: function (options) {
         // Add a new Graph to the Chart
@@ -383,7 +383,7 @@ w.Chart = $class({
     
     // GETTER & SETER
     set: function (key, value) {
-        Container.prototype.set.call(this, key, value);
+        Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "grid_x":
                 this.grid.set("grid_x", value);
