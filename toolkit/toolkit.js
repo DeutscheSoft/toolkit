@@ -175,10 +175,12 @@ function set_content(node, s) {
     }
 }
 function insert_after(newn, refn) {
-    refn.parentNode.insertBefore(newn, refn.nextSibling);
+    if (refn.parentNode)
+        refn.parentNode.insertBefore(newn, refn.nextSibling);
 }
 function insert_before(newn, refn) {
-    refn.parentNode.insertBefore(newn, refn);
+    if (refn.parentNode)
+        refn.parentNode.insertBefore(newn, refn);
 }
 function keep_inside(element, resize) {
     var ex = parseInt(get_style(element, "left"));

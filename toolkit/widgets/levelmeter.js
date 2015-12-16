@@ -161,7 +161,8 @@ w.LevelMeter = $class({
         this.state = new State(Object.assign({
             "class": "toolkit-clip"
         }, O.clip_options));
-
+        this.add_child(this.state);
+        
         this._clip       = this.state.element;
         this._peak       = TK.element("div","toolkit-peak");
         this._peak_label = TK.element("div","toolkit-peak-label");

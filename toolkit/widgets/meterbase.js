@@ -103,27 +103,6 @@ w.MeterBase = $class({
         this._bar.appendChild(this._mark);
         this._bar.appendChild(this._over);
         
-        switch (O.layout) {
-            case _TOOLKIT_LEFT:
-                TK.add_class(E, "toolkit-vertical");
-                TK.add_class(E, "toolkit-left");
-                break;
-            case _TOOLKIT_RIGHT:
-                TK.add_class(E, "toolkit-vertical");
-                TK.add_class(E, "toolkit-right");
-                break;
-            case _TOOLKIT_TOP:
-                TK.add_class(E, "toolkit-horizontal");
-                TK.add_class(E, "toolkit-top");
-                break;
-            case _TOOLKIT_BOTTOM:
-                TK.add_class(E, "toolkit-horizontal");
-                TK.add_class(E, "toolkit-bottom");
-                break;
-            default:
-                throw("unsupported layout");
-        }
-        
         if (O.label === false)
             O.label = O.value;
         this.set("base", O.base);
@@ -131,10 +110,12 @@ w.MeterBase = $class({
         var options = TK.merge({}, O);
         options.labels    = O.format_labels;
         options.base      = this.__based ? O.base : O.scale_base;
-        options.container = E;
+        options.container = false;
         options.id        = false;
         this.scale        = new Scale(options);
         this._scale       = this.scale.element;
+        E.appendChild(this._scale);
+        this.add_child(this.scale);
         
         this.delegate(this._bar);
     },
@@ -142,15 +123,6 @@ w.MeterBase = $class({
     initialized: function () {
         Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
-    },
-    
-    resize: function () {
-        // its enough to invalidate the layout variable for
-        // the resize to happen
-        this.invalid.layout = true;
-        this.trigger_draw();
-
-        Widget.prototype.resize.call(this);
     },
     
     destroy: function () {
@@ -200,8 +172,43 @@ w.MeterBase = $class({
         }
 
         Widget.prototype.redraw.call(this);
-
+        
         if (I.layout) {
+            I.resize = true;
+            I.layout = false;
+            TK.remove_class(E, "toolkit-vertical");
+            TK.remove_class(E, "toolkit-horizontal");
+            TK.remove_class(E, "toolkit-left");
+            TK.remove_class(E, "toolkit-right");
+            TK.remove_class(E, "toolkit-top");
+            TK.remove_class(E, "toolkit-bottom");
+            switch (O.layout) {
+                case _TOOLKIT_LEFT:
+                    TK.add_class(E, "toolkit-vertical");
+                    TK.add_class(E, "toolkit-left");
+                    TK.insert_after(this._scale, this._bar);
+                    break;
+                case _TOOLKIT_RIGHT:
+                    TK.add_class(E, "toolkit-vertical");
+                    TK.add_class(E, "toolkit-right");
+                    TK.insert_after(this._bar, this._scale);
+                    break;
+                case _TOOLKIT_TOP:
+                    TK.add_class(E, "toolkit-horizontal");
+                    TK.add_class(E, "toolkit-top");
+                    TK.insert_after(this._scale, this._bar);
+                    break;
+                case _TOOLKIT_BOTTOM:
+                    TK.add_class(E, "toolkit-horizontal");
+                    TK.add_class(E, "toolkit-bottom");
+                    TK.insert_after(this._bar, this._scale);
+                    break;
+                default:
+                    throw("unsupported layout");
+            }
+        }
+        
+        if (I.resize) {
             /* FORCE_RELAYOUT */
             I.layout = false;
             var i = TK["inner_" + (vert(O) ? "height" : "width")](this._bar);
@@ -263,11 +270,6 @@ w.MeterBase = $class({
         if (this.options.reverse)
             s = +this.options.basis - s;
         return s;
-    },
-    _vert: function () {
-        // returns true if the meter is drawn vertically
-        return this.options.layout == _TOOLKIT_LEFT
-            || this.options.layout == _TOOLKIT_RIGHT;
     },
     
     // GETTER & SETTER
