@@ -74,6 +74,13 @@ w.Container = $class({
         this.element.remove();
         Widget.prototype.destroy.call(this);
     },
+    append_children : function (a) {
+        a.map(this.append_child, this);
+    },
+    append_child : function(child) {
+        child.set("container", this.element);
+        this.add_child(child);
+    },
     add_child : function(child) {
         var C = this.children;
         var H = this.hidden_children;
