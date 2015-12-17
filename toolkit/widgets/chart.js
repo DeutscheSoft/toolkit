@@ -215,7 +215,6 @@ w.Chart = $class({
     Extends: Widget,
     Implements: Ranges,
     options: {
-        resized: false,
         grid_x:  [], // array containing {pos:x[, color: "colorstring"[,
                      //       class: "classname"[, label:"labeltext"]]]}
         grid_y:  [], // array containing {pos:y[, color: "colorstring"[,
@@ -296,21 +295,20 @@ w.Chart = $class({
         this.set("width", this.options.width);
         this.set("height", this.options.height);
     },
+    resize: function () {
+        var E = this.element;
+        var w, h;
+        w = E.clientWidth;
+        h = E.clientHeight;
+        if (w != this.options.width)
+            this.set("width", w);
+        if (h != this.options.height)
+            this.set("height", h);
+        Widget.prototype.resize.call(this);
+    },
     redraw: function () {
         var I = this.invalid;
         var E = this.element;
-
-        if (I.resize) {
-            TK.S.add(function() {
-                var w, h;
-                w = E.clientWidth;
-                h = E.clientHeight;
-                if (w != this.options.width)
-                    this.set("width", w);
-                if (h != this.options.height)
-                    this.set("height", h);
-            }.bind(this), 1);
-        }
 
         Widget.prototype.redraw.call(this);
 

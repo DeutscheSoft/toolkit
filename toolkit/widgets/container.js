@@ -127,14 +127,6 @@ w.Container = $class({
         show_children.call(this);
     },
 
-    resize: function() {
-        var C = this.children;
-        Widget.prototype.resize.call(this);
-        for (var i = 0; i < C.length; i++) {
-            C[i].resize();
-        }
-    },
-
     hide_child: function(i) {
         var C = this.children;
         var H = this.hidden_children;

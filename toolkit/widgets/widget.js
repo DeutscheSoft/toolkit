@@ -108,9 +108,13 @@ w.Widget = $class({
     },
 
     resize: function() {
+        var C = this.children;
         this.fire_event("resize");
         this.invalid.resize = true;
         this.trigger_draw();
+        for (var i = 0; i < C.length; i++) {
+            C[i].resize();
+        }
     },
 
     trigger_draw : function() {
