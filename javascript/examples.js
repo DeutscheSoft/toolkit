@@ -2,13 +2,12 @@
 // VALUEKNOB
 run_valueknob = function (root) {
     valueknob = new ValueKnob({
-        container: root.element,
         min: -100,
         max: 100,
         value: -20,
         snap: 0.01
     });
-    root.add_child(valueknob);
+    root.append_child(valueknob);
 }
 
 
@@ -331,7 +330,6 @@ run_value = function (root) {
 // KNOB
 function run_knob (root) {
     knob1 = new Knob({
-        container: root.element,
         "class": "knob1",
         margin: 5.5,
         thickness: 3,
@@ -348,7 +346,6 @@ function run_knob (root) {
         styles: {backgroundSize: "100%"}
     });
     knob = new Knob({
-        container: root.element,
         "class": "knob",
         min: -96,
         max: 24,
@@ -365,7 +362,6 @@ function run_knob (root) {
         ]
     });
     knob2 = new Knob({
-        container: root.element,
         "class": "knob2",
         margin: 0,
         thickness: 4,
@@ -388,7 +384,7 @@ function run_knob (root) {
         hand: {width: 2, length: 3.5, margin: 32},
         styles: {backgroundSize: "50%"}
     });
-    root.add_children([ knob, knob1, knob2 ]);
+    root.append_children([ knob, knob1, knob2 ]);
 }
 
 
