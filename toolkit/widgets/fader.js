@@ -25,11 +25,19 @@ function vert(O) {
 }
 function get_value(ev) {
     var is_vertical = vert(this.options);
-    var pos   = TK[is_vertical ? "position_top" : "position_left"](this.element) + this._handlesize / 2;
-    var click = ev[is_vertical ? "pageY" : "pageX"];
-    var size  = TK[is_vertical ? "outer_height" : "outer_width"](this._scale, true);
-    var real = click - pos
-    if (is_vertical) real = size - real;
+    var pos, click, real;
+    if (is_vertical) {
+        /* we calculate the position from the bottom of the scale */
+        var size = this.options.basis;
+        pos   = TK.position_top(this._scale);
+        click = ev.pageY;
+        real  = size - (click - pos);
+    } else {
+        /* we calculate the position from the left of the scale */
+        pos   = TK.position_left(this._scale);
+        click = ev.pageX;
+        real  = click - pos;
+    }
     return this.snap(this.real2val(real));
 }
 function tooltip_by_position(ev, tt) {
@@ -182,7 +190,7 @@ w.Fader = $class({
 
         if (I.value) {
             I.value = false;
-            this._handle.style[vert(O) ? "bottom" : "right"] = this.val2real(this.snap(O.value)) + "px";
+            this._handle.style[vert(O) ? "bottom" : "left"] = this.val2real(this.snap(O.value)) + "px";
         }
 
         if (I.validate("reverse", "log_factor", "step", "round", "scale", "basis")) {
