@@ -33,20 +33,22 @@ w.ValueKnob = $class({
     /* @class: ValueKnob
      */
     _class: "ValueKnob",
-    Extends: Knob,
+    Extends: Widget,
     options: {
         value_format: function (val) { return val.toFixed(2); },
         value_size: 5
     },
     initialize: function (options) {
-        var con = options.container;
-        this._container = TK.element("div", "toolkit-valueknob");
-        if (con)
-            con.appendChild(this._container);
-        options.container = this._container;
-        Knob.prototype.initialize.call(this, options);
+        this.element = TK.element("div", "toolkit-valueknob");
+        Widget.prototype.initialize.call(this, options);
+        this.knob = new Knob(TK.merge({}, this.options, {
+            container: this.element,
+        }));
+        this.knob.add_event("useraction", function(key, value) {
+            if (key == "value") this.parent.set(key, value);
+        });
         this.value = new Value({
-            container: this._container,
+            container: this.element,
             value: this.options.value,
             format: this.options.value_format,
             set: function (val) {
@@ -57,16 +59,20 @@ w.ValueKnob = $class({
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
         this.add_child(this.value);
-        this.widgetize(this._container, true, true, true);
+        this.add_child(this.knob);
+        this.widgetize(this.element, true, true, true);
     },
     
     destroy: function () {
         this.value.destroy();
-        Knob.prototype.destroy.call(this);
+        Widget.prototype.destroy.call(this);
     },
     
     set: function (key, value) {
-        Knob.prototype.set.call(this, key, value);
+        Widget.prototype.set.call(this, key, value);
+        /* TODO: this is too much... */
+        if (key !== "container")
+            this.knob.set(key, value);
         switch (key) {
             case "value_size":
                 this.value.set("size", value);
