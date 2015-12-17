@@ -122,8 +122,39 @@ w.Gauge = $class({
             value = Object.assign(this.options.title, value);
         }
         Widget.prototype.set.call(this, key, value);
-        if (key !== "container")
-            this.circular.set(key, value);
+        switch (key) {
+            case "value":
+            case "size":
+            case "thickness":
+            case "margin":
+            case "hand":
+            case "start":
+            case "basis":
+            case "base":
+            case "show_base":
+            case "show_value":
+            case "show_hand":
+            case "x":
+            case "y":
+            case "dot":
+            case "dots":
+            case "marker":
+            case "markers":
+            case "label":
+            case "labels":
+            case "scale":
+            case "reverse":
+            case "min":
+            case "max":
+            case "step":
+            case "shift_up":
+            case "shift_down":
+            case "snap":
+            case "round":
+            case "log_factor":
+                this.circular.set(key, value);
+                break;
+        }
     }
 });
 })(this);

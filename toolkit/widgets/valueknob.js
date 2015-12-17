@@ -79,6 +79,7 @@ w.ValueKnob = $class({
                 break;
             case "value":
                 this.value.set("value", value);
+                this.circular.set(key, value);
                 break;
             case "drag_direction":
                 this.drag.set("direction", value);
@@ -88,6 +89,37 @@ w.ValueKnob = $class({
                 break;
             case "blind_angle":
                 this.drag.set("blind_angle", value);
+                break;
+            case "value":
+            case "size":
+            case "thickness":
+            case "margin":
+            case "hand":
+            case "start":
+            case "basis":
+            case "base":
+            case "show_base":
+            case "show_value":
+            case "show_hand":
+            case "x":
+            case "y":
+            case "dot":
+            case "dots":
+            case "marker":
+            case "markers":
+            case "label":
+            case "labels":
+            case "scale":
+            case "reverse":
+            case "min":
+            case "max":
+            case "step":
+            case "shift_up":
+            case "shift_down":
+            case "snap":
+            case "round":
+            case "log_factor":
+                this.circular.set(key, value);
                 break;
         }
         
