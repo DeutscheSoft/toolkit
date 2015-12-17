@@ -21,6 +21,11 @@
 "use strict";
 (function(w){ 
 var format_viewbox = TK.FORMAT("0 0 %d %d");
+function dblclick() {
+    this.set("value", this.options.reset);
+    this.fire_event("doubleclick", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
+}
 w.Knob = $class({
     /* @class: Knob
      * @description: Knob is a Circular injected into a SVG and extended by ScrollValue
@@ -28,7 +33,7 @@ w.Knob = $class({
      * for setting its value.
      */
     _class: "Knob",
-    Extends: Circular,
+    Extends: Widget,
     options: {
         size: 100,
         hand: {width: 2, length: 6, margin: 22},
@@ -46,20 +51,15 @@ w.Knob = $class({
     },
     
     initialize: function (options) {
-        BASE.prototype.initialize.call(this);
+        Widget.prototype.initialize.call(this, options);
         var svg = TK.make_svg("svg", {"class": "toolkit-knob"});
 
-        if (options.container)
-            options.container.appendChild(svg);
-        
-        options.container = svg;
-
-        Circular.prototype.initialize.call(this, options, true);
-        this._svg = this.widgetize(svg, true, true, true);
+        this.circular = new Circular(TK.merge({}, this.options, { container : svg }));
+        this.element = this.widgetize(svg, true, true, true);
         
         this.drag = new DragValue({
-            element: this._svg,
-            range:   function () { return this }.bind(this),
+            element: this.element,
+            range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
@@ -71,8 +71,8 @@ w.Knob = $class({
             events: function () { return this }.bind(this),
         });
         this.scroll = new ScrollValue({
-            element: this._svg,
-            range:   function () { return this }.bind(this),
+            element: this.element,
+            range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 this.set("value", v);
@@ -83,17 +83,15 @@ w.Knob = $class({
         
         if (typeof this.options.reset == "undefined")
             this.options.reset = this.options.value;
-        this._svg.addEventListener("dblclick", function () {
-            this.set("value", this.options.reset);
-            this.fire_event("doubleclick", this.options.value);
-        }.bind(this));
+        this.add_event("dblclick", dblclick);
+        this.add_child(this.circular);
     },
     
     destroy: function () {
         this.drag.destroy();
         this.scroll.destroy();
-        this._svg.remove();
-        Circular.prototype.destroy.call(this);
+        this.circular.destroy();
+        Widget.prototype.destroy.call(this);
     },
 
     redraw: function() {
@@ -101,15 +99,20 @@ w.Knob = $class({
         var O = this.options;
 
         if (I.size) {
-            this._svg.setAttribute("viewBox", format_viewbox(O.size, O.size));
+            I.size = false;
+            this.element.setAttribute("viewBox", format_viewbox(O.size, O.size));
         }
 
-        Circular.prototype.redraw.call(this);
-
+        Widget.prototype.redraw.call(this);
     },
     
     set: function (key, value) {
-        Circular.prototype.set.call(this, key, value);
+        Widget.prototype.set.call(this, key, value);
+
+        /* TODO: for sure does not need them all */
+        if (key !== "container")
+            this.circular.set(key, value);
+
         switch (key) {
             case "direction":
             case "rotation":
