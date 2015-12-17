@@ -23,6 +23,7 @@
 function dragstart(e, drag) {
     var O = this.options;
     if (!O.active) return;
+    if (typeof e.button != "undefined" && e.button > 0) return;
     this._xstart = e.pageX;
     this._ystart = e.pageY;
     this._xpos   = O.element.offsetLeft;
@@ -33,12 +34,14 @@ function dragstart(e, drag) {
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
+    if (typeof e.button != "undefined" && e.button > 0) return;
     /* @event: dragstop; DOMEvent, Widget; The user ends dragging this item */
     this.fire_event("dragstop", e);
 }
 function dragging(e, drag) {
     var O = this.options;
     if (!O.active) return;
+    if (typeof e.button != "undefined" && e.button > 0) return;
     var x = this._xpos + e.pageX - this._xstart;
     var y = this._ypos + e.pageY - this._ystart;
     if (O.min.x !== false) x = Math.max(O.min.x, x);
