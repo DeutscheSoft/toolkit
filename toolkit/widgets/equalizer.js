@@ -54,7 +54,7 @@ w.Equalizer = $class({
     },
     
     destroy: function () {
-        this.empty(); // ???
+        this.empty(); // Arne: ??? <- Markus: removes all graphs, defined in Chart
         this._bands.remove();
         ResponseHandler.prototype.destroy.call(this);
     },
@@ -96,7 +96,10 @@ w.Equalizer = $class({
             }
         }
     },
-    
+    resize: function () {
+        invalidate_bands.call(this);
+        ResponseHandler.prototype.resize.call(this);
+    },
     add_band: function (options) {
         options["container"] = this._bands;
         if (typeof options["range_x"] == "undefined")
