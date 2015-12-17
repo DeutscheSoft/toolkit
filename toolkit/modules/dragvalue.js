@@ -22,6 +22,7 @@
 (function(w){
 function pointer_down(e) {
     if (!this.options.active) return;
+    if (typeof e.button != "undefined" && e.button > 0) return;
     e.preventDefault();
     // get the right event if touch
     var ev = get_event(e);
@@ -52,6 +53,7 @@ function pointer_down(e) {
 }
 function pointer_up(e) {
     if (!this.__active) return;
+    if (typeof e.button != "undefined" && e.button > 0) return;
     e.preventDefault();
     // set stuff
     TK.remove_class(this.options.classes, "toolkit-dragging");
@@ -71,6 +73,7 @@ function pointer_up(e) {
 }
 function pointer_move(e) {
     if (!this.__active) return;
+    if (typeof e.button != "undefined" && e.button > 0) return;
     var O = this.options;
     if (!O.active) return;
     e.preventDefault();
