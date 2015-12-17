@@ -120,7 +120,10 @@
     opacity: 0.9;
 }
 
-#demo.chart,#demo.frequencyresponse,#demo.responsehandler .toolkit-chart {
+#demo.chart .toolkit-chart,
+#demo.equalizer .toolkit-chart,
+#demo.frequencyresponse .toolkit-chart,
+#demo.responsehandler .toolkit-chart {
     width: 95%;
     height: 95%;
 }
