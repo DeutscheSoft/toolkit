@@ -465,7 +465,6 @@ function run_gauge (root) {
         label: {align:_TOOLKIT_OUTER, margin: 20},
         show_hand: true,
         hand: {margin: 29, length: 21, width: 2, color:"white"},
-        container: root.element,
         labels: [{pos:0},{pos:2},{pos:4},{pos:6},{pos:8},{pos:10}]
     });
     gauge[1] = new Gauge({
@@ -480,7 +479,6 @@ function run_gauge (root) {
         dot: {width: 1, length: 1, margin: 17},
         label: {align:_TOOLKIT_OUTER, margin:17},
         show_hand: false,
-        container: root.element,
         dots:[{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:25},{pos:30},
               {pos:35},{pos:40},{pos:45}, {pos:50},{pos:55}],
         labels: [{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:30},{pos:40},{pos:50}]
@@ -491,7 +489,6 @@ function run_gauge (root) {
         max:12,
         value:-10,
         title: "dBu",
-        container: root.element,
         markers: [{from:0, to:12}],
         dots:[{pos:-60},{pos:-50},{pos:-40},{pos:-30},{pos:-20},{pos:-10},
               {pos:0},{pos:5},{pos:10},{pos:120}],
@@ -504,7 +501,6 @@ function run_gauge (root) {
         value:50,
         base: 0,
         title: "Temp °C",
-        container: root.element,
         label: {format: TK.FORMAT("%d °")},
         markers: [{from:80, to:100}, {from:-80, to:-100}],
         dots:[{pos:0},{pos:10},{pos:20},{pos:30},{pos:40},{pos:50},{pos:60},{pos:70},{pos:80},{pos:90},{pos:100},
@@ -533,7 +529,6 @@ function run_gauge (root) {
         label: {margin: 12, align: _TOOLKIT_OUTER},
         title: {margin: 46, pos: 270, title: "VU"},
         show_value: false,
-        container: root.element,
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3}
         ],
@@ -570,7 +565,6 @@ function run_gauge (root) {
         label: {margin: 12, align: _TOOLKIT_OUTER},
         title: {margin: 46, pos: 270, title: "VU"},
         show_value: false,
-        container: root.element,
         markers: [{from:0, to:12},
                   {from:-20, to:0, margin: 23, thickness: 3, color:"rgba(0,0,0,0.8)"}
         ],
@@ -587,7 +581,7 @@ function run_gauge (root) {
         ]
     });
     TK.seat_all_svg()
-    root.add_children(gauge);
+    root.append_children(gauge);
 }
 
 
