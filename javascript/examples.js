@@ -331,8 +331,8 @@ run_value = function (root) {
 function run_knob (root) {
     knob1 = new Knob({
         "class": "knob1",
-        margin: 5.5,
-        thickness: 3,
+        margin: 3.5,
+        thickness: 7,
         min: -96,
         max: 24,
         value: -20,
@@ -381,8 +381,8 @@ function run_knob (root) {
             {pos: 20}, {pos: 100}, {pos: 1000, label: "1k"}, {pos: 2000, label: "2k"}, {pos: 3000, label: "3k"}, {pos: 4000, label: "4k"},
             {pos: 10000, label: "10k"}, {pos: 20000, label:"20k"}
         ],
-        hand: {width: 2, length: 3.5, margin: 32},
-        styles: {backgroundSize: "50%"}
+        hand: {width: 3, length: 3, margin: 24},
+        styles: {backgroundSize: "70%", backgroundImage: "url(images/knob2.png)"}
     });
     root.append_children([ knob, knob1, knob2 ]);
 }
