@@ -33,8 +33,10 @@ w.Gauge = $class({
      * @description: Gauge simply puts a single Circular into a SVG image.
      */
     _class: "Gauge",
-    Extends: Circular,
+    Extends: Widget,
     options: {
+        x:          0,
+        y:          0,
         width:  120, // width of the element
         height: 120, // height of the svg
         size:   120,
@@ -46,40 +48,38 @@ w.Gauge = $class({
                      // title:  the title as a string
     },
     initialize: function (options) {
-        BASE.prototype.initialize.call(this);
         if (typeof options.title == "string")
             options.title = {title: options.title};
-        this.set_options(options);
+        Widget.prototype.initialize.call(this, options);
         var O = this.options;
-        this._svg = TK.make_svg("svg", {
+        this.element = TK.make_svg("svg", {
             "class": "toolkit-gauge",
             "width": O.width,
             "height": O.height
         }, true, true, true);
-        O.container.appendChild(this._svg);
-        options.container = this._svg;
         
         this._title = TK.make_svg("text", {"class": "toolkit-title"});
-        this._svg.appendChild(this._title);
+        this.element.appendChild(this._title);
+        this.circular = new Circular(TK.merge({}, O, {
+            container: this.element,
+        }));
+        this.add_child(this.circular);
         
-        Circular.prototype.initialize.call(this, options);
-        this._svg = this.widgetize(this._svg);
-    },
-    destroy: function () {
-        this._svg.remove();
-        Circular.prototype.destroy.call(this);
+        this.widgetize(this.element);
     },
     redraw: function() {
         var I = this.invalid, O = this.options;
-        Circular.prototype.redraw.call(this);
+        var E = this.element;
+
+        Widget.prototype.redraw.call(this);
 
         if (I.width) {
             I.width = false;
-            this._svg.setAttribute("width", O.width);
+            E.setAttribute("width", O.width);
         }
         if (I.height) {
             I.height = false;
-            this._svg.setAttribute("height", O.height);
+            E.setAttribute("height", O.height);
         }
 
         if (I.validate("title", "size", "x", "y")) {
@@ -96,7 +96,7 @@ w.Gauge = $class({
                     var angle   = t.pos % 360;
                     var outer_p = outer - margin;
                     var coords  = _get_coords_single(angle, outer_p, outer);
-                    
+
                     var mx = ((coords.x - outer) / outer_p)
                            * (bb.width + bb.height / 2.5) / (align ? -2 : 2);
                     var my = ((coords.y - outer) / outer_p)
@@ -121,7 +121,9 @@ w.Gauge = $class({
             if (typeof value == "string") value = {title: value};
             value = Object.assign(this.options.title, value);
         }
-        Circular.prototype.set.call(this, key, value);
+        Widget.prototype.set.call(this, key, value);
+        if (key !== "container")
+            this.circular.set(key, value);
     }
 });
 })(this);
