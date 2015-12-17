@@ -28,11 +28,13 @@ function dragstart(e, drag) {
     this._xpos   = O.element.offsetLeft;
     this._ypos   = O.element.offsetTop;
     TK.add_class(O.element, "toolkit-dragging");
-    this.fire_event("start", e);
+    /* @event: dragstart; DOMEvent, Widget; The user starts dragging this item */
+    this.fire_event("dragstart", e);
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
-    this.fire_event("stop", e);
+    /* @event: dragstop; DOMEvent, Widget; The user ends dragging this item */
+    this.fire_event("dragstop", e);
 }
 function dragging(e, drag) {
     var O = this.options;
@@ -46,7 +48,8 @@ function dragging(e, drag) {
     O.element.style.top = y + "px";
     O.element.style.left = x + "px";
     TK.remove_class(O.element, "toolkit-dragging");
-    this.fire_event("resizing", e, x, y);
+    /* @event: dragging; DOMEvent, Widget; The user is dragging this item */
+    this.fire_event("dragging", e, x, y);
 }
 function set_handle() {
     var h = this.options.handle;
