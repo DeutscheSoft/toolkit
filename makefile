@@ -1,4 +1,4 @@
-all : documentation toolkit.min.js
+all : documentation toolkit/toolkit.min.js toolkit/toolkit.max.js toolkit/styles/css/toolkit.min.css
 
 documentation :
 	generator/items.pike
@@ -52,5 +52,43 @@ js_input_files = \
     toolkit/widgets/window.js\
     toolkit/widgets/toggle.js
 
-toolkit.min.js:	$(js_input_files) makefile
-	closure-compiler --language_in ECMASCRIPT5_STRICT $(js_input_files) > $@
+css_input_files = \
+    toolkit/styles/css/toolkit.css \
+    toolkit/styles/css/globalcursor.css \
+    toolkit/styles/css/tooltip.css \
+    toolkit/styles/css/scale.css \
+    toolkit/styles/css/graph.css \
+    toolkit/styles/css/grid.css \
+    toolkit/styles/css/responsehandle.css \
+    toolkit/styles/css/circular.css \
+    toolkit/styles/css/buttonarray.css \
+    toolkit/styles/css/meterbase.css \
+    toolkit/styles/css/chart.css \
+    toolkit/styles/css/gauge.css \
+    toolkit/styles/css/button.css \
+    toolkit/styles/css/valuebutton.css \
+    toolkit/styles/css/toggle.css \
+    toolkit/styles/css/state.css \
+    toolkit/styles/css/levelmeter.css \
+    toolkit/styles/css/frequencyresponse.css \
+    toolkit/styles/css/dynamics.css \
+    toolkit/styles/css/responsehandler.css \
+    toolkit/styles/css/clock.css \
+    toolkit/styles/css/window.css \
+    toolkit/styles/css/knob.css \
+    toolkit/styles/css/value.css \
+    toolkit/styles/css/fader.css \
+    toolkit/styles/css/select.css \
+    toolkit/styles/css/label.css \
+    toolkit/styles/css/container.css \
+    toolkit/styles/css/pager.css \
+    toolkit/styles/css/valueknob.css \
+
+toolkit/toolkit.min.js:	$(js_input_files) makefile
+	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit/toolkit.min.map $(js_input_files) > $@
+
+toolkit/toolkit.max.js:	$(js_input_files) makefile
+	cat $(js_input_files) > $@
+
+toolkit/styles/css/toolkit.min.css: $(css_input_files) makefile
+	cat $(css_input_files) > $@
