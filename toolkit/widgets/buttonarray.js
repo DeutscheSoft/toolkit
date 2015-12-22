@@ -107,13 +107,18 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      */
     _class: "ButtonArray",
     Extends: Container,
+    _options: Object.assign(Object.create(Container.prototype._options), {
+        buttons: "array",
+        auto_arrows: "boolean",
+        direction: "int",
+        show: "int",
+    }),
     options: {
         buttons: [],
         auto_arrows: true,
         direction: _TOOLKIT_HORIZONTAL,
         show: -1
     },
-    
     initialize: function (options) {
         this.buttons = [];
         Container.prototype.initialize.call(this, options);

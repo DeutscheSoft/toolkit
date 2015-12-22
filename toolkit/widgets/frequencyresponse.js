@@ -50,6 +50,13 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
      */
     _class: "FrequencyResponse",
     Extends: Chart,
+    _options: Object.assign(Object.create(Chart.prototype._options), {
+        db_grid: "number",
+        range_x: "object",
+        range_y: "object",
+        grid_x: "array",
+        scale: "boolean",
+    }),
     options: {
         db_grid: 12,                                         // dB grid distance
         range_x: {min:20, max:20000, scale:_TOOLKIT_FREQ},   // Range x options

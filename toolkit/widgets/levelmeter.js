@@ -109,6 +109,26 @@ w.TK.LevelMeter = w.LevelMeter = $class({
      */
     _class: "LevelMeter",
     Extends: MeterBase,
+    _options: Object.assign(Object.create(MeterBase.prototype._options), {
+        clip: "boolean",
+        falling: "number",
+        falling_fps: "number",
+        falling_init: "number",
+        peak: "number",
+        top: "number",
+        bottom: "number",
+        hold_size: "int",
+        show_peak: "boolean",
+        show_clip: "boolean",
+        show_hold: "boolean",
+        clipping: "number",
+        auto_clip: "int",
+        auto_peak: "int",
+        peak_label: "int",
+        auto_hold: "int",
+        format_peak: "function",
+        clip_options: "object",
+    }),
     options: {
         clip:         false,   // state of the clipping LED
         falling:      0,       // if falling is active set a step size per frame

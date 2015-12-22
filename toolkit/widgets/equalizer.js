@@ -32,6 +32,10 @@ w.TK.Equalizer = w.Equalizer = $class({
      */
     _class: "Equalizer",
     Extends: ResponseHandler,
+    _options: Object.assign(Object.create(ResponseHandler.prototype._options), {
+        accuracy: "number",
+        bands:  "array",
+    }),
     options: {
         accuracy: 1, // the distance between points of curves on the x axis
         bands: [],   // list of bands to create on init

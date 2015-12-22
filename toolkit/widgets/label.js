@@ -26,6 +26,9 @@ w.TK.Label = w.Label = $class({
      */
     _class: "Label",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        label: "string"
+    }),
     options: {
         label: ""
     },

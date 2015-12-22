@@ -89,6 +89,12 @@ w.TK.Value = w.Value = $class({
      */
     _class: "Value",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        value: "number",
+        format: "function",
+        size: "number",
+        set: "function",
+    }),
     options: {
         value: 0,
         format: function (val) { return val.toFixed(2); },

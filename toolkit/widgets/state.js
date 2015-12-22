@@ -29,10 +29,14 @@ w.TK.State = w.State = $class({
      */
     _class: "State",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        state: "int",
+        color: "string",
+        opacity: "number",
+    }),
     options: {
         state:           0,     // the initial state (0 ... 1)
         color:           "red", // the base color
-        container:       false,
         opacity:         0.8    // the opacity of the mask when state = 0
     },
     initialize: function (options) {

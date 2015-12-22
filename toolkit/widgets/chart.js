@@ -211,9 +211,20 @@ w.TK.Chart = w.Chart = $class({
      * and two Ranges.
      */
     _class: "Chart",
-    
     Extends: Widget,
     Implements: Ranges,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        grid_x: "array",
+        grid_y: "array",
+        width: "int",
+        height: "height",
+        range_x: "object",
+        range_y: "object",
+        key: "string",
+        key_size: "object",
+        title: "string",
+        title_position: "int",
+    }),
     options: {
         grid_x:  [], // array containing {pos:x[, color: "colorstring"[,
                      //       class: "classname"[, label:"labeltext"]]]}

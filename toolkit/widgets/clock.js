@@ -149,6 +149,24 @@ w.TK.Clock = w.Clock = $class({
      */
     _class: "Clock",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        thickness:    "int",
+        margin:       "int",
+        size:         "int",
+        show_seconds: "boolean",
+        show_minutes: "boolean",
+        show_hours:   "boolean",
+        timeout:      "int",
+        timeadd:      "int",
+        offset:       "int",
+        fps:          "int",
+        months:       "array",
+        days:         "array",
+        label:        "function",
+        label_upper:  "function",
+        label_lower:  "function",
+        label_scale:  "number",
+    }),
     options: {
         thickness:    10,         // thickness of the rings
         margin:       0,          // margin between the circulars

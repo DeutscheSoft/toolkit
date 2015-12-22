@@ -36,6 +36,13 @@ w.TK.Pager = w.Pager = $class({
      * via a #ButtonArray. */
     _class: "Pager",
     Extends: Container,
+    _options: Object.assign(Object.create(Container.prototype._options), {
+        position:  "int",
+        direction: "string",
+        pages:     "array",
+        show:      "int",
+        overlap:   "boolean",
+    }),
     options: {
         position:  _TOOLKIT_TOP,
         direction: "forward",

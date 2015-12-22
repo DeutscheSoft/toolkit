@@ -34,6 +34,10 @@ w.TK.ValueKnob = w.ValueKnob = $class({
      */
     _class: "ValueKnob",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        value_format: "function",
+        value_size: "number",
+    }),
     options: {
         value_format: function (val) { return val.toFixed(2); },
         value_size: 5

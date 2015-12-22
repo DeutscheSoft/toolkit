@@ -28,6 +28,19 @@ w.TK.Dynamics = w.Dynamics = $class({
      */
     _class: "Dynamics",
     Extends: Chart,
+    _options: Object.assign(Object.create(Chart.prototype._options), {
+        size: "number",
+        min:  "number",
+        max:  "number",
+        scale: "int",
+        type:  "int",
+        threshold: "number",
+        ratio:     "number",
+        makeup:    "number",
+        floor:     "number",
+        range:     "number",
+        grid_labels: "function",
+    }),
     options: {
         db_grid: 12,
         min:     -96,

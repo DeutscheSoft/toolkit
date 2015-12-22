@@ -50,6 +50,9 @@ w.TK.Container = w.Container = $class({
      */
     _class: "Container",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        content: "string",
+    }),
     options: {
         display_state : "hide",
         /*content: ""*/

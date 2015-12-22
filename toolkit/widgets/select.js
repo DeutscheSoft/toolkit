@@ -88,6 +88,12 @@ w.TK.Select = w.Select = $class({
      */
     _class: "Select",
     Extends: Button,
+    _options: Object.assign(Object.create(Button.prototype._options), {
+        entries: "array",
+        selected: "int",
+        value: "mixed",
+        auto_size: "boolean",
+    }),
     options: {
         entries: [], // A list of strings or objects: {title: "Title", value: 1}
         selected: false,

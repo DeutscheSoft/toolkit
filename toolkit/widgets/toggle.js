@@ -60,6 +60,13 @@ w.TK.Toggle = w.Toggle = $class({
      */
     _class: "Toggle",
     Extends: Button,
+    _options: Object.assign(Object.create(Button.prototype._options), {
+        label_active: "string",
+        icon_active: "string",
+        press: "int",
+        toggle: "boolean",
+        state: "boolean",
+    }),
     options: {
         label_active:  false, // the label for the active toggle, false for default label
         icon_active:   false, // this icon of the active toggle, false for default icon

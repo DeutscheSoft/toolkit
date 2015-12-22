@@ -38,6 +38,13 @@ w.TK.Button = w.Button = $class({
      * Buttons are used as a base to build different other widgets from, too. */
     _class: "Button",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        label: "string",
+        icon: "string",
+        state: "boolean",
+        state_color: "string",
+        layout: "int",
+    }),
     options: {
         label:            "",
         icon:             false,
@@ -45,7 +52,6 @@ w.TK.Button = w.Button = $class({
         state_color:      false,
         layout:           _TOOLKIT_VERTICAL
     },
-    
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         /* @element: element [d][c][s]; div.toolkit-button; The main button element */

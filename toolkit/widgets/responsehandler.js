@@ -58,6 +58,14 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      */
     _class: "ResponseHandler",
     Extends: FrequencyResponse,
+    _options: Object.assign(Object.create(FrequencyResponse.prototype._options), {
+        importance_label:  "number",
+        importance_handle: "number",
+        importance_border: "number",
+        range_z: "object",
+        depth: "number",
+        handles: "array", 
+    }),
     options: {
         importance_label:  4,   // multiplicator of square pixels on hit testing
                                 // labels to gain importance

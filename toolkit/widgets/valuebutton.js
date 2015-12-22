@@ -36,6 +36,16 @@ w.TK.ValueButton = w.ValueButton = $class({
     _class: "ValueButton",
     Extends: Button,
     Implements: [Warning, Ranged],
+    _options: Object.assign(Object.create(Button.prototype._options), {
+        value: "number",
+        value_format: "function",
+        value_size: "number",
+        bar_direction: "int",
+        drag_direction: "int",
+        rotation: "number",
+        blind_angle: "number",
+        snap: "number",
+    }),
     options:  {
         value: 0,
         value_format:   function (val) { return val.toFixed(2); },
