@@ -65,7 +65,8 @@ void process_element (string type, string content, mapping map) {
             map->extends += trim_array(c / ",");
             break;
         case "option":
-            _recipient->options += ({ get_atoms_mapping(c, OPTION_ATOMS) });
+            mapping(string:string) m = get_atoms_mapping(c, OPTION_ATOMS);
+            _recipient->options += ([ m->name : m ]);
             break;
         case "parameter":
             _recipient->parameters += ({ get_atoms_mapping(c, PARAMETER_ATOMS) });
