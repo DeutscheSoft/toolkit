@@ -29,7 +29,7 @@ function value_done() {
     this.drag.set("active", true);
     this.fire_event("valueset", this.options.value);
 }
-w.ValueKnob = $class({
+w.TK.ValueKnob = w.ValueKnob = $class({
     /* @class: ValueKnob
      */
     _class: "ValueKnob",

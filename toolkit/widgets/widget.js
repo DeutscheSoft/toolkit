@@ -49,7 +49,7 @@ function redraw() {
     this.needs_redraw = false;
     this.redraw();
 }
-w.Widget = $class({
+w.TK.Widget = w.Widget = $class({
     /* @class: Widget
      * @description: Widget is the base class for all widgets drawing DOM elements. It
      * provides basic functionality like delegating events, setting options and

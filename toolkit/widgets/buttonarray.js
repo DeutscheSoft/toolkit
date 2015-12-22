@@ -85,7 +85,7 @@ function scroll_to() {
         }.bind(this), 1);
     }
 }
-w.ButtonArray = $class({
+w.TK.ButtonArray = w.ButtonArray = $class({
     /* @class: ButtonArray
      * 
      * @option: buttons; Array; []; A list of button options or label strings which

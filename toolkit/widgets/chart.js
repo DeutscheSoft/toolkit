@@ -204,7 +204,7 @@ function draw_title() {
     }.bind(this), 1);
 }
     
-w.Chart = $class({
+w.TK.Chart = w.Chart = $class({
     /* @class: Chart
      * @description: Chart is an SVG image containing one or more Graphs. There are functions
      * to add and remove graphs. Chart extends Widget and contains a Grid

@@ -44,7 +44,7 @@ function after_showing() {
     if (this.options.display_state == "showing")
         this.set("display_state", "show");
 }
-w.Container = $class({
+w.TK.Container = w.Container = $class({
     /* @class: Container
      * @description: Container represents a <DIV> element.
      */

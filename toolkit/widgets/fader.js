@@ -86,7 +86,7 @@ function SET(v) {
     this.set("value", v);
     this.fire_event("useraction", "value", v);
 }
-w.Fader = $class({
+w.TK.Fader = w.Fader = $class({
     /* @class: Fader
      */
     _class: "Fader",

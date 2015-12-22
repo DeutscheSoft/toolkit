@@ -23,7 +23,7 @@
 function vert(O) {
     return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
 }
-w.MeterBase = $class({
+w.TK.MeterBase = w.MeterBase = $class({
     /* @class: MeterBase
      * @description: 
      * MeterBase is a base class to build different meters like LevelMeter.

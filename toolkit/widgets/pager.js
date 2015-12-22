@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){
-w.Pager = $class({
+w.TK.Pager = w.Pager = $class({
     /* @class:  Pager
      * 
      * @option: position;  Int;   _TOOLKIT_TOP;   The position of the ButtonArray

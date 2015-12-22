@@ -33,7 +33,7 @@ function resized() {
         TK.S.add(this.resize.bind(this));
     }
 }
-w.Root = $class({
+w.TK.Root = w.Root = $class({
     Extends: Container,
     initialize: function (options) {
         Container.prototype.initialize.call(this, options);

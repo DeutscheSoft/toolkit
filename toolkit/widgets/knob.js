@@ -26,7 +26,7 @@ function dblclick() {
     this.fire_event("doubleclick", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
 }
-w.Knob = $class({
+w.TK.Knob = w.Knob = $class({
     /* @class: Knob
      * @description: Knob is a Circular injected into a SVG and extended by ScrollValue
      * and DragValue to set its value. Knob uses DragValue and Scrollvalue

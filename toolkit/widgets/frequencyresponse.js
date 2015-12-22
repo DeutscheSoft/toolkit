@@ -42,7 +42,7 @@ function calculate_grid(range, step) {
 
     return grid;
 }
-w.FrequencyResponse = $class({
+w.TK.FrequencyResponse = w.FrequencyResponse = $class({
     /* @class: FrequencyResponse
      * @description: FrequencyResponse is a Chart drawing frequencies on the x axis and dB
      * values on the y axis. This widget automatically draws a Grid depending

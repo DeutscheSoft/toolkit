@@ -81,7 +81,7 @@ function show_list(show) {
     var dur = parseFloat(TK.get_style(this._list, "transition-duration"));
     this.__timeout = window.setTimeout(hide_list.bind(this), dur * 1000);
 }
-w.Select = $class({
+w.TK.Select = w.Select = $class({
     /* @class: Select
      * @description: Select provides a button with a select list to choose from
      * different entries.

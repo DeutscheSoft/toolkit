@@ -345,7 +345,7 @@ function build_from_const(element) {
     }
 }
     
-w.Window = $class({
+w.TK.Window = w.Window = $class({
     /* @class: Window
      */
     _class: "Window",

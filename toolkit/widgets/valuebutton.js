@@ -30,7 +30,7 @@ function value_done() {
     this.fire_event("valueset", this.options.value);
 }
     
-w.ValueButton = $class({
+w.TK.ValueButton = w.ValueButton = $class({
     /* @class: ValueButton
      */
     _class: "ValueButton",

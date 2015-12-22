@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){ 
-w.Button = $class({
+w.TK.Button = w.Button = $class({
     /* @class:  Button
      * 
      * @option: label;       String; "";    Text for the buttons label

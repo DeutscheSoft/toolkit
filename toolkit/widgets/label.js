@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){ 
-w.Label = $class({
+w.TK.Label = w.Label = $class({
     /* @class: Label
      * @description: Label is a simple text field displaying strings
      */

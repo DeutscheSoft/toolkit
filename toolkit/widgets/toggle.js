@@ -55,7 +55,7 @@ function clear_to() {
     }
 }
     
-w.Toggle = $class({
+w.TK.Toggle = w.Toggle = $class({
     /* @class: Toggle
      */
     _class: "Toggle",
