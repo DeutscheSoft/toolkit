@@ -29,6 +29,7 @@ js_input_files = \
     toolkit/modules/dragvalue.js\
     toolkit/modules/drag.js\
     toolkit/widgets/container.js\
+    toolkit/widgets/root.js\
     toolkit/widgets/button.js\
     toolkit/widgets/valuebutton.js\
     toolkit/widgets/buttonarray.js\
