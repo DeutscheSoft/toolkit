@@ -38,10 +38,10 @@ function get_value(ev) {
         click = ev.pageX;
         real  = click - pos;
     }
-    return this.snap(this.real2val(real));
+    return this.real2val(real);
 }
 function tooltip_by_position(ev, tt) {
-    var val = get_value.call(this, ev);
+    var val = this.snap(get_value.call(this, ev));
     tt.innerText = this.options.tooltip(val);
 }
 function tooltip_by_value(ev, tt) {
@@ -203,6 +203,8 @@ w.TK.Fader = w.Fader = $class({
 
         if (I.value) {
             I.value = false;
+            // TODO: value is snapped already in set(). This is not enough for values which are set during
+            // initialization.
             this._handle.style[vert(O) ? "bottom" : "left"] = this.val2real(this.snap(O.value)) + "px";
         }
 

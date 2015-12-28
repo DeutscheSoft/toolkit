@@ -36,7 +36,7 @@ function pointer_down(e) {
 
     var range = this.options.range();
 
-    this._clickPos = range.val2real(range.snap(this.options.get()));
+    this._clickPos = range.val2real(this.options.get());
 
     // remember stuff
     cache_values.call(this, ev, 0);
@@ -114,7 +114,7 @@ function pointer_move(e) {
     }
 
     var val = O.get();
-    O.set(range.snap(range.px2val(this._clickPos + dist)));
+    O.set(range.px2val(this._clickPos + dist));
 
     // remember stuff
     if (val != O.get())

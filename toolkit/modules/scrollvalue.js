@@ -55,10 +55,20 @@ function scrollwheel(e) {
 
     value = range.real2val(pos);
 
-    if (d > 0) {
-        value = range.snap_up(value);
-    } else {
-        value = range.snap_down(value);
+    /* If snap() returns to the old value, we try to snap in the right direction.
+     * If that fails too, we are probably at the boundary of our range, and pass
+     * the original value, in order to trigger the range overflow detection (warning).
+     */
+    if (range.snap(value) === O.get()) {
+        var tmp;
+        if (d > 0) {
+            tmp = range.snap_up(value);
+        } else {
+            tmp = range.snap_down(value);
+        }
+        if (tmp !== O.get()) {
+            value = tmp;
+        }
     }
 
     O.set(value);

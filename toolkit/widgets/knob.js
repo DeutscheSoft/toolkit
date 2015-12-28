@@ -122,8 +122,6 @@ w.TK.Knob = w.Knob = $class({
     },
     
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
-
         switch (key) {
             case "direction":
             case "rotation":
@@ -162,6 +160,12 @@ w.TK.Knob = w.Knob = $class({
                 this.circular.set(key, value);
                 break;
         }
+        if (key === "value") {
+            /* Circular snaps values, so lets make sure we get the right one */
+            value = this.circular.options.value;
+        }
+        Widget.prototype.set.call(this, key, value);
+
     }
 });
 })(this);
