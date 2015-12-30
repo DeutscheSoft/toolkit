@@ -251,14 +251,14 @@ w.TK.Scale = w.Scale = $class({
                 labels.push(low_draw_label.call(this, O.base, "toolkit-base"));
             }
             // draw top
-            if (this._val2px(O.base - O.min) >= O.gap_labels) {
+            if (Math.abs(this._val2px(O.base) - this._val2px(O.min)) >= O.gap_labels) {
                 this.draw_dot(O.min, "toolkit-min");
                 if (O.show_min)
                     labels.push(low_draw_label.call(this, O.min, "toolkit-min"));
             }
             
             // draw bottom
-            if (this._val2px(O.max - O.base) >= O.gap_labels) {
+            if (Math.abs(this._val2px(O.base) - this._val2px(O.max)) >= O.gap_labels) {
                 this.draw_dot(O.max, "toolkit-max");
                 if (O.show_max)
                     labels.push(low_draw_label.call(this, O.max, "toolkit-max"));
