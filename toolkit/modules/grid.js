@@ -138,7 +138,7 @@ function draw_lines(a, mode, last) {
         }.bind(this));
     }.bind(this), 1);
 }
-w.Grid = $class({
+w.TK.Grid = w.Grid = $class({
     /* @class: Grid
      * @description: Grid creates a couple of lines and labels in a SVG
      * image on the x and y axis. It is used in e.g. #Graph and
@@ -156,6 +156,14 @@ w.Grid = $class({
     _class: "Grid",
     Extends: Widget,
     Implements: Ranges,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        grid_x: "array",
+        grid_y: "array",
+        range_x: "object",
+        range_y: "object",
+        width: "number",
+        height: "number",
+    }),
     options: {
         grid_x:  [],
         grid_y:  [],

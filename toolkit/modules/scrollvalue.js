@@ -90,11 +90,14 @@ function fire_event(title, event) {
     var e = O.events();
     if (e) e.fire_event(title, event, O.get(), O.element, this, O.range());
 }
-w.ScrollValue = $class({
+w.TK.ScrollValue = w.ScrollValue = $class({
     // ScrollValue enables the scrollwheel for setting a value of an
     // object. ScrollValue is used e.g. in Knob for setting its value.
     _class: "ScrollValue",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        active: "boolean",
+    }),
     options: {
         range:     function () { return {}; }, // a range oject
         element:   false,                      // the element receiving

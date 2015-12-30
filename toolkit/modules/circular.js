@@ -218,7 +218,7 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     slice.setAttribute("d", path);
     this.fire_event("slicedrawn");
 }
-w.Circular = $class({
+w.TK.Circular = w.Circular = $class({
     /* @class: Circular
      * @description: Circular is a SVG group element containing two paths for displaying
      * numerical values in a circular manner. Circular is able to draw labels,
@@ -248,6 +248,27 @@ w.Circular = $class({
     _class: "Circular",
     Extends: Widget,
     Implements: [Warning, Ranged],
+    _options: Object.assign(Object.create(Widget.prototype._options), TK.Ranged.prototype._options, {
+        value: "number",
+        size: "number",
+        thickness: "number",
+        margin: "number",
+        hand: "object",
+        start: "number",
+        basis: "number",
+        base: "number",
+        show_base: "boolean",
+        show_value: "boolean",
+        show_hand: "boolean",
+        x: "number",
+        y: "number",
+        dot: "object",
+        dots: "array",
+        marker: "object",
+        markers: "array",
+        label: "object",
+        labels: "array"
+    }),
     options: {
         value:      0,
         size:       100,
@@ -268,7 +289,6 @@ w.Circular = $class({
         markers:    [],
         label:      {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}},
         labels:     []
-        
     },
     
     initialize: function (options) {
@@ -409,8 +429,11 @@ w.Circular = $class({
             value = this.snap(value);
             break;
         }
-        Widget.prototype.set.call(this, key, value);
-        Ranged.prototype.set.call(this, key, value);
+
+        if (TK.Ranged.prototype._options[key])
+            Ranged.prototype.set.call(this, key, value);
+
+        return Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

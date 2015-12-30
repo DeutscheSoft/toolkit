@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w) { 
-w.Graph = $class({
+w.TK.Graph = w.Graph = $class({
     /* @class: Graph
      * @description: Graph is a single SVG path element. It provides
      * some functions to easily draw paths inside Charts and other
@@ -51,6 +51,18 @@ w.Graph = $class({
     _class: "Graph",
     Extends: Widget,
     Implements: Ranges,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        dots: "array",
+        type: "string",
+        mode: "int",
+        base: "number",
+        color: "string",
+        range_x: "object",
+        range_y: "object",
+        width: "number",
+        height: "number",
+        key: "string",
+    }),
     options: {
         dots:      [],
         type:      "L",

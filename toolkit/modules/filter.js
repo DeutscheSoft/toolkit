@@ -250,7 +250,7 @@ function FilterModule(stdlib, foreign, heap) {
     };
 };
 
-w.Filter = $class({
+w.TK.Filter = w.Filter = $class({
     /* @class: Filter
      * @description: Filter provides the math for calculating a gain from
      * a given frequency for different types of filters
@@ -263,6 +263,12 @@ w.Filter = $class({
     _class: "Filter",
     Extends: BASE,
     Implements: [AudioMath],
+    _options: {
+        type: "int",
+        freq: "number",
+        gain: "number",
+        q: "number",
+    },
     options: {
         type: _TOOLKIT_PARAMETRIC,
         freq: 0,

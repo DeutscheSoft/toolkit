@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w) { 
-w.Range = $class({
+w.TK.Range = w.Range = $class({
     /* @class: Range
      * @description: Range is used for calculating linear scales from
      * different values. They are useful to build coordinate systems,
@@ -34,6 +34,18 @@ w.Range = $class({
     Extends : BASE,
     _class: "Range",
     Implements: [Ranged],
+    _options: {
+        scale: "int",
+        reverse: "boolean",
+        basis: "number",
+        min: "number",
+        max: "number",
+        step: "number",
+        shift_up: "number",
+        shift_down: "number",
+        snap: "mixed",
+        round: "boolean",
+    },
     options: {
         scale:      _TOOLKIT_LINEAR, // What kind of value are we having?
                                      // _TOOLKIT_LINEAR

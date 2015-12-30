@@ -67,7 +67,7 @@ function set_handle() {
         onDragging   : this._dragging
     });
 }
-w.Drag = $class({
+w.TK.Drag = w.Drag = $class({
     /* @class: Drag
      * @description: Drag enables dragging of absolutely positioned
      * elements on the screen.
@@ -79,6 +79,11 @@ w.Drag = $class({
      * @extends: Widget */
     _class: "Drag",
     Extends: Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
+        active : "boolean",
+        min : "object",
+        max : "object",
+    }),
     options: {
         element   : null,
         handle    : null,

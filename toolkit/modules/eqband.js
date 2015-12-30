@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){
-w.EqBand = $class({
+w.TK.EqBand = w.EqBand = $class({
     /* @class: EqBand
      * @description: An EqBand extends a #ResponseHandle and holds a
      * dependent #Filter. It is used as a fully functional representation
@@ -30,6 +30,9 @@ w.EqBand = $class({
      * @extends: ResponseHandle */
     _class: "EqBand",
     Extends: ResponseHandle,
+    _options: Object.assign(Object.create(ResponseHandle.prototype._options), {
+        type:    _TOOLKIT_PARAMETRIC // The type of the filter.
+    }),
     options: {
         type:    _TOOLKIT_PARAMETRIC // The type of the filter.
     },

@@ -114,7 +114,7 @@ function correct_labels(labels) {
             }.bind(this));
     }.bind(this), 1);
 }
-w.Scale = $class({
+w.TK.Scale = w.Scale = $class({
     // Scale can be used to draw dots and labels as markers next to a meter, a
     // fader or a frequency response graph. Depending on some parameters it
     // tries to decide on its own where to draw labels and dots depending on the
@@ -124,6 +124,22 @@ w.Scale = $class({
     
     Extends: Widget,
     Implements: [Ranged],
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), Ranged.prototype._options, {
+        layout: "int",
+        division: "number",
+        levels: "array",
+        base: "number",
+        labels: "function",
+        gap_dots: "number",
+        gap_labels: "number",
+        show_labels: "boolean",
+        show_min: "boolean",
+        show_max: "boolean",
+        show_base: "boolean",
+        fixed_dots: "array",
+        fixed_labels: "array",
+        auto_size: "boolean",
+    }),
     options: {
         layout:           _TOOLKIT_RIGHT, // how to draw the scale:
                                           // _TOOLKIT_LEFT:   vertical, labels

@@ -146,7 +146,7 @@ function angle_diff(a, b) {
     var d = (Math.abs(a - b) + 360) % 360;
     return d > 180 ? 360 - d : d;
 }
-w.DragValue = $class({
+w.TK.DragValue = w.DragValue = $class({
     /* @class: DragValue
      * @description: DragValue enables dragging an element and setting a
      * value according to the distance. DragValue is used e.g. in #Knob
@@ -167,6 +167,21 @@ w.DragValue = $class({
     _class: "DragValue",
     Extends: Widget,
     Implements: GlobalCursor,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        /* TODO: these options are somehow not public/dynamic
+        range: "function",
+        element: "object",
+        events: "object",
+        classes: "object",
+        get: "function",
+        set: "function",
+        */
+        direction: "int",
+        active: "boolean",
+        cursor: "boolean",
+        blind_angle: "number",
+        rotation: "number",
+    }),
     options: {
         range:     function () { return {}; }, // a range oject
         element:   false,                      // the element receiving

@@ -294,10 +294,36 @@ function zhandledown(e) {
     this._zhandling = true;
 }
     
-w.ResponseHandle = $class({
+w.TK.ResponseHandle = w.ResponseHandle = $class({
     _class: "ResponseHandle",
     Extends: Widget,
     Implements: [GlobalCursor, Ranges, Warning],
+    _options: Object.assign(Object.create(Widget.prototype._options), Ranges.prototype._options, {
+        range_x: "function",
+        range_y: "function", 
+        range_z: "function",
+        intersect: "function",
+        mode: "int",
+        preferences: "array",
+        label: "function",
+        x: "number",
+        y: "number",
+        z: "number",
+        min_size: "number",
+        margin: "number",
+        z_handle: "boolean",
+        z_handle_size: "number",
+        z_handle_centered: "number",
+        min_drag: "number",
+        x_min: "number",
+        x_max: "number",
+        y_min: "number",
+        y_max: "number",
+        z_min: "number",
+        z_max: "number",
+        active: "boolean",
+        show_axis: "boolean",
+    }),
     options: {
         range_x:          {},           // callback function returning a Range
                                         // module for x axis or an object with

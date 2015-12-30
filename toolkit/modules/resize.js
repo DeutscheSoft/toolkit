@@ -62,10 +62,17 @@ function set_handle() {
         onDragging   : dragging.bind(this)
     });
 }
-w.Resize = $class({
+w.TK.Resize = w.Resize = $class({
     // Resize enables resizing of elements on the screen.
     _class: "Resize",
     Extends: Widget,
+    _options: Object.assign(Object.create(Widget.prototype._options), {
+        handle : "object",
+        direction : "int",
+        active : "boolean",
+        min : "object",
+        max : "object",
+    }),
     options: {
         element   : null,           // the element to resize
         handle    : null,           // a DOM node used as handle. if none set
