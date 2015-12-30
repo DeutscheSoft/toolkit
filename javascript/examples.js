@@ -609,7 +609,7 @@ function run_toggle (root) {
 
 // BUTTON
 
-function run_button () {
+function run_button (root) {
     button = new Button({
         label: "Demo Button",
         icon: "images/icons_big/showcase.png",
