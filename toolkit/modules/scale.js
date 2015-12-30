@@ -221,7 +221,7 @@ w.Scale = $class({
         }
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
-                       "fixed_dots", "fixed_labels", "levels", "basis", "scale", "reverse")) {
+                       "fixed_dots", "fixed_labels", "levels", "basis", "scale", "reverse", "show_labels")) {
             this.__size = 0;
             if (O.base === false)
                 O.base = O.max
