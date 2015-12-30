@@ -19,7 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-this.AudioMath = (function(stdlib, foreign, heap) {
+this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
     "use asm";
     /* @class: AudioMath
      * @description: AudioMath provides a couple of functions for turning

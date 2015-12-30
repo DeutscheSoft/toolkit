@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){ 
-w.Ranges = $class({
+w.TK.Ranges = w.Ranges = $class({
     /* @class: Ranges
      * @description: Ranges provides multiple #Range for a widget. They
      * might be used for e.g. building coordinate systems and the like. */

@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){ 
-w.Gradient = $class({
+w.TK.Gradient = w.Gradient = $class({
     /* @class: Gradient
      * @option: gradient; Bool|Object; false; Gradient definition for the background.
      * Keys are ints or floats as string corresponding to the widgets scale.
@@ -31,6 +31,10 @@ w.Gradient = $class({
      * Gradient needs a Range to be implemented on. */
     _class: "Gradient",
     Implements: Ranged,
+    _options: Object.assign(Ranged.prototype._options, {
+        gradient: "object",
+        background: "string",
+    }),
     options: {
         gradient:        false,
         background:      "#00000"

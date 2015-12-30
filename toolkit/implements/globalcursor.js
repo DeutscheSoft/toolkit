@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){ 
-w.GlobalCursor = $class({
+w.TK.GlobalCursor = w.GlobalCursor = $class({
     /* @class: GlobalCursor
      * @description: GlobalCursor adds global cursor classes to enshure
      * one of the standard cursors (http://www.echoecho.com/csscursors.htm)

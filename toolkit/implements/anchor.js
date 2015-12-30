@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){ 
-w.Anchor = $class({
+w.TK.Anchor = w.Anchor = $class({
     /* @class: Anchor
      * @description: Anchor provides a single function translate_anchor
      * which returns real x and y values from a relative positioning.

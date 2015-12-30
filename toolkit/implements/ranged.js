@@ -354,7 +354,7 @@ function update_transformation() {
 
     Object.assign(this, module);
 }
-w.Ranged = $class({
+w.TK.Ranged = w.Ranged = $class({
     /* @class: Ranged
      * @option: scale; Int|Function; _TOOLKIT_LINEAR; The type of the scale. Either an integer
      * (_TOOLKIT_LINEAR, _TOOLKIT_DECIBEL|_TOOLKIT_LOG2, _TOOLKIT_FREQUENCY|_TOOLKIT_LOG10)
@@ -406,6 +406,19 @@ w.Ranged = $class({
         snap:           0,
         round:          true,
         log_factor:     1
+    },
+    _options: {
+        scale: "int",
+        reverse: "boolean",
+        basis: "number",
+        min: "number",
+        max: "number",
+        step: "number",
+        shift_up: "number",
+        shift_down: "number",
+        snap: "mixed",
+        round: "boolean",
+        log_factor: "number",
     },
 
     initialized: function (options) {

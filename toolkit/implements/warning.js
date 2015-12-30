@@ -20,7 +20,7 @@
  */
 "use strict";
 (function(w){ 
-w.Warning = $class({
+w.TK.Warning = w.Warning = $class({
     /* @class: Warning
      * @decription: Sets a timed class "toolkit-warn" on an element. It
      * is used e.g. in #ResponseHandle or #Knob when the value exceeds
