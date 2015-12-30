@@ -94,10 +94,7 @@ w.$class = function(o) {
 
     if (post_init) {
         constructor = function() {
-            var args = new Array(arguments.length);
-            var i;
-            for (i = 0; i < arguments.length; i++) args[i] = arguments[i];
-            init.apply(this, args);
+            init.apply(this, arguments);
             post_init.call(this);
         };
     } else constructor = init || (function() {});
