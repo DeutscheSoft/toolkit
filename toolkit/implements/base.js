@@ -244,6 +244,13 @@ w.BASE = $class({
          * @parameter: stop; Bool; undefined; Set to true if the event should stop bubbling up the tree */
         var ev;
         var cb;
+
+        if (typeof event !== "string")
+            throw new TypeError("Expected string.");
+
+        if (typeof func !== "function")
+            throw new TypeError("Expected function.");
+
         // add an event listener to a widget. These can be native DOM
         // events if the widget has a delegated element and the widgets
         // native events.
