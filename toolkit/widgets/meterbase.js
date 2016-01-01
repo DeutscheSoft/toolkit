@@ -300,7 +300,6 @@ w.TK.MeterBase = w.MeterBase = $class({
     // GETTER & SETTER
     set: function (key, value) {
         Widget.prototype.set.call(this, key, value);
-        Ranged.prototype.set.call(this, key, value);
         switch (key) {
             case "label":
                 this.fire_event("labelchanged", value);

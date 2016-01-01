@@ -430,9 +430,6 @@ w.TK.Circular = w.Circular = $class({
             break;
         }
 
-        if (TK.Ranged.prototype._options[key])
-            Ranged.prototype.set.call(this, key, value);
-
         return Widget.prototype.set.call(this, key, value);
     }
 });

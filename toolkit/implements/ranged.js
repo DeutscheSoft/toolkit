@@ -354,6 +354,21 @@ function update_transformation() {
 
     Object.assign(this, module);
 }
+function set_cb(key, value) {
+    switch (key) {
+    case "min":
+    case "max":
+    case "snap":
+        update_snap.call(this); 
+        /* fall through */
+    case "log_factor":
+    case "scale":
+    case "reverse":
+    case "basis":
+        update_transformation.call(this);
+        break;
+    }
+}
 w.TK.Ranged = w.Ranged = $class({
     /* @class: Ranged
      * @option: scale; Int|Function; _TOOLKIT_LINEAR; The type of the scale. Either an integer
@@ -424,22 +439,8 @@ w.TK.Ranged = w.Ranged = $class({
     initialized: function (options) {
         update_snap.call(this);
         update_transformation.call(this);
+        this.add_event("set", set_cb);
     },
 
-    set: function(key, value) {
-        switch (key) {
-        case "min":
-        case "max":
-        case "snap":
-            update_snap.call(this); 
-            /* fall through */
-        case "log_factor":
-        case "scale":
-        case "reverse":
-        case "basis":
-            update_transformation.call(this);
-            break;
-        }
-    },
 });
 })(this);

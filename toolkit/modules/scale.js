@@ -366,7 +366,6 @@ w.TK.Scale = w.Scale = $class({
     // GETTER & SETTER
     set: function (key, value) {
         Widget.prototype.set.call(this, key, value);
-        Ranged.prototype.set.call(this, key, value);
         switch (key) {
             case "division":
             case "levels":

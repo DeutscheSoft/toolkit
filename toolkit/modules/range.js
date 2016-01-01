@@ -116,7 +116,6 @@ w.TK.Range = w.Range = $class({
         this.options[key] = value;
         this.fire_event("set", key, value);
         this.fire_event("set_" + key, value);
-        Ranged.prototype.set.call(this, key, value);
     },
     get: function (key) {
         return this.options[key];

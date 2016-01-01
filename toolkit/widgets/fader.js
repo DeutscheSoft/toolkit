@@ -265,7 +265,6 @@ w.TK.Fader = w.Fader = $class({
                 break;
         }
         Widget.prototype.set.call(this, key, value);
-        Ranged.prototype.set.call(this, key, value);
     }
 });
 })(this);

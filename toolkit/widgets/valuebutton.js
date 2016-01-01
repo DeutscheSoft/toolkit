@@ -168,7 +168,6 @@ w.TK.ValueButton = w.ValueButton = $class({
             value = this.snap(value);
         }
         Button.prototype.set.call(this, key, value);
-        Ranged.prototype.set.call(this, key, value);
         switch (key) {
             case "value":
                 this.value.set("value", value);
