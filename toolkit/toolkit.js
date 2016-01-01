@@ -672,6 +672,24 @@ function is_dom_node(o) {
     /* this is broken for SVG */
     return typeof o === "object" && o instanceof Node;
 }
+
+// NOTE: IE9 will throw errors when console is used without debugging tools. In general, it
+// is better for log/warn to silently fail in case of error. This unfortunately means that
+// warnings might be lost, but probably better than having diagnostics and debugging code
+// break an application
+function warn() {
+    if (!w.console) return;
+    try {
+        w.console.warn.apply(w.console, arguments);
+    } catch(e) {}
+}
+function log() {
+    if (!w.console) return;
+    try {
+        w.console.log.apply(w.console, arguments);
+    } catch(e) {}
+}
+
 w.TK = w.toolkit = {
     // ELEMENTS
     S: new DOMScheduler(),
@@ -793,6 +811,8 @@ w.TK = w.toolkit = {
     store: store,
     retrieve: retrieve,
     merge: merge,
+    warn: warn,
+    log: log,
 };
 
 // POLYFILLS
