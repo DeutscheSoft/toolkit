@@ -1,4 +1,4 @@
-all : documentation toolkit/toolkit.min.js toolkit/toolkit.max.js toolkit/styles/css/toolkit.min.css
+all : documentation toolkit/toolkit.max.js toolkit/styles/css/toolkit.min.css toolkit/toolkit.min.js
 
 documentation :
 	generator/items.pike
