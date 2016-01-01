@@ -219,6 +219,7 @@ w.BASE = $class({
         }
         for (key in this.options) if (key.indexOf("on") == 0) {
             this.add_event(key.substr(2).toLowerCase(), this.options[key]);
+            delete this.options[key];
         }
     },
     delegate_events: function (element) {
