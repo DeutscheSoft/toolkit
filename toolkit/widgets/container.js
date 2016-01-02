@@ -47,18 +47,19 @@ function after_showing() {
 w.TK.Container = w.Container = $class({
     /* @class: Container
      * @description: Container represents a <DIV> element.
+     * @extends: Widget
+     * @option: content; String|Element; undefined; The content of the container. It can either be
+     * a string which is interpreted as Text or a DOM node. Note that this options will remove all
+     * child nodes from the container element including those added via append_child.
      */
     _class: "Container",
     Extends: Widget,
     _options: Object.assign(Object.create(Widget.prototype._options), {
         content: "string",
+        display_state: "string",
     }),
     options: {
         display_state : "hide",
-        /*content: ""*/
-                    // the content of the container. It can either be
-                    // a string which is interpreted as HTML or a
-                    // ready-to-use DOM node.
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
@@ -213,7 +214,7 @@ w.TK.Container = w.Container = $class({
             I.content = false;
             TK.empty(E);
 
-            TK.set_content(E, O.content);
+            if (O.content) TK.set_content(E, O.content);
         }
     },
 });
