@@ -668,6 +668,20 @@ function merge(dst) {
     }
     return dst;
 }
+function object_and(orig, filter) {
+    var ret = {};
+    for (var key in orig) {
+        if (filter[key]) ret[key] = orig[key];
+    }
+    return ret;
+}
+function object_sub(orig, filter) {
+    var ret = {};
+    for (var key in orig) {
+        if (!filter[key]) ret[key] = orig[key];
+    }
+    return ret;
+}
 function is_dom_node(o) {
     /* this is broken for SVG */
     return typeof o === "object" && o instanceof Node;
@@ -811,6 +825,8 @@ w.TK = w.toolkit = {
     store: store,
     retrieve: retrieve,
     merge: merge,
+    object_and: object_and,
+    object_sub: object_sub,
     warn: warn,
     log: log,
 };
