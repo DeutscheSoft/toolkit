@@ -79,9 +79,9 @@ w.TK.Widget = w.Widget = $class({
         BASE.prototype.initialize.call(this);
         // Main actions every widget needs to take
         this.fire_event("initialize");
+        if (!options.id)
+            options.id = TK.unique_id();
         this.set_options(options);
-        if (!this.options.id)
-            this.options.id = TK.unique_id();
         this.__classified = null;
         this.__stylized = null;
         this.__delegated = null;
@@ -155,20 +155,6 @@ w.TK.Widget = w.Widget = $class({
                 I.id = false;
                 E.setAttribute("id", O.id);
             }
-
-            if (I.container) {
-                I.container = false;
-                if (O.container && E.parentNode !== O.container) O.container.appendChild(E);
-            }
-        }
-
-        E = this.classified;
-
-        if (E) {
-            if (I["class"]) {
-                I["class"] = false;
-                TK.add_class(E, O["class"]);
-            }
         }
 
         E = this.stylized;
@@ -224,6 +210,8 @@ w.TK.Widget = w.Widget = $class({
         // Takes a DOM element and adds its CSS functionality to the
         // widget instance
         this.__classified = element;
+        if (this.options.class && element)
+            TK.add_class(element, this.options.class);
         this.fire_event("classified", element);
         return element;
     },
@@ -246,16 +234,21 @@ w.TK.Widget = w.Widget = $class({
         return element;
     },
     widgetize: function (element, delegate, classify, stylize) {
-        // create a widget from a DOM element. Basically it means to add the id
-        // from options and set a basic CSS class. If delegate is true, basic
-        // events will be delegated from the element to the widget instance
-        // if classify is true, CSS functions will be bound to the widget
-        // instance
+        /* @method: widgetize(element, delegate, classify, stylize)
+         * Set the DOM elements of this widgets. This method is usually only used internally.
+         * Basically it means to add the id from options and set a basic CSS class.
+         * If delegate is true, basic events will be delegated from the element to the widget instance
+         * if classify is true, CSS functions will be bound to the widget instance.
+         */
+        
+        // classify?
         TK.add_class(element, "toolkit-widget");
         if (this.options.id)
             element.setAttribute("id", this.options.id);
         if (this.options["class"])
             TK.add_class(element, this.options["class"]);
+        if (this.options.container)
+            this.options.container.appendChild(element);
         if (delegate)
             this.delegate(element);
         if (classify)
@@ -269,6 +262,17 @@ w.TK.Widget = w.Widget = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
+        /* These options are special and need to be handled immediately, in order
+         * to preserve correct ordering */
+        if (key === "container") {
+            if (value && this.element) {
+                value.appendChild(this.element);
+            }
+        }
+        if (key === "class" && this.__classified) {
+            if (this.options.class) TK.remove_class(this.__classified, this.options.class);
+            if (value) TK.add_class(this.__classified, value);
+        }
         this.options[key] = value;
         this.value_time[key] = Date.now();
         this.invalid[key] = true;
