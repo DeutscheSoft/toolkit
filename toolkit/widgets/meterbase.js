@@ -190,7 +190,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         if (I.reverse) {
             I.reverse = false;
             (O.reverse ? TK.add_class : TK.remove_class)(E, "toolkit-reverse");
-
         }
         if (I.gradient || I.background) {
             I.gradient = I.background = false;
@@ -334,13 +333,8 @@ w.TK.MeterBase = w.MeterBase = $class({
                 this.scale.set(key, value);
                 break;
             case "reverse":
-                if (value && !hold)
-                    TK.add_class(this.element, "toolkit-reverse");
-                if (!value && !hold)
-                    TK.remove_class(this.element, "toolkit-reverse");
                 this.scale.set(key, value, hold);
                 this.fire_event("scalechanged", key, value);
-                if (!hold) this.redraw();
                 break;
             case "format_labels":
                 this.fire_event("scalechanged", key, value);
