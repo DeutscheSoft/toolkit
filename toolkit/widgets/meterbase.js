@@ -133,16 +133,14 @@ w.TK.MeterBase = w.MeterBase = $class({
             O.label = O.value;
         this.set("base", O.base);
         
-        var options = TK.merge({}, O);
+        var options = TK.object_and(O, TK.Scale.prototype._options);
+        options = TK.object_sub(options, TK.Widget.prototype._options);
         options.labels    = O.format_labels;
         options.base      = this.__based ? O.base : O.scale_base;
-        options.container = false;
-        options.id        = false;
+        options.container = E;
         this.scale        = new Scale(options);
         this._scale       = this.scale.element;
-        E.appendChild(this._scale);
         this.add_child(this.scale);
-        
         this.delegate(this._bar);
     },
 
@@ -314,28 +312,6 @@ w.TK.MeterBase = w.MeterBase = $class({
                 // what is this supposed to do
                 this.set("value", this.options.value);
                 break;
-            case "division":
-            case "reverse":
-            case "min":
-            case "max":
-            case "log_factor":
-            case "step":
-            case "round":
-            case "scale":
-            case "basis":
-            case "gap_dots":
-            case "gap_labels":
-            case "show_labels":
-            case "show_max":
-            case "show_min":
-            case "show_base":
-                this.fire_event("scalechanged", key, value);
-                this.scale.set(key, value);
-                break;
-            case "reverse":
-                this.scale.set(key, value, hold);
-                this.fire_event("scalechanged", key, value);
-                break;
             case "format_labels":
                 this.fire_event("scalechanged", key, value);
                 this.scale.set("labels", value);
@@ -353,6 +329,12 @@ w.TK.MeterBase = w.MeterBase = $class({
                 }
                 this.fire_event("basechanged", value);
                 break;
+            default:
+                if (Widget.prototype._options[key]) break;
+                if (Scale.prototype._options[key]) {
+                    this.fire_event("scalechanged", key, value);
+                    this.scale.set(key, value);
+                }
         }
         return value;
     }

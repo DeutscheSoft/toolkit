@@ -45,13 +45,15 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     }),
     initialize: function (options) {
         this.element = TK.element("div", "toolkit-valueknob");
+
         Widget.prototype.initialize.call(this, options);
-        this.knob = new Knob(TK.merge({}, this.options, {
-            container: this.element,
-        }));
-        this.knob.add_event("useraction", function(key, value) {
-            if (key == "value") this.parent.set(key, value);
-        });
+
+        var ko = TK.object_and(this.options, TK.Knob.prototype._options);
+        ko = TK.object_sub(ko, TK.Widget.prototype._options);
+        ko.container = this.element;
+
+        this.knob = new Knob(ko);
+
         this.value = new Value({
             container: this.element,
             value: this.options.value,
@@ -62,6 +64,9 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
+        this.knob.add_event("useraction", function(key, value) {
+            this.parent.set(key, value);
+        });
         this.add_child(this.value);
         this.add_child(this.knob);
         this.widgetize(this.element, true, true, true);
@@ -79,57 +84,13 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         return Widget.prototype.get.call(this, key);
     },
     set: function (key, value) {
-        /* TODO: this is too much... */
-        if (key !== "container")
-            this.knob.set(key, value);
-        switch (key) {
-            case "value_size":
-                this.value.set("size", value);
-                break;
-            case "value":
-                this.value.set("value", value);
-                this.circular.set(key, value);
-                break;
-            case "drag_direction":
-                this.drag.set("direction", value);
-                break;
-            case "rotation":
-                this.drag.set("rotation", value);
-                break;
-            case "blind_angle":
-                this.drag.set("blind_angle", value);
-                break;
-            case "value":
-            case "size":
-            case "thickness":
-            case "margin":
-            case "hand":
-            case "start":
-            case "basis":
-            case "base":
-            case "show_base":
-            case "show_value":
-            case "show_hand":
-            case "x":
-            case "y":
-            case "dot":
-            case "dots":
-            case "marker":
-            case "markers":
-            case "label":
-            case "labels":
-            case "scale":
-            case "reverse":
-            case "min":
-            case "max":
-            case "step":
-            case "shift_up":
-            case "shift_down":
-            case "snap":
-            case "round":
-            case "log_factor":
-                this.circular.set(key, value);
-                break;
+        if (key === "value_size")
+            value = this.value.set("size", value);
+        else if (!TK.Widget.prototype._options[key]) {
+            if (TK.Knob.prototype._options[key])
+                value = this.knob.set(key, value);
+            if (TK.Value.prototype._options[key])
+                this.value.set(key, value);
         }
         return Widget.prototype.set.call(this, key, value);
     }

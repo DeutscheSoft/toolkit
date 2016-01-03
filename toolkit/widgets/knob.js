@@ -69,7 +69,12 @@ w.TK.Knob = w.Knob = $class({
         Widget.prototype.initialize.call(this, options);
         var svg = TK.make_svg("svg", {"class": "toolkit-knob"});
 
-        this.circular = new Circular(TK.merge({}, this.options, { container : svg }));
+        var co = TK.object_and(this.options, TK.Circular.prototype._options);
+        co = TK.object_sub(co, TK.Widget.prototype._options);
+        co.container = svg;
+
+        this.circular = new Circular(co);
+
         this.element = this.widgetize(svg, true, true, true);
         
         this.drag = new DragValue({
@@ -120,52 +125,16 @@ w.TK.Knob = w.Knob = $class({
 
         Widget.prototype.redraw.call(this);
     },
-    
-    set: function (key, value) {
-        switch (key) {
-            case "direction":
-            case "rotation":
-            case "blind_angle":
+
+    set: function(key, value) {
+        // Circular does the snapping
+        if (!TK.Widget.prototype._options[key]) {
+            if (TK.Circular.prototype._options[key])
+                value = this.circular.set(key, value);
+            if (TK.DragValue.prototype._options[key])
                 this.drag.set(key, value);
-                break;
-            case "value":
-            case "size":
-            case "thickness":
-            case "margin":
-            case "hand":
-            case "start":
-            case "basis":
-            case "base":
-            case "show_base":
-            case "show_value":
-            case "show_hand":
-            case "x":
-            case "y":
-            case "dot":
-            case "dots":
-            case "marker":
-            case "markers":
-            case "label":
-            case "labels":
-            case "scale":
-            case "reverse":
-            case "min":
-            case "max":
-            case "step":
-            case "shift_up":
-            case "shift_down":
-            case "snap":
-            case "round":
-            case "log_factor":
-                this.circular.set(key, value);
-                break;
-        }
-        if (key === "value") {
-            /* Circular snaps values, so lets make sure we get the right one */
-            value = this.circular.options.value;
         }
         return Widget.prototype.set.call(this, key, value);
-
-    }
+    },
 });
 })(this);
