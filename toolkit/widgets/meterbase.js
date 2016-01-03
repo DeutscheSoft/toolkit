@@ -34,7 +34,8 @@ w.TK.MeterBase = w.MeterBase = $class({
     _class: "MeterBase",
     Extends: Widget,
     Implements: [Gradient],
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(Widget.prototype._options),
+                            Gradient.prototype._options, Scale.prototype._options, {
         layout: "int",
         segment: "number",
         value: "number",

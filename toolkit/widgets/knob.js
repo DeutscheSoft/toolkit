@@ -34,7 +34,8 @@ w.TK.Knob = w.Knob = $class({
      */
     _class: "Knob",
     Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(Widget.prototype._options), TK.Circular.prototype._options,
+                            TK.DragValue.prototype._options, {
         size: "number",
         hand: "object",
         margin: "number",

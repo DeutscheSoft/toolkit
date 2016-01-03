@@ -92,7 +92,7 @@ w.TK.Fader = w.Fader = $class({
     _class: "Fader",
     Extends: Widget,
     Implements: [Ranged, Warning, GlobalCursor],
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(Widget.prototype._options), Ranged.prototype._options, {
         value:    "number",
         division: "number",
         levels:   "array",

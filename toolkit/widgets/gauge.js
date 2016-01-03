@@ -34,7 +34,7 @@ w.TK.Gauge = w.Gauge = $class({
      */
     _class: "Gauge",
     Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(Widget.prototype._options), Circular.prototype._options, {
         x: "number",
         y: "number",
         width:  "number",
