@@ -54,7 +54,7 @@ function value_typing(e) {
             break;
         case 13:
             // ENTER
-            var val = this.options.set(this._input.value);
+            var val = this.options.set.call(this, this._input.value);
             this.set("value", val);
             value_done.call(this);
             this.fire_event("valueset", this.options.value);
