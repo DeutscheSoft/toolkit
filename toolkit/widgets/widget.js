@@ -58,20 +58,20 @@ w.TK.Widget = w.Widget = $class({
     Extends : BASE,
     _class: "Widget",
     _options: {
-        container: "object",
-        id: "string",
+        // A CSS class to add to the main element
         class: "string",
+        // A DOM element as container to inject the element
+        // into
+        container: "object",
+        // a id to set on the element. If omitted a random
+        // string is generated.
+        id: "string",
+        // If an element was stylized, styles can be applied
         styles: "object",
         disabled: "boolean",
     },
     options: {
         // these options are of less use and only here to show what we need
-        container: false, // A DOM element as container to inject the element
-                          // into
-        id:        "",    // a id toset on the element. If omitted a random
-                          // string is generated.
-        class:   "",    // A CSS class to add to the main element
-        styles:    {},    // If an element was stylized, styles can be applied
         disabled:  false  // Widgets can be disabled by setting this to true
     },
     Implements: [AudioMath],
