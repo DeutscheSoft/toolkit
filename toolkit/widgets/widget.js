@@ -218,9 +218,15 @@ w.TK.Widget = w.Widget = $class({
     set_style: function (name, value) {
         TK.set_style(this.__stylized, name, value);
     },
+    /* @method: set_style(property, value)
+     * Sets a CSS style property in this widgets DOM element.
+     */
     set_styles: function (styles) {
         TK.set_styles(this.__stylized, styles);
     },
+    /* @method: get_style(property)
+     * Returns the computed style of this widgets DOM element.
+     */
     get_style: function (name) {
         return TK.get_style(this.__stylized, name);
     },
@@ -261,6 +267,9 @@ w.TK.Widget = w.Widget = $class({
     },
     
     // GETTER & SETTER
+    /* @method: set(key, value)
+     * Set an option.
+     */
     set: function (key, value) {
         /* These options are special and need to be handled immediately, in order
          * to preserve correct ordering */
@@ -281,6 +290,9 @@ w.TK.Widget = w.Widget = $class({
         this.fire_event("set_" + key, value);
         return value;
     },
+    /* @method: get(key)
+     * Get the value of an option.
+     */
     get: function (key) {
         return this.options[key];
     },
@@ -293,6 +305,10 @@ w.TK.Widget = w.Widget = $class({
             this.fire_event("show");
         }
     },
+    /* @method: show()
+     * Make the widget visible. This does not modify the DOM, instead it will only schedule
+     * the widget for rendering.
+     */
     show: function () {
         this._low_show();
         var C = this.children;
@@ -307,6 +323,11 @@ w.TK.Widget = w.Widget = $class({
             this.fire_event("hide");
         }
     },
+    /* @method: hide()
+     * Make the widget hidden. This does not modify the DOM, instead it will stop rendering
+     * this widget. Options changed after calling hide() will only be rendered (i.e. applied
+     * to the DOM) when the widget is made visible again using show().
+     */
     hide: function () {
         this._low_hide();
         var C = this.children;
@@ -318,13 +339,23 @@ w.TK.Widget = w.Widget = $class({
     force_show: function() {
         Widget.prototype.show.call(this);
     },
+    /* @method: hidden()
+     * Returns the current hidden status of the widget.
+     */
     hidden: function() {
         return this.__hidden;
     },
+    /* @method: toggle_hidden()
+     * Toggle the hidden status. This is equivalent to calling hide() or show(), depending on
+     * the current hidden status of this widget.
+     */
     toggle_hidden: function() {
         if (this.hidden()) this.show();
         else this.hide();
     },
+    /* @method: add_child(child)
+     * Registers a widget as a child widget. This method is used to build up the widget tree.
+     */
     add_child: function(child) {
         var C = this.children;
         if (child.parent) child.parent.remove_child(child);
@@ -336,6 +367,9 @@ w.TK.Widget = w.Widget = $class({
             child.show();
         }
     },
+    /* @method: remove_child(child)
+     * Removes a child widget.
+     */
     remove_child : function(child) {
         var C = this.children;
         var i = C.indexOf(child);
@@ -344,9 +378,15 @@ w.TK.Widget = w.Widget = $class({
             C.splice(i, 1);
         }
     },
+    /* @method: remove_children(a)
+     * Removes an array of children.
+     */
     remove_children : function(a) {
         a.map(this.remove_child, this);
     },
+    /* @method: add_children(a)
+     * Registers an array of widgets as children.
+     */
     add_children : function (a) {
         a.map(this.add_child, this);
     },
