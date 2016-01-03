@@ -167,7 +167,7 @@ w.TK.ValueButton = w.ValueButton = $class({
                 this.warning(this.element);
             value = this.snap(value);
         }
-        Button.prototype.set.call(this, key, value);
+        value = Button.prototype.set.call(this, key, value);
         switch (key) {
             case "value":
                 this.value.set("value", value);
@@ -189,6 +189,7 @@ w.TK.ValueButton = w.ValueButton = $class({
                 this.drag.set("blind_angle", value);
                 break;
         }
+        return value;
     }
 });
 })(this);

@@ -392,7 +392,7 @@ w.TK.Chart = w.Chart = $class({
     
     // GETTER & SETER
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        value = Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "grid_x":
                 this.grid.set("grid_x", value);
@@ -407,6 +407,7 @@ w.TK.Chart = w.Chart = $class({
                 this.range_y.set("basis", value);
                 break;
         }
+        return value;
     }
 });
 })(this);

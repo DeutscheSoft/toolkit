@@ -264,7 +264,8 @@ w.TK.Fader = w.Fader = $class({
                 this.scroll.set("direction", this.options.direction);
                 break;
         }
-        Widget.prototype.set.call(this, key, value);
+
+        return Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

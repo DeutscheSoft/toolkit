@@ -299,7 +299,7 @@ w.TK.Pager = w.Pager = $class({
 
             this.buttonarray.set("show", value);
         }
-        Container.prototype.set.call(this, key, value);
+        value = Container.prototype.set.call(this, key, value);
         switch(key) {
             case "show":
                 page = this.current();
@@ -327,6 +327,7 @@ w.TK.Pager = w.Pager = $class({
                 this.buttonarray.set("direction", badir);
                 break;
         }
+        return value;
     },
     get: function (key) {
         if (key == "pages") return this.pages;

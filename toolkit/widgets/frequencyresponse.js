@@ -128,7 +128,7 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
                 value = calculate_grid(this.range_y, value);
                 break;
         }
-        Chart.prototype.set.call(this, key, value);
+        return Chart.prototype.set.call(this, key, value);
     }
 });
 })(this);

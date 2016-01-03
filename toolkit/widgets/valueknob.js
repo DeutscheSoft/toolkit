@@ -80,7 +80,6 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         return Widget.prototype.get.call(this, key);
     },
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
         /* TODO: this is too much... */
         if (key !== "container")
             this.knob.set(key, value);
@@ -133,7 +132,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
                 this.circular.set(key, value);
                 break;
         }
-        
+        return Widget.prototype.set.call(this, key, value);
     }
     
 });

@@ -318,8 +318,8 @@ w.TK.Clock = w.Clock = $class({
     
     // GETTERS & SETTERS
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
         if (key == "timeout") timeout.call(this);
+        return Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

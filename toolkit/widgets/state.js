@@ -74,7 +74,7 @@ w.TK.State = w.State = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        value = Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "color":
                 this.fire_event("colorchanged", value);
@@ -83,6 +83,7 @@ w.TK.State = w.State = $class({
                 this.fire_event("statechanged", value);
                 break;
         }
+        return value;
     }
 });
 })(this);

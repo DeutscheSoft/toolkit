@@ -283,7 +283,6 @@ w.TK.Select = w.Select = $class({
             key = "selected";
             value = index;
         }
-        Button.prototype.set.call(this, key, value);
         switch (key) {
             case "selected":
                 var entry = this.current();
@@ -298,6 +297,7 @@ w.TK.Select = w.Select = $class({
                 this.set_entries(value);
                 break;
         }
+        return Button.prototype.set.call(this, key, value);
     }
 });
 })(this);

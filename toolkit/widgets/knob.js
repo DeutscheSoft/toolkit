@@ -164,7 +164,7 @@ w.TK.Knob = w.Knob = $class({
             /* Circular snaps values, so lets make sure we get the right one */
             value = this.circular.options.value;
         }
-        Widget.prototype.set.call(this, key, value);
+        return Widget.prototype.set.call(this, key, value);
 
     }
 });

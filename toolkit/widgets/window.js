@@ -811,7 +811,7 @@ w.TK.Window = w.Window = $class({
                 }
                 break;
         }
-        Container.prototype.set.call(this, key, value, hold);
+        return Container.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

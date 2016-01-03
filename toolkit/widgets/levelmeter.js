@@ -401,7 +401,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
                 if (v < base && value < base && value > v) return;
             }
         }
-        MeterBase.prototype.set.call(this, key, value);
+        value = MeterBase.prototype.set.call(this, key, value);
         switch (key) {
             case "peak":
                 this.fire_event("peakchanged");
@@ -437,6 +437,8 @@ w.TK.LevelMeter = w.LevelMeter = $class({
                     window.clearTimeout(this.__bto);
                 break;
         }
+
+        return value;
     }
 });
 })(this);

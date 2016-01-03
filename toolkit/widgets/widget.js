@@ -279,6 +279,7 @@ w.TK.Widget = w.Widget = $class({
         this.trigger_draw();
         this.fire_event("set", key, value);
         this.fire_event("set_" + key, value);
+        return value;
     },
     get: function (key) {
         return this.options[key];

@@ -229,12 +229,12 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     
     // GETTER & SETER
     set: function (key, value) {
-        FrequencyResponse.prototype.set.call(this, key, value);
         switch (key) {
             case "depth":
                 this.range_z.set("basis", value);
                 break;
         }
+        return FrequencyResponse.prototype.set.call(this, key, value);
     }
 });
 })(this);

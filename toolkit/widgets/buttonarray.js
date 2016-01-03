@@ -299,7 +299,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             button = this.current();
             if (button) button.set("state", false);
         }
-        Container.prototype.set.call(this, key, value);
+        value = Container.prototype.set.call(this, key, value);
         switch (key) {
             case "show":
                 button = this.current();
@@ -321,6 +321,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 this.next.set("label", value == _TOOLKIT_VERT ? "▼" : "▶");
                 break;
         }
+        return value;
     },
     get: function (key) {
         if (key == "buttons") return this.buttons;

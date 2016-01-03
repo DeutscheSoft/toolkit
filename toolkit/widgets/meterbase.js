@@ -300,7 +300,7 @@ w.TK.MeterBase = w.MeterBase = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        value = Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "label":
                 this.fire_event("labelchanged", value);
@@ -360,6 +360,7 @@ w.TK.MeterBase = w.MeterBase = $class({
                 this.fire_event("basechanged", value);
                 break;
         }
+        return value;
     }
 });
 })(this);

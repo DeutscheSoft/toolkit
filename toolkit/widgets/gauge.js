@@ -163,6 +163,7 @@ w.TK.Gauge = w.Gauge = $class({
                 this.circular.set(key, value);
                 break;
         }
+        return value;
     }
 });
 })(this);
