@@ -57,9 +57,8 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             value: this.options.value,
             format: this.options.value_format,
             set: function (val) {
-                this.set("value", parseFloat(val));
-                return this.options.value;
-            }.bind(this)
+                return this.parent.set("value", parseFloat(val));
+            },
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
