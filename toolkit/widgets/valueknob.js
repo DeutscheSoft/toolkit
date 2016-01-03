@@ -21,12 +21,12 @@
 "use strict";
 (function(w){
 function value_clicked() {
-    this.scroll.set("active", false);
-    this.drag.set("active", false);
+    this.knob.scroll.set("active", false);
+    this.knob.drag.set("active", false);
 }
 function value_done() {
-    this.scroll.set("active", true);
-    this.drag.set("active", true);
+    this.knob.scroll.set("active", true);
+    this.knob.drag.set("active", true);
     this.fire_event("valueset", this.options.value);
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
@@ -69,10 +69,16 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     },
     
     destroy: function () {
+        this.knob.destroy();
         this.value.destroy();
         Widget.prototype.destroy.call(this);
     },
-    
+
+    get: function (key) {
+        if (key === "value_size")
+            return this.value.get("size");
+        return Widget.prototype.get.call(this, key);
+    },
     set: function (key, value) {
         Widget.prototype.set.call(this, key, value);
         /* TODO: this is too much... */
