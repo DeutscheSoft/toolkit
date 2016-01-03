@@ -172,7 +172,7 @@ w.TK.Widget = w.Widget = $class({
 
             if (I.styles) {
                 I.styles = false;
-                TK.set_styles(E, O.styles);
+                if (O.styles) TK.set_styles(E, O.styles);
             }
         }
 
