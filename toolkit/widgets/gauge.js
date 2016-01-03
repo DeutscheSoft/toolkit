@@ -42,7 +42,7 @@ w.TK.Gauge = w.Gauge = $class({
         size:   "number",
         title: "object",
     }),
-    options: {
+    options: Object.assign({}, TK.Circular.prototype.options, {
         x:          0,
         y:          0,
         width:  120, // width of the element
@@ -54,7 +54,7 @@ w.TK.Gauge = w.Gauge = $class({
                      // margin: margin of the imaginary circle from size
                      // align:  alignment, _TOOLKIT_INNER or _TOOLKIT OUTER
                      // title:  the title as a string
-    },
+    }),
     initialize: function (options) {
         if (typeof options.title == "string")
             options.title = {title: options.title};

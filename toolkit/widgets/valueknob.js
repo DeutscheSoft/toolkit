@@ -39,10 +39,10 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         value_format: "function",
         value_size: "number",
     }),
-    options: {
+    options: Object.assign({}, TK.Value.prototype.options, TK.Knob.prototype.options, {
         value_format: function (val) { return val.toFixed(2); },
         value_size: 5
-    },
+    }),
     initialize: function (options) {
         this.element = TK.element("div", "toolkit-valueknob");
         Widget.prototype.initialize.call(this, options);

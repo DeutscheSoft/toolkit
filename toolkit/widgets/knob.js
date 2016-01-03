@@ -50,7 +50,7 @@ w.TK.Knob = w.Knob = $class({
         rotation: "number",
         blind_angle: "number",
     }),
-    options: {
+    options: Object.assign({}, TK.Circular.prototype.options, {
         size: 100,
         hand: {width: 2, length: 6, margin: 22},
         margin: 13,
@@ -64,8 +64,7 @@ w.TK.Knob = w.Knob = $class({
         direction: _TOOLKIT_POLAR,
         rotation:       45,
         blind_angle:    20
-    },
-    
+    }),
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
         var svg = TK.make_svg("svg", {"class": "toolkit-knob"});
