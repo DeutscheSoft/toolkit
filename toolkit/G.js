@@ -99,7 +99,7 @@ Scheduler.prototype = {
         if (debug) {
             t = performance.now() - t;
             if (t > debug)
-                console.log("DOMScheduler did %d runs and %d calls: %f ms", runs, calls, t);
+                TK.log("DOMScheduler did %d runs and %d calls: %f ms", runs, calls, t);
         }
 
         this.running = false;

@@ -21,7 +21,6 @@
 "use strict";
 (function(w) {
 var merge = function(dst) {
-    //console.log("merging", src, "into", dst);
     var key, i, src;
     for (i = 1; i < arguments.length; i++) {
         src = arguments[i];
@@ -353,7 +352,7 @@ w.BASE = $class({
             try {
                 ev[i].apply(this, args);
             } catch (e) {
-                console.log("event handler", ev[i], "threw", e);
+                TK.log("event handler", ev[i], "threw", e);
             }
         }
     },

@@ -110,7 +110,7 @@ w.TK.Widget = w.Widget = $class({
         }
 
         if (warn.length) {
-            console.log("found", warn.length, "invalid in", this, ":", warn);
+            TK.log("found", warn.length, "invalid in", this, ":", warn);
         }
     },
 

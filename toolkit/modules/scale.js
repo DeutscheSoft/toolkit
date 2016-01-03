@@ -279,7 +279,7 @@ w.TK.Scale = w.Scale = $class({
                 var iter = O.base;
                 var last = iter;
                 while (iter > O.min) {
-                    //console.log("beneath", O.reverse, iter)
+                    //TK.log("beneath", O.reverse, iter)
                     iter -= O.division;
                     if (level = check_label.call(this, iter, O.division, last)) {
                         if (level[1]) {
@@ -299,7 +299,7 @@ w.TK.Scale = w.Scale = $class({
                 iter = O.base;
                 last = iter;
                 while (iter < O.max) {
-                    //console.log("above", O.reverse, iter)
+                    //TK.log("above", O.reverse, iter)
                     iter += O.division;
                     if (level = check_label.call(this, iter, O.division, last)) {
                         if (level[1]) {
