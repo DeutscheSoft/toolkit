@@ -213,6 +213,7 @@ w.TK.Chart = w.Chart = $class({
     _class: "Chart",
     Extends: Widget,
     Implements: Ranges,
+    DOMElement: SVGElement,
     _options: Object.assign(Object.create(Widget.prototype._options), {
         grid_x: "array",
         grid_y: "array",

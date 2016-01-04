@@ -149,6 +149,7 @@ w.TK.Clock = w.Clock = $class({
      */
     _class: "Clock",
     Extends: Widget,
+    DOMElement: SVGElement,
     _options: Object.assign(Object.create(Widget.prototype._options), {
         thickness:    "int",
         margin:       "int",
