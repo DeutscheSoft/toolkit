@@ -6,7 +6,7 @@ vertical.png
 horizontal.png
 */
 
-div.toolkit-state {
+.toolkit-state {
     width: 30px;
     height: 5px;
     margin: 10px;
@@ -20,6 +20,6 @@ div.toolkit-state {
     border-right: 2px solid #f3f3f3;
 }
 
-div.toolkit-state div.toolkit-mask {
+.toolkit-state .toolkit-mask {
     background: black;
 }

@@ -134,7 +134,7 @@ pre, code {
 
 /* FADER */
 
-div.toolkit-fader {
+.toolkit-fader {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -146,189 +146,189 @@ div.toolkit-fader {
     position: relative;
 }
 
-div.toolkit-fader .toolkit-handle {
+.toolkit-fader .toolkit-handle {
     position: absolute;
     z-index: 10;
 }
 
 /* LEVELMETER */
 
-div.toolkit-level-meter div.toolkit-bar div.toolkit-mask3,
-div.toolkit-level-meter div.toolkit-bar div.toolkit-mask4 {
+.toolkit-level-meter .toolkit-bar .toolkit-mask3,
+.toolkit-level-meter .toolkit-bar .toolkit-mask4 {
     position: absolute;
     z-index: 1000;
     display: none;
 }
-div.toolkit-level-meter.toolkit-has-hold div.toolkit-bar div.toolkit-mask3,
-div.toolkit-level-meter.toolkit-has-hold div.toolkit-bar div.toolkit-mask4 {
+.toolkit-level-meter.toolkit-has-hold .toolkit-bar .toolkit-mask3,
+.toolkit-level-meter.toolkit-has-hold .toolkit-bar .toolkit-mask4 {
     display: block;
 }
 
-div.toolkit-level-meter.toolkit-vertical div.toolkit-bar div.toolkit-mask3 {
+.toolkit-level-meter.toolkit-vertical .toolkit-bar .toolkit-mask3 {
     width:  100%;
     height: 0px;
     top: 0px;
 }
-div.toolkit-level-meter.toolkit-vertical div.toolkit-bar div.toolkit-mask4 {
+.toolkit-level-meter.toolkit-vertical .toolkit-bar .toolkit-mask4 {
     width:  100%;
     height: 0px;
     bottom: 0px;
 }
-div.toolkit-level-meter.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask3 {
+.toolkit-level-meter.toolkit-vertical.toolkit-reverse .toolkit-bar .toolkit-mask3 {
     bottom: 0px;
     top: auto;
 }
-div.toolkit-level-meter.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask4 {
+.toolkit-level-meter.toolkit-vertical.toolkit-reverse .toolkit-bar .toolkit-mask4 {
     top: 0px;
     bottom: auto;
 }
 
-div.toolkit-level-meter.toolkit-horizontal div.toolkit-bar div.toolkit-mask3 {
+.toolkit-level-meter.toolkit-horizontal .toolkit-bar .toolkit-mask3 {
     width:  0px;
     height: 100%;
     right: 0px;
 }
-div.toolkit-level-meter.toolkit-horizontal div.toolkit-bar div.toolkit-mask4 {
+.toolkit-level-meter.toolkit-horizontal .toolkit-bar .toolkit-mask4 {
     width:  0px;
     height: 100%;
     left: 0px;
 }
-div.toolkit-level-meter.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask3 {
+.toolkit-level-meter.toolkit-horizontal.toolkit-reverse .toolkit-bar .toolkit-mask3 {
     left: 0px;
     right: auto;
 }
-div.toolkit-level-meter.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask4 {
+.toolkit-level-meter.toolkit-horizontal.toolkit-reverse .toolkit-bar .toolkit-mask4 {
     right: 0px;
     left: auto;
 }
-div.toolkit-level-meter div.toolkit-clip {
+.toolkit-level-meter .toolkit-clip {
     display: none;
     position: absolute;
     margin: 0;
     width: auto;
     height: auto;
 }
-div.toolkit-level-meter.toolkit-has-clip div.toolkit-clip {
+.toolkit-level-meter.toolkit-has-clip .toolkit-clip {
     display: block;
 }
-div.toolkit-level-meter div.toolkit-peak {
+.toolkit-level-meter .toolkit-peak {
     position: absolute;
     z-index: 1000;
     display: none;
 }
-div.toolkit-level-meter.toolkit-has-peak div.toolkit-peak {
+.toolkit-level-meter.toolkit-has-peak .toolkit-peak {
     display: block;
 }
 
-div.toolkit-level-meter.toolkit-vertical.toolkit-left div.toolkit-peak div.toolkit-peak-label {
+.toolkit-level-meter.toolkit-vertical.toolkit-left .toolkit-peak .toolkit-peak-label {
     float: left;
 }
-div.toolkit-level-meter.toolkit-vertical.toolkit-right div.toolkit-peak div.toolkit-peak-label {
+.toolkit-level-meter.toolkit-vertical.toolkit-right .toolkit-peak .toolkit-peak-label {
     float: right;
 }
 
-div.toolkit-level-meter.toolkit-horizontal div.toolkit-peak div.toolkit-peak-label {
+.toolkit-level-meter.toolkit-horizontal .toolkit-peak .toolkit-peak-label {
     transform: rotate(-90deg);
 }
-div.toolkit-level-meter.toolkit-horizontal.toolkit-top div.toolkit-peak div.toolkit-peak-label {
+.toolkit-level-meter.toolkit-horizontal.toolkit-top .toolkit-peak .toolkit-peak-label {
     float: right;
 }
-div.toolkit-level-meter.toolkit-horizontal.toolkit-bottom div.toolkit-peak div.toolkit-peak-label {
+.toolkit-level-meter.toolkit-horizontal.toolkit-bottom .toolkit-peak .toolkit-peak-label {
     float: left;
 }
 
 /* METERBASE */
 
-div.toolkit-meter-base {
+.toolkit-meter-base {
     overflow: hidden;
     position: relative;
 }
-div.toolkit-meter-base div.toolkit-label {
+.toolkit-meter-base .toolkit-label {
     position: absolute;
     display: none;
     white-space: nowrap;
 }
-div.toolkit-meter-base.toolkit-has-label div.toolkit-label {
+.toolkit-meter-base.toolkit-has-label .toolkit-label {
     display: block;
 }
-div.toolkit-meter-base div.toolkit-title {
+.toolkit-meter-base .toolkit-title {
     position: absolute;
     display: none;
     white-space: nowrap;
 }
-div.toolkit-meter-base.toolkit-has-title div.toolkit-title {
+.toolkit-meter-base.toolkit-has-title .toolkit-title {
     display: block;
 }
-div.toolkit-meter-base div.toolkit-scale {
+.toolkit-meter-base .toolkit-scale {
     position: absolute;
     display: none;
 }
-div.toolkit-meter-base.toolkit-has-scale div.toolkit-scale {
+.toolkit-meter-base.toolkit-has-scale .toolkit-scale {
     display: block;
 }
-div.toolkit-meter-base div.toolkit-bar {
+.toolkit-meter-base .toolkit-bar {
     position: absolute;
     overflow: hidden;
 }
-div.toolkit-meter-base div.toolkit-bar div.toolkit-over {
+.toolkit-meter-base .toolkit-bar .toolkit-over {
     position: absolute;
     width:    100%;
     height:   100%;
     z-index:  100;
 }
-div.toolkit-meter-base div.toolkit-bar div.toolkit-mask {
+.toolkit-meter-base .toolkit-bar .toolkit-mask {
     position:   absolute;
     z-index:    1000;
     margin: 0;
 }
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask {
+.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mask {
     width: 100%;
     height: 0px;
 }
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask1 {
+.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mask1 {
     top: 0px;
 }
-div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
+.toolkit-meter-base.toolkit-vertical.toolkit-reverse .toolkit-bar .toolkit-mask1 {
     bottom: 0px;
     top: auto;
 }
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mask2 {
+.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mask2 {
     bottom: 0px;
 }
-div.toolkit-meter-base.toolkit-vertical.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
+.toolkit-meter-base.toolkit-vertical.toolkit-reverse .toolkit-bar .toolkit-mask2 {
     top: 0px;
     bottom: auto;
 }
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask {
+.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mask {
     height: 100%;
     width: 0px;
 }
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask1 {
+.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mask1 {
     right: 0px;
 }
-div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask1 {
+.toolkit-meter-base.toolkit-horizontal.toolkit-reverse .toolkit-bar .toolkit-mask1 {
     left: 0px;
     right: auto;
 }
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mask2 {
+.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mask2 {
     left: 0px;
 }
-div.toolkit-meter-base.toolkit-horizontal.toolkit-reverse div.toolkit-bar div.toolkit-mask2 {
+.toolkit-meter-base.toolkit-horizontal.toolkit-reverse .toolkit-bar .toolkit-mask2 {
     right: 0px;
     left: auto;
 }
-div.toolkit-meter-base div.toolkit-bar div.toolkit-mark {
+.toolkit-meter-base .toolkit-bar .toolkit-mark {
     position: absolute;
     width:    100%;
     height:   100%;
     z-index:  10;
 }
-div.toolkit-meter-base.toolkit-vertical div.toolkit-bar div.toolkit-mark div.toolkit-dot {
+.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mark .toolkit-dot {
     width: 100%;
     height: 1px;
     margin-top: 0px;
 }
-div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark div.toolkit-dot {
+.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mark .toolkit-dot {
     width: 1px;
     height: 100%;
     margin-left: 0px;
@@ -391,7 +391,7 @@ div.toolkit-meter-base.toolkit-horizontal div.toolkit-bar div.toolkit-mark div.t
 
 /* SCALE */
 
-div.toolkit-scale {
+.toolkit-scale {
     position: relative;
 }
 
@@ -414,7 +414,7 @@ div.toolkit-scale {
 
 /* STATE */
 
-div.toolkit-state div.toolkit-mask {
+.toolkit-state .toolkit-mask {
     width: 100%;
     height: 100%;
 }

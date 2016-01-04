@@ -1,4 +1,4 @@
-div.toolkit-fader {
+.toolkit-fader {
     margin: 4px;
     padding: 0px;
     background-repeat: no-repeat;
@@ -8,98 +8,98 @@ div.toolkit-fader {
 
 /* BACKGROUNDS */
 
-div.toolkit-fader.toolkit-vertical {
+.toolkit-fader.toolkit-vertical {
     background-image: url(../images/fader/background_vertical_top.png),
                       url(../images/fader/background_vertical_center.png),
                       url(../images/fader/background_vertical_bottom.png);
     background-size: 46px 5px, 46px calc(100% - 10px), 46px 5px;
     background
 }
-div.toolkit-fader.toolkit-horizontal {
+.toolkit-fader.toolkit-horizontal {
     background-image: url(../images/fader/background_horizontal_left.png),
                       url(../images/fader/background_horizontal_center.png),
                       url(../images/fader/background_horizontal_right.png);
     background-size: 5px 46px, calc(100% - 10px) 46px, 5px 46px;
 }
 
-div.toolkit-fader.toolkit-left {
+.toolkit-fader.toolkit-left {
     background-position: 0 0, 0 5px, 0 100%;
 }
-div.toolkit-fader.toolkit-right {
+.toolkit-fader.toolkit-right {
     background-position: 100% 0, 100% 5px, 100% 100%;
 }
-div.toolkit-fader.toolkit-top {
+.toolkit-fader.toolkit-top {
     background-position: 0 0, 5px 0, 100% 0;
 }
-div.toolkit-fader.toolkit-bottom {
+.toolkit-fader.toolkit-bottom {
     background-position: 0 100%, 5px 100%, 100% 100%;
 }
 
 
 /* HANDLE */
 
-div.toolkit-fader .toolkit-handle {
+.toolkit-fader .toolkit-handle {
     cursor: pointer;
     cursor: hand;
     margin: 1px;
     box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
     border-radius: 4px;
 }
-div.toolkit-fader.toolkit-vertical .toolkit-handle {
+.toolkit-fader.toolkit-vertical .toolkit-handle {
     width: 44px;
     height: 80px;
     background: url(../images/fader/handle_vertical.png) no-repeat;
 }
-div.toolkit-fader.toolkit-vertical.toolkit-warn .toolkit-handle {
+.toolkit-fader.toolkit-vertical.toolkit-warn .toolkit-handle {
     width: 44px;
     height: 80px;
     background: url(../images/fader/handle_vertical_warn.png) no-repeat;
 }
-div.toolkit-fader.toolkit-horizontal .toolkit-handle {
+.toolkit-fader.toolkit-horizontal .toolkit-handle {
     height: 44px;
     width: 80px;
     background: url(../images/fader/handle_horizontal.png) no-repeat;
 }
-div.toolkit-fader.toolkit-horizontal.toolkit-warn .toolkit-handle {
+.toolkit-fader.toolkit-horizontal.toolkit-warn .toolkit-handle {
     height: 44px;
     width: 80px;
     background: url(../images/fader/handle_horizontal_warn.png) no-repeat;
 }
-div.toolkit-fader.toolkit-left .toolkit-handle {
+.toolkit-fader.toolkit-left .toolkit-handle {
     left: 0;
 }
-div.toolkit-fader.toolkit-right .toolkit-handle {
+.toolkit-fader.toolkit-right .toolkit-handle {
     right: 0;
 }
-div.toolkit-fader.toolkit-top .toolkit-handle {
+.toolkit-fader.toolkit-top .toolkit-handle {
     top: 0;
 }
-div.toolkit-fader.toolkit-bottom .toolkit-handle {
+.toolkit-fader.toolkit-bottom .toolkit-handle {
     bottom: 0;
 }
 
 /* SCALE */
 
-div.toolkit-fader .toolkit-scale {
+.toolkit-fader .toolkit-scale {
     
 }
-div.toolkit-fader.toolkit-vertical .toolkit-scale {
+.toolkit-fader.toolkit-vertical .toolkit-scale {
     height: calc(100% - 80px);
     margin-top: 40px;
 }
-div.toolkit-fader.toolkit-horizontal .toolkit-scale {
+.toolkit-fader.toolkit-horizontal .toolkit-scale {
     width: calc(100% - 80px);
     margin-left: 40px;
 }
-div.toolkit-fader.toolkit-left .toolkit-scale {
+.toolkit-fader.toolkit-left .toolkit-scale {
     margin-left: 48px;
 }
-div.toolkit-fader.toolkit-right .toolkit-scale {
+.toolkit-fader.toolkit-right .toolkit-scale {
     margin-right: 48px;
 }
-div.toolkit-fader.toolkit-top .toolkit-scale {
+.toolkit-fader.toolkit-top .toolkit-scale {
     margin-top: 48px;
 }
-div.toolkit-fader.toolkit-bottom .toolkit-scale {
+.toolkit-fader.toolkit-bottom .toolkit-scale {
     margin-bottom: 48px;
 }
