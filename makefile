@@ -92,7 +92,12 @@ toolkit/toolkit.max.js:	$(js_input_files) makefile
 	cat $(js_input_files) > $@
 
 toolkit/toolkit.all.js: $(js_input_files) makefile
-	for file in $(js_input_files); do echo 'document.writeln("'"<script src='"'"' + "(window.toolkit_base_dir ? window.toolkit_base_dir : "'"toolkit"'") + "'"'"/$$file'></script>"'");'; done > $@
+	echo "(function(){" > $@
+	echo "var toolkit_base_dir = document.currentScript.src;" >> $@
+	echo "toolkit_base_dir = toolkit_base_dir.split('/');" >> $@
+	echo "toolkit_base_dir = toolkit_base_dir.slice(0, toolkit_base_dir.length-2).join('/');" >> $@
+	for file in $(js_input_files); do echo 'document.writeln("'"<script src='"'"'" + toolkit_base_dir + "'"'"/$$file'></script>"'");'; done >> $@
+	echo "})();" >> $@
 
 toolkit/styles/css/toolkit.min.css: $(css_input_files) makefile
 	cat $(css_input_files) > $@
