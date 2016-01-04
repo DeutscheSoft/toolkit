@@ -1,4 +1,4 @@
-all : documentation toolkit/toolkit.max.js toolkit/toolkit.all.js toolkit/styles/css/toolkit.min.css toolkit/toolkit.min.js
+all : documentation toolkit/toolkit.max.js toolkit/toolkit.all.js toolkit/styles/css/toolkit.min.css toolkit/styles/css/toolkit.all.css toolkit/toolkit.min.js
 
 documentation :
 	generator/items.pike
@@ -102,3 +102,6 @@ toolkit/toolkit.all.js: makefile
 
 toolkit/styles/css/toolkit.min.css: $(css_input_files) makefile
 	cat $(css_input_files) > $@
+
+toolkit/styles/css/toolkit.all.css: makefile
+	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
