@@ -1,5 +1,3 @@
-BASE_DIR=toolkit
-
 all : documentation toolkit/toolkit.max.js toolkit/toolkit.all.js toolkit/styles/css/toolkit.min.css toolkit/toolkit.min.js
 
 documentation :
@@ -94,7 +92,7 @@ toolkit/toolkit.max.js:	$(js_input_files) makefile
 	cat $(js_input_files) > $@
 
 toolkit/toolkit.all.js: $(js_input_files) makefile
-	for file in $(js_input_files); do echo 'document.writeln("'"<script src='$(BASE_DIR)/$$file'></script>"'");'; done > $@
+	for file in $(js_input_files); do echo 'document.writeln("'"<script src='"'"' + "(window.toolkit_base_dir ? window.toolkit_base_dir : "'"toolkit"'") + "'"'"/$$file'></script>"'");'; done > $@
 
 toolkit/styles/css/toolkit.min.css: $(css_input_files) makefile
 	cat $(css_input_files) > $@
