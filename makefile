@@ -91,7 +91,7 @@ toolkit/toolkit.min.js:	$(js_input_files) makefile
 toolkit/toolkit.max.js:	$(js_input_files) makefile
 	cat $(js_input_files) > $@
 
-toolkit/toolkit.all.js: $(js_input_files) makefile
+toolkit/toolkit.all.js: makefile
 	echo "(function(){" > $@
 	echo "var toolkit_base_dir = document.currentScript.src;" >> $@
 	echo "toolkit_base_dir = toolkit_base_dir.split('/');" >> $@
