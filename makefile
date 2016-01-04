@@ -14,6 +14,7 @@ js_input_files = \
     toolkit/implements/ranged.js\
     toolkit/implements/warning.js\
     toolkit/implements/gradient.js\
+    toolkit/implements/notes.js\
     toolkit/widgets/widget.js\
     toolkit/widgets/tooltips.js\
     toolkit/modules/grid.js\
