@@ -67,15 +67,18 @@ w.TK.Knob = w.Knob = $class({
     }),
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        var svg = TK.make_svg("svg", {"class": "toolkit-knob"});
+        var E;
+
+        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
+        TK.add_class(E, "toolkit-knob");
 
         var co = TK.object_and(this.options, TK.Circular.prototype._options);
         co = TK.object_sub(co, TK.Widget.prototype._options);
-        co.container = svg;
+        co.container = E;
 
         this.circular = new Circular(co);
 
-        this.element = this.widgetize(svg, true, true, true);
+        this.widgetize(E, true, true, true);
         
         this.drag = new DragValue({
             element: this.element,

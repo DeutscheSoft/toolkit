@@ -44,18 +44,21 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         value_size: 5
     }),
     initialize: function (options) {
-        this.element = TK.element("div", "toolkit-valueknob");
-
         Widget.prototype.initialize.call(this, options);
+        var E;
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        TK.add_class(E, "toolkit-valueknob");
+
+        TK.element("div", "toolkit-valueknob");
 
         var ko = TK.object_and(this.options, TK.Knob.prototype._options);
         ko = TK.object_sub(ko, TK.Widget.prototype._options);
-        ko.container = this.element;
+        ko.container = E;
 
         this.knob = new Knob(ko);
 
         this.value = new Value({
-            container: this.element,
+            container: E,
             value: this.options.value,
             format: this.options.value_format,
             set: function (val) {
@@ -69,7 +72,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         });
         this.add_child(this.value);
         this.add_child(this.knob);
-        this.widgetize(this.element, true, true, true);
+        this.widgetize(E, true, true, true);
     },
     
     destroy: function () {

@@ -124,7 +124,9 @@ w.TK.Fader = w.Fader = $class({
 
         var E, O = this.options;
         
-        this.element = this.widgetize(E = TK.element("div","toolkit-fader"), true, true, true);
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        TK.add_class(E, "toolkit-fader");
+        this.widgetize(E, true, true, true);
         
         this.scale = new Scale(TK.merge({}, O, { container: E }));
         this._scale = this.scale.element;

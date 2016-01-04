@@ -106,12 +106,15 @@ w.TK.Value = w.Value = $class({
         set: function (val) { return parseFloat(val || 0); }
     },
     initialize: function (options) {
+        var E;
         Widget.prototype.initialize.call(this, options);
-        this.element = this.widgetize(toolkit.element("form", "toolkit-value"),
-                                      true, true, true);
+        if (!(E = this.element)) E = TK.element("form");
+        TK.add_class(E, "toolkit-value");
+        
+        this.widgetize(E, true, true, true);
         this._input  = TK.element("input", "toolkit-input");
         this._input.type = "text";
-        this.element.appendChild(this._input);
+        E.appendChild(this._input);
         
         this.add_event("submit", submit_cb);
         

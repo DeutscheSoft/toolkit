@@ -53,9 +53,12 @@ w.TK.Button = w.Button = $class({
         layout:           _TOOLKIT_VERTICAL
     },
     initialize: function (options) {
+        var E;
         Widget.prototype.initialize.call(this, options);
         /* @element: element [d][c][s]; div.toolkit-button; The main button element */
-        this.element = this.widgetize(TK.element("div","toolkit-button"), true, true, true);
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        TK.add_class(E, "toolkit-button");
+        this.widgetize(E, true, true, true);
         
         /* @element: _cell; div.toolkit-cell; An internal container for label and icon */
         this._cell  = TK.element("div","toolkit-cell");
@@ -66,7 +69,7 @@ w.TK.Button = w.Button = $class({
         
         this._cell.appendChild(this._icon);
         this._cell.appendChild(this._label);
-        this.element.appendChild(this._cell);
+        E.appendChild(this._cell);
     },
     destroy: function () {
         this._icon.remove();

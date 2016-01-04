@@ -58,7 +58,7 @@ w.TK.Pager = w.Pager = $class({
         /* @element: _buttonarray_wrapper; div.toolkit-wrapper.toolkit-buttonarray-wrapper; An internal container for layout purposes containing the #ButtonArray. */
         /* @element: _container_wrapper;   div.toolkit-wrapper.toolkit-container-wrapper;   An internal container for layout purposes containing the _clip element. */
         /* @element: _clip;                div.toolkit-clip;                                The clipping area containing the pages containers */
-        this.element.className += " toolkit-pager";
+        TK.add_class(this.element, "toolkit-pager");
         /* @module: buttonarray; The #ButtonArray instance acting as the menu */
         this.buttonarray = new ButtonArray({
             container: this.element,

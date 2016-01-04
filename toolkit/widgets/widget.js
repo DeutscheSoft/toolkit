@@ -69,6 +69,7 @@ w.TK.Widget = w.Widget = $class({
         // If an element was stylized, styles can be applied
         styles: "object",
         disabled: "boolean",
+        element: "object",
     },
     options: {
         // these options are of less use and only here to show what we need
@@ -81,6 +82,8 @@ w.TK.Widget = w.Widget = $class({
         this.fire_event("initialize");
         if (!options.id)
             options.id = TK.unique_id();
+        if (options.element)
+            this.element = options.element;
         this.set_options(options);
         this.__classified = null;
         this.__stylized = null;

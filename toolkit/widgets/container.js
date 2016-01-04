@@ -62,16 +62,19 @@ w.TK.Container = w.Container = $class({
         display_state : "hide",
     },
     initialize: function (options) {
+        var E;
         Widget.prototype.initialize.call(this, options);
         this.hidden_children = [];
-        this.element = this.widgetize(TK.element("div", "toolkit-container"),
-                                      true, true, true);
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        TK.add_class(E, "toolkit-container"); 
+        this.widgetize(E, true, true, true);
+
         if (this.options.container)
             this.set("container", this.options.container);
         this.__after_hiding = after_hiding.bind(this);
         this.__after_showing = after_showing.bind(this);
         this.__hide_id = false;
-        TK.add_class(this.element, "toolkit-hide");
+        TK.add_class(E, "toolkit-hide");
     },
     
     destroy: function () {

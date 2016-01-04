@@ -60,11 +60,12 @@ w.TK.Gauge = w.Gauge = $class({
             options.title = {title: options.title};
         Widget.prototype.initialize.call(this, options);
         var O = this.options;
-        this.element = TK.make_svg("svg", {
-            "class": "toolkit-gauge",
-            "width": O.width,
-            "height": O.height
-        }, true, true, true);
+        var E;
+        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
+        TK.add_class(E, "toolkit-gauge");
+        E.setAttribute("width", O.width);
+        E.setAttribute("height", O.height);
+        this.widgetize(E, true, true, true);
         
         this._title = TK.make_svg("text", {"class": "toolkit-title"});
         this.element.appendChild(this._title);

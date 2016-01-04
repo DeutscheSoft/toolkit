@@ -251,11 +251,12 @@ w.TK.Chart = w.Chart = $class({
         this.add_range(this.options.range_y, "range_y");
         this.range_y.set("reverse", true, true, true);
         
-        this.element = E = this.widgetize(TK.make_svg("svg", {
-            width:  this.range_x.options.basis,
-            height: this.range_y.options.basis
-        }), true, true, true);
+        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
+        E.setAttribute("width", this.range_x.options.basis);
+        E.setAttribute("height", this.range_y.options.basis);
         TK.add_class(E, "toolkit-chart");
+
+        this.widgetize(E, true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
         if (!this.options.width)

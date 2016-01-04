@@ -204,8 +204,9 @@ w.TK.Clock = w.Clock = $class({
         this._margin = -1;
         Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
-        E = TK.make_svg("svg", {"class": "toolkit-clock"});
-        this.element = this.widgetize(E, true, true, true);
+        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
+        this.widgetize(E, true, true, true);
+        TK.add_class(E, "toolkit-clock");
         
         this.set("container", this.options.container);
         

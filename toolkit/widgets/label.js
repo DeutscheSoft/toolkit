@@ -34,8 +34,9 @@ w.TK.Label = w.Label = $class({
     },
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        this.element = this.widgetize(TK.element("div", "toolkit-label"),
-                                      true, true, true);
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        TK.add_class(E, "toolkit-label");
+        this.widgetize(E, true, true, true);
         if (this.options.container)
             this.set("container", this.options.container);
         

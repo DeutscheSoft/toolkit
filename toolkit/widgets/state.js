@@ -42,9 +42,11 @@ w.TK.State = w.State = $class({
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
 
-        var E = toolkit.element("div","toolkit-state");
+        var E;
         
-        this.element = this.widgetize(E, true, true, true);
+        if (!(E = this.element)) this.element = E = toolkit.element("div");
+        TK.add_class(E, "toolkit-state");
+        this.widgetize(E, true, true, true);
         
         this._mask   = TK.element("div","toolkit-mask");
 
