@@ -34,7 +34,9 @@ function peak_timeout() {
     var O = this.options;
     if (!O.auto_peak || O.auto_peak < 0) return false;
     if (this.__pto) window.clearTimeout(this.__pto);
-    if (O.peak > O.base && O.value > O.base || O.peak < O.base && O.value < O.base)
+    var value = +this.effective_value();
+    if (O.peak > O.base && value > O.base ||
+        O.peak < O.base && value < O.base)
         this.__pto = window.setTimeout(this._reset_peak, O.auto_peak);
 }
 function label_timeout() {
@@ -42,7 +44,7 @@ function label_timeout() {
     var peak_label = (0 | O.peak_label);
     var base = +O.base;
     var label = +O.label;
-    var value = +O.value;
+    var value = +this.effective_value();
 
     if (peak_label <= 0) return false;
 
@@ -210,14 +212,6 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         var I = this.invalid;
         var E = this.element;
 
-        if (I.label) {
-            label_timeout.call(this);
-        }
-
-        if (I.clip) {
-            clip_timeout.call(this);
-        }
-
         if (I.show_hold) {
             I.show_hold = false;
             (O.show_hold ? TK.add_class : TK.remove_class)(E, "toolkit-has-hold");
@@ -237,7 +231,6 @@ w.TK.LevelMeter = w.LevelMeter = $class({
 
         if (I.peak) {
             I.peak = false;
-            peak_timeout.call(this);
             draw_peak.call(this);
         }
         if (I.clip) {
@@ -314,7 +307,6 @@ w.TK.LevelMeter = w.LevelMeter = $class({
     },
     
     draw_meter: function () {
-        var _c = true;
         var O = this.options;
         var falling = +O.falling;
         var value   = +O.value;
@@ -328,24 +320,6 @@ w.TK.LevelMeter = w.LevelMeter = $class({
                 // request another frame
                 this.trigger_draw_next();
             }
-        }
-
-        if (O.peak_label !== false && value > O.label && value > base ||
-            value < O.label && value < base) {
-            this.set("label", value);
-        }
-        if (O.auto_peak !== false && value > O.peak && value > base ||
-            value < O.peak && value < base) {
-            this.set("peak", value);
-        }
-        if (_c && O.auto_clip !== false && value > O.clipping && !this.__based) {
-            this.set("clip", true);
-        }
-        if (O.auto_hold !== false && O.show_hold && value > O.top) {
-            this.set("top", value, true);
-        }
-        if (O.auto_hold !== false && O.show_hold && value < O.bottom && this.__based) {
-            this.set("bottom", value, true);
         }
 
         var is_vertical = !!vert(O);
@@ -396,21 +370,44 @@ w.TK.LevelMeter = w.LevelMeter = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
+        var O = this.options;
         if (key == "value") {
-            if (this.options.falling) {
+            if (O.falling) {
                 var v = this.effective_value();
-                var base = this.options.base;
+                var base = O.base;
                 if (v > base && value > base && value < v) return;
                 if (v < base && value < base && value > v) return;
+            }
+            if (O.auto_clip !== false && value > O.clipping && !this.__based) {
+                this.set("clip", true);
+            }
+            if (O.peak_label !== false &&
+                (value > O.label && value > base || value < O.label && value < base)) {
+                this.set("label", value);
+            }
+            if (O.auto_peak !== false &&
+                (value > O.peak && value > base || value < O.peak && value < base)) {
+                this.set("peak", value);
+            }
+            if (O.auto_hold !== false && O.show_hold && value > O.top) {
+                this.set("top", value, true);
+            }
+            if (O.auto_hold !== false && O.show_hold && value < O.bottom && this.__based) {
+                this.set("bottom", value);
             }
         }
         value = MeterBase.prototype.set.call(this, key, value);
         switch (key) {
             case "peak":
                 this.fire_event("peakchanged");
+                peak_timeout.call(this);
+                console.log("peak", value);
                 break;
             case "clip":
-                if (value) this.fire_event("clipping");
+                if (value) {
+                    this.fire_event("clipping");
+                    clip_timeout.call(this);
+                }
                 this.state.set("state", value);
                 break;
             case "top":
@@ -420,6 +417,9 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             case "bottom":
                 bottom_timeout.call(this);
                 this.fire_event("bottomchanged");
+                break;
+            case "label":
+                label_timeout.call(this);
                 break;
             case "auto_clip":
                 if (this.__cto && 0|value <=0)
