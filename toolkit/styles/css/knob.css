@@ -1,6 +1,6 @@
 .toolkit-knob {
     background: url(../images/knob/background.png) no-repeat 50% 50%;
-    background-size: 80% 80%;
+    background-size: contain;
     cursor: pointer;
     width: 100px;
     height: 100px;

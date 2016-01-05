@@ -331,19 +331,12 @@ run_value = function (root) {
 function run_knob (root) {
     knob1 = new Knob({
         "class": "knob1",
-        margin: 3.5,
-        thickness: 7,
         min: -96,
         max: 24,
         value: -20,
-        dot: {length: 3, margin: 2, width: 1},
-        marker: {thickness: 3, margin: 5.5},
         markers: [
             {from: 0, to: 24}
         ],
-        
-        hand: {width: 1, length: 12, margin: 21.5},
-        styles: {backgroundSize: "100%"}
     });
     knob = new Knob({
         "class": "knob",
@@ -382,7 +375,7 @@ function run_knob (root) {
             {pos: 10000, label: "10k"}, {pos: 20000, label:"20k"}
         ],
         hand: {width: 3, length: 3, margin: 24},
-        styles: {backgroundSize: "70%", backgroundImage: "url(images/knob2.png)"}
+        styles: {backgroundImage: "url(images/knob2.png)"}
     });
     root.append_children([ knob, knob1, knob2 ]);
 }
