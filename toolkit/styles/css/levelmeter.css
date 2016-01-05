@@ -1,6 +1,6 @@
 /* UNIVERSAL */
 
-.toolkit-level-meter.toolkit-clipping .toolkit-label {
+.toolkit-level-meter.toolkit-clipping > .toolkit-label {
     color: #ff8000;
     text-shadow: 0 0 3px white,0 0 3px white;
 }
