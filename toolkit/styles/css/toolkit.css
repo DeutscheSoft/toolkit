@@ -60,6 +60,12 @@ pre, code {
 /* The following styles are important for the widgets functionality
  * and are not related to their appearance or design. */
 
+/* ROOT */
+
+.toolkit-root {
+    display: block;
+}
+
 /* BUTTONARRAY */
 
 .toolkit-buttonarray {
