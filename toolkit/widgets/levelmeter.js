@@ -258,16 +258,19 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         MeterBase.prototype.destroy.call(this);
     },
     reset_peak: function () {
+        if (this.__pto) clearTimeout(this.__pto);
         this.__pto = false;
         this.set("peak", this.effective_value());
         this.fire_event("resetpeak");
     },
     reset_label: function () {
+        if (this.__lto) clearTimeout(this.__lto);
         this.__lto = false;
         this.set("label", this.effective_value());
         this.fire_event("resetlabel");
     },
     reset_clip: function () {
+        if (this.__cto) clearTimeout(this.__cto);
         this.__cto = false;
         this.set("clip", false);
         this.fire_event("resetclip");
