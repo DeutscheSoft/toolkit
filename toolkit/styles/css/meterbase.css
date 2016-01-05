@@ -62,35 +62,36 @@
 }
 /* LABEL */
 
-.toolkit-meter-base .toolkit-label {
+.toolkit-meter-base > .toolkit-label {
     line-height: 1.2em;
     height: 1.2em;
+    overflow: visible;
 }
-.toolkit-meter-base.toolkit-has-label .toolkit-label {
+.toolkit-meter-base.toolkit-has-label > .toolkit-label {
     display: block;
 }
-.toolkit-meter-base.toolkit-vertical .toolkit-label {
+.toolkit-meter-base.toolkit-vertical > .toolkit-label {
     text-align: center;
 }
-.toolkit-meter-base.toolkit-horizontal .toolkit-label {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-label {
     text-align: right;
 }
-.toolkit-meter-base.toolkit-top .toolkit-label {
+.toolkit-meter-base.toolkit-top > .toolkit-label {
     left: 49%;
     right: 5px;
     bottom: 5px;
 }
-.toolkit-meter-base.toolkit-right .toolkit-label {
+.toolkit-meter-base.toolkit-right > .toolkit-label {
     left: 32px;
     right: 5px;
     top: 5px;
 }
-.toolkit-meter-base.toolkit-bottom .toolkit-label {
+.toolkit-meter-base.toolkit-bottom > .toolkit-label {
     left: 49%;
     right: 5px;
     top: 5px;
 }
-.toolkit-meter-base.toolkit-left .toolkit-label {
+.toolkit-meter-base.toolkit-left > .toolkit-label {
     left: 5px;
     right: 32px;
     top: 5px;
@@ -98,35 +99,36 @@
 
 /* TITLE */
 
-.toolkit-meter-base .toolkit-title {
+.toolkit-meter-base > .toolkit-title {
     line-height: 1.2em;
     height: 1.2em;
+    overflow: visible;
 }
-.toolkit-meter-base.toolkit-has-title .toolkit-title {
+.toolkit-meter-base.toolkit-has-title > .toolkit-title {
     
 }
-.toolkit-meter-base.toolkit-vertical .toolkit-title {
+.toolkit-meter-base.toolkit-vertical > .toolkit-title {
     text-align: center;
 }
-.toolkit-meter-base.toolkit-horizontal .toolkit-title {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-title {
     text-align: left;
 }
-.toolkit-meter-base.toolkit-top .toolkit-title {
+.toolkit-meter-base.toolkit-top > .toolkit-title {
     left: 5px;
     right: 49%;
     bottom: 5px;
 }
-.toolkit-meter-base.toolkit-right .toolkit-title {
+.toolkit-meter-base.toolkit-right > .toolkit-title {
     left: 32px;
     right: 5px;
     bottom: 5px;
 }
-.toolkit-meter-base.toolkit-bottom .toolkit-title {
+.toolkit-meter-base.toolkit-bottom > .toolkit-title {
     left: 5px;
     right: 49%;
     top: 5px;
 }
-.toolkit-meter-base.toolkit-left .toolkit-title {
+.toolkit-meter-base.toolkit-left > .toolkit-title {
     left: 5px;
     right: 32px;
     bottom: 5px;
@@ -184,7 +186,7 @@
     bottom: calc(1.2em + 5px + 5px);
 }
 
-.toolkit-meter-base .toolkit-scale span.toolkit-label.toolkit-base {
+.toolkit-meter-base .toolkit-scale > .toolkit-label.toolkit-base {
     color: #666;
 }
 

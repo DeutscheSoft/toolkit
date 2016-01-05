@@ -8,6 +8,7 @@
     color: #aaa;
     white-space: nowrap;
     margin: 0 0 0 0;
+    overflow: visible;
 }
 .toolkit-scale .toolkit-label.toolkit-base {
     color: #951c26;

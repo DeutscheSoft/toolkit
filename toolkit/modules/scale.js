@@ -248,20 +248,24 @@ w.TK.Scale = w.Scale = $class({
             // draw base
             this.draw_dot(O.base, this.__based ? "toolkit-base" : "toolkit-base");
             if (O.show_base) {
-                labels.push(low_draw_label.call(this, O.base, "toolkit-base"));
+                var l = low_draw_label.call(this, O.base, "toolkit-base");
+                var _l = l[1];
+                if (O.base == O.max) TK.add_class(_l, O.reverse ? "toolkit-min" : "toolkit-max");
+                if (O.base == O.min) TK.add_class(_l, O.reverse ? "toolkit-max" : "toolkit-min");
+                labels.push(l);
             }
             // draw top
             if (Math.abs(this._val2px(O.base) - this._val2px(O.min)) >= O.gap_labels) {
-                this.draw_dot(O.min, "toolkit-min");
+                this.draw_dot(O.min, O.reverse ? "toolkit-max" : "toolkit-min");
                 if (O.show_min)
-                    labels.push(low_draw_label.call(this, O.min, "toolkit-min"));
+                    labels.push(low_draw_label.call(this, O.min, O.reverse ? "toolkit-max" : "toolkit-min"));
             }
             
             // draw bottom
             if (Math.abs(this._val2px(O.base) - this._val2px(O.max)) >= O.gap_labels) {
-                this.draw_dot(O.max, "toolkit-max");
+                this.draw_dot(O.max, O.reverse ? "toolkit-min" : "toolkit-max");
                 if (O.show_max)
-                    labels.push(low_draw_label.call(this, O.max, "toolkit-max"));
+                    labels.push(low_draw_label.call(this, O.max, O.reverse ? "toolkit-min" : "toolkit-max"));
             }
             
             if (O.fixed_dots && O.fixed_labels) {
