@@ -401,7 +401,6 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             case "peak":
                 this.fire_event("peakchanged");
                 peak_timeout.call(this);
-                console.log("peak", value);
                 break;
             case "clip":
                 if (value) {
