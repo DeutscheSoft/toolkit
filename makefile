@@ -4,6 +4,7 @@ documentation :
 	generator/items.pike
 
 js_input_files = \
+    toolkit/polyfill/raf.js\
     toolkit/G.js\
     toolkit/toolkit.js\
     toolkit/implements/base.js\
