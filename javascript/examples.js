@@ -1563,7 +1563,6 @@ function run8 () {
 }
     
 function reset () {
-    if (!running) return;
     for(i in meters) {
         meters[i].reset_peak();
     }
