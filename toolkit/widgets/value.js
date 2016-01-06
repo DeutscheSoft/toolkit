@@ -108,7 +108,7 @@ w.TK.Value = w.Value = $class({
     initialize: function (options) {
         var E;
         Widget.prototype.initialize.call(this, options);
-        if (!(E = this.element)) E = TK.element("form");
+        if (!(E = this.element)) this.element = E = TK.element("form");
         TK.add_class(E, "toolkit-value");
         
         this.widgetize(E, true, true, true);
