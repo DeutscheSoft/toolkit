@@ -46,7 +46,7 @@ function dragging(e, drag) {
     if (typeof e.button != "undefined" && e.button > 0) return;
     this._dragged += (Math.abs(e.pageX - this._xlast)
                     + Math.abs(e.pageY - this._ylast)) / 2;
-    //if (this._dragged < O.initial) return;
+    if (this._dragged < O.initial) return;
     this._xlast = e.pageX;
     this._ylast = e.pageY;
     var x = this._xpos + e.pageX - this._xstart;
