@@ -79,6 +79,7 @@
 }
 .toolkit-window.toolkit-active .toolkit-header .toolkit-title {
     color: #002f42;
+    text-align: left;
 }
 .toolkit-window .toolkit-footer .toolkit-status {
     color: #999;
@@ -121,4 +122,17 @@
 }
 .toolkit-window .toolkit-header .toolkit-button.toolkit-shrink .toolkit-icon {
     background-image: url(../images/window/shrink.png);
+}
+
+.toolkit-window .toolkit-resize {
+    background: url(../images/window/resize.png) no-repeat;
+    background-size: contain;
+    width: 24px;
+    height: 24px;
+    display: none;
+    opacity: 0.08;
+    margin: 2px;
+}
+.toolkit-window.toolkit-resizable .toolkit-resize {
+    display: block;
 }
