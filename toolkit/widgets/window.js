@@ -574,7 +574,7 @@ w.TK.Window = w.Window = $class({
         this.element.appendChild(this._resize);
         
         this.Resize = new Resize({
-            element      : this.element,
+            node         : this.element,
             handle       : this._resize,
             min          : {x: this.options.min_width, y: this.options.min_height},
             max          : {x: max_width.call(this), y: max_height.call(this)},
