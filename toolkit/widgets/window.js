@@ -578,7 +578,7 @@ w.TK.Window = w.Window = $class({
             handle       : this._resize,
             min          : {x: this.options.min_width, y: this.options.min_height},
             max          : {x: max_width.call(this), y: max_height.call(this)},
-            onResizetart : start_resize.bind(this),
+            onResizestart : start_resize.bind(this),
             onResizestop : stop_resize.bind(this),
             onResizing   : resizing.bind(this)
         });
