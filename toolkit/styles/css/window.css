@@ -124,6 +124,14 @@
     background-image: url(../images/window/shrink.png);
 }
 
+.toolkit-window.toolkit-shrinked {
+    height: 30px !important;
+}
+.toolkit-window.toolkit-shrinked .toolkit-footer,
+.toolkit-window.toolkit-shrinked .toolkit-resize {
+    display: none !important;
+}
+
 .toolkit-window .toolkit-resize {
     background: url(../images/window/resize.png) no-repeat;
     background-size: contain;

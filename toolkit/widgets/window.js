@@ -770,9 +770,10 @@ w.TK.Window = w.Window = $class({
             case "shrink":
                 this.options.maximize.y = false;
                 if (!hold) {
-                    this.element.style["height"] = 
-                    (value ? TK.outer_height(this._header, true) : this.options.height) + "px";
-                    this._footer.style["display"] = value ? "none" : "block";
+                    if (value)
+                        this.add_class("toolkit-shrinked");
+                    else
+                        this.remove_class("toolkit-shrinked");
                 }
                 break;
             case "minimize":
