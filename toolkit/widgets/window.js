@@ -628,6 +628,11 @@ w.TK.Window = w.Window = $class({
         Container.prototype.destroy.call(this);
     },
     
+    append_child : function(child) {
+        child.set("container", this._content);
+        this.add_child(child);
+    },
+    
     toggle_maximize: function () {
         if (!vert_max.call(this) || !horiz_max.call(this))
             this.set("maximize", {x: true, y: true});
