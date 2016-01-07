@@ -43,7 +43,7 @@ w.TK.Notes = w.Notes = $class({
         var f2 = Math.log2(freq / base);
         f2 *= 1200;
         f2 %= 100;
-        return (f2 < -50) ? 100 + f2 : (f2 > 50) ? 100 - f2 : f2;
+        return (f2 < -50) ? 100 + f2 : (f2 > 50) ? -(100 - f2) : f2;
     },
     freq2note: function (freq, base) {
         if (!base) base = 440;
