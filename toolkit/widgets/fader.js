@@ -146,7 +146,7 @@ w.TK.Fader = w.Fader = $class({
         var get = GET.bind(O);
         var set = SET.bind(this);
         this.drag = new DragValue({
-            element: this._handle,
+            node:    this._handle,
             range:   self,
             get:     get,
             set:     set,
@@ -154,7 +154,7 @@ w.TK.Fader = w.Fader = $class({
             direction: O.direction
         });
         this.scroll = new ScrollValue({
-            element: this.element,
+            node:    this.element,
             range:   self,
             get:     get,
             set:     set,

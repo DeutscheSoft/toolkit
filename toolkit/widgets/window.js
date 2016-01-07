@@ -206,11 +206,6 @@ function start_drag(ev, el) {
     this.drag._xpos += x;
     this.drag._ypos += y;
     
-    // un-maximize
-    if (horiz_max.call(this)) this.set("maximize", {x: false});
-    if (vert_max.call(this))  this.set("maximize", {y: false});
-    
-    this.dragging = true;
     TK.add_class(this.element, "toolkit-dragging");
     this.fire_event("startdrag", ev);
 }
@@ -221,6 +216,12 @@ function stop_drag(ev, el) {
     this.fire_event("stopdrag", ev);
 }
 function dragging(ev, el) {
+    if (!this.dragging) {
+        this.dragging = true;
+        // un-maximize
+        if (horiz_max.call(this)) this.set("maximize", {x: false});
+        if (vert_max.call(this))  this.set("maximize", {y: false});
+    }
     calculate_position.call(this);
     this.fire_event("dragging", ev);
 }
@@ -560,26 +561,26 @@ w.TK.Window = w.Window = $class({
         this._header.addEventListener("dblclick", header_action.bind(this));
         
         this.drag = new Drag({
-            element    : this.element,
-            handle     : this._header,
-            onStart    : start_drag.bind(this),
-            onStop     : stop_drag.bind(this),
-            onDragging : dragging.bind(this),
-            min        : {x: 0 - this.options.width + 20, y: 0},
-            max        : {x: TK.width() - 20, y: TK.height() - 20}
+            node        : this.element,
+            handle      : this._header,
+            onDragstart : start_drag.bind(this),
+            onDragstop  : stop_drag.bind(this),
+            onDragging  : dragging.bind(this),
+            min         : {x: 0 - this.options.width + 20, y: 0},
+            max         : {x: TK.width() - 20, y: TK.height() - 20}
         });
         
         this._resize = TK.element("div", "toolkit-resize");
         this.element.appendChild(this._resize);
         
         this.Resize = new Resize({
-            element    : this.element,
-            handle     : this._resize,
-            min        : {x: this.options.min_width, y: this.options.min_height},
-            max        : {x: max_width.call(this), y: max_height.call(this)},
-            onStart    : start_resize.bind(this),
-            onStop     : stop_resize.bind(this),
-            onResizing : resizing.bind(this)
+            element      : this.element,
+            handle       : this._resize,
+            min          : {x: this.options.min_width, y: this.options.min_height},
+            max          : {x: max_width.call(this), y: max_height.call(this)},
+            onResizetart : start_resize.bind(this),
+            onResizestop : stop_resize.bind(this),
+            onResizing   : resizing.bind(this)
         });
         
         this.set("resizable", this.options.resizable);

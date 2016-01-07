@@ -152,7 +152,7 @@ w.TK.DragValue = w.DragValue = $class({
      * value according to the distance. DragValue is used e.g. in #Knob
      * or #ValueButton for setting its value.
      * @option: range; Function; function () { return {} }; The range object for calculating the value
-     * @option: element; DOMNode|Bool; false; An element receiving the users events or false to use the items element itself
+     * @option: node; DOMNode|Bool; false; An element receiving the users events or false to use the items element itself
      * @option: events; DOMNode|Bool; false; An element firing the drag events or false to use the items element itself
      * @option: classes; DOMNode|Bool; false; An element receiving the classes or false to use the items element itself
      * @option: get; Function; function () { return; }; Callback function returning the value
@@ -170,7 +170,7 @@ w.TK.DragValue = w.DragValue = $class({
     _options: Object.assign(Object.create(Widget.prototype._options), {
         /* TODO: these options are somehow not public/dynamic
         range: "function",
-        element: "object",
+        node: "object",
         events: "object",
         classes: "object",
         get: "function",
@@ -184,7 +184,7 @@ w.TK.DragValue = w.DragValue = $class({
     }),
     options: {
         range:     function () { return {}; }, // a range oject
-        element:   false,                      // the element receiving
+        node:   false,                         // the element receiving
                                                // the drag
         events:    false,                      // element receiving events
                                                // or false to fire events
@@ -202,7 +202,7 @@ w.TK.DragValue = w.DragValue = $class({
                                                // amount of degrees to
                                                // separate positive from negative
                                                // value changes
-        rotation:  45                          // used when direction = _TOOLKIT_POLAR
+        rotation:  45,                         // used when direction = _TOOLKIT_POLAR
                                                // defines the angle of
                                                // the middle of the positive
                                                // value changes. 0 means
@@ -221,8 +221,8 @@ w.TK.DragValue = w.DragValue = $class({
 
         Widget.prototype.initialize.call(this, options);
 
-        if (this.options.element)
-            this.set("element", this.options.element);
+        if (this.options.node)
+            this.set("node", this.options.node);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
     },
@@ -238,7 +238,7 @@ w.TK.DragValue = w.DragValue = $class({
     set: function (key, value) {
         Widget.prototype.set.call(this, key, value);
         switch (key) {
-            case "element":
+            case "node":
                 value.addEventListener("contextmenu", function () {return false;});
                 value.addEventListener("mousedown",   this.__pointer_down);
                 value.addEventListener("touchstart",  this.__pointer_down);
@@ -250,13 +250,13 @@ w.TK.DragValue = w.DragValue = $class({
                 }
                 break;
             case "events":
-                if (!value && this.options.element) {
-                    this.options.events = this.options.element;
+                if (!value && this.options.node) {
+                    this.options.events = this.options.node;
                 }
                 break;
             case "classes":
-                if (!value && this.options.element) {
-                    this.options.classes = this.options.element;
+                if (!value && this.options.node) {
+                    this.options.classes = this.options.node;
                 }
                 break;
         }

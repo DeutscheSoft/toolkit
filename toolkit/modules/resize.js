@@ -23,18 +23,18 @@
 function dragstart(e, drag) {
     var O = this.options;
     if (!O.active) return;
-    var E = O.element;
+    var E = O.node;
     this._xstart = e.pageX;
     this._ystart = e.pageY;
     this._xsize  = E.offsetWidth;
     this._ysize  = E.offsetHeight;
     this._xpos   = E.offsetLeft;
     this._ypos   = E.offsetTop;
-    this.fire_event("start", e);
+    this.fire_event("resizestart", e);
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
-    this.fire_event("stop", e);
+    this.fire_event("resizestop", e);
 }
 function dragging(e, drag) {
     var O = this.options;
@@ -45,8 +45,8 @@ function dragging(e, drag) {
     if (O.max.x >= -1) w = Math.min(O.max.x, w);
     if (O.min.y >= -1) h = Math.max(O.min.y, h);
     if (O.max.y >= -1) h = Math.min(O.max.y, h);
-    O.element.style.width = w + "px";
-    O.element.style.height = h + "px";
+    O.node.style.width = w + "px";
+    O.node.style.height = h + "px";
     
     this.fire_event("resizing", e, w, h);
 }
@@ -55,7 +55,7 @@ function set_handle() {
     if (this.drag)
         this.drag.destroy();
     var range = new Range({});
-    this.drag = new DragValue({ element: h,
+    this.drag = new DragValue({ node: h,
         range: function () { return range; },
         onStartdrag  : dragstart.bind(this),
         onStopdrag   : dragend.bind(this),
@@ -74,7 +74,7 @@ w.TK.Resize = w.Resize = $class({
         max : "object",
     }),
     options: {
-        element   : null,           // the element to resize
+        node      : null,           // the element to resize
         handle    : null,           // a DOM node used as handle. if none set
                                     // element is used
         direction : _TOOLKIT_SE,    // _TOOLKIT_N, _TOOLKIT_S, _TOOLKIT_E, _TOOLKIT_W,
@@ -95,7 +95,7 @@ w.TK.Resize = w.Resize = $class({
         switch (key) {
             case "handle":
                 if (!value)
-                    this.options.handle = this.options.element;
+                    this.options.handle = this.options.node;
             case "handle":
             case "direction":
                 set_handle.call(this);

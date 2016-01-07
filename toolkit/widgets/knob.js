@@ -82,7 +82,7 @@ w.TK.Knob = w.Knob = $class({
         this.widgetize(E, true, true, true);
         
         this.drag = new DragValue({
-            element: this.element,
+            node:    this.element,
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
@@ -95,7 +95,7 @@ w.TK.Knob = w.Knob = $class({
             events: function () { return this }.bind(this),
         });
         this.scroll = new ScrollValue({
-            element: this.element,
+            node:    this.element,
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {

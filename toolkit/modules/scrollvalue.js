@@ -88,7 +88,7 @@ function fire_event(title, event) {
     // information on the draggified element
     this.fire_event(title, this, event);
     var e = O.events();
-    if (e) e.fire_event(title, event, O.get(), O.element, this, O.range());
+    if (e) e.fire_event(title, event, O.get(), O.node, this, O.range());
 }
 w.TK.ScrollValue = w.ScrollValue = $class({
     // ScrollValue enables the scrollwheel for setting a value of an
@@ -100,7 +100,7 @@ w.TK.ScrollValue = w.ScrollValue = $class({
     }),
     options: {
         range:     function () { return {}; }, // a range oject
-        element:   false,                      // the element receiving
+        node:      false,                      // the element receiving
                                                // the drag
         events:    false,                      // element receiving events
                                                // or false to fire events
@@ -115,13 +115,13 @@ w.TK.ScrollValue = w.ScrollValue = $class({
     initialize: function (options) {
         this._scrollwheel = scrollwheel.bind(this);
         Widget.prototype.initialize.call(this, options);
-        if (this.options.element)
-            this.set("element", this.options.element);
+        if (this.options.node)
+            this.set("element", this.options.node);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
     },
     destroy: function () {
-        var E = this.options.element;
+        var E = this.options.node;
         if (E) {
             E.removeEventListener("mousewheel", this._scrollwheel);
             E.removeEventListener("DOMMouseScroll", this._scrollwheel);
@@ -144,13 +144,13 @@ w.TK.ScrollValue = w.ScrollValue = $class({
                 }
                 break;
             case "events":
-                if (!value && this.options.element) {
-                    this.options.events = this.options.element;
+                if (!value && this.options.node) {
+                    this.options.events = this.options.node;
                 }
                 break;
             case "classes":
-                if (!value && this.options.element) {
-                    this.options.classes = this.options.element;
+                if (!value && this.options.node) {
+                    this.options.classes = this.options.node;
                 }
                 break;
         }

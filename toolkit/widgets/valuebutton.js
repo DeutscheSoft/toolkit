@@ -87,7 +87,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         this.element.appendChild(this._bar);
         
         this.drag = new DragValue({
-            element:   this.element,
+            node:      this.element,
             range:     function () { return this; }.bind(this),
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) {
