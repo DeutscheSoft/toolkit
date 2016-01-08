@@ -391,7 +391,7 @@ h3.icon {
     height: 100%;
     background: rgba(219, 219, 219, 0.8);
     text-align: left;
-    animation: fadein 1s;
+    animation: fadein 0.5s;
 }
 
 #demo_overlay #demo,
