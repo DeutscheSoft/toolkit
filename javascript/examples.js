@@ -30,7 +30,6 @@ run_pager = function (root) {
         ],
         show: 4,
         position: _TOOLKIT_RIGHT,
-        direction: _TOOLKIT_HORIZ,
         "class": "pager-newspaper",
     });
     pager2 = new Pager({
