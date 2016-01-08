@@ -428,12 +428,14 @@ w.TK.Ranged = w.Ranged = $class({
         basis: "number",
         min: "number",
         max: "number",
+        base: "number",
         step: "number",
         shift_up: "number",
         shift_down: "number",
         snap: "mixed",
         round: "boolean",
         log_factor: "number",
+        trafo_reverse: "boolean",
     },
 
     initialized: function (options) {

@@ -50,6 +50,7 @@ w.TK.Knob = w.Knob = $class({
         direction: "int",
         rotation: "number",
         blind_angle: "number",
+        reset: "number",
     }),
     options: Object.assign({}, TK.Circular.prototype.options, {
         size: 100,

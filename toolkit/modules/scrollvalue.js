@@ -96,6 +96,12 @@ w.TK.ScrollValue = w.ScrollValue = $class({
     _class: "ScrollValue",
     Extends: Widget,
     _options: Object.assign(Object.create(Widget.prototype._options), {
+        get: "function",
+        set: "function",
+        range: "function",
+        events: "object",
+        classes: "object",
+        node: "object",
         active: "boolean",
     }),
     options: {

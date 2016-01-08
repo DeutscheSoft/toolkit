@@ -70,6 +70,7 @@ w.TK.Widget = w.Widget = $class({
         styles: "object",
         disabled: "boolean",
         element: "object",
+        active: "boolean",
     },
     options: {
         // these options are of less use and only here to show what we need

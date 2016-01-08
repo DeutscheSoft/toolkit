@@ -104,6 +104,8 @@ w.TK.Fader = w.Fader = $class({
         layout: "int",
         fixed_dots: "boolean",
         fixed_labels: "boolean",
+        direction: "int",
+        reset: "number",
     }),
     options: {
         value: 0,

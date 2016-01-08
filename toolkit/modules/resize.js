@@ -72,6 +72,7 @@ w.TK.Resize = w.Resize = $class({
         active : "boolean",
         min : "object",
         max : "object",
+        node : "object",
     }),
     options: {
         node      : null,           // the element to resize

@@ -168,14 +168,12 @@ w.TK.DragValue = w.DragValue = $class({
     Extends: Widget,
     Implements: GlobalCursor,
     _options: Object.assign(Object.create(Widget.prototype._options), {
-        /* TODO: these options are somehow not public/dynamic
-        range: "function",
-        node: "object",
-        events: "object",
-        classes: "object",
         get: "function",
         set: "function",
-        */
+        range: "function",
+        events: "object",
+        classes: "object",
+        node: "object",
         direction: "int",
         active: "boolean",
         cursor: "boolean",

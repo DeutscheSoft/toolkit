@@ -36,7 +36,7 @@ w.TK.ValueButton = w.ValueButton = $class({
     _class: "ValueButton",
     Extends: Button,
     Implements: [Warning, Ranged],
-    _options: Object.assign(Object.create(Button.prototype._options), {
+    _options: Object.assign(Object.create(Button.prototype._options), Ranged.prototype._options, {
         value: "number",
         value_format: "function",
         value_size: "number",
@@ -45,6 +45,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         rotation: "number",
         blind_angle: "number",
         snap: "number",
+        reset: "number",
     }),
     options:  {
         value: 0,
