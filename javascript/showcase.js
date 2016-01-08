@@ -74,7 +74,7 @@ window.addEventListener('DOMContentLoaded', function () {
         if (item) {
             var i = this.find_item(item);
             if (i)
-                this._show_item(i);
+                this.show_item(i);
             if (hash && typeof window["run_" + hash] == "function") {
                 var that = this;
                 setTimeout( function () {
