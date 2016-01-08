@@ -167,6 +167,7 @@ w.TK.Clock = w.Clock = $class({
         label_upper:  "function",
         label_lower:  "function",
         label_scale:  "number",
+        time: "object",
     }),
     options: {
         thickness:    10,         // thickness of the rings
