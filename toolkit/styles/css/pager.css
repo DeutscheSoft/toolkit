@@ -5,11 +5,11 @@
 }
 
 .toolkit-pager > .toolkit-clip {
-    
+    overflow: hidden; 
 }
 
 .toolkit-pager .toolkit-page {
-    
+     
 }
 .toolkit-container.toolkit-hide {
     
@@ -79,22 +79,4 @@
 @keyframes toolkit-page-vertical-out-backward {
     0%   { transform: translateX(0); }
     100% { transform: translateX(100%); }
-}
-
-/* BUTTONARRAY */
-
-.toolkit-pager .toolkit-buttonarray{
-    
-}
-.toolkit-pager.toolkit-top .toolkit-buttonarray {
-    
-}
-.toolkit-pager.toolkit-right .toolkit-buttonarray {
-    
-}
-.toolkit-pager.toolkit-bottom .toolkit-buttonarray {
-    
-}
-.toolkit-pager.toolkit-left .toolkit-buttonarray {
-    
 }

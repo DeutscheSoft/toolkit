@@ -368,6 +368,24 @@ pre, code {
     float: right;
 }
 
+/* BUTTONARRAY */
+
+.toolkit-pager .toolkit-buttonarray{
+    position: absolute;
+}
+.toolkit-pager.toolkit-top .toolkit-buttonarray {
+    top: 0;
+}
+.toolkit-pager.toolkit-right .toolkit-buttonarray {
+    right: 0;
+}
+.toolkit-pager.toolkit-bottom .toolkit-buttonarray {
+    bottom: 0;
+}
+.toolkit-pager.toolkit-left .toolkit-buttonarray {
+    left: 0;
+}
+
 /* RESPONSEHANDLE */
 
 .toolkit-response-handle {
