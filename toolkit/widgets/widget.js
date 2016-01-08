@@ -80,6 +80,7 @@ w.TK.Widget = w.Widget = $class({
     initialize: function (options) {
         BASE.prototype.initialize.call(this);
         // Main actions every widget needs to take
+        if (!options) options = {};
         this.fire_event("initialize");
         if (!options.id)
             options.id = TK.unique_id();
