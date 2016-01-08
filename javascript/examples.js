@@ -1179,7 +1179,8 @@ function run_state (root) {
     s8 = new State({
         color: "#d00",
         state: 0,
-        "class": "on_air"
+        "class": "on_air",
+        onClick: function () { this.set("state", !this.get("state")) }
     });
     root.append_children([ s1, s2, s3, s4, s5, s6, s7, s8 ]);
     __s1();
