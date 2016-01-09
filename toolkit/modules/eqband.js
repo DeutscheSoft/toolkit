@@ -31,7 +31,13 @@ w.TK.EqBand = w.EqBand = $class({
     _class: "EqBand",
     Extends: ResponseHandle,
     _options: Object.assign(Object.create(ResponseHandle.prototype._options), {
-        type:    _TOOLKIT_PARAMETRIC // The type of the filter.
+        type: "int",
+        gain: "number",
+        freq: "number",
+        x: "number",
+        y: "number",
+        z: "number",
+        q: "number",
     }),
     options: {
         type:    _TOOLKIT_PARAMETRIC // The type of the filter.
