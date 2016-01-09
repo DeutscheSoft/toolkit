@@ -71,7 +71,7 @@ w.TK.Dynamics = w.Dynamics = $class({
             dots: [{x:O.min, y:O.min},
                    {x:O.max, y:O.max}],
             "class": "toolkit-steady",
-            scale: _TOOLKIT_LINE
+            mode: _TOOLKIT_LINE
         });
     },
     
