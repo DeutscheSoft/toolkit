@@ -400,7 +400,7 @@ window.addEventListener('DOMContentLoaded', function () {
     
     this.run_example = function (id) {
         var fun = "run_" + id;
-        
+        if (!window[fun]) return;
         var dover;
         var root;
         this.overlay = dover = TK.element("div", "demo_overlay");
