@@ -92,7 +92,8 @@ w.TK.Fader = w.Fader = $class({
     _class: "Fader",
     Extends: Widget,
     Implements: [Ranged, Warning, GlobalCursor],
-    _options: Object.assign(Object.create(Widget.prototype._options), Ranged.prototype._options, {
+    _options: Object.assign(Object.create(Widget.prototype._options),
+                            Ranged.prototype._options, Scale.prototype._options, {
         value:    "number",
         division: "number",
         levels:   "array",
@@ -100,7 +101,7 @@ w.TK.Fader = w.Fader = $class({
         gap_labels: "number",
         show_labels: "boolean",
         labels: "function",
-        tooltip: "boolean",
+        tooltip: "function",
         layout: "int",
         fixed_dots: "boolean",
         fixed_labels: "boolean",
@@ -129,8 +130,12 @@ w.TK.Fader = w.Fader = $class({
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-fader");
         this.widgetize(E, true, true, true);
+
+        var so = TK.object_and(O, TK.Scale.prototype._options);
+        so = TK.object_sub(so, TK.Widget.prototype._options);
+        so.container = E;
         
-        this.scale = new Scale(TK.merge({}, O, { container: E }));
+        this.scale = new Scale(so);
         this._scale = this.scale.element;
         
         this._handle = TK.element("div", "toolkit-handle");
