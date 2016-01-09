@@ -48,8 +48,7 @@ function check_label(iter, step, last) {
         if (!(diff % level)
         && (level >= Math.abs(last - iter)
             || i == O.levels.length - 1)
-        && this._val2px(Math.abs(last - iter)
-            + O.min) >= O.gap_labels
+        && Math.abs(this._val2px(last) - this._val2px(iter)) >= O.gap_labels
         && this._val2px(iter) >= O.gap_labels) {
             var label;
             if (iter > O.min && iter < O.max) {
