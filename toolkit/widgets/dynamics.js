@@ -111,16 +111,16 @@ w.TK.Dynamics = w.Dynamics = $class({
             this.draw_graph();
         }
         
-        if (I.resize) {
-            TK.S.add(function() {
-                var bb = this.element.getBoundingClientRect();
-                var s = Math.min(bb.width, bb.height);
-                if (s != O.size)
-                    this.set("size", s);
-            }.bind(this), 1);
-        }
-
         Chart.prototype.redraw.call(this);
+    },
+
+    resize: function() {
+        var O = this.options;
+        Chart.prototype.resize.call(this);
+        var bb = this.element.getBoundingClientRect();
+        var s = Math.min(bb.width, bb.height);
+        if (s != O.size)
+            this.set("size", s);
     },
     
     draw_graph: function () {
