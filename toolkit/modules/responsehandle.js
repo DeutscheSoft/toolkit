@@ -323,6 +323,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         z_max: "number",
         active: "boolean",
         show_axis: "boolean",
+        title: "string",
     }),
     options: {
         range_x:          {},           // callback function returning a Range
