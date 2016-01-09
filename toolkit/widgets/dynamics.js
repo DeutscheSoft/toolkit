@@ -40,6 +40,7 @@ w.TK.Dynamics = w.Dynamics = $class({
         floor:     "number",
         range:     "number",
         grid_labels: "function",
+        db_grid: "number",
     }),
     options: {
         db_grid: 12,
