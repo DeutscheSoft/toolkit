@@ -337,7 +337,7 @@ a#next.hidden {
 }
 
 #navigation .scroller {
-    overflow-y: auto;
+    overflow-y: scroll;
     height: calc(100% - 2em);
     cursor:not-allowed;
 }
