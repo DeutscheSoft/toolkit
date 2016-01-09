@@ -199,7 +199,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         Widget.prototype.redraw.call(this);
         
         if (I.layout) {
-            I.resize = true;
             I.layout = false;
             TK.remove_class(E, "toolkit-vertical");
             TK.remove_class(E, "toolkit-horizontal");
@@ -233,14 +232,6 @@ w.TK.MeterBase = w.MeterBase = $class({
             }
         }
         
-        if (I.resize) {
-            /* FORCE_RELAYOUT */
-            I.layout = false;
-            var i = TK["inner_" + (vert(O) ? "height" : "width")](this._bar);
-            if (i != O.basis)
-                this.set("basis", i);
-        }
-
         if (I.value) {
             I.value = false;
             this.draw_meter();
@@ -269,6 +260,14 @@ w.TK.MeterBase = w.MeterBase = $class({
                 }
             }
         }
+    },
+
+    resize: function() {
+        var O = this.options;
+        Widget.prototype.resize.call(this);
+        var i = TK["inner_" + (vert(O) ? "height" : "width")](this._bar);
+        if (i != O.basis)
+            this.set("basis", i);
     },
     
     draw_meter: function (value) {
