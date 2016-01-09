@@ -51,13 +51,13 @@ window.addEventListener('DOMContentLoaded', function () {
         var back = TK.element("a", "back", "hidden");
         back.setAttribute("id", "back");
         TK.set_text(back, "back");
-        back.onclick = function () { t.tm.back() };
+        back.onclick = function (e) { t.tm.back(); e.stopPropagation(); };
         menu.appendChild(back);
         
         var next = TK.element("a", "next", "hidden");
         next.setAttribute("id", "next");
         TK.set_text(next, "next");
-        next.onclick = function () { t.tm.next() };
+        next.onclick = function (e) { t.tm.next(); e.stopPropagation(); };
         menu.appendChild(next);
         
         TK.get_id("wrapper").appendChild(menu);
@@ -102,7 +102,7 @@ window.addEventListener('DOMContentLoaded', function () {
         but.setAttribute("id", "navbutton");
         scroll.appendChild(but);
         TK.set_text(but, "MENU");
-        but.onclick = function () {
+        nav.onclick = function () {
             TK.toggle_class(TK.get_id("navigation"), "hidden");
         }
 
@@ -133,7 +133,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 list.appendChild(item);
                 item.appendChild(a);
                 item.onclick = (function (t, i) { 
-                    return function () { t.show_item(i); }
+                    return function (e) { t.show_item(i); e.stopPropagation(); }
                 })(this, _j)
             }
         }

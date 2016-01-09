@@ -303,8 +303,7 @@ a#next.hidden {
 }
 
 #navigation {
-    background: rgba(255, 255, 255, 0.9);
-    background: #003050;
+    background: rgb(0, 48, 80);
     color: white;
     transition: max-height 0.5s ease-in-out;
     position: fixed;
@@ -340,6 +339,7 @@ a#next.hidden {
 #navigation .scroller {
     overflow-y: auto;
     height: calc(100% - 2em);
+    cursor:not-allowed;
 }
 #navigation .type {
     font-size: 2em;
