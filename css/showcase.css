@@ -398,11 +398,13 @@ h3.icon {
 }
 #demo_overlay {
     position: fixed;
-    z-index: 1000;
+    z-index: 9;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+    border-top: 2em solid transparent;
     background: rgba(219, 219, 219, 0.8);
     text-align: left;
     animation: fadein 0.5s;
@@ -428,11 +430,13 @@ h3.icon {
     top: 0;
     right: 0;
     z-index: 1;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 0 0 0 5px;
+    background: #003050;
+    border-radius: 0 0 0 8px;
     padding: 0.33em;
 }
-
+#demo_overlay .menu .toolkit-button {
+    padding: 3px 6px;
+}
 #demo_overlay #code,
 #demo_overlay #demo {
     transition: all 0.5s;

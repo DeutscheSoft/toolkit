@@ -40,6 +40,8 @@ window.addEventListener('DOMContentLoaded', function () {
     this.hash_separator = ":";
     this.itemids = [ "widgets", "modules", "implements" ];
     this.process_cols = [ "name", "description", "text" ];
+    this.root;
+    this.overlay;
     this.init = function (items) {
         this.items = items;
         this.tm = this.timemachine(this);
@@ -399,10 +401,12 @@ window.addEventListener('DOMContentLoaded', function () {
     this.run_example = function (id) {
         var fun = "run_" + id;
         
-        var dover = TK.element("div", "demo_overlay");
+        var dover;
+        var root;
+        this.overlay = dover = TK.element("div", "demo_overlay");
         dover.setAttribute("id", "demo_overlay");
 
-        var root = new Root({
+        this.root = root = new Root({
             container : dover,
             "class" : "demo",
             "id" : "demo",
@@ -440,14 +444,23 @@ window.addEventListener('DOMContentLoaded', function () {
         exit.setAttribute("href", url);
         TK.set_text(exit, "Close");
         menu.appendChild(exit);
-        exit.addEventListener("click", function () {
-            document.body.removeChild(dover);
-            root.destroy();
-        });
+        var that = this;
+        exit.addEventListener("click", function () { that.remove_example(); });
         
         dover.onscroll = function (e) { console.log("scroll"); e.preventDefault(); e.stopPropagation(); }
         
         window[fun](root);
+    }
+    
+    this.remove_example = function () {
+        if (this.overlay) {
+            document.body.removeChild(this.overlay);
+            this.overlay = null;
+        }
+        if (this.root) {
+            this.root.destroy();
+            this.root = null;
+        }
     }
     
     this.find_item = function (name, section) {
@@ -508,6 +521,10 @@ window.addEventListener('DOMContentLoaded', function () {
             document.body.scrollTop = pos;
         }, 100);
         TK.add_class(TK.get_id("navigation"), "hidden");
+        var run = this.root ? 1 : 0;
+        this.remove_example();
+        if (run)
+            this.run_example(item.id);
     }
     
     this.timemachine = function (parent) {
