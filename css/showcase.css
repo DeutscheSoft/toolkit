@@ -311,7 +311,6 @@ a#next.hidden {
     top: 0;
     left: 0;
     right: 0;
-    padding: 1em 1em 1em 1em;
     text-align: center;
     z-index: 10;
     box-sizing: border-box;
@@ -340,7 +339,7 @@ a#next.hidden {
 
 #navigation .scroller {
     overflow-y: auto;
-    height: calc(100% - 3em);
+    height: calc(100% - 2em);
 }
 #navigation .type {
     font-size: 2em;
