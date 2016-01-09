@@ -93,6 +93,7 @@ w.TK.Value = w.Value = $class({
         value: "number",
         format: "function",
         size: "number",
+        maxlength: "int",
         set: "function",
     }),
     options: {
@@ -140,6 +141,12 @@ w.TK.Value = w.Value = $class({
         if (I.size) {
             I.size = 0;
             E.setAttribute("size", O.size);
+        }
+
+        if (I.maxlength) {
+            I.maxlength = 0;
+            if (O.maxlength) E.setAttribute("maxlength", O.maxlength);
+            else E.removeAttribute("maxlength");
         }
 
         if ((I.value || I.format) && !this.__editing) {
