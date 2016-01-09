@@ -45,16 +45,23 @@ window.addEventListener('DOMContentLoaded', function () {
         this.tm = this.timemachine(this);
         
         var t = this;
+        
+        var menu = this.build_navigation(items);
+        
         var back = TK.element("a", "back", "hidden");
         back.setAttribute("id", "back");
+        TK.set_text(back, "back");
         back.onclick = function () { t.tm.back() };
-        document.body.appendChild(back);
+        menu.appendChild(back);
+        
         var next = TK.element("a", "next", "hidden");
         next.setAttribute("id", "next");
+        TK.set_text(next, "next");
         next.onclick = function () { t.tm.next() };
-        document.body.appendChild(next);
+        menu.appendChild(next);
         
-        this.build_navigation(items);
+        TK.get_id("wrapper").appendChild(menu);
+        
         window["SC"] = this;
         
         var regex = "#(";
@@ -87,13 +94,13 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     
     this.build_navigation = function (items) {
-        var c = document.createDocumentFragment();
-        var nav = TK.element("ul", "hidden");
+        var nav = TK.element("div", "hidden");
+        var scroll = TK.element("div", "scroller");
+        nav.appendChild(scroll);
         nav.setAttribute("id", "navigation");
-        c.appendChild(nav);
         var but = TK.element("div");
         but.setAttribute("id", "navbutton");
-        nav.appendChild(but);
+        scroll.appendChild(but);
         TK.set_text(but, "MENU");
         but.onclick = function () {
             TK.toggle_class(TK.get_id("navigation"), "hidden");
@@ -107,8 +114,8 @@ window.addEventListener('DOMContentLoaded', function () {
             var key = keys[i];
             // loop over categories
             var _i = items[key];
-            var type = TK.element("li");
-            nav.appendChild(type);
+            var type = TK.element("div", "type");
+            scroll.appendChild(type);
             TK.set_text(type, _i.name);
             //type.setAttribute("title", _i.description);
             var list = TK.element("ul");
@@ -130,7 +137,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 })(this, _j)
             }
         }
-        TK.get_id("wrapper").appendChild(c);
+        return nav;
     }
     
     this.build_item = function (item) {
