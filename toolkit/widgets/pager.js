@@ -160,6 +160,9 @@ w.TK.Pager = w.Pager = $class({
                             this._clip.style.bottom = null;
                             break;
                     }
+                    /* we essentially resize the pages container, so we need to call
+                     * resize() on them */
+                    TK.S.after_frame(Container.prototype.resize.bind(this));
                 }.bind(this));
             }.bind(this), 1);
         }
@@ -266,8 +269,8 @@ w.TK.Pager = w.Pager = $class({
     
     resize: function () {
         this.invalid.show = true;
+        this.invalid.layout = true;
         this.trigger_draw();
-
         Container.prototype.resize.call(this);
     },
 
