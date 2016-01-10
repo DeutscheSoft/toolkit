@@ -70,12 +70,20 @@ Scheduler.prototype = {
                     o = q[j];
                     calls++;
                     if (typeof(o) === "function") {
-                        o = o();
+                        try {
+                            o = o();
+                        } catch (e) {
+                            TK.warn("rendering method", o, "threw an error", e);
+                        }
                         if (typeof(o) === "object")
                             Q[i].push(o);
                         else continue;
                     }
-                    ret = o.next();
+                    try {
+                        ret = o.next();
+                    } catch (e) {
+                        TK.warn("rendering generator", o, "threw an error",  e);
+                    }
                     if (ret.done || (v = ret.value) === false) {
                         continue;
                     }
