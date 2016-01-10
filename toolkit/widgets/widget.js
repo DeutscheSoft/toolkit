@@ -325,6 +325,7 @@ w.TK.Widget = w.Widget = $class({
         this._drawn = false;
         if (this.needs_redraw) {
             TK.S.remove(this._redraw);
+            TK.S.remove_next(this._redraw);
         }
         this.fire_event("hide");
         var C = this.children;
