@@ -95,9 +95,6 @@ w.TK.Graph = w.Graph = $class({
         
         this.range_x.add_event("set", cb);
         this.range_y.add_event("set", cb);
-        
-        if (this.options.dots.length)
-            this.redraw();
     },
     
     redraw: function () {
