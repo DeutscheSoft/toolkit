@@ -167,6 +167,10 @@ DOMScheduler.prototype.run = function() {
     Scheduler.prototype.run.call(this);
     this.running = false;
 };
+DOMScheduler.prototype.after_frame = function(fun) {
+    Scheduler.prototype.after_frame.call(this, fun);
+    if (!this.running && !this.will_render) request_frame.call(this);
+};
 w.Scheduler = Scheduler;
 w.DOMScheduler = DOMScheduler;
 })(this);
