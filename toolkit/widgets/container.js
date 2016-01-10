@@ -30,6 +30,33 @@ function after_showing() {
     if (this.options.display_state == "showing")
         this.set("display_state", "show");
 }
+function enable_draw_self() {
+    if (this._drawn) return;
+    this._drawn = true;
+    if (this.needs_redraw) {
+        TK.S.add(this._redraw);
+    }
+    this.fire_event("show");
+}
+function enable_draw_children() {
+    var C = this.children;
+    var H = this.hidden_children;
+    for (var i = 0; i < C.length; i++) if (!H[i]) C[i].enable_draw();
+}
+function disable_draw_self() {
+    if (!this._drawn) return;
+    this._drawn = false;
+    if (this.needs_redraw) {
+        TK.S.remove(this._redraw);
+        TK.S.remove_next(this._redraw);
+    }
+    this.fire_event("hide");
+}
+function disable_draw_children() {
+    var C = this.children;
+    var H = this.hidden_children;
+    for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
+}
 w.TK.Container = w.Container = $class({
     /* @class: Container
      * @description: Container represents a <DIV> element.
@@ -61,7 +88,7 @@ w.TK.Container = w.Container = $class({
         this.__after_showing = after_showing.bind(this);
         this.__hide_id = false;
         this.was_resized = false;
-        TK.add_class(E, "toolkit-hide");
+        TK.add_class(E, "toolkit-show");
     },
     
     destroy: function () {
@@ -93,50 +120,49 @@ w.TK.Container = w.Container = $class({
     },
     enable_draw: function () {
         if (this._drawn) return;
-        this._drawn = true;
-        if (this.needs_redraw) {
-            TK.S.add(this._redraw);
-        }
-        this.fire_event("show");
-        var C = this.children;
-        var H = this.hidden_children;
-        for (var i = 0; i < C.length; i++) if (!H[i]) C[i].enable_draw();
+        enable_draw_self.call(this);
+        enable_draw_children.call(this);
     },
     disable_draw: function () {
         if (!this._drawn) return;
-        this._drawn = false;
-        if (this.needs_redraw) {
-            TK.S.remove(this._redraw);
-        }
-        this.fire_event("hide");
-        var C = this.children;
-        var H = this.hidden_children;
-        for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
+        disable_draw_self.call(this);
+        disable_draw_children.call(this);
     },
     hide: function () {
         var O = this.options;
         if (O.display_state === "hide") return;
-        this.enable_draw();
+        disable_draw_children.call(this);
+        enable_draw_self.call(this);
         if (O.display_state === "hiding") return;
         this.set("display_state", "hiding");
     },
     force_hide: function () {
         var O = this.options;
         if (O.display_state === "hide") return;
-        this.enable_draw();
-        this.set("display_state", "hide");
+        this.disable_draw();
+        var E = this.element;
+        O.display_state = "hide";
+        TK.add_class(E, "toolkit-hide");
+        TK.remove_class(E, "toolkit-hiding");
+        TK.remove_class(E, "toolkit-showing");
+        TK.remove_class(E, "toolkit-show");
     },
     show: function() {
         var O = this.options;
-        this.enable_draw();
+        enable_draw_self.call(this);
         if (O.display_state === "show" || O.display_state === "showing") return;
         this.set("display_state", "showing");
     },
     force_show: function() {
         var O = this.options;
-        this.enable_draw();
         if (O.display_state === "show") return;
-        this.set("display_state", "show");
+        this.enable_draw();
+        var E = this.element;
+        O.display_state = "show";
+        TK.add_class(E, "toolkit-show");
+        TK.remove_class(E, "toolkit-hiding");
+        TK.remove_class(E, "toolkit-showing");
+        TK.remove_class(E, "toolkit-hide");
     },
 
     resize: function() {
@@ -193,6 +219,8 @@ w.TK.Container = w.Container = $class({
         var I = this.invalid;
         var E = this.element;
 
+        Widget.prototype.redraw.call(this);
+
         if (I.display_state) {
             var time;
             TK.remove_class(E, "toolkit-hiding");
@@ -218,7 +246,7 @@ w.TK.Container = w.Container = $class({
                 /* FALL THROUGH */
             case "hide":
                 TK.add_class(E, "toolkit-hide");
-                this.disable_draw();
+                disable_draw_self.call(this);
                 break;
             case "showing":
                 if (this.was_resized) {
@@ -228,6 +256,7 @@ w.TK.Container = w.Container = $class({
                 time = TK.get_duration(E);
                 if (time > 0) {
                     this.__hide_id = w.setTimeout(this.__after_showing, time);
+                    enable_draw_children.call(this);
                     break;
                 }
                 O.display_state = "show";
@@ -235,11 +264,10 @@ w.TK.Container = w.Container = $class({
                 /* FALL THROUGH */
             case "show":
                 TK.add_class(E, "toolkit-show");
+                enable_draw_children.call(this);
                 break;
             }
         }
-
-        Widget.prototype.redraw.call(this);
 
         if (I.content) {
             I.content = false;
