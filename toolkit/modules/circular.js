@@ -321,6 +321,12 @@ w.TK.Circular = w.Circular = $class({
         Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
     },
+
+    resize: function () {
+        this.invalid.labels = true;
+        this.trigger_draw();
+        Widget.prototype.resize.call(this);
+    },
     
     redraw: function () {
         Widget.prototype.redraw.call(this);
