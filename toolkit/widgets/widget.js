@@ -95,7 +95,7 @@ w.TK.Widget = w.Widget = $class({
         this.value_time = Object.create(null);
         this.needs_redraw = false;
         this._redraw = redraw.bind(this);
-        this.__hidden = true;
+        this._drawn = false;
         this.parent = null;
         this.children = [];
     },
@@ -125,24 +125,27 @@ w.TK.Widget = w.Widget = $class({
     resize: function() {
         var C = this.children;
         this.fire_event("resize");
-        this.invalid.resize = true;
-        this.trigger_draw();
         for (var i = 0; i < C.length; i++) {
             C[i].resize();
+        }
+        if (this.has_event_listeners("resized")) {
+            TK.S.after_frame(function() {
+                this.fire_event("resized");
+            }.bind(this));
         }
     },
 
     trigger_draw : function() {
         if (!this.needs_redraw) {
             this.needs_redraw = true;
-            if (!this.__hidden) TK.S.add(this._redraw);
+            if (this._drawn) TK.S.add(this._redraw);
         }
     },
 
     trigger_draw_next : function() {
         if (!this.needs_redraw) {
             this.needs_redraw = true;
-            if (!this.__hidden) TK.S.add_next(this._redraw);
+            if (this._drawn) TK.S.add_next(this._redraw);
         }
     },
 
@@ -181,15 +184,6 @@ w.TK.Widget = w.Widget = $class({
             if (I.styles) {
                 I.styles = false;
                 if (O.styles) TK.set_styles(E, O.styles);
-            }
-        }
-
-        if (I.resize) {
-            I.resize = false;
-            if (this.has_event_listeners("resized")) {
-                TK.S.after_frame(function() {
-                    this.fire_event("resized");
-                }.bind(this));
             }
         }
     },
@@ -310,32 +304,38 @@ w.TK.Widget = w.Widget = $class({
     get: function (key) {
         return this.options[key];
     },
-    _low_show: function () {
-        if (this.__hidden) {
-            this.__hidden = false;
-            if (this.needs_redraw) {
-                TK.S.add(this._redraw);
-            }
-            this.fire_event("show");
+    /* @method enable_draw()
+     * Schedules this widget for drawing.
+     */
+    enable_draw: function () {
+        if (this._drawn) return;
+        this._drawn = true;
+        if (this.needs_redraw) {
+            TK.S.add(this._redraw);
         }
+        this.fire_event("show");
+        var C = this.children;
+        for (var i = 0; i < C.length; i++) C[i].enable_draw();
+    },
+    /* @method enable_draw()
+     * Stop drawing this widget.
+     */
+    disable_draw: function () {
+        if (!this._drawn) return;
+        this._drawn = false;
+        if (this.needs_redraw) {
+            TK.S.remove(this._redraw);
+        }
+        this.fire_event("hide");
+        var C = this.children;
+        for (var i = 0; i < C.length; i++) C[i].disable_draw();
     },
     /* @method: show()
      * Make the widget visible. This does not modify the DOM, instead it will only schedule
      * the widget for rendering.
      */
     show: function () {
-        this._low_show();
-        var C = this.children;
-        for (var i = 0; i < C.length; i++) C[i].show();
-    },
-    _low_hide: function () {
-        if (!this.__hidden) {
-            this.__hidden = true;
-            if (this.needs_redraw) {
-                TK.S.remove(this._redraw);
-            }
-            this.fire_event("hide");
-        }
+        this.enable_draw();
     },
     /* @method: hide()
      * Make the widget hidden. This does not modify the DOM, instead it will stop rendering
@@ -343,21 +343,16 @@ w.TK.Widget = w.Widget = $class({
      * to the DOM) when the widget is made visible again using show().
      */
     hide: function () {
-        this._low_hide();
-        var C = this.children;
-        for (var i = 0; i < C.length; i++) C[i].hide();
-    },
-    force_hide: function() {
-        Widget.prototype.hide.call(this);
-    },
-    force_show: function() {
-        Widget.prototype.show.call(this);
+        this.disable_draw();
     },
     /* @method: hidden()
      * Returns the current hidden status of the widget.
      */
     hidden: function() {
-        return this.__hidden;
+        return !this._drawn;
+    },
+    is_drawn: function() {
+        return this._drawn;
     },
     /* @method: toggle_hidden()
      * Toggle the hidden status. This is equivalent to calling hide() or show(), depending on
@@ -375,10 +370,10 @@ w.TK.Widget = w.Widget = $class({
         if (child.parent) child.parent.remove_child(child);
         child.parent = this;
         C.push(child);
-        if (this.hidden()) {
-            child.force_hide();
+        if (this.is_drawn()) {
+            child.enable_draw();
         } else {
-            child.show();
+            child.disable_draw();
         }
     },
     /* @method: remove_child(child)
@@ -404,5 +399,33 @@ w.TK.Widget = w.Widget = $class({
     add_children : function (a) {
         a.map(this.add_child, this);
     },
+
+    /* @method: visible_children()
+     * Returns an array of all visible children.
+     */
+    visible_children: function(a) {
+        if (!a) a = [];
+        var C = this.children;
+        for (var i = 0; i < C.length; i++) {
+            a.push(C[i]);
+            C[i].visible_children(a);
+        }
+        return a;
+    },
+
+    /* @method: all_children()
+     * Returns an array of all children.
+     */
+    all_children: function(a) {
+        if (!a) a = [];
+        var C = this.children;
+        for (var i = 0; i < C.length; i++) {
+            a.push(C[i]);
+            C[i].all_children(a);
+        }
+        return a;
+    },
 });
+w.TK.Widget.prototype.force_hide = w.TK.Widget.prototype.hide;
+w.TK.Widget.prototype.force_show = w.TK.Widget.prototype.show;
 })(this);

@@ -22,9 +22,9 @@
 (function(w){ 
 function visibility_change() {
     if (document.hidden) {
-        this.hide();
+        this.disable_draw();
     } else {
-        this.show();
+        this.enable_draw();
     }
 }
 function resized() {
@@ -47,11 +47,11 @@ w.TK.Root = w.Root = $class({
     },
     initialized: function () {
         Container.prototype.initialized.call(this);
-        if (!document.hidden) this.show();
         /* NOTE: the initial draw will add all elements to the dom and set them up.
          * after that is done, we trigger one initial resize event, to make sure that
          * they are resized properly, if needed. */
-        TK.S.after_frame(this.resize.bind(this));
+        this.resize();
+        this.enable_draw();
     },
     resize: function() {
         this.resize_event = false;
