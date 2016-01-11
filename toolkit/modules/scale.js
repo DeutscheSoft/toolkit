@@ -277,6 +277,8 @@ w.TK.Scale = w.Scale = $class({
                     this.draw_dot(O.fixed_dots[i]);
                 }
                 for (var i = 0; i < O.fixed_labels.length; i++) {
+                    /* Do not draw min/max values twice */
+                    if (O.fixed_labels[i] === O.min || O.fixed_labels[i] === O.max) continue;
                     labels.push(low_draw_label.call(this, O.fixed_labels[i]));
                 }
             } else {
