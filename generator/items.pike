@@ -21,6 +21,15 @@ constant PARAMETER_ATOMS = ({ "name", "type", "default", "description" });
 constant RETURN_ATOMS    = ({ "type", "description" });
 constant EVENT_ATOMS     = ({ "name", "arguments", "description" });
 
+constant auto_gobble = ([
+    "description" : 1,
+]);
+
+constant auto_description = ([
+    "method" : 1,
+    "class"  : 1,
+]);
+
 mapping(string:mixed) _recipient;
 
 array(string) trim_array (array(string) a) {
@@ -75,8 +84,49 @@ void process_element (string type, string content, mapping map) {
             _recipient->returns += ({ get_atoms_mapping(c, RETURN_ATOMS) });
             break;
         case "description":
-            _recipient->description = c;
+            if (_recipient->description) 
+                _recipient->description += "\n" + c;
+            else
+                _recipient->description = c;
             break;
+        default:
+            werror("Unknown type %O: %O\n", type, content);
+            break;
+    }
+}
+
+void parse_comment_block(string c, mapping map) {
+    string current_type, current_content;;
+
+    c = Regexp.PCRE("\n[ \t]*[\*][ \t]*")->replace(c, "\n"); // remove possible * and spaces on newlines
+    c = Regexp.PCRE("^[ \t]*")->replace(c, ""); // replace leading spaces
+    c = Regexp.PCRE("[ \t]+")->replace(c, " "); // replace multiple spaces
+
+    foreach (c/"\n";; string line) {
+        line = String.trim_all_whites(line);
+        if (!sizeof(line)) continue;
+        string type;
+        if (2 == sscanf(line, "@%[^:]:%s", type, line)) {
+            if (current_type) {
+                process_element(current_type, current_content, map);
+            }
+            current_type = type;
+            current_content = line;
+            continue;
+        }
+
+        if (auto_description[current_type]) {
+            process_element("description", line, map);
+        } else if (auto_gobble[current_type]) {
+            current_content += "\n" + line;
+        } else {
+            werror("Unrecognized line: %O\n", line);
+        }
+    }
+
+    // process last line
+    if (current_type) {
+        process_element(current_type, current_content, map);
     }
 }
 
@@ -88,23 +138,8 @@ mapping(string:mixed) parse_code(string code) {
     while ((i = search(code, "/*", i)) > -1) { // loop over comment openers "/*"
         if ((to = search(code, "*/", i) - 1) < i) continue; // no closing comment tag was found
         string c = code[(i + 2)..(i = to)]; // extract the comment
-        c = Regexp.PCRE("\n[ \t]*[\*][ \t]*")->replace(c, " "); // remove possible * and spaces on newlines
-        c = Regexp.PCRE("^[ \t]*")->replace(c, ""); // replace leading spaces
-        c = Regexp.PCRE("[ \t]+")->replace(c, " "); // replace multiple spaces
-        to = search(c, ":");
-        if (c[0..0] != "@" || to < 0 || search(KEYWORDS, c[1..(to-1)]) < 0)
-            continue; // no usable entry (no @, no :, no keyword)
-        foreach (c / "@", string a) {
-            if (a == "") continue; // skip empty strings
-            if (search(KEYWORDS + CLASS_KEYWORDS + METHOD_KEYWORDS, (c[1..] / ":")[0]) < 0)
-                elements[sizeof(elements) - 1] += "@" + a; // this is no element, so add to last entry in elements array
-            else
-                elements += ({ a }); // appears to be an element, so append to elements array
-        }
+        parse_comment_block(c, map);
     }
-    string t;
-    foreach (elements, string e)
-        process_element((t = (e / ":")[0]), e[sizeof(t) + 2..], map);
     return map;
 }
 
