@@ -53,7 +53,7 @@ function hit_test(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
     
 w.TK.ResponseHandler = w.ResponseHandler = $class({
     /** @class: ResponseHandler
-     * @descripiotn: ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
+     * ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
      * meant as a universal user interface for equalizers and the like.
      */
     _class: "ResponseHandler",
