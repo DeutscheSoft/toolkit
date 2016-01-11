@@ -370,7 +370,7 @@ function set_cb(key, value) {
     }
 }
 w.TK.Ranged = w.Ranged = $class({
-    /* @class: Ranged
+    /** @class: Ranged
      * @option: scale; Int|Function; _TOOLKIT_LINEAR; The type of the scale. Either an integer
      * (_TOOLKIT_LINEAR, _TOOLKIT_DECIBEL|_TOOLKIT_LOG2, _TOOLKIT_FREQUENCY|_TOOLKIT_LOG10)
      * or a function like function (value, options, coef) {}.

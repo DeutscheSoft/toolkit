@@ -21,7 +21,7 @@
 "use strict";
 (function(w){ 
 w.TK.Gradient = w.Gradient = $class({
-    /* @class: Gradient
+    /** @class: Gradient
      * @option: gradient; Bool|Object; false; Gradient definition for the background.
      * Keys are ints or floats as string corresponding to the widgets scale.
      * Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
@@ -40,7 +40,7 @@ w.TK.Gradient = w.Gradient = $class({
         background:      "#00000"
     },
     draw_gradient: function (element, gradient, fallback, range) {
-        /* @method: draw_gradient(element, gradient, fallback, range)
+        /** @method: draw_gradient(element, gradient, fallback, range)
          * @parameter: element; DOMNode; undefined; The DOM node to appy the gradient to
          * @parameter: gradient; Object; undefined; Gradient definition for the background, e.g. {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
          * @parameter: fallback; String; undefined; If no gradient can be applied, use this as background color string
@@ -179,7 +179,7 @@ w.TK.Gradient = w.Gradient = $class({
         
         if (element) {
             element.style["background"] = bg;
-            /* @event: backgroundchanged; DOMNode, String; Is fired when the gradient was created */
+            /** @event: backgroundchanged; DOMNode, String; Is fired when the gradient was created */
             this.fire_event("backgroundchanged", element, bg);
         }
         return bg;

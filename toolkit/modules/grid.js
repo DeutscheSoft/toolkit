@@ -139,8 +139,8 @@ function draw_lines(a, mode, last) {
     }.bind(this), 1);
 }
 w.TK.Grid = w.Grid = $class({
-    /* @class: Grid
-     * @description: Grid creates a couple of lines and labels in a SVG
+    /** @class: Grid
+     * Grid creates a couple of lines and labels in a SVG
      * image on the x and y axis. It is used in e.g. #Graph and
      * #FrequencyResponse to draw markers and values. Grid needs a
      * parent SVG image do draw into. The base element of a Grid is a
@@ -152,7 +152,8 @@ w.TK.Grid = w.Grid = $class({
      * @option: width; Number; 0; The width of the grid
      * @option: height; Number; 0; The height of the grid
      * @extends: Widget
-     * @implements: Ranges */
+     * @implements: Ranges
+     */
     _class: "Grid",
     Extends: Widget,
     Implements: Ranges,

@@ -219,8 +219,8 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     this.fire_event("slicedrawn");
 }
 w.TK.Circular = w.Circular = $class({
-    /* @class: Circular
-     * @description: Circular is a SVG group element containing two paths for displaying
+    /** @class: Circular
+     * Circular is a SVG group element containing two paths for displaying
      * numerical values in a circular manner. Circular is able to draw labels,
      * dots and markers and can show a hand. Circular e.g. is implemented by
      * #Clock to draw the hours, minutes and seconds.
@@ -244,7 +244,8 @@ w.TK.Circular = w.Circular = $class({
      * @option: label; Object; {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}}; Labels ring position with following optional members: margin - (number) distance from size, align - _TOOLKIT_INNER or _TOOLKI_OUTER, format function receiving the value and returning a string
      * @option: labels; Array; []; An array containing objects like {pos: (number), label: (string)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, margin: (number)]}
      * @extends: Widget
-     * @implements: Warning, Ranged */
+     * @implements: Warning, Ranged
+     */
     _class: "Circular",
     Extends: Widget,
     Implements: [Warning, Ranged],

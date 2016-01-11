@@ -21,7 +21,7 @@
 "use strict";
 (function(w){ 
 w.TK.Button = w.Button = $class({
-    /* @class:  Button
+    /** @class:  Button
      * 
      * @option: label;       String; "";    Text for the buttons label
      * @option: icon;        String; "";    URL to an icon for the button
@@ -55,16 +55,16 @@ w.TK.Button = w.Button = $class({
     initialize: function (options) {
         var E;
         Widget.prototype.initialize.call(this, options);
-        /* @element: element [d][c][s]; div.toolkit-button; The main button element */
+        /** @element: element [d][c][s]; div.toolkit-button; The main button element */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
         this.widgetize(E, true, true, true);
         
-        /* @element: _cell; div.toolkit-cell; An internal container for label and icon */
+        /** @element: _cell; div.toolkit-cell; An internal container for label and icon */
         this._cell  = TK.element("div","toolkit-cell");
-        /* @element: _icon; img.toolkit-icon; The icon of the button */
+        /** @element: _icon; img.toolkit-icon; The icon of the button */
         this._icon  = TK.element("img","toolkit-icon");
-        /* @element: _label; div.toolkit-label; The label of the button */
+        /** @element: _label; div.toolkit-label; The label of the button */
         this._label = TK.element("div","toolkit-label");
         
         this._cell.appendChild(this._icon);

@@ -21,7 +21,7 @@
 "use strict";
 (function(w){ 
 w.TK.Label = w.Label = $class({
-    /* @class: Label
+    /** @class: Label
      * @description: Label is a simple text field displaying strings
      */
     _class: "Label",

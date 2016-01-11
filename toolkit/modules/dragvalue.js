@@ -147,8 +147,8 @@ function angle_diff(a, b) {
     return d > 180 ? 360 - d : d;
 }
 w.TK.DragValue = w.DragValue = $class({
-    /* @class: DragValue
-     * @description: DragValue enables dragging an element and setting a
+    /** @class: DragValue
+     * DragValue enables dragging an element and setting a
      * value according to the distance. DragValue is used e.g. in #Knob
      * or #ValueButton for setting its value.
      * @option: range; Function; function () { return {} }; The range object for calculating the value
@@ -163,7 +163,8 @@ w.TK.DragValue = w.DragValue = $class({
      * @option: blind_angle; Number; 20; Used if direction is _TOOLKIT_POLAR, angle of separation between positive and negative value changes
      * @option: rotation; Number; 45; Defines the angle of the center of the positive value changes. 0 means straight upward. E.g. a value of 45 does positive value changes in upper and right directions
      * @extends: Widget
-     * @implements: GlobalCursor */
+     * @implements: GlobalCursor
+     */
     _class: "DragValue",
     Extends: Widget,
     Implements: GlobalCursor,

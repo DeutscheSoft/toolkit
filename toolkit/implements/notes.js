@@ -22,7 +22,7 @@
 (function(w){
 var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
 w.TK.Notes = w.Notes = $class({
-    /* @class: Notes
+    /** @class: Notes
      * @description: Notes converts between frequencies, midi notes
      * and note names */
     _class: "Notes",

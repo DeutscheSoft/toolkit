@@ -163,7 +163,7 @@ function add_native_events(element, events) {
         element.addEventListener(type, events[type].callback);
 }
 w.BASE = $class({
-    /* @class: BASE
+    /** @class: BASE
      * @description: This is the base class for all widgets in toolkit.
      * It provides an API for event handling and other basic implementations.
      */
@@ -175,7 +175,7 @@ w.BASE = $class({
         this.__event_target = null;
     },
     destroy : function() {
-        /* @method: destroy()
+        /** @method: destroy()
          * @description: Destroys all event handlers and the options object
          */
         if (this.__event_target) {
@@ -187,7 +187,7 @@ w.BASE = $class({
         this.options = null;
     },
     set_options : function(o) {
-        /* @method: set_options(options)
+        /** @method: set_options(options)
          * @parameter: options; Object; { }; An object containing initial options
          * @description: merges a new options object into the existing one
          * including deep copies of objects. If an option key begins with
@@ -222,7 +222,7 @@ w.BASE = $class({
         }
     },
     delegate_events: function (element) {
-        /* @method: delegate_events(element)
+        /** @method: delegate_events(element)
          * @parameter: element; HTMLElement; undefined; The element all native events should be bound to
          * @returns: HTMLElement; The element */
         var ev = this.__events;
@@ -237,7 +237,7 @@ w.BASE = $class({
         return element;
     },
     add_event: function (event, func, prevent, stop) {
-        /* @method: add_event(event, func, prevent, stop)
+        /** @method: add_event(event, func, prevent, stop)
          * @parameter: event; String; undefined; The event descriptor
          * @parameter: func; Function; undefined; The function to call when the event happens
          * @parameter: prevent; Bool; undefined; Set to true if the event should prevent the default behavior
@@ -291,7 +291,7 @@ w.BASE = $class({
         ev[event].queue.push(func);
     },
     remove_event: function (event, func) {
-        /* @method: remove_event(event, func)
+        /** @method: remove_event(event, func)
          * @parameter: event; String; undefined; The event descriptor
          * @parameter: func; Function; undefined; The function to remove
          * @description: Removes the given function from the event queue.
@@ -332,7 +332,7 @@ w.BASE = $class({
         }
     },
     fire_event: function (event) {
-        /* @method: fire_event(event)
+        /** @method: fire_event(event)
          * @parameter: event; String; undefined; The event descriptor
          * @description: Calls all functions in the events queue */
         var ev = this.__events;
@@ -358,7 +358,7 @@ w.BASE = $class({
     },
 
     has_event_listeners: function (event) {
-        /* @method: has_event_listeners(event)
+        /** @method: has_event_listeners(event)
          * @parameter: event; String; undefined; The event desriptor
          * @returns: Bool; True if the event has some handler functions in the queue, false if not
          * @description: Test if the event descriptor has some handler functions in the queue */
@@ -372,7 +372,7 @@ w.BASE = $class({
         return true;
     },
     add_events: function (events, func) {
-        /* @method: add_events(events, func)
+        /** @method: add_events(events, func)
          * @parameter: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires a handler function as the second argument.
          * @parameter: func; Function; undefined; A function to add as event handler if the first argument is an array of event desriptors
          * @description: Add multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
@@ -387,7 +387,7 @@ w.BASE = $class({
         }
     },
     remove_events: function (events, func) {
-        /* @method: remove_events(events, func)
+        /** @method: remove_events(events, func)
          * @parameter: events; Object | Array; undefined; Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires the handler function as the second argument.
          * @parameter: func; Function; undefined; A function to remove from event handler queue if the first argument is an array of event desriptors
          * @description: Remove multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
@@ -402,7 +402,7 @@ w.BASE = $class({
         }
     },
     fire_events: function (events) {
-        /* @method: fire_events(events)
+        /** @method: fire_events(events)
          * @parameter: events; Array; undefined; A list of event descriptors to fire
          * @description: Calls the event handler functions of multiple events */
         for (var i in events) {

@@ -101,7 +101,7 @@ function draw_peak() {
 }
     
 w.TK.LevelMeter = w.LevelMeter = $class({
-    /* @class: LevelMeter
+    /** @class: LevelMeter
      * @description: LevelMeter is a fully functional display of numerical values. They are
      * enhanced MeterBases containing a clip LED, a peak pin with value label
      * and hold markers. LevelMeters have some automatically triggered

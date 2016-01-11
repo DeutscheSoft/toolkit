@@ -41,7 +41,7 @@ function check_arrows(force) {
 }
 
 function prev_clicked(e) {
-    /* @event: clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
+    /** @event: clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
     this.set("show", this.options.show - 1);
 }
 
@@ -86,7 +86,7 @@ function scroll_to() {
     }
 }
 w.TK.ButtonArray = w.ButtonArray = $class({
-    /* @class: ButtonArray
+    /** @class: ButtonArray
      * 
      * @option: buttons; Array; []; A list of button options or label strings which
      *                              is converted to button instances
@@ -123,16 +123,16 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.buttons = [];
         Container.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-buttonarray");
-        /* @element: _clip; div.toolkit-clip; A clipping area containing the list of buttons */
+        /** @element: _clip; div.toolkit-clip; A clipping area containing the list of buttons */
         this._clip      = TK.element("div", "toolkit-clip");
-        /* @element: _container; div.toolkit-container; A container for all the buttons */
+        /** @element: _container; div.toolkit-container; A container for all the buttons */
         this._container = TK.element("div", "toolkit-container");
         this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         
         var vert = this.get("direction") == _TOOLKIT_VERTICAL;
         
-        /* @module: prev; The previous arrow #Button instance
+        /** @module: prev; The previous arrow #Button instance
          * @module: next; The next arrow #Button instance */
         this.prev = new Button({label: vert ? "▲" : "◄",
                                 class: "toolkit-previous"});
@@ -157,7 +157,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     
     add_buttons: function (options) {
-        /* @method: add_buttons(options)
+        /** @method: add_buttons(options)
          * @parameter: options; Array[String|Object]; undefined; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
          * @description: Adds an array of buttons to the end of the list. */
         for (var i = 0; i < options.length; i++)
@@ -165,7 +165,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     
     add_button: function (options, position) {
-        /* @method: add_button(options, position)
+        /** @method: add_button(options, position)
          * @parameter: options; Object|String; undefined; An object containing options for the #Button to add or a string for the label
          * @parameter: position; Int|Undefined; undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
          * @description: Adds a #Button to the ButtonArray 
@@ -192,7 +192,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         b.add_event("click", function () {
             button_clicked.call(this, b);
         }.bind(this));
-        /* @event: added; Button, Widget; A #Button was added to the ButtonArray */
+        /** @event: added; Button, Widget; A #Button was added to the ButtonArray */
         this.fire_event("added", b);
 
         if (b === this.current())
@@ -201,14 +201,14 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         return b;
     },
     remove_button: function (button) {
-        /* @method: remove_button(button)
+        /** @method: remove_button(button)
          * @parameter: button; Int|Button; undefined; ID or #Button instance
          * @description: Removes a #Button from the ButtonArray */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
             return;
-        /* @event: removed; Button, Widget; A #Button was removed from the ButtonArray */
+        /** @event: removed; Button, Widget; A #Button was removed from the ButtonArray */
         this.fire_event("removed", this.buttons[button]);
         if (this.current() && button <= this.options.show) {
             this.options.show --;
@@ -279,7 +279,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     
     current: function() {
-        /* @method: current()
+        /** @method: current()
          * @returns: Button; The selected #Button or null
          * @description: Get the actually selected #Button */
         var n = this.options.show;

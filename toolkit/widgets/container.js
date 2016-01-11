@@ -58,7 +58,7 @@ function disable_draw_children() {
     for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
 }
 w.TK.Container = w.Container = $class({
-    /* @class: Container
+    /** @class: Container
      * @description: Container represents a <DIV> element.
      * @extends: Widget
      * @option: content; String|Element; undefined; The content of the container. It can either be

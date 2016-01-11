@@ -21,7 +21,7 @@
 "use strict";
 (function(w){
 w.TK.Dynamics = w.Dynamics = $class({
-    /* @class: Dynamics
+    /** @class: Dynamics
      * @description: Dynamics are based on Charts and display the characteristics of dynamic
      * processors. They are square widgets drawing a Grid automatically based on
      * the range.

@@ -21,12 +21,12 @@
 "use strict";
 (function(w){ 
 w.TK.Ranges = w.Ranges = $class({
-    /* @class: Ranges
+    /** @class: Ranges
      * @description: Ranges provides multiple #Range for a widget. They
      * might be used for e.g. building coordinate systems and the like. */
     _class: "Ranges",
     add_range: function (from, name) {
-        /* @method: add_range(from, name)
+        /** @method: add_range(from, name)
          * @parameter: from; Function|Object; undefined; A function returning a #Range instance or an object containing options for a new #Range.
          * @parameter: name; String; undefined; Designator of the new #Range.
          * If a name is set a new set function is added to the item to
@@ -56,7 +56,7 @@ w.TK.Ranges = w.Ranges = $class({
                 }
             }.bind(this));
         }
-        /* @event: rangeadded; Range; Gets fired when a new range is added */
+        /** @event: rangeadded; Range; Gets fired when a new range is added */
         this.fire_event("rangeadded", r);
         return r;
     }

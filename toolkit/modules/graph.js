@@ -21,8 +21,8 @@
 "use strict";
 (function(w) { 
 w.TK.Graph = w.Graph = $class({
-    /* @class: Graph
-     * @description: Graph is a single SVG path element. It provides
+    /** @class: Graph
+     * Graph is a single SVG path element. It provides
      * some functions to easily draw paths inside Charts and other
      * derivates.
      * @option: dots; Array|String; []; The dots of the path. Can be a ready-to-use SVG-path-string or an array of objects like {x: x, y: y [, x1, y1, x2, y2]} (depending on the type)
@@ -47,7 +47,8 @@ w.TK.Graph = w.Graph = $class({
      * @option: height; Number; 0; The height of the graph
      * @option: key; String|Bool; false; Show a description for this graph in the charts key, false to turn it off
      * @extends: Widget
-     * @implements: Ranges */
+     * @implements: Ranges
+     */
     _class: "Graph",
     Extends: Widget,
     Implements: Ranges,

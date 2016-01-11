@@ -25,7 +25,7 @@ function invalidate_bands() {
     this.trigger_draw();
 }
 w.TK.Equalizer = w.Equalizer = $class({
-    /* @class: Equalizer
+    /** @class: Equalizer
      *
      * @description: Equalizer is a ResponseHandler adding some EqBands instead of
      * simple ResponseHandles.

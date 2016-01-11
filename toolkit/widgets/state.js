@@ -21,7 +21,7 @@
 "use strict";
 (function(w){ 
 w.TK.State = w.State = $class({
-    /* @class: State
+    /** @class: State
      * @description: The State widget is a multi-functional adaption of a traditional LED. It
      * is able to show different colors as well as on/off states. The
      * "brightness" can be set seamlessly. Classes can be used to display

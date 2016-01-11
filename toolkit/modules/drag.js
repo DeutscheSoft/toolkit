@@ -30,14 +30,14 @@ function dragstart(e, drag) {
     this._xpos   = O.node.offsetLeft;
     this._ypos   = O.node.offsetTop;
     TK.add_class(O.node, "toolkit-dragging");
-    /* @event: dragstart; DOMEvent, Widget; The user starts dragging this item */
+    /** @event: dragstart; DOMEvent, Widget; The user starts dragging this item */
     this.fire_event("dragstart", e);
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
     if (typeof e.button != "undefined" && e.button > 0) return;
     TK.remove_class(this.options.node, "toolkit-dragging");
-    /* @event: dragstop; DOMEvent, Widget; The user ends dragging this item */
+    /** @event: dragstop; DOMEvent, Widget; The user ends dragging this item */
     this.fire_event("dragstop", e);
 }
 function dragging(e, drag) {
@@ -57,7 +57,7 @@ function dragging(e, drag) {
     if (O.max.y !== false) y = Math.min(O.max.y, y);
     O.node.style.top = y + "px";
     O.node.style.left = x + "px";
-    /* @event: dragging; DOMEvent, Widget; The user is dragging this item */
+    /** @event: dragging; DOMEvent, Widget; The user is dragging this item */
     this.fire_event("dragging", e, x, y);
 }
 function set_handle() {
@@ -74,8 +74,8 @@ function set_handle() {
     });
 }
 w.TK.Drag = w.Drag = $class({
-    /* @class: Drag
-     * @description: Drag enables dragging of absolutely positioned
+    /** @class: Drag
+     * Drag enables dragging of absolutely positioned
      * elements on the screen.
      * @option: node; DOMNode; undefined; The element to drag
      * @option: handle; DOMNode|Bool; undefined; A DOM node to be used as a handle. If not set the element is used.
@@ -83,7 +83,8 @@ w.TK.Drag = w.Drag = $class({
      * @option: min; Object; {x: -1, y: -1}; Object containing x and y determining the minimum position. A value of false means no minimum.
      * @option: max; Object; {x: -1, y: -1}; Object containing x and y determining the maximum position. A value of false means no maximum.
      * @option: initial; Number; 0; Amount of pixels the user has to move until dragging starts
-     * @extends: Widget */
+     * @extends: Widget
+     */
     _class: "Drag",
     Extends: Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {

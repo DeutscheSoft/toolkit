@@ -51,6 +51,7 @@ void process_element (string type, string content, mapping map) {
     string c = String.trim_all_whites(content);
     switch (type) {
         case "class":
+            if (!c) error("missing class name\n");
             map->name = c;
             _recipient = map;
             break;
@@ -75,6 +76,8 @@ void process_element (string type, string content, mapping map) {
             break;
         case "option":
             mapping(string:string) m = get_atoms_mapping(c, OPTION_ATOMS);
+            if (!_recipient) error("No recipient!\n");
+            if (!m->name) error("Option is missing name.\n");
             _recipient->options += ([ m->name : m ]);
             break;
         case "parameter":
@@ -84,10 +87,8 @@ void process_element (string type, string content, mapping map) {
             _recipient->returns += ({ get_atoms_mapping(c, RETURN_ATOMS) });
             break;
         case "description":
-            if (_recipient->description) 
-                _recipient->description += "\n" + c;
-            else
-                _recipient->description = c;
+            if (!_recipient) error("No recipient!\n");
+            _recipient->description = c;
             break;
         default:
             werror("Unknown type %O: %O\n", type, content);
@@ -116,12 +117,12 @@ void parse_comment_block(string c, mapping map) {
         }
 
         if (auto_description[current_type]) {
-            process_element("description", line, map);
-        } else if (auto_gobble[current_type]) {
+            process_element(current_type, current_content, map);
+            current_type = "description";
+            current_content = line;
+        } else if (current_content) {
             current_content += "\n" + line;
-        } else {
-            werror("Unrecognized line: %O\n", line);
-        }
+        } else werror("Unrecognized line: %O\n", line);
     }
 
     // process last line
@@ -135,9 +136,9 @@ mapping(string:mixed) parse_code(string code) {
     array(string) elements = ({});
     int i  = 0;
     int to = 0;
-    while ((i = search(code, "/*", i)) > -1) { // loop over comment openers "/*"
-        if ((to = search(code, "*/", i) - 1) < i) continue; // no closing comment tag was found
-        string c = code[(i + 2)..(i = to)]; // extract the comment
+    while ((i = search(code, "/**", i)) > -1) { // loop over comment openers "/*"
+        if ((to = search(code, "*/", i+3) - 1) < i) continue; // no closing comment tag was found
+        string c = code[(i + 3)..(i = to)]; // extract the comment
         parse_comment_block(c, map);
     }
     return map;
@@ -153,6 +154,7 @@ mapping(string:mapping) process_category (string dir) {
             string id = file[..sizeof(file)-4];
             m->id = id;
             m->files = ({ combine_path(dir, file) });
+            if (!m->name) error("File %O is missing class name:\n%O\n", file, m);
             f = combine_path(CSS_DIR, id + ".css");
             if (exist(f))
                 m->files += ({ f });
