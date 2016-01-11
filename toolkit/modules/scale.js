@@ -20,6 +20,9 @@
  */
 "use strict";
 (function(w) { 
+function pixel_distance(x, y) {
+    return Math.abs(this._val2px(x) - this._val2px(y));
+}
 function check_dots(start, stop, step, level, comp) {
     var O = this.options;
     // test if dots can be drawn between two positions and trigger drawing
@@ -42,6 +45,8 @@ function check_dots(start, stop, step, level, comp) {
 function check_label(iter, step, last) {
     var O = this.options;
     // test if a label can be draw at a position and trigger drawing if so
+    if (pixel_distance.call(this, iter, O.max) < O.gap_labels) return false;
+    if (pixel_distance.call(this, iter, O.min) < O.gap_labels) return false;
     for (var i = O.levels.length - 1; i >= 0; i--) {
         var level = O.levels[i];
         var diff = Math.abs(O.base - iter);
@@ -254,14 +259,14 @@ w.TK.Scale = w.Scale = $class({
                 labels.push(l);
             }
             // draw top
-            if (Math.abs(this._val2px(O.base) - this._val2px(O.min)) >= O.gap_labels) {
+            if (pixel_distance.call(this, O.base, O.max) >= O.gap_labels) {
                 this.draw_dot(O.min, O.reverse ? "toolkit-max" : "toolkit-min");
                 if (O.show_min)
                     labels.push(low_draw_label.call(this, O.min, O.reverse ? "toolkit-max" : "toolkit-min"));
             }
             
             // draw bottom
-            if (Math.abs(this._val2px(O.base) - this._val2px(O.max)) >= O.gap_labels) {
+            if (pixel_distance.call(this, O.base, O.max) >= O.gap_labels) {
                 this.draw_dot(O.max, O.reverse ? "toolkit-min" : "toolkit-max");
                 if (O.show_max)
                     labels.push(low_draw_label.call(this, O.max, O.reverse ? "toolkit-min" : "toolkit-max"));
