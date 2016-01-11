@@ -107,7 +107,7 @@ void parse_comment_block(string c, mapping map) {
         line = String.trim_all_whites(line);
         if (!sizeof(line)) continue;
         string type;
-        if (2 == sscanf(line, "@%[^:]:%s", type, line)) {
+        if (3 == sscanf(line, "@%[^:\ ]%*[:]%s", type, line)) {
             if (current_type) {
                 process_element(current_type, current_content, map);
             }
