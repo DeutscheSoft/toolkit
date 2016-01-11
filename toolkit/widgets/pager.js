@@ -233,7 +233,7 @@ w.TK.Pager = w.Pager = $class({
             this.options.show = position;
             this.buttonarray.set("show", position);
             p.set("active", true);
-            p.set("hidden_state", "show");
+            p.set("display_state", "show");
         } else {
             /* do not use animation */
             p.force_hide();
