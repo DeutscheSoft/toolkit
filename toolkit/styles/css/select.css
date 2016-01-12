@@ -3,10 +3,10 @@
     padding-right: 8px;
 }
 
-.toolkit-button.toolkit-select .toolkit-label {
+.toolkit-button.toolkit-select > .toolkit-cell > .toolkit-label {
     margin-right: 5px;
 }
-.toolkit-button.toolkit-select .toolkit-arrow {
+.toolkit-button.toolkit-select > .toolkit-arrow {
     background: url(../images/select/arrow_down.png) 50% 50% no-repeat;
     width: 16px;
     height: 18px;
@@ -23,7 +23,7 @@
     transition: opacity 200ms;
 }
 
-.toolkit-select-list .toolkit-option {
+.toolkit-select-list > .toolkit-option {
     list-style: none;
     margin: 0;
     padding: 2px 5px;
@@ -31,10 +31,10 @@
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
-.toolkit-select-list .toolkit-option:hover {
+.toolkit-select-list > .toolkit-option:hover {
     background: #002f42;
     color: white;
 }
-.toolkit-select-list .toolkit-option.toolkit-active {
+.toolkit-select-list > .toolkit-option.toolkit-active {
     background: #dfdfdf;
 }

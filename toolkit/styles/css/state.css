@@ -20,6 +20,6 @@ horizontal.png
     border-right: 2px solid #f3f3f3;
 }
 
-.toolkit-state .toolkit-mask {
+.toolkit-state > .toolkit-mask {
     background: black;
 }

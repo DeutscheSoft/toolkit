@@ -3,45 +3,42 @@
     stroke: none;
     stroke-width: 0;
 }
-.toolkit-circular .toolkit-background {
-    
-}
 
-.toolkit-circular .toolkit-base {
+.toolkit-circular > .toolkit-base {
     opacity: 0.2;
 }
-.toolkit-circular.toolkit-warn .toolkit-base {
+.toolkit-circular.toolkit-warn > .toolkit-base {
     opacity: 0.5;
 }
 
-.toolkit-circular .toolkit-value {
+.toolkit-circular > .toolkit-value {
     
 }
-.toolkit-circular.toolkit-warn .toolkit-value {
+.toolkit-circular.toolkit-warn > .toolkit-value {
     opacity: 1;
     fill: white;
 }
 
-.toolkit-circular .toolkit-hand {
+.toolkit-circular > .toolkit-hand {
     fill: #c00;
 }
 
-.toolkit-circular .toolkit-dots {
+.toolkit-circular > .toolkit-dots {
     
 }
-.toolkit-circular .toolkit-dot {
+.toolkit-circular > .toolkit-dots > .toolkit-dot {
 }
 
-.toolkit-circular .toolkit-markers {
+.toolkit-circular > .toolkit-markers {
     
 }
-.toolkit-circular .toolkit-marker {
+.toolkit-circular > .toolkit-markers > .toolkit-marker {
     fill: #c00;
 }
 
-.toolkit-circular .toolkit-labels {
+.toolkit-circular > .toolkit-labels {
     
 }
-.toolkit-circular .toolkit-label {
+.toolkit-circular > .toolkit-labels > .toolkit-label {
     font-size: 10px;
 }

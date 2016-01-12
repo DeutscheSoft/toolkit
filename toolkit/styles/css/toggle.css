@@ -7,18 +7,18 @@
 .toolkit-toggle:active {
     
 }
-.toolkit-toggle .toolkit-label {
+.toolkit-toggle > .toolkit-cell > .toolkit-label {
     
 }
-.toolkit-toggle .toolkit-icon {
+.toolkit-toggle > .toolkit-cell > .toolkit-icon {
     
 }
 .toolkit-toggle.active {
     
 }
-.toolkit-toggle.active .toolkit-label {
+.toolkit-toggle.active > .toolkit-cell > .toolkit-label {
     
 }
-.toolkit-toggle.active .toolkit-icon {
+.toolkit-toggle.active > .toolkit-cell > .toolkit-icon {
     
 }

@@ -6,20 +6,20 @@
     height: 100px;
 }
 
-.toolkit-knob .toolkit-hand {
+.toolkit-knob > .toolkit-circular > .toolkit-hand {
     fill: #002a42;
 }
 
-.toolkit-knob .toolkit-base {
+.toolkit-knob > .toolkit-circular > .toolkit-base {
     
 }
-.toolkit-knob .toolkit-value {
+.toolkit-knob > .toolkit-circular > .toolkit-value {
     fill: rgba(255,255,255,0.8);
 }
-.toolkit-knob .toolkit-dot {
+.toolkit-knob > .toolkit-circular > .toolkit-dots > .toolkit-dot {
     fill: #002f42;
 }
-.toolkit-knob .toolkit-label {
+.toolkit-knob > .toolkit-circular > .toolkit-labels > .toolkit-label {
     font-size: 7px;
     fill: #002f42;
 }

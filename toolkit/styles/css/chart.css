@@ -14,31 +14,31 @@
     border-right: 2px solid #f3f3f3;
 }
 
-.toolkit-chart .toolkit-background {
+.toolkit-chart > .toolkit-background {
     fill: rgba(0, 0, 0, 0.2);
 }
-.toolkit-chart .toolkit-background.toolkit-hover {
+.toolkit-chart > .toolkit-background.toolkit-hover {
     fill: rgba(0, 0, 0, 0.5);
 }
-.toolkit-chart .toolkit-key {
+.toolkit-chart > .toolkit-key {
     margin: 8px;
     padding: 8px;
     fill: white;
     opacity: 0.8;
 }
-.toolkit-chart .toolkit-key.toolkit-hover {
+.toolkit-chart > .toolkit-key.toolkit-hover {
     opacity: 1;
 }
-.toolkit-chart .toolkit-key .toolkit-label {
+.toolkit-chart > .toolkit-key > svg:text > .toolkit-label {
     line-height: 16px; /* sets the distance between key entries */
     font-size: 9px;
     margin: 5px; /* sets the distance between labels and example rects */
 }
-.toolkit-chart .toolkit-key .toolkit-rect {
+.toolkit-chart > .toolkit-key > .toolkit-rect {
     
 }
 
-.toolkit-chart .toolkit-title {
+.toolkit-chart > .toolkit-title {
     fill: rgba(255,255,255,0.2);
     margin: 8px 26px;
     font-weight: bold;

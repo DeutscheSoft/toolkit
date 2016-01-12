@@ -136,63 +136,63 @@
 
 /* SCALE */
 
-.toolkit-meter-base .toolkit-scale {
+.toolkit-meter-base > .toolkit-scale {
     color: #aaa;
 }
-.toolkit-meter-base.toolkit-vertical .toolkit-scale {
+.toolkit-meter-base.toolkit-vertical > .toolkit-scale {
     width: 32px;
 }
-.toolkit-meter-base.toolkit-horizontal .toolkit-scale {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-scale {
     height: 20px;
 }
-.toolkit-meter-base.toolkit-has-scale .toolkit-scale {
+.toolkit-meter-base.toolkit-has-scale > .toolkit-scale {
     
 }
 
-.toolkit-meter-base.toolkit-top .toolkit-scale {
+.toolkit-meter-base.toolkit-top > .toolkit-scale {
     left: 5px;
     right: 5px;
     bottom: 5px;
 }
-.toolkit-meter-base.toolkit-right .toolkit-scale {
+.toolkit-meter-base.toolkit-right > .toolkit-scale {
     left: 0px;
     top: 5px;
     bottom: 5px;
 }
-.toolkit-meter-base.toolkit-bottom .toolkit-scale {
+.toolkit-meter-base.toolkit-bottom > .toolkit-scale {
     left: 5px;
     right: 5px;
     top: 5px;
 }
-.toolkit-meter-base.toolkit-left .toolkit-scale {
+.toolkit-meter-base.toolkit-left > .toolkit-scale {
     right: 0px;
     top: 5px;
     bottom: 5px;
 }
 
-.toolkit-meter-base.toolkit-top.toolkit-has-label .toolkit-scale,
-.toolkit-meter-base.toolkit-top.toolkit-has-title .toolkit-scale {
+.toolkit-meter-base.toolkit-top.toolkit-has-label > .toolkit-scale,
+.toolkit-meter-base.toolkit-top.toolkit-has-title > .toolkit-scale {
     bottom: calc(1.2em + 5px + 5px);
 }
-.toolkit-meter-base.toolkit-bottom.toolkit-has-label .toolkit-scale,
-.toolkit-meter-base.toolkit-bottom.toolkit-has-title .toolkit-scale {
+.toolkit-meter-base.toolkit-bottom.toolkit-has-label > .toolkit-scale,
+.toolkit-meter-base.toolkit-bottom.toolkit-has-title > .toolkit-scale {
     top: calc(1.2em + 5px + 5px);
 }
 
-.toolkit-meter-base.toolkit-vertical.toolkit-has-label .toolkit-scale {
+.toolkit-meter-base.toolkit-vertical.toolkit-has-label > .toolkit-scale {
     top: calc(1.2em + 5px + 5px);
 }
-.toolkit-meter-base.toolkit-vertical.toolkit-has-title .toolkit-scale {
+.toolkit-meter-base.toolkit-vertical.toolkit-has-title > .toolkit-scale {
     bottom: calc(1.2em + 5px + 5px);
 }
 
-.toolkit-meter-base .toolkit-scale > .toolkit-label.toolkit-base {
+.toolkit-meter-base > .toolkit-scale > .toolkit-label.toolkit-base {
     color: #666;
 }
 
 /* BAR */
 
-.toolkit-meter-base .toolkit-bar {
+.toolkit-meter-base > .toolkit-bar {
     left: 3px;
     right: 3px;
     top: 2px;
@@ -203,111 +203,111 @@
     border-right: 2px solid #f3f3f3;
 }
 
-.toolkit-meter-base.toolkit-top.toolkit-has-label .toolkit-bar,
-.toolkit-meter-base.toolkit-top.toolkit-has-title .toolkit-bar {
+.toolkit-meter-base.toolkit-top.toolkit-has-label > .toolkit-bar,
+.toolkit-meter-base.toolkit-top.toolkit-has-title > .toolkit-bar {
     bottom: calc(1.2em + 5px + 5px);
 }
-.toolkit-meter-base.toolkit-top.toolkit-has-scale .toolkit-bar {
+.toolkit-meter-base.toolkit-top.toolkit-has-scale > .toolkit-bar {
     bottom: calc(20px + 5px);
 }
-.toolkit-meter-base.toolkit-top.toolkit-has-label.toolkit-has-scale .toolkit-bar,
-.toolkit-meter-base.toolkit-top.toolkit-has-title.toolkit-has-scale .toolkit-bar {
+.toolkit-meter-base.toolkit-top.toolkit-has-label.toolkit-has-scale > .toolkit-bar,
+.toolkit-meter-base.toolkit-top.toolkit-has-title.toolkit-has-scale > .toolkit-bar {
     bottom: calc(1.2em + 5px + 5px + 20px);
 }
 
-.toolkit-meter-base.toolkit-bottom.toolkit-has-label .toolkit-bar,
-.toolkit-meter-base.toolkit-bottom.toolkit-has-title .toolkit-bar {
+.toolkit-meter-base.toolkit-bottom.toolkit-has-label > .toolkit-bar,
+.toolkit-meter-base.toolkit-bottom.toolkit-has-title > .toolkit-bar {
     top: calc(1.2em + 5px + 5px);
 }
-.toolkit-meter-base.toolkit-bottom.toolkit-has-scale .toolkit-bar {
+.toolkit-meter-base.toolkit-bottom.toolkit-has-scale > .toolkit-bar {
     top: calc(20px + 5px);
 }
-.toolkit-meter-base.toolkit-bottom.toolkit-has-label.toolkit-has-scale .toolkit-bar,
-.toolkit-meter-base.toolkit-bottom.toolkit-has-title.toolkit-has-scale .toolkit-bar {
+.toolkit-meter-base.toolkit-bottom.toolkit-has-label.toolkit-has-scale > .toolkit-bar,
+.toolkit-meter-base.toolkit-bottom.toolkit-has-title.toolkit-has-scale > .toolkit-bar {
     top: calc(1.2em + 5px + 5px + 20px);
 }
 
-.toolkit-meter-base.toolkit-vertical.toolkit-has-label .toolkit-bar {
+.toolkit-meter-base.toolkit-vertical.toolkit-has-label > .toolkit-bar {
     top: calc(1.2em + 5px + 2px);
 }
-.toolkit-meter-base.toolkit-vertical.toolkit-has-title .toolkit-bar {
+.toolkit-meter-base.toolkit-vertical.toolkit-has-title > .toolkit-bar {
     bottom: calc(1.2em + 5px + 2px);
 }
-.toolkit-meter-base.toolkit-left.toolkit-has-scale .toolkit-bar {
+.toolkit-meter-base.toolkit-left.toolkit-has-scale > .toolkit-bar {
     right: 32px;
 }
-.toolkit-meter-base.toolkit-right.toolkit-has-scale .toolkit-bar {
+.toolkit-meter-base.toolkit-right.toolkit-has-scale > .toolkit-bar {
     left: 32px;
 }
 
 /* OVER */
 
-.toolkit-meter-base .toolkit-bar .toolkit-over {
+.toolkit-meter-base > .toolkit-bar > .toolkit-over {
     opacity:  0.66;
 }
-.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-over {
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-over {
     background: url(../images/meterbase/slim_soft_vertical.png);
 }
-.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-over {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-over {
     background: url(../images/meterbase/slim_soft_horizontal.png);
 }
 
 /* MASK */
 
-.toolkit-meter-base .toolkit-bar .toolkit-mask {
+.toolkit-meter-base > .toolkit-bar > .toolkit-mask {
     background: black;
     opacity:    0.66;
 }
 
-.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mask {
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mask {
     
 }
-.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mask1 {
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mask1 {
     
 }
-.toolkit-meter-base.toolkit-vertical.toolkit-reverse .toolkit-bar .toolkit-mask1 {
+.toolkit-meter-base.toolkit-vertical.toolkit-reverse > .toolkit-bar > .toolkit-mask1 {
     
 }
-.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mask2 {
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mask2 {
     
 }
-.toolkit-meter-base.toolkit-vertical.toolkit-reverse .toolkit-bar .toolkit-mask2 {
+.toolkit-meter-base.toolkit-vertical.toolkit-reverse > .toolkit-bar > .toolkit-mask2 {
     
 }
 
-.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mask {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mask {
     
 }
-.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mask1 {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mask1 {
     
 }
-.toolkit-meter-base.toolkit-horizontal.toolkit-reverse .toolkit-bar .toolkit-mask1 {
+.toolkit-meter-base.toolkit-horizontal.toolkit-reverse > .toolkit-bar > .toolkit-mask1 {
     
 }
-.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mask2 {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mask2 {
     
 }
-.toolkit-meter-base.toolkit-horizontal.toolkit-reverse .toolkit-bar .toolkit-mask2 {
+.toolkit-meter-base.toolkit-horizontal.toolkit-reverse > .toolkit-bar > .toolkit-mask2 {
     
 }
 
 /* MARK */
 
-.toolkit-meter-base .toolkit-bar .toolkit-mark {
+.toolkit-meter-base > .toolkit-bar > .toolkit-mark {
     
 }
-.toolkit-meter-base .toolkit-bar .toolkit-mark .toolkit-dot {
+.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot {
     
 }
-.toolkit-meter-base .toolkit-bar .toolkit-mark .toolkit-dot.toolkit-marker,
-.toolkit-meter-base .toolkit-bar .toolkit-mark .toolkit-dot.toolkit-min,
-.toolkit-meter-base .toolkit-bar .toolkit-mark .toolkit-dot.toolkit-max,
-.toolkit-meter-base .toolkit-bar .toolkit-mark .toolkit-dot.toolkit-base {
+.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-marker,
+.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-min,
+.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-max,
+.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-base {
     background: rgba(0,0,0,0.5);
 }
-.toolkit-meter-base.toolkit-vertical .toolkit-bar .toolkit-mark .toolkit-dot {
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mark > .toolkit-dot {
     
 }
-.toolkit-meter-base.toolkit-horizontal .toolkit-bar .toolkit-mark .toolkit-dot {
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mark > .toolkit-dot {
     
 }

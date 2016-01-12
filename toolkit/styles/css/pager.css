@@ -8,7 +8,7 @@
     overflow: hidden; 
 }
 
-.toolkit-pager .toolkit-page {
+.toolkit-pager > .toolkit-clip > .toolkit-page {
      
 }
 .toolkit-container.toolkit-hide {

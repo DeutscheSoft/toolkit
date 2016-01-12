@@ -1,7 +1,7 @@
 .toolkit-scale {
     
 }
-.toolkit-scale .toolkit-label {
+.toolkit-scale > .toolkit-label {
     font-size: 8px;
     height: 7px;
     line-height: 7px;
@@ -10,31 +10,31 @@
     margin: 0 0 0 0;
     overflow: visible;
 }
-.toolkit-scale .toolkit-label.toolkit-base {
+.toolkit-scale > .toolkit-label.toolkit-base {
     color: #951c26;
     font-weight: 500;
 }
-.toolkit-scale .toolkit-label.toolkit-min {
+.toolkit-scale > .toolkit-label.toolkit-min {
     color: #666;
 }
-.toolkit-scale .toolkit-label.toolkit-max {
+.toolkit-scale > .toolkit-label.toolkit-max {
     color: #666;
 }
-.toolkit-scale .toolkit-dot {
+.toolkit-scale > .toolkit-dot {
     width: 1px;
     height: 1px;
     background: #aaa;
 }
-.toolkit-scale .toolkit-dot.toolkit-base {
+.toolkit-scale > .toolkit-dot.toolkit-base {
     background: #951c26;
 }
-.toolkit-scale .toolkit-dot.toolkit-min {
+.toolkit-scale > .toolkit-dot.toolkit-min {
     background: #666;
 }
-.toolkit-scale .toolkit-dot.toolkit-max {
+.toolkit-scale > .toolkit-dot.toolkit-max {
     background: #666;
 }
-.toolkit-scale .toolkit-dot.toolkit-marker {
+.toolkit-scale > .toolkit-dot.toolkit-marker {
     background: #666;
 }
 /* VERTICAL */
@@ -42,31 +42,31 @@
 .toolkit-scale.toolkit-vertical {
     width: 32px;
 }
-.toolkit-scale.toolkit-vertical .toolkit-label {
+.toolkit-scale.toolkit-vertical > .toolkit-label {
     transform: translateY(50%);
 }
-.toolkit-scale.toolkit-vertical .toolkit-label.toolkit-base {
+.toolkit-scale.toolkit-vertical > .toolkit-label.toolkit-base {
     
 }
-.toolkit-scale.toolkit-vertical .toolkit-label.toolkit-min {
+.toolkit-scale.toolkit-vertical > .toolkit-label.toolkit-min {
     transform: translateY(0%);
 }
-.toolkit-scale.toolkit-vertical .toolkit-label.toolkit-max {
+.toolkit-scale.toolkit-vertical > .toolkit-label.toolkit-max {
     transform: translateY(100%);
 }
-.toolkit-scale.toolkit-vertical .toolkit-dot {
+.toolkit-scale.toolkit-vertical > .toolkit-dot {
     width: 2px;
 }
-.toolkit-scale.toolkit-vertical .toolkit-dot.toolkit-base {
+.toolkit-scale.toolkit-vertical > .toolkit-dot.toolkit-base {
     width: 4px;
 }
-.toolkit-scale.toolkit-vertical .toolkit-dot.toolkit-min {
+.toolkit-scale.toolkit-vertical > .toolkit-dot.toolkit-min {
     width: 4px;
 }
-.toolkit-scale.toolkit-vertical .toolkit-dot.toolkit-max {
+.toolkit-scale.toolkit-vertical > .toolkit-dot.toolkit-max {
     width: 4px;
 }
-.toolkit-scale.toolkit-vertical .toolkit-dot.toolkit-marker {
+.toolkit-scale.toolkit-vertical > .toolkit-dot.toolkit-marker {
     width: 4px;
 }
 /* VERTICAL sticked to LEFT */
@@ -81,32 +81,32 @@
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-label {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-label {
     left: 6px;
     margin-right: 6px;
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-label.toolkit-base {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-label.toolkit-base {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-label.toolkit-min {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-label.toolkit-min {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-label.toolkit-max {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-label.toolkit-max {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-dot {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-dot {
     left: 0;
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-dot.toolkit-base {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-dot.toolkit-base {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-dot.toolkit-min {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-dot.toolkit-min {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-dot.toolkit-max {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-dot.toolkit-max {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-left .toolkit-dot.toolkit-marker {
+.toolkit-scale.toolkit-vertical.toolkit-left > .toolkit-dot.toolkit-marker {
     
 }
 /* VERTICAL sticked to RIGHT */
@@ -121,32 +121,32 @@
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-label {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-label {
     right: 6px;
     margin-left: 6px;
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-label.toolkit-base {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-label.toolkit-base {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-label.toolkit-min {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-label.toolkit-min {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-label.toolkit-max {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-label.toolkit-max {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-dot {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-dot {
     right: 0;
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-dot.toolkit-base {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-dot.toolkit-base {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-dot.toolkit-min {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-dot.toolkit-min {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-dot.toolkit-max {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-dot.toolkit-max {
     
 }
-.toolkit-scale.toolkit-vertical.toolkit-right .toolkit-dot.toolkit-marker {
+.toolkit-scale.toolkit-vertical.toolkit-right > .toolkit-dot.toolkit-marker {
     
 }
 /* HORIZONTAL */
@@ -154,31 +154,31 @@
 .toolkit-scale.toolkit-horizontal {
     height: 15px;
 }
-.toolkit-scale.toolkit-horizontal .toolkit-label {
+.toolkit-scale.toolkit-horizontal > .toolkit-label {
     transform: translateX(-50%);
 }
-.toolkit-scale.toolkit-horizontal .toolkit-label.toolkit-base {
+.toolkit-scale.toolkit-horizontal > .toolkit-label.toolkit-base {
     
 }
-.toolkit-scale.toolkit-horizontal .toolkit-label.toolkit-min {
+.toolkit-scale.toolkit-horizontal > .toolkit-label.toolkit-min {
     transform: translateX(0%);
 }
-.toolkit-scale.toolkit-horizontal .toolkit-label.toolkit-max {
+.toolkit-scale.toolkit-horizontal > .toolkit-label.toolkit-max {
     transform: translateX(-100%);
 }
-.toolkit-scale.toolkit-horizontal .toolkit-dot {
+.toolkit-scale.toolkit-horizontal > .toolkit-dot {
     height: 2px;
 }
-.toolkit-scale.toolkit-horizontal .toolkit-dot.toolkit-base {
+.toolkit-scale.toolkit-horizontal > .toolkit-dot.toolkit-base {
     height: 4px;
 }
-.toolkit-scale.toolkit-horizontal .toolkit-dot.toolkit-min {
+.toolkit-scale.toolkit-horizontal > .toolkit-dot.toolkit-min {
     height: 4px;
 }
-.toolkit-scale.toolkit-horizontal .toolkit-dot.toolkit-max {
+.toolkit-scale.toolkit-horizontal > .toolkit-dot.toolkit-max {
     height: 4px;
 }
-.toolkit-scale.toolkit-horizontal .toolkit-dot.toolkit-marker {
+.toolkit-scale.toolkit-horizontal > .toolkit-dot.toolkit-marker {
     height: 4px;
 }
 /* HORIZONTAL sticked to BOTTOM */
@@ -186,32 +186,32 @@
 .toolkit-scale.toolkit-horizontal.toolkit-bottom {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-label {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-label {
     margin-top: 8px;
     bottom: 6px;
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-label.toolkit-base {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-label.toolkit-base {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-label.toolkit-min {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-label.toolkit-min {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-label.toolkit-max {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-label.toolkit-max {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-dot {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-dot {
     bottom: 0;
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-dot.toolkit-base {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-dot.toolkit-base {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-dot.toolkit-min {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-dot.toolkit-min {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-dot.toolkit-max {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-dot.toolkit-max {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-bottom .toolkit-dot.toolkit-marker {
+.toolkit-scale.toolkit-horizontal.toolkit-bottom > .toolkit-dot.toolkit-marker {
     
 }
 /* HORIZONTAL sticked to TOP */
@@ -219,31 +219,31 @@
 .toolkit-scale.toolkit-horizontal.toolkit-top {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-label {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-label {
     margin-bottom: 8px;
     top: 6px;
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-label.toolkit-base {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-label.toolkit-base {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-label.toolkit-min {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-label.toolkit-min {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-label.toolkit-max {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-label.toolkit-max {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-dot {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot {
     top: 0;
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-dot.toolkit-base {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot.toolkit-base {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-dot.toolkit-min {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot.toolkit-min {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-dot.toolkit-max {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot.toolkit-max {
     
 }
-.toolkit-scale.toolkit-horizontal.toolkit-top .toolkit-dot.toolkit-marker {
+.toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot.toolkit-marker {
     
 }

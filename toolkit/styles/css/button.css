@@ -37,17 +37,17 @@
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/grey_in.png',sizingMethod='scale');
 }
 
-.toolkit-button.toolkit-horizontal .toolkit-cell * {
+.toolkit-button.toolkit-horizontal > .toolkit-cell > * {
     display: inline-block;
     vertical-align: middle;
 }
 
-.toolkit-button .toolkit-cell {
+.toolkit-button > .toolkit-cell {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
 }
-.toolkit-button .toolkit-label {
+.toolkit-button > .toolkit-cell > .toolkit-label {
     font-size: 13px;
     line-height: 1.5em;
     text-align: center;
@@ -64,7 +64,7 @@
     -moz-border-radius:    4px;
     border-radius:         4px;
 }
-.toolkit-button .toolkit-icon {
+.toolkit-button > .toolkit-cell >  .toolkit-icon {
     margin: auto;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -73,22 +73,22 @@
     -ms-user-select: none;
     user-select: none;
 }
-.toolkit-button.toolkit-vertical .toolkit-icon {
+.toolkit-button.toolkit-vertical > .toolkit-cell >  .toolkit-icon {
     margin-bottom: 0px;
 }
-.toolkit-button.toolkit-horizontal .toolkit-icon {
+.toolkit-button.toolkit-horizontal > .toolkit-cell >  .toolkit-icon {
     margin-right: 5px;
 }
 
 .toolkit-button.toolkit-active {
     border: 1px solid #002f42;
 }
-.toolkit-button.toolkit-active .toolkit-label {
+.toolkit-button.toolkit-active > .toolkit-cell >  .toolkit-label {
     background-color: #002f42;
     color: white;
     text-shadow: 0px -1px 0px black;
     
 }
-.toolkit-button.toolkit-active .toolkit-icon {
+.toolkit-button.toolkit-active > .toolkit-cell >  .toolkit-icon {
     
 }

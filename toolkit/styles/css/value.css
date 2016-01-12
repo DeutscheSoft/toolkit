@@ -1,4 +1,4 @@
-.toolkit-value .toolkit-input {
+.toolkit-value > .toolkit-input {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #fff;
     border-left: 1px solid #e8e8e8;
@@ -18,7 +18,7 @@
     cursor: pointer;
 }
 
-.toolkit-value.toolkit-active .toolkit-input {
+.toolkit-value.toolkit-active > .toolkit-input {
     background: #002a42;
     color: white;
     border: 1px solid transparent;
