@@ -192,6 +192,9 @@ w.TK.Widget = w.Widget = $class({
         if (this.needs_redraw) TK.S.remove(this._redraw);
         BASE.prototype.destroy.call(this);
         if (this.parent) this.parent.remove_child(this);
+
+        this.children = null;
+        this.parent = null;
     },
     delegate: function (element) {
         this.delegate_events(element);
