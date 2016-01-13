@@ -72,7 +72,7 @@ w.TK.Gauge = w.Gauge = $class({
         this.element.appendChild(this._title);
 
         var co = TK.object_and(O, TK.Circular.prototype._options);
-        co = TK.object_sub(O, TK.Widget.prototype._options);
+        co = TK.object_sub(co, TK.Widget.prototype._options);
         co.container = this.element;
         this.circular = new Circular(co);
         this.add_child(this.circular);
