@@ -214,6 +214,11 @@ w.TK.Container = w.Container = $class({
         return a;
     },
 
+    hidden: function() {
+        var state = this.options.display_state;
+        return state === "hiding" || state === "hide";
+    },
+
     redraw: function() {
         var O = this.options;
         var I = this.invalid;
