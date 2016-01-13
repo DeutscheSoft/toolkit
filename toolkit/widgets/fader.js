@@ -210,36 +210,26 @@ w.TK.Fader = w.Fader = $class({
             TK.add_class(E, d);
         }
 
-        if (I.value) {
+        if (I.validate.apply(I, Object.keys(Ranged.prototype._options)) || I.value) {
             I.value = false;
             // TODO: value is snapped already in set(). This is not enough for values which are set during
             // initialization.
             this._handle.style[vert(O) ? "bottom" : "left"] = this.val2real(this.snap(O.value)) + "px";
         }
-
-        if (I.validate("reverse", "log_factor", "step", "round", "scale", "basis")) {
-            TK.S.add(function() {
-                if (vert(O)) {
-                    h  = TK.inner_height(E);
-                    this._handlesize = TK.outer_height(this._handle, true);
-                } else {
-                    h  = TK.inner_width(E);
-                    this._handlesize = TK.outer_width(this._handle, true);
-                }
-                var s = h - this._handlesize;
-                if (s != O.basis) {
-                    this.set("basis", s);
-                    this.scale.set("basis", s);
-                }
-                this.scale.trigger_draw();
-                I.value = true;
-                this.trigger_draw();
-            }.bind(this), 1);
-        }
     },
     resize: function () {
-        this.invalid.reverse = true;
-        this.trigger_draw();
+        var O = this.options;
+        var E = this.element, H = this._handle;
+        var basis;
+
+        if (vert(O)) {
+            basis = TK.inner_height(E) - TK.outer_height(H, true);
+        } else {
+            basis = TK.inner_width(E) - TK.outer_width(H, true);
+        }
+
+        this.set("basis", basis);
+        this.scale.set("basis", basis);
 
         Widget.prototype.resize.call(this);
     },
