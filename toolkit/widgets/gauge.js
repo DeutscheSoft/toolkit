@@ -34,7 +34,6 @@ w.TK.Gauge = w.Gauge = $class({
      */
     _class: "Gauge",
     Extends: Widget,
-    DOMElement: SVGElement,
     _options: Object.assign(Object.create(Widget.prototype._options), Circular.prototype._options, {
         x: "number",
         y: "number",
@@ -61,36 +60,39 @@ w.TK.Gauge = w.Gauge = $class({
             options.title = {title: options.title};
         Widget.prototype.initialize.call(this, options);
         var O = this.options;
-        var E;
-        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
+        var E, S;
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        this.svg = S = TK.make_svg("svg");
+
         TK.add_class(E, "toolkit-gauge");
-        E.setAttribute("width", O.width);
-        E.setAttribute("height", O.height);
+        S.setAttribute("width", O.width);
+        S.setAttribute("height", O.height);
         this.widgetize(E, true, true, true);
         
         this._title = TK.make_svg("text", {"class": "toolkit-title"});
-        this.element.appendChild(this._title);
+        S.appendChild(this._title);
 
         var co = TK.object_and(O, TK.Circular.prototype._options);
         co = TK.object_sub(co, TK.Widget.prototype._options);
-        co.container = this.element;
+        co.container = S;
         this.circular = new Circular(co);
         this.add_child(this.circular);
         this.widgetize(this.element);
+        E.appendChild(S);
     },
     redraw: function() {
         var I = this.invalid, O = this.options;
-        var E = this.element;
+        var S = this.svg;
 
         Widget.prototype.redraw.call(this);
 
         if (I.width) {
             I.width = false;
-            E.setAttribute("width", O.width);
+            S.setAttribute("width", O.width);
         }
         if (I.height) {
             I.height = false;
-            E.setAttribute("height", O.height);
+            S.setAttribute("height", O.height);
         }
 
         if (I.validate("title", "size", "x", "y")) {
