@@ -75,21 +75,23 @@ window.addEventListener('DOMContentLoaded', function () {
         if (regex) regex = regex.substr(0, regex.length-1);
         this.proc_text_regex = new RegExp(regex + ")", "ig");
         
-        var item = window.location.href.split("?", 2);
-        
+        window.addEventListener("hashchange", hash_change.bind(this));
+
+        hash_change.call(this);
+    }
+
+    function hash_change() {
         var parts = window.location.hash.substring(1).split(this.hash_separator, 2);
         var item = parts[0];
         var hash = parts.length > 1 ? parts[1] : "";
         if (item) {
             var i = this.find_item(item);
-            if (i)
+            if (i) {
                 this.show_item(i);
-            if (hash && typeof window["run_" + hash] == "function") {
                 var that = this;
                 setTimeout( function () {
-                    document.body.scrollTop = TK.get_id("anchor_" + hash).offsetTop;
-                    if (hash == "example")
-                        that.run_example(i.id);
+                    var it = TK.get_id("anchor_" + hash);
+                    if (it) document.body.scrollTop = it.offsetTop;
                 }, 100);
             }
         }
@@ -130,7 +132,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 var _j = _i.items[w_name];
                 var item = TK.element("li");
                 var a = TK.element("a");
-                a.setAttribute("href", this.app + "#" + _j.name);
+                a.setAttribute("href", "#" + _j.name);
                 TK.set_text(a, _j.name);
                 list.appendChild(item);
                 item.appendChild(a);
@@ -153,7 +155,7 @@ window.addEventListener('DOMContentLoaded', function () {
         TK.set_text(header, item.name);
         
         var a = TK.element("a");
-        a.setAttribute("href", this.app + "#" + item.name);
+        a.setAttribute("href", "#" + item.name);
         a.appendChild(header);
         top.appendChild(a);
         
@@ -218,7 +220,7 @@ window.addEventListener('DOMContentLoaded', function () {
         var it = this.find_item(name);
         if (it) {
             var a = TK.element("a");
-            a.setAttribute("href", this.app + "#" + name);
+            a.setAttribute("href", "#" + name);
             var t = this;
             a.onclick = function (e) {
                 //e.preventDefault();
@@ -311,12 +313,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 var h = TK.element("h4");
                 var l = TK.element("a");
                 TK.set_text(l, it.name);
-                l.setAttribute("href", this.app + "#" + it.name);
-                l.onclick = (function (that, item) {
-                    return function () {
-                        that.show_item(item);
-                    }
-                })(this, it);
+                l.setAttribute("href", "#" + it.name);
                 TK.set_text(h, "Inherited from ");
                 h.appendChild(l);
                 div.appendChild(h);
@@ -389,15 +386,12 @@ window.addEventListener('DOMContentLoaded', function () {
     this.build_example = function (name, div, button) {
         var id = name.toLowerCase();
         var but = TK.element("a", "toolkit-button");
-        var url = window.location.href.split("#")[0] + "#" + name + this.hash_separator + "example";
+        var url = "#" + name + this.hash_separator + "run_example";
         but.setAttribute("href", url);
-        but.addEventListener("click", (function (that, id) {
-            return function (e) { that.run_example(id); }
-        })(this, id));
         TK.set_text(but, button);
         div.appendChild(but);
     }
-    
+
     this.run_example = function (id) {
         var fun = "run_" + id;
         if (!window[fun]) return;
@@ -447,7 +441,7 @@ window.addEventListener('DOMContentLoaded', function () {
         var that = this;
         exit.addEventListener("click", function () { that.remove_example(); });
         
-        dover.onscroll = function (e) { console.log("scroll"); e.preventDefault(); e.stopPropagation(); }
+        dover.onscroll = function (e) { TK.log("scroll"); e.preventDefault(); e.stopPropagation(); }
         
         window[fun](root);
     }
@@ -497,10 +491,8 @@ window.addEventListener('DOMContentLoaded', function () {
         for (var i in r) {
             text = text.replace(i, r[i]);
         }
-        while (text.match(this.proc_text_regex)) {
-            text = text.replace(this.proc_text_regex, "<a href='" + this.app + "*\$1' onclick='SC.show_item(\"\$1\")'>\$1</a>")
-        }
-        return text.replace("href='" + this.app + "*", "href='" + this.app + "#");
+        text = text.replace(this.proc_text_regex, "<a href='#\$1'>\$1</a>")
+        return text;
     }
     
     this.show_item = function (item) {
@@ -516,12 +508,11 @@ window.addEventListener('DOMContentLoaded', function () {
         if (i)
             TK.get_id("wrapper").removeChild(i);
         TK.get_id("wrapper").appendChild(this.build_item(item));
-        //window.location.href = this.app + "#" + item.name;
         setTimeout(function() {
             document.body.scrollTop = pos;
         }, 100);
         TK.add_class(TK.get_id("navigation"), "hidden");
-        var run = this.root ? 1 : 0;
+        var run = window.location.hash.endsWith(this.hash_separator + "run_example");
         this.remove_example();
         if (run)
             this.run_example(item.id);
