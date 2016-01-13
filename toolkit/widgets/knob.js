@@ -34,7 +34,6 @@ w.TK.Knob = w.Knob = $class({
      */
     _class: "Knob",
     Extends: Widget,
-    DOMElement: SVGElement,
     _options: Object.assign(Object.create(Widget.prototype._options), TK.Circular.prototype._options,
                             TK.DragValue.prototype._options, {
         size: "number",
@@ -69,21 +68,23 @@ w.TK.Knob = w.Knob = $class({
     }),
     initialize: function (options) {
         Widget.prototype.initialize.call(this, options);
-        var E;
+        var E, S;
 
-        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
+        if (!(E = this.element)) this.element = E = TK.element("div")
         TK.add_class(E, "toolkit-knob");
+
+        this.svg = S = TK.make_svg("svg");
 
         var co = TK.object_and(this.options, TK.Circular.prototype._options);
         co = TK.object_sub(co, TK.Widget.prototype._options);
-        co.container = E;
+        co.container = S;
 
         this.circular = new Circular(co);
 
         this.widgetize(E, true, true, true);
         
         this.drag = new DragValue({
-            node:    this.element,
+            node:    S,
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
@@ -96,7 +97,7 @@ w.TK.Knob = w.Knob = $class({
             events: function () { return this }.bind(this),
         });
         this.scroll = new ScrollValue({
-            node:    this.element,
+            node:    S,
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
@@ -105,6 +106,8 @@ w.TK.Knob = w.Knob = $class({
             }.bind(this),
             events: function () { return this }.bind(this),
         });
+
+        E.appendChild(S);
         
         if (typeof this.options.reset == "undefined")
             this.options.reset = this.options.value;
@@ -125,7 +128,7 @@ w.TK.Knob = w.Knob = $class({
 
         if (I.size) {
             I.size = false;
-            this.element.setAttribute("viewBox", format_viewbox(O.size, O.size));
+            this.svg.setAttribute("viewBox", format_viewbox(O.size, O.size));
         }
 
         Widget.prototype.redraw.call(this);

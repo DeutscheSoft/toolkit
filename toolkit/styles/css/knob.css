@@ -4,22 +4,23 @@
     cursor: pointer;
     width: 100px;
     height: 100px;
+    display: inline-block;
 }
 
-.toolkit-knob > .toolkit-circular > .toolkit-hand {
+.toolkit-knob > svg > .toolkit-circular > .toolkit-hand {
     fill: #002a42;
 }
 
-.toolkit-knob > .toolkit-circular > .toolkit-base {
+.toolkit-knob > svg > .toolkit-circular > .toolkit-base {
     
 }
-.toolkit-knob > .toolkit-circular > .toolkit-value {
+.toolkit-knob > svg > .toolkit-circular > .toolkit-value {
     fill: rgba(255,255,255,0.8);
 }
-.toolkit-knob > .toolkit-circular > .toolkit-dots > .toolkit-dot {
+.toolkit-knob > svg > .toolkit-circular > .toolkit-dots > .toolkit-dot {
     fill: #002f42;
 }
-.toolkit-knob > .toolkit-circular > .toolkit-labels > .toolkit-label {
+.toolkit-knob > svg > .toolkit-circular > .toolkit-labels > .toolkit-label {
     font-size: 7px;
     fill: #002f42;
 }
