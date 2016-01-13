@@ -149,7 +149,6 @@ w.TK.Clock = w.Clock = $class({
      */
     _class: "Clock",
     Extends: Widget,
-    DOMElement: SVGElement,
     _options: Object.assign(Object.create(Widget.prototype._options), {
         thickness:    "int",
         margin:       "int",
@@ -201,12 +200,13 @@ w.TK.Clock = w.Clock = $class({
                                    // compared to the main label
     },
     initialize: function (options) {
-        var E;
+        var E, S;
         this.circulars = {};
         this._margin = -1;
         Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
-        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        this.svg = S = TK.make_svg("svg");
         this.widgetize(E, true, true, true);
         TK.add_class(E, "toolkit-clock");
         
@@ -227,15 +227,16 @@ w.TK.Clock = w.Clock = $class({
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"
         });
-        E.appendChild(this._label);
-        E.appendChild(this._label_upper);
-        E.appendChild(this._label_lower);
+        S.appendChild(this._label);
+        S.appendChild(this._label_upper);
+        S.appendChild(this._label_lower);
+        E.appendChild(S);
 
         this.add_event("hide", onhide);
         this.add_event("show", timeout);
         
         var circ_options = {
-            container: E,
+            container: S,
             show_hand: false,
             start: 270,
             basis: 360,
@@ -253,8 +254,6 @@ w.TK.Clock = w.Clock = $class({
         this.add_child(this.circulars.minutes);
         this.add_child(this.circulars.hours);
         
-        this.set("size", this.options.size, true);
-
         // start the clock
         this.__timeout = timeout.bind(this);
     },
@@ -266,8 +265,8 @@ w.TK.Clock = w.Clock = $class({
 
         if (I.size) {
             var tmp = O.size;
-            this.element.setAttribute("width", (typeof tmp == "number" ? tmp + "px" : tmp));
-            this.element.setAttribute("height", (typeof tmp == "number" ? tmp + "px" : tmp));
+            this.svg.setAttribute("width", (typeof tmp == "number" ? tmp + "px" : tmp));
+            this.svg.setAttribute("height", (typeof tmp == "number" ? tmp + "px" : tmp));
         }
 
         if (I.validate("show_hours", "show_minutes", "show_seconds", "thickness", "margin") || I.size) {
