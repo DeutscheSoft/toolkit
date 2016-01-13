@@ -29,7 +29,7 @@
 .toolkit-chart > .toolkit-key.toolkit-hover {
     opacity: 1;
 }
-.toolkit-chart > .toolkit-key > svg:text > .toolkit-label {
+.toolkit-chart > .toolkit-key > text > .toolkit-label {
     line-height: 16px; /* sets the distance between key entries */
     font-size: 9px;
     margin: 5px; /* sets the distance between labels and example rects */
