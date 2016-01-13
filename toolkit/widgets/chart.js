@@ -213,7 +213,6 @@ w.TK.Chart = w.Chart = $class({
     _class: "Chart",
     Extends: Widget,
     Implements: Ranges,
-    DOMElement: SVGElement,
     _options: Object.assign(Object.create(Widget.prototype._options), {
         grid_x: "array",
         grid_y: "array",
@@ -244,7 +243,7 @@ w.TK.Chart = w.Chart = $class({
         title_position: _TOOLKIT_TOP_RIGHT // the position of the title
     },
     initialize: function (options) {
-        var E;
+        var E, S;
         this.graphs = [];
         Widget.prototype.initialize.call(this, options);
         
@@ -252,10 +251,13 @@ w.TK.Chart = w.Chart = $class({
         this.add_range(this.options.range_y, "range_y");
         this.range_y.set("reverse", true, true, true);
         
-        if (!(E = this.element)) this.element = E = TK.make_svg("svg");
-        E.setAttribute("width", this.range_x.options.basis);
-        E.setAttribute("height", this.range_y.options.basis);
+        if (!(E = this.element)) this.element = E = TK.element("div");
+        this.svg = S = TK.make_svg("svg");
+
         TK.add_class(E, "toolkit-chart");
+
+        S.setAttribute("width", this.range_x.options.basis);
+        S.setAttribute("height", this.range_y.options.basis);
 
         this.widgetize(E, true, true, true);
         if (this.options.container)
@@ -270,7 +272,7 @@ w.TK.Chart = w.Chart = $class({
             grid_y: this.options.grid_y,
             range_x: function () { return this.range_x; }.bind(this),
             range_y: function () { return this.range_y; }.bind(this),
-            container: E
+            container: S
         });
         this.add_child(this.grid);
         
@@ -278,10 +280,10 @@ w.TK.Chart = w.Chart = $class({
             "class": "toolkit-title",
             style: "dominant-baseline: central;"
         });
-        E.appendChild(this._title);
+        S.appendChild(this._title);
         
         this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
-        E.appendChild(this._graphs);
+        S.appendChild(this._graphs);
         
         var redraw_cb = this.trigger_draw.bind(this);
 
@@ -293,9 +295,10 @@ w.TK.Chart = w.Chart = $class({
         this._key = TK.make_svg("g", {"class": "toolkit-key"});
         this._key_txt = TK.make_svg("text");
 
-        E.appendChild(this._key_background);
-        E.appendChild(this._key);
-        E.appendChild(this._key_txt);
+        S.appendChild(this._key_background);
+        S.appendChild(this._key);
+        S.appendChild(this._key_txt);
+        E.appendChild(S);
         
         this._key_background.addEventListener("mouseenter", function () {
                 TK.add_class(this._key, "toolkit-hover");
@@ -321,7 +324,7 @@ w.TK.Chart = w.Chart = $class({
     },
     redraw: function () {
         var I = this.invalid;
-        var E = this.element;
+        var E = this.svg;
 
         Widget.prototype.redraw.call(this);
 

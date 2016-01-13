@@ -2,10 +2,10 @@
     
 }
 
-.toolkit-frequency-response > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
+.toolkit-frequency-response > svg > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
     stroke: rgba(255,0,0,0.66);
 }
-.toolkit-frequency-response > .toolkit-grid > .toolkit-grid-label.toolkit-highlight {
+.toolkit-frequency-response > svg > .toolkit-grid > .toolkit-grid-label.toolkit-highlight {
     fill: rgb(255,255,255);
     font-weight: bold;
 }

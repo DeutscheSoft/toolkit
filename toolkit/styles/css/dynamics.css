@@ -2,15 +2,15 @@
     
 }
 
-.toolkit-dynamics > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
+.toolkit-dynamics > svg > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
     stroke: rgba(255,0,0,0.66);
 }
-.toolkit-dynamics > .toolkit-grid > .toolkit-grid-label.toolkit-highlight {
+.toolkit-dynamics > svg > .toolkit-grid > .toolkit-grid-label.toolkit-highlight {
     fill: rgb(255,255,255);
     font-weight: bold;
 }
 
-.toolkit-dynamics > .toolkit-graphs > .toolkit-steady {
+.toolkit-dynamics > svg > .toolkit-graphs > .toolkit-steady {
     stroke: rgba(255,255,255,0.5);
     stroke-dasharray: 1.41421,1.41421;
     stroke-width: 1px;
