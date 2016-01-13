@@ -118,7 +118,7 @@ w.TK.Widget = w.Widget = $class({
         }
 
         if (warn.length) {
-            TK.log("found", warn.length, "invalid in", this, ":", warn);
+            TK.warn("found", warn.length, "invalid in", this, ":", warn);
         }
     },
 
