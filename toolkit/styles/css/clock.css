@@ -1,4 +1,4 @@
-.toolkit-widget.toolkit-clock {
+.toolkit-widget.toolkit-clock > svg {
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border-radius: 100%;
@@ -8,19 +8,19 @@
     fill: rgb(0,42,66);
 }
 
-.toolkit-widget.toolkit-clock > .toolkit-circular {
+.toolkit-widget.toolkit-clock > svg > .toolkit-circular {
     fill: rgb(0,42,66);
 }
 
-.toolkit-widget.toolkit-clock > .toolkit-circular > .toolkit-value {
+.toolkit-widget.toolkit-clock > svg > .toolkit-circular > .toolkit-value {
     
 }
 
-.toolkit-widget.toolkit-clock > .toolkit-circular > .toolkit-base {
+.toolkit-widget.toolkit-clock > svg > .toolkit-circular > .toolkit-base {
     fill: white;
     opacity: 0.5;
 }
 
-.toolkit-widget.toolkit-clock > .toolkit-label {
+.toolkit-widget.toolkit-clock > svg > .toolkit-label {
     margin: 5px;
 }
