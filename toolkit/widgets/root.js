@@ -55,6 +55,10 @@ w.TK.Root = w.Root = $class({
         this.enable_draw();
     },
     resize: function() {
+        if (!this.children) {
+            TK.warn("Root element destructed before resize.\n");
+            return;
+        }
         this.resize_event = false;
         Container.prototype.resize.call(this);
     },
