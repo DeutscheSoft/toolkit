@@ -277,7 +277,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 }
                 break;
         }
-        if (divf.children.length) {
+        if (divf.firstChild) {
             div.appendChild(headf);
             div.appendChild(divf);
             subnav.appendChild(subf);
