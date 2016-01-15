@@ -859,7 +859,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             }
         }
         
-        
         // LABEL
         TK.empty(this._label);
         var t = O.label(
@@ -868,20 +867,19 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     O.y,
                     O.z);
         var a = t.split("\n");
-        var c = this._label.children;
+        var c = this._label.childNodes;
         var n = c.length;
         if (a.length != c.length) {
             while (n < a.length) {
                 this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
                 n++;
             }
-            while (n > a.length) {
+            while (c.length > a.length) {
                 // FIXME: bad call of destroy here?
-                this._label.children[n-1].destroy();
-                n--;
+                this._label.removeChild(this._label.lastChild);
             }
         }
-        var c = this._label.children;
+        var c = this._label.childNodes;
         var w = 0;
         for (var i = 0; i < a.length; i++) {
             c[i].textContent = a[i];
@@ -1331,7 +1329,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._label.setAttribute("x", (pos.xl) + "px");
         this._label.setAttribute("y", (pos.yl) + "px");
         this._label.setAttribute("text-anchor", pos.align);
-        var c = this._label.children;
+        var c = this._label.childNodes;
         for (var i = 0; i < c.length; i++)
             c[i].setAttribute("x", (pos.xl) + "px");
         this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
