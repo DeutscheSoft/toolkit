@@ -25,7 +25,7 @@ browser to the file `index.html`.
 
 ## License
 
-toolkit is released unter the the terms of the GPLv3. See the `COPYING`
+toolkit is released unter the the terms of the GPLv3. See the file `COPYING`
 file for details.
 
 Copyright (c) 2013-2016 Markus Schmidt <markus@deuso.de>
