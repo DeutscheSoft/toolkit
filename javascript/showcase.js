@@ -18,6 +18,15 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
+
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(s) {
+        if (typeof s !== "string") s = s.toString();
+        if (!s.length) return true;
+        if (this.length < s.length) return false;
+        return this.substr(this.length-s.length) === s;
+    };
+}
     
 window.addEventListener('DOMContentLoaded', function () {
     this.sections = [
