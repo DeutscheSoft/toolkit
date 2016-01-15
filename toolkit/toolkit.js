@@ -167,33 +167,6 @@ function insert_before(newn, refn) {
     if (refn.parentNode)
         refn.parentNode.insertBefore(newn, refn);
 }
-function keep_inside(element, resize) {
-    var ex = parseInt(get_style(element, "left"));
-    var ey = parseInt(get_style(element, "top"));
-    var ew = outer_width(element, true);
-    var eh = outer_height(element, true);
-    
-    if (get_style(element, "position") == "fixed") {
-        var pw = width();
-        var ph = height();
-        var w  = pw;
-        var h  = ph;
-        var x  = Math.min(Math.max(ex, 0), w - ew);
-        var y  = Math.min(Math.max(ey, 0), h - eh);
-    } else {
-        var p  = element.offsetParent;
-        var pw = p ? p.offsetWidth : width() - scroll_left();
-        var ph = p ? p.offsetHeight : height() - scroll_top();
-        var x = Math.min(Math.max(ex, 0), pw - ew);
-        var y = Math.min(Math.max(ey, 0), ph - eh);
-    }
-    if(resize) {
-        if (ew > pw) element.style.width = pw + "px";
-        if (eh > ph) element.style.height = ph + "px";
-    }
-    element.style.left = x + "px";
-    element.style.top = y + "px";
-}
 function width() {
     return Math.max(document.documentElement.clientWidth || 0, w.innerWidth || 0, document.body.clientWidth || 0);
 }
@@ -689,8 +662,6 @@ w.TK = w.toolkit = {
     
     insert_after: insert_after,
     insert_before: insert_before,
-    
-    keep_inside: keep_inside,
     
     // WINDOW
     
