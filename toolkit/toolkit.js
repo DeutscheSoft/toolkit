@@ -3,30 +3,44 @@
 
 var has_class, add_class, remove_class, toggle_class;
 
-if ('classList' in document.createElement("_")) {
+if ('classList' in document.createElement("_") && 'classList' in make_svg('text')) {
   has_class = function (e, cls) { return e.classList.contains(cls); }
   add_class = function (e, cls) { e.classList.add(cls); }
   remove_class = function (e, cls) { e.classList.remove(cls); }
   toggle_class = function (e, cls) { e.classList.toggle(cls); }
 } else {
   // IE9
+  function get_class_name(e) {
+    if (HTMLElement.prototype.isPrototypeOf(e)) {
+        return e.className;
+    } else {
+        return e.getAttribute("class") || "";
+    }
+  };
+  function set_class_name(e, s) {
+    if (HTMLElement.prototype.isPrototypeOf(e)) {
+        e.className = s;
+    } else {
+        e.setAttribute("class", s);
+    }
+  };
   has_class = function (e, cls) {
-    return e.className.split(" ").indexOf(cls) !== -1;
+    return get_class_name(e).split(" ").indexOf(cls) !== -1;
   };
   add_class = function (e, cls) {
-    var s = e.className;
+    var s = get_class_name(e);
     if (!s.length) {
-      e.className = cls;
+      set_class_name(e, cls);
       return;
     }
     var a = s.split(" ");
     if (a.indexOf(cls) === -1) {
       a.push(cls);
-      e.className = a.join(" ");
+      set_class_name(e,  a.join(" "));
     }
   };
   remove_class = function(e, cls) {
-    var a = e.className.split(" ");
+    var a = get_class_name(e).split(" ");
     var i = a.indexOf(cls);
 
     if (i !== -1) {
@@ -35,7 +49,7 @@ if ('classList' in document.createElement("_")) {
         i = a.indexOf(cls);
       } while (i !== -1);
 
-      e.className = a.join(" ");
+      set_class_name(e, a.join(" "));
     }
   };
   toggle_class = function(e, cls) {
