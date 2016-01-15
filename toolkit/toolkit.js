@@ -554,26 +554,6 @@ function log2(n) {
 function log10(n) {
     return Math.log(Math.max(1e-32, n)) / Math.LN10;
 }
-function _binary_array_search(arr, val, insert) {
-    var high = arr.length, low = -1, mid;
-    while (high - low > 1) {
-        mid = (high + low) >> 1;
-        if (arr[mid] < val) low = mid;
-        else high = mid;
-    }
-    if (arr[high] == val || insert) {
-        return high;
-    } else {
-        return -1;
-    }
-}
-function find_next(array, val, sort) {
-    if (sort) array = array.slice(0).sort( function (a, b) { return a-b; });
-    // Get index
-    var i = _binary_array_search(arr, val, true);
-    // Check boundaries
-    return (i >= 0 && i < arr.length) ? arr[i] : arr[arr.length - 1];
-}
 function store(e, key, val) {
     data(e)[key] = val;
 }
@@ -729,10 +709,6 @@ w.TK = w.toolkit = {
     
     log2: log2,
     log10: log10,
-    
-    // ARRAYS
-    
-    find_next: find_next,
     
     // OTHER
     
