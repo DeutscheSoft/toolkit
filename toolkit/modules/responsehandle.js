@@ -69,7 +69,7 @@ function mousedown(e) {
     
     // classes and stuff
     TK.add_class(this.element, "toolkit-active");
-    TK.add_class(this.element.parentElement.parentElement, "toolkit-dragging");
+    TK.add_class(this.element.parentNode.parentNode, "toolkit-dragging");
     this.global_cursor("move");
     this.__active = true;
     this._offsetX = ev.pageX - this.x;
@@ -97,7 +97,7 @@ function mouseup(e) {
     if (!this.__active) return;
     e.preventDefault();
     TK.remove_class(this.element, "toolkit-active");
-    var parent = this.element.parentElement.parentElement;
+    var parent = this.element.parentNode.parentNode;
     if (parent)
         TK.remove_class(parent, "toolkit-dragging");
     this.remove_cursor("move");
