@@ -91,8 +91,8 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         
         TK.add_class(this.element, "toolkit-response-handler");
         this._handles = TK.make_svg("g", {"class": "toolkit-response-handles"});
-        this.element.appendChild(this._handles);
-        this.element.onselectstart = function () { return false; };
+        this.svg.appendChild(this._handles);
+        this.svg.onselectstart = function () { return false; };
         var cb = function (e) {
             e.preventDefault();
             e.stopPropagation();

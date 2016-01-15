@@ -46,7 +46,7 @@ w.TK.Equalizer = w.Equalizer = $class({
         ResponseHandler.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-equalizer");
         this._bands = TK.make_svg("g", {"class": "toolkit-eqbands"});
-        this.element.appendChild(this._bands);
+        this.svg.appendChild(this._bands);
             
         this.baseline = this.add_graph({
             range_x:   function () { return this.range_x; }.bind(this),
