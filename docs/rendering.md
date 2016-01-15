@@ -25,7 +25,7 @@ an option is modified using the `set()` method. Instead, widgets will simply
 record which options have changed and (in case they are visible) register
 themselves to be rendered in the next animation frame.
 The rendering is done by calling a method called `redraw()`.
-This method determines which options have been modified since the last time a
+This method checks which options have been modified since the last time a
 widget was rendered and perform all necessary modifications to the DOM.
 Delaying the actual DOM modifications has several advantages from a performance
 perspective. It also allows us to apply other optimizations, which we will go
@@ -35,7 +35,7 @@ The main advantage of delaying DOM modifications is that it makes performance
 much more reliable. This is particularly important on slow devices in applications
 which have a very high update frequency. One example is an application displaying
 audio levels, where update intervals of 20 ms are not uncommon.
-When using several levelmeters in parallel, the cost of DOM manipulations might
+When using several level meters in parallel, the cost of DOM manipulations might
 prevent a slow device from keeping up with all the modifications. This would lead to
 high delays and possibly make the application completely unresponsive.
 On the other hand, when DOM manipulations are delayed to a rendering frame, the
@@ -55,7 +55,7 @@ are not performed immediately.
 toolkit furthermore employs a technique which we will explain in the following. We
 call this technique **DOM scheduling**.
 
-The runtime performance of code operating on the DOM tree can be substantially
+The run time performance of code operating on the DOM tree can be substantially
 influenced by the amount of reflows and style recalculations which it
 triggers. Style recalculations might be triggered by asking for the value of
 a computed style of an element. Likewise reflow operations might be necessary
@@ -72,7 +72,7 @@ recalculations do so only if the DOM tree has been previously modified. If the D
 tree is *clean*, these operations are relatively cheap. Therefore the obvious
 way to improve the performance of code which triggers many reflows is to reorder
 operations on the DOM in such a way as to reduce reflows to a minimum. It is rather
-straighforward to apply this technique to individual pieces of code, however that
+straightforward to apply this technique to individual pieces of code, however that
 might not be sufficient when different parts of an application modify the DOM
 in parallel. If each of these pieces of code is optimized to trigger just **one** reflow,
 the whole application will still trigger as many reflows as the number of individual
@@ -131,7 +131,7 @@ can be practically implemented inside of complex applications. A requirement
 for it to work is that the individual modifications are independent of each
 other. As explained in the beginning of this document, this is the case for
 toolkit widgets. The central component of DOM scheduling is the scheduler. It
-is a simple global object which exectures a series of functions in a certain order.
+is a simple global object which executes a series of functions in a certain order.
 The order of execution is determined by a priority. Without going into the details of
 the implementation we can illustrate this by our example:
 
