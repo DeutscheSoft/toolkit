@@ -328,23 +328,6 @@ function unique_id() {
     do { id = "tk-" + _id_cnt++; } while (document.getElementById(id));
     return id;
 };
-function random_string(length, chars) {
-    // returns a random string with specified length and characters
-    // a = small chars
-    // A = uppercase chars
-    // # = numbers
-    // ! = other chars (~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\)
-    if (!length) length = 16;
-    if (!chars) chars = "aA#";
-    var mask = '';
-    if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
-    if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    if (chars.indexOf('#') > -1) mask += '0123456789';
-    if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
-    var result = '';
-    for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
-    return result;
-}
 function FORMAT(fmt) {
     var args = [];
     var s = "return ";
@@ -702,8 +685,6 @@ w.TK = w.toolkit = {
     // STRINGS
     
     unique_id: unique_id,
-    
-    random_string: random_string,
     
     FORMAT : FORMAT,
     
