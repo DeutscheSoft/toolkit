@@ -115,21 +115,6 @@ function get_duration(e) {
                   + get_max_time(get_style(e, "transition-delay")));
 }
 
-function monitor_resize_events() {
-    for (var i = 0; i < TK._resize_events.length; i++) {
-        var r = _resize_events[i];
-        if (r.element.offsetWidth != r.x || r.element.offsetHeight != r.y) {
-            r.x = r.element.offsetWidth;
-            r.y = r.element.offsetHeight;
-            r.element.dispatchEvent("resize");
-        }
-    }
-    if (_resize_events.length) {
-        _resize_event_id = w.setTimeout(monitor_resize_events, 100);
-    } else {
-        _resize_event_id = false;
-    }
-}
 function get_id(id) {
     return document.getElementById(id);
 }
@@ -607,24 +592,6 @@ function delayed_callback(timeout, cb, once) {
     };
 }
 
-var _resize_events = [];
-var _resize_event_id = false;
-
-function add_resize_event(element) {
-    _resize_events.push({element: element, x: element.offsetWidth, y: element.offsetHeight});
-    if (_resize_event_id < 0) {
-        _resize_event_id = w.setTimeout(monitor_resize_events, 100);
-    }
-}
-function remove_resize_event(element) {
-    for (var i = 0; i < _resize_events.length; i++) {
-        if (element == _resize_events[i]) _resize_events.splice(i, 1);
-    }
-    if (!_resize_events.length && _resize_event_id) {
-        w.clearTimeout(_resize_event_id);
-        _resize_event_id = false;
-    }
-}
 function log2(n) {
     return Math.log(Math.max(1e-32, n)) / Math.LN2;
 }
@@ -805,10 +772,6 @@ w.TK = w.toolkit = {
     // EVENTS
     
     delayed_callback : delayed_callback,
-    
-    add_resize_event: add_resize_event,
-    remove_resize_event: remove_resize_event,
-    
     
     // MATH
     
