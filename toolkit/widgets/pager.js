@@ -181,7 +181,7 @@ w.TK.Pager = w.Pager = $class({
     
     add_pages: function (options) {
         /** @method add_pages
-         * @param {Array[{label:String, content:Container|String}[, ...]]} options - An Array containing objects with options for the page and its button. Members are: label - a string for the #Button, content: a string or a #Container instance.
+         * @param {Array.<{label:string, content:(Container|string)}>} options - An Array containing objects with options for the page and its button. Members are: label - a string for the #Button, content: a string or a #Container instance.
          * @description Adds an array of pages. */
         for (var i = 0; i < options.length; i++)
             this.add_page(options[i].label, options[i].content);

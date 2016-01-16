@@ -158,7 +158,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     
     add_buttons: function (options) {
         /** @method add_buttons(options)
-         * @param {Array[String|Object]} options - An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
+         * @param {Array.<string|object>} options - An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
          * @description Adds an array of buttons to the end of the list. */
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);
@@ -167,7 +167,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     add_button: function (options, position) {
         /** @method add_button(options, position)
          * @param {Object|String} options - An object containing options for the #Button to add or a string for the label
-         * @param {Int|Undefined} position - The position to add the #Button to. If avoided the #Button is added to the end of the list
+         * @param {Int} [position] - The position to add the #Button to. If avoided the #Button is added to the end of the list
          * @description Adds a #Button to the ButtonArray 
          * @returns Button; The #Button instance */
         if (typeof options === "string")
