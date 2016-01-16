@@ -106,3 +106,7 @@ toolkit/styles/css/toolkit.min.css: $(css_input_files) makefile
 
 toolkit/styles/css/toolkit.all.css: makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
+
+jsdoc:
+	jsdoc $(js_input_files)
+
