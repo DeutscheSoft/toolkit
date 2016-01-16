@@ -82,7 +82,7 @@ w.TK.Drag = w.Drag = $class({
      * @option active; boolean; true; Enable or disable dragging
      * @option min; Object; {x: -1, y: -1}; Object containing x and y determining the minimum position. A value of false means no minimum.
      * @option max; Object; {x: -1, y: -1}; Object containing x and y determining the maximum position. A value of false means no maximum.
-     * @option initial; Number; 0; Amount of pixels the user has to move until dragging starts
+     * @option initial; number; 0; Amount of pixels the user has to move until dragging starts
      * @extends Widget
      */
     _class: "Drag",

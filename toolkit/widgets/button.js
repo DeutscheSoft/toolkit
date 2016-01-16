@@ -23,11 +23,11 @@
 w.TK.Button = w.Button = $class({
     /** @class  Button
      * 
-     * @option label;       String; "";    Text for the buttons label
-     * @option icon;        String; "";    URL to an icon for the button
+     * @option label;       string; "";    Text for the buttons label
+     * @option icon;        string; "";    URL to an icon for the button
      * @option state;       boolean;   false; State of the button
      * @option state_color; boolean;   false; Background color of the state indication
-     * @option layout;      Int;    _TOOLKIT_VERTICAL; Determine the arrangement of label and icon.
+     * @option layout;      integer;    _TOOLKIT_VERTICAL; Determine the arrangement of label and icon.
      * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
      * 
      * @extends Widget

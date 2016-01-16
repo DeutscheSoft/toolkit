@@ -238,7 +238,7 @@ w.BASE = $class({
     },
     add_event: function (event, func, prevent, stop) {
         /** @method add_event(event, func, prevent, stop)
-         * @param {String} event - The event descriptor
+         * @param {string} event - The event descriptor
          * @param {Function} func - The function to call when the event happens
          * @param {boolean} prevent - Set to true if the event should prevent the default behavior
          * @param {boolean} stop - Set to true if the event should stop bubbling up the tree */
@@ -292,7 +292,7 @@ w.BASE = $class({
     },
     remove_event: function (event, func) {
         /** @method remove_event(event, func)
-         * @param {String} event - The event descriptor
+         * @param {string} event - The event descriptor
          * @param {Function} func - The function to remove
          * @description Removes the given function from the event queue.
          * If it is a native DOM event, it removes the DOM event listener
@@ -333,7 +333,7 @@ w.BASE = $class({
     },
     fire_event: function (event) {
         /** @method fire_event(event)
-         * @param {String} event - The event descriptor
+         * @param {string} event - The event descriptor
          * @description Calls all functions in the events queue */
         var ev = this.__events;
 
@@ -359,7 +359,7 @@ w.BASE = $class({
 
     has_event_listeners: function (event) {
         /** @method has_event_listeners(event)
-         * @param {String} event - The event desriptor
+         * @param {string} event - The event desriptor
          * @returns boolean; True if the event has some handler functions in the queue, false if not
          * @description Test if the event descriptor has some handler functions in the queue */
         var ev = this.__events;

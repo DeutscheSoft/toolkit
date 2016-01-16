@@ -157,11 +157,11 @@ w.TK.DragValue = w.DragValue = $class({
      * @option classes; DOMNode|boolean; false; An element receiving the classes or false to use the items element itself
      * @option get; Function; function () { return; }; Callback function returning the value
      * @option set; Function; function () { return; }; Callback function setting the value
-     * @option direction; Int; _TOOLKIT_POLAR; Direction changing the value, _TOOLKIT_POLAR|_TOOLKIT_VERTICAL|_TOOLKIT_HORIZONTAL
+     * @option direction; integer; _TOOLKIT_POLAR; Direction changing the value, _TOOLKIT_POLAR|_TOOLKIT_VERTICAL|_TOOLKIT_HORIZONTAL
      * @option active; boolean; true; Deactivate the dragging
      * @option cursor; boolean; false; Enable global cursor
-     * @option blind_angle; Number; 20; Used if direction is _TOOLKIT_POLAR, angle of separation between positive and negative value changes
-     * @option rotation; Number; 45; Defines the angle of the center of the positive value changes. 0 means straight upward. E.g. a value of 45 does positive value changes in upper and right directions
+     * @option blind_angle; number; 20; Used if direction is _TOOLKIT_POLAR, angle of separation between positive and negative value changes
+     * @option rotation; number; 45; Defines the angle of the center of the positive value changes. 0 means straight upward. E.g. a value of 45 does positive value changes in upper and right directions
      * @extends Widget
      * @implements GlobalCursor
      */

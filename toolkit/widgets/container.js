@@ -61,7 +61,7 @@ w.TK.Container = w.Container = $class({
     /** @class Container
      * @description Container represents a <DIV> element.
      * @extends Widget
-     * @option content; String|Element; undefined; The content of the container. It can either be
+     * @option content; string|Element; undefined; The content of the container. It can either be
      * a string which is interpreted as Text or a DOM node. Note that this options will remove all
      * child nodes from the container element including those added via append_child.
      */

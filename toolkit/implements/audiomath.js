@@ -39,8 +39,8 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
          * Calculate the logarithm with base 2 of a given
          * value. It is used for calculations with decibels in linear
          * scales.
-         * @param {Number} value - The value for the log
-         * @returns Number; The logarithm with base 2 of the value
+         * @param {number} value - The value for the log
+         * @returns number; The logarithm with base 2 of the value
          */
         value = +value;
         return +log(value) / LN2;
@@ -51,8 +51,8 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
          * Calculate the logarithm with base 10 of a given
          * value. It is used for calculations with hertz in linear
          * scales.
-         * @param {Number} value - The value for the log
-         * @returns Number; The logarithm with base 10 of the value
+         * @param {number} value - The value for the log
+         * @returns number; The logarithm with base 10 of the value
          */
         value = +value;
         return +log(value) / LN10;
@@ -62,12 +62,12 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         /** @method db2coef(value, min, max, reverse, factor)
          * Calculates a linear value between 0.0 and 1.0
          * from a value and its lower and upper boundaries in decibels.
-         * @param {Number} value - The value in decibels
-         * @param {Number} min - The minimum value in decibels
-         * @param {Number} max - The maximum value in decibels
+         * @param {number} value - The value in decibels
+         * @param {number} min - The minimum value in decibels
+         * @param {number} max - The maximum value in decibels
          * @param {boolean} reverse - If the scale is reversed
-         * @param {Number} factor - Changes the deflection of the logarithm if other than 1.0
-         * @returns Number; A value between 0.0 (min) and 1.0 (max)
+         * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
+         * @returns number; A value between 0.0 (min) and 1.0 (max)
          */
         value = +value;
         min = +min;
@@ -87,12 +87,12 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         /** @method coef2db(coef, min, max, reverse, factor)
          * Calculates a value in decibels from a value
          * between 0.0 and 1.0 and some lower and upper boundaries in decibels
-         * @param {Number} coef - A value between 0.0 and 1.0
-         * @param {Number} min - The minimum value in decibels
-         * @param {Number} max - The maximum value in decibels
+         * @param {number} coef - A value between 0.0 and 1.0
+         * @param {number} min - The minimum value in decibels
+         * @param {number} max - The maximum value in decibels
          * @param {boolean} reverse - If the scale is reversed
-         * @param {Number} factor - Changes the deflection of the logarithm if other than 1.0
-         * @returns Number; The result in decibels
+         * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
+         * @returns number; The result in decibels
          */
         coef = +coef;
         min = +min;
@@ -111,12 +111,12 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         /** @method db2scale(value, min, max, scale, reverse, factor)
          * Calculates a linear value between 0.0 and scale
          * from a value and its lower and upper boundaries in decibels.
-         * @param {Number} value - The value in decibels
-         * @param {Number} min - The minimum value in decibels
-         * @param {Number} max - The maximum value in decibels
+         * @param {number} value - The value in decibels
+         * @param {number} min - The minimum value in decibels
+         * @param {number} max - The maximum value in decibels
          * @param {boolean} reverse - If the scale is reversed
-         * @param {Number} factor - Changes the deflection of the logarithm if other than 1.0
-         * @returns Number; A value between 0.0 and scale
+         * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
+         * @returns number; A value between 0.0 and scale
          */
         value = +value;
         min = +min;
@@ -136,12 +136,12 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         /** @method scale2db(value, min, max, scale, reverse, factor)
          * Calculates a value in decibels from a value
          * between 0.0 and scale and some lower and upper boundaries in decibels.
-         * @param {Number} value - A value between 0.0 and scale
-         * @param {Number} min - The minimum value in decibels
-         * @param {Number} max - The maximum value in decibels
+         * @param {number} value - A value between 0.0 and scale
+         * @param {number} min - The minimum value in decibels
+         * @param {number} max - The maximum value in decibels
          * @param {boolean} reverse - If the scale is reversed
-         * @param {Number} factor - Changes the deflection of the logarithm if other than 1.0
-         * @returns Number; The result in decibels
+         * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
+         * @returns number; The result in decibels
          */
         value = +value;
         min = +min;
@@ -162,11 +162,11 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         /** @method freq2coef(value, min, max, reverse)
          * Calculates a linear value between 0.0 and 1.0
          * from a value and its lower and upper boundaries in hertz.
-         * @param {Number} value - The value in hertz
-         * @param {Number} min - The minimum value in hertz
-         * @param {Number} max - The maximum value in hertz
+         * @param {number} value - The value in hertz
+         * @param {number} min - The minimum value in hertz
+         * @param {number} max - The maximum value in hertz
          * @param {boolean} reverse - If the scale is reversed
-         * @returns Number; A value between 0.0 (min) and 1.0 (max)
+         * @returns number; A value between 0.0 (min) and 1.0 (max)
          */
         value = +value;
         min = +min;
@@ -182,12 +182,12 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
     }
     function coef2freq(coef, min, max, reverse) {
         /** @method coef2freq(coef, min, max, reverse)
-         * @param {Number} coef - A value between 0.0 and 1.0
-         * @param {Number} min - The minimum value in hertz
-         * @param {Number} max - The maximum value in hertz
+         * @param {number} coef - A value between 0.0 and 1.0
+         * @param {number} min - The minimum value in hertz
+         * @param {number} max - The maximum value in hertz
          * @param {boolean} reverse - If the scale is reversed
-         * @param {Number} factor - Changes the deflection of the logarithm if other than 1.0
-         * @returns Number; The result in hertz
+         * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
+         * @returns number; The result in hertz
          * Calculates a value in hertz from a value
          * between 0.0 and 1.0 and some lower and upper boundaries in hertz.
          */
@@ -206,11 +206,11 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         /** @method freq2scale(value, min, max, scale, reverse)
          * Calculates a linear value between 0.0 and scale
          * from a value and its lower and upper boundaries in hertz.
-         * @param {Number} value - The value in hertz
-         * @param {Number} min - The minimum value in hertz
-         * @param {Number} max - The maximum value in hertz
+         * @param {number} value - The value in hertz
+         * @param {number} min - The minimum value in hertz
+         * @param {number} max - The maximum value in hertz
          * @param {boolean} reverse - If the scale is reversed
-         * @returns Number; A value between 0.0 and scale
+         * @returns number; A value between 0.0 and scale
          */
         value = +value;
         min = +min;
@@ -226,12 +226,12 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
     }
     function scale2freq(value, min, max, scale, reverse) {
         /** @method scale2freq(value, min, max, scale, reverse)
-         * @param {Number} value - A value between 0.0 and scale
-         * @param {Number} min - The minimum value in hertz
-         * @param {Number} max - The maximum value in hertz
+         * @param {number} value - A value between 0.0 and scale
+         * @param {number} min - The minimum value in hertz
+         * @param {number} max - The maximum value in hertz
          * @param {boolean} reverse - If the scale is reversed
-         * @param {Number} factor - Changes the deflection of the logarithm if other than 1.0
-         * @returns Number; The result in hertz
+         * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
+         * @returns number; The result in hertz
          * @description Calculates a value in hertz from a value
          * between 0.0 and scale and some lower and upper boundaries in hertz */
         value = +value;

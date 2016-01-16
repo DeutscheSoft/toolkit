@@ -224,19 +224,19 @@ w.TK.Circular = w.Circular = $class({
      * numerical values in a circular manner. Circular is able to draw labels,
      * dots and markers and can show a hand. Circular e.g. is implemented by
      * #Clock to draw the hours, minutes and seconds.
-     * @option value; Number; 0; The value to show
-     * @option size; Number; 100; The diameter of the circle
-     * @option thickness; Number; 3; The thickness of the circle
-     * @option margin; Number; 0; The margin between base and value circles
+     * @option value; number; 0; The value to show
+     * @option size; number; 100; The diameter of the circle
+     * @option thickness; number; 3; The thickness of the circle
+     * @option margin; number; 0; The margin between base and value circles
      * @option hand; Object; {width: 2, length: 30, margin: 10}; Dimensions of the hand
-     * @option start; Number; 135; The starting point in degrees
-     * @option basis; Number; 270; The maximum degree of the rotation if value = max
-     * @option base; Number|boolean; false; If a base value is set in degrees, circular starts drawing elements from this position
+     * @option start; number; 135; The starting point in degrees
+     * @option basis; number; 270; The maximum degree of the rotation if value = max
+     * @option base; number|boolean; false; If a base value is set in degrees, circular starts drawing elements from this position
      * @option show_base; boolean; true; Draw the base ring
      * @option show_value; boolean; true; Draw the value ring
      * @option show_hand; boolean; true; Draw the hand
-     * @option x; Number; 0; Re-position the circular horizontally
-     * @option y; Number; 0; Re-position the circular vertically
+     * @option x; number; 0; Re-position the circular horizontally
+     * @option y; number; 0; Re-position the circular vertically
      * @option dot; Object; {width: 2, length: 2, margin: 5}; Set dimensions of dots
      * @option dots; Array; []; An array containing members like {pos: (number)[, color: "colorstring"] [, class: "classname"][, width: (number)] [, length: (number)][, margin: (number)]}
      * @option marker; Object; {thickness: 3, margin: 0}; Set markers default dimensions

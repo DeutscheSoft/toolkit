@@ -94,9 +94,9 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      *                              converted list of button instances is
      *                              returned.
      * @option auto_arrows; boolean; true; If arrow buttons are added automatically
-     * @option direction; Int; _TOOLKIT_HORIZONTAL; The direction of the button list, one out of
+     * @option direction; integer; _TOOLKIT_HORIZONTAL; The direction of the button list, one out of
      *                          _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL
-     * @option show; Int|Button; -1; The button to scroll to, either an ID or a button instance
+     * @option show; integer|Button; -1; The button to scroll to, either an ID or a button instance
      * 
      * @extends Container
      * 
@@ -166,8 +166,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     
     add_button: function (options, position) {
         /** @method add_button(options, position)
-         * @param {Object|String} options - An object containing options for the #Button to add or a string for the label
-         * @param {Int} [position] - The position to add the #Button to. If avoided the #Button is added to the end of the list
+         * @param {Object|string} options - An object containing options for the #Button to add or a string for the label
+         * @param {integer} [position] - The position to add the #Button to. If avoided the #Button is added to the end of the list
          * @description Adds a #Button to the ButtonArray 
          * @returns Button; The #Button instance */
         if (typeof options === "string")
@@ -202,7 +202,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     remove_button: function (button) {
         /** @method remove_button(button)
-         * @param {Int|Button} button - ID or #Button instance
+         * @param {integer|Button} button - ID or #Button instance
          * @description Removes a #Button from the ButtonArray */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);

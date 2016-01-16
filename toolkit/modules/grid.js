@@ -149,8 +149,8 @@ w.TK.Grid = w.Grid = $class({
      * @option grid_y; Array; []; Array for horizontal grid lines containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
      * @option range_x; Function|Object; {}; A function returning a #Range instance for vertical grid lines or an object containing options for a new #Range
      * @option range_y; Function|Object; {}; A function returning a #Range instance for horizontal grid lines or an object containing options for a new #Range
-     * @option width; Number; 0; The width of the grid
-     * @option height; Number; 0; The height of the grid
+     * @option width; number; 0; The width of the grid
+     * @option height; number; 0; The height of the grid
      * @extends Widget
      * @implements Ranges
      */
