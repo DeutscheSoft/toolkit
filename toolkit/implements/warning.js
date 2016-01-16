@@ -28,8 +28,8 @@ w.TK.Warning = w.Warning = $class({
     _class: "Warning",
     warning: function (element, timeout) {
         /** @method warning(element, timeout)
-         * @parameter element; DOMNode; undefined; The DOM node the class should be added to
-         * @parameter timeout; Number; 250; Te timeout in milliseconds until the class is removed again
+         * @param {DOMNode} element - The DOM node the class should be added to
+         * @param {Number} [timeout=250] - Te timeout in milliseconds until the class is removed again
          * @description Adds the class "toolkit-warn" to the given element and
          * sets a timeout after which the class is removed again. If there
          * already is a timeout waiting it gets updated. */

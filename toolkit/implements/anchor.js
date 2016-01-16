@@ -31,11 +31,11 @@ w.TK.Anchor = w.Anchor = $class({
     translate_anchor: function (anchor, x, y, width, height) {
         /** @method translate_anchor(anchor, x, y, width, height)
          * Returns real x and y values from a relative positioning.
-         * @parameter anchor; Int; _TOOLKIT_TOP_LEFT; Position of the anchor
-         * @parameter x; Number; undefined; X position to translate
-         * @parameter y; Number; undefined; Y position to translate
-         * @parameter width; Number; undefined; Width of the element
-         * @parameter height; Number; undefined; Height of the element
+         * @param {Int} [anchor=_TOOLKIT_TOP_LEFT] - Position of the anchor
+         * @param {Number} x - X position to translate
+         * @param {Number} y - Y position to translate
+         * @param {Number} width - Width of the element
+         * @param {Number} height - Height of the element
          * @returns Object; Object with members x and y as numbers
          */
         switch (anchor) {

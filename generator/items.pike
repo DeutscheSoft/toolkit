@@ -80,8 +80,20 @@ void process_element (string type, string content, mapping map) {
             if (!m->name) error("Option is missing name.\n");
             _recipient->options += ([ m->name : m ]);
             break;
+        case "param":
         case "parameter":
-            _recipient->parameters += ({ get_atoms_mapping(c, PARAMETER_ATOMS) });
+            {
+                mapping m = ([]);
+
+                if (sscanf(c, "\{%[^}]}%*[\ \t][%[A-Za-z0-9_]=%[^\]]]%*[\ \t]-%*[\ \t]%s",
+                           m->type, m->name, m["default"], m->description) == 7) {
+                } else if (sscanf(c, "\{%[^}]}%*[\ \t]%[A-Za-z0-9_]%*[\ \t]-%*[\ \t]%s",
+                           m->type, m->name, m->description) == 6) {
+                } else {
+                    werror("Could not parse %O\n", c);
+                }
+                _recipient->parameters += ({ m });
+            }
             break;
         case "returns":
             _recipient->returns += ({ get_atoms_mapping(c, RETURN_ATOMS) });

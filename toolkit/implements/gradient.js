@@ -41,10 +41,10 @@ w.TK.Gradient = w.Gradient = $class({
     },
     draw_gradient: function (element, gradient, fallback, range) {
         /** @method draw_gradient(element, gradient, fallback, range)
-         * @parameter element; DOMNode; undefined; The DOM node to appy the gradient to
-         * @parameter gradient; Object; undefined; Gradient definition for the background, e.g. {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
-         * @parameter fallback; String; undefined; If no gradient can be applied, use this as background color string
-         * @parameter range; #Range; undefined; If a specific range is set, it is used for the calculations. If not, we expect the widget itself provides #Ranged functionality.
+         * @param {DOMNode} element - The DOM node to appy the gradient to
+         * @param {Object} gradient - Gradient definition for the background, e.g. {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
+         * @param {String} fallback - If no gradient can be applied, use this as background color string
+         * @param {#Range} range - If a specific range is set, it is used for the calculations. If not, we expect the widget itself provides #Ranged functionality.
          * @description This function generates a string from a given
          * gradient object to set as a CSS background for a DOM element.
          * If element is given, the function automatically sets the

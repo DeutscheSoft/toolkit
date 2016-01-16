@@ -158,7 +158,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     
     add_buttons: function (options) {
         /** @method add_buttons(options)
-         * @parameter options; Array[String|Object]; undefined; An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
+         * @param {Array[String|Object]} options - An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
          * @description Adds an array of buttons to the end of the list. */
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);
@@ -166,8 +166,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     
     add_button: function (options, position) {
         /** @method add_button(options, position)
-         * @parameter options; Object|String; undefined; An object containing options for the #Button to add or a string for the label
-         * @parameter position; Int|Undefined; undefined; The position to add the #Button to. If avoided the #Button is added to the end of the list
+         * @param {Object|String} options - An object containing options for the #Button to add or a string for the label
+         * @param {Int|Undefined} position - The position to add the #Button to. If avoided the #Button is added to the end of the list
          * @description Adds a #Button to the ButtonArray 
          * @returns Button; The #Button instance */
         if (typeof options === "string")
@@ -202,7 +202,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     remove_button: function (button) {
         /** @method remove_button(button)
-         * @parameter button; Int|Button; undefined; ID or #Button instance
+         * @param {Int|Button} button - ID or #Button instance
          * @description Removes a #Button from the ButtonArray */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);

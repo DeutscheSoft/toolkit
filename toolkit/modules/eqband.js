@@ -97,7 +97,7 @@ w.TK.EqBand = w.EqBand = $class({
     freq2gain: function (freq) {
         /** @method freq2gain(freq)
          * Calculate the gain for a given frequency in Hertz
-         * @parameter freq; Number; undefined; The frequency to calculate the amplification for
+         * @param {Number} freq - The frequency to calculate the amplification for
          * @returns Number; the gain at the given frequency
          */
         return this.filter.freq2gain(freq);
