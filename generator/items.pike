@@ -89,6 +89,8 @@ void process_element (string type, string content, mapping map) {
                            m->type, m->name, m["default"], m->description) == 7) {
                 } else if (sscanf(c, "\{%[^}]}%*[\ \t]%[A-Za-z0-9_]%*[\ \t]-%*[\ \t]%s",
                            m->type, m->name, m->description) == 6) {
+                } else if (sscanf(c, "%*[\ \t]%[A-Za-z0-9_]%*[\ \t]-%*[\ \t]%s",
+                           m->name, m->description) == 5) {
                 } else {
                     werror("Could not parse %O\n", c);
                 }
