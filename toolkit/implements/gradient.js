@@ -22,7 +22,7 @@
 (function(w){ 
 w.TK.Gradient = w.Gradient = $class({
     /** @class Gradient
-     * @option gradient; Bool|Object; false; Gradient definition for the background.
+     * @option gradient; boolean|Object; false; Gradient definition for the background.
      * Keys are ints or floats as string corresponding to the widgets scale.
      * Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
      * @option background; String; "#000000"; Background color if no gradient is used

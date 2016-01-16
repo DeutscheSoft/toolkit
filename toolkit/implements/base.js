@@ -240,8 +240,8 @@ w.BASE = $class({
         /** @method add_event(event, func, prevent, stop)
          * @param {String} event - The event descriptor
          * @param {Function} func - The function to call when the event happens
-         * @param {Bool} prevent - Set to true if the event should prevent the default behavior
-         * @param {Bool} stop - Set to true if the event should stop bubbling up the tree */
+         * @param {boolean} prevent - Set to true if the event should prevent the default behavior
+         * @param {boolean} stop - Set to true if the event should stop bubbling up the tree */
         var ev;
         var cb;
 
@@ -360,7 +360,7 @@ w.BASE = $class({
     has_event_listeners: function (event) {
         /** @method has_event_listeners(event)
          * @param {String} event - The event desriptor
-         * @returns Bool; True if the event has some handler functions in the queue, false if not
+         * @returns boolean; True if the event has some handler functions in the queue, false if not
          * @description Test if the event descriptor has some handler functions in the queue */
         var ev = this.__events;
 

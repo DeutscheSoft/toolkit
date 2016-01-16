@@ -45,7 +45,7 @@ w.TK.Graph = w.Graph = $class({
      * @option range_y; Function|Object; {}; Callback function returning a #Range module for y axis or an object with options for a new #Range
      * @option width; Number; 0; The width of the graph
      * @option height; Number; 0; The height of the graph
-     * @option key; String|Bool; false; Show a description for this graph in the charts key, false to turn it off
+     * @option key; String|boolean; false; Show a description for this graph in the charts key, false to turn it off
      * @extends Widget
      * @implements Ranges
      */

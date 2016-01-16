@@ -231,10 +231,10 @@ w.TK.Circular = w.Circular = $class({
      * @option hand; Object; {width: 2, length: 30, margin: 10}; Dimensions of the hand
      * @option start; Number; 135; The starting point in degrees
      * @option basis; Number; 270; The maximum degree of the rotation if value = max
-     * @option base; Number|Bool; false; If a base value is set in degrees, circular starts drawing elements from this position
-     * @option show_base; Bool; true; Draw the base ring
-     * @option show_value; Bool; true; Draw the value ring
-     * @option show_hand; Bool; true; Draw the hand
+     * @option base; Number|boolean; false; If a base value is set in degrees, circular starts drawing elements from this position
+     * @option show_base; boolean; true; Draw the base ring
+     * @option show_value; boolean; true; Draw the value ring
+     * @option show_hand; boolean; true; Draw the hand
      * @option x; Number; 0; Re-position the circular horizontally
      * @option y; Number; 0; Re-position the circular vertically
      * @option dot; Object; {width: 2, length: 2, margin: 5}; Set dimensions of dots

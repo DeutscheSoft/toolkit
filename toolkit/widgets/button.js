@@ -25,8 +25,8 @@ w.TK.Button = w.Button = $class({
      * 
      * @option label;       String; "";    Text for the buttons label
      * @option icon;        String; "";    URL to an icon for the button
-     * @option state;       Bool;   false; State of the button
-     * @option state_color; Bool;   false; Background color of the state indication
+     * @option state;       boolean;   false; State of the button
+     * @option state_color; boolean;   false; Background color of the state indication
      * @option layout;      Int;    _TOOLKIT_VERTICAL; Determine the arrangement of label and icon.
      * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
      * 

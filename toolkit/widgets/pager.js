@@ -26,7 +26,7 @@ w.TK.Pager = w.Pager = $class({
      * @option position;  Int;   _TOOLKIT_TOP;   The position of the ButtonArray
      * @option pages;     Array; [];             An array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
      * @option show;      Int;   -1;             The page to show
-     * @option overlap;   Bool;  false;          If true pages aren't resized so the #ButtonArray overlaps the contents
+     * @option overlap;   boolean;  false;          If true pages aren't resized so the #ButtonArray overlaps the contents
      *
      * @extends Container
      * 

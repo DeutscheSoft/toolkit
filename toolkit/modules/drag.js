@@ -78,8 +78,8 @@ w.TK.Drag = w.Drag = $class({
      * Drag enables dragging of absolutely positioned
      * elements on the screen.
      * @option node; DOMNode; undefined; The element to drag
-     * @option handle; DOMNode|Bool; undefined; A DOM node to be used as a handle. If not set the element is used.
-     * @option active; Bool; true; Enable or disable dragging
+     * @option handle; DOMNode|boolean; undefined; A DOM node to be used as a handle. If not set the element is used.
+     * @option active; boolean; true; Enable or disable dragging
      * @option min; Object; {x: -1, y: -1}; Object containing x and y determining the minimum position. A value of false means no minimum.
      * @option max; Object; {x: -1, y: -1}; Object containing x and y determining the maximum position. A value of false means no maximum.
      * @option initial; Number; 0; Amount of pixels the user has to move until dragging starts

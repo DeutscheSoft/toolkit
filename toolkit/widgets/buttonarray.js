@@ -93,7 +93,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      *                              on init. If get is called, the
      *                              converted list of button instances is
      *                              returned.
-     * @option auto_arrows; Bool; true; If arrow buttons are added automatically
+     * @option auto_arrows; boolean; true; If arrow buttons are added automatically
      * @option direction; Int; _TOOLKIT_HORIZONTAL; The direction of the button list, one out of
      *                          _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL
      * @option show; Int|Button; -1; The button to scroll to, either an ID or a button instance

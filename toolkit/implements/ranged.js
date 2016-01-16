@@ -379,7 +379,7 @@ w.TK.Ranged = w.Ranged = $class({
      * coefficient between 0 and 1. If the third argument "coef" is true, it is
      * supposed to return a value depending on a coefficient handed over as the
      * first argument.
-     * @option reverse; Bool; false; Reverse the scale of the range
+     * @option reverse; boolean; false; Reverse the scale of the range
      * @option basis; Number; 0; Dimensions of the range. set to width/height
      * in pixels if you need it for drawing purposes, to 100 if you need
      * percentual values or to 1 if you just need a linear equivalent
@@ -396,7 +396,7 @@ w.TK.Ranged = w.Ranged = $class({
      * Using a step size of e.g. 1.125 reduces the maximum usable value
      * from 9,007,199,254,740,992 to 9,007,199,254,740.992 (note the
      * decimal point). Alternatively set this to an array containing possible values
-     * @option round; Bool; true; If snap is set decide how to jump
+     * @option round; boolean; true; If snap is set decide how to jump
      * between snaps. Setting this to true slips to the next snap if the
      * value is more than on its half way to it. Otherwise the value has
      * to reach the next snap first until it is fixed there again.
