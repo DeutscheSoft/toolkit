@@ -29,8 +29,8 @@ function _get_coords_single(deg, inner, pos) {
 }
 var format_translate = TK.FORMAT("translate(%f, %f)");
 w.TK.Gauge = w.Gauge = $class({
-    /** @class: Gauge
-     * @description: Gauge simply puts a single Circular into a SVG image.
+    /** @class Gauge
+     * @description Gauge simply puts a single Circular into a SVG image.
      */
     _class: "Gauge",
     Extends: Widget,

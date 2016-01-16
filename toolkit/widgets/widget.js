@@ -50,8 +50,8 @@ function redraw() {
     this.redraw();
 }
 w.TK.Widget = w.Widget = $class({
-    /** @class: Widget
-     * @description: Widget is the base class for all widgets drawing DOM elements. It
+    /** @class Widget
+     * @description Widget is the base class for all widgets drawing DOM elements. It
      * provides basic functionality like delegating events, setting options and
      * firing some events.Widget implements AudioMath, Options and Events.
      */
@@ -223,13 +223,13 @@ w.TK.Widget = w.Widget = $class({
     set_style: function (name, value) {
         TK.set_style(this.__stylized, name, value);
     },
-    /** @method: set_style(property, value)
+    /** @method set_style(property, value)
      * Sets a CSS style property in this widgets DOM element.
      */
     set_styles: function (styles) {
         TK.set_styles(this.__stylized, styles);
     },
-    /** @method: get_style(property)
+    /** @method get_style(property)
      * Returns the computed style of this widgets DOM element.
      */
     get_style: function (name) {
@@ -245,7 +245,7 @@ w.TK.Widget = w.Widget = $class({
         return element;
     },
     widgetize: function (element, delegate, classify, stylize) {
-        /** @method: widgetize(element, delegate, classify, stylize)
+        /** @method widgetize(element, delegate, classify, stylize)
          * Set the DOM elements of this widgets. This method is usually only used internally.
          * Basically it means to add the id from options and set a basic CSS class.
          * If delegate is true, basic events will be delegated from the element to the widget instance
@@ -272,7 +272,7 @@ w.TK.Widget = w.Widget = $class({
     },
     
     // GETTER & SETTER
-    /** @method: set(key, value)
+    /** @method set(key, value)
      * Set an option.
      */
     set: function (key, value) {
@@ -301,7 +301,7 @@ w.TK.Widget = w.Widget = $class({
             this.fire_event("set_" + key, value);
         return value;
     },
-    /** @method: get(key)
+    /** @method get(key)
      * Get the value of an option.
      */
     get: function (key) {
@@ -334,14 +334,14 @@ w.TK.Widget = w.Widget = $class({
         var C = this.children;
         for (var i = 0; i < C.length; i++) C[i].disable_draw();
     },
-    /** @method: show()
+    /** @method show()
      * Make the widget visible. This does not modify the DOM, instead it will only schedule
      * the widget for rendering.
      */
     show: function () {
         this.enable_draw();
     },
-    /** @method: hide()
+    /** @method hide()
      * Make the widget hidden. This does not modify the DOM, instead it will stop rendering
      * this widget. Options changed after calling hide() will only be rendered (i.e. applied
      * to the DOM) when the widget is made visible again using show().
@@ -349,7 +349,7 @@ w.TK.Widget = w.Widget = $class({
     hide: function () {
         this.disable_draw();
     },
-    /** @method: hidden()
+    /** @method hidden()
      * Returns the current hidden status of the widget.
      */
     hidden: function() {
@@ -358,7 +358,7 @@ w.TK.Widget = w.Widget = $class({
     is_drawn: function() {
         return this._drawn;
     },
-    /** @method: toggle_hidden()
+    /** @method toggle_hidden()
      * Toggle the hidden status. This is equivalent to calling hide() or show(), depending on
      * the current hidden status of this widget.
      */
@@ -366,7 +366,7 @@ w.TK.Widget = w.Widget = $class({
         if (this.hidden()) this.show();
         else this.hide();
     },
-    /** @method: add_child(child)
+    /** @method add_child(child)
      * Registers a widget as a child widget. This method is used to build up the widget tree.
      */
     add_child: function(child) {
@@ -380,7 +380,7 @@ w.TK.Widget = w.Widget = $class({
             child.disable_draw();
         }
     },
-    /** @method: remove_child(child)
+    /** @method remove_child(child)
      * Removes a child widget.
      */
     remove_child : function(child) {
@@ -391,20 +391,20 @@ w.TK.Widget = w.Widget = $class({
             C.splice(i, 1);
         }
     },
-    /** @method: remove_children(a)
+    /** @method remove_children(a)
      * Removes an array of children.
      */
     remove_children : function(a) {
         a.map(this.remove_child, this);
     },
-    /** @method: add_children(a)
+    /** @method add_children(a)
      * Registers an array of widgets as children.
      */
     add_children : function (a) {
         a.map(this.add_child, this);
     },
 
-    /** @method: visible_children()
+    /** @method visible_children()
      * Returns an array of all visible children.
      */
     visible_children: function(a) {
@@ -417,7 +417,7 @@ w.TK.Widget = w.Widget = $class({
         return a;
     },
 
-    /** @method: all_children()
+    /** @method all_children()
      * Returns an array of all children.
      */
     all_children: function(a) {

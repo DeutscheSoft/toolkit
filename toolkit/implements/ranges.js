@@ -21,21 +21,21 @@
 "use strict";
 (function(w){ 
 w.TK.Ranges = w.Ranges = $class({
-    /** @class: Ranges
-     * @description: Ranges provides multiple #Range for a widget. They
+    /** @class Ranges
+     * @description Ranges provides multiple #Range for a widget. They
      * might be used for e.g. building coordinate systems and the like. */
     _class: "Ranges",
     add_range: function (from, name) {
-        /** @method: add_range(from, name)
-         * @parameter: from; Function|Object; undefined; A function returning a #Range instance or an object containing options for a new #Range.
-         * @parameter: name; String; undefined; Designator of the new #Range.
+        /** @method add_range(from, name)
+         * @parameter from; Function|Object; undefined; A function returning a #Range instance or an object containing options for a new #Range.
+         * @parameter name; String; undefined; Designator of the new #Range.
          * If a name is set a new set function is added to the item to
          * set the options of the range. Use the set function like this:
          * this.set("name", {key: value});
-         * @description: Add a new range. If name is set and this.options[name]
+         * @description Add a new range. If name is set and this.options[name]
          * exists, is an object and from is an object, too, both are merged
          * before a range is created.
-         * @returns: Range; The newly created #Range */
+         * @returns Range; The newly created #Range */
         var r;
         if (typeof from == "function") {
             r = from();
@@ -56,7 +56,7 @@ w.TK.Ranges = w.Ranges = $class({
                 }
             }.bind(this));
         }
-        /** @event: rangeadded; Range; Gets fired when a new range is added */
+        /** @event rangeadded; Range; Gets fired when a new range is added */
         this.fire_event("rangeadded", r);
         return r;
     }

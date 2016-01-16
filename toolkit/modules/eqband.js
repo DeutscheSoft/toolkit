@@ -21,13 +21,13 @@
 "use strict";
 (function(w){
 w.TK.EqBand = w.EqBand = $class({
-    /** @class: EqBand
+    /** @class EqBand
      * An EqBand extends a #ResponseHandle and holds a
      * dependent #Filter. It is used as a fully functional representation
      * of a single equalizer band in #Equalizer. EqBand needs a #Chart 
      * or any other derivate to be drawn in.
-     * @option: type; Int; _TOOLKIT_PARAMETRIC; The type of the filter, _TOOLKIT_PARAMETRIC|_TOOLKIT_PEAK|_TOOLKIT_NOTCH|_TOOLKIT_LOWSHELF|_TOOLKIT_HIGHSHELF|_TOOLKIT_LOWPASS_[n]|_TOOLKIT_HIGHPASS_[n]
-     * @extends: ResponseHandle
+     * @option type; Int; _TOOLKIT_PARAMETRIC; The type of the filter, _TOOLKIT_PARAMETRIC|_TOOLKIT_PEAK|_TOOLKIT_NOTCH|_TOOLKIT_LOWSHELF|_TOOLKIT_HIGHSHELF|_TOOLKIT_LOWPASS_[n]|_TOOLKIT_HIGHPASS_[n]
+     * @extends ResponseHandle
      */
     _class: "EqBand",
     Extends: ResponseHandle,
@@ -95,10 +95,10 @@ w.TK.EqBand = w.EqBand = $class({
     },
 
     freq2gain: function (freq) {
-        /** @method: freq2gain(freq)
+        /** @method freq2gain(freq)
          * Calculate the gain for a given frequency in Hertz
-         * @parameter: freq; Number; undefined; The frequency to calculate the amplification for
-         * @returns: Number; the gain at the given frequency
+         * @parameter freq; Number; undefined; The frequency to calculate the amplification for
+         * @returns Number; the gain at the given frequency
          */
         return this.filter.freq2gain(freq);
     },

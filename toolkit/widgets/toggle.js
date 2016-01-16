@@ -56,7 +56,7 @@ function clear_to() {
 }
     
 w.TK.Toggle = w.Toggle = $class({
-    /** @class: Toggle
+    /** @class Toggle
      */
     _class: "Toggle",
     Extends: Button,

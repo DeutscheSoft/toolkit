@@ -139,20 +139,20 @@ function draw_lines(a, mode, last) {
     }.bind(this), 1);
 }
 w.TK.Grid = w.Grid = $class({
-    /** @class: Grid
+    /** @class Grid
      * Grid creates a couple of lines and labels in a SVG
      * image on the x and y axis. It is used in e.g. #Graph and
      * #FrequencyResponse to draw markers and values. Grid needs a
      * parent SVG image do draw into. The base element of a Grid is a
      * SVG group containing all the labels and lines.
-     * @option: grid_x; Array; []; Array for vertical grid lines containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
-     * @option: grid_y; Array; []; Array for horizontal grid lines containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
-     * @option: range_x; Function|Object; {}; A function returning a #Range instance for vertical grid lines or an object containing options for a new #Range
-     * @option: range_y; Function|Object; {}; A function returning a #Range instance for horizontal grid lines or an object containing options for a new #Range
-     * @option: width; Number; 0; The width of the grid
-     * @option: height; Number; 0; The height of the grid
-     * @extends: Widget
-     * @implements: Ranges
+     * @option grid_x; Array; []; Array for vertical grid lines containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
+     * @option grid_y; Array; []; Array for horizontal grid lines containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
+     * @option range_x; Function|Object; {}; A function returning a #Range instance for vertical grid lines or an object containing options for a new #Range
+     * @option range_y; Function|Object; {}; A function returning a #Range instance for horizontal grid lines or an object containing options for a new #Range
+     * @option width; Number; 0; The width of the grid
+     * @option height; Number; 0; The height of the grid
+     * @extends Widget
+     * @implements Ranges
      */
     _class: "Grid",
     Extends: Widget,

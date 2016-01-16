@@ -370,8 +370,8 @@ function set_cb(key, value) {
     }
 }
 w.TK.Ranged = w.Ranged = $class({
-    /** @class: Ranged
-     * @option: scale; Int|Function; _TOOLKIT_LINEAR; The type of the scale. Either an integer
+    /** @class Ranged
+     * @option scale; Int|Function; _TOOLKIT_LINEAR; The type of the scale. Either an integer
      * (_TOOLKIT_LINEAR, _TOOLKIT_DECIBEL|_TOOLKIT_LOG2, _TOOLKIT_FREQUENCY|_TOOLKIT_LOG10)
      * or a function like function (value, options, coef) {}.
      * If a function instead of an integer is handed over, it receives the
@@ -379,30 +379,30 @@ w.TK.Ranged = w.Ranged = $class({
      * coefficient between 0 and 1. If the third argument "coef" is true, it is
      * supposed to return a value depending on a coefficient handed over as the
      * first argument.
-     * @option: reverse; Bool; false; Reverse the scale of the range
-     * @option: basis; Number; 0; Dimensions of the range. set to width/height
+     * @option reverse; Bool; false; Reverse the scale of the range
+     * @option basis; Number; 0; Dimensions of the range. set to width/height
      * in pixels if you need it for drawing purposes, to 100 if you need
      * percentual values or to 1 if you just need a linear equivalent
      * for a e.g. logarithmic scale.
-     * @option: min; Number; 0; Minimum value of the range
-     * @option: max; Number; 0; Maximum value of the range
-     * @option: step; Number; 0; Step size, needed for user interaction
-     * @option: shift_up; Number; 0; Multiplier if SHIFT is hold while stepping
-     * @option: shift_down; Number; 0; Multiplier if SHIFT + CONTROL is hold while stepping
-     * @option: snap; Number|Array; 0; Snap the value to a virtual grid with this distance.
+     * @option min; Number; 0; Minimum value of the range
+     * @option max; Number; 0; Maximum value of the range
+     * @option step; Number; 0; Step size, needed for user interaction
+     * @option shift_up; Number; 0; Multiplier if SHIFT is hold while stepping
+     * @option shift_down; Number; 0; Multiplier if SHIFT + CONTROL is hold while stepping
+     * @option snap; Number|Array; 0; Snap the value to a virtual grid with this distance.
      * Using snap option with float values causes the range to reduce its
      * minimum and maximum values depending on the amount of decimal digits
      * because of the implementation of math in JavaScript.
      * Using a step size of e.g. 1.125 reduces the maximum usable value
      * from 9,007,199,254,740,992 to 9,007,199,254,740.992 (note the
      * decimal point). Alternatively set this to an array containing possible values
-     * @option: round; Bool; true; If snap is set decide how to jump
+     * @option round; Bool; true; If snap is set decide how to jump
      * between snaps. Setting this to true slips to the next snap if the
      * value is more than on its half way to it. Otherwise the value has
      * to reach the next snap first until it is fixed there again.
-     * @option: log_factor; Number; 1; Used to range logarithmic curves.
+     * @option log_factor; Number; 1; Used to range logarithmic curves.
      * The factor is used to stretch the used range of the logarithmic curve
-     * @description: Ranged provides functions for calculating linear scales
+     * @description Ranged provides functions for calculating linear scales
      * from different values. It is useful for building coordinate systems,
      * calculating pixel positions for different scale types and the like.
      * Ranged is used e.g. in #Scale, #MeterBase and #Graph to draw elements

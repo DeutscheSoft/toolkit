@@ -347,7 +347,7 @@ function build_from_const(element) {
 }
     
 w.TK.Window = w.Window = $class({
-    /** @class: Window
+    /** @class Window
      */
     _class: "Window",
     Extends: Container,

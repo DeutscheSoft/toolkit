@@ -87,7 +87,7 @@ function SET(v) {
     this.fire_event("useraction", "value", v);
 }
 w.TK.Fader = w.Fader = $class({
-    /** @class: Fader
+    /** @class Fader
      */
     _class: "Fader",
     Extends: Widget,

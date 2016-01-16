@@ -21,18 +21,18 @@
 "use strict";
 (function(w){ 
 w.TK.Button = w.Button = $class({
-    /** @class:  Button
+    /** @class  Button
      * 
-     * @option: label;       String; "";    Text for the buttons label
-     * @option: icon;        String; "";    URL to an icon for the button
-     * @option: state;       Bool;   false; State of the button
-     * @option: state_color; Bool;   false; Background color of the state indication
-     * @option: layout;      Int;    _TOOLKIT_VERTICAL; Determine the arrangement of label and icon.
+     * @option label;       String; "";    Text for the buttons label
+     * @option icon;        String; "";    URL to an icon for the button
+     * @option state;       Bool;   false; State of the button
+     * @option state_color; Bool;   false; Background color of the state indication
+     * @option layout;      Int;    _TOOLKIT_VERTICAL; Determine the arrangement of label and icon.
      * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
      * 
-     * @extends: Widget
+     * @extends Widget
      * 
-     * @description:
+     * @description
      * Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.
      * Buttons are used as a base to build different other widgets from, too. */
@@ -55,16 +55,16 @@ w.TK.Button = w.Button = $class({
     initialize: function (options) {
         var E;
         Widget.prototype.initialize.call(this, options);
-        /** @element: element [d][c][s]; div.toolkit-button; The main button element */
+        /** @element element [d][c][s]; div.toolkit-button; The main button element */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
         this.widgetize(E, true, true, true);
         
-        /** @element: _cell; div.toolkit-cell; An internal container for label and icon */
+        /** @element _cell; div.toolkit-cell; An internal container for label and icon */
         this._cell  = TK.element("div","toolkit-cell");
-        /** @element: _icon; img.toolkit-icon; The icon of the button */
+        /** @element _icon; img.toolkit-icon; The icon of the button */
         this._icon  = TK.element("img","toolkit-icon");
-        /** @element: _label; div.toolkit-label; The label of the button */
+        /** @element _label; div.toolkit-label; The label of the button */
         this._label = TK.element("div","toolkit-label");
         
         this._cell.appendChild(this._icon);

@@ -21,33 +21,33 @@
 "use strict";
 (function(w) { 
 w.TK.Graph = w.Graph = $class({
-    /** @class: Graph
+    /** @class Graph
      * Graph is a single SVG path element. It provides
      * some functions to easily draw paths inside Charts and other
      * derivates.
-     * @option: dots; Array|String; []; The dots of the path. Can be a ready-to-use SVG-path-string or an array of objects like {x: x, y: y [, x1, y1, x2, y2]} (depending on the type)
-     * @option: type; String; "L"; Type of the graph (needed values in dots object):
+     * @option dots; Array|String; []; The dots of the path. Can be a ready-to-use SVG-path-string or an array of objects like {x: x, y: y [, x1, y1, x2, y2]} (depending on the type)
+     * @option type; String; "L"; Type of the graph (needed values in dots object):
      * L = normal (needs x,y) |
      * T = smooth quadratic Bézier (needs x, y) |
      * H[n] = smooth horizontal, [n] = smoothing factor between 1 (square) and 5 (nearly no smooth) |
      * Q = quadratic Bézier (needs: x1, y1, x, y) |
      * C = CurveTo (needs: x1, y1, x2, y2, x, y) |
      * S = SmoothCurve (needs: x1, y1, x, y)
-     * @option: mode; Int; _TOOLKIT_LINE; Drawing mode of the graph,
+     * @option mode; Int; _TOOLKIT_LINE; Drawing mode of the graph,
      * _TOOLKIT_LINE: line |
      * _TOOLKIT_BOTTOM: fill below the line |
      * _TOOLKIT_TOP: fill above the line |
      * _TOOLKIT_CENTER: fill from the vertical center of the canvas |
      * _TOOLKIT_VARIABLE: fill from a percentual position on the canvas (set with base)
-     * @option: base; Number; 0; If mode is _TOOLKIT_VARIABLE set the position of the base line to fill from between 0 (bottom) and 1 (top)
-     * @option: color; String; ""; Set the color of the path
-     * @option: range_x; Function|Object; {}; Callback function returning a #Range module for x axis or an object with options for a new #Range
-     * @option: range_y; Function|Object; {}; Callback function returning a #Range module for y axis or an object with options for a new #Range
-     * @option: width; Number; 0; The width of the graph
-     * @option: height; Number; 0; The height of the graph
-     * @option: key; String|Bool; false; Show a description for this graph in the charts key, false to turn it off
-     * @extends: Widget
-     * @implements: Ranges
+     * @option base; Number; 0; If mode is _TOOLKIT_VARIABLE set the position of the base line to fill from between 0 (bottom) and 1 (top)
+     * @option color; String; ""; Set the color of the path
+     * @option range_x; Function|Object; {}; Callback function returning a #Range module for x axis or an object with options for a new #Range
+     * @option range_y; Function|Object; {}; Callback function returning a #Range module for y axis or an object with options for a new #Range
+     * @option width; Number; 0; The width of the graph
+     * @option height; Number; 0; The height of the graph
+     * @option key; String|Bool; false; Show a description for this graph in the charts key, false to turn it off
+     * @extends Widget
+     * @implements Ranges
      */
     _class: "Graph",
     Extends: Widget,

@@ -21,16 +21,16 @@
 "use strict";
 (function(w){
 w.TK.Pager = w.Pager = $class({
-    /** @class:  Pager
+    /** @class  Pager
      * 
-     * @option: position;  Int;   _TOOLKIT_TOP;   The position of the ButtonArray
-     * @option: pages;     Array; [];             An array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
-     * @option: show;      Int;   -1;             The page to show
-     * @option: overlap;   Bool;  false;          If true pages aren't resized so the #ButtonArray overlaps the contents
+     * @option position;  Int;   _TOOLKIT_TOP;   The position of the ButtonArray
+     * @option pages;     Array; [];             An array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
+     * @option show;      Int;   -1;             The page to show
+     * @option overlap;   Bool;  false;          If true pages aren't resized so the #ButtonArray overlaps the contents
      *
-     * @extends: Container
+     * @extends Container
      * 
-     * @description:
+     * @description
      * Pager, also known as Notebook in other UI toolkits, provides
      * multiple containers for displaying contents which are switchable
      * via a #ButtonArray. */
@@ -54,12 +54,12 @@ w.TK.Pager = w.Pager = $class({
     initialize: function (options) {
         this.pages = [];
         Container.prototype.initialize.call(this, options);
-        /** @element: element [d][c][s];     div.toolkit-container.toolkit-pager;             The main pager element */
-        /** @element: _buttonarray_wrapper; div.toolkit-wrapper.toolkit-buttonarray-wrapper; An internal container for layout purposes containing the #ButtonArray. */
-        /** @element: _container_wrapper;   div.toolkit-wrapper.toolkit-container-wrapper;   An internal container for layout purposes containing the _clip element. */
-        /** @element: _clip;                div.toolkit-clip;                                The clipping area containing the pages containers */
+        /** @element element [d][c][s];     div.toolkit-container.toolkit-pager;             The main pager element */
+        /** @element _buttonarray_wrapper; div.toolkit-wrapper.toolkit-buttonarray-wrapper; An internal container for layout purposes containing the #ButtonArray. */
+        /** @element _container_wrapper;   div.toolkit-wrapper.toolkit-container-wrapper;   An internal container for layout purposes containing the _clip element. */
+        /** @element _clip;                div.toolkit-clip;                                The clipping area containing the pages containers */
         TK.add_class(this.element, "toolkit-pager");
-        /** @module: buttonarray; The #ButtonArray instance acting as the menu */
+        /** @module buttonarray; The #ButtonArray instance acting as the menu */
         this.buttonarray = new ButtonArray({
             container: this.element,
             onchanged: function(button, n) {
@@ -180,20 +180,20 @@ w.TK.Pager = w.Pager = $class({
     },
     
     add_pages: function (options) {
-        /** @method: add_pages
-         * @parameter: options; Array[{label:String, content:Container|String}[, ...]]; undefined; An Array containing objects with options for the page and its button. Members are: label - a string for the #Button, content: a string or a #Container instance.
-         * @description: Adds an array of pages. */
+        /** @method add_pages
+         * @parameter options; Array[{label:String, content:Container|String}[, ...]]; undefined; An Array containing objects with options for the page and its button. Members are: label - a string for the #Button, content: a string or a #Container instance.
+         * @description Adds an array of pages. */
         for (var i = 0; i < options.length; i++)
             this.add_page(options[i].label, options[i].content);
     },
     
     add_page: function (button, content, position, options) {
-        /** @method: add_page(button, content, pos, options)
-         * @parameter: button;  String|Object;       undefined; A string with the #Button s label or an object cotaining options for the #Button
-         * @parameter: content; Widget|Class|String; undefined; The content of the page. Either a #Container (or derivate)  widget, a class (needs option "options" to be set) or a string which get embedded in a new #Container
-         * @parameter: options; Object;              undefined; An object containing options for the #Container to add as a page
-         * @parameter: position;     Int|Undefined;       undefined; The position to add the new page to. If avoided the page is added to the end of the list
-         * @description: Adds a #Container to the Pager and a #Button to the pagers #ButtonArray */
+        /** @method add_page(button, content, pos, options)
+         * @parameter button;  String|Object;       undefined; A string with the #Button s label or an object cotaining options for the #Button
+         * @parameter content; Widget|Class|String; undefined; The content of the page. Either a #Container (or derivate)  widget, a class (needs option "options" to be set) or a string which get embedded in a new #Container
+         * @parameter options; Object;              undefined; An object containing options for the #Container to add as a page
+         * @parameter position;     Int|Undefined;       undefined; The position to add the new page to. If avoided the page is added to the end of the list
+         * @description Adds a #Container to the Pager and a #Button to the pagers #ButtonArray */
         var p;
         if (typeof button === "string")
             button = {label: button};
@@ -223,7 +223,7 @@ w.TK.Pager = w.Pager = $class({
             this.pages.push(p);
             this._clip.appendChild(p.element);
         }
-        /** @event: added; Page, Widget; A page was added to the Pager */
+        /** @event added; Page, Widget; A page was added to the Pager */
         this.fire_event("added", p);
 
         this.add_child(p);
@@ -245,9 +245,9 @@ w.TK.Pager = w.Pager = $class({
     },
 
     remove_page: function (page) {
-        /** @method: remove_page
-         * @parameter: page; Int|Container; undefined; The container to remove. Either a position or the #Container widget generated by add_page
-         * @description: Removes a page from the Pager. */
+        /** @method remove_page
+         * @parameter page; Int|Container; undefined; The container to remove. Either a position or the #Container widget generated by add_page
+         * @description Removes a page from the Pager. */
         if (typeof page == "object")
             page = this.pages.indexOf(page);
         if (page < 0 || page >= this.pages.length)
@@ -263,7 +263,7 @@ w.TK.Pager = w.Pager = $class({
         this.remove_child(p);
         this.invalid.layout = true;
         this.trigger_draw();
-        /** @event: removed; Page, Widget; A page was removed from the Pager */
+        /** @event removed; Page, Widget; A page was removed from the Pager */
         this.fire_event("removed", p);
     },
     
@@ -275,8 +275,8 @@ w.TK.Pager = w.Pager = $class({
     },
 
     current: function() {
-        /** @method: current
-         * @description: Returns the index of the actual displayed page or null if none is shown */
+        /** @method current
+         * @description Returns the index of the actual displayed page or null if none is shown */
         var n = this.options.show;
         if (n >= 0 && n < this.pages.length) {
             return this.pages[n];
