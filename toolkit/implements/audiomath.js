@@ -19,15 +19,16 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
+/**
+ * AudioMath provides a couple of functions for turning
+ * linear values into logarithmic ones and vice versa. If you need
+ * an easy convertion between dB or Hz and a linear scale implement
+ * this class.
+ *
+ * @mixin
+ */
+TK.AudioMath = (function(stdlib, foreign, heap) {
     "use asm";
-    /** @class AudioMath
-     *
-     * @description AudioMath provides a couple of functions for turning
-     * linear values into logarithmic ones and vice versa. If you need
-     * an easy convertion between dB or Hz and a linear scale implement
-     * this class.
-     */
     var exp = stdlib.Math.exp;
     var log = stdlib.Math.log;
     var pow = stdlib.Math.pow;
@@ -36,7 +37,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
     var LN10 = stdlib.Math.LN10;
 
     function log2(value) {
-        /** @method log2
+        /** @function TK.AudioMath.log2
          *
          * @param {number} value - The value for the log
          * @returns {number} The logarithm with base 2 of the value
@@ -49,7 +50,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
     }
 
     function log10(value) {
-        /** @method log10
+        /** @function TK.AudioMath.log10
          *
          * @param {number} value - The value for the log
          * @returns {number} The logarithm with base 10 of the value
@@ -62,7 +63,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
     }
 
     function db2coef(value, min, max, reverse, factor) {
-        /** @method db2coef
+        /** @function TK.AudioMath.db2coef
          *
          * @param {number} value - The value in decibels
          * @param {number} min - The minimum value in decibels
@@ -88,7 +89,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
     }
 
     function coef2db(coef, min, max, reverse, factor) {
-        /** @method coef2db
+        /** @function TK.AudioMath.coef2db
          *
          * @param {number} coef - A value between 0.0 and 1.0
          * @param {number} min - The minimum value in decibels
@@ -113,7 +114,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         return coef;
     }
     function db2scale(value, min, max, scale, reverse, factor) {
-        /** @method db2scale
+        /** @function TK.AudioMath.db2scale
          *
          * @param {number} value - The value in decibels
          * @param {number} min - The minimum value in decibels
@@ -139,7 +140,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         return value * scale;
     }
     function scale2db(value, min, max, scale, reverse, factor) {
-        /** @method scale2db
+        /** @function TK.AudioMath.scale2db
          *
          * @param {number} value - A value between 0.0 and scale
          * @param {number} min - The minimum value in decibels
@@ -166,7 +167,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         return value;
     }
     function freq2coef(value, min, max, reverse/*, prescaled, factor*/) {
-        /** @method freq2coef
+        /** @function TK.AudioMath.freq2coef
          *
          * @param {number} value - The value in hertz
          * @param {number} min - The minimum value in hertz
@@ -189,7 +190,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         return value;
     }
     function coef2freq(coef, min, max, reverse) {
-        /** @method coef2freq
+        /** @function TK.AudioMath.coef2freq
          *
          * @param {number} coef - A value between 0.0 and 1.0
          * @param {number} min - The minimum value in hertz
@@ -212,7 +213,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         return coef;
     }
     function freq2scale(value, min, max, scale, reverse) {
-        /** @method freq2scale
+        /** @function TK.AudioMath.freq2scale
          * @param {number} value - The value in hertz
          * @param {number} min - The minimum value in hertz
          * @param {number} max - The maximum value in hertz
@@ -234,7 +235,7 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         return value * scale;
     }
     function scale2freq(value, min, max, scale, reverse) {
-        /** @method scale2freq
+        /** @function TK.AudioMath.scale2freq
          * @param {number} value - A value between 0.0 and scale
          * @param {number} min - The minimum value in hertz
          * @param {number} max - The maximum value in hertz
@@ -271,3 +272,4 @@ this.TK.AudioMath = this.AudioMath = (function(stdlib, foreign, heap) {
         scale2freq: scale2freq
     }
 })(this);
+if (!window.AudioMath) window.AudioMath = TK.AudioMath;
