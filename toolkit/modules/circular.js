@@ -219,32 +219,35 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     this.fire_event("slicedrawn");
 }
 w.TK.Circular = w.Circular = $class({
-    /** @class Circular
+    /**
      * Circular is a SVG group element containing two paths for displaying
      * numerical values in a circular manner. Circular is able to draw labels,
      * dots and markers and can show a hand. Circular e.g. is implemented by
      * #Clock to draw the hours, minutes and seconds.
-     * @option value; number; 0; The value to show
-     * @option size; number; 100; The diameter of the circle
-     * @option thickness; number; 3; The thickness of the circle
-     * @option margin; number; 0; The margin between base and value circles
-     * @option hand; Object; {width: 2, length: 30, margin: 10}; Dimensions of the hand
-     * @option start; number; 135; The starting point in degrees
-     * @option basis; number; 270; The maximum degree of the rotation if value = max
-     * @option base; number|boolean; false; If a base value is set in degrees, circular starts drawing elements from this position
-     * @option show_base; boolean; true; Draw the base ring
-     * @option show_value; boolean; true; Draw the value ring
-     * @option show_hand; boolean; true; Draw the hand
-     * @option x; number; 0; Re-position the circular horizontally
-     * @option y; number; 0; Re-position the circular vertically
-     * @option dot; Object; {width: 2, length: 2, margin: 5}; Set dimensions of dots
-     * @option dots; Array; []; An array containing members like {pos: (number)[, color: "colorstring"] [, class: "classname"][, width: (number)] [, length: (number)][, margin: (number)]}
-     * @option marker; Object; {thickness: 3, margin: 0}; Set markers default dimensions
-     * @option markers; Array; []; An array containing objects like {from: (number), to: (number)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, thickness: (number)]}
-     * @option label; Object; {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}}; Labels ring position with following optional members: margin - (number) distance from size, align - _TOOLKIT_INNER or _TOOLKI_OUTER, format function receiving the value and returning a string
-     * @option labels; Array; []; An array containing objects like {pos: (number), label: (string)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, margin: (number)]}
-     * @extends Widget
-     * @implements Warning, Ranged
+     * @class TK.Circular
+     * @param {Object} options
+     * @property {number} [option.value=0] - The value to show
+     * @property {number} [option.size=100] - The diameter of the circle
+     * @property {number} [option.thickness=3] - The thickness of the circle
+     * @property {number} [option.margin=0] - The margin between base and value circles
+     * @property {Object} [option.hand={width: 2, length: 30, margin: 10}] - Dimensions of the hand
+     * @property {number} [option.start=135] - The starting point in degrees
+     * @property {number} [option.basis=270] - The maximum degree of the rotation if value = max
+     * @property {number|boolean} [option.base=false] - If a base value is set in degrees, circular starts drawing elements from this position
+     * @property {boolean} [option.show_base=true] - Draw the base ring
+     * @property {boolean} [option.show_value=true] - Draw the value ring
+     * @property {boolean} [option.show_hand=true] - Draw the hand
+     * @property {number} [option.x=0] - Re-position the circular horizontally
+     * @property {number} [option.y=0] - Re-position the circular vertically
+     * @property {Object} [option.dot={width: 2, length: 2, margin: 5}] - Set dimensions of dots
+     * @property {Array} [option.dots=[]] - An array containing members like {pos: (number)[, color: "colorstring"] [, class: "classname"][, width: (number)] [, length: (number)][, margin: (number)]}
+     * @property {Object} [option.marker={thickness: 3, margin: 0}] - Set markers default dimensions
+     * @property {Array} [option.markers=[]] - An array containing objects like {from: (number), to: (number)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, thickness: (number)]}
+     * @property {Object} [option.label={margin: 8, align: _TOOLKIT_INNER, format: function(val){return val] - }}; Labels ring position with following optional members: margin - (number) distance from size, align - _TOOLKIT_INNER or _TOOLKI_OUTER, format function receiving the value and returning a string
+     * @property {Array} [option.labels=[]] - An array containing objects like {pos: (number), label: (string)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, margin: (number)]}
+     * @extends TK.Widget
+     * @mixes TK.Warning
+     * @mixes TK.Ranged
      */
     _class: "Circular",
     Extends: Widget,
