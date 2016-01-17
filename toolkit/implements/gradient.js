@@ -179,7 +179,7 @@ w.TK.Gradient = w.Gradient = $class({
         
         if (element) {
             element.style["background"] = bg;
-            /** @event backgroundchanged; DOMNode, string; Is fired when the gradient was created */
+            /** @event backgroundchanged; HTMLElement, string; Is fired when the gradient was created */
             this.fire_event("backgroundchanged", element, bg);
         }
         return bg;

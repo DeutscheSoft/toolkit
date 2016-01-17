@@ -41,7 +41,7 @@ function check_arrows(force) {
 }
 
 function prev_clicked(e) {
-    /** @event clicked; Button, ID, Widget; When a #Button or an arrow gets clicked */
+    /** @event clicked; Button, integer; When a #Button or an arrow gets clicked */
     this.set("show", this.options.show - 1);
 }
 
@@ -192,7 +192,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         b.add_event("click", function () {
             button_clicked.call(this, b);
         }.bind(this));
-        /** @event added; Button, Widget; A #Button was added to the ButtonArray */
+        /** @event added; Button; A #Button was added to the ButtonArray */
         this.fire_event("added", b);
 
         if (b === this.current())
@@ -208,7 +208,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
             return;
-        /** @event removed; Button, Widget; A #Button was removed from the ButtonArray */
+        /** @event removed; Button; A #Button was removed from the ButtonArray */
         this.fire_event("removed", this.buttons[button]);
         if (this.current() && button <= this.options.show) {
             this.options.show --;

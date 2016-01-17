@@ -31,7 +31,7 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
          * @param {string} cursor - The decriptor of the cursor to show (http://www.echoecho.com/csscursors.htm)
          * @description Adds a specific class to the body DOM node to show a specific cursor */
         TK.add_class(document.body, "toolkit-cursor-" + cursor);
-        /** @event globalcursor; Cursor, Widget; Is fired when a cursor gets set */
+        /** @event globalcursor; Cursor; Is fired when a cursor gets set */
         this.fire_event("globalcursor", cursor);
     },
     remove_cursor: function (cursor) {
@@ -39,7 +39,7 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
          * @param {string} cursor - The decriptor of the cursor to remove (http://www.echoecho.com/csscursors.htm)
          * @description Removes a specific class to the body DOM node to show a specific cursor */
         TK.remove_class(document.body, "toolkit-cursor-" + cursor);
-        /** @event cursorremoved; Cursor, Widget; Is fired when a cursor is removed */
+        /** @event cursorremoved; Cursor; Is fired when a cursor is removed */
         this.fire_event("cursorremoved", cursor);
     }
 });

@@ -30,14 +30,14 @@ function dragstart(e, drag) {
     this._xpos   = O.node.offsetLeft;
     this._ypos   = O.node.offsetTop;
     TK.add_class(O.node, "toolkit-dragging");
-    /** @event dragstart; DOMEvent, Widget; The user starts dragging this item */
+    /** @event dragstart; DOMEvent; The user starts dragging this item */
     this.fire_event("dragstart", e);
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
     if (typeof e.button != "undefined" && e.button > 0) return;
     TK.remove_class(this.options.node, "toolkit-dragging");
-    /** @event dragstop; DOMEvent, Widget; The user ends dragging this item */
+    /** @event dragstop; DOMEvent; The user ends dragging this item */
     this.fire_event("dragstop", e);
 }
 function dragging(e, drag) {
@@ -57,7 +57,7 @@ function dragging(e, drag) {
     if (O.max.y !== false) y = Math.min(O.max.y, y);
     O.node.style.top = y + "px";
     O.node.style.left = x + "px";
-    /** @event dragging; DOMEvent, Widget; The user is dragging this item */
+    /** @event dragging; DOMEvent; The user is dragging this item */
     this.fire_event("dragging", e, x, y);
 }
 function set_handle() {

@@ -223,7 +223,7 @@ w.TK.Pager = w.Pager = $class({
             this.pages.push(p);
             this._clip.appendChild(p.element);
         }
-        /** @event added; Page, Widget; A page was added to the Pager */
+        /** @event added; Page; A page was added to the Pager */
         this.fire_event("added", p);
 
         this.add_child(p);
@@ -263,7 +263,7 @@ w.TK.Pager = w.Pager = $class({
         this.remove_child(p);
         this.invalid.layout = true;
         this.trigger_draw();
-        /** @event removed; Page, Widget; A page was removed from the Pager */
+        /** @event removed; Page; A page was removed from the Pager */
         this.fire_event("removed", p);
     },
     
