@@ -19,6 +19,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
+
 (function(w){ 
 
 var invalid_prototype = {
@@ -49,8 +50,8 @@ function redraw() {
     this.needs_redraw = false;
     this.redraw();
 }
-w.TK.Widget = w.Widget = $class({
-    /** @class Widget
+TK.Widget = $class({
+    /** @class TK.Widget
      * @description Widget is the base class for all widgets drawing DOM elements. It
      * provides basic functionality like delegating events, setting options and
      * firing some events.Widget implements AudioMath, Options and Events.
@@ -223,14 +224,14 @@ w.TK.Widget = w.Widget = $class({
     set_style: function (name, value) {
         TK.set_style(this.__stylized, name, value);
     },
-    /** @method set_style(property, value)
+    /** @method TK.Widget#set_style
      *
      * @description Sets a CSS style property in this widgets DOM element.
      */
     set_styles: function (styles) {
         TK.set_styles(this.__stylized, styles);
     },
-    /** @method get_style(property)
+    /** @method TK.Widget#get_style
      *
      * @description Returns the computed style of this widgets DOM element.
      */
@@ -247,7 +248,7 @@ w.TK.Widget = w.Widget = $class({
         return element;
     },
     widgetize: function (element, delegate, classify, stylize) {
-        /** @method widgetize(element, delegate, classify, stylize)
+        /** @method TK.Widget#widgetize
          *
          * @description Set the DOM elements of this widgets. This method is usually only used internally.
          * Basically it means to add the id from options and set a basic CSS class.
@@ -275,7 +276,7 @@ w.TK.Widget = w.Widget = $class({
     },
     
     // GETTER & SETTER
-    /** @method set(key, value)
+    /** @method TK.Widget#set
      *
      * @param {string} key - The option name.
      * @param value - The option value.
@@ -307,7 +308,7 @@ w.TK.Widget = w.Widget = $class({
             this.fire_event("set_" + key, value);
         return value;
     },
-    /** @method get(key)
+    /** @method TK.Widget#get
      *
      * @param {string} key - The option name.
      * @description Get the value of an option.
@@ -315,7 +316,7 @@ w.TK.Widget = w.Widget = $class({
     get: function (key) {
         return this.options[key];
     },
-    /** @method enable_draw
+    /** @method TK.Widget#enable_draw
      *
      * @description Schedules this widget for drawing.
      */
@@ -329,7 +330,7 @@ w.TK.Widget = w.Widget = $class({
         var C = this.children;
         for (var i = 0; i < C.length; i++) C[i].enable_draw();
     },
-    /** @method enable_draw
+    /** @method TK.Widget#enable_draw
      *
      * @description Stop drawing this widget.
      */
@@ -344,7 +345,7 @@ w.TK.Widget = w.Widget = $class({
         var C = this.children;
         for (var i = 0; i < C.length; i++) C[i].disable_draw();
     },
-    /** @method show
+    /** @method TK.Widget#show
      *
      * @description Make the widget visible. This does not modify the DOM, instead it will only schedule
      * the widget for rendering.
@@ -352,16 +353,16 @@ w.TK.Widget = w.Widget = $class({
     show: function () {
         this.enable_draw();
     },
-    /** @method hide
+    /** @method TK.Widget#hide
      *
      * @description Make the widget hidden. This does not modify the DOM, instead it will stop rendering
-     * this widget. Options changed after calling hide() will only be rendered (i.e. applied
-     * to the DOM) when the widget is made visible again using show().
+     * this widget. Options changed after calling hide will only be rendered (i.e. applied
+     * to the DOM) when the widget is made visible again using {@link TK.Widget#show}.
      */
     hide: function () {
         this.disable_draw();
     },
-    /** @method hidden
+    /** @method TK.Widget#hidden
      *
      * @description Returns the current hidden status.
      */
@@ -371,7 +372,7 @@ w.TK.Widget = w.Widget = $class({
     is_drawn: function() {
         return this._drawn;
     },
-    /** @method toggle_hidden
+    /** @method TK.Widget#toggle_hidden
      *
      * @description Toggle the hidden status. This is equivalent to calling hide() or show(), depending on
      * the current hidden status of this widget.
@@ -380,7 +381,7 @@ w.TK.Widget = w.Widget = $class({
         if (this.hidden()) this.show();
         else this.hide();
     },
-    /** @method add_child(child)
+    /** @method TK.Widget#add_child
      *
      * @param {Widget} child - The child to add.
      * @description Registers a widget as a child widget. This method is used to build up the widget tree. It does not modify the DOM tree.
@@ -397,7 +398,7 @@ w.TK.Widget = w.Widget = $class({
             child.disable_draw();
         }
     },
-    /** @method remove_child(child)
+    /** @method TK.Widget#remove_child
      *
      * @param {Widget} child - The child to remove.
      * @description
@@ -412,7 +413,7 @@ w.TK.Widget = w.Widget = $class({
             C.splice(i, 1);
         }
     },
-    /** @method remove_children(a)
+    /** @method TK.Widget#remove_children
      *
      * @param {Array.<Widget>} a - An array of Widgets.
      * @description Removes an array of children.
@@ -420,7 +421,7 @@ w.TK.Widget = w.Widget = $class({
     remove_children : function(a) {
         a.map(this.remove_child, this);
     },
-    /** @method add_children(a)
+    /** @method TK.Widget#add_children
      *
      * @param {Array.<Widget>} a - An array of Widgets.
      * @description Registers an array of widgets as children.
@@ -429,7 +430,7 @@ w.TK.Widget = w.Widget = $class({
         a.map(this.add_child, this);
     },
 
-    /** @method visible_children
+    /** @method TK.Widget#visible_children
      *
      * @description Returns an array of all visible children.
      */
@@ -443,7 +444,7 @@ w.TK.Widget = w.Widget = $class({
         return a;
     },
 
-    /** @method all_children
+    /** @method TK.Widget#all_children
      *
      * @description Returns an array of all children.
      */
@@ -458,17 +459,18 @@ w.TK.Widget = w.Widget = $class({
     },
 });
 
-/** @method force_hide
+/** @method TK.Widget#force_hide
  *
  * @description This is an alias for hide, which may be overloaded.
  * See TK.Container for an example.
  */
-w.TK.Widget.prototype.force_hide = w.TK.Widget.prototype.hide;
+TK.Widget.prototype.force_hide = TK.Widget.prototype.hide;
 
-/** @method force_show
+/** @method TK.Widget#force_show
  *
  * @description This is an alias for hide, which may be overloaded.
  * See TK.Container for an example.
  */
-w.TK.Widget.prototype.force_show = w.TK.Widget.prototype.show;
+TK.Widget.prototype.force_show = TK.Widget.prototype.show;
+if (!w.Widget) w.Widget = TK.Widget;
 })(this);
