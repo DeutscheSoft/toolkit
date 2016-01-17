@@ -1,4 +1,4 @@
-all : documentation toolkit/toolkit.max.js toolkit/toolkit.all.js toolkit/styles/css/toolkit.min.css toolkit/styles/css/toolkit.all.css toolkit/toolkit.min.js
+all : documentation toolkit.all.js toolkit/styles/css/toolkit.all.css toolkit.min.js
 
 documentation :
 	generator/items.pike
@@ -87,22 +87,16 @@ css_input_files = \
     toolkit/styles/css/pager.css \
     toolkit/styles/css/valueknob.css \
 
-toolkit/toolkit.min.js:	$(js_input_files) makefile
-	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit/toolkit.min.map $(js_input_files) > $@
+toolkit.min.js:	$(js_input_files) makefile
+	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@
 
-toolkit/toolkit.max.js:	$(js_input_files) makefile
-	cat $(js_input_files) > $@
-
-toolkit/toolkit.all.js: makefile
+toolkit.all.js: makefile
 	echo "(function(){" > $@
 	echo "var toolkit_base_dir = document.currentScript.src;" >> $@
 	echo "toolkit_base_dir = toolkit_base_dir.split('/');" >> $@
-	echo "toolkit_base_dir = toolkit_base_dir.slice(0, toolkit_base_dir.length-2).join('/');" >> $@
+	echo "toolkit_base_dir = toolkit_base_dir.slice(0, toolkit_base_dir.length-1).join('/');" >> $@
 	for file in $(js_input_files); do echo 'document.writeln("'"<script src='"'"'" + toolkit_base_dir + "'"'"/$$file'></script>"'");'; done >> $@
 	echo "})();" >> $@
-
-toolkit/styles/css/toolkit.min.css: $(css_input_files) makefile
-	cat $(css_input_files) > $@
 
 toolkit/styles/css/toolkit.all.css: makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
