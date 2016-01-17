@@ -53,7 +53,7 @@ w.TK.Gradient = w.Gradient = $class({
          * If fallback is omitted, options.background is used. if no range
          * is set Gradient assumes that the implementing instance has
          * Range functionality.
-         * @returns string; A string to be used as background CSS */
+         * @returns {string} A string to be used as background CSS */
         
         //  {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
         // becomes:

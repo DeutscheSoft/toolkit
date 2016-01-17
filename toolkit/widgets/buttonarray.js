@@ -169,7 +169,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
          * @param {Object|string} options - An object containing options for the #Button to add or a string for the label
          * @param {integer} [position] - The position to add the #Button to. If avoided the #Button is added to the end of the list
          * @description Adds a #Button to the ButtonArray 
-         * @returns Button; The #Button instance */
+         * @returns {Button} The #Button instance */
         if (typeof options === "string")
             options = {label: options}
         var b    = new Button(options);
@@ -280,7 +280,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     
     current: function() {
         /** @method current()
-         * @returns Button; The selected #Button or null
+         * @returns {Button} The selected #Button or null
          * @description Get the actually selected #Button */
         var n = this.options.show;
         if (n >= 0 && n < this.buttons.length) {

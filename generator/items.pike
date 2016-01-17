@@ -98,7 +98,15 @@ void process_element (string type, string content, mapping map) {
             }
             break;
         case "returns":
-            _recipient->returns += ({ get_atoms_mapping(c, RETURN_ATOMS) });
+            {
+                mapping m = ([]);
+
+                if (sscanf(c, "\{%[^}]}%*[\ \t]%s", m->type, m->description) != 3) {
+                    m_delete(m, "type");
+                    m->description = c;
+                }
+                _recipient->returns += ({ m });
+            }
             break;
         case "description":
             if (!_recipient) error("No recipient!\n");

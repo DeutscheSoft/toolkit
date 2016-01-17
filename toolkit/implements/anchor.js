@@ -36,7 +36,7 @@ w.TK.Anchor = w.Anchor = $class({
          * @param {number} y - Y position to translate
          * @param {number} width - Width of the element
          * @param {number} height - Height of the element
-         * @returns Object; Object with members x and y as numbers
+         * @returns {Object} Object with members x and y as numbers
          */
         switch (anchor) {
             case _TOOLKIT_TOP_LEFT:

@@ -35,7 +35,7 @@ w.TK.Ranges = w.Ranges = $class({
          * @description Add a new range. If name is set and this.options[name]
          * exists, is an object and from is an object, too, both are merged
          * before a range is created.
-         * @returns Range; The newly created #Range */
+         * @returns {Range} The newly created #Range */
         var r;
         if (typeof from == "function") {
             r = from();

@@ -224,7 +224,7 @@ w.BASE = $class({
     delegate_events: function (element) {
         /** @method delegate_events(element)
          * @param {HTMLElement} element - The element all native events should be bound to
-         * @returns HTMLElement; The element */
+         * @returns {HTMLElement} The element */
         var ev = this.__events;
         var old_target = this.__event_target;
         this.fire_event("delegated", element);
@@ -360,7 +360,7 @@ w.BASE = $class({
     has_event_listeners: function (event) {
         /** @method has_event_listeners(event)
          * @param {string} event - The event desriptor
-         * @returns boolean; True if the event has some handler functions in the queue, false if not
+         * @returns {boolean} True if the event has some handler functions in the queue, false if not
          * @description Test if the event descriptor has some handler functions in the queue */
         var ev = this.__events;
 
