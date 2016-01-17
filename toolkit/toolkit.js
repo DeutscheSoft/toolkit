@@ -1,4 +1,14 @@
 "use strict";
+
+/** @namespace TK
+ * 
+ * @description This is the namespace of the toolkit library.
+ * It contains all toolkit classes and constant.
+ * There are also a couple of utility functions which provide
+ * compatibility for older browsers.
+ */
+var TK;
+
 (function(w) {
 
 var has_class, add_class, remove_class, toggle_class;
@@ -19,9 +29,34 @@ function set_class_name(e, s) {
 }
 
 if ('classList' in document.createElement("_") && 'classList' in make_svg('text')) {
+  /** 
+   * Returns true if the node has the given class.
+   * @param {HTMLElement|SVGElement} node - The DOM node.
+   * @param {string} name - The class name.
+   * @returns {boolean}
+   * @function TK.has_class
+   */
   has_class = function (e, cls) { return e.classList.contains(cls); }
+  /** 
+   * Adds a CSS class to a DOM node.
+   * @param {HTMLElement|SVGElement} node - The DOM node.
+   * @param {string} name - The class name.
+   * @function TK.add_class
+   */
   add_class = function (e, cls) { e.classList.add(cls); }
+  /** 
+   * Removes a CSS class from a DOM node.
+   * @param {HTMLElement|SVGElement} node - The DOM node.
+   * @param {string} name - The class name.
+   * @function TK.remove_class
+   */
   remove_class = function (e, cls) { e.classList.remove(cls); }
+  /** 
+   * Toggles a CSS class from a DOM node.
+   * @param {HTMLElement|SVGElement} node - The DOM node.
+   * @param {string} name - The class name.
+   * @function TK.remove_class
+   */
   toggle_class = function (e, cls) { e.classList.toggle(cls); }
 } else {
   has_class = function (e, cls) {
@@ -95,6 +130,15 @@ if ('WeakMap' in w) {
 var get_style;
 
 if ('getComputedStyle' in w) {
+  /** 
+   * Returns the computed style of a node. 
+   *
+   * @param {HTMLElement|SVGElement} node - The DOM node.
+   * @param {string} property - The CSS property name.
+   * @returns {string}
+   *
+   * @function TK.get_style
+   */
   get_style = function(e, style) {
     return document.defaultView.getComputedStyle(e).getPropertyValue(style);
   };
@@ -342,6 +386,18 @@ function unique_id() {
     do { id = "tk-" + _id_cnt++; } while (document.getElementById(id));
     return id;
 };
+
+/** 
+ * Generates formatting functions from sprintf-style format strings.
+ * This is generally faster when the same format string is used many times.
+ *
+ * @returns {function} A formatting function.
+ * @param {string} fmt - The format string.
+ * @function TK.FORMAT
+ * @example
+ * var f = TK.FORMAT("%.2f Hz");
+ * @see TK.sprintf
+ */
 function FORMAT(fmt) {
     var args = [];
     var s = "return ";
@@ -397,6 +453,18 @@ function FORMAT(fmt) {
 
     return new Function(args, s);
 }
+
+/** 
+ * Formats the arguments according to a given format string.
+ *
+ * @returns {function} A formatting function.
+ * @param {string} fmt - The format string.
+ * @param {...*} args - The format arguments.
+ * @function TK.sprintf
+ * @example
+ * TK.sprintf("%d Hz", 440);
+ * @see TK.FORMAT
+ */
 function sprintf(fmt) {
     var arg_len = arguments.length;
     var i, last_fmt;
@@ -608,12 +676,27 @@ function is_dom_node(o) {
 // is better for log/warn to silently fail in case of error. This unfortunately means that
 // warnings might be lost, but probably better than having diagnostics and debugging code
 // break an application
+
+/**
+ * Generates a warning to the JavaScript console. This is virtually identical to console.warn, however
+ * it can safely be used in browsers which do not support it.
+ * 
+ * @param {...*} args
+ * @function TK.warn
+ */
 function warn() {
     if (!w.console) return;
     try {
         w.console.warn.apply(w.console, arguments);
     } catch(e) {}
 }
+/**
+ * Generates a log message to the JavaScript console. This is virtually identical to console.log, however
+ * it can safely be used in browsers which do not support it.
+ * 
+ * @param {...*} args
+ * @function TK.log
+ */
 function log() {
     if (!w.console) return;
     try {
@@ -621,7 +704,7 @@ function log() {
     } catch(e) {}
 }
 
-w.TK = w.toolkit = {
+TK = w.toolkit = {
     // ELEMENTS
     S: new DOMScheduler(),
     is_dom_node: is_dom_node,

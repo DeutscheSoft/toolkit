@@ -21,7 +21,7 @@
 "use strict";
 (function(w){
 w.TK.Pager = w.Pager = $class({
-    /** @class  Pager
+    /** @class TK.Pager
      * 
      * @option position;  integer;   _TOOLKIT_TOP;   The position of the ButtonArray
      * @option pages;     Array; [];             An array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
@@ -33,7 +33,8 @@ w.TK.Pager = w.Pager = $class({
      * @description
      * Pager, also known as Notebook in other UI toolkits, provides
      * multiple containers for displaying contents which are switchable
-     * via a #ButtonArray. */
+     * via a {@link TK.ButtonArray}.
+     */
     _class: "Pager",
     Extends: Container,
     _options: Object.assign(Object.create(Container.prototype._options), {
@@ -54,12 +55,20 @@ w.TK.Pager = w.Pager = $class({
     initialize: function (options) {
         this.pages = [];
         Container.prototype.initialize.call(this, options);
-        /** @element element [d][c][s];     div.toolkit-container.toolkit-pager;             The main pager element */
+        /**
+         * The main pager element. It has the CSS classes <code>toolkit-container</code> and <code>toolkit-pager</code>.
+         *
+         * @member TK.Pager#element
+         */
         /** @element _buttonarray_wrapper; div.toolkit-wrapper.toolkit-buttonarray-wrapper; An internal container for layout purposes containing the #ButtonArray. */
         /** @element _container_wrapper;   div.toolkit-wrapper.toolkit-container-wrapper;   An internal container for layout purposes containing the _clip element. */
         /** @element _clip;                div.toolkit-clip;                                The clipping area containing the pages containers */
         TK.add_class(this.element, "toolkit-pager");
-        /** @module buttonarray; The #ButtonArray instance acting as the menu */
+        /**
+         * The {@link TK.ButtonArray} instance acting as the menu.
+         *
+         * @member TK.Pager#buttonarray
+         */
         this.buttonarray = new ButtonArray({
             container: this.element,
             onchanged: function(button, n) {
@@ -180,20 +189,41 @@ w.TK.Pager = w.Pager = $class({
     },
     
     add_pages: function (options) {
-        /** @method add_pages
-         * @param {Array.<{label:string, content:(Container|string)}>} options - An Array containing objects with options for the page and its button. Members are: label - a string for the #Button, content: a string or a #Container instance.
-         * @description Adds an array of pages. */
+        /**
+         * Adds an array of pages.
+         *
+         * @method TK.Pager#add_pages
+         * @param {Array} options -
+         *      An Array containing objects with options for the page and its button.
+         *      Members are a string label for the corresponding button and content,
+         *      which can be either a DOM node, a HTML string or a {@link TK.Container}
+         *      widget.
+         * @example
+         * var p = new TK.Pager();
+         * p.add_pages([
+         *   {
+         *     label: "Page 1",
+         *     content: "<h1>Page1</h1>",
+         *   }
+         * ]);
+         * 
+         */
         for (var i = 0; i < options.length; i++)
             this.add_page(options[i].label, options[i].content);
     },
     
     add_page: function (button, content, position, options) {
-        /** @method add_page(button, content, pos, options)
+        /**
+         * Adds a {@link TK.Container} to the pager and a {@link TK.Button} to the pagers {@link TK.ButtonArray}.
+         *
+         * @method TK.Pager#add_page
+         *
          * @param {string|Object} button - A string with the #Button s label or an object cotaining options for the #Button
          * @param {Widget|Class|string} content - The content of the page. Either a #Container (or derivate)  widget, a class (needs option "options" to be set) or a string which get embedded in a new #Container
          * @param {Object} options - An object containing options for the #Container to add as a page
          * @param {integer|Undefined} position - The position to add the new page to. If avoided the page is added to the end of the list
-         * @description Adds a #Container to the Pager and a #Button to the pagers #ButtonArray */
+         * @emits TK.Pager#added
+         */
         var p;
         if (typeof button === "string")
             button = {label: button};
@@ -223,7 +253,12 @@ w.TK.Pager = w.Pager = $class({
             this.pages.push(p);
             this._clip.appendChild(p.element);
         }
-        /** @event added; Page; A page was added to the Pager */
+        /**
+         * A page was added to the Pager.
+         *
+         * @event TK.Pager#added
+         * @type {TK.Container}
+         */
         this.fire_event("added", p);
 
         this.add_child(p);
@@ -245,9 +280,12 @@ w.TK.Pager = w.Pager = $class({
     },
 
     remove_page: function (page) {
-        /** @method remove_page
+        /**
+         * Removes a page from the Pager.
+         * @method TK.Pager#remove_page
          * @param {integer|Container} page - The container to remove. Either a position or the #Container widget generated by add_page
-         * @description Removes a page from the Pager. */
+         * @emits TK.Pager#removed
+         */
         if (typeof page == "object")
             page = this.pages.indexOf(page);
         if (page < 0 || page >= this.pages.length)
@@ -263,7 +301,12 @@ w.TK.Pager = w.Pager = $class({
         this.remove_child(p);
         this.invalid.layout = true;
         this.trigger_draw();
-        /** @event removed; Page; A page was removed from the Pager */
+        /**
+         * A page was removed from the Pager
+         *
+         * @event TK.Pager#removed
+         * @type Page
+         */
         this.fire_event("removed", p);
     },
     
@@ -275,8 +318,9 @@ w.TK.Pager = w.Pager = $class({
     },
 
     current: function() {
-        /** @method current
-         * @description Returns the index of the actual displayed page or null if none is shown */
+        /** @method TK.Pager#current
+         * @description Returns the currently displayed page or null.
+         */
         var n = this.options.show;
         if (n >= 0 && n < this.pages.length) {
             return this.pages[n];

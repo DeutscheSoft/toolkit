@@ -30,14 +30,24 @@ function dragstart(e, drag) {
     this._xpos   = O.node.offsetLeft;
     this._ypos   = O.node.offsetTop;
     TK.add_class(O.node, "toolkit-dragging");
-    /** @event dragstart; DOMEvent; The user starts dragging this item */
+    /** 
+     * The user started dragging this item.
+     *
+     * @event TK.Drag#dragstart
+     * @type {Event}
+     */
     this.fire_event("dragstart", e);
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
     if (typeof e.button != "undefined" && e.button > 0) return;
     TK.remove_class(this.options.node, "toolkit-dragging");
-    /** @event dragstop; DOMEvent; The user ends dragging this item */
+    /**
+     * The user stopped dragging this item.
+     *
+     * @event TK.Drag#dragstop
+     * @type {Event}
+     */
     this.fire_event("dragstop", e);
 }
 function dragging(e, drag) {
@@ -57,7 +67,13 @@ function dragging(e, drag) {
     if (O.max.y !== false) y = Math.min(O.max.y, y);
     O.node.style.top = y + "px";
     O.node.style.left = x + "px";
-    /** @event dragging; DOMEvent; The user is dragging this item */
+    /**
+     * The user is dragging this item.
+     * The arguments are the native DOM event object and both the x and y coordinate.
+     *
+     * @event TK.Drag#dragging
+     * @type {Event}
+     */
     this.fire_event("dragging", e, x, y);
 }
 function set_handle() {
@@ -73,18 +89,20 @@ function set_handle() {
         onDragging   : this._dragging
     });
 }
-w.TK.Drag = w.Drag = $class({
-    /** @class Drag
-     * Drag enables dragging of absolutely positioned
-     * elements on the screen.
-     * @option node; DOMNode; undefined; The element to drag
-     * @option handle; DOMNode|boolean; undefined; A DOM node to be used as a handle. If not set the element is used.
-     * @option active; boolean; true; Enable or disable dragging
-     * @option min; Object; {x: -1, y: -1}; Object containing x and y determining the minimum position. A value of false means no minimum.
-     * @option max; Object; {x: -1, y: -1}; Object containing x and y determining the maximum position. A value of false means no maximum.
-     * @option initial; number; 0; Amount of pixels the user has to move until dragging starts
-     * @extends Widget
-     */
+/**
+ * Drag enables dragging of absolutely positioned
+ * elements on the screen.
+ * @param {Object} options
+ * @property {HTMLElement|SVGElement} options.node - The element to drag
+ * @property {HTMLElement|SVGElement} [options.handle=options.node] A DOM node to be used as a handle. If not set options.node is used.
+ * @property {boolean} options.active - Enable or disable dragging
+ * @property {{ x: number, y: number }} [options.min={x: -1, y: -1}] - Object containing the minimum positions for x and y. A value of false is interpreted as no minimum.
+ * @property {{ x: number, y: number }} [options.max={x: -1, y: -1}] - Object containing the maximum positions for x and y. A value of false is interpreted as no maximum.
+ * @property {number} [options.initial=2] - Number of pixels the user has to move until dragging starts.
+ * @extends Widget
+ * @class TK.Drag
+ */
+TK.Drag = w.Drag = $class({
     _class: "Drag",
     Extends: Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
