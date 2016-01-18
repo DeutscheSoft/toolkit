@@ -393,11 +393,15 @@ TK.Base = w.BASE = $class({
     },
     add_events: function (events, func) {
         /**
-         * Add multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function
+         * Add multiple event handlers at once, either as dedicated event handlers or a list of event
+         * descriptors with a single handler function.
          *
          * @method TK.Base#add_events
-         * @param {Object | Array} events - Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires a handler function as the second argument.
-         * @param {Function} func - A function to add as event handler if the first argument is an array of event desriptors
+         * @param {Object | Array} events - Object with event descriptors as keys and functions as
+         *   values or Array of event descriptors. The latter requires a handler function as the
+         *   second argument.
+         * @param {Function} func - A function to add as event handler if the first argument is an
+         *   array of event desriptors
          */
         var i;
         if (events instanceof Array) {
@@ -411,11 +415,15 @@ TK.Base = w.BASE = $class({
     },
     remove_events: function (events, func) {
         /**
-         * Remove multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function
+         * Remove multiple event handlers at once, either as dedicated event handlers or a list of
+         * event descriptors with a single handler function
          *
          * @method TK.Base#remove_events
-         * @param {Object | Array} events - Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires the handler function as the second argument.
-         * @param {Function} func - A function to remove from event handler queue if the first argument is an array of event desriptors
+         * @param {Object | Array} events - Object with event descriptors as keys and functions as
+         *   values or Array of event descriptors. The latter requires the handler function as the
+         *   second argument.
+         * @param {Function} func - A function to remove from event handler queue if the first
+         *   argument is an array of event desriptors
          */
         var i;
         if (events instanceof Array) {
