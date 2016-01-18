@@ -370,8 +370,16 @@ function set_cb(key, value) {
     }
 }
 w.TK.Ranged = w.Ranged = $class({
-    /** @class Ranged
-     * @option scale; integer|Function; _TOOLKIT_LINEAR; The type of the scale. Either an integer
+    /**
+     * The factor is used to stretch the used range of the logarithmic curve
+     * Ranged provides functions for calculating linear scales
+     * from different values. It is useful for building coordinate systems,
+     * calculating pixel positions for different scale types and the like.
+     * Ranged is used e.g. in #Scale, #MeterBase and #Graph to draw elements
+     * on a certain position according to a value on an arbitrary scale.
+     *
+     * @mixin TK.Ranged
+     * @property {integer|Function} [options.scale=_TOOLKIT_LINEAR] - The type of the scale. Either an integer
      * (_TOOLKIT_LINEAR, _TOOLKIT_DECIBEL|_TOOLKIT_LOG2, _TOOLKIT_FREQUENCY|_TOOLKIT_LOG10)
      * or a function like function (value, options, coef) {}.
      * If a function instead of an integer is handed over, it receives the
@@ -379,34 +387,29 @@ w.TK.Ranged = w.Ranged = $class({
      * coefficient between 0 and 1. If the third argument "coef" is true, it is
      * supposed to return a value depending on a coefficient handed over as the
      * first argument.
-     * @option reverse; boolean; false; Reverse the scale of the range
-     * @option basis; number; 0; Dimensions of the range. set to width/height
+     * @property {boolean} [options.reverse=false] - Reverse the scale of the range
+     * @property {number} [options.basis=0] - Dimensions of the range. set to width/height
      * in pixels if you need it for drawing purposes, to 100 if you need
      * percentual values or to 1 if you just need a linear equivalent
      * for a e.g. logarithmic scale.
-     * @option min; number; 0; Minimum value of the range
-     * @option max; number; 0; Maximum value of the range
-     * @option step; number; 0; Step size, needed for user interaction
-     * @option shift_up; number; 0; Multiplier if SHIFT is hold while stepping
-     * @option shift_down; number; 0; Multiplier if SHIFT + CONTROL is hold while stepping
-     * @option snap; number|Array; 0; Snap the value to a virtual grid with this distance.
+     * @property {number} options.min - Minimum value of the range
+     * @property {number} options.max - Maximum value of the range
+     * @property {number} [options.step=0] - Step size, needed for user interaction
+     * @property {number} [options.shift_up=4] - Multiplier if SHIFT is hold while stepping
+     * @property {number} [options.shift_down=0.25] - Multiplier if SHIFT + CONTROL is hold while stepping
+     * @property {number|Array} [options.snap=0] - Snap the value to a virtual grid with this distance.
      * Using snap option with float values causes the range to reduce its
      * minimum and maximum values depending on the amount of decimal digits
      * because of the implementation of math in JavaScript.
      * Using a step size of e.g. 1.125 reduces the maximum usable value
      * from 9,007,199,254,740,992 to 9,007,199,254,740.992 (note the
      * decimal point). Alternatively set this to an array containing possible values
-     * @option round; boolean; true; If snap is set decide how to jump
+     * @property {boolean} [options.round=true] - If snap is set decide how to jump
      * between snaps. Setting this to true slips to the next snap if the
      * value is more than on its half way to it. Otherwise the value has
      * to reach the next snap first until it is fixed there again.
-     * @option log_factor; number; 1; Used to range logarithmic curves.
-     * The factor is used to stretch the used range of the logarithmic curve
-     * @description Ranged provides functions for calculating linear scales
-     * from different values. It is useful for building coordinate systems,
-     * calculating pixel positions for different scale types and the like.
-     * Ranged is used e.g. in #Scale, #MeterBase and #Graph to draw elements
-     * on a certain position according to a value on an arbitrary scale. */
+     * @property {number} [options.log_factor=1] - Used to range logarithmic curves.
+     */
      
     _class: "Ranged",
     options: {
@@ -438,7 +441,10 @@ w.TK.Ranged = w.Ranged = $class({
         trafo_reverse: "boolean",
     },
 
-    initialized: function (options) {
+    initialized: function () {
+        var O = this.options;
+        if (O.min === O.max)
+            TK.warn("Ranged needs distinct min and max values in", O);
         update_snap.call(this);
         update_transformation.call(this);
         this.add_event("set", set_cb);

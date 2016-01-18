@@ -22,9 +22,12 @@
 (function(w){
 var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
 w.TK.Notes = w.Notes = $class({
-    /** @class Notes
-     * @description Notes converts between frequencies, midi notes
-     * and note names */
+    /**
+     * Notes converts between frequencies, midi notes
+     * and note names.
+     *
+     * @mixin Notes
+     */
     _class: "Notes",
     midi2note: function (num) {
         return notes[num % 12] + parseInt(num / 12);

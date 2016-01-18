@@ -21,21 +21,27 @@
 "use strict";
 (function(w){ 
 w.TK.Ranges = w.Ranges = $class({
-    /** @class Ranges
-     * @description Ranges provides multiple #Range for a widget. They
-     * might be used for e.g. building coordinate systems and the like. */
+    /**
+     * Ranges provides multiple #Range for a widget. They
+     * can be used for building coordinate systems.
+     *
+     * @mixin TK.Ranges
+     */
     _class: "Ranges",
     add_range: function (from, name) {
-        /** @method add_range(from, name)
+        /**
+         * Add a new range. If name is set and this.options[name]
+         * exists, is an object and from is an object, too, both are merged
+         * before a range is created.
+         *
+         * @method TK.Ranges#add_range
          * @param {Function|Object} from - A function returning a #Range instance or an object containing options for a new #Range.
          * @param {string} name - Designator of the new #Range.
          * If a name is set a new set function is added to the item to
          * set the options of the range. Use the set function like this:
          * this.set("name", {key: value});
-         * @description Add a new range. If name is set and this.options[name]
-         * exists, is an object and from is an object, too, both are merged
-         * before a range is created.
-         * @returns {Range} The newly created #Range */
+         * @returns {Range} The newly created #Range
+         */
         var r;
         if (typeof from == "function") {
             r = from();
@@ -48,15 +54,20 @@ w.TK.Ranges = w.Ranges = $class({
         }
         if (name) {
             this[name] = r;
-            this.add_event("set", function (key, value, hold) {
+            this.add_event("set", function (key, value) {
                 if (key == name) {
                     for (var i in value) {
-                        this[name].set(i, value[i], hold);
+                        this[name].set(i, value[i]);
                     }
                 }
             }.bind(this));
         }
-        /** @event rangeadded; Range; Gets fired when a new range is added */
+        /**
+         * Gets fired when a new range is added
+         *
+         * @event rangeadded
+         * @type {TK.Range}
+         */
         this.fire_event("rangeadded", r);
         return r;
     }

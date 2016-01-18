@@ -21,25 +21,42 @@
 "use strict";
 (function(w){ 
 w.TK.GlobalCursor = w.GlobalCursor = $class({
-    /** @class GlobalCursor
-     * @description GlobalCursor adds global cursor classes to enshure
+    /**
+     * GlobalCursor adds global cursor classes to enshure
      * one of the standard cursors (http://www.echoecho.com/csscursors.htm)
-     * is shown in the overall application */
+     * is shown in the overall application
+     *
+     * @mixin TK.GlobalCursor
+     */
     _class: "GlobalCursor",
     global_cursor: function (cursor) {
-        /** @method global_cursor(cursor)
-         * @param {string} cursor - The decriptor of the cursor to show (http://www.echoecho.com/csscursors.htm)
-         * @description Adds a specific class to the body DOM node to show a specific cursor */
+        /**
+         * Adds a class <code>"toolkit-cursor-" + cursor</cod> to the <code>document.body</code> to show a specific cursor.
+         * @method TK.GlobalCursor#global_cursor
+         * @param {string} cursor - The name of the cursor to show (http://www.echoecho.com/csscursors.htm)
+         * @emits TK.GlobalCursor#globalcursor
+         */
         TK.add_class(document.body, "toolkit-cursor-" + cursor);
-        /** @event globalcursor; Cursor; Is fired when a cursor gets set */
+        /**
+         * Is fired when a cursor gets set
+         * @event TK.GlobalCursor#globalcursor
+         * @type {string}
+         */
         this.fire_event("globalcursor", cursor);
     },
     remove_cursor: function (cursor) {
-        /** @method remove_cursor(cursor)
-         * @param {string} cursor - The decriptor of the cursor to remove (http://www.echoecho.com/csscursors.htm)
-         * @description Removes a specific class to the body DOM node to show a specific cursor */
+        /**
+         * Removes the class from <code>document.body</code> node.
+         *
+         * @method TK.GlobalCursor#remove_cursor
+         * @param {string} cursor - The name of the cursor to remove (http://www.echoecho.com/csscursors.htm)
+         */
         TK.remove_class(document.body, "toolkit-cursor-" + cursor);
-        /** @event cursorremoved; Cursor; Is fired when a cursor is removed */
+        /**
+         * Is fired when a cursor is removed
+         * @event TK.GlobalCursor#cursorremoved
+         * @type {string}
+         */
         this.fire_event("cursorremoved", cursor);
     }
 });
