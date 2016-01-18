@@ -101,6 +101,6 @@ toolkit.all.js: makefile
 toolkit/styles/css/toolkit.all.css: makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
 
-jsdoc:
-	jsdoc $(js_input_files)
+jsdoc: makefile $(js_input_files) jsdoc/conf.json
+	jsdoc --readme docs/Main.md -t ../jsdoc-toolkit/ -c jsdoc/conf.json $(js_input_files)
 

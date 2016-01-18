@@ -1,0 +1,31 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "plugins": [
+            "plugins/markdown",
+            "./jsdoc/files"
+    ],
+    "extra_mainpages" : [
+            "./docs/rendering.md"
+    ],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "default": {
+            "staticFiles": {
+                "include" : [
+                    "./jsdoc/screen.css",
+                    "./images/"
+                ]
+            },
+            "outputSourceFiles": true,
+            "layoutFile" : "jsdoc/layout.tmpl",
+            "useLongnameInNav" : true
+        }
+    }
+}

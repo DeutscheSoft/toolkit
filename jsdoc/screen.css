@@ -1,0 +1,15 @@
+h5 {
+    font-size: 100%;
+}
+
+h4 {
+    border-top: 2px solid #DDD;
+    padding-top: 10px;
+    clear: both;
+    font-weight: bold;
+}
+
+.details {
+    font-size: 80%;
+    float: right;
+}
