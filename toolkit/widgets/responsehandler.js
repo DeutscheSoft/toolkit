@@ -53,14 +53,14 @@ function hit_test(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
     
 w.TK.ResponseHandler = w.ResponseHandler = $class({
     /**
-     * ResponseHandler is a FrequencyResponse adding some ResponseHandles. It is
+     * TK.ResponseHandler is a TK.FrequencyResponse adding some ResponseHandles. It is
      * meant as a universal user interface for equalizers and the like.
      *
      * @class TK.ResponseHandler
      */
     _class: "ResponseHandler",
-    Extends: FrequencyResponse,
-    _options: Object.assign(Object.create(FrequencyResponse.prototype._options), {
+    Extends: TK.FrequencyResponse,
+    _options: Object.assign(Object.create(TK.FrequencyResponse.prototype._options), {
         importance_label:  "number",
         importance_handle: "number",
         importance_border: "number",
@@ -75,14 +75,14 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
                                 // handles to gain importance
         importance_border: 50,  // multiplicator of square pixels on hit testing
                                 // borders to gain importance
-        range_z:           { scale: _TOOLKIT_LINEAR }, // Range z options
+        range_z:           { scale: _TOOLKIT_LINEAR }, // TK.Range z options
         depth:             0,   // the depth of the z axis (basis of range_z)
         handles:           []   // list of bands to create on init
     },
     initialize: function (options) {
         this.handles = [];
         this._active = 0;
-        FrequencyResponse.prototype.initialize.call(this, options);
+        TK.FrequencyResponse.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_z, "range_z");
         if (this.options.depth)
@@ -106,13 +106,13 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     },
     
     redraw: function () {
-        FrequencyResponse.prototype.redraw.call(this);
+        TK.FrequencyResponse.prototype.redraw.call(this);
     },
     
     destroy: function () {
         this.empty(); // ???
         this._handles.remove();
-        FrequencyResponse.prototype.destroy.call(this);
+        TK.FrequencyResponse.prototype.destroy.call(this);
     },
     
     add_handle: function (options) {
@@ -128,7 +128,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         
         options["intersect"] = this.intersect.bind(this);
         
-        var h = new ResponseHandle(options);
+        var h = new TK.ResponseHandle(options);
         var _mousemove = h._mousemove.bind(h);
         var _mouseup = h._mouseup.bind(h);
         var _touchmove = h._touchmove.bind(h);
@@ -236,7 +236,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
                 this.range_z.set("basis", value);
                 break;
         }
-        return FrequencyResponse.prototype.set.call(this, key, value);
+        return TK.FrequencyResponse.prototype.set.call(this, key, value);
     }
 });
 })(this);

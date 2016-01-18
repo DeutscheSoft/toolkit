@@ -296,9 +296,9 @@ function zhandledown(e) {
     
 w.TK.ResponseHandle = w.ResponseHandle = $class({
     _class: "ResponseHandle",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: [GlobalCursor, Ranges, Warning],
-    _options: Object.assign(Object.create(Widget.prototype._options), Ranges.prototype._options, {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), Ranges.prototype._options, {
         range_x: "function",
         range_y: "function", 
         range_z: "function",
@@ -328,7 +328,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
     options: {
         range_x:          {},           // callback function returning a Range
                                         // module for x axis or an object with
-                                        // options for a Range 
+                                        // options for a TK.Range 
         range_y:          {},           // callback function returning a Range
                                         // module for y axis or an object with
                                         // options for a Range
@@ -383,7 +383,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._zhandling = false;
         this._zwheel = false;
         this._sticky = false;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
         
         this.add_range(O.range_x, "range_x");
@@ -1380,7 +1380,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 }
                 break;
         }
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         this._line1.remove();
@@ -1388,7 +1388,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._label.remove();
         this._handle.remove();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 });
 })(this);

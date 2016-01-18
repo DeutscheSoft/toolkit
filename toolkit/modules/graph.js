@@ -22,7 +22,7 @@
 (function(w) { 
 w.TK.Graph = w.Graph = $class({
     /**
-     * Graph is a single SVG path element. It provides
+     * TK.Graph is a single SVG path element. It provides
      * some functions to easily draw paths inside Charts and other
      * derivates.
      *
@@ -43,8 +43,8 @@ w.TK.Graph = w.Graph = $class({
      * _TOOLKIT_VARIABLE: fill from a percentual position on the canvas (set with base)
      * @property {number} [options.base=0] - If mode is _TOOLKIT_VARIABLE set the position of the base line to fill from between 0 (bottom) and 1 (top)
      * @property {string} [options.color=""] - Set the color of the path
-     * @property {Function|Object} [options.range_x={}] - Callback function returning a #Range module for x axis or an object with options. for a new #Range
-     * @property {Function|Object} [options.range_y={}] - Callback function returning a #Range module for y axis or an object with options. for a new #Range
+     * @property {Function|Object} [options.range_x={}] - Callback function returning a #TK.Range module for x axis or an object with options. for a new #Range
+     * @property {Function|Object} [options.range_y={}] - Callback function returning a #TK.Range module for y axis or an object with options. for a new #Range
      * @property {number} [options.width=0] - The width of the graph
      * @property {number} [options.height=0] - The height of the graph
      * @property {string|boolean} [options.key=false] - Show a description for this graph in the charts key, false to turn it off
@@ -52,9 +52,9 @@ w.TK.Graph = w.Graph = $class({
      * @mixes TK.Ranges
      */
     _class: "Graph",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: Ranges,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         dots: "array",
         type: "string",
         mode: "int",
@@ -80,7 +80,7 @@ w.TK.Graph = w.Graph = $class({
     },
     
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(TK.make_svg("path"), true, true, true);
         TK.add_class(this.element, "toolkit-graph");
         this.add_range(this.options.range_x, "range_x");
@@ -199,11 +199,11 @@ w.TK.Graph = w.Graph = $class({
             }
             if (s) E.setAttribute("d", s);
         }
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     
     // HELPERS & STUFF
@@ -269,7 +269,7 @@ w.TK.Graph = w.Graph = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "width":
                 this.range_x.set("basis", value);

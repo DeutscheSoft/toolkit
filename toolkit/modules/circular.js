@@ -220,10 +220,10 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
 }
 w.TK.Circular = w.Circular = $class({
     /**
-     * Circular is a SVG group element containing two paths for displaying
-     * numerical values in a circular manner. Circular is able to draw labels,
-     * dots and markers and can show a hand. Circular e.g. is implemented by
-     * #Clock to draw the hours, minutes and seconds.
+     * TK.Circular is a SVG group element containing two paths for displaying
+     * numerical values in a circular manner. TK.Circular is able to draw labels,
+     * dots and markers and can show a hand. TK.Circular e.g. is implemented by
+     * #TK.Clock to draw the hours, minutes and seconds.
      * @class TK.Circular
      * @param {Object} options
      * @property {number} [options.value=0] - The value to show
@@ -250,9 +250,9 @@ w.TK.Circular = w.Circular = $class({
      * @mixes TK.Ranged
      */
     _class: "Circular",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: [Warning, Ranged],
-    _options: Object.assign(Object.create(Widget.prototype._options), TK.Ranged.prototype._options, {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Ranged.prototype._options, {
         value: "number",
         size: "number",
         thickness: "number",
@@ -296,7 +296,7 @@ w.TK.Circular = w.Circular = $class({
     },
     
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         var E;
         
         this.element = E = TK.make_svg("g", {"class": "toolkit-circular"});
@@ -322,18 +322,18 @@ w.TK.Circular = w.Circular = $class({
     },
 
     initialized: function () {
-        Widget.prototype.initialized.call(this);
+        TK.Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
     },
 
     resize: function () {
         this.invalid.labels = true;
         this.trigger_draw();
-        Widget.prototype.resize.call(this);
+        TK.Widget.prototype.resize.call(this);
     },
     
     redraw: function () {
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
@@ -406,7 +406,7 @@ w.TK.Circular = w.Circular = $class({
         this._base.remove();
         this._value.remove();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     _get_stroke: function () {
         if (this.hasOwnProperty("_stroke")) return this._stroke;
@@ -440,7 +440,7 @@ w.TK.Circular = w.Circular = $class({
             break;
         }
 
-        return Widget.prototype.set.call(this, key, value);
+        return TK.Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

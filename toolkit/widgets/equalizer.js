@@ -26,15 +26,15 @@ function invalidate_bands() {
 }
 w.TK.Equalizer = w.Equalizer = $class({
     /**
-     * Equalizer is a ResponseHandler adding some EqBands instead of
+     * TK.Equalizer is a TK.ResponseHandler adding some EqBands instead of
      * simple ResponseHandles.
      *
      * @class TK.Equalizer
      * @extends TK.ResponseHandler
      */
     _class: "Equalizer",
-    Extends: ResponseHandler,
-    _options: Object.assign(Object.create(ResponseHandler.prototype._options), {
+    Extends: TK.ResponseHandler,
+    _options: Object.assign(Object.create(TK.ResponseHandler.prototype._options), {
         accuracy: "number",
         bands:  "array",
     }),
@@ -45,7 +45,7 @@ w.TK.Equalizer = w.Equalizer = $class({
     
     initialize: function (options) {
         this.bands = [];
-        ResponseHandler.prototype.initialize.call(this, options);
+        TK.ResponseHandler.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-equalizer");
         this._bands = TK.make_svg("g", {"class": "toolkit-eqbands"});
         this.svg.appendChild(this._bands);
@@ -62,12 +62,12 @@ w.TK.Equalizer = w.Equalizer = $class({
     destroy: function () {
         this.empty(); // Arne: ??? <- Markus: removes all graphs, defined in Chart
         this._bands.remove();
-        ResponseHandler.prototype.destroy.call(this);
+        TK.ResponseHandler.prototype.destroy.call(this);
     },
     redraw: function () {
         var I = this.invalid;
         var O = this.options;
-        ResponseHandler.prototype.redraw.call(this);
+        TK.ResponseHandler.prototype.redraw.call(this);
         if (I.validate("bands", "accuracy")) {
             if (this.baseline) {
                 var c = 0;
@@ -104,7 +104,7 @@ w.TK.Equalizer = w.Equalizer = $class({
     },
     resize: function () {
         invalidate_bands.call(this);
-        ResponseHandler.prototype.resize.call(this);
+        TK.ResponseHandler.prototype.resize.call(this);
     },
     add_band: function (options) {
         options["container"] = this._bands;
@@ -117,7 +117,7 @@ w.TK.Equalizer = w.Equalizer = $class({
         
         options["intersect"] = this.intersect.bind(this);
         
-        var b = new EqBand(options);
+        var b = new TK.EqBand(options);
         this.bands.push(b);
         var _mousemove = b._mousemove.bind(b);
         var _mouseup = b._mouseup.bind(b);

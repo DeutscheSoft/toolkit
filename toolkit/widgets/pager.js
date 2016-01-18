@@ -22,7 +22,7 @@
 (function(w){
 w.TK.Pager = w.Pager = $class({
     /**
-     * Pager, also known as Notebook in other UI toolkits, provides
+     * TK.Pager, also known as Notebook in other UI toolkits, provides
      * multiple containers for displaying contents which are switchable
      * via a {@link TK.ButtonArray}.
      * 
@@ -35,11 +35,11 @@ w.TK.Pager = w.Pager = $class({
      *          "label" is a string for the buttons label or an object containing options for
      *          a button and content is either a HTML string or a HTMLElement node.
      * @property {integer} [options.show=-1] - The page to show
-     * @property {boolean} [options.overlap=false] - If false,  pages are automatically resized so that the #ButtonArray does not overlap the page contents.
+     * @property {boolean} [options.overlap=false] - If false,  pages are automatically resized so that the #TK.ButtonArray does not overlap the page contents.
      *
      * @extends TK.Container
      * @example
-     * var pager = new Pager({
+     * var pager = new TK.Pager({
      *  pages: [
      *   {
      *     label: "Empty Page 1",
@@ -53,8 +53,8 @@ w.TK.Pager = w.Pager = $class({
      * });
      */
     _class: "Pager",
-    Extends: Container,
-    _options: Object.assign(Object.create(Container.prototype._options), {
+    Extends: TK.Container,
+    _options: Object.assign(Object.create(TK.Container.prototype._options), {
         position:  "int",
         direction: "string",
         pages:     "array",
@@ -71,13 +71,13 @@ w.TK.Pager = w.Pager = $class({
     
     initialize: function (options) {
         this.pages = [];
-        Container.prototype.initialize.call(this, options);
+        TK.Container.prototype.initialize.call(this, options);
         /**
          * The main pager element. It has the CSS classes <code>toolkit-container</code> and <code>toolkit-pager</code>.
          *
          * @member TK.Pager#element
          */
-        /** @member {HTMLDivElement} TK.Pager#_buttonarray_wrapper - An internal container for layout purposes containing the #ButtonArray.
+        /** @member {HTMLDivElement} TK.Pager#_buttonarray_wrapper - An internal container for layout purposes containing the #TK.ButtonArray.
          *      Has classes <code>toolkit-buttonarray-wrapper</code> and <code>toolkit-wrapper</code>.
          */
         /** @member {HTMLDivElement} TK.Pager#_container_wrapper - An internal container for layout purposes containing the _clip element.
@@ -92,7 +92,7 @@ w.TK.Pager = w.Pager = $class({
          *
          * @member TK.Pager#buttonarray
          */
-        this.buttonarray = new ButtonArray({
+        this.buttonarray = new TK.ButtonArray({
             container: this.element,
             onchanged: function(button, n) {
                 this.set("show", n); 
@@ -108,7 +108,7 @@ w.TK.Pager = w.Pager = $class({
     },
     
     redraw: function () {
-        Container.prototype.redraw.call(this);
+        TK.Container.prototype.redraw.call(this);
         var O = this.options;
         var I = this.invalid;
         var E = this.element;
@@ -194,7 +194,7 @@ w.TK.Pager = w.Pager = $class({
                     }
                     /* we essentially resize the pages container, so we need to call
                      * resize() on them */
-                    TK.S.after_frame(Container.prototype.resize.bind(this));
+                    TK.S.after_frame(TK.Container.prototype.resize.bind(this));
                 }.bind(this));
             }.bind(this), 1);
         }
@@ -241,9 +241,9 @@ w.TK.Pager = w.Pager = $class({
          *
          * @method TK.Pager#add_page
          *
-         * @param {string|Object} button - A string with the #Button s label or an object cotaining options for the #Button
-         * @param {Widget|Class|string} content - The content of the page. Either a #Container (or derivate)  widget, a class (needs option "options" to be set) or a string which get embedded in a new #Container
-         * @param {Object} options - An object containing options for the #Container to add as a page
+         * @param {string|Object} button - A string with the #TK.Button s label or an object cotaining options for the #Button
+         * @param {TK.Widget|Class|string} content - The content of the page. Either a #TK.Container (or derivate)  widget, a class (needs option "options" to be set) or a string which get embedded in a new #Container
+         * @param {Object} options - An object containing options for the #TK.Container to add as a page
          * @param {integer|Undefined} position - The position to add the new page to. If avoided the page is added to the end of the list
          * @emits TK.Pager#added
          */
@@ -255,7 +255,7 @@ w.TK.Pager = w.Pager = $class({
         if (typeof content === "string" || TK.is_dom_node(content)) {
             if (!options) options = {}; 
             options.content = content;
-            p = new Container(options);
+            p = new TK.Container(options);
         } else if (typeof content === "function") {
             // assume here content is a subclass of Container
             p = new content(options);
@@ -277,7 +277,7 @@ w.TK.Pager = w.Pager = $class({
             this._clip.appendChild(p.element);
         }
         /**
-         * A page was added to the Pager.
+         * A page was added to the TK.Pager.
          *
          * @event TK.Pager#added
          * @type {TK.Container}
@@ -304,9 +304,9 @@ w.TK.Pager = w.Pager = $class({
 
     remove_page: function (page) {
         /**
-         * Removes a page from the Pager.
+         * Removes a page from the TK.Pager.
          * @method TK.Pager#remove_page
-         * @param {integer|Container} page - The container to remove. Either a position or the #Container widget generated by add_page
+         * @param {integer|TK.Container} page - The container to remove. Either a position or the #TK.Container widget generated by add_page
          * @emits TK.Pager#removed
          */
         if (typeof page == "object")
@@ -337,7 +337,7 @@ w.TK.Pager = w.Pager = $class({
         this.invalid.show = true;
         this.invalid.layout = true;
         this.trigger_draw();
-        Container.prototype.resize.call(this);
+        TK.Container.prototype.resize.call(this);
     },
 
     current: function() {
@@ -371,7 +371,7 @@ w.TK.Pager = w.Pager = $class({
 
             this.buttonarray.set("show", value);
         }
-        value = Container.prototype.set.call(this, key, value);
+        value = TK.Container.prototype.set.call(this, key, value);
         switch(key) {
             case "show":
                 page = this.current();
@@ -403,7 +403,7 @@ w.TK.Pager = w.Pager = $class({
     },
     get: function (key) {
         if (key == "pages") return this.pages;
-        return Container.prototype.get.call(this, key);
+        return TK.Container.prototype.get.call(this, key);
     }
 });
 })(this);

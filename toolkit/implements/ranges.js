@@ -22,7 +22,7 @@
 (function(w){ 
 w.TK.Ranges = w.Ranges = $class({
     /**
-     * Ranges provides multiple #Range for a widget. They
+     * Ranges provides multiple #TK.Range for a widget. They
      * can be used for building coordinate systems.
      *
      * @mixin TK.Ranges
@@ -35,12 +35,12 @@ w.TK.Ranges = w.Ranges = $class({
          * before a range is created.
          *
          * @method TK.Ranges#add_range
-         * @param {Function|Object} from - A function returning a #Range instance or an object containing options for a new #Range.
-         * @param {string} name - Designator of the new #Range.
+         * @param {Function|Object} from - A function returning a #TK.Range instance or an object containing options for a new #TK.Range.
+         * @param {string} name - Designator of the new #TK.Range.
          * If a name is set a new set function is added to the item to
          * set the options of the range. Use the set function like this:
          * this.set("name", {key: value});
-         * @returns {Range} The newly created #Range
+         * @returns {TK.Range} The newly created #Range
          */
         var r;
         if (typeof from == "function") {
@@ -50,7 +50,7 @@ w.TK.Ranges = w.Ranges = $class({
             && this.options[name]
             && typeof this.options[name] == "object")
                 from = Object.assign({}, this.options[name], from)
-            r = new Range(from);
+            r = new TK.Range(from);
         }
         if (name) {
             this[name] = r;

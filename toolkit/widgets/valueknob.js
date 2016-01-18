@@ -34,8 +34,8 @@ w.TK.ValueKnob = w.ValueKnob = $class({
      * @class TK.ValueKnob
      */
     _class: "ValueKnob",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options),
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options),
                             TK.Value.prototype._options, TK.Knob.prototype._options, {
         value_format: "function",
         value_size: "number",
@@ -45,7 +45,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         value_size: 5
     }),
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         var E;
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-valueknob");
@@ -56,9 +56,9 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         ko = TK.object_sub(ko, TK.Widget.prototype._options);
         ko.container = E;
 
-        this.knob = new Knob(ko);
+        this.knob = new TK.Knob(ko);
 
-        this.value = new Value({
+        this.value = new TK.Value({
             container: E,
             value: this.options.value,
             format: this.options.value_format,
@@ -79,13 +79,13 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     destroy: function () {
         this.knob.destroy();
         this.value.destroy();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 
     get: function (key) {
         if (key === "value_size")
             return this.value.get("size");
-        return Widget.prototype.get.call(this, key);
+        return TK.Widget.prototype.get.call(this, key);
     },
     set: function (key, value) {
         if (key === "value_size")
@@ -96,7 +96,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             if (TK.Value.prototype._options[key])
                 this.value.set(key, value);
         }
-        return Widget.prototype.set.call(this, key, value);
+        return TK.Widget.prototype.set.call(this, key, value);
     }
     
 });

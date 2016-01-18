@@ -351,9 +351,9 @@ w.TK.Window = w.Window = $class({
      * @class TK.Window
      */
     _class: "Window",
-    Extends: Container,
-    Implements: Anchor,
-    _options: Object.assign(Object.create(Container.prototype._options), {
+    Extends: TK.Container,
+    Implements: TK.Anchor,
+    _options: Object.assign(Object.create(TK.Container.prototype._options), {
         width: "number",
         height: "number",
         x: "number",
@@ -456,7 +456,7 @@ w.TK.Window = w.Window = $class({
     initialize: function (options) {
         this.__inited = false;
         this.dimensions = {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
-        Container.prototype.initialize.call(this, options);
+        TK.Container.prototype.initialize.call(this, options);
         
         TK.add_class(this.element, "toolkit-window");
         
@@ -491,27 +491,27 @@ w.TK.Window = w.Window = $class({
         this._status = TK.element("div", "toolkit-status");
         this._icon   = TK.element("img", "toolkit-icon");
         
-        this.close = new Button({"class": "toolkit-close"});
+        this.close = new TK.Button({"class": "toolkit-close"});
         this.close.add_event("click", close.bind(this));
         this.close.add_event("mousedown", function (e) { e.stopPropagation(); });
         
-        this.maximize = new Button({"class": "toolkit-maximize"});
+        this.maximize = new TK.Button({"class": "toolkit-maximize"});
         this.maximize.add_event("click", maximize.bind(this));
         this.maximize.add_event("mousedown", function (e) { e.stopPropagation(); });
         
-        this.maximize_vert = new Button({"class": "toolkit-maximize-vertical"});
+        this.maximize_vert = new TK.Button({"class": "toolkit-maximize-vertical"});
         this.maximize_vert.add_event("click", maximizevertical.bind(this));
         this.maximize_vert.add_event("mousedown", function (e) { e.stopPropagation(); });
         
-        this.maximize_horiz = new Button({"class": "toolkit-maximize-horizontal"});
+        this.maximize_horiz = new TK.Button({"class": "toolkit-maximize-horizontal"});
         this.maximize_horiz.add_event("click", maximizehorizontal.bind(this));
         this.maximize_horiz.add_event("mousedown", function (e) { e.stopPropagation(); });
         
-        this.minimize = new Button({"class": "toolkit-minimize"});
+        this.minimize = new TK.Button({"class": "toolkit-minimize"});
         this.minimize.add_event("click", minimize.bind(this));
         this.minimize.add_event("mousedown", function (e) { e.stopPropagation(); });
         
-        this.shrink = new Button({"class": "toolkit-shrink"});
+        this.shrink = new TK.Button({"class": "toolkit-shrink"});
         this.shrink.add_event("click", shrink.bind(this));
         this.shrink.add_event("mousedown", function (e) { e.stopPropagation(); });
         
@@ -561,7 +561,7 @@ w.TK.Window = w.Window = $class({
         /* TODO: event handler leak */
         this._header.addEventListener("dblclick", header_action.bind(this));
         
-        this.drag = new Drag({
+        this.drag = new TK.Drag({
             node        : this.element,
             handle      : this._header,
             onDragstart : start_drag.bind(this),
@@ -574,7 +574,7 @@ w.TK.Window = w.Window = $class({
         this._resize = TK.element("div", "toolkit-resize");
         this.element.appendChild(this._resize);
         
-        this.Resize = new Resize({
+        this.Resize = new TK.Resize({
             node         : this.element,
             handle       : this._resize,
             min          : {x: this.options.min_width, y: this.options.min_height},
@@ -600,9 +600,9 @@ w.TK.Window = w.Window = $class({
         set_dimensions.call(this);
         set_position.call(this);
         set_content.call(this);
-        /* TODO: prevent Container from setting the content */
+        /* TODO: prevent TK.Container from setting the content */
         I.content = false;
-        Container.prototype.redraw.call(this);
+        TK.Container.prototype.redraw.call(this);
     },
     
     destroy: function () {
@@ -626,7 +626,7 @@ w.TK.Window = w.Window = $class({
         this.minimize.destroy();
         this.shrink.destroy();
         this.element.remove();
-        Container.prototype.destroy.call(this);
+        TK.Container.prototype.destroy.call(this);
     },
     
     append_child : function(child) {
@@ -819,7 +819,7 @@ w.TK.Window = w.Window = $class({
                 }
                 break;
         }
-        return Container.prototype.set.call(this, key, value, hold);
+        return TK.Container.prototype.set.call(this, key, value, hold);
     }
 });
 })(this);

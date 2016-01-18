@@ -22,9 +22,9 @@
 (function(w){
 w.TK.EqBand = w.EqBand = $class({
     /**
-     * An EqBand extends a #ResponseHandle and holds a
-     * dependent #Filter. It is used as a fully functional representation
-     * of a single equalizer band in #Equalizer. EqBand needs a #Chart 
+     * An TK.EqBand extends a #TK.ResponseHandle and holds a
+     * dependent #TK.Filter. It is used as a fully functional representation
+     * of a single equalizer band in #TK.Equalizer. TK.EqBand needs a #TK.Chart 
      * or any other derivate to be drawn in.
      *
      * @class EqBand
@@ -34,8 +34,8 @@ w.TK.EqBand = w.EqBand = $class({
      * @extends TK.ResponseHandle
      */
     _class: "EqBand",
-    Extends: ResponseHandle,
-    _options: Object.assign(Object.create(ResponseHandle.prototype._options), {
+    Extends: TK.ResponseHandle,
+    _options: Object.assign(Object.create(TK.ResponseHandle.prototype._options), {
         type: "int",
         gain: "number",
         freq: "number",
@@ -75,9 +75,9 @@ w.TK.EqBand = w.EqBand = $class({
             }
         }
         
-        ResponseHandle.prototype.initialize.call(this, options);
+        TK.ResponseHandle.prototype.initialize.call(this, options);
         
-        this.filter = new Filter();
+        this.filter = new TK.Filter();
         this.filter.options = this.options;
         
         if (typeof options.x !== "undefined")
@@ -123,7 +123,7 @@ w.TK.EqBand = w.EqBand = $class({
                 key = "y"
                 break;
         }
-        ResponseHandle.prototype.set.call(this, key, value);
+        TK.ResponseHandle.prototype.set.call(this, key, value);
         switch (key) {
             case "type":
                 this.filter.set("type", value);

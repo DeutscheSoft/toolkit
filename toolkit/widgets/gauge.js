@@ -31,14 +31,14 @@ var format_translate = TK.FORMAT("translate(%f, %f)");
 var format_viewbox = TK.FORMAT("0 0 %d %d");
 w.TK.Gauge = w.Gauge = $class({
     /**
-     * Gauge simply puts a single Circular into a SVG image.
+     * TK.Gauge simply puts a single TK.Circular into a SVG image.
      *
      * @class TK.Gauge
      * @extends TK.Widget
      */
     _class: "Gauge",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), Circular.prototype._options, {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options, {
         x: "number",
         y: "number",
         width:  "number",
@@ -62,7 +62,7 @@ w.TK.Gauge = w.Gauge = $class({
     initialize: function (options) {
         if (typeof options.title == "string")
             options.title = {title: options.title};
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
         var E, S;
         if (!(E = this.element)) this.element = E = TK.element("div");
@@ -77,7 +77,7 @@ w.TK.Gauge = w.Gauge = $class({
         var co = TK.object_and(O, TK.Circular.prototype._options);
         co = TK.object_sub(co, TK.Widget.prototype._options);
         co.container = S;
-        this.circular = new Circular(co);
+        this.circular = new TK.Circular(co);
         this.add_child(this.circular);
         this.widgetize(this.element);
         E.appendChild(S);
@@ -91,7 +91,7 @@ w.TK.Gauge = w.Gauge = $class({
         var I = this.invalid, O = this.options;
         var S = this.svg;
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
 
         if (I.validate("width", "height")) {
             S.setAttribute("viewBox", format_viewbox(O.width, O.height));
@@ -136,10 +136,10 @@ w.TK.Gauge = w.Gauge = $class({
             if (typeof value == "string") value = {title: value};
             value = Object.assign(this.options.title, value);
         }
-        // Circular does the snapping
-        if (!TK.Widget.prototype._options[key] && Circular.prototype._options[key])
+        // TK.Circular does the snapping
+        if (!TK.Widget.prototype._options[key] && TK.Circular.prototype._options[key])
             value = this.circular.set(key, value);
-        return Widget.prototype.set.call(this, key, value);
+        return TK.Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

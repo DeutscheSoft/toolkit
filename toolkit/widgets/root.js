@@ -38,11 +38,11 @@ function resized() {
  * @class TK.Root
  */
 w.TK.Root = w.Root = $class({
-    Extends: Container,
+    Extends: TK.Container,
     _class: "Root",
-    _options: Object.create(Container.prototype._options),
+    _options: Object.create(TK.Container.prototype._options),
     initialize: function (options) {
-        Container.prototype.initialize.call(this, options);
+        TK.Container.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-root");
         this._resize_cb = resized.bind(this);
         this._visibility_cb = visibility_change.bind(this);
@@ -51,7 +51,7 @@ w.TK.Root = w.Root = $class({
         document.addEventListener("visibilitychange", this._visibility_cb, false)
     },
     initialized: function () {
-        Container.prototype.initialized.call(this);
+        TK.Container.prototype.initialized.call(this);
         /* NOTE: the initial draw will add all elements to the dom and set them up.
          * after that is done, we trigger one initial resize event, to make sure that
          * they are resized properly, if needed. */
@@ -64,10 +64,10 @@ w.TK.Root = w.Root = $class({
             return;
         }
         this.resize_event = false;
-        Container.prototype.resize.call(this);
+        TK.Container.prototype.resize.call(this);
     },
     destroy: function () {
-        Container.prototype.destroy.call(this);
+        TK.Container.prototype.destroy.call(this);
         w.removeEventListener("resize", this._resize_cb);
         document.removeEventListener("visibilitychange", this._visibility_cb)
         this._resize_cb = this._visibility_cb = 0;

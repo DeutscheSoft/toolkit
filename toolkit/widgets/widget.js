@@ -52,7 +52,7 @@ function redraw() {
 }
 TK.Widget = $class({
     /**
-     * Widget is the base class for all widgets drawing DOM elements. It
+     * TK.Widget is the base class for all widgets drawing DOM elements. It
      * provides basic functionality like delegating events, setting options and
      * firing some events.Widget implements AudioMath, Options and Events.
      *
@@ -372,7 +372,7 @@ TK.Widget = $class({
         return this._drawn;
     },
     /**
-     * Toggle the hidden status. This is equivalent to calling hide() or show(), depending on
+     * TK.Toggle the hidden status. This is equivalent to calling hide() or show(), depending on
      * the current hidden status of this widget.
      *
      * @method TK.Widget#toggle_hidden
@@ -385,7 +385,7 @@ TK.Widget = $class({
      * Registers a widget as a child widget. This method is used to build up the widget tree. It does not modify the DOM tree.
      *
      * @method TK.Widget#add_child
-     * @param {Widget} child - The child to add.
+     * @param {TK.Widget} child - The child to add.
      * @see TK.Container#append_child
      */
     add_child: function(child) {
@@ -404,7 +404,7 @@ TK.Widget = $class({
      * the widget tree and does not change the DOM.
      *
      * @method TK.Widget#remove_child
-     * @param {Widget} child - The child to remove.
+     * @param {TK.Widget} child - The child to remove.
      */
     remove_child : function(child) {
         var C = this.children;
@@ -418,7 +418,7 @@ TK.Widget = $class({
      * Removes an array of children.
      *
      * @method TK.Widget#remove_children
-     * @param {Array.<Widget>} a - An array of Widgets.
+     * @param {Array.<TK.Widget>} a - An array of Widgets.
      */
     remove_children : function(a) {
         a.map(this.remove_child, this);
@@ -427,7 +427,7 @@ TK.Widget = $class({
      * Registers an array of widgets as children.
      *
      * @method TK.Widget#add_children
-     * @param {Array.<Widget>} a - An array of Widgets.
+     * @param {Array.<TK.Widget>} a - An array of Widgets.
      */
     add_children : function (a) {
         a.map(this.add_child, this);

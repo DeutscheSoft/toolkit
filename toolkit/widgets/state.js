@@ -22,16 +22,16 @@
 (function(w){ 
 w.TK.State = w.State = $class({
     /**
-     * The State widget is a multi-functional adaption of a traditional LED. It
+     * The TK.State widget is a multi-functional adaption of a traditional LED. It
      * is able to show different colors as well as on/off states. The
      * "brightness" can be set seamlessly. Classes can be used to display
-     * different styles. State extends Widget.
+     * different styles. TK.State extends TK.Widget.
      *
      * @class TK.State
      */
     _class: "State",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         state: "int",
         color: "string",
         opacity: "number",
@@ -42,7 +42,7 @@ w.TK.State = w.State = $class({
         opacity:         0.8    // the opacity of the mask when state = 0
     },
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
 
         var E;
         
@@ -57,11 +57,11 @@ w.TK.State = w.State = $class({
     destroy: function () {
         this._mask.remove();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 
     redraw: function() {
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
 
@@ -78,7 +78,7 @@ w.TK.State = w.State = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        value = Widget.prototype.set.call(this, key, value);
+        value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "color":
                 this.fire_event("colorchanged", value);

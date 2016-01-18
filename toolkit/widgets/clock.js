@@ -144,15 +144,15 @@ function onhide() {
 
 w.TK.Clock = w.Clock = $class({
     /**
-     * Clock shows a customized clock with circulars displaying hours, minutes
+     * TK.Clock shows a customized clock with circulars displaying hours, minutes
      * and seconds. It has three free formatable labels.
      *
      * @class TK.Clock
      * @extends TK.Widget
      */
     _class: "Clock",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         thickness:    "int",
         margin:       "int",
         size:         "int",
@@ -206,7 +206,7 @@ w.TK.Clock = w.Clock = $class({
         var E, S;
         this.circulars = {};
         this._margin = -1;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
         if (!(E = this.element)) this.element = E = TK.element("div");
         this.svg = S = TK.make_svg("svg");
@@ -246,11 +246,11 @@ w.TK.Clock = w.Clock = $class({
             min: 0
         };
 
-        this.circulars.seconds = new Circular(Object.assign({}, circ_options,
+        this.circulars.seconds = new TK.Circular(Object.assign({}, circ_options,
             {max: 60, "class": "toolkit-seconds"}));
-        this.circulars.minutes = new Circular(Object.assign({}, circ_options,
+        this.circulars.minutes = new TK.Circular(Object.assign({}, circ_options,
             {max: 60, "class": "toolkit-minutes"}));
-        this.circulars.hours   = new Circular(Object.assign({}, circ_options,
+        this.circulars.hours   = new TK.Circular(Object.assign({}, circ_options,
             {max: 12, "class": "toolkit-hours"}));
 
         this.add_child(this.circulars.seconds);
@@ -264,7 +264,7 @@ w.TK.Clock = w.Clock = $class({
     redraw: function () {
         var I = this.invalid, O = this.options;
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
 
         if (I.size) {
             var tmp = O.size;
@@ -318,13 +318,13 @@ w.TK.Clock = w.Clock = $class({
         this.circulars.hours.destroy();
         if (this.__to)
             window.clearTimeout(this.__to);
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     
     // GETTERS & SETTERS
     set: function (key, value) {
         if (key == "timeout") timeout.call(this);
-        return Widget.prototype.set.call(this, key, value);
+        return TK.Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

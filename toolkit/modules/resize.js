@@ -54,8 +54,8 @@ function set_handle() {
     var h = this.options.handle;
     if (this.drag)
         this.drag.destroy();
-    var range = new Range({});
-    this.drag = new DragValue({ node: h,
+    var range = new TK.Range({});
+    this.drag = new TK.DragValue({ node: h,
         range: function () { return range; },
         onStartdrag  : dragstart.bind(this),
         onStopdrag   : dragend.bind(this),
@@ -63,10 +63,10 @@ function set_handle() {
     });
 }
 w.TK.Resize = w.Resize = $class({
-    // Resize enables resizing of elements on the screen.
+    // TK.Resize enables resizing of elements on the screen.
     _class: "Resize",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         handle : "object",
         direction : "int",
         active : "boolean",
@@ -87,12 +87,12 @@ w.TK.Resize = w.Resize = $class({
                                     // a value of -1 means no max
     },
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         this.set("handle", this.options.handle);
     },
     // GETTERS & SETTERS
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "handle":
                 if (!value)

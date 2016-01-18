@@ -91,11 +91,11 @@ function fire_event(title, event) {
     if (e) e.fire_event(title, event, O.get(), O.node, this, O.range());
 }
 w.TK.ScrollValue = w.ScrollValue = $class({
-    // ScrollValue enables the scrollwheel for setting a value of an
-    // object. ScrollValue is used e.g. in Knob for setting its value.
+    // TK.ScrollValue enables the scrollwheel for setting a value of an
+    // object. TK.ScrollValue is used e.g. in TK.Knob for setting its value.
     _class: "ScrollValue",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         get: "function",
         set: "function",
         range: "function",
@@ -120,7 +120,7 @@ w.TK.ScrollValue = w.ScrollValue = $class({
     },
     initialize: function (options) {
         this._scrollwheel = scrollwheel.bind(this);
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         if (this.options.node)
             this.set("element", this.options.node);
         this.set("events", this.options.events);
@@ -132,12 +132,12 @@ w.TK.ScrollValue = w.ScrollValue = $class({
             E.removeEventListener("mousewheel", this._scrollwheel);
             E.removeEventListener("DOMMouseScroll", this._scrollwheel);
         }
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     // GETTERS & SETTERS
     set: function (key, value) {
         this.options[key] = value;
-        //Widget.prototype.set.call(this, key, value, hold);
+        //TK.Widget.prototype.set.call(this, key, value, hold);
         switch (key) {
             case "element":
                 value.addEventListener("mousewheel", this._scrollwheel);

@@ -140,26 +140,26 @@ function draw_lines(a, mode, last) {
 }
 w.TK.Grid = w.Grid = $class({
     /**
-     * Grid creates a couple of lines and labels in a SVG
-     * image on the x and y axis. It is used in e.g. #Graph and
-     * #FrequencyResponse to draw markers and values. Grid needs a
-     * parent SVG image do draw into. The base element of a Grid is a
+     * TK.Grid creates a couple of lines and labels in a SVG
+     * image on the x and y axis. It is used in e.g. #TK.Graph and
+     * #TK.FrequencyResponse to draw markers and values. TK.Grid needs a
+     * parent SVG image do draw into. The base element of a TK.Grid is a
      * SVG group containing all the labels and lines.
      *
      * @class TK.Grid
      * @property {Array} [options.grid_x=[]] - Array for vertical grid lines containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
      * @property {Array} [options.grid_y=[]] - Array for horizontal grid lines containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
-     * @property {Function|Object} [options.range_x={}] - A function returning a #Range instance for vertical grid lines or an object containing options. for a new #Range
-     * @property {Function|Object} [options.range_y={}] - A function returning a #Range instance for horizontal grid lines or an object containing options. for a new #Range
+     * @property {Function|Object} [options.range_x={}] - A function returning a #TK.Range instance for vertical grid lines or an object containing options. for a new #Range
+     * @property {Function|Object} [options.range_y={}] - A function returning a #TK.Range instance for horizontal grid lines or an object containing options. for a new #Range
      * @property {number} [options.width=0] - The width of the grid
      * @property {number} [options.height=0] - The height of the grid
      * @extends TK.Widget
      * @mixes TK.Ranges
      */
     _class: "Grid",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: Ranges,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         grid_x: "array",
         grid_y: "array",
         range_x: "object",
@@ -176,7 +176,7 @@ w.TK.Grid = w.Grid = $class({
         height:  0
     },
     initialize: function (options, hold) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        TK.make_svg("g", {"class": "toolkit-grid"}), true, true, true);
         if (this.options.container)
@@ -205,11 +205,11 @@ w.TK.Grid = w.Grid = $class({
             draw_lines.call(this, O.grid_x, false, 0);
             draw_lines.call(this, O.grid_y, true, this.range_y.options.basis);
         }
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
     },
     destroy: function () {
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     // GETTER & SETTER
     set: function (key, value) {
@@ -226,7 +226,7 @@ w.TK.Grid = w.Grid = $class({
                 this.range_y.set("basis", value);
                 break;
         }
-        Widget.prototype.set.call(this, key, value);
+        TK.Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

@@ -42,7 +42,7 @@ function check_arrows(force) {
 
 function prev_clicked(e) {
     /**
-     * When a #Button or an arrow gets clicked and
+     * When a #TK.Button or an arrow gets clicked and
      * the currently active button changes.
      *
      * @event clicked
@@ -93,8 +93,8 @@ function scroll_to() {
 }
 w.TK.ButtonArray = w.ButtonArray = $class({
     /**
-     * ButtonArray is a list of buttons (#Button) layouted either vertically or
-     * horizontally. ButtonArray automatically adds arrow buttons if the
+     * TK.ButtonArray is a list of buttons (#TK.Button) layouted either vertically or
+     * horizontally. TK.ButtonArray automatically adds arrow buttons if the
      * overal width is smaller than the buttons list.
      *
      * @class TK.ButtonArray
@@ -107,14 +107,14 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * @property {boolean} [options.auto_arrows=true] - If arrow buttons are added automatically
      * @property {integer} [options.direction=_TOOLKIT_HORIZONTAL] - The direction of the button list, one out of
      *                          _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL
-     * @property {integer|Button} [options.show=-1] - The button to scroll to, either an ID or a button instance
+     * @property {integer|TK.Button} [options.show=-1] - The button to scroll to, either an ID or a button instance
      * 
      * @extends TK.Container
      * 
      */
     _class: "ButtonArray",
-    Extends: Container,
-    _options: Object.assign(Object.create(Container.prototype._options), {
+    Extends: TK.Container,
+    _options: Object.assign(Object.create(TK.Container.prototype._options), {
         buttons: "array",
         auto_arrows: "boolean",
         direction: "int",
@@ -128,7 +128,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     initialize: function (options) {
         this.buttons = [];
-        Container.prototype.initialize.call(this, options);
+        TK.Container.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-buttonarray");
         /** @member {HTMLDivElement} TK.ButtonArray#_clip - A clipping area containing the list of buttons.
          *      Has class <code>toolkit-clip</code> */
@@ -141,11 +141,11 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         
         var vert = this.get("direction") == _TOOLKIT_VERTICAL;
         
-        /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow #Button instance. */
-        this.prev = new Button({label: vert ? "▲" : "◄",
+        /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow #TK.Button instance. */
+        this.prev = new TK.Button({label: vert ? "▲" : "◄",
                                 class: "toolkit-previous"});
-        /** @member {TK.Button} TK.ButtonArray#next - The next arrow #Button instance. */
-        this.next = new Button({label: vert ? "▼" : "►",
+        /** @member {TK.Button} TK.ButtonArray#next - The next arrow #TK.Button instance. */
+        this.next = new TK.Button({label: vert ? "▼" : "►",
                                 class: "toolkit-next"});
         this.prev.add_event("click", prev_clicked.bind(this));
         this.next.add_event("click", next_clicked.bind(this));
@@ -162,14 +162,14 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.invalid.show = true;
         this.trigger_draw();
 
-        Container.prototype.resize.call(this);
+        TK.Container.prototype.resize.call(this);
     },
     
     add_buttons: function (options) {
         /**
          * Adds an array of buttons to the end of the list.
          *
-         * @param {Array.<string|object>} options - An Array containing objects with options for the buttons (see #Button for more information) or strings for the buttons labels
+         * @param {Array.<string|object>} options - An Array containing objects with options for the buttons (see #TK.Button for more information) or strings for the buttons labels
          * @method TK.add_buttons
          */
         for (var i = 0; i < options.length; i++)
@@ -178,16 +178,16 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     
     add_button: function (options, position) {
         /**
-         * Adds a #Button to the ButtonArray 
+         * Adds a #TK.Button to the TK.ButtonArray 
          *
          * @method TK.Button#add_button
-         * @param {Object|string} options - An object containing options for the #Button to add or a string for the label
-         * @param {integer} [position] - The position to add the #Button to. If avoided the #Button is added to the end of the list
-         * @returns {Button} The #Button instance
+         * @param {Object|string} options - An object containing options for the #TK.Button to add or a string for the label
+         * @param {integer} [position] - The position to add the #TK.Button to. If avoided the #TK.Button is added to the end of the list
+         * @returns {TK.Button} The #TK.Button instance
          */
         if (typeof options === "string")
             options = {label: options}
-        var b    = new Button(options);
+        var b    = new TK.Button(options);
         var len  = this.buttons.length;
         var vert = this.options.direction == _TOOLKIT_VERT;
         if (typeof position == "undefined")
@@ -208,7 +208,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             button_clicked.call(this, b);
         }.bind(this));
         /**
-         * A #Button was added to the ButtonArray
+         * A #TK.Button was added to the ButtonArray
          *
          * @event added
          * @type Button
@@ -222,17 +222,17 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     remove_button: function (button) {
         /**
-         * Removes a #Button from the ButtonArray
+         * Removes a #TK.Button from the ButtonArray
          *
          * @method TK.Button#remove_button
-         * @param {integer|Button} button - ID or #Button instance
+         * @param {integer|TK.Button} button - ID or #TK.Button instance
          */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
             return;
         /**
-         * A #Button was removed from the ButtonArray
+         * A #TK.Button was removed from the ButtonArray
          *
          * @event removed
          * @type Button
@@ -255,11 +255,11 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.next.destroy();
         this._container.remove();
         this._clip.remove();
-        Container.prototype.destroy.call(this);
+        TK.Container.prototype.destroy.call(this);
     },
 
     redraw: function() {
-        Container.prototype.redraw.call(this);
+        TK.Container.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
 
@@ -311,7 +311,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
          * Get the actually selected #Button
          *
          * @method TK.Button#current
-         * @returns {Button} The selected #Button or null
+         * @returns {TK.Button} The selected #TK.Button or null
          */
         var n = this.options.show;
         if (n >= 0 && n < this.buttons.length) {
@@ -330,7 +330,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             button = this.current();
             if (button) button.set("state", false);
         }
-        value = Container.prototype.set.call(this, key, value);
+        value = TK.Container.prototype.set.call(this, key, value);
         switch (key) {
             case "show":
                 button = this.current();
@@ -356,7 +356,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     get: function (key) {
         if (key == "buttons") return this.buttons;
-        return Container.prototype.get.call(this, key);
+        return TK.Container.prototype.get.call(this, key);
     }
 });
 })(this);

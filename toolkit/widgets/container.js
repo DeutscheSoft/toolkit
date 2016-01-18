@@ -59,7 +59,7 @@ function disable_draw_children() {
 }
 w.TK.Container = w.Container = $class({
     /**
-     * Container represents a <DIV> element.
+     * TK.Container represents a <DIV> element.
      *
      * @class TK.Container
      * @extends TK.Widget
@@ -70,8 +70,8 @@ w.TK.Container = w.Container = $class({
      * child nodes from the container element including those added via append_child.
      */
     _class: "Container",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         content: "string",
         display_state: "string",
     }),
@@ -80,7 +80,7 @@ w.TK.Container = w.Container = $class({
     },
     initialize: function (options) {
         var E;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         this.hidden_children = [];
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-container"); 
@@ -97,7 +97,7 @@ w.TK.Container = w.Container = $class({
     
     destroy: function () {
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     /**
      * Calls {@link TK.Container#append_child} for an array of widgets.
@@ -122,7 +122,7 @@ w.TK.Container = w.Container = $class({
     add_child : function(child) {
         var C = this.children;
         var H = this.hidden_children;
-        Widget.prototype.add_child.call(this, child);
+        TK.Widget.prototype.add_child.call(this, child);
         H.push(false);
     },
     remove_child : function(child) {
@@ -188,7 +188,7 @@ w.TK.Container = w.Container = $class({
             return;
         }
         this.was_resized = false;
-        Widget.prototype.resize.call(this);
+        TK.Widget.prototype.resize.call(this);
     },
 
     hide_child: function(i) {
@@ -241,7 +241,7 @@ w.TK.Container = w.Container = $class({
         var I = this.invalid;
         var E = this.element;
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
 
         if (I.display_state) {
             var time;

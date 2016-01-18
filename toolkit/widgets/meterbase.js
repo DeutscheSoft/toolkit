@@ -25,19 +25,19 @@ function vert(O) {
 }
 w.TK.MeterBase = w.MeterBase = $class({
     /**
-     * MeterBase is a base class to build different meters like LevelMeter.
-     * MeterBase extends Gradient and implements Widget.
-     * MeterBase has a Scale widget.
+     * TK.MeterBase is a base class to build different meters like TK.LevelMeter.
+     * TK.MeterBase extends Gradient and implements TK.Widget.
+     * TK.MeterBase has a TK.Scale widget.
      *
      * @class TK.MeterBase
      * @extends TK.Widget
      */
     
     _class: "MeterBase",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: [Gradient],
-    _options: Object.assign(Object.create(Widget.prototype._options),
-                            Gradient.prototype._options, Scale.prototype._options, {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options),
+                            Gradient.prototype._options, TK.Scale.prototype._options, {
         layout: "int",
         segment: "number",
         value: "number",
@@ -109,7 +109,7 @@ w.TK.MeterBase = w.MeterBase = $class({
     
     initialize: function (options) {
         var E;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
         this.__based = false;
         if (!(E = this.element)) this.element = E = TK.element("div");
@@ -142,14 +142,14 @@ w.TK.MeterBase = w.MeterBase = $class({
         options.labels    = O.format_labels;
         options.base      = this.__based ? O.base : O.scale_base;
         options.container = E;
-        this.scale        = new Scale(options);
+        this.scale        = new TK.Scale(options);
         this._scale       = this.scale.element;
         this.add_child(this.scale);
         this.delegate(this._bar);
     },
 
     initialized: function () {
-        Widget.prototype.initialized.call(this);
+        TK.Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
     },
     
@@ -163,7 +163,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._mask1.remove();
         this._mask2.remove();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     redraw: function () {
         var I = this.invalid;
@@ -198,7 +198,7 @@ w.TK.MeterBase = w.MeterBase = $class({
             this.draw_gradient(this._bar, O.gradient);
         }
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
         
         if (I.layout) {
             I.layout = false;
@@ -266,7 +266,7 @@ w.TK.MeterBase = w.MeterBase = $class({
 
     resize: function() {
         var O = this.options;
-        Widget.prototype.resize.call(this);
+        TK.Widget.prototype.resize.call(this);
         var i = TK["inner_" + (vert(O) ? "height" : "width")](this._bar);
         if (i != O.basis)
             this.set("basis", i);
@@ -300,7 +300,7 @@ w.TK.MeterBase = w.MeterBase = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        value = Widget.prototype.set.call(this, key, value);
+        value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "label":
                 this.fire_event("labelchanged", value);
@@ -333,8 +333,8 @@ w.TK.MeterBase = w.MeterBase = $class({
                 this.fire_event("basechanged", value);
                 break;
             default:
-                if (Widget.prototype._options[key]) break;
-                if (Scale.prototype._options[key]) {
+                if (TK.Widget.prototype._options[key]) break;
+                if (TK.Scale.prototype._options[key]) {
                     this.fire_event("scalechanged", key, value);
                     this.scale.set(key, value);
                 }

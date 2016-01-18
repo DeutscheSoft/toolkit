@@ -22,16 +22,16 @@
 (function(w){
 w.TK.Dynamics = w.Dynamics = $class({
     /**
-     * Dynamics are based on Charts and display the characteristics of dynamic
-     * processors. They are square widgets drawing a Grid automatically based on
+     * TK.Dynamics are based on Charts and display the characteristics of dynamic
+     * processors. They are square widgets drawing a TK.Grid automatically based on
      * the range.
      *
      * @class TK.Dynamics
      * @extends TK.Chart
      */
     _class: "Dynamics",
-    Extends: Chart,
-    _options: Object.assign(Object.create(Chart.prototype._options), {
+    Extends: TK.Chart,
+    _options: Object.assign(Object.create(TK.Chart.prototype._options), {
         size: "number",
         min:  "number",
         max:  "number",
@@ -63,7 +63,7 @@ w.TK.Dynamics = w.Dynamics = $class({
         grid_labels: function (val) { return val + (!val ? "dB":""); }
     },
     initialize: function (options) {
-        Chart.prototype.initialize.call(this, options, true);
+        TK.Chart.prototype.initialize.call(this, options, true);
         var O = this.options;
         TK.add_class(this.element, "toolkit-dynamics");
         this.set("scale", O.scale);
@@ -114,7 +114,7 @@ w.TK.Dynamics = w.Dynamics = $class({
             this.draw_graph();
         }
         
-        Chart.prototype.redraw.call(this);
+        TK.Chart.prototype.redraw.call(this);
     },
 
     resize: function() {
@@ -194,7 +194,7 @@ w.TK.Dynamics = w.Dynamics = $class({
     },
     
     set: function (key, value) {
-        value = Chart.prototype.set.call(this, key, value);
+        value = TK.Chart.prototype.set.call(this, key, value);
         switch (key) {
             case "size":
                 this.set("width", value);

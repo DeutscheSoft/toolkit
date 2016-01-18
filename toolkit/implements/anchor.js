@@ -22,9 +22,9 @@
 (function(w){ 
 w.TK.Anchor = w.Anchor = $class({
     /**
-     * Anchor provides a single function translate_anchor
+     * TK.Anchor provides a single function translate_anchor
      * which returns real x and y values from a relative positioning.
-     * For example positioning a #Window with anchor _TOOLKIT_CENTER
+     * For example positioning a #TK.Window with anchor _TOOLKIT_CENTER
      * needs to subtract half of its width from y and half of its height
      * from x to appear at the correct position.
      *

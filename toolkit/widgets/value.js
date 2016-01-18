@@ -84,14 +84,14 @@ function submit_cb(e) {
 }
 w.TK.Value = w.Value = $class({
     /**
-     * Value is a formatted text field displaying numbers and providing
+     * TK.Value is a formatted text field displaying numbers and providing
      * a input field for editing the value.
      *
      * @class TK.Value
      */
     _class: "Value",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         value: "number",
         format: "function",
         size: "number",
@@ -110,7 +110,7 @@ w.TK.Value = w.Value = $class({
     },
     initialize: function (options) {
         var E;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         if (!(E = this.element)) this.element = E = TK.element("form");
         TK.add_class(E, "toolkit-value");
         
@@ -138,7 +138,7 @@ w.TK.Value = w.Value = $class({
         var O = this.options;
         var E = this._input;
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
 
         if (I.size) {
             I.size = 0;
@@ -162,7 +162,7 @@ w.TK.Value = w.Value = $class({
         this._input.removeEventListener("blur", this._value_done);
         this._input.remove();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 });
 })(this);

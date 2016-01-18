@@ -22,13 +22,13 @@
 (function(w){ 
 w.TK.Button = w.Button = $class({
     /**
-     * Button is a simple, clickable widget to trigger funcions. It fires a
+     * TK.Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.
      * Buttons are used as a base to build different other widgets from, too.
      * 
      * @property {string} [options.label=""] - Text for the button label
      * @property {string} [options.icon=""] - URL to an icon for the button
-     * @property {boolean} [options.state=false] - State of the button
+     * @property {boolean} [options.state=false] - TK.State of the button
      * @property {boolean} [options.state_color=false] - Background color of the state indication
      * @property {integer} [options.layout=_TOOLKIT_VERTICAL] - Determine the arrangement of label and icon.
      * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
@@ -38,8 +38,8 @@ w.TK.Button = w.Button = $class({
      * @class TK.Button
      */
     _class: "Button",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         label: "string",
         icon: "string",
         state: "boolean",
@@ -55,7 +55,7 @@ w.TK.Button = w.Button = $class({
     },
     initialize: function (options) {
         var E;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
         this.widgetize(E, true, true, true);
@@ -79,11 +79,11 @@ w.TK.Button = w.Button = $class({
         this._icon.remove();
         this._label.remove();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 
     redraw: function() {
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
         var E = this.element;

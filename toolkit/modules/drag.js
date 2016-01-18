@@ -80,8 +80,8 @@ function set_handle() {
     var h = this.options.handle;
     if (this.drag)
         this.drag.destroy();
-    var range = new Range({});
-    this.drag = new DragValue({
+    var range = new TK.Range({});
+    this.drag = new TK.DragValue({
         node: h,
         range: function () { return range; },
         onStartdrag  : this._dragstart,
@@ -90,7 +90,7 @@ function set_handle() {
     });
 }
 /**
- * Drag enables dragging of absolutely positioned
+ * TK.Drag enables dragging of absolutely positioned
  * elements on the screen.
  * @param {Object} options
  * @property {HTMLElement|SVGElement} options..node - The element to drag
@@ -104,7 +104,7 @@ function set_handle() {
  */
 TK.Drag = w.Drag = $class({
     _class: "Drag",
-    Extends: Widget,
+    Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         node    : "object",
         handle  : "object",
@@ -122,7 +122,7 @@ TK.Drag = w.Drag = $class({
         initial   : 2,
     },
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         this._dragging = dragging.bind(this);
         this._dragstart = dragstart.bind(this);
         this._dragend = dragend.bind(this);
@@ -133,7 +133,7 @@ TK.Drag = w.Drag = $class({
         if (key === "handle" && !value)
             value = this.options.node;
 
-        Widget.prototype.set.call(this, key, value);
+        TK.Widget.prototype.set.call(this, key, value);
 
         if (key === "handle") set_handle.call(this);
         if (key === "initial" && this.drag) this.drag.set("initial", value);

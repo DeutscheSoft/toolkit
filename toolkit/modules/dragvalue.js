@@ -148,9 +148,9 @@ function angle_diff(a, b) {
 }
 w.TK.DragValue = w.DragValue = $class({
     /**
-     * DragValue enables dragging an element and setting a
-     * value according to the dragged distance. DragValue is used in #Knob
-     * or #ValueButton.
+     * TK.DragValue enables dragging an element and setting a
+     * value according to the dragged distance. TK.DragValue is used in #Knob
+     * or #TK.ValueButton.
      *
      * @class TK.DragValue
      * @property {Function} options.range - A function returning a {@link TK.Range} object for calculating the value.
@@ -174,9 +174,9 @@ w.TK.DragValue = w.DragValue = $class({
      * @mixes TK.GlobalCursor
      */
     _class: "DragValue",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: GlobalCursor,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         get: "function",
         set: "function",
         range: "function",
@@ -226,7 +226,7 @@ w.TK.DragValue = w.DragValue = $class({
         // make sure not to set these later.
         cache_values.call(this, {}, 0);
 
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
 
         if (this.options.node)
             this.set("node", this.options.node);
@@ -238,12 +238,12 @@ w.TK.DragValue = w.DragValue = $class({
         document.removeEventListener("mouseup",   this.__pointer_up);
         document.removeEventListener("touchmove", this.__pointer_move);
         document.removeEventListener("touchend",  this.__pointer_up);
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 
     // GETTERS & SETTERS
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "node":
                 value.addEventListener("contextmenu", function () {return false;});

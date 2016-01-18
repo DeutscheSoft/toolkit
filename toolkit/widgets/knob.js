@@ -28,15 +28,15 @@ function dblclick() {
 }
 w.TK.Knob = w.Knob = $class({
     /**
-     * Knob is a Circular injected into a SVG and extended by ScrollValue
-     * and DragValue to set its value. Knob uses DragValue and Scrollvalue
+     * TK.Knob is a TK.Circular injected into a SVG and extended by ScrollValue
+     * and TK.DragValue to set its value. TK.Knob uses TK.DragValue and Scrollvalue
      * for setting its value.
      *
      * @class TK.Knob
      */
     _class: "Knob",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), TK.Circular.prototype._options,
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options,
                             TK.DragValue.prototype._options, {
         size: "number",
         hand: "object",
@@ -69,7 +69,7 @@ w.TK.Knob = w.Knob = $class({
         blind_angle:    20
     }),
     initialize: function (options) {
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         var E, S;
 
         if (!(E = this.element)) this.element = E = TK.element("div")
@@ -81,11 +81,11 @@ w.TK.Knob = w.Knob = $class({
         co = TK.object_sub(co, TK.Widget.prototype._options);
         co.container = S;
 
-        this.circular = new Circular(co);
+        this.circular = new TK.Circular(co);
 
         this.widgetize(E, true, true, true);
         
-        this.drag = new DragValue({
+        this.drag = new TK.DragValue({
             node:    S,
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
@@ -98,7 +98,7 @@ w.TK.Knob = w.Knob = $class({
             blind_angle: this.options.blind_angle,
             events: function () { return this }.bind(this),
         });
-        this.scroll = new ScrollValue({
+        this.scroll = new TK.ScrollValue({
             node:    S,
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
@@ -121,7 +121,7 @@ w.TK.Knob = w.Knob = $class({
         this.drag.destroy();
         this.scroll.destroy();
         this.circular.destroy();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 
     redraw: function() {
@@ -133,18 +133,18 @@ w.TK.Knob = w.Knob = $class({
             this.svg.setAttribute("viewBox", format_viewbox(O.size, O.size));
         }
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
     },
 
     set: function(key, value) {
-        // Circular does the snapping
+        // TK.Circular does the snapping
         if (!TK.Widget.prototype._options[key]) {
             if (TK.Circular.prototype._options[key])
                 value = this.circular.set(key, value);
             if (TK.DragValue.prototype._options[key])
                 this.drag.set(key, value);
         }
-        return Widget.prototype.set.call(this, key, value);
+        return TK.Widget.prototype.set.call(this, key, value);
     },
 });
 })(this);

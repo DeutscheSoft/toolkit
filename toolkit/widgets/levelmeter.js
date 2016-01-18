@@ -102,7 +102,7 @@ function draw_peak() {
     
 w.TK.LevelMeter = w.LevelMeter = $class({
     /**
-     * LevelMeter is a fully functional display of numerical values. They are
+     * TK.LevelMeter is a fully functional display of numerical values. They are
      * enhanced MeterBases containing a clip LED, a peak pin with value label
      * and hold markers. LevelMeters have some automatically triggered
      * functionality like falling and resetting all kinds of values after a
@@ -113,8 +113,8 @@ w.TK.LevelMeter = w.LevelMeter = $class({
      * @extends TK.MeterBase
      */
     _class: "LevelMeter",
-    Extends: MeterBase,
-    _options: Object.assign(Object.create(MeterBase.prototype._options), {
+    Extends: TK.MeterBase,
+    _options: Object.assign(Object.create(TK.MeterBase.prototype._options), {
         clip: "boolean",
         falling: "number",
         falling_fps: "number",
@@ -173,7 +173,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
     },
     
     initialize: function (options) {
-        MeterBase.prototype.initialize.call(this, options, true);
+        TK.MeterBase.prototype.initialize.call(this, options, true);
         this._reset_label = this.reset_label.bind(this);
         this._reset_clip = this.reset_clip.bind(this);
         this._reset_peak = this.reset_peak.bind(this);
@@ -183,7 +183,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
 
         var O = this.options;
         
-        this.state = new State(Object.assign({
+        this.state = new TK.State(Object.assign({
             "class": "toolkit-clip"
         }, O.clip_options));
         this.add_child(this.state);
@@ -230,7 +230,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             (O.show_peak ? TK.add_class : TK.remove_class)(E, "toolkit-has-peak");
         }
 
-        MeterBase.prototype.redraw.call(this);
+        TK.MeterBase.prototype.redraw.call(this);
 
         if (I.peak) {
             I.peak = false;
@@ -251,7 +251,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         this._peak_label.remove();
         this._mask3.remove();
         this._mask4.remove();
-        MeterBase.prototype.destroy.call(this);
+        TK.MeterBase.prototype.destroy.call(this);
     },
     reset_peak: function () {
         if (this.__pto) clearTimeout(this.__pto);
@@ -328,7 +328,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         var is_vertical = !!vert(O);
         
         if (!O.show_hold) {
-            MeterBase.prototype.draw_meter.call(this, value);
+            TK.MeterBase.prototype.draw_meter.call(this, value);
         } else {
             var m1 = this._mask1.style;
             var m3 = this._mask3.style;
@@ -399,7 +399,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
                 this.set("bottom", value);
             }
         }
-        value = MeterBase.prototype.set.call(this, key, value);
+        value = TK.MeterBase.prototype.set.call(this, key, value);
         switch (key) {
             case "peak":
                 this.fire_event("peakchanged");

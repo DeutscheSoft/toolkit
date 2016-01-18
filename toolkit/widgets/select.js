@@ -83,14 +83,14 @@ function show_list(show) {
 }
 w.TK.Select = w.Select = $class({
     /**
-     * Select provides a button with a select list to choose from
+     * TK.Select provides a button with a select list to choose from
      * different entries.
      *
      * @class TK.Select
      */
     _class: "Select",
-    Extends: Button,
-    _options: Object.assign(Object.create(Button.prototype._options), {
+    Extends: TK.Button,
+    _options: Object.assign(Object.create(TK.Button.prototype._options), {
         entries: "array",
         selected: "int",
         value: "mixed",
@@ -107,7 +107,7 @@ w.TK.Select = w.Select = $class({
         this.__timeout = -1;
         this.entries = [];
         this._active = null;
-        Button.prototype.initialize.call(this, options);
+        TK.Button.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-select");
         
         this.add_event("click", function (e) {
@@ -137,7 +137,7 @@ w.TK.Select = w.Select = $class({
     destroy: function () {
         this._list.remove();
         this.element.remove();
-        Button.prototype.destroy.call(this);
+        TK.Button.prototype.destroy.call(this);
     },
     
     select: function (id) {
@@ -233,7 +233,7 @@ w.TK.Select = w.Select = $class({
     },
 
     redraw: function() {
-        Button.prototype.redraw.call(this);
+        TK.Button.prototype.redraw.call(this);
 
         var I = this.invalid;
         var O = this.options;
@@ -286,13 +286,13 @@ w.TK.Select = w.Select = $class({
             value = index;
         }
 
-        value = Button.prototype.set.call(this, key, value);
+        value = TK.Button.prototype.set.call(this, key, value);
 
         switch (key) {
             case "selected":
                 var entry = this.current();
                 if (entry) {
-                    Button.prototype.set.call(this, "value", entry.value); 
+                    TK.Button.prototype.set.call(this, "value", entry.value); 
                     this.set("label", entry.title);
                 } else {
                     this.set("label", "");

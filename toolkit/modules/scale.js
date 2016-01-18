@@ -119,14 +119,14 @@ function correct_labels(labels) {
     }.bind(this), 1);
 }
 w.TK.Scale = w.Scale = $class({
-    // Scale can be used to draw dots and labels as markers next to a meter, a
+    // TK.Scale can be used to draw dots and labels as markers next to a meter, a
     // fader or a frequency response graph. Depending on some parameters it
     // tries to decide on its own where to draw labels and dots depending on the
     //  available space and the scale. Scales can be drawn vertically and
-    // horizontally. Scale extends Widget and implements Ranges.
+    // horizontally. TK.Scale extends TK.Widget and implements Ranges.
     _class: "Scale",
     
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: [Ranged],
     _options: Object.assign(Object.create(TK.Widget.prototype._options), Ranged.prototype._options, {
         layout: "int",
@@ -178,18 +178,18 @@ w.TK.Scale = w.Scale = $class({
     
     initialize: function (options) {
         this.__size = 0;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         var E = TK.element("div","toolkit-scale");
         this.element = this.widgetize(E, true, true, true);
     },
 
     initialized: function() {
-        Widget.prototype.initialized.call(this);
+        TK.Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
 
         var I = this.invalid;
         var O = this.options;
@@ -331,7 +331,7 @@ w.TK.Scale = w.Scale = $class({
     destroy: function () {
         TK.empty(this.element);
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
         // ??
         return this;
     },
@@ -375,7 +375,7 @@ w.TK.Scale = w.Scale = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        Widget.prototype.set.call(this, key, value);
+        TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "division":
             case "levels":

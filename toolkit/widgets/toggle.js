@@ -62,8 +62,8 @@ w.TK.Toggle = w.Toggle = $class({
      * @class TK.Toggle
      */
     _class: "Toggle",
-    Extends: Button,
-    _options: Object.assign(Object.create(Button.prototype._options), {
+    Extends: TK.Button,
+    _options: Object.assign(Object.create(TK.Button.prototype._options), {
         label_active: "string",
         icon_active: "string",
         press: "int",
@@ -79,7 +79,7 @@ w.TK.Toggle = w.Toggle = $class({
     },
     
     initialize: function (options) {
-        Button.prototype.initialize.call(this, options);
+        TK.Button.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-toggle");
         this.add_event("pointerdown", mousedown);
         this.add_event("pointerup", mouseup);
@@ -90,12 +90,12 @@ w.TK.Toggle = w.Toggle = $class({
         var I = this.invalid;
         var tmp;
         
-        // NOTE: we do not call Button.redraw here, since it overwrites labels and icons
+        // NOTE: we do not call TK.Button.redraw here, since it overwrites labels and icons
         // NOTE2: unfortunately this doesn't work cause button sets some CSS classes
         // so the solution is to remember the relevant values and reset them after
-        // calling Button.prototype.redraw
+        // calling TK.Button.prototype.redraw
         var I_ = { icon_active: I.icon_active, label_active: I.label_active, icon: I.icon, label: I.label, state: I.state };
-        Button.prototype.redraw.call(this);
+        TK.Button.prototype.redraw.call(this);
         I.icon_active = I.icon_active; I.label_active = I_.label_active; I.icon = I_.icon; I.label = I_.label, I.state = I_.state;
         
         if (I.validate("icon_active", "icon") || I.state) {

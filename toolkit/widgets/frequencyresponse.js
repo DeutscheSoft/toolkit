@@ -44,16 +44,16 @@ function calculate_grid(range, step) {
 }
 w.TK.FrequencyResponse = w.FrequencyResponse = $class({
     /**
-     * FrequencyResponse is a Chart drawing frequencies on the x axis and dB
-     * values on the y axis. This widget automatically draws a Grid depending
+     * TK.FrequencyResponse is a TK.Chart drawing frequencies on the x axis and dB
+     * values on the y axis. This widget automatically draws a TK.Grid depending
      * on the ranges.
      *
      * @class TK.FrequencyResponse
      * @extends TK.Chart
      */
     _class: "FrequencyResponse",
-    Extends: Chart,
-    _options: Object.assign(Object.create(Chart.prototype._options), {
+    Extends: TK.Chart,
+    _options: Object.assign(Object.create(TK.Chart.prototype._options), {
         db_grid: "number",
         range_x: "object",
         range_y: "object",
@@ -62,8 +62,8 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
     }),
     options: {
         db_grid: 12,                                         // dB grid distance
-        range_x: {min:20, max:20000, scale:_TOOLKIT_FREQ},   // Range x options
-        range_y: {min:-36, max: 36, scale: _TOOLKIT_LINEAR}, // Range y options
+        range_x: {min:20, max:20000, scale:_TOOLKIT_FREQ},   // TK.Range x options
+        range_y: {min:-36, max: 36, scale: _TOOLKIT_LINEAR}, // TK.Range y options
         grid_x:  [
                     {pos:    20, label: "20 Hz"},
                     {pos:    30},
@@ -99,7 +99,7 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
     initialize: function (options) {
         if (options.scale)
             this.set("scale", options.scale, true);
-        Chart.prototype.initialize.call(this, options);
+        TK.Chart.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-frequency-response");
         this.set("db_grid", this.options.db_grid);
         this.range_y.add_event("set", function (key, value) {
@@ -118,7 +118,7 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
             I.ranges = true;
         }
 
-        Chart.prototype.redraw.call(this);
+        TK.Chart.prototype.redraw.call(this);
     },
     
     set: function (key, value) {
@@ -131,7 +131,7 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
                 value = calculate_grid(this.range_y, value);
                 break;
         }
-        return Chart.prototype.set.call(this, key, value);
+        return TK.Chart.prototype.set.call(this, key, value);
     }
 });
 })(this);

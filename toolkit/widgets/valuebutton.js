@@ -35,9 +35,9 @@ w.TK.ValueButton = w.ValueButton = $class({
      * @class TK.ValueButton
      */
     _class: "ValueButton",
-    Extends: Button,
+    Extends: TK.Button,
     Implements: [Warning, Ranged],
-    _options: Object.assign(Object.create(Button.prototype._options), Ranged.prototype._options, {
+    _options: Object.assign(Object.create(TK.Button.prototype._options), Ranged.prototype._options, {
         value: "number",
         value_format: "function",
         value_size: "number",
@@ -59,7 +59,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         snap:           0.01
     },
     initialize: function (options) {
-        Button.prototype.initialize.call(this, options);
+        TK.Button.prototype.initialize.call(this, options);
         
         TK.add_class(this.element, "toolkit-valuebutton");
         
@@ -70,7 +70,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         this._bar.appendChild(this._base);
         this._bar.appendChild(this._over);
         
-        this.value = new Value({
+        this.value = new TK.Value({
             container: this.element,
             value: this.options.value,
             format: this.options.value_format,
@@ -88,7 +88,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         
         this.element.appendChild(this._bar);
         
-        this.drag = new DragValue({
+        this.drag = new TK.DragValue({
             node:      this.element,
             range:     function () { return this; }.bind(this),
             get:       function () { return this.options.value; }.bind(this),
@@ -101,7 +101,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             blind_angle: this.options.blind_angle,
             events: function () { return this }.bind(this)
         });
-        this.scroll = new ScrollValue({
+        this.scroll = new TK.ScrollValue({
             element: this.element,
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
@@ -124,12 +124,12 @@ w.TK.ValueButton = w.ValueButton = $class({
     },
 
     initialized: function() {
-        Button.prototype.initialized.call(this);
+        TK.Button.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
-        Button.prototype.redraw.call(this);
+        TK.Button.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
 
@@ -160,7 +160,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         this._over.remove();
         this._base.remove();
         this._bar.remove();
-        Button.prototype.destroy.call(this);
+        TK.Button.prototype.destroy.call(this);
     },
     // GETTERS & SETTERS
     set: function (key, value) {
@@ -169,7 +169,7 @@ w.TK.ValueButton = w.ValueButton = $class({
                 this.warning(this.element);
             value = this.snap(value);
         }
-        value = Button.prototype.set.call(this, key, value);
+        value = TK.Button.prototype.set.call(this, key, value);
         switch (key) {
             case "value":
                 this.value.set("value", value);

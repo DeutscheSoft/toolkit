@@ -22,13 +22,13 @@
 (function(w){ 
 w.TK.Label = w.Label = $class({
     /**
-     * Label is a simple text field displaying strings
+     * TK.Label is a simple text field displaying strings
      *
      * @class TK.Label
      */
     _class: "Label",
-    Extends: Widget,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    Extends: TK.Widget,
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         label: "string"
     }),
     options: {
@@ -36,7 +36,7 @@ w.TK.Label = w.Label = $class({
     },
     initialize: function (options) {
         var E;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-label");
         this.widgetize(E, true, true, true);
@@ -50,7 +50,7 @@ w.TK.Label = w.Label = $class({
         var I = this.invalid;
         var O = this.options;
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
 
         if (I.label) {
             I.label = false;
@@ -60,7 +60,7 @@ w.TK.Label = w.Label = $class({
     
     destroy: function () {
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
 });
 })(this);

@@ -206,16 +206,16 @@ function draw_title() {
     
 w.TK.Chart = w.Chart = $class({
     /**
-     * Chart is an SVG image containing one or more Graphs. There are functions
-     * to add and remove graphs. Chart extends Widget and contains a Grid
+     * TK.Chart is an SVG image containing one or more Graphs. There are functions
+     * to add and remove graphs. TK.Chart extends TK.Widget and contains a Grid
      * and two Ranges.
      *
      * @class TK.Chart
      */
     _class: "Chart",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: Ranges,
-    _options: Object.assign(Object.create(Widget.prototype._options), {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         grid_x: "array",
         grid_y: "array",
         width: "int",
@@ -235,9 +235,9 @@ w.TK.Chart = w.Chart = $class({
         width:   0,  // the width of the Graph
         height:  0,  // the height of the Graph
         range_x: {}, // an object with options for a range for the x axis
-                     // or a function returning a Range instance (only on init)
+                     // or a function returning a TK.Range instance (only on init)
         range_y: {}, // an object with options for a range for the y axis
-                     // or a function returning a Range instance (only on init)
+                     // or a function returning a TK.Range instance (only on init)
         key: false,  // key draws a description for the graphs at the given
                      // position, use false for no key
         key_size: {x:20, y:10}, // size of the key rects
@@ -247,7 +247,7 @@ w.TK.Chart = w.Chart = $class({
     initialize: function (options) {
         var E, S;
         this.graphs = [];
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
@@ -269,7 +269,7 @@ w.TK.Chart = w.Chart = $class({
         if (!this.options.height)
             this.options.height = this.range_y.options.basis;
         
-        this.grid = new Grid({
+        this.grid = new TK.Grid({
             grid_x: this.options.grid_x,
             grid_y: this.options.grid_y,
             range_x: function () { return this.range_x; }.bind(this),
@@ -331,7 +331,7 @@ w.TK.Chart = w.Chart = $class({
         var I = this.invalid;
         var E = this.svg;
 
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
 
         if (I.width || I.height || I.ranges) {
             I.ranges = true;
@@ -359,10 +359,10 @@ w.TK.Chart = w.Chart = $class({
         }
         this._graphs.remove();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
     },
     /**
-     * Add a new Graph to the Chart
+     * Add a new TK.Graph to the Chart
      *
      * @method TK.Chart#add_graph
      */
@@ -372,7 +372,7 @@ w.TK.Chart = w.Chart = $class({
             options.range_x = function () { return this.range_x; }.bind(this);
         if (!options.range_y)
             options.range_y = function () { return this.range_y; }.bind(this);
-        var g = new Graph(options);
+        var g = new TK.Graph(options);
         this.graphs.push(g);
         g.add_event("set", function (key, value, obj) {
             if (key == "color" || key == "class" || key == "key") {
@@ -388,7 +388,7 @@ w.TK.Chart = w.Chart = $class({
         return g;
     },
     /**
-     * Remove Graph from the Chart
+     * Remove TK.Graph from the Chart
      *
      * @method TK.Chart#remove_graph
      */
@@ -403,7 +403,7 @@ w.TK.Chart = w.Chart = $class({
         }
     },
     /**
-     * Remove all Graphs from the Chart.
+     * Remove all Graphs from the TK.Chart.
      *
      * @method TK.Chart#empty
      */
@@ -414,7 +414,7 @@ w.TK.Chart = w.Chart = $class({
     
     // GETTER & SETER
     set: function (key, value) {
-        value = Widget.prototype.set.call(this, key, value);
+        value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "grid_x":
                 this.grid.set("grid_x", value);

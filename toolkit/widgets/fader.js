@@ -92,10 +92,10 @@ w.TK.Fader = w.Fader = $class({
      * @extends TK.Widget
      */
     _class: "Fader",
-    Extends: Widget,
+    Extends: TK.Widget,
     Implements: [Ranged, Warning, GlobalCursor],
-    _options: Object.assign(Object.create(Widget.prototype._options),
-                            Ranged.prototype._options, Scale.prototype._options, {
+    _options: Object.assign(Object.create(TK.Widget.prototype._options),
+                            Ranged.prototype._options, TK.Scale.prototype._options, {
         value:    "number",
         division: "number",
         levels:   "array",
@@ -125,7 +125,7 @@ w.TK.Fader = w.Fader = $class({
     },
     initialize: function (options) {
         this.__tt = false;
-        Widget.prototype.initialize.call(this, options);
+        TK.Widget.prototype.initialize.call(this, options);
 
         var E, O = this.options;
         
@@ -137,7 +137,7 @@ w.TK.Fader = w.Fader = $class({
         so = TK.object_sub(so, TK.Widget.prototype._options);
         so.container = E;
         
-        this.scale = new Scale(so);
+        this.scale = new TK.Scale(so);
         this._scale = this.scale.element;
         
         this._handle = TK.element("div", "toolkit-handle");
@@ -154,7 +154,7 @@ w.TK.Fader = w.Fader = $class({
         var self = THIS.bind(this);
         var get = GET.bind(O);
         var set = SET.bind(this);
-        this.drag = new DragValue({
+        this.drag = new TK.DragValue({
             node:    this._handle,
             range:   self,
             get:     get,
@@ -162,7 +162,7 @@ w.TK.Fader = w.Fader = $class({
             events:  self,
             direction: O.direction
         });
-        this.scroll = new ScrollValue({
+        this.scroll = new TK.ScrollValue({
             node:    this.element,
             range:   self,
             get:     get,
@@ -184,12 +184,12 @@ w.TK.Fader = w.Fader = $class({
     },
 
     initialized: function () {
-        Widget.prototype.initialized.call(this);
+        TK.Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
-        Widget.prototype.redraw.call(this);
+        TK.Widget.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
@@ -233,13 +233,13 @@ w.TK.Fader = w.Fader = $class({
         this.set("basis", basis);
         this.scale.set("basis", basis);
 
-        Widget.prototype.resize.call(this);
+        TK.Widget.prototype.resize.call(this);
     },
     destroy: function () {
         this._handle.remove();
         this.scale.destroy();
         this.element.remove();
-        Widget.prototype.destroy.call(this);
+        TK.Widget.prototype.destroy.call(this);
         TK.tooltip.remove(0, this.tooltip_by_value);
         TK.tooltip.remove(1, this.tooltip_by_position);
     },
@@ -266,7 +266,7 @@ w.TK.Fader = w.Fader = $class({
                 break;
         }
 
-        return Widget.prototype.set.call(this, key, value);
+        return TK.Widget.prototype.set.call(this, key, value);
     }
 });
 })(this);

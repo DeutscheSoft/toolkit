@@ -252,7 +252,7 @@ function FilterModule(stdlib, foreign, heap) {
 
 w.TK.Filter = w.Filter = $class({
     /**
-     * Filter provides the math for calculating a gain from
+     * TK.Filter provides the math for calculating a gain from
      * a given frequency for different types of filters
      *
      * @property {integer} [options.type=_TOOLKIT_PARAMETRIC] - The type of the filter,  _TOOLKIT_PARAMETRIC|_TOOLKIT_PEAK|_TOOLKIT_NOTCH|_TOOLKIT_LOWSHELF|_TOOLKIT_HIGHSHELF|_TOOLKIT_LOWPASS_[n]|_TOOLKIT_HIGHPASS_[n]
