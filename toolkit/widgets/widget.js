@@ -82,16 +82,14 @@ TK.Widget = $class({
     },
     Implements: [AudioMath],
     initialize: function (options) {
-        BASE.prototype.initialize.call(this);
         // Main actions every widget needs to take
         if (!options) options = {};
-        this.fire_event("initialize");
         if (!options.id)
             options.id = TK.unique_id();
         /** @property {HTMLElement} TK.Widget#element - The main element. */
         if (options.element)
             this.element = options.element;
-        this.set_options(options);
+        TK.Base.prototype.initialize.call(this, options);
         this.__classified = null;
         this.__stylized = null;
         this.__delegated = null;
@@ -302,28 +300,15 @@ TK.Widget = $class({
             if (this.options.class) TK.remove_class(this.__classified, this.options.class);
             if (value) TK.add_class(this.__classified, value);
         }
-        this.options[key] = value;
-        this.value_time[key] = Date.now();
+        TK.Base.prototype.set.call(this, key, value);
         if (this._options[key]) {
             this.invalid[key] = true;
+            this.value_time[key] = Date.now();
             this.trigger_draw();
         } else {
             TK.warn("%O: %s.set(%s, %O): unknown option.", this, this._class, key, value);
         }
-        if (this.has_event_listeners("set"))
-            this.fire_event("set", key, value);
-        if (this.has_event_listeners("set_"+key))
-            this.fire_event("set_" + key, value);
         return value;
-    },
-    /**
-     * Get the value of an option.
-     *
-     * @method TK.Widget#get
-     * @param {string} key - The option name.
-     */
-    get: function (key) {
-        return this.options[key];
     },
     /**
      * Schedules this widget for drawing.

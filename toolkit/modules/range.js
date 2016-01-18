@@ -101,25 +101,9 @@ w.TK.Range = w.Range = $class({
                                      // again.
     },
     
-    initialize: function (options) {
-        BASE.prototype.initialize.call(this);
-        this.set_options(options);
-        this.fire_event("initialize");
-    },
-
     initialized: function() {
-        this.fire_event("initialized");
         Ranged.prototype.initialized.call(this);
+        TK.Base.prototype.initialized.call(this);
     },
-    
-    // GETTER & SETTER
-    set: function (key, value) {
-        this.options[key] = value;
-        this.fire_event("set", key, value);
-        this.fire_event("set_" + key, value);
-    },
-    get: function (key) {
-        return this.options[key];
-    }
 });
 })(this);

@@ -169,12 +169,13 @@ TK.Base = w.BASE = $class({
      *
      * @class TK.Base
      */
-    initialize : function() {
-        if (!this.___events) {
-            this.__events = {};
-            this.__event_target = false;
-        }
+    initialize : function(options) {
+        this.__events = {};
         this.__event_target = null;
+        this.set_options(options);
+    },
+    initialized : function() {
+        this.fire_event("initialized");
     },
     destroy : function() {
         /**
@@ -226,6 +227,29 @@ TK.Base = w.BASE = $class({
             this.add_event(key.substr(2).toLowerCase(), this.options[key]);
             delete this.options[key];
         }
+    },
+    /**
+     * Get the value of an option.
+     *
+     * @method TK.Base#get
+     * @param {string} key - The option name.
+     */
+    get: function (key) {
+        return this.options[key];
+    },
+    /**
+     * Sets an option.
+     *
+     * @method TK.Base#set
+     * @param {string} key - The option name.
+     * @param value - The option value.
+     */
+    set: function (key, value) {
+        this.options[key] = value;
+        if (this.__events["set"])
+            this.fire_event("set", key, value);
+        if (this.__events["set_"+key])
+            this.fire_event("set_" + key, value);
     },
     delegate_events: function (element) {
         /**
