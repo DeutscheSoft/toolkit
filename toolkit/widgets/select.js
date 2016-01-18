@@ -82,9 +82,11 @@ function show_list(show) {
     this.__timeout = window.setTimeout(hide_list.bind(this), dur * 1000);
 }
 w.TK.Select = w.Select = $class({
-    /** @class Select
-     * @description Select provides a button with a select list to choose from
+    /**
+     * Select provides a button with a select list to choose from
      * different entries.
+     *
+     * @class TK.Select
      */
     _class: "Select",
     Extends: Button,

@@ -21,15 +21,16 @@
 "use strict";
 (function(w) { 
 w.TK.Range = w.Range = $class({
-    /** @class Range
+    /**
      * Range is used for calculating linear scales from
      * different values. They are useful to build coordinate systems,
      * calculate pixel positions for different scale types and the like.
      * Range is used e.g. in #Scale, #MeterBase and #Graph to draw
      * elements on a certain position according to a value on an
      * arbitrary scale.
-     * @extends BASE
-     * @implements Ranged
+     * @class TK.Range
+     * @extends TK.Basd
+     * @mixes TK.Ranged
      */
     Extends : BASE,
     _class: "Range",

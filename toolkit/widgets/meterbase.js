@@ -24,11 +24,13 @@ function vert(O) {
     return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
 }
 w.TK.MeterBase = w.MeterBase = $class({
-    /** @class MeterBase
-     * @description 
+    /**
      * MeterBase is a base class to build different meters like LevelMeter.
      * MeterBase extends Gradient and implements Widget.
      * MeterBase has a Scale widget.
+     *
+     * @class TK.MeterBase
+     * @extends TK.Widget
      */
     
     _class: "MeterBase",

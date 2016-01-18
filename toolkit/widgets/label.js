@@ -21,8 +21,10 @@
 "use strict";
 (function(w){ 
 w.TK.Label = w.Label = $class({
-    /** @class Label
-     * @description Label is a simple text field displaying strings
+    /**
+     * Label is a simple text field displaying strings
+     *
+     * @class TK.Label
      */
     _class: "Label",
     Extends: Widget,

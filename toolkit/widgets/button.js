@@ -21,21 +21,22 @@
 "use strict";
 (function(w){ 
 w.TK.Button = w.Button = $class({
-    /** @class  Button
-     * 
-     * @option label;       string; "";    Text for the buttons label
-     * @option icon;        string; "";    URL to an icon for the button
-     * @option state;       boolean;   false; State of the button
-     * @option state_color; boolean;   false; Background color of the state indication
-     * @option layout;      integer;    _TOOLKIT_VERTICAL; Determine the arrangement of label and icon.
-     * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
-     * 
-     * @extends Widget
-     * 
-     * @description
+    /**
      * Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.
-     * Buttons are used as a base to build different other widgets from, too. */
+     * Buttons are used as a base to build different other widgets from, too.
+     * 
+     * @property {string} [options.label=""] - Text for the button label
+     * @property {string} [options.icon=""] - URL to an icon for the button
+     * @property {boolean} [options.state=false] - State of the button
+     * @property {boolean} [options.state_color=false] - Background color of the state indication
+     * @property {integer} [options.layout=_TOOLKIT_VERTICAL] - Determine the arrangement of label and icon.
+     * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
+     * 
+     * @extends TK.Widget
+     * 
+     * @class TK.Button
+     */
     _class: "Button",
     Extends: Widget,
     _options: Object.assign(Object.create(Widget.prototype._options), {
@@ -55,16 +56,19 @@ w.TK.Button = w.Button = $class({
     initialize: function (options) {
         var E;
         Widget.prototype.initialize.call(this, options);
-        /** @element element [d][c][s]; div.toolkit-button; The main button element */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
         this.widgetize(E, true, true, true);
         
-        /** @element _cell; div.toolkit-cell; An internal container for label and icon */
+        /** @member {HTMLDivElement} TK.Button#_cell - An internal container for label and icon.
+         *      Has class <code>toolkit-cell</code>
+         */
         this._cell  = TK.element("div","toolkit-cell");
-        /** @element _icon; img.toolkit-icon; The icon of the button */
+        /** @member {HTMLImageElement} TK.Button#_icon - The icon of the button. Has class <code>toolkit-icon</code> 
+         */
         this._icon  = TK.element("img","toolkit-icon");
-        /** @element _label; div.toolkit-label; The label of the button */
+        /** @member {HTMLDivElement} TK.Button#_label - The label of the button. Has class <code>toolkit-label</code>
+         */
         this._label = TK.element("div","toolkit-label");
         
         this._cell.appendChild(this._icon);

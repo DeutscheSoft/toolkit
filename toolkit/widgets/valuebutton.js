@@ -31,7 +31,8 @@ function value_done() {
 }
     
 w.TK.ValueButton = w.ValueButton = $class({
-    /** @class ValueButton
+    /**
+     * @class TK.ValueButton
      */
     _class: "ValueButton",
     Extends: Button,

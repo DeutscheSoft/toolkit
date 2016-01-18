@@ -30,7 +30,8 @@ function value_done() {
     this.fire_event("valueset", this.options.value);
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
-    /* @class ValueKnob
+    /**
+     * @class TK.ValueKnob
      */
     _class: "ValueKnob",
     Extends: Widget,

@@ -33,6 +33,10 @@ function resized() {
         TK.S.add(this.resize.bind(this));
     }
 }
+/**
+ * @extends TK.Container
+ * @class TK.Root
+ */
 w.TK.Root = w.Root = $class({
     Extends: Container,
     _class: "Root",

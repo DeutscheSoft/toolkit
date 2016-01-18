@@ -1,4 +1,4 @@
- /* toolkit provides different widgets, implements and modules for 
+/* toolkit provides different widgets, implements and modules for 
  * building audio based applications in webbrowsers.
  * 
  * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
@@ -162,10 +162,12 @@ function add_native_events(element, events) {
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
         element.addEventListener(type, events[type].callback);
 }
-w.BASE = $class({
-    /** @class BASE
-     * @description This is the base class for all widgets in toolkit.
+TK.Base = w.BASE = $class({
+    /**
+     * This is the base class for all widgets in toolkit.
      * It provides an API for event handling and other basic implementations.
+     *
+     * @class TK.Base
      */
     initialize : function() {
         if (!this.___events) {
@@ -175,8 +177,10 @@ w.BASE = $class({
         this.__event_target = null;
     },
     destroy : function() {
-        /** @method destroy()
-         * @description Destroys all event handlers and the options object
+        /**
+         * Destroys all event handlers and the options object
+         *
+         * @method TK.Base#destroy()
          */
         if (this.__event_target) {
             remove_native_events(this.__event_target, this.__events);
@@ -187,13 +191,15 @@ w.BASE = $class({
         this.options = null;
     },
     set_options : function(o) {
-        /** @method set_options(options)
-         * @param {Object} [options={ }] - An object containing initial options
-         * @description merges a new options object into the existing one
+        /**
+         * Merges a new options object into the existing one
          * including deep copies of objects. If an option key begins with
          * the string "on" it is considered as event handler. In this case
          * the value should be the handler function for the event with
          * the corresponding name without the first "on" characters.
+         *
+         * @method TK.Base#set_options(options)
+         * @param {Object} [options={ }] - An object containing initial options
          */
         var opt = this.options;
         var key, a, b;
@@ -222,9 +228,11 @@ w.BASE = $class({
         }
     },
     delegate_events: function (element) {
-        /** @method delegate_events(element)
+        /**
+         * @method TK.Base#delegate_events
          * @param {HTMLElement} element - The element all native events should be bound to
-         * @returns {HTMLElement} The element */
+         * @returns {HTMLElement} The element
+         */
         var ev = this.__events;
         var old_target = this.__event_target;
         this.fire_event("delegated", element);
@@ -237,11 +245,13 @@ w.BASE = $class({
         return element;
     },
     add_event: function (event, func, prevent, stop) {
-        /** @method add_event(event, func, prevent, stop)
+        /**
+         * @method TK.Base#add_event
          * @param {string} event - The event descriptor
          * @param {Function} func - The function to call when the event happens
          * @param {boolean} prevent - Set to true if the event should prevent the default behavior
-         * @param {boolean} stop - Set to true if the event should stop bubbling up the tree */
+         * @param {boolean} stop - Set to true if the event should stop bubbling up the tree
+         */
         var ev;
         var cb;
 
@@ -291,12 +301,15 @@ w.BASE = $class({
         ev[event].queue.push(func);
     },
     remove_event: function (event, func) {
-        /** @method remove_event(event, func)
+        /**
+         * Removes the given function from the event queue.
+         * If it is a native DOM event, it removes the DOM event listener
+         * as well.
+         *
+         * @method TK.Base#remove_event
          * @param {string} event - The event descriptor
          * @param {Function} func - The function to remove
-         * @description Removes the given function from the event queue.
-         * If it is a native DOM event, it removes the DOM event listener
-         * as well. */
+         */
         if (__event_replacements.hasOwnProperty(event)) {
             // it is an event which has one or more replacement events
             // so remove all those replacements
@@ -332,9 +345,13 @@ w.BASE = $class({
         }
     },
     fire_event: function (event) {
-        /** @method fire_event(event)
+        /**
+         * Fires an event.
+         *
          * @param {string} event - The event descriptor
-         * @description Calls all functions in the events queue */
+         * @param {...*} args - Event arguments
+         * @method TK.Base#fire_event
+         */
         var ev = this.__events;
 
         if (!ev.hasOwnProperty(event)) return;
@@ -358,10 +375,13 @@ w.BASE = $class({
     },
 
     has_event_listeners: function (event) {
-        /** @method has_event_listeners(event)
+        /**
+         * Test if the event descriptor has some handler functions in the queue
+         *
+         * @method TK.Base#has_event_listeners
          * @param {string} event - The event desriptor
          * @returns {boolean} True if the event has some handler functions in the queue, false if not
-         * @description Test if the event descriptor has some handler functions in the queue */
+         */
         var ev = this.__events;
 
         if (!ev.hasOwnProperty(event)) return false;
@@ -372,10 +392,13 @@ w.BASE = $class({
         return true;
     },
     add_events: function (events, func) {
-        /** @method add_events(events, func)
+        /**
+         * Add multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function
+         *
+         * @method TK.Base#add_events
          * @param {Object | Array} events - Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires a handler function as the second argument.
          * @param {Function} func - A function to add as event handler if the first argument is an array of event desriptors
-         * @description Add multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
+         */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
@@ -387,10 +410,13 @@ w.BASE = $class({
         }
     },
     remove_events: function (events, func) {
-        /** @method remove_events(events, func)
+        /**
+         * Remove multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function
+         *
+         * @method TK.Base#remove_events
          * @param {Object | Array} events - Object with event descriptors as keys and functions as values or Array of event descriptors. The latter requires the handler function as the second argument.
          * @param {Function} func - A function to remove from event handler queue if the first argument is an array of event desriptors
-         * @description Remove multiple event handlers at once, either as dedicated event handlers or a list of event descriptors with a single handler function */
+         */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
@@ -402,9 +428,12 @@ w.BASE = $class({
         }
     },
     fire_events: function (events) {
-        /** @method fire_events(events)
-         * @param {Array} events - A list of event descriptors to fire
-         * @description Calls the event handler functions of multiple events */
+        /**
+         * Fires several events.
+         *
+         * @method TK.Base#fire_events
+         * @param {Array.<string>} events - A list of event names to fire.
+         */
         for (var i in events) {
             if (events.hasOwnProperty(i))
                 this.fire_event(i, events[i]);

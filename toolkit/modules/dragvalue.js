@@ -147,23 +147,31 @@ function angle_diff(a, b) {
     return d > 180 ? 360 - d : d;
 }
 w.TK.DragValue = w.DragValue = $class({
-    /** @class DragValue
+    /**
      * DragValue enables dragging an element and setting a
-     * value according to the distance. DragValue is used e.g. in #Knob
-     * or #ValueButton for setting its value.
-     * @option range; Function; function () { return {} }; The range object for calculating the value
-     * @option node; DOMNode|boolean; false; An element receiving the users events or false to use the items element itself
-     * @option events; DOMNode|boolean; false; An element firing the drag events or false to use the items element itself
-     * @option classes; DOMNode|boolean; false; An element receiving the classes or false to use the items element itself
-     * @option get; Function; function () { return; }; Callback function returning the value
-     * @option set; Function; function () { return; }; Callback function setting the value
-     * @option direction; integer; _TOOLKIT_POLAR; Direction changing the value, _TOOLKIT_POLAR|_TOOLKIT_VERTICAL|_TOOLKIT_HORIZONTAL
-     * @option active; boolean; true; Deactivate the dragging
-     * @option cursor; boolean; false; Enable global cursor
-     * @option blind_angle; number; 20; Used if direction is _TOOLKIT_POLAR, angle of separation between positive and negative value changes
-     * @option rotation; number; 45; Defines the angle of the center of the positive value changes. 0 means straight upward. E.g. a value of 45 does positive value changes in upper and right directions
-     * @extends Widget
-     * @implements GlobalCursor
+     * value according to the dragged distance. DragValue is used in #Knob
+     * or #ValueButton.
+     *
+     * @class TK.DragValue
+     * @property {Function} options.range - A function returning a {@link TK.Range} object for calculating the value.
+     * @property {Element} options.node - The DOM node used for dragging.
+     *  All DOM events are registered with this Element.
+     * @property {Element} [options.events=options.node] - A DOM element firing the drag events.
+     * @property {Element} [options.classes=options.node] - While dragging, the class
+     *  <code>toolkit-dragging</code> will be added to this Element.
+     * @property {Function} options.get - Callback function returning the value to drag.
+     * @property {Function} options.set - Callback function for setting the value.
+     * @property {integer} [options.direction=_TOOLKIT_POLAR] - Direction for changing the value.
+     *  Can be _TOOLKIT_POLAR, _TOOLKIT_VERTICAL or _TOOLKIT_HORIZONTAL.
+     * @property {boolean} [options.active=true] - If false, dragging is deactivated.
+     * @property {boolean} [options.cursor=false] - If true, a global cursor is set while dragging.
+     * @property {number} [options.blind_angle=20] - If options.direction is _TOOLKIT_POLAR,
+     *  this is the angle of separation between positive and negative value changes
+     * @property {number} [options.rotation=45] - Defines the angle of the center of the positive value
+     *  changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
+     *  moving towards top and right.
+     * @extends TK.Widget
+     * @mixes TK.GlobalCursor
      */
     _class: "DragValue",
     Extends: Widget,

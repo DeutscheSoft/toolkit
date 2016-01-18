@@ -93,12 +93,12 @@ function set_handle() {
  * Drag enables dragging of absolutely positioned
  * elements on the screen.
  * @param {Object} options
- * @property {HTMLElement|SVGElement} options.node - The element to drag
- * @property {HTMLElement|SVGElement} [options.handle=options.node] A DOM node to be used as a handle. If not set options.node is used.
- * @property {boolean} options.active - Enable or disable dragging
- * @property {{ x: number, y: number }} [options.min={x: -1, y: -1}] - Object containing the minimum positions for x and y. A value of false is interpreted as no minimum.
- * @property {{ x: number, y: number }} [options.max={x: -1, y: -1}] - Object containing the maximum positions for x and y. A value of false is interpreted as no maximum.
- * @property {number} [options.initial=2] - Number of pixels the user has to move until dragging starts.
+ * @property {HTMLElement|SVGElement} options..node - The element to drag
+ * @property {HTMLElement|SVGElement} [options..handle=options..node] A DOM node to be used as a handle. If not set options..node is used.
+ * @property {boolean} options..active - Enable or disable dragging
+ * @property {{ x: number, y: number }} [options..min={x: -1, y: -1}] - Object containing the minimum positions for x and y. A value of false is interpreted as no minimum.
+ * @property {{ x: number, y: number }} [options..max={x: -1, y: -1}] - Object containing the maximum positions for x and y. A value of false is interpreted as no maximum.
+ * @property {number} [options..initial=2] - Number of pixels the user has to move until dragging starts.
  * @extends Widget
  * @class TK.Drag
  */

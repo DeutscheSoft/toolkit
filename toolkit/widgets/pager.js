@@ -21,19 +21,36 @@
 "use strict";
 (function(w){
 w.TK.Pager = w.Pager = $class({
-    /** @class TK.Pager
-     * 
-     * @option position;  integer;   _TOOLKIT_TOP;   The position of the ButtonArray
-     * @option pages;     Array; [];             An array of mappings (objects) containing the members "label" and "content". "label" is a string for the buttons label or an object containing options for a button and content is a string containing HTML or a ready-to-use DOM node, e.g. [{label: "Empty Page 1", content: document.createElement("span")}, {label: {label:"Foobar", class:"foobar"}, content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"}]
-     * @option show;      integer;   -1;             The page to show
-     * @option overlap;   boolean;  false;          If true pages aren't resized so the #ButtonArray overlaps the contents
-     *
-     * @extends Container
-     * 
-     * @description
+    /**
      * Pager, also known as Notebook in other UI toolkits, provides
      * multiple containers for displaying contents which are switchable
      * via a {@link TK.ButtonArray}.
+     * 
+     * @class TK.Pager
+     * 
+     * @param {Object} options
+     * @property {integer} [options.position=_TOOLKIT_TOP] - The position of the ButtonArray
+     * @property {Array} [options.pages=[]] -
+     *          An array of mappings (objects) containing the members "label" and "content".
+     *          "label" is a string for the buttons label or an object containing options for
+     *          a button and content is either a HTML string or a HTMLElement node.
+     * @property {integer} [options.show=-1] - The page to show
+     * @property {boolean} [options.overlap=false] - If false,  pages are automatically resized so that the #ButtonArray does not overlap the page contents.
+     *
+     * @extends TK.Container
+     * @example
+     * var pager = new Pager({
+     *  pages: [
+     *   {
+     *     label: "Empty Page 1",
+     *     content: document.createElement("span")
+     *   },
+     *   {
+     *     label: { label:"Foobar", class:"foobar" },
+     *     content: "<h1>Foobar</h1><p>Lorem ipsum dolor sit amet</p>"
+     *   }
+     *  ]
+     * });
      */
     _class: "Pager",
     Extends: Container,
@@ -60,9 +77,15 @@ w.TK.Pager = w.Pager = $class({
          *
          * @member TK.Pager#element
          */
-        /** @element _buttonarray_wrapper; div.toolkit-wrapper.toolkit-buttonarray-wrapper; An internal container for layout purposes containing the #ButtonArray. */
-        /** @element _container_wrapper;   div.toolkit-wrapper.toolkit-container-wrapper;   An internal container for layout purposes containing the _clip element. */
-        /** @element _clip;                div.toolkit-clip;                                The clipping area containing the pages containers */
+        /** @member {HTMLDivElement} TK.Pager#_buttonarray_wrapper - An internal container for layout purposes containing the #ButtonArray.
+         *      Has classes <code>toolkit-buttonarray-wrapper</code> and <code>toolkit-wrapper</code>.
+         */
+        /** @member {HTMLDivElement} TK.Pager#_container_wrapper - An internal container for layout purposes containing the _clip element.
+         *      Has classes <code>toolkit-wrapper</code> and <code>toolkit-container-wrapper</code>.
+         */
+        /** @member {HTMLDivElement} TK.Pager#_clip - The clipping area containing the pages.
+         *      Has class <code>toolkit-clip</code>.
+         */
         TK.add_class(this.element, "toolkit-pager");
         /**
          * The {@link TK.ButtonArray} instance acting as the menu.

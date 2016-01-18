@@ -58,10 +58,14 @@ function disable_draw_children() {
     for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
 }
 w.TK.Container = w.Container = $class({
-    /** @class Container
-     * @description Container represents a <DIV> element.
-     * @extends Widget
-     * @option content; string|Element; undefined; The content of the container. It can either be
+    /**
+     * Container represents a <DIV> element.
+     *
+     * @class TK.Container
+     * @extends TK.Widget
+     *
+     * @param {Object} options
+     * @property {string|HTMLElement} options..content - The content of the container. It can either be
      * a string which is interpreted as Text or a DOM node. Note that this options will remove all
      * child nodes from the container element including those added via append_child.
      */
@@ -95,9 +99,22 @@ w.TK.Container = w.Container = $class({
         this.element.remove();
         Widget.prototype.destroy.call(this);
     },
+    /**
+     * Calls {@link TK.Container#append_child} for an array of widgets.
+     *
+     * @param {Array.<TK.Widget>} children - The child widgets to append.
+     * @method TK.Container#append_children
+     */
     append_children : function (a) {
         a.map(this.append_child, this);
     },
+    /**
+     * Appends <code>child.element</code> to the container element and
+     * registers <code>child</code> as a child widget.
+     *
+     * @param {TK.Widget} child - The child widget to append.
+     * @method TK.Container#append_child
+     */
     append_child : function(child) {
         child.set("container", this.element);
         this.add_child(child);

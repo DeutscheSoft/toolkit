@@ -143,9 +143,12 @@ function onhide() {
 }
 
 w.TK.Clock = w.Clock = $class({
-    /** @class Clock
-     * @description Clock shows a customized clock with circulars displaying hours, minutes
+    /**
+     * Clock shows a customized clock with circulars displaying hours, minutes
      * and seconds. It has three free formatable labels.
+     *
+     * @class TK.Clock
+     * @extends TK.Widget
      */
     _class: "Clock",
     Extends: Widget,

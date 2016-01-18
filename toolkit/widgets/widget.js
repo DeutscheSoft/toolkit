@@ -51,10 +51,13 @@ function redraw() {
     this.redraw();
 }
 TK.Widget = $class({
-    /** @class TK.Widget
-     * @description Widget is the base class for all widgets drawing DOM elements. It
+    /**
+     * Widget is the base class for all widgets drawing DOM elements. It
      * provides basic functionality like delegating events, setting options and
      * firing some events.Widget implements AudioMath, Options and Events.
+     *
+     * @class TK.Widget
+     * @extends TK.Base
      */
     Extends : BASE,
     _class: "Widget",
@@ -85,6 +88,7 @@ TK.Widget = $class({
         this.fire_event("initialize");
         if (!options.id)
             options.id = TK.unique_id();
+        /** @property {HTMLElement} TK.Widget#element - The main element. */
         if (options.element)
             this.element = options.element;
         this.set_options(options);

@@ -205,10 +205,12 @@ function draw_title() {
 }
     
 w.TK.Chart = w.Chart = $class({
-    /** @class Chart
-     * @description Chart is an SVG image containing one or more Graphs. There are functions
+    /**
+     * Chart is an SVG image containing one or more Graphs. There are functions
      * to add and remove graphs. Chart extends Widget and contains a Grid
      * and two Ranges.
+     *
+     * @class TK.Chart
      */
     _class: "Chart",
     Extends: Widget,
@@ -359,8 +361,12 @@ w.TK.Chart = w.Chart = $class({
         this.element.remove();
         Widget.prototype.destroy.call(this);
     },
+    /**
+     * Add a new Graph to the Chart
+     *
+     * @method TK.Chart#add_graph
+     */
     add_graph: function (options) {
-        // Add a new Graph to the Chart
         options["container"] = this._graphs;
         if (!options.range_x)
             options.range_x = function () { return this.range_x; }.bind(this);
@@ -381,8 +387,12 @@ w.TK.Chart = w.Chart = $class({
         this.add_child(g);
         return g;
     },
+    /**
+     * Remove Graph from the Chart
+     *
+     * @method TK.Chart#remove_graph
+     */
     remove_graph: function (g) {
-        // Remove a certain Graph from the Chart
         var i;
         if ((i = this.graphs.indexOf(g)) !== -1) {
             this.fire_event("graphremoved", this.graphs[i], i);
@@ -392,8 +402,12 @@ w.TK.Chart = w.Chart = $class({
             this.trigger_draw();
         }
     },
+    /**
+     * Remove all Graphs from the Chart.
+     *
+     * @method TK.Chart#empty
+     */
     empty: function () {
-        // Remove all Graphs from the Chart
         this.graphs.map(this.remove_graph, this);
         this.fire_event("emptied");
     },

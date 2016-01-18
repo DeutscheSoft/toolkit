@@ -251,15 +251,18 @@ function FilterModule(stdlib, foreign, heap) {
 };
 
 w.TK.Filter = w.Filter = $class({
-    /** @class Filter
+    /**
      * Filter provides the math for calculating a gain from
      * a given frequency for different types of filters
-     * @option type; integer; _TOOLKIT_PARAMETRIC; The type of the filter,  _TOOLKIT_PARAMETRIC|_TOOLKIT_PEAK|_TOOLKIT_NOTCH|_TOOLKIT_LOWSHELF|_TOOLKIT_HIGHSHELF|_TOOLKIT_LOWPASS_[n]|_TOOLKIT_HIGHPASS_[n]
-     * @option freq; number; 0; The initial frequency
-     * @option gain; number; 0; The initial gain
-     * @option q; number; 1; The initial Q of the filter
-     * @extends BASE
-     * @implements AudioMath
+     *
+     * @property {integer} [options.type=_TOOLKIT_PARAMETRIC] - The type of the filter,  _TOOLKIT_PARAMETRIC|_TOOLKIT_PEAK|_TOOLKIT_NOTCH|_TOOLKIT_LOWSHELF|_TOOLKIT_HIGHSHELF|_TOOLKIT_LOWPASS_[n]|_TOOLKIT_HIGHPASS_[n]
+     * @property {number} [options.freq=0] - The initial frequency
+     * @property {number} [options.gain=0] - The initial gain
+     * @property {number} [options.q=1] - The initial Q of the filter
+     *
+     * @mixin TK.Filter
+     * @extends TK.Base
+     * @mixes TK.AudioMath
      */
     _class: "Filter",
     Extends: BASE,

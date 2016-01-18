@@ -83,9 +83,11 @@ function submit_cb(e) {
     return false;
 }
 w.TK.Value = w.Value = $class({
-    /** @class Value
-     * @description Value is a formatted text field displaying numbers and providing
-     * a input field for editing the value
+    /**
+     * Value is a formatted text field displaying numbers and providing
+     * a input field for editing the value.
+     *
+     * @class TK.Value
      */
     _class: "Value",
     Extends: Widget,
