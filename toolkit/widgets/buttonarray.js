@@ -42,7 +42,7 @@ function check_arrows(force) {
 
 function prev_clicked(e) {
     /**
-     * When a #TK.Button or an arrow gets clicked and
+     * When a {@link TK.Button} or an arrow gets clicked and
      * the currently active button changes.
      *
      * @event clicked
@@ -93,7 +93,7 @@ function scroll_to() {
 }
 w.TK.ButtonArray = w.ButtonArray = $class({
     /**
-     * TK.ButtonArray is a list of buttons (#TK.Button) layouted either vertically or
+     * TK.ButtonArray is a list of buttons ({@link TK.Button}) layouted either vertically or
      * horizontally. TK.ButtonArray automatically adds arrow buttons if the
      * overal width is smaller than the buttons list.
      *
@@ -141,10 +141,10 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         
         var vert = this.get("direction") == _TOOLKIT_VERTICAL;
         
-        /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow #TK.Button instance. */
+        /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance. */
         this.prev = new TK.Button({label: vert ? "▲" : "◄",
                                 class: "toolkit-previous"});
-        /** @member {TK.Button} TK.ButtonArray#next - The next arrow #TK.Button instance. */
+        /** @member {TK.Button} TK.ButtonArray#next - The next arrow {@link TK.Button} instance. */
         this.next = new TK.Button({label: vert ? "▼" : "►",
                                 class: "toolkit-next"});
         this.prev.add_event("click", prev_clicked.bind(this));
@@ -169,7 +169,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         /**
          * Adds an array of buttons to the end of the list.
          *
-         * @param {Array.<string|object>} options - An Array containing objects with options for the buttons (see #TK.Button for more information) or strings for the buttons labels
+         * @param {Array.<string|object>} options - An Array containing objects with options for the buttons (see {@link TK.Button} for more information) or strings for the buttons labels
          * @method TK.add_buttons
          */
         for (var i = 0; i < options.length; i++)
@@ -178,12 +178,12 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     
     add_button: function (options, position) {
         /**
-         * Adds a #TK.Button to the TK.ButtonArray 
+         * Adds a {@link TK.Button} to the TK.ButtonArray 
          *
          * @method TK.Button#add_button
-         * @param {Object|string} options - An object containing options for the #TK.Button to add or a string for the label
-         * @param {integer} [position] - The position to add the #TK.Button to. If avoided the #TK.Button is added to the end of the list
-         * @returns {TK.Button} The #TK.Button instance
+         * @param {Object|string} options - An object containing options for the {@link TK.Button} to add or a string for the label
+         * @param {integer} [position] - The position to add the {@link TK.Button} to. If avoided the {@link TK.Button} is added to the end of the list
+         * @returns {TK.Button} The {@link TK.Button} instance
          */
         if (typeof options === "string")
             options = {label: options}
@@ -208,7 +208,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             button_clicked.call(this, b);
         }.bind(this));
         /**
-         * A #TK.Button was added to the ButtonArray
+         * A {@link TK.Button} was added to the ButtonArray
          *
          * @event added
          * @type Button
@@ -222,17 +222,17 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     remove_button: function (button) {
         /**
-         * Removes a #TK.Button from the ButtonArray
+         * Removes a {@link TK.Button} from the ButtonArray
          *
          * @method TK.Button#remove_button
-         * @param {integer|TK.Button} button - ID or #TK.Button instance
+         * @param {integer|TK.Button} button - ID or {@link TK.Button} instance
          */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
             return;
         /**
-         * A #TK.Button was removed from the ButtonArray
+         * A {@link TK.Button} was removed from the ButtonArray
          *
          * @event removed
          * @type Button
@@ -311,7 +311,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
          * Get the actually selected #Button
          *
          * @method TK.Button#current
-         * @returns {TK.Button} The selected #TK.Button or null
+         * @returns {TK.Button} The selected {@link TK.Button} or null
          */
         var n = this.options.show;
         if (n >= 0 && n < this.buttons.length) {

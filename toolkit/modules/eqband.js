@@ -22,9 +22,9 @@
 (function(w){
 w.TK.EqBand = w.EqBand = $class({
     /**
-     * An TK.EqBand extends a #TK.ResponseHandle and holds a
-     * dependent #TK.Filter. It is used as a fully functional representation
-     * of a single equalizer band in #TK.Equalizer. TK.EqBand needs a #TK.Chart 
+     * An TK.EqBand extends a {@link TK.ResponseHandle} and holds a
+     * dependent {@link TK.Filter}. It is used as a fully functional representation
+     * of a single equalizer band in {@link TK.Equalizer} TK.EqBand needs a {@link TK.Chart} 
      * or any other derivate to be drawn in.
      *
      * @class EqBand

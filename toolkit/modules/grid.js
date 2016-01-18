@@ -141,16 +141,16 @@ function draw_lines(a, mode, last) {
 w.TK.Grid = w.Grid = $class({
     /**
      * TK.Grid creates a couple of lines and labels in a SVG
-     * image on the x and y axis. It is used in e.g. #TK.Graph and
-     * #TK.FrequencyResponse to draw markers and values. TK.Grid needs a
+     * image on the x and y axis. It is used in e.g. {@link TK.Graph} and
+     * {@link TK.FrequencyResponse} to draw markers and values. TK.Grid needs a
      * parent SVG image do draw into. The base element of a TK.Grid is a
      * SVG group containing all the labels and lines.
      *
      * @class TK.Grid
      * @property {Array} [options.grid_x=[]] - Array for vertical grid lines containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
      * @property {Array} [options.grid_y=[]] - Array for horizontal grid lines containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
-     * @property {Function|Object} [options.range_x={}] - A function returning a #TK.Range instance for vertical grid lines or an object containing options. for a new #Range
-     * @property {Function|Object} [options.range_y={}] - A function returning a #TK.Range instance for horizontal grid lines or an object containing options. for a new #Range
+     * @property {Function|Object} [options.range_x={}] - A function returning a {@link TK.Range} instance for vertical grid lines or an object containing options. for a new {@link Range}
+     * @property {Function|Object} [options.range_y={}] - A function returning a {@link TK.Range} instance for horizontal grid lines or an object containing options. for a new {@link Range}
      * @property {number} [options.width=0] - The width of the grid
      * @property {number} [options.height=0] - The height of the grid
      * @extends TK.Widget

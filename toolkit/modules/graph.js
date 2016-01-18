@@ -43,8 +43,8 @@ w.TK.Graph = w.Graph = $class({
      * _TOOLKIT_VARIABLE: fill from a percentual position on the canvas (set with base)
      * @property {number} [options.base=0] - If mode is _TOOLKIT_VARIABLE set the position of the base line to fill from between 0 (bottom) and 1 (top)
      * @property {string} [options.color=""] - Set the color of the path
-     * @property {Function|Object} [options.range_x={}] - Callback function returning a #TK.Range module for x axis or an object with options. for a new #Range
-     * @property {Function|Object} [options.range_y={}] - Callback function returning a #TK.Range module for y axis or an object with options. for a new #Range
+     * @property {Function|Object} [options.range_x={}] - Callback function returning a {@link TK.Range} module for x axis or an object with options. for a new {@link Range}
+     * @property {Function|Object} [options.range_y={}] - Callback function returning a {@link TK.Range} module for y axis or an object with options. for a new {@link Range}
      * @property {number} [options.width=0] - The width of the graph
      * @property {number} [options.height=0] - The height of the graph
      * @property {string|boolean} [options.key=false] - Show a description for this graph in the charts key, false to turn it off

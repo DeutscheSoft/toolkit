@@ -375,7 +375,7 @@ w.TK.Ranged = w.Ranged = $class({
      * Ranged provides functions for calculating linear scales
      * from different values. It is useful for building coordinate systems,
      * calculating pixel positions for different scale types and the like.
-     * Ranged is used e.g. in #TK.Scale, #TK.MeterBase and #TK.Graph to draw elements
+     * Ranged is used e.g. in {@link TK.Scale}, {@link TK.MeterBase} and {@link TK.Graph} to draw elements
      * on a certain position according to a value on an arbitrary scale.
      *
      * @mixin TK.Ranged

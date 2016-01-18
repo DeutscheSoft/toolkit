@@ -23,7 +23,7 @@
 w.TK.Warning = w.Warning = $class({
     /**
      * Adds the class "toolkit-warn" on <code>this.element</code> for a certain
-     * period of time. It is used e.g. in #TK.ResponseHandle or #TK.Knob when the value
+     * period of time. It is used e.g. in {@link TK.ResponseHandle} or {@link TK.Knob} when the value
      * exceeds the range.
      *
      * @mixin TK.Warning

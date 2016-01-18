@@ -25,7 +25,7 @@ w.TK.Range = w.Range = $class({
      * TK.Range is used for calculating linear scales from
      * different values. They are useful to build coordinate systems,
      * calculate pixel positions for different scale types and the like.
-     * TK.Range is used e.g. in #TK.Scale, #TK.MeterBase and #TK.Graph to draw
+     * TK.Range is used e.g. in {@link TK.Scale}, {@link TK.MeterBase} and {@link TK.Graph} to draw
      * elements on a certain position according to a value on an
      * arbitrary scale.
      * @class TK.Range

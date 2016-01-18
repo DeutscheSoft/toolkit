@@ -223,7 +223,7 @@ w.TK.Circular = w.Circular = $class({
      * TK.Circular is a SVG group element containing two paths for displaying
      * numerical values in a circular manner. TK.Circular is able to draw labels,
      * dots and markers and can show a hand. TK.Circular e.g. is implemented by
-     * #TK.Clock to draw the hours, minutes and seconds.
+     * {@link TK.Clock} to draw the hours, minutes and seconds.
      * @class TK.Circular
      * @param {Object} options
      * @property {number} [options.value=0] - The value to show
