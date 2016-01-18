@@ -1,7 +1,4 @@
-all : documentation toolkit.all.js toolkit/styles/css/toolkit.all.css toolkit.min.js
-
-documentation :
-	generator/items.pike
+all : toolkit.all.js toolkit/styles/css/toolkit.all.css toolkit.min.js
 
 js_input_files = \
     toolkit/polyfill/raf.js\
@@ -101,6 +98,8 @@ toolkit.all.js: makefile
 toolkit/styles/css/toolkit.all.css: makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
 
-jsdoc: makefile $(js_input_files) jsdoc/conf.json
-	jsdoc --readme docs/Main.md -t ../jsdoc-toolkit/ -c jsdoc/conf.json $(js_input_files)
+jsdoc: makefile $(js_input_files) jsdoc/conf.json toolkit.all.js toolkit/styles/css/toolkit.all.css
+	cp -r images out/
+	jsdoc -u tutorials/ --readme docs/Main.md -t ../jsdoc-toolkit/ -c jsdoc/conf.json $(js_input_files)
+	cp -r toolkit.all.js toolkit/ out/
 

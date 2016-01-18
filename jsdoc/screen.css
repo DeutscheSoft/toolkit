@@ -13,3 +13,14 @@ h4 {
     font-size: 80%;
     float: right;
 }
+
+.toolkit-root {
+    background: #DDD;
+    width: 80%;
+    height: 80%;
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    border-radius: 10px;
+    border: 2px black solid;
+}

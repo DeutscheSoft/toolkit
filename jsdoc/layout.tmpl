@@ -4,15 +4,55 @@
     <meta charset="utf-8">
     <title><?js= title ?> - Documentation</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="../toolkit/styles/css/toolkit.all.css">
     <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
     <link type="text/css" rel="stylesheet" href="screen.css">
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="toolkit.all.js"></script>
+    <script>
+        function prepare_example() {
+            window.addEventListener("load", setup_example.bind(this, document.currentScript));
+        }
+        function setup_example(current) {
+            var code = current.parentNode.getElementsByTagName("code");
+            var fun;
+
+            if (!code.length) return;
+
+            code = code[0].textContent;
+
+            if (code.match(/^\s*function/)) {
+                fun = new Function("", "return "+code)();
+            }
+
+            var root;
+
+            function hide_root(e) {
+                if (e.target === this.element)
+                    this.hide();
+            }
+
+            var b = document.createElement("button");
+            b.addEventListener("click", function() {
+                if (root) root.destroy();
+
+                root = new TK.Root({
+                    container: document.body
+                });
+
+                fun(root);
+
+                root.add_event("click", hide_root);
+
+                return false;
+            });
+            b.appendChild(document.createTextNode("Run!"));
+            current.parentNode.appendChild(b);
+        }
+    </script>
 </head>
 <body>
 
