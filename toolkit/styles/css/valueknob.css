@@ -3,18 +3,13 @@
     height: 100px;
 }
 
-.toolkit-valueknob .toolkit-knob {
-    width: 100%;
-    height: 100%;
-}
-
-.toolkit-valueknob .toolkit-value {
+.toolkit-valueknob > .toolkit-value {
     width: 80%;
     position: absolute;
     bottom: -10%;
     left: 10%;
 }
 
-.toolkit-valueknob .toolkit-input {
+.toolkit-valueknob > .toolkit-value > .toolkit-input {
     border: 1px solid transparent;
 }
