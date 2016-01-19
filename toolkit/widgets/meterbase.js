@@ -232,7 +232,7 @@ w.TK.MeterBase = w.MeterBase = $class({
             }
         }
         
-        if (I.value) {
+        if (I.value || I.basis) {
             I.value = false;
             this.draw_meter();
         }
