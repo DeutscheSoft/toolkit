@@ -2,6 +2,21 @@
 (function(w) {
 
 var has_class, add_class, remove_class, toggle_class;
+// IE9
+function get_class_name(e) {
+  if (HTMLElement.prototype.isPrototypeOf(e)) {
+      return e.className;
+  } else {
+      return e.getAttribute("class") || "";
+  }
+}
+function set_class_name(e, s) {
+  if (HTMLElement.prototype.isPrototypeOf(e)) {
+      e.className = s;
+  } else {
+      e.setAttribute("class", s);
+  }
+}
 
 if ('classList' in document.createElement("_") && 'classList' in make_svg('text')) {
   has_class = function (e, cls) { return e.classList.contains(cls); }
@@ -9,21 +24,6 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
   remove_class = function (e, cls) { e.classList.remove(cls); }
   toggle_class = function (e, cls) { e.classList.toggle(cls); }
 } else {
-  // IE9
-  function get_class_name(e) {
-    if (HTMLElement.prototype.isPrototypeOf(e)) {
-        return e.className;
-    } else {
-        return e.getAttribute("class") || "";
-    }
-  };
-  function set_class_name(e, s) {
-    if (HTMLElement.prototype.isPrototypeOf(e)) {
-        e.className = s;
-    } else {
-        e.setAttribute("class", s);
-    }
-  };
   has_class = function (e, cls) {
     return get_class_name(e).split(" ").indexOf(cls) !== -1;
   };
