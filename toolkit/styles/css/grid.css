@@ -13,7 +13,7 @@
     fill: rgba(255,255,255,0.99);
     /* ONLY USE PADDING FOR POSITIONING! */
     padding: 1px 2px;
-    font-size: 9px;
+    font-size: 0.7em;
 }
 .toolkit-grid-label.toolkit-vertical {
     

@@ -14,6 +14,5 @@
 }
 
 .toolkit-gauge > svg > .toolkit-title {
-    font-size: 12px;
     fill: rgb(0,42,66);
 }

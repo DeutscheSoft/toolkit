@@ -182,7 +182,7 @@
 
 .toolkit-level-meter > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
     color: white;
-    font-size: 8px;
+    font-size: 0.6em;
     line-height: 10px;
     opacity: 0.9;
     width:  25px;

@@ -2,9 +2,9 @@
     
 }
 .toolkit-scale > .toolkit-label {
-    font-size: 8px;
-    height: 7px;
-    line-height: 7px;
+    font-size: 0.7em;
+    height: 1em;
+    line-height: 1em;
     color: #aaa;
     white-space: nowrap;
     margin: 0 0 0 0;
