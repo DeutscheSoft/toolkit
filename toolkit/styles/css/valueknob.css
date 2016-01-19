@@ -12,4 +12,5 @@
 
 .toolkit-valueknob > .toolkit-value > .toolkit-input {
     border: 1px solid transparent;
+    font-size: 1em;
 }

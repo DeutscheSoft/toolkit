@@ -1,11 +1,14 @@
 .toolkit-value > .toolkit-input {
+/*
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #fff;
     border-left: 1px solid #e8e8e8;
     border-right: 1px solid #f3f3f3;
+*/
+    border: none;
     display: inline-block;
     color: #002f42;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.05);
     font-size: 1.2em;
     font-family: inherit;
     line-height: 1.1em;
@@ -21,5 +24,7 @@
 .toolkit-value.toolkit-active > .toolkit-input {
     background: #002a42;
     color: white;
+/*
     border: 1px solid transparent;
+*/
 }

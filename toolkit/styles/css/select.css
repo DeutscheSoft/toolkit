@@ -29,7 +29,8 @@
 .toolkit-select-list > .toolkit-option {
     list-style: none;
     margin: 0;
-    padding: 2px 5px;
+    padding: 0 5px;
+    line-height: 2em;
     cursor: pointer;
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 }
