@@ -122,7 +122,7 @@ w.TK.Select = w.Select = $class({
             }
         }.bind(this);
         this._arrow = TK.element("div", "toolkit-arrow");
-        this.element.appendChild(this._arrow);
+        this._cell.appendChild(this._arrow);
         var sel = this.options.selected;
         var val = this.options.value; 
         this.set("entries",  this.options.entries);

@@ -4,12 +4,15 @@
 }
 
 .toolkit-button.toolkit-select > .toolkit-cell > .toolkit-label {
-    margin-right: 5px;
+    margin-right: 20px;
 }
-.toolkit-button.toolkit-select > .toolkit-arrow {
+.toolkit-button.toolkit-select > .toolkit-cell > .toolkit-arrow {
     background: url(../images/select/arrow_down.png) 50% 50% no-repeat;
     width: 16px;
-    height: 18px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .toolkit-select-list {

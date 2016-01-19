@@ -2,7 +2,7 @@
     margin: 4px;
     padding: 8px 16px;
     color: #002f42;
-    text-shadow: 0px 1px 0px rgba(255,255,255,0.6)s;
+    text-shadow: 0px 1px 0px rgba(255,255,255,0.6);
     background-color: rgb(245,245,245);
     background-image: url(../images/gradients/grey_out.png);
     background-repeat: repeat-x;
@@ -46,9 +46,9 @@
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+    position: relative;
 }
 .toolkit-button > .toolkit-cell > .toolkit-label {
-    font-size: 13px;
     line-height: 1.5em;
     text-align: center;
     margin: auto;
