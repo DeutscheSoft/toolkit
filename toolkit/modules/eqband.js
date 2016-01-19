@@ -27,7 +27,7 @@ w.TK.EqBand = w.EqBand = $class({
      * of a single equalizer band in {@link TK.Equalizer} TK.EqBand needs a {@link TK.Chart} 
      * or any other derivate to be drawn in.
      *
-     * @class EqBand
+     * @class TK.EqBand
      * @property {integer} [options.type=_TOOLKIT_PARAMETRIC] - The type of the filter.
      *  Possible values are _TOOLKIT_PARAMETRIC, _TOOLKIT_PEAK, _TOOLKIT_NOTCH,
      *  _TOOLKIT_LOWSHELF, _TOOLKIT_HIGHSHELF, _TOOLKIT_LOWPASS_* or _TOOLKIT_HIGHPASS_*.

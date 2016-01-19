@@ -181,7 +181,7 @@ TK.Base = w.BASE = $class({
         /**
          * Destroys all event handlers and the options object
          *
-         * @method TK.Base#destroy()
+         * @method TK.Base#destroy
          */
         if (this.__event_target) {
             remove_native_events(this.__event_target, this.__events);

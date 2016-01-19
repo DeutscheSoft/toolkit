@@ -33,6 +33,7 @@ w.TK.Knob = w.Knob = $class({
      * for setting its value.
      *
      * @class TK.Knob
+     * @extends TK.Widget
      */
     _class: "Knob",
     Extends: TK.Widget,

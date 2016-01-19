@@ -180,7 +180,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         /**
          * Adds a {@link TK.Button} to the TK.ButtonArray 
          *
-         * @method TK.Button#add_button
+         * @method TK.ButtonArray#add_button
          * @param {Object|string} options - An object containing options for the {@link TK.Button} to add or a string for the label
          * @param {integer} [position] - The position to add the {@link TK.Button} to. If avoided the {@link TK.Button} is added to the end of the list
          * @returns {TK.Button} The {@link TK.Button} instance
@@ -224,7 +224,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         /**
          * Removes a {@link TK.Button} from the ButtonArray
          *
-         * @method TK.Button#remove_button
+         * @method TK.ButtonArray#remove_button
          * @param {integer|TK.Button} button - ID or {@link TK.Button} instance
          */
         if (typeof button == "object")
@@ -310,7 +310,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         /**
          * Get the actually selected #Button
          *
-         * @method TK.Button#current
+         * @method TK.ButtonArray#current
          * @returns {TK.Button} The selected {@link TK.Button} or null
          */
         var n = this.options.show;

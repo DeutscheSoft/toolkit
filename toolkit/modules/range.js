@@ -29,7 +29,7 @@ w.TK.Range = w.Range = $class({
      * elements on a certain position according to a value on an
      * arbitrary scale.
      * @class TK.Range
-     * @extends TK.Basd
+     * @extends TK.Base
      * @mixes TK.Ranged
      */
     Extends : BASE,

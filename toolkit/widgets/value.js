@@ -88,6 +88,7 @@ w.TK.Value = w.Value = $class({
      * a input field for editing the value.
      *
      * @class TK.Value
+     * @extends TK.Widget
      */
     _class: "Value",
     Extends: TK.Widget,

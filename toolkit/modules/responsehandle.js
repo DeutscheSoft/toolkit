@@ -293,7 +293,15 @@ function touchmove(e) {
 function zhandledown(e) {
     this._zhandling = true;
 }
-    
+
+/**
+ * @class TK.ResponseHandle
+ * @extends TK.Widget
+ *
+ * @mixes TK.Ranges
+ * @mixes TK.Warning
+ * @mixes TK.GlobalCursor
+ */
 w.TK.ResponseHandle = w.ResponseHandle = $class({
     _class: "ResponseHandle",
     Extends: TK.Widget,

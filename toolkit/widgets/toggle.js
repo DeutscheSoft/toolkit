@@ -60,6 +60,7 @@ w.TK.Toggle = w.Toggle = $class({
      * A toggle button.
      *
      * @class TK.Toggle
+     * @extends TK.Button
      */
     _class: "Toggle",
     Extends: TK.Button,

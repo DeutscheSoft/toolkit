@@ -211,6 +211,7 @@ w.TK.Chart = w.Chart = $class({
      * and two Ranges.
      *
      * @class TK.Chart
+     * @extends TK.Widget
      */
     _class: "Chart",
     Extends: TK.Widget,

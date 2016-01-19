@@ -348,7 +348,10 @@ function build_from_const(element) {
     
 w.TK.Window = w.Window = $class({
     /**
+     * This widget is a flexible overlay window.
+     *
      * @class TK.Window
+     * @extends TK.Container
      */
     _class: "Window",
     Extends: TK.Container,

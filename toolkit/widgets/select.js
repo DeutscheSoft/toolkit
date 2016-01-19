@@ -87,6 +87,7 @@ w.TK.Select = w.Select = $class({
      * different entries.
      *
      * @class TK.Select
+     * @extends TK.Button
      */
     _class: "Select",
     Extends: TK.Button,

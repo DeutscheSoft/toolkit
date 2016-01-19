@@ -25,6 +25,7 @@ w.TK.Label = w.Label = $class({
      * TK.Label is a simple text field displaying strings
      *
      * @class TK.Label
+     * @extends TK.Widget
      */
     _class: "Label",
     Extends: TK.Widget,

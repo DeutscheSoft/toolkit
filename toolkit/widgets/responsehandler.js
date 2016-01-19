@@ -57,6 +57,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      * meant as a universal user interface for equalizers and the like.
      *
      * @class TK.ResponseHandler
+     * @extends TK.FrequencyResponse
      */
     _class: "ResponseHandler",
     Extends: TK.FrequencyResponse,

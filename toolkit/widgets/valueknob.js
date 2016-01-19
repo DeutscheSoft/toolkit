@@ -31,7 +31,11 @@ function value_done() {
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
     /**
+     * This widget combines a {@link TK.Knob} and a {@link TK.Value} whose
+     * value is synchronized.
+     *
      * @class TK.ValueKnob
+     * @extends TK.Widget
      */
     _class: "ValueKnob",
     Extends: TK.Widget,

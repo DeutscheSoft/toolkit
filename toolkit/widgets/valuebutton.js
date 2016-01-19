@@ -32,7 +32,10 @@ function value_done() {
     
 w.TK.ValueButton = w.ValueButton = $class({
     /**
+     * This widget combines a {@link TK.Button} and a {@link TK.Value}.
+     *
      * @class TK.ValueButton
+     * @extends TK.Button
      */
     _class: "ValueButton",
     Extends: TK.Button,

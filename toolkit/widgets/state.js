@@ -28,6 +28,7 @@ w.TK.State = w.State = $class({
      * different styles. TK.State extends TK.Widget.
      *
      * @class TK.State
+     * @extends TK.Widget
      */
     _class: "State",
     Extends: TK.Widget,
