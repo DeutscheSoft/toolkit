@@ -313,14 +313,16 @@ w.TK.Chart = w.Chart = $class({
     },
     resize: function () {
         var E = this.element;
+        var O = this.options;
+
+        Widget.prototype.resize.call(this);
+
         var w, h;
         w = E.clientWidth;
         h = E.clientHeight;
-        if (w != this.options.width)
-            this.set("width", w);
-        if (h != this.options.height)
-            this.set("height", h);
-        Widget.prototype.resize.call(this);
+
+        if (O.width != w) this.set("width", w);
+        if (O.height != w) this.set("height", h);
     },
     redraw: function () {
         var I = this.invalid;

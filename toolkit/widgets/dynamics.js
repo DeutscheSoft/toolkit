@@ -116,9 +116,13 @@ w.TK.Dynamics = w.Dynamics = $class({
 
     resize: function() {
         var O = this.options;
-        Chart.prototype.resize.call(this);
-        var bb = this.element.getBoundingClientRect();
-        var s = Math.min(bb.width, bb.height);
+        var E = this.element;
+
+        /* bypass the Chart resize logic here */
+        Widget.prototype.resize.call(this);
+
+        var s = Math.min(E.clientWidth, E.clientHeight);
+
         if (s != O.size)
             this.set("size", s);
     },
