@@ -104,15 +104,15 @@ function set_handle() {
  */
 TK.Drag = w.Drag = $class({
     _class: "Drag",
-    Extends: TK.Widget,
-    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
+    Extends: TK.Base,
+    _options: {
         node    : "object",
         handle  : "object",
         active  : "boolean",
         min     : "object",
         max     : "object",
         initial : "number"
-    }),
+    },
     options: {
         node      : null,
         handle    : null,
@@ -122,7 +122,7 @@ TK.Drag = w.Drag = $class({
         initial   : 2,
     },
     initialize: function (options) {
-        TK.Widget.prototype.initialize.call(this, options);
+        TK.Base.prototype.initialize.call(this, options);
         this._dragging = dragging.bind(this);
         this._dragstart = dragstart.bind(this);
         this._dragend = dragend.bind(this);
@@ -133,7 +133,7 @@ TK.Drag = w.Drag = $class({
         if (key === "handle" && !value)
             value = this.options.node;
 
-        TK.Widget.prototype.set.call(this, key, value);
+        TK.Base.prototype.set.call(this, key, value);
 
         if (key === "handle") set_handle.call(this);
         if (key === "initial" && this.drag) this.drag.set("initial", value);

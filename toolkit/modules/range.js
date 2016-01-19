@@ -32,7 +32,7 @@ w.TK.Range = w.Range = $class({
      * @extends TK.Base
      * @mixes TK.Ranged
      */
-    Extends : BASE,
+    Extends : TK.Base,
     _class: "Range",
     Implements: [Ranged],
     _options: {

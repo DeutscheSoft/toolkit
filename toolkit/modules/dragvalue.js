@@ -170,13 +170,13 @@ w.TK.DragValue = w.DragValue = $class({
      * @property {number} [options.rotation=45] - Defines the angle of the center of the positive value
      *  changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
      *  moving towards top and right.
-     * @extends TK.Widget
+     * @extends TK.Base
      * @mixes TK.GlobalCursor
      */
     _class: "DragValue",
-    Extends: TK.Widget,
+    Extends: TK.Base,
     Implements: GlobalCursor,
-    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
+    _options: {
         get: "function",
         set: "function",
         range: "function",
@@ -188,7 +188,7 @@ w.TK.DragValue = w.DragValue = $class({
         cursor: "boolean",
         blind_angle: "number",
         rotation: "number",
-    }),
+    },
     options: {
         range:     function () { return {}; }, // a range oject
         node:   false,                         // the element receiving
@@ -226,7 +226,7 @@ w.TK.DragValue = w.DragValue = $class({
         // make sure not to set these later.
         cache_values.call(this, {}, 0);
 
-        TK.Widget.prototype.initialize.call(this, options);
+        TK.Base.prototype.initialize.call(this, options);
 
         if (this.options.node)
             this.set("node", this.options.node);
@@ -238,12 +238,12 @@ w.TK.DragValue = w.DragValue = $class({
         document.removeEventListener("mouseup",   this.__pointer_up);
         document.removeEventListener("touchmove", this.__pointer_move);
         document.removeEventListener("touchend",  this.__pointer_up);
-        TK.Widget.prototype.destroy.call(this);
+        TK.Base.prototype.destroy.call(this);
     },
 
     // GETTERS & SETTERS
     set: function (key, value) {
-        TK.Widget.prototype.set.call(this, key, value);
+        TK.Base.prototype.set.call(this, key, value);
         switch (key) {
             case "node":
                 value.addEventListener("contextmenu", function () {return false;});

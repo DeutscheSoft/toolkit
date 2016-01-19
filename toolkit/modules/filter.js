@@ -265,7 +265,7 @@ w.TK.Filter = w.Filter = $class({
      * @mixes TK.AudioMath
      */
     _class: "Filter",
-    Extends: BASE,
+    Extends: TK.Base,
     Implements: [AudioMath],
     _options: {
         type: "int",
@@ -305,7 +305,7 @@ w.TK.Filter = w.Filter = $class({
         this.fire_event("reset");
     },
     set: function (key, value) {
-        this.options[key] = value;
+        TK.Base.prototype.set.call(this, key, value);
         switch (key) {
         case "freq":
         case "type":
@@ -314,11 +314,6 @@ w.TK.Filter = w.Filter = $class({
             this.reset();
             break;
         }
-        this.fire_event("set", key, value);
-        this.fire_event("set_" + key, value);
     },
-    get: function (key) {
-        return this.options[key];
-    }
 });
 })(this);

@@ -90,12 +90,18 @@ function fire_event(title, event) {
     var e = O.events();
     if (e) e.fire_event(title, event, O.get(), O.node, this, O.range());
 }
+/**
+ * TK.ScrollValue enables the scroll wheel for setting a value of an
+ * object. For instance, it is used by {@link TK.Knob} to allow turning
+ * the knob using the scroll wheel.
+ *
+ * @class TK.ScrollValue
+ * @extends TK.Base
+ */
 w.TK.ScrollValue = w.ScrollValue = $class({
-    // TK.ScrollValue enables the scrollwheel for setting a value of an
-    // object. TK.ScrollValue is used e.g. in TK.Knob for setting its value.
     _class: "ScrollValue",
-    Extends: TK.Widget,
-    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
+    Extends: TK.Base,
+    _options: {
         get: "function",
         set: "function",
         range: "function",
@@ -103,7 +109,7 @@ w.TK.ScrollValue = w.ScrollValue = $class({
         classes: "object",
         node: "object",
         active: "boolean",
-    }),
+    },
     options: {
         range:     function () { return {}; }, // a range oject
         node:      false,                      // the element receiving
@@ -119,8 +125,8 @@ w.TK.ScrollValue = w.ScrollValue = $class({
         active:    true                        // deactivate the event
     },
     initialize: function (options) {
+        TK.Base.prototype.initialize.call(this, options);
         this._scrollwheel = scrollwheel.bind(this);
-        TK.Widget.prototype.initialize.call(this, options);
         if (this.options.node)
             this.set("element", this.options.node);
         this.set("events", this.options.events);
@@ -132,12 +138,11 @@ w.TK.ScrollValue = w.ScrollValue = $class({
             E.removeEventListener("mousewheel", this._scrollwheel);
             E.removeEventListener("DOMMouseScroll", this._scrollwheel);
         }
-        TK.Widget.prototype.destroy.call(this);
+        TK.Base.prototype.destroy.call(this);
     },
     // GETTERS & SETTERS
     set: function (key, value) {
-        this.options[key] = value;
-        //TK.Widget.prototype.set.call(this, key, value, hold);
+        TK.Base.prototype.set.call(this, key, value);
         switch (key) {
             case "element":
                 value.addEventListener("mousewheel", this._scrollwheel);

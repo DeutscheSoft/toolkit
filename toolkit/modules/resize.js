@@ -62,18 +62,25 @@ function set_handle() {
         onDragging   : dragging.bind(this)
     });
 }
+/**
+ * TK.Resize allows resizing of elements. It does that by continuously resizing an
+ * element while the user drags a handle.
+ *
+ * @class TK.Resize
+ * @extends TK.Base
+ */
 w.TK.Resize = w.Resize = $class({
     // TK.Resize enables resizing of elements on the screen.
     _class: "Resize",
-    Extends: TK.Widget,
-    _options: Object.assign(Object.create(TK.Widget.prototype._options), {
+    Extends: TK.Base,
+    _options: {
         handle : "object",
         direction : "int",
         active : "boolean",
         min : "object",
         max : "object",
         node : "object",
-    }),
+    },
     options: {
         node      : null,           // the element to resize
         handle    : null,           // a DOM node used as handle. if none set
@@ -87,12 +94,12 @@ w.TK.Resize = w.Resize = $class({
                                     // a value of -1 means no max
     },
     initialize: function (options) {
-        TK.Widget.prototype.initialize.call(this, options);
+        TK.Base.prototype.initialize.call(this, options);
         this.set("handle", this.options.handle);
     },
     // GETTERS & SETTERS
     set: function (key, value) {
-        TK.Widget.prototype.set.call(this, key, value);
+        TK.Base.prototype.set.call(this, key, value);
         switch (key) {
             case "handle":
                 if (!value)
