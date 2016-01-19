@@ -24,3 +24,11 @@ h4 {
     border-radius: 10px;
     border: 2px black solid;
 }
+
+.methods > li.inherited > a {
+    color: rgb(152, 153, 154);
+}
+
+.methods > li > a {
+    color: black;
+}
