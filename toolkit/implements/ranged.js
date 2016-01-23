@@ -58,8 +58,8 @@ function LinearSnapModule(stdlib, foreign) {
      * Returns the nearest value on the grid which is bigger than <code>value</code>.
      *
      * @method TK.Ranged#snap_up
-     * @param {Number} value
-     * @param {Number}
+     * @param {number} value
+     * @param {number}
      */
     function snap_up(v) {
         v = +v;
@@ -70,8 +70,8 @@ function LinearSnapModule(stdlib, foreign) {
      * Returns the nearest value on the grid which is smaller than <code>value</code>.
      *
      * @method TK.Ranged#snap_down
-     * @param {Number} value
-     * @param {Number}
+     * @param {number} value
+     * @param {number}
      */
     function snap_down(v) {
         v = +v;
@@ -83,8 +83,8 @@ function LinearSnapModule(stdlib, foreign) {
      * of <code>Math.round</code>.
      *
      * @method TK.Ranged#snap
-     * @param {Number} value
-     * @param {Number}
+     * @param {number} value
+     * @param {number}
      */
     function snap(v) {
         v = +v;
@@ -246,21 +246,86 @@ function TRAFO_LINEAR(stdlib, foreign) {
     function perc2val(n) { n = +n; return +based2val(n, 100.0); }
     return {
         /**
-         * Returns the nearest value on the grid which is bigger than <code>value</code>.
+         * Transforms a value from the coordinate system to the interval <code>0</code>...<code>basis</code>.
          *
          * @method TK.Ranged#val2based
-         * @param {Number} value
-         * @param {Number}
+         * @param {number} value
+         * @param {number} basis
+         * @returns {number}
          */
         val2based:val2based,
+        /**
+         * Transforms a value from the interval <code>0</code>...<code>basis</code> to the coordinate system.
+         *
+         * @method TK.Ranged#based2val
+         * @param {number} value
+         * @param {number} basis
+         * @returns {number}
+         */
         based2val:based2val,
+        /**
+         * Calls {@link based2val} with <code>basis = options.basis</code>.
+         *
+         * @method TK.Ranged#val2real
+         * @param {number} value
+         * @returns {number}
+         */
         val2real:val2real,
+        /**
+         * Calls {@link based2val} with <code>basis = options.basis</code>.
+         *
+         * @method TK.Ranged#real2val
+         * @param {number} value
+         * @returns {number}
+         */
         real2val:real2val,
+        /**
+         * This is an alias for {@link TK.Ranged#val2real}.
+         *
+         * @method TK.Ranged#val2px
+         * @param {number} value
+         * @returns {number}
+         */
         val2px:val2px,
+        /**
+         * This is an alias for {@link TK.Ranged#px2val}.
+         *
+         * @method TK.Ranged#px2val
+         * @param {number} value
+         * @returns {number}
+         */
         px2val:px2val,
+        /**
+         * Calls {@link based2val} with <code>basis = 1</code>.
+         *
+         * @method TK.Ranged#val2coef
+         * @param {number} value
+         * @returns {number}
+         */
         val2coef:val2coef,
+        /**
+         * Calls {@link based2val} with <code>basis = 1</code>.
+         *
+         * @method TK.Ranged#coef2val
+         * @param {number} value
+         * @returns {number}
+         */
         coef2val:coef2val,
+        /**
+         * Calls {@link based2val} with <code>basis = 100</code>.
+         *
+         * @method TK.Ranged#val2perc
+         * @param {number} value
+         * @returns {number}
+         */
         val2perc:val2perc,
+        /**
+         * Calls {@link based2val} with <code>basis = 100</code>.
+         *
+         * @method TK.Ranged#perc2val
+         * @param {number} value
+         * @returns {number}
+         */
         perc2val:perc2val,
     };
 }
