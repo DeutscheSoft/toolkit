@@ -22,7 +22,7 @@
 /**
  * AudioMath provides a couple of functions for turning
  * linear values into logarithmic ones and vice versa. If you need
- * an easy convertion between dB or Hz and a linear scale implement
+ * an easy convertion between dB or Hz and a linear scale mixin
  * this class.
  *
  * @mixin
@@ -37,27 +37,11 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
     var LN10 = stdlib.Math.LN10;
 
     function log2(value) {
-        /** @function TK.AudioMath.log2
-         *
-         * @param {number} value - The value for the log
-         * @returns {number} The logarithm with base 2 of the value
-         * @description Calculate the logarithm with base 2 of a given
-         * value. It is used for calculations with decibels in linear
-         * scales.
-         */
         value = +value;
         return +log(value) / LN2;
     }
 
     function log10(value) {
-        /** @function TK.AudioMath.log10
-         *
-         * @param {number} value - The value for the log
-         * @returns {number} The logarithm with base 10 of the value
-         * @description Calculate the logarithm with base 10 of a given
-         * value. It is used for calculations with hertz in linear
-         * scales.
-         */
         value = +value;
         return +log(value) / LN10;
     }
