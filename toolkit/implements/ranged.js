@@ -54,16 +54,38 @@ function LinearSnapModule(stdlib, foreign) {
         return base + step * n;
     }
 
+    /**
+     * Returns the nearest value on the grid which is bigger than <code>value</code>.
+     *
+     * @method TK.Ranged#snap_up
+     * @param {Number} value
+     * @param {Number}
+     */
     function snap_up(v) {
         v = +v;
         return +low_snap(v, 1.0);
     }
 
+    /**
+     * Returns the nearest value on the grid which is smaller than <code>value</code>.
+     *
+     * @method TK.Ranged#snap_down
+     * @param {Number} value
+     * @param {Number}
+     */
     function snap_down(v) {
         v = +v;
         return +low_snap(v, -1.0);
     }
 
+    /**
+     * Returns the nearest value on the grid. Its rounding behavior is similar to that
+     * of <code>Math.round</code>.
+     *
+     * @method TK.Ranged#snap
+     * @param {Number} value
+     * @param {Number}
+     */
     function snap(v) {
         v = +v;
         return +low_snap(v, 0.0);
@@ -135,8 +157,8 @@ function update_snap() {
     // Notify that the ranged options have been modified
     if (Array.isArray(O.snap)) {
         Object.assign(this, ArraySnapModule(window, O, new Float64Array(O.snap).buffer));
-    } else if (typeof O.snap === "number" && O.snap) {
-        Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: 0.0 }));
+    } else if (typeof O.snap === "number" && O.snap > 0.0) {
+        Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: O.base||0 }));
     } else {
         this.snap = this.snap_up = this.snap_down = function(v) { return Math.max(O.min, Math.min(O.max, v)); };
     }
@@ -223,6 +245,13 @@ function TRAFO_LINEAR(stdlib, foreign) {
     // calculates a value from percents of the scale
     function perc2val(n) { n = +n; return +based2val(n, 100.0); }
     return {
+        /**
+         * Returns the nearest value on the grid which is bigger than <code>value</code>.
+         *
+         * @method TK.Ranged#val2based
+         * @param {Number} value
+         * @param {Number}
+         */
         val2based:val2based,
         based2val:based2val,
         val2real:val2real,
@@ -369,46 +398,67 @@ function set_cb(key, value) {
         break;
     }
 }
+/**
+ * @callback TK.Ranged~scale_cb
+ * @param {number} value - The value to be transformed.
+ * @param {Object} options - The options of the corresponding Ranged object.
+ * @param {boolean} inverse - Determines if the value is to be transformed from or
+ *      to the coordinate system.
+ * @returns {number} The transformed value.
+ */
 w.TK.Ranged = w.Ranged = $class({
     /**
-     * The factor is used to stretch the used range of the logarithmic curve
-     * Ranged provides functions for calculating linear scales
-     * from different values. It is useful for building coordinate systems,
-     * calculating pixel positions for different scale types and the like.
-     * Ranged is used e.g. in {@link TK.Scale}, {@link TK.MeterBase} and {@link TK.Graph} to draw elements
-     * on a certain position according to a value on an arbitrary scale.
+     * Ranged combines functionality for two distinct purposes.
+     * Firstly, Ranged can be used to snap values to a virtual grid.
+     * This grid is defined by the options <code>snap</code>,
+     * <code>step</code>, <code>min</code>, <code>max</code> and <code>base</code>.
+     * The second feature of Ranged is that it allows transforming values between coordinate systems.
+     * This can be used to transform values from and to linear scales in which they are displayed on the
+     * screen. It is used inside of toolkit to translate values (e.g. in Hz or dB) to pixel positions or
+     * percentages, for instance in widgets such as {@link TK.Scale}, {@link TK.MeterBase} or
+     * {@link TK.Graph}.
      *
-     * @mixin TK.Ranged
-     * @property {integer|Function} [options.scale=_TOOLKIT_LINEAR] - The type of the scale. Either an integer
-     * (_TOOLKIT_LINEAR, _TOOLKIT_DECIBEL|_TOOLKIT_LOG2, _TOOLKIT_FREQUENCY|_TOOLKIT_LOG10)
-     * or a function like function (value, options, coef) {}.
-     * If a function instead of an integer is handed over, it receives the
-     * actual options object as the second argument and is supposed to return a
-     * coefficient between 0 and 1. If the third argument "coef" is true, it is
-     * supposed to return a value depending on a coefficient handed over as the
-     * first argument.
+     * Ranged features several types of coordinate systems which are often used in audio applications.
+     * They can be configured using the <code>options.scale</code> option, possible values are
+     * <ul>
+     *  <li><code>_TOOLKIT_LINEAR</code> for linear coordinates,
+     *  <li><code>_TOOLKIT_DB</code> for linear coordinates,
+     *  <li><code>_TOOLKIT_LOG2</code> for linear coordinates,
+     *  <li><code>_TOOLKIT_FREQ</code> for linear coordinates or
+     *  <li><code>_TOOLKIT_FREQ_REVERSE</code> for linear coordinates.
+     * </ul>
+     * If <code>options.scale</code> is a function, it is used as the coordinate transformation.
+     * Its signature is {@link TK.Ranged~scale_cb}. This allows the definition of custom
+     * coordinate transformations, which go beyond the standard types.
+     *
+     * @property {integer|Function} [options.scale=_TOOLKIT_LINEAR] -
+     *  The type of the scale. Either one of _TOOLKIT_LINEAR, _TOOLKIT_DB, _TOOLKIT_LOG2,
+     *  _TOOLKIT_FREQ or _TOOLKIT_FREQ_REVERSE; or a callback function of type {@link TK.Ranged~scale_cb}.
      * @property {boolean} [options.reverse=false] - Reverse the scale of the range
-     * @property {number} [options.basis=0] - Dimensions of the range. set to width/height
-     * in pixels if you need it for drawing purposes, to 100 if you need
-     * percentual values or to 1 if you just need a linear equivalent
-     * for a e.g. logarithmic scale.
+     * @property {number} [options.basis=0] - The size of the linear scale. Set to pixel width or height
+     * if used for drawing purposes or to 100 for percentages.
      * @property {number} options.min - Minimum value of the range
      * @property {number} options.max - Maximum value of the range
-     * @property {number} [options.step=0] - Step size, needed for user interaction
-     * @property {number} [options.shift_up=4] - Multiplier if SHIFT is hold while stepping
-     * @property {number} [options.shift_down=0.25] - Multiplier if SHIFT + CONTROL is hold while stepping
-     * @property {number|Array} [options.snap=0] - Snap the value to a virtual grid with this distance.
-     * Using snap option with float values causes the range to reduce its
-     * minimum and maximum values depending on the amount of decimal digits
-     * because of the implementation of math in JavaScript.
-     * Using a step size of e.g. 1.125 reduces the maximum usable value
-     * from 9,007,199,254,740,992 to 9,007,199,254,740.992 (note the
-     * decimal point). Alternatively set this to an array containing possible values
-     * @property {boolean} [options.round=true] - If snap is set decide how to jump
-     * between snaps. Setting this to true slips to the next snap if the
-     * value is more than on its half way to it. Otherwise the value has
-     * to reach the next snap first until it is fixed there again.
      * @property {number} [options.log_factor=1] - Used to range logarithmic curves.
+     * @property {number|Array.<number>} [options.snap=0] - 
+     *  This option defines the virtual grid.
+     *  If <code>options.snap</code> is a positive number, it is interpreted as the distance of
+     *  grid points.
+     *  Then, inside of the interval <code>options.min</code> ... <code>options.max</code> the grid
+     *  points are <code> options.base + n * options.snap </code> where <code>n</code> is any
+     *  integer. Any values outside of that interval are snapped to the biggest or smallest grid
+     *  point, respectively.
+     *  In order to define grids with non-uniform spacing, set <code>options.snap</code> to an Array
+     *  of grid points.
+     *  
+     * @property {base} [options.base=0] - Base point.
+     * @property {number} [options.step=0] - Step size. Used for instance by {@link TK.ScrollValue}
+     *  as the step size.
+     * @property {number} [options.shift_up=4] - Multiplier for increased stepping speed, e.g. used by
+     *  {@link TK.ScrollValue} when simultaneously pressing 'shift'.
+     * @property {number} [options.shift_down=0.25] - Multiplier for descresed stepping speed, e.g. used by
+     *  {@link TK.ScrollValue} when simultaneously pressing 'shift' and 'ctrl'.
+     * @mixin TK.Ranged
      */
      
     _class: "Ranged",
