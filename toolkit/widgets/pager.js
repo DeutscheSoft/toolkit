@@ -29,7 +29,7 @@ w.TK.Pager = w.Pager = $class({
      * @class TK.Pager
      * 
      * @param {Object} options
-     * @property {integer} [options.position=_TOOLKIT_TOP] - The position of the ButtonArray
+     * @property {integer} [options.position="top"] - The position of the ButtonArray
      * @property {Array} [options.pages=[]] -
      *          An array of mappings (objects) containing the members "label" and "content".
      *          "label" is a string for the buttons label or an object containing options for
@@ -62,7 +62,7 @@ w.TK.Pager = w.Pager = $class({
         overlap:   "boolean",
     }),
     options: {
-        position:  _TOOLKIT_TOP,
+        position:  "top",
         direction: "forward",
         pages:     [],
         show:      -1,
@@ -133,19 +133,19 @@ w.TK.Pager = w.Pager = $class({
             TK.remove_class(E, "toolkit-horizontal");
             switch (O.position) {
                 // NOTE: some break statements left out for trickle down
-                case _TOOLKIT_TOP:
+                case "top":
                     TK.add_class(E, "toolkit-top");
                     TK.add_class(E, "toolkit-vertical");
                     break;
-                case _TOOLKIT_BOTTOM:
+                case "bottom":
                     TK.add_class(E, "toolkit-bottom");
                     TK.add_class(E, "toolkit-vertical");
                     break;
-                case _TOOLKIT_LEFT:
+                case "left":
                     TK.add_class(E, "toolkit-left");
                     TK.add_class(E, "toolkit-horizontal");
                     break;
-                case _TOOLKIT_RIGHT:
+                case "right":
                     TK.add_class(E, "toolkit-right");
                     TK.add_class(E, "toolkit-horizontal");
                     break;
@@ -160,32 +160,32 @@ w.TK.Pager = w.Pager = $class({
             I.layout = false;
             TK.S.add(function() {
                 var size;
-                if (O.position == _TOOLKIT_TOP || O.position == _TOOLKIT_BOTTOM) {
+                if (O.position == "top" || O.position == "bottom") {
                     size = TK.outer_height(this.buttonarray.element) + "px";
                 } else {
                     size = TK.outer_width(this.buttonarray.element) + "px";
                 }
                 TK.S.add(function() {
                     switch (O.position) {
-                        case _TOOLKIT_TOP:
+                        case "top":
                             this._clip.style.top = size;
                             this._clip.style.bottom = null;
                             this._clip.style.left = null;
                             this._clip.style.right = null;
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             this._clip.style.bottom = size;
                             this._clip.style.top = null;
                             this._clip.style.left = null;
                             this._clip.style.right = null;
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             this._clip.style.left = size;
                             this._clip.style.right = null;
                             this._clip.style.top = null;
                             this._clip.style.bottom = null;
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                             this._clip.style.right = size;
                             this._clip.style.left = null;
                             this._clip.style.top = null;
@@ -392,10 +392,10 @@ w.TK.Pager = w.Pager = $class({
                 break;
             case "position":
                 var badir;
-                if (value === _TOOLKIT_TOP || value === _TOOLKIT_BOTTOM) {
-                    badir = _TOOLKIT_HORIZ;
+                if (value === "top" || value === "bottom") {
+                    badir = "horizontal";
                 } else {
-                    badir = _TOOLKIT_VERT;
+                    badir = "vertical";
                 }
                 this.buttonarray.set("direction", badir);
                 break;

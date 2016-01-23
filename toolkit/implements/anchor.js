@@ -24,7 +24,7 @@ w.TK.Anchor = w.Anchor = $class({
     /**
      * TK.Anchor provides a single function translate_anchor
      * which returns real x and y values from a relative positioning.
-     * For example positioning a {@link TK.Window} with anchor _TOOLKIT_CENTER
+     * For example positioning a {@link TK.Window} with anchor "center"
      * needs to subtract half of its width from y and half of its height
      * from x to appear at the correct position.
      *
@@ -34,7 +34,7 @@ w.TK.Anchor = w.Anchor = $class({
         /**
          * Returns real x and y values from a relative positioning.
          * @method TK.Anchor#translate_anchor
-         * @param {integer} [anchor=_TOOLKIT_TOP_LEFT] - Position of the anchor
+         * @param {integer} [anchor="top-left"] - Position of the anchor
          * @param {number} x - X position to translate
          * @param {number} y - Y position to translate
          * @param {number} width - Width of the element
@@ -42,33 +42,33 @@ w.TK.Anchor = w.Anchor = $class({
          * @returns {Object} Object with members x and y as numbers
          */
         switch (anchor) {
-            case _TOOLKIT_TOP_LEFT:
+            case "top-left":
                 break;
-            case _TOOLKIT_TOP:
+            case "top":
                 x += width / 2;
                 break;
-            case _TOOLKIT_TOP_RIGHT:
+            case "top-right":
                 x += width;
                 break;
-            case _TOOLKIT_LEFT:
+            case "left":
                 y += height / 2;
                 break;
-            case _TOOLKIT_CENTER:
+            case "center":
                 x += width / 2;
                 y += height / 2;
                 break;
-            case _TOOLKIT_RIGHT:
+            case "right":
                 x += width;
                 y += height / 2;
                 break;
-            case _TOOLKIT_BOTTOM_LEFT:
+            case "bottom-left":
                 y += height;
                 break;
-            case _TOOLKIT_BOTTOM:
+            case "bottom":
                 x += width / 2;
                 y += height;
                 break;
-            case _TOOLKIT_BOTTOM_RIGHT:
+            case "bottom-right":
                 x += width;
                 y += height;
                 break;

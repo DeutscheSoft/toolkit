@@ -28,7 +28,7 @@ function pointer_down(e) {
     var ev = get_event(e);
     // set stuff
     TK.add_class(this.options.classes, "toolkit-dragging");
-    if (this.options.direction == _TOOLKIT_VERT && this.options.cursor)
+    if (this.options.direction == "vertical" && this.options.cursor)
         this.global_cursor("row-resize");
     else if (this.options.cursor)
         this.global_cursor("col-resize");
@@ -89,7 +89,7 @@ function pointer_move(e) {
     }
     var dist = 0;
     switch(O.direction) {
-        case _TOOLKIT_POLAR:
+        case "polar":
             var x = ev.pageX - this._pageX;
             var y = this._pageY - ev.pageY;
             var r = Math.sqrt(x * x + y * y) * multi;
@@ -105,10 +105,10 @@ function pointer_move(e) {
                 break;
             }
             break;
-        case _TOOLKIT_VERT:
+        case "vertical":
             dist = (this._pageY - ev.pageY) * multi;
             break;
-        case _TOOLKIT_HORIZ:
+        case "horizontal":
             dist = (ev.pageX - this._pageX) * multi;
             break;
     }
@@ -161,11 +161,11 @@ w.TK.DragValue = w.DragValue = $class({
      *  <code>toolkit-dragging</code> will be added to this Element.
      * @property {Function} options.get - Callback function returning the value to drag.
      * @property {Function} options.set - Callback function for setting the value.
-     * @property {integer} [options.direction=_TOOLKIT_POLAR] - Direction for changing the value.
-     *  Can be _TOOLKIT_POLAR, _TOOLKIT_VERTICAL or _TOOLKIT_HORIZONTAL.
+     * @property {integer} [options.direction="polar"] - Direction for changing the value.
+     *  Can be "polar", "vertical" or "horizontal".
      * @property {boolean} [options.active=true] - If false, dragging is deactivated.
      * @property {boolean} [options.cursor=false] - If true, a global cursor is set while dragging.
-     * @property {number} [options.blind_angle=20] - If options.direction is _TOOLKIT_POLAR,
+     * @property {number} [options.blind_angle=20] - If options.direction is "polar",
      *  this is the angle of separation between positive and negative value changes
      * @property {number} [options.rotation=45] - Defines the angle of the center of the positive value
      *  changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
@@ -201,15 +201,15 @@ w.TK.DragValue = w.DragValue = $class({
                                                // on the main element
         get:       function () { return; },    // callback returning the value
         set:       function () { return; },    // callback setting the value
-        direction: _TOOLKIT_POLAR,             // direction: vertical,
+        direction: "polar",             // direction: vertical,
                                                // horizontal or polar
         active:    true,                       // deactivate the event
         cursor:    false,                      // enable global cursors
-        blind_angle: 20,                       // used when direction = _TOOLKIT_POLAR
+        blind_angle: 20,                       // used when direction = "polar"
                                                // amount of degrees to
                                                // separate positive from negative
                                                // value changes
-        rotation:  45,                         // used when direction = _TOOLKIT_POLAR
+        rotation:  45,                         // used when direction = "polar"
                                                // defines the angle of
                                                // the middle of the positive
                                                // value changes. 0 means

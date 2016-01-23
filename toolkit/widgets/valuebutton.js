@@ -55,8 +55,8 @@ w.TK.ValueButton = w.ValueButton = $class({
         value: 0,
         value_format:   function (val) { return val.toFixed(2); },
         value_size:     5,
-        bar_direction:  _TOOLKIT_HORIZONTAL,
-        drag_direction: _TOOLKIT_POLAR,
+        bar_direction:  "horizontal",
+        drag_direction: "polar",
         rotation:       45,
         blind_angle:    20,
         snap:           0.01
@@ -139,12 +139,12 @@ w.TK.ValueButton = w.ValueButton = $class({
         if (I.bar_direction) {
             I.bar_direction = false;
             switch (O.bar_direction) {
-                case _TOOLKIT_HORIZONTAL:
+                case "horizontal":
                 default:
                     TK.remove_class(this.element, "toolkit-vertical");
                     TK.add_class(this.element, "toolkit-horizontal");
                     break;
-                case _TOOLKIT_VERTICAL:
+                case "vertical":
                     TK.remove_class(this.element, "toolkit-horizontal");
                     TK.add_class(this.element, "toolkit-vertical");
                     break;
@@ -152,7 +152,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         }
         if (I.value) {
             I.value = false;
-            this._base.style[O.bar_direction == _TOOLKIT_HORIZONTAL ? "width" : "height"] = this.val2perc(this.snap(O.value)) + "%";
+            this._base.style[O.bar_direction == "horizontal" ? "width" : "height"] = this.val2perc(this.snap(O.value)) + "%";
         }
     },
     

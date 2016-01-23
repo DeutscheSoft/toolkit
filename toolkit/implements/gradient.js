@@ -103,28 +103,28 @@ w.TK.Gradient = w.Gradient = $class({
             var c_webkit   = "color-stop(%s%%, %s), ";
             
             var d_w3c = {};
-            d_w3c["s"+_TOOLKIT_LEFT]       = "to top";
-            d_w3c["s"+_TOOLKIT_RIGHT]      = "to top";
-            d_w3c["s"+_TOOLKIT_TOP]        = "to right";
-            d_w3c["s"+_TOOLKIT_BOTTOM]     = "to right";
+            d_w3c["s"+"left"]       = "to top";
+            d_w3c["s"+"right"]      = "to top";
+            d_w3c["s"+"top"]        = "to right";
+            d_w3c["s"+"bottom"]     = "to right";
             
             var d_regular = {};
-            d_regular["s"+_TOOLKIT_LEFT]   = "bottom";
-            d_regular["s"+_TOOLKIT_RIGHT]  = "bottom";
-            d_regular["s"+_TOOLKIT_TOP]    = "left";
-            d_regular["s"+_TOOLKIT_BOTTOM] = "left";
+            d_regular["s"+"left"]   = "bottom";
+            d_regular["s"+"right"]  = "bottom";
+            d_regular["s"+"top"]    = "left";
+            d_regular["s"+"bottom"] = "left";
             
             var d_webkit = {};
-            d_webkit["s"+_TOOLKIT_LEFT]    = "left bottom, left top";
-            d_webkit["s"+_TOOLKIT_RIGHT]   = "left bottom, left top";
-            d_webkit["s"+_TOOLKIT_TOP]     = "left top, right top";
-            d_webkit["s"+_TOOLKIT_BOTTOM]  = "left top, right top";
+            d_webkit["s"+"left"]    = "left bottom, left top";
+            d_webkit["s"+"right"]   = "left bottom, left top";
+            d_webkit["s"+"top"]     = "left top, right top";
+            d_webkit["s"+"bottom"]  = "left top, right top";
             
             var d_ms = {};
-            d_ms["s"+_TOOLKIT_LEFT]     = 'x1="0%" y1="0%" x2="0%" y2="100%"';
-            d_ms["s"+_TOOLKIT_RIGHT]    = 'x1="0%" y1="0%" x2="0%" y2="100%"';
-            d_ms["s"+_TOOLKIT_TOP]      = 'x1="100%" y1="0%" x2="0%" y2="0%"';
-            d_ms["s"+_TOOLKIT_BOTTOM]   = 'x1="100%" y1="0%" x2="0%" y2="0%"';
+            d_ms["s"+"left"]     = 'x1="0%" y1="0%" x2="0%" y2="100%"';
+            d_ms["s"+"right"]    = 'x1="0%" y1="0%" x2="0%" y2="100%"';
+            d_ms["s"+"top"]      = 'x1="100%" y1="0%" x2="0%" y2="0%"';
+            d_ms["s"+"bottom"]   = 'x1="100%" y1="0%" x2="0%" y2="0%"';
             
             var keys = Object.keys(gradient);
             for (var i = 0; i < keys.length; i++) {

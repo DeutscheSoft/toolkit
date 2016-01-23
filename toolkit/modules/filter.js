@@ -255,7 +255,7 @@ w.TK.Filter = w.Filter = $class({
      * TK.Filter provides the math for calculating a gain from
      * a given frequency for different types of filters
      *
-     * @property {integer} [options.type=_TOOLKIT_PARAMETRIC] - The type of the filter,  _TOOLKIT_PARAMETRIC|_TOOLKIT_PEAK|_TOOLKIT_NOTCH|_TOOLKIT_LOWSHELF|_TOOLKIT_HIGHSHELF|_TOOLKIT_LOWPASS_[n]|_TOOLKIT_HIGHPASS_[n]
+     * @property {integer} [options.type="parametric"] - The type of the filter,  "parametric"|"notch"|"low-shelf"|"high-shelf"|"lowpass"+n|"highpass"+[n]
      * @property {number} [options.freq=0] - The initial frequency
      * @property {number} [options.gain=0] - The initial gain
      * @property {number} [options.q=1] - The initial Q of the filter
@@ -274,7 +274,7 @@ w.TK.Filter = w.Filter = $class({
         q: "number",
     },
     options: {
-        type: _TOOLKIT_PARAMETRIC,
+        type: "parametric",
         freq: 0,
         gain: 0,
         q:    1
@@ -288,18 +288,18 @@ w.TK.Filter = w.Filter = $class({
         var m = FilterModule(window, this.options);
 
         switch (this.options.type) {
-            case _TOOLKIT_PARAM: this.freq2gain = m.peak; break;
-            case _TOOLKIT_NOTCH: this.freq2gain = m.notch; break;
-            case _TOOLKIT_LOSHELF: this.freq2gain = m.low_shelf; break;
-            case _TOOLKIT_HISHELF: this.freq2gain = m.high_shelf; break;
-            case _TOOLKIT_LP1: this.freq2gain = m.lpf_order1; break;
-            case _TOOLKIT_LP2: this.freq2gain = m.lpf_order2; break;
-            case _TOOLKIT_LP3: this.freq2gain = m.lpf_order3; break;
-            case _TOOLKIT_LP4: this.freq2gain = m.lpf_order4; break;
-            case _TOOLKIT_HP1: this.freq2gain = m.hpf_order1; break;
-            case _TOOLKIT_HP2: this.freq2gain = m.hpf_order2; break;
-            case _TOOLKIT_HP3: this.freq2gain = m.hpf_order3; break;
-            case _TOOLKIT_HP4: this.freq2gain = m.hpf_order4; break;
+            case "parametric": this.freq2gain = m.peak; break;
+            case "notch": this.freq2gain = m.notch; break;
+            case "low-shelf": this.freq2gain = m.low_shelf; break;
+            case "high-shelf": this.freq2gain = m.high_shelf; break;
+            case "lowpass1": this.freq2gain = m.lpf_order1; break;
+            case "lowpass2": this.freq2gain = m.lpf_order2; break;
+            case "lowpass3": this.freq2gain = m.lpf_order3; break;
+            case "lowpass4": this.freq2gain = m.lpf_order4; break;
+            case "highpass1": this.freq2gain = m.hpf_order1; break;
+            case "highpass2": this.freq2gain = m.hpf_order2; break;
+            case "highpass3": this.freq2gain = m.hpf_order3; break;
+            case "highpass4": this.freq2gain = m.hpf_order4; break;
             default: throw new Error("undefined type!\n");
         }
         this.fire_event("reset");

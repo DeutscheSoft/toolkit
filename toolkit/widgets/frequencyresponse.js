@@ -62,8 +62,8 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
     }),
     options: {
         db_grid: 12,                                         // dB grid distance
-        range_x: {min:20, max:20000, scale:_TOOLKIT_FREQ},   // TK.Range x options
-        range_y: {min:-36, max: 36, scale: _TOOLKIT_LINEAR}, // TK.Range y options
+        range_x: {min:20, max:20000, scale:"frequency"},   // TK.Range x options
+        range_y: {min:-36, max: 36, scale: "linear"}, // TK.Range y options
         grid_x:  [
                     {pos:    20, label: "20 Hz"},
                     {pos:    30},

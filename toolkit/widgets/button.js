@@ -30,8 +30,8 @@ w.TK.Button = w.Button = $class({
      * @property {string} [options.icon=""] - URL to an icon for the button
      * @property {boolean} [options.state=false] - TK.State of the button
      * @property {boolean} [options.state_color=false] - Background color of the state indication
-     * @property {integer} [options.layout=_TOOLKIT_VERTICAL] - Determine the arrangement of label and icon.
-     * _TOOLKIT_VERTICAL means icon on top of the label, _TOOLKIT_HORIZONTAL puts the icon left to the label.
+     * @property {integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
+     * "vertical" means icon on top of the label, "horizontal" puts the icon left to the label.
      * 
      * @extends TK.Widget
      * 
@@ -51,7 +51,7 @@ w.TK.Button = w.Button = $class({
         icon:             false,
         state:            false,
         state_color:      false,
-        layout:           _TOOLKIT_VERTICAL
+        layout:           "vertical"
     },
     initialize: function (options) {
         var E;
@@ -93,7 +93,7 @@ w.TK.Button = w.Button = $class({
         
         if (I.layout) {
             I.layout = false;
-            if (O.layout == _TOOLKIT_VERTICAL) {
+            if (O.layout == "vertical") {
                 this.remove_class("toolkit-horizontal");
                 this.add_class("toolkit-vertical");
             } else {

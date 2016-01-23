@@ -28,9 +28,10 @@ w.TK.EqBand = w.EqBand = $class({
      * or any other derivate to be drawn in.
      *
      * @class TK.EqBand
-     * @property {integer} [options.type=_TOOLKIT_PARAMETRIC] - The type of the filter.
-     *  Possible values are _TOOLKIT_PARAMETRIC, _TOOLKIT_PEAK, _TOOLKIT_NOTCH,
-     *  _TOOLKIT_LOWSHELF, _TOOLKIT_HIGHSHELF, _TOOLKIT_LOWPASS_* or _TOOLKIT_HIGHPASS_*.
+     * @property {integer} [options.type="parametric"] - The type of the filter.
+     *  Possible values are <code>"parametric"</code>, <code>"notch"</code>,
+     *  <code>"low-shelf"</code>, <code>"high-shelf"</code>, <code>"lowpass"+n</code> or
+     *  <code>"highpass"+n</code>.
      * @extends TK.ResponseHandle
      */
     _class: "EqBand",
@@ -45,31 +46,31 @@ w.TK.EqBand = w.EqBand = $class({
         q: "number",
     }),
     options: {
-        type:    _TOOLKIT_PARAMETRIC // The type of the filter.
+        type:    "parametric" // The type of the filter.
     },
     
     initialize: function (options) {
         if (typeof options.mode == "undefined") {
             switch (options.type) {
-                case _TOOLKIT_PARAM:
-                case _TOOLKIT_NOTCH:
-                    options.mode = _TOOLKIT_CIRCULAR
+                case "parametric":
+                case "notch":
+                    options.mode = "circular"
                     break;
-                case _TOOLKIT_LP1:
-                case _TOOLKIT_LP2:
-                case _TOOLKIT_LP3:
-                case _TOOLKIT_LP4:
-                    options.mode = _TOOLKIT_BLOCK_RIGHT;
+                case "lowpass1":
+                case "lowpass2":
+                case "lowpass3":
+                case "lowpass4":
+                    options.mode = "block-right";
                     break;
-                case _TOOLKIT_HP1:
-                case _TOOLKIT_HP2:
-                case _TOOLKIT_HP3:
-                case _TOOLKIT_HP4:
-                    options.mode = _TOOLKIT_BLOCK_LEFT;
+                case "highpass1":
+                case "highpass2":
+                case "highpass3":
+                case "highpass4":
+                    options.mode = "block-left";
                     break;
-                case _TOOLKIT_LOWSHELF:
-                case _TOOLKIT_HISHELF:
-                    options.mode = _TOOLKIT_LINE_VERT;
+                case "low-shelf":
+                case "high-shelf":
+                    options.mode = "line-vertical";
                     options.show_axis = true;
                     break;
             }

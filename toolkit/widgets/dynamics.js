@@ -50,10 +50,10 @@ w.TK.Dynamics = w.Dynamics = $class({
         min:     -96,
         max:     24,
         size:    400,
-        scale:   _TOOLKIT_FLAT,
+        scale:   "linear",
         type:    false,          // type of dynamics display. can be
-                                 // _TOOLKIT_COMPRESSOR, _TOOLKIT_LIMITER,
-                                 // _TOOLKIT_GATE, _TOOLKIT_EXPANDER
+                                 // "compressor", "limiter",
+                                 // "gate", "expander"
                                  // or false to draw your own curve
         threshold: 0,
         ratio:     1,
@@ -74,7 +74,7 @@ w.TK.Dynamics = w.Dynamics = $class({
             dots: [{x:O.min, y:O.min},
                    {x:O.max, y:O.max}],
             "class": "toolkit-steady",
-            mode: _TOOLKIT_LINE
+            mode: "line"
         });
     },
     
@@ -146,7 +146,7 @@ w.TK.Dynamics = w.Dynamics = $class({
         }
         var curve = [];
         switch (O.type) {
-            case _TOOLKIT_COMPRESSOR:
+            case "compressor":
                 curve.push({x: O.min,
                             y: O.min + O.makeup});
                 curve.push({x: O.threshold,
@@ -154,7 +154,7 @@ w.TK.Dynamics = w.Dynamics = $class({
                 curve.push({x: O.max,
                             y: O.threshold + (O.max - O.threshold) / O.ratio + O.makeup});
                 break;
-            case _TOOLKIT_LIMITER:
+            case "limiter":
                 curve.push({x: O.min,
                             y: O.min + O.makeup});
                 curve.push({x: O.threshold,
@@ -162,7 +162,7 @@ w.TK.Dynamics = w.Dynamics = $class({
                 curve.push({x: O.max,
                             y: O.threshold + O.makeup});
                 break;
-            case _TOOLKIT_GATE:
+            case "gate":
                 curve.push({x: O.threshold,
                             y: O.min});
                 curve.push({x: O.threshold,
@@ -170,7 +170,7 @@ w.TK.Dynamics = w.Dynamics = $class({
                 curve.push({x: O.max,
                             y: this.opions.max + O.makeup});
                 break;
-            case _TOOLKIT_EXPANDER:
+            case "expander":
                 if (O.ratio != 1) {
                     curve.push({x: O.min,
                                 y: O.min + O.makeup + O.range});

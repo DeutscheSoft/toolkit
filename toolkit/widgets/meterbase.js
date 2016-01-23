@@ -21,7 +21,7 @@
 "use strict";
 (function(w){ 
 function vert(O) {
-    return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
+    return O.layout == "left" || O.layout == "right";
 }
 w.TK.MeterBase = w.MeterBase = $class({
     /**
@@ -63,14 +63,14 @@ w.TK.MeterBase = w.MeterBase = $class({
         show_base: "boolean",
     }),
     options: {
-        layout:           _TOOLKIT_LEFT,  // how to draw the meter:
-                                          // _TOOLKIT_LEFT:   vertical, meter on
+        layout:           "left",  // how to draw the meter:
+                                          // "left":   vertical, meter on
                                           //                  the left
-                                          // _TOOLKIT_RIGHT:  vertical, meter on
+                                          // "right":  vertical, meter on
                                           //                  the right,
-                                          // _TOOLKIT_TOP:    horizontal, meter
+                                          // "top":    horizontal, meter
                                           //                  on top
-                                          // _TOOLKIT_BOTTOM: horizontal, meter
+                                          // "bottom": horizontal, meter
                                           //                  on bottom
         segment:         1,               // size of the segments (imagine as
                                           // size of a single LED)
@@ -209,22 +209,22 @@ w.TK.MeterBase = w.MeterBase = $class({
             TK.remove_class(E, "toolkit-top");
             TK.remove_class(E, "toolkit-bottom");
             switch (O.layout) {
-                case _TOOLKIT_LEFT:
+                case "left":
                     TK.add_class(E, "toolkit-vertical");
                     TK.add_class(E, "toolkit-left");
                     TK.insert_after(this._scale, this._bar);
                     break;
-                case _TOOLKIT_RIGHT:
+                case "right":
                     TK.add_class(E, "toolkit-vertical");
                     TK.add_class(E, "toolkit-right");
                     TK.insert_after(this._bar, this._scale);
                     break;
-                case _TOOLKIT_TOP:
+                case "top":
                     TK.add_class(E, "toolkit-horizontal");
                     TK.add_class(E, "toolkit-top");
                     TK.insert_after(this._scale, this._bar);
                     break;
-                case _TOOLKIT_BOTTOM:
+                case "bottom":
                     TK.add_class(E, "toolkit-horizontal");
                     TK.add_class(E, "toolkit-bottom");
                     TK.insert_after(this._bar, this._scale);

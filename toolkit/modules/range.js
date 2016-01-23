@@ -48,10 +48,10 @@ w.TK.Range = w.Range = $class({
         round: "boolean",
     },
     options: {
-        scale:      _TOOLKIT_LINEAR, // What kind of value are we having?
-                                     // _TOOLKIT_LINEAR
-                                     // _TOOLKIT_DECIBEL / _TOOLKIT_LOG2
-                                     // _TOOLKIT_FREQUENCY / _TOOLKIT_LOG10
+        scale:      "linear", // What kind of value are we having?
+                                     // "linear"
+                                     // "decibel" / "log2"
+                                     // "frequency" 
                                      // function (value, options, coef) {}
                                      // 
                                      // If a function instead of a constant

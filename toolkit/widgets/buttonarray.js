@@ -69,7 +69,7 @@ function scroll_to() {
     var current = this.current();
     if (current) {
         var n = this.buttons.indexOf(current);
-        var dir      = this.options.direction == _TOOLKIT_VERTICAL;
+        var dir      = this.options.direction == "vertical";
         var subd     = dir ? 'top' : 'left';
         var subs     = dir ? 'height' : 'width';
 
@@ -105,8 +105,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      *                              converted list of button instances is
      *                              returned.
      * @property {boolean} [options.auto_arrows=true] - If arrow buttons are added automatically
-     * @property {integer} [options.direction=_TOOLKIT_HORIZONTAL] - The direction of the button list, one out of
-     *                          _TOOLKIT_HORIZONTAL or _TOOLKIT_VERTICAL
+     * @property {integer} [options.direction="horizontal"] - The direction of the button list, one out of
+     *                          "horizontal" or "vertical"
      * @property {integer|TK.Button} [options.show=-1] - The button to scroll to, either an ID or a button instance
      * 
      * @extends TK.Container
@@ -123,7 +123,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     options: {
         buttons: [],
         auto_arrows: true,
-        direction: _TOOLKIT_HORIZONTAL,
+        direction: "horizontal",
         show: -1
     },
     initialize: function (options) {
@@ -139,7 +139,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         
-        var vert = this.get("direction") == _TOOLKIT_VERTICAL;
+        var vert = this.get("direction") == "vertical";
         
         /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance. */
         this.prev = new TK.Button({label: vert ? "▲" : "◄",
@@ -189,7 +189,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             options = {label: options}
         var b    = new TK.Button(options);
         var len  = this.buttons.length;
-        var vert = this.options.direction == _TOOLKIT_VERT;
+        var vert = this.options.direction == "vertical";
         if (typeof position == "undefined")
             position = this.buttons.length;
         if (position == len) {
@@ -267,7 +267,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             var E = this.element;
             TK.remove_class(E, "toolkit-vertical");
             TK.remove_class(E, "toolkit-horizontal");
-            TK.add_class(E, O.direction == _TOOLKIT_VERT ? "toolkit-vertical" : "toolkit-horizontal");
+            TK.add_class(E, O.direction == "vertical" ? "toolkit-vertical" : "toolkit-horizontal");
         }
 
         if (I.auto_arrows || I.direction) {
@@ -289,7 +289,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 TK.S.add(function() {
                     var erect = this.element.getBoundingClientRect();
                     var brect = this._container.getBoundingClientRect();
-                    var subs  = O.direction == _TOOLKIT_VERT ? "height" : "width";
+                    var subs  = O.direction == "vertical" ? "height" : "width";
                     TK.S.add(function() {
                         if (brect[subs] > erect[subs])
                             show_arrows.call(this);
@@ -348,8 +348,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 this.add_buttons(value);
                 break;
             case "direction":
-                this.prev.set("label", value == _TOOLKIT_VERT ? "▲" : "◀");
-                this.next.set("label", value == _TOOLKIT_VERT ? "▼" : "▶");
+                this.prev.set("label", value == "vertical" ? "▲" : "◀");
+                this.next.set("label", value == "vertical" ? "▼" : "▶");
                 break;
         }
         return value;

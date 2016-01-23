@@ -868,21 +868,20 @@ if (!('remove' in Element.prototype)) {
 
 // CONSTANTS
 
-w._TOOLKIT_VARIABLE                    = -1;
-w._TOOLKIT_VAR                         = -1;
+w._TOOLKIT_VARIABLE                    = "base";
+w._TOOLKIT_VAR                         = "base";
 
-w._TOOLKIT_NONE                        = -2;
-
+// These constants exist here only for compatibility reasons
 // POSITIONS
-w._TOOLKIT_TOP                         = 0x00000000;
-w._TOOLKIT_RIGHT                       = 0x00000001;
-w._TOOLKIT_BOTTOM                      = 0x00000002;
-w._TOOLKIT_LEFT                        = 0x00000003;
-w._TOOLKIT_TOP_LEFT                    = 0x00000004;
-w._TOOLKIT_TOP_RIGHT                   = 0x00000005;
-w._TOOLKIT_BOTTOM_RIGHT                = 0x00000006;
-w._TOOLKIT_BOTTOM_LEFT                 = 0x00000007;
-w._TOOLKIT_CENTER                      = 0x00000008;
+w._TOOLKIT_TOP                         = "top";
+w._TOOLKIT_RIGHT                       = "right";
+w._TOOLKIT_BOTTOM                      = "bottom";
+w._TOOLKIT_LEFT                        = "left";
+w._TOOLKIT_TOP_LEFT                    = "top-left";
+w._TOOLKIT_TOP_RIGHT                   = "top-right";
+w._TOOLKIT_BOTTOM_RIGHT                = "bottom-right";
+w._TOOLKIT_BOTTOM_LEFT                 = "bottom-left";
+w._TOOLKIT_CENTER                      = "center";
 
 // DIRECTIONS
 w._TOOLKIT_N                           = 0x00000000;
@@ -897,161 +896,120 @@ w._TOOLKIT_SE                          = 0x00000006;
 w._TOOLKIT_SW                          = 0x00000007;
 w._TOOLKIT_C                           = 0x00000008;
 
-w._TOOLKIT_HORIZONTAL                  = 0x00010000;
-w._TOOLKIT_HORIZ                       = 0x00010000;
-w._TOOLKIT_VERTICAL                    = 0x00010001;
-w._TOOLKIT_VERT                        = 0x00010001;
+w._TOOLKIT_HORIZONTAL                  = "horizontal";
+w._TOOLKIT_HORIZ                       = "horizontal";
+w._TOOLKIT_VERTICAL                    = "vertical";
+w._TOOLKIT_VERT                        = "vertical";
 
-w._TOOLKIT_X                           = 0x00010000;
-w._TOOLKIT_Y                           = 0x00010001;
-
-w._TOOLKIT_POLAR                       = 0x00010002;
+w._TOOLKIT_POLAR                       = "polar";
 
 // DRAWING MODES
-w._TOOLKIT_CIRCULAR                    = 0x00020000;
-w._TOOLKIT_CIRC                        = 0x00020000;
-w._TOOLKIT_LINE                        = 0x00020001;
-w._TOOLKIT_BLOCK                       = 0x00020002;
-w._TOOLKIT_LINE_HORIZONTAL             = 0x00020003;
-w._TOOLKIT_LINE_HORIZ                  = 0x00020003;
-w._TOOLKIT_LINE_VERTICAL               = 0x00020004;
-w._TOOLKIT_LINE_VERT                   = 0x00020004;
-w._TOOLKIT_LINE_X                      = 0x00020003;
-w._TOOLKIT_LINE_Y                      = 0x00020004;
-w._TOOLKIT_BLOCK_LEFT                  = 0x00020005;
-w._TOOLKIT_BLOCK_RIGHT                 = 0x00020006;
-w._TOOLKIT_BLOCK_TOP                   = 0x00020007;
-w._TOOLKIT_BLOCK_BOTTOM                = 0x00020008;
-w._TOOLKIT_BLOCK_CENTER                = 0x00020009;
-
-// SVG ELEMENT MODES
-w._TOOLKIT_OUTLINE                     = 0x00030000;
-w._TOOLKIT_FILLED                      = 0x00030001;
-w._TOOLKIT_FULL                        = 0x00030002;
-
-// VALUE MODES
-w._TOOLKIT_PIXEL                       = 0x00040000;
-w._TOOLKIT_PX                          = 0x00040000;
-w._TOOLKIT_PERCENT                     = 0x00040001;
-w._TOOLKIT_PERC                        = 0x00040001;
-w._TOOLKIT_COEF                        = 0x00040002;
-w._TOOLKIT_COEFF                       = 0x00040002;
-w._TOOLKIT_COEFFICIENT                 = 0x00040002;
+w._TOOLKIT_CIRCULAR                    = "circular";
+w._TOOLKIT_CIRC                        = "circular";
+w._TOOLKIT_LINE                        = "line";
+w._TOOLKIT_LINE_HORIZONTAL             = "line-horizontal";
+w._TOOLKIT_LINE_HORIZ                  = "line-horizontal";
+w._TOOLKIT_LINE_VERTICAL               = "line-vertical";
+w._TOOLKIT_LINE_VERT                   = "line-vertical";
+w._TOOLKIT_LINE_X                      = "line-horizontal";
+w._TOOLKIT_LINE_Y                      = "line-vertical";
+w._TOOLKIT_BLOCK_LEFT                  = "block-left";
+w._TOOLKIT_BLOCK_RIGHT                 = "block-right";
+w._TOOLKIT_BLOCK_TOP                   = "block-top";
+w._TOOLKIT_BLOCK_BOTTOM                = "block-bottom";
+w._TOOLKIT_BLOCK_CENTER                = "block-center";
 
 // SCALES
-w._TOOLKIT_FLAT                        = 0x00050000;
-w._TOOLKIT_LINEAR                      = 0x00050000;
-w._TOOLKIT_LIN                         = 0x00050000;
+w._TOOLKIT_FLAT                        = "linear";
+w._TOOLKIT_LINEAR                      = "linear";
+w._TOOLKIT_LIN                         = "linear";
 
-w._TOOLKIT_DECIBEL                     = 0x00050001;
-w._TOOLKIT_DB                          = 0x00050001;
-w._TOOLKIT_LOG2_REVERSE                = 0x00050001;
-w._TOOLKIT_LOG2                        = 0x00050002;
-w._TOOLKIT_DB_REVERSE                  = 0x00050002;
-w._TOOLKIT_DECIBEL_REVERSE             = 0x00050002;
+w._TOOLKIT_DECIBEL                     = "decibel";
+w._TOOLKIT_DB                          = "decibel";
+w._TOOLKIT_LOG2                        = "log2";
 
-w._TOOLKIT_FREQUENCY                   = 0x00050005;
-w._TOOLKIT_FREQ                        = 0x00050005;
-w._TOOLKIT_FREQ_REVERSE                = 0x00050006;
-w._TOOLKIT_FREQUENCY_REVERSE           = 0x00050006;
+w._TOOLKIT_FREQUENCY                   = "frequency";
+w._TOOLKIT_FREQ                        = "frequency";
+w._TOOLKIT_FREQ_REVERSE                = "frequency-reverse";
+w._TOOLKIT_FREQUENCY_REVERSE           = "frequency-reverse";
 
 // FILTERS
-w._TOOLKIT_PARAMETRIC                  = 0x00060000;
-w._TOOLKIT_PARAM                       = 0x00060000;
-w._TOOLKIT_PEAK                        = 0x00060000;
-w._TOOLKIT_NOTCH                       = 0x00060001;
-w._TOOLKIT_LOWSHELF                    = 0x00060002;
-w._TOOLKIT_LOSHELF                     = 0x00060002;
-w._TOOLKIT_HIGHSHELF                   = 0x00060003;
-w._TOOLKIT_HISHELF                     = 0x00060003;
-w._TOOLKIT_LOWPASS_1                   = 0x00060004;
-w._TOOLKIT_LOWPASS_2                   = 0x00060005;
-w._TOOLKIT_LOWPASS_3                   = 0x00060006;
-w._TOOLKIT_LOWPASS_4                   = 0x00060007;
-w._TOOLKIT_LOPASS_1                    = 0x00060004;
-w._TOOLKIT_LOPASS_2                    = 0x00060005;
-w._TOOLKIT_LOPASS_3                    = 0x00060006;
-w._TOOLKIT_LOPASS_4                    = 0x00060007;
-w._TOOLKIT_LP1                         = 0x00060004;
-w._TOOLKIT_LP2                         = 0x00060005;
-w._TOOLKIT_LP3                         = 0x00060006;
-w._TOOLKIT_LP4                         = 0x00060007;
-w._TOOLKIT_HIGHPASS_1                  = 0x00060008;
-w._TOOLKIT_HIGHPASS_2                  = 0x00060009;
-w._TOOLKIT_HIGHPASS_3                  = 0x0006000a;
-w._TOOLKIT_HIGHPASS_4                  = 0x0006000b;
-w._TOOLKIT_HIPASS_1                    = 0x00060008;
-w._TOOLKIT_HIPASS_2                    = 0x00060009;
-w._TOOLKIT_HIPASS_3                    = 0x0006000a;
-w._TOOLKIT_HIPASS_4                    = 0x0006000b;
-w._TOOLKIT_HP1                         = 0x00060008;
-w._TOOLKIT_HP2                         = 0x00060009;
-w._TOOLKIT_HP3                         = 0x0006000a;
-w._TOOLKIT_HP4                         = 0x0006000b;
+w._TOOLKIT_PARAMETRIC                  = "parametric";
+w._TOOLKIT_PARAM                       = "parametric";
+w._TOOLKIT_PEAK                        = "parametric";
+w._TOOLKIT_NOTCH                       = "notch";
+w._TOOLKIT_LOWSHELF                    = "low-shelf";
+w._TOOLKIT_LOSHELF                     = "low-shelf";
+w._TOOLKIT_HIGHSHELF                   = "high-shelf";
+w._TOOLKIT_HISHELF                     = "high-shelf";
+w._TOOLKIT_LOWPASS_1                   = "lowpass1";
+w._TOOLKIT_LOWPASS_2                   = "lowpass2";
+w._TOOLKIT_LOWPASS_3                   = "lowpass3";
+w._TOOLKIT_LOWPASS_4                   = "lowpass4";
+w._TOOLKIT_LOPASS_1                    = "lowpass1";
+w._TOOLKIT_LOPASS_2                    = "lowpass2";
+w._TOOLKIT_LOPASS_3                    = "lowpass3";
+w._TOOLKIT_LOPASS_4                    = "lowpass4";
+w._TOOLKIT_LP1                         = "lowpass1";
+w._TOOLKIT_LP2                         = "lowpass2";
+w._TOOLKIT_LP3                         = "lowpass3";
+w._TOOLKIT_LP4                         = "lowpass4";
+w._TOOLKIT_HIGHPASS_1                  = "highpass1";
+w._TOOLKIT_HIGHPASS_2                  = "highpass2";
+w._TOOLKIT_HIGHPASS_3                  = "highpass3";
+w._TOOLKIT_HIGHPASS_4                  = "highpass4";
+w._TOOLKIT_HIPASS_1                    = "highpass1";
+w._TOOLKIT_HIPASS_2                    = "highpass2";
+w._TOOLKIT_HIPASS_3                    = "highpass3";
+w._TOOLKIT_HIPASS_4                    = "highpass4";
+w._TOOLKIT_HP1                         = "highpass1";
+w._TOOLKIT_HP2                         = "highpass2";
+w._TOOLKIT_HP3                         = "highpass3";
+w._TOOLKIT_HP4                         = "highpass4";
 
 // CIRULAR POSITIONS
-w._TOOLKIT_INNER                       = 0x00080000;
-w._TOOLKIT_OUTER                       = 0x00080001;
+w._TOOLKIT_INNER                       = "inner";
+w._TOOLKIT_OUTER                       = "outer";
 
 // WINDOWS
-w._TOOLKIT_TITLE                       = 0x00090000;
-w._TOOLKIT_CLOSE                       = 0x00090001;
-w._TOOLKIT_MAX                         = 0x00090002;
-w._TOOLKIT_MAXIMIZE                    = 0x00090002;
-w._TOOLKIT_MAX_X                       = 0x00090004;
-w._TOOLKIT_MAX_HORIZ                   = 0x00090004;
-w._TOOLKIT_MAX_HORIZONTAL              = 0x00090004;
-w._TOOLKIT_MAXIMIZE_X                  = 0x00090004;
-w._TOOLKIT_MAXIMIZE_HORIZ              = 0x00090004;
-w._TOOLKIT_MAXIMIZE_HORIZONTAL         = 0x00090004;
-w._TOOLKIT_MAX_Y                       = 0x00090003;
-w._TOOLKIT_MAX_VERT                    = 0x00090003;
-w._TOOLKIT_MAX_VERTICAL                = 0x00090003;
-w._TOOLKIT_MAXIMIZE_Y                  = 0x00090003;
-w._TOOLKIT_MAXIMIZE_VERT               = 0x00090003;
-w._TOOLKIT_MAXIMIZE_VERTICAL           = 0x00090003;
-w._TOOLKIT_MINIMIZE                    = 0x00090005;
-w._TOOLKIT_MIN                         = 0x00090005;
-w._TOOLKIT_SHRINK                      = 0x00090006;
-w._TOOLKIT_STATUS                      = 0x000a0000;
-w._TOOLKIT_RESIZE                      = 0x000a0001;
-w._TOOLKIT_ICON                        = 0x000a0002;
+w._TOOLKIT_TITLE                       = "title";
+w._TOOLKIT_CLOSE                       = "close";
+w._TOOLKIT_MAX                         = "maximize";
+w._TOOLKIT_MAXIMIZE                    = "maximize";
+w._TOOLKIT_MAX_X                       = "maximize-horizontal";
+w._TOOLKIT_MAX_HORIZ                   = "maximize-horizontal";
+w._TOOLKIT_MAX_HORIZONTAL              = "maximize-horizontal";
+w._TOOLKIT_MAXIMIZE_X                  = "maximize-horizontal";
+w._TOOLKIT_MAXIMIZE_HORIZ              = "maximize-horizontal";
+w._TOOLKIT_MAXIMIZE_HORIZONTAL         = "maximize-horizontal";
+w._TOOLKIT_MAX_Y                       = "maximize-vertical";
+w._TOOLKIT_MAX_VERT                    = "maximize-vertical";
+w._TOOLKIT_MAX_VERTICAL                = "maximize-vertical";
+w._TOOLKIT_MAXIMIZE_Y                  = "maximize-vertical";
+w._TOOLKIT_MAXIMIZE_VERT               = "maximize-vertical";
+w._TOOLKIT_MAXIMIZE_VERTICAL           = "maximize-vertical";
+w._TOOLKIT_MINIMIZE                    = "minimize";
+w._TOOLKIT_MIN                         = "minimize";
+w._TOOLKIT_SHRINK                      = "shrink";
+w._TOOLKIT_STATUS                      = "status";
+w._TOOLKIT_RESIZE                      = "resize";
 
 // UPDATE POLICY
-w._TOOLKIT_CONTINUOUS                  = 0x000b0000;
-w._TOOLKIT_ALWAYS                      = 0x000b0000;
-w._TOOLKIT_CONTINUOUSLY                = 0x000b0000;
-w._TOOLKIT_COMPLETE                    = 0x000b0001;
-w._TOOLKIT_FINISHED                    = 0x000b0001;
-w._TOOLKIT_DONE                        = 0x000b0001;
+w._TOOLKIT_CONTINUOUS                  = "continuous"
 
 // ELEMENTS
-w._TOOLKIT_ICON                        = 0x000c0000;
-w._TOOLKIT_LABEL                       = 0x000c0001;
+w._TOOLKIT_ICON                        = "icon";
+w._TOOLKIT_LABEL                       = "label";
 
 // DYNAMICS
-w._TOOLKIT_COMPRESSOR                  = 0x000d0000;
-w._TOOLKIT_UPWARD_COMPRESSOR           = 0x000d0000;
-w._TOOLKIT_UPWARD_COMP                 = 0x000d0000;
-w._TOOLKIT_COMP                        = 0x000d0000;
-w._TOOLKIT_UPCOMP                      = 0x000d0000;
-w._TOOLKIT_LIMITER                     = 0x000d0001;
-w._TOOLKIT_GATE                        = 0x000d0002;
-w._TOOLKIT_NOISEGATE                   = 0x000d0002;
-w._TOOLKIT_EXPANDER                    = 0x000d0003;
-w._TOOLKIT_EXP                         = 0x000d0003;
+w._TOOLKIT_COMPRESSOR                  = "compressor";
+w._TOOLKIT_UPWARD_COMPRESSOR           = "upward-compressor";
+w._TOOLKIT_UPWARD_COMP                 = "upward-comp";
+w._TOOLKIT_COMP                        = "compressor";
+w._TOOLKIT_LIMITER                     = "limiter";
+w._TOOLKIT_GATE                        = "gate";
+w._TOOLKIT_NOISEGATE                   = "noise-gate";
+w._TOOLKIT_EXPANDER                    = "expander";
+w._TOOLKIT_EXP                         = "expander";
 
-// KEYBOARDS
-w._TOOLKIT_KEYBOARD_MAIN               = 0x000e0000;
-w._TOOLKIT_KEYBOARD_NUMPAD             = 0x000e0001;
-w._TOOLKIT_KEYBOARD_MIDI               = 0x000e0002;
-
-
-// LANGUAGES
-w._TOOLKIT_LANGUAGE_ENGLISH            = 0x000f0000;
-w._TOOLKIT_LANGUAGE_GERMAN             = 0x000f0001;
-
-// KEYBOARD TEXT BUFFER TYPES
-w._TOOLKIT_TEXT_INPUT                  = 0x00100000;
-w._TOOLKIT_TEXT_AREA                   = 0x00100001;
 })(this);

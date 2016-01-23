@@ -22,22 +22,22 @@
 (function(w){ 
 function header_action() {
     switch (this.options.header_action) {
-        case _TOOLKIT_SHRINK:
+        case "shrink":
             this.toggle_shrink();
             break;
-        case _TOOLKIT_MAX:
+        case "maximize":
             this.toggle_maximize();
             break;
-        case _TOOLKIT_MAX_X:
+        case "maximize-horizontal":
             this.toggle_maximize_horizontal();
             break;
-        case _TOOLKIT_MAX_Y:
+        case "maximize-vertical":
             this.toggle_maximize_vertical();
             break;
-        case _TOOLKIT_MIN:
+        case "minimize":
             this.toggle_minimize();
             break;
-        case _TOOLKIT_CLOSE:
+        case "close":
             this.destroy();
             break;
     }
@@ -102,7 +102,7 @@ function stop_resize(el, ev) {
     this.fire_event("stopresize", ev);
 }
 function resizing(el, ev) {
-    if (this.options.resizing == _TOOLKIT_CONTINUOUS) {
+    if (this.options.resizing == "continuous") {
         set_content.call(this);
         size_header.call(this, true);
         size_footer.call(this);
@@ -313,31 +313,31 @@ function build_from_const(element) {
     for (var i = 0; i < this.options[element].length; i++) {
         var targ;
         switch (this.options[element][i]) {
-            case _TOOLKIT_CLOSE:
+            case "close":
                 targ = this.close.element;
                 break;
-            case _TOOLKIT_MAXIMIZE:
+            case "maximize":
                 targ = this.maximize.element;
                 break;
-            case _TOOLKIT_MAXIMIZE_X:
+            case "maximize-horizontal":
                 targ = this.maximize_horiz.element;
                 break;
-            case _TOOLKIT_MAXIMIZE_Y:
+            case "maximize-vertical":
                 targ = this.maximize_vert.element;
                 break;
-            case _TOOLKIT_MINIMIZE:
+            case "minimize":
                 targ = this.minimize.element;
                 break;
-            case _TOOLKIT_SHRINK:
+            case "shrink":
                 targ = this.shrink.element;
                 break;
-            case _TOOLKIT_TITLE:
+            case "title":
                 targ = this._title;
                 break;
-            case _TOOLKIT_STATUS:
+            case "status":
                 targ = this._status;
                 break;
-            case _TOOLKIT_ICON:
+            case "icon":
                 targ = this._icon;
                 break;
         }
@@ -404,34 +404,34 @@ w.TK.Window = w.Window = $class({
         max_width:     -1,    // maximum width, -1 ~ infinite
         min_height:    64,   // minimum height
         max_height:    -1,    // maximum height, -1 ~ infinite
-        anchor:        _TOOLKIT_TOP_LEFT, // anchor of the window, can be one out of:
-                       // _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
-                       // _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
-                       // _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT
+        anchor:        "top-left", // anchor of the window, can be one out of:
+                       // "top-left", "top", "top-right",
+                       // "left", "center", "right",
+                       // "bottom-left", "bottom", "bottom-right"
         modal:         false, // if modal window blocks all other elements
         dock:          false,   // docking of the window, can be one out of:
-                       // _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
-                       // _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
-                       // _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT
+                       // "top-left", "top", "top-right",
+                       // "left", "center", "right",
+                       // "bottom-left", "bottom", "bottom-right"
         maximize:      false, // false or object with members x and y as bool
         minimize:      false, // minimize window (does only make sense with a
                               // window manager application to keep track of it)
         shrink:        false, // shrink rolls the window up into the title bar
         content:       "",
-        open:          _TOOLKIT_CENTER, // initial position of the window, can be one out of:
-                       // _TOOLKIT_TOP_LEFT, _TOOLKIT_TOP, _TOOLKIT_TOP_RIGHT,
-                       // _TOOLKIT_LEFT, _TOOLKIT_CENTER, _TOOLKIT_RIGHT,
-                       // _TOOLKIT_BOTTOM_LEFT, _TOOLKIT_BOTTOM, _TOOLKIT_BOTTOM_RIGHT
+        open:          "center", // initial position of the window, can be one out of:
+                       // "top-left", "top", "top-right",
+                       // "left", "center", "right",
+                       // "bottom-left", "bottom", "bottom-right"
         z_index:       10000, // z index for piling windows. does make more sense
                               // when used together with a window manager
-        header_left:   [_TOOLKIT_ICON], // single element or array of:
-                                        // _TOOLKIT_TITLE, _TOOLKIT_ICON,
-                                        // _TOOLKIT_CLOSE, _TOOLKIT_MINIMIZE,
-                                        // _TOOLKIT_SHRINK,
-                                        // _TOOLKIT_MAXIMIZE, _TOOLKIT_MAXIMIZE_VERT
-                                        // _TOOLKIT_MAXIMIZE_HORIZ, _TOOLKIT_STATUS
-        header_center: [_TOOLKIT_TITLE],
-        header_right:  [_TOOLKIT_MAXIMIZE, _TOOLKIT_CLOSE],
+        header_left:   ["icon"], // single element or array of:
+                                        // "title", "icon",
+                                        // "close", "minimize",
+                                        // "shrink",
+                                        // "maximize", "maximize-vertical"
+                                        // "maximize-horizontal", "status"
+        header_center: ["title"],
+        header_right:  ["maximize", "close"],
         footer_left:   [],
         footer_center: [],
         footer_right:  [],
@@ -447,12 +447,12 @@ w.TK.Window = w.Window = $class({
         auto_shrink:   true,  // set whether shrink toggles the window or not
         draggable:     true,  // set whether the window is draggable
         resizable:     true,   // set whether the window is resizable
-        resizing:      _TOOLKIT_CONTINUOUS,// resizing policy, _TOOLKIT_CONTINUOUS
-                                           // or _TOOLKIT_COMPLETE
-        header_action: _TOOLKIT_MAXIMIZE,  // _TOOLKIT_CLOSE, _TOOLKIT_MINIMIZE,
-                                           // _TOOLKIT_SHRINK,
-                                           // _TOOLKIT_MAXIMIZE, _TOOLKIT_MAXIMIZE_VERT
-                                           // _TOOLKIT_MAXIMIZE_HORIZ
+        resizing:      "continuous",// resizing policy, "continuous"
+                                           // or "compressor"LETE
+        header_action: "maximize",  // "close", "minimize",
+                                           // "shrink",
+                                           // "maximize", "maximize-vertical"
+                                           // "maximize-horizontal"
         active:        true,
         hide_status:   0 // if set to !0 status message hides after n milliseconds
     },

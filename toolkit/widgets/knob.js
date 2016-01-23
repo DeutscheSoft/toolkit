@@ -64,8 +64,8 @@ w.TK.Knob = w.Knob = $class({
         shift_down: 0.25,
         dot: {length: 6, margin: 13, width: 2},
         marker: {thickness: 6, margin: 13},
-        label: {margin: 10, align: _TOOLKIT_OUTER, format: function(val){return val;}},
-        direction: _TOOLKIT_POLAR,
+        label: {margin: 10, align: "outer", format: function(val){return val;}},
+        direction: "polar",
         rotation:       45,
         blind_angle:    20
     }),

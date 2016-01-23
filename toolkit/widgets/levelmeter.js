@@ -21,7 +21,7 @@
 "use strict";
 (function(w){ 
 function vert(O) {
-    return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
+    return O.layout == "left" || O.layout == "right";
 }
 function clip_timeout() {
     var O = this.options;

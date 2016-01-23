@@ -145,14 +145,14 @@ w.TK.Scale = w.Scale = $class({
         auto_size: "boolean",
     }),
     options: {
-        layout:           _TOOLKIT_RIGHT, // how to draw the scale:
-                                          // _TOOLKIT_LEFT:   vertical, labels
+        layout:           "right", // how to draw the scale:
+                                          // "left":   vertical, labels
                                           //                  on the left
-                                          // _TOOLKIT_RIGHT:  vertical, labels
+                                          // "right":  vertical, labels
                                           //                  on the right,
-                                          // _TOOLKIT_TOP:    horizontal, labels
+                                          // "top":    horizontal, labels
                                           //                  on top
-                                          // _TOOLKIT_BOTTOM: horizontal, labels
+                                          // "bottom": horizontal, labels
                                           //                  on bottom
         division:         1,              // minimum step size
         levels:           [1],            // array of steps where to draw labels
@@ -204,19 +204,19 @@ w.TK.Scale = w.Scale = $class({
             TK.remove_class(E, "toolkit-right");
             TK.remove_class(E, "toolkit-left");
             switch (O.layout) {
-            case _TOOLKIT_LEFT:
+            case "left":
                 TK.add_class(E, "toolkit-vertical");
                 TK.add_class(E, "toolkit-left");
                 break;
-            case _TOOLKIT_RIGHT:
+            case "right":
                 TK.add_class(E, "toolkit-vertical");
                 TK.add_class(E, "toolkit-right");
                 break;
-            case _TOOLKIT_TOP:
+            case "top":
                 TK.add_class(E, "toolkit-horizontal");
                 TK.add_class(E, "toolkit-top");
                 break;
-            case _TOOLKIT_BOTTOM:
+            case "bottom":
                 TK.add_class(E, "toolkit-horizontal");
                 TK.add_class(E, "toolkit-bottom");
                 break;
@@ -369,8 +369,8 @@ w.TK.Scale = w.Scale = $class({
     },
     _vert: function () {
         // returns true if the meter is drawn vertically
-        return this.options.layout == _TOOLKIT_LEFT
-            || this.options.layout == _TOOLKIT_RIGHT;
+        return this.options.layout == "left"
+            || this.options.layout == "right";
     },
     
     // GETTER & SETTER

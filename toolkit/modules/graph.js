@@ -35,13 +35,13 @@ w.TK.Graph = w.Graph = $class({
      * Q = quadratic Bézier (needs: x1, y1, x, y) |
      * C = CurveTo (needs: x1, y1, x2, y2, x, y) |
      * S = SmoothCurve (needs: x1, y1, x, y)
-     * @property {integer} [options.mode=_TOOLKIT_LINE] - Drawing mode of the graph,
-     * _TOOLKIT_LINE: line |
-     * _TOOLKIT_BOTTOM: fill below the line |
-     * _TOOLKIT_TOP: fill above the line |
-     * _TOOLKIT_CENTER: fill from the vertical center of the canvas |
-     * _TOOLKIT_VARIABLE: fill from a percentual position on the canvas (set with base)
-     * @property {number} [options.base=0] - If mode is _TOOLKIT_VARIABLE set the position of the base line to fill from between 0 (bottom) and 1 (top)
+     * @property {integer} [options.mode="line"] - Drawing mode of the graph,
+     * "line": line |
+     * "bottom": fill below the line |
+     * "top": fill above the line |
+     * "center": fill from the vertical center of the canvas |
+     * "base": fill from a percentual position on the canvas (set with base)
+     * @property {number} [options.base=0] - If mode is "base" set the position of the base line to fill from between 0 (bottom) and 1 (top)
      * @property {string} [options.color=""] - Set the color of the path
      * @property {Function|Object} [options.range_x={}] - Callback function returning a {@link TK.Range} module for x axis or an object with options. for a new {@link Range}
      * @property {Function|Object} [options.range_y={}] - Callback function returning a {@link TK.Range} module for y axis or an object with options. for a new {@link Range}
@@ -69,7 +69,7 @@ w.TK.Graph = w.Graph = $class({
     options: {
         dots:      [],
         type:      "L",
-        mode:      _TOOLKIT_LINE,
+        mode:      "line",
         base:      0,
         color:     "",
         range_x:   {},
@@ -114,7 +114,7 @@ w.TK.Graph = w.Graph = $class({
             I.mode = false;
                 TK.remove_class(E, "toolkit-filled");
                 TK.remove_class(E, "toolkit-outline");
-                TK.add_class(E, O.mode == _TOOLKIT_LINE ?  "toolkit-outline" : "toolkit-filled");
+                TK.add_class(E, O.mode == "line" ?  "toolkit-outline" : "toolkit-filled");
         }
 
         if (I.validate("dots", "type", "width", "height")) {
@@ -215,25 +215,25 @@ w.TK.Graph = w.Graph = $class({
         var m = this.options.mode;
         var s = "";
         switch (m) {
-            case _TOOLKIT_BOTTOM:
+            case "bottom":
                 // fill the lower part of the graph
                 s += "M " + (this.range_x.val2px(d.x) - 1) + " ";
                 s += (h + 1) + a + " " + t + " ";
                 s += (this.range_x.val2px(d.x) - 1 + a) + " ";
                 s += (this.range_y.val2px(d.y) + a);
                 return s;
-            case _TOOLKIT_TOP:
+            case "top":
                 // fill the upper part of the graph
                 s += "M " + (this.range_x.val2px(d.x) - 1) + " " + (-1 + a);
                 s += " " + t + " " + (this.range_x.val2px(d.x) - 1 + a) + " "
                 s += (this.range_y.val2px(d.y) + a);
                 return s;
-            case _TOOLKIT_CENTER:
+            case "center":
                 // fill from the mid
                 s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
                 s += (0.5 * h) + a;
                 return s;
-            case _TOOLKIT_VARIABLE:
+            case "base":
                 // fill from variable point
                 s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
                 s += ((-this.options.base + 1) * h + a);
@@ -247,19 +247,19 @@ w.TK.Graph = w.Graph = $class({
         var t = this.options.type;
         var m = this.options.mode;
         switch (m) {
-            case _TOOLKIT_BOTTOM:
+            case "bottom":
                 // fill the graph below
                 return " " + t + " " + (this.range_x.val2px(d.x) + a) + " "
                        + parseInt(h + 1) + a + " Z";
-            case _TOOLKIT_TOP:
+            case "top":
                 // fill the upper part of the graph
                 return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a)
                        + " -1" + a + " Z";
-            case _TOOLKIT_CENTER:
+            case "center":
                 // fill from mid
                 return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
                        + (0.5 * h) + a + " Z";
-            case _TOOLKIT_VARIABLE:
+            case "base":
                 // fill from variable point
                 return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
                        + ((-m + 1) * h) + a + " Z";

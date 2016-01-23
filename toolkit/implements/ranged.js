@@ -425,22 +425,22 @@ function update_transformation() {
     if (typeof scale === "function") {
         module = TRAFO_FUNCTION(w, O);
     } else switch (scale) {
-        case _TOOLKIT_LINEAR:
+        case "linear":
             module = TRAFO_LINEAR(w, O);
             break;
-        case _TOOLKIT_DB:
+        case "decibel":
             O.trafo_reverse = 1;
             module = TRAFO_LOG(w, O);
             break;
-        case _TOOLKIT_LOG2:
+        case "log2":
             O.trafo_reverse = 0;
             module = TRAFO_LOG(w, O);
             break;
-        case _TOOLKIT_FREQ:
+        case "frequency":
             O.trafo_reverse = 0;
             module = TRAFO_FREQ(w, O);
             break;
-        case _TOOLKIT_FREQ_REVERSE:
+        case "frequency-reverse":
             O.trafo_reverse = 1;
             module = TRAFO_FREQ(w, O);
             break;
@@ -486,19 +486,19 @@ w.TK.Ranged = w.Ranged = $class({
      * Ranged features several types of coordinate systems which are often used in audio applications.
      * They can be configured using the <code>options.scale</code> option, possible values are
      * <ul>
-     *  <li><code>_TOOLKIT_LINEAR</code> for linear coordinates,
-     *  <li><code>_TOOLKIT_DB</code> for linear coordinates,
-     *  <li><code>_TOOLKIT_LOG2</code> for linear coordinates,
-     *  <li><code>_TOOLKIT_FREQ</code> for linear coordinates or
-     *  <li><code>_TOOLKIT_FREQ_REVERSE</code> for linear coordinates.
+     *  <li><code>"linear"</code> for linear coordinates,
+     *  <li><code>"decibel"</code> for linear coordinates,
+     *  <li><code>"log2"</code> for linear coordinates,
+     *  <li><code>"frequency"</code> for linear coordinates or
+     *  <li><code>"frequency-reverse"</code> for linear coordinates.
      * </ul>
      * If <code>options.scale</code> is a function, it is used as the coordinate transformation.
      * Its signature is {@link TK.Ranged~scale_cb}. This allows the definition of custom
      * coordinate transformations, which go beyond the standard types.
      *
-     * @property {integer|Function} [options.scale=_TOOLKIT_LINEAR] -
-     *  The type of the scale. Either one of _TOOLKIT_LINEAR, _TOOLKIT_DB, _TOOLKIT_LOG2,
-     *  _TOOLKIT_FREQ or _TOOLKIT_FREQ_REVERSE; or a callback function of type {@link TK.Ranged~scale_cb}.
+     * @property {integer|Function} [options.scale="linear"] -
+     *  The type of the scale. Either one of "linear", "decibel", "log2",
+     *  "frequency" or "frequency-reverse"; or a callback function of type {@link TK.Ranged~scale_cb}.
      * @property {boolean} [options.reverse=false] - Reverse the scale of the range
      * @property {number} [options.basis=0] - The size of the linear scale. Set to pixel width or height
      * if used for drawing purposes or to 100 for percentages.
@@ -528,7 +528,7 @@ w.TK.Ranged = w.Ranged = $class({
      
     _class: "Ranged",
     options: {
-        scale:          _TOOLKIT_LINEAR,
+        scale:          "linear",
         reverse:        false,
         basis:          0,
         min:            0,

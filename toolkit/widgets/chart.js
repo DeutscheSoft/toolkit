@@ -98,7 +98,7 @@ function draw_key() {
     var height = this.range_y.options.basis;
     
     switch (this.options.key) {
-        case _TOOLKIT_TOP_LEFT:
+        case "top-left":
             __key = {
                 x1: gmarg.left,
                 y1: gmarg.top,
@@ -106,7 +106,7 @@ function draw_key() {
                 y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
             }
             break;
-        case _TOOLKIT_TOP_RIGHT:
+        case "top-right":
             __key = {
                 x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
                 y1: gmarg.top,
@@ -114,7 +114,7 @@ function draw_key() {
                 y2: gmarg.top + parseInt(bb.height) + gpad.top + gpad.bottom
             }
             break;
-        case _TOOLKIT_BOTTOM_LEFT:
+        case "bottom-left":
             __key = {
                 x1: gmarg.left,
                 y1: height - gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
@@ -122,7 +122,7 @@ function draw_key() {
                 y2: height - gmarg.bottom
             }
             break;
-        case _TOOLKIT_BOTTOM_RIGHT:
+        case "bottom-right":
             __key = {
                 x1: width - gmarg.right - parseInt(bb.width) - gpad.left - gpad.right,
                 y1: height -gmarg.bottom - parseInt(bb.height) - gpad.top - gpad.bottom,
@@ -150,47 +150,47 @@ function draw_title() {
         var bb      = _title.getBoundingClientRect();
         var x,y,anchor, range_x = this.range_x, range_y = this.range_y;
         switch (this.options.title_position) {
-            case _TOOLKIT_TOP_LEFT:
+            case "top-left":
                 anchor = "start";
                 x = mleft;
                 y = mtop + bb.height / 2;
                 break;
-            case _TOOLKIT_TOP:
+            case "top":
                 anchor = "middle";
                 x = range_x.options.basis / 2;
                 y = mtop + bb.height / 2;
                 break;
-            case _TOOLKIT_TOP_RIGHT:
+            case "top-right":
                 anchor = "end";
                 x = range_x.options.basis - mright;
                 y = mtop + bb.height / 2;
                 break;
-            case _TOOLKIT_LEFT:
+            case "left":
                 anchor = "start";
                 x = mleft;
                 y = range_y.options.basis / 2;
                 break;
-            case _TOOLKIT_CENTER:
+            case "center":
                 anchor = "middle";
                 x = range_x.options.basis / 2;
                 y = range_y.options.basis / 2;
                 break;
-            case _TOOLKIT_RIGHT:
+            case "right":
                 anchor = "end";
                 x = range_x.options.basis - mright;
                 y = range_y.options.basis / 2;
                 break;
-            case _TOOLKIT_BOTTOM_LEFT:
+            case "bottom-left":
                 anchor = "start";
                 x = mleft;
                 y = range_y.options.basis - mtop - bb.height / 2;
                 break;
-            case _TOOLKIT_BOTTOM:
+            case "bottom":
                 anchor = "middle";
                 x = range_x.options.basis / 2;
                 y = range_y.options.basis - mtop - bb.height / 2;
                 break;
-            case _TOOLKIT_BOTTOM_RIGHT:
+            case "bottom-right":
                 anchor = "end";
                 x = range_x.options.basis - mright;
                 y = range_y.options.basis - mtop - bb.height / 2;
@@ -243,7 +243,7 @@ w.TK.Chart = w.Chart = $class({
                      // position, use false for no key
         key_size: {x:20, y:10}, // size of the key rects
         title:   "", // a title for the chart
-        title_position: _TOOLKIT_TOP_RIGHT // the position of the title
+        title_position: "top-right" // the position of the title
     },
     initialize: function (options) {
         var E, S;

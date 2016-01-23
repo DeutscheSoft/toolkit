@@ -21,7 +21,7 @@
 "use strict";
 (function(w){
 function vert(O) {
-    return O.layout == _TOOLKIT_LEFT || O.layout == _TOOLKIT_RIGHT;
+    return O.layout == "left" || O.layout == "right";
 }
 function get_value(ev) {
     var is_vertical = vert(this.options);
@@ -119,7 +119,7 @@ w.TK.Fader = w.Fader = $class({
         show_labels: true,
         labels: function (val) { return val.toFixed(2); },
         tooltip: false,
-        layout: _TOOLKIT_LEFT,
+        layout: "left",
         fixed_dots: false,
         fixed_labels: false
     },
@@ -149,7 +149,7 @@ w.TK.Fader = w.Fader = $class({
             O.reset = O.value;
 
         if (typeof O.direction === "undefined")
-            O.direction = vert(O) ? _TOOLKIT_VERT : _TOOLKIT_HORIZ;
+            O.direction = vert(O) ? "vertical" : "horizontal";
             
         var self = THIS.bind(this);
         var get = GET.bind(O);
@@ -206,9 +206,9 @@ w.TK.Fader = w.Fader = $class({
             TK.remove_class(E, "toolkit-top");
             TK.remove_class(E, "toolkit-bottom");
             TK.add_class(E, vert(O) ? "toolkit-vertical" : "toolkit-horizontal");
-            var d = value == _TOOLKIT_LEFT   ? "toolkit-left" :
-                    value == _TOOLKIT_RIGHT  ? "toolkit-right" :
-                    value == _TOOLKIT_TOP    ? "toolkit-top" : "toolkit-bottom";
+            var d = value == "left"   ? "toolkit-left" :
+                    value == "right"  ? "toolkit-right" :
+                    value == "top"    ? "toolkit-top" : "toolkit-bottom";
             TK.add_class(E, d);
         }
 
@@ -260,7 +260,7 @@ w.TK.Fader = w.Fader = $class({
                 break;
             case "layout":
                 this.scale.set("layout", value);
-                this.options.direction = vert(this.options) ? _TOOLKIT_VERT : _TOOLKIT_HORIZ;
+                this.options.direction = vert(this.options) ? "vertical" : "horizontal";
                 this.drag.set("direction", this.options.direction);
                 this.scroll.set("direction", this.options.direction);
                 break;

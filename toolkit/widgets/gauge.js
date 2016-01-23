@@ -52,11 +52,11 @@ w.TK.Gauge = w.Gauge = $class({
         width:  120, // width of the element
         height: 120, // height of the svg
         size:   120,
-        title: {pos: 90, margin: 0, align: _TOOLKIT_INNER, title:""} // set a
+        title: {pos: 90, margin: 0, align: "inner", title:""} // set a
                      // title fo the gauge. Object with optional members:
                      // pos:    position in angles
                      // margin: margin of the imaginary circle from size
-                     // align:  alignment, _TOOLKIT_INNER or _TOOLKIT OUTER
+                     // align:  alignment, "inner" or _TOOLKIT OUTER
                      // title:  the title as a string
     }),
     initialize: function (options) {
@@ -106,7 +106,7 @@ w.TK.Gauge = w.Gauge = $class({
                     var t = O.title;
                     var outer   = O.size / 2;
                     var margin  = t.margin;
-                    var align   = t.align == _TOOLKIT_INNER;
+                    var align   = t.align == "inner";
                     var bb      = _title.getBoundingClientRect();
                     var angle   = t.pos % 360;
                     var outer_p = outer - margin;

@@ -143,52 +143,52 @@ function mousemove(e) {
         mz *= range_z.get("shift_up");
     }
     if (this._zhandling) {
-        if (O.z_handle == _TOOLKIT_LEFT
-            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_TOP_LEFT
-            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_BOTTOM_LEFT
-            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_TOP_LEFT
-            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_BOTTOM_LEFT
-            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_TOP_LEFT
-            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_LEFT) {
+        if (O.z_handle == "left"
+            || O.mode == "line-vertical" && O.z_handle == "top-left"
+            || O.mode == "line-vertical" && O.z_handle == "bottom-left"
+            || O.mode == "block-left" && O.z_handle == "top-left"
+            || O.mode == "block-left" && O.z_handle == "bottom-left"
+            || O.mode == "block-right" && O.z_handle == "top-left"
+            || O.mode == "block-right" && O.z_handle == "bottom-left") {
             // movement to left
             this.set("z",
                 range_z.snap(range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
-        } else if (O.z_handle == _TOOLKIT_RIGHT
-            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_TOP_RIGHT
-            || O.mode == _TOOLKIT_LINE_VERTICAL && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_TOP_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_LEFT && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_TOP_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_RIGHT && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
+        } else if (O.z_handle == "right"
+            || O.mode == "line-vertical" && O.z_handle == "top-right"
+            || O.mode == "line-vertical" && O.z_handle == "bottom-right"
+            || O.mode == "block-left" && O.z_handle == "top-right"
+            || O.mode == "block-left" && O.z_handle == "bottom-right"
+            || O.mode == "block-right" && O.z_handle == "top-right"
+            || O.mode == "block-right" && O.z_handle == "bottom-right") {
             // movement to right
             this.set("z",
                 range_z.snap(range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
-        } else if (O.z_handle == _TOOLKIT_TOP
-            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_TOP_LEFT
-            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_TOP_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_TOP_LEFT
-            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_TOP_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_TOP_LEFT
-            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_TOP_RIGHT) {
+        } else if (O.z_handle == "top"
+            || O.mode == "line-horizontal" && O.z_handle == "top-left"
+            || O.mode == "line-horizontal" && O.z_handle == "top-right"
+            || O.mode == "block-top" && O.z_handle == "top-left"
+            || O.mode == "block-top" && O.z_handle == "top-right"
+            || O.mode == "block-bottom" && O.z_handle == "top-left"
+            || O.mode == "block-bottom" && O.z_handle == "top-right") {
             // movement to top
             this.set("z",
                 this.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
-        } else if (O.z_handle == _TOOLKIT_BOTTOM
-            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_BOTTOM_LEFT
-            || O.mode == _TOOLKIT_LINE_HORIZONTAL && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_BOTTOM_LEFT
-            || O.mode == _TOOLKIT_BLOCK_TOP && O.z_handle == _TOOLKIT_BOTTOM_RIGHT
-            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_BOTTOM_LEFT
-            || O.mode == _TOOLKIT_BLOCK_BOTTOM && O.z_handle == _TOOLKIT_BOTTOM_RIGHT) {
+        } else if (O.z_handle == "bottom"
+            || O.mode == "line-horizontal" && O.z_handle == "bottom-left"
+            || O.mode == "line-horizontal" && O.z_handle == "bottom-right"
+            || O.mode == "block-top" && O.z_handle == "bottom-left"
+            || O.mode == "block-top" && O.z_handle == "bottom-right"
+            || O.mode == "block-bottom" && O.z_handle == "bottom-left"
+            || O.mode == "block-bottom" && O.z_handle == "bottom-right") {
             // movement to bottom
             this.set("z",
                 range_z.snap(range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz))));
@@ -348,15 +348,15 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                                         // intersections are weighted depending on the intersecting object. E.g. SVG borders have
                                         // a very high impact while intersecting in comparison with overlapping handle objects
                                         // that have a low impact on intersection
-        mode:             _TOOLKIT_CIRCULAR, // mode of the handle:
-                                        // _TOOLKIT_CIRCULAR: circular handle
-                                        // _TOOLKIT_LINE_VERTICAL: x movement, line handle vertical
-                                        // _TOOLKIT_LINE_HORIZONTAL: y movement, line handle horizontal
-                                        // _TOOLKIT_BLOCK_LEFT: x movement, block lefthand
-                                        // _TOOLKIT_BLOCK_RIGHT: x movement, block righthand
-                                        // _TOOLKIT_BLOCK_TOP: y movement, block on top
-                                        // _TOOLKIT_BLOCK_RIGHT: y movement, block on bottom
-        preferences:      [_TOOLKIT_LEFT, _TOOLKIT_TOP, _TOOLKIT_RIGHT, _TOOLKIT_BOTTOM], // perferred position of the label
+        mode:             "circular", // mode of the handle:
+                                        // "circular": circular handle
+                                        // "line-vertical": x movement, line handle vertical
+                                        // "line-horizontal": y movement, line handle horizontal
+                                        // "block-left": x movement, block lefthand
+                                        // "block-right": x movement, block righthand
+                                        // "block-top": y movement, block on top
+                                        // "block-right": y movement, block on bottom
+        preferences:      ["left", "top", "right", "bottom"], // perferred position of the label
         label:            TK.FORMAT("%s\n%d Hz\n%.2f dB\nQ: %.2f"),
         x:                0,            // value for x axis depending on mode_x
         y:                0,            // value for y axis depending on mode_y
@@ -412,29 +412,29 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         
         TK.add_class(E, "toolkit-response-handle");
         switch (O.mode) {
-            case _TOOLKIT_CIRCULAR:
+            case "circular":
                 TK.add_class(E, "toolkit-circular"); break;
-            case _TOOLKIT_LINE_VERTICAL:
+            case "line-vertical":
                 TK.add_class(E, "toolkit-line-vertical");
                 TK.add_class(E, "toolkit-line");
                 break;
-            case _TOOLKIT_LINE_HORIZONTAL:
+            case "line-horizontal":
                 TK.add_class(E, "toolkit-line-horizontal");
                 TK.add_class(E, "toolkit-line");
                 break;
-            case _TOOLKIT_BLOCK_LEFT:
+            case "block-left":
                 TK.add_class(E, "toolkit-block-left");
                 TK.add_class(E, "toolkit-block");
                 break;
-            case _TOOLKIT_BLOCK_RIGHT:
+            case "block-right":
                 TK.add_class(E, "toolkit-block-right")
                 TK.add_class(E, "toolkit-block");
                 break;
-            case _TOOLKIT_BLOCK_TOP:
+            case "block-top":
                 TK.add_class(E, "toolkit-block-top");
                 TK.add_class(E, "toolkit-block");
                 break;
-            case _TOOLKIT_BLOCK_BOTTOM:
+            case "block-bottom":
                 TK.add_class(E, "toolkit-block");
                 TK.add_class(E, "toolkit-block-bottom");
                 break;
@@ -458,7 +458,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.appendChild(this._line2);
         
         this._handle = TK.make_svg(
-            O.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
+            O.mode == "circular" ? "circle" : "rect", {
                 "class": "toolkit-handle",
                 "r":     O.z_handle_size
             }
@@ -466,7 +466,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.appendChild(this._handle);
         
         this._zhandle = TK.make_svg(
-            O.mode == _TOOLKIT_CIRCULAR ? "circle" : "rect", {
+            O.mode == "circular" ? "circle" : "rect", {
                 "class": "toolkit-z-handle",
                 "width":  O.z_handle_size,
                 "height": O.z_handle_size
@@ -564,7 +564,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         
         // ELEMENT / HANDLE / MAIN COORDS
         switch (O.mode) {
-            case _TOOLKIT_CIRCULAR:
+            case "circular":
                 // circle
                 x      = rnd.x;
                 y      = rnd.y;
@@ -579,7 +579,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     y2: y + height / 2
                 }
                 break;
-            case _TOOLKIT_LINE_VERTICAL:
+            case "line-vertical":
                 // line vertical
                 width  = Math.round(Math.max(O.min_size, rnd.z));
                 x      = Math.round(
@@ -604,7 +604,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
-            case _TOOLKIT_LINE_HORIZONTAL:
+            case "line-horizontal":
                 // line horizontal
                 height = Math.round(Math.max(O.min_size, rnd.z));
                 y      = Math.round(
@@ -629,7 +629,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
-            case _TOOLKIT_BLOCK_LEFT:
+            case "block-left":
                 // rect lefthand
                 x      = 0;
                 y      = Math.round(
@@ -654,7 +654,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
-            case _TOOLKIT_BLOCK_RIGHT:
+            case "block-right":
                 // rect righthand
                 x      = Math.max(
                             0,
@@ -682,7 +682,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
-            case _TOOLKIT_BLOCK_TOP:
+            case "block-top":
                 // rect top
                 x      = Math.round(Math.max(
                             0,
@@ -706,7 +706,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
-            case _TOOLKIT_BLOCK_BOTTOM:
+            case "block-bottom":
                 // rect bottom
                 x      = Math.round(Math.max(
                             0,
@@ -749,45 +749,45 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             }
             switch (O.mode) {
                 // circular handles
-                case _TOOLKIT_CIRCULAR:
+                case "circular":
                     switch (O.z_handle) {
-                        case _TOOLKIT_TOP_LEFT:
+                        case "top-left":
                             zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
                             zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
                             zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
-                        case _TOOLKIT_TOP:
+                        case "top":
                             zhandle.setAttribute("cx", 0);
                             zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
                             zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
-                        case _TOOLKIT_TOP_RIGHT:
+                        case "top-right":
                             zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
                             zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
                             zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
                             zhandle.setAttribute("cy", 0);
                             zhandle.setAttribute("r", O.z_handle_size / 2);
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                         default:
                             zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
                             zhandle.setAttribute("cy", 0);
                             zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
-                        case _TOOLKIT_BOTTOM_LEFT:
+                        case "bottom-left":
                             zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
                             zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
                             zhandle.setAttribute("r", O.z_handle_size / 2);
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             zhandle.setAttribute("cx", 0);
                             zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
                             zhandle.setAttribute("r",  O.z_handle_size / 2);
                             break;
-                        case _TOOLKIT_BOTTOM_RIGHT:
+                        case "bottom-right":
                             zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
                             zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
                             zhandle.setAttribute("r",  O.z_handle_size / 2);
@@ -797,14 +797,14 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 default:
                     // all other handle types (lines/blocks)
                     switch (O.z_handle) {
-                        case _TOOLKIT_TOP_LEFT:
+                        case "top-left":
                         default:
                             zhandle.setAttribute("x",      x);
                             zhandle.setAttribute("y",      y);
                             zhandle.setAttribute("width",  O.z_handle_size);
                             zhandle.setAttribute("height", O.z_handle_size);
                             break;
-                        case _TOOLKIT_TOP:
+                        case "top":
                             var _s = O.z_handle_centered < 1
                                    ? width * O.z_handle_centered
                                    : O.z_handle_centered;
@@ -814,13 +814,13 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             zhandle.setAttribute("width",  _s);
                             zhandle.setAttribute("height", O.z_handle_size);
                             break;
-                        case _TOOLKIT_TOP_RIGHT:
+                        case "top-right":
                             zhandle.setAttribute("x",      x + width - O.z_handle_size);
                             zhandle.setAttribute("y",      y);
                             zhandle.setAttribute("width",  O.z_handle_size);
                             zhandle.setAttribute("height", O.z_handle_size);
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             var _s = O.z_handle_centered < 1
                                    ? height * O.z_handle_centered
                                    : O.z_handle_centered;
@@ -830,7 +830,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             zhandle.setAttribute("width",  O.z_handle_size);
                             zhandle.setAttribute("height", _s);
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                             var _s = O.z_handle_centered < 1
                                    ? height * O.z_handle_centered
                                    : O.z_handle_centered;
@@ -840,13 +840,13 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             zhandle.setAttribute("width",  O.z_handle_size);
                             zhandle.setAttribute("height", _s);
                             break;
-                        case _TOOLKIT_BOTTOM_LEFT:
+                        case "bottom-left":
                             zhandle.setAttribute("x",      x);
                             zhandle.setAttribute("y",      y + height - O.z_handle_size);
                             zhandle.setAttribute("width",  O.z_handle_size);
                             zhandle.setAttribute("height", O.z_handle_size);
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             var _s = O.z_handle_centered < 1
                                    ? width * O.z_handle_centered
                                    : O.z_handle_centered;
@@ -856,7 +856,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             zhandle.setAttribute("width",  _s);
                             zhandle.setAttribute("height", O.z_handle_size);
                             break;
-                        case _TOOLKIT_BOTTOM_RIGHT:
+                        case "bottom-right":
                             zhandle.setAttribute("x",      x + width - O.z_handle_size);
                             zhandle.setAttribute("y",      y + height - O.z_handle_size);
                             zhandle.setAttribute("width",  O.z_handle_size);
@@ -907,31 +907,31 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var pref = O.preferences;
 
         switch (O.mode) {
-            case _TOOLKIT_CIRCULAR:
+            case "circular":
                 for (i = 0; i < pref.length; i++) {
                     switch (pref[i]) {
-                        case _TOOLKIT_TOP:
+                        case "top":
                             x1 = x - bbox.width / 2;
                             y1 = y - height / 2 - m - bbox.height;
                             xl = x;
                             yl = y1;
                             align = "middle";
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                             x1 = x + width / 2 + m;
                             y1 = y - bbox.height / 2;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             x1 = x - bbox.height / 2;
                             y1 = y + height / 2 + m;
                             xl = x;
                             yl = y1;
                             align = "middle";
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             x1 = x - width / 2 - m - bbox.width;
                             y1 = y - bbox.height / 2;
                             xl = x1 + bbox.width;
@@ -956,45 +956,45 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                 }
                 break;
-            case _TOOLKIT_LINE_VERTICAL:
+            case "line-vertical":
                 for (i = 0; i < pref.length; i++) {
                     switch (pref[i]) {
-                        case _TOOLKIT_TOP_LEFT:
+                        case "top-left":
                             x1 = x - m - bbox.width;
                             y1 = y + m;
                             xl = x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_TOP_RIGHT:
+                        case "top-right":
                             x1 = x + width + m;
                             y1 = y + m;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_BOTTOM_LEFT:
+                        case "bottom-left":
                             x1 = x - m - bbox.width;
                             y1 = y + height - bbox.height - m;
                             xl = x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_BOTTOM_RIGHT:
+                        case "bottom-right":
                             x1 = x + width + m;
                             y1 = y + height - bbox.height - m;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             x1 = x - m - bbox.width;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x1 + bbox.width;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                             x1 = x + width + m;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x1;
@@ -1018,45 +1018,45 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                 }
                 break;
-            case _TOOLKIT_LINE_HORIZONTAL:
+            case "line-horizontal":
                 for (i = 0; i < pref.length; i++) {
                     switch (pref[i]) {
-                        case _TOOLKIT_TOP_LEFT:
+                        case "top-left":
                             x1 = x + m;
                             y1 = y - m - bbox.height;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_TOP_RIGHT:
+                        case "top-right":
                             x1 = x + width - bbox.width - m;
                             y1 = y - m - bbox.height;
                             xl = x + width - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_BOTTOM_LEFT:
+                        case "bottom-left":
                             x1 = x + m;
                             y1 = y + height + m;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_BOTTOM_RIGHT:
+                        case "bottom-right":
                             x1 = x + width - bbox.width - m;
                             y1 = y - m - bbox.height;
                             xl = x + width - m;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_TOP:
+                        case "top":
                             x1 = x + width / 2 - bbox.width / 2;
                             y1 = y - m - bbox.height;
                             xl = x + width / 2;
                             yl = y1;
                             align = "middle";
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             x1 = x + width / 2 - bbox.width / 2;
                             y1 = y + height + m;
                             xl = x + width / 2;
@@ -1080,66 +1080,66 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                 }
                 break;
-            case _TOOLKIT_BLOCK_LEFT:
+            case "block-left":
                 for (i = 0; i < pref.length; i++) {
                     switch (pref[i]) {
-                        case _TOOLKIT_TOP_LEFT:
+                        case "top-left":
                             x1 = m;
                             y1 = y + m;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_TOP:
+                        case "top":
                             x1 = rnd.x - m - bbox.width;
                             y1 = y + m;
                             xl = rnd.x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_TOP_RIGHT:
+                        case "top-right":
                             x1 = width + m;
                             y1 = y + m;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             x1 = m;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_CENTER:
+                        case "center":
                             x1 = rnd.x - m - bbox.width;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = rnd.x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                             x1 = width + m;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_BOTTOM_LEFT:
+                        case "bottom-left":
                             x1 = m;
                             y1 = y + height - m - bbox.height;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             x1 = rnd.x - m - bbox.width;
                             y1 = y + height - m - bbox.height;
                             xl = rnd.x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_BOTTOM_RIGHT:
+                        case "bottom-right":
                             x1 = width + m;
                             y1 = y + height - m - bbox.height;
                             xl = x1;
@@ -1163,66 +1163,66 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                 }
                 break;
-            case _TOOLKIT_BLOCK_RIGHT:
+            case "block-right":
                 for (i = 0; i < pref.length; i++) {
                     switch (pref[i]) {
-                        case _TOOLKIT_TOP_LEFT:
+                        case "top-left":
                             x1 = x - m - bbox.width;
                             y1 = y + m;
                             xl = x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_TOP:
+                        case "top":
                             x1 = x + m;
                             y1 = y + m;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_TOP_RIGHT:
+                        case "top-right":
                             x1 = width + x - m - bbox.width;
                             y1 = y + m;
                             xl = width + x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             x1 = x - m - bbox.width;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_CENTER:
+                        case "center":
                             x1 = x + m;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                             x1 = width + x - m - bbox.width;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = width + x + m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_BOTTOM_LEFT:
+                        case "bottom-left":
                             x1 = x - m - bbox.width;
                             y1 = y + height - m - bbox.height;
                             xl = x - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             x1 = x + m;
                             y1 = y + height - m - bbox.height;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_BOTTOM_RIGHT:
+                        case "bottom-right":
                             x1 = width + x - m - bbox.width;
                             y1 = y + height - m - bbox.height;
                             xl = width + x + m;
@@ -1246,67 +1246,67 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                 }
                 break;
-            case _TOOLKIT_BLOCK_TOP:
-            case _TOOLKIT_BLOCK_BOTTOM:
+            case "block-top":
+            case "block-bottom":
                 for (var i = 0; i < pref.length; i++) {
                     switch (pref[i]) {
-                        case _TOOLKIT_TOP_LEFT:
+                        case "top-left":
                             x1 = x + m;
                             y1 = y + m;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_TOP:
+                        case "top":
                             x1 = x + width / 2 - bbox.width / 2;
                             y1 = y + m;
                             xl = x + width / 2;
                             yl = y1;
                             align = "middle";
                             break;
-                        case _TOOLKIT_TOP_RIGHT:
+                        case "top-right":
                             x1 = x + width - m - bbox.width;
                             y1 = y + m;
                             xl = x + width - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_LEFT:
+                        case "left":
                             x1 = x + m;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_CENTER:
+                        case "center":
                             x1 = x + width / 2 - bbox.width / 2;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x + width / 2;
                             yl = y1;
                             align = "middle";
                             break;
-                        case _TOOLKIT_RIGHT:
+                        case "right":
                             x1 = x + width - m - bbox.width;
                             y1 = y + height / 2 - bbox.height / 2;
                             xl = x + width - m;
                             yl = y1;
                             align = "end";
                             break;
-                        case _TOOLKIT_BOTTOM_LEFT:
+                        case "bottom-left":
                             x1 = x + m;
                             y1 = y + height - m - bbox.height;
                             xl = x1;
                             yl = y1;
                             align = "start";
                             break;
-                        case _TOOLKIT_BOTTOM:
+                        case "bottom":
                             x1 = x + width / 2 - bbox.width / 2;
                             y1 = y + height - m - bbox.height;
                             xl = x + width / 2;
                             yl = y1;
                             align = "middle";
                             break;
-                        case _TOOLKIT_BOTTOM_RIGHT:
+                        case "bottom-right":
                             x1 = x + width - m - bbox.width;
                             y1 = y + height - m - bbox.height;
                             xl = x + width - m;
@@ -1345,7 +1345,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         
         // LINES
         switch (O.mode) {
-            case _TOOLKIT_CIRCULAR:
+            case "circular":
                 if (O.show_axis) {
                     var _x = Math.max(width / 2 + O.margin,
                                       this.label.x2 - rnd.x + O.margin);
@@ -1359,9 +1359,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                                                + (range_y.get("basis") - (y - _y)));
                 }
                 break;
-            case _TOOLKIT_LINE_VERTICAL:
-            case _TOOLKIT_BLOCK_LEFT:
-            case _TOOLKIT_BLOCK_RIGHT:
+            case "line-vertical":
+            case "block-left":
+            case "block-right":
                 this._line1.setAttribute("d", "M " + (rnd.x + this._add) + " " + y
                                           + " L " + (rnd.x + this._add) + " "
                                           + (y + height));
@@ -1373,9 +1373,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     this._line2.setAttribute("d", "M 0 0");
                 }
                 break;
-            case _TOOLKIT_LINE_HORIZONTAL:
-            case _TOOLKIT_BLOCK_TOP:
-            case _TOOLKIT_BLOCK_BOTTOM:
+            case "line-horizontal":
+            case "block-top":
+            case "block-bottom":
                 this._line1.setAttribute("d", "M "   + x + " " + (rnd.y + this._add)
                                             + " L " + (x + width) + " "
                                             + (rnd.y + this._add));

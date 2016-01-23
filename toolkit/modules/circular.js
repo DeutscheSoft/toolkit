@@ -166,7 +166,7 @@ function draw_labels() {
             p = a[i];
 
             var margin  = typeof l.margin != "undefined" ? l.margin : O.label.margin;
-            var align   = (typeof l.align != "undefined" ? l.align : O.label.align) == _TOOLKIT_INNER;
+            var align   = (typeof l.align != "undefined" ? l.align : O.label.align) == "inner";
             var pos     = Math.min(O.max, Math.max(O.min, l.pos));
             var bb      = p.getBBox();
             var angle   = (this.val2real(this.snap(pos)) + O.start) % 360;
@@ -243,7 +243,7 @@ w.TK.Circular = w.Circular = $class({
      * @property {Array} [options.dots=[]] - An array containing members like {pos: (number)[, color: "colorstring"] [, class: "classname"][, width: (number)] [, length: (number)][, margin: (number)]}
      * @property {Object} [options.marker={thickness: 3, margin: 0}] - Set markers default dimensions
      * @property {Array} [options.markers=[]] - An array containing objects like {from: (number), to: (number)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, thickness: (number)]}
-     * @property {Object} [options.label={margin: 8, align: _TOOLKIT_INNER, format: function(val){return val] - }}; Labels ring position with following optional members: margin - (number) distance from size, align - _TOOLKIT_INNER or _TOOLKI_OUTER, format function receiving the value and returning a string
+     * @property {Object} [options.label={margin: 8, align: "inner", format: function(val){return val] - }}; Labels ring position with following optional members: margin - (number) distance from size, align - "inner" or _TOOLKI_OUTER, format function receiving the value and returning a string
      * @property {Array} [options.labels=[]] - An array containing objects like {pos: (number), label: (string)[, color: "colorstring"] [, class: "classname"][, margin: (number)] [, margin: (number)]}
      * @extends TK.Widget
      * @mixes TK.Warning
@@ -291,7 +291,7 @@ w.TK.Circular = w.Circular = $class({
         dots:       [],
         marker:     {thickness: 3, margin: 0},
         markers:    [],
-        label:      {margin: 8, align: _TOOLKIT_INNER, format: function(val){return val;}},
+        label:      {margin: 8, align: "inner", format: function(val){return val;}},
         labels:     []
     },
     
