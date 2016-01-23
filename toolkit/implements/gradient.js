@@ -27,10 +27,10 @@ w.TK.Gradient = w.Gradient = $class({
      * Gradient needs a TK.Range to be implemented on.
      *
      * @mixin TK.Gradient
-     * @property {Object} options..gradient - Gradient definition for the background.
+     * @property {Object} options.gradient - Gradient definition for the background.
      * Keys are ints or floats as string corresponding to the widgets scale.
      * Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
-     * @property {string} [options..background="#000000"] - Background color if no gradient is used
+     * @property {string} [options.background="#000000"] - Background color if no gradient is used
      */
     _class: "Gradient",
     Implements: Ranged,
