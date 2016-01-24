@@ -85,8 +85,6 @@ w.TK.Graph = w.Graph = $class({
         TK.add_class(this.element, "toolkit-graph");
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
-        if (this.options.container)
-            this.set("container", this.options.container);
         
         this.set("color", this.options.color);
         this.set("mode",  this.options.mode);

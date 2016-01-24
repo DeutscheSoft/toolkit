@@ -86,8 +86,6 @@ w.TK.Container = w.Container = $class({
         TK.add_class(E, "toolkit-container"); 
         this.widgetize(E, true, true, true);
 
-        if (this.options.container)
-            this.set("container", this.options.container);
         this.__after_hiding = after_hiding.bind(this);
         this.__after_showing = after_showing.bind(this);
         this.__hide_id = false;

@@ -528,9 +528,6 @@ w.TK.Window = w.Window = $class({
             this.__buttons[i]._label.remove();
         }
         
-        if (this.options.container)
-            this.set("container", this.options.container);
-        
         this.set("width", this.options.width, true);
         this.set("height", this.options.height, true);
         this.set("x", this.options.x, true);

@@ -179,8 +179,6 @@ w.TK.Grid = w.Grid = $class({
         TK.Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(
                        TK.make_svg("g", {"class": "toolkit-grid"}), true, true, true);
-        if (this.options.container)
-            this.set("container", this.options.container);
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
         if (this.options.width)

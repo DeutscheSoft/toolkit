@@ -267,8 +267,6 @@ w.TK.Chart = w.Chart = $class({
         S.setAttribute("height", this.range_y.options.basis);
 
         this.widgetize(E, true, true, true);
-        if (this.options.container)
-            this.set("container", this.options.container);
         if (!this.options.width)
             this.options.width = this.range_x.options.basis;
         if (!this.options.height)

@@ -213,8 +213,6 @@ w.TK.Clock = w.Clock = $class({
         this.widgetize(E, true, true, true);
         TK.add_class(E, "toolkit-clock");
         
-        this.set("container", this.options.container);
-        
         this._label       = TK.make_svg("text", {
             "class":       "toolkit-label",
             "text-anchor": "middle",
