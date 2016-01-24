@@ -206,7 +206,7 @@ w.TK.Graph = w.Graph = $class({
     
     // HELPERS & STUFF
     _start: function (d) {
-        var a = ".5";
+        var a = 0.5;
         var w = this.range_x.options.basis;
         var h = this.range_y.options.basis;
         var t = this.options.type;
