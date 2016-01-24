@@ -263,10 +263,8 @@ w.TK.Chart = w.Chart = $class({
 
         TK.add_class(E, "toolkit-chart");
 
-        S.setAttribute("width", this.range_x.options.basis);
-        S.setAttribute("height", this.range_y.options.basis);
-
         this.widgetize(E, true, true, true);
+
         if (!this.options.width)
             this.options.width = this.range_x.options.basis;
         if (!this.options.height)
