@@ -130,6 +130,8 @@ function draw_key() {
                 y2: height - gmarg.bottom
             }
             break;
+        default:
+            TK.warn("Unsupported key", this.options.key);
     }
     this._key.setAttribute("transform", "translate(" + __key.x1 + "," + __key.y1 + ")");
     this._key_background.setAttribute("x", __key.x1);
@@ -195,6 +197,8 @@ function draw_title() {
                 x = range_x.options.basis - mright;
                 y = range_y.options.basis - mtop - bb.height / 2;
                 break;
+            default:
+                TK.warn("Unsupported title_position", this.options.title_position);
         }
         TK.S.add(function() {
             _title.setAttribute("text-anchor", anchor);

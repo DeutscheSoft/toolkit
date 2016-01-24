@@ -188,6 +188,8 @@ w.TK.Graph = w.Graph = $class({
                             }
                             s += " S" + _x1 + "," + _y1 + " " + _x + "," + _y;
                             break;
+                        default:
+                            TK.warn("Unsupported dot type:", t);
                     }
                     init = true;
                 }
@@ -238,8 +240,12 @@ w.TK.Graph = w.Graph = $class({
                 s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
                 s += ((-this.options.base + 1) * h + a);
                 return s;
+            case "line":
+                // fill nothing
+                break;
+            default:
+                TK.warn("Unsupported mode:", m);
         }
-        return false;
     },
     _end: function (d) {
         var a = ".5";
@@ -263,8 +269,12 @@ w.TK.Graph = w.Graph = $class({
                 // fill from variable point
                 return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
                        + ((-m + 1) * h) + a + " Z";
+            case "line":
+                // fill nothing
+                break;
+            default:
+                TK.warn("Unsupported mode:", m);
         }
-        return "";
     },
     
     // GETTER & SETTER

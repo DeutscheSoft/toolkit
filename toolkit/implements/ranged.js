@@ -444,6 +444,8 @@ function update_transformation() {
             O.trafo_reverse = 1;
             module = TRAFO_FREQ(w, O);
             break;
+        default:
+            TK.warn("Unsupported scale", scale);
     }
 
     Object.assign(this, module);

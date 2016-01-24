@@ -438,6 +438,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 TK.add_class(E, "toolkit-block");
                 TK.add_class(E, "toolkit-block-bottom");
                 break;
+            default:
+                TK.warn("Unsupported mode:", O.mode);
         }
         
         if (O.container)
@@ -732,6 +734,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
+            default:
+                TK.warn("Unsupported mode:", O.mode);
         }
         
         
@@ -938,6 +942,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
+                        default:
+                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1001,6 +1007,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "start";
                             break;
+                        default:
+                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1063,6 +1071,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "middle";
                             break;
+                        default:
+                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1146,6 +1156,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "start";
                             break;
+                        default:
+                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1229,6 +1241,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
+                        default:
+                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1313,6 +1327,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
+                        default:
+                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1387,6 +1403,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     this._line2.setAttribute("d", "M 0 0");
                 }
                 break;
+            default:
+                TK.warn("Unsupported mode", pref[i]);
         }
         TK.Widget.prototype.redraw.call(this);
     },

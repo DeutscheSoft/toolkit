@@ -111,6 +111,8 @@ function pointer_move(e) {
         case "horizontal":
             dist = (ev.pageX - this._pageX) * multi;
             break;
+        default:
+            TK.warn("Unsupported direction:", O.direction);
     }
 
     var val = O.get();

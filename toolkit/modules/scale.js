@@ -220,6 +220,8 @@ w.TK.Scale = w.Scale = $class({
                 TK.add_class(E, "toolkit-horizontal");
                 TK.add_class(E, "toolkit-bottom");
                 break;
+            default:
+                TK.warn("Unsupported layout setting:", O.layout);
             }
         }
 

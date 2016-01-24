@@ -132,7 +132,6 @@ w.TK.Pager = w.Pager = $class({
             TK.remove_class(E, "toolkit-vertical");
             TK.remove_class(E, "toolkit-horizontal");
             switch (O.position) {
-                // NOTE: some break statements left out for trickle down
                 case "top":
                     TK.add_class(E, "toolkit-top");
                     TK.add_class(E, "toolkit-vertical");
@@ -149,6 +148,8 @@ w.TK.Pager = w.Pager = $class({
                     TK.add_class(E, "toolkit-right");
                     TK.add_class(E, "toolkit-horizontal");
                     break;
+                default:
+                    TK.warn("Unsupported position", O.position);
             }
             I.layout = true;
         }
@@ -191,6 +192,8 @@ w.TK.Pager = w.Pager = $class({
                             this._clip.style.top = null;
                             this._clip.style.bottom = null;
                             break;
+                        default:
+                            TK.warn("Unsupported position", O.position);
                     }
                     /* we essentially resize the pages container, so we need to call
                      * resize() on them */

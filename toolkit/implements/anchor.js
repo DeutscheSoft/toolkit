@@ -73,8 +73,7 @@ w.TK.Anchor = w.Anchor = $class({
                 y += height;
                 break;
             default:
-                throw("Unknown anchor position");
-                break;
+                throw new Error("Unsupported anchor position");
         }
         return {x: Math.round(x), y: Math.round(y)};
     }

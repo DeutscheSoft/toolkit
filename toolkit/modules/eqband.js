@@ -73,6 +73,8 @@ w.TK.EqBand = w.EqBand = $class({
                     options.mode = "line-vertical";
                     options.show_axis = true;
                     break;
+                default:
+                    TK.warn("Unsupported filter type:", options.type);
             }
         }
         

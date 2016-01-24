@@ -189,6 +189,8 @@ w.TK.Dynamics = w.Dynamics = $class({
                 curve.push({x: O.max,
                             y: O.max + O.makeup});
                 break;
+            default:
+                TK.warn("Unsupported type", O.type);
         }
         this.graph.set("dots", curve);
     },
