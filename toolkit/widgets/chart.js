@@ -288,11 +288,6 @@ w.TK.Chart = w.Chart = $class({
         this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
         S.appendChild(this._graphs);
         
-        var redraw_cb = this.trigger_draw.bind(this);
-
-        this.range_x.add_event("set", redraw_cb);
-        this.range_y.add_event("set", redraw_cb); 
-        
         this._key_background = TK.make_svg("rect",
             {"class": "toolkit-background"});
         this._key = TK.make_svg("g", {"class": "toolkit-key"});
