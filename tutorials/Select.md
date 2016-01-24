@@ -1,9 +1,9 @@
-    run_select = function(root) {
+    function run_select(root) {
         select = new Select({
             entries: [
                 {title:"haha", value:11},
                 {title:"huu", value:12},
-                {title:"höhö", value:13},
+                {title:"h&ouml;h&ouml;", value:13},
                 {title:"foo", value:14},
                 {title:"bar", value:15},
                 {title:"foobar",value:16},
