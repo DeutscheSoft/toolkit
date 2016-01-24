@@ -1,5 +1,11 @@
 .toolkit-dynamics {
-    
+}
+
+.toolkit-dynamics > svg {
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .toolkit-dynamics > svg > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {

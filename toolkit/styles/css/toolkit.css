@@ -124,9 +124,12 @@ pre, code {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    position:relative;
+}
+.toolkit-chart > svg {
     box-sizing: content-box;
 }
-.toolkit-chart > .toolkit-key {
+.toolkit-chart > svg > .toolkit-key {
     pointer-events: none;
 }
 

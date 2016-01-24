@@ -117,11 +117,16 @@ w.TK.Dynamics = w.Dynamics = $class({
     resize: function() {
         var O = this.options;
         var E = this.element;
+        var S = this.svg;
 
         /* bypass the Chart resize logic here */
         Widget.prototype.resize.call(this);
 
-        var s = Math.min(E.clientWidth, E.clientHeight);
+        var tmp = TK.css_space(S, "border", "padding");
+        var w = TK.inner_width(E) - tmp.left - tmp.right;
+        var h = TK.inner_height(E) - tmp.top - tmp.bottom;
+
+        var s = Math.min(h, w);
 
         if (s != O.size)
             this.set("size", s);
@@ -189,8 +194,8 @@ w.TK.Dynamics = w.Dynamics = $class({
         value = Chart.prototype.set.call(this, key, value);
         switch (key) {
             case "size":
-                this.range_x.set("basis", value);
-                this.range_y.set("basis", value);
+                this.set("width", value);
+                this.set("height", value);
                 break;
             case "min":
             case "max":

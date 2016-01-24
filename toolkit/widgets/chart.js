@@ -314,12 +314,13 @@ w.TK.Chart = w.Chart = $class({
     resize: function () {
         var E = this.element;
         var O = this.options;
+        var S = this.svg;
 
         Widget.prototype.resize.call(this);
 
-        var w, h;
-        w = E.clientWidth;
-        h = E.clientHeight;
+        var tmp = TK.css_space(S, "border", "padding");
+        var w = TK.inner_width(E) - tmp.left - tmp.right;
+        var h = TK.inner_height(E) - tmp.top - tmp.bottom;
 
         if (O.width != w) this.set("width", w);
         if (O.height != w) this.set("height", h);
