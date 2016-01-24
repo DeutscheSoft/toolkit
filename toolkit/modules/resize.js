@@ -75,7 +75,6 @@ w.TK.Resize = w.Resize = $class({
     Extends: TK.Base,
     _options: {
         handle : "object",
-        direction : "int",
         active : "boolean",
         min : "object",
         max : "object",
@@ -85,8 +84,6 @@ w.TK.Resize = w.Resize = $class({
         node      : null,           // the element to resize
         handle    : null,           // a DOM node used as handle. if none set
                                     // element is used
-        direction : _TOOLKIT_SE,    // _TOOLKIT_N, _TOOLKIT_S, _TOOLKIT_E, _TOOLKIT_W,
-                                    // _TOOLKIT_NE, _TOOLKIT_SE, _TOOLKIT_SW, _TOOLKIT_NW,
         active    : true,           // set to false if resize is disabled
         min       : {x: -1, y: -1}, // object containing x and y determining minimum size
                                     // a value of -1 means no min
@@ -99,16 +96,11 @@ w.TK.Resize = w.Resize = $class({
     },
     // GETTERS & SETTERS
     set: function (key, value) {
-        TK.Base.prototype.set.call(this, key, value);
-        switch (key) {
-            case "handle":
-                if (!value)
-                    this.options.handle = this.options.node;
-            case "handle":
-            case "direction":
-                set_handle.call(this);
-                break;
+        if (key === "handle") {
+            if (!value) value = this.options.node;
+            set_handle.call(this);
         }
+        TK.Base.prototype.set.call(this, key, value);
     }
 });
 })(this);

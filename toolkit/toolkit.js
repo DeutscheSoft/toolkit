@@ -883,19 +883,6 @@ w._TOOLKIT_BOTTOM_RIGHT                = "bottom-right";
 w._TOOLKIT_BOTTOM_LEFT                 = "bottom-left";
 w._TOOLKIT_CENTER                      = "center";
 
-// DIRECTIONS
-w._TOOLKIT_N                           = 0x00000000;
-w._TOOLKIT_UP                          = 0x00000000;
-w._TOOLKIT_E                           = 0x00000001;
-w._TOOLKIT_S                           = 0x00000002;
-w._TOOLKIT_DOWN                        = 0x00000002;
-w._TOOLKIT_W                           = 0x00000003;
-w._TOOLKIT_NW                          = 0x00000004;
-w._TOOLKIT_NE                          = 0x00000005;
-w._TOOLKIT_SE                          = 0x00000006;
-w._TOOLKIT_SW                          = 0x00000007;
-w._TOOLKIT_C                           = 0x00000008;
-
 w._TOOLKIT_HORIZONTAL                  = "horizontal";
 w._TOOLKIT_HORIZ                       = "horizontal";
 w._TOOLKIT_VERTICAL                    = "vertical";
