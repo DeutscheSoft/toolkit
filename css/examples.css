@@ -124,8 +124,8 @@
 #demo.equalizer .toolkit-chart,
 #demo.frequencyresponse .toolkit-chart,
 #demo.responsehandler .toolkit-chart {
-    width: 95%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
 }
 
 #demo.knob .toolkit-knob {
@@ -219,4 +219,9 @@ div.toolkit-state.on_air {
 
 #demo.valuebutton .toolkit-valuebutton {
     width: 220px;
+}
+
+.toolkit-dynamics {
+    width: 40%;
+    height: 40%;
 }
