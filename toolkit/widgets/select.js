@@ -260,16 +260,18 @@ w.TK.Select = w.Select = $class({
                 L = this._label;
                 var width = 0;
                 E.style.width = "auto";
-                var t = L.innerHTML;
-                var tmp = "";
-                for (var i = 0; i < this.entries.length; i++) {
-                    tmp += this.entries[i].title + "<br>";
+                var orig_content = document.createDocumentFragment();
+                while (L.firstChild) orig_content.appendChild(L.firstChild);
+                var entries = this.entries;
+                for (var i = 0; i < entries.length; i++) {
+                    L.appendChild(document.createTextNode(entries[i].title));
+                    L.appendChild(document.createElement("BR"));
                 }
-                L.innerHTML = tmp;
                 TK.S.add(function() {
                     width = TK.outer_width(E, true);
                     TK.S.add(function() {
-                        L.innerHTML = t;
+                        while (L.firstChild) L.removeChild(L.firstChild);
+                        L.appendChild(orig_content);
                         TK.outer_width(E, true, width);
                     });
                 }, 1);
