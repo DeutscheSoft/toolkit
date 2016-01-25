@@ -67,7 +67,7 @@ w.TK.Dynamics = w.Dynamics = $class({
         var O = this.options;
         TK.add_class(this.element, "toolkit-dynamics");
         this.set("scale", O.scale);
-        this.set("size", O.size);
+        if (O.size) this.set("size", O.size);
         this.set("min", O.min);
         this.set("max", O.max);
         this.steady = this.add_graph({
@@ -131,8 +131,12 @@ w.TK.Dynamics = w.Dynamics = $class({
 
         var s = Math.min(h, w);
 
-        if (s > 0 && s != O.size)
-            this.set("size", s);
+        if (s > 0 && s != O._width) {
+            this.set("_width", s);
+            this.set("_height", s);
+            this.range_x.set("basis", s);
+            this.range_y.set("basis", s);
+        }
     },
     
     draw_graph: function () {
@@ -196,12 +200,13 @@ w.TK.Dynamics = w.Dynamics = $class({
     },
     
     set: function (key, value) {
+        if (key === "size") {
+            this.set("width", value);
+            this.set("height", value);
+            return;
+        }
         value = TK.Chart.prototype.set.call(this, key, value);
         switch (key) {
-            case "size":
-                this.set("width", value);
-                this.set("height", value);
-                break;
             case "min":
             case "max":
             case "scale":

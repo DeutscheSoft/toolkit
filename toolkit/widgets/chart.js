@@ -225,6 +225,8 @@ w.TK.Chart = w.Chart = $class({
         grid_y: "array",
         width: "int",
         height: "height",
+        _width: "int",
+        _height: "int",
         range_x: "object",
         range_y: "object",
         key: "string",
@@ -237,8 +239,6 @@ w.TK.Chart = w.Chart = $class({
                      //       class: "classname"[, label:"labeltext"]]]}
         grid_y:  [], // array containing {pos:y[, color: "colorstring"[,
                      //       class: "classname"[, label:"labeltext"]]]}
-        width:   0,  // the width of the Graph
-        height:  0,  // the height of the Graph
         range_x: {}, // an object with options for a range for the x axis
                      // or a function returning a TK.Range instance (only on init)
         range_y: {}, // an object with options for a range for the y axis
@@ -306,8 +306,8 @@ w.TK.Chart = w.Chart = $class({
                 TK.remove_class(this._key, "toolkit-hover");
                 TK.remove_class(this._key_background, "toolkit-hover");
             }.bind(this));
-        this.set("width", this.options.width);
-        this.set("height", this.options.height);
+        if (this.options.width) this.set("width", this.options.width);
+        if (this.options.height) this.set("height", this.options.height);
     },
     resize: function () {
         var E = this.element;
@@ -320,8 +320,14 @@ w.TK.Chart = w.Chart = $class({
         var w = TK.inner_width(E) - tmp.left - tmp.right;
         var h = TK.inner_height(E) - tmp.top - tmp.bottom;
 
-        if (w > 0 && O.width != w) this.set("width", w);
-        if (h > 0 && O.height != h) this.set("height", h);
+        if (w > 0 && O._width != w) {
+            this.set("_width", w);
+            this.range_x.set("basis", w);
+        }
+        if (h > 0 && O._height != h) {
+            this.set("_height", h);
+            this.range_y.set("basis", h);
+        }
     },
     redraw: function () {
         var I = this.invalid;
@@ -329,10 +335,13 @@ w.TK.Chart = w.Chart = $class({
 
         TK.Widget.prototype.redraw.call(this);
 
-        if (I.width || I.height || I.ranges) {
-            I.ranges = true;
-            var w = this.range_x.get("basis") + "px";
-            var h = this.range_y.get("basis") + "px";
+        if (I.validate("_width", "_height", "ranges")) {
+            /* we need to redraw both key and title, because
+             * they do depend on the size */
+            I.title = true;
+            I.key = true;
+            var w = this.options._width + "px";
+            var h = this.options._height + "px";
             E.setAttribute("width", w);
             E.setAttribute("height", h);
         }
@@ -342,7 +351,7 @@ w.TK.Chart = w.Chart = $class({
                 this.graphs[i].redraw();
             }
         }
-        if (I.validate("width", "height", "title", "title_position")) {
+        if (I.validate("title", "title_position")) {
             draw_title.call(this);
         }
         if (I.validate("key", "key_size", "graphs")) {
@@ -410,6 +419,16 @@ w.TK.Chart = w.Chart = $class({
     
     // GETTER & SETER
     set: function (key, value) {
+        switch (key) {
+            case "width":
+                this.set_style("width", value);
+                this.resize();
+                return;
+            case "height":
+                this.set_style("height", value);
+                this.resize();
+                return;
+        }
         value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "grid_x":
@@ -417,12 +436,6 @@ w.TK.Chart = w.Chart = $class({
                 break;
             case "grid_y":
                 this.grid.set("grid_y", value);
-                break;
-            case "width":
-                this.range_x.set("basis", value);
-                break;
-            case "height":
-                this.range_y.set("basis", value);
                 break;
         }
         return value;
