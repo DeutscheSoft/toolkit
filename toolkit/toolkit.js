@@ -371,7 +371,7 @@ function set_styles(elem, styles) {
         if (typeof v !== "number" && !v) {
             delete s[key];
         } else {
-            s[key] = v;
+            s[key] = (typeof v === "number") ? v + "px" : v;
         }
     }
 }
