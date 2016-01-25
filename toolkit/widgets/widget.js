@@ -106,9 +106,9 @@ TK.Widget = $class({
     invalidate_all: function() {
         for (var key in this.options) {
             if (!this._options[key]) {
-                TK.warn("%O %s: Unknown option %s", this, this._class, key);
-            }
-            else this.invalid[key] = true;
+                if (key.charCodeAt(0) !== 95)
+                    TK.warn("%O %s: unknown option %s", this, this._class, key);
+            } else this.invalid[key] = true;
         }
     },
 
@@ -305,7 +305,7 @@ TK.Widget = $class({
             this.invalid[key] = true;
             this.value_time[key] = Date.now();
             this.trigger_draw();
-        } else {
+        } else if (key.charCodeAt(0) !== 95) {
             TK.warn("%O: %s.set(%s, %O): unknown option.", this, this._class, key, value);
         }
         return value;
