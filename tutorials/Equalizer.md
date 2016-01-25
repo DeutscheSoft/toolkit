@@ -1,7 +1,10 @@
     function run_equalizer (root) {
         eq = new Equalizer({
-            width: 908,
-            height: 300,
+            styles: {
+                "margin": "10px",
+            },
+            width: "calc(100% - 20px)",
+            height: "calc(100% - 20px)",
             depth: 120,
             db_grid: 12,
             range_z: {min: 0.4, max: 4, step: 0.1, shift_up: 10, shift_down: 0.2, reverse: true},

@@ -22,7 +22,12 @@
                      {pos:1.0, label:"100"}],
             key: _TOOLKIT_TOP_LEFT,
             title: "Chart Example",
-            title_position: _TOOLKIT_TOP_RIGHT
+            title_position: _TOOLKIT_TOP_RIGHT,
+            styles: {
+                "margin": "10px",
+            },
+            width: "calc(100% - 20px)",
+            height: "calc(100% - 20px)",
         });
         cgraph1 = chart.add_graph({
             dots: [{x:0.0, y:0.0},
