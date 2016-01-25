@@ -218,7 +218,7 @@ w.TK.Graph = w.Graph = $class({
             case "bottom":
                 // fill the lower part of the graph
                 s += "M " + (this.range_x.val2px(d.x) - 1) + " ";
-                s += (h + 1) + a + " " + t + " ";
+                s += ((h + 1) + a) + " " + t + " ";
                 s += (this.range_x.val2px(d.x) - 1 + a) + " ";
                 s += (this.range_y.val2px(d.y) + a);
                 return s;
@@ -246,7 +246,7 @@ w.TK.Graph = w.Graph = $class({
         }
     },
     _end: function (d) {
-        var a = ".5";
+        var a = 0.5;
         var h = this.range_y.options.basis;
         var t = this.options.type;
         var m = this.options.mode;
@@ -254,19 +254,19 @@ w.TK.Graph = w.Graph = $class({
             case "bottom":
                 // fill the graph below
                 return " " + t + " " + (this.range_x.val2px(d.x) + a) + " "
-                       + parseInt(h + 1) + a + " Z";
+                       + (parseInt(h + 1) + a) + " Z";
             case "top":
                 // fill the upper part of the graph
                 return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a)
-                       + " -1" + a + " Z";
+                       + " " + (-1 + a) + " Z";
             case "center":
                 // fill from mid
                 return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
-                       + (0.5 * h) + a + " Z";
+                       + ((0.5 * h) + a) + " Z";
             case "base":
                 // fill from variable point
                 return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
-                       + ((-m + 1) * h) + a + " Z";
+                       + (((-m + 1) * h) + a) + " Z";
             case "line":
                 // fill nothing
                 break;
