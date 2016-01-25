@@ -320,8 +320,8 @@ w.TK.Chart = w.Chart = $class({
         var w = TK.inner_width(E) - tmp.left - tmp.right;
         var h = TK.inner_height(E) - tmp.top - tmp.bottom;
 
-        if (O.width != w) this.set("width", w);
-        if (O.height != w) this.set("height", h);
+        if (w > 0 && O.width != w) this.set("width", w);
+        if (h > 0 && O.height != h) this.set("height", h);
     },
     redraw: function () {
         var I = this.invalid;

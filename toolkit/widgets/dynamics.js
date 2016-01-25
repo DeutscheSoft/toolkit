@@ -131,7 +131,7 @@ w.TK.Dynamics = w.Dynamics = $class({
 
         var s = Math.min(h, w);
 
-        if (s != O.size)
+        if (s > 0 && s != O.size)
             this.set("size", s);
     },
     
