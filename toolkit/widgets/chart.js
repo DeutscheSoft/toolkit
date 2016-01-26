@@ -340,10 +340,12 @@ w.TK.Chart = w.Chart = $class({
              * they do depend on the size */
             I.title = true;
             I.key = true;
-            var w = this.options._width + "px";
-            var h = this.options._height + "px";
-            E.setAttribute("width", w);
-            E.setAttribute("height", h);
+            var w = this.options._width;
+            var h = this.options._height;
+            if (w && h) {
+                E.setAttribute("width", w + "px");
+                E.setAttribute("height", h + "px");
+            }
         }
 
         if (I.graphs) {
