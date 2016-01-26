@@ -28,6 +28,7 @@ function _get_coords_single(deg, inner, pos) {
     }
 }
 var format_translate = TK.FORMAT("translate(%f, %f)");
+var format_viewbox = TK.FORMAT("0 0 %d %d");
 w.TK.Gauge = w.Gauge = $class({
     /** @class Gauge
      * @description Gauge simply puts a single Circular into a SVG image.
@@ -65,8 +66,6 @@ w.TK.Gauge = w.Gauge = $class({
         this.svg = S = TK.make_svg("svg");
 
         TK.add_class(E, "toolkit-gauge");
-        S.setAttribute("width", O.width);
-        S.setAttribute("height", O.height);
         this.widgetize(E, true, true, true);
         
         this._title = TK.make_svg("text", {"class": "toolkit-title"});
@@ -80,19 +79,19 @@ w.TK.Gauge = w.Gauge = $class({
         this.widgetize(this.element);
         E.appendChild(S);
     },
+    resize: function() {
+        Widget.prototype.resize.call(this);
+        this.invalid.title = true;
+        this.trigger_draw();
+    },
     redraw: function() {
         var I = this.invalid, O = this.options;
         var S = this.svg;
 
         Widget.prototype.redraw.call(this);
 
-        if (I.width) {
-            I.width = false;
-            S.setAttribute("width", O.width);
-        }
-        if (I.height) {
-            I.height = false;
-            S.setAttribute("height", O.height);
+        if (I.validate("width", "height")) {
+            S.setAttribute("viewBox", format_viewbox(O.width, O.height));
         }
 
         if (I.validate("title", "size", "x", "y")) {
