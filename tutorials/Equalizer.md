@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_equalizer (root) {
         eq = new Equalizer({
             styles: {
@@ -38,5 +39,13 @@
         root.append_child(eq);
         TK.seat_all_svg()
     }
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-equalizer {
+    margin: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+}
+</pre>
 
 <script> prepare_example(); </script>

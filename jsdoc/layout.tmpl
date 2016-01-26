@@ -15,41 +15,65 @@
         function prepare_example() {
             window.addEventListener("load", setup_example.bind(this, document.currentScript));
         }
-        function setup_example(current) {
-            var code = current.parentNode.getElementsByTagName("code");
-            var fun;
 
-            if (!code.length) return;
+        function setup_javascript(current, code) {
+            var source = code.textContent;
 
-            code = code[0].textContent;
-
-            if (code.match(/^\s*function/)) {
-                fun = new Function("", "return "+code)();
-            }
-
-            var root;
+            if (source.match(/^\s*function/)) {
+                fun = new Function("", "return "+source)();
+            } else return;
 
             function hide_root(e) {
-                if (e.target === this.element)
-                    this.hide();
+                if (e.target === this.element) {
+                    this.destroy();
+                    window.root = null;
+                }
             }
 
             var b = document.createElement("button");
             b.addEventListener("click", function() {
-                if (root) root.destroy();
+                if (window.root) window.root.destroy();
 
-                root = new TK.Root({
+                window.root = new TK.Root({
                     container: document.body
                 });
 
-                fun(root);
+                fun(window.root);
 
-                root.add_event("click", hide_root);
+                window.root.add_event("click", hide_root);
 
                 return false;
             });
             b.appendChild(document.createTextNode("Run!"));
-            current.parentNode.appendChild(b);
+            current.parentNode.insertBefore(b, current.nextSibling);
+
+            var h = document.createElement("h2");
+            h.appendChild(document.createTextNode("JavaScript"));
+            code.parentNode.insertBefore(h, code);
+        }
+        function setup_stylesheet(current, code) {
+            var style = document.createElement("STYLE");
+            style.innerText = code.textContent;
+            document.head.appendChild(style);
+            var h = document.createElement("h2");
+            h.appendChild(document.createTextNode("Stylesheet"));
+            code.parentNode.insertBefore(h, code);
+        }
+        function setup_example(current) {
+            var code = current.parentNode.getElementsByTagName("pre");
+            var fun;
+
+            if (!code.length) return;
+
+            for (var i = 0; i < code.length; i++) {
+                if (TK.has_class(code[i], "javascript")) {
+                    setup_javascript(current, code[i]);
+                } else if (TK.has_class(code[i], "css")) {
+                    setup_stylesheet(current, code[i]);
+                } else {
+                    TK.warn("Unsupported type", code[i]);
+                }
+            }
         }
     </script>
 </head>

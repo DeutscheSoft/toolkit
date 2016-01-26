@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_gauge(root) {
         gauge = [];
         gauge[0] = new Gauge({
@@ -137,5 +138,75 @@
         TK.seat_all_svg()
         root.append_children(gauge);
     }
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-gauge {
+    margin-right: 6px;
+    margin-left: 6px;
+}
+#gauge0 .toolkit-base {
+    opacity: 1;
+    stroke-width: 12px;
+    stroke: rgba(0, 42, 66, 0.1);
+    fill: rgb(0, 42, 66);
+}
+#gauge0 .toolkit-hand {
+    fill: white;
+}
+#gauge0 .toolkit-dot {
+    fill: rgba(255,255,255,0.33);
+}
 
+#gauge1 .toolkit-label {
+    font-size: 9px;
+}
+
+#gauge3 {
+    background: url(images/gauge.svg) no-repeat 50% 0%;
+    background-size: contain;
+    fill: white;
+}
+#gauge3 .toolkit-dot {
+    fill: white;
+}
+#gauge3 .toolkit-title {
+    opacity: 0.9;
+    fill: white;
+}
+
+#gauge4 {
+    background: url(images/vumeter.png) no-repeat 50% 0%;
+    background-size: 100% 100%;
+    fill: white;
+}
+#gauge4 .toolkit-base {
+    opacity: 1;
+}
+#gauge4 .toolkit-hand {
+    opacity: 1;
+}
+#gauge4 .toolkit-marker {
+    fill: rgba(255,255,255,0.4);
+}
+#gauge4 .toolkit-title {
+    opacity: 0.9;
+    fill: white;
+}
+
+#gauge5 {
+    background: url(images/vumeter_light.png) no-repeat 50% 0%;
+    background-size: 100% 100%;
+    fill: rgba(0,0,0,0.8);
+}
+#gauge5 .toolkit-base {
+    opacity: 1;
+    fill: rgba(0,0,0,0.8);
+}
+#gauge5 .toolkit-hand {
+    opacity: 1;
+}
+#gauge5 .toolkit-title {
+    opacity: 0.9;
+}
+</pre>
 <script> prepare_example(); </script>

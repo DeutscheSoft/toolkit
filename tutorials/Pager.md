@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_pager(root) {
         pager1 = new Pager({
             pages: [
@@ -38,5 +39,12 @@
         root.append_child(pager1);
         root.append_child(pager2);
     }
-
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-pager {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 30px;
+}
+</pre>
 <script> prepare_example(); </script>

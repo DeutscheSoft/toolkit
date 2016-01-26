@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_buttonarray(root) {
         ba_horiz1 = new ButtonArray({
             buttons: [
@@ -90,5 +91,17 @@
         root.append_child(ba_vert2);
         root.append_child(ba_horiz2);
     }
-
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-buttonarray.toolkit-vertical {
+    height: 400px;
+    margin-right: 20px;
+    float: left;
+}
+.toolkit-buttonarray.toolkit-horizontal {
+    width: 75%;
+    float: right;
+    margin-bottom: 20px;
+}
+</pre>
 <script> prepare_example(); </script>

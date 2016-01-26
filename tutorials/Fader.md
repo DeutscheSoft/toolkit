@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_fader(root) {
         faders = [];
         var options = {
@@ -43,6 +44,21 @@
         });
         root.append_child(fadertt);
     }
-
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-fader {
+    display: block;
+    float: left;
+    vertical-align: top;
+}
+.toolkit-fader:nth-child(1),
+.toolkit-fader:nth-child(2) {
+    height: 400px;
+}
+.toolkit-fader:nth-child(3),
+.toolkit-fader:nth-child(4) {
+    width: 400px;
+}
+</pre>
 <script> prepare_example(); </script>
 

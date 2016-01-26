@@ -1,6 +1,7 @@
+<pre class='javascript prettyprint source'>
     function run_knob(root) {
         knob1 = new Knob({
-            "class": "knob1",
+            id: "knob1",
             min: -96,
             max: 24,
             value: -20,
@@ -9,7 +10,7 @@
             ],
         });
         knob = new Knob({
-            "class": "knob",
+            id: "knob",
             min: -96,
             max: 24,
             value: -20,
@@ -25,7 +26,7 @@
             ]
         });
         knob2 = new Knob({
-            "class": "knob2",
+            id: "knob2",
             margin: 0,
             thickness: 4,
             min: 20,
@@ -49,5 +50,35 @@
         });
         root.append_children([ knob, knob1, knob2 ]);
     }
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-knob {
+    margin: 10px;
+}
+#knob2 .toolkit-value {
+    fill: rgba(0, 47, 66, 1);
+}
+#knob2 .toolkit-warn .toolkit-value {
+    fill: #c00;
+}
+#knob2 .toolkit-dot {
+    fill: white;
+}
+#knob2 .toolkit-base {
+    fill: rgba(0, 47, 66, 0.5);
+}
 
+#knob2 {
+    width: 120px;
+    heigh: 120px;
+}
+#knob {
+    width: 50px;
+    height: 50px;
+}
+#knob1 {
+    width: 80px;
+    height: 80px;
+}
+</pre>
 <script> prepare_example(); </script>

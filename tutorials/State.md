@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_state(root) {
         s1 = new State({ });
         s2 = new State({ color: "#00ff00"
@@ -66,5 +67,18 @@
         __s2();
         __s3();
     }
-
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-state {
+    float: left;
+}
+.toolkit-state.on_air {
+    width: 250px;
+    height: 70px;
+}
+.toolkit-state.on_air {
+    background: url(images/on_air.png) no-repeat 50% 51%;
+    cursor: pointer;
+}
+</pre>
 <script> prepare_example(); </script>

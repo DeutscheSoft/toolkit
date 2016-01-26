@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_responsehandler(root) {
         rh = new ResponseHandler({
             width: 908,
@@ -149,5 +150,11 @@
         root.append_child(rh);
         TK.seat_all_svg()
     }
-
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-responsehandler {
+    width: 100%;
+    height: 100%;
+}
+</pre>
 <script> prepare_example(); </script>

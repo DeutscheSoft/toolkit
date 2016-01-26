@@ -15,14 +15,21 @@ h4 {
 }
 
 .toolkit-root {
-    background: #DDD;
+    background: #eee;
+    border: 1px solid #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius:    6px;
+    border-radius:         6px;
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-sizing: border-box;
     width: 80%;
     height: 80%;
     position: fixed;
     top: 10%;
     left: 10%;
-    border-radius: 10px;
-    border: 2px black solid;
 }
 
 .methods > li.inherited > a {

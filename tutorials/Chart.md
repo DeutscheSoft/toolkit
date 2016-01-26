@@ -1,7 +1,8 @@
+<pre class='javascript prettyprint source'>
     function run_chart (root) {
         chart = new Chart({
-            range_x: {basis:908, scale: _TOOLKIT_LINEAR, min:0, max:1},
-            range_y: {basis:300, scale: _TOOLKIT_LINEAR, min:0, max:1},
+            range_x: {scale: _TOOLKIT_LINEAR, min:0, max:1},
+            range_y: {scale: _TOOLKIT_LINEAR, min:0, max:1},
             grid_x: [{pos:0.0, label:"0"},
                      {pos:0.1},
                      {pos:0.2, label:"20"},
@@ -23,11 +24,6 @@
             key: _TOOLKIT_TOP_LEFT,
             title: "Chart Example",
             title_position: _TOOLKIT_TOP_RIGHT,
-            styles: {
-                "margin": "10px",
-            },
-            width: "calc(100% - 20px)",
-            height: "calc(100% - 20px)",
         });
         cgraph1 = chart.add_graph({
             dots: [{x:0.0, y:0.0},
@@ -71,5 +67,12 @@
         TK.seat_all_svg()
         root.append_child(chart);
     }
-
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-chart {
+    margin: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+}
+</pre>
 <script> prepare_example(); </script>

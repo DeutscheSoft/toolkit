@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_toggle(root) {
         toggle = new Toggle({
             label: "Mic Active",
@@ -16,5 +17,10 @@
         root.append_child(toggle);
         root.append_child(press);
     }
-
+</pre>
+<pre class='css prettyprint source'>
+.toolkit-toggle {
+    margin-right: 10px;
+}
+</pre>
 <script> prepare_example(); </script>

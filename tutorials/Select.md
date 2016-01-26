@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_select(root) {
         select = new Select({
             entries: [
@@ -13,5 +14,7 @@
         });
         root.append_child(select);
     }
-
+</pre>
+<pre class='css prettyprint source'>
+</pre>
 <script> prepare_example(); </script>

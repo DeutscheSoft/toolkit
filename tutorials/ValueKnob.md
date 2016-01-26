@@ -1,3 +1,4 @@
+<pre class='javascript prettyprint source'>
     function run_valueknob(root) {
         valueknob = new ValueKnob({
             min: -100,
@@ -7,5 +8,5 @@
         });
         root.append_child(valueknob);
     }
-
+</pre>
 <script> prepare_example(); </script>
