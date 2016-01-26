@@ -942,8 +942,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
-                        default:
-                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1007,8 +1005,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "start";
                             break;
-                        default:
-                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1071,8 +1067,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "middle";
                             break;
-                        default:
-                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1156,8 +1150,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "start";
                             break;
-                        default:
-                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1241,8 +1233,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
-                        default:
-                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
@@ -1327,8 +1317,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
-                        default:
-                            TK.warn("Unsupported preference", pref[i]);
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
