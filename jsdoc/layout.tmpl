@@ -24,10 +24,8 @@
             } else return;
 
             function hide_root(e) {
-                if (e.target === this.element) {
-                    this.destroy();
-                    window.root = null;
-                }
+                window.root.destroy();
+                window.root = null;
             }
 
             var b = document.createElement("button");
@@ -37,10 +35,15 @@
                 window.root = new TK.Root({
                     container: document.body
                 });
+                var b = document.createElement("button");
+                b.addEventListener("click", hide_root);
+                b.style.position = "absolute";
+                b.style.top = "0px";
+                b.style.right = "0px";
+                b.appendChild(document.createTextNode("close"));
+                window.root.element.appendChild(b);
 
                 fun(window.root);
-
-                window.root.add_event("click", hide_root);
 
                 return false;
             });

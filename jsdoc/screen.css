@@ -37,7 +37,7 @@ h1 {
 h3 {
     font-size: 1.5em;
     line-height: 1.3em;
-    clear: left;
+    clear: both;
 }
 h4 {
     font-size: 130%;
