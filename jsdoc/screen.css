@@ -1,17 +1,67 @@
-h5 {
-    font-size: 100%;
+body {
+    color: #666;
+    font-family: "Open Sans", sans-serif;
+    font-weight: normal;
+    font-size: 0.9em;
+    overflow-y: scroll;
+    padding: 20px;
+    line-height: 1.5em;
+/*    background: #f2f2f2 url(../images/background.png) repeat; */
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
 }
-
+h2 {
+    font-weight: normal;
+    font-size: 2em;
+    line-height: 1em;
+    color: #003050;
+    background: none;
+    text-transform: none;
+    margin: 0;
+    padding: 0px 0 20px 0;
+    margin-right: 30px;
+}
+h1 {
+    margin: 0px 0 20px 0;
+    font-weight: normal;
+    font-size: 4.1em;
+    color:#003050;
+    text-align: center;
+    line-height: 1em;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.3em;
+    clear: left;
+}
 h4 {
-    border-top: 2px solid #DDD;
-    padding-top: 10px;
-    clear: both;
+    font-size: 130%;
+    line-height: 2em;
     font-weight: bold;
+}
+h5 {
+    font-size: 110%;
+    font-weight: bold;
+}
+h4.name {
+    margin-top: 2em;
+    border-top: 0.1em solid black;
+    clear: both;
 }
 
 .details {
     font-size: 80%;
     float: right;
+    width: 30%;
+}
+
+.details li {
+    white-space: nowrap;
 }
 
 .toolkit-root {
@@ -38,4 +88,41 @@ h4 {
 
 .methods > li > a {
     color: black;
+}
+
+table {
+    margin: 0px 0 2em 0;
+    width: 100%;
+    border-collapse: collapse;
+    overflow: auto !important;
+    clear: both;
+    border: 1px solid #fff;
+}
+table th {
+    background: rgba(255,255,255,0.33);
+    padding: 0 1em;
+    font-weight: 500;
+    color: #001940;
+    font-size: 0.9em;
+}
+table td {
+    background: rgba(0,0,0,0.033);
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,0.33);
+    vertical-align: top;
+}
+table td:first-child {
+    font-weight: 800;
+    width: 120px;
+}
+table td:nth-child(2) {
+/*
+    width: 240px;
+*/
+}
+table td.headline {
+    background: rgba(255, 255, 255, 0.1);
+}
+table tr.inherit {
+    color: #aaa;
 }
