@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_levelmeter(root) {
         meters = {
             mvr: new LevelMeter({
@@ -282,7 +281,6 @@
         }
 
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-meter-base.toolkit-vertical {
     height: 354px;

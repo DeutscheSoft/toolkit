@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_scale(root) {
         scales = {};
         scales.left = new Scale({
@@ -47,5 +46,4 @@
 
         root.append_children([ scales.left, scales.right, scales.top, scales.bottom ]);
     }
-</pre>
 <script> prepare_example(); </script>

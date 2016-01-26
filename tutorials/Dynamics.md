@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_dynamics (root) {
         comp = new Dynamics({
             size: 298,
@@ -32,7 +31,6 @@
         root.append_children([ comp, expand, dyna ]);
         TK.seat_all_svg()
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-dynamics {
     width: 40%;

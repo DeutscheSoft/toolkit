@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_knob(root) {
         knob1 = new Knob({
             id: "knob1",
@@ -50,7 +49,6 @@
         });
         root.append_children([ knob, knob1, knob2 ]);
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-knob {
     margin: 10px;

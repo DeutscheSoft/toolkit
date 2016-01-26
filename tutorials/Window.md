@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_window(root) {
         winbutton = new Button({
             label: "Demo Window",
@@ -39,5 +38,4 @@
             root.add_child(win);
         });
     }
-</pre>
 <script> prepare_example(); </script>

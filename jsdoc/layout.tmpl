@@ -66,12 +66,10 @@
             if (!code.length) return;
 
             for (var i = 0; i < code.length; i++) {
-                if (TK.has_class(code[i], "javascript")) {
-                    setup_javascript(current, code[i]);
-                } else if (TK.has_class(code[i], "css")) {
+                if (TK.has_class(code[i], "css")) {
                     setup_stylesheet(current, code[i]);
                 } else {
-                    TK.warn("Unsupported type", code[i]);
+                    setup_javascript(current, code[i]);
                 }
             }
         }

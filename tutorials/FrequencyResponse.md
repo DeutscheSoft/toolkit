@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_frequencyresponse(root) {
         fr = new FrequencyResponse({
             width: 906,
@@ -20,7 +19,6 @@
         root.append_child(fr);
         TK.seat_all_svg()
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-frequencyresponse {
     margin: 10px;

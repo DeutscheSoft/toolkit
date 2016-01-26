@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_value(root) {
         value = new Value({
             value: 123.97,
@@ -7,5 +6,4 @@
         });
         root.append_child(value);
     }
-</pre>
 <script> prepare_example(); </script>

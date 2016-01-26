@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_meterbase(root) {
         mbvl = new MeterBase({
             layout: _TOOLKIT_RIGHT,
@@ -59,7 +58,6 @@
         });
         root.append_children([ mbvl, mbvr, mbhb, mbht ]);
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-meter-base.toolkit-vertical {
     height: 280px;

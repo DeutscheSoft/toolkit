@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_gauge(root) {
         gauge = [];
         gauge[0] = new Gauge({
@@ -138,7 +137,6 @@
         TK.seat_all_svg()
         root.append_children(gauge);
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-gauge {
     margin-right: 6px;

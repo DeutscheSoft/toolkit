@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_valuebutton(root) {
         thres = new ValueButton({
             label: "Threshold",
@@ -61,7 +60,6 @@
         
         root.append_children([ thres, attack, ratio, release ]);
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-valuebutton {
     width: 220px;

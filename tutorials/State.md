@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_state(root) {
         s1 = new State({ });
         s2 = new State({ color: "#00ff00"
@@ -67,7 +66,6 @@
         __s2();
         __s3();
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-state {
     float: left;

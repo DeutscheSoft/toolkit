@@ -1,4 +1,3 @@
-<pre class='javascript prettyprint source'>
     function run_chart (root) {
         chart = new Chart({
             range_x: {scale: _TOOLKIT_LINEAR, min:0, max:1},
@@ -67,7 +66,6 @@
         TK.seat_all_svg()
         root.append_child(chart);
     }
-</pre>
 <pre class='css prettyprint source'>
 .toolkit-chart {
     margin: 10px;
