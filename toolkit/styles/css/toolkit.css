@@ -55,6 +55,11 @@ pre, code {
     opacity: 0.3;
 }
 
+.toolkit-widget {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 
 /* #################### WIDGETS IMPORTANT STYLES #################### */
 /* The following styles are important for the widgets functionality
@@ -104,7 +109,6 @@ pre, code {
 }
 .toolkit-buttonarray > .toolkit-clip > .toolkit-container {
     position: relative;
-    display: inline-block;
 }
 .toolkit-buttonarray.toolkit-horizontal > .toolkit-clip > .toolkit-container {
     height: 100%;
@@ -150,7 +154,6 @@ pre, code {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    display: inline-block;
     box-sizing: border-box;
     position: relative;
 }
@@ -494,7 +497,6 @@ pre, code {
 /* VALUEKNOB */
 
 .toolkit-valueknob {
-    display: inline-block;
     position: relative;
 }
 

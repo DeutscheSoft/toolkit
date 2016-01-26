@@ -4,7 +4,6 @@
     cursor: pointer;
     width: 100px;
     height: 100px;
-    display: inline-block;
 }
 .toolkit-knob > svg {
     width: 100%;

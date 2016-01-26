@@ -1,6 +1,5 @@
 .toolkit-gauge {
     margin: 4px;
-    display: inline-block;
 }
 
 .toolkit-gauge > svg > .toolkit-circular {

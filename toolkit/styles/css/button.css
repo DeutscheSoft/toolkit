@@ -38,7 +38,6 @@
 }
 
 .toolkit-button.toolkit-horizontal > .toolkit-cell > * {
-    display: inline-block;
     vertical-align: middle;
 }
 
