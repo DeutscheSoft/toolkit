@@ -7,14 +7,6 @@ or their style sheets are changes dynamically.
 This document also details some optimizations to increase DOM performance, which
 might be of interest to others.
 
-## The Widget Tree
-
-Widgets are organized in a tree. This tree will usually be similar to the DOM
-tree, where each widgets consists of at least one DOM elements. There may be
-several disconnected widget trees at the same time. The root of a widget tree
-should always be a widget which is a subclass of Root. The Root widget takes
-care of tracking resize events and (possibly) document visibility changes.
-
 ## DOM manipulations and scheduling
 
 The appearance of a widget is determined by the values of its options and
@@ -168,11 +160,3 @@ same time.
 
 Note that the above code can be more elegantly implemented using ECMAScript 6 Generators,
 which makes the necessary code modifications even less invasive.
-
-## Resizing
-
-The Root widget registers for window resize events. If a resize event occurs,
-the resize() method will be scheduled for the next animation frame. The resize
-method will recursively be called on all widgets in the tree, which are
-currently visible. For invisible widgets the resize method will be postponed
-until they become visible again.

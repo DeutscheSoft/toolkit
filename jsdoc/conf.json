@@ -11,7 +11,8 @@
             "./jsdoc/files"
     ],
     "extra_mainpages" : [
-            "./docs/rendering.md"
+            "./docs/Widgets.md",
+            "./docs/Rendering.md"
     ],
     "templates": {
         "cleverLinks": false,
