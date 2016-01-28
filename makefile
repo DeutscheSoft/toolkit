@@ -98,6 +98,7 @@ toolkit.all.js: makefile
 toolkit/styles/css/toolkit.all.css: makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
 
+.PHONY: jsdoc
 jsdoc: makefile $(js_input_files) jsdoc/conf.json toolkit.all.js toolkit/styles/css/toolkit.all.css
 	jsdoc -u tutorials/ --readme docs/Main.md -t ../jsdoc-toolkit/ -c jsdoc/conf.json $(js_input_files)
 	cp -r images out/
