@@ -11,8 +11,8 @@
             "./jsdoc/files"
     ],
     "extra_mainpages" : [
-            "./docs/Widgets.md",
-            "./docs/Rendering.md"
+        { "path" : "./docs/Widgets.md", "name" : "Layout" },
+        "./docs/Rendering.md"
     ],
     "templates": {
         "cleverLinks": false,

@@ -9,9 +9,10 @@ exports.handlers = {
     parseComplete: function(e) {
         var extra_files = env.conf.extra_mainpages;
         extra_files.forEach(function (f) {
-            let content = fs.readFileSync(f, env.opts.encoding);
-            let parse = markdown.getParser();
-            let name = path.basename(f, ".md");
+            var location = typeof f === "object" ? f.path : f;
+            var name = typeof f === "object" ? f.name : path.basename(f, ".md");
+            var content = fs.readFileSync(location, env.opts.encoding);
+            var parse = markdown.getParser();
             name = name.substr(0, 1).toUpperCase() + name.substr(1);
             e.doclets.push({
                 kind : "mainpage",

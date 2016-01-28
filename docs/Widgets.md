@@ -1,4 +1,6 @@
-## The Widget Tree
+This document describes briefly how toolkit widgets can be used inside of a HTML layout.
+
+## Widgets inside the DOM
 
 Widgets are organized in a tree. This tree will usually be similar to the DOM
 tree, where each widgets consists of at least one DOM elements. There may be
@@ -27,7 +29,7 @@ and set the appropriate style attributes when the resize event occurs.
 
 For example:
 
-    chart.add_event('event', function() {
+    chart.add_event('resize', function() {
         var width, height;
         /* calculate new size */
 

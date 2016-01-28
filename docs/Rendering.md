@@ -1,5 +1,3 @@
-# Rendering in toolkit
-
 This document describes how the toolkit library renders widgets. The different
 techniques used are important to understand when using toolkit widgets within
 other applications. This is especially true when widgets are dynamically resized
