@@ -21,7 +21,7 @@
                 {pos: -12}, {pos: 0}, {pos: 12}, {pos: 24}
             ],
             labels: [
-                {pos: -96}, {pos: -72}, {pos: -48}, {pos: -24}, {pos: -12}, {pos: 0, label: "±0"}, {pos: 12}, {pos: 24}
+                {pos: -96}, {pos: -72}, {pos: -48}, {pos: -24}, {pos: -12}, {pos: 0, label: "\u00B10"}, {pos: 12}, {pos: 24}
             ]
         });
         knob2 = new Knob({
