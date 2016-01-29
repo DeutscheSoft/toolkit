@@ -243,9 +243,14 @@ nav > ul > li > ul > li > a:hover {
     color: #999;
 }
 
-.subsection-title + ul > li {
+.subsection-title + ul > li,
+.subsection-title + dl > dt {
     float: left;
-    margin-left: 0.2em;
+    margin-right: 0.8em;
+}
+.subsection-title + ul > li:before,
+.subsection-title + dl > dt:before {
+    content: '• ';
 }
 /* CODE */
 
