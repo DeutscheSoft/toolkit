@@ -137,12 +137,11 @@ nav h2, nav h3 {
     color: white !important;
     float: left;
     clear: none;
-    padding: 0;
+    padding: 0 1em;
     margin: 0;
     line-height: 3em !important;
     font-size: 1em !important;
     font-weight: normal;
-    width: 100px;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 nav h3 {
@@ -157,7 +156,6 @@ nav > ul {
     padding: 0;
     background: #003050;
     display: none;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.66);
     text-align: left;
 }
 nav > ul::before {
@@ -195,7 +193,8 @@ nav > ul > li.header h4 {
     color: white;
     font-weight: bold;
     font-size: 1em;
-    line-height: 1em;
+    line-height: 1.2em;
+    padding: 0 2px;
 }
 nav > ul > li:hover {
     background: white;
@@ -203,7 +202,8 @@ nav > ul > li:hover {
 nav > ul > li.header:hover {
     background: #003050;
 }
-nav > ul > li > a {
+nav > ul > li > a,
+nav > ul > li > a:active {
     color: white;
     text-decoration: none;
     line-height: 1.8em;
