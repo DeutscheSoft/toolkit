@@ -1,4 +1,7 @@
-h1, h2, h3, h4, h5, h6, input, textarea, body, a {
+/* This CSS looks quite strange because it is supposed to overwrite
+ * the settings in jsdoc-default.css */
+
+h1, h2, h3, h4, h5, h6, input, textarea, body, a, button, select, option {
     font-family: "Open Sans", sans-serif !important;
     color: #003050;
 }
@@ -40,11 +43,11 @@ h2 {
     padding: 0px 0 0.5em 0;
 }
 h3 {
-    font-size: 2.5em;
+    font-size: 2.5em !important;
     line-height: 2em;
     clear: both;
     color: #999;
-    margin: 0;
+    margin: 0 !important;
 }
 h4 {
     font-size: 130%;
@@ -60,7 +63,7 @@ h5 {
 }
 h4.name {
     clear: both;
-    font-size: 1.2em;
+    font-size: 1.3em;
 }
 
 p {
@@ -69,6 +72,27 @@ p {
 
 a, a:active {
     color: #003050;
+    text-decoration: underline;
+}
+
+:target:before {
+    content: "";
+    display: block;
+    height: 2em;
+    margin: -2em 0 0;
+}
+
+button {
+    background: #003050;
+    color: white;
+    border: none;
+    padding: 0.2em 0.5em;
+    transition: all 0.33s;
+    cursor: pointer;
+    border-radius: 0.25em;
+}
+button:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 section {
@@ -106,6 +130,7 @@ nav {
 }
 nav > h2 > a {
     color: white !important;
+    text-decoration: none;
     margin: 0;
 }
 nav h2, nav h3 {
@@ -114,8 +139,8 @@ nav h2, nav h3 {
     clear: none;
     padding: 0;
     margin: 0;
-    line-height: 3em;
-    font-size: 1em;
+    line-height: 3em !important;
+    font-size: 1em !important;
     font-weight: normal;
     width: 100px;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -145,6 +170,7 @@ nav > ul > li:hover {
 }
 nav > ul > li > a {
     color: white;
+    text-decoration: none;
 }
 nav > ul > li:hover > a {
     color: #003050 !important;
@@ -252,8 +278,24 @@ nav > ul > li > ul > li > a:hover {
 .subsection-title + dl > dt:before {
     content: '• ';
 }
-/* CODE */
 
+.closebutton {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+}
+
+.blinder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(216, 216, 216, 0.9);
+}
+
+
+/* CODE */
 
 code {
     border-radius: 0;

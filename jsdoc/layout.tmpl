@@ -39,26 +39,31 @@
             } else return;
 
             function hide_root(e) {
-                window.root.destroy();
-                window.root = null;
+                window.example.root.destroy();
+                window.example.blinder.parentNode.removeChild(window.example.blinder);
+                window.example = null;
             }
 
             var b = document.createElement("button");
+            b.setAttribute("class", "runbutton");
             b.addEventListener("click", function() {
-                if (window.root) window.root.destroy();
-
-                window.root = new TK.Root({
-                    container: document.body
+                if (window.example && window.example.root)
+                    window.example.root.destroy();
+                window.example = {};
+                var blinder = document.createElement("DIV");
+                blinder.setAttribute("class", "blinder");
+                document.body.appendChild(blinder);
+                window.example['blinder'] = blinder;
+                window.example['root'] = new TK.Root({
+                    container: blinder
                 });
                 var b = document.createElement("button");
+                b.setAttribute("class", "closebutton");
                 b.addEventListener("click", hide_root);
-                b.style.position = "absolute";
-                b.style.top = "0px";
-                b.style.right = "0px";
-                b.appendChild(document.createTextNode("close"));
-                window.root.element.appendChild(b);
-
-                fun(window.root);
+                b.appendChild(document.createTextNode("Close"));
+                window.example.root.element.appendChild(b);
+                
+                fun(window.example.root);
 
                 return false;
             });
