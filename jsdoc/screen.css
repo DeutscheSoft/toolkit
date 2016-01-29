@@ -149,21 +149,36 @@ nav h3 {
     cursor: pointer;
 }
 nav > ul {
-    width: 0px;
-    float: left;
-    position: relative;
-    top: 3em;
-    left: -100px;
+    width: 360px;
+    position: fixed;
+    z-index: 10;
+    top: calc(3em + 10px);
     margin: 0;
     padding: 0;
-    border-bottom: 1em solid transparent;
+    background: #003050;
+    display: none;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.66);
+}
+nav > ul::before {
+    content: " ";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    overflow: hidden;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    display: block;
+    background: #003050;
+    z-index: -1;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.66);
 }
 nav > ul > li {
     margin: 0;
     padding: 0;
-    width: 99px;
-    background: rgba(255, 255, 255, 0.05);
-    margin-bottom: 1px;
+    width: 120px;
+    display: inline-block;
+    background: #003050;
 }
 nav > ul > li:hover {
     background: white;
@@ -171,6 +186,7 @@ nav > ul > li:hover {
 nav > ul > li > a {
     color: white;
     text-decoration: none;
+    line-height: 1.8em;
 }
 nav > ul > li:hover > a {
     color: #003050 !important;
@@ -266,6 +282,10 @@ nav > ul > li > ul > li > a:hover {
 }
 
 .type-signature {
+    color: #999;
+}
+
+.signature-attributes {
     color: #999;
 }
 

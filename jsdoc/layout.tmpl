@@ -16,13 +16,23 @@
             var nav = document.getElementById("navigation");
             var b = nav.getElementsByTagName("h3");
             for (var i = 0; i < b.length; i++) {
-                b[i].onclick = function () {
-                    if (nav.style.height) {
-                        nav.style.height = "";
-                        nav.style.overflow = "hidden";
-                    } else {
-                        nav.style.height = "100%";
-                        nav.style.overflow = "scroll";
+                b[i].onclick = function (e) {
+                    var u = this.nextSibling;
+                    u.style.display = u.style.display ? "" : "block";
+                    var ud = u.style.display;
+                    var uw = u.offsetWidth;
+                    var bw = this.offsetWidth;
+                    var bl = this.offsetLeft;
+                    var ww = window.innerWidth;
+                    var ul = Math.max(0, Math.min(ww - uw, (bl + bw / 2 - uw / 2)));
+                    u.style.left = ul + "px";
+                    if (ud) {
+                        setTimeout(function () {
+                            document.body.addEventListener("click", function fun(e) {
+                                u.style.display = "";
+                                document.body.removeEventListener("click", fun);
+                            });
+                        }, 100);
                     }
                 }
             }
