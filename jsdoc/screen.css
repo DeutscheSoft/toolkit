@@ -262,13 +262,24 @@ table code {
     margin-bottom: 1.5em;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     border: 1px solid white;
-    background: rgba(255, 255, 255, 0.66);
+    background: white;
 }
-.prettyprint > code {
+.prettyprint code {
     margin: 0;
+    background: none;
 }
-
-
+.prettyprint.linenums {
+    padding-left: 60px;
+}
+.prettyprint.linenums code {
+    padding: 0 8px;
+}
+.prettyprint.linenums ol {
+    list-style: decimal-leading-zero;
+}
+.prettyprint.linenums li {
+    border-left: 1px solid #999;
+}
 table {
     margin: 0px 0 2em 0;
     width: 100%;
