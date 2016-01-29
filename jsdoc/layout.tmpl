@@ -12,6 +12,21 @@
     <script src="scripts/prettify/lang-css.js"></script>
     <script src="toolkit.all.js"></script>
     <script>
+        function __init__ () {
+            var nav = document.getElementById("navigation");
+            var b = nav.getElementsByTagName("h3");
+            for (var i = 0; i < b.length; i++) {
+                b[i].onclick = function () {
+                    if (nav.style.height) {
+                        nav.style.height = "";
+                        nav.style.overflow = "hidden";
+                    } else {
+                        nav.style.height = "100%";
+                        nav.style.overflow = "scroll";
+                    }
+                }
+            }
+        }
         function prepare_example() {
             window.addEventListener("load", setup_example.bind(this, document.currentScript));
         }
@@ -78,7 +93,7 @@
         }
     </script>
 </head>
-<body>
+<body onload="__init__()">
 
 <input type="checkbox" id="nav-trigger" class="nav-trigger" />
 <label for="nav-trigger" class="navicon-button x">
@@ -87,15 +102,11 @@
 
 <label for="nav-trigger" class="overlay"></label>
 
-<nav>
+<nav id="navigation">
     <?js= this.nav(obj) ?>
 </nav>
 
 <div id="main">
-    <?js if (title != 'Home') { ?>
-    <h1 class="page-title"><?js= title ?></h1>
-    <?js } ?>
-
     <?js= content ?>
 </div>
 

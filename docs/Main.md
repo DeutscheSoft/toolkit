@@ -1,4 +1,4 @@
-# ![toolkit](toolkit.png)
+# ![toolkit](images/toolkit.png)
 
 This is the official documentation for the toolkit audio widget library.
 This documentation consists of several introductory parts, which explain how

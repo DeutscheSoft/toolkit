@@ -101,6 +101,5 @@ toolkit/styles/css/toolkit.all.css: makefile
 .PHONY: jsdoc
 jsdoc: makefile $(js_input_files) jsdoc/conf.json toolkit.all.js toolkit/styles/css/toolkit.all.css
 	jsdoc -u tutorials/ --readme docs/Main.md -t ../jsdoc-toolkit/ -c jsdoc/conf.json $(js_input_files)
-	cp -r images out/
+	cp -r images/ out/
 	cp -r toolkit.all.js toolkit/ out/
-
