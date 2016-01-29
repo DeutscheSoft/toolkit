@@ -38,11 +38,11 @@
         root.append_child(pager1);
         root.append_child(pager2);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-pager {
     width: 100%;
     height: 200px;
     margin-bottom: 30px;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

@@ -49,7 +49,7 @@
         });
         root.append_children([ knob, knob1, knob2 ]);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-knob {
     margin: 10px;
 }
@@ -78,5 +78,5 @@
     width: 80px;
     height: 80px;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

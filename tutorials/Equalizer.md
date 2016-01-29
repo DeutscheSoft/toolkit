@@ -38,12 +38,12 @@
         root.append_child(eq);
         TK.seat_all_svg()
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-equalizer {
     margin: 10px;
     width: calc(100% - 20px);
     height: calc(100% - 20px);
 }
-</pre>
+</code></pre>
 
 <script> prepare_example(); </script>

@@ -19,11 +19,11 @@
         root.append_child(fr);
         TK.seat_all_svg()
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-frequencyresponse {
     margin: 10px;
     width: calc(100% - 20px);
     height: calc(100% - 20px;)
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

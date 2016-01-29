@@ -43,7 +43,7 @@
         });
         root.append_child(fadertt);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-fader {
     display: block;
     float: left;
@@ -57,6 +57,5 @@
 .toolkit-fader:nth-child(4) {
     width: 400px;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>
-

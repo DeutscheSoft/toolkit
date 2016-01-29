@@ -149,10 +149,10 @@
         root.append_child(rh);
         TK.seat_all_svg()
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-responsehandler {
     width: 100%;
     height: 100%;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

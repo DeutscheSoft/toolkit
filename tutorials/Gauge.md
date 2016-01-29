@@ -137,7 +137,7 @@
         TK.seat_all_svg()
         root.append_children(gauge);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-gauge {
     margin-right: 6px;
     margin-left: 6px;
@@ -206,5 +206,5 @@
 #gauge5 .toolkit-title {
     opacity: 0.9;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

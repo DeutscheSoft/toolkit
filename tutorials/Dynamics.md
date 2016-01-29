@@ -31,10 +31,10 @@
         root.append_children([ comp, expand, dyna ]);
         TK.seat_all_svg()
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-dynamics {
     width: 40%;
     height: 40%;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

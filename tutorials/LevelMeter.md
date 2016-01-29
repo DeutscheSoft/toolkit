@@ -281,7 +281,7 @@
         }
 
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-meter-base.toolkit-vertical {
     height: 354px;
 }
@@ -293,5 +293,5 @@
     width: 68px;
     float: left;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

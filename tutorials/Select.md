@@ -13,6 +13,4 @@
         });
         root.append_child(select);
     }
-<pre class='css prettyprint source'>
-</pre>
 <script> prepare_example(); </script>

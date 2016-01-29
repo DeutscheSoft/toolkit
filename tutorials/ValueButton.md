@@ -60,9 +60,9 @@
         
         root.append_children([ thres, attack, ratio, release ]);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-valuebutton {
     width: 220px;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

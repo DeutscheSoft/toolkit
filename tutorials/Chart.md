@@ -66,11 +66,11 @@
         TK.seat_all_svg()
         root.append_child(chart);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-chart {
     margin: 10px;
     width: calc(100% - 20px);
     height: calc(100% - 20px);
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

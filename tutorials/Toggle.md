@@ -16,9 +16,9 @@
         root.append_child(toggle);
         root.append_child(press);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-toggle {
     margin-right: 10px;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

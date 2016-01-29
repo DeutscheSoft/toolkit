@@ -66,7 +66,7 @@
         __s2();
         __s3();
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-state {
     float: left;
 }
@@ -78,5 +78,5 @@
     background: url(images/on_air.png) no-repeat 50% 51%;
     cursor: pointer;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>

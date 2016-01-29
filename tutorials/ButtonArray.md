@@ -90,7 +90,7 @@
         root.append_child(ba_vert2);
         root.append_child(ba_horiz2);
     }
-<pre class='css prettyprint source'>
+<pre class='css prettyprint source'><code>
 .toolkit-buttonarray.toolkit-vertical {
     height: 400px;
     margin-right: 20px;
@@ -101,5 +101,5 @@
     float: right;
     margin-bottom: 20px;
 }
-</pre>
+</code></pre>
 <script> prepare_example(); </script>
