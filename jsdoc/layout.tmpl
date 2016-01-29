@@ -36,6 +36,25 @@
                     }
                 }
             }
+            var ul = nav.getElementsByTagName("ul");
+            var chr = "";
+            for (var i = 0; i < ul.length; i++) {
+                var li = ul[i].getElementsByTagName("li");
+                if (li.length > 3) {
+                    for (var j = 0; j < li.length; j++) {
+                        var c = li[j].childNodes[0].innerHTML.substr(0, 1);
+                        if (c != chr) {
+                            var h = document.createElement("H4");
+                            var l = document.createElement("LI");
+                            h.innerHTML = c;
+                            l.setAttribute("class", "header");
+                            l.appendChild(h);
+                            ul[i].insertBefore(l, li[j]);
+                            chr = c;
+                        }
+                    }
+                }
+            }
         }
         function prepare_example() {
             window.addEventListener("load", setup_example.bind(this, document.currentScript));
