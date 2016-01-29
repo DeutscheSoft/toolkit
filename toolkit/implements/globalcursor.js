@@ -22,7 +22,7 @@
 (function(w){ 
 w.TK.GlobalCursor = w.GlobalCursor = $class({
     /**
-     * GlobalCursor adds global cursor classes to enshure
+     * GlobalCursor adds global cursor classes to ensure
      * one of the standard cursors (http://www.echoecho.com/csscursors.htm)
      * is shown in the overall application
      *
@@ -31,7 +31,7 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
     _class: "GlobalCursor",
     global_cursor: function (cursor) {
         /**
-         * Adds a class <code>"toolkit-cursor-" + cursor</cod> to the <code>document.body</code> to show a specific cursor.
+         * Adds a class <code>"toolkit-cursor-" + cursor</code> to the <code>document.body</code> to show a specific cursor.
          * @method TK.GlobalCursor#global_cursor
          * @param {string} cursor - The name of the cursor to show (http://www.echoecho.com/csscursors.htm)
          * @emits TK.GlobalCursor#globalcursor
