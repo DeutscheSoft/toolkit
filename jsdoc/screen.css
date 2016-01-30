@@ -123,8 +123,31 @@ footer {
     padding: 1em;
     float: none;
     position: fixed;
+    z-index: 2;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    transition: transform 0.5s;
+}
+#navigation::before {
+    content: "";
+    width: 1em;
+    height: 0.2em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    transform: rotate(45deg);
+    background: white;
+}
+#navigation::after {
+    content: "";
+    width: 1em;
+    height: 0.2em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    transform: rotate(-45deg);
+    background: white;
 }
 @media (max-width: 600px) {
     #navigation {
@@ -175,133 +198,47 @@ footer {
     text-decoration: none;
 }
 
-/*
-nav {
-    background: #003050;
-    width: calc(100% + 40px);
-    height: 3em;
-    line-height: 3em;
+#navbutton {
     position: fixed;
-    top: 0;
-    left: 0;
-    float: none;
-    overflow: hidden;
-    transition: height 0.5s;
-}
-nav > h2 > a {
-    color: white !important;
-    text-decoration: none;
-    margin: 0;
-}
-nav h2, nav h3 {
-    color: white !important;
-    float: left;
-    clear: none;
-    padding: 0 1em;
-    margin: 0;
-    line-height: 3em !important;
-    font-size: 1em !important;
-    font-weight: normal;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-nav h3 {
-    cursor: pointer;
-}
-nav > ul {
-    width: 360px;
-    position: fixed;
-    z-index: 10;
-    top: -10000px;
-    margin: 0;
-    margin-top: calc(3em + 10px);
-    padding: 0;
-    background: #003050;
-    text-align: left;
-}
-nav > ul::before {
-    content: " ";
-    width: 12px;
-    height: 12px;
-    position: absolute;
-    overflow: hidden;
-    top: 0%;
+    z-index: 1;
+    top: 4px;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    display: block;
-    background: #003050;
-    z-index: -1;
+    width: 85px;
+    height: 16px;
+    box-sizing: border-box;
+    transition: transform 0.33s;
+    transform: translateX(-50%) scale(1.2, 1.2);
 }
-nav > ul > li {
-    margin: 0;
-    padding: 0;
-    width: 120px;
-    display: block;
-    float: left;
-    background: #003050;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+#navbutton:hover {
+    transform: translateX(-50%) scale(1.5, 1.5);
 }
-nav > ul > li.header {
-    width: 1em;
-    display: inline-block;
-    background: #003050;
-    text-align: left;
-    margin-left: -1em;
-    clear: left;
+#navbutton::before {
+    content: "";
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    position: absolute;
+    left: 39px;
+    top: 4px;
+    width: 10px;
+    height: 8px;
+    box-sizing: border-box;
 }
-nav > ul > li.header h4 {
-    color: white;
-    font-weight: bold;
-    font-size: 1em;
-    line-height: 1.2em;
-    padding: 0 2px;
+#navbutton::after {
+    content: "";
+    border-top: 2px solid white;
+    position: absolute;
+    left: 39px;
+    top: 7px;
+    width: 10px;
 }
-nav > ul > li:hover {
-    background: white;
-}
-nav > ul > li.header:hover {
-    background: #003050;
-}
-nav > ul > li > a,
-nav > ul > li > a:active {
-    color: white;
-    text-decoration: none;
-    line-height: 1.8em;
-    font-size: 1em;
-}
-nav > ul > li:hover > a {
-    color: #003050 !important;
-    text-decoration: none;
-}
-nav > ul > li > a:hover {
-    color: white;
-}
-nav > ul > li > ul {
-    color: white;
-    text-decoration: underline;
-    position: fixed;
-    right: 0;
-    top: 3em;
-    background: rgba(0, 48, 80, 0.8);
-    padding: 0.5em;
-    margin: 0;
-    text-align: right;
-}
-nav > ul > li > ul > li > a {
-    text-decoration: none !important;
-}
-nav > ul > li > ul > li > a,
-nav > ul > li > ul > li > a:hover {
-    color: white;
-    padding: 0;
-    border: none;
-}
-*/
 
+.navicon-button {
+    display: none;
+}
 #main {
     width: 100%;
     float: none;
-    margin-top: 3em;
+    margin-top: 1em;
 }
 
 

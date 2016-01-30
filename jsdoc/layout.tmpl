@@ -13,66 +13,30 @@
     <script src="toolkit.all.js"></script>
     <script>
         function __init__ () {
+            var nav = document.getElementById("navigation");
+            
             var subnav = document.getElementsByClassName("subnav");
             for (var i = 0; i < subnav.length; i++)
                 document.body.appendChild(subnav[i]);
-            //var navbutton = document.createElement("button");
-            //navbutton.onclick = function (e) {
-                //if (ud) {
-                    //setTimeout(function () {
-                        //document.body.addEventListener("click", function fun(e) {
-                            //u.style.top = "";
-                            //document.body.removeEventListener("click", fun);
-                        //});
-                    //}, 100);
-                //}
-            //}
-            //document.body.appendChild(navbutton);
-            //var nav = document.getElementById("navigation");
-            //var b = nav.getElementsByTagName("h3");
-            //for (var i = 0; i < b.length; i++) {
-                //b[i].onclick = function (e) {
-                    //var u = this.nextSibling;
-                    //u.style.top = u.style.top ? "" : "0px";
-                    //var ud = u.style.top;
-                    //var uw = u.offsetWidth;
-                    //var bw = this.offsetWidth;
-                    //var bl = this.offsetLeft;
-                    //var ww = window.innerWidth;
-                    //var ul = Math.max(0, Math.min(ww - uw, (bl + bw / 2 - uw / 2)));
-                    //u.style.left = ul + "px";
-                    //if (ud) {
-                        //setTimeout(function () {
-                            //document.body.addEventListener("click", function fun(e) {
-                                //u.style.top = "";
-                                //document.body.removeEventListener("click", fun);
-                            //});
-                        //}, 100);
-                    //}
-                //}
-            //}
-            //var ul = nav.getElementsByTagName("ul");
-            //var chr = "";
-            //for (var i = 0; i < ul.length; i++) {
-                //if (ul[i].parentNode != nav)
-                    //continue;
-                //var li = ul[i].getElementsByTagName("li");
-                //if (li.length > 3) {
-                    //for (var j = 0; j < li.length; j++) {
-                        //var c = li[j].childNodes[0].innerHTML.substr(0, 1);
-                        //if (c != chr) {
-                            //var h = document.createElement("H4");
-                            //var l = document.createElement("LI");
-                            //h.innerHTML = c;
-                            //l.setAttribute("class", "header");
-                            //l.appendChild(h);
-                            //if (li[j].parentNode == ul[i])
-                                //ul[i].insertBefore(l, li[j]);
-                            //chr = c;
-                        //}
-                    //}
-                //}
-            //}
+            
+            var navbutton = document.createElement("button");
+            navbutton.setAttribute("id", "navbutton");
+            navbutton.onclick = function (e) {
+                nav.style.transform = nav.style.transform ? "" : "translate(-50%, 0)";
+                if (nav.style.transform) {
+                    setTimeout(function () {
+                        document.body.addEventListener("click", function fun(e) {
+                            nav.style.transform = "";
+                            document.body.removeEventListener("click", fun);
+                        });
+                    }, 100);
+                }
+            }
+            document.body.appendChild(navbutton);
+                
+            if (subnav.length) {
+                
+            }
         }
         function prepare_example() {
             window.addEventListener("load", setup_example.bind(this, document.currentScript));
