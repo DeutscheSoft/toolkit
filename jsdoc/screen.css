@@ -92,7 +92,7 @@ button {
     border-radius: 0.25em;
 }
 button:hover {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    
 }
 
 section {
@@ -151,11 +151,11 @@ nav > ul {
     width: 360px;
     position: fixed;
     z-index: 10;
-    top: calc(3em + 10px);
+    top: -10000px;
     margin: 0;
+    margin-top: calc(3em + 10px);
     padding: 0;
     background: #003050;
-    display: none;
     text-align: left;
 }
 nav > ul::before {
@@ -348,9 +348,9 @@ table code {
 .prettyprint {
     border-radius: 0;
     margin-bottom: 1.5em;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     border: 1px solid white;
     background: white;
+    box-shadow: none !important;
 }
 .prettyprint code {
     margin: 0;

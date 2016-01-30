@@ -18,8 +18,8 @@
             for (var i = 0; i < b.length; i++) {
                 b[i].onclick = function (e) {
                     var u = this.nextSibling;
-                    u.style.display = u.style.display ? "" : "block";
-                    var ud = u.style.display;
+                    u.style.top = u.style.top ? "" : "0px";
+                    var ud = u.style.top;
                     var uw = u.offsetWidth;
                     var bw = this.offsetWidth;
                     var bl = this.offsetLeft;
@@ -29,7 +29,7 @@
                     if (ud) {
                         setTimeout(function () {
                             document.body.addEventListener("click", function fun(e) {
-                                u.style.display = "";
+                                u.style.top = "";
                                 document.body.removeEventListener("click", fun);
                             });
                         }, 100);
@@ -39,6 +39,8 @@
             var ul = nav.getElementsByTagName("ul");
             var chr = "";
             for (var i = 0; i < ul.length; i++) {
+                if (ul[i].parentNode != nav)
+                    continue;
                 var li = ul[i].getElementsByTagName("li");
                 if (li.length > 3) {
                     for (var j = 0; j < li.length; j++) {
@@ -49,7 +51,8 @@
                             h.innerHTML = c;
                             l.setAttribute("class", "header");
                             l.appendChild(h);
-                            ul[i].insertBefore(l, li[j]);
+                            if (li[j].parentNode == ul[i])
+                                ul[i].insertBefore(l, li[j]);
                             chr = c;
                         }
                     }
