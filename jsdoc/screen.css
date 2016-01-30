@@ -116,6 +116,66 @@ footer {
 
 /* NAVIGATION */
 
+#navigation {
+    width: 600px;
+    background: #003050;
+    color: white;
+    padding: 1em;
+    float: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+@media (max-width: 600px) {
+    #navigation {
+        width: 100%;
+    }
+}
+
+#navigation .navblock .itemsnav {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+}
+
+@media (max-width: 500px) {
+    #navigation .navblock .itemsnav {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
+}
+@media (max-width: 400px) {
+    #navigation .navblock .itemsnav {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+#navigation .navblock {
+    
+}
+
+#navigation .navblock h2 {
+    text-align: left;
+    font-size: 1.3em;
+    line-height: 1.3em;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+#navigation .navblock .itemsnav a {
+    color: white;
+    text-decoration: none;
+    line-height: 1.8em;
+    font-size: 1em;
+}
+#navigation .navblock .itemsnav a:hover {
+    color: #003050;
+    background: white;
+    text-decoration: none;
+}
+
+/*
 nav {
     background: #003050;
     width: calc(100% + 40px);
@@ -236,6 +296,7 @@ nav > ul > li > ul > li > a:hover {
     padding: 0;
     border: none;
 }
+*/
 
 #main {
     width: 100%;
