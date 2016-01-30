@@ -201,35 +201,19 @@ footer {
 #navbutton {
     position: fixed;
     z-index: 1;
-    top: 4px;
+    top: 0.2em;
     left: 50%;
-    width: 85px;
-    height: 16px;
+    width: 4em;
+    height: 1em;
     box-sizing: border-box;
     transition: transform 0.33s;
-    transform: translateX(-50%) scale(1.2, 1.2);
+    transform: translateX(-50%);
+    background-image: url(images/menu.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 #navbutton:hover {
-    transform: translateX(-50%) scale(1.5, 1.5);
-}
-#navbutton::before {
-    content: "";
-    border-top: 2px solid white;
-    border-bottom: 2px solid white;
-    position: absolute;
-    left: 39px;
-    top: 4px;
-    width: 10px;
-    height: 8px;
-    box-sizing: border-box;
-}
-#navbutton::after {
-    content: "";
-    border-top: 2px solid white;
-    position: absolute;
-    left: 39px;
-    top: 7px;
-    width: 10px;
+    transform: translateX(-50%) scale(1.2, 1.2);
 }
 
 .navicon-button {
