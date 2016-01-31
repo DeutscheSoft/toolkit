@@ -20,27 +20,27 @@
  */
 "use strict";
 (function(w){ 
+/**
+ * TK.Anchor provides a single function translate_anchor
+ * which returns real x and y values from a relative positioning.
+ * For example positioning a {@link TK.Window} with anchor "center"
+ * needs to subtract half of its width from y and half of its height
+ * from x to appear at the correct position.
+ *
+ * @mixin TK.Anchor
+ */
 w.TK.Anchor = w.Anchor = $class({
     /**
-     * TK.Anchor provides a single function translate_anchor
-     * which returns real x and y values from a relative positioning.
-     * For example positioning a {@link TK.Window} with anchor "center"
-     * needs to subtract half of its width from y and half of its height
-     * from x to appear at the correct position.
-     *
-     * @mixin TK.Anchor
+     * Returns real x and y values from a relative positioning.
+     * @method TK.Anchor#translate_anchor
+     * @param {integer} [anchor="top-left"] - Position of the anchor
+     * @param {number} x - X position to translate
+     * @param {number} y - Y position to translate
+     * @param {number} width - Width of the element
+     * @param {number} height - Height of the element
+     * @returns {Object} Object with members x and y as numbers
      */
     translate_anchor: function (anchor, x, y, width, height) {
-        /**
-         * Returns real x and y values from a relative positioning.
-         * @method TK.Anchor#translate_anchor
-         * @param {integer} [anchor="top-left"] - Position of the anchor
-         * @param {number} x - X position to translate
-         * @param {number} y - Y position to translate
-         * @param {number} width - Width of the element
-         * @param {number} height - Height of the element
-         * @returns {Object} Object with members x and y as numbers
-         */
         switch (anchor) {
             case "top-left":
                 break;

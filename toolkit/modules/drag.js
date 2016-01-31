@@ -33,8 +33,8 @@ function dragstart(e, drag) {
     /** 
      * The user started dragging this item.
      *
-     * @event TK.Drag#dragstart
      * @type {Event}
+     * @event TK.Drag#dragstart
      */
     this.fire_event("dragstart", e);
 }
@@ -45,8 +45,8 @@ function dragend(e, drag) {
     /**
      * The user stopped dragging this item.
      *
-     * @event TK.Drag#dragstop
      * @type {Event}
+     * @event TK.Drag#dragstop
      */
     this.fire_event("dragstop", e);
 }
@@ -71,8 +71,8 @@ function dragging(e, drag) {
      * The user is dragging this item.
      * The arguments are the native DOM event object and both the x and y coordinate.
      *
-     * @event TK.Drag#dragging
      * @type {Event}
+     * @event TK.Drag#dragging
      */
     this.fire_event("dragging", e, x, y);
 }

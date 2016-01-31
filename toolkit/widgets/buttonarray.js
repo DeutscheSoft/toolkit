@@ -45,8 +45,8 @@ function prev_clicked(e) {
      * When a {@link TK.Button} or an arrow gets clicked and
      * the currently active button changes.
      *
-     * @event clicked
      * @type Button
+     * @event clicked
      */
     this.set("show", this.options.show - 1);
 }
@@ -165,26 +165,26 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         TK.Container.prototype.resize.call(this);
     },
     
+    /**
+     * Adds an array of buttons to the end of the list.
+     *
+     * @param {Array.<string|object>} options - An Array containing objects with options for the buttons (see {@link TK.Button} for more information) or strings for the buttons labels
+     * @method TK.add_buttons
+     */
     add_buttons: function (options) {
-        /**
-         * Adds an array of buttons to the end of the list.
-         *
-         * @param {Array.<string|object>} options - An Array containing objects with options for the buttons (see {@link TK.Button} for more information) or strings for the buttons labels
-         * @method TK.add_buttons
-         */
         for (var i = 0; i < options.length; i++)
             this.add_button(options[i]);
     },
     
+    /**
+     * Adds a {@link TK.Button} to the TK.ButtonArray 
+     *
+     * @method TK.ButtonArray#add_button
+     * @param {Object|string} options - An object containing options for the {@link TK.Button} to add or a string for the label
+     * @param {integer} [position] - The position to add the {@link TK.Button} to. If avoided the {@link TK.Button} is added to the end of the list
+     * @returns {TK.Button} The {@link TK.Button} instance
+     */
     add_button: function (options, position) {
-        /**
-         * Adds a {@link TK.Button} to the TK.ButtonArray 
-         *
-         * @method TK.ButtonArray#add_button
-         * @param {Object|string} options - An object containing options for the {@link TK.Button} to add or a string for the label
-         * @param {integer} [position] - The position to add the {@link TK.Button} to. If avoided the {@link TK.Button} is added to the end of the list
-         * @returns {TK.Button} The {@link TK.Button} instance
-         */
         if (typeof options === "string")
             options = {label: options}
         var b    = new TK.Button(options);
@@ -220,13 +220,13 @@ w.TK.ButtonArray = w.ButtonArray = $class({
 
         return b;
     },
+    /**
+     * Removes a {@link TK.Button} from the ButtonArray
+     *
+     * @method TK.ButtonArray#remove_button
+     * @param {integer|TK.Button} button - ID or {@link TK.Button} instance
+     */
     remove_button: function (button) {
-        /**
-         * Removes a {@link TK.Button} from the ButtonArray
-         *
-         * @method TK.ButtonArray#remove_button
-         * @param {integer|TK.Button} button - ID or {@link TK.Button} instance
-         */
         if (typeof button == "object")
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
@@ -306,13 +306,13 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         }
     },
     
+    /**
+     * The currently active button.
+     *
+     * @method TK.ButtonArray#current
+     * @returns {TK.Button} The active {@link TK.Button} or null
+     */
     current: function() {
-        /**
-         * Get the actually selected #Button
-         *
-         * @method TK.ButtonArray#current
-         * @returns {TK.Button} The selected {@link TK.Button} or null
-         */
         var n = this.options.show;
         if (n >= 0 && n < this.buttons.length) {
             return this.buttons[n];

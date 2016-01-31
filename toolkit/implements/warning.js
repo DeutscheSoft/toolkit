@@ -20,25 +20,25 @@
  */
 "use strict";
 (function(w){ 
+/**
+ * Adds the class "toolkit-warn" on <code>this.element</code> for a certain
+ * period of time. It is used e.g. in {@link TK.ResponseHandle} or {@link TK.Knob} when the value
+ * exceeds the range.
+ *
+ * @mixin TK.Warning
+ */
 w.TK.Warning = w.Warning = $class({
-    /**
-     * Adds the class "toolkit-warn" on <code>this.element</code> for a certain
-     * period of time. It is used e.g. in {@link TK.ResponseHandle} or {@link TK.Knob} when the value
-     * exceeds the range.
-     *
-     * @mixin TK.Warning
-     */
     _class: "Warning",
+    /** 
+     * Adds the class "toolkit-warn" to the given element and
+     * sets a timeout after which the class is removed again. If there
+     * already is a timeout waiting it gets updated.
+     *
+     * @method TK.Warning#warning
+     * @param {HTMLElement|SVGElement} element - The DOM node the class should be added to
+     * @param {number} [timeout=250] - The timeout in ms until the class should be removed again.
+     */
     warning: function (element, timeout) {
-        /** 
-         * Adds the class "toolkit-warn" to the given element and
-         * sets a timeout after which the class is removed again. If there
-         * already is a timeout waiting it gets updated.
-         *
-         * @method TK.Warning#warning
-         * @param {HTMLElement|SVGElement} element - The DOM node the class should be added to
-         * @param {number} [timeout=250] - The timeout in ms until the class should be removed again.
-         */
         if (!timeout) timeout = 250;
         if (this.__wto) window.clearTimeout(this.__wto);
         this.__wto = null;

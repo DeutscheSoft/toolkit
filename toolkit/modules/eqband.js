@@ -101,14 +101,14 @@ w.TK.EqBand = w.EqBand = $class({
         this.filter.reset();
     },
 
+    /**
+     * Calculate the gain for a given frequency in Hz
+     *
+     * @method TK.EqBand#freq2gain
+     * @param {number} freq - The frequency.
+     * @returns {number} The gain at the given frequency.
+     */
     freq2gain: function (freq) {
-        /**
-         * Calculate the gain for a given frequency in Hz
-         *
-         * @method TK.EqBand#freq2gain
-         * @param {number} freq - The frequency.
-         * @returns {number} The gain at the given frequency.
-         */
         return this.filter.freq2gain(freq);
     },
     

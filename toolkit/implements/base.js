@@ -162,13 +162,13 @@ function add_native_events(element, events) {
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
         element.addEventListener(type, events[type].callback);
 }
+/**
+ * This is the base class for all widgets in toolkit.
+ * It provides an API for event handling and other basic implementations.
+ *
+ * @class TK.Base
+ */
 TK.Base = w.BASE = $class({
-    /**
-     * This is the base class for all widgets in toolkit.
-     * It provides an API for event handling and other basic implementations.
-     *
-     * @class TK.Base
-     */
     initialize : function(options) {
         this.__events = {};
         this.__event_target = null;
@@ -177,12 +177,12 @@ TK.Base = w.BASE = $class({
     initialized : function() {
         this.fire_event("initialized");
     },
+    /**
+     * Destroys all event handlers and the options object
+     *
+     * @method TK.Base#destroy
+     */
     destroy : function() {
-        /**
-         * Destroys all event handlers and the options object
-         *
-         * @method TK.Base#destroy
-         */
         if (this.__event_target) {
             remove_native_events(this.__event_target, this.__events);
         }
@@ -191,17 +191,17 @@ TK.Base = w.BASE = $class({
         this.__event_target = null;
         this.options = null;
     },
+    /**
+     * Merges a new options object into the existing one
+     * including deep copies of objects. If an option key begins with
+     * the string "on" it is considered as event handler. In this case
+     * the value should be the handler function for the event with
+     * the corresponding name without the first "on" characters.
+     *
+     * @method TK.Base#set_options(options)
+     * @param {Object} [options={ }] - An object containing initial options
+     */
     set_options : function(o) {
-        /**
-         * Merges a new options object into the existing one
-         * including deep copies of objects. If an option key begins with
-         * the string "on" it is considered as event handler. In this case
-         * the value should be the handler function for the event with
-         * the corresponding name without the first "on" characters.
-         *
-         * @method TK.Base#set_options(options)
-         * @param {Object} [options={ }] - An object containing initial options
-         */
         var opt = this.options;
         var key, a, b;
         if (typeof(o) != "object") {
@@ -251,12 +251,12 @@ TK.Base = w.BASE = $class({
         if (this.__events["set_"+key])
             this.fire_event("set_" + key, value);
     },
+    /**
+     * @method TK.Base#delegate_events
+     * @param {HTMLElement} element - The element all native events should be bound to
+     * @returns {HTMLElement} The element
+     */
     delegate_events: function (element) {
-        /**
-         * @method TK.Base#delegate_events
-         * @param {HTMLElement} element - The element all native events should be bound to
-         * @returns {HTMLElement} The element
-         */
         var ev = this.__events;
         var old_target = this.__event_target;
         this.fire_event("delegated", element);
@@ -268,14 +268,16 @@ TK.Base = w.BASE = $class({
 
         return element;
     },
+    /**
+     * Register an event handler.
+     *
+     * @method TK.Base#add_event
+     * @param {string} event - The event descriptor
+     * @param {Function} func - The function to call when the event happens
+     * @param {boolean} prevent - Set to true if the event should prevent the default behavior
+     * @param {boolean} stop - Set to true if the event should stop bubbling up the tree
+     */
     add_event: function (event, func, prevent, stop) {
-        /**
-         * @method TK.Base#add_event
-         * @param {string} event - The event descriptor
-         * @param {Function} func - The function to call when the event happens
-         * @param {boolean} prevent - Set to true if the event should prevent the default behavior
-         * @param {boolean} stop - Set to true if the event should stop bubbling up the tree
-         */
         var ev;
         var cb;
 
@@ -324,16 +326,16 @@ TK.Base = w.BASE = $class({
         }
         ev[event].queue.push(func);
     },
+    /**
+     * Removes the given function from the event queue.
+     * If it is a native DOM event, it removes the DOM event listener
+     * as well.
+     *
+     * @method TK.Base#remove_event
+     * @param {string} event - The event descriptor
+     * @param {Function} func - The function to remove
+     */
     remove_event: function (event, func) {
-        /**
-         * Removes the given function from the event queue.
-         * If it is a native DOM event, it removes the DOM event listener
-         * as well.
-         *
-         * @method TK.Base#remove_event
-         * @param {string} event - The event descriptor
-         * @param {Function} func - The function to remove
-         */
         if (__event_replacements.hasOwnProperty(event)) {
             // it is an event which has one or more replacement events
             // so remove all those replacements
@@ -368,14 +370,14 @@ TK.Base = w.BASE = $class({
             }
         }
     },
+    /**
+     * Fires an event.
+     *
+     * @param {string} event - The event descriptor
+     * @param {...*} args - Event arguments
+     * @method TK.Base#fire_event
+     */
     fire_event: function (event) {
-        /**
-         * Fires an event.
-         *
-         * @param {string} event - The event descriptor
-         * @param {...*} args - Event arguments
-         * @method TK.Base#fire_event
-         */
         var ev = this.__events;
 
         if (!ev.hasOwnProperty(event)) return;
@@ -397,15 +399,14 @@ TK.Base = w.BASE = $class({
             }
         }
     },
-
+    /**
+     * Test if the event descriptor has some handler functions in the queue
+     *
+     * @method TK.Base#has_event_listeners
+     * @param {string} event - The event desriptor
+     * @returns {boolean} True if the event has some handler functions in the queue, false if not
+     */
     has_event_listeners: function (event) {
-        /**
-         * Test if the event descriptor has some handler functions in the queue
-         *
-         * @method TK.Base#has_event_listeners
-         * @param {string} event - The event desriptor
-         * @returns {boolean} True if the event has some handler functions in the queue, false if not
-         */
         var ev = this.__events;
 
         if (!ev.hasOwnProperty(event)) return false;
@@ -415,18 +416,18 @@ TK.Base = w.BASE = $class({
         if (!ev.length) return false;
         return true;
     },
+    /**
+     * Add multiple event handlers at once, either as dedicated event handlers or a list of event
+     * descriptors with a single handler function.
+     *
+     * @method TK.Base#add_events
+     * @param {Object | Array} events - Object with event descriptors as keys and functions as
+     *   values or Array of event descriptors. The latter requires a handler function as the
+     *   second argument.
+     * @param {Function} func - A function to add as event handler if the first argument is an
+     *   array of event desriptors
+     */
     add_events: function (events, func) {
-        /**
-         * Add multiple event handlers at once, either as dedicated event handlers or a list of event
-         * descriptors with a single handler function.
-         *
-         * @method TK.Base#add_events
-         * @param {Object | Array} events - Object with event descriptors as keys and functions as
-         *   values or Array of event descriptors. The latter requires a handler function as the
-         *   second argument.
-         * @param {Function} func - A function to add as event handler if the first argument is an
-         *   array of event desriptors
-         */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
@@ -437,18 +438,18 @@ TK.Base = w.BASE = $class({
                     this.add_event(i, events[i]);
         }
     },
+    /**
+     * Remove multiple event handlers at once, either as dedicated event handlers or a list of
+     * event descriptors with a single handler function
+     *
+     * @method TK.Base#remove_events
+     * @param {Object | Array} events - Object with event descriptors as keys and functions as
+     *   values or Array of event descriptors. The latter requires the handler function as the
+     *   second argument.
+     * @param {Function} func - A function to remove from event handler queue if the first
+     *   argument is an array of event desriptors
+     */
     remove_events: function (events, func) {
-        /**
-         * Remove multiple event handlers at once, either as dedicated event handlers or a list of
-         * event descriptors with a single handler function
-         *
-         * @method TK.Base#remove_events
-         * @param {Object | Array} events - Object with event descriptors as keys and functions as
-         *   values or Array of event descriptors. The latter requires the handler function as the
-         *   second argument.
-         * @param {Function} func - A function to remove from event handler queue if the first
-         *   argument is an array of event desriptors
-         */
         var i;
         if (events instanceof Array) {
             for (i = 0; i < events.length; i++)
@@ -459,13 +460,13 @@ TK.Base = w.BASE = $class({
                     this.remove_event(i, events[i]);
         }
     },
+    /**
+     * Fires several events.
+     *
+     * @method TK.Base#fire_events
+     * @param {Array.<string>} events - A list of event names to fire.
+     */
     fire_events: function (events) {
-        /**
-         * Fires several events.
-         *
-         * @method TK.Base#fire_events
-         * @param {Array.<string>} events - A list of event names to fire.
-         */
         for (var i in events) {
             if (events.hasOwnProperty(i))
                 this.fire_event(i, events[i]);

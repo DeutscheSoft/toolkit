@@ -20,22 +20,22 @@
  */
 "use strict";
 (function(w){ 
+/**
+ * GlobalCursor adds global cursor classes to ensure
+ * one of the standard cursors (http://www.echoecho.com/csscursors.htm)
+ * is shown in the overall application
+ *
+ * @mixin TK.GlobalCursor
+ */
 w.TK.GlobalCursor = w.GlobalCursor = $class({
-    /**
-     * GlobalCursor adds global cursor classes to ensure
-     * one of the standard cursors (http://www.echoecho.com/csscursors.htm)
-     * is shown in the overall application
-     *
-     * @mixin TK.GlobalCursor
-     */
     _class: "GlobalCursor",
+    /**
+     * Adds a class <code>"toolkit-cursor-" + cursor</code> to the <code>document.body</code> to show a specific cursor.
+     * @method TK.GlobalCursor#global_cursor
+     * @param {string} cursor - The name of the cursor to show (http://www.echoecho.com/csscursors.htm)
+     * @emits TK.GlobalCursor#globalcursor
+     */
     global_cursor: function (cursor) {
-        /**
-         * Adds a class <code>"toolkit-cursor-" + cursor</code> to the <code>document.body</code> to show a specific cursor.
-         * @method TK.GlobalCursor#global_cursor
-         * @param {string} cursor - The name of the cursor to show (http://www.echoecho.com/csscursors.htm)
-         * @emits TK.GlobalCursor#globalcursor
-         */
         TK.add_class(document.body, "toolkit-cursor-" + cursor);
         /**
          * Is fired when a cursor gets set
@@ -44,13 +44,13 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
          */
         this.fire_event("globalcursor", cursor);
     },
+    /**
+     * Removes the class from <code>document.body</code> node.
+     *
+     * @method TK.GlobalCursor#remove_cursor
+     * @param {string} cursor - The name of the cursor to remove (http://www.echoecho.com/csscursors.htm)
+     */
     remove_cursor: function (cursor) {
-        /**
-         * Removes the class from <code>document.body</code> node.
-         *
-         * @method TK.GlobalCursor#remove_cursor
-         * @param {string} cursor - The name of the cursor to remove (http://www.echoecho.com/csscursors.htm)
-         */
         TK.remove_class(document.body, "toolkit-cursor-" + cursor);
         /**
          * Is fired when a cursor is removed

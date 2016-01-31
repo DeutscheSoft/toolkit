@@ -20,29 +20,29 @@
  */
 "use strict";
 (function(w){ 
+/**
+ * Ranges provides multiple {@link TK.Range} for a widget. They
+ * can be used for building coordinate systems.
+ *
+ * @mixin TK.Ranges
+ */
 w.TK.Ranges = w.Ranges = $class({
-    /**
-     * Ranges provides multiple {@link TK.Range} for a widget. They
-     * can be used for building coordinate systems.
-     *
-     * @mixin TK.Ranges
-     */
     _class: "Ranges",
+    /**
+     * Add a new range. If name is set and this.options[name]
+     * exists, is an object and from is an object, too, both are merged
+     * before a range is created.
+     *
+     * @method TK.Ranges#add_range
+     * @param {Function|Object} from - A function returning a {@link TK.Range}
+     *   instance or an object containing options for a new {@link TK.Range}.
+     * @param {string} name - Designator of the new #TK.Range.
+     * If a name is set a new set function is added to the item to
+     * set the options of the range. Use the set function like this:
+     * this.set("name", {key: value});
+     * @returns {TK.Range} The new range.
+     */
     add_range: function (from, name) {
-        /**
-         * Add a new range. If name is set and this.options[name]
-         * exists, is an object and from is an object, too, both are merged
-         * before a range is created.
-         *
-         * @method TK.Ranges#add_range
-         * @param {Function|Object} from - A function returning a {@link TK.Range}
-         *   instance or an object containing options for a new {@link TK.Range}.
-         * @param {string} name - Designator of the new #TK.Range.
-         * If a name is set a new set function is added to the item to
-         * set the options of the range. Use the set function like this:
-         * this.set("name", {key: value});
-         * @returns {TK.Range} The new range.
-         */
         var r;
         if (typeof from == "function") {
             r = from();
@@ -66,8 +66,8 @@ w.TK.Ranges = w.Ranges = $class({
         /**
          * Gets fired when a new range is added
          *
-         * @event rangeadded
          * @type {TK.Range}
+         * @event rangeadded
          */
         this.fire_event("rangeadded", r);
         return r;
