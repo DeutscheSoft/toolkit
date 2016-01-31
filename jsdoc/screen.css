@@ -31,6 +31,7 @@ h1 {
     line-height: 1.3em;
     text-align: right;
     float: right;
+    margin-left: 1em;
 }
 
 h2 {
@@ -46,7 +47,7 @@ h2 {
 h3 {
     font-size: 2.5em !important;
     line-height: 2em;
-    clear: both;
+    clear: left;
     color: #999;
     margin: 0 !important;
 }
@@ -61,10 +62,15 @@ h5 {
     font-weight: bold;
     margin: 0;
     line-height: 2em;
+/*
+    clear: both;
+*/
 }
 h4.name {
     clear: both;
     font-size: 1.3em;
+    border-top: 1px solid #aaa;
+    margin-top: 1em;
 }
 
 p {
@@ -96,12 +102,15 @@ button:hover {
     
 }
 
+
+/* STRUCTURE */
+
 header {
     float: right;
 }
 section {
     background: transparent;
-    padding: 1em 1em !important;
+    padding: 2em 1em !important;
     max-width: 960px;
     text-align: left;
     margin: auto;
@@ -119,6 +128,10 @@ footer {
     text-align: right;
 }
 
+#main {
+    width: 100%;
+    float: none;
+}
 
 /* NAVIGATION */
 
@@ -218,17 +231,20 @@ footer {
 #navbutton {
     position: fixed;
     z-index: 1;
-    top: 0.2em;
+    top: 0em;
     left: 50%;
     width: 4em;
-    height: 1.2em;
+    height: 1.3em;
     box-sizing: border-box;
-    transition: transform 0.33s;
+    transition: all 0.33s;
     transform: translateX(-50%);
     background-image: url(images/menu.svg);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 0.9em 0.9em;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
     -webkit-border-bottom-right-radius: 0.25em;
     -webkit-border-bottom-left-radius: 0.25em;
     -moz-border-radius-bottomright: 0.25em;
@@ -237,7 +253,8 @@ footer {
     border-bottom-left-radius: 0.25em;
 }
 #navbutton:hover {
-    transform: translateX(-50%) scale(1.2, 1.2);
+    width: 5em;
+    height: 2em;
 }
 
 .subnav {
@@ -286,11 +303,7 @@ footer {
 .navicon-button {
     display: none;
 }
-#main {
-    width: 100%;
-    float: none;
-    margin-top: 1em;
-}
+
 
 
 /* SPECIAL STUFF */
@@ -315,11 +328,27 @@ footer {
 .details {
     font-size: 80%;
     float: right;
-    width: 30%;
+    width: 280px;
     margin: 0;
     border: none;
+    text-align: right;
+    margin-bottom: 2em;
 }
-
+.details dt {
+    background: rgba(255, 255, 255, 0.33);
+    margin-bottom: 1px;
+    width: 100px;
+    text-align: left;
+    display: block;
+}
+.details dd {
+    background: rgba(0, 0, 0, 0.05);
+    margin-left: 100px;
+    margin-bottom: 1px;
+    padding-left: 10px;
+    text-align: left;
+    display: block;
+}
 .details li {
     white-space: nowrap;
     margin: 0;
@@ -352,7 +381,6 @@ footer {
 }
 
 .container-overview {
-    float: left;
     clear: none;
 }
 
@@ -368,10 +396,19 @@ footer {
 .subsection-title + dl > dt {
     float: left;
     margin-right: 0.8em;
+    font-size: 1.3em;
+    margin-bottom: 1em;
 }
 .subsection-title + ul > li:before,
 .subsection-title + dl > dt:before {
     content: '• ';
+}
+
+
+dl.param-type {
+    border: none;
+    margin-bottom: 1em;
+    padding: 0;
 }
 
 .closebutton {
@@ -405,6 +442,7 @@ table code {
     border: 1px solid white;
     background: white;
     box-shadow: none !important;
+    width: 100%;
 }
 .prettyprint code {
     margin: 0;
@@ -423,7 +461,7 @@ table code {
     border-left: 1px solid #999;
 }
 table {
-    margin: 0px 0 2em 0;
+    margin: 0px 0 1em 0;
     width: 100%;
     border-collapse: collapse;
     overflow: auto !important;
@@ -434,6 +472,7 @@ table {
 table tr {
     background: none !important;
     border: 3px solid rgb(216,216,216);
+    border-width: 0px 0px 3px 0px;
 }
 table th {
     background: rgba(255,255,255,0.33);
