@@ -97,7 +97,7 @@ button:hover {
 
 section {
     background: transparent;
-    padding: 1em 2em !important;
+    padding: 1em 1em !important;
     max-width: 960px;
     text-align: left;
     margin: auto;
@@ -118,7 +118,7 @@ footer {
 
 #navigation {
     width: 100%;
-    max-width: 960px;
+    max-width: calc(960px - 2em);
     background: #003050;
     color: white;
     padding: 1em;
