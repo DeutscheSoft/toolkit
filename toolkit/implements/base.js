@@ -395,7 +395,7 @@ TK.Base = w.BASE = $class({
             try {
                 ev[i].apply(this, args);
             } catch (e) {
-                TK.log("event handler", ev[i], "threw", e);
+                TK.warn("event handler", ev[i], "threw", e);
             }
         }
     },
