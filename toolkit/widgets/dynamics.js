@@ -49,7 +49,6 @@ w.TK.Dynamics = w.Dynamics = $class({
         db_grid: 12,
         min:     -96,
         max:     24,
-        size:    400,
         scale:   "linear",
         type:    false,          // type of dynamics display. can be
                                  // "compressor", "limiter",

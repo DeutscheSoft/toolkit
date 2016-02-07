@@ -424,11 +424,11 @@ w.TK.Chart = w.Chart = $class({
         switch (key) {
             case "width":
                 this.set_style("width", value);
-                this.resize();
+                TK.error("using deprecated 'width' options");
                 return;
             case "height":
                 this.set_style("height", value);
-                this.resize();
+                TK.error("using deprecated 'height' options");
                 return;
         }
         value = TK.Widget.prototype.set.call(this, key, value);
