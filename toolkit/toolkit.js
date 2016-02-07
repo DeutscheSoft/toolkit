@@ -678,6 +678,20 @@ function is_dom_node(o) {
 // break an application
 
 /**
+ * Generates an error to the JavaScript console. This is virtually identical to console.error, however
+ * it can safely be used in browsers which do not support it.
+ * 
+ * @param {...*} args
+ * @function TK.error
+ */
+function error() {
+    if (!w.console) return;
+    try {
+        w.console.error.apply(w.console, arguments);
+    } catch(e) {}
+}
+
+/**
  * Generates a warning to the JavaScript console. This is virtually identical to console.warn, however
  * it can safely be used in browsers which do not support it.
  * 
@@ -816,6 +830,7 @@ TK = w.toolkit = {
     object_and: object_and,
     object_sub: object_sub,
     warn: warn,
+    error: error,
     log: log,
 };
 
