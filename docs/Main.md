@@ -5,7 +5,7 @@
 This is the official documentation for the toolkit audio widget library.
 This documentation consists of several introductory parts, which explain how
 toolkit Widgets interact with the DOM and how they can be layouted.
-In addition this documentation contains a compelte API documentation of all
+In addition this documentation contains a complete API documentation of all
 Widget classes and a series of interactive examples, which explain how widgets
 can be used in practice.
 
@@ -22,4 +22,4 @@ toolkit uses no external JavaScript libraries or frameworks.
 It is therefore expected to be compatible with any JavaScript framework, however this is not a design goal.
 toolkit should work in all browser which support ECMAScript 5.
 In addition there is some amount of compatibility code in order to allow it to run inside of Internet Explorer 9.
-Future versions of toolkit may remove these fall-backs.
+Future versions of toolkit may remove these fallbacks.
