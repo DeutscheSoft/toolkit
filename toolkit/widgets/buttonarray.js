@@ -141,10 +141,10 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         
         var vert = this.get("direction") == "vertical";
         
-        /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance. */
+        /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance */
         this.prev = new TK.Button({label: vert ? "▲" : "◄",
                                 class: "toolkit-previous"});
-        /** @member {TK.Button} TK.ButtonArray#next - The next arrow {@link TK.Button} instance. */
+        /** @member {TK.Button} TK.ButtonArray#next - The next arrow {@link TK.Button} instance */
         this.next = new TK.Button({label: vert ? "▼" : "►",
                                 class: "toolkit-next"});
         this.prev.add_event("click", prev_clicked.bind(this));
@@ -177,7 +177,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     },
     
     /**
-     * Adds a {@link TK.Button} to the TK.ButtonArray 
+     * Adds a {@link TK.Button} to the TK.ButtonArray.
      *
      * @method TK.ButtonArray#add_button
      * @param {Object|string} options - An object containing options for the {@link TK.Button} to add or a string for the label
@@ -221,7 +221,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         return b;
     },
     /**
-     * Removes a {@link TK.Button} from the ButtonArray
+     * Removes a {@link TK.Button} from the ButtonArray.
      *
      * @method TK.ButtonArray#remove_button
      * @param {integer|TK.Button} button - ID or {@link TK.Button} instance

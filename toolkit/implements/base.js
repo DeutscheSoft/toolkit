@@ -400,7 +400,7 @@ TK.Base = w.BASE = $class({
         }
     },
     /**
-     * Test if the event descriptor has some handler functions in the queue
+     * Test if the event descriptor has some handler functions in the queue.
      *
      * @method TK.Base#has_event_listeners
      * @param {string} event - The event desriptor
@@ -440,7 +440,7 @@ TK.Base = w.BASE = $class({
     },
     /**
      * Remove multiple event handlers at once, either as dedicated event handlers or a list of
-     * event descriptors with a single handler function
+     * event descriptors with a single handler function.
      *
      * @method TK.Base#remove_events
      * @param {Object | Array} events - Object with event descriptors as keys and functions as

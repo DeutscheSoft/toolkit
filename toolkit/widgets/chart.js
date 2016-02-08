@@ -369,7 +369,7 @@ w.TK.Chart = w.Chart = $class({
         TK.Widget.prototype.destroy.call(this);
     },
     /**
-     * Add a new TK.Graph to the Chart
+     * Add a new TK.Graph to the Chart.
      *
      * @method TK.Chart#add_graph
      */
@@ -395,7 +395,7 @@ w.TK.Chart = w.Chart = $class({
         return g;
     },
     /**
-     * Remove TK.Graph from the Chart
+     * Remove TK.Graph from the Chart.
      *
      * @method TK.Chart#remove_graph
      */

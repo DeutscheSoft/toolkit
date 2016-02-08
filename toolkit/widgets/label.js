@@ -22,7 +22,7 @@
 (function(w){ 
 w.TK.Label = w.Label = $class({
     /**
-     * TK.Label is a simple text field displaying strings
+     * TK.Label is a simple text field displaying strings.
      *
      * @class TK.Label
      * @extends TK.Widget

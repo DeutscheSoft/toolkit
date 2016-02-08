@@ -82,7 +82,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
          * @returns {number} The result in decibels
          * @description Calculates a value in decibels from a value
-         * between 0.0 and 1.0 and some lower and upper boundaries in decibels
+         * between 0.0 and 1.0 and some lower and upper boundaries in decibels.
          */
         coef = +coef;
         min = +min;
@@ -227,7 +227,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * @param {number} factor - Changes the deflection of the logarithm if other than 1.0
          * @returns {number} The result in hertz
          * @description Calculates a value in hertz from a value
-         * between 0.0 and scale and some lower and upper boundaries in hertz
+         * between 0.0 and scale and some lower and upper boundaries in hertz.
          */
         value = +value;
         min = +min;

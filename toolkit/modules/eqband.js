@@ -102,7 +102,7 @@ w.TK.EqBand = w.EqBand = $class({
     },
 
     /**
-     * Calculate the gain for a given frequency in Hz
+     * Calculate the gain for a given frequency in Hz.
      *
      * @method TK.EqBand#freq2gain
      * @param {number} freq - The frequency.

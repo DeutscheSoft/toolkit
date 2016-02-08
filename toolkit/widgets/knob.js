@@ -28,8 +28,8 @@ function dblclick() {
 }
 w.TK.Knob = w.Knob = $class({
     /**
-     * TK.Knob is a TK.Circular injected into a SVG and extended by ScrollValue
-     * and TK.DragValue to set its value. TK.Knob uses TK.DragValue and Scrollvalue
+     * TK.Knob is a {@link TK.Circular} injected into a SVG and extended by {@link TK.ScrollValue}
+     * and {@link TK.DragValue} to set its value. TK.Knob uses {@link TK.DragValue} and {@link TK.ScrollValue}
      * for setting its value.
      *
      * @class TK.Knob

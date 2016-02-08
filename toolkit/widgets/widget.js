@@ -466,7 +466,7 @@ TK.Widget = $class({
 
 /**
  * This is an alias for hide, which may be overloaded.
- * See TK.Container for an example.
+ * See {@link TK.Container} for an example.
  *
  * @method TK.Widget#force_hide
  */
@@ -474,7 +474,7 @@ TK.Widget.prototype.force_hide = TK.Widget.prototype.hide;
 
 /**
  * This is an alias for hide, which may be overloaded.
- * See TK.Container for an example.
+ * See {@link TK.Container} for an example.
  *
  * @method TK.Widget#force_show
  */

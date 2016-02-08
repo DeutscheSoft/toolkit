@@ -59,7 +59,7 @@ function disable_draw_children() {
 }
 w.TK.Container = w.Container = $class({
     /**
-     * TK.Container represents a <DIV> element.
+     * TK.Container represents a <code>&lt;DIV></code> element.
      *
      * @class TK.Container
      * @extends TK.Widget

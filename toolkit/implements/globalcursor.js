@@ -23,7 +23,7 @@
 /**
  * GlobalCursor adds global cursor classes to ensure
  * one of the standard cursors (http://www.echoecho.com/csscursors.htm)
- * is shown in the overall application
+ * is shown in the overall application.
  *
  * @mixin TK.GlobalCursor
  */
@@ -38,7 +38,7 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
     global_cursor: function (cursor) {
         TK.add_class(document.body, "toolkit-cursor-" + cursor);
         /**
-         * Is fired when a cursor gets set
+         * Is fired when a cursor gets set.
          * @event TK.GlobalCursor#globalcursor
          * @type {string}
          */
@@ -53,7 +53,7 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
     remove_cursor: function (cursor) {
         TK.remove_class(document.body, "toolkit-cursor-" + cursor);
         /**
-         * Is fired when a cursor is removed
+         * Is fired when a cursor is removed.
          * @event TK.GlobalCursor#cursorremoved
          * @type {string}
          */

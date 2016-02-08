@@ -486,7 +486,7 @@ w.TK.Ranged = w.Ranged = $class({
      * {@link TK.Graph}.
      *
      * Ranged features several types of coordinate systems which are often used in audio applications.
-     * They can be configured using the <code>options.scale</code> option, possible values are
+     * They can be configured using the <code>options.scale</code> option, possible values are:
      * <ul>
      *  <li><code>"linear"</code> for linear coordinates,
      *  <li><code>"decibel"</code> for linear coordinates,
