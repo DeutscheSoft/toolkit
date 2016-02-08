@@ -1,6 +1,6 @@
-This document describes briefly how toolkit widgets can be used inside of a HTML layout.
+# Widgets inside the DOM
 
-## Widgets inside the DOM
+This document describes briefly how toolkit widgets can be used inside of a HTML layout.
 
 Widgets are organized in a tree. This tree will usually be similar to the DOM
 tree, where each widgets consists of at least one DOM elements. There may be
