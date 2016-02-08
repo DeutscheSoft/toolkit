@@ -1,7 +1,7 @@
 This document describes how the toolkit library renders widgets. The different
 techniques used are important to understand when using toolkit widgets within
 other applications. This is especially true when widgets are dynamically resized
-or their style sheets are changes dynamically.
+or their style sheets are changed dynamically.
 This document also details some optimizations to increase DOM performance, which
 might be of interest to others.
 
@@ -36,13 +36,13 @@ There are several other optimizations which can be used when DOM manipulations
 are not performed immediately.
 
 * DOM manipulations can be completely disabled for widgets, which are not currently
-  visible
+  visible.
 * In modern browsers (especially on tablets and phones) rendering can be completely
   turned off when the application window is in the background. Note that this can
   not be easily done by completely disabling the application, since the application
   logic might need to continue running.
 
-toolkit furthermore employs a technique which we will explain in the following. We
+toolkit furthermore employs a technique which we will explain below. We
 call this technique **DOM scheduling**.
 
 The run time performance of code operating on the DOM tree can be substantially
@@ -50,7 +50,7 @@ influenced by the amount of reflows and style recalculations which it
 triggers. Style recalculations might be triggered by asking for the value of
 a computed style of an element. Likewise reflow operations might be necessary
 when asking for pixel positions or dimensions of an element, e.g. by reading 
-`element.offsetWidth`. Ideally, these kind of operations are avoided entirely,
+`element.offsetWidth`. Ideally, these kinds of operations are avoided entirely,
 however in some situations that might not be possible. Inside of toolkit there
 are several widgets which need to measure dimensions when rendering, for instance
 the `toolkit.Fader` element, which needs to measure the size of the fader handle,
@@ -89,7 +89,7 @@ Consider this rather artificial example:
     }
 
 In the above example `autosize()` will measure the size of the parent of `node` and
-resize `node` such that it fills its parent while staying quadratic. When called on
+resize `node` such that it fills its parent while staying square. When called on
 several nodes it will force a reflow once for each node. The number of reflows can be
 reduced to one by doing all the measurements before resizing all the nodes.
 
