@@ -54,8 +54,7 @@ when asking for pixel positions or dimensions of an element, e.g. by reading
 however in some situations that might not be possible. Inside of toolkit there
 are several widgets which need to measure dimensions when rendering, for instance
 the `toolkit.Fader` element, which needs to measure the size of the fader handle,
-in order to position the scale and background correctly. In order to reduce the
-performance impact of reflows and style recalculations 
+in order to position the scale and background correctly.
 
 On the other hand, the operations which might trigger reflows and style
 recalculations do so only if the DOM tree has been previously modified. If the DOM
