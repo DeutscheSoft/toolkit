@@ -266,6 +266,11 @@ w.TK.Fader = w.Fader = $class({
                 break;
         }
 
+        if (!TK.Widget.prototype._options[key] && TK.Scale.prototype._options[key]) {
+            this.scale.set(key, value);
+            this.fire_event("scalechanged", key, value);
+        }
+
         return TK.Widget.prototype.set.call(this, key, value);
     }
 });
