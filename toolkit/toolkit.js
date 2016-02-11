@@ -210,11 +210,11 @@ function html(s) {
     return f;
 }
 function set_content(node, s) {
-    if (typeof s === "string") {
-        set_text(node, s);
-    } else {
+    if (is_dom_node(s)) {
         empty(node);
         node.appendChild(s);
+    } else {
+        set_text(node, s + "");
     }
 }
 function insert_after(newn, refn) {
