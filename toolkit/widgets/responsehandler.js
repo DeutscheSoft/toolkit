@@ -76,7 +76,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
                                 // handles to gain importance
         importance_border: 50,  // multiplicator of square pixels on hit testing
                                 // borders to gain importance
-        range_z:           { scale: "linear" }, // TK.Range z options
+        range_z:           { scale: "linear", min: 0, max: 1 }, // TK.Range z options
         depth:             0,   // the depth of the z axis (basis of range_z)
         handles:           []   // list of bands to create on init
     },
