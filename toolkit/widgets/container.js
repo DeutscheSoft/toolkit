@@ -65,15 +65,23 @@ w.TK.Container = w.Container = $class({
      * @extends TK.Widget
      *
      * @param {Object} options
-     * @property {string|HTMLElement} options..content - The content of the container. It can either be
-     * a string which is interpreted as Text or a DOM node. Note that this options will remove all
-     * child nodes from the container element including those added via append_child.
+     * @property {string|HTMLElement} options.content - The content of the container. It can either be
+     *  a string which is interpreted as Text or a DOM node. Note that this options will remove all
+     *  child nodes from the container element including those added via append_child.
+     * @property {number} options.hiding_duration - The duration in ms of the hiding CSS
+     *  transition/animation of this container. If this option is not set, the transition duration
+     *  will be determined by the computed style, which can be rather
+     *  expensive. Setting this option explicitly can therefore be an optimization.
+     * @property {number} options.showing_duration - The duration in ms of the showing CSS
+     *  transition/animation of this container.
      */
     _class: "Container",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         content: "string",
         display_state: "string",
+        hiding_duration: "int",
+        showing_duration: "int",
     }),
     options: {
         display_state : "show",
@@ -256,7 +264,7 @@ w.TK.Container = w.Container = $class({
             switch (O.display_state) {
             case "hiding":
                 TK.add_class(E, "toolkit-hiding");
-                time = TK.get_duration(E);
+                time = O.hiding_duration || TK.get_duration(E);
                 if (time > 0) {
                     this.__hide_id = w.setTimeout(this.__after_hiding, time);
                     break;
@@ -273,7 +281,7 @@ w.TK.Container = w.Container = $class({
                     TK.S.after_frame(this.resize.bind(this));
                 }
                 TK.add_class(E, "toolkit-showing");
-                time = TK.get_duration(E);
+                time = O.showing_duration || TK.get_duration(E);
                 if (time > 0) {
                     this.__hide_id = w.setTimeout(this.__after_showing, time);
                     enable_draw_children.call(this);
