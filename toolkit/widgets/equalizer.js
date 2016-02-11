@@ -107,17 +107,22 @@ w.TK.Equalizer = w.Equalizer = $class({
         TK.ResponseHandler.prototype.resize.call(this);
     },
     add_band: function (options) {
-        options["container"] = this._bands;
-        if (typeof options["range_x"] == "undefined")
-            options["range_x"] = function () { return this.range_x; }.bind(this);
-        if (typeof options["range_y"] == "undefined")
-            options["range_y"] = function () { return this.range_y; }.bind(this);
-        if (typeof options["range_z"] == "undefined")
-            options["range_z"] = function () { return this.range_z; }.bind(this);
+        var b;
+        if (TK.EqBand.prototype.isPrototypeOf(options)) {
+          b = options;
+        } else {
+          options["container"] = this._bands;
+          if (typeof options["range_x"] == "undefined")
+              options["range_x"] = function () { return this.range_x; }.bind(this);
+          if (typeof options["range_y"] == "undefined")
+              options["range_y"] = function () { return this.range_y; }.bind(this);
+          if (typeof options["range_z"] == "undefined")
+              options["range_z"] = function () { return this.range_z; }.bind(this);
+          
+          options["intersect"] = this.intersect.bind(this);
+          b = new TK.EqBand(options);
+        }
         
-        options["intersect"] = this.intersect.bind(this);
-        
-        var b = new TK.EqBand(options);
         this.bands.push(b);
         var _mousemove = b._mousemove.bind(b);
         var _mouseup = b._mouseup.bind(b);
@@ -151,8 +156,8 @@ w.TK.Equalizer = w.Equalizer = $class({
     remove_band: function (h) {
         for (var i = 0; i < this.bands.length; i++) {
             if (this.bands[i] == h) {
-                this.remove_child(bands[i]);
-                this.bands[i].destroy();
+                this.remove_child(h);
+                h.destroy();
                 this.bands.splice(i, 1);
                 this.fire_event("bandremoved");
                 break;
