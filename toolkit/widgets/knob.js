@@ -137,6 +137,14 @@ w.TK.Knob = w.Knob = $class({
         TK.Widget.prototype.redraw.call(this);
     },
 
+    add_label: function(x) {
+        return this.circular.add_label(x);
+    },
+
+    remove_label: function(x) {
+        this.circular.remove_label(x);
+    },
+
     set: function(key, value) {
         // TK.Circular does the snapping
         if (!TK.Widget.prototype._options[key]) {
