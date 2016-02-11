@@ -20,6 +20,11 @@
  */
 "use strict";
 (function (w) {
+function interpret_label(x) {
+    if (typeof x === "object") return x;
+    if (typeof x === "number") return { pos: x };
+    TK.error("Unsupported label type ", x);
+}
 var __rad = Math.PI / 180;
 function _get_coords(deg, inner, outer, pos) {
     deg = deg * __rad;
@@ -136,7 +141,7 @@ function draw_labels() {
     var i;
 
     var l, p, positions = new Array(labels.length);
-    
+
     for (i = 0; i < labels.length; i++) {
         l = labels[i];
         p = TK.make_svg("text", {"class": "toolkit-label",
@@ -319,6 +324,9 @@ w.TK.Circular = w.Circular = $class({
         
         this._hand = TK.make_svg("rect", {"class": "toolkit-hand"});
         E.appendChild(this._hand);
+
+        if (this.options.labels)
+            this.set("labels", this.options.labels);
     },
 
     initialized: function () {
@@ -415,13 +423,60 @@ w.TK.Circular = w.Circular = $class({
         this._stroke = strokeb > strokev ? strokeb : strokev;
         return this._stroke;
     },
+
+    /**
+     * @method TK.Circular#add_label
+     *
+     * Adds a label.
+     *
+     * @param label - The label.
+     * @returns label
+     */
+    add_label: function(label) {
+        var O = this.options;
+
+        if (!O.labels) {
+            O.labels = [];
+        }
+
+        label = interpret_label(label);
+        
+        if (label) {
+            O.labels.push(label);
+            this.invalid.labels = true;
+            this.trigger_draw();
+            return label;
+        }
+    },
+
+    /**
+     * @method TK.Circular#remove_label
+     *
+     * Removes a label.
+     *
+     * @param label - The label.
+     * @returns label
+     */
+    remove_label: function(label) {
+        var O = this.options;
+
+        if (!O.labels) return;
+
+        var i = O.labels.indexOf(label);
+
+        if (i === -1) return;
+
+        O.labels.splice(i);
+        this.invalid.labels = true;
+        this.trigger_draw();
+    },
     
     // GETTERS & SETTERS
     set: function (key, value) {
         switch (key) {
         case "dots":
         case "markers":
-        case "labels":
+        case "label":
             value = Object.assign(this.options[key], value);
             break;
         case "base":
@@ -437,6 +492,12 @@ w.TK.Circular = w.Circular = $class({
             if (value > this.options.max || value < this.options.min)
                 this.warning(this.element);
             value = this.snap(value);
+            break;
+        case "labels":
+            if (value)
+                for (var i = 0; i < value.length; i++) {
+                    value[i] = interpret_label(value[i]);
+                }
             break;
         }
 
