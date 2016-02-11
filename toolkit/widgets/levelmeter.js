@@ -378,8 +378,15 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             if (O.falling) {
                 var v = this.effective_value();
                 var base = O.base;
-                if (v > base && value > base && value < v) return;
-                if (v < base && value < base && value > v) return;
+                if (v > base && value > base && value < v ||
+                    v < base && value < base && value > v) {
+                    /* NOTE: we are doing a falling animation, but maybe its not running */
+                    if (!this.invalid.value) {
+                        this.invalid.value = true;
+                        this.trigger_draw();
+                    }
+                    return;
+                }
             }
             if (O.auto_clip !== false && value > O.clipping && !this.__based) {
                 this.set("clip", true);
