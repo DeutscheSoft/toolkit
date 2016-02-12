@@ -129,7 +129,7 @@ w.TK.Graph = w.Graph = $class({
 
             if (typeof dots === "string") {
                 s = dots;
-            } else {
+            } else if (typeof dots === "object" && dots instanceof Array) {
                 s = "";
                 
                 if (typeof dots[0] != "undefined") {
@@ -196,6 +196,8 @@ w.TK.Graph = w.Graph = $class({
                     if (_s)
                         s += _s;
                 }
+            } else {
+                TK.error("Unsupported option 'dots':", dots);
             }
             if (s) E.setAttribute("d", s);
         }
