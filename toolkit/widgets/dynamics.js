@@ -154,8 +154,20 @@ w.TK.Dynamics = w.Dynamics = $class({
                             y: O.min + O.makeup});
                 curve.push({x: O.threshold,
                             y: O.threshold + O.makeup});
-                curve.push({x: O.max,
-                            y: O.threshold + (O.max - O.threshold) / O.ratio + O.makeup});
+                if (isFinite(O.ratio) && O.ratio > 0) {
+                    curve.push({x: O.max,
+                                y: O.threshold + O.makeup + (O.max - O.threshold) / O.ratio
+                               });
+                } else if (O.ratio === 0) {
+                    curve.push({x: O.threshold,
+                                y: O.max
+                               });
+                } else {
+                    curve.push({x: O.max,
+                                y: O.threshold
+                               });
+                }
+
                 break;
             case "limiter":
                 curve.push({x: O.min,
