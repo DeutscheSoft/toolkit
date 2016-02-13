@@ -368,18 +368,40 @@ w.TK.Chart = w.Chart = $class({
         this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
+    add_child: function(child) {
+        if (TK.Graph.prototype.isPrototypeOf(child)) {
+            this.add_graph(child);
+            return;
+        }
+
+        TK.Widget.prototype.add_child.call(this, child);
+    },
+    remove_child: function(child) {
+        if (TK.Graph.prototype.isPrototypeOf(child)) {
+            this.remove_graph(child);
+            return;
+        }
+
+        TK.Widget.prototype.remove_child.call(this, child);
+    },
     /**
      * Add a new TK.Graph to the Chart.
      *
      * @method TK.Chart#add_graph
      */
     add_graph: function (options) {
-        options["container"] = this._graphs;
-        if (!options.range_x)
-            options.range_x = function () { return this.range_x; }.bind(this);
-        if (!options.range_y)
-            options.range_y = function () { return this.range_y; }.bind(this);
-        var g = new TK.Graph(options);
+        var g;
+
+        if (TK.Graph.prototype.isPrototypeOf(options)) {
+            g = options;
+        } else {
+            g = new TK.Graph(options);
+        }
+
+        g.set("container", this._graphs);
+        if (!g.options.range_x) g.set("range_x", this.range_x);
+        if (!g.options.range_y) g.set("range_y", this.range_y);
+
         this.graphs.push(g);
         g.add_event("set", function (key, value, obj) {
             if (key == "color" || key == "class" || key == "key") {
@@ -391,7 +413,7 @@ w.TK.Chart = w.Chart = $class({
 
         this.invalid.graphs = true;
         this.trigger_draw();
-        this.add_child(g);
+        TK.Widget.prototype.add_child.call(this, g);
         return g;
     },
     /**
@@ -402,9 +424,10 @@ w.TK.Chart = w.Chart = $class({
     remove_graph: function (g) {
         var i;
         if ((i = this.graphs.indexOf(g)) !== -1) {
-            this.fire_event("graphremoved", this.graphs[i], i);
-            this.graphs[i].destroy();
+            this.fire_event("graphremoved", g, i);
+            g.destroy();
             this.graphs.splice(i, 1);
+            TK.Widget.prototype.remove_child.call(this, g);
             this.invalid.graphs = true;
             this.trigger_draw();
         }
