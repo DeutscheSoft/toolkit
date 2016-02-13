@@ -20,6 +20,10 @@
  */
 "use strict";
 (function(w) { 
+function range_change_cb() {
+    this.invalidate_all();
+    this.trigger_draw();
+};
 w.TK.Graph = w.Graph = $class({
     /**
      * TK.Graph is a single SVG path element. It provides
@@ -72,8 +76,6 @@ w.TK.Graph = w.Graph = $class({
         mode:      "line",
         base:      0,
         color:     "",
-        range_x:   {},
-        range_y:   {},
         width:     0,
         height:    0,
         key:       false
@@ -83,19 +85,11 @@ w.TK.Graph = w.Graph = $class({
         TK.Widget.prototype.initialize.call(this, options);
         this.element = this.widgetize(TK.make_svg("path"), true, true, true);
         TK.add_class(this.element, "toolkit-graph");
-        this.add_range(this.options.range_x, "range_x");
-        this.add_range(this.options.range_y, "range_y");
-        
+
+        if (this.options.range_x) this.set("range_x", this.options.range_x);
+        if (this.options.range_y) this.set("range_y", this.options.range_y);
         this.set("color", this.options.color);
         this.set("mode",  this.options.mode);
-
-        var cb = function() {
-            this.invalidate_all();
-            this.trigger_draw();
-        }.bind(this);
-        
-        this.range_x.add_event("set", cb);
-        this.range_y.add_event("set", cb);
     },
     
     redraw: function () {
@@ -281,6 +275,11 @@ w.TK.Graph = w.Graph = $class({
     set: function (key, value) {
         TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
+            case "range_x":
+            case "range_y":
+                this.add_range(value, key);
+                value.add_event("set", range_change_cb.bind(this));
+                break;
             case "width":
                 this.range_x.set("basis", value);
                 break;

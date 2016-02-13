@@ -51,8 +51,8 @@ w.TK.Equalizer = w.Equalizer = $class({
         this.svg.appendChild(this._bands);
             
         this.baseline = this.add_graph({
-            range_x:   function () { return this.range_x; }.bind(this),
-            range_y:   function () { return this.range_y; }.bind(this),
+            range_x:   this.range_x,
+            range_y:   this.range_y,
             container: this._bands,
             dots: [{x: 20, y: 0}, {x: 20000, y: 0}]
         });

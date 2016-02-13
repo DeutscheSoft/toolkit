@@ -46,6 +46,10 @@ w.TK.Ranges = w.Ranges = $class({
         var r;
         if (typeof from == "function") {
             r = from();
+        } else if (TK.Ranged.prototype.isPrototypeOf(from)) {
+            r = TK.Range(from.options);
+        } else if (TK.Range.prototype.isPrototypeOf(from)) {
+            r = from;
         } else {
             if (name
             && this.options[name]
