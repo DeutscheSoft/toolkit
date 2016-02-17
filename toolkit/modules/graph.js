@@ -24,6 +24,122 @@ function range_change_cb() {
     this.invalidate_all();
     this.trigger_draw();
 };
+function transform_dots(dots) {
+    if (typeof dots === "string") return dots;
+    if (typeof dots === "object") {
+        if (dots instanceof Array) {
+            if (!dots.length || !dots[0]) return null;
+            var ret = { };
+            var start, stop;
+
+            for (var name in dots[0]) if (dots[0].hasOwnProperty(name)) {
+                var a = [];
+                ret[name] = a;
+                for (var i = 0; i < dots.length; i++) {
+                    a[i] = dots[i][name];
+                }
+            }
+            return ret;
+        } else return dots;
+    } else {
+        TK.error("Unsupported option 'dots':", dots);
+        return "";
+    }
+}
+// this is not really a rounding operation but simply adds 0.5. we do this to make sure
+// that integer pixel positions result in actual pixels, instead of being spread across
+// two pixels with half opacity
+function svg_round(x) {
+    x = +x;
+    return x + 0.5;
+}
+function svg_round_array(x) {
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i]  = +x[i] + 0.5;
+    }
+    return x;
+}
+function _start(d, s) {
+    var w = this.range_x.options.basis;
+    var h = this.range_y.options.basis;
+    var t = this.options.type;
+    var m = this.options.mode;
+    var x = this.range_x.val2px(d.x[0]);
+    var y = this.range_y.val2px(d.y[0]);
+    switch (m) {
+        case "bottom":
+            // fill the lower part of the graph
+            s.push(
+                "M " + svg_round(x - 1) + " ",
+                svg_round(h + 1) + " " + t + " ",
+                svg_round(x - 1) + " ",
+                svg_round(y)
+            );
+            break;
+        case "top":
+            // fill the upper part of the graph
+            s.push("M " + svg_round(x - 1) + " " + svg_round(-1),
+                   " " + t + " " + svg_round(x - 1) + " ",
+                   svg_round(y)
+            );
+            break;
+        case "center":
+            // fill from the mid
+            s.push(
+                   "M " + svg_round(x - 1) + " ",
+                    svg_round(0.5 * h)
+            );
+            break;
+        case "base":
+            // fill from variable point
+            s.push(
+                   "M " + svg_round(x - 1) + " ",
+                    svg_round((1 - this.options.base) * h)
+            );
+            break;
+        default:
+            TK.error("Unsupported mode:", m);
+            /* FALL THROUGH */
+        case "line":
+            // fill nothing
+            s.push("M " + svg_round(x) + " " + svg_round(y));
+            break;
+    }
+}
+function _end(d, s) {
+    var a = 0.5;
+    var h = this.range_y.options.basis;
+    var t = this.options.type;
+    var m = this.options.mode;
+    var x = this.range_x.val2px(d.x[d.x.length-1]);
+    var y = this.range_y.val2px(d.y[d.y.length-1]);
+    switch (m) {
+        case "bottom":
+            // fill the graph below
+            s.push(" " + t + " " + svg_round(x) + " " + svg_round(h + 1) + " Z");
+            break;
+        case "top":
+            // fill the upper part of the graph
+            s.push(" " + t + " " + svg_round(x + 1) + " " + svg_round(-1) + " Z");
+            break;
+        case "center":
+            // fill from mid
+            s.push(" " + t + " " + svg_round(x + 1) + " " + svg_round(0.5 * h) + " Z");
+            break;
+        case "base":
+            // fill from variable point
+            s.push(" " + t + " " + svg_round(x + 1) + " " + svg_round((-m + 1) * h) + " Z");
+            break;
+        default:
+            TK.error("Unsupported mode:", m);
+            /* FALL THROUGH */
+        case "line":
+            // fill nothing
+            break;
+    }
+}
+    
 w.TK.Graph = w.Graph = $class({
     /**
      * TK.Graph is a single SVG path element. It provides
@@ -71,7 +187,7 @@ w.TK.Graph = w.Graph = $class({
         key: "string",
     }),
     options: {
-        dots:      [],
+        dots:      null,
         type:      "L",
         mode:      "line",
         base:      0,
@@ -90,6 +206,7 @@ w.TK.Graph = w.Graph = $class({
         if (this.options.range_y) this.set("range_y", this.options.range_y);
         this.set("color", this.options.color);
         this.set("mode",  this.options.mode);
+        if (this.options.dots) this.options.dots = transform_dots(this.options.dots);
     },
     
     redraw: function () {
@@ -104,9 +221,9 @@ w.TK.Graph = w.Graph = $class({
 
         if (I.mode) {
             I.mode = false;
-                TK.remove_class(E, "toolkit-filled");
-                TK.remove_class(E, "toolkit-outline");
-                TK.add_class(E, O.mode == "line" ?  "toolkit-outline" : "toolkit-filled");
+            TK.remove_class(E, "toolkit-filled");
+            TK.remove_class(E, "toolkit-outline");
+            TK.add_class(E, O.mode == "line" ?  "toolkit-outline" : "toolkit-filled");
         }
 
         if (I.validate("dots", "type", "width", "height")) {
@@ -117,83 +234,53 @@ w.TK.Graph = w.Graph = $class({
             var w = range_x.options.basis;
             var h = range_y.options.basis;
         
-            var s;
-            var init;
-
-
             if (typeof dots === "string") {
-                s = dots;
-            } else if (typeof dots === "object" && dots instanceof Array) {
-                s = "";
-                
-                if (typeof dots[0] != "undefined") {
-                    var _s = this._start(dots[0])
-                    if (_s) {
-                        s += _s;
-                        init = true;
-                    }
-                }
-                var _d, d, t, _t, _x, _y, _x1, _y1, _x2, _y2, f, _q;
-                for (_d = 0; _d < dots.length; _d ++) {
-                    d  = dots[_d];
-                    t = init ? O.type : "T";
-                    switch (t.substr(0,1)) {
-                        case "L":
-                        case "T":
-                            // line to and smooth quadric bezier
-                            _t = init ? " " + t : "M";
-                            _x = (range_x.val2px(d.x) + a);
-                            _y = (range_y.val2px(d.y) + a);
-                            s += _t + " " + _x + " " + _y;
-                            break;
-                        case "Q":
-                        case "S":
-                            // cubic bezier with reflection (S)
-                            // and smooth quadratic bezier with reflection of beforehand
-                            _x = (range_x.val2px(d.x) + a);
-                            _y = (range_y.val2px(d.y) + a);
-                            _x1 = (range_x.val2px(d.x1) + a);
-                            _y1 = (range_y.val2px(d.y1) + a);
-                            s += " " + t + _x1 + "," + _y1 + " " + _x + "," + _y;
-                            break;
-                        case "C":
-                            // cubic bezier
-                            _t = init ? " " + t : "M";
-                            _x = (range_x.val2px(d.x) + a);
-                            _y = (range_y.val2px(d.y) + a);
-                            _x1 = (range_x.val2px(d.x1) + a);
-                            _y1 = (range_y.val2px(d.y1) + a);
-                            _x2 = (range_x.val2px(d.x2) + a);
-                            _y2 = (range_y.val2px(d.y2) + a);
-                            s += t_ + " " + _x1 + "," + _y1 + " " + _x2 + "," + _y2 + " "
-                                 + _x + "," + _y;
-                            break;
-                        case "H":
-                            f = t.substr(1) ? parseFloat(t.substr(1)) : 3;
-                            _x = (range_x.val2px(d.x));
-                            _y = _y1 = (range_y.val2px(d.y) + a);
-                            if (_d && _d != (dots.length - 1)) {
-                                _q = range_x.val2px(dots[_d - 1].x);
-                                _x1 =  (_x - Math.round((_x - _q) / f) + a);
-                            } else {
-                                _x1 = _x;
-                            }
-                            s += " S" + _x1 + "," + _y1 + " " + _x + "," + _y;
-                            break;
-                        default:
-                            TK.warn("Unsupported dot type:", t);
-                    }
-                    init = true;
-                }
-                if (typeof dots[dots.length-1] != "undefined") {
-                    _s = this._end(dots[dots.length - 1])
-                    if (_s)
-                        s += _s;
-                }
+                E.setAttribute("d", dots);
+            } else if (!dots) {
+                E.setAttribute("d", "");
             } else {
-                TK.error("Unsupported option 'dots':", dots);
+                var x = svg_round_array(dots.x.map(range_x.val2px));
+                var y = svg_round_array(dots.y.map(range_y.val2px));
+                var x1, x2, y1, y2;
+                // if we are drawing a line, _start will do the first point
+                var i = O.type === "line" ? 1 : 0;
+                var s = [];
+
+                _start.call(this, dots, s);
+
+                switch (O.type.substr(0,1)) {
+                case "L":
+                case "T":
+                    for (; i < x.length; i++)
+                        s.push(" " + O.type + " " + x[i] + " " + y[i]);
+                    break;
+                case "Q":
+                case "S":
+                    x1 = svg_round_array(dots.x1.map(range_x.val2px));
+                    y1 = svg_round_array(dots.y1.map(range_y.val2px));
+                    for (; i < x.length; i++)
+                        s.push(" " + O.type + " "
+                                 + x1[i] + "," + y1[i] + " "
+                                 + x[i] + "," + y[i]);
+                    break;
+                case "C":
+                    x1 = svg_round_array(dots.x1.map(range_x.val2px));
+                    x2 = svg_round_array(dots.x2.map(range_x.val2px));
+                    y1 = svg_round_array(dots.y1.map(range_y.val2px));
+                    y2 = svg_round_array(dots.y2.map(range_y.val2px));
+                    for (; i < x.length; i++)
+                        s.push(" " + O.type + " "
+                            + x1[i] + "," + y1[i] + " "
+                            + x2[i] + "," + y2[i] + " "
+                            + x[i] + "," + y[i]);
+                    break;
+                default:
+                    TK.error("Unsupported graph type", O.type);
+                }
+                
+                _end.call(this, dots, s);
+                E.setAttribute("d", s.join(""));
             }
-            if (s) E.setAttribute("d", s);
         }
         TK.Widget.prototype.redraw.call(this);
     },
@@ -202,77 +289,11 @@ w.TK.Graph = w.Graph = $class({
         TK.Widget.prototype.destroy.call(this);
     },
     
-    // HELPERS & STUFF
-    _start: function (d) {
-        var a = 0.5;
-        var w = this.range_x.options.basis;
-        var h = this.range_y.options.basis;
-        var t = this.options.type;
-        var m = this.options.mode;
-        var s = "";
-        switch (m) {
-            case "bottom":
-                // fill the lower part of the graph
-                s += "M " + (this.range_x.val2px(d.x) - 1) + " ";
-                s += ((h + 1) + a) + " " + t + " ";
-                s += (this.range_x.val2px(d.x) - 1 + a) + " ";
-                s += (this.range_y.val2px(d.y) + a);
-                return s;
-            case "top":
-                // fill the upper part of the graph
-                s += "M " + (this.range_x.val2px(d.x) - 1) + " " + (-1 + a);
-                s += " " + t + " " + (this.range_x.val2px(d.x) - 1 + a) + " "
-                s += (this.range_y.val2px(d.y) + a);
-                return s;
-            case "center":
-                // fill from the mid
-                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
-                s += (0.5 * h) + a;
-                return s;
-            case "base":
-                // fill from variable point
-                s += "M " + (this.range_x.val2px(d.x) - 1 + a) + " ";
-                s += ((-this.options.base + 1) * h + a);
-                return s;
-            case "line":
-                // fill nothing
-                break;
-            default:
-                TK.warn("Unsupported mode:", m);
-        }
-    },
-    _end: function (d) {
-        var a = 0.5;
-        var h = this.range_y.options.basis;
-        var t = this.options.type;
-        var m = this.options.mode;
-        switch (m) {
-            case "bottom":
-                // fill the graph below
-                return " " + t + " " + (this.range_x.val2px(d.x) + a) + " "
-                       + (parseInt(h + 1) + a) + " Z";
-            case "top":
-                // fill the upper part of the graph
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a)
-                       + " " + (-1 + a) + " Z";
-            case "center":
-                // fill from mid
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
-                       + ((0.5 * h) + a) + " Z";
-            case "base":
-                // fill from variable point
-                return " " + t + " " + (this.range_x.val2px(d.x) + 1 + a) + " "
-                       + (((-m + 1) * h) + a) + " Z";
-            case "line":
-                // fill nothing
-                break;
-            default:
-                TK.warn("Unsupported mode:", m);
-        }
-    },
-    
     // GETTER & SETTER
     set: function (key, value) {
+        if (key === "dots") {
+            value = transform_dots(value);
+        }
         TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "range_x":
