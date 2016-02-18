@@ -328,6 +328,7 @@ w.TK.Chart = w.Chart = $class({
             this.set("_height", h);
             this.range_y.set("basis", h);
         }
+        this.invalid._resized = true;
     },
     redraw: function () {
         var I = this.invalid;
@@ -340,6 +341,7 @@ w.TK.Chart = w.Chart = $class({
              * they do depend on the size */
             I.title = true;
             I.key = true;
+            I._resized = true;
             var w = this.options._width;
             var h = this.options._height;
             if (w && h) {
@@ -358,6 +360,10 @@ w.TK.Chart = w.Chart = $class({
         }
         if (I.validate("key", "key_size", "graphs")) {
             draw_key.call(this);
+        }
+        if (I.validate("_resized")) {
+            I._resized = false;
+            TK.seat_svg(this.svg);
         }
     },
     destroy: function () {
