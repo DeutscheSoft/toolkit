@@ -323,12 +323,16 @@ w.TK.Chart = w.Chart = $class({
         if (w > 0 && O._width != w) {
             this.set("_width", w);
             this.range_x.set("basis", w);
+            this.invalid.ranges = true;
+            this.trigger_draw();
         }
         if (h > 0 && O._height != h) {
             this.set("_height", h);
             this.range_y.set("basis", h);
+            this.invalid.ranges = true;
+            this.trigger_draw();
         }
-        this.invalid._resized = true;
+        TK.S.after_frame(TK.seat_svg.bind(this, this.svg));
     },
     redraw: function () {
         var I = this.invalid;
@@ -336,12 +340,11 @@ w.TK.Chart = w.Chart = $class({
 
         TK.Widget.prototype.redraw.call(this);
 
-        if (I.validate("_width", "_height", "ranges")) {
+        if (I.validate("ranges", "range_x", "range_y")) {
             /* we need to redraw both key and title, because
              * they do depend on the size */
             I.title = true;
             I.key = true;
-            I._resized = true;
             var w = this.options._width;
             var h = this.options._height;
             if (w && h) {
@@ -360,10 +363,6 @@ w.TK.Chart = w.Chart = $class({
         }
         if (I.validate("key", "key_size", "graphs")) {
             draw_key.call(this);
-        }
-        if (I.validate("_resized")) {
-            I._resized = false;
-            TK.seat_svg(this.svg);
         }
     },
     destroy: function () {
