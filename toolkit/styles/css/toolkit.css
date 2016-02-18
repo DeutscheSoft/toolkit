@@ -567,3 +567,20 @@ pre, code {
     height: 100%;
 }
 
+/* POPUP */
+
+.toolkit-popup.toolkit-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000000;
+    margin: 0;
+}
+.toolkit-popup .toolkit-button {
+    display: none;
+}
+.toolkit-popup.toolkit-fullscreen .toolkit-button {
+    display: block;
+}
