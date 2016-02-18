@@ -569,7 +569,7 @@ pre, code {
 
 /* POPUP */
 
-.toolkit-popup.toolkit-fullscreen {
+.toolkit-expanded.toolkit-expanded {
     position: fixed;
     top: 0;
     left: 0;
@@ -578,9 +578,9 @@ pre, code {
     z-index: 1000000;
     margin: 0;
 }
-.toolkit-popup .toolkit-button {
+.toolkit-expanded .toolkit-button {
     display: none;
 }
-.toolkit-popup.toolkit-fullscreen .toolkit-button {
+.toolkit-expanded.toolkit-expanded .toolkit-button {
     display: block;
 }

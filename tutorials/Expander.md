@@ -41,13 +41,13 @@
             mode: _TOOLKIT_BOTTOM,
             key:  "foobar"
         });
-        popup = new Popup();
-        root.append_child(popup);
-        popup.append_child(chart);
+        expander = new Expander();
+        root.append_child(expander);
+        expander.append_child(chart);
         TK.seat_all_svg();
     }
 <pre class='css prettyprint source'><code>
-.toolkit-popup {
+.toolkit-expander {
     margin: 10px;
     width: calc(100% - 20px);
     height: calc(100% - 20px);
@@ -56,7 +56,7 @@
     width: 100%;
     height: 100%;
 }
-.toolkit-fullscreen .toolkit-chart {
+.toolkit-expanded .toolkit-chart {
     width: 90%;
     height: 90%;
     position: absolute;

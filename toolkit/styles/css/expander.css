@@ -1,7 +1,7 @@
-.toolkit-popup {
+.toolkit-expander {
     background: rgba(216, 216, 216, 0.9);
 }
-.toolkit-popup .toolkit-button {
+.toolkit-expander .toolkit-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -9,8 +9,8 @@
     height: 42px;
     margin: 0;
 }
-.toolkit-popup.toolkit-fullscreen .toolkit-button::after,
-.toolkit-popup.toolkit-fullscreen .toolkit-button::before {
+.toolkit-expander.toolkit-expanded .toolkit-button::after,
+.toolkit-expander.toolkit-expanded .toolkit-button::before {
     content: "";
     display: block;
     position: absolute;
@@ -21,6 +21,6 @@
     transform: rotate(45deg);
     background: #003050;
 }
-.toolkit-popup.toolkit-fullscreen .toolkit-button::before {
+.toolkit-expander.toolkit-expanded .toolkit-button::before {
     transform: rotate(135deg);
 }

@@ -35,7 +35,7 @@ js_input_files = \
     toolkit/widgets/clock.js\
     toolkit/widgets/state.js\
     toolkit/widgets/pager.js\
-    toolkit/widgets/popup.js\
+    toolkit/widgets/expander.js\
     toolkit/widgets/meterbase.js\
     toolkit/widgets/levelmeter.js\
     toolkit/widgets/chart.js\
@@ -83,7 +83,7 @@ css_input_files = \
     toolkit/styles/css/label.css \
     toolkit/styles/css/container.css \
     toolkit/styles/css/pager.css \
-    toolkit/styles/css/popup.css \
+    toolkit/styles/css/expander.css \
     toolkit/styles/css/valueknob.css \
 
 toolkit.min.js:	$(js_input_files) makefile
