@@ -87,7 +87,9 @@
         }
         function setup_stylesheet(current, code) {
             var style = document.createElement("STYLE");
-            style.innerText = code.textContent;
+            style.setAttribute("type", "text/css");
+            if (style.styleSheet) style.styleSheet.cssText = code.textContent;
+            else style.appendChild(document.createTextNode(code.textContent));
             document.head.appendChild(style);
             var h = document.createElement("h2");
             h.appendChild(document.createTextNode("Stylesheet"));
