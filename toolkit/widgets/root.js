@@ -33,6 +33,9 @@ function resized() {
         TK.S.add(this.resize.bind(this));
     }
 }
+function loaded() {
+    this.remove_class("toolkit-loading");
+}
 /**
  * @extends TK.Container
  * @class TK.Root
@@ -43,12 +46,13 @@ w.TK.Root = w.Root = $class({
     _options: Object.create(TK.Container.prototype._options),
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
-        TK.add_class(this.element, "toolkit-root");
+        TK.add_class(this.element, "toolkit-root", "toolkit-loading");
         this._resize_cb = resized.bind(this);
         this._visibility_cb = visibility_change.bind(this);
         this.resize_event = false;
         w.addEventListener("resize", this._resize_cb);
-        document.addEventListener("visibilitychange", this._visibility_cb, false)
+        document.addEventListener("visibilitychange", this._visibility_cb, false);
+        document.addEventListener("DOMContentLoaded", loaded.bind(this));
     },
     initialized: function () {
         TK.Container.prototype.initialized.call(this);
