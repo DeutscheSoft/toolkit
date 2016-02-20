@@ -185,6 +185,7 @@ w.TK.Graph = w.Graph = $class({
         width: "number",
         height: "number",
         key: "string",
+        element: undefined,
     }),
     options: {
         dots:      null,
