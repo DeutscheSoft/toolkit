@@ -84,8 +84,6 @@ TK.Widget = $class({
     initialize: function (options) {
         // Main actions every widget needs to take
         if (!options) options = {};
-        if (!options.id)
-            options.id = TK.unique_id();
         /** @property {HTMLElement} TK.Widget#element - The main element. */
         if (options.element)
             this.element = options.element;
@@ -167,7 +165,7 @@ TK.Widget = $class({
         if (E) {
             if (I.id) {
                 I.id = false;
-                E.setAttribute("id", O.id);
+                if (O.id) E.setAttribute("id", O.id);
             }
         }
 
@@ -263,10 +261,17 @@ TK.Widget = $class({
         
         // classify?
         TK.add_class(element, "toolkit-widget");
-        if (this.options.id)
-            element.setAttribute("id", this.options.id);
-        if (this.options["class"])
-            TK.add_class(element, this.options["class"]);
+        if (!this.options.id) {
+            this.options.id = element.getAttribute("id");
+            if (!this.options.id) {
+                element.setAttribute("id", this.options.id = TK.unique_id());
+            }
+        } else element.setAttribute("id", this.options.id);
+        if (this.options.class) {
+            var c = this.options.class.split(" ");
+            for (var i = 0; i < c.length; i++)
+                TK.add_class(element, c[i]);
+        }
         if (this.options.container)
             this.options.container.appendChild(element);
         if (delegate)
