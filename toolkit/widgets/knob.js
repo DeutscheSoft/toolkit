@@ -72,12 +72,11 @@ w.TK.Knob = w.Knob = $class({
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E, S;
-
         if (!(E = this.element)) this.element = E = TK.element("div")
         TK.add_class(E, "toolkit-knob");
 
         this.svg = S = TK.make_svg("svg");
-
+        
         var co = TK.object_and(this.options, TK.Circular.prototype._options);
         co = TK.object_sub(co, TK.Widget.prototype._options);
         co.container = S;
@@ -111,7 +110,7 @@ w.TK.Knob = w.Knob = $class({
         });
 
         E.appendChild(S);
-        
+        this.set("base", this.options.base);
         if (typeof this.options.reset == "undefined")
             this.options.reset = this.options.value;
         this.add_event("dblclick", dblclick);
@@ -146,6 +145,10 @@ w.TK.Knob = w.Knob = $class({
     },
 
     set: function(key, value) {
+        if (key === "base") {
+            if (value === false) value = this.options.min;
+            this.fire_event("basechanged", value);
+        }
         // TK.Circular does the snapping
         if (!TK.Widget.prototype._options[key]) {
             if (TK.Circular.prototype._options[key])
