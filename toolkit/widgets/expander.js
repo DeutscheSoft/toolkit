@@ -21,16 +21,9 @@
 "use strict";
 (function(w){ 
 function toggle(e) {
-    if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    
-    this.set("expanded", !this.options.expanded);
-
-    return false;
+    return collapse.call(this, !this.options.expanded, e);
 }
-function click(state, e) {
+function collapse(state, e) {
     if (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -74,13 +67,13 @@ w.TK.Expander = w.Expander = $class({
     },
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
-        this.add_event("click", click.bind(this, true));
         TK.add_class(this.element, "toolkit-expander");
-        this.close = new TK.Button({
+        this.button = new TK.Button({
             onclick: toggle.bind(this),
             container: this.element,
+            "class": "toolkit-toggle-expand"
         });
-        this.add_event("hide", click.bind(this, false));
+        this.add_event("hide", collapse.bind(this, false));
         this.set("expanded", this.options.expanded);
     },
     set: function(key, value) {

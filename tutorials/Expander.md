@@ -1,5 +1,6 @@
     function run_chart (root) {
         chart = new Chart({
+            _fixed: true,
             range_x: {scale: _TOOLKIT_LINEAR, min:0, max:1},
             range_y: {scale: _TOOLKIT_LINEAR, min:0, max:1},
             grid_x: [{pos:0.0, label:"0"},
@@ -41,7 +42,7 @@
             mode: _TOOLKIT_BOTTOM,
             key:  "foobar"
         });
-        expander = new Expander();
+        expander = new Expander({"class":"toolkit-popup"});
         root.append_child(expander);
         expander.append_child(chart);
         TK.seat_all_svg();

@@ -578,9 +578,9 @@ pre, code {
     z-index: 1000000;
     margin: 0;
 }
-.toolkit-expanded .toolkit-button {
+.toolkit-expanded .toolkit-toggle-expander {
     display: none;
 }
-.toolkit-expanded.toolkit-expanded .toolkit-button {
+.toolkit-expanded.toolkit-expanded .toolkit-toggle-expander {
     display: block;
 }
