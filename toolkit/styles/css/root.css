@@ -1,0 +1,15 @@
+.toolkit-root {
+    
+}
+.toolkit-root.toolkit-loading {
+    background-image: url(../images/loading.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.toolkit-root * {
+    visibility: visible;
+}
+.toolkit-root.toolkit-loading * {
+    visibility: hidden;
+}
