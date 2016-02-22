@@ -597,7 +597,7 @@ function seat_svg(e) {
     if (e.parentElement && get_style(e.parentElement, "text-align") == "center")
         l += 0.5;
     e.style.marginLeft = l + "px";
-    console.log(l);
+    //console.log(l);
     if (retrieve(e, "margin-top") === null) {
         store(e, "margin-top", parseFloat(get_style(e, "margin-top")));
     } else {
@@ -610,7 +610,7 @@ function seat_svg(e) {
         if (x < 0.5) t -= y;
         else t += (1 - y);
     }
-    console.log(t);
+    //console.log(t);
     e.style.marginTop = t + "px";
 }
 function delayed_callback(timeout, cb, once) {
