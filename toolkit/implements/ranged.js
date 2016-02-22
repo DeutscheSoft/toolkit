@@ -561,7 +561,7 @@ w.TK.Ranged = w.Ranged = $class({
     initialized: function () {
         var O = this.options;
         if (O.min === O.max)
-            TK.warn("Ranged needs distinct min and max values in", O);
+            TK.warn("Ranged needs distinct min and max values (", O.min, ",", O.max, ") in", O);
         update_snap.call(this);
         update_transformation.call(this);
         this.add_event("set", set_cb);
