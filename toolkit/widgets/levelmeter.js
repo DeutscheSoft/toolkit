@@ -191,13 +191,9 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         this._clip       = this.state.element;
         this._peak       = TK.element("div","toolkit-peak");
         this._peak_label = TK.element("div","toolkit-peak-label");
-        this._mask3      = TK.element("div","toolkit-mask","toolkit-mask3");
-        this._mask4      = TK.element("div","toolkit-mask","toolkit-mask4");
         
         this.element.appendChild(this._clip);
         this._peak.appendChild(this._peak_label);
-        this._bar.appendChild(this._mask3);
-        this._bar.appendChild(this._mask4);
         this._bar.appendChild(this._peak);
         
         if (O.peak === false)
@@ -249,8 +245,6 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         this.state.destroy();
         this._peak.remove();
         this._peak_label.remove();
-        this._mask3.remove();
-        this._mask4.remove();
         TK.MeterBase.prototype.destroy.call(this);
     },
     reset_peak: function () {
@@ -326,48 +320,46 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         }
 
         var is_vertical = !!vert(O);
-        
-        if (!O.show_hold) {
-            TK.MeterBase.prototype.draw_meter.call(this, value);
-        } else {
-            var m1 = this._mask1.style;
-            var m3 = this._mask3.style;
-           
-            // shorten things
-            var r         = O.reverse;
-            var size      = O.basis;
-            var top       = O.top;
-            var hold_size = O.hold_size;
-            var segment   = O.segment;
-            
-            var _top      = +this._val2seg(Math.max(top, base));
-            var top_val   = +this._val2seg(Math.max(value, base));
-            var top_top   = Math.max(top_val, _top);
-            var top_bot   = top_top - segment * hold_size;
-            var top_size  = Math.max(0, _top - top_val - segment * hold_size);
-            
-            m1[is_vertical ? "height" : "width"] = Math.max(0, size - top_top) + "px";
-            m3[is_vertical ? (r ? "bottom" : "top")
-                            : (r ? "left" : "right")] = (size - top_bot) + "px";
-            m3[is_vertical ? "height" : "width"] = top_size + "px";
-            
-            if (this.__based) {
-                var bottom    = O.bottom;
 
-                var m2 = this._mask2.style;
-                var m4 = this._mask4.style;
-                var _bot     = +this._val2seg(Math.min(bottom, base));
-                var bot_val  = +this._val2seg(Math.min(value, base));
-                var bot_bot  = Math.min(bot_val, _bot);
-                var bot_top  = bot_bot + segment * hold_size;
-                var bot_size = Math.max(0, bot_val - bot_top);
-                
-                m2[is_vertical ? "height" : "width"] = Math.max(0, bot_bot) + "px";
-                m4[is_vertical ? (r ? "top" : "bottom")
-                        : (r ? "right" : "left")] = bot_top + "px";
-                m4[is_vertical ? "height" : "width"] = bot_size + "px";
+        TK.MeterBase.prototype.draw_meter.call(this, value);
+        
+        if (!O.show_hold) return;
+
+        var ctx = this._ctx;
+
+        var w = O._width|0;
+        var h = O._height|0;
+        // shorten things
+        var hold       = +O.top;
+        var segment   = O.segment|0;
+        var hold_size = O.hold_size|0 * segment;
+        var base      = +O.base;
+        var pos;
+        var size = O.basis|0;
+
+        if (hold > base) {
+            /* TODO: lets snap in set() */
+            pos = size - this.val2px(this.snap(hold))|0;
+            if (segment !== 1) pos -= pos % segment;
+
+            if (is_vertical) {
+                ctx.clearRect(0, pos, w, hold_size);
+            } else {
+                ctx.clearRect(pos, 0, hold_size, h);
             }
-            this.fire_event("drawmeter");
+        }
+
+        hold = +O.bottom;
+
+        if (hold < base) {
+            pos = size - this.val2px(this.snap(hold))|0;
+            if (segment !== 1) pos -= pos % segment;
+
+            if (is_vertical) {
+                ctx.clearRect(0, pos, w, hold_size);
+            } else {
+                ctx.clearRect(pos, 0, hold_size, h);
+            }
         }
     },
     

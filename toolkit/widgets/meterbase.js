@@ -26,11 +26,36 @@ function vert(O) {
 w.TK.MeterBase = w.MeterBase = $class({
     /**
      * TK.MeterBase is a base class to build different meters like TK.LevelMeter.
-     * TK.MeterBase extends Gradient and implements TK.Widget.
-     * TK.MeterBase has a TK.Scale widget.
+     * TK.MeterBase uses TK.Gradient and has a TK.Scale widget. TK.MeterBase inherits all
+     * options from TK.Scale, like <code>division</code>, <code>levels</code>.
      *
      * @class TK.MeterBase
      * @extends TK.Widget
+     *
+     * @param {Object} options
+     * @property {string} [options.layout="left"] - A string describing the layout of the meter.
+     *  Possible values are <code>"left"</code>, <code>"right"</code>, <code>"top"</code> and 
+     *  <code>"bottom"</code>. <code>"left"</code> and <code>"right"</code> are vertical
+     *  layouts, where the meter is on the left or right of the scale, respectively. Similarly,
+     *  <code>"top"</code> and <code>"bottom"</code> are horizontal layouts in which the meter
+     *  is at the top or the bottom, respectively.
+     * @property {int} [options.segment=1] - Segment size. Pixel positions of the meter level are
+     *  rounded to multiples of this size. This can be used to give the level meter a LED effect.
+     * @property {number} [options.value=0] - Level value.
+     * @property {number} [options.base=false] - The base value of the meter. If set to <code>false</code>,
+     *  the base will coincide with the minimum value <code>options.min</code>. The meter level is drawn
+     *  starting from the base to the value.
+     * @property {number} [options.label=false] - Value of the label position. 
+     * @property {number} [options.title=""] - The title.
+     * @property {boolean} [options.show_title=false] - If set to <code>true</code> a title is displayed.
+     * @property {boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
+     * @property {boolean} [options.show_scale=true] - If set to <code>true</code> the scale is displayed.
+     * @property {boolean} [options.show_marker=false] - If set to <code>true</code> the bar markers are
+     *  drawn.
+     * @property {function} [options.format_label=TK.FORMAT("%.2f")] - Function for formatting the 
+     *  label.
+     * @property {number} [options.scale_base] - Base of the meter scale.
+     *
      */
     
     _class: "MeterBase",
@@ -89,7 +114,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         show_labels:     true,            // true for drawing scale labels
         show_marker:     false,           // true for drawing bar markers
                                           // (relies on a drawn scale)
-        format_label:    function (value) { return value.toFixed(2); },
+        format_label:    TK.FORMAT("%.2f"),
                                           // callback function for formatting
                                           // the label
         division:         1,              // minimum step size
@@ -97,7 +122,7 @@ w.TK.MeterBase = w.MeterBase = $class({
                                           // and marker
         scale_base:       false,          // base value where dots and labels are
                                           // drawn from
-        format_labels:    function (val) { return val.toFixed(2); },
+        format_labels:    TK.FORMAT("%.2f"),
                                           // callback function for formatting
                                           // the labels of the scale
         gap_dots:         4,              // minimum gap between dots (pixel)
@@ -121,20 +146,19 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._bar    = TK.element("div", "toolkit-bar");
         this._mark   = TK.element("div", "toolkit-mark");
         this._over   = TK.element("div", "toolkit-over");
-        this._mask1  = TK.element("div", "toolkit-mask", "toolkit-mask1");
-        this._mask2  = TK.element("div", "toolkit-mask", "toolkit-mask2");
+
+        this._canvas = document.createElement("canvas");
+        this._ctx = this._canvas.getContext("2d");
+        TK.add_class(this._canvas, "toolkit-mask");
         
         E.appendChild(this._title);
         E.appendChild(this._label);
         E.appendChild(this._bar);
 
-        this._bar.appendChild(this._mask1);
-        this._bar.appendChild(this._mask2);
-        this._bar.appendChild(this._mark);
         this._bar.appendChild(this._over);
+        this._bar.appendChild(this._canvas);
         
-        if (O.label === false)
-            O.label = O.value;
+        this.set("label", O.value);
         this.set("base", O.base);
         
         var options = TK.object_and(O, TK.Scale.prototype._options);
@@ -146,6 +170,9 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._scale       = this.scale.element;
         this.add_child(this.scale);
         this.delegate(this._bar);
+
+        this._ctx.fillStyle = TK.get_style(this._canvas, "background-color");
+        this._canvas.style.background = 'none';
     },
 
     initialized: function () {
@@ -160,8 +187,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._title.remove();
         this._mark.remove();
         this._over.remove();
-        this._mask1.remove();
-        this._mask2.remove();
         this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
@@ -233,6 +258,11 @@ w.TK.MeterBase = w.MeterBase = $class({
                     throw("unsupported layout");
             }
         }
+
+        if (I.basis && O._height && O._width) {
+            this._canvas.setAttribute("height", O._height + "px");
+            this._canvas.setAttribute("width", O._width + "px");
+        }
         
         if (I.value || I.basis) {
             I.value = false;
@@ -267,7 +297,11 @@ w.TK.MeterBase = w.MeterBase = $class({
     resize: function() {
         var O = this.options;
         TK.Widget.prototype.resize.call(this);
-        var i = TK["inner_" + (vert(O) ? "height" : "width")](this._bar);
+        var w = TK.inner_width(this._bar);
+        var h = TK.inner_height(this._bar);
+        this.set("_width", w);
+        this.set("_height", h);
+        var i = vert(O) ? h : w;
         if (i != O.basis)
             this.set("basis", i);
     },
@@ -275,16 +309,41 @@ w.TK.MeterBase = w.MeterBase = $class({
     draw_meter: function (value) {
         var O = this.options;
         var is_vertical = vert(O);
-        if (value === undefined) value = O.value;
+        if (typeof value !== "number") value = O.value;
         // Set the mask elements according to options.value to show a value in
         // the meter bar
-        var pos = Math.max(0,
-                  this._val2seg(Math.min(O.max, Math.max(O.base, value))));
-        this._mask1.style[is_vertical ? "height" : "width"] = (O.basis - pos).toFixed(0) + "px";
-        if (!this.__based) return;
-        var pos = Math.max(0,
-                  this._val2seg(Math.min(O.base, value)));
-        this._mask2.style[is_vertical ? "height" : "width"] = pos + "px";
+        var ctx = this._ctx;
+        var w = O._width;
+        var h = O._height;
+        var base = O.base;
+        var segment = O.segment|0;
+        var reverse = !!O.reverse;
+        var size = O.basis|0;
+
+        ctx.fillRect(0, 0, w, h);
+        
+        /* At this point the whole meter bar is filled. We now want
+         * to clear the area between base and value.
+         */
+
+        /* canvas coordinates are reversed */
+        var v1 = size - this.val2px(base)|0;
+        var v2 = size - this.val2px(value)|0;
+        var tmp;
+
+        if (segment !== 1) v2 -= v2 % segment;
+
+        if (v2 < v1) {
+            tmp = v1;
+            v1 = v2;
+            v2 = tmp;
+        }
+
+        if (is_vertical) {
+            ctx.clearRect(0, v1, w, v2-v1);
+        } else {
+            ctx.clearRect(v1, 0, v2-v1, h);
+        }
     },
     
     // HELPERS & STUFF

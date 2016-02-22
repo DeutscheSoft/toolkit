@@ -256,38 +256,7 @@
 .toolkit-meter-base > .toolkit-bar > .toolkit-mask {
     background: black;
     opacity:    0.66;
-}
-
-.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mask {
-    
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mask1 {
-    
-}
-.toolkit-meter-base.toolkit-vertical.toolkit-reverse > .toolkit-bar > .toolkit-mask1 {
-    
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mask2 {
-    
-}
-.toolkit-meter-base.toolkit-vertical.toolkit-reverse > .toolkit-bar > .toolkit-mask2 {
-    
-}
-
-.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mask {
-    
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mask1 {
-    
-}
-.toolkit-meter-base.toolkit-horizontal.toolkit-reverse > .toolkit-bar > .toolkit-mask1 {
-    
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mask2 {
-    
-}
-.toolkit-meter-base.toolkit-horizontal.toolkit-reverse > .toolkit-bar > .toolkit-mask2 {
-    
+    transform: translate3d(0,0,0);
 }
 
 /* MARK */

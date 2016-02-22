@@ -5,44 +5,6 @@
     text-shadow: 0 0 3px white,0 0 3px white;
 }
 
-/* MASKS */
-
-.toolkit-level-meter > .toolkit-bar > .toolkit-mask3,
-.toolkit-level-meter > .toolkit-bar > .toolkit-mask4 {
-    
-}
-.toolkit-level-meter.toolkit-has-hold > .toolkit-bar > .toolkit-mask3,
-.toolkit-level-meter.toolkit-has-hold > .toolkit-bar > .toolkit-mask4 {
-    
-}
-
-.toolkit-level-meter.toolkit-vertical > .toolkit-bar > .toolkit-mask3 {
-    
-}
-.toolkit-level-meter.toolkit-vertical > .toolkit-bar > .toolkit-mask4 {
-    
-}
-.toolkit-level-meter.toolkit-vertical.toolkit-reverse > .toolkit-bar > .toolkit-mask3 {
-    
-}
-.toolkit-level-meter.toolkit-vertical.toolkit-reverse > .toolkit-bar > .toolkit-mask4 {
-    
-}
-
-.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-mask3 {
-    
-}
-.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-mask4 {
-    
-}
-.toolkit-level-meter.toolkit-horizontal.toolkit-reverse > .toolkit-bar > .toolkit-mask3 {
-    
-}
-.toolkit-level-meter.toolkit-horizontal.toolkit-reverse > .toolkit-bar > .toolkit-mask4 {
-    
-}
-
-
 /* CLIP */
 
 .toolkit-level-meter > .toolkit-clip {
