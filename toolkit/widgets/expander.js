@@ -48,6 +48,21 @@ function is_visible(widget) {
         return visible_when_collapsed(widget);
     }
 }
+function changed_expanded(value) {
+    var group = this.options.group;
+    var other_expander;
+
+    if (group) {
+        if (value) {
+            if ((other_expander = expander_groups[group]) && other_expander !== this) {
+                other_expander.set("expanded", false); 
+            }
+            expander_groups[group] = this;
+        } else expander_groups[group] = false;
+    }
+
+    update_visibility.call(this);
+}
 function update_visibility() {
     var C = this.children;
     var value = this.options.always_expanded || this.options.expanded;
@@ -70,13 +85,28 @@ function update_visibility() {
         this.fire_event("collapse");
     }
 }
+var expander_groups = { };
 w.TK.Expander = w.Expander = $class({
     /**
-     * TK.Expander is a container able to expand to a fixed fullscreen view.
-     * In fullscreen mode the container has the class "toolkit-fullscreen".
+     * TK.Expander is a container which can be toggled between two different states,
+     * expanded and collapsed. It can be used to implement overlay popups, but it is
+     * not limited to that application.
+     * In expanded mode the container has the class <code>toolkit-expanded</code>.
+     * Child widgets are shown or hidden depending on the state of the two pseudo
+     * options <code>_expanded</code> and <code>_collapsed</code>. If a child widget
+     * of the expander has <code>_expanded</code> set to true it will be shown in
+     * expanded state. If a child widget has <code>_collapsed</code> set to false, it
+     * will be shown in collapsed state. This feature can be used to make interfaces
+     * more reactive.
      *
      * @param {Object} options
-     * @property {boolean} [options.expanded=false] - The fullscreen state of the popup
+     * @property {boolean} [options.expanded=false] - This is the state of this widget.
+     * @property {boolean} [options.always_expanded=false] - This essentially overwrites
+     *  the <code>expanded</code> option. This can be used to switch this widget to be
+     *  always expanded, e.g. when the screen size is big enough.
+     * @property {string} options.group - If set, this expander is grouped together with
+     *  all other expanders of the same group name. At most one expander of the same group
+     *  can be open at one time.
      * 
      * @class TK.Expander
      * @extends TK.Container
@@ -85,6 +115,7 @@ w.TK.Expander = w.Expander = $class({
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
         expanded: "boolean",
         always_expanded: "boolean",
+        group: "string",
     }),
     options: {
         expanded: false,
@@ -117,7 +148,7 @@ w.TK.Expander = w.Expander = $class({
         });
         this._update_visibility = update_visibility.bind(this);
         this.add_event("hide", collapse.bind(this, false));
-        this.add_event("set_expanded", update_visibility);
+        this.add_event("set_expanded", changed_expanded);
         this.add_event("set_always_expanded", update_visibility);
         this.set("expanded", this.options.expanded);
         this.set("always_expanded", this.options.always_expanded);
@@ -131,6 +162,18 @@ w.TK.Expander = w.Expander = $class({
     remove_child: function(child) {
         child.remove_event("set__expanded", this._update_visibility);
         child.remove_event("set__collapsed", this._update_visibility);
+    },
+    set: function(key, value) {
+        if (key === "group" && this.options.expanded) {
+            var old = this.options.group;
+            if (old) expander_groups[old] = false;
+            if (value) {
+                if (expander_groups[value] && expander_groups[value] !== this)
+                    expander_groups[value].set("expanded", false);
+                expander_groups[value] = this;
+            }
+        }
+        TK.Container.prototype.set.call(this, key, value);
     },
 });
 })(this);
