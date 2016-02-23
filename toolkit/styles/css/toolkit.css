@@ -483,9 +483,14 @@ pre, code {
     height: 100%;
 }
 
-/* POPUP */
+/* EXPANDER */
 
-.toolkit-expanded.toolkit-expanded {
+.toolkit-expander {
+    position: relative;
+}
+
+/* popup */
+.toolkit-expander.toolkit-popup.toolkit-expanded {
     position: fixed;
     top: 0;
     left: 0;
@@ -494,9 +499,63 @@ pre, code {
     z-index: 1000000;
     margin: 0;
 }
-.toolkit-expanded .toolkit-toggle-expander {
-    display: none;
+.toolkit-expander.toolkit-popup > .toolkit-toggle-expand {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
 }
-.toolkit-expanded.toolkit-expanded .toolkit-toggle-expander {
-    display: block;
+.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand {
+    opacity: 1;
+    top: 10px;
+    right: 10px;
+    left: auto;
+    bottom: auto;
+}
+
+/* drawer right */
+.toolkit-expander.toolkit-drawer-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform 500ms;
+}
+
+.toolkit-expander.toolkit-drawer-right.toolkit-expanded {
+    transform: translateX(0%);
+}
+
+.toolkit-expander.toolkit-drawer-right .toolkit-toggle-expand {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+}
+
+/* drawer left */
+.toolkit-expander.toolkit-drawer-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 500ms;
+}
+
+.toolkit-expander.toolkit-drawer-left.toolkit-expanded {
+    transform: translateX(0%);
+}
+
+.toolkit-expander.toolkit-drawer-left .toolkit-toggle-expand {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
 }

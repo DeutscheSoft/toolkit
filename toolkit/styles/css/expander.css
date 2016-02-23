@@ -1,29 +1,14 @@
+/* POPUP */
+
 .toolkit-expander.toolkit-popup {
     background: rgba(216, 216, 216, 0.9);
 }
-.toolkit-expander.toolkit-popup .toolkit-toggle-expand {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-}
-.toolkit-expander.toolkit-popup.toolkit-expanded .toolkit-toggle-expand {
-    opacity: 1;
+.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand {
     width: 42px;
     height: 42px;
-    top: 10px;
-    right: 10px;
-    left: auto;
-    bottom: auto;
 }
-.toolkit-expander.toolkit-popup.toolkit-expanded .toolkit-toggle-expand::after,
-.toolkit-expander.toolkit-popup.toolkit-expanded .toolkit-toggle-expand::before {
+.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand::after,
+.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand::before {
     content: "";
     display: block;
     position: absolute;
@@ -34,6 +19,6 @@
     transform: rotate(45deg);
     background: #003050;
 }
-.toolkit-expander.toolkit-popup.toolkit-expanded .toolkit-toggle-expand::before {
+.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand::before {
     transform: rotate(135deg);
 }

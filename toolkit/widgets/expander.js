@@ -116,10 +116,14 @@ w.TK.Expander = w.Expander = $class({
         expanded: "boolean",
         always_expanded: "boolean",
         group: "string",
+        label: "string",
+        icon: "string",
     }),
     options: {
         expanded: false,
         always_expanded: false,
+        label: "",
+        icon: "",
     },
     Extends: TK.Container,
     toggle: function() {
@@ -174,6 +178,12 @@ w.TK.Expander = w.Expander = $class({
             }
         }
         TK.Container.prototype.set.call(this, key, value);
+        switch (key) {
+        case "label":
+        case "icon":
+            this.button.set(key, value);
+            break;
+        }
     },
 });
 })(this);
