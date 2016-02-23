@@ -173,6 +173,7 @@ w.TK.MeterBase = w.MeterBase = $class({
 
         this._ctx.fillStyle = TK.get_style(this._canvas, "background-color");
         this._canvas.style.background = 'none';
+        this._last_meters = null;
     },
 
     initialized: function () {
@@ -305,23 +306,17 @@ w.TK.MeterBase = w.MeterBase = $class({
         if (i != O.basis)
             this.set("basis", i);
     },
-    
-    draw_meter: function (value) {
+
+    calculate_meter: function(value) {
         var O = this.options;
-        var is_vertical = vert(O);
         if (typeof value !== "number") value = O.value;
         // Set the mask elements according to options.value to show a value in
         // the meter bar
-        var ctx = this._ctx;
-        var w = O._width;
-        var h = O._height;
         var base = O.base;
         var segment = O.segment|0;
         var reverse = !!O.reverse;
         var size = O.basis|0;
 
-        ctx.fillRect(0, 0, w, h);
-        
         /* At this point the whole meter bar is filled. We now want
          * to clear the area between base and value.
          */
@@ -339,10 +334,41 @@ w.TK.MeterBase = w.MeterBase = $class({
             v2 = tmp;
         }
 
+        return [ v1, v2-v1 ];
+    },
+    
+    draw_meter: function () {
+        var O = this.options;
+        var w = O._width;
+        var h = O._height;
+        var i;
+
+        var a = this.calculate_meter();
+        var tmp = this._last_meters;
+
+        if (tmp && tmp.length == a.length) {
+            for (i = 0; i < a.length; i++) {
+                if (tmp[i] !== a[i]) break;
+            }
+
+            if (i === a.length) return;
+        }
+
+        this._last_meters = a;
+
+        var ctx = this._ctx;
+        ctx.fillRect(0, 0, w, h);
+
+        var is_vertical = vert(O);
+        
         if (is_vertical) {
-            ctx.clearRect(0, v1, w, v2-v1);
+            for (i = 0; i < a.length; i+= 2) {
+                ctx.clearRect(0, a[i], w, a[i+1]);
+            }
         } else {
-            ctx.clearRect(v1, 0, v2-v1, h);
+            for (i = 0; i < a.length; i+= 2) {
+                ctx.clearRect(a[i], 0, a[i+1], h);
+            }
         }
     },
     

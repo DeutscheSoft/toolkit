@@ -302,13 +302,21 @@ w.TK.LevelMeter = w.LevelMeter = $class({
 
         return value;
     },
-    
-    draw_meter: function () {
+
+    /*
+     * This is an _internal_ method, which calculates the non-filled regions
+     * in the overlaying canvas as pixel positions. The canvas is only modified
+     * using this information when it has _actually_ changed. This can save a lot
+     * of performance in cases where the segment size is > 1 or on small devices where
+     * the meter has a relatively small pixel size.
+     */
+    calculate_meter: function() {
         var O = this.options;
         var falling = +O.falling;
         var value   = +O.value;
         var base    = +O.base;
 
+        // this is a bit unelegant...
         if (falling) {
             value = this.effective_value();
             // continue animation
@@ -319,20 +327,14 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             }
         }
 
-        var is_vertical = !!vert(O);
-
-        TK.MeterBase.prototype.draw_meter.call(this, value);
+        var ret = TK.MeterBase.prototype.calculate_meter.call(this, value);
         
-        if (!O.show_hold) return;
+        if (!O.show_hold) return ret;
 
-        var ctx = this._ctx;
-
-        var w = O._width|0;
-        var h = O._height|0;
         // shorten things
         var hold       = +O.top;
         var segment   = O.segment|0;
-        var hold_size = O.hold_size|0 * segment;
+        var hold_size = (O.hold_size|0) * segment;
         var base      = +O.base;
         var pos;
         var size = O.basis|0;
@@ -342,11 +344,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             pos = size - this.val2px(this.snap(hold))|0;
             if (segment !== 1) pos -= pos % segment;
 
-            if (is_vertical) {
-                ctx.clearRect(0, pos, w, hold_size);
-            } else {
-                ctx.clearRect(pos, 0, hold_size, h);
-            }
+            ret.push(pos, hold_size);
         }
 
         hold = +O.bottom;
@@ -355,12 +353,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             pos = size - this.val2px(this.snap(hold))|0;
             if (segment !== 1) pos -= pos % segment;
 
-            if (is_vertical) {
-                ctx.clearRect(0, pos, w, hold_size);
-            } else {
-                ctx.clearRect(pos, 0, hold_size, h);
-            }
+            ret.push(pos, hold_size);
         }
+
+        return ret;
     },
     
     // GETTER & SETTER
