@@ -4,7 +4,7 @@ function Scheduler() {
     this.Q_next = this.Q = [];
     this.Q_tmp = [];
     this.tmp = [];
-    this.debug = 10;
+    this.debug = 0;
     this.after_frame_cbs = [];
 };
 function low_add(Q, o, prio) {
