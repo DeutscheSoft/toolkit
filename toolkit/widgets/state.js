@@ -20,25 +20,36 @@
  */
 "use strict";
 (function(w){ 
+/**
+ * The TK.State widget is a multi-functional adaption of a traditional LED. It
+ * is able to show different colors as well as on/off states. The
+ * "brightness" can be set seamlessly. Classes can be used to display
+ * different styles. TK.State extends TK.Widget.
+ *
+ * The LED effect is implemented as an DIV element, which is overlayed by
+ * a DIV mask element with class <code>toolkit-mask</code>. When switching
+ * the state the opacity of the mask is toggled between zero and
+ * <code>options.opactity</code>.
+ *
+ * @class TK.State
+ * @extends TK.Widget
+ *
+ * @param {Object} options
+ * @property {boolean} [options.state=false] - The state.
+ * @property {string} [options.color="red"] - A css color string for the state LED.
+ * @property {number} [options.opacity=0.8] - Opacity of the mask when state if
+ *      <code>false</code>.
+ */
 w.TK.State = w.State = $class({
-    /**
-     * The TK.State widget is a multi-functional adaption of a traditional LED. It
-     * is able to show different colors as well as on/off states. The
-     * "brightness" can be set seamlessly. Classes can be used to display
-     * different styles. TK.State extends TK.Widget.
-     *
-     * @class TK.State
-     * @extends TK.Widget
-     */
     _class: "State",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
-        state: "int",
+        state: "boolean",
         color: "string",
         opacity: "number",
     }),
     options: {
-        state:           0,     // the initial state (0 ... 1)
+        state:           false,     // the initial state (0 ... 1)
         color:           "red", // the base color
         opacity:         0.8    // the opacity of the mask when state = 0
     },
