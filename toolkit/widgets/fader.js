@@ -115,6 +115,7 @@ w.TK.Fader = w.Fader = $class({
         gap_dots: "number",
         gap_labels: "number",
         show_labels: "boolean",
+        show_scale: "boolean",
         labels: "function",
         tooltip: "function",
         layout: "int",
@@ -130,6 +131,7 @@ w.TK.Fader = w.Fader = $class({
         gap_dots: 3,
         gap_labels: 40,
         show_labels: true,
+        show_scale: true,
         labels: function (val) { return val.toFixed(2); },
         tooltip: false,
         layout: "left",
@@ -208,7 +210,11 @@ w.TK.Fader = w.Fader = $class({
         var E = this.element;
         var value;
         var h;
-
+        
+        if (I.show_scale) {
+            I.show_scale = false;
+            TK[O.show_scale ? "add_class" : "remove_class"](this.element, "toolkit-has-scale");
+        }
         if (I.layout) {
             I.layout = false;
             value = O.layout;

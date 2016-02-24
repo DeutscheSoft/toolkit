@@ -4,6 +4,18 @@
     background-repeat: no-repeat;
 }
 
+.toolkit-fader.toolkit-vertical {
+    width: 46px;
+}
+.toolkit-fader.toolkit-vertical.toolkit-has-scale {
+    width: auto;
+}
+.toolkit-fader.toolkit-horizontal {
+    height: 46px;
+}
+.toolkit-fader.toolkit-horizontal.toolkit-has-scale {
+    height: auto;
+}
 
 /* BACKGROUNDS */
 
@@ -33,6 +45,20 @@
     background-position: 0 100%, 5px 100%, 100% 100%;
 }
 
+/*
+.toolkit-fader.toolkit-left.toolkit-has-scale {
+    background-position: 0 0, 0 5px, 0 100%;
+}
+.toolkit-fader.toolkit-right.toolkit-has-scale {
+    background-position: 100% 0, 100% 5px, 100% 100%;
+}
+.toolkit-fader.toolkit-top.toolkit-has-scale {
+    background-position: 0 0, 5px 0, 100% 0;
+}
+.toolkit-fader.toolkit-bottom.toolkit-has-scales {
+    background-position: 0 100%, 5px 100%, 100% 100%;
+}
+*/
 
 /* HANDLE */
 
@@ -79,8 +105,12 @@
 /* SCALE */
 
 .toolkit-fader > .toolkit-scale {
-    
+    display: none;
 }
+.toolkit-fader.toolkit-has-scale > .toolkit-scale {
+    display: block;
+}
+
 .toolkit-fader.toolkit-vertical > .toolkit-scale {
     height: calc(100% - 80px);
     margin-top: 40px;
