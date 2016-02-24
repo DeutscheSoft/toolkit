@@ -86,11 +86,24 @@ function SET(v) {
     this.set("value", v);
     this.fire_event("useraction", "value", v);
 }
+/**
+ * TK.Fader is a fader widget. It is implemented as a slidable control which
+ * can be both dragged and scrolled. TK.Fader implements {@link TK.Ranged},
+ * {@link TK.Warning} and {@link TL.GlobalCursor} and inherits its options.
+ * Additionally it contains an instance of {@link TK.Scale} whose options
+ * it inherits, aswell.
+ *
+ * @class TK.Fader
+ * @extends TK.Widget
+ *
+ * @param {Object} options
+ * @property {number} [options.value] - The fader position. This options is
+ *      modified by user interaction.
+ * @property {function} [options.tooltip] - An optional formatting function for
+ *      the tooltip value. The tooltip will show that value the mouse cursor is
+ *      currently hovering over.
+ */
 w.TK.Fader = w.Fader = $class({
-    /**
-     * @class TK.Fader
-     * @extends TK.Widget
-     */
     _class: "Fader",
     Extends: TK.Widget,
     Implements: [Ranged, Warning, GlobalCursor],

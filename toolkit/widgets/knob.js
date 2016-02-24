@@ -26,15 +26,19 @@ function dblclick() {
     this.fire_event("doubleclick", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
 }
+/**
+ * TK.Knob is a {@link TK.Circular} inside of an SVG and which can be
+ * modified both by dragging and scrolling.
+ * TK.Knob uses {@link TK.DragValue} and {@link TK.ScrollValue}
+ * for setting its value.
+ * It inherits all options of {@link TK.Circular} and {@link TK.DragValue}.
+ *
+ * @class TK.Knob
+ * @extends TK.Widget
+ *
+ * @param {Object} options
+ */
 w.TK.Knob = w.Knob = $class({
-    /**
-     * TK.Knob is a {@link TK.Circular} injected into a SVG and extended by {@link TK.ScrollValue}
-     * and {@link TK.DragValue} to set its value. TK.Knob uses {@link TK.DragValue} and {@link TK.ScrollValue}
-     * for setting its value.
-     *
-     * @class TK.Knob
-     * @extends TK.Widget
-     */
     _class: "Knob",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options,
@@ -135,11 +139,22 @@ w.TK.Knob = w.Knob = $class({
 
         TK.Widget.prototype.redraw.call(this);
     },
-
+    /**
+     * This is an alias for {@link TK.Circular#add_label} of the internal
+     * circular instance.
+     *
+     * @method TK.Knob#add_label
+     */
     add_label: function(x) {
         return this.circular.add_label(x);
     },
 
+    /**
+     * This is an alias for {@link TK.Circular#remove_label} of the internal
+     * circular instance.
+     *
+     * @method TK.Knob#remove_label
+     */
     remove_label: function(x) {
         this.circular.remove_label(x);
     },

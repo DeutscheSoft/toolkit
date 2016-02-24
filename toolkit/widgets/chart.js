@@ -208,15 +208,31 @@ function draw_title() {
     }.bind(this), 1);
 }
     
+/**
+ * TK.Chart is an SVG image containing one or more Graphs. There are functions
+ * to add and remove graphs. TK.Chart extends TK.Widget and contains a Grid
+ * and two Ranges.
+ *
+ * @class TK.Chart
+ * @extends TK.Widget
+ *
+ * @param {Object} options
+ * @property {string} [options.title=""] - A title for the Chart.
+ * @property {string} [options.title_position="top-right"] - Position of the
+ *      title inside of the chart. Possible values are
+ *      <code>"top-left"</code>, <code>"top"</code>, <code>"top-right"</code>,
+ *      <code>"left"</code>, <code>"center"</code>, <code>"right"</code>,
+ *      <code>"bottom-left"</code>, <code>"bottom"</code> and
+ *      <code>"bottom-right"</code>.
+ * @property {boolean|string} [options.key=false] - If set to a string
+ *      a key is rendered into the chart at the given position. The key
+ *      will detail names and colors of the graphs inside of this chart.
+ *      Possible values are <code>"top-left"</code>, <code>"top-right"</code>,
+ *      <code>"bottom-left"</code> and <code>"bottom-right"</code>.
+ * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored rectangles
+ *      inside of the key descrining individual graphs.
+ */
 w.TK.Chart = w.Chart = $class({
-    /**
-     * TK.Chart is an SVG image containing one or more Graphs. There are functions
-     * to add and remove graphs. TK.Chart extends TK.Widget and contains a Grid
-     * and two Ranges.
-     *
-     * @class TK.Chart
-     * @extends TK.Widget
-     */
     _class: "Chart",
     Extends: TK.Widget,
     Implements: Ranges,
@@ -374,7 +390,7 @@ w.TK.Chart = w.Chart = $class({
         TK.Widget.prototype.destroy.call(this);
     },
     add_child: function(child) {
-        if (TK.Graph.prototype.isPrototypeOf(child)) {
+        if (child instanceof TK.Graph) {
             this.add_graph(child);
             return;
         }
@@ -382,7 +398,7 @@ w.TK.Chart = w.Chart = $class({
         TK.Widget.prototype.add_child.call(this, child);
     },
     remove_child: function(child) {
-        if (TK.Graph.prototype.isPrototypeOf(child)) {
+        if (child instanceof TK.Graph) {
             this.remove_graph(child);
             return;
         }
@@ -390,9 +406,13 @@ w.TK.Chart = w.Chart = $class({
         TK.Widget.prototype.remove_child.call(this, child);
     },
     /**
-     * Add a new TK.Graph to the Chart.
+     * Add a graph to the chart.
      *
      * @method TK.Chart#add_graph
+     * @param {Object} graph - The graph to add. This can be either an
+     *  instance of {@link TK.Graph} or an object of options to
+     *  {@link TK.Graph}.
+     * @returns {Object} The instance of {@link TK.Graph}.
      */
     add_graph: function (options) {
         var g;
@@ -422,9 +442,10 @@ w.TK.Chart = w.Chart = $class({
         return g;
     },
     /**
-     * Remove TK.Graph from the Chart.
+     * Remove a graph from the chart.
      *
      * @method TK.Chart#remove_graph
+     * @param {TK.Graph} graph - The {@link TK.Graph} to remove.
      */
     remove_graph: function (g) {
         var i;
@@ -438,7 +459,7 @@ w.TK.Chart = w.Chart = $class({
         }
     },
     /**
-     * Remove all Graphs from the TK.Chart.
+     * Remove all graphs from the chart.
      *
      * @method TK.Chart#empty
      */

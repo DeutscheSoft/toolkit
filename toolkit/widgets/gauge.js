@@ -29,13 +29,28 @@ function _get_coords_single(deg, inner, pos) {
 }
 var format_translate = TK.FORMAT("translate(%f, %f)");
 var format_viewbox = TK.FORMAT("0 0 %d %d");
+/**
+ * TK.Gauge draws a single {@link TK.Circular} into a SVG image. It inherits
+ * all options of {@link TK.Circular}.
+ *
+ * @class TK.Gauge
+ * @extends TK.Widget
+ *
+ * @param {Object} options
+ * @property {number} [options.x=0] - Displacement of the {@link TK.Circular}
+ *  in horizontal direction. This allows drawing gauges which are only
+ *  represented by a segment of a circle.
+ * @property {number} [options.y=0] - Displacement of the {@link TK.Circular}
+ *  in vertical direction.
+ * @property {Object} [options.title] - Optional gauge title.
+ * @property {number} [options.title.pos] - Position inside of the circle in
+ *  degrees.
+ * @property {string} [options.title.title] - Title string.
+ * @property {number} [options.title.margin] - Margin of the title string.
+ * @property {string} [options.title.align] - Alignment of the title, either
+ *      "inner" or "outer".
+ */
 w.TK.Gauge = w.Gauge = $class({
-    /**
-     * TK.Gauge simply puts a single TK.Circular into a SVG image.
-     *
-     * @class TK.Gauge
-     * @extends TK.Widget
-     */
     _class: "Gauge",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options, {
@@ -52,12 +67,7 @@ w.TK.Gauge = w.Gauge = $class({
         width:  120, // width of the element
         height: 120, // height of the svg
         size:   120,
-        title: {pos: 90, margin: 0, align: "inner", title:""} // set a
-                     // title fo the gauge. Object with optional members:
-                     // pos:    position in angles
-                     // margin: margin of the imaginary circle from size
-                     // align:  alignment, "inner" or _TOOLKIT OUTER
-                     // title:  the title as a string
+        title: {pos: 90, margin: 0, align: "inner", title:""}
     }),
     initialize: function (options) {
         if (typeof options.title == "string")
