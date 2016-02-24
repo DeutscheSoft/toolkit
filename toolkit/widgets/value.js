@@ -82,14 +82,23 @@ function submit_cb(e) {
     e.preventDefault();
     return false;
 }
+/**
+ * TK.Value is a formatted text field displaying numbers and providing
+ * a input field for editing the value.
+ *
+ * @class TK.Value
+ * @extends TK.Widget
+ *
+ * @param {Object} options
+ * @property {number} [options.value=0] - The value.
+ * @property {function} [options.format=TK.FORMAT("%.2f")] - A formatting
+ *      function used to display the value.
+ * @property {int} [options.size=5] - Size attribute of the INPUT element.
+ * @property {int} [options.maxlength] - Maxlength attribute of the INPUT element.
+ * @property {function} [options.set=function (val) { return parseFloat(val || 0); }] -
+ *      A function which is called to parse user input.
+ */
 w.TK.Value = w.Value = $class({
-    /**
-     * TK.Value is a formatted text field displaying numbers and providing
-     * a input field for editing the value.
-     *
-     * @class TK.Value
-     * @extends TK.Widget
-     */
     _class: "Value",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
@@ -101,7 +110,7 @@ w.TK.Value = w.Value = $class({
     }),
     options: {
         value: 0,
-        format: function (val) { return val.toFixed(2); },
+        format: TK.FORMAT("%.2f"),
         size: 5,
         container: false,
         // set a callback function if value is editable or
