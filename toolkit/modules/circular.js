@@ -396,7 +396,7 @@ w.TK.Circular = w.Circular = $class({
                 this._hand.style["display"] = "none";
             }
         }
-        if (I.validate("size", "value", "hand")) {
+        if (I.validate("size", "value", "hand", "min", "max", "start")) {
             tmp = this._hand;
             tmp.setAttribute("x", O.size - O.hand.length - O.hand.margin);
             tmp.setAttribute("y", (O.size - O.hand.width) / 2.0);
