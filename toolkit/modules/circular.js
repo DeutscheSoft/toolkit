@@ -27,6 +27,10 @@ function interpret_label(x) {
 }
 var __rad = Math.PI / 180;
 function _get_coords(deg, inner, outer, pos) {
+    deg = +deg;
+    inner = +inner;
+    outer = +outer;
+    pos = +pos;
     deg = deg * __rad;
     return {
         x1: Math.cos(deg) * outer + pos,
@@ -36,6 +40,9 @@ function _get_coords(deg, inner, outer, pos) {
     }
 }
 function _get_coords_single(deg, inner, pos) {
+    deg = +deg;
+    inner = +inner;
+    pos = +pos;
     deg = deg * __rad;
     return {
         x: Math.cos(deg) * inner + pos,
@@ -194,6 +201,11 @@ function draw_labels() {
     }.bind(this), 1);
 }
 function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
+    a_from = +a_from;
+    a_to = +a_to;
+    r_inner = +r_inner;
+    r_outer = +r_outer;
+    pos = +pos;
     // ensure from != to
     if(a_from % 360 == a_to % 360) a_from += 0.001;
     // ensure from and to in bounds
@@ -221,7 +233,6 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
                            to.x2, to.y2,
                            r_inner, r_inner, large, !sweep, from.x2, from.y2);
     slice.setAttribute("d", path);
-    this.fire_event("slicedrawn");
 }
 w.TK.Circular = w.Circular = $class({
     /**
@@ -404,7 +415,6 @@ w.TK.Circular = w.Circular = $class({
             tmp.setAttribute("height",O.hand.width);
             tmp.setAttribute("transform",
                              format_rotate(this.val2real(this.snap(O.value)), O.size / 2, O.size / 2));
-            this.fire_event("handdrawn");
         }
     },
     
