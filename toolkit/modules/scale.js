@@ -118,18 +118,47 @@ function correct_labels(labels) {
             }.bind(this));
     }.bind(this), 1);
 }
+/**
+ * TK.Scale can be used to draw scales. It is used in {@link TK.MeterBase} and
+ * {@link TK.Fader}. TK.Scale draws labels and markers based on its parameters
+ * and the available space. Scales can be drawn both vertically and horizontally.
+ * Scale mixes in {@link TK.Ranged} and inherits all its options.
+ *
+ * @extends TK.Widget
+ * @mixes TK.Ranged
+ * @class TK.Scale
+ *
+ * @param {Object} options
+ * @property {string} [options.layout="right"] - The layout of the Scale. <code>"right"</code> and
+ *      <code>"left"</code> are vertical layouts with the labels being drawn right and left of the scale,
+ *      respectively. <code>"top"</code> and <code>"bottom"</code> are horizontal layouts for which the 
+ *      labels are drawn on top and below the scale, respectively.
+ * @property {int} [options.division=1] - Minimal step size of the markers.
+ * @property {Array} [options.levels=[1]] - Array of steps for labels and markers.
+ * @property {number} [options.base=false]] - Base of the scale. If set to <code>false</code> it will
+ *      default to the minimum value.
+ * @property {function} [options.labels=TK.FORMAT("%.2f")] - Formatting function for the scale labels.
+ * @property {int} [options.gap_dots=4] - Minimum gap in pixels between two adjacent markers.
+ * @property {int} [options.gap_labels=40] - Minimum gap in pixels between two adjacent labels.
+ * @property {boolean} [options.show_labels=true] - If <code>true</code>, labels are drawn.
+ * @property {boolean} [options.show_max=true] - If <code>true</code>, display a label and a
+ *  dot for the 'max' value.
+ * @property {boolean} [options.show_min=true] - If <code>true</code>, display a label and a
+ *  dot for the 'min' value.
+ * @property {boolean} [options.show_base=true] - If <code>true</code>, display a label and a
+ *  dot for the 'base' value.
+ * @property {Array} [options.fixed_dots] - This option can be used to specify fixed positions
+ *      for the markers to be drawn at.
+ * @property {Array} [options.fixed_labels] - This option can be used to specify fixed positions
+ *      for the labels to be drawn at.
+ */
 w.TK.Scale = w.Scale = $class({
-    // TK.Scale can be used to draw dots and labels as markers next to a meter, a
-    // fader or a frequency response graph. Depending on some parameters it
-    // tries to decide on its own where to draw labels and dots depending on the
-    //  available space and the scale. Scales can be drawn vertically and
-    // horizontally. TK.Scale extends TK.Widget and implements Ranges.
     _class: "Scale",
     
     Extends: TK.Widget,
     Implements: [Ranged],
     _options: Object.assign(Object.create(TK.Widget.prototype._options), Ranged.prototype._options, {
-        layout: "int",
+        layout: "string",
         division: "number",
         levels: "array",
         base: "number",
@@ -145,33 +174,19 @@ w.TK.Scale = w.Scale = $class({
         auto_size: "boolean",
     }),
     options: {
-        layout:           "right", // how to draw the scale:
-                                          // "left":   vertical, labels
-                                          //                  on the left
-                                          // "right":  vertical, labels
-                                          //                  on the right,
-                                          // "top":    horizontal, labels
-                                          //                  on top
-                                          // "bottom": horizontal, labels
-                                          //                  on bottom
-        division:         1,              // minimum step size
-        levels:           [1],            // array of steps where to draw labels
-                                          // and marker
-        base:             false,          // base where dots and labels are
-                                          // drawn from
-        labels:           function (val) { return val.toFixed(2); },
-                                          // callback function for formatting
-                                          // the labels
-        gap_dots:         4,              // minimum gap between dots (pixel)
-        gap_labels:       40,             // minimum gap between labels (pixel)
-        show_labels:      true,           // if labels should be drawn
-        show_min:         true,           // always draw a label at min
-        show_max:         true,           // always draw a label at max
-        show_base:        true,           // always draw a label at base
-        fixed_dots:       false,          // if fixed dots should be drawn.
-                                          // array containing real values or false
-        fixed_labels:     false,          // if fixed labels should be drawn.
-                                          // array contianing real values or false
+        layout:           "right",
+        division:         1,
+        levels:           [1],
+        base:             false,
+        labels:           TK.FORMAT("%.2f"),
+        gap_dots:         4,
+        gap_labels:       40,
+        show_labels:      true,
+        show_min:         true,
+        show_max:         true,
+        show_base:        true,
+        fixed_dots:       false,
+        fixed_labels:     false,
         auto_size:        false           // the overall size can be set automatically
                                           // according to labels width/height
     },

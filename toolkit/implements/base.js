@@ -238,7 +238,8 @@ TK.Base = w.BASE = $class({
         return this.options[key];
     },
     /**
-     * Sets an option.
+     * Sets an option. Fires both the events <code>set</code> with arguments <code>key</code>
+     * and <code>value</code>; and the event <code>'set_'+key</code> with argument <code>value</code>.
      *
      * @method TK.Base#set
      * @param {string} key - The option name.

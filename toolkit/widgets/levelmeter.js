@@ -103,12 +103,44 @@ function draw_peak() {
 w.TK.LevelMeter = w.LevelMeter = $class({
     /**
      * TK.LevelMeter is a fully functional display of numerical values. They are
-     * enhanced MeterBases containing a clip LED, a peak pin with value label
-     * and hold markers. LevelMeters have some automatically triggered
-     * functionality like falling and resetting all kinds of values after a
-     * time. All additional elements can be set automatically as soon as the
-     * value rises above them.
-     * 
+     * enhanced {@link TK.MeterBase}'s containing a clip LED, a peak pin with value label
+     * and hold markers. In addition, LevelMeter has an optional falling animation,
+     * top and bottom peak values and more.
+     *
+     * @param {Object} options
+     * @property {boolean} [options.show_clip=false] - If set to <code>true</code>, show the clipping LED.
+     * @property {number} [options.clipping=0] - If clipping is enabled, this is the threshold for the
+     *  clipping effect.
+     * @property {int|boolean} [options.auto_clip=false] - This is the clipping timeout. If set to
+     *  <code>false</code> automatic clipping is disabled. If set to <code>n</code> the clipping effect
+     *  times out after <code>n</code> ms, if set to <code>-1</code> it remains forever.
+     * @property {boolean} [options.clip=false] - If clipping is enabled, this option is set to
+     *  <code>true</code> when clipping happens. When automatic clipping is disabled, it can be set to
+     *  <code>true</code> to set the clipping state.
+     * @property {Object} [options.clip_options={}] - Additional options for the {@link TK.State} clip LED.
+     * @property {boolean} [options.show_hold=false] - If set to <code>true</code>, show the hold value LED.
+     * @property {int} [options.hold_size=1] - Size of the hold value LED in the number of segments.
+     * @property {number|boolean} [options.auto_hold=false] - If set to <code>false</code> the automatic
+     *  hold LED is disabled, if set to <code>n</code> the hold value is reset after <code>n</code> ms and
+     *  if set to <code>-1</code> the hold value is not reset automatically.
+     * @property {number} [options.top=false] - The top hold value. If set to <code>false</code> it will
+     *  equal the meter level.
+     * @property {number} [options.bottom=false] - The bottom hold value. This only exists if a
+     *  <code>base</code> value is set and the value falls below the base.
+     * @property {boolean} [options.show_peak=false] - If set to <code>true</code>, show the peak label.
+     * @property {int|boolean} [options.peak_label=false] - If set to <code>false</code> the automatic peak
+     *  label is disabled, if set to <code>n</code> the peak label is reset after <code>n</code> ms and
+     *  if set to <code>-1</code> it remains forever.
+     * @property {function} [options.format_peak=TK.FORMAT("%.2f")] - Formatting function for the peak label.
+     * @property {number} [options.falling=0] - If set to a positive number, activates the automatic falling
+     *  animation. The meter level will fall by this amount per frame.
+     * @property {number} [options.falling_fps=24] - This is the number of frames of the falling animation.
+     *  It is not an actual frame rate, but instead is used to determine the actual speed of the falling
+     *  animation together with the option <code>falling</code>.
+     * @property {number} [options.falling_init=2] - Initial falling delay in number of frames. This option
+     *  can be used to delay the start of the falling animation in order to avoid flickering if internal
+     *  and external falling are combined.
+     *
      * @class TK.LevelMeter
      * @extends TK.MeterBase
      */
@@ -135,41 +167,24 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         clip_options: "object",
     }),
     options: {
-        clip:         false,   // state of the clipping LED
-        falling:      0,       // if falling is active set a step size per frame
-        falling_fps:  24,      // frames per second for falling
-        falling_init: 2,       // frames of the initial falling (avoid
-                               // flickering while using external and internal
-                               // falling)
-        peak:         false,   // peak value; false = value
-        top:          false,   // top hold value; false = value
-        bottom:       false,   // bottom hold value (if we have a base other
-                               // than min)
-        hold_size:    1,       // amount of segments for top hold
-        show_peak:    false,   // show the peak marker
-        show_clip:    false,   // show clipping LED
-        show_hold:    false,   // show peak hold LEDs
-        clipping:     0,       // if auto_clip is active, value when clipping
-                               // appears
-        auto_clip:    false,   // set to a number when clipping appears or to
-                               // false if disabled
-                               //     -1:    infinite positioning
-                               //     n:     in milliseconds to auto-reset
-                               //     false: no auto peak
-        auto_peak:    false,   // if the peak automatically follows the program:
-                               //     -1:    infinite positioning
-                               //     n:     in milliseconds to auto-reset
-                               //     false: no auto peak
-        peak_label:   false,   // if the label automatically shows the max peak
-                               //     -1:    infinite display
-                               //     n:     in milliseconds to auto-reset
-                               //     false: no peak label
-        auto_hold:    false,   // if the hold automatically follows the program:
-                               //     -1:    infinite positioning
-                               //     n:     in milliseconds to auto-reset
-                               //     false: no auto hold
-        format_peak: function (value) { return (+value).toFixed(2); },
-        clip_options: {}       // add options for the clipping LED
+        clip:         false,
+        falling:      0,
+        falling_fps:  24,
+        falling_init: 2,
+        peak:         false,
+        top:          false,
+        bottom:       false,
+        hold_size:    1,
+        show_peak:    false,
+        show_clip:    false,
+        show_hold:    false,
+        clipping:     0,
+        auto_clip:    false,
+        auto_peak:    false,
+        peak_label:   false,
+        auto_hold:    false,
+        format_peak: TK.FORMAT("%.2f"),
+        clip_options: {}
     },
     
     initialize: function (options) {

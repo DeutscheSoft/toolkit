@@ -25,9 +25,16 @@ function vert(O) {
 }
 w.TK.MeterBase = w.MeterBase = $class({
     /**
-     * TK.MeterBase is a base class to build different meters like TK.LevelMeter.
+     * TK.MeterBase is a base class to build different meters such as TK.LevelMeter.
      * TK.MeterBase uses TK.Gradient and has a TK.Scale widget. TK.MeterBase inherits all
-     * options from TK.Scale, like <code>division</code>, <code>levels</code>.
+     * options from TK.Scale. Note that the two options <code>format_labels</code> and
+     * <code>scale_base</code> have different names here.
+     *
+     * Note that level meters with high update frequencies can be very demanding when it comes
+     * to rendering performance. These performance requirements can be reduced by increasing the
+     * segment size using the <code>segment</code> option. Using a segment, the different level
+     * meter positions are reduced. This widget will take advantage of that and avoid rendering those
+     * changes to the meter level, which fall into the same segment.
      *
      * @class TK.MeterBase
      * @extends TK.Widget
@@ -54,7 +61,11 @@ w.TK.MeterBase = w.MeterBase = $class({
      *  drawn.
      * @property {function} [options.format_label=TK.FORMAT("%.2f")] - Function for formatting the 
      *  label.
-     * @property {number} [options.scale_base] - Base of the meter scale.
+     * @property {number} [options.scale_base=false] - Base of the meter scale, see {@link TK.Scale}.
+     * @property {boolean} [options.show_labels=true] - If <code>true</code>, display labels in the
+     *  scale.
+     * @property {function} [options.format_labels=TK.FORMAT("%.2f")] - Function for formatting the 
+     *  scale labels. This is passed to the Scale as option <code>labels</code>.
      *
      */
     
@@ -77,59 +88,26 @@ w.TK.MeterBase = w.MeterBase = $class({
         show_labels: "boolean",
         show_marker: "boolean",
         format_label: "function",
-        division: "number",
-        levels: "array",
         scale_base: "number",
         format_labels: "function",
-        gap_dots: "number",
-        gap_labels: "number",
-        show_max: "boolean",
-        show_min: "boolean",
-        show_base: "boolean",
     }),
     options: {
-        layout:           "left",  // how to draw the meter:
-                                          // "left":   vertical, meter on
-                                          //                  the left
-                                          // "right":  vertical, meter on
-                                          //                  the right,
-                                          // "top":    horizontal, meter
-                                          //                  on top
-                                          // "bottom": horizontal, meter
-                                          //                  on bottom
-        segment:         1,               // size of the segments (imagine as
-                                          // size of a single LED)
-        value:           0,               // the initial value
-        base:            false,           // if base value is set, meter starts
-                                          // at this point and shows values
-                                          // above and beneath starting at base.
-                                          // set to false if you don't need it
-                                          // to save some cpu
-        label:           false,           // the initial value for the label,
-                                          // false = value
-        title:           "",              // "name" of the meter
-        show_title:      false,           // true for drawing the title
-        show_label:      false,           // true for drawing the value label
-        show_scale:      true,            // true for drawing the scale
-        show_labels:     true,            // true for drawing scale labels
-        show_marker:     false,           // true for drawing bar markers
-                                          // (relies on a drawn scale)
+        layout:          "left",
+        segment:         1,
+        value:           0,
+        base:            false,
+        label:           false,
+        title:           "",
+        show_title:      false,
+        show_label:      false,
+        show_scale:      true,
+        show_labels:     true,
+        show_marker:     false,
         format_label:    TK.FORMAT("%.2f"),
-                                          // callback function for formatting
-                                          // the label
-        division:         1,              // minimum step size
-        levels:           [1, 5, 10],     // array of steps where to draw labels
+        levels:          [1, 5, 10],     // array of steps where to draw labels
                                           // and marker
-        scale_base:       false,          // base value where dots and labels are
-                                          // drawn from
+        scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
-                                          // callback function for formatting
-                                          // the labels of the scale
-        gap_dots:         4,              // minimum gap between dots (pixel)
-        gap_labels:       40,             // minimum gap between labels (pixel)
-        show_max:         true,           // always show label and dot for max value
-        show_min:         true,           // always show label and dot for min value
-        show_base:        true            // always show label and dot for base value
     },
     
     initialize: function (options) {

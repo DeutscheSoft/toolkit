@@ -425,10 +425,9 @@ w.TK.Circular = w.Circular = $class({
     },
 
     /**
-     * @method TK.Circular#add_label
-     *
      * Adds a label.
      *
+     * @method TK.Circular#add_label
      * @param label - The label.
      * @returns label
      */
@@ -450,10 +449,9 @@ w.TK.Circular = w.Circular = $class({
     },
 
     /**
-     * @method TK.Circular#remove_label
-     *
      * Removes a label.
      *
+     * @method TK.Circular#remove_label
      * @param label - The label.
      * @returns label
      */
