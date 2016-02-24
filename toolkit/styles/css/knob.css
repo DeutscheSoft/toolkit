@@ -8,6 +8,7 @@
 .toolkit-knob > svg {
     width: 100%;
     height: 100%;
+    transform: translate3d(0,0,0);
 }
 .toolkit-knob > svg > .toolkit-circular > .toolkit-hand {
     fill: #002a42;
