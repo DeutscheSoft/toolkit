@@ -43,6 +43,7 @@ function check_dots(start, stop, step, level, comp) {
     }
 }
 function check_label(iter, step, last) {
+    if (!this.options.show_labels) return false;
     var O = this.options;
     // test if a label can be draw at a position and trigger drawing if so
     if (pixel_distance.call(this, iter, O.max) < O.gap_labels) return false;
@@ -66,6 +67,7 @@ function check_label(iter, step, last) {
     return false;
 }
 function low_draw_label(val, cls) {
+    if (!this.options.show_labels) return;
     var label = TK.element("span", "toolkit-label", {
         position: "absolute",
         display: "block",
@@ -268,7 +270,7 @@ w.TK.Scale = w.Scale = $class({
             
             // draw base
             this.draw_dot(O.base, this.__based ? "toolkit-base" : "toolkit-base");
-            if (O.show_base) {
+            if (O.show_base && O.show_labels) {
                 var l = low_draw_label.call(this, O.base, "toolkit-base");
                 var _l = l[1];
                 if (O.base == O.max) TK.add_class(_l, O.reverse ? "toolkit-min" : "toolkit-max");
@@ -278,14 +280,14 @@ w.TK.Scale = w.Scale = $class({
             // draw top
             if (pixel_distance.call(this, O.base, O.max) >= O.gap_labels) {
                 this.draw_dot(O.min, O.reverse ? "toolkit-max" : "toolkit-min");
-                if (O.show_min)
+                if (O.show_min && O.show_labels)
                     labels.push(low_draw_label.call(this, O.min, O.reverse ? "toolkit-max" : "toolkit-min"));
             }
             
             // draw bottom
             if (pixel_distance.call(this, O.base, O.max) >= O.gap_labels) {
                 this.draw_dot(O.max, O.reverse ? "toolkit-min" : "toolkit-max");
-                if (O.show_max)
+                if (O.show_max && O.show_labels)
                     labels.push(low_draw_label.call(this, O.max, O.reverse ? "toolkit-min" : "toolkit-max"));
             }
             
@@ -295,7 +297,7 @@ w.TK.Scale = w.Scale = $class({
                 }
                 for (var i = 0; i < O.fixed_labels.length; i++) {
                     /* Do not draw min/max values twice */
-                    if (O.fixed_labels[i] === O.min || O.fixed_labels[i] === O.max) continue;
+                    if (O.fixed_labels[i] === O.min || O.fixed_labels[i] === O.max || !O.show_labels) continue;
                     labels.push(low_draw_label.call(this, O.fixed_labels[i]));
                 }
             } else {
@@ -309,7 +311,7 @@ w.TK.Scale = w.Scale = $class({
                     //TK.log("beneath", O.reverse, iter)
                     iter -= O.division;
                     if (level = check_label.call(this, iter, O.division, last)) {
-                        if (level[1]) {
+                        if (level[1] && O.show_labels) {
                             labels.push(level[1]);
                         }
                         level = level[0];
@@ -329,7 +331,7 @@ w.TK.Scale = w.Scale = $class({
                     //TK.log("above", O.reverse, iter)
                     iter += O.division;
                     if (level = check_label.call(this, iter, O.division, last)) {
-                        if (level[1]) {
+                        if (level[1] && O.show_labels) {
                             labels.push(level[1]);
                         }
                         level = level[0];
