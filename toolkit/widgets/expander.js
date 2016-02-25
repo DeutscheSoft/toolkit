@@ -145,17 +145,24 @@ w.TK.Expander = w.Expander = $class({
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-expander");
-        this.button = new TK.Button({
-            onclick: toggle.bind(this),
-            container: this.element,
-            "class": "toolkit-toggle-expand"
-        });
+
+        var bo = TK.object_and(this.options, TK.Button.prototype._options);
+        bo = TK.object_sub(bo, TK.Widget.prototype._options);
+        bo.onclick = toggle.bind(this);
+        bo.container = this.element;
+        bo.class = "toolkit-toggle-expand";
+        bo._expanded = true;
+        bo._collapsed = true;
+
         this._update_visibility = update_visibility.bind(this);
         this.add_event("hide", collapse.bind(this, false));
         this.add_event("set_expanded", changed_expanded);
         this.add_event("set_always_expanded", update_visibility);
         this.set("expanded", this.options.expanded);
         this.set("always_expanded", this.options.always_expanded);
+
+        this.button = new TK.Button(bo);
+        this.add_child(this.button);
     },
     add_child: function(child) {
         TK.Container.prototype.add_child.call(this, child);
