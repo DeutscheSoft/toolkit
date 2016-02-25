@@ -909,6 +909,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         
         var x1, y1, xl, yl, align, x2, y2, i;
         var pref = O.preferences;
+        var tmp;
 
         switch (O.mode) {
             case "circular":
@@ -942,20 +943,24 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
+                        default:
+                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                            continue;
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    inter[i] = O.intersect(x1, y1, x2, y2,
-                                                      O.id);
-                    inter[i].x1 = x1;
-                    inter[i].y1 = y1;
-                    inter[i].x2 = x2;
-                    inter[i].y2 = y2;
-                    inter[i].xl = xl - x;
-                    inter[i].yl = yl - y;
-                    inter[i].align = align;
-                    if (!inter[i].intersect) {
-                        pos = inter[i];
+
+                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    inter.push(tmp);
+                    tmp.x1 = x1;
+                    tmp.y1 = y1;
+                    tmp.x2 = x2;
+                    tmp.y2 = y2;
+                    tmp.xl = xl - x;
+                    tmp.yl = yl - y;
+                    tmp.align = align;
+                    if (!tmp.intersect) {
+                        pos = tmp;
                         break;
                     }
                 }
@@ -1005,19 +1010,23 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "start";
                             break;
+                        default:
+                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                            continue;
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
-                    inter[i].x1 = x1;
-                    inter[i].y1 = y1;
-                    inter[i].x2 = x2;
-                    inter[i].y2 = y2;
-                    inter[i].xl = xl;
-                    inter[i].yl = yl;
-                    inter[i].align = align;
-                    if (!inter[i].intersect) {
-                        pos = inter[i];
+                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    inter.push(tmp);
+                    tmp.x1 = x1;
+                    tmp.y1 = y1;
+                    tmp.x2 = x2;
+                    tmp.y2 = y2;
+                    tmp.xl = xl;
+                    tmp.yl = yl;
+                    tmp.align = align;
+                    if (!tmp.intersect) {
+                        pos = tmp;
                         break;
                     }
                 }
@@ -1067,19 +1076,23 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "middle";
                             break;
+                        default:
+                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                            continue;
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
-                    inter[i].x1 = x1;
-                    inter[i].y1 = y1;
-                    inter[i].x2 = x2;
-                    inter[i].y2 = y2;
-                    inter[i].xl = xl;
-                    inter[i].yl = yl;
-                    inter[i].align = align;
-                    if (!inter[i].intersect) {
-                        pos = inter[i];
+                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    inter.push(tmp);
+                    tmp.x1 = x1;
+                    tmp.y1 = y1;
+                    tmp.x2 = x2;
+                    tmp.y2 = y2;
+                    tmp.xl = xl;
+                    tmp.yl = yl;
+                    tmp.align = align;
+                    if (!tmp.intersect) {
+                        pos = tmp;
                         break;
                     }
                 }
@@ -1150,19 +1163,23 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "start";
                             break;
+                        default:
+                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                            continue;
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
-                    inter[i].x1 = x1;
-                    inter[i].y1 = y1;
-                    inter[i].x2 = x2;
-                    inter[i].y2 = y2;
-                    inter[i].xl = xl;
-                    inter[i].yl = yl;
-                    inter[i].align = align;
-                    if (!inter[i].intersect) {
-                        pos = inter[i];
+                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    inter.push(tmp);
+                    tmp.x1 = x1;
+                    tmp.y1 = y1;
+                    tmp.x2 = x2;
+                    tmp.y2 = y2;
+                    tmp.xl = xl;
+                    tmp.yl = yl;
+                    tmp.align = align;
+                    if (!tmp.intersect) {
+                        pos = tmp;
                         break;
                     }
                 }
@@ -1233,19 +1250,23 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
+                        default:
+                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                            continue;
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
-                    inter[i].x1 = x1;
-                    inter[i].y1 = y1;
-                    inter[i].x2 = x2;
-                    inter[i].y2 = y2;
-                    inter[i].xl = xl;
-                    inter[i].yl = yl;
-                    inter[i].align = align;
-                    if (!inter[i].intersect) {
-                        pos = inter[i];
+                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    inter.push(tmp);
+                    tmp.x1 = x1;
+                    tmp.y1 = y1;
+                    tmp.x2 = x2;
+                    tmp.y2 = y2;
+                    tmp.xl = xl;
+                    tmp.yl = yl;
+                    tmp.align = align;
+                    if (!tmp.intersect) {
+                        pos = tmp;
                         break;
                     }
                 }
@@ -1317,19 +1338,23 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             yl = y1;
                             align = "end";
                             break;
+                        default:
+                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                            continue;
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    inter[i] = O.intersect(x1, y1, x2, y2, O.id);
-                    inter[i].x1 = x1;
-                    inter[i].y1 = y1;
-                    inter[i].x2 = x2;
-                    inter[i].y2 = y2;
-                    inter[i].xl = xl;
-                    inter[i].yl = yl;
-                    inter[i].align = align;
-                    if (!inter[i].intersect) {
-                        pos = inter[i];
+                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    inter.push(tmp);
+                    tmp.x1 = x1;
+                    tmp.y1 = y1;
+                    tmp.x2 = x2;
+                    tmp.y2 = y2;
+                    tmp.xl = xl;
+                    tmp.yl = yl;
+                    tmp.align = align;
+                    if (!tmp.intersect) {
+                        pos = tmp;
                         break;
                     }
                 }
