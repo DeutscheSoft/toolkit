@@ -25,18 +25,14 @@ function vert(O) {
 }
 function get_value(ev) {
     var is_vertical = vert(this.options);
-    var pos, click, real;
+    var pos, real, hsize;
+    hsize = this._handle_size / 2;
     if (is_vertical) {
         /* we calculate the position from the bottom of the scale */
-        var size = this.options.basis;
-        pos   = TK.position_top(this._scale);
-        click = ev.pageY;
-        real  = size - (click - pos);
+        real  = this.options.basis - (ev.offsetY - hsize);
     } else {
         /* we calculate the position from the left of the scale */
-        pos   = TK.position_left(this._scale);
-        click = ev.pageX;
-        real  = click - pos;
+        real  = ev.offsetX - hsize;
     }
     return this.real2val(real);
 }
@@ -156,6 +152,7 @@ w.TK.Fader = w.Fader = $class({
         this._scale = this.scale.element;
         
         this._handle = TK.element("div", "toolkit-handle");
+        this._handle_size = 0;
         this.element.appendChild(this._handle);
 
         this.add_child(this.scale);
@@ -244,9 +241,11 @@ w.TK.Fader = w.Fader = $class({
         var basis;
 
         if (vert(O)) {
-            basis = TK.inner_height(E) - TK.outer_height(H, true);
+            this._handle_size = TK.outer_height(H, true);
+            basis = TK.inner_height(E) - this._handle_size;
         } else {
-            basis = TK.inner_width(E) - TK.outer_width(H, true);
+            this._handle_size = TK.outer_width(H, true);
+            basis = TK.inner_width(E) - this._handle_size;
         }
 
         this.set("basis", basis);
