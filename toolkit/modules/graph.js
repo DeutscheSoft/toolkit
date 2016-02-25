@@ -246,6 +246,7 @@ w.TK.Graph = w.Graph = $class({
                 // if we are drawing a line, _start will do the first point
                 var i = O.type === "line" ? 1 : 0;
                 var s = [];
+                var f;
 
                 _start.call(this, dots, s);
 
@@ -274,6 +275,18 @@ w.TK.Graph = w.Graph = $class({
                             + x1[i] + "," + y1[i] + " "
                             + x2[i] + "," + y2[i] + " "
                             + x[i] + "," + y[i]);
+                    break;
+                case "H":
+                    f = O.type.length > 1 ? parseFloat(O.type.substr(1)) : 3;
+                    if (i == 0) {
+                        i++;
+                        s.push(" S" + x[0] + "," + y[0] + " " + x[0] + "," + y[0]);
+                    }
+                    for (; i < x.length-1; i++)
+                        s.push(" S" + (x[i] - Math.round(x[i] - x[i-1])/f) + ","
+                               + y[i] + " " + x[i] + "," + y[i]);
+                    if (i < x.length)
+                        s.push(" S" + x[i] + "," + y[i] + " " + x[i] + "," + y[i]);
                     break;
                 default:
                     TK.error("Unsupported graph type", O.type);
