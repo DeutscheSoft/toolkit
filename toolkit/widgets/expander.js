@@ -135,6 +135,10 @@ w.TK.Expander = w.Expander = $class({
 
         TK.Container.prototype.redraw.call(this);
 
+        if (I.always_expanded) {
+            this[O.always_expanded ? "add_class" : "remove_class"]("toolkit-always-expanded");
+        }
+
         if (I.expanded || I.always_expanded) {
             I.always_expanded = I.expanded = false; 
             var v = O.always_expanded || O.expanded;
