@@ -48,7 +48,7 @@ function label_timeout() {
 
     if (peak_label <= 0) return false;
 
-    if (this.__lto) return;
+    if (this.__lto) window.clearTimeout(this.__lto);
 
     if (label > base && value > base ||
         label < base && value < base)
