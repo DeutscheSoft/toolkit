@@ -206,7 +206,7 @@ w.TK.Fader = w.Fader = $class({
         var O = this.options;
         var E = this.element;
         var value;
-        var h;
+        var tmp;
         
         if (I.show_scale) {
             I.show_scale = false;
@@ -222,17 +222,27 @@ w.TK.Fader = w.Fader = $class({
             TK.remove_class(E, "toolkit-top");
             TK.remove_class(E, "toolkit-bottom");
             TK.add_class(E, vert(O) ? "toolkit-vertical" : "toolkit-horizontal");
-            var d = value == "left"   ? "toolkit-left" :
+            tmp = value == "left"   ? "toolkit-left" :
                     value == "right"  ? "toolkit-right" :
                     value == "top"    ? "toolkit-top" : "toolkit-bottom";
-            TK.add_class(E, d);
+            TK.add_class(E, tmp);
+
+            I.value = false;
         }
 
         if (I.validate.apply(I, Object.keys(Ranged.prototype._options)) || I.value) {
             I.value = false;
             // TODO: value is snapped already in set(). This is not enough for values which are set during
             // initialization.
-            this._handle.style[vert(O) ? "bottom" : "left"] = this.val2real(this.snap(O.value)) + "px";
+            tmp = this.val2real(this.snap(O.value)) + "px"
+
+            // TODO: this does not work on IE9
+
+            if (vert(O)) {
+                this._handle.style.transform = "translateY(-"+tmp+")";
+            } else {
+                this._handle.style.transform = "translateX("+tmp+")";
+            }
         }
     },
     resize: function () {

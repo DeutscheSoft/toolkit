@@ -163,6 +163,14 @@ pre, code {
     z-index: 10;
 }
 
+.toolkit-fader.toolkit-horizontal > .toolkit-handle {
+    left: 0;
+}
+
+.toolkit-fader.toolkit-vertical > .toolkit-handle {
+    bottom: 0;
+}
+
 /* LEVELMETER */
 
 .toolkit-level-meter > .toolkit-clip {
