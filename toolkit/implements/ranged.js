@@ -152,6 +152,24 @@ function ArraySnapModule(stdlib, foreign, heap) {
         snap : snap
     };
 }
+function NullSnapModule(stdlib, foreign, heap) {
+    "use asm";
+    var min = +foreign.min;
+    var max = +foreign.max;
+
+    function snap(v) {
+        v = +v;
+        if (v > max) return max;
+        if (v < min) return min;
+        return v;
+    }
+
+    return {
+        snap: snap,
+        snap_up: snap,
+        snap_down: snap,
+    };
+}
 function update_snap() {
     var O = this.options;
     // Notify that the ranged options have been modified
@@ -160,7 +178,7 @@ function update_snap() {
     } else if (typeof O.snap === "number" && O.snap > 0.0) {
         Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: O.base||0 }));
     } else {
-        this.snap = this.snap_up = this.snap_down = function(v) { return Math.max(O.min, Math.min(O.max, v)); };
+        Object.assign(this, NullSnapModule(window, { min : O.min, max : O.max }));
     }
 }
 function TRAFO_FUNCTION(stdlib, foreign) {
