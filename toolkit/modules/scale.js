@@ -278,7 +278,7 @@ w.TK.Scale = w.Scale = $class({
                 labels.push(l);
             }
             // draw top
-            if (pixel_distance.call(this, O.base, O.max) >= O.gap_labels) {
+            if (pixel_distance.call(this, O.base, O.min) >= O.gap_labels) {
                 this.draw_dot(O.min, O.reverse ? "toolkit-max" : "toolkit-min");
                 if (O.show_min && O.show_labels)
                     labels.push(low_draw_label.call(this, O.min, O.reverse ? "toolkit-max" : "toolkit-min"));
