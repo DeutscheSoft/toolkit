@@ -497,6 +497,10 @@ pre, code {
     position: relative;
 }
 
+.toolkit-expander.toolkit-always-expanded > .toolkit-toggle-expand {
+    display: none;
+}
+
 /* popup */
 .toolkit-expander.toolkit-popup.toolkit-expanded {
     position: fixed;
