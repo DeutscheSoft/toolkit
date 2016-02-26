@@ -541,7 +541,7 @@ pre, code {
     transform: translateX(0%);
 }
 
-.toolkit-expander.toolkit-drawer-right .toolkit-toggle-expand {
+.toolkit-expander.toolkit-drawer-right > .toolkit-toggle-expand {
     position: absolute;
     top: 0;
     left: 0;
@@ -561,9 +561,22 @@ pre, code {
     transform: translateX(0%);
 }
 
-.toolkit-expander.toolkit-drawer-left .toolkit-toggle-expand {
+.toolkit-expander.toolkit-drawer-left > .toolkit-toggle-expand {
     position: absolute;
     top: 0;
     right: 0;
     transform: translateX(100%);
+}
+
+/* hide */
+.toolkit-expander.toolkit-remove {
+    display: none;
+}
+
+.toolkit-expander.toolkit-remove.toolkit-expanded {
+    display: block;
+}
+
+.toolkit-expander.toolkit-remove > .toolkit-toggle-expand {
+    display: none;
 }
