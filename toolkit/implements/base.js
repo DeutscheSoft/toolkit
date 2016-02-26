@@ -47,6 +47,15 @@ var mixin = function(dst, src) {
 
     return dst;
 };
+function dispatch_events(handlers, args) {
+    for (var i = 0; i < handlers.length; i++) {
+        try {
+            handlers[i].apply(this, args);
+        } catch (e) {
+            TK.warn("event handler", handlers[i], "threw", e);
+        }
+    }
+}
 w.$mixin = merge;
 w.$class = function(o) {
     var constructor;
@@ -392,13 +401,8 @@ TK.Base = w.BASE = $class({
         for (var i = 0; i < args.length; i++) {
             args[i] = arguments[i+1];
         }
-        for (var i = 0; i < ev.length; i++) {
-            try {
-                ev[i].apply(this, args);
-            } catch (e) {
-                TK.warn("event handler", ev[i], "threw", e);
-            }
-        }
+
+        dispatch_events.call(this, ev, args);
     },
     /**
      * Test if the event descriptor has some handler functions in the queue.
