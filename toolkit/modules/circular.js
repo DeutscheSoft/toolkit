@@ -343,6 +343,9 @@ w.TK.Circular = w.Circular = $class({
     initialized: function () {
         TK.Widget.prototype.initialized.call(this);
         Ranged.prototype.initialized.call(this);
+        // calculate the stroke here once. this happens before
+        // the initial redraw
+        TK.S.after_frame(this._get_stroke.bind(this));
     },
 
     resize: function () {
@@ -430,7 +433,7 @@ w.TK.Circular = w.Circular = $class({
         if (this.hasOwnProperty("_stroke")) return this._stroke;
         var strokeb = parseInt(TK.get_style(this._base, "stroke-width")) || 0;
         var strokev = parseInt(TK.get_style(this._value, "stroke-width")) || 0;
-        this._stroke = strokeb > strokev ? strokeb : strokev;
+        this._stroke = Math.max(strokeb, strokev);
         return this._stroke;
     },
 
