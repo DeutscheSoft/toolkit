@@ -50,6 +50,22 @@ function hit_test(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
     if (!oh) return 0;
     return Math.min(Math.min(aw, bw), ow) * Math.min(Math.min(ah, bh), oh);
 }
+
+function show_handles() {
+    var handles = this.handles;
+
+    for (var i = 0; i < handles.length; i++) {
+        this.add_child(handles[i]);
+    }
+}
+
+function hide_handles() {
+    var handles = this.handles;
+
+    for (var i = 0; i < handles.length; i++) {
+        this.remove_child(handles[i]);
+    }
+}
     
 w.TK.ResponseHandler = w.ResponseHandler = $class({
     /**
@@ -68,6 +84,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         range_z: "object",
         depth: "number",
         handles: "array", 
+        show_handles: "boolean",
     }),
     options: {
         importance_label:  4,   // multiplicator of square pixels on hit testing
@@ -78,7 +95,8 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
                                 // borders to gain importance
         range_z:           { scale: "linear", min: 0, max: 1 }, // TK.Range z options
         depth:             0,   // the depth of the z axis (basis of range_z)
-        handles:           []   // list of bands to create on init
+        handles:           [],  // list of bands to create on init
+        show_handles: true,
     },
     initialize: function (options) {
         this.handles = [];
@@ -107,6 +125,18 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     },
     
     redraw: function () {
+        var I = this.invalid;
+        var O = this.options;
+
+        if (I.show_handles) {
+            I.show_handles = false;
+            if (O.show_handles) {
+                this._handles.style.removeProperty("display");
+            } else {
+                this._handles.style.display = "none";
+            }
+        }
+
         TK.FrequencyResponse.prototype.redraw.call(this);
     },
     
@@ -149,7 +179,8 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
             document.removeEventListener("touchmove", _touchmove);
             document.removeEventListener("touchend",  _touchend);
         }.bind(this));
-        this.add_child(h);
+        if (this.options.show_handles)
+            this.add_child(h);
         this.fire_event("handleadded", h);
         return h;
     },
@@ -162,7 +193,8 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         // remove a handle from the widget.
         for (var i = 0; i < this.handles.length; i++) {
             if (this.handles[i] == handle) {
-                this.remove_child(handle);
+                if (this.options.show_handles)
+                    this.remove_child(handle);
                 this.handles[i].destroy();
                 this.handles.splice(i, 1);
                 this.fire_event("handleremoved");
@@ -232,12 +264,16 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     
     // GETTER & SETER
     set: function (key, value) {
+        value = TK.FrequencyResponse.prototype.set.call(this, key, value);
         switch (key) {
             case "depth":
                 this.range_z.set("basis", value);
                 break;
+            case "show_handles":
+                if (value) show_handled();
+                else hide_handles();
+                break;
         }
-        return TK.FrequencyResponse.prototype.set.call(this, key, value);
     }
 });
 })(this);
