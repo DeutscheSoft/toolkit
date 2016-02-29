@@ -140,7 +140,7 @@ if ('getComputedStyle' in w) {
    * @function TK.get_style
    */
   get_style = function(e, style) {
-    return document.defaultView.getComputedStyle(e).getPropertyValue(style);
+    return w.getComputedStyle(e).getPropertyValue(style);
   };
 } else {
   get_style = function(e, style) {
