@@ -347,13 +347,6 @@ w.TK.Scale = w.Scale = $class({
             correct_labels.call(this, labels);
         }
     },
-    destroy: function () {
-        TK.empty(this.element);
-        this.element.remove();
-        TK.Widget.prototype.destroy.call(this);
-        // ??
-        return this;
-    },
     
     draw_dot: function (val, cls) {
         // draws a dot at a certain value and adds a class if needed
