@@ -394,7 +394,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             if (O.auto_clip !== false && value > O.clipping && !this.__based) {
                 this.set("clip", true);
             }
-            if (O.peak_label !== false &&
+            if (O.show_label && O.peak_label !== false &&
                 (value > O.label && value > base || value < O.label && value < base)) {
                 this.set("label", value);
             }
