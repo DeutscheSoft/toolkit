@@ -34,7 +34,7 @@ function enable_draw_self() {
     if (this._drawn) return;
     this._drawn = true;
     if (this.needs_redraw) {
-        TK.S.add(this._redraw);
+        TK.S.add(this._redraw, 1);
     }
     this.fire_event("show");
 }
@@ -47,8 +47,8 @@ function disable_draw_self() {
     if (!this._drawn) return;
     this._drawn = false;
     if (this.needs_redraw) {
-        TK.S.remove(this._redraw);
-        TK.S.remove_next(this._redraw);
+        TK.S.remove(this._redraw, 1);
+        TK.S.remove_next(this._redraw, 1);
     }
     this.fire_event("hide");
 }

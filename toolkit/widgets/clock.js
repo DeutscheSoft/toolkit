@@ -107,10 +107,10 @@ function set_labels() {
                     this._label_lower.setAttribute("transform", "translate(" + pos + "," + (pos + bb.height / 2 + mtop) + ") "
                         + "scale(" + (scale * O.label_scale) + ")");
                     draw_time.call(this, true);
-                }.bind(this));
-            }.bind(this), 1);
-        }.bind(this));
-    }.bind(this), 1);
+                }.bind(this), 1);
+            }.bind(this));
+        }.bind(this), 1);
+    }.bind(this));
 }
 function timeout() {
     if (this.__to)

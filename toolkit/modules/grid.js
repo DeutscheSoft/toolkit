@@ -135,8 +135,8 @@ function draw_lines(a, mode, last) {
                 }
                 this.element.appendChild(line);
             }
-        }.bind(this));
-    }.bind(this), 1);
+        }.bind(this), 1);
+    }.bind(this));
 }
 w.TK.Grid = w.Grid = $class({
     /**

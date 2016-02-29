@@ -139,14 +139,14 @@ TK.Widget = $class({
     trigger_draw : function() {
         if (!this.needs_redraw) {
             this.needs_redraw = true;
-            if (this._drawn) TK.S.add(this._redraw);
+            if (this._drawn) TK.S.add(this._redraw, 1);
         }
     },
 
     trigger_draw_next : function() {
         if (!this.needs_redraw) {
             this.needs_redraw = true;
-            if (this._drawn) TK.S.add_next(this._redraw);
+            if (this._drawn) TK.S.add_next(this._redraw, 1);
         }
     },
 
@@ -190,7 +190,7 @@ TK.Widget = $class({
     },
     destroy: function () {
         this.fire_event("destroy");
-        if (this.needs_redraw) TK.S.remove(this._redraw);
+        if (this.needs_redraw) TK.S.remove(this._redraw, 1);
         BASE.prototype.destroy.call(this);
         if (this.parent) this.parent.remove_child(this);
 
@@ -324,7 +324,7 @@ TK.Widget = $class({
         if (this._drawn) return;
         this._drawn = true;
         if (this.needs_redraw) {
-            TK.S.add(this._redraw);
+            TK.S.add(this._redraw, 1);
         }
         this.fire_event("show");
         var C = this.children;
@@ -339,8 +339,8 @@ TK.Widget = $class({
         if (!this._drawn) return;
         this._drawn = false;
         if (this.needs_redraw) {
-            TK.S.remove(this._redraw);
-            TK.S.remove_next(this._redraw);
+            TK.S.remove(this._redraw, 1);
+            TK.S.remove_next(this._redraw, 1);
         }
         this.fire_event("hide");
         var C = this.children;

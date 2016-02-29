@@ -59,7 +59,7 @@ w.TK.Root = w.Root = $class({
         /* NOTE: the initial draw will add all elements to the dom and set them up.
          * after that is done, we trigger one initial resize event, to make sure that
          * they are resized properly, if needed. */
-        TK.S.after_frame(this.resize.bind(this));
+        TK.S.add(function() { TK.S.add(this.resize.bind(this)); }.bind(this), 1);
         this.enable_draw();
     },
     resize: function() {

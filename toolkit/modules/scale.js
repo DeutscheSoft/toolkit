@@ -117,8 +117,8 @@ function correct_labels(labels) {
         if (new_size > elem_size)
             TK.S.add(function() {
                 size_fun(this.element, true, new_size);
-            }.bind(this));
-    }.bind(this), 1);
+            }.bind(this), 1);
+    }.bind(this));
 }
 /**
  * TK.Scale can be used to draw scales. It is used in {@link TK.MeterBase} and

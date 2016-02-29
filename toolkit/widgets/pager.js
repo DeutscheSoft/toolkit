@@ -197,9 +197,9 @@ w.TK.Pager = w.Pager = $class({
                     }
                     /* we essentially resize the pages container, so we need to call
                      * resize() on them */
-                    TK.S.after_frame(TK.Container.prototype.resize.bind(this));
-                }.bind(this));
-            }.bind(this), 1);
+                    TK.S.add(TK.Container.prototype.resize.bind(this));
+                }.bind(this), 1);
+            }.bind(this));
         }
         
         if (I.show) {

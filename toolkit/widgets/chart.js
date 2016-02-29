@@ -204,8 +204,8 @@ function draw_title() {
             _title.setAttribute("text-anchor", anchor);
             _title.setAttribute("x", x);
             _title.setAttribute("y", y);
-        });
-    }.bind(this), 1);
+        }, 1);
+    }.bind(this));
 }
 
 function create_grid() {

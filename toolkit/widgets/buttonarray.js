@@ -87,8 +87,8 @@ function scroll_to() {
 
             TK.S.add(function() {
                 this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
-            }.bind(this));
-        }.bind(this), 1);
+            }.bind(this), 1);
+        }.bind(this));
     }
 }
 w.TK.ButtonArray = w.ButtonArray = $class({
@@ -303,8 +303,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                             hide_arrows.call(this);
 
                         scroll_to.call(this);
-                    }.bind(this));
-                }.bind(this), 1);
+                    }.bind(this), 1);
+                }.bind(this));
             }
         }
         if (I.validate("show", "direction")) {

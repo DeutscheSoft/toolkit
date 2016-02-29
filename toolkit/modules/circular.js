@@ -197,8 +197,8 @@ function draw_labels() {
                 p.setAttribute("transform", positions[i]);
             }
             this.fire_event("labelsdrawn");
-        }.bind(this));
-    }.bind(this), 1);
+        }.bind(this), 1);
+    }.bind(this));
 }
 function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     a_from = +a_from;

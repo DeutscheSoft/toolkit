@@ -133,9 +133,9 @@ w.TK.Gauge = w.Gauge = $class({
                     TK.S.add(function() {
                         _title.setAttribute("transform", format_translate(coords.x + mx, coords.y + my));
                         _title.setAttribute("text-anchor", "middle");
-                    }.bind(this));
+                    }.bind(this), 1);
                     this.fire_event("titledrawn");
-                }.bind(this), 1);
+                }.bind(this));
             }
         }
     },

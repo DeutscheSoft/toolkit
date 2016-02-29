@@ -273,8 +273,8 @@ w.TK.Select = w.Select = $class({
                         while (L.firstChild) L.removeChild(L.firstChild);
                         L.appendChild(orig_content);
                         TK.outer_width(E, true, width);
-                    });
-                }, 1);
+                    }, 1);
+                });
             }
         }
     },

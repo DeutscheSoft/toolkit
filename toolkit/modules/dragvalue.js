@@ -155,7 +155,7 @@ function move_drag(ev, x, y) {
     s.y = y;
     if (!s.scheduled) {
         s.scheduled = true;
-        TK.S.add(this.__update_drag);
+        TK.S.add(this.__update_drag, 1);
     }
 }
 
@@ -219,7 +219,7 @@ function stop_drag(ev, x, y) {
     var O = this.options;
 
     if (this._drag_state.scheduled) {
-        TK.S.remove(this.__update_drag);
+        TK.S.remove(this.__update_drag, 1);
         this.__update_drag();
     }
 
