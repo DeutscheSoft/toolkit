@@ -22,3 +22,29 @@
 .toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand::before {
     transform: rotate(135deg);
 }
+
+/* POPUP INPLACE */
+
+.toolkit-expander.toolkit-popup-inplace {
+    background: rgba(216, 216, 216, 0.9);
+}
+
+.toolkit-expander.toolkit-popup-inplace.toolkit-expanded > .toolkit-toggle-expand {
+    width: 42px;
+    height: 42px;
+}
+.toolkit-expander.toolkit-popup-inplace.toolkit-expanded > .toolkit-toggle-expand::after,
+.toolkit-expander.toolkit-popup-inplace.toolkit-expanded > .toolkit-toggle-expand::before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 4px;
+    width: 32px;
+    top: 19px;
+    left: 5px;
+    transform: rotate(45deg);
+    background: #003050;
+}
+.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand::before {
+    transform: rotate(135deg);
+}

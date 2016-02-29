@@ -51,17 +51,53 @@ function is_visible(widget) {
 function changed_expanded(value) {
     var group = this.options.group;
     var other_expander;
+    var grp;
 
     if (group) {
+        grp = expander_groups[group];
         if (value) {
-            if ((other_expander = expander_groups[group]) && other_expander !== this) {
+            other_expander = grp.active;
+            grp.active = this;
+            if (other_expander && other_expander !== this)
                 other_expander.set("expanded", false); 
-            }
-            expander_groups[group] = this;
-        } else expander_groups[group] = false;
+        } else if (grp.active === this) {
+            grp.active = false;
+            if (grp.default) grp.default.set("expanded", true);
+        }
+    }
+    update_visibility.call(this);
+}
+function add_to_group(group) {
+    var grp;
+    var O = this.options;
+    if (!(grp = expander_groups[group]))
+        expander_groups[group] = grp = { active: false, default: false };
+
+    if (O.group_default) {
+        grp.default = this;
+        if (!grp.active) {
+            this.set("expanded", true);
+            return;
+        }
     }
 
-    update_visibility.call(this);
+    if (O.expanded)
+        changed_expanded.call(this, O.expanded);
+}
+
+function remove_from_group(group) {
+    var grp = expander_groups[group];
+
+    if (grp.default === this) grp.default = false;
+    if (grp.active === this) {
+        grp.active = false;
+        if (grp.default) grp.default.set("expanded", true);
+    }
+}
+function remove_group_default(group) {
+    if (!group) return;
+    var grp = expander_groups[group];
+    grp.default = false;
 }
 function update_visibility() {
     var C = this.children;
@@ -86,6 +122,7 @@ function update_visibility() {
     }
 }
 var expander_groups = { };
+w.eg = expander_groups;
 w.TK.Expander = w.Expander = $class({
     /**
      * TK.Expander is a container which can be toggled between two different states,
@@ -107,7 +144,8 @@ w.TK.Expander = w.Expander = $class({
      * @property {string} options.group - If set, this expander is grouped together with
      *  all other expanders of the same group name. At most one expander of the same group
      *  can be open at one time.
-     * 
+     * @property {string} options.group_default - If set to true, this expander is expanded
+     *  if all other group members are collapsed.
      * @class TK.Expander
      * @extends TK.Container
      */
@@ -116,12 +154,14 @@ w.TK.Expander = w.Expander = $class({
         expanded: "boolean",
         always_expanded: "boolean",
         group: "string",
+        group_default: "boolean",
         label: "string",
         icon: "string",
     }),
     options: {
         expanded: false,
         always_expanded: false,
+        group_default: false,
         label: "",
         icon: "",
     },
@@ -162,9 +202,11 @@ w.TK.Expander = w.Expander = $class({
         this.add_event("hide", collapse.bind(this, false));
         this.add_event("set_expanded", changed_expanded);
         this.add_event("set_always_expanded", update_visibility);
+        this.set("group", this.options.group);
+        this.set("group_default", this.options.group_default);
         this.set("expanded", this.options.expanded);
         this.set("always_expanded", this.options.always_expanded);
-
+        
         this.button = new TK.Button(bo);
         this.add_child(this.button);
     },
@@ -179,20 +221,22 @@ w.TK.Expander = w.Expander = $class({
         child.remove_event("set__collapsed", this._update_visibility);
     },
     set: function(key, value) {
-        if (key === "group" && this.options.expanded) {
-            var old = this.options.group;
-            if (old) expander_groups[old] = false;
-            if (value) {
-                if (expander_groups[value] && expander_groups[value] !== this)
-                    expander_groups[value].set("expanded", false);
-                expander_groups[value] = this;
-            }
+        var group;
+        if (key === "group") {
+            group = this.options.group;
+            if (group) remove_from_group.call(this, group);
+        } else if (key === "group_default") {
+            if (!value && this.options.group_default)
+                remove_group_default.call(this, this.options.group);
         }
         TK.Container.prototype.set.call(this, key, value);
         switch (key) {
         case "label":
         case "icon":
             this.button.set(key, value);
+            break;
+        case "group":
+            if (value) add_to_group.call(this, value);
             break;
         }
     },
