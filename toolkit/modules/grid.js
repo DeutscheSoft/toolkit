@@ -185,14 +185,13 @@ w.TK.Grid = w.Grid = $class({
             this.set("width", this.options.width);
         if (this.options.height)
             this.set("height", this.options.width);
-        this.range_x.add_event("set", function (key, value, hold) {
+        this.invalidate_ranges = function (key, value) {
             this.invalid.range_x = true;
-            this.trigger_draw();
-        }.bind(this));
-        this.range_y.add_event("set", function (key, value, hold) {
             this.invalid.range_y = true;
             this.trigger_draw();
-        }.bind(this));
+        }.bind(this);
+        this.range_x.add_event("set", this.invalidate_ranges);
+        this.range_y.add_event("set", this.invalidate_ranges);
     },
     
     redraw: function () {
@@ -207,6 +206,8 @@ w.TK.Grid = w.Grid = $class({
     },
     destroy: function () {
         this.element.remove();
+        this.range_x.remove_event("set", this.invalidate_ranges);
+        this.range_y.remove_event("set", this.invalidate_ranges);
         TK.Widget.prototype.destroy.call(this);
     },
     // GETTER & SETTER
