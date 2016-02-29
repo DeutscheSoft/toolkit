@@ -303,6 +303,7 @@ w.TK.Chart = w.Chart = $class({
         
         if (!(E = this.element)) this.element = E = TK.element("div");
         this.svg = S = TK.make_svg("svg");
+        S.setAttribute("shape-rendering", "optimizeSpeed");
 
         TK.add_class(E, "toolkit-chart");
 
@@ -368,7 +369,6 @@ w.TK.Chart = w.Chart = $class({
             this.invalid._height = true;
             this.trigger_draw();
         }
-        TK.S.after_frame(TK.seat_svg.bind(this, this.svg));
     },
     redraw: function () {
         var I = this.invalid;
