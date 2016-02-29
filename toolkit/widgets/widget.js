@@ -305,7 +305,6 @@ TK.Widget = $class({
             if (this.options.class) TK.remove_class(this.__classified, this.options.class);
             if (value) TK.add_class(this.__classified, value);
         }
-        TK.Base.prototype.set.call(this, key, value);
         if (this._options[key]) {
             this.invalid[key] = true;
             this.value_time[key] = Date.now();
@@ -313,6 +312,7 @@ TK.Widget = $class({
         } else if (key.charCodeAt(0) !== 95) {
             TK.warn("%O: %s.set(%s, %O): unknown option.", this, this._class, key, value);
         }
+        TK.Base.prototype.set.call(this, key, value);
         return value;
     },
     /**
