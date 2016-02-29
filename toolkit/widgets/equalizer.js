@@ -24,6 +24,18 @@ function invalidate_bands() {
     this.invalid.bands = true;
     this.trigger_draw();
 }
+function show_bands() {
+    var b = this.bands;
+    for (var i = 0; i < b.length; i ++) {
+        this.add_child(b[i]);
+    }
+}
+function hide_bands() {
+    var b = this.bands;
+    for (var i = 0; i < b.length; i ++) {
+        this.remove_child(b[i]);
+    }
+}
 w.TK.Equalizer = w.Equalizer = $class({
     /**
      * TK.Equalizer is a TK.ResponseHandler adding some EqBands instead of
@@ -37,10 +49,12 @@ w.TK.Equalizer = w.Equalizer = $class({
     _options: Object.assign(Object.create(TK.ResponseHandler.prototype._options), {
         accuracy: "number",
         bands:  "array",
+        show_bands: "boolean",
     }),
     options: {
         accuracy: 1, // the distance between points of curves on the x axis
         bands: [],   // list of bands to create on init
+        show_bands: true,
     },
     
     initialize: function (options) {
@@ -101,6 +115,15 @@ w.TK.Equalizer = w.Equalizer = $class({
                 this.baseline.set("dots", d.join(""));
             }
         }
+
+        if (I.show_bands) {
+            I.show_bands = false;
+            if (O.show_bands) {
+                this._bands.style.removeProperty("display");
+            } else {
+                this._bands.style.display = "none";
+            }
+        }
     },
     resize: function () {
         invalidate_bands.call(this);
@@ -144,7 +167,8 @@ w.TK.Equalizer = w.Equalizer = $class({
         }.bind(this));
         b.add_event("set", invalidate_bands.bind(this)); 
         this.fire_event("bandadded", b);
-        this.add_child(b);
+        if (this.options.show_bands)
+            this.add_child(b);
         invalidate_bands.call(this);
         return b;
     },
@@ -156,7 +180,8 @@ w.TK.Equalizer = w.Equalizer = $class({
     remove_band: function (h) {
         for (var i = 0; i < this.bands.length; i++) {
             if (this.bands[i] == h) {
-                this.remove_child(h);
+                if (this.options.show_bands)
+                    this.remove_child(h);
                 h.destroy();
                 this.bands.splice(i, 1);
                 this.fire_event("bandremoved");
@@ -171,6 +196,16 @@ w.TK.Equalizer = w.Equalizer = $class({
         this.bands = [];
         this.fire_event("emptied");
         invalidate_bands.call(this);
-    }
+    },
+    set: function(key, value) {
+        TK.ResponseHandler.prototype.set.call(this, key, value);
+        if (key === "show_bands") {
+            if (value) {
+                show_bands.call(this);
+            } else {
+                hide_bands.call(this);
+            }
+        }
+    },
 });
 })(this);
