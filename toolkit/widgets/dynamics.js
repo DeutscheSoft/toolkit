@@ -80,6 +80,8 @@ w.TK.Dynamics = w.Dynamics = $class({
     redraw: function () {
         var O = this.options;
         var I = this.invalid;
+        
+        TK.Chart.prototype.redraw.call(this);
 
         if (I.validate("size", "min", "max", "scale")) {
             var grid_x = [];
@@ -101,8 +103,10 @@ w.TK.Dynamics = w.Dynamics = $class({
                     "class": cls
                 });
             }
-            this.grid.set("grid_x", grid_x);
-            this.grid.set("grid_y", grid_y);
+            if (this.grid) {
+                this.grid.set("grid_x", grid_x);
+                this.grid.set("grid_y", grid_y);
+            }
 
             if (this.steady)
                 this.steady.set("dots", [{x:O.min, y:O.min}, {x:O.max, y:O.max}]);
@@ -112,8 +116,6 @@ w.TK.Dynamics = w.Dynamics = $class({
         if (I.validate("ratio", "threshold", "range", "makeup")) {
             this.draw_graph();
         }
-        
-        TK.Chart.prototype.redraw.call(this);
     },
 
     resize: function() {

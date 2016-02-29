@@ -208,7 +208,7 @@ function draw_title() {
     }.bind(this), 1);
 }
 
-function make_grid() {
+function create_grid() {
     if (!this.grid) {
         this.grid = new TK.Grid({
             grid_x: this.options.grid_x,
@@ -217,7 +217,6 @@ function make_grid() {
             range_y: function () { return this.range_y; }.bind(this),
         });
         this.add_child(this.grid);
-        this.svg.insertBefore(this.grid.element, this.svg.firstChild);
     }
 
     return this.grid;
@@ -314,7 +313,7 @@ w.TK.Chart = w.Chart = $class({
         if (!this.options.height)
             this.options.height = this.range_y.options.basis;
         
-        this.set("show_grid", this.options.show_grid);
+        this.grid = null;
         
         this._title = TK.make_svg("text", {
             "class": "toolkit-title",
@@ -373,6 +372,17 @@ w.TK.Chart = w.Chart = $class({
     redraw: function () {
         var I = this.invalid;
         var E = this.svg;
+        var O = this.options;
+
+        if (I.show_grid) {
+            I.show_grid = false;
+            if (O.show_grid) {
+                create_grid.call(this);
+                this.svg.insertBefore(this.grid.element, this.svg.firstChild);
+            } else {
+                remove_grid.call(this);
+            }
+        }
 
         TK.Widget.prototype.redraw.call(this);
 
@@ -381,8 +391,8 @@ w.TK.Chart = w.Chart = $class({
              * they do depend on the size */
             I.title = true;
             I.key = true;
-            var w = this.options._width;
-            var h = this.options._height;
+            var w = O._width;
+            var h = O._height;
             if (w && h) {
                 E.setAttribute("width", w + "px");
                 E.setAttribute("height", h + "px");
@@ -510,10 +520,6 @@ w.TK.Chart = w.Chart = $class({
             case "grid_y":
                 if (this.grid)
                     this.grid.set("grid_y", value);
-                break;
-            case "show_grid":
-                if (value) make_grid.call(this);
-                else remove_grid.call(this);
                 break;
         }
         return value;
