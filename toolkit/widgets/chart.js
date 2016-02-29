@@ -207,6 +207,29 @@ function draw_title() {
         });
     }.bind(this), 1);
 }
+
+function make_grid() {
+    if (!this.grid) {
+        this.grid = new TK.Grid({
+            grid_x: this.options.grid_x,
+            grid_y: this.options.grid_y,
+            range_x: function () { return this.range_x; }.bind(this),
+            range_y: function () { return this.range_y; }.bind(this),
+        });
+        this.add_child(this.grid);
+        this.svg.insertBefore(this.grid.element, this.svg.firstChild);
+    }
+
+    return this.grid;
+}
+
+function remove_grid() {
+    if (this.grid) {
+        this.remove_child(this.grid);
+        this.grid.destroy();
+    }
+    this.grid = null;
+}
     
 /**
  * TK.Chart is an SVG image containing one or more Graphs. There are functions
@@ -231,6 +254,8 @@ function draw_title() {
  *      <code>"bottom-left"</code> and <code>"bottom-right"</code>.
  * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored rectangles
  *      inside of the key descrining individual graphs.
+ * @property {boolean} [options.show_chart=true] - Set to <code>false</code> to
+ *      disable the grid.
  */
 w.TK.Chart = w.Chart = $class({
     _class: "Chart",
@@ -239,6 +264,7 @@ w.TK.Chart = w.Chart = $class({
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         grid_x: "array",
         grid_y: "array",
+        show_grid: "boolean",
         width: "int",
         height: "height",
         _width: "int",
@@ -263,7 +289,8 @@ w.TK.Chart = w.Chart = $class({
                      // position, use false for no key
         key_size: {x:20, y:10}, // size of the key rects
         title:   "", // a title for the chart
-        title_position: "top-right" // the position of the title
+        title_position: "top-right", // the position of the title
+        show_grid: true
     },
     initialize: function (options) {
         var E, S;
@@ -286,14 +313,7 @@ w.TK.Chart = w.Chart = $class({
         if (!this.options.height)
             this.options.height = this.range_y.options.basis;
         
-        this.grid = new TK.Grid({
-            grid_x: this.options.grid_x,
-            grid_y: this.options.grid_y,
-            range_x: function () { return this.range_x; }.bind(this),
-            range_y: function () { return this.range_y; }.bind(this),
-            container: S
-        });
-        this.add_child(this.grid);
+        this.set("show_grid", this.options.show_grid);
         
         this._title = TK.make_svg("text", {
             "class": "toolkit-title",
@@ -387,6 +407,7 @@ w.TK.Chart = w.Chart = $class({
         }
         this._graphs.remove();
         this.element.remove();
+        remove_grid.call(this);
         TK.Widget.prototype.destroy.call(this);
     },
     add_child: function(child) {
@@ -483,10 +504,16 @@ w.TK.Chart = w.Chart = $class({
         value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "grid_x":
-                this.grid.set("grid_x", value);
+                if (this.grid)
+                    this.grid.set("grid_x", value);
                 break;
             case "grid_y":
-                this.grid.set("grid_y", value);
+                if (this.grid)
+                    this.grid.set("grid_y", value);
+                break;
+            case "show_grid":
+                if (value) make_grid.call(this);
+                else remove_grid.call(this);
                 break;
         }
         return value;
