@@ -82,6 +82,22 @@ function SET(v) {
     this.set("value", v);
     this.fire_event("useraction", "value", v);
 }
+function create_scale() {
+    if (!this.scale) {
+        var O = this.options;
+        var so = TK.object_and(O, TK.Scale.prototype._options);
+        so = TK.object_sub(so, TK.Widget.prototype._options);
+        
+        this.scale = new TK.Scale(so);
+        this.add_child(this.scale);
+    }
+}
+function remove_scale() {
+    if (this.scale) {
+        this.scale.destroy();
+        this.scale = null;
+    }
+}
 /**
  * TK.Fader is a fader widget. It is implemented as a slidable control which
  * can be both dragged and scrolled. TK.Fader implements {@link TK.Ranged},
@@ -144,18 +160,11 @@ w.TK.Fader = w.Fader = $class({
         TK.add_class(E, "toolkit-fader");
         this.widgetize(E, true, true, true);
 
-        var so = TK.object_and(O, TK.Scale.prototype._options);
-        so = TK.object_sub(so, TK.Widget.prototype._options);
-        so.container = E;
-        
-        this.scale = new TK.Scale(so);
-        this._scale = this.scale.element;
+        this.scale = this._scale = null;
         
         this._handle = TK.element("div", "toolkit-handle");
         this._handle_size = 0;
         this.element.appendChild(this._handle);
-
-        this.add_child(this.scale);
 
         if (typeof O.reset === "undefined")
             O.reset = O.value;
@@ -210,8 +219,22 @@ w.TK.Fader = w.Fader = $class({
         
         if (I.show_scale) {
             I.show_scale = false;
-            TK[O.show_scale ? "add_class" : "remove_class"](this.element, "toolkit-has-scale");
+            if (O.show_scale) {
+                if (!this._scale) {
+                    create_scale.call(this);
+                    this._scale = this.scale.element;
+                    E.appendChild(this._scale);
+                }
+                TK.add_class(this.element, "toolkit-has-scale");
+            } else {
+                if (this._scale) {
+                    E.removeChild(this._scale)
+                    this._scale = null;
+                }
+                TK.remove_class(this.element, "toolkit-has-scale");
+            }
         }
+
         if (I.layout) {
             I.layout = false;
             value = O.layout;
@@ -259,13 +282,14 @@ w.TK.Fader = w.Fader = $class({
         }
 
         this.set("basis", basis);
-        this.scale.set("basis", basis);
+        if (this.scale)
+            this.scale.set("basis", basis);
 
         TK.Widget.prototype.resize.call(this);
     },
     destroy: function () {
         this._handle.remove();
-        this.scale.destroy();
+        remove_scale.call(this);
         this.element.remove();
         TK.Widget.prototype.destroy.call(this);
         TK.tooltip.remove(0, this.tooltip_by_value);
@@ -287,14 +311,18 @@ w.TK.Fader = w.Fader = $class({
                 value = this.snap(value);
                 break;
             case "layout":
-                this.scale.set("layout", value);
+                if (this.scale) this.scale.set("layout", value);
                 this.options.direction = vert(this.options) ? "vertical" : "horizontal";
                 this.drag.set("direction", this.options.direction);
                 this.scroll.set("direction", this.options.direction);
                 break;
+            case "show_scale":
+                if (!value)
+                    remove_scale.call(this);
+                break;
         }
 
-        if (!TK.Widget.prototype._options[key] && TK.Scale.prototype._options[key]) {
+        if (this.scale && !TK.Widget.prototype._options[key] && TK.Scale.prototype._options[key]) {
             this.scale.set(key, value);
             this.fire_event("scalechanged", key, value);
         }
