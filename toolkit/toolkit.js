@@ -438,6 +438,7 @@ function FORMAT(fmt) {
             argnum--;
             break;
         case 79:
+        case 111:
             s += "JSON.stringify("+argname+")";
             break;
         default:
@@ -508,6 +509,7 @@ function sprintf(fmt) {
         case 115: /* s */
             break;
         case 79: /* O */
+        case 111: /* o */
             s = JSON.stringify(s);
             break;
         default:
