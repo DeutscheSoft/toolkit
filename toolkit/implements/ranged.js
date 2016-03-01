@@ -561,7 +561,7 @@ w.TK.Ranged = w.Ranged = $class({
         log_factor:     1
     },
     _options: {
-        scale: "int",
+        scale: "string",
         reverse: "boolean",
         basis: "number",
         min: "number",

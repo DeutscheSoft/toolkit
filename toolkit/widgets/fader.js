@@ -130,7 +130,7 @@ w.TK.Fader = w.Fader = $class({
         show_scale: "boolean",
         labels: "function",
         tooltip: "function",
-        layout: "int",
+        layout: "string",
         fixed_dots: "boolean",
         fixed_labels: "boolean",
         direction: "int",
