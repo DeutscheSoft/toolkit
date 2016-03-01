@@ -258,6 +258,8 @@ pre, code {
     position: absolute;
     left: 0;
     top: 0;
+    width: 100%;
+    height: 100%;
 }
 .toolkit-meter-base > .toolkit-bar > .toolkit-mark {
     position: absolute;
