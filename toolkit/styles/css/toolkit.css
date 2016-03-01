@@ -246,7 +246,7 @@ pre, code {
 }
 .toolkit-meter-base > .toolkit-bar {
     position: absolute;
-    overflow: hidden;
+    overflow: visible;
 }
 .toolkit-meter-base > .toolkit-bar > .toolkit-over {
     position: absolute;

@@ -241,6 +241,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         if (I.basis && O._height && O._width) {
             this._canvas.setAttribute("height", O._height + "px");
             this._canvas.setAttribute("width", O._width + "px");
+            this._canvas.style.transform = "translate(-" + O._transform_left + ",-" + O._transform_top +")";
         }
         
         if (I.value || I.basis) {
@@ -276,11 +277,13 @@ w.TK.MeterBase = w.MeterBase = $class({
     resize: function() {
         var O = this.options;
         TK.Widget.prototype.resize.call(this);
-        var w = TK.inner_width(this._bar);
-        var h = TK.inner_height(this._bar);
+        var w = TK.outer_width(this._bar);
+        var h = TK.outer_height(this._bar);
         this.set("_width", w);
         this.set("_height", h);
-        var i = vert(O) ? h : w;
+        this.set("_transform_left", TK.get_style(this._bar, "border-left-width"));
+        this.set("_transform_top", TK.get_style(this._bar, "border-top-width"));
+        var i = vert(O) ? TK.inner_height(this._bar) : TK.inner_width(this._bar);
         if (i != O.basis)
             this.set("basis", i);
     },
