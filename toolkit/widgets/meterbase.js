@@ -74,7 +74,7 @@ w.TK.MeterBase = w.MeterBase = $class({
     Implements: [Gradient],
     _options: Object.assign(Object.create(TK.Widget.prototype._options),
                             Gradient.prototype._options, TK.Scale.prototype._options, {
-        layout: "int",
+        layout: "string",
         segment: "number",
         value: "number",
         base: "number",
