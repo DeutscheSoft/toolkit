@@ -199,7 +199,6 @@ w.TK.Expander = w.Expander = $class({
         bo._collapsed = true;
 
         this._update_visibility = update_visibility.bind(this);
-        this.add_event("hide", collapse.bind(this, false));
         this.add_event("set_expanded", changed_expanded);
         this.add_event("set_always_expanded", update_visibility);
         this.set("group", this.options.group);
