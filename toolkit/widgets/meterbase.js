@@ -335,19 +335,22 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._last_meters = a;
 
         var ctx = this._ctx;
-        ctx.fillRect(0, 0, w, h);
 
-        var is_vertical = vert(O);
-        
-        if (is_vertical) {
-            for (i = 0; i < a.length; i+= 2) {
-                ctx.clearRect(0, a[i], w, a[i+1]);
+        TK.S.add(function() {
+            ctx.fillRect(0, 0, w, h);
+
+            var is_vertical = vert(O);
+            
+            if (is_vertical) {
+                for (i = 0; i < a.length; i+= 2) {
+                    ctx.clearRect(0, a[i], w, a[i+1]);
+                }
+            } else {
+                for (i = 0; i < a.length; i+= 2) {
+                    ctx.clearRect(a[i], 0, a[i+1], h);
+                }
             }
-        } else {
-            for (i = 0; i < a.length; i+= 2) {
-                ctx.clearRect(a[i], 0, a[i+1], h);
-            }
-        }
+        });
     },
     
     // HELPERS & STUFF
