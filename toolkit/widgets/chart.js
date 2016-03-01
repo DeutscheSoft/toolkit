@@ -350,7 +350,7 @@ w.TK.Chart = w.Chart = $class({
         var O = this.options;
         var S = this.svg;
 
-        Widget.prototype.resize.call(this);
+        TK.Widget.prototype.resize.call(this);
 
         var tmp = TK.css_space(S, "border", "padding");
         var w = TK.inner_width(E) - tmp.left - tmp.right;
