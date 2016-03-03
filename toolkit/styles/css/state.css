@@ -22,4 +22,9 @@ horizontal.png
 
 .toolkit-state > .toolkit-mask {
     background: black;
+    opacity: 0.8;
+}
+
+.toolkit-state.toolkit-state-on > .toolkit-mask {
+    opacity: 0;
 }

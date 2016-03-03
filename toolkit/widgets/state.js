@@ -37,7 +37,6 @@
  * @param {Object} options
  * @property {boolean} [options.state=false] - The state.
  * @property {string} [options.color="red"] - A css color string for the state LED.
- * @property {number} [options.opacity=0.8] - Opacity of the mask when state if
  *      <code>false</code>.
  */
 w.TK.State = w.State = $class({
@@ -46,12 +45,10 @@ w.TK.State = w.State = $class({
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         state: "boolean",
         color: "string",
-        opacity: "number",
     }),
     options: {
         state:           false,     // the initial state (0 ... 1)
         color:           "red", // the base color
-        opacity:         0.8    // the opacity of the mask when state = 0
     },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
@@ -84,7 +81,13 @@ w.TK.State = w.State = $class({
 
         if (I.state || I.opacity) {
             I.state = I.opacity = false;
-            this._mask.style["opacity"] = "" + ((1 - (O.state ? 1 : 0)) * O.opacity);
+            if (!O.state) {
+                this.remove_class("toolkit-state-on");
+                this.add_class("toolkit-state-off");
+            } else {
+                this.remove_class("toolkit-state-off");
+                this.add_class("toolkit-state-on");
+            }
         }
     },
     
