@@ -186,7 +186,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     },
     add_handles: function (handles) {
         for (var i = 0; i < handles.length; i++)
-            this.add_handles(handles[i]);
+            this.add_handle(handles[i]);
     },
     
     remove_handle: function (handle) {
