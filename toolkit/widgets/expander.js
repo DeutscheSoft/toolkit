@@ -201,8 +201,9 @@ w.TK.Expander = w.Expander = $class({
         this._update_visibility = update_visibility.bind(this);
         this.add_event("set_expanded", changed_expanded);
         this.add_event("set_always_expanded", update_visibility);
-        this.set("group", this.options.group);
-        this.set("group_default", this.options.group_default);
+
+        if (this.options.group) add_to_group.call(this, this.options.group);
+
         this.set("expanded", this.options.expanded);
         this.set("always_expanded", this.options.always_expanded);
         
@@ -223,7 +224,9 @@ w.TK.Expander = w.Expander = $class({
         var group;
         if (key === "group") {
             group = this.options.group;
-            if (group) remove_from_group.call(this, group);
+            // this is reached from init, where this element was never added
+            // to the group.
+            if (group && value !== group) remove_from_group.call(this, group);
         } else if (key === "group_default") {
             if (!value && this.options.group_default)
                 remove_group_default.call(this, this.options.group);
