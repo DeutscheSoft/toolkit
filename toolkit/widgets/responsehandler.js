@@ -211,7 +211,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         this.fire_event("emptied")
     },
     
-    intersect: function (x1, y1, x2, y2, id) {
+    intersect: function (x1, y1, x2, y2, handle) {
         // this function walks over all known handles and asks for the coords
         // of the label and the handle. Calculates intersecting square pixels
         // according to the importance set in options. Returns an object
@@ -221,7 +221,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         var a = 0;
         for (var i = 0; i < this.handles.length; i++) {
             var h = this.handles[i];
-            if (h.options.id == id || !h.get("active")) continue;
+            if (h === handle || !h.get("active")) continue;
             
             var _a = hit_test(
                      x1, y1, x2, y2,
@@ -239,7 +239,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         if (this.bands && this.bands.length) {
             for (var i = 0; i < this.bands.length; i++) {
                 var b = this.bands[i];
-                if (b.options.id == id || !b.get("active")) continue;
+                if (b === handle || !b.get("active")) continue;
                 
                 var _a = hit_test(
                          x1, y1, x2, y2,

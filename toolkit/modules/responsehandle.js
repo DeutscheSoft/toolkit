@@ -950,7 +950,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
 
-                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    tmp = O.intersect(x1, y1, x2, y2, this);
                     inter.push(tmp);
                     tmp.x1 = x1;
                     tmp.y1 = y1;
@@ -1016,7 +1016,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    tmp = O.intersect(x1, y1, x2, y2, this);
                     inter.push(tmp);
                     tmp.x1 = x1;
                     tmp.y1 = y1;
@@ -1082,7 +1082,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    tmp = O.intersect(x1, y1, x2, y2, this);
                     inter.push(tmp);
                     tmp.x1 = x1;
                     tmp.y1 = y1;
@@ -1169,7 +1169,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    tmp = O.intersect(x1, y1, x2, y2, this);
                     inter.push(tmp);
                     tmp.x1 = x1;
                     tmp.y1 = y1;
@@ -1256,7 +1256,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    tmp = O.intersect(x1, y1, x2, y2, this);
                     inter.push(tmp);
                     tmp.x1 = x1;
                     tmp.y1 = y1;
@@ -1344,7 +1344,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     }
                     x2 = x1 + bbox.width;
                     y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, O.id);
+                    tmp = O.intersect(x1, y1, x2, y2, this);
                     inter.push(tmp);
                     tmp.x1 = x1;
                     tmp.y1 = y1;
