@@ -20,104 +20,310 @@
  */
 "use strict";
 (function(w) { 
-function pixel_distance(x, y) {
-    return Math.abs(this._val2px(x) - this._val2px(y));
+function vert(O) {
+    return O.layout == "left" || O.layout == "right";
 }
-function check_dots(start, stop, step, level, comp) {
-    var O = this.options;
-    // test if dots can be drawn between two positions and trigger drawing
-    var iter = start;
-    while (comp(iter, stop - step)) {
-        iter += step;
-        for (var i = level - 1; i >= 0; i--) {
-            var l = O.levels[i];
-            var diff = Math.abs(start - iter);
-            if (!(diff % l)
-            && this._val2px(Math.abs(start - iter)
-                + O.min) >= O.gap_dots
-            && this._val2px(iter) >= O.gap_dots) {
-                this.draw_dot(iter);
-                start = iter;
-            }
-        }
-    }
-}
-function check_label(iter, step, last) {
-    if (!this.options.show_labels) return false;
-    var O = this.options;
-    // test if a label can be draw at a position and trigger drawing if so
-    if (pixel_distance.call(this, iter, O.max) < O.gap_labels) return false;
-    if (pixel_distance.call(this, iter, O.min) < O.gap_labels) return false;
-    for (var i = O.levels.length - 1; i >= 0; i--) {
-        var level = O.levels[i];
-        var diff = Math.abs(O.base - iter);
-        if (!(diff % level)
-        && (level >= Math.abs(last - iter)
-            || i == O.levels.length - 1)
-        && Math.abs(this._val2px(last) - this._val2px(iter)) >= O.gap_labels
-        && this._val2px(iter) >= O.gap_labels) {
-            var label;
-            if (iter > O.min && iter < O.max) {
-                label = low_draw_label.call(this, iter);
-                this.draw_dot(iter, "toolkit-marker");
-            }
-            return [ i, label ];
-        }
-    }
-    return false;
-}
-function low_draw_label(val, cls) {
-    if (!this.options.show_labels) return;
-    var label = TK.element("span", "toolkit-label", {
-        position: "absolute",
-        display: "block",
-        cssFloat: "left"
-    });
-    TK.set_content(label, this.options.labels(val));
-    if (cls) TK.add_class(label, cls);
-    this.element.appendChild(label);
+function fill_interval(range, levels, i, from, to, min_gap, result) {
+    var level = levels[i];
+    var x, j, pos, last_pos, last;
+    var diff;
 
-    return [val, label];
+    var to_pos = range.val2px(to);
+    last_pos = range.val2px(from);
+
+    if (Math.abs(to_pos - last_pos) < min_gap) return;
+
+    if (!result) result = {
+        values: [],
+        positions: [],
+    };
+
+    var values = result.values;
+    var positions = result.positions;
+
+    if (from > to) level = -level;
+    last = from;
+
+    for (j = ((to-from)/level)|0, x = from + level; j > 0; x += level, j--) {
+        pos = range.val2px(x);
+        diff = Math.abs(last_pos - pos);
+        if (Math.abs(to_pos - pos) < min_gap) break;
+        if (diff >= min_gap) {
+            if (i > 0 && diff >= min_gap * 2) {
+                // we have a chance to fit some more labels in
+                fill_interval(range, levels, i-1,
+                              last, x, min_gap, result);
+            }
+            values.push(x);
+            positions.push(pos);
+            last_pos = pos;
+            last = x;
+        }
+    }
+
+    if (i > 0 && Math.abs(last_pos - to_pos) >= min_gap * 2) {
+        fill_interval(range, levels, i-1, last, to, min_gap, result);
+    }
+
+    return result;
 }
-function correct_labels(labels) {
-    var i, label;
-    var position_prop, size_fun, lsize_fun;
-    var vert = this._vert();
-    if (vert) {
-        position_prop = "bottom";
-        size_fun = TK.outer_width;
+// remove collisions from a with b given a minimum gap
+function remove_collisions(a, b, min_gap, vert) {
+    var pa = a.positions, pb = b.positions;
+    var va = a.values;
+    var dim;
+
+    min_gap = +min_gap;
+
+    if (typeof vert === "boolean")
+        dim = vert ? b.height : b.width;
+
+    if (!(min_gap > 0)) min_gap = 1;
+
+    if (!pb.length) return a;
+
+    var i, j;
+    var values = [];
+    var positions = [];
+    var pos_a, pos_b;
+    var size;
+
+    var last_pos = +pb[0],
+        last_size = min_gap;
+
+    if (dim) last_size += +dim[0] / 2;
+
+    // If pb is just length 1, it does not matter
+    var direction = pb.length > 1 && pb[1] < last_pos ? -1 : 1;
+
+    for (i = 0, j = 0; i < pa.length && j < pb.length;) {
+        pos_a = +pa[i];
+        pos_b = +pb[j];
+        size = min_gap;
+
+        if (dim) size += dim[j] / 2;
+
+        if (Math.abs(pos_a - last_pos) < last_size ||
+            Math.abs(pos_a - pos_b) < size) {
+            // try next position
+            i++;
+            continue;
+        }
+
+        if (j < pb.length - 1 && (pos_a - pos_b)*direction > 0) {
+            // we left the current interval, lets try the next one
+            last_pos = pos_b;
+            last_size = size;
+            j++;
+            continue;
+        }
+
+        values.push(+va[i]);
+        positions.push(pos_a);
+
+        i++;
+    }
+
+    return {
+        values: values,
+        positions: positions,
+    };
+}
+function create_dom_nodes(data, create) {
+    var nodes = [];
+    var values, positions;
+    var i;
+    var E = this.element;
+    var node;
+
+    data.nodes = nodes;
+    values = data.values;
+    positions = data.positions;
+
+    for (i = 0; i < values.length; i++) {
+        nodes.push(node = create(values[i], positions[i]));
+        E.appendChild(node);
+    }
+}
+function position_element(O, elem, position) {
+    if (O.layout == "left" || O.layout == "right") {
+        elem.style.bottom = position.toFixed(1) + "px";
+        elem.style.transform = "translateY(50%)";
     } else {
-        position_prop = "left";
+        elem.style.left = position.toFixed(1) + "px";
+        elem.style.transform = "translateX(-50%)";
+    }
+}
+function create_label(value, position) {
+    var O = this.options;
+    var elem = document.createElement("SPAN");
+    elem.className = "toolkit-label";
+    elem.style.position = "absolute";
+    elem.style.cssFloat = "left";
+    elem.style.display = "block";
+
+    position_element(O, elem, position);
+
+    TK.set_content(elem, O.labels(value));
+
+    if (O.base === value)
+        TK.add_class(elem, "toolkit-base");
+    else if (O.max === value)
+        TK.add_class(elem, "toolkit-max");
+    else if (O.min === value)
+        TK.add_class(elem, "toolkit-min");
+
+    return elem;
+}
+function create_dot(value, position) {
+    var O = this.options;
+    var elem = document.createElement("DIV");
+    elem.className = "toolkit-dot";
+    elem.style.position = "absolute";
+
+    position_element(O, elem, position);
+
+    return elem;
+}
+function measure_dimensions(data) {
+    var nodes = data.nodes;
+    var width = [];
+    var height = [];
+
+    for (var i = 0; i < nodes.length; i++) {
+        width.push(TK.outer_width(nodes[i]));
+        height.push(TK.outer_height(nodes[i]));
+    }
+
+    data.width = width;
+    data.height = height;
+}
+function generate_scale(from, to, include_from) {
+    var O = this.options;
+    var labels;
+
+    if (O.show_labels || O.show_markers)
+        labels = {
+            values: [],
+            positions: [],
+        };
+
+    var dots = {
+        values: [],
+        positions: [],
+    };
+    var is_vert = vert(O);
+    var tmp;
+
+    if (include_from) {
+        tmp = this.val2px(from);
+
+        if (labels) {
+            labels.values.push(from);
+            labels.positions.push(tmp);
+        }
+
+        dots.values.push(from);
+        dots.positions.push(tmp);
+    }
+
+    var levels = O.levels;
+
+    fill_interval(this, levels, levels.length - 1, from, to, O.gap_dots, dots);
+
+    if (labels) {
+        if (O.levels_labels) levels = O.levels_labels;
+
+        fill_interval(this, levels, levels.length - 1, from, to, O.gap_labels, labels);
+
+        tmp = this.val2px(to);
+
+        if (Math.abs(tmp - this.val2px(from)) >= O.gap_labels) {
+            labels.values.push(to);
+            labels.positions.push(tmp);
+
+            dots.values.push(to);
+            dots.positions.push(tmp);
+        }
+    } else {
+        dots.values.push(to);
+        dots.positions.push(this.val2px(to));
+    }
+
+    if (O.show_labels) {
+        create_dom_nodes.call(this, labels, create_label.bind(this));
+
+        if (labels.values.length && labels.values[0] == O.base) {
+            TK.add_class(labels.nodes[0], "toolkit-base");
+        }
+    }
+
+    var render_cb = function() {
+        var markers;
+
+        if (O.show_markers) {
+            markers = {
+                values: labels.values,
+                positions: labels.positions,
+            };
+            create_dom_nodes.call(this, markers, create_dot.bind(this));
+            for (var i = 0; i < markers.nodes.length; i++)
+                TK.add_class(markers.nodes[i], "toolkit-marker");
+        }
+
+        if (O.show_labels && labels.values.length > 1) {
+            // we move the last element by half its size
+            var last = labels.values.length-1;
+            var size = is_vert ? labels.height[last] : labels.width[last];
+
+            if (this.val2px(from) < labels.positions[last]) size = -size;
+
+            labels.positions[last] += size / 2;
+
+            position_element(O, labels.nodes[last], labels.positions[last]);
+
+            if (labels.values[last] == O.min) {
+                TK.add_class(labels.nodes[last], "toolkit-min");
+            } else if (labels.values[last] == O.max) {
+                TK.add_class(labels.nodes[last], "toolkit-max");
+            }
+        }
+
+        if (O.avoid_collisions && O.show_labels) {
+            dots = remove_collisions(dots, labels, O.gap_dots, is_vert);
+        } else if (markers) {
+            dots = remove_collisions(dots, markers, O.gap_dots);
+        }
+
+        create_dom_nodes.call(this, dots, create_dot.bind(this));
+
+        if (O.auto_size && O.show_labels) auto_size.call(this, labels);
+    };
+
+    if (O.show_labels)
+        TK.S.add(function() {
+            measure_dimensions(labels);
+            TK.S.add(render_cb.bind(this), 1);
+        }.bind(this));
+    else render_cb.call(this);
+}
+function auto_size(labels) {
+    var size_fun;
+    var new_size;
+
+    if (!labels.width.length) return;
+
+    if (vert(this.options)) {
+        size_fun = TK.outer_width;
+        new_size = Math.max.apply(Math, labels.width);
+    } else {
         size_fun = TK.outer_height;
+        new_size = Math.max.apply(Math, labels.height);
     }
-    var sizes = [];
-    var new_size = 0, tmp;
-    var elem_size, pos;
-    var auto_size = this.options.auto_size;
-
-    for (i = 0; i < labels.length; i++) {
-        label = labels[i][1];
-        pos = Math.round(this.val2px(this.snap(labels[i][0])));
-        label.style[position_prop] = pos + "px";
-    }
-
-    if (!this.options.auto_size) return;
 
     TK.S.add(function() {
-        // calculate the size of all labels for positioning
-        for (i = 0; i < labels.length; i++) {
-            label = labels[i][1];
-            tmp = size_fun(label, true);
-            if (tmp > new_size) new_size = tmp;
-        }
-
-        if (auto_size)
-            elem_size = size_fun(this.element, true);
-
-        if (new_size > elem_size)
-            TK.S.add(function() {
-                size_fun(this.element, true, new_size);
-            }.bind(this), 1);
+        if (new_size > size_fun(this.element))
+            TK.S.add(size_fun.bind(this, this.element, true, new_size), 1);
     }.bind(this));
 }
 /**
@@ -163,6 +369,7 @@ w.TK.Scale = w.Scale = $class({
         layout: "string",
         division: "number",
         levels: "array",
+        levels_labels: "array",
         base: "number",
         labels: "function",
         gap_dots: "number",
@@ -174,6 +381,8 @@ w.TK.Scale = w.Scale = $class({
         fixed_dots: "array",
         fixed_labels: "array",
         auto_size: "boolean",
+        avoid_collisions: "boolean",
+        show_markers: "boolean",
     }),
     options: {
         layout:           "right",
@@ -181,12 +390,14 @@ w.TK.Scale = w.Scale = $class({
         levels:           [1],
         base:             false,
         labels:           TK.FORMAT("%.2f"),
+        avoid_collisions: true,
         gap_dots:         4,
         gap_labels:       40,
         show_labels:      true,
         show_min:         true,
         show_max:         true,
         show_base:        true,
+        show_markers:     true,
         fixed_dots:       false,
         fixed_labels:     false,
         auto_size:        false           // the overall size can be set automatically
@@ -195,7 +406,6 @@ w.TK.Scale = w.Scale = $class({
     
     initialize: function (options) {
         var E;
-        this.__size = 0;
         TK.Widget.prototype.initialize.call(this, options);
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-scale");
@@ -249,142 +459,50 @@ w.TK.Scale = w.Scale = $class({
             if (O.auto_size) {
                 I.basis = true;
             } else {
-                this.element.style.removeProperty(this._vert() ? "height" : "width"); 
+                this.element.style.removeProperty(vert(O) ? "height" : "width"); 
             }
         }
 
         if (I.basis || I.auto_size) {
             I.auto_size = false;
             if (O.auto_size) {
-                if (this._vert()) this.element.style.height = O.basis + "px";
+                if (vert(O)) this.element.style.height = O.basis + "px";
                 else this.element.style.width = O.basis + "px";
             }
         }
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
                        "fixed_dots", "fixed_labels", "levels", "basis", "scale", "reverse", "show_labels")) {
-            this.__size = 0;
             if (O.base === false)
                 O.base = O.max
             TK.empty(this.element);
 
             var labels = [];
-            
-            // draw base
-            this.draw_dot(O.base, this.__based ? "toolkit-base" : "toolkit-base");
-            if (O.show_base && O.show_labels) {
-                var l = low_draw_label.call(this, O.base, "toolkit-base");
-                var _l = l[1];
-                if (O.base == O.max) TK.add_class(_l, O.reverse ? "toolkit-min" : "toolkit-max");
-                if (O.base == O.min) TK.add_class(_l, O.reverse ? "toolkit-max" : "toolkit-min");
-                labels.push(l);
-            }
-            // draw top
-            if (pixel_distance.call(this, O.base, O.min) >= O.gap_labels) {
-                this.draw_dot(O.min, O.reverse ? "toolkit-max" : "toolkit-min");
-                if (O.show_min && O.show_labels)
-                    labels.push(low_draw_label.call(this, O.min, O.reverse ? "toolkit-max" : "toolkit-min"));
-            }
-            
-            // draw bottom
-            if (pixel_distance.call(this, O.base, O.max) >= O.gap_labels) {
-                this.draw_dot(O.max, O.reverse ? "toolkit-min" : "toolkit-max");
-                if (O.show_max && O.show_labels)
-                    labels.push(low_draw_label.call(this, O.max, O.reverse ? "toolkit-min" : "toolkit-max"));
-            }
-            
+
             if (O.fixed_dots && O.fixed_labels) {
-                for (var i = 0; i < O.fixed_dots.length; i++) {
-                    this.draw_dot(O.fixed_dots[i]);
+                if (O.show_labels) {
+                    var labels = {
+                        values: O.fixed_labels,
+                        positions: O.fixed_labels.map(this.val2px, this),
+                    };
+                    create_dom_nodes.call(this, labels, create_label.bind(this));
+                    if (O.auto_size) {
+                        TK.S.add(function() {
+                            measure_dimensions(labels);
+                            TK.S.add(auto_size.bind(this, labels), 1);
+                        }.bind(this));
+                    }
                 }
-                for (var i = 0; i < O.fixed_labels.length; i++) {
-                    /* Do not draw min/max values twice */
-                    if (O.fixed_labels[i] === O.min || O.fixed_labels[i] === O.max || !O.show_labels) continue;
-                    labels.push(low_draw_label.call(this, O.fixed_labels[i]));
-                }
+                var dots = {
+                    values: O.fixed_dots,
+                    positions: O.fixed_dots.map(this.val2px, this),
+                };
+                create_dom_nodes.call(this, dots, create_dot.bind(this));
             } else {
-                
-                var level;
-                
-                // draw beneath base
-                var iter = O.base;
-                var last = iter;
-                while (iter > O.min) {
-                    //TK.log("beneath", O.reverse, iter)
-                    iter -= O.division;
-                    if (level = check_label.call(this, iter, O.division, last)) {
-                        if (level[1] && O.show_labels) {
-                            labels.push(level[1]);
-                        }
-                        level = level[0];
-                        check_dots.call(this, last, iter, -O.division, level,
-                                        function (a, b) { return a > b });
-                        last = iter;
-                    }
-                }
-                // draw dots between last label and min
-                check_dots.call(this, last, iter, -O.division, O.levels.length - 1,
-                                function (a, b) { return a > b });
-                
-                // draw above base
-                iter = O.base;
-                last = iter;
-                while (iter < O.max) {
-                    //TK.log("above", O.reverse, iter)
-                    iter += O.division;
-                    if (level = check_label.call(this, iter, O.division, last)) {
-                        if (level[1] && O.show_labels) {
-                            labels.push(level[1]);
-                        }
-                        level = level[0];
-                        check_dots.call(this, last, iter, O.division, level,
-                                        function (a, b) { return a < b });
-                        last = iter;
-                    }
-                }
-                // draw dots between last label and max
-                check_dots.call(this, last, iter, O.division, O.levels.length - 1,
-                                function (a, b) { return a < b });
+                if (O.base != O.max) generate_scale.call(this, O.base, O.max, true);
+                if (O.base != O.min) generate_scale.call(this, O.base, O.min, false);
             }
-            correct_labels.call(this, labels);
         }
-    },
-    
-    draw_dot: function (val, cls) {
-        // draws a dot at a certain value and adds a class if needed
-        var d = TK.element("div", "toolkit-dot", { position: "absolute" });
-        if (cls) TK.add_class(d, cls);
-        
-        // position dot element
-        var pos = Math.round(this.val2px(this.snap(val)));
-        pos = Math.min(Math.max(0, pos), this.options.basis - 1);
-        d.style[this._vert() ? "bottom" : "left"] = pos + "px";
-        this.element.appendChild(d);
-        return this;
-    },
-    draw_label: function (val, cls) {
-        // draws a label at a certain value and adds a class if needed
-        if (!this.options.show_labels) return;
-                  
-        // create label element
-        var label = low_draw_label.call(this, val, cls); 
-        // resize the main element if labels are wider
-        // because absolute positioning destroys dimensions
-        correct_labels.call(this, label);
-        return this;
-    },
-    
-    // HELPERS & STUFF
-    _val2px: function (value) {
-        // returns a positions according to a value without taking
-        // options.reverse into account
-        return this.options.reverse ?
-            this.options.basis - this.val2px(this.snap(value)) : this.val2px(this.snap(value));
-    },
-    _vert: function () {
-        // returns true if the meter is drawn vertically
-        return this.options.layout == "left"
-            || this.options.layout == "right";
     },
     
     // GETTER & SETTER
