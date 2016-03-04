@@ -256,7 +256,6 @@
 .toolkit-meter-base > .toolkit-bar > .toolkit-mask {
     background: black;
     opacity:    0.66;
-    transform: translate3d(0,0,0);
 }
 
 /* MARK */
