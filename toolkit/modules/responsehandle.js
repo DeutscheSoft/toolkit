@@ -404,11 +404,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.range_y.add_event("set", set_cb);
         this.range_z.add_event("set", set_cb);
 
-        var E;
+        var E = TK.make_svg("g");
+
+        this.element = E;
         
-        this.widgetize(this.element = E = TK.make_svg("g", {
-            "id":    O.id
-        }), true, true);
+        this.widgetize(E, true, true);
         
         TK.add_class(E, "toolkit-response-handle");
         switch (O.mode) {

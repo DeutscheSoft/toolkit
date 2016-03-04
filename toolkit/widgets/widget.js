@@ -258,22 +258,25 @@ TK.Widget = $class({
          *
          * @method TK.Widget#widgetize
          */
+        var O = this.options;
         
         // classify?
         TK.add_class(element, "toolkit-widget");
-        if (!this.options.id) {
-            this.options.id = element.getAttribute("id");
-            if (!this.options.id) {
-                element.setAttribute("id", this.options.id = TK.unique_id());
+        if (typeof O.id !== "string") {
+            O.id = element.getAttribute("id");
+            if (!O.id) {
+                O.id = TK.unique_id()
+                element.setAttribute("id", O.id);
             }
-        } else element.setAttribute("id", this.options.id);
-        if (this.options.class) {
-            var c = this.options.class.split(" ");
+        } else element.setAttribute("id", O.id);
+
+        if (O.class) {
+            var c = O.class.split(" ");
             for (var i = 0; i < c.length; i++)
                 TK.add_class(element, c[i]);
         }
-        if (this.options.container)
-            this.options.container.appendChild(element);
+        if (O.container)
+            O.container.appendChild(element);
         if (delegate)
             this.delegate(element);
         if (classify)
