@@ -216,7 +216,7 @@ w.TK.Fader = w.Fader = $class({
         var E = this.element;
         var value;
         var tmp;
-        
+
         if (I.show_scale) {
             I.show_scale = false;
             if (O.show_scale) {
@@ -273,6 +273,8 @@ w.TK.Fader = w.Fader = $class({
         var E = this.element, H = this._handle;
         var basis;
 
+        TK.Widget.prototype.resize.call(this);
+
         if (vert(O)) {
             this._handle_size = TK.outer_height(H, true);
             basis = TK.inner_height(E) - this._handle_size;
@@ -284,8 +286,6 @@ w.TK.Fader = w.Fader = $class({
         this.set("basis", basis);
         if (this.scale)
             this.scale.set("basis", basis);
-
-        TK.Widget.prototype.resize.call(this);
     },
     destroy: function () {
         this._handle.remove();
