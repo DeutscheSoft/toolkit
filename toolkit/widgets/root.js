@@ -30,7 +30,10 @@ function visibility_change() {
 function resized() {
     if (!this.resize_event) {
         this.resize_event = true;
-        TK.S.add(this.resize.bind(this));
+        TK.S.add(function() {
+            this.resize_event = false;
+            this.trigger_resize();
+        }.bind(this));
     }
 }
 function loaded() {
@@ -59,8 +62,8 @@ w.TK.Root = w.Root = $class({
         /* NOTE: the initial draw will add all elements to the dom and set them up.
          * after that is done, we trigger one initial resize event, to make sure that
          * they are resized properly, if needed. */
-        TK.S.add(function() { TK.S.add(this.resize.bind(this)); }.bind(this), 1);
         this.enable_draw();
+        this.trigger_initial_resize();
     },
     resize: function() {
         if (!this.children) {
@@ -74,7 +77,7 @@ w.TK.Root = w.Root = $class({
         TK.Container.prototype.destroy.call(this);
         w.removeEventListener("resize", this._resize_cb);
         document.removeEventListener("visibilitychange", this._visibility_cb)
-        this._resize_cb = this._visibility_cb = 0;
+        this._resize_cb = this._visibility_cb = null;
     },
 });
 })(this);

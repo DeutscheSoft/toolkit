@@ -36,6 +36,9 @@ function enable_draw_self() {
     if (this.needs_redraw) {
         TK.S.add(this._redraw, 1);
     }
+    if (this.needs_resize) {
+        TK.S.add(this._bound_resize);
+    }
     this.fire_event("show");
 }
 function enable_draw_children() {
@@ -49,6 +52,9 @@ function disable_draw_self() {
     if (this.needs_redraw) {
         TK.S.remove(this._redraw, 1);
         TK.S.remove_next(this._redraw, 1);
+    }
+    if (this.needs_resize) {
+        TK.S.remove(this._bound_resize);
     }
     this.fire_event("hide");
 }
@@ -97,7 +103,6 @@ w.TK.Container = w.Container = $class({
         this.__after_hiding = after_hiding.bind(this);
         this.__after_showing = after_showing.bind(this);
         this.__hide_id = false;
-        this.was_resized = false;
         TK.add_class(E, "toolkit-show");
     },
     
@@ -188,15 +193,6 @@ w.TK.Container = w.Container = $class({
         TK.remove_class(E, "toolkit-hide");
     },
 
-    resize: function() {
-        if (this.hidden()) {
-            this.was_resized = true;
-            return;
-        }
-        this.was_resized = false;
-        TK.Widget.prototype.resize.call(this);
-    },
-
     hide_child: function(i) {
         var C = this.children;
         var H = this.hidden_children;
@@ -277,9 +273,6 @@ w.TK.Container = w.Container = $class({
                 disable_draw_self.call(this);
                 break;
             case "showing":
-                if (this.was_resized) {
-                    TK.S.after_frame(this.resize.bind(this));
-                }
                 TK.add_class(E, "toolkit-showing");
                 time = O.showing_duration || TK.get_duration(E);
                 if (time > 0) {

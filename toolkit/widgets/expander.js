@@ -183,7 +183,7 @@ w.TK.Expander = w.Expander = $class({
             I.always_expanded = I.expanded = false; 
             var v = O.always_expanded || O.expanded;
             this[v ? "add_class" : "remove_class"]("toolkit-expanded");
-            TK.S.add(this.resize.bind(this));
+            this.trigger_resize();
         }
     },
     initialize: function (options) {
