@@ -198,7 +198,7 @@ function measure_dimensions(data) {
     data.width = width;
     data.height = height;
 }
-function generate_scale(from, to, include_from) {
+function generate_scale(from, to, include_from, show_to) {
     var O = this.options;
     var labels;
 
@@ -238,7 +238,7 @@ function generate_scale(from, to, include_from) {
 
         tmp = this.val2px(to);
 
-        if (Math.abs(tmp - this.val2px(from)) >= O.gap_labels) {
+        if (show_to || Math.abs(tmp - this.val2px(from)) >= O.gap_labels) {
             labels.values.push(to);
             labels.positions.push(tmp);
 
@@ -499,8 +499,8 @@ w.TK.Scale = w.Scale = $class({
                 };
                 create_dom_nodes.call(this, dots, create_dot.bind(this));
             } else {
-                if (O.base != O.max) generate_scale.call(this, O.base, O.max, true);
-                if (O.base != O.min) generate_scale.call(this, O.base, O.min, false);
+                if (O.base != O.max) generate_scale.call(this, O.base, O.max, true, O.show_max);
+                if (O.base != O.min) generate_scale.call(this, O.base, O.min, false, O.show_min);
             }
         }
     },
