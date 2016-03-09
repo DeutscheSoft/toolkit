@@ -320,7 +320,7 @@ function generate_scale(from, to, include_from, show_to) {
         if (O.auto_size && O.show_labels) auto_size.call(this, labels);
     };
 
-    if (O.show_labels && O.avoid_collisions)
+    if (O.show_labels && O.avoid_collisions || O.auto_size)
         TK.S.add(function() {
             measure_dimensions(labels);
             TK.S.add(render_cb.bind(this), 1);
