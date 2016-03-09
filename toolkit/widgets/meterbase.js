@@ -321,6 +321,8 @@ w.TK.MeterBase = w.MeterBase = $class({
         var h = O._height;
         var i;
 
+        if (!(w > 0 && h > 0)) return;
+
         var a = this.calculate_meter();
         var tmp = this._last_meters;
 
@@ -347,7 +349,7 @@ w.TK.MeterBase = w.MeterBase = $class({
                 }
             } else {
                 for (i = 0; i < a.length; i+= 2) {
-                    ctx.clearRect(a[i], 0, a[i+1], h);
+                    ctx.clearRect(w - a[i] - a[i+1], 0, a[i+1], h);
                 }
             }
         });
