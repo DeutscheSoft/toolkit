@@ -43,16 +43,13 @@
     width: 32px;
 }
 .toolkit-scale.toolkit-vertical > .toolkit-label {
-    transform: translateY(50%);
 }
 .toolkit-scale.toolkit-vertical > .toolkit-label.toolkit-base {
     
 }
 .toolkit-scale.toolkit-vertical > .toolkit-label.toolkit-min {
-    transform: translateY(0%);
 }
 .toolkit-scale.toolkit-vertical > .toolkit-label.toolkit-max {
-    transform: translateY(100%);
 }
 .toolkit-scale.toolkit-vertical > .toolkit-dot {
     width: 2px;
@@ -155,16 +152,13 @@
     height: 15px;
 }
 .toolkit-scale.toolkit-horizontal > .toolkit-label {
-    transform: translateX(-50%);
 }
 .toolkit-scale.toolkit-horizontal > .toolkit-label.toolkit-base {
     
 }
 .toolkit-scale.toolkit-horizontal > .toolkit-label.toolkit-min {
-    transform: translateX(0%);
 }
 .toolkit-scale.toolkit-horizontal > .toolkit-label.toolkit-max {
-    transform: translateX(-100%);
 }
 .toolkit-scale.toolkit-horizontal > .toolkit-dot {
     height: 2px;

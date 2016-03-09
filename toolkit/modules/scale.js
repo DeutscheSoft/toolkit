@@ -145,15 +145,6 @@ function create_dom_nodes(data, create) {
         E.appendChild(node);
     }
 }
-function position_element(O, elem, position) {
-    if (O.layout == "left" || O.layout == "right") {
-        elem.style.bottom = position.toFixed(1) + "px";
-        elem.style.transform = "translateY(50%)";
-    } else {
-        elem.style.left = position.toFixed(1) + "px";
-        elem.style.transform = "translateX(-50%)";
-    }
-}
 function create_label(value, position) {
     var O = this.options;
     var elem = document.createElement("SPAN");
@@ -162,7 +153,13 @@ function create_label(value, position) {
     elem.style.cssFloat = "left";
     elem.style.display = "block";
 
-    position_element(O, elem, position);
+    if (vert(O)) {
+        elem.style.bottom = position.toFixed(1) + "px";
+        elem.style.transform = "translateY(50%)";
+    } else {
+        elem.style.left = position.toFixed(1) + "px";
+        elem.style.transform = "translateX(-50%)";
+    }
 
     TK.set_content(elem, O.labels(value));
 
@@ -181,7 +178,11 @@ function create_dot(value, position) {
     elem.className = "toolkit-dot";
     elem.style.position = "absolute";
 
-    position_element(O, elem, position);
+    if (O.layout == "left" || O.layout == "right") {
+        elem.style.bottom = Math.round(position + 0.5) + "px";
+    } else {
+        elem.style.left = Math.round(position - 0.5) + "px";
+    }
 
     return elem;
 }
@@ -197,6 +198,38 @@ function measure_dimensions(data) {
 
     data.width = width;
     data.height = height;
+}
+function handle_end(O, labels, i) {
+    var node = labels.nodes[i];
+    var v = labels.values[i];
+    var is_vert = vert(O);
+    var start;
+
+    if (v === O.min) {
+        TK.add_class(node, "toolkit-min");
+        start = !O.reverse;
+    } else if (v === O.max) {
+        TK.add_class(node, "toolkit-max");
+        start = !!O.reverse;
+    } else return;
+
+    var size;
+
+    if (labels.width) {
+        size = is_vert ? labels.height[i] : labels.width[i];
+    }
+
+    if (start) {
+        if (size) labels.positions[i] += size/2; 
+        node.style.removeProperty("transform");
+    } else {
+        if (size) labels.positions[i] -= size/2; 
+        if (vert(O)) {
+            node.style.transform = "translateY(100%)";
+        } else {
+            node.style.transform = "translateX(-100%)";
+        }
+    }
 }
 function generate_scale(from, to, include_from, show_to) {
     var O = this.options;
@@ -272,21 +305,8 @@ function generate_scale(from, to, include_from, show_to) {
         }
 
         if (O.show_labels && labels.values.length > 1) {
-            // we move the last element by half its size
-            var last = labels.values.length-1;
-            var size = is_vert ? labels.height[last] : labels.width[last];
-
-            if (this.val2px(from) < labels.positions[last]) size = -size;
-
-            labels.positions[last] += size / 2;
-
-            position_element(O, labels.nodes[last], labels.positions[last]);
-
-            if (labels.values[last] == O.min) {
-                TK.add_class(labels.nodes[last], "toolkit-min");
-            } else if (labels.values[last] == O.max) {
-                TK.add_class(labels.nodes[last], "toolkit-max");
-            }
+            handle_end(O, labels, 0);
+            handle_end(O, labels, labels.nodes.length-1);
         }
 
         if (O.avoid_collisions && O.show_labels) {
@@ -300,7 +320,7 @@ function generate_scale(from, to, include_from, show_to) {
         if (O.auto_size && O.show_labels) auto_size.call(this, labels);
     };
 
-    if (O.show_labels)
+    if (O.show_labels && O.avoid_collisions)
         TK.S.add(function() {
             measure_dimensions(labels);
             TK.S.add(render_cb.bind(this), 1);
@@ -390,7 +410,7 @@ w.TK.Scale = w.Scale = $class({
         levels:           [1],
         base:             false,
         labels:           TK.FORMAT("%.2f"),
-        avoid_collisions: true,
+        avoid_collisions: false,
         gap_dots:         4,
         gap_labels:       40,
         show_labels:      true,
@@ -499,8 +519,8 @@ w.TK.Scale = w.Scale = $class({
                 };
                 create_dom_nodes.call(this, dots, create_dot.bind(this));
             } else {
-                if (O.base != O.max) generate_scale.call(this, O.base, O.max, true, O.show_max);
-                if (O.base != O.min) generate_scale.call(this, O.base, O.min, false, O.show_min);
+                if (O.base !== O.max) generate_scale.call(this, O.base, O.max, true, O.show_max);
+                if (O.base !== O.min) generate_scale.call(this, O.base, O.min, O.base === O.max, O.show_min);
             }
         }
     },
