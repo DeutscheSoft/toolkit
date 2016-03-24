@@ -302,7 +302,6 @@ w.TK.Chart = w.Chart = $class({
         
         if (!(E = this.element)) this.element = E = TK.element("div");
         this.svg = S = TK.make_svg("svg");
-        S.setAttribute("shape-rendering", "optimizeSpeed");
 
         TK.add_class(E, "toolkit-chart");
 
