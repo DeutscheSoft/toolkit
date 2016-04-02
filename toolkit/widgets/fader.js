@@ -285,8 +285,6 @@ w.TK.Fader = w.Fader = $class({
         }
 
         this.set("basis", basis);
-        if (this.scale)
-            this.scale.set("basis", basis);
     },
     destroy: function () {
         this._handle.remove();
