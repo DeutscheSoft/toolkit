@@ -20,6 +20,9 @@
  */
 "use strict";
 (function(w) { 
+function get_base(O) {
+    return Math.max(Math.min(O.max, O.base), O.min);
+}
 function vert(O) {
     return O.layout == "left" || O.layout == "right";
 }
@@ -163,7 +166,7 @@ function create_label(value, position) {
 
     TK.set_content(elem, O.labels(value));
 
-    if (O.base === value)
+    if (get_base(O) === value)
         TK.add_class(elem, "toolkit-base");
     else if (O.max === value)
         TK.add_class(elem, "toolkit-max");
@@ -286,7 +289,7 @@ function generate_scale(from, to, include_from, show_to) {
     if (O.show_labels) {
         create_dom_nodes.call(this, labels, create_label.bind(this));
 
-        if (labels.values.length && labels.values[0] == O.base) {
+        if (labels.values.length && labels.values[0] == get_base(O)) {
             TK.add_class(labels.nodes[0], "toolkit-base");
         }
     }
@@ -493,8 +496,6 @@ w.TK.Scale = w.Scale = $class({
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
                        "fixed_dots", "fixed_labels", "levels", "basis", "scale", "reverse", "show_labels")) {
-            if (O.base === false)
-                O.base = O.max
             TK.empty(this.element);
 
             var labels = [];
@@ -519,12 +520,13 @@ w.TK.Scale = w.Scale = $class({
                 };
                 create_dom_nodes.call(this, dots, create_dot.bind(this));
             } else {
-                if (O.base !== O.max) generate_scale.call(this, O.base, O.max, true, O.show_max);
-                if (O.base !== O.min) generate_scale.call(this, O.base, O.min, O.base === O.max, O.show_min);
+                var base = get_base(O);
+
+                if (base !== O.max) generate_scale.call(this, base, O.max, true, O.show_max);
+                if (base !== O.min) generate_scale.call(this, base, O.min, base === O.max, O.show_min);
             }
         }
     },
-    
     // GETTER & SETTER
     set: function (key, value) {
         TK.Widget.prototype.set.call(this, key, value);
@@ -536,15 +538,6 @@ w.TK.Scale = w.Scale = $class({
             case "gap_labels":
             case "show_labels":
                 this.fire_event("scalechanged")
-                break;
-            case "base":
-                if (value === false) {
-                    this.options.base = this.options.min;
-                    this.__based = false;
-                } else {
-                    this.__based = true;
-                }
-                this.fire_event("basechanged", value);
                 break;
         }
     }
