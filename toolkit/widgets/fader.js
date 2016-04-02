@@ -48,11 +48,11 @@ function mouseenter (ev) {
     TK.tooltip.add(1, this.tooltip_by_position);
 }
 function clicked(ev) {
+    var value;
     if (this._handle.contains(ev.target)) return;
-    this.set("value", get_value.call(this, ev));
+    value = SET.call(this, get_value.call(this, ev));
     if (this.options.tooltip && TK.tooltip._entry)
         TK.tooltip._entry.innerText = this.options.tooltip(this.options.value);
-    this.fire_event("useraction", "value", this.get("value"));
 }
 function mouseleave (ev) {
     TK.tooltip.remove(1, this.tooltip_by_position);
@@ -79,8 +79,9 @@ function THIS() {
     return this;
 }
 function SET(v) {
-    this.set("value", v);
+    v = this.set("value", v);
     this.fire_event("useraction", "value", v);
+    return v;
 }
 function create_scale() {
     if (!this.scale) {
