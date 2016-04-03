@@ -6,6 +6,9 @@ function Scheduler() {
     this.tmp = [];
     this.debug = 0;
     this.after_frame_cbs = [];
+    this.frame_count = 0;
+    this.current_priotity = -1;
+    this.current_cycle = 0;
 };
 function low_add(Q, o, prio) {
     prio = prio|0;
@@ -52,6 +55,8 @@ Scheduler.prototype = {
         while (!empty) {
             runs++;
 
+            this.current_cycle = runs;
+
             if (runs > 20) throw("something is not right");
 
             empty = true;
@@ -62,6 +67,7 @@ Scheduler.prototype = {
                 if (!q || !q.length) continue;
 
                 empty = false;
+                this.current_priority = i;
 
                 Q[i] = this.tmp;
                 this.tmp = q;
@@ -111,6 +117,7 @@ Scheduler.prototype = {
         }
 
         this.running = false;
+        this.current_priority = -1;
 
         Q = this.after_frame_cbs;
 
@@ -119,6 +126,8 @@ Scheduler.prototype = {
             for (i = 0; i < Q.length; i++)
                 Q[i]();
         }
+
+        this.frame_count++;
 
         return runs;
     },
@@ -142,6 +151,15 @@ Scheduler.prototype = {
     },
     after_frame: function(fun) {
         this.after_frame_cbs.push(fun);
+    },
+    get_frame_count: function() {
+        return this.frame_count;
+    },
+    get_current_priority: function() {
+        return this.current_priority;
+    },
+    get_current_cycle: function() {
+        return this.current_cycle;
     },
 };
 function DOMScheduler() {
