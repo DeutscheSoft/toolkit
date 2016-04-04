@@ -326,8 +326,8 @@ function generate_scale(from, to, include_from, show_to) {
     if (O.show_labels && O.avoid_collisions || O.auto_size)
         TK.S.add(function() {
             measure_dimensions(labels);
-            TK.S.add(render_cb.bind(this), 1);
-        }.bind(this));
+            TK.S.add(render_cb.bind(this), 3);
+        }.bind(this), 2);
     else render_cb.call(this);
 }
 function auto_size(labels) {
@@ -496,7 +496,7 @@ w.TK.Scale = w.Scale = $class({
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
                        "fixed_dots", "fixed_labels", "levels", "basis", "scale", "reverse", "show_labels")) {
-            TK.empty(this.element);
+            TK.empty(E);
 
             var labels = [];
 
