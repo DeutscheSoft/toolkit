@@ -198,7 +198,26 @@ w.TK.Container = w.Container = $class({
         TK.remove_class(E, "toolkit-showing");
         TK.remove_class(E, "toolkit-hide");
     },
+    show_nodraw: function() {
+        var O = this.options;
+        if (O.display_state === "show") return;
+        this.set("display_state", "show");
 
+        var C = this.children;
+        var H = this.hidden_children;
+        var i;
+        for (i = 0; i < C.length; i++) if (!H[i]) C[i].show_nodraw();
+    },
+    hide_nodraw: function() {
+        var O = this.options;
+        if (O.display_state === "hide") return;
+        this.set("display_state", "hide");
+
+        var C = this.children;
+        var H = this.hidden_children;
+        var i;
+        for (i = 0; i < C.length; i++) if (!H[i]) C[i].hide_nodraw();
+    },
     hide_child: function(i) {
         var C = this.children;
         var H = this.hidden_children;
@@ -223,7 +242,8 @@ w.TK.Container = w.Container = $class({
 
         if (H[i]) {
             H[i] = false;
-            if (!this.hidden()) C[i].show();
+            if (this.is_drawn()) C[i].show();
+            else C[i].show_nodraw();
         }
     },
 

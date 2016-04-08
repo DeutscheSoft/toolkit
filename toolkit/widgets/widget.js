@@ -401,6 +401,8 @@ TK.Widget = $class({
     hide: function () {
         this.disable_draw();
     },
+    show_nodraw: function() { },
+    hide_nodraw: function() { },
     /**
      * Returns the current hidden status.
      *
