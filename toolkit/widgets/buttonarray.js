@@ -145,11 +145,9 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         var vert = this.get("direction") == "vertical";
         
         /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance */
-        this.prev = new TK.Button({label: vert ? "▲" : "◄",
-                                class: "toolkit-previous"});
+        this.prev = new TK.Button({class: "toolkit-previous"});
         /** @member {TK.Button} TK.ButtonArray#next - The next arrow {@link TK.Button} instance */
-        this.next = new TK.Button({label: vert ? "▼" : "►",
-                                class: "toolkit-next"});
+        this.next = new TK.Button({class: "toolkit-next"});
         this.prev.add_event("click", prev_clicked.bind(this));
         this.next.add_event("click", next_clicked.bind(this));
         this._prev = this.prev.element;
@@ -354,8 +352,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 this.add_buttons(value);
                 break;
             case "direction":
-                this.prev.set("label", value == "vertical" ? "▲" : "◀");
-                this.next.set("label", value == "vertical" ? "▼" : "▶");
+                this.prev.set("label", value == "vertical" ? "\u25B2" : "\u25C0");
+                this.next.set("label", value == "vertical" ? "\u25BC" : "\u25B6");
                 break;
         }
         return value;
