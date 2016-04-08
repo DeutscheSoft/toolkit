@@ -118,7 +118,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
         buttons: "array",
         auto_arrows: "boolean",
-        direction: "int",
+        direction: "string",
         show: "int",
         resized: "boolean",
     }),
@@ -348,8 +348,6 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 }
                 break;
             case "buttons":
-                if (hold)
-                    break;
                 for (var i = 0; i < this.buttons.length; i++)
                     this.buttons[i].destroy();
                 this.buttons = [];
