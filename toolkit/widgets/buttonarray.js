@@ -31,15 +31,6 @@ function show_arrows() {
     this.element.appendChild(this._next);
     TK.add_class(this.element, "toolkit-over");
 }
-function check_arrows(force) {
-    var I = this.invalid;
-    var O = this.options;
-    if (!I.check_arrows && O.auto_arrows) {
-        I.check_arrows = true;
-        this.trigger_draw();
-    }
-}
-
 function prev_clicked(e) {
     /**
      * When a {@link TK.Button} or an arrow gets clicked and
@@ -59,38 +50,6 @@ function button_clicked(button) {
     this.set("show", this.buttons.indexOf(button));
 }
 
-function scroll_to() {
-    /* move the container so that the requested button is shown */
-    /* hand over a button instance or a number */
-
-    // TODO: the id==this.options.show check breaks the button array. for some reason
-    // the style calculations here can be completely wrong on the first time and get
-    // ignored henceforward
-    var current = this.current();
-    if (current) {
-        var n = this.buttons.indexOf(current);
-        var dir      = this.options.direction == "vertical";
-        var subd     = dir ? 'top' : 'left';
-        var subs     = dir ? 'height' : 'width';
-
-        /* FORCE_RELAYOUT */
-
-        TK.S.add(function() {
-            var btnrect  = this._container.childNodes[n].getBoundingClientRect();
-            var conrect  = this._container.getBoundingClientRect();
-            var clipsize = this._clip.getBoundingClientRect()[subs];
-            var listsize = conrect[subs];
-            var btnsize  = btnrect[subs];
-            var btnpos   = btnrect[subd] - conrect[subd];
-
-            /* WILL_INVALIDATE */
-
-            TK.S.add(function() {
-                this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
-            }.bind(this), 1);
-        }.bind(this));
-    }
-}
 w.TK.ButtonArray = w.ButtonArray = $class({
     /**
      * TK.ButtonArray is a list of buttons ({@link TK.Button}) layouted
@@ -156,12 +115,25 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.set("direction", this.options.direction);
         this.add_children([this.prev, this.next]);
         this.add_buttons(this.options.buttons);
+        this._sizes = null;
     },
     
     resize: function () {
-        check_arrows.call(this);
-        this.invalid.show = true;
-        this.trigger_draw();
+        var tmp, e;
+
+        this._sizes = {
+            container: this._container.getBoundingClientRect(),
+            clip: this._clip.getBoundingClientRect(),
+            buttons: [],
+            buttons_pos: [],
+            element: this.element.getBoundingClientRect(),
+        };
+
+        for (var i = 0; i < this.buttons.length; i++) {
+            e = this.buttons[i].element;
+            this._sizes.buttons[i] = e.getBoundingClientRect();
+            this._sizes.buttons_pos[i] = { left: e.offsetLeft, top: e.offsetTop };
+        }
 
         TK.Container.prototype.resize.call(this);
     },
@@ -208,7 +180,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
 
         this.add_child(b);
 
-        check_arrows.call(this);
+        this.trigger_resize();
         b.add_event("click", function () {
             button_clicked.call(this, b);
         }.bind(this));
@@ -251,7 +223,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         }
         this.buttons[button].destroy();
         this.buttons.splice(button, 1);
-        check_arrows.call(this);
+        this.trigger_resize();
     },
     
     destroy: function () {
@@ -276,39 +248,44 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             TK.add_class(E, O.direction == "vertical" ? "toolkit-vertical" : "toolkit-horizontal");
         }
 
-        if (I.auto_arrows || I.direction) {
-            I.auto_arrows = false;
-            if (!O.auto_arrows) {
+        if (I.validate("direction", "auto_arrows") || I.resized) {
+            if (O.auto_arrows && O.resized) {
+                var dir      = O.direction === "vertical";
+                var subd     = dir ? 'top' : 'left';
+                var subs     = dir ? 'height' : 'width';
+
+                var elemsize = this._sizes.element[subs];
+                var listsize = this._sizes.buttons_pos[this.buttons.length-1][subd] +
+                               this._sizes.buttons[this.buttons.length-1][subs];
+
+                if (listsize > elemsize)
+                    show_arrows.call(this);
+                else
+                    hide_arrows.call(this);
+            } else if (!O.auto_arrows) {
                 hide_arrows.call(this);
-                I.show = true;
-            } else {
-                I.check_arrows = true;
             }
+
+            I.show = true;
         }
+        if (I.validate("show", "direction", "resized")) {
+            if (O.resized) {
+                if (O.show >= 0 && O.show < this.buttons.length) {
+                    /* move the container so that the requested button is shown */
+                    var dir      = O.direction === "vertical";
+                    var subd     = dir ? 'top' : 'left';
+                    var subs     = dir ? 'height' : 'width';
 
-        if (I.check_arrows || I.direction) {
-            I.check_arrows = false;
-            if (O.auto_arrows) {
-                /* we invalidate show and direction here because the scroll_to case
-                 * will be trigger from here later */
-                I.show = I.direction = false;
-                TK.S.add(function() {
-                    var erect = this.element.getBoundingClientRect();
-                    var brect = this._container.getBoundingClientRect();
-                    var subs  = O.direction == "vertical" ? "height" : "width";
-                    TK.S.add(function() {
-                        if (brect[subs] > erect[subs])
-                            show_arrows.call(this);
-                        else
-                            hide_arrows.call(this);
+                    var btnrect  = this._sizes.buttons[O.show];
+                    var clipsize = this._sizes.clip[subs];
+                    var listsize = this._sizes.buttons_pos[this.buttons.length-1][subd] +
+                                   this._sizes.buttons[this.buttons.length-1][subs];
+                    var btnsize  = this._sizes.buttons[O.show][subs];
+                    var btnpos   = this._sizes.buttons_pos[O.show][subd];
 
-                        scroll_to.call(this);
-                    }.bind(this), 1);
-                }.bind(this));
+                    this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
+                }
             }
-        }
-        if (I.validate("show", "direction")) {
-            scroll_to.call(this);
         }
     },
     
