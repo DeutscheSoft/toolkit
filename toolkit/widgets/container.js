@@ -130,6 +130,12 @@ w.TK.Container = w.Container = $class({
         child.set("container", this.element);
         this.add_child(child);
     },
+    set_parent : function(parent) {
+        if (parent && !(parent instanceof TK.Container)) {
+            TK.warn("Container %o should not be child of non-container %o", this, parent);
+        }
+        TK.Widget.prototype.set_parent.call(this, parent);
+    },
     add_child : function(child) {
         var C = this.children;
         var H = this.hidden_children;

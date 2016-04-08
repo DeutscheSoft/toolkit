@@ -422,6 +422,12 @@ TK.Widget = $class({
         if (this.hidden()) this.show();
         else this.hide();
     },
+    set_parent: function(parent) {
+        if (this.parent) {
+            this.parent.remove_child(this);
+        }
+        this.parent = parent;
+    },
     /**
      * Registers a widget as a child widget. This method is used to build up the widget tree. It does not modify the DOM tree.
      *
@@ -431,8 +437,7 @@ TK.Widget = $class({
      */
     add_child: function(child) {
         var C = this.children;
-        if (child.parent) child.parent.remove_child(child);
-        child.parent = this;
+        child.set_parent(this);
         C.push(child);
         if (this.is_drawn()) {
             child.enable_draw();
