@@ -274,6 +274,7 @@ w.TK.Chart = w.Chart = $class({
         key_size: "object",
         title: "string",
         title_position: "int",
+        resized: "boolean",
     }),
     options: {
         grid_x:  [], // array containing {pos:x[, color: "colorstring"[,
@@ -289,6 +290,7 @@ w.TK.Chart = w.Chart = $class({
         key_size: {x:20, y:10}, // size of the key rects
         title:   "", // a title for the chart
         title_position: "top-right", // the position of the title
+        resized: false,
         show_grid: true
     },
     initialize: function (options) {

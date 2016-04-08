@@ -79,12 +79,10 @@ TK.Widget = $class({
         disabled: "boolean",
         element: "object",
         active: "boolean",
-        resized: "boolean",
     },
     options: {
         // these options are of less use and only here to show what we need
         disabled:  false,  // Widgets can be disabled by setting this to true
-        resized: false,
     },
     Implements: [AudioMath],
     initialize: function (options) {
@@ -149,7 +147,8 @@ TK.Widget = $class({
 
     resize: function() {
         this.fire_event("resize");
-        this.set("resized", true);
+        if (this._options.resized)
+            this.set("resized", true);
         if (this.has_event_listeners("resized")) {
             TK.S.after_frame(function() {
                 this.fire_event("resized");

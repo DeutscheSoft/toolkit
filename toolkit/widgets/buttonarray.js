@@ -120,12 +120,14 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         auto_arrows: "boolean",
         direction: "int",
         show: "int",
+        resized: "boolean",
     }),
     options: {
         buttons: [],
         auto_arrows: true,
         direction: "horizontal",
-        show: -1
+        show: -1,
+        resized: false,
     },
     initialize: function (options) {
         this.buttons = [];

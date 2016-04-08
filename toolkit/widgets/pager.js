@@ -60,12 +60,14 @@ w.TK.Pager = w.Pager = $class({
         pages:     "array",
         show:      "int",
         overlap:   "boolean",
+        resized: "boolean",
     }),
     options: {
         position:  "top",
         direction: "forward",
         pages:     [],
         show:      -1,
+        resized: false,
         overlap:   false
     },
     
