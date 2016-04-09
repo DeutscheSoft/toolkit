@@ -213,7 +213,7 @@ TK.Base = w.BASE = $class({
     set_options : function(o) {
         var opt = this.options;
         var key, a, b;
-        if (typeof(o) != "object") {
+        if (typeof(o) !== "object") {
             delete this.options;
             o = {};
         } else if (typeof(opt) == "object") for (key in o) if (o.hasOwnProperty(key)) {
@@ -224,15 +224,15 @@ TK.Base = w.BASE = $class({
                 typeof b == "object" && b &&
                 Object.getPrototypeOf(Object.getPrototypeOf(b)) === null
                 ) {
-                o[key] = $mixin({}, b, a);
+                o[key] = merge({}, b, a);
             }
         }
-        if (this.hasOwnProperty("options") && typeof(opt) == "object") {
-            this.options = $mixin(opt, o);
+        if (this.hasOwnProperty("options") && typeof(opt) === "object") {
+            this.options = merge(opt, o);
         } else {
             this.options = Object.assign(Object.create(opt), o);
         }
-        for (key in this.options) if (key.indexOf("on") == 0) {
+        for (key in this.options) if (key.startsWith("on")) {
             this.add_event(key.substr(2).toLowerCase(), this.options[key]);
             delete this.options[key];
         }
