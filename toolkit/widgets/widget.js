@@ -22,7 +22,10 @@
 
 (function(w){ 
 
-var invalid_prototype = {
+function Invalid(options) {
+    for (var key in options) this[key] = true;
+};
+Invalid.prototype = {
     validate : function() {
         var i = 0, key;
         var ret = false;
@@ -96,7 +99,7 @@ TK.Widget = $class({
         this.__stylized = null;
         this.__delegated = null;
         this.__widgetized = null;
-        this.invalid = Object.create(invalid_prototype);
+        this.invalid = new Invalid(this.options);
         this.value_time = Object.create(null);
         this.needs_redraw = false;
         this.needs_resize = false;
@@ -173,7 +176,6 @@ TK.Widget = $class({
     initialized: function () {
         // Main actions every widget needs to take
         this.fire_event("initialized");
-        this.invalidate_all();
         this.trigger_draw();
     },
     redraw: function () {
