@@ -161,6 +161,16 @@ Scheduler.prototype = {
     get_current_cycle: function() {
         return this.current_cycle;
     },
+    describe_now: function() {
+        if (this.running) {
+            return TK.sprintf("<frame: %d, prio: %d, cycle: %d>",
+                              this.get_frame_count(),
+                              this.get_current_priority(),
+                              this.get_current_cycle());
+        } else {
+            return "<not scheduled>";
+        }
+    },
 };
 function DOMScheduler() {
     Scheduler.call(this);
