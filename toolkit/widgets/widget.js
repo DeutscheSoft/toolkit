@@ -133,6 +133,8 @@ TK.Widget = $class({
     },
 
     trigger_initial_resize: function() {
+        if (this._options.resized)
+            this.set("resized", false);
         TK.S.after_frame(this.trigger_resize.bind(this));
     },
 
