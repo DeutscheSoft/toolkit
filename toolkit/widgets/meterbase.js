@@ -126,8 +126,10 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._over   = TK.element("div", "toolkit-over");
 
         this._canvas = document.createElement("canvas");
-        this._ctx = this._canvas.getContext("2d");
         TK.add_class(this._canvas, "toolkit-mask");
+
+        this._fillstyle = TK.get_style(this._canvas, "background-color");
+        this._canvas.style.background = 'none';
         
         E.appendChild(this._title);
         E.appendChild(this._label);
@@ -149,8 +151,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         this.add_child(this.scale);
         this.delegate(this._bar);
 
-        this._ctx.fillStyle = TK.get_style(this._canvas, "background-color");
-        this._canvas.style.background = 'none';
         this._last_meters = null;
     },
 
@@ -336,23 +336,22 @@ w.TK.MeterBase = w.MeterBase = $class({
 
         this._last_meters = a;
 
-        var ctx = this._ctx;
+        var ctx = this._canvas.getContext("2d", { alpha: false });
+        ctx.fillStyle = this._fillstyle;
 
-        TK.S.add(function() {
-            ctx.fillRect(0, 0, w, h);
+        ctx.fillRect(0, 0, w, h);
 
-            var is_vertical = vert(O);
-            
-            if (is_vertical) {
-                for (i = 0; i < a.length; i+= 2) {
-                    ctx.clearRect(0, a[i], w, a[i+1]);
-                }
-            } else {
-                for (i = 0; i < a.length; i+= 2) {
-                    ctx.clearRect(w - a[i] - a[i+1], 0, a[i+1], h);
-                }
+        var is_vertical = vert(O);
+        
+        if (is_vertical) {
+            for (i = 0; i < a.length; i+= 2) {
+                ctx.clearRect(0, a[i], w, a[i+1]);
             }
-        });
+        } else {
+            for (i = 0; i < a.length; i+= 2) {
+                ctx.clearRect(w - a[i] - a[i+1], 0, a[i+1], h);
+            }
+        }
     },
     
     // HELPERS & STUFF
