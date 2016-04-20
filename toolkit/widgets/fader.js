@@ -20,6 +20,9 @@
  */
 "use strict";
 (function(w){
+
+var supports_transform = 'transform' in w.document.createElement("div").style;
+
 function vert(O) {
     return O.layout == "left" || O.layout == "right";
 }
@@ -263,9 +266,15 @@ w.TK.Fader = w.Fader = $class({
             // TODO: this does not work on IE9
 
             if (vert(O)) {
-                this._handle.style.transform = "translateY(-"+tmp+")";
+                if (supports_transform)
+                    this._handle.style.transform = "translateY(-"+tmp+")";
+                else
+                    this._handle.style.bottom = tmp;
             } else {
-                this._handle.style.transform = "translateX("+tmp+")";
+                if (supports_transform)
+                    this._handle.style.transform = "translateX("+tmp+")";
+                else
+                    this._handle.style.left = tmp;
             }
         }
     },
