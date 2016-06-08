@@ -36,7 +36,7 @@ w.TK.Range = w.Range = $class({
     _class: "Range",
     Implements: [Ranged],
     _options: {
-        scale: "int",
+        scale: "string",
         reverse: "boolean",
         basis: "number",
         min: "number",
