@@ -301,7 +301,11 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         var falling = +O.falling;
         if (O.falling <= 0) return O.value;
         var value = +O.value, base = +O.base;
-        var age = +(Date.now() - this.value_time.value);
+
+        var age = +this.value_time.value;
+
+        if (!(age > 0)) age = Date.now();
+        else age = +(Date.now() - age);
 
         var frame_length = 1000.0 / +O.falling_fps;
 
