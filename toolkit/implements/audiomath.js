@@ -46,6 +46,45 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
         return +log(value) / LN10;
     }
 
+    function db2gain(value, factor) {
+        /** @function TK.AudioMath.db2gain
+         *
+         * @param {number} value - A decibel value in dBFS.
+         * @param {number} [factor=20] - The factor.
+         *
+         * @description Calculates 10^(value / factor).
+         * Transforms a dBFS value to the corresponding gain.
+         */
+        value = +value;
+        factor = +factor;
+
+        if (!factor) factor = 20;
+
+        value /= factor;
+        value = pow(10.0, value);
+
+        return value;
+    }
+
+    function gain2db(value, factor) {
+        /** @function TK.AudioMath.gain2db
+         *
+         * @param {number} value - A gain factor.
+         * @param {number} [factor=20] - The factor.
+         *
+         * @description Calculates factor * log10(value).
+         * Transforms a gain value to the corresponding dBFS value.
+         */
+        value = +value;
+        factor = +factor;
+
+        if (!factor) factor = 20;
+
+        value = factor * log10(value);
+
+        return value;
+    }
+
     function db2coef(value, min, max, reverse, factor) {
         /** @function TK.AudioMath.db2coef
          *
@@ -249,6 +288,8 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
         coef2db: coef2db,
         db2scale: db2scale,
         scale2db: scale2db,
+        gain2db: gain2db,
+        db2gain: db2gain,
         // FREQUENCY CALCULATIONS
         freq2coef: freq2coef,
         coef2freq: coef2freq,
