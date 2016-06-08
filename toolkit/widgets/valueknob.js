@@ -28,6 +28,7 @@ function value_done() {
     this.knob.scroll.set("active", true);
     this.knob.drag.set("active", true);
     this.fire_event("valueset", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
     /**
@@ -74,6 +75,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         this.value.add_event("valuedone", value_done.bind(this));
         this.knob.add_event("useraction", function(key, value) {
             this.parent.set(key, value);
+            this.parent.fire_event("useraction", key, value);
         });
         this.add_child(this.value);
         this.add_child(this.knob);
