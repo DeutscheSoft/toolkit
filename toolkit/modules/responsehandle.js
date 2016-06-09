@@ -513,7 +513,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         
         this._handle.onselectstart = function () { return false; };
         
-        this.set("active", O.active, true);
+        this.set("active", O.active);
     },
     
     redraw: function () {
