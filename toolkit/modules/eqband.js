@@ -37,7 +37,7 @@ w.TK.EqBand = w.EqBand = $class({
     _class: "EqBand",
     Extends: TK.ResponseHandle,
     _options: Object.assign(Object.create(TK.ResponseHandle.prototype._options), {
-        type: "int",
+        type: "string",
         gain: "number",
         freq: "number",
         x: "number",
