@@ -385,8 +385,8 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             var base = O.base;
             if (O.falling) {
                 var v = this.effective_value();
-                if (v > base && value > base && value < v ||
-                    v < base && value < base && value > v) {
+                if (v >= base && value >= base && value < v ||
+                    v <= base && value <= base && value > v) {
                     /* NOTE: we are doing a falling animation, but maybe its not running */
                     if (!this.invalid.value) {
                         this.invalid.value = true;
