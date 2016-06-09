@@ -199,7 +199,10 @@ w.TK.Equalizer = w.Equalizer = $class({
     },
     set: function(key, value) {
         TK.ResponseHandler.prototype.set.call(this, key, value);
-        if (key === "show_bands") {
+        if (key === "bands") {
+            if (this.bands.length) this.remove_bands();
+            this.add_bands(value);
+        } else if (key === "show_bands") {
             if (value) {
                 show_bands.call(this);
             } else {
