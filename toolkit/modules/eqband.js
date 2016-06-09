@@ -116,14 +116,23 @@ w.TK.EqBand = w.EqBand = $class({
     set: function (key, value) {
         var range;
         switch (key) {
+            case "x":
+                TK.ResponseHandle.prototype.set.call(this, "freq", value);
+                break;
             case "freq":
-                key = "x";
+                TK.ResponseHandle.prototype.set.call(this, "x", value);
+                break;
+            case "z":
+                TK.ResponseHandle.prototype.set.call(this, "q", value);
                 break;
             case "q":
-                key = "z";
+                TK.ResponseHandle.prototype.set.call(this, "z", value);
                 break;
             case "gain":
-                key = "y"
+                TK.ResponseHandle.prototype.set.call(this, "y", value);
+                break;
+            case "y":
+                TK.ResponseHandle.prototype.set.call(this, "gain", value);
                 break;
         }
         TK.ResponseHandle.prototype.set.call(this, key, value);
