@@ -140,14 +140,17 @@ w.TK.EqBand = w.EqBand = $class({
             case "type":
                 this.filter.set("type", value);
                 break;
+            case "freq":
             case "x":
                 range = this.range_x.options;
                 this.filter.set("freq", Math.max(Math.min(value, range.max), range.min));
                 break;
+            case "gain":
             case "y":
                 range = this.range_y.options;
                 this.filter.set("gain", Math.max(Math.min(value, range.max), range.min));
                 break;
+            case "q":
             case "z":
                 range = this.range_z.options;
                 this.filter.set("q", Math.max(Math.min(value, range.max), range.min));
