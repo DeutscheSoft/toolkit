@@ -52,8 +52,10 @@ function mousedown(e) {
     
     // order
     if (this.options.container) {
-        if (e.rightClick) {
-            this.element.inject(this.options.container, "top");
+        if (typeof e.button !== "undefined" && e.button == 2) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.options.container.insertBefore(this.element, this.options.container.firstChild);
             return false;
         } else {
             this.options.container.appendChild(this.element);
@@ -491,25 +493,27 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.addEventListener("mouseleave",     this._mouseleave);
         E.addEventListener("mousedown",      this._mousedown);
         E.addEventListener("touchstart",     this._touchstart);
+        E.addEventListener('contextmenu', function(e){e.preventDefault();});
         
         E = this._label;
         E.addEventListener("mouseenter",      this._mouseelement);
         E.addEventListener("touchstart",      this._mouseelement);
         E.addEventListener("mousewheel",      this._scrollwheel);
         E.addEventListener("DOMMouseScroll",  this._scrollwheel);
-        E.addEventListener("contextmenu",     function () { return false; });
+        E.addEventListener('contextmenu', function(e){e.preventDefault();});
         
         E = this._handle;
         E.addEventListener("mouseenter",     this._mouseelement);
         E.addEventListener("touchstart",     this._mouseelement);
         E.addEventListener("mousewheel",     this._scrollwheel);
         E.addEventListener("DOMMouseScroll", this._scrollwheel);
-        E.addEventListener("contextmenu",    function () { return false; });
         E.addEventListener("touchstart",     this._touchstart);
+        E.addEventListener('contextmenu', function(e){e.preventDefault();});
         
         E = this._zhandle;
         E.addEventListener("mousedown",     this._zhandledown);
         E.addEventListener("touchstart",    this._zhandledown);
+        E.addEventListener('contextmenu', function(e){e.preventDefault();});
         
         this._handle.onselectstart = function () { return false; };
         
