@@ -523,7 +523,14 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var width  = 0;
         var height = 0;
         var m      = O.margin;
-
+        
+        if (O.active) {
+            TK.remove_class(this.element, "toolkit-disabled");
+        } else {
+            TK.add_class(this.element, "toolkit-disabled");
+            return;
+        }
+        
         var range_x = this.range_x;
         var range_y = this.range_y;
         var range_z = this.range_z;
