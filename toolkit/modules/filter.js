@@ -314,6 +314,7 @@ w.TK.Filter = w.Filter = $class({
             this.reset();
             break;
         }
+        return value;
     },
 });
 })(this);

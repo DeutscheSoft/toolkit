@@ -114,7 +114,23 @@ w.TK.EqBand = w.EqBand = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        var range;
+        switch (key) {
+            case "type":
+                this.filter.set("type", value);
+                break;
+            case "freq":
+            case "x":
+                value = this.filter.set("freq", this.range_x.snap(value));
+                break;
+            case "gain":
+            case "y":
+                value = this.filter.set("gain", this.range_y.snap(value));
+                break;
+            case "q":
+            case "z":
+                value = this.filter.set("q", this.range_z.snap(value));
+                break;
+        }
         switch (key) {
             case "x":
                 TK.ResponseHandle.prototype.set.call(this, "freq", value);
@@ -136,26 +152,6 @@ w.TK.EqBand = w.EqBand = $class({
                 break;
         }
         TK.ResponseHandle.prototype.set.call(this, key, value);
-        switch (key) {
-            case "type":
-                this.filter.set("type", value);
-                break;
-            case "freq":
-            case "x":
-                range = this.range_x.options;
-                this.filter.set("freq", Math.max(Math.min(value, range.max), range.min));
-                break;
-            case "gain":
-            case "y":
-                range = this.range_y.options;
-                this.filter.set("gain", Math.max(Math.min(value, range.max), range.min));
-                break;
-            case "q":
-            case "z":
-                range = this.range_z.options;
-                this.filter.set("q", Math.max(Math.min(value, range.max), range.min));
-                break;
-        }
     }
 });
 })(this);
