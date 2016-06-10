@@ -73,7 +73,7 @@ w.TK.Range = w.Range = $class({
                                      // scale.
         min:        0,               // Minimum value of the range
         max:        0,               // Maximum value of the range
-        step:       0.5,               // Step size, needed for e.g. user
+        step:       1,               // Step size, needed for e.g. user
                                      // interaction
         shift_up:   4,               // Multiplier for e.g. SHIFT pressed
                                      // while stepping

@@ -553,7 +553,7 @@ w.TK.Ranged = w.Ranged = $class({
         basis:          0,
         min:            0,
         max:            0,
-        step:           0.5,
+        step:           1,
         shift_up:       4,
         shift_down:     0.25,
         snap:           0,
