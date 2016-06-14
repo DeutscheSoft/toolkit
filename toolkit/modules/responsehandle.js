@@ -219,16 +219,22 @@ function mousemove(e) {
     return false;
 }
 function scrollwheel(e) {
+    var direction;
     e.preventDefault();
     var d = typeof e.wheelDelta !== "undefined" && e.wheelDelta ? e.wheelDelta : e.detail;
-    e.wheel = d / Math.abs(d);
+    if (d > 0) {
+        direction = 1;
+    } else if (d < 0) {
+        direction = -1;
+    } else return;
+
     if (this.__sto) window.clearTimeout(this.__sto);
     TK.add_class(this.element, "toolkit-active");
     this.__sto = window.setTimeout(function () {
         TK.remove_class(this.element, "toolkit-active");
         this.fire_event("zchangeended", this.options.z);
     }.bind(this), 250);
-    var s = this.range_z.get("step") * e.wheel;
+    var s = this.range_z.get("step") * direction;
     if (e.ctrlKey && e.shiftKey)
         s *= this.range_z.get("shift_down");
     else if (e.shiftKey)
