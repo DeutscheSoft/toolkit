@@ -670,6 +670,16 @@ function object_sub(orig, filter) {
     }
     return ret;
 }
+function to_array(collection) {
+    var ret = new Array(collection.length);
+    var i;
+
+    for (i = 0; i < ret.length; i++) {
+        ret[i] = collection[i];
+    }
+
+    return ret;
+}
 function is_dom_node(o) {
     /* this is broken for SVG */
     return typeof o === "object" && o instanceof Node;
@@ -832,6 +842,7 @@ TK = w.toolkit = {
     merge: merge,
     object_and: object_and,
     object_sub: object_sub,
+    to_array: to_array,
     warn: warn,
     error: error,
     log: log,
