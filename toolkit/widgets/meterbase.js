@@ -128,8 +128,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._canvas = document.createElement("canvas");
         TK.add_class(this._canvas, "toolkit-mask");
 
-        this._fillstyle = TK.get_style(this._canvas, "background-color");
-        this._canvas.style.background = 'none';
+        this._fillstyle = false;
         
         E.appendChild(this._title);
         E.appendChild(this._label);
@@ -173,6 +172,11 @@ w.TK.MeterBase = w.MeterBase = $class({
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
+
+        if (this._fillstyle === false) {
+            this._fillstyle = TK.get_style(this._canvas, "background-color");
+            this._canvas.style.background = 'none';
+        }
 
         if (I.title) {
             I.title = false;
