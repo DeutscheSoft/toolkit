@@ -347,7 +347,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         }
 
         var ret = TK.MeterBase.prototype.calculate_meter.call(this, value);
-        
+
         if (!O.show_hold) return ret;
 
         // shorten things
@@ -383,6 +383,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         var O = this.options;
         if (key == "value") {
             var base = O.base;
+
+            // snap will enforce clipping
+            value = this.snap(value);
+
             if (O.falling) {
                 var v = this.effective_value();
                 if (v >= base && value >= base && value < v ||
