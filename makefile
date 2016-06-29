@@ -1,4 +1,4 @@
-all : toolkit.all.js toolkit/styles/css/toolkit.all.css toolkit.min.js
+all : toolkit.min.js
 
 js_input_files = \
     toolkit/polyfill/raf.js\
