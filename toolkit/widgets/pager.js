@@ -55,7 +55,7 @@ w.TK.Pager = w.Pager = $class({
     _class: "Pager",
     Extends: TK.Container,
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
-        position:  "int",
+        position:  "string",
         direction: "string",
         pages:     "array",
         show:      "int",
