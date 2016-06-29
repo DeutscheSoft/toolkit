@@ -315,9 +315,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
     Extends: TK.Widget,
     Implements: [GlobalCursor, Ranges, Warning],
     _options: Object.assign(Object.create(TK.Widget.prototype._options), Ranges.prototype._options, {
-        range_x: "function",
-        range_y: "function", 
-        range_z: "function",
+        range_x: "mixed",
+        range_y: "mixed",
+        range_z: "mixed",
         intersect: "function",
         mode: "int",
         preferences: "array",
