@@ -140,10 +140,17 @@ TK.Widget = $class({
 
     trigger_resize: function() {
         if (!this.needs_resize) {
+            var C = this.children;
+
+            if (!C) {
+                // This object was destroyed but trigger resize was still scheduled for the next frame.
+                // FIXME: fix this whole problem properly
+                return;
+            }
+
             this.needs_resize = true;
             if (this._drawn) TK.S.add(this._bound_resize);
 
-            var C = this.children;
             for (var i = 0; i < C.length; i++) {
                 C[i].trigger_resize();
             }
