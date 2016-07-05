@@ -363,7 +363,7 @@ w.TK.Pager = w.Pager = $class({
             if (value < 0) value = 0;
             else if (value >= this.pages.length) value = this.pages.length - 1;
 
-            if (value === this.options.show) return;
+            if (value === this.options.show) return value;
             if (value > this.options.show) {
                 this.set("direction", "forward");
             } else {
