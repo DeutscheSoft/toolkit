@@ -105,6 +105,15 @@ Scheduler.prototype = {
 
                 q.length = 0;
             }
+            var after_frame_cbs = this.after_frame_cbs;
+
+            if (after_frame_cbs.length) {
+                this.after_frame_cbs = [];
+                empty = false;
+
+                for (i = 0; i < after_frame_cbs.length; i++)
+                    after_frame_cbs[i]();
+            }
         }
 
         this.Q = this.Q_next;
@@ -118,14 +127,6 @@ Scheduler.prototype = {
 
         this.running = false;
         this.current_priority = -1;
-
-        Q = this.after_frame_cbs;
-
-        if (Q.length) {
-            this.after_frame_cbs = [];
-            for (i = 0; i < Q.length; i++)
-                Q[i]();
-        }
 
         this.frame_count++;
 
@@ -151,6 +152,7 @@ Scheduler.prototype = {
     },
     after_frame: function(fun) {
         this.after_frame_cbs.push(fun);
+        if (!this.will_render) request_frame.call(this);
     },
     get_frame_count: function() {
         return this.frame_count;
