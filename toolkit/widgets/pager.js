@@ -356,7 +356,55 @@ w.TK.Pager = w.Pager = $class({
         }
         return null;
     },
-    
+
+    /**
+     * Opens the first page of the pager. Returns <code>true</code> if a
+     * first page exists, <code>false</code> otherwise.
+     *
+     * @method TK.Pager#first
+     */
+    first: function() {
+        if (this.pages.length) {
+            this.set("show", 0);
+            return true;
+        }
+        return false;
+    },
+    /**
+     * Opens the last page of the pager. Returns <code>true</code> if a
+     * last page exists, <code>false</code> otherwise.
+     *
+     * @method TK.Pager#first
+     */
+    last: function() {
+        if (this.pages.length) {
+            this.set("show", this.pages.length-1);
+            return true;
+        }
+        return false;
+    },
+
+    /**
+     * Opens the next page of the pager. Returns <code>true</code> if a
+     * next page exists, <code>false</code> otherwise.
+     *
+     * @method TK.Pager#first
+     */
+    next: function() {
+        var c = this.options.show;
+        return this.set("show", c+1) !== c;
+    },
+    /**
+     * Opens the previous page of the pager. Returns <code>true</code> if a
+     * previous page exists, <code>false</code> otherwise.
+     *
+     * @method TK.Pager#first
+     */
+    prev: function() {
+        var c = this.options.show;
+        return this.set("show", c-1) !== c;
+    },
+
     set: function (key, value) {
         var page;
         if (key === "show") {
