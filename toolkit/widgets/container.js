@@ -36,9 +36,6 @@ function enable_draw_self() {
     if (this.needs_redraw) {
         TK.S.add(this._redraw, 1);
     }
-    if (this.needs_resize) {
-        TK.S.add(this._bound_resize);
-    }
     this.fire_event("show");
 }
 function enable_draw_children() {
@@ -52,9 +49,6 @@ function disable_draw_self() {
     if (this.needs_redraw) {
         TK.S.remove(this._redraw, 1);
         TK.S.remove_next(this._redraw, 1);
-    }
-    if (this.needs_resize) {
-        TK.S.remove(this._bound_resize);
     }
     this.fire_event("hide");
 }

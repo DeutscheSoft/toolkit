@@ -50,11 +50,17 @@ Invalid.prototype = {
     }
 };
 function redraw() {
+    if (this.is_destructed()) {
+        TK.warn("Redraw called on destructed widget ", this);
+        return;
+    }
     this.needs_redraw = false;
     this.redraw();
 }
 function resize() {
-    this.needs_resize = false;
+    if (this.is_destructed()) {
+        return;
+    }
     this.resize();
 }
 TK.Widget = $class({
@@ -82,10 +88,12 @@ TK.Widget = $class({
         disabled: "boolean",
         element: "object",
         active: "boolean",
+        needs_resize: "boolean",
     },
     options: {
         // these options are of less use and only here to show what we need
         disabled:  false,  // Widgets can be disabled by setting this to true
+        needs_resize: true,
     },
     Implements: [AudioMath],
     initialize: function (options) {
@@ -102,12 +110,16 @@ TK.Widget = $class({
         this.invalid = new Invalid(this.options);
         this.value_time = Object.create(null);
         this.needs_redraw = false;
-        this.needs_resize = false;
         this._redraw = redraw.bind(this);
-        this._bound_resize = resize.bind(this);
+        this._resize = resize.bind(this);
+        this._schedule_resize = this.schedule_resize.bind(this);
         this._drawn = false;
         this.parent = null;
         this.children = [];
+    },
+
+    is_destructed: function() {
+        return this.children === null;
     },
 
     invalidate_all: function() {
@@ -132,14 +144,8 @@ TK.Widget = $class({
         }
     },
 
-    trigger_initial_resize: function() {
-        if (this._options.resized)
-            this.set("resized", false);
-        TK.S.after_frame(this.trigger_resize.bind(this));
-    },
-
     trigger_resize: function() {
-        if (!this.needs_resize) {
+        if (!this.options.needs_resize) {
             var C = this.children;
 
             if (!C) {
@@ -148,8 +154,7 @@ TK.Widget = $class({
                 return;
             }
 
-            this.needs_resize = true;
-            if (this._drawn) TK.S.add(this._bound_resize);
+            this.set("needs_resize", true);
 
             for (var i = 0; i < C.length; i++) {
                 C[i].trigger_resize();
@@ -157,14 +162,18 @@ TK.Widget = $class({
         }
     },
 
+    schedule_resize: function() {
+        TK.S.add(this._resize, 0);
+    },
+
     resize: function() {
         this.fire_event("resize");
+
         if (this._options.resized)
             this.set("resized", true);
+
         if (this.has_event_listeners("resized")) {
-            TK.S.after_frame(function() {
-                this.fire_event("resized");
-            }.bind(this));
+            TK.S.after_frame(this.fire_event.bind(this, "resize"));
         }
     },
 
@@ -218,19 +227,29 @@ TK.Widget = $class({
                 if (O.styles) TK.set_styles(E, O.styles);
             }
         }
+
+        if (I.needs_resize) {
+            I.needs_resize = false;
+
+            if (O.needs_resize) {
+                O.needs_resize = false;
+
+                TK.S.after_frame(this._schedule_resize);
+            }
+        }
     },
     destroy: function () {
         this.fire_event("destroy");
 
         if (this.needs_redraw) TK.S.remove(this._redraw, 1);
-        if (this.needs_resize) TK.S.remove(this._bound_resize);
 
         BASE.prototype.destroy.call(this);
 
         if (this.parent) this.parent.remove_child(this);
 
         this._redraw = null;
-        this._bound_resize = null;
+        this._resize = null;
+        this._schedule_resize = null;
         this.children = null;
         this.parent = null;
     },
@@ -366,9 +385,6 @@ TK.Widget = $class({
         if (this.needs_redraw) {
             TK.S.add(this._redraw, 1);
         }
-        if (this.needs_resize) {
-            TK.S.add(this._bound_resize);
-        }
         this.fire_event("show");
         var C = this.children;
         for (var i = 0; i < C.length; i++) C[i].enable_draw();
@@ -384,9 +400,6 @@ TK.Widget = $class({
         if (this.needs_redraw) {
             TK.S.remove(this._redraw, 1);
             TK.S.remove_next(this._redraw, 1);
-        }
-        if (this.needs_resize) {
-            TK.S.remove(this._bound_resize);
         }
         this.fire_event("hide");
         var C = this.children;
@@ -456,7 +469,7 @@ TK.Widget = $class({
         } else {
             child.disable_draw();
         }
-        child.trigger_initial_resize();
+        child.trigger_resize();
     },
     /**
      * Removes a child widget. Note that this method only modifies

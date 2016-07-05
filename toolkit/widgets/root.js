@@ -30,10 +30,7 @@ function visibility_change() {
 function resized() {
     if (!this.resize_event) {
         this.resize_event = true;
-        TK.S.add(function() {
-            this.resize_event = false;
-            this.trigger_resize();
-        }.bind(this));
+        this.trigger_resize();
     }
 }
 function loaded() {
@@ -59,19 +56,7 @@ w.TK.Root = w.Root = $class({
     },
     initialized: function () {
         TK.Container.prototype.initialized.call(this);
-        /* NOTE: the initial draw will add all elements to the dom and set them up.
-         * after that is done, we trigger one initial resize event, to make sure that
-         * they are resized properly, if needed. */
         this.enable_draw();
-        this.trigger_initial_resize();
-    },
-    resize: function() {
-        if (!this.children) {
-            TK.warn("Root element destructed before resize.\n");
-            return;
-        }
-        this.resize_event = false;
-        TK.Container.prototype.resize.call(this);
     },
     destroy: function () {
         TK.Container.prototype.destroy.call(this);
