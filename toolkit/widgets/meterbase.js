@@ -245,6 +245,9 @@ w.TK.MeterBase = w.MeterBase = $class({
         if (I.basis && O._height > 0 && O._width > 0) {
             this._canvas.setAttribute("height", Math.round(O._height));
             this._canvas.setAttribute("width", Math.round(O._width));
+            /* FIXME: I am not sure why this is even necessary */
+            this._canvas.style.width = O._width + "px";
+            this._canvas.style.height = O._height + "px";
         }
         
         if (I.value || I.basis) {
