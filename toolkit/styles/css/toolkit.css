@@ -58,6 +58,18 @@ pre, code {
 .toolkit-widget {
     display: inline-block;
     vertical-align: middle;
+    -moz-user-select:      none; /* Firefox */
+    -ms-user-select:       none; /* Internet Explorer */
+    -khtml-user-select:    none; /* KHTML browsers (e.g. Konqueror) */
+    -webkit-user-select:   none; /* Chrome, Safari, and Opera */
+    -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+.toolkit-input {
+    -moz-user-select:      all; /* Firefox */
+    -ms-user-select:       all; /* Internet Explorer */
+    -khtml-user-select:    all; /* KHTML browsers (e.g. Konqueror) */
+    -webkit-user-select:   all; /* Chrome, Safari, and Opera */
+    -webkit-touch-callout: all; /* Disable Android and iOS callouts*/
 }
 
 
