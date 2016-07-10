@@ -51,7 +51,16 @@ function draw_lines(a, mode, last) {
             obj = a[i];
             label = labels[i];
             if (!label) continue;
-            var bb = label.getBBox();
+            var bb;
+            try {
+                bb = label.getBBox();
+            } catch(e) {
+                // if we are hidden, this may throw
+                // we should force redraw at some later point, but
+                // its hard to do. the grid should really be deactivated
+                // by an option.
+                continue;
+            }
             var tw = bb.width;
             var th = bb.height;
             var p  = TK.get_style(label, "padding").split(" ");
