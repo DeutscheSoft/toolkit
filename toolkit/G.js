@@ -13,7 +13,7 @@ function Scheduler() {
 function low_add(Q, o, prio) {
     prio = prio|0;
     var q = Q[prio];
-    if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
+    if (typeof(o) !== "function" && (typeof(o) !== "object" || !o.next)) throw("Bad argument.");
     if (!q) Q[prio] = q = [];
     q.push(o);
 }
@@ -81,14 +81,19 @@ Scheduler.prototype = {
                         } catch (e) {
                             TK.warn("rendering method", o, "threw an error", e);
                         }
-                        if (typeof(o) === "object")
+                        if (typeof(o) === "object") {
+                            if (typeof(o.next) !== "function") {
+                                TK.warn("rendering method", q[j], "did not return generator");
+                                continue;
+                            }
                             Q[i].push(o);
-                        else continue;
+                        } else continue;
                     }
                     try {
                         ret = o.next();
                     } catch (e) {
                         TK.warn("rendering generator", o, "threw an error",  e);
+                        continue;
                     }
                     if (ret.done || (v = ret.value) === false) {
                         continue;
