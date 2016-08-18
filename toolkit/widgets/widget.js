@@ -111,7 +111,7 @@ TK.Widget = $class({
         this.value_time = Object.create(null);
         this.needs_redraw = false;
         this._redraw = redraw.bind(this);
-        this._resize = resize.bind(this);
+        this.__resize = resize.bind(this);
         this._schedule_resize = this.schedule_resize.bind(this);
         this._drawn = false;
         this.parent = null;
@@ -163,7 +163,7 @@ TK.Widget = $class({
     },
 
     schedule_resize: function() {
-        TK.S.add(this._resize, 0);
+        TK.S.add(this.__resize, 0);
     },
 
     resize: function() {
@@ -248,7 +248,7 @@ TK.Widget = $class({
         if (this.parent) this.parent.remove_child(this);
 
         this._redraw = null;
-        this._resize = null;
+        this.__resize = null;
         this._schedule_resize = null;
         this.children = null;
         this.parent = null;
