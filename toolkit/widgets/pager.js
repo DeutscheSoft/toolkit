@@ -156,11 +156,10 @@ w.TK.Pager = w.Pager = $class({
             I.layout = true;
         }
         
-        if (I.layout) {
+        if (I.validate("layout", "resized")) {
             // the following code will fire after the buttonarray.element
             // has been added to the dom. We are sure that is the case because it happens
             // with priority 0 and the following code is executed in priority 1.
-            I.layout = false;
             TK.S.add(function() {
                 var size;
                 if (O.position == "top" || O.position == "bottom") {
@@ -198,8 +197,8 @@ w.TK.Pager = w.Pager = $class({
                             TK.warn("Unsupported position", O.position);
                     }
                     /* we essentially resize the pages container, so we need to call
-                     * resize() on them */
-                    TK.S.add(TK.Container.prototype.resize.bind(this));
+                     * resize() on all children */
+                    this.trigger_resize_children();
                 }.bind(this), 1);
             }.bind(this));
         }
@@ -337,13 +336,6 @@ w.TK.Pager = w.Pager = $class({
          * @type Page
          */
         this.fire_event("removed", p);
-    },
-    
-    resize: function () {
-        this.invalid.show = true;
-        this.invalid.layout = true;
-        this.trigger_draw();
-        TK.Container.prototype.resize.call(this);
     },
 
     current: function() {
