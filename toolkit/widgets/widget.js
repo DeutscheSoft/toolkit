@@ -173,7 +173,7 @@ TK.Widget = $class({
             this.set("resized", true);
 
         if (this.has_event_listeners("resized")) {
-            TK.S.after_frame(this.fire_event.bind(this, "resize"));
+            TK.S.after_frame(this.fire_event.bind(this, "resized"));
         }
     },
 
