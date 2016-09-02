@@ -54,6 +54,11 @@ w.TK.Root = w.Root = $class({
         document.addEventListener("visibilitychange", this._visibility_cb, false);
         document.addEventListener("DOMContentLoaded", loaded.bind(this));
     },
+    redraw: function() {
+        TK.Container.prototype.redraw.call(this);
+        if (this.resize_event)
+            this.resize_event = false;
+    },
     initialized: function () {
         TK.Container.prototype.initialized.call(this);
         this.enable_draw();
