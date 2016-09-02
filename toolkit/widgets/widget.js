@@ -162,6 +162,16 @@ TK.Widget = $class({
         }
     },
 
+    trigger_resize_children: function() {
+        var C = this.children;
+
+        if (!C) return;
+
+        for (var i = 0; i < C.length; i++) {
+            C[i].trigger_resize();
+        }
+    },
+
     schedule_resize: function() {
         TK.S.add(this.__resize, 0);
     },
