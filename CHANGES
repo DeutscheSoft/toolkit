@@ -1,4 +1,106 @@
 Version 1.0.0: Changes since version 0.66
 -----------------------------------------
 
+Browser support
+===============
 
+o added many compatibility helpers to support older browsers. Most widgets
+  work in IE9 and upwards. The list of supported browsers will change in future
+  versions.
+
+API Changes
+===========
+
+o Every widget must to be a descendant of an instance of TK.Root in order
+  to be drawn and resized correctly. See 'docs/rendering.md' for details.
+
+o The set() method now returns the actual value set. Note that this value can be
+  different from the value passed, for example when using grid snapping.
+
+Improvements
+============
+
+o moved all documentation to jsdoc syntax
+
+o documented more options and methods
+
+o added an option 'element' to allow widgets to resuse an existing
+  DOM element
+
+o added many warnings and diagnostics for incorrect options or wrong API calls
+
+o reimplemented TK.Scale to draw better automatic scales and labels
+
+o added the TK.Expander widget. It can be used to implement complex logic to
+  interfaces more responsive. See its documentation for more information.
+
+o added multi-touch support to TK.DragValue, which for example now allows
+  dragging several faders simultaneously.
+
+o added standard gain to decibel full scale transformations to AudioMath
+
+Cleanup
+=======
+
+o Activated JavaScript strict-mode in all source files.
+
+o Replaced all toolkit constants by strings.
+  This is an incompatible change.
+
+o Moved many 'internal' functions into real private helper methods.
+
+o reduced the number of leaked event callbacks
+
+o string labels are now always interpreted as text. Adding more complex labels
+  is still supported by passing a DOM element or a document fragment.
+  This is an incompatible change.
+
+o Avoid using the global namespace for any variables. All toolkit classes
+  and functions are now available in the 'TK' namespace. All widgets are
+  still added to the global scope for compatibility. They will be removed from
+  the global scope in a future version.
+
+o Removed all non ASCII characters from the source code to avoid possible
+  encoding errors.
+
+o Avoid multiple inheritance where possible.
+
+
+Performance improvements
+========================
+
+o LevelMeter now uses a canvas overlay. It also optimizes the rendering
+  of segmented level meters.
+
+o Added standalone version of TK.sprintf.
+
+o Pager was reimplemented to use CSS transitions and remove hidden pages
+  from the DOM.
+
+o Implemented new tooltip widgets which does not require a relayout.
+
+o Only redraw or resize the visible parts of the widget tree.
+
+o Redesigned how the DOM resize event API is used. All widgets now resize
+  automatically, by doing necessary measurements once after a resize event.
+
+o Added a clean representation of a widget tree.
+
+o Ranged: implemented faster and cleaner snap methods as asm.js modules. Note
+  that the 'nosnap' option was removed.
+
+o Moved rendering of all widgets into a redraw method. The code was also
+  refactored to redraw only those parts of the DOM, which depend on an option
+  which has changes since the last redraw.
+
+o Implemented all filters and other audio-related transformations as asm.js
+  modules
+
+o DOM scheduling
+
+  DOM scheduling is a technique, which aims to reorder DOM API calls in order
+  to optimize rendering performance. It is implemented using a simple priority
+  based scheduler, which runs all operations in an animation callback.
+  See 'docs/rendering.md' for more details.
+
+o Used more local variables where possible to avoid unecessary lookups.
