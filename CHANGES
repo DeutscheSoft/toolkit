@@ -42,6 +42,12 @@ o added standard gain to decibel full scale transformations to AudioMath
 Cleanup
 =======
 
+o Used explicit child selectors for most widgets. This is usually faster
+  and avoid possible mismatches in containers (e.g. Pager).
+
+o Separated the CSS definitions of all widgets into 'functional' definitions
+  and those for layout/design. This simplifies creating custom stylesheets.
+
 o Activated JavaScript strict-mode in all source files.
 
 o Replaced all toolkit constants by strings.
@@ -60,11 +66,10 @@ o Avoid using the global namespace for any variables. All toolkit classes
   still added to the global scope for compatibility. They will be removed from
   the global scope in a future version.
 
-o Removed all non ASCII characters from the source code to avoid possible
-  encoding errors.
+o Removed all non ASCII characters from the source code to avoid encoding
+  errors.
 
 o Avoid multiple inheritance where possible.
-
 
 Performance improvements
 ========================
@@ -90,8 +95,8 @@ o Ranged: implemented faster and cleaner snap methods as asm.js modules. Note
   that the 'nosnap' option was removed.
 
 o Moved rendering of all widgets into a redraw method. The code was also
-  refactored to redraw only those parts of the DOM, which depend on an option
-  which has changes since the last redraw.
+  refactored to redraw only those parts of the DOM, which depend on options
+  which have changed since the last redraw.
 
 o Implemented all filters and other audio-related transformations as asm.js
   modules
@@ -104,3 +109,10 @@ o DOM scheduling
   See 'docs/rendering.md' for more details.
 
 o Used more local variables where possible to avoid unecessary lookups.
+
+Changes before version 0.66
+---------------------------
+
+o removed mootools dependency
+
+o added a custom sprintf implementation
