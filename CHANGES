@@ -110,6 +110,20 @@ o DOM scheduling
 
 o Used more local variables where possible to avoid unecessary lookups.
 
+o Use CSS in favour of JavaScript
+  
+  Simplify rendering of widgets by removing lots of JavaScript layouting
+  code replacing it with CSS. This breaks older layouts which have to be
+  refactored in order to reflect the changes done to CSS.
+  
+o Simplify DOM of widgets by using techniques like pseudo CSS elements
+  for drawing dynamic background compositions like in Fader
+  
+o Re-layout some widgets to have most of the layout options formerly
+  flagged with "initialize" changeable on runtime
+  
+o Add some more layout options to some widgets like Fader
+
 Changes before version 0.66
 ---------------------------
 
