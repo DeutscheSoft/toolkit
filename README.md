@@ -48,4 +48,4 @@ file for details.
 
 Copyright (c) 2013-2016 Markus Schmidt <markus@deuso.de>
 
-Copyright (c) 2014-2016 Arne Goedeke <arne@deuso.de>
+Copyright (c) 2014-2016 Arne G&ouml;deke <arne@deuso.de>
