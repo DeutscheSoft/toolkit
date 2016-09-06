@@ -23,9 +23,19 @@ can be used to generate the documentation. If you have jsdoc installed, simply r
 
     make jsdoc
 
+Apart from the documentation inside the source doee, there are several longer
+introductory articles and usage examples in the directories.
+They can be found in the directories `docs/` and `tutorials/`. They automatically
+get added to the generated documentation by our jsdoc configuration.
+
 ## Demos
 
 Several online demos of interfaces using toolkit can be found at [http://demo.deuso.de].
+All of those demos are written in [AWML](https://github.com/DeutscheSoft/AWML), which is
+a HTML5 based markup language, which can be used to create toolkit-based interfaces.
+
+For most use-cases using AWML is much more convenient than building an interface in
+JavaScript using toolkit directly.
 
 ## Reporting Bugs
 
