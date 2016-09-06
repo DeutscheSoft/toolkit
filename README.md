@@ -12,16 +12,24 @@ IE9. toolkit was designed to be lightweight and fast while keeping the
 full flexibility which comes with CSS. toolkit widgets offer consistent
 and intuitive APIs.
 
-## Demo and Documentation
+## Documentation
 
 The complete API documentation can be found at [http://deuso.de/toolkit/docs/].
 The documentation contains interactive examples for many Widgets.
 
 Alternatively, the documentation can be directly built from the source code.
-Simple run `make documentation`. Note that the documentation generator is
-written in the [Pike](http://pike.lysator.liu.se/) programming language.
-Once the documentation has been successfully extracted, simply navigate a
-browser to the file `index.html`.
+The documentation in the source files uses the common jsdoc syntax and [JSDoc 3](https://usejsdoc.org).
+can be used to generate the documentation. If you have jsdoc installed, simply run
+
+    make jsdoc
+
+## Demos
+
+Several online demos of interfaces using toolkit can be found at [http://demo.deuso.de].
+
+## Reporting Bugs
+
+When you find a bug in this software, please report it to our issue tracker at [https://github.com/DeutscheSoft/toolkit].
 
 ## License
 
