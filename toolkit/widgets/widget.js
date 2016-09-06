@@ -1,14 +1,12 @@
- /* toolkit provides different widgets, implements and modules for 
- * building audio based applications in webbrowsers.
- * 
- * Invented 2013 by Markus Schmidt <schmidt@boomshop.net>
+/*
+ * This file is part of toolkit.
  *
- * This program is free software; you can redistribute it and/or
+ * toolkit is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * toolkit is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
