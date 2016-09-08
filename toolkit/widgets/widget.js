@@ -472,7 +472,7 @@ TK.Widget = $class({
         var C = this.children;
         child.set_parent(this);
         C.push(child);
-        if (this.is_drawn()) {
+        if (!this.hidden()) {
             child.enable_draw();
         } else {
             child.disable_draw();
