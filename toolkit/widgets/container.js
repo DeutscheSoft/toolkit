@@ -253,7 +253,7 @@ w.TK.Container = w.Container = $class({
 
     hidden: function() {
         var state = this.options.display_state;
-        return state === "hiding" || state === "hide";
+        return TK.Widget.prototype.hidden.call(this) || state === "hiding" || state === "hide";
     },
 
     redraw: function() {
