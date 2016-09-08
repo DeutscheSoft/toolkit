@@ -132,7 +132,7 @@ TK.Widget = $class({
     assert_none_invalid: function() {
         var warn = [];
         for (var key in this.invalid) {
-            if (this.invalid[key]) {
+            if (this.invalid[key] === true) {
                 warn.push(key);
             }
         }
