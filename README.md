@@ -23,10 +23,9 @@ can be used to generate the documentation. If you have jsdoc installed, simply r
 
     make jsdoc
 
-Apart from the documentation inside the source doee, there are several longer
-introductory articles and usage examples in the directories.
-They can be found in the directories `docs/` and `tutorials/`. They automatically
-get added to the generated documentation by our jsdoc configuration.
+Apart from the documentation inside the source tree, there are several longer
+introductory articles and usage examples in the directories `docs/` and `tutorials/`.
+These articles automatically get added to the generated documentation by our jsdoc configuration.
 
 ## Demos
 
