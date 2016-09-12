@@ -341,7 +341,7 @@ w.TK.MeterBase = w.MeterBase = $class({
 
         this._last_meters = a;
 
-        var ctx = this._canvas.getContext("2d", { alpha: false });
+        var ctx = this._canvas.getContext("2d");
         ctx.fillStyle = this._fillstyle;
 
         ctx.fillRect(0, 0, w, h);
