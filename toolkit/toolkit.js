@@ -75,7 +75,17 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
    * @param {string} name - The class name.
    * @function TK.remove_class
    */
-  toggle_class = function (e, cls) { e.classList.toggle(cls); }
+  toggle_class = function (e, cls, cond) {
+      /* The second argument to toggle is not implemented in IE,
+       * so we never use it */
+      if (arguments.length >= 3) {
+          if (cond) {
+              add_class(e, cls);
+          } else {
+              remove_class(e, cls);
+          }
+      } else e.classList.toggle(cls);
+  };
 } else {
   has_class = function (e, cls) {
     return get_class_name(e).split(" ").indexOf(cls) !== -1;
@@ -105,11 +115,14 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
       set_class_name(e, a.join(" "));
     }
   };
-  toggle_class = function(e, cls) {
-      if (has_class(e, cls)) {
-          remove_class(e, cls);
-      } else {
+  toggle_class = function(e, cls, cond) {
+      if (arguments.length < 3) {
+          cond = !has_class(e, cls);
+      }
+      if (cond) {
           add_class(e, cls);
+      } else {
+          remove_class(e, cls);
       }
   };
 }
