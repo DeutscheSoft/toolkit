@@ -224,7 +224,7 @@ function html(s) {
     var e = document.createElement("div");
     var f = document.createDocumentFragment();
     e.innerHTML = s;
-    while (e.lastChild) f.appendChild(e.lastChild);
+    while (e.firstChild) f.appendChild(e.firstChild);
     return f;
 }
 function set_content(node, s) {
