@@ -179,6 +179,94 @@ function update_snap() {
         Object.assign(this, NullSnapModule(window, { min : O.min, max : O.max }));
     }
 }
+function TRAFO_PIECEWISE(stdlib, foreign, heap) {
+    var reverse = foreign.reverse|0;
+    var l = heap.byteLength >> 4;
+    var X = new Float64Array(heap, 0, l);
+    var Y = new Float64Array(heap, l*8, l);
+    var basis = +foreign.basis;
+
+    function val2based(coef, size) {
+        var a = 0,
+            b = (l-1)|0,
+            mid = 0,
+            t = 0.0;
+
+        coef = +coef;
+        size = +size;
+
+        if (!(coef > +Y[0])) return +X[0] * size;
+        if (!(coef < +Y[b << 3 >> 3])) return +X[b << 3 >> 3] * size;
+
+        do {
+            mid = (a + b) >>> 1;
+            t = +Y[mid << 3 >> 3];
+            if (coef > t) a = mid;
+            else if (coef < t) b = mid;
+            else return +X[mid << 3 >> 3] * size;
+        } while (((b - a)|0) > 1);
+
+        /* value lies between a and b */
+
+        t = (+X[b << 3 >> 3] - +X[a << 3 >> 3]) / (+Y[b << 3 >> 3] - +Y[a << 3 >> 3]);
+
+        t = +X[a << 3 >> 3] + (coef - +Y[a << 3 >> 3]) * t;
+
+        t *= size;
+
+        if (reverse) t = size - t;
+
+        return t;
+    }
+    function based2val(coef, size) {
+        var a = 0,
+            b = (l-1)|0,
+            mid = 0,
+            t = 0.0;
+
+        coef = +coef;
+        size = +size;
+        if (reverse) coef = size - coef;
+        coef /= size;
+
+        if (!(coef > 0)) return Y[0];
+        if (!(coef < 1)) return Y[b << 3 >> 3];
+
+        do {
+            mid = (a + b) >>> 1;
+            t = +X[mid << 3 >> 3];
+            if (coef > t) a = mid;
+            else if (coef < t) b = mid;
+            else return +Y[mid << 3 >> 3];
+        } while (((b - a)|0) > 1);
+
+        /* value lies between a and b */
+
+        t = (+Y[b << 3 >> 3] - +Y[a << 3 >> 3]) / (+X[b << 3 >> 3] - +X[a << 3 >> 3]);
+
+        return +Y[a << 3 >> 3] + (coef - +X[a << 3 >> 3]) * t;
+    }
+    function val2real(n) { return val2based(n, basis || 1); }
+    function real2val(n) { return based2val(n, basis || 1); }
+    function val2px(n) { return val2based(n, basis || 1); }
+    function px2val(n) { return based2val(n, basis || 1); }
+    function val2coef(n) { return val2based(n, 1); }
+    function coef2val(n) { return based2val(n, 1); }
+    function val2perc(n) { return val2based(n, 100); }
+    function perc2val(n) { return based2val(n, 100); }
+    return {
+        val2based:val2based,
+        based2val:based2val,
+        val2real:val2real,
+        real2val:real2val,
+        val2px:val2px,
+        px2val:px2val,
+        val2coef:val2coef,
+        coef2val:coef2val,
+        val2perc:val2perc,
+        perc2val:perc2val,
+    };
+};
 function TRAFO_FUNCTION(stdlib, foreign) {
     var reverse = foreign.reverse|0;
     var min = +foreign.min;
@@ -440,6 +528,24 @@ function update_transformation() {
 
     if (typeof scale === "function") {
         module = TRAFO_FUNCTION(w, O);
+    } else if (typeof scale === "object" && scale instanceof Array) {
+        var i = 0;
+        if (scale.length % 2) {
+            TK.error("Malformed piecewise-linear scale.");
+        }
+
+        for (i = 0; i < scale.length/2 - 1; i++) {
+            if (!(scale[i] >= 0 && scale[i] <= 1))
+                TK.error("piecewise-linear x value not in [0,1].");
+            if (!(scale[i] < scale[i+1]))
+                TK.error("piecewise-linear array not sorted.");
+        }
+        for (i = scale.length/2; i < scale.length - 1; i++) {
+            if (!(scale[i] < scale[i+1]))
+                TK.error("piecewise-linear array not sorted.");
+        }
+
+        module = TRAFO_PIECEWISE(w, O, new Float64Array(scale).buffer);
     } else switch (scale) {
         case "linear":
             module = TRAFO_LINEAR(w, O);
