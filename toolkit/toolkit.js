@@ -230,6 +230,10 @@ function html(s) {
 function set_content(node, s) {
     if (is_dom_node(s)) {
         empty(node);
+        if (s.parentNode) {
+            TK.warn("set_content: possible reuse of a DOM node. cloning\n");
+            s = s.cloneNode(true);
+        }
         node.appendChild(s);
     } else {
         set_text(node, s + "");
