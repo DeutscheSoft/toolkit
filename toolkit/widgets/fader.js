@@ -38,6 +38,10 @@ function get_value(ev) {
     return this.real2val(real);
 }
 function tooltip_by_position(ev, tt) {
+    if (this._handle.contains(ev.target)) {
+        tooltip_by_value.call(this, ev, tt);
+        return;
+    }
     var val = this.snap(get_value.call(this, ev));
     TK.set_text(tt, this.options.tooltip(val));
 }
