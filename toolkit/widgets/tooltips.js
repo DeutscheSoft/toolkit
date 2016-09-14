@@ -74,24 +74,36 @@ w.GlobalTooltip = function() {
         }
     }
 
-    function onmove_touch(e) {
-        onmove_mouse(get_event(e));
-    }
+    var ev = null;
 
-    function onmove_mouse(e) {
+    function redraw() {
+        var e = ev;
+        ev = null;
         var current = current_callback();
-        var w = e.clientX;
-        var h = e.clientY / window.innerHeight;
 
         if (!current) {
             hide();
             return;
         }
 
+        var w = e.clientX;
+        var h = e.clientY / window.innerHeight;
+
         spacer_tl.style["width"] = w > 0 ? w + "px" : "0.01%";
         spacer_tl.style["height"] = h > 0 ? (h * 100).toFixed(2) + "%" : "0.01%";
 
         current(e, entry);
+    }
+
+    function onmove_mouse(e) {
+        if (!ev) {
+            TK.S.add(redraw, 1);
+        }
+        ev = e;
+    }
+
+    function onmove_touch(e) {
+        onmove_mouse(get_event(e));
     }
 
     var hidden = false;
