@@ -172,11 +172,11 @@ function update_snap() {
     var O = this.options;
     // Notify that the ranged options have been modified
     if (Array.isArray(O.snap)) {
-        Object.assign(this, ArraySnapModule(window, O, new Float64Array(O.snap).buffer));
+        Object.assign(this, ArraySnapModule(window, O, new Float64Array(O.snap.slice(0).sort()).buffer));
     } else if (typeof O.snap === "number" && O.snap > 0.0) {
-        Object.assign(this, LinearSnapModule(window, { min : O.min, max : O.max, step : O.snap, base: O.base||0 }));
+        Object.assign(this, LinearSnapModule(window, { min : Math.min(O.min, O.max), max : Math.max(O.min, O.max), step : O.snap, base: O.base||0 }));
     } else {
-        Object.assign(this, NullSnapModule(window, { min : O.min, max : O.max }));
+        Object.assign(this, NullSnapModule(window, { min : Math.min(O.min, O.max), max : Math.max(O.min, O.max) }));
     }
 }
 function TRAFO_PIECEWISE(stdlib, foreign, heap) {
