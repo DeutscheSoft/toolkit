@@ -39,10 +39,10 @@ function get_value(ev) {
 }
 function tooltip_by_position(ev, tt) {
     var val = this.snap(get_value.call(this, ev));
-    tt.innerText = this.options.tooltip(val);
+    TK.set_text(tt, this.options.tooltip(val));
 }
 function tooltip_by_value(ev, tt) {
-    tt.innerText = this.options.tooltip(this.options.value);
+    TK.set_text(tt, this.options.tooltip(this.options.value));
 }
 function mouseenter (ev) {
     if (!this.options.tooltip) return;
@@ -53,7 +53,7 @@ function clicked(ev) {
     if (this._handle.contains(ev.target)) return;
     value = SET.call(this, get_value.call(this, ev));
     if (this.options.tooltip && TK.tooltip._entry)
-        TK.tooltip._entry.innerText = this.options.tooltip(this.options.value);
+        TK.set_text(TK.tooltip._entry, this.options.tooltip(this.options.value));
 }
 function mouseleave (ev) {
     TK.tooltip.remove(1, this.tooltip_by_position);
@@ -67,7 +67,7 @@ function stopdrag(ev) {
 }
 function scrolling(ev) {
     if (!this.options.tooltip) return;
-    TK.tooltip._entry.innerText = this.options.tooltip(this.options.value);
+    TK.set_text(TK.tooltip._entry, this.options.tooltip(this.options.value));
 }
 function dblclick(ev) {
     this.set("value", this.options.reset);
