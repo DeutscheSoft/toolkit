@@ -35,10 +35,10 @@ function LinearSnapModule(stdlib, foreign) {
         var n = 0;
         var t = 0.0;
 
-        if (v < min) {
+        if (!(v > min)) {
             v = min;
             direction = 1.0;
-        } else if (v > max) {
+        } else if (!(v < max)) {
             v = max;
             direction = +1.0;
         }
@@ -111,8 +111,8 @@ function ArraySnapModule(stdlib, foreign, heap) {
 
         b = len;
 
-        if (v >= +values[b << 3 >> 3]) return +values[b << 3 >> 3];
-        if (v <= +values[a << 3 >> 3]) return +values[0];
+        if (!(v < +values[b << 3 >> 3])) return +values[b << 3 >> 3];
+        if (!(v > +values[a << 3 >> 3])) return +values[0];
 
         do {
             mid = (a + b) >>> 1;
@@ -157,8 +157,8 @@ function NullSnapModule(stdlib, foreign, heap) {
 
     function snap(v) {
         v = +v;
-        if (v > max) return max;
-        if (v < min) return min;
+        if (!(v < max)) return max;
+        if (!(v > min)) return min;
         return v;
     }
 
