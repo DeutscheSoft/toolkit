@@ -37,7 +37,7 @@
     top: 2px;
     left: 3px;
     right: 3px;
-    height: 5px;
+    height: 10px;
 }
 
 
@@ -79,7 +79,7 @@
     top: 2px;
     right: 3px;
     bottom: 2px;
-    width: 5px;
+    width: 8px;
 }
 .toolkit-level-meter.toolkit-has-label.toolkit-horizontal > .toolkit-clip,
 .toolkit-level-meter.toolkit-has-title.toolkit-horizontal > .toolkit-clip {
