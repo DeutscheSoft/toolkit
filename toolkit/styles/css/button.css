@@ -65,6 +65,9 @@
     text-align: center;
     position: relative;
 }
+.toolkit-button.toolkit-horizontal > .toolkit-cell {
+    white-space: nowrap;
+}
 .toolkit-button > .toolkit-cell > .toolkit-label {
     line-height: 1.5em;
     text-align: center;
@@ -80,6 +83,9 @@
     -webkit-border-radius: 4px;
     -moz-border-radius:    4px;
     border-radius:         4px;
+}
+.toolkit-button.toolkit-horizontal > .toolkit-cell > .toolkit-label {
+    display: inline-block;
 }
 .toolkit-button > .toolkit-cell >  .toolkit-icon {
     margin: auto;
