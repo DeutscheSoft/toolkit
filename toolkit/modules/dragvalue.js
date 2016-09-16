@@ -155,6 +155,7 @@ function move_drag(ev, x, y) {
         s.scheduled = true;
         TK.S.add(this.__update_drag, 1);
     }
+    this.fire_event("dragging", ev);
 }
 
 function update_drag() {
@@ -210,7 +211,7 @@ function update_drag() {
     state.start_x = state.x;
     state.start_y = state.y;
     state.start_pos += dist;
-
+    
 }
 
 function stop_drag(ev, x, y) {
