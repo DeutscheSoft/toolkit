@@ -20,7 +20,7 @@
                 footer_left: _TOOLKIT_STATUS,
                 fixed: true,
                 content: TK.html("<div style='margin: 6px'><img src=images/toolkit.png "
-                       + "style=\"float: left; margin-right: 20px;\">"
+                       + "style=\"float: left; margin-right: 20px; width:128px;height:auto\">"
                        + "Thanks for testing TK. We hope you like "
                        + "the functionality, complexity and style. If you have any "
                        + "sugestions or bug reports, please let us know.</div>")
