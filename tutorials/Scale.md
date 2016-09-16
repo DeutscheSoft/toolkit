@@ -49,6 +49,28 @@
 <pre class='css prettyprint source'><code>
 .toolkit-scale {
     display: block;
+    position: absolute;
+}
+#sc_scale_v_l {
+    height: calc(100% - 60px);
+    top: 30px;
+    left: 10px;
+}
+#sc_scale_v_r {
+    height: calc(100% - 60px);
+    top: 30px;
+    right: 10px;
+    
+}
+#sc_scale_h_t {
+    width: calc(100% - 94px);
+    left: 47px;
+    top: 10px;
+}
+#sc_scale_h_b {
+    width: calc(100% - 94px);
+    left: 47px;
+    bottom: 10px;
 }
 </code></pre>
 <script> prepare_example(); </script>
