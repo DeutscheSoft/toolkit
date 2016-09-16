@@ -33,7 +33,7 @@
             value: 1000,
             scale: _TOOLKIT_FREQ,
             dot: {length: 4, margin: 0, width: 1},
-            label: {align: _TOOLKIT_INNER, margin: 6},
+            label: {align: _TOOLKIT_INNER, margin: 4},
             dots: [
                 {pos: 20}, {pos: 30}, {pos: 40}, {pos: 50}, {pos: 60}, {pos: 70}, {pos: 80}, {pos: 90},
                 {pos: 100}, {pos: 200}, {pos: 300}, {pos: 400}, {pos: 500}, {pos: 600}, {pos: 700}, {pos: 800}, {pos: 900},
@@ -65,7 +65,9 @@
 #knob2 .toolkit-base {
     fill: rgba(0, 47, 66, 0.5);
 }
-
+#knob2 .toolkit-label {
+    font-size: 0.7em;
+}
 #knob2 {
     width: 120px;
     heigh: 120px;
