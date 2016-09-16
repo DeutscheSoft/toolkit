@@ -14,20 +14,20 @@
             log_factor: 2,
             division: 1,
             snap: 1,
-            fixed_dots: [40, 20, -20, -40, -60, -80, -120, -160, -200, -280],
-            fixed_labels: [40, 20, -20, -40, -60, -80, -120, -160, -200, -280],
+            fixed_dots: [60, 40, 20, 0, -20, -40, -60, -80, -120, -160, -200, -280, -580],
+            fixed_labels: [60, 40, 20, 0, -20, -40, -60, -80, -120, -160, -200, -280, -580],
             scale:_TOOLKIT_DB
         }
-        options.layout = _TOOLKIT_RIGHT;
+        options.layout = "right";
         faders.push(new Fader(options));
         
-        options.layout = _TOOLKIT_LEFT;
+        options.layout = "left";
         faders.push(new Fader(options));
         
-        options.layout = _TOOLKIT_BOTTOM;
+        options.layout = "bottom";
         faders.push(new Fader(options));
         
-        options.layout = _TOOLKIT_TOP;
+        options.layout = "top";
         faders.push(new Fader(options));
         
         root.append_children(faders);
@@ -45,16 +45,16 @@
     }
 <pre class='css prettyprint source'><code>
 .toolkit-fader {
+    vertical-align: top;
     display: block;
     float: left;
-    vertical-align: top;
 }
-.toolkit-fader:nth-child(1),
-.toolkit-fader:nth-child(2) {
+.toolkit-fader:nth-child(2),
+.toolkit-fader:nth-child(3) {
     height: 400px;
 }
-.toolkit-fader:nth-child(3),
-.toolkit-fader:nth-child(4) {
+.toolkit-fader:nth-child(4),
+.toolkit-fader:nth-child(5) {
     width: 400px;
 }
 </code></pre>
