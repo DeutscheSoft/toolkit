@@ -1,4 +1,6 @@
     function run_levelmeter(root) {
+        var con1 = new Container({style:'display:block'});
+        var con2 = new Container({style:'display:block'});
         meters = {
             mvr: new LevelMeter({
                 layout: _TOOLKIT_RIGHT,
@@ -179,7 +181,8 @@
                 levels: [1, 5, 10]
             })
         }
-        root.append_children([
+        root.append_children([con1, con2]);
+        con1.append_children([
             meters.mvr,
             meters.mvl,
             meters.mvrr,
@@ -189,19 +192,19 @@
             meters.mhbr,
             meters.mhtr
         ]);
-        root.append_child(new Button({
+        con2.append_child(new Button({
             onclick: run,
             label : "Run",
         }));
-        root.append_child(new Button({
+        con2.append_child(new Button({
             label : "Stop",
             onclick: function() { running = false; }
         }));
-        root.append_child(new Button({
+        con2.append_child(new Button({
             onclick: reset,
             label : "Reset",
         }));
-        root.append_child(new Button({
+        con2.append_child(new Button({
             onclick: hold,
             label : "Toggle Hold",
         }));

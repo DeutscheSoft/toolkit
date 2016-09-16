@@ -124,69 +124,115 @@
 
 .toolkit-level-meter.toolkit-vertical > .toolkit-bar > .toolkit-peak {
     top: 0;
-    margin-top: -7px;
-    width: 36px;
-    height: 16px;
-    padding-top: 2px;
+    width: 100%;
+    height: 12px;
+    transform: translateY(-50%);
 }
 .toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak {
-    left: -1;
-    background: url(../images/levelmeter/peak_vertical_left.png) no-repeat;
-    padding-left: 13px;
+    left: 0px;
+    text-align: left;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 0;
+    width: 0;
+    border-left: 5px solid #efefef;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    z-index: 1;
+    transform: translateY(-3px);
 }
 .toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak {
-    right: -1px;
-    background: url(../images/levelmeter/peak_vertical_right.png) no-repeat 100% 0;
-    padding-right: 13px;
+    right: 0px;
     text-align: right;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 0;
+    width: 0;
+    border-right: 5px solid #f5f5f5;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    z-index: 1;
+    transform: translateY(-3px);
 }
 
 .toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak {
-    margin-left: -8px;
-    width: 16px;
-    height: 32px;
-    padding-top: 18px;
-    text-align: center;
+    transform: translateX(-50%);
 }
 .toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak {
-    top: -1px;
-    background: url(../images/levelmeter/peak_horizontal_top.png) no-repeat 0 0;
-    padding-top: 21px;
+    top: 0px;
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 0;
+    width: 0;
+    border-top: 5px solid #ddd;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    z-index: 1;
+    transform: translateX(-3px);
 }
 .toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak {
-    bottom: -1px;
-    background: url(../images/levelmeter/peak_horizontal_bottom.png) no-repeat 0 100%;
+    bottom: 0px;
 }
-
+.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 0;
+    width: 0;
+    border-bottom: 5px solid #f5f5f5;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+    z-index: 1;
+    transform: translateX(-3px);
+}
 /* PEAK LABEL */
 
 .toolkit-level-meter > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
     color: white;
-    font-size: 0.6em;
-    line-height: 10px;
+    font-size: 8px;
+    line-height: 12px;
     opacity: 0.9;
-    width:  25px;
     overflow: hidden;
-    background: rgba(0,0,0,0.5);
 }
 .toolkit-level-meter.toolkit-vertical > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
     text-shadow: 0 1px 2px black,0 1px 2px black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 .toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    
+    padding-left: 7px;
 }
 .toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    
+    padding-right: 7px;
 }
 
 .toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
     text-shadow: -1px 0 2px black,-1px 0 2px black;
+    padding: 7px;
 }
 .toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    margin-right: -5px;
-    text-align: right;
+    
 }
 .toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    margin-left: -6px;
-    text-align: left;
+    
 }

@@ -46,4 +46,9 @@
 
         root.append_children([ scales.left, scales.right, scales.top, scales.bottom ]);
     }
+<pre class='css prettyprint source'><code>
+.toolkit-scale {
+    display: block;
+}
+</code></pre>
 <script> prepare_example(); </script>

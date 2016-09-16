@@ -21,7 +21,9 @@
 .toolkit-pager {
     
 }
-
+.toolkit-pager .toolkit-buttonarray {
+    display: block;
+}
 .toolkit-pager > .toolkit-clip {
     overflow: hidden; 
 }

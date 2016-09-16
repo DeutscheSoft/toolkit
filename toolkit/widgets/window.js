@@ -455,7 +455,6 @@ w.TK.Window = w.Window = $class({
         hide_status:   0 // if set to !0 status message hides after n milliseconds
     },
     initialize: function (options) {
-        this.__inited = false;
         this.dimensions = {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
         TK.Container.prototype.initialize.call(this, options);
         
@@ -582,6 +581,8 @@ w.TK.Window = w.Window = $class({
             onResizing   : resizing.bind(this)
         });
         
+        init_position.call(this, this.options.open);
+        
         this.set("resizable", this.options.resizable);
         this.set("draggable", this.options.draggable);
         
@@ -680,13 +681,6 @@ w.TK.Window = w.Window = $class({
         this.options[key] = value;
         
         switch (key) {
-            case "container":
-                value.appendChild(this.element);
-                if (!this.__inited) {
-                    this.__inited = true;
-                    if (!hold) init_position.call(this, this.options.open);
-                }
-                break;
             case "anchor":
                 this.dimensions.anchor = value;
                 if (!hold) {
