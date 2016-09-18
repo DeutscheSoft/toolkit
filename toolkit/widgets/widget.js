@@ -50,6 +50,7 @@ Invalid.prototype = {
 function redraw(fun) {
     this.needs_redraw = false;
     fun.call(this);
+    this.fire_event("redraw");
 }
 TK.Widget = $class({
     /**
@@ -195,7 +196,6 @@ TK.Widget = $class({
         this.trigger_draw();
     },
     redraw: function () {
-        this.fire_event("redraw");
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
