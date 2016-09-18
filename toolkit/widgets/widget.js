@@ -47,19 +47,9 @@ Invalid.prototype = {
         }
     }
 };
-function redraw() {
-    if (this.is_destructed()) {
-        TK.warn("Redraw called on destructed widget ", this);
-        return;
-    }
+function redraw(fun) {
     this.needs_redraw = false;
-    this.redraw();
-}
-function resize() {
-    if (this.is_destructed()) {
-        return;
-    }
-    this.resize();
+    fun.call(this);
 }
 TK.Widget = $class({
     /**
@@ -108,8 +98,8 @@ TK.Widget = $class({
         this.invalid = new Invalid(this.options);
         this.value_time = Object.create(null);
         this.needs_redraw = false;
-        this._redraw = redraw.bind(this);
-        this.__resize = resize.bind(this);
+        this._redraw = redraw.bind(this, this.redraw);
+        this.__resize = this.resize.bind(this);
         this._schedule_resize = this.schedule_resize.bind(this);
         this._drawn = false;
         this.parent = null;

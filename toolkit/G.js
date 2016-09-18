@@ -80,7 +80,7 @@ Scheduler.prototype = {
             empty = true;
 
             for (i = 0; i < Q.length; i++) {
-                var q = Q[i], o, ret, v;
+                var q = Q[i];
 
                 if (!q || !q.length) continue;
 
@@ -91,39 +91,10 @@ Scheduler.prototype = {
                 this.tmp = q;
 
                 for (var j = 0; j < q.length; j++) {
-                    o = q[j];
+                    try { q[j](); } catch (e) {
+                        TK.warn(q[j], "threw an error", e);
+                    }
                     calls++;
-                    if (typeof(o) === "function") {
-                        try {
-                            o = o();
-                        } catch (e) {
-                            TK.warn("rendering method", o, "threw an error", e);
-                        }
-                        if (typeof(o) === "object") {
-                            if (typeof(o.next) !== "function") {
-                                TK.warn("rendering method", q[j], "did not return generator");
-                                continue;
-                            }
-                            Q[i].push(o);
-                        } else continue;
-                    }
-                    try {
-                        ret = o.next();
-                    } catch (e) {
-                        TK.warn("rendering generator", o, "threw an error",  e);
-                        continue;
-                    }
-                    if (ret.done || (v = ret.value) === false) {
-                        continue;
-                    }
-                    if (v !== undefined) {
-                        v = v|0;
-                        if (v !== i) {
-                            ret = Q[v];
-                            if (!ret) Q[v] = ret = [];
-                            ret.push(o);
-                        }
-                    }
                 }
 
                 q.length = 0;
