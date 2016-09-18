@@ -217,6 +217,9 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             O.bottom = O.value;
         if (O.falling < 0)
             O.falling = -O.falling;
+
+        /* track the age of the value option */
+        this.track_option("value");
     },
     
     redraw: function () {

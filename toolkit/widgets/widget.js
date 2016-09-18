@@ -374,13 +374,17 @@ TK.Widget = $class({
         }
         if (this._options[key]) {
             this.invalid[key] = true;
-            this.value_time[key] = Date.now();
+            if (this.value_time[key])
+                this.value_time[key] = Date.now();
             this.trigger_draw();
         } else if (key.charCodeAt(0) !== 95) {
             TK.warn("%O: %s.set(%s, %O): unknown option.", this, this._class, key, value);
         }
         TK.Base.prototype.set.call(this, key, value);
         return value;
+    },
+    track_option: function(key) {
+        this.value_time[key] = Date.now();
     },
     /**
      * Schedules this widget for drawing.
