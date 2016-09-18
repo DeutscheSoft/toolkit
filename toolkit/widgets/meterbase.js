@@ -25,11 +25,11 @@ function fill_interval(ctx, w, h, a, is_vertical) {
     var i;
     if (is_vertical) {
         for (i = 0; i < a.length; i+= 2) {
-            ctx.fillRect(0, a[i], w, a[i+1]-a[i]);
+            ctx.fillRect(0, h - a[i+1], w, a[i+1]-a[i]);
         }
     } else {
         for (i = 0; i < a.length; i+= 2) {
-            ctx.fillRect(w - a[i] - a[i+1], 0, w - a[i], h);
+            ctx.fillRect(a[i], 0, a[i+1]-a[i], h);
         }
     }
 }
@@ -37,11 +37,11 @@ function clear_interval(ctx, w, h, a, is_vertical) {
     var i;
     if (is_vertical) {
         for (i = 0; i < a.length; i+= 2) {
-            ctx.clearRect(0, a[i], w, a[i+1]-a[i]);
+            ctx.clearRect(0, h - a[i+1], w, a[i+1]-a[i]);
         }
     } else {
         for (i = 0; i < a.length; i+= 2) {
-            ctx.clearRect(w - a[i] - a[i+1], 0, w - a[i], h);
+            ctx.clearRect(a[i], 0, a[i+1]-a[i], h);
         }
     }
 }
@@ -396,19 +396,16 @@ w.TK.MeterBase = w.MeterBase = $class({
          */
 
         /* canvas coordinates are reversed */
-        var v1 = size - this.val2px(base)|0;
-        var v2 = size - this.val2px(value)|0;
-        var tmp;
+        var v1 = this.val2px(base)|0;
+        var v2 = this.val2px(value)|0;
 
         if (segment !== 1) v2 -= v2 % segment;
 
         if (v2 < v1) {
-            tmp = v1;
-            v1 = v2;
-            v2 = tmp;
+            to.push(v2, v1);
+        } else {
+            to.push(v1, v2);
         }
-
-        to.push(v1, v2);
     },
     
     draw_meter: function () {
@@ -441,18 +438,18 @@ w.TK.MeterBase = w.MeterBase = $class({
         var ctx = this._canvas.getContext("2d");
         var is_vertical = vert(O);
 
-        if (diff == 4) {
-            draw_full(ctx, w, h, a, is_vertical);
-            return;
-        }
-        if (diff & 1) {
+        if (diff == 1) {
             /* a - tmp is non-empty */
             clear_interval(ctx, w, h, subtract_intervals(a, tmp), is_vertical);
+            return;
         }
-        if (diff & 2) {
+        if (diff == 2) {
             /* tmp - a is non-empty */
             fill_interval(ctx, w, h, subtract_intervals(tmp, a), is_vertical);
+            return;
         }
+
+        draw_full(ctx, w, h, a, is_vertical);
     },
     
     // HELPERS & STUFF

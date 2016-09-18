@@ -357,11 +357,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         var hold_size = (O.hold_size|0) * segment;
         var base      = +O.base;
         var pos;
-        var size = O.basis|0;
 
         if (hold > base) {
             /* TODO: lets snap in set() */
-            pos = size - this.val2px(this.snap(hold))|0;
+            pos = this.val2px(this.snap(hold))|0;
             if (segment !== 1) pos -= pos % segment;
 
             to.push(pos, pos+hold_size);
@@ -370,7 +369,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         hold = +O.bottom;
 
         if (hold < base) {
-            pos = size - this.val2px(this.snap(hold))|0;
+            pos = this.val2px(this.snap(hold))|0;
             if (segment !== 1) pos -= pos % segment;
 
             to.push(pos, pos+hold_size);
