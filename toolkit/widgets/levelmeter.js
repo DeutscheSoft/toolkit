@@ -327,11 +327,11 @@ w.TK.LevelMeter = w.LevelMeter = $class({
      * of performance in cases where the segment size is > 1 or on small devices where
      * the meter has a relatively small pixel size.
      */
-    calculate_meter: function() {
+    calculate_meter: function(to, value) {
         var O = this.options;
         var falling = +O.falling;
-        var value   = +O.value;
         var base    = +O.base;
+        value = +value;
 
         // this is a bit unelegant...
         if (falling) {
@@ -344,9 +344,9 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             }
         }
 
-        var ret = TK.MeterBase.prototype.calculate_meter.call(this, value);
+        TK.MeterBase.prototype.calculate_meter.call(this, to, value);
 
-        if (!O.show_hold) return ret;
+        if (!O.show_hold) return;
 
         // shorten things
         var hold       = +O.top;
@@ -361,7 +361,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             pos = size - this.val2px(this.snap(hold))|0;
             if (segment !== 1) pos -= pos % segment;
 
-            ret.push(pos, hold_size);
+            to.push(pos, pos+hold_size);
         }
 
         hold = +O.bottom;
@@ -370,10 +370,8 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             pos = size - this.val2px(this.snap(hold))|0;
             if (segment !== 1) pos -= pos % segment;
 
-            ret.push(pos, hold_size);
+            to.push(pos, pos+hold_size);
         }
-
-        return ret;
     },
     
     // GETTER & SETTER

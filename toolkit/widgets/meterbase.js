@@ -21,6 +21,96 @@
 function vert(O) {
     return O.layout == "left" || O.layout == "right";
 }
+function fill_interval(ctx, w, h, a, is_vertical) {
+    var i;
+    if (is_vertical) {
+        for (i = 0; i < a.length; i+= 2) {
+            ctx.fillRect(0, a[i], w, a[i+1]-a[i]);
+        }
+    } else {
+        for (i = 0; i < a.length; i+= 2) {
+            ctx.fillRect(w - a[i] - a[i+1], 0, w - a[i], h);
+        }
+    }
+}
+function clear_interval(ctx, w, h, a, is_vertical) {
+    var i;
+    if (is_vertical) {
+        for (i = 0; i < a.length; i+= 2) {
+            ctx.clearRect(0, a[i], w, a[i+1]-a[i]);
+        }
+    } else {
+        for (i = 0; i < a.length; i+= 2) {
+            ctx.clearRect(w - a[i] - a[i+1], 0, w - a[i], h);
+        }
+    }
+}
+function draw_full(ctx, w, h, a, is_vertical) {
+
+    ctx.fillRect(0, 0, w, h);
+    clear_interval(ctx, w, h, a, is_vertical);
+}
+function make_interval(a) {
+    var i, tmp, again, j;
+
+    do {
+        again = false;
+        for (i = 0; i < a.length-2; i+=2) {
+            if (a[i] > a[i+2]) {
+                tmp = a[i];
+                a[i] = a[i+2];
+                a[i+2] = tmp;
+
+                tmp = a[i+1];
+                a[i+1] = a[i+3];
+                a[i+3] = tmp;
+                again = true;
+            }
+        }
+    } while (again);
+
+    for (i = 0; i < a.length-2; i+= 2) {
+        if (a[i+1] > a[i+2]) {
+            if (a[i+3] > a[i+1]) {
+                a[i+1] = a[i+3];
+            }
+            for (j = i+3; j < a.length; j++) a[j-1] = a[j];
+            a.length = j-2;
+            i -=2;
+            continue;
+        }
+    }
+}
+function cmp_intervals(a, b) {
+    var ret = 0;
+    var i;
+
+    for (i = 0; i < a.length; i+=2) {
+        if (a[i] === b[i]) {
+            if (a[i+1] === b[i+1]) continue;
+            ret |= (a[i+1] < b[i+1]) ? 1 : 2;
+        } else if (a[i+1] === b[i+1]) {
+            ret |= (a[i] > b[i]) ? 1 : 2;
+        } else return 4;
+    }
+    return ret;
+}
+function subtract_intervals(a, b) {
+    var i;
+    var ret = [];
+
+    for (i = 0; i < a.length; i++) {
+        if (a[i] === b[i]) {
+            if (a[i+1] <= b[i+1]) continue;
+            ret.push(b[i+1], a[i+1]);
+        } else {
+            if (a[i] > b[i]) continue;
+            ret.push(a[i], b[i]);
+        }
+    }
+
+    return ret;
+}
 w.TK.MeterBase = w.MeterBase = $class({
     /**
      * TK.MeterBase is a base class to build different meters such as TK.LevelMeter.
@@ -148,7 +238,8 @@ w.TK.MeterBase = w.MeterBase = $class({
         this.add_child(this.scale);
         this.delegate(this._bar);
 
-        this._last_meters = null;
+        this._last_meters = [];
+        this._current_meters = [];
     },
 
     initialized: function () {
@@ -291,9 +382,8 @@ w.TK.MeterBase = w.MeterBase = $class({
             this.set("basis", i);
     },
 
-    calculate_meter: function(value) {
+    calculate_meter: function(to, value) {
         var O = this.options;
-        if (typeof value !== "number") value = O.value;
         // Set the mask elements according to options.value to show a value in
         // the meter bar
         var base = O.base;
@@ -318,44 +408,50 @@ w.TK.MeterBase = w.MeterBase = $class({
             v2 = tmp;
         }
 
-        return [ v1, v2-v1 ];
+        to.push(v1, v2);
     },
     
     draw_meter: function () {
         var O = this.options;
         var w = O._width;
         var h = O._height;
-        var i;
+        var i, j;
 
         if (!(w > 0 && h > 0)) return;
 
-        var a = this.calculate_meter();
+        var a = this._current_meters;
         var tmp = this._last_meters;
 
-        if (tmp && tmp.length == a.length) {
-            for (i = 0; i < a.length; i++) {
-                if (tmp[i] !== a[i]) break;
-            }
+        a.length = 0;
 
-            if (i === a.length) return;
-        }
+        this.calculate_meter(a, O.value);
+        make_interval(a);
 
         this._last_meters = a;
+        this._current_meters = tmp;
+
+        var diff;
+
+        if (tmp.length === a.length) {
+            diff = cmp_intervals(tmp, a)|0;
+        } else diff = 4;
+
+        if (!diff) return;
 
         var ctx = this._canvas.getContext("2d");
-
-        ctx.fillRect(0, 0, w, h);
-
         var is_vertical = vert(O);
-        
-        if (is_vertical) {
-            for (i = 0; i < a.length; i+= 2) {
-                ctx.clearRect(0, a[i], w, a[i+1]);
-            }
-        } else {
-            for (i = 0; i < a.length; i+= 2) {
-                ctx.clearRect(w - a[i] - a[i+1], 0, a[i+1], h);
-            }
+
+        if (diff == 4) {
+            draw_full(ctx, w, h, a, is_vertical);
+            return;
+        }
+        if (diff & 1) {
+            /* a - tmp is non-empty */
+            clear_interval(ctx, w, h, subtract_intervals(a, tmp), is_vertical);
+        }
+        if (diff & 2) {
+            /* tmp - a is non-empty */
+            fill_interval(ctx, w, h, subtract_intervals(tmp, a), is_vertical);
         }
     },
     
