@@ -155,7 +155,6 @@ function move_drag(ev, x, y) {
         s.scheduled = true;
         TK.S.add(this.__update_drag, 1);
     }
-    this.fire_event("dragging", ev);
 }
 
 function update_drag() {
@@ -166,6 +165,8 @@ function update_drag() {
     var e = state.event;
 
     var multi = range.options.step || 1;
+
+    this.fire_event("dragging", e);
 
     if (e.ctrlKey && e.shiftKey) {
         multi *= range.options.shift_down;
