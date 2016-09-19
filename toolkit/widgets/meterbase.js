@@ -145,8 +145,6 @@ w.TK.MeterBase = w.MeterBase = $class({
      * @property {boolean} [options.show_title=false] - If set to <code>true</code> a title is displayed.
      * @property {boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
      * @property {boolean} [options.show_scale=true] - If set to <code>true</code> the scale is displayed.
-     * @property {boolean} [options.show_marker=false] - If set to <code>true</code> the bar markers are
-     *  drawn.
      * @property {function} [options.format_label=TK.FORMAT("%.2f")] - Function for formatting the 
      *  label.
      * @property {number} [options.scale_base=false] - Base of the meter scale, see {@link TK.Scale}.
@@ -174,7 +172,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         show_label: "boolean",
         show_scale: "boolean",
         show_labels: "boolean",
-        show_marker: "boolean",
         format_label: "function",
         scale_base: "number",
         format_labels: "function",
@@ -190,10 +187,8 @@ w.TK.MeterBase = w.MeterBase = $class({
         show_label:      false,
         show_scale:      true,
         show_labels:     true,
-        show_marker:     false,
         format_label:    TK.FORMAT("%.2f"),
         levels:          [1, 5, 10],     // array of steps where to draw labels
-                                          // and marker
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
     },
@@ -210,7 +205,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._title  = TK.element("div", "toolkit-title");
         this._label  = TK.element("div", "toolkit-label");
         this._bar    = TK.element("div", "toolkit-bar");
-        this._mark   = TK.element("div", "toolkit-mark");
         this._over   = TK.element("div", "toolkit-over");
 
         this._canvas = document.createElement("canvas");
@@ -252,7 +246,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._scale.remove();
         this._bar.remove();
         this._title.remove();
-        this._mark.remove();
         this._over.remove();
         this.element.remove();
         TK.Widget.prototype.destroy.call(this);
@@ -351,21 +344,6 @@ w.TK.MeterBase = w.MeterBase = $class({
             if (O.show_scale) {
                 this.scale.invalidate_all();
                 this.scale.redraw();
-                if (O.show_marker) {
-                    TK.empty(this._mark);
-                    var c = this.scale.element.children;
-                    for (var i = 0; i < c.length; i++) {
-                        var e = c[i];
-                        if (!TK.has_class(e, "toolkit-dot"))
-                            return;
-                        
-                        var d = e.clone();
-                        var p = TK[is_vertical ? "position_top" : "position_left"](e, this._scale);
-                        d.style[is_vertical ? "width" : "height"] = "100%";
-                        d.style[is_vertical ? "top" : "left"] = (p + p % O.segment) + "px";
-                        this._mark.appendChild(d);
-                    }
-                }
             }
         }
     },
