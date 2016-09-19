@@ -1,6 +1,6 @@
     function run_chart (root) {
         chart = new Chart({
-            _fixed: true,
+            _collapsed: true,
             range_x: {scale: _TOOLKIT_LINEAR, min:0, max:1},
             range_y: {scale: _TOOLKIT_LINEAR, min:0, max:1},
             grid_x: [{pos:0.0, label:"0"},

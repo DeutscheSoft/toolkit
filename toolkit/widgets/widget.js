@@ -47,19 +47,10 @@ Invalid.prototype = {
         }
     }
 };
-function redraw() {
-    if (this.is_destructed()) {
-        TK.warn("Redraw called on destructed widget ", this);
-        return;
-    }
+function redraw(fun) {
     this.needs_redraw = false;
-    this.redraw();
-}
-function resize() {
-    if (this.is_destructed()) {
-        return;
-    }
-    this.resize();
+    fun.call(this);
+    this.fire_event("redraw");
 }
 TK.Widget = $class({
     /**
@@ -108,8 +99,8 @@ TK.Widget = $class({
         this.invalid = new Invalid(this.options);
         this.value_time = Object.create(null);
         this.needs_redraw = false;
-        this._redraw = redraw.bind(this);
-        this.__resize = resize.bind(this);
+        this._redraw = redraw.bind(this, this.redraw);
+        this.__resize = this.resize.bind(this);
         this._schedule_resize = this.schedule_resize.bind(this);
         this._drawn = false;
         this.parent = null;
@@ -205,7 +196,6 @@ TK.Widget = $class({
         this.trigger_draw();
     },
     redraw: function () {
-        this.fire_event("redraw");
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
@@ -374,13 +364,17 @@ TK.Widget = $class({
         }
         if (this._options[key]) {
             this.invalid[key] = true;
-            this.value_time[key] = Date.now();
+            if (this.value_time[key])
+                this.value_time[key] = Date.now();
             this.trigger_draw();
         } else if (key.charCodeAt(0) !== 95) {
             TK.warn("%O: %s.set(%s, %O): unknown option.", this, this._class, key, value);
         }
         TK.Base.prototype.set.call(this, key, value);
         return value;
+    },
+    track_option: function(key) {
+        this.value_time[key] = Date.now();
     },
     /**
      * Schedules this widget for drawing.
