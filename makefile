@@ -51,7 +51,8 @@ js_input_files = \
     toolkit/widgets/valueknob.js\
     toolkit/widgets/select.js\
     toolkit/widgets/window.js\
-    toolkit/widgets/toggle.js
+    toolkit/widgets/toggle.js\
+    toolkit/widgets/multimeter.js
 
 css_input_files = \
     toolkit/styles/css/toolkit.css \
@@ -85,6 +86,7 @@ css_input_files = \
     toolkit/styles/css/pager.css \
     toolkit/styles/css/expander.css \
     toolkit/styles/css/valueknob.css \
+    toolkit/styles/css/multimeter.css \
 
 toolkit.min.js:	$(js_input_files) makefile
 	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@

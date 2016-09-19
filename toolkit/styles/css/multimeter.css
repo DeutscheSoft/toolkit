@@ -1,0 +1,97 @@
+/*
+ * This file is part of toolkit.
+ *
+ * toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301  USA
+ */
+
+/* BASIC STUFF */
+
+.toolkit-multi-meter {
+    background: #eee;
+    border: 1px solid #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+
+.toolkit-multi-meter.toolkit-vertical {
+    height: 320px;
+    padding: 3px;
+}
+.toolkit-multi-meter.toolkit-horizontal {
+    width: 320px;
+    height: 80px;
+}
+
+.toolkit-multi-meter > .toolkit-title {
+    height: 1.2em;
+    line-height: 1.2em;
+    display: none;
+}
+.toolkit-multi-meter.toolkit-has-title > .toolkit-title {
+    display: block;
+}
+
+
+/* VERTICAL */
+
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter {
+    width: 10px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    margin: 0;
+}
+.toolkit-multi-meter.toolkit-vertical.toolkit-has-title > .toolkit-level-meter {
+    height: calc(100% - 1.2em);
+}
+
+.toolkit-multi-meter.toolkit-left > .toolkit-level-meter:nth-last-of-type(1) {
+    width: 42px;
+}
+.toolkit-multi-meter.toolkit-right > .toolkit-level-meter:nth-of-type(2) {
+    width: 42px;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-bar {
+    left: 0;
+    right: auto;
+    width: 10px;
+    border-width: 3px 1px 3px 0;
+}
+.toolkit-multi-meter.toolkit-right > .toolkit-level-meter > .toolkit-bar {
+    left: auto;
+    right: 0;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter:nth-of-type(2) > .toolkit-bar {
+    border-left-width: 2px;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter:nth-last-of-type(1) > .toolkit-bar {
+    border-right-width: 2px;
+}
+
+/* HORIZONTAL */
+
+/*
+.toolkit-multi-meter.toolkit-horizontal > .toolkit-level-meter {
+    width: 100%;
+}
+*/

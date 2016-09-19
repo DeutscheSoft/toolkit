@@ -54,4 +54,5 @@ document.writeln("<script src='" + toolkit_base_dir + "/toolkit/widgets/valuekno
 document.writeln("<script src='" + toolkit_base_dir + "/toolkit/widgets/select.js'></script>");
 document.writeln("<script src='" + toolkit_base_dir + "/toolkit/widgets/window.js'></script>");
 document.writeln("<script src='" + toolkit_base_dir + "/toolkit/widgets/toggle.js'></script>");
+document.writeln("<script src='" + toolkit_base_dir + "/toolkit/widgets/multimeter.js'></script>");
 })();
