@@ -19,15 +19,19 @@
 "use strict";
 (function(w){
 function hide_arrows() {
+    if (!this._prev.parentNode) return;
     var E = this.element;
     if (E.firstChild == this._prev) E.removeChild(this._prev);
     if (E.lastChild == this._next) E.removeChild(this._next);
     TK.remove_class(E, "toolkit-over");
+    this.trigger_resize();
 }
 function show_arrows() {
+    if (this._prev.parentNode) return;
     this.element.insertBefore(this._prev, this._clip);
     this.element.appendChild(this._next);
     TK.add_class(this.element, "toolkit-over");
+    this.trigger_resize();
 }
 function prev_clicked(e) {
     /**
@@ -121,7 +125,10 @@ w.TK.ButtonArray = w.ButtonArray = $class({
 
         this._sizes = {
             container: this._container.getBoundingClientRect(),
-            clip: this._clip.getBoundingClientRect(),
+            clip: {
+                height: TK.inner_height(this._clip),
+                width: TK.inner_width(this._clip),
+            },
             buttons: [],
             buttons_pos: [],
             element: this.element.getBoundingClientRect(),
@@ -179,9 +186,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.add_child(b);
 
         this.trigger_resize();
-        b.add_event("click", function () {
-            button_clicked.call(this, b);
-        }.bind(this));
+        b.add_event("click", button_clicked.bind(this, b));
         /**
          * A {@link TK.Button} was added to the ButtonArray.
          *
@@ -263,8 +268,6 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             } else if (!O.auto_arrows) {
                 hide_arrows.call(this);
             }
-
-            I.show = true;
         }
         if (I.validate("show", "direction", "resized")) {
             if (O.resized) {
