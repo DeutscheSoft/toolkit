@@ -380,6 +380,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         var i = vert(O) ? h : w;
         if (i != O.basis)
             this.set("basis", i);
+        this._last_meters.length = 0;
     },
 
     calculate_meter: function(to, value) {
