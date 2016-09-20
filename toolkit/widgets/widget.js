@@ -356,6 +356,8 @@ TK.Widget = $class({
         if (key === "container") {
             if (value && this.element) {
                 value.appendChild(this.element);
+            } else if (!value && this.element.parentElement) {
+                this.element.parentElement.removeChild(this.element);
             }
         }
         if (key === "class" && this.__classified) {
