@@ -98,7 +98,7 @@ function LinearSnapModule(stdlib, foreign) {
 
 function ArraySnapModule(stdlib, foreign, heap) {
     "use asm";
-    var len = foreign.length|0;
+    var len = heap.byteLength>>3;
     var values = new stdlib.Float64Array(heap);
 
     function low_snap(v, direction) {
@@ -109,10 +109,10 @@ function ArraySnapModule(stdlib, foreign, heap) {
         var b = 0;
         var t = 0.0;
 
-        b = len;
+        b = len-1;
 
         if (!(v < +values[b << 3 >> 3])) return +values[b << 3 >> 3];
-        if (!(v > +values[a << 3 >> 3])) return +values[0];
+        if (!(v > +values[0])) return +values[0];
 
         do {
             mid = (a + b) >>> 1;
@@ -168,15 +168,26 @@ function NullSnapModule(stdlib, foreign, heap) {
         snap_down: snap,
     };
 }
+function num_sort(a) {
+    a = a.slice(0);
+    a.sort(function(a, b) { return a - b; });
+    return a;
+}
 function update_snap() {
     var O = this.options;
     // Notify that the ranged options have been modified
     if (Array.isArray(O.snap)) {
-        Object.assign(this, ArraySnapModule(window, O, new Float64Array(O.snap.slice(0).sort()).buffer));
+        Object.assign(this, ArraySnapModule(window, O, new Float64Array(num_sort(O.snap)).buffer));
     } else if (typeof O.snap === "number" && O.snap > 0.0) {
         Object.assign(this, LinearSnapModule(window, { min : Math.min(O.min, O.max), max : Math.max(O.min, O.max), step : O.snap, base: O.base||0 }));
-    } else {
+    } else if (O.min < Infinity && O.max > -Infinity) {
         Object.assign(this, NullSnapModule(window, { min : Math.min(O.min, O.max), max : Math.max(O.min, O.max) }));
+    } else {
+        Object.assign(this, {
+            snap: function(v) { return +v; },
+            snap_up: function(v) { return +v; },
+            snap_down: function(v) { return +v; },
+        });
     }
 }
 function TRAFO_PIECEWISE(stdlib, foreign, heap) {
