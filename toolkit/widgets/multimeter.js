@@ -69,7 +69,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
      * @param {Object} options
      * @property {number} [options.count=2] - The amount of level meters
      * @property {string} [options.title=""] - The title of the multi meter
-     * @property {Array} [options.titles=[]] - An Array containing titles for the level meters. Their order is the same as the meters.
+     * @property {Array} [options.titles=["L", "R"]] - An Array containing titles for the level meters. Their order is the same as the meters.
      * @property {Array} [options.values=[]] - An Array containing values for the level meters. Their order is the same as the meters.
      * @property {Array} [options.labels=[]] - An Array containing label values for the level meters. Their order is the same as the meters.
      * @property {Array} [options.clips=[]] - An Array containing clippings for the level meters. Their order is the same as the meters.
@@ -167,7 +167,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         
         
         
-        titles: ["Left", "Right"],
+        titles: ["L", "R"],
         values: [],
         labels: [],
         clips: [],
