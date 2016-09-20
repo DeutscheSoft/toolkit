@@ -47,7 +47,11 @@
 .toolkit-multi-meter.toolkit-has-title > .toolkit-title {
     display: block;
 }
-
+.toolkit-multi-meter > .toolkit-level-meter > .toolkit-title,
+.toolkit-multi-meter > .toolkit-level-meter > .toolkit-label {
+    font-size: 8px;
+    line-height: 10px;
+}
 
 /* VERTICAL */
 
@@ -71,11 +75,17 @@
 .toolkit-multi-meter.toolkit-right > .toolkit-level-meter:nth-of-type(2) {
     width: 42px;
 }
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-scale {
+    top: 3px;
+    bottom: 3px;
+}
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-bar {
     left: 0;
     right: auto;
     width: 10px;
     border-width: 3px 1px 3px 0;
+    top: 3px;
+    bottom: 3px;
 }
 .toolkit-multi-meter.toolkit-right > .toolkit-level-meter > .toolkit-bar {
     left: auto;
@@ -86,6 +96,31 @@
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter:nth-last-of-type(1) > .toolkit-bar {
     border-right-width: 2px;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-title > .toolkit-bar {
+    bottom: 15px;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-label > .toolkit-bar {
+    top: 15px;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-title > .toolkit-scale {
+    bottom: 15px;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-label > .toolkit-scale {
+    top: 15px;
+}
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-label,
+.toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-title {
+    left: 0;
+    right: 0;
+}
+.toolkit-multi-meter.toolkit-left > .toolkit-level-meter:nth-last-of-type(1) > .toolkit-label,
+.toolkit-multi-meter.toolkit-left > .toolkit-level-meter:nth-last-of-type(1) > .toolkit-title {
+    right: 32px;
+}
+.toolkit-multi-meter.toolkit-right > .toolkit-level-meter:nth-of-type(2) > .toolkit-label,
+.toolkit-multi-meter.toolkit-right > .toolkit-level-meter:nth-of-type(2) > .toolkit-title {
+    left: 32px;
 }
 
 /* HORIZONTAL */

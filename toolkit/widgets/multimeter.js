@@ -34,7 +34,8 @@ function add_meter (options) {
         bottom: typeof O.bottoms[l] !== "undefined" ? O.bottoms[l] : O.bottom,
         top: typeof O.tops[l] !== "undefined" ? O.tops[l] : O.top,
     }
-    var m = new TK.LevelMeter(Object.assign(O, opt));
+    var _O = Object.assign(O, opt);
+    var m = new TK.LevelMeter(_O);
     this.meters.push(m);
     this.add_child(m);
 }
@@ -142,7 +143,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         auto_peak:    false,
         peak_label:   false,
         auto_hold:    false,
-        format_peak: TK.FORMAT("%.2f"),
+        format_peak: TK.FORMAT("%d"),
         clip_options: {},
         layout:          "left",
         segment:         1,
@@ -154,7 +155,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         show_label:      false,
         show_scale:      true,
         show_labels:     true,
-        format_label:    TK.FORMAT("%.2f"),
+        format_label:    TK.FORMAT("%d"),
         levels:          [1, 5, 10],     // array of steps where to draw labels
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
@@ -191,8 +192,6 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         this.set("tops", O.tops);
         this.set("bottoms", O.bottoms);
         
-        this.redraw();
-        
         this.set("layout", O.layout);
     },
     
@@ -208,6 +207,10 @@ w.TK.MultiMeter = w.MultiMeter = $class({
                 remove_meter.call(this, this.meters[this.meters.length-1]);
             while (this.meters.length < O.count)
                 add_meter.call(this, this.options);
+            for (var i = 1; i < 24; i++) {
+                TK.remove_class(E, "toolkit-count-" + i);
+            }
+            TK.add_class(E, "toolkit-count-" + O.count);
         }
         
         if (I.layout) {
