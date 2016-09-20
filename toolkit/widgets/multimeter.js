@@ -192,6 +192,8 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         this.set("tops", O.tops);
         this.set("bottoms", O.bottoms);
         
+        this.redraw();
+        
         this.set("layout", O.layout);
     },
     
