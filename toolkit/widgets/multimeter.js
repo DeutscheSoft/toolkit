@@ -29,6 +29,7 @@ function add_meter (options) {
         "container": this.element,
         title: typeof O.titles[l] !== "undefined" ? O.titles[l] : O.title,
         value: typeof O.values[l] !== "undefined" ? O.values[l] : O.value,
+        label: typeof O.labels[l] !== "undefined" ? O.labels[l] : O.label,
         clip: typeof O.clips[l] !== "undefined" ? O.clips[l] : O.clip,
         peak: typeof O.peaks[l] !== "undefined" ? O.peaks[l] : O.peak,
         bottom: typeof O.bottoms[l] !== "undefined" ? O.bottoms[l] : O.bottom,
@@ -70,6 +71,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
      * @property {string} [options.title=""] - The title of the multi meter
      * @property {Array} [options.titles=[]] - An Array containing titles for the level meters. Their order is the same as the meters.
      * @property {Array} [options.values=[]] - An Array containing values for the level meters. Their order is the same as the meters.
+     * @property {Array} [options.labels=[]] - An Array containing label values for the level meters. Their order is the same as the meters.
      * @property {Array} [options.clips=[]] - An Array containing clippings for the level meters. Their order is the same as the meters.
      * @property {Array} [options.peaks=[]] - An Array containing peak values for the level meters. Their order is the same as the meters.
      * @property {Array} [options.tops=[]] - An Array containing values for top for the level meters. Their order is the same as the meters.
@@ -118,8 +120,11 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         scale_base: "number",
         format_labels: "function",
         
+        
+        
         titles: "array",
         values: "array",
+        labels: "array",
         clips: 'array',
         peaks: "array",
         tops: "array",
@@ -160,8 +165,11 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
         
+        
+        
         titles: ["Left", "Right"],
         values: [],
+        labels: [],
         clips: [],
         peaks: [],
         tops: [],
@@ -187,6 +195,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         
         this.set("count", O.count);
         this.set("values", O.values);
+        this.set("labels", O.labels);
         this.set("titles", O.titles);
         this.set("peaks", O.peaks);
         this.set("tops", O.tops);
@@ -286,6 +295,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
                     M[i].set(key, value);
                 break;
             case "values":
+            case "labels":
             case "titles":
             case "clips":
             case "peaks":
@@ -297,7 +307,6 @@ w.TK.MultiMeter = w.MultiMeter = $class({
                 break;
             default:
                 if (key !== "container"
-                 && key !== "title"
                  && key !== "count"
                  && key !== "title") {
                     for (var i = 0; i < M.length; i++)
