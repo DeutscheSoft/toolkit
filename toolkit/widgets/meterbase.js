@@ -99,7 +99,7 @@ function subtract_intervals(a, b) {
     var i;
     var ret = [];
 
-    for (i = 0; i < a.length; i++) {
+    for (i = 0; i < a.length; i+=2) {
         if (a[i] === b[i]) {
             if (a[i+1] <= b[i+1]) continue;
             ret.push(b[i+1], a[i+1]);
@@ -389,8 +389,8 @@ w.TK.MeterBase = w.MeterBase = $class({
     
     draw_meter: function () {
         var O = this.options;
-        var w = O._width;
-        var h = O._height;
+        var w = Math.round(O._width);
+        var h = Math.round(O._height);
         var i, j;
 
         if (!(w > 0 && h > 0)) return;

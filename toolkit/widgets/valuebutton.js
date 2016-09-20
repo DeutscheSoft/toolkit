@@ -77,7 +77,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             format: this.options.value_format,
             set: function (val) {
                     val = parseFloat(val);
-                    this.set("value", val);
+                    val = this.set("value", val);
                     this.fire_event("useraction", "value", val);
                     return this.options.value; }.bind(this)
         });
@@ -94,7 +94,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             range:     function () { return this; }.bind(this),
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) {
-                this.set("value", v);
+                v = this.set("value", v);
                 this.fire_event("useraction", "value", v);
             }.bind(this),
             direction: this.options.drag_direction,
@@ -107,7 +107,8 @@ w.TK.ValueButton = w.ValueButton = $class({
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
-                this.set("value", v);
+                v = this.set("value", v);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             events: function () { return this }.bind(this)
         });
@@ -115,7 +116,8 @@ w.TK.ValueButton = w.ValueButton = $class({
         if (typeof this.options.reset == "undefined")
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
-            this.set("value", this.options.reset);
+            var v = this.set("value", this.options.reset);
+            this.fire_event("useraction", "value", v);
             this.fire_event("doubleclick", this.options.value);
         }.bind(this));
         

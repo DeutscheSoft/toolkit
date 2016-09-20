@@ -82,17 +82,17 @@ w.TK.EqBand = w.EqBand = $class({
         this.filter.options = this.options;
         
         if (typeof options.x !== "undefined")
-            this.set("x", options.x, true);
+            this.set("x", options.x);
         else if (typeof options.freq !== "undefined")
             this.set("freq", options.freq);
         if (typeof options.y !== "undefined")
-            this.set("y", options.y, true);
+            this.set("y", options.y);
         else if (typeof options.gain !== "undefined")
-            this.set("gain", options.gain, true);
+            this.set("gain", options.gain);
         if (typeof options.z !== "undefined")
-            this.set("z", options.z, true);
+            this.set("z", options.z);
         else if (typeof options.q !== "undefined")
-            this.set("q", options.q, true);
+            this.set("q", options.q);
         
         TK.add_class(this.element, "toolkit-eqband");
         
