@@ -207,7 +207,7 @@ TK.Widget = $class({
             }
         }
 
-        E = this.stylized;
+        E = this.__stylized;
 
         if (E) {
             if (I.active) {
