@@ -99,7 +99,9 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
             this.set("scale", options.scale, true);
         TK.Chart.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-frequency-response");
-        this.set("db_grid", this.options.db_grid);
+        // do not overwrite custom grids, please
+        if (this.options.db_grid && !this.options.grid_y.length)
+            this.set("db_grid", this.options.db_grid);
         this.range_y.add_event("set", function (key, value) {
             if (key == "scale")
                 this.options.scale = value;
@@ -125,8 +127,10 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
                 this.range_y.set("scale", value);
                 break;
             case "db_grid":
-                key = "grid_y";
-                value = calculate_grid(this.range_y, value);
+                if (value) {
+                    key = "grid_y";
+                    value = calculate_grid(this.range_y, value);
+                }
                 break;
         }
         return TK.Chart.prototype.set.call(this, key, value);
