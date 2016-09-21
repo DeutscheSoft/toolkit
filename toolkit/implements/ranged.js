@@ -103,8 +103,10 @@ function LinearSnapModule(stdlib, foreign) {
 
 function ArraySnapModule(stdlib, foreign, heap) {
     "use asm";
-    var len = heap.byteLength>>3;
     var values = new stdlib.Float64Array(heap);
+    var len = (heap.byteLength>>3)|0;
+    var min = +(foreign.min !== void 0 ? foreign.min : values[0]);
+    var max = +(foreign.max !== void 0 ? foreign.max : values[len-1]);
 
     function low_snap(v, direction) {
         v = +v;
@@ -115,6 +117,9 @@ function ArraySnapModule(stdlib, foreign, heap) {
         var t = 0.0;
 
         b = len-1;
+
+        if (!(v > min)) v = min;
+        if (!(v < max)) v = max;
 
         if (!(v < +values[b << 3 >> 3])) return +values[b << 3 >> 3];
         if (!(v > +values[0])) return +values[0];
