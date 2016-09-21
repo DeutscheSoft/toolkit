@@ -27,12 +27,11 @@ function LinearSnapModule(stdlib, foreign) {
 
     var floor = stdlib.Math.floor;
     var ceil  = stdlib.Math.ceil;
-    var round = stdlib.Math.round;
 
     function low_snap(v, direction) {
         v = +v;
         direction = +direction;
-        var n = 0;
+        var n = 0.0;
         var t = 0.0;
 
         if (!(v > min)) {
@@ -45,9 +44,15 @@ function LinearSnapModule(stdlib, foreign) {
 
         t = (v - base)/step;
 
-        if (direction > 0.0) n = ceil(t)|0;
-        else if (direction < 0.0) n = floor(t)|0;
-        else n = round(t)|0;
+        if (direction > 0.0) n = ceil(t);
+        else if (direction < 0.0) n = floor(t);
+        else {
+            if (t - floor(t) < 0.5) {
+                n = floor(t);
+            } else {
+                n = ceil(t);
+            }
+        }
 
         return base + step * n;
     }
