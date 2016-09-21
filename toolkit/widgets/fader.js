@@ -74,7 +74,7 @@ function scrolling(ev) {
     TK.set_text(TK.tooltip._entry, this.options.tooltip(this.options.value));
 }
 function dblclick(ev) {
-    this.set("value", this.options.reset);
+    SET.call(this, this.options.reset);
     this.fire_event("doubleclick", this.options.value);
 }
 function GET() {
