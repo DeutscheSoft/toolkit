@@ -43,7 +43,7 @@
     height: 320px;
 }
 .toolkit-multi-meter.toolkit-horizontal {
-    height: 320px;
+    width: 320px;
 }
 </code></pre>
 <script> prepare_example(); </script>
