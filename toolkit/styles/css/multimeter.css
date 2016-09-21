@@ -49,14 +49,13 @@
 }
 .toolkit-multi-meter > .toolkit-level-meter > .toolkit-title,
 .toolkit-multi-meter > .toolkit-level-meter > .toolkit-label {
-    font-size: 8px;
-    line-height: 10px;
+    
 }
 
 /* VERTICAL */
 
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter {
-    width: 10px;
+    width: 16px;
     height: 100%;
     border: none;
     background: transparent;
@@ -69,23 +68,20 @@
     height: calc(100% - 1.2em);
 }
 
-.toolkit-multi-meter.toolkit-left > .toolkit-level-meter:nth-last-of-type(1) {
-    width: 42px;
+.toolkit-multi-meter.toolkit-left > .toolkit-level-meter.toolkit-has-scale:nth-last-of-type(1) {
+    width: 48px;
 }
-.toolkit-multi-meter.toolkit-right > .toolkit-level-meter:nth-of-type(2) {
-    width: 42px;
+.toolkit-multi-meter.toolkit-right > .toolkit-level-meter.toolkit-has-scale:nth-of-type(2) {
+    width: 48px;
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-scale {
-    top: 3px;
-    bottom: 3px;
+    
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-bar {
     left: 0;
-    right: auto;
-    width: 10px;
+    right: 0;
+    width: 16px;
     border-width: 3px 1px 3px 0;
-    top: 3px;
-    bottom: 3px;
 }
 .toolkit-multi-meter.toolkit-right > .toolkit-level-meter > .toolkit-bar {
     left: auto;
@@ -98,16 +94,16 @@
     border-right-width: 2px;
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-title > .toolkit-bar {
-    bottom: 15px;
+    
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-label > .toolkit-bar {
-    top: 15px;
+    
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-title > .toolkit-scale {
-    bottom: 15px;
+    
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter.toolkit-has-label > .toolkit-scale {
-    top: 15px;
+    
 }
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-label,
 .toolkit-multi-meter.toolkit-vertical > .toolkit-level-meter > .toolkit-title {

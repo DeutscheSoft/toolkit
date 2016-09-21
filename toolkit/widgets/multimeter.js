@@ -24,39 +24,44 @@ function add_meters (cnt, options) {
 }
 function add_meter (options) {
     var l = this.meters.length;
-    var O = this.options;
+    var O = options;
     var opt = {
         "container": this.element,
-        title: typeof O.titles[l] !== "undefined" ? O.titles[l] : O.title,
-        value: typeof O.values[l] !== "undefined" ? O.values[l] : O.value,
-        label: typeof O.labels[l] !== "undefined" ? O.labels[l] : O.label,
-        clip: typeof O.clips[l] !== "undefined" ? O.clips[l] : O.clip,
-        peak: typeof O.peaks[l] !== "undefined" ? O.peaks[l] : O.peak,
-        bottom: typeof O.bottoms[l] !== "undefined" ? O.bottoms[l] : O.bottom,
-        top: typeof O.tops[l] !== "undefined" ? O.tops[l] : O.top,
+        title: (typeof O.titles[l] !== "undefined") ? O.titles[l] : O.title,
+        value: (typeof O.values[l] !== "undefined") ? O.values[l] : O.value,
+        label: (typeof O.labels[l] !== "undefined") ? O.labels[l] : O.label,
+        clip: (typeof O.clips[l] !== "undefined") ? O.clips[l] : O.clip,
+        peak: (typeof O.peaks[l] !== "undefined") ? O.peaks[l] : O.peak,
+        bottom: (typeof O.bottoms[l] !== "undefined") ? O.bottoms[l] : O.bottom,
+        top: (typeof O.tops[l] !== "undefined") ? O.tops[l] : O.top,
     }
-    var _O = Object.assign(O, opt);
-    var m = new TK.LevelMeter(_O);
+    opt = TK.merge({}, O, opt);
+    var m = new TK.LevelMeter(opt);
     this.meters.push(m);
     this.add_child(m);
 }
 function remove_meter (meter) {
     /* meter can be int or meter instance */
+    var I = this.invalid;
+    var M = this.meters;
+    
     var m = -1;
     if (typeof meter == "number") {
         m = meter;
     } else  {
-        for (var i = 0; i < this.meters.length; i++) {
-            if (this.meters[i] == meter) {
+        for (var i = 0; i < M.length; i++) {
+            if (M[i] == meter) {
                 m = i;
                 break;
             }
         }
     }
-    if (m < 0 || m > this.meters.length - 1) return;
-    
-    this.meters[m].destroy();
-    this.meters.splice(m, 1); 
+    if (m < 0 || m > M.length - 1) return;
+    this.remove_child(M[m]);
+    M[m].set("container", null);
+    // TODO: no destroy function in levelmeter at this point?
+    //this.meters[m].destroy();
+    M = M.splice(m, 1);
 }
     
     
@@ -119,7 +124,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         format_label: "function",
         scale_base: "number",
         format_labels: "function",
-        
+        levels: "array",
         
         
         titles: "array",
@@ -161,7 +166,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         show_scale:      true,
         show_labels:     true,
         format_label:    TK.FORMAT("%d"),
-        levels:          [1, 5, 10],     // array of steps where to draw labels
+        levels:          [1, 5, 10],
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
         
@@ -181,7 +186,6 @@ w.TK.MultiMeter = w.MultiMeter = $class({
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options, true);
         TK.add_class(this.element, "toolkit-multi-meter");
-        
         this.meters = [];
         var O = this.options;
         
@@ -190,8 +194,8 @@ w.TK.MultiMeter = w.MultiMeter = $class({
             "label": O.title,
             "container": this.element
         });
-        this.add_child(this.title);
         this._title = this.title.element;
+        this.add_child(this.title);
         
         this.set("count", O.count);
         this.set("values", O.values);
@@ -211,16 +215,16 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         var O = this.options;
         var I = this.invalid;
         var E = this.element;
+        var M = this.meters;
         
         if (I.count) {
             I.count = false;
-            while (this.meters.length > O.count)
-                remove_meter.call(this, this.meters[this.meters.length-1]);
-            while (this.meters.length < O.count)
+            while (M.length > O.count)
+                remove_meter.call(this, M[M.length-1]);
+            while (M.length < O.count)
                 add_meter.call(this, this.options);
-            for (var i = 1; i < 24; i++) {
-                TK.remove_class(E, "toolkit-count-" + i);
-            }
+            E.setAttribute("class", E.getAttribute("class").replace(/toolkit-count-[0-9]*/g, ""));
+            E.setAttribute("class", E.getAttribute("class").replace(/ +/g, " "));
             TK.add_class(E, "toolkit-count-" + O.count);
         }
         
@@ -252,6 +256,30 @@ w.TK.MultiMeter = w.MultiMeter = $class({
                 default:
                     throw("unsupported layout");
             }
+            switch (O.layout) {
+                case "top":
+                case "left":
+                    for (var i = 0; i < M.length - 1; i++)
+                        M[i].set("show_scale", false);
+                    if (M.length)
+                        M[this.meters.length - 1].set("show_scale", O.show_scale);
+                    break;
+                case "bottom":
+                case "right":
+                    for (var i = 0; i < M.length; i++)
+                        M[i].set("show_scale", false);
+                    if (M.length)
+                        M[0].set("show_scale", O.show_scale);
+                    break;
+            }
+        }
+        
+        if (I.title) {
+            I.title = false;
+            if (O.title)
+                TK.add_class(E, "toolkit-has-title");
+            else
+                TK.remove_class(E, "toolkit-has-title");
         }
         
         TK.Container.prototype.redraw.call(this);
@@ -265,34 +293,14 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         var O = this.options;
         var E = this.element;
         var M = this.meters;
+        var I = this.invalid;
         value = TK.Container.prototype.set.call(this, key, value);
         switch (key) {
+            case "count":
+                I.layout = true;
+                break;
             case "title":
                 this.title.set("label", value);
-                if (value)
-                    TK.add_class(E, "toolkit-has-title");
-                else
-                    TK.remove_class(E, "toolkit-has-title");
-                break;
-            case "layout":
-                switch (value) {
-                    case "top":
-                    case "left":
-                        for (var i = 0; i < M.length - 1; i++)
-                            M[i].set("show_scale", false);
-                        if (M.length)
-                            M[this.meters.length - 1].set("show_scale", O.show_scale);
-                        break;
-                    case "bottom":
-                    case "right":
-                        for (var i = 0; i < M.length; i++)
-                            M[i].set("show_scale", false);
-                        if (M.length)
-                            M[0].set("show_scale", O.show_scale);
-                        break;
-                }
-                for (var i = 0; i < M.length; i++)
-                    M[i].set(key, value);
                 break;
             case "values":
             case "labels":
@@ -307,8 +315,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
                 break;
             default:
                 if (key !== "container"
-                 && key !== "count"
-                 && key !== "title") {
+                 && key !== "count") {
                     for (var i = 0; i < M.length; i++)
                         M[i].set(key, value);
                 }
