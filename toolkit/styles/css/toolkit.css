@@ -73,6 +73,10 @@ pre, code {
     opacity: 0.3;
 }
 
+.toolkit-inactive {
+    opacity: 0.3;
+}
+
 .toolkit-widget {
     display: inline-block;
     vertical-align: middle;
