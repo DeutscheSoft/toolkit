@@ -356,8 +356,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         this.set("_width", w);
         this.set("_height", h);
         var i = vert(O) ? h : w;
-        if (i != O.basis)
-            this.set("basis", i);
+        this.set("basis", i);
         this._last_meters.length = 0;
     },
 
