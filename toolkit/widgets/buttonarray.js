@@ -41,15 +41,18 @@ function prev_clicked(e) {
      * @type Button
      * @event clicked
      */
-    this.set("show", this.options.show - 1);
+    var v = this.set("show", this.options.show - 1);
+    this.fire_event("useraction", "show", v);
 }
 
 function next_clicked(e) {
-    this.set("show", this.options.show + 1);
+    var v = this.set("show", this.options.show + 1);
+    this.fire_event("useraction", "show", v);
 }
 
 function button_clicked(button) {
-    this.set("show", this.buttons.indexOf(button));
+    var v = this.set("show", this.buttons.indexOf(button));
+    this.fire_event("useraction", "show", v);
 }
 
 w.TK.ButtonArray = w.ButtonArray = $class({
