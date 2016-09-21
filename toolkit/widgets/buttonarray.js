@@ -312,7 +312,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         if (key === "show") {
             if (value < 0) value = 0;
             if (value >= this.buttons.length) value = this.buttons.length - 1;
-            if (value === this.options.show) return;
+            if (value === this.options.show) return value;
 
             button = this.current();
             if (button) button.set("state", false);
