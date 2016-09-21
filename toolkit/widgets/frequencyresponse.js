@@ -125,8 +125,10 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
                 this.range_y.set("scale", value);
                 break;
             case "db_grid":
-                key = "grid_y";
-                value = calculate_grid(this.range_y, value);
+                if (value) {
+                    key = "grid_y";
+                    value = calculate_grid(this.range_y, value);
+                }
                 break;
         }
         return TK.Chart.prototype.set.call(this, key, value);
