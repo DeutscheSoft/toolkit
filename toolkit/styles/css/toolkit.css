@@ -280,7 +280,7 @@ pre, code {
 }
 .toolkit-meter-base > .toolkit-bar {
     position: absolute;
-    overflow: visible;
+    overflow: hidden;
 }
 .toolkit-meter-base > .toolkit-bar > .toolkit-over {
     position: absolute;
