@@ -30,6 +30,7 @@
 
 .toolkit-pager > .toolkit-clip > .toolkit-page {
      opacity: 1;
+     overflow: auto;
 }
 .toolkit-container.toolkit-hide {
     
