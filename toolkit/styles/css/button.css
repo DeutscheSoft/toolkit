@@ -78,7 +78,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    padding: 2px 3px;
+    padding: 0 3px;
     transition: background 0.33s ease-in-out, color 0.33s ease-in-out;
     -webkit-border-radius: 4px;
     -moz-border-radius:    4px;
