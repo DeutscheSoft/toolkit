@@ -235,16 +235,15 @@ footer {
     position: fixed;
     z-index: 1;
     top: 0em;
-    left: 50%;
-    width: 4em;
-    height: 1.3em;
+    right: 1em;
+    width: 2.5em;
+    height: 2.5em;
     box-sizing: border-box;
     transition: all 0.33s;
-    transform: translateX(-50%);
     background-image: url(images/menu.svg);
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 0.9em 0.9em;
+    background-size: 2em 2em;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -254,10 +253,6 @@ footer {
     -moz-border-radius-bottomleft: 0.25em;
     border-bottom-right-radius: 0.25em;
     border-bottom-left-radius: 0.25em;
-}
-#navbutton:hover {
-    width: 5em;
-    height: 2em;
 }
 
 .subnav {
