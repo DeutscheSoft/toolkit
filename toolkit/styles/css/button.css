@@ -69,7 +69,7 @@
     white-space: nowrap;
 }
 .toolkit-button > .toolkit-cell > .toolkit-label {
-    line-height: 1em;
+    line-height: 1.1em;
     text-align: center;
     margin: auto;
     -webkit-touch-callout: none;
