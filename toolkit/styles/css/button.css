@@ -69,7 +69,7 @@
     white-space: nowrap;
 }
 .toolkit-button > .toolkit-cell > .toolkit-label {
-    line-height: 1.5em;
+    line-height: 1em;
     text-align: center;
     margin: auto;
     -webkit-touch-callout: none;
@@ -78,7 +78,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    padding: 0 3px;
+    padding: 2px 3px;
     transition: background 0.33s ease-in-out, color 0.33s ease-in-out;
     -webkit-border-radius: 4px;
     -moz-border-radius:    4px;
