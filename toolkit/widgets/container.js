@@ -239,6 +239,18 @@ w.TK.Container = w.Container = $class({
         }
     },
 
+    toggle_child: function(i) {
+        var C = this.children;
+        var H = this.hidden_children;
+
+        if (typeof i !== "number") {
+            i = C.indexOf(i);
+            if (i === -1) throw("Cannot find child.");
+        }
+        if (H[i]) this.show_child(i);
+        else this.hide_child(i);
+    },
+
     visible_children: function(a) {
         if (!a) a = [];
         var C = this.children;
