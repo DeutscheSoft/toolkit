@@ -57,10 +57,10 @@ function show_list(show) {
         var sx = TK.scroll_left();
         var sy = TK.scroll_top();
         TK.set_styles(this._list, {
-            "opacity": 0,
-            "maxHeight": ch,
-            "maxWidth": cw,
-            "minWidth": ew
+            "opacity": "0",
+            "maxHeight": ch+"px",
+            "maxWidth": cw+"px",
+            "minWidth": ew+"px"
         });
         var lw = TK.outer_width(this._list, true);
         var lh = TK.outer_height(this._list, true);
