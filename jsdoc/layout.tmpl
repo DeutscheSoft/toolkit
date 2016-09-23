@@ -12,7 +12,9 @@
     <script src="scripts/prettify/lang-css.js"></script>
     <script src="toolkit.all.js"></script>
     <script>
-        function __init__ () {
+        (function (w) {
+        var fun;
+        w.__init__ = function () {
             var nav = document.getElementById("navigation");
             
             var subnav = document.getElementsByClassName("subnav");
@@ -37,47 +39,23 @@
             if (subnav.length) {
                 
             }
+            
+            if (location.hash == "#run")
+                setTimeout(run_example, 500);
         }
-        function prepare_example() {
+        w.prepare_example = function () {
             window.addEventListener("load", setup_example.bind(this, document.currentScript));
         }
 
         function setup_javascript(current, code) {
             var source = code.textContent;
-
             if (source.match(/^\s*function/)) {
                 fun = new Function("", "return "+source)();
             } else return;
 
-            function hide_root(e) {
-                window.example.root.destroy();
-                window.example.blinder.parentNode.removeChild(window.example.blinder);
-                window.example = null;
-            }
-
             var b = document.createElement("button");
             b.setAttribute("class", "runbutton");
-            b.addEventListener("click", function() {
-                if (window.example && window.example.root)
-                    window.example.root.destroy();
-                window.example = {};
-                var blinder = document.createElement("DIV");
-                blinder.setAttribute("class", "blinder");
-                document.body.appendChild(blinder);
-                window.example['blinder'] = blinder;
-                window.example['root'] = new TK.Root({
-                    container: blinder
-                });
-                var b = document.createElement("button");
-                b.setAttribute("class", "closebutton");
-                b.addEventListener("click", hide_root);
-                b.appendChild(document.createTextNode("Close"));
-                window.example.root.element.appendChild(b);
-                
-                fun(window.example.root);
-
-                return false;
-            });
+            b.addEventListener("click", run_example);
             b.appendChild(document.createTextNode("Run!"));
             current.parentNode.insertBefore(b, current.nextSibling);
 
@@ -97,8 +75,6 @@
         }
         function setup_example(current) {
             var code = current.parentNode.getElementsByTagName("pre");
-            var fun;
-
             if (!code.length) return;
 
             for (var i = 0; i < code.length; i++) {
@@ -109,6 +85,34 @@
                 }
             }
         }
+        function run_example () {
+            var hide_root = function (e) {
+                window.example.root.destroy();
+                window.example.blinder.parentNode.removeChild(window.example.blinder);
+                window.example = null;
+            }
+            
+            if (window.example && window.example.root)
+                window.example.root.destroy();
+            window.example = {};
+            var blinder = document.createElement("DIV");
+            blinder.setAttribute("class", "blinder");
+            document.body.appendChild(blinder);
+            window.example['blinder'] = blinder;
+            window.example['root'] = new TK.Root({
+                container: blinder
+            });
+            var b = document.createElement("button");
+            b.setAttribute("class", "closebutton");
+            b.addEventListener("click", hide_root);
+            b.appendChild(document.createTextNode("Close"));
+            window.example.root.element.appendChild(b);
+            
+            fun(window.example.root);
+
+            return false;
+        }
+        })(this);
     </script>
 </head>
 <body onload="__init__()">
