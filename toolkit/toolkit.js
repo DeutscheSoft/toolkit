@@ -677,12 +677,6 @@ function delayed_callback(timeout, cb, once) {
     };
 }
 
-function log2(n) {
-    return Math.log(Math.max(1e-32, n)) / Math.LN2;
-}
-function log10(n) {
-    return Math.log(Math.max(1e-32, n)) / Math.LN10;
-}
 function store(e, key, val) {
     data(e)[key] = val;
 }
@@ -872,11 +866,6 @@ TK = w.toolkit = {
     // EVENTS
     
     delayed_callback : delayed_callback,
-    
-    // MATH
-    
-    log2: log2,
-    log10: log10,
     
     // OTHER
     
