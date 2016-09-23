@@ -417,6 +417,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         }
         value = TK.MeterBase.prototype.set.call(this, key, value);
         switch (key) {
+            case "show_peak":
+            case "show_clip":
+                this.trigger_resize();
+                // fallthrough
             case "peak":
                 this.fire_event("peakchanged");
                 peak_timeout.call(this);
