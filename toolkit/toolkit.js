@@ -406,13 +406,22 @@ function set_styles(elem, styles) {
         if (typeof v !== "number" && !v) {
             delete s[key];
         } else {
-            s[key] = (typeof v === "number") ? v + "px" : v;
+            if (typeof v === "number") {
+                TK.warn("TK.set_styles: use of implicit px conversion is _deprecated_ and will be removed in the future.");
+                v = v.toFixed(3) + "px";
+            }
+            s[key] = v;
         }
     }
 }
 function set_style(e, style, value) {
-    if (typeof value === "number")
-        value += "px";
+    if (typeof value === "number") {
+        /* By default, numbers are transformed to px. I believe this is a very _dangerous_ default
+         * behavior, because it breaks other number like properties _without_ warning.
+         * this is now deprecated. */
+        TK.warn("TK.set_style: use of implicit px conversion is _deprecated_ and will be removed in the future.");
+        value = value.toFixed(3) + "px";
+    }
     e.style[style] = value;
 }
 var _id_cnt = 0;
