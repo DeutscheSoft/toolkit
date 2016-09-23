@@ -127,6 +127,8 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         levels: "array",
         
         
+        count: "int",
+        
         titles: "array",
         values: "array",
         labels: "array",
@@ -134,7 +136,6 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         peaks: "array",
         tops: "array",
         bottoms: "array",
-        count: "int"
     }),
     options: {
         clip:         false,
@@ -153,7 +154,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         auto_peak:    false,
         peak_label:   false,
         auto_hold:    false,
-        format_peak: TK.FORMAT("%d"),
+        format_peak: TK.FORMAT("%.2f"),
         clip_options: {},
         layout:          "left",
         segment:         1,
@@ -165,13 +166,19 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         show_label:      false,
         show_scale:      true,
         show_labels:     true,
-        format_label:    TK.FORMAT("%d"),
+        format_label:    TK.FORMAT("%.2f"),
         levels:          [1, 5, 10],
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
         
         
+        count: 2,
         
+        // Convenient stuff - setting values for internal meters as array
+        // 
+        // Probably there's a better solution which makes it more generic
+        // so every option can be set as array containing values for all
+        // child meters
         titles: ["L", "R"],
         values: [],
         labels: [],
@@ -179,8 +186,6 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         peaks: [],
         tops: [],
         bottoms: [],
-        count: 2,
-        
     },
     /* end of bloat */
     initialize: function (options) {
