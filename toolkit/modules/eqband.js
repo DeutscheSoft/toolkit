@@ -48,7 +48,7 @@ w.TK.EqBand = w.EqBand = $class({
     },
     
     initialize: function (options) {
-        if (typeof options.mode === "undefined") {
+        if (options.mode === void(0)) {
             switch (options.type) {
                 case "parametric":
                 case "notch":
@@ -81,17 +81,17 @@ w.TK.EqBand = w.EqBand = $class({
         this.filter = new TK.Filter();
         this.filter.options = this.options;
         
-        if (typeof options.x !== "undefined")
+        if (options.x !== void(0))
             this.set("x", options.x);
-        else if (typeof options.freq !== "undefined")
+        else if (options.freq !== void(0))
             this.set("freq", options.freq);
-        if (typeof options.y !== "undefined")
+        if (options.y !== void(0))
             this.set("y", options.y);
-        else if (typeof options.gain !== "undefined")
+        else if (options.gain !== void(0))
             this.set("gain", options.gain);
-        if (typeof options.z !== "undefined")
+        if (options.z !== void(0))
             this.set("z", options.z);
-        else if (typeof options.q !== "undefined")
+        else if (options.q !== void(0))
             this.set("q", options.q);
         
         TK.add_class(this.element, "toolkit-eqband");

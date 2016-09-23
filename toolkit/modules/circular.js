@@ -66,11 +66,11 @@ function draw_dots() {
         var m = dots[i];
         var r = TK.make_svg("rect", {"class": "toolkit-dot"});
         
-        var length = typeof m.length === "undefined"
+        var length = m.length === void(0)
                    ? dot.length : m.length;
-        var width  = typeof m.width === "undefined"
+        var width  = m.width === void(0)
                    ? dot.width : m.width;
-        var margin = typeof m.margin === "undefined"
+        var margin = m.margin === void(0)
                    ? dot.margin : m.margin;
         var pos    = Math.min(O.max, Math.max(O.min, m.pos));
         // TODO: consider adding them all at once
@@ -103,21 +103,21 @@ function draw_markers() {
     
     for (var i = 0; i < markers.length; i++) {
         var m       = markers[i];
-        var thick   = typeof m.thickness === "undefined"
+        var thick   = m.thickness === void(0)
                     ? marker.thickness : m.thickness;
-        var margin  = typeof m.margin === "undefined"
+        var margin  = m.margin === void(0)
                     ? marker.margin : m.margin;
         var inner   = outer - thick;
         var outer_p = outer - margin - stroke / 2;
         var inner_p = inner - margin - stroke / 2;
         var from, to;
         
-        if (typeof m.from === "undefined")
+        if (m.from === void(0))
             from = O.min;
         else
             from = Math.min(O.max, Math.max(O.min, m.from));
         
-        if (typeof m.to === "undefined")
+        if (m.to === void(0))
             to = O.max;
         else
             to = Math.min(O.max, Math.max(O.min, m.to));
@@ -157,7 +157,7 @@ function draw_labels() {
         if (l["color"]) p.style["fill"] = l["color"];
 
                  
-        if (typeof l.label !== "undefined")
+        if (l.label !== void(0))
             p.textContent = l.label;
         else
             p.textContent = O.label.format(l.pos);
@@ -175,8 +175,8 @@ function draw_labels() {
             l = labels[i];
             p = a[i];
 
-            var margin  = typeof l.margin !== "undefined" ? l.margin : O.label.margin;
-            var align   = (typeof l.align !== "undefined" ? l.align : O.label.align) === "inner";
+            var margin  = l.margin !== void(0) ? l.margin : O.label.margin;
+            var align   = (l.align !== void(0) ? l.align : O.label.align) === "inner";
             var pos     = Math.min(O.max, Math.max(O.min, l.pos));
             var bb      = p.getBBox();
             var angle   = (this.val2real(this.snap(pos)) + O.start) % 360;

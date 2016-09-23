@@ -306,7 +306,7 @@ function outer_width(element, margin, width) {
         m += parseFloat(cs.getPropertyValue("margin-left"));
         m += parseFloat(cs.getPropertyValue("margin-right"));
     }
-    if (typeof width !== "undefined") {
+    if (width !== void(0)) {
         if (box_sizing(element) === "content-box") {
             var css = css_space(element, "padding", "border");
             width -= css.left + css.right;
@@ -328,7 +328,7 @@ function outer_height(element, margin, height) {
         m += parseFloat(cs.getPropertyValue("margin-top"));
         m += parseFloat(cs.getPropertyValue("margin-bottom"));
     }
-    if (typeof height !== "undefined") {
+    if (height !== void(0)) {
         if (box_sizing(element) === "content-box") {
             var css = css_space(element, "padding", "border");
             height -= css.top + css.bottom;
@@ -346,7 +346,7 @@ function outer_height(element, margin, height) {
 function inner_width(element, width) {
     var css = css_space(element, "padding", "border");
     var x = css.left + css.right;
-    if (typeof width !== "undefined") {
+    if (width !== void(0)) {
         if (box_sizing(element) === "border-box")
             width += x;
         // TODO: fixme
@@ -361,7 +361,7 @@ function inner_width(element, width) {
 function inner_height(element, height) {
     var css = css_space(element, "padding", "border");
     var y = css.top + css.bottom;
-    if (typeof height !== "undefined") {
+    if (height !== void(0)) {
         if (box_sizing(element) === "border-box")
             height += y;
         // TODO: fixme
@@ -894,27 +894,27 @@ TK = w.toolkit = {
 
 // POLYFILLS
 
-if (typeof Array.isArray === 'undefined') {
+if (Array.isArray === void(0)) {
     Array.isArray = function(obj) {
         return Object.prototype.toString.call(obj) === '[object Array]';
     }
 };
 
-if (typeof Object.assign === 'undefined') {
+if (Object.assign === void(0)) {
   Object.defineProperty(Object, 'assign', {
     enumerable: false,
     configurable: true,
     writable: true,
     value: function(target) {
       'use strict';
-      if (target === undefined || target === null) {
+      if (target === void(0) || target === null) {
         throw new TypeError('Cannot convert first argument to object');
       }
 
       var to = Object(target);
       for (var i = 1; i < arguments.length; i++) {
         var nextSource = arguments[i];
-        if (nextSource === undefined || nextSource === null) {
+        if (nextSource === void(0) || nextSource === null) {
           continue;
         }
         nextSource = Object(nextSource);
@@ -923,7 +923,7 @@ if (typeof Object.assign === 'undefined') {
         for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
           var nextKey = keysArray[nextIndex];
           var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-          if (desc !== undefined && desc.enumerable) {
+          if (desc !== void(0) && desc.enumerable) {
             to[nextKey] = nextSource[nextKey];
           }
         }

@@ -22,7 +22,7 @@ function dragstart(e, drag) {
     this._dragged = 0;
     var O = this.options;
     if (!O.active) return;
-    if (typeof e.button !== "undefined" && e.button > 0) return;
+    if (e.button !== void(0) && e.button > 0) return;
     this._xstart = this._xlast = e.pageX;
     this._ystart = this._ylast = e.pageY;
     this._xpos   = O.node.offsetLeft;
@@ -38,7 +38,7 @@ function dragstart(e, drag) {
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
-    if (typeof e.button !== "undefined" && e.button > 0) return;
+    if (e.button !== void(0) && e.button > 0) return;
     TK.remove_class(this.options.node, "toolkit-dragging");
     /**
      * The user stopped dragging this item.
@@ -51,7 +51,7 @@ function dragend(e, drag) {
 function dragging(e, drag) {
     var O = this.options;
     if (!O.active) return;
-    if (typeof e.button !== "undefined" && e.button > 0) return;
+    if (e.button !== void(0) && e.button > 0) return;
     this._dragged += (Math.abs(e.pageX - this._xlast)
                     + Math.abs(e.pageY - this._ylast)) / 2;
     if (this._dragged < O.initial) return;

@@ -50,7 +50,7 @@ function mousedown(e) {
     
     // order
     if (this.options.container) {
-        if (typeof e.button !== "undefined" && e.button === 2) {
+        if (e.button === 2) {
             e.preventDefault();
             e.stopPropagation();
             this.options.container.insertBefore(this.element, this.options.container.firstChild);
@@ -219,7 +219,7 @@ function mousemove(e) {
 function scrollwheel(e) {
     var direction;
     e.preventDefault();
-    var d = typeof e.wheelDelta !== "undefined" && e.wheelDelta ? e.wheelDelta : e.detail;
+    var d = e.wheelDelta !== void(0) && e.wheelDelta ? e.wheelDelta : e.detail;
     if (d > 0) {
         direction = 1;
     } else if (d < 0) {

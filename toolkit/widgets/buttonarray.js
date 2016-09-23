@@ -175,7 +175,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         var b    = new TK.Button(options);
         var len  = this.buttons.length;
         var vert = this.options.direction === "vertical";
-        if (typeof position === "undefined")
+        if (position === void(0))
             position = this.buttons.length;
         if (position === len) {
             this.buttons.push(b);

@@ -133,11 +133,11 @@ w.TK.Equalizer = w.Equalizer = $class({
           b = options;
         } else {
           options["container"] = this._bands;
-          if (typeof options["range_x"] === "undefined")
+          if (options["range_x"] === void(0))
               options["range_x"] = function () { return this.range_x; }.bind(this);
-          if (typeof options["range_y"] === "undefined")
+          if (options["range_y"] === void(0))
               options["range_y"] = function () { return this.range_y; }.bind(this);
-          if (typeof options["range_z"] === "undefined")
+          if (options["range_z"] === void(0))
               options["range_z"] = function () { return this.range_z; }.bind(this);
           
           options["intersect"] = this.intersect.bind(this);

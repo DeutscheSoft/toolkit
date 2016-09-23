@@ -113,7 +113,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             events: function () { return this }.bind(this)
         });
         
-        if (typeof this.options.reset === "undefined")
+        if (this.options.reset === void(0))
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
             var v = this.set("value", this.options.reset);

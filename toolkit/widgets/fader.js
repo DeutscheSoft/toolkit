@@ -172,10 +172,10 @@ w.TK.Fader = w.Fader = $class({
         this._handle_size = 0;
         this.element.appendChild(this._handle);
 
-        if (typeof O.reset === "undefined")
+        if (O.reset === void(0))
             O.reset = O.value;
 
-        if (typeof O.direction === "undefined")
+        if (O.direction === void(0))
             O.direction = vert(O) ? "vertical" : "horizontal";
             
         var self = THIS.bind(this);
