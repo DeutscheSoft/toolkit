@@ -132,15 +132,15 @@ w.TK.Equalizer = w.Equalizer = $class({
         if (TK.EqBand.prototype.isPrototypeOf(options)) {
           b = options;
         } else {
-          options["container"] = this._bands;
-          if (options["range_x"] === void(0))
-              options["range_x"] = function () { return this.range_x; }.bind(this);
-          if (options["range_y"] === void(0))
-              options["range_y"] = function () { return this.range_y; }.bind(this);
-          if (options["range_z"] === void(0))
-              options["range_z"] = function () { return this.range_z; }.bind(this);
+          options.container = this._bands;
+          if (options.range_x === void(0))
+              options.range_x = function () { return this.range_x; }.bind(this);
+          if (options.range_y === void(0))
+              options.range_y = function () { return this.range_y; }.bind(this);
+          if (options.range_z === void(0))
+              options.range_z = function () { return this.range_z; }.bind(this);
           
-          options["intersect"] = this.intersect.bind(this);
+          options.intersect = this.intersect.bind(this);
           b = new TK.EqBand(options);
         }
         

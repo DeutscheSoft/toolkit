@@ -254,7 +254,7 @@ TK.Base = w.BASE = $class({
      */
     set: function (key, value) {
         this.options[key] = value;
-        if (this.__events["set"])
+        if (this.__events.set)
             this.fire_event("set", key, value);
         if (this.__events["set_"+key])
             this.fire_event("set_" + key, value);

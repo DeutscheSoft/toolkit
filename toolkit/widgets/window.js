@@ -84,13 +84,13 @@ function shrink(e) {
 }
 function start_resize(el, ev) {
     this.__docmouse = TK.get_style(document.body, "cursor");
-    document.body.style["cursor"] = TK.get_style(this._resize, "cursor");
+    document.body.style.cursor = TK.get_style(this._resize, "cursor");
     this.resizing = true;
     TK.add_class(this.element, "toolkit-resizing");
     this.fire_event("startresize", ev);
 }
 function stop_resize(el, ev) {
-    document.body.style["cursor"] = this.__docmouse;
+    document.body.style.cursor = this.__docmouse;
     this.resizing = false;
     TK.remove_class(this.element, "toolkit-resizing");
     set_content.call(this);
@@ -164,10 +164,10 @@ function check_header(hold) {
     if (!this._header_left.firstChild
      && !this._header_center.firstChild
      && !this._header_right.firstChild) {
-        this._header.style["display"] = "none";
+        this._header.style.display = "none";
     } else {
-        this._header.style["display"] = "block";
-        this._header_center.style["left"] = TK.outer_width(this._header_left, true) + "px";
+        this._header.style.display = "block";
+        this._header_center.style.left = TK.outer_width(this._header_left, true) + "px";
         size_header.call(this);
     }
 }
@@ -176,10 +176,10 @@ function check_footer(hold) {
     if (!this._footer_left.firstChild
      && !this._footer_center.firstChild
      && !this._footer_right.firstChild) {
-        this._footer.style["display"] = "none";
+        this._footer.style.display = "none";
     } else {
-        this._footer.style["display"] = "block";
-        this._footer_center.style["left"] = TK.outer_width(this._footer_left, true) + "px";
+        this._footer.style.display = "block";
+        this._footer_center.style.left = TK.outer_width(this._footer_left, true) + "px";
         size_footer.call(this);
     }
 }
@@ -256,14 +256,14 @@ function set_position() {
                                  -width,
                                  -height);
     if (horiz_max.call(this)) {
-        this.element.style["left"] = (this.options.fixed ? 0 : window.scrollX) + "px";
+        this.element.style.left = (this.options.fixed ? 0 : window.scrollX) + "px";
     } else {
-        this.element.style["left"] = pos.x + "px";
+        this.element.style.left = pos.x + "px";
     }
     if (vert_max.call(this)) {
-        this.element.style["top"] = (this.options.fixed ? 0 : window.scrollY) + "px";
+        this.element.style.top = (this.options.fixed ? 0 : window.scrollY) + "px";
     } else {
-        this.element.style["top"] = pos.y + "px";
+        this.element.style.top = pos.y + "px";
     }
     this.dimensions.x      = this.options.x;
     this.dimensions.y      = this.options.y;
@@ -661,7 +661,7 @@ w.TK.Window = w.Window = $class({
         switch (key) {
             case "maximize":
                 if (this.options.shrink)
-                    this._footer.style["display"] = "block";
+                    this._footer.style.display = "block";
                 this.options.shrink = false;
                 if (value === false) value = this.options.maximize = {x: false, y: false};
                 else value = Object.assign(this.options.maximize, value);
@@ -726,7 +726,7 @@ w.TK.Window = w.Window = $class({
             case "icon":
                 if (!hold) {
                     this._icon.setAttribute("src", value);
-                    this._icon.style["display"] = value ? "block" : "none"; 
+                    this._icon.style.display = value ? "block" : "none"; 
                 }
                 break;
             case "header_left":
@@ -754,7 +754,7 @@ w.TK.Window = w.Window = $class({
                 }
                 break;
             case "fixed":
-                this.element.style["position"] = value ? "fixed" : "absolute";
+                this.element.style.position = value ? "fixed" : "absolute";
                 if (!hold) set_position.call(this);
                 break;
             case "content":

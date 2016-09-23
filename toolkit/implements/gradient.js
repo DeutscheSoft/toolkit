@@ -184,7 +184,7 @@ w.TK.Gradient = w.Gradient = $class({
         }
         
         if (element) {
-            element.style["background"] = bg;
+            element.style.background = bg;
             /**
              * Is fired when the gradient was created.
              *

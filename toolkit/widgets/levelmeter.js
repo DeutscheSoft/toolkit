@@ -81,19 +81,19 @@ function draw_peak() {
         n.firstChild.nodeValue = v;
     } else n.appendChild(document.createTextNode(v));
     if (O.peak > O.min && O.peak < O.max && O.show_peak) {
-        this._peak.style["display"] = "block";
+        this._peak.style.display = "block";
         var pos = 0;
         if (vert(O)) {
             pos = O.basis - this.val2px(this.snap(O.peak));
             pos = Math.min(O.basis, pos);
-            this._peak.style["top"] = pos + "px";
+            this._peak.style.top = pos + "px";
         } else {
             pos = this.val2px(this.snap(O.peak));
             pos = Math.min(O.basis, pos)
-            this._peak.style["left"] = pos + "px";
+            this._peak.style.left = pos + "px";
         }
     } else {
-        this._peak.style["display"] = "none";
+        this._peak.style.display = "none";
     }
     this.fire_event("drawpeak");
 }
@@ -233,12 +233,12 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         }
         if (I.show_clip) {
             I.show_clip = false;
-            this._clip.style["display"] =  O.show_clip  ? "block" : "none";
+            this._clip.style.display =  O.show_clip  ? "block" : "none";
             (O.show_clip ? TK.add_class : TK.remove_class)(E, "toolkit-has-clip");
         }
         if (I.show_peak) {
             I.show_peak = false;
-            this._peak.style["display"] =  O.show_peak  ? "block" : "none";
+            this._peak.style.display =  O.show_peak  ? "block" : "none";
             (O.show_peak ? TK.add_class : TK.remove_class)(E, "toolkit-has-peak");
         }
 

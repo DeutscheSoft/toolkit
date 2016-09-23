@@ -76,7 +76,7 @@ function draw_dots() {
         // TODO: consider adding them all at once
         _dots.appendChild(r);
         if (m["class"]) TK.add_class(r, m["class"]);
-        if (m["color"]) r.style["fill"] = m["color"];
+        if (m.color) r.style.fill = m.color;
                  
         r.setAttribute("x", O.size - length - margin);
         r.setAttribute("y", O.size / 2 - width / 2);
@@ -126,7 +126,7 @@ function draw_markers() {
         this._markers.appendChild(s);
         
         if (m["class"]) TK.add_class(s, m["class"]);
-        if (m["color"]) s.style["fill"] = m["color"];
+        if (m.color) s.style.fill = m.color;
         
         draw_slice.call(this, this.val2real(this.snap(from)), this.val2real(this.snap(to)), inner_p, outer_p, outer, s);
     }
@@ -154,7 +154,7 @@ function draw_labels() {
         });
         
         if (l["class"]) TK.add_class(p, l["class"]);
-        if (l["color"]) p.style["fill"] = l["color"];
+        if (l.color) p.style.fill = l.color;
 
                  
         if (l.label !== void(0))
@@ -428,9 +428,9 @@ w.TK.Circular = w.Circular = $class({
         if (I.show_hand) {
             I.show_hand = false;
             if (O.show_hand) {
-                this._hand.style["display"] = "block";
+                this._hand.style.display = "block";
             } else {
-                this._hand.style["display"] = "none";
+                this._hand.style.display = "none";
             }
         }
         if (I.validate("size", "value", "hand", "min", "max", "start")) {

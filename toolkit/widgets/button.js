@@ -110,9 +110,9 @@ w.TK.Button = w.Button = $class({
             value = O.label;
             if (value !== false) {
                 TK.set_content(_label, value);
-                _label.style["display"] = null;
+                _label.style.display = null;
             } else {
-                _label.style["display"] = "none";
+                _label.style.display = "none";
             }
         }
         if (I.icon) {
@@ -120,9 +120,9 @@ w.TK.Button = w.Button = $class({
             value = O.icon;
             if (value) {
                 _icon.setAttribute("src", value);
-                _icon.style["display"] = null;
+                _icon.style.display = null;
             } else {
-                _icon.style["display"] = "none";
+                _icon.style.display = "none";
             }
         }
         if (I.state || I.state_color) {

@@ -215,7 +215,7 @@ w.TK.Graph = w.Graph = $class({
 
         if (I.color) {
             I.color = false;
-            E.style["stroke"] = O.color;
+            E.style.stroke = O.color;
         }
 
         if (I.mode) {

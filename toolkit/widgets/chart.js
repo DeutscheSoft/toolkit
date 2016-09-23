@@ -25,8 +25,8 @@ function draw_key() {
     TK.empty(this._key);
     
     if (this.options.key === false) {
-        this._key.style["display"] = "none";
-        this._key_background.style["display"] = "none";
+        this._key.style.display = "none";
+        this._key_background.style.display = "none";
         return;
     }
     
@@ -88,8 +88,8 @@ function draw_key() {
         });
         this._key.appendChild(b);
     }
-    this._key_background.style["display"] = disp;
-    this._key.style["display"] = disp;
+    this._key_background.style.display = disp;
+    this._key.style.display = disp;
     
     bb = this._key.getBoundingClientRect();
     var width  = this.range_x.options.basis;

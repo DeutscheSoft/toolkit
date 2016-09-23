@@ -89,8 +89,8 @@ w.GlobalTooltip = function() {
         var w = e.clientX;
         var h = e.clientY / window.innerHeight;
 
-        spacer_tl.style["width"] = w > 0 ? w + "px" : "0.01%";
-        spacer_tl.style["height"] = h > 0 ? (h * 100).toFixed(2) + "%" : "0.01%";
+        spacer_tl.style.width = w > 0 ? w + "px" : "0.01%";
+        spacer_tl.style.height = h > 0 ? (h * 100).toFixed(2) + "%" : "0.01%";
 
         current(e, entry);
     }
