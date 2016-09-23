@@ -549,7 +549,7 @@ function update_transformation() {
 
     if (typeof scale === "function") {
         module = TRAFO_FUNCTION(w, O);
-    } else if (typeof scale === "object" && scale instanceof Array) {
+    } else if (Array.isArray(scale)) {
         var i = 0;
         if (scale.length % 2) {
             TK.error("Malformed piecewise-linear scale.");

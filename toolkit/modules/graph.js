@@ -25,7 +25,7 @@ function range_change_cb() {
 function transform_dots(dots) {
     if (typeof dots === "string") return dots;
     if (typeof dots === "object") {
-        if (dots instanceof Array) {
+        if (Array.isArray(dots)) {
             if (!dots.length || !dots[0]) return null;
             var ret = { };
             var start, stop;

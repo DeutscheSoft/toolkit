@@ -75,7 +75,7 @@ w.$class = function(o) {
 
     // mixins
     if (tmp = o.Implements) {
-        if (!(typeof(tmp) === "object" && tmp instanceof Array)) {
+        if (!Array.isArray(tmp)) {
             tmp = [ tmp ];
         }
 
@@ -432,7 +432,7 @@ TK.Base = w.BASE = $class({
      */
     add_events: function (events, func) {
         var i;
-        if (events instanceof Array) {
+        if (Array.isArray(events)) {
             for (i = 0; i < events.length; i++)
                 this.add_event(events[i], func);
         } else {
@@ -454,7 +454,7 @@ TK.Base = w.BASE = $class({
      */
     remove_events: function (events, func) {
         var i;
-        if (events instanceof Array) {
+        if (Array.isArray(events)) {
             for (i = 0; i < events.length; i++)
                 this.remove_event(events[i], func);
         } else {
