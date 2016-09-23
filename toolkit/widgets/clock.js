@@ -23,15 +23,15 @@ function draw_time(force) {
     var O = this.options;
     var t = O.time;
 
-    if ((tmp = t.getSeconds()) != this.__sec || force) {
+    if ((tmp = t.getSeconds()) !== this.__sec || force) {
         this.circulars.seconds.set("value", tmp);
         this.__sec = tmp;
     }
-    if ((tmp = t.getMinutes()) != this.__min || force) {
+    if ((tmp = t.getMinutes()) !== this.__min || force) {
         this.circulars.minutes.set("value", tmp);
         this.__min = tmp;
     }
-    if ((tmp = t.getHours() % 12) != this.__hour || force) {
+    if ((tmp = t.getHours() % 12) !== this.__hour || force) {
         this.circulars.hours.set("value", tmp);
         this.__hour = tmp;
     }
@@ -48,17 +48,17 @@ function draw_time(force) {
                 Math.round(t.getMilliseconds() / (1000 / O.fps)),
                 O.months,
                 O.days];
-    if ((tmp = O.label.apply(this, args)) != this.__label || force) {
+    if ((tmp = O.label.apply(this, args)) !== this.__label || force) {
         TK.set_text(this._label, tmp);
         this.__label = tmp;
         drawn = true;
     }
-    if ((tmp = O.label_upper.apply(this, args)) != this.__upper || force) {
+    if ((tmp = O.label_upper.apply(this, args)) !== this.__upper || force) {
         TK.set_text(this._label_upper, tmp);
         this.__upper = tmp;
         drawn = true;
     }
-    if ((tmp = O.label_lower.apply(this, args)) != this.__lower || force) {
+    if ((tmp = O.label_lower.apply(this, args)) !== this.__lower || force) {
         TK.set_text(this._label_lower, tmp);
         this.__lower = tmp;
         drawn = true;

@@ -902,7 +902,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var a = t.split("\n");
         var c = this._label.childNodes;
         var n = c.length;
-        if (a.length != c.length) {
+        if (a.length !== c.length) {
             while (n < a.length) {
                 this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
                 n++;

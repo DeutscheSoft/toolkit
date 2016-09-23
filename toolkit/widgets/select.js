@@ -165,7 +165,7 @@ w.TK.Select = w.Select = $class({
         entry.value = (typeof ent === "string") ? ent
                                                : ent.value;
         entry.title = (typeof ent === "string")
-                       ? ent : (typeof ent.title != "undefined")
+                       ? ent : (typeof ent.title !== "undefined")
                        ? ent.title : ent.value.toString()
         
         TK.set_text(li, entry.title);

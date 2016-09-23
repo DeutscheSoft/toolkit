@@ -130,7 +130,7 @@ w.TK.Dynamics = w.Dynamics = $class({
 
         var s = Math.min(h, w);
 
-        if (s > 0 && s != O._width) {
+        if (s > 0 && s !== O._width) {
             this.set("_width", s);
             this.set("_height", s);
             this.range_x.set("basis", s);
@@ -186,7 +186,7 @@ w.TK.Dynamics = w.Dynamics = $class({
                             y: this.opions.max + O.makeup});
                 break;
             case "expander":
-                if (O.ratio != 1) {
+                if (O.ratio !== 1) {
                     curve.push({x: O.min,
                                 y: O.min + O.makeup + O.range});
                     var range = O.range;

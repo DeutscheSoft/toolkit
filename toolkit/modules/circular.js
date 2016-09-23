@@ -157,7 +157,7 @@ function draw_labels() {
         if (l["color"]) p.style["fill"] = l["color"];
 
                  
-        if (typeof l.label != "undefined")
+        if (typeof l.label !== "undefined")
             p.textContent = l.label;
         else
             p.textContent = O.label.format(l.pos);
@@ -175,8 +175,8 @@ function draw_labels() {
             l = labels[i];
             p = a[i];
 
-            var margin  = typeof l.margin != "undefined" ? l.margin : O.label.margin;
-            var align   = (typeof l.align != "undefined" ? l.align : O.label.align) === "inner";
+            var margin  = typeof l.margin !== "undefined" ? l.margin : O.label.margin;
+            var align   = (typeof l.align !== "undefined" ? l.align : O.label.align) === "inner";
             var pos     = Math.min(O.max, Math.max(O.min, l.pos));
             var bb      = p.getBBox();
             var angle   = (this.val2real(this.snap(pos)) + O.start) % 360;
@@ -204,7 +204,7 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     r_inner = +r_inner;
     r_outer = +r_outer;
     pos = +pos;
-    // ensure from != to
+    // ensure from !== to
     if(a_from % 360 === a_to % 360) a_from += 0.001;
     // ensure from and to in bounds
     while (a_from < 0) a_from += 360;

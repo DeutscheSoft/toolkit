@@ -355,13 +355,13 @@ w.TK.Chart = w.Chart = $class({
         var w = TK.inner_width(E) - tmp.left - tmp.right;
         var h = TK.inner_height(E) - tmp.top - tmp.bottom;
 
-        if (w > 0 && O._width != w) {
+        if (w > 0 && O._width !== w) {
             this.set("_width", w);
             this.range_x.set("basis", w);
             this.invalid._width = true;
             this.trigger_draw();
         }
-        if (h > 0 && O._height != h) {
+        if (h > 0 && O._height !== h) {
             this.set("_height", h);
             this.range_y.set("basis", h);
             this.invalid._height = true;
