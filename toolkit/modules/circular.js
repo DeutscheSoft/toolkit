@@ -66,11 +66,11 @@ function draw_dots() {
         var m = dots[i];
         var r = TK.make_svg("rect", {"class": "toolkit-dot"});
         
-        var length = typeof m.length == "undefined"
+        var length = typeof m.length === "undefined"
                    ? dot.length : m.length;
-        var width  = typeof m.width == "undefined"
+        var width  = typeof m.width === "undefined"
                    ? dot.width : m.width;
-        var margin = typeof m.margin == "undefined"
+        var margin = typeof m.margin === "undefined"
                    ? dot.margin : m.margin;
         var pos    = Math.min(O.max, Math.max(O.min, m.pos));
         // TODO: consider adding them all at once
@@ -103,21 +103,21 @@ function draw_markers() {
     
     for (var i = 0; i < markers.length; i++) {
         var m       = markers[i];
-        var thick   = typeof m.thickness == "undefined"
+        var thick   = typeof m.thickness === "undefined"
                     ? marker.thickness : m.thickness;
-        var margin  = typeof m.margin == "undefined"
+        var margin  = typeof m.margin === "undefined"
                     ? marker.margin : m.margin;
         var inner   = outer - thick;
         var outer_p = outer - margin - stroke / 2;
         var inner_p = inner - margin - stroke / 2;
         var from, to;
         
-        if (typeof m.from == "undefined")
+        if (typeof m.from === "undefined")
             from = O.min;
         else
             from = Math.min(O.max, Math.max(O.min, m.from));
         
-        if (typeof m.to == "undefined")
+        if (typeof m.to === "undefined")
             to = O.max;
         else
             to = Math.min(O.max, Math.max(O.min, m.to));
@@ -176,7 +176,7 @@ function draw_labels() {
             p = a[i];
 
             var margin  = typeof l.margin != "undefined" ? l.margin : O.label.margin;
-            var align   = (typeof l.align != "undefined" ? l.align : O.label.align) == "inner";
+            var align   = (typeof l.align != "undefined" ? l.align : O.label.align) === "inner";
             var pos     = Math.min(O.max, Math.max(O.min, l.pos));
             var bb      = p.getBBox();
             var angle   = (this.val2real(this.snap(pos)) + O.start) % 360;
@@ -205,7 +205,7 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
     r_outer = +r_outer;
     pos = +pos;
     // ensure from != to
-    if(a_from % 360 == a_to % 360) a_from += 0.001;
+    if(a_from % 360 === a_to % 360) a_from += 0.001;
     // ensure from and to in bounds
     while (a_from < 0) a_from += 360;
     while (a_to < 0) a_to += 360;
@@ -251,7 +251,7 @@ w.TK.Circular = w.Circular = $class({
      * @property {number} [options.hand.margin=10] - Margin of the hand.
      * @property {number} [options.start=135] - The starting point in degrees.
      * @property {number} [options.basis=270] - The maximum degree of the rotation if
-     *  <code>options.value == options.max</code>.
+     *  <code>options.value === options.max</code>.
      * @property {number|boolean} [options.base=false] - If a base value is set in degrees,
      *  circular starts drawing elements from this position.
      * @property {boolean} [options.show_base=true] - Draw the base ring.

@@ -148,11 +148,11 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         // ad a new handle to the widget. Options is an object containing
         // options for the handle
         options["container"] = this._handles;
-        if (typeof options["range_x"] == "undefined")
+        if (typeof options["range_x"] === "undefined")
             options["range_x"] = function () { return this.range_x; }.bind(this);
-        if (typeof options["range_y"] == "undefined")
+        if (typeof options["range_y"] === "undefined")
             options["range_y"] = function () { return this.range_y; }.bind(this);
-        if (typeof options["range_z"] == "undefined")
+        if (typeof options["range_z"] === "undefined")
             options["range_z"] = function () { return this.range_z; }.bind(this);
         
         options["intersect"] = this.intersect.bind(this);
@@ -190,7 +190,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     remove_handle: function (handle) {
         // remove a handle from the widget.
         for (var i = 0; i < this.handles.length; i++) {
-            if (this.handles[i] == handle) {
+            if (this.handles[i] === handle) {
                 if (this.options.show_handles)
                     this.remove_child(handle);
                 this.handles[i].destroy();

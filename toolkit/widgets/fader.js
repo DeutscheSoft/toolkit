@@ -22,7 +22,7 @@
 var supports_transform = 'transform' in w.document.createElement("div").style;
 
 function vert(O) {
-    return O.layout == "left" || O.layout == "right";
+    return O.layout === "left" || O.layout === "right";
 }
 function get_value(ev) {
     var is_vertical = vert(this.options);
@@ -251,9 +251,9 @@ w.TK.Fader = w.Fader = $class({
             TK.remove_class(E, "toolkit-top");
             TK.remove_class(E, "toolkit-bottom");
             TK.add_class(E, vert(O) ? "toolkit-vertical" : "toolkit-horizontal");
-            tmp = value == "left"   ? "toolkit-left" :
-                    value == "right"  ? "toolkit-right" :
-                    value == "top"    ? "toolkit-top" : "toolkit-bottom";
+            tmp = value === "left"   ? "toolkit-left" :
+                    value === "right"  ? "toolkit-right" :
+                    value === "top"    ? "toolkit-top" : "toolkit-bottom";
             TK.add_class(E, tmp);
 
             I.value = false;

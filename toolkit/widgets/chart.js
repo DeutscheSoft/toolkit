@@ -459,7 +459,7 @@ w.TK.Chart = w.Chart = $class({
 
         this.graphs.push(g);
         g.add_event("set", function (key, value, obj) {
-            if (key == "color" || key == "class" || key == "key") {
+            if (key === "color" || key === "class" || key === "key") {
                 this.invalid.graphs = true;
                 this.trigger_draw();
             }

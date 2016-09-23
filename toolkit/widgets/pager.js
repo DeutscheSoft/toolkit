@@ -95,7 +95,7 @@ w.TK.Pager = w.Pager = $class({
         this.buttonarray = new TK.ButtonArray({
             container: this.element,
             onuseraction: function(key, value) {
-                if (key == "show") value = this.set("show", value);
+                if (key === "show") value = this.set("show", value);
                 this.fire_event("useraction", key, value);
             }.bind(this),
         });
@@ -161,7 +161,7 @@ w.TK.Pager = w.Pager = $class({
             // with priority 0 and the following code is executed in priority 1.
             TK.S.add(function() {
                 var size;
-                if (O.position == "top" || O.position == "bottom") {
+                if (O.position === "top" || O.position === "bottom") {
                     size = TK.outer_height(this.buttonarray.element) + "px";
                 } else {
                     size = TK.outer_width(this.buttonarray.element) + "px";
@@ -206,7 +206,7 @@ w.TK.Pager = w.Pager = $class({
             I.show = false;
             for (var i = 0; i < this.pages.length; i ++) {
                 var page = this.pages[i];
-                if (i == O.show)
+                if (i === O.show)
                     page.add_class("toolkit-active");
                 else
                     page.remove_class("toolkit-active");
@@ -313,7 +313,7 @@ w.TK.Pager = w.Pager = $class({
      * @emits TK.Pager#removed
      */
     remove_page: function (page) {
-        if (typeof page == "object")
+        if (typeof page === "object")
             page = this.pages.indexOf(page);
         if (page < 0 || page >= this.pages.length)
             return;
@@ -447,7 +447,7 @@ w.TK.Pager = w.Pager = $class({
         return value;
     },
     get: function (key) {
-        if (key == "pages") return this.pages;
+        if (key === "pages") return this.pages;
         return TK.Container.prototype.get.call(this, key);
     }
 });

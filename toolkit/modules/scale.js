@@ -22,7 +22,7 @@ function get_base(O) {
     return Math.max(Math.min(O.max, O.base), O.min);
 }
 function vert(O) {
-    return O.layout == "left" || O.layout == "right";
+    return O.layout === "left" || O.layout === "right";
 }
 function fill_interval(range, levels, i, from, to, min_gap, result) {
     var level = levels[i];
@@ -179,7 +179,7 @@ function create_dot(value, position) {
     elem.className = "toolkit-dot";
     elem.style.position = "absolute";
 
-    if (O.layout == "left" || O.layout == "right") {
+    if (O.layout === "left" || O.layout === "right") {
         elem.style.bottom = Math.round(position + 0.5) + "px";
     } else {
         elem.style.left = Math.round(position - 0.5) + "px";
@@ -287,7 +287,7 @@ function generate_scale(from, to, include_from, show_to) {
     if (O.show_labels) {
         create_dom_nodes.call(this, labels, create_label.bind(this));
 
-        if (labels.values.length && labels.values[0] == get_base(O)) {
+        if (labels.values.length && labels.values[0] === get_base(O)) {
             TK.add_class(labels.nodes[0], "toolkit-base");
         }
     }

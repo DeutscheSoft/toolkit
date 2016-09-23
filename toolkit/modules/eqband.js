@@ -48,7 +48,7 @@ w.TK.EqBand = w.EqBand = $class({
     },
     
     initialize: function (options) {
-        if (typeof options.mode == "undefined") {
+        if (typeof options.mode === "undefined") {
             switch (options.type) {
                 case "parametric":
                 case "notch":

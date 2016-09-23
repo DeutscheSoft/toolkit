@@ -68,7 +68,7 @@ w.TK.Gauge = w.Gauge = $class({
         title: {pos: 90, margin: 0, align: "inner", title:""}
     }),
     initialize: function (options) {
-        if (typeof options.title == "string")
+        if (typeof options.title === "string")
             options.title = {title: options.title};
         TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
@@ -114,7 +114,7 @@ w.TK.Gauge = w.Gauge = $class({
                     var t = O.title;
                     var outer   = O.size / 2;
                     var margin  = t.margin;
-                    var align   = t.align == "inner";
+                    var align   = t.align === "inner";
                     var bb      = _title.getBoundingClientRect();
                     var angle   = t.pos % 360;
                     var outer_p = outer - margin;
@@ -141,7 +141,7 @@ w.TK.Gauge = w.Gauge = $class({
     // GETTERS & SETTERS
     set: function (key, value) {
         if (key === "title") {
-            if (typeof value == "string") value = {title: value};
+            if (typeof value === "string") value = {title: value};
             value = Object.assign(this.options.title, value);
         }
         // TK.Circular does the snapping

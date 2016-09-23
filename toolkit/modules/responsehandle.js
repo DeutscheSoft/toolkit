@@ -50,7 +50,7 @@ function mousedown(e) {
     
     // order
     if (this.options.container) {
-        if (typeof e.button !== "undefined" && e.button == 2) {
+        if (typeof e.button !== "undefined" && e.button === 2) {
             e.preventDefault();
             e.stopPropagation();
             this.options.container.insertBefore(this.element, this.options.container.firstChild);
@@ -143,52 +143,52 @@ function mousemove(e) {
         mz *= range_z.get("shift_up");
     }
     if (this._zhandling) {
-        if (O.z_handle == "left"
-            || O.mode == "line-vertical" && O.z_handle == "top-left"
-            || O.mode == "line-vertical" && O.z_handle == "bottom-left"
-            || O.mode == "block-left" && O.z_handle == "top-left"
-            || O.mode == "block-left" && O.z_handle == "bottom-left"
-            || O.mode == "block-right" && O.z_handle == "top-left"
-            || O.mode == "block-right" && O.z_handle == "bottom-left") {
+        if (O.z_handle === "left"
+            || O.mode === "line-vertical" && O.z_handle === "top-left"
+            || O.mode === "line-vertical" && O.z_handle === "bottom-left"
+            || O.mode === "block-left" && O.z_handle === "top-left"
+            || O.mode === "block-left" && O.z_handle === "bottom-left"
+            || O.mode === "block-right" && O.z_handle === "top-left"
+            || O.mode === "block-right" && O.z_handle === "bottom-left") {
             // movement to left
             this.set("z",
                 range_z.snap(range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
-        } else if (O.z_handle == "right"
-            || O.mode == "line-vertical" && O.z_handle == "top-right"
-            || O.mode == "line-vertical" && O.z_handle == "bottom-right"
-            || O.mode == "block-left" && O.z_handle == "top-right"
-            || O.mode == "block-left" && O.z_handle == "bottom-right"
-            || O.mode == "block-right" && O.z_handle == "top-right"
-            || O.mode == "block-right" && O.z_handle == "bottom-right") {
+        } else if (O.z_handle === "right"
+            || O.mode === "line-vertical" && O.z_handle === "top-right"
+            || O.mode === "line-vertical" && O.z_handle === "bottom-right"
+            || O.mode === "block-left" && O.z_handle === "top-right"
+            || O.mode === "block-left" && O.z_handle === "bottom-right"
+            || O.mode === "block-right" && O.z_handle === "top-right"
+            || O.mode === "block-right" && O.z_handle === "bottom-right") {
             // movement to right
             this.set("z",
                 range_z.snap(range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
-        } else if (O.z_handle == "top"
-            || O.mode == "line-horizontal" && O.z_handle == "top-left"
-            || O.mode == "line-horizontal" && O.z_handle == "top-right"
-            || O.mode == "block-top" && O.z_handle == "top-left"
-            || O.mode == "block-top" && O.z_handle == "top-right"
-            || O.mode == "block-bottom" && O.z_handle == "top-left"
-            || O.mode == "block-bottom" && O.z_handle == "top-right") {
+        } else if (O.z_handle === "top"
+            || O.mode === "line-horizontal" && O.z_handle === "top-left"
+            || O.mode === "line-horizontal" && O.z_handle === "top-right"
+            || O.mode === "block-top" && O.z_handle === "top-left"
+            || O.mode === "block-top" && O.z_handle === "top-right"
+            || O.mode === "block-bottom" && O.z_handle === "top-left"
+            || O.mode === "block-bottom" && O.z_handle === "top-right") {
             // movement to top
             this.set("z",
                 this.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
-        } else if (O.z_handle == "bottom"
-            || O.mode == "line-horizontal" && O.z_handle == "bottom-left"
-            || O.mode == "line-horizontal" && O.z_handle == "bottom-right"
-            || O.mode == "block-top" && O.z_handle == "bottom-left"
-            || O.mode == "block-top" && O.z_handle == "bottom-right"
-            || O.mode == "block-bottom" && O.z_handle == "bottom-left"
-            || O.mode == "block-bottom" && O.z_handle == "bottom-right") {
+        } else if (O.z_handle === "bottom"
+            || O.mode === "line-horizontal" && O.z_handle === "bottom-left"
+            || O.mode === "line-horizontal" && O.z_handle === "bottom-right"
+            || O.mode === "block-top" && O.z_handle === "bottom-left"
+            || O.mode === "block-top" && O.z_handle === "bottom-right"
+            || O.mode === "block-bottom" && O.z_handle === "bottom-left"
+            || O.mode === "block-bottom" && O.z_handle === "bottom-right") {
             // movement to bottom
             this.set("z",
                 range_z.snap(range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz))));
@@ -245,7 +245,7 @@ function scrollwheel(e) {
     this._zwheel = true;
 }
 function touchstart(e) {
-    if (e.touches && e.touches.length == 2) {
+    if (e.touches && e.touches.length === 2) {
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -466,7 +466,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.appendChild(this._line2);
         
         this._handle = TK.make_svg(
-            O.mode == "circular" ? "circle" : "rect", {
+            O.mode === "circular" ? "circle" : "rect", {
                 "class": "toolkit-handle",
                 "r":     O.z_handle_size
             }
@@ -474,7 +474,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.appendChild(this._handle);
         
         this._zhandle = TK.make_svg(
-            O.mode == "circular" ? "circle" : "rect", {
+            O.mode === "circular" ? "circle" : "rect", {
                 "class": "toolkit-z-handle",
                 "width":  O.z_handle_size,
                 "height": O.z_handle_size

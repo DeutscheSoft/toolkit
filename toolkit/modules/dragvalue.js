@@ -120,7 +120,7 @@ function start_drag(ev, x, y) {
     TK.add_class(O.classes, "toolkit-dragging");
 
     if (O.cursor) {
-        if (O.direction == "vertical") {
+        if (O.direction === "vertical") {
             this.global_cursor("row-resize");
         } else {
             this.global_cursor("col-resize");
@@ -228,7 +228,7 @@ function stop_drag(ev, x, y) {
     TK.remove_class(O.classes, "toolkit-dragging");
 
     if (O.cursor) {
-        if (O.direction == "vertical") {
+        if (O.direction === "vertical") {
             this.remove_cursor("row-resize");
         } else {
             this.remove_cursor("col-resize");

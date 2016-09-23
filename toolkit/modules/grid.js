@@ -119,10 +119,10 @@ function draw_lines(a, mode, last) {
                 if (label) m = label.m;
                 else m = 0;
 
-                if ((mode && obj.pos == this.range_y.options.min)
-                || ( mode && obj.pos == this.range_y.options.max)
-                || (!mode && obj.pos == this.range_x.options.min)
-                || (!mode && obj.pos == this.range_x.options.max))
+                if ((mode && obj.pos === this.range_y.options.min)
+                || ( mode && obj.pos === this.range_y.options.max)
+                || (!mode && obj.pos === this.range_x.options.min)
+                || (!mode && obj.pos === this.range_x.options.max))
                     continue;
                 var line = TK.make_svg("path");
                 TK.add_class(line, "toolkit-grid-line");

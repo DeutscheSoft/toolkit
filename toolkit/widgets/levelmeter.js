@@ -19,7 +19,7 @@
 "use strict";
 (function(w){ 
 function vert(O) {
-    return O.layout == "left" || O.layout == "right";
+    return O.layout === "left" || O.layout === "right";
 }
 function clip_timeout() {
     var O = this.options;
@@ -379,7 +379,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
     // GETTER & SETTER
     set: function (key, value) {
         var O = this.options;
-        if (key == "value") {
+        if (key === "value") {
             var base = O.base;
 
             // snap will enforce clipping

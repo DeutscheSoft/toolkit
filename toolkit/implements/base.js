@@ -61,11 +61,11 @@ w.$class = function(o) {
     var tmp, i, c, key;
 
     if (tmp = o.Extends) {
-        if (typeof(tmp) == "function") {
+        if (typeof(tmp) === "function") {
             tmp = tmp.prototype;
         }
-        if (typeof(o.options) == "object" &&
-            typeof(tmp.options) == "object") {
+        if (typeof(o.options) === "object" &&
+            typeof(tmp.options) === "object") {
             o.options = Object.assign(Object.create(tmp.options), o.options);
         }
         methods = Object.assign(Object.create(tmp), o);
@@ -75,16 +75,16 @@ w.$class = function(o) {
 
     // mixins
     if (tmp = o.Implements) {
-        if (!(typeof(tmp) == "object" && tmp instanceof Array)) {
+        if (!(typeof(tmp) === "object" && tmp instanceof Array)) {
             tmp = [ tmp ];
         }
 
         for (i = 0; i < tmp.length; i++) {
-            if (typeof(tmp[i]) == "function") {
+            if (typeof(tmp[i]) === "function") {
                 c = tmp[i].prototype;
             } else c = tmp[i];
 
-            if (typeof(c.options) == "object") {
+            if (typeof(c.options) === "object") {
                 if (!methods.hasOwnProperty("options")) {
                     methods.options = Object.create(methods.options || null);
                 }
@@ -214,12 +214,12 @@ TK.Base = w.BASE = $class({
         if (typeof(o) !== "object") {
             delete this.options;
             o = {};
-        } else if (typeof(opt) == "object") for (key in o) if (o.hasOwnProperty(key)) {
+        } else if (typeof(opt) === "object") for (key in o) if (o.hasOwnProperty(key)) {
             a = o[key];
             b = opt[key];
-            if (typeof a == "object" && a &&
+            if (typeof a === "object" && a &&
                 Object.getPrototypeOf(Object.getPrototypeOf(a)) === null &&
-                typeof b == "object" && b &&
+                typeof b === "object" && b &&
                 Object.getPrototypeOf(Object.getPrototypeOf(b)) === null
                 ) {
                 o[key] = merge({}, b, a);
@@ -354,7 +354,7 @@ TK.Base = w.BASE = $class({
         }
         // handle resize events globally since there's no resize event
         // for DOM elements
-        if (event == "resize") {
+        if (event === "resize") {
             TK.remove_resize_event(this);
             return;
         }

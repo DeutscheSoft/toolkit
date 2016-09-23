@@ -100,7 +100,7 @@ function stop_resize(el, ev) {
     this.fire_event("stopresize", ev);
 }
 function resizing(el, ev) {
-    if (this.options.resizing == "continuous") {
+    if (this.options.resizing === "continuous") {
         set_content.call(this);
         size_header.call(this, true);
         size_footer.call(this);

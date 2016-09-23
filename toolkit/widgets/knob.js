@@ -113,7 +113,7 @@ w.TK.Knob = w.Knob = $class({
 
         E.appendChild(S);
         this.set("base", this.options.base);
-        if (typeof this.options.reset == "undefined")
+        if (typeof this.options.reset === "undefined")
             this.options.reset = this.options.value;
         this.add_event("dblclick", dblclick);
         this.add_child(this.circular);

@@ -19,7 +19,7 @@
 "use strict";
 (function(w){ 
 function vert(O) {
-    return O.layout == "left" || O.layout == "right";
+    return O.layout === "left" || O.layout === "right";
 }
 function fill_interval(ctx, w, h, a, is_vertical) {
     var i;
@@ -416,12 +416,12 @@ w.TK.MeterBase = w.MeterBase = $class({
         var ctx = this._canvas.getContext("2d");
         var is_vertical = vert(O);
 
-        if (diff == 1) {
+        if (diff === 1) {
             /* a - tmp is non-empty */
             clear_interval(ctx, w, h, subtract_intervals(a, tmp), is_vertical);
             return;
         }
-        if (diff == 2) {
+        if (diff === 2) {
             /* tmp - a is non-empty */
             fill_interval(ctx, w, h, subtract_intervals(tmp, a), is_vertical);
             return;

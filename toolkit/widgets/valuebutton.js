@@ -113,7 +113,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             events: function () { return this }.bind(this)
         });
         
-        if (typeof this.options.reset == "undefined")
+        if (typeof this.options.reset === "undefined")
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
             var v = this.set("value", this.options.reset);
@@ -152,7 +152,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         }
         if (I.value) {
             I.value = false;
-            this._base.style[O.bar_direction == "horizontal" ? "width" : "height"] = this.val2perc(this.snap(O.value)) + "%";
+            this._base.style[O.bar_direction === "horizontal" ? "width" : "height"] = this.val2perc(this.snap(O.value)) + "%";
         }
     },
     

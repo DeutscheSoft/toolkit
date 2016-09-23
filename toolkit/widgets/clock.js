@@ -264,8 +264,8 @@ w.TK.Clock = w.Clock = $class({
 
         if (I.size) {
             var tmp = O.size;
-            this.svg.setAttribute("width", (typeof tmp == "number" ? tmp + "px" : tmp));
-            this.svg.setAttribute("height", (typeof tmp == "number" ? tmp + "px" : tmp));
+            this.svg.setAttribute("width", (typeof tmp === "number" ? tmp + "px" : tmp));
+            this.svg.setAttribute("height", (typeof tmp === "number" ? tmp + "px" : tmp));
         }
 
         if (I.validate("show_hours", "show_minutes", "show_seconds", "thickness", "margin") || I.size) {
@@ -319,7 +319,7 @@ w.TK.Clock = w.Clock = $class({
     
     // GETTERS & SETTERS
     set: function (key, value) {
-        if (key == "timeout") timeout.call(this);
+        if (key === "timeout") timeout.call(this);
         return TK.Widget.prototype.set.call(this, key, value);
     }
 });

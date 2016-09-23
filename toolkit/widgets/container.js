@@ -20,12 +20,12 @@
 (function(w){ 
 function after_hiding() {
     this.__hide_id = false;
-    if (this.options.display_state == "hiding")
+    if (this.options.display_state === "hiding")
         this.set("display_state", "hide");
 }
 function after_showing() {
     this.__hide_id = false;
-    if (this.options.display_state == "showing")
+    if (this.options.display_state === "showing")
         this.set("display_state", "show");
 }
 function enable_draw_self() {

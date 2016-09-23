@@ -21,8 +21,8 @@
 function hide_arrows() {
     if (!this._prev.parentNode) return;
     var E = this.element;
-    if (E.firstChild == this._prev) E.removeChild(this._prev);
-    if (E.lastChild == this._next) E.removeChild(this._next);
+    if (E.firstChild === this._prev) E.removeChild(this._prev);
+    if (E.lastChild === this._next) E.removeChild(this._next);
     TK.remove_class(E, "toolkit-over");
     this.trigger_resize();
 }
@@ -106,7 +106,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         
-        var vert = this.get("direction") == "vertical";
+        var vert = this.get("direction") === "vertical";
         
         /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance */
         this.prev = new TK.Button({class: "toolkit-previous"});
@@ -174,10 +174,10 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             options = {label: options}
         var b    = new TK.Button(options);
         var len  = this.buttons.length;
-        var vert = this.options.direction == "vertical";
-        if (typeof position == "undefined")
+        var vert = this.options.direction === "vertical";
+        if (typeof position === "undefined")
             position = this.buttons.length;
-        if (position == len) {
+        if (position === len) {
             this.buttons.push(b);
             this._container.appendChild(b.element);
         } else {
@@ -211,7 +211,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      *  instance.
      */
     remove_button: function (button) {
-        if (typeof button == "object")
+        if (typeof button === "object")
             button = this.buttons.indexOf(button);
         if (button < 0 || button >= this.buttons.length)
             return;
@@ -251,7 +251,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             var E = this.element;
             TK.remove_class(E, "toolkit-vertical");
             TK.remove_class(E, "toolkit-horizontal");
-            TK.add_class(E, O.direction == "vertical" ? "toolkit-vertical" : "toolkit-horizontal");
+            TK.add_class(E, O.direction === "vertical" ? "toolkit-vertical" : "toolkit-horizontal");
         }
 
         if (I.validate("direction", "auto_arrows") || I.resized) {
@@ -333,14 +333,14 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 this.add_buttons(value);
                 break;
             case "direction":
-                this.prev.set("label", value == "vertical" ? "\u25B2" : "\u25C0");
-                this.next.set("label", value == "vertical" ? "\u25BC" : "\u25B6");
+                this.prev.set("label", value === "vertical" ? "\u25B2" : "\u25C0");
+                this.next.set("label", value === "vertical" ? "\u25BC" : "\u25B6");
                 break;
         }
         return value;
     },
     get: function (key) {
-        if (key == "buttons") return this.buttons;
+        if (key === "buttons") return this.buttons;
         return TK.Container.prototype.get.call(this, key);
     }
 });

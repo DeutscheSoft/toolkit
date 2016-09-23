@@ -222,7 +222,7 @@ w.TK.Graph = w.Graph = $class({
             I.mode = false;
             TK.remove_class(E, "toolkit-filled");
             TK.remove_class(E, "toolkit-outline");
-            TK.add_class(E, O.mode == "line" ?  "toolkit-outline" : "toolkit-filled");
+            TK.add_class(E, O.mode === "line" ?  "toolkit-outline" : "toolkit-filled");
         }
 
         if (I.validate("dots", "type", "width", "height")) {
@@ -276,7 +276,7 @@ w.TK.Graph = w.Graph = $class({
                     break;
                 case "H":
                     f = O.type.length > 1 ? parseFloat(O.type.substr(1)) : 3;
-                    if (i == 0) {
+                    if (i === 0) {
                         i++;
                         s.push(" S" + x[0] + "," + y[0] + " " + x[0] + "," + y[0]);
                     }

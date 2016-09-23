@@ -91,7 +91,7 @@ w.TK.Button = w.Button = $class({
         
         if (I.layout) {
             I.layout = false;
-            if (O.layout == "vertical") {
+            if (O.layout === "vertical") {
                 this.remove_class("toolkit-horizontal");
                 this.add_class("toolkit-vertical");
             } else {

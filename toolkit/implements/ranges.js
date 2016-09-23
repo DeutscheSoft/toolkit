@@ -42,7 +42,7 @@ w.TK.Ranges = w.Ranges = $class({
      */
     add_range: function (from, name) {
         var r;
-        if (typeof from == "function") {
+        if (typeof from === "function") {
             r = from();
         } else if (TK.Ranged.prototype.isPrototypeOf(from)) {
             r = TK.Range(from.options);
@@ -51,14 +51,14 @@ w.TK.Ranges = w.Ranges = $class({
         } else {
             if (name
             && this.options[name]
-            && typeof this.options[name] == "object")
+            && typeof this.options[name] === "object")
                 from = Object.assign({}, this.options[name], from)
             r = new TK.Range(from);
         }
         if (name) {
             this[name] = r;
             this.add_event("set", function (key, value) {
-                if (key == name) {
+                if (key === name) {
                     for (var i in value) {
                         this[name].set(i, value[i]);
                     }

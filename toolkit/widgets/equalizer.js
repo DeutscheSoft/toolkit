@@ -133,11 +133,11 @@ w.TK.Equalizer = w.Equalizer = $class({
           b = options;
         } else {
           options["container"] = this._bands;
-          if (typeof options["range_x"] == "undefined")
+          if (typeof options["range_x"] === "undefined")
               options["range_x"] = function () { return this.range_x; }.bind(this);
-          if (typeof options["range_y"] == "undefined")
+          if (typeof options["range_y"] === "undefined")
               options["range_y"] = function () { return this.range_y; }.bind(this);
-          if (typeof options["range_z"] == "undefined")
+          if (typeof options["range_z"] === "undefined")
               options["range_z"] = function () { return this.range_z; }.bind(this);
           
           options["intersect"] = this.intersect.bind(this);
@@ -177,7 +177,7 @@ w.TK.Equalizer = w.Equalizer = $class({
     
     remove_band: function (h) {
         for (var i = 0; i < this.bands.length; i++) {
-            if (this.bands[i] == h) {
+            if (this.bands[i] === h) {
                 if (this.options.show_bands)
                     this.remove_child(h);
                 h.destroy();

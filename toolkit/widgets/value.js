@@ -20,7 +20,7 @@
 (function(w){
 function value_clicked(e) {
     // TODO: FIXME by finishing the dedicated keyboard widget
-    if (toolkit.os() == "Android") {
+    if (toolkit.os() === "Android") {
         e.preventDefault();
         //e.stopPropagation();
         return false;

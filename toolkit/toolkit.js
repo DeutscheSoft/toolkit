@@ -150,7 +150,7 @@ if ('WeakMap' in w) {
         if (typeof(e) !== "object") throw("Cannot store data for non-objects.");
         var k = data_keys.indexOf(e);
         var r;
-        if (k == -1) {
+        if (k === -1) {
             data_keys.push(e);
             k = data_store.push({}) - 1;
         }
@@ -218,9 +218,9 @@ function element(tag) {
     var i, v, j;
     for (i = 1; i < arguments.length; i++) {
         v = arguments[i]; 
-        if (typeof v == "object") {
+        if (typeof v === "object") {
             set_styles(n, v);
-        } else if (typeof v == "string") {
+        } else if (typeof v === "string") {
             add_class(n, v);
         } else throw("unsupported argument to TK.element");
     }
@@ -297,7 +297,7 @@ function position_left(e, rel) {
     return left + f - (rel ? position_left(rel) : 0);
 }
 function fixed(e) {
-    return getComputedStyle(e).getPropertyValue("position") == "fixed";
+    return getComputedStyle(e).getPropertyValue("position") === "fixed";
 }
 function outer_width(element, margin, width) {
     var m = 0;
@@ -307,7 +307,7 @@ function outer_width(element, margin, width) {
         m += parseFloat(cs.getPropertyValue("margin-right"));
     }
     if (typeof width !== "undefined") {
-        if (box_sizing(element) == "content-box") {
+        if (box_sizing(element) === "content-box") {
             var css = css_space(element, "padding", "border");
             width -= css.left + css.right;
         }
@@ -329,7 +329,7 @@ function outer_height(element, margin, height) {
         m += parseFloat(cs.getPropertyValue("margin-bottom"));
     }
     if (typeof height !== "undefined") {
-        if (box_sizing(element) == "content-box") {
+        if (box_sizing(element) === "content-box") {
             var css = css_space(element, "padding", "border");
             height -= css.top + css.bottom;
         }
@@ -347,7 +347,7 @@ function inner_width(element, width) {
     var css = css_space(element, "padding", "border");
     var x = css.left + css.right;
     if (typeof width !== "undefined") {
-        if (box_sizing(element) == "border-box")
+        if (box_sizing(element) === "border-box")
             width += x;
         // TODO: fixme
         if (width < 0) return 0;
@@ -362,7 +362,7 @@ function inner_height(element, height) {
     var css = css_space(element, "padding", "border");
     var y = css.top + css.bottom;
     if (typeof height !== "undefined") {
-        if (box_sizing(element) == "border-box")
+        if (box_sizing(element) === "border-box")
             height += y;
         // TODO: fixme
         if (height < 0) return 0;
@@ -391,7 +391,7 @@ function css_space(element) {
         for (var p in o) {
             if (o.hasOwnProperty(p)) {
                 s = a + "-" + p;
-                if (a == "border") s += "-width";
+                if (a === "border") s += "-width";
             }
             o[p] += parseFloat(cs.getPropertyValue(s));
         }
@@ -457,7 +457,7 @@ function FORMAT(fmt) {
         s += JSON.stringify(fmt.substr(last, regexp.lastIndex - res[0].length - last));
         s += "+";
         argname = "a"+argnum;
-        if (args.indexOf(argname) == -1)
+        if (args.indexOf(argname) === -1)
             args.push(argname);
         if (argnum+1 < arguments.length) {
             argname = "(" + sprintf(arguments[argnum+1].replace("%", "%s"), argname) + ")";
@@ -533,7 +533,7 @@ function sprintf(fmt) {
 
         c = fmt.charCodeAt(i);
 
-        if (c == 37) {
+        if (c === 37) {
             ret.push("%");
             continue;
         }
@@ -640,7 +640,7 @@ function seat_svg(e) {
         if (x < 0.5) l -= x;
         else l += (1 - x);
     }
-    if (e.parentElement && get_style(e.parentElement, "text-align") == "center")
+    if (e.parentElement && get_style(e.parentElement, "text-align") === "center")
         l += 0.5;
     e.style.marginLeft = l + "px";
     //console.log(l);

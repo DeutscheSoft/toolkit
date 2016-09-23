@@ -162,9 +162,9 @@ w.TK.Select = w.Select = $class({
         var li = TK.element("li", "toolkit-option");
         var entry = {};
         entry.element = li;
-        entry.value = (typeof ent == "string") ? ent
+        entry.value = (typeof ent === "string") ? ent
                                                : ent.value;
-        entry.title = (typeof ent == "string")
+        entry.title = (typeof ent === "string")
                        ? ent : (typeof ent.title != "undefined")
                        ? ent.title : ent.value.toString()
         
