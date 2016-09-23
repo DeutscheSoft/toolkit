@@ -790,8 +790,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                             zhandle.setAttribute("cy", 0);
                             zhandle.setAttribute("r", O.z_handle_size / 2);
                             break;
-                        case "right":
                         default:
+                            TK.warn("Unsupported z_handle setting '%o'. Defaulting to '%o'",
+                                    O.z_handle, "right");
+                            O.z_handle = "right";
+                        case "right":
                             zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
                             zhandle.setAttribute("cy", 0);
                             zhandle.setAttribute("r",  O.z_handle_size / 2);
@@ -816,8 +819,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 default:
                     // all other handle types (lines/blocks)
                     switch (O.z_handle) {
-                        case "top-left":
                         default:
+                            TK.warn("Unsupported z_handle setting '%o'. Defaulting to '%o'",
+                                    O.z_handle, "right");
+                            O.z_handle = "top-left";
+                        case "top-left":
                             zhandle.setAttribute("x",      x);
                             zhandle.setAttribute("y",      y);
                             zhandle.setAttribute("width",  O.z_handle_size);
