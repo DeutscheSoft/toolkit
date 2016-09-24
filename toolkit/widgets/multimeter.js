@@ -316,7 +316,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
             case "bottoms":
                 var k = key.substr(0, key.length-1);
                 for (var i = 0; i < M.length; i++)
-                    M[i].set(k, typeof value[i] !== "undefined" ? value[i] : O[k]);
+                    M[i].set(k, (value[i] === void 0) ? O[k] : value[i]);
                 break;
             default:
                 if (key !== "container"
