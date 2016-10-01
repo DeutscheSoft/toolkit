@@ -393,7 +393,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.__active = false;
         this._add = .5;
         this._tdist = false;
-        this._zinjected = false;
         this._zhandling = false;
         this._zwheel = false;
         this._sticky = false;
@@ -756,16 +755,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         
         // Z-HANDLE
         if (O.z_handle === false) {
-            if (this._zinjected) {
-                this._zhandle.remove();
-                this._zinjected = false;
-            }
+            if (this._zhandle.parentNode) this._zhandle.remove();
         } else {
             var zhandle = this._zhandle;
-            if (!this._zinjected) {
-                this.element.appendChild(this._zhandle);
-                this._zinjected = true;
-            }
+            if (!zhandle.parentNode)
+                this.element.appendChild(zhandle);
             switch (O.mode) {
                 // circular handles
                 case "circular":
