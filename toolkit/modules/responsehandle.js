@@ -178,7 +178,7 @@ function mousemove(e) {
             || O.mode === "block-bottom" && O.z_handle === "top-right") {
             // movement to top
             this.set("z",
-                this.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz))));
+                range_z.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz))));
             this.fire_event("zchanged", O.z);
             this._pageX = ev.pageX;
             this._pageY = ev.pageY;
