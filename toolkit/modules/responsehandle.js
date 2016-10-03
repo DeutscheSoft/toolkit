@@ -330,6 +330,72 @@ function position_to_vector(pos) {
     return vec;
 }
 
+var Z_HANDLE_SIZE_corner = [ 1, 1, 0, 0 ];
+var Z_HANDLE_SIZE_horiz = [ 1, 0, 0, 1 ];
+var Z_HANDLE_SIZE_vert = [ 0, 1, 1, 0 ];
+
+function Z_HANDLE_SIZE(pos) {
+    switch (pos) {
+    default:
+        TK.warn("unsupported z_handle setting", pos);
+    case "top-right":
+    case "bottom-right":
+    case "bottom-left":
+    case "top-left":
+        return Z_HANDLE_SIZE_corner;
+    case "top":
+    case "bottom":
+        return Z_HANDLE_SIZE_vert;
+    case "left":
+    case "right":
+        return Z_HANDLE_SIZE_horiz;
+    }
+};
+
+function get_zhandle_size(O, width, height) {
+    var vec = Z_HANDLE_SIZE(O.z_handle);
+    var z_handle_size = O.z_handle_size;
+    var z_handle_centered = O.z_handle_centered;
+
+    if (z_handle_centered < 1) {
+        width *= z_handle_centered;
+        height *= z_handle_centered;
+    } else {
+        width = z_handle_centered;
+        height = z_handle_centered;
+    }
+
+    width = vec[0] * z_handle_size + vec[2] * width;
+    height = vec[1] * z_handle_size + vec[3] * height;
+
+    if (width < z_handle_size) width = z_handle_size;
+    if (height < z_handle_size) height = z_handle_size;
+
+    return [width, height];
+}
+
+var Z_HANDLE_POS = {
+    "top":          [ 0, -1 ],
+    "top-right":    [ 1, -1 ],
+    "right":        [ 1, 0 ],
+    "bottom-right": [ 1, 1 ],
+    "bottom":       [ 0, 1 ],
+    "bottom-left":  [ -1, 1 ],
+    "left":         [ -1, 0 ],
+    "top-left":     [ -1, -1 ]
+};
+
+function get_zhandle_position(O, width, height, zhandle_size) {
+    var x = width/2 - zhandle_size[0]/2;
+    var y = height/2 - zhandle_size[1]/2;
+    var vec = Z_HANDLE_POS[O.z_handle] || Z_HANDLE_POS["top-right"];
+
+    x += vec[0] * (width - zhandle_size[0])/2;
+    y += vec[1] * (height - zhandle_size[1])/2;
+
+    return [x, y];
+}
+
 /**
  * @class TK.ResponseHandle
  * @extends TK.Widget
@@ -784,97 +850,34 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         
         
         // Z-HANDLE
+        var zhandle = this._zhandle;
+
         if (O.z_handle === false) {
-            if (this._zhandle.parentNode) this._zhandle.remove();
+            if (zhandle.parentNode) zhandle.remove();
         } else {
-            var zhandle = this._zhandle;
             if (!zhandle.parentNode)
                 this.element.appendChild(zhandle);
-            switch (O.mode) {
-                // circular handles
-                case "circular":
-                    /*
-                     * position the z_handle on the circle.
-                     */
-                    var vec = position_to_vector(O.z_handle);
-                    /* width and height are equal here */
-                    zhandle.setAttribute("cx", ((width - O.z_handle_size) * vec[0]/2).toFixed(1));
-                    zhandle.setAttribute("cy", (-(width - O.z_handle_size) * vec[1]/2).toFixed(1));
-                    zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
-                    break;
-                default:
-                    // all other handle types (lines/blocks)
-                    switch (O.z_handle) {
-                        default:
-                            TK.warn("Unsupported z_handle setting '%o'. Defaulting to '%o'",
-                                    O.z_handle, "right");
-                            O.z_handle = "top-left";
-                        case "top-left":
-                            zhandle.setAttribute("x",      x);
-                            zhandle.setAttribute("y",      y);
-                            zhandle.setAttribute("width",  O.z_handle_size);
-                            zhandle.setAttribute("height", O.z_handle_size);
-                            break;
-                        case "top":
-                            var _s = O.z_handle_centered < 1
-                                   ? width * O.z_handle_centered
-                                   : O.z_handle_centered;
-                            _s = Math.max(_s, O.z_handle_size);
-                            zhandle.setAttribute("x",      x + width / 2 - _s / 2);
-                            zhandle.setAttribute("y",      y);
-                            zhandle.setAttribute("width",  _s);
-                            zhandle.setAttribute("height", O.z_handle_size);
-                            break;
-                        case "top-right":
-                            zhandle.setAttribute("x",      x + width - O.z_handle_size);
-                            zhandle.setAttribute("y",      y);
-                            zhandle.setAttribute("width",  O.z_handle_size);
-                            zhandle.setAttribute("height", O.z_handle_size);
-                            break;
-                        case "left":
-                            var _s = O.z_handle_centered < 1
-                                   ? height * O.z_handle_centered
-                                   : O.z_handle_centered;
-                            _s = Math.max(_s, O.z_handle_size);
-                            zhandle.setAttribute("x",      x);
-                            zhandle.setAttribute("y",      y + height / 2 - _s / 2);
-                            zhandle.setAttribute("width",  O.z_handle_size);
-                            zhandle.setAttribute("height", _s);
-                            break;
-                        case "right":
-                            var _s = O.z_handle_centered < 1
-                                   ? height * O.z_handle_centered
-                                   : O.z_handle_centered;
-                            _s = Math.max(_s, O.z_handle_size);
-                            zhandle.setAttribute("x",      x + width - O.z_handle_size);
-                            zhandle.setAttribute("y",      y + height / 2 - _s / 2);
-                            zhandle.setAttribute("width",  O.z_handle_size);
-                            zhandle.setAttribute("height", _s);
-                            break;
-                        case "bottom-left":
-                            zhandle.setAttribute("x",      x);
-                            zhandle.setAttribute("y",      y + height - O.z_handle_size);
-                            zhandle.setAttribute("width",  O.z_handle_size);
-                            zhandle.setAttribute("height", O.z_handle_size);
-                            break;
-                        case "bottom":
-                            var _s = O.z_handle_centered < 1
-                                   ? width * O.z_handle_centered
-                                   : O.z_handle_centered;
-                            _s = Math.max(_s, O.z_handle_size);
-                            zhandle.setAttribute("x",      x + width / 2 - _s / 2);
-                            zhandle.setAttribute("y",      y + height - O.z_handle_size);
-                            zhandle.setAttribute("width",  _s);
-                            zhandle.setAttribute("height", O.z_handle_size);
-                            break;
-                        case "bottom-right":
-                            zhandle.setAttribute("x",      x + width - O.z_handle_size);
-                            zhandle.setAttribute("y",      y + height - O.z_handle_size);
-                            zhandle.setAttribute("width",  O.z_handle_size);
-                            zhandle.setAttribute("height", O.z_handle_size);
-                            break;
-                    }
-                    break;
+
+            if (O.mode === "circular") {
+                /*
+                 * position the z_handle on the circle.
+                 */
+                var vec = position_to_vector(O.z_handle);
+                /* width and height are equal here */
+                zhandle.setAttribute("cx", ((width - O.z_handle_size) * vec[0]/2).toFixed(1));
+                zhandle.setAttribute("cy", (-(width - O.z_handle_size) * vec[1]/2).toFixed(1));
+                zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
+            } else {
+                // all other handle types (lines/blocks)
+                var vec = get_zhandle_size(O, width, height);
+
+                zhandle.setAttribute("width", vec[0].toFixed(1));
+                zhandle.setAttribute("height", vec[1].toFixed(1));
+
+                var vec = get_zhandle_position(O, width, height, vec);
+
+                zhandle.setAttribute("x", (x+vec[0]).toFixed(1));
+                zhandle.setAttribute("y", (y+vec[1]).toFixed(1));
             }
         }
         
