@@ -300,6 +300,36 @@ function zhandledown(e) {
     this._zhandling = true;
 }
 
+
+/* The following functions turn positioning options
+ * into somethine we can calculate with */
+
+function ROT(a) {
+    return [ +Math.sin(+a), +Math.cos(+a) ];
+}
+
+var POSITIONS = {
+    "top":          ROT(0),
+    "top-right":    ROT(Math.PI/4),
+    "right":        ROT(Math.PI/2),
+    "bottom-right": ROT(Math.PI*3/4),
+    "bottom":       ROT(Math.PI),
+    "bottom-left":  ROT(Math.PI*5/4),
+    "left":         ROT(Math.PI*3/2),
+    "top-left":     ROT(Math.PI*7/4),
+};
+
+function position_to_vector(pos) {
+    var vec = POSITIONS[pos];
+
+    if (!vec) {
+        TK.warn("Unknown position: ", pos);
+        vec = POSITIONS.right;
+    }
+
+    return vec;
+}
+
 /**
  * @class TK.ResponseHandle
  * @extends TK.Widget
@@ -763,52 +793,14 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             switch (O.mode) {
                 // circular handles
                 case "circular":
-                    switch (O.z_handle) {
-                        case "top-left":
-                            zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
-                            zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
-                            zhandle.setAttribute("r",  O.z_handle_size / 2);
-                            break;
-                        case "top":
-                            zhandle.setAttribute("cx", 0);
-                            zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
-                            zhandle.setAttribute("r",  O.z_handle_size / 2);
-                            break;
-                        case "top-right":
-                            zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
-                            zhandle.setAttribute("cy", height/-2 + O.z_handle_size / 2);
-                            zhandle.setAttribute("r",  O.z_handle_size / 2);
-                            break;
-                        case "left":
-                            zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
-                            zhandle.setAttribute("cy", 0);
-                            zhandle.setAttribute("r", O.z_handle_size / 2);
-                            break;
-                        default:
-                            TK.warn("Unsupported z_handle setting '%o'. Defaulting to '%o'",
-                                    O.z_handle, "right");
-                            O.z_handle = "right";
-                        case "right":
-                            zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
-                            zhandle.setAttribute("cy", 0);
-                            zhandle.setAttribute("r",  O.z_handle_size / 2);
-                            break;
-                        case "bottom-left":
-                            zhandle.setAttribute("cx", width/-2 + O.z_handle_size / 2);
-                            zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
-                            zhandle.setAttribute("r", O.z_handle_size / 2);
-                            break;
-                        case "bottom":
-                            zhandle.setAttribute("cx", 0);
-                            zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
-                            zhandle.setAttribute("r",  O.z_handle_size / 2);
-                            break;
-                        case "bottom-right":
-                            zhandle.setAttribute("cx", width/2 - O.z_handle_size / 2);
-                            zhandle.setAttribute("cy", height/2 - O.z_handle_size / 2);
-                            zhandle.setAttribute("r",  O.z_handle_size / 2);
-                            break;
-                    }
+                    /*
+                     * position the z_handle on the circle.
+                     */
+                    var vec = position_to_vector(O.z_handle);
+                    /* width and height are equal here */
+                    zhandle.setAttribute("cx", ((width - O.z_handle_size) * vec[0]/2).toFixed(1));
+                    zhandle.setAttribute("cy", (-(width - O.z_handle_size) * vec[1]/2).toFixed(1));
+                    zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
                     break;
                 default:
                     // all other handle types (lines/blocks)
