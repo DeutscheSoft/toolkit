@@ -396,6 +396,62 @@ function get_zhandle_position(O, width, height, zhandle_size) {
     return [x, y];
 }
 
+var LABEL_ALIGN = {
+    "top":      "middle",
+    "bottom":   "middle",
+    "left":     "end",
+    "top-left": "end",
+    "bottom-left":"end",
+    "right":    "start",
+    "top-right":"start",
+    "bottom-right":"start",
+    "center" : "middle",
+};
+
+function is_label_inside(mode, pos) {
+    if (mode === "block-left" || mode === "block-right") {
+        if (pos === "center") return true;
+        if (pos.search(mode.substr(7)) !== -1) return true;
+    } else if (mode === "block-top" || mode === "block-bottom") {
+        /* FIXME: this is not at all consistent with the above */
+        return true;
+    } else if (mode === "line-horizontal") {
+        return true;
+    }
+
+    return false;
+}
+
+function get_label_align(mode, pos) {
+    var align;
+
+    if (pos === "center") {
+        return mode === "block-left" ? "end" : "start";
+    }
+
+    align = LABEL_ALIGN[pos];
+
+    if (is_label_inside(mode, pos)) {
+        if (align === "start") return "end";
+        if (align === "end") return "start";
+    }
+
+    return align;
+}
+
+/* calculates the actual label positions based on given alignment
+ * and dimensions */
+function get_label_position(align, x, y, width, height) {
+    switch (align) {
+    case "start":
+        return [ x, y, x+width, y+height ];
+    case "middle":
+        return [ x-width/2, y, x+width/2, y+height ];
+    case "end":
+        return [ x-width, y, x, y+height ];
+    }
+}
+
 /**
  * @class TK.ResponseHandle
  * @extends TK.Widget
@@ -905,9 +961,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             w = Math.max(w, c[i].getComputedTextLength());
         }
         
-        var inter = [];
-        var pos = false;
-        var align;
 
         var bbox;
 
@@ -920,470 +973,271 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
 
         bbox = { width: w, height: bbox.height };
         
-        var x1, y1, xl, yl, align, x2, y2, i;
+        var xl, yl, i;
         var pref = O.preferences;
+        var area = 0;
+        var pos = {};
         var tmp;
 
-        switch (O.mode) {
+        /*
+         * Calculate possible positions of the labels and calculate their intersections. Choose
+         * that position which has the smallest intersection area with all other handles and labels
+         */
+        for (i = 0; i < pref.length; i++) {
+            switch (O.mode) {
             case "circular":
-                for (i = 0; i < pref.length; i++) {
-                    switch (pref[i]) {
-                        case "top":
-                            x1 = x - bbox.width / 2;
-                            y1 = y - height / 2 - m - bbox.height;
-                            xl = x;
-                            yl = y1;
-                            align = "middle";
-                            break;
-                        case "right":
-                            x1 = x + width / 2 + m;
-                            y1 = y - bbox.height / 2;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "bottom":
-                            x1 = x - bbox.height / 2;
-                            y1 = y + height / 2 + m;
-                            xl = x;
-                            yl = y1;
-                            align = "middle";
-                            break;
-                        case "left":
-                            x1 = x - width / 2 - m - bbox.width;
-                            y1 = y - bbox.height / 2;
-                            xl = x1 + bbox.width;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        default:
-                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                            continue;
-                    }
-                    x2 = x1 + bbox.width;
-                    y2 = y1 + bbox.height;
-
-                    tmp = O.intersect(x1, y1, x2, y2, this);
-                    inter.push(tmp);
-                    tmp.x1 = x1;
-                    tmp.y1 = y1;
-                    tmp.x2 = x2;
-                    tmp.y2 = y2;
-                    tmp.xl = xl;
-                    tmp.yl = yl;
-                    tmp.align = align;
-                    if (!tmp.intersect) {
-                        pos = tmp;
-                        break;
-                    }
+                switch (pref[i]) {
+                case "top":
+                    yl = y - height / 2 - m - bbox.height;
+                    xl = x;
+                    break;
+                case "right":
+                    xl = x + width / 2 + m;
+                    yl = y - bbox.height / 2;
+                    break;
+                case "bottom":
+                    yl = y + height / 2 + m;
+                    xl = x;
+                    break;
+                case "left":
+                    xl = x - width / 2 - m;
+                    yl = y - bbox.height / 2;
+                    break;
+                default:
+                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                    continue;
                 }
                 break;
             case "line-vertical":
-                for (i = 0; i < pref.length; i++) {
-                    switch (pref[i]) {
-                        case "top-left":
-                            x1 = x - m - bbox.width;
-                            y1 = y + m;
-                            xl = x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "top-right":
-                            x1 = x + width + m;
-                            y1 = y + m;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "bottom-left":
-                            x1 = x - m - bbox.width;
-                            y1 = y + height - bbox.height - m;
-                            xl = x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "bottom-right":
-                            x1 = x + width + m;
-                            y1 = y + height - bbox.height - m;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "left":
-                            x1 = x - m - bbox.width;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x1 + bbox.width;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "right":
-                            x1 = x + width + m;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        default:
-                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                            continue;
-                    }
-                    x2 = x1 + bbox.width;
-                    y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, this);
-                    inter.push(tmp);
-                    tmp.x1 = x1;
-                    tmp.y1 = y1;
-                    tmp.x2 = x2;
-                    tmp.y2 = y2;
-                    tmp.xl = xl;
-                    tmp.yl = yl;
-                    tmp.align = align;
-                    if (!tmp.intersect) {
-                        pos = tmp;
-                        break;
-                    }
+                switch (pref[i]) {
+                case "top-left":
+                    yl = y + m;
+                    xl = x - m;
+                    break;
+                case "top-right":
+                    xl = x + width + m;
+                    yl = y + m;
+                    break;
+                case "bottom-left":
+                    yl = y + height - bbox.height - m;
+                    xl = x - m;
+                    break;
+                case "bottom-right":
+                    xl = x + width + m;
+                    yl = y + height - bbox.height - m;
+                    break;
+                case "left":
+                    xl = x - m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "right":
+                    xl = x + width + m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                default:
+                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                    continue;
                 }
                 break;
             case "line-horizontal":
-                for (i = 0; i < pref.length; i++) {
-                    switch (pref[i]) {
-                        case "top-left":
-                            x1 = x + m;
-                            y1 = y - m - bbox.height;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "top-right":
-                            x1 = x + width - bbox.width - m;
-                            y1 = y - m - bbox.height;
-                            xl = x + width - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "bottom-left":
-                            x1 = x + m;
-                            y1 = y + height + m;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "bottom-right":
-                            x1 = x + width - bbox.width - m;
-                            y1 = y - m - bbox.height;
-                            xl = x + width - m;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "top":
-                            x1 = x + width / 2 - bbox.width / 2;
-                            y1 = y - m - bbox.height;
-                            xl = x + width / 2;
-                            yl = y1;
-                            align = "middle";
-                            break;
-                        case "bottom":
-                            x1 = x + width / 2 - bbox.width / 2;
-                            y1 = y + height + m;
-                            xl = x + width / 2;
-                            yl = y1;
-                            align = "middle";
-                            break;
-                        default:
-                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                            continue;
-                    }
-                    x2 = x1 + bbox.width;
-                    y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, this);
-                    inter.push(tmp);
-                    tmp.x1 = x1;
-                    tmp.y1 = y1;
-                    tmp.x2 = x2;
-                    tmp.y2 = y2;
-                    tmp.xl = xl;
-                    tmp.yl = yl;
-                    tmp.align = align;
-                    if (!tmp.intersect) {
-                        pos = tmp;
-                        break;
-                    }
+                switch (pref[i]) {
+                case "top-left":
+                    xl = x + m;
+                    yl = y - m - bbox.height;
+                    break;
+                case "top-right":
+                    yl = y - m - bbox.height;
+                    xl = x + width - m;
+                    break;
+                case "bottom-left":
+                    xl = x + m;
+                    yl = y + height + m;
+                    break;
+                case "bottom-right":
+                    yl = y - m - bbox.height;
+                    xl = x + width - m;
+                    break;
+                case "top":
+                    yl = y - m - bbox.height;
+                    xl = x + width / 2;
+                    break;
+                case "bottom":
+                    yl = y + height + m;
+                    xl = x + width / 2;
+                    break;
+                default:
+                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                    continue;
                 }
                 break;
             case "block-left":
-                for (i = 0; i < pref.length; i++) {
-                    switch (pref[i]) {
-                        case "top-left":
-                            x1 = m;
-                            y1 = y + m;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "top":
-                            x1 = rnd.x - m - bbox.width;
-                            y1 = y + m;
-                            xl = rnd.x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "top-right":
-                            x1 = width + m;
-                            y1 = y + m;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "left":
-                            x1 = m;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "center":
-                            x1 = rnd.x - m - bbox.width;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = rnd.x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "right":
-                            x1 = width + m;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "bottom-left":
-                            x1 = m;
-                            y1 = y + height - m - bbox.height;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "bottom":
-                            x1 = rnd.x - m - bbox.width;
-                            y1 = y + height - m - bbox.height;
-                            xl = rnd.x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "bottom-right":
-                            x1 = width + m;
-                            y1 = y + height - m - bbox.height;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        default:
-                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                            continue;
-                    }
-                    x2 = x1 + bbox.width;
-                    y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, this);
-                    inter.push(tmp);
-                    tmp.x1 = x1;
-                    tmp.y1 = y1;
-                    tmp.x2 = x2;
-                    tmp.y2 = y2;
-                    tmp.xl = xl;
-                    tmp.yl = yl;
-                    tmp.align = align;
-                    if (!tmp.intersect) {
-                        pos = tmp;
-                        break;
-                    }
+                switch (pref[i]) {
+                case "top-left":
+                    xl = x + m;
+                    yl = y + m;
+                    break;
+                case "top":
+                    xl = x - m;
+                    yl = y + m;
+                    break;
+                case "top-right":
+                    xl = width + m;
+                    yl = y + m;
+                    break;
+                case "left":
+                    xl = m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "center":
+                    xl = x + width - m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "right":
+                    xl = width + m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "bottom-left":
+                    xl = m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                case "bottom":
+                    xl = x - m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                case "bottom-right":
+                    xl = width + m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                default:
+                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                    continue;
                 }
                 break;
             case "block-right":
-                for (i = 0; i < pref.length; i++) {
-                    switch (pref[i]) {
-                        case "top-left":
-                            x1 = x - m - bbox.width;
-                            y1 = y + m;
-                            xl = x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "top":
-                            x1 = x + m;
-                            y1 = y + m;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "top-right":
-                            x1 = width + x - m - bbox.width;
-                            y1 = y + m;
-                            xl = width + x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "left":
-                            x1 = x - m - bbox.width;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "center":
-                            x1 = x + m;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "right":
-                            x1 = width + x - m - bbox.width;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = width + x + m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "bottom-left":
-                            x1 = x - m - bbox.width;
-                            y1 = y + height - m - bbox.height;
-                            xl = x - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "bottom":
-                            x1 = x + m;
-                            y1 = y + height - m - bbox.height;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "bottom-right":
-                            x1 = width + x - m - bbox.width;
-                            y1 = y + height - m - bbox.height;
-                            xl = width + x + m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        default:
-                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                            continue;
-                    }
-                    x2 = x1 + bbox.width;
-                    y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, this);
-                    inter.push(tmp);
-                    tmp.x1 = x1;
-                    tmp.y1 = y1;
-                    tmp.x2 = x2;
-                    tmp.y2 = y2;
-                    tmp.xl = xl;
-                    tmp.yl = yl;
-                    tmp.align = align;
-                    if (!tmp.intersect) {
-                        pos = tmp;
-                        break;
-                    }
+                switch (pref[i]) {
+                case "top-left":
+                    xl = x - m;
+                    yl = y + m;
+                    break;
+                case "top":
+                    xl = x + m;
+                    yl = y + m;
+                    break;
+                case "top-right":
+                    xl = width + x - m;
+                    yl = y + m;
+                    break;
+                case "left":
+                    xl = x - m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "center":
+                    xl = x + m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "right":
+                    xl = x + width - m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "bottom-left":
+                    xl = x - m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                case "bottom":
+                    xl = x + m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                case "bottom-right":
+                    xl = width + x + m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                default:
+                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                    continue;
                 }
                 break;
             case "block-top":
             case "block-bottom":
-                for (var i = 0; i < pref.length; i++) {
-                    switch (pref[i]) {
-                        case "top-left":
-                            x1 = x + m;
-                            y1 = y + m;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "top":
-                            x1 = x + width / 2 - bbox.width / 2;
-                            y1 = y + m;
-                            xl = x + width / 2;
-                            yl = y1;
-                            align = "middle";
-                            break;
-                        case "top-right":
-                            x1 = x + width - m - bbox.width;
-                            y1 = y + m;
-                            xl = x + width - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "left":
-                            x1 = x + m;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "center":
-                            x1 = x + width / 2 - bbox.width / 2;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x + width / 2;
-                            yl = y1;
-                            align = "middle";
-                            break;
-                        case "right":
-                            x1 = x + width - m - bbox.width;
-                            y1 = y + height / 2 - bbox.height / 2;
-                            xl = x + width - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        case "bottom-left":
-                            x1 = x + m;
-                            y1 = y + height - m - bbox.height;
-                            xl = x1;
-                            yl = y1;
-                            align = "start";
-                            break;
-                        case "bottom":
-                            x1 = x + width / 2 - bbox.width / 2;
-                            y1 = y + height - m - bbox.height;
-                            xl = x + width / 2;
-                            yl = y1;
-                            align = "middle";
-                            break;
-                        case "bottom-right":
-                            x1 = x + width - m - bbox.width;
-                            y1 = y + height - m - bbox.height;
-                            xl = x + width - m;
-                            yl = y1;
-                            align = "end";
-                            break;
-                        default:
-                            TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                            continue;
-                    }
-                    x2 = x1 + bbox.width;
-                    y2 = y1 + bbox.height;
-                    tmp = O.intersect(x1, y1, x2, y2, this);
-                    inter.push(tmp);
-                    tmp.x1 = x1;
-                    tmp.y1 = y1;
-                    tmp.x2 = x2;
-                    tmp.y2 = y2;
-                    tmp.xl = xl;
-                    tmp.yl = yl;
-                    tmp.align = align;
-                    if (!tmp.intersect) {
-                        pos = tmp;
-                        break;
-                    }
+                switch (pref[i]) {
+                case "top-left":
+                    xl = x + m;
+                    yl = y + m;
+                    break;
+                case "top":
+                    xl = x + width / 2;
+                    yl = y + m;
+                    break;
+                case "top-right":
+                    xl = x + width - m;
+                    yl = y + m;
+                    break;
+                case "left":
+                    xl = x + m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "center":
+                    xl = x + width / 2;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "right":
+                    xl = x + width - m;
+                    yl = y + height / 2 - bbox.height / 2;
+                    break;
+                case "bottom-left":
+                    xl = x + m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                case "bottom":
+                    xl = x + width / 2;
+                    yl = y + height - m - bbox.height;
+                    break;
+                case "bottom-right":
+                    xl = x + width - m;
+                    yl = y + height - m - bbox.height;
+                    break;
+                default:
+                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
+                    continue;
                 }
                 break;
+            }
+
+            /* get alignment */
+
+            var align = get_label_align(O.mode, pref[i]);
+
+            /* calculate the actual label bounding box using anchor and dimensions */
+
+            var label_position = get_label_position(align, xl, yl, bbox.width, bbox.height);
+
+            tmp = O.intersect(label_position[0],
+                              label_position[1],
+                              label_position[2],
+                              label_position[3],
+                              this);
+
+            if (area === 0 || tmp.intersect < area) {
+                area = tmp.intersect;
+                pos.x1 = label_position[0];
+                pos.y1 = label_position[1];
+                pos.x2 = label_position[2];
+                pos.y2 = label_position[3];
+                pos.xl = xl;
+                pos.yl = yl;
+                pos.align = align;
+
+                /* there is no intersections, we are done */
+                if (area === 0) break;
+            }
         }
-        if (pos === false) pos = inter.sort(function (a, b) {
-            return a.intersect - b.intersect
-        })[0];
+
+        this.label = pos;
         this._label.setAttribute("x", (pos.xl) + "px");
         this._label.setAttribute("y", (pos.yl) + "px");
         this._label.setAttribute("text-anchor", pos.align);
         var c = this._label.childNodes;
         for (var i = 0; i < c.length; i++)
             c[i].setAttribute("x", (pos.xl) + "px");
-        this.label = {x1: pos.x1, y1: pos.y1, x2: pos.x2, y2: pos.y2};
-                
         
         // LINES
         switch (O.mode) {
