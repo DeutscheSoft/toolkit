@@ -365,7 +365,7 @@ w.TK.Pager = w.Pager = $class({
      * Opens the last page of the pager. Returns <code>true</code> if a
      * last page exists, <code>false</code> otherwise.
      *
-     * @method TK.Pager#first
+     * @method TK.Pager#last
      */
     last: function() {
         if (this.pages.length) {
@@ -379,7 +379,7 @@ w.TK.Pager = w.Pager = $class({
      * Opens the next page of the pager. Returns <code>true</code> if a
      * next page exists, <code>false</code> otherwise.
      *
-     * @method TK.Pager#first
+     * @method TK.Pager#next
      */
     next: function() {
         var c = this.options.show;
@@ -389,7 +389,7 @@ w.TK.Pager = w.Pager = $class({
      * Opens the previous page of the pager. Returns <code>true</code> if a
      * previous page exists, <code>false</code> otherwise.
      *
-     * @method TK.Pager#first
+     * @method TK.Pager#prev
      */
     prev: function() {
         var c = this.options.show;
