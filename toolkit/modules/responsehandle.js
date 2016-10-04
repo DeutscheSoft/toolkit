@@ -683,7 +683,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 width  = Math.max(O.min_size, rnd.z);
                 height = width;
                 _handle.setAttribute("r", width / 2);
-                this.element.setAttribute("transform",  "translate(" + x + "," + y + ")");
+                _handle.setAttribute("cx", x.toFixed(1));
+                _handle.setAttribute("cy", y.toFixed(1));
+                this.element.setAttribute("transform",  "translate(0,0)");
                 this.handle = {
                     x1: x - width / 2,
                     y1: y - width / 2,
@@ -864,8 +866,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                  */
                 var vec = position_to_vector(O.z_handle);
                 /* width and height are equal here */
-                zhandle.setAttribute("cx", ((width - O.z_handle_size) * vec[0]/2).toFixed(1));
-                zhandle.setAttribute("cy", (-(width - O.z_handle_size) * vec[1]/2).toFixed(1));
+                zhandle.setAttribute("cx", (x+(width - O.z_handle_size) * vec[0]/2).toFixed(1));
+                zhandle.setAttribute("cy", (y+-(width - O.z_handle_size) * vec[1]/2).toFixed(1));
                 zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
             } else {
                 // all other handle types (lines/blocks)
@@ -967,8 +969,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     tmp.y1 = y1;
                     tmp.x2 = x2;
                     tmp.y2 = y2;
-                    tmp.xl = xl - x;
-                    tmp.yl = yl - y;
+                    tmp.xl = xl;
+                    tmp.yl = yl;
                     tmp.align = align;
                     if (!tmp.intersect) {
                         pos = tmp;
