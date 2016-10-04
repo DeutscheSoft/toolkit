@@ -73,7 +73,7 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
    * Toggles a CSS class from a DOM node.
    * @param {HTMLElement|SVGElement} node - The DOM node.
    * @param {string} name - The class name.
-   * @function TK.remove_class
+   * @function TK.toggle_class
    */
   toggle_class = function (e, cls, cond) {
       /* The second argument to toggle is not implemented in IE,
@@ -179,8 +179,17 @@ if ('getComputedStyle' in w) {
   };
 }
 
-function get_max_time(s) {
-    var ret = 0, i, tmp;
+function get_max_time(string) {
+   /** 
+   * Returns the maximum value (float)  of a comma separated string. It is used
+   * to find the longest CSS animation in a set of multiple animations.
+   * @param {string} string - The comma separated string.
+   * @function TK.get_max_time
+   * @returns {number}
+   * @example
+   * get_max_time(get_style(DOMNode, "animation-duration"));
+   */
+    var ret = 0, i, tmp, s = string;
 
     if (typeof(s) === "string") {
         s = s.split(",");
@@ -197,23 +206,59 @@ function get_max_time(s) {
     return ret|0;
 }
 
-function get_duration(e) {
-    return Math.max(get_max_time(get_style(e, "animation-duration"))
-                  + get_max_time(get_style(e, "animation-delay")),
-                    get_max_time(get_style(e, "transition-duration"))
-                  + get_max_time(get_style(e, "transition-delay")));
+function get_duration(element) {
+   /** 
+   * Returns the longest animation duration of CSS animations and transitions.
+   * @param {HTMLElement} element - The element to evalute the animation duration for.
+   * @function TK.get_duration
+   * @returns {number}
+   */
+    return Math.max(get_max_time(get_style(element, "animation-duration"))
+                  + get_max_time(get_style(element, "animation-delay")),
+                    get_max_time(get_style(element, "transition-duration"))
+                  + get_max_time(get_style(element, "transition-delay")));
 }
 
 function get_id(id) {
+    /**
+     * Returns the DOM node with the given ID. Shorthand for document.getElementById.
+     * @param {string} id - The ID to search for
+     * @function TK.get_id
+     * @returns {HTMLElement}
+     */
     return document.getElementById(id);
 }
-function get_class(cls, elm) {
-    return (elm ? elm : document).getElementsByClassName(cls);
+function get_class(cls, element) {
+    /**
+     * Returns all elements as NodeList of a given class name. Optionally limit the list
+     * to all children of a specific DOM node. Shorthand for element.getElementsByClassName.
+     * @param {string} class - The name of the class
+     * @param {DOMNode} element - Limit search to child nodes of this element. Optional.
+     * @returns {NodeList}
+     * @function TK.get_class
+     */
+    return (element ? element : document).getElementsByClassName(cls);
 }
-function get_tag(tag, elm) {
-    return (elm ? elm : document).getElementsByTagName(tag);
+function get_tag(tag, element) {
+    /**
+     * Returns all elements as NodeList of a given tag name. Optionally limit the list
+     * to all children of a specific DOM node. Shorthand for element.getElementsByTagName.
+     * @param {string} tag - The name of the tag
+     * @param {DOMNode} element - Limit search to child nodes of this element. Optional.
+     * @returns {NodeList}
+     * @function TK.get_tag
+     */
+    return (element ? element : document).getElementsByTagName(tag);
 }
 function element(tag) {
+    /**
+     * Returns a newly created HTMLElement.
+     * @param {string} tag - The type of the element
+     * @param {...object} attributes - Optional mapping of attributes for the new node
+     * @param {...string} class - Optional class name for the new node
+     * @returns HTMLElement
+     * @function TK.element
+     */
     var n = document.createElement(tag);
     var i, v, j;
     for (i = 1; i < arguments.length; i++) {
@@ -226,80 +271,179 @@ function element(tag) {
     }
     return n;
 }
-function empty(e) {
-    while (e.lastChild) e.removeChild(e.lastChild);
+function empty(element) {
+    /**
+     * Removes all child nodes from an HTMLElement.
+     * @param {HTMLElement} element - The element to clean up
+     * @function TK.empty
+     */
+    while (element.lastChild) element.removeChild(element.lastChild);
 }
-function set_text(node, s) {
-    node.textContent = s;
+function set_text(element, string) {
+    /**
+     * Sets a string as new exclusive text node of an HTMLElement.
+     * @param {HTMLElement} element - The element to clean up
+     * @param {string} text - The string to set as text content
+     * @function TK.textContent
+     */
+    element.textContent = string;
 }
-function html(s) {
+function html(string) {
+    /**
+     * Returns a documentFragment containing the result of a string parsed as HTML.
+     * @param {string} html - A string to parse as HTML
+     * @returns {HTMLFragment}
+     * @function TK.html
+     */
     /* NOTE: setting innerHTML on a document fragment is not supported */
     var e = document.createElement("div");
     var f = document.createDocumentFragment();
-    e.innerHTML = s;
+    e.innerHTML = string;
     while (e.firstChild) f.appendChild(e.firstChild);
     return f;
 }
-function set_content(node, s) {
-    if (is_dom_node(s)) {
-        empty(node);
-        if (s.parentNode) {
+function set_content(element, content) {
+    /**
+     * Sets the (exclusive) content of an HTMLElement.
+     * @param {HTMLElement} element - The element receiving the content
+     * @param{string|HTMLElement} content - A string or HTMLElement to set as content
+     * @function TK.set_content
+     */
+    if (is_dom_node(content)) {
+        empty(element);
+        if (content.parentNode) {
             TK.warn("set_content: possible reuse of a DOM node. cloning\n");
-            s = s.cloneNode(true);
+            content = content.cloneNode(true);
         }
-        node.appendChild(s);
+        element.appendChild(content);
     } else {
-        set_text(node, s + "");
+        set_text(element, content + "");
     }
 }
-function insert_after(newn, refn) {
-    if (refn.parentNode)
-        refn.parentNode.insertBefore(newn, refn.nextSibling);
+function insert_after(newnode, refnode) {
+    /**
+     * Inserts one HTMLELement after another in the DOM tree.
+     * @param {HTMLElement} newnode - The new node to insert into the DOM tree
+     * @param {HTMLElement} refnode - The reference element to add the new element after
+     * @function TK.insert_after
+     */
+    if (refnode.parentNode)
+        refnode.parentNode.insertBefore(newnode, refnode.nextSibling);
 }
-function insert_before(newn, refn) {
-    if (refn.parentNode)
-        refn.parentNode.insertBefore(newn, refn);
+function insert_before(newnode, refnode) {
+    /**
+     * Inserts one HTMLELement before another in the DOM tree.
+     * @param {HTMLElement} newnode - The new node to insert into the DOM tree
+     * @param {HTMLElement} refnode - The reference element to add the new element before
+     * @function TK.insert_before
+     */
+    if (refnode.parentNode)
+        refnode.parentNode.insertBefore(newnode, refnode);
 }
 function width() {
+    /**
+     * Returns the width of the viewport
+     * @returns {number}
+     * @function TK.width
+     */
     return Math.max(document.documentElement.clientWidth || 0, w.innerWidth || 0, document.body.clientWidth || 0);
 }
 function height() {
+    /**
+     * Returns the height of the viewport
+     * @returns {number}
+     * @function TK.height
+     */
     return Math.max(document.documentElement.clientHeight, w.innerHeight || 0, document.body.clientHeight || 0);
 }
-function scroll_top(e) {
-    if (e)
-        return e.scrollTop;
+function scroll_top(element) {
+    /**
+     * Returns the amount of CSS pixels the document or an optional element is scrolled from top.
+     * @param {HTMLElement} element - The element to evaluate. Optional.
+     * @returns {number}
+     * @functionTK.scroll_top
+     */
+    if (element)
+        return element.scrollTop;
     return Math.max(document.documentElement.scrollTop || 0, w.pageYOffset || 0, document.body.scrollTop || 0);
 }
-function scroll_left(e) {
-    if (e)
-        return e.scrollLeft;
+function scroll_left(element) {
+    /**
+     * Returns the amount of CSS pixels the document or an optional element is scrolled from left.
+     * @param {HTMLElement} element - The element to evaluate. Optional.
+     * @returns {number}
+     * @functionTK.scroll_left
+     */
+    if (element)
+        return element.scrollLeft;
     return Math.max(document.documentElement.scrollLeft, w.pageXOffset || 0, document.body.scrollLeft || 0);
 }
-function scroll_all_top(e) {
+function scroll_all_top(element) {
+    /**
+     * Returns the sum of CSS pixels an element and all of its parents are scrolled from top.
+     * @param {HTMLElement} element - The element to evaluate
+     * @returns {number}
+     * @functionTK.scroll_all_top
+     */
     var v = 0;
-    while (e = e.parentNode) v += e.scrollTop || 0;
+    while (element = element.parentNode) v += element.scrollTop || 0;
     return v;
 }
-function scroll_all_left(e) {
+function scroll_all_left(element) {
+    /**
+     * Returns the sum of CSS pixels an element and all of its parents are scrolled from left.
+     * @param {HTMLElement} element - The element to evaluate
+     * @returns {number}
+     * @functionTK.scroll_all_left
+     */
     var v = 0;
-    while (e = e.parentNode) v += e.scrollLeft || 0;
+    while (element = element.parentNode) v += element.scrollLeft || 0;
     return v;
 }
 function position_top(e, rel) {
+    /**
+     * Returns the position from top of an element in relation to the document
+     * or an optional HTMLElement. Scrolling of the parent is taken into account.
+     * @param {HTMLElement} element - The element to evaluate
+     * @param {HTMLElement} relation - The element to use as reference. Optional.
+     * @returns {number}
+     * @function TK.position_top
+     */
     var top    = parseInt(e.getBoundingClientRect().top);
     var f  = fixed(e) ? 0 : scroll_top();
     return top + f - (rel ? position_top(rel) : 0);
 }
 function position_left(e, rel) {
+    /**
+     * Returns the position from the left of an element in relation to the document
+     * or an optional HTMLElement. Scrolling of the parent is taken into account.
+     * @param {HTMLElement} element - The element to evaluate
+     * @param {HTMLElement} relation - The element to use as reference. Optional.
+     * @returns {number}
+     * @function TK.position_left
+     */
     var left   = parseInt(e.getBoundingClientRect().left);
     var f = fixed(e) ? 0 : scroll_left();
     return left + f - (rel ? position_left(rel) : 0);
 }
 function fixed(e) {
+    /**
+     * Returns if an element is positioned fixed to the viewport
+     * @param {HTMLElement} element - the element to evaluate
+     * @returns {boolean}
+     * @function TK.fixed
+     */
     return getComputedStyle(e).getPropertyValue("position") === "fixed";
 }
 function outer_width(element, margin, width) {
+    /** Gets or sets the outer width of an element as CSS pixels. The box sizing
+     * method is taken into account.
+     * @param {HTMLElement} element - the element to evaluate / manipulate
+     * @param {boolean} margin - Determine if margin is included
+     * @param {number} width - If defined the elements outer width is set to this value
+     * @returns {number}
+     * @functionTK.outer_width
+     */
     var m = 0;
     if (margin) {
         var cs = getComputedStyle(element);
@@ -322,6 +466,14 @@ function outer_width(element, margin, width) {
     }
 }
 function outer_height(element, margin, height) {
+    /** Gets or sets the outer height of an element as CSS pixels. The box sizing
+     * method is taken into account.
+     * @param {HTMLElement} element - the element to evaluate / manipulate
+     * @param {boolean} margin - Determine if margin is included
+     * @param {number} height - If defined the elements outer height is set to this value
+     * @returns {number}
+     * @functionTK.outer_height
+     */
     var m = 0;
     if (margin) {
         var cs = getComputedStyle(element, null);
@@ -344,6 +496,13 @@ function outer_height(element, margin, height) {
     }
 }
 function inner_width(element, width) {
+    /** Gets or sets the inner width of an element as CSS pixels. The box sizing
+     * method is taken into account.
+     * @param {HTMLElement} element - the element to evaluate / manipulate
+     * @param {number} width - If defined the elements inner width is set to this value
+     * @returns {number}
+     * @functionTK.inner_width
+     */
     var css = css_space(element, "padding", "border");
     var x = css.left + css.right;
     if (width !== void(0)) {
@@ -359,6 +518,13 @@ function inner_width(element, width) {
     }
 }
 function inner_height(element, height) {
+    /** Gets or sets the inner height of an element as CSS pixels. The box sizing
+     * method is taken into account.
+     * @param {HTMLElement} element - the element to evaluate / manipulate
+     * @param {number} height - If defined the elements outer height is set to this value
+     * @returns {number}
+     * @functionTK.inner_height
+     */
     var css = css_space(element, "padding", "border");
     var y = css.top + css.bottom;
     if (height !== void(0)) {
@@ -374,6 +540,11 @@ function inner_height(element, height) {
     }
 }
 function box_sizing(element) {
+    /** Returns the box-sizing method of an HTMLElement.
+     * @param {HTMLElement} element - The element to evaluate
+     * @returns {string}
+     * @functionTK.box_sizing
+     */
     var cs = getComputedStyle(element, null);
     if (cs.getPropertyValue("box-sizing")) return cs.getPropertyValue("box-sizing");
     if (cs.getPropertyValue("-moz-box-sizing")) return cs.getPropertyValue("-moz-box-sizing");
@@ -382,6 +553,15 @@ function box_sizing(element) {
     if (cs.getPropertyValue("-khtml-box-sizing")) return cs.getPropertyValue("-khtml-box-sizing");
 }
 function css_space(element) {
+    /**
+     * Returns the overall spacing around an HTMLElement of all given attributes
+     * @param {HTMLElement} element - The element to evaluate
+     * @param{...string} The CSS attributes to take into account
+     * @returns {object} An object with the members "top", "bottom", "lfet", "right"
+     * @function TK.css_space
+     * @example
+     * TK.css_space(element, "padding", "border");
+     */
     var cs = getComputedStyle(element, null);
     var o = {top: 0, right: 0, bottom: 0, left: 0};
     var a;
@@ -399,6 +579,14 @@ function css_space(element) {
     return o;
 }
 function set_styles(elem, styles) {
+    /**
+     * Set multiple CSS styles onto an HTMLElement
+     * @param {HTMLElement} element - the element to add the styles to
+     * @param {object} styles - A mapping containing all styles to add
+     * @function TK.set_styles
+     * @example
+     * TK.set_styles(element, {"width":"100px", "height":"100px"});
+     */
     var key, v;
     var s = elem.style;
     for (key in styles) if (styles.hasOwnProperty(key)) {
@@ -415,6 +603,14 @@ function set_styles(elem, styles) {
     }
 }
 function set_style(e, style, value) {
+    /**
+     * Sets a single CSS style onto an HTMLElement. It is used to autimatically
+     * add "px" to numbers and trim them to 3 digits at max. DEPRECATED!
+     * @param {HTMLElement} element - The element to set the style to
+     * @param {string} style - The CSS attribute to set
+     * @param {string|number} value - The value to set the CSS attribute to
+     * @function TK.set_style
+     */
     if (typeof value === "number") {
         /* By default, numbers are transformed to px. I believe this is a very _dangerous_ default
          * behavior, because it breaks other number like properties _without_ warning.
@@ -426,6 +622,11 @@ function set_style(e, style, value) {
 }
 var _id_cnt = 0;
 function unique_id() {
+    /**
+     * Generate a unique ID string
+     * @returns {string}
+     * @function TK.unique_id
+     */
     var id;
     do { id = "tk-" + _id_cnt++; } while (document.getElementById(id));
     return id;
@@ -501,7 +702,6 @@ function FORMAT(fmt) {
 
 /** 
  * Formats the arguments according to a given format string.
- *
  * @returns {function} A formatting function.
  * @param {string} fmt - The format string.
  * @param {...*} args - The format arguments.
@@ -573,6 +773,11 @@ function sprintf(fmt) {
 }
 
 function escapeHTML(text) {
+    /** Escape an HTML string to be displayed as text
+     * @param {string} html - The HTML code to escape
+     * @returns {string}
+     * @function TK.escapeHTML
+     */
     var map = {
         '&' : '&amp;',
         '<' : '&lt;',
@@ -584,10 +789,19 @@ function escapeHTML(text) {
 }
 
 function is_touch() {
+    /** Check if a device is touch-enabled
+     * @returns {boolean}
+     * @function TK.is_touch
+     */
     return 'ontouchstart' in w // works on most browsers 
       || 'onmsgesturechange' in w; // works on ie10
 }
 function os() {
+    /**
+     * Return the operating system
+     * @returns {string}
+     * @function TK.os
+     */
     var ua = navigator.userAgent.toLowerCase();
     if (ua.indexOf("android") > -1)
         return "Android";
@@ -605,29 +819,36 @@ function os() {
         return "Linux";
 }
 function make_svg(tag, args) {
-    // creates and returns an SVG object
-    // 
-    // arguments:
-    // tag: the element to create as string, e.g. "line" or "g"
-    // args: the options to set in the element
-    // 
-    // returns: the newly created object
+    /**
+     * Creates and returns an SVG child element
+     * @param {string} tag - The element to create as string, e.g. "line" or "g"
+     * @param {object} arguments - The attributes to set onto the element
+     * @returns {SVGElement}
+     */
     var el = document.createElementNS('http://www.w3.org/2000/svg', "svg:" + tag);
     for (var k in args)
         el.setAttribute(k, args[k]);
     return el;
 }
 function seat_all_svg(parent) {
-    // searches all svg that don't have the class "fixed" and re-positions them
-    // for avoiding blurry lines
-    var a = get_tag("svg");
+    /**
+     * Searches for all SVG that don't have the class "svg-fixed" and re-positions them
+     * in order to avoid blurry lines
+     * @param {HTMLElement} parent - If set only children of parent are searched
+     * @function TK.seat_all_svg
+     */
+    var a = get_tag("svg", parent);
     for (var i = 0; i < a.length; i++) {
         if (!has_class(a[i], "svg-fixed"))
             seat_svg(a[i]);
     }
 }
 function seat_svg(e) {
-    // move svgs if their positions in viewport is not int
+    /**
+     * Move SVG for some sub-pixel if their position in viewport is not int
+     * @param {SVGElement} svg - The SVG to manipulate
+     * @function TK.seat_svg
+     */
     if (retrieve(e, "margin-left") === null) {
         store(e, "margin-left", parseFloat(get_style(e, "margin-left")));
     } else {
@@ -678,12 +899,33 @@ function delayed_callback(timeout, cb, once) {
 }
 
 function store(e, key, val) {
+    /**
+     * Store a piece of data in an object
+     * @param {object} object - The object to store the data
+     * @param {string} key - The key to identify the memory
+     * @param {*} data - The data to store
+     * @function TK.store
+     */
     data(e)[key] = val;
 }
 function retrieve(e, key) {
+    /**
+     * Retrieve a piece of data from an object
+     * @param {object} object - The object to retrieve the data from
+     * @param {string} key - The key to identify the memory
+     * @function TK.retrieve
+     * @returns {*}
+     */
     return data(e)[key];
 }
 function merge(dst) {
+    /**
+     * Merge two or more objects. The second and all following objects
+     * will be merged into the first one.
+     * @param {...obhject} object - The objects to merge
+     * @returns {object}
+     * @function TK.merge
+     */
     //console.log("merging", src, "into", dst);
     var key, i, src;
     for (i = 1; i < arguments.length; i++) {
@@ -695,6 +937,13 @@ function merge(dst) {
     return dst;
 }
 function object_and(orig, filter) {
+    /**
+     * Filter an object via white list
+     * @param {object} origin - The object to filter
+     * @param {object} filter - The object containing the white list
+     * @returns {object} The filtered result
+     * @function TK.object_and
+     */
     var ret = {};
     for (var key in orig) {
         if (filter[key]) ret[key] = orig[key];
@@ -702,6 +951,13 @@ function object_and(orig, filter) {
     return ret;
 }
 function object_sub(orig, filter) {
+    /**
+     * Filter an object via black list
+     * @param {object} origin - The object to filter
+     * @param {object} filter - The object containing the black list
+     * @returns {object} The filtered result
+     * @function TK.object_sub
+     */
     var ret = {};
     for (var key in orig) {
         if (!filter[key]) ret[key] = orig[key];
@@ -709,6 +965,11 @@ function object_sub(orig, filter) {
     return ret;
 }
 function to_array(collection) {
+    /** Convert any collection (like NodeList) into an array
+     * @param {collection} collection - The collection to convert into an array
+     * @returns {array}
+     * @functionTK.to_array
+     */
     var ret = new Array(collection.length);
     var i;
 
@@ -841,6 +1102,11 @@ TK = w.toolkit = {
     os: os,
     
     browser: function () {
+        /**
+         * Returns the name of the browser
+         * @returns {string}
+         * @function TK.browser
+         */
         var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
         if (/trident/i.test(M[1])) {
             tem = /\brv[ :]+(\d+)/g.exec(ua) || []; 
