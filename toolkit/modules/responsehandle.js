@@ -882,7 +882,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         }
         
         // LABEL
-        TK.empty(this._label);
         var t = O.label(
                     O.title,
                     O.x,
@@ -890,32 +889,34 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     O.z);
         var a = t.split("\n");
         var c = this._label.childNodes;
-        var n = c.length;
-        if (a.length !== c.length) {
-            while (n < a.length) {
-                this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
-                n++;
-            }
-            while (c.length > a.length) {
-                // FIXME: bad call of destroy here?
-                this._label.removeChild(this._label.lastChild);
-            }
+        while (c.length < a.length) {
+            this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
         }
-        var c = this._label.childNodes;
-        var w = 0;
+        while (c.length > a.length) {
+            this._label.removeChild(this._label.lastChild);
+        }
         for (var i = 0; i < a.length; i++) {
             c[i].textContent = a[i];
         }
+        var w = 0;
         for (var i = 0; i < a.length; i++) {
             w = Math.max(w, c[i].getComputedTextLength());
         }
         
         var inter = [];
         var pos = false;
-        var align = "";
-        var bbox = null;
-        try { bbox = this._label.getBBox(); } catch(e) { /* Mozilla fuckup, lables are destroyed afterwards. Do a redraw on realization */ return; }
-        try { bbox.width = w; } catch(e) { /* ie8: No Modification Allowed Error */ }
+        var align;
+
+        var bbox;
+
+        try {
+            bbox = this._label.getBBox();
+        } catch(e) {
+            /* _label is not in the DOM yet */
+            return;
+        }
+
+        bbox = { width: w, height: bbox.height };
         
         var x1, y1, xl, yl, align, x2, y2, i;
         var pref = O.preferences;
