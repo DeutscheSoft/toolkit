@@ -304,6 +304,51 @@ function zhandledown(e) {
  * @class TK.ResponseHandle
  * @extends TK.Widget
  *
+ * @description Class which represents a draggable SVG element, which can be used to represent and change
+ * a value inside of a {@link TK.ResponseHandler} and is drawn inside of a chart.
+ *
+ * @param {Object} options
+ * @property {function|Object} options.range_x - Callback returning a {@link TK.Range}
+ *  for the x-axis or an object with options for a {@link TK.Range}. This is usually
+ *  the <code>x_range</code> of the parent chart.
+ * @property {function|Object} options.range_y - Callback returning a {@link TK.Range}
+ *  for the y-axis or an object with options for a {@link TK.Range}. This is usually
+ *  the <code>y_range</code> of the parent chart.
+ * @property {function|Object} options.range_z - Callback returning a {@link TK.Range}
+ *  for the z-axis or an object with options for a {@link TK.Range}.
+ * @property {string} [options.mode="circular"] - Type of the handle. Can be one of
+ *  <code>"circular"</code>, <code>"line-vertical"</code>, <code>"line-horizontal"</code>,
+ *  <code>"block-left"</code>, <code>"block-right"</code>, <code>"block-top"</code> or
+ *  <code>"block-right"</code>.
+ * @property {number} options.x - Value of the x-coordinate.
+ * @property {number} options.y - Value of the y-coordinate.
+ * @property {number} options.z - Value of the z-coordinate.
+ * @property {number} [options.min_size=24] - Minimum size of the handle in px.
+ *
+ * @property {function} options.label - Label formatting function. Arguments are
+ *  <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>.
+ * @property {array}  [options.preferences=["left", "top", "right", "bottom"]] - Possible label
+ *  positions by order of preference. Depending on the selected <code>mode</code> is can
+ *  be a subset of <code>"top"</code>, <code>"top-right"</code>, <code>"right"</code>,
+ *  <code>"bottom-right"</code>, <code>"bottom"</code>, <code>"bottom-left"</code>,
+ *  <code>"left"</code>, <code>"top-left"</code> and <code>"center"</code>.
+ * @property {number} [options.margin=3] - Margin in px between the handle and the label.
+ * @property {boolean} [options.z_handle=false] - If true, a small handle is drawn, which can
+ *  be dragged to change the value of the z-coordinate.
+ * @property {number} [options.z_handle_size=6] - Size in px of the z-handle.
+ * @property {number} [options.z_handle_centered=0.1] - Size of the z-handle in center positions.
+ *  If this options is smaller than 1, it is interpreted as a ratio, otherwise as a px size.
+ *
+ * @property {number} [options.x_min] - Minimum value of the x-coordinate.
+ * @property {number} [options.x_max] - Maximum value of the x-coordinate.
+ * @property {number} [options.y_min] - Minimum value of the y-coordinate.
+ * @property {number} [options.y_max] - Maximum value of the y-coordinate.
+ * @property {number} [options.z_min] - Minimum value of the z-coordinate.
+ * @property {number} [options.z_max] - Maximum value of the z-coordinate.
+ *
+ * @property {boolean} [options.show_axis=false] - If set to true, draws additional lines at
+ *  the coordinate values.
+ *
  * @mixes TK.Ranges
  * @mixes TK.Warning
  * @mixes TK.GlobalCursor
@@ -325,7 +370,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         z: "number",
         min_size: "number",
         margin: "number",
-        z_handle: "string",
+        z_handle: "boolean",
         z_handle_size: "number",
         z_handle_centered: "number",
         min_drag: "number",
@@ -340,48 +385,38 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         title: "string",
     }),
     options: {
-        range_x:          {},           // callback function returning a Range
-                                        // module for x axis or an object with
-                                        // options for a TK.Range 
-        range_y:          {},           // callback function returning a Range
-                                        // module for y axis or an object with
-                                        // options for a Range
-        range_z:          {},           // callback function returning a Range
-                                        // module for z axis or an object with
-                                        // options for a Range
-        intersect:        function () { return { intersect: 0, count: 0 } }, // callback function for checking intersections: function (x1, y1, x2, y2, id) {}
-                                        // returns a value describing the amount of intersection with other handle elements.
-                                        // intersections are weighted depending on the intersecting object. E.g. SVG borders have
-                                        // a very high impact while intersecting in comparison with overlapping handle objects
-                                        // that have a low impact on intersection
-        mode:             "circular", // mode of the handle:
-                                        // "circular": circular handle
-                                        // "line-vertical": x movement, line handle vertical
-                                        // "line-horizontal": y movement, line handle horizontal
-                                        // "block-left": x movement, block lefthand
-                                        // "block-right": x movement, block righthand
-                                        // "block-top": y movement, block on top
-                                        // "block-right": y movement, block on bottom
-        preferences:      ["left", "top", "right", "bottom"], // perferred position of the label
+        range_x:          {}, 
+        range_y:          {},
+        range_z:          {},
+        intersect:        function () { return { intersect: 0, count: 0 } },
+        // NOTE: this is currently not a public API
+        // callback function for checking intersections: function (x1, y1, x2, y2, id) {}
+        // returns a value describing the amount of intersection with other handle elements.
+        // intersections are weighted depending on the intersecting object. E.g. SVG borders have
+        // a very high impact while intersecting in comparison with overlapping handle objects
+        // that have a low impact on intersection
+        mode:             "circular",
+        preferences:      ["left", "top", "right", "bottom"],
         label:            TK.FORMAT("%s\n%d Hz\n%.2f dB\nQ: %.2f"),
-        x:                0,            // value for x axis depending on mode_x
-        y:                0,            // value for y axis depending on mode_y
-        z:                0,            // value for z axis depending on mode_z
-        min_size:         24,           // minimum size of object in pixels, values can be smaller
-        margin:           3,            // margin between label and handle
-        z_handle:         false,        // draw a tiny handle for changing the z axis
-        z_handle_size:    6,            // the size of the z handle in pixels if used.
-        z_handle_centered:0.1,          // the width/height of the z handle if centered /top, right, bottom, left)
-                                        // values > 1 are interpreted as pixels, values < 1 declare a percentual value of the handles width/height
-        min_drag:         0,            // amount of pixels the handle has to be dragged before it starts to move
-        x_min:            false,        // restrict movement on x axis
-        x_max:            false,        // restrict movement on x axis
-        y_min:            false,        // restrict movement on y axis
-        y_max:            false,        // restrict movement on y axis
-        z_min:            false,        // restrict movement on z axis
-        z_max:            false,        // restrict movement on z axis
+        x:                0,
+        y:                0,
+        z:                0,
+        min_size:         24,
+        margin:           3,
+        z_handle:         false,
+        z_handle_size:    6,
+        z_handle_centered:0.1,
+        min_drag:         0,
+        // NOTE: not yet a public API
+        // amount of pixels the handle has to be dragged before it starts to move
+        x_min:            false,
+        x_max:            false,
+        y_min:            false,
+        y_max:            false,
+        z_min:            false,
+        z_max:            false,
         active:           true,
-        show_axis:        false         // show both axis on circular and opposite axis on block or line handle
+        show_axis:        false
     },
     
     initialize: function (options, hold) {
