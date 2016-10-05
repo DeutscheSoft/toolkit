@@ -1,0 +1,191 @@
+/*
+ * This file is part of toolkit.
+ *
+ * toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301  USA
+ */
+.toolkit-fader {
+    margin: 4px;
+    padding: 0px;
+    background-repeat: no-repeat;
+}
+.toolkit-fader::before {
+    content: "";
+    display: block;
+    position: absolute;
+}
+.toolkit-fader.toolkit-vertical {
+    width: 36px;
+}
+.toolkit-fader.toolkit-vertical.toolkit-has-scale {
+    width: auto;
+}
+.toolkit-fader.toolkit-horizontal {
+    height: 36px;
+}
+.toolkit-fader.toolkit-horizontal.toolkit-has-scale {
+    height: auto;
+}
+
+/* BACKGROUNDS */
+
+.toolkit-fader.toolkit-vertical::before {
+    top: 0;
+    bottom: 0;
+}
+.toolkit-fader.toolkit-horizontal::before {
+    left: 0;
+    right: 0;
+}
+
+.toolkit-fader.toolkit-left::before {
+    left: 0;
+    right: calc(100% - 36px);
+}
+.toolkit-fader.toolkit-right::before {
+    right: 0;
+    left: calc(100% - 36px);
+}
+.toolkit-fader.toolkit-top::before {
+    top: 0;
+    bottom: calc(100% - 36px);
+}
+.toolkit-fader.toolkit-bottom::before {
+    bottom: 0;
+    top: calc(100% - 36px);
+}
+
+/*
+.toolkit-fader.toolkit-left.toolkit-has-scale {
+    background-position: 0 0, 0 5px, 0 100%;
+}
+.toolkit-fader.toolkit-right.toolkit-has-scale {
+    background-position: 100% 0, 100% 5px, 100% 100%;
+}
+.toolkit-fader.toolkit-top.toolkit-has-scale {
+    background-position: 0 0, 5px 0, 100% 0;
+}
+.toolkit-fader.toolkit-bottom.toolkit-has-scales {
+    background-position: 0 100%, 5px 100%, 100% 100%;
+}
+*/
+
+/* HANDLE */
+
+.toolkit-fader > .toolkit-handle {
+    cursor: pointer;
+    cursor: hand;
+    width: 36px;
+    height: 36px;
+    border: 2px solid white;
+    box-sizing: border-box;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-handle {
+    
+}
+.toolkit-fader.toolkit-vertical > .toolkit-handle::after,
+.toolkit-fader.toolkit-vertical > .toolkit-handle::before {
+    content: "";
+    display: block;
+    position: absolute;
+    border-style: solid;
+    left: 6px;
+    right: 6px;
+    height: 8px;
+    box-sizing: border-box;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-handle::before,
+.toolkit-fader.toolkit-vertical > .toolkit-handle::after {
+    border-width: 2px 0;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-handle::before {
+    top: 6px;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-handle::after {
+    bottom: 6px;
+}
+.toolkit-fader.toolkit-vertical.toolkit-warn > .toolkit-handle {
+    
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-handle {
+    
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-handle::after,
+.toolkit-fader.toolkit-horizontal > .toolkit-handle::before {
+    content: "";
+    display: block;
+    position: absolute;
+    border-style: solid;
+    top: 6px;
+    bottom: 6px;
+    width: 8px;
+    box-sizing: border-box;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-handle::before,
+.toolkit-fader.toolkit-horizontal > .toolkit-handle::after {
+    border-width: 0 2px;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-handle::before {
+    left: 6px;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-handle::after {
+    right: 6px;
+}
+.toolkit-fader.toolkit-horizontal.toolkit-warn > .toolkit-handle {
+    
+}
+.toolkit-fader.toolkit-left > .toolkit-handle {
+    left: 0;
+}
+.toolkit-fader.toolkit-right > .toolkit-handle {
+    right: 0;
+}
+.toolkit-fader.toolkit-top > .toolkit-handle {
+    top: 0;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-handle {
+    bottom: 0;
+}
+
+/* SCALE */
+
+.toolkit-fader > .toolkit-scale {
+    display: none;
+}
+.toolkit-fader.toolkit-has-scale > .toolkit-scale {
+    display: block;
+}
+
+.toolkit-fader.toolkit-vertical > .toolkit-scale {
+    height: calc(100% - 36px);
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-scale {
+    width: calc(100% - 36px);
+    margin-left: 18px;
+}
+.toolkit-fader.toolkit-left > .toolkit-scale {
+    margin-left: 38px;
+}
+.toolkit-fader.toolkit-right > .toolkit-scale {
+    margin-right: 38px;
+}
+.toolkit-fader.toolkit-top > .toolkit-scale {
+    margin-top: 38px;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-scale {
+    margin-bottom: 38px;
+}

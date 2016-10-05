@@ -1,0 +1,89 @@
+/*
+ * This file is part of toolkit.
+ *
+ * toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301  USA
+ */
+.toolkit-button {
+    padding: 6px;
+    margin: 2px;
+    display: inline-table;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid white;
+    transition: background-color 0.25s,
+                border-color 0.25s;
+}
+.toolkit-button:hover {
+    
+}
+.toolkit-button:active {
+    
+}
+
+.toolkit-button.toolkit-horizontal > .toolkit-cell > * {
+    vertical-align: middle;
+}
+
+.toolkit-button > .toolkit-cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    position: relative;
+}
+.toolkit-button.toolkit-horizontal > .toolkit-cell {
+    white-space: nowrap;
+}
+.toolkit-button > .toolkit-cell > .toolkit-label {
+    line-height: 1.1em;
+    text-align: center;
+    margin: auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 0 3px;
+}
+.toolkit-button.toolkit-horizontal > .toolkit-cell > .toolkit-label {
+    display: inline-block;
+    padding: 2px 4px;
+}
+.toolkit-button > .toolkit-cell >  .toolkit-icon {
+    margin: auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.toolkit-button.toolkit-vertical > .toolkit-cell >  .toolkit-icon {
+    margin-bottom: 0px;
+}
+.toolkit-button.toolkit-horizontal > .toolkit-cell >  .toolkit-icon {
+    margin-right: 5px;
+}
+
+.toolkit-button.toolkit-active {
+    
+}
+.toolkit-button.toolkit-active > .toolkit-cell >  .toolkit-label {
+    
+}
+.toolkit-button.toolkit-active > .toolkit-cell >  .toolkit-icon {
+    
+}

@@ -57,13 +57,13 @@ js_input_files = \
 css_input_files = \
     toolkit/styles/toolkit.css \
     toolkit/styles/2013.css \
-    toolkit/styles/2013/globalcursor.css \
-    toolkit/styles/2013/tooltip.css \
-    toolkit/styles/2013/scale.css \
-    toolkit/styles/2013/graph.css \
-    toolkit/styles/2013/grid.css \
-    toolkit/styles/2013/responsehandle.css \
-    toolkit/styles/2013/circular.css \
+    toolkit/styles/2013/css/globalcursor.css \
+    toolkit/styles/2013/css/tooltip.css \
+    toolkit/styles/2013/css/scale.css \
+    toolkit/styles/2013/css/graph.css \
+    toolkit/styles/2013/css/grid.css \
+    toolkit/styles/2013/css/responsehandle.css \
+    toolkit/styles/2013/css/circular.css \
     toolkit/styles/2013/css/buttonarray.css \
     toolkit/styles/2013/css/meterbase.css \
     toolkit/styles/2013/css/chart.css \
@@ -88,6 +88,43 @@ css_input_files = \
     toolkit/styles/2013/css/expander.css \
     toolkit/styles/2013/css/valueknob.css \
     toolkit/styles/2013/css/multimeter.css \
+    toolkit/styles/plain.css \
+    toolkit/styles/plain_lime.css \
+    toolkit/styles/plain_raspberry.css \
+    toolkit/styles/plain/lime.css \
+    toolkit/styles/plain/cyan.css \
+    toolkit/styles/plain/raspberry.css \
+    toolkit/styles/plain/css/globalcursor.css \
+    toolkit/styles/plain/css/tooltip.css \
+    toolkit/styles/plain/css/scale.css \
+    toolkit/styles/plain/css/graph.css \
+    toolkit/styles/plain/css/grid.css \
+    toolkit/styles/plain/css/responsehandle.css \
+    toolkit/styles/plain/css/circular.css \
+    toolkit/styles/plain/css/buttonarray.css \
+    toolkit/styles/plain/css/meterbase.css \
+    toolkit/styles/plain/css/chart.css \
+    toolkit/styles/plain/css/gauge.css \
+    toolkit/styles/plain/css/button.css \
+    toolkit/styles/plain/css/valuebutton.css \
+    toolkit/styles/plain/css/toggle.css \
+    toolkit/styles/plain/css/state.css \
+    toolkit/styles/plain/css/levelmeter.css \
+    toolkit/styles/plain/css/frequencyresponse.css \
+    toolkit/styles/plain/css/dynamics.css \
+    toolkit/styles/plain/css/responsehandler.css \
+    toolkit/styles/plain/css/clock.css \
+    toolkit/styles/plain/css/window.css \
+    toolkit/styles/plain/css/knob.css \
+    toolkit/styles/plain/css/value.css \
+    toolkit/styles/plain/css/fader.css \
+    toolkit/styles/plain/css/select.css \
+    toolkit/styles/plain/css/label.css \
+    toolkit/styles/plain/css/container.css \
+    toolkit/styles/plain/css/pager.css \
+    toolkit/styles/plain/css/expander.css \
+    toolkit/styles/plain/css/valueknob.css \
+    toolkit/styles/plain/css/multimeter.css \
 
 toolkit.min.js:	$(js_input_files) makefile
 	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@

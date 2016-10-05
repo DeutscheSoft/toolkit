@@ -1,0 +1,103 @@
+/*
+ * This file is part of toolkit.
+ *
+ * toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301  USA
+ */
+/* GENERAL */
+
+.toolkit-pager {
+    
+}
+.toolkit-pager .toolkit-buttonarray {
+    display: block;
+}
+.toolkit-pager > .toolkit-clip {
+    overflow: hidden; 
+}
+
+.toolkit-pager > .toolkit-clip > .toolkit-page {
+     opacity: 1;
+     overflow: auto;
+}
+.toolkit-container.toolkit-hide {
+    
+}
+
+.toolkit-pager.toolkit-forward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-vertical-out-forward 0.5s ease-in-out;
+    transform: translateX(-100%);
+}
+.toolkit-pager.toolkit-forward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-vertical-in-forward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-backward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-vertical-out-backward 0.5s ease-in-out;
+    transform: translateX(100%);
+}
+.toolkit-pager.toolkit-backward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-vertical-in-backward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-forward.toolkit-horizontal > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-horizontal-out-forward 0.5s ease-in-out;
+    transform: translateY(-100%);
+}
+.toolkit-pager.toolkit-forward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-horizontal-in-forward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-backward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-horizontal-out-backward 0.5s ease-in-out;
+    transform: translateY(100%);
+}
+.toolkit-pager.toolkit-backward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-horizontal-in-backward 0.5s ease-in-out;
+}
+
+@keyframes toolkit-page-horizontal-in-forward {
+    0%   { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+@keyframes toolkit-page-horizontal-out-forward {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+@keyframes toolkit-page-horizontal-in-backward {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(0); }
+}
+@keyframes toolkit-page-horizontal-out-backward {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+}
+
+@keyframes toolkit-page-vertical-in-forward {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes toolkit-page-vertical-out-forward {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+@keyframes toolkit-page-vertical-in-backward {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes toolkit-page-vertical-out-backward {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}

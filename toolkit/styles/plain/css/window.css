@@ -1,0 +1,330 @@
+/*
+ * This file is part of toolkit.
+ *
+ * toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301  USA
+ */
+.toolkit-window {
+    -webkit-box-shadow:  0px 4px 12px 0px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow:  0px 4px 12px 0px rgba(0, 0, 0, 0.33);
+    box-shadow:  0px 4px 12px 0px rgba(0, 0, 0, 0.33);
+    opacity: 1;
+}
+.toolkit-window.toolkit-inactive {
+    opacity: 0.5;
+    -webkit-box-shadow:  0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow:  0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+    box-shadow:  0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.toolkit-window.toolkit-resizing,
+.toolkit-window.toolkit-dragging {
+    opacity: 0.7;
+}
+
+.toolkit-window > .toolkit-content {
+    top: 30px;
+    bottom: 30px;
+    margin: 4px;
+    text-align: justify;
+}
+
+.toolkit-window > .toolkit-header {
+    height: 30px;
+    line-height: 28px;
+    position: absolute;
+    cursor: default;
+    background: #00ccff;
+    color: white;
+}
+.toolkit-window > .toolkit-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28px;
+    line-height: 28px;
+    cursor: default;
+    border-top: 1px solid white;
+}
+.toolkit-window > .toolkit-header > .toolkit-header-left {
+    float: left;
+}
+.toolkit-window > .toolkit-header > .toolkit-header-center {
+    float: left;
+}
+.toolkit-window > .toolkit-header > .toolkit-header-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.toolkit-window > .toolkit-footer > .toolkit-footer-left {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.toolkit-window > .toolkit-footer > .toolkit-footer-center {
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
+}
+.toolkit-window > .toolkit-footer > .toolkit-footer-right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.toolkit-window > .toolkit-header > .toolkit-header-center > .toolkit-title {
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0 5px;
+}
+.toolkit-window.toolkit-active > .toolkit-header > .toolkit-header-center >  .toolkit-title {
+    text-align: left;
+}
+.toolkit-window > .toolkit-footer .toolkit-status {
+    margin: 0 5px;
+}
+.toolkit-window > .toolkit-header .toolkit-icon  {
+    width: 24px;
+    height: 24px;
+    margin: 3px;
+}
+.toolkit-window > .toolkit-header .toolkit-button  {
+    background: transparent;
+    border-color: transparent;
+    position: relative;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+}
+.toolkit-window > .toolkit-header .toolkit-button:hover  {
+    
+}
+.toolkit-window > .toolkit-header .toolkit-button .toolkit-icon {
+    width: 16px;
+    height: 16px;
+    margin: 2px;
+    -ms-transform-origin: 50% 50%;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+
+.toolkit-window > .toolkit-header .toolkit-button .toolkit-icon::after,
+.toolkit-window > .toolkit-header .toolkit-button .toolkit-icon::before {
+    content: "";
+    display: block;
+}
+
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-close .toolkit-icon {
+    width: 16px;
+    height: 16px;
+/*
+    border-width: 1px;
+    border-style: solid;
+*/
+}
+/*
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-close .toolkit-icon::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 3px;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-close .toolkit-icon::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 3px;
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+*/
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize .toolkit-icon {
+    width: 16px;
+    height: 16px;
+/*
+    border-style: solid;
+    border-width: 1px;
+    position: relative;
+*/
+}
+/*
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize .toolkit-icon::before {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+}
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize .toolkit-icon::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    transform: rotate(45deg) translate(-50%, -50%);
+    -moz-transform-origin: 0% 0%;
+    -ms-transform-origin: 0% 0%;
+    -o-transform-origin: 0% 0%;
+    -webkit-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+}
+*/
+
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-vertical .toolkit-icon {
+    width: 16px;
+    height: 16px;
+/*
+    border-width: 1px;
+    border-style: solid;
+*/
+}
+/*
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-vertical .toolkit-icon::before {
+    border-style: solid;
+    border-color: transparent;
+    border-width: 5px;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    margin-top: -4px;
+}
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-vertical .toolkit-icon::after {
+    border-style: solid;
+    border-color: transparent;
+    border-width: 5px;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+*/
+
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-horizontal .toolkit-icon {
+    width: 16px;
+    height: 16px;
+/*
+    border-width: 1px;
+    border-style: solid;
+*/
+}
+/*
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-horizontal .toolkit-icon::before {
+    border-color: transparent;
+    border-width: 5px 5px 5px 0;
+    border-style: solid;
+    width: 0;
+    height: 0;
+    float: left;
+    margin-left: 1px;
+    margin-top: 2px;
+}
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-horizontal .toolkit-icon::after {
+    border-color: transparent;
+    border-width: 5px 0 5px 5px;
+    border-style: solid;
+    width: 0;
+    height: 0;
+    float: left;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+*/
+
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-minimize .toolkit-icon {
+    width: 16px;
+    height: 16px;
+/*
+    height: 12px;
+    border-width: 1px;
+    border-style: solid;
+    position: relative;
+*/
+}
+/*
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-minimize .toolkit-icon::before {
+    width: 16px;
+    height: 3px;
+    position: absolute;
+    bottom: -5px;
+    left: -1px;
+}
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-minimize .toolkit-icon::after {
+    border-style: solid;
+    border-color: transparent;
+    border-width: 6px 6px 0 6px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+*/
+
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-shrink .toolkit-icon {
+    width: 16px;
+    height: 16px;
+/*
+    border-width: 3px 1px 1px 1px;
+    border-style: solid;
+*/
+}
+/*
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-shrink .toolkit-icon::after {
+    border-style: solid;
+    border-color: transparent;
+    border-width: 0 6px 6px 6px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.toolkit-window > .toolkit-header .toolkit-button.toolkit-shrink .toolkit-icon::before {
+    border-style: solid;
+    border-width: 1px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    box-sizing: border-box;
+}
+*/
+
+.toolkit-window.toolkit-shrinked {
+    height: 30px !important;
+}
+.toolkit-window.toolkit-shrinked > .toolkit-footer,
+.toolkit-window.toolkit-shrinked .toolkit-resize {
+    display: none !important;
+}
+
+.toolkit-window > .toolkit-resize {
+    background-size: contain;
+    width: 24px;
+    height: 24px;
+    display: none;
+    opacity: 0.5;
+    margin: 2px;
+}
+.toolkit-window.toolkit-resizable > .toolkit-resize {
+    display: block;
+}

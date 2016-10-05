@@ -1,0 +1,233 @@
+/*
+ * This file is part of toolkit.
+ *
+ * toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301  USA
+ */
+/* UNIVERSAL */
+
+.toolkit-level-meter.toolkit-clipping > .toolkit-label {
+    
+}
+
+/* CLIP */
+
+.toolkit-level-meter > .toolkit-clip {
+    margin: 0;
+}
+.toolkit-level-meter.toolkit-has-clip > .toolkit-clip {
+    display: block;
+}
+
+.toolkit-level-meter.toolkit-vertical > .toolkit-clip {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 4px;
+}
+
+
+.toolkit-level-meter.toolkit-top.toolkit-has-label > .toolkit-clip,
+.toolkit-level-meter.toolkit-top.toolkit-has-title > .toolkit-clip {
+    bottom: calc(1.2em);
+}
+.toolkit-level-meter.toolkit-top.toolkit-has-scale > .toolkit-clip {
+    bottom: calc(20px + 2px);
+}
+.toolkit-level-meter.toolkit-top.toolkit-has-label.toolkit-has-scale > .toolkit-clip,
+.toolkit-level-meter.toolkit-top.toolkit-has-title.toolkit-has-scale > .toolkit-clip {
+    bottom: calc(1.2em + 20px + 2px);
+}
+
+.toolkit-level-meter.toolkit-bottom.toolkit-has-label > .toolkit-clip,
+.toolkit-level-meter.toolkit-bottom.toolkit-has-title > .toolkit-clip {
+    top: calc(1.2em);
+}
+.toolkit-level-meter.toolkit-bottom.toolkit-has-scale > .toolkit-clip {
+    top: calc(20px + 2px);
+}
+.toolkit-level-meter.toolkit-bottom.toolkit-has-label.toolkit-has-scale > .toolkit-clip,
+.toolkit-level-meter.toolkit-bottom.toolkit-has-title.toolkit-has-scale > .toolkit-clip {
+    top: calc(1.2em + 2px + 20px);
+}
+
+.toolkit-level-meter.toolkit-vertical.toolkit-has-label > .toolkit-clip {
+    top: calc(1.2em);
+}
+.toolkit-level-meter.toolkit-left.toolkit-has-scale > .toolkit-clip {
+    right: calc(32px + 2px);
+}
+.toolkit-level-meter.toolkit-right.toolkit-has-scale > .toolkit-clip {
+    left: calc(32px + 2px);
+}
+
+.toolkit-level-meter.toolkit-horizontal > .toolkit-clip {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 5px;
+}
+.toolkit-level-meter.toolkit-has-label.toolkit-horizontal > .toolkit-clip,
+.toolkit-level-meter.toolkit-has-title.toolkit-horizontal > .toolkit-clip {
+    bottom: 0px;
+}
+
+/* SCALE */
+
+.toolkit-level-meter.toolkit-has-clip.toolkit-horizontal > .toolkit-scale {
+    right: calc(3px + 5px + 5px);
+}
+
+.toolkit-level-meter.toolkit-has-clip.toolkit-vertical > .toolkit-scale {
+    top: calc(5px + 11px + 2px);
+}
+.toolkit-level-meter.toolkit-has-clip.toolkit-has-label.toolkit-vertical > .toolkit-scale {
+    top: calc(5px + 1.2em + 11px + 2px);
+}
+
+
+/* BAR */
+
+.toolkit-level-meter.toolkit-has-clip.toolkit-horizontal > .toolkit-bar {
+    right: calc(4px + 2px);
+}
+
+.toolkit-level-meter.toolkit-has-clip.toolkit-vertical > .toolkit-bar {
+    top: calc(4px + 2px);
+}
+.toolkit-level-meter.toolkit-has-clip.toolkit-has-label.toolkit-vertical > .toolkit-bar {
+    top: calc(1.2em + 4px + 2px);
+}
+
+/* PEAK */
+
+.toolkit-level-meter > .toolkit-bar > .toolkit-peak {
+    line-height: 16px;
+}
+.toolkit-level-meter.toolkit-has-peak > .toolkit-bar > .toolkit-peak {
+    
+}
+
+.toolkit-level-meter.toolkit-vertical > .toolkit-bar > .toolkit-peak {
+    top: 0;
+    width: 100%;
+    height: 12px;
+    transform: translateY(-50%);
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak {
+    left: 0px;
+    text-align: left;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 0;
+    width: 0;
+    border-left: 5px solid white;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    z-index: 1;
+    transform: translateY(-3px);
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak {
+    right: 0px;
+    text-align: right;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 0;
+    width: 0;
+    border-right: 5px solid white;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    z-index: 1;
+    transform: translateY(-3px);
+}
+
+.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak {
+    transform: translateX(-50%);
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak {
+    top: 0px;
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 0;
+    width: 0;
+    border-top: 5px solid white;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    z-index: 1;
+    transform: translateX(-3px);
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak {
+    bottom: 0px;
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 0;
+    width: 0;
+    border-bottom: 5px solid white;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+    z-index: 1;
+    transform: translateX(-3px);
+}
+/* PEAK LABEL */
+
+.toolkit-level-meter > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    font-size: 8px;
+    line-height: 12px;
+    opacity: 0.9;
+    overflow: hidden;
+}
+.toolkit-level-meter.toolkit-vertical > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    padding-left: 7px;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    padding-right: 7px;
+}
+
+.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
+    padding: 7px;
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    
+}
