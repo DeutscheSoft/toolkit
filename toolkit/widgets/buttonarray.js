@@ -152,7 +152,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * @param {Array.<string|object>} options - An Array containing objects
      *  with options for the buttons (see {@link TK.Button} for more
      *  information) or strings for the buttons labels.
-     * @method TK.add_buttons
+     * @method TK.ButtonArray#add_buttons
      */
     add_buttons: function (options) {
         for (var i = 0; i < options.length; i++)
