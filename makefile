@@ -55,38 +55,39 @@ js_input_files = \
     toolkit/widgets/multimeter.js
 
 css_input_files = \
-    toolkit/styles/css/toolkit.css \
-    toolkit/styles/css/globalcursor.css \
-    toolkit/styles/css/tooltip.css \
-    toolkit/styles/css/scale.css \
-    toolkit/styles/css/graph.css \
-    toolkit/styles/css/grid.css \
-    toolkit/styles/css/responsehandle.css \
-    toolkit/styles/css/circular.css \
-    toolkit/styles/css/buttonarray.css \
-    toolkit/styles/css/meterbase.css \
-    toolkit/styles/css/chart.css \
-    toolkit/styles/css/gauge.css \
-    toolkit/styles/css/button.css \
-    toolkit/styles/css/valuebutton.css \
-    toolkit/styles/css/toggle.css \
-    toolkit/styles/css/state.css \
-    toolkit/styles/css/levelmeter.css \
-    toolkit/styles/css/frequencyresponse.css \
-    toolkit/styles/css/dynamics.css \
-    toolkit/styles/css/responsehandler.css \
-    toolkit/styles/css/clock.css \
-    toolkit/styles/css/window.css \
-    toolkit/styles/css/knob.css \
-    toolkit/styles/css/value.css \
-    toolkit/styles/css/fader.css \
-    toolkit/styles/css/select.css \
-    toolkit/styles/css/label.css \
-    toolkit/styles/css/container.css \
-    toolkit/styles/css/pager.css \
-    toolkit/styles/css/expander.css \
-    toolkit/styles/css/valueknob.css \
-    toolkit/styles/css/multimeter.css \
+    toolkit/styles/toolkit.css \
+    toolkit/styles/2013.css \
+    toolkit/styles/2013/globalcursor.css \
+    toolkit/styles/2013/tooltip.css \
+    toolkit/styles/2013/scale.css \
+    toolkit/styles/2013/graph.css \
+    toolkit/styles/2013/grid.css \
+    toolkit/styles/2013/responsehandle.css \
+    toolkit/styles/2013/circular.css \
+    toolkit/styles/2013/css/buttonarray.css \
+    toolkit/styles/2013/css/meterbase.css \
+    toolkit/styles/2013/css/chart.css \
+    toolkit/styles/2013/css/gauge.css \
+    toolkit/styles/2013/css/button.css \
+    toolkit/styles/2013/css/valuebutton.css \
+    toolkit/styles/2013/css/toggle.css \
+    toolkit/styles/2013/css/state.css \
+    toolkit/styles/2013/css/levelmeter.css \
+    toolkit/styles/2013/css/frequencyresponse.css \
+    toolkit/styles/2013/css/dynamics.css \
+    toolkit/styles/2013/css/responsehandler.css \
+    toolkit/styles/2013/css/clock.css \
+    toolkit/styles/2013/css/window.css \
+    toolkit/styles/2013/css/knob.css \
+    toolkit/styles/2013/css/value.css \
+    toolkit/styles/2013/css/fader.css \
+    toolkit/styles/2013/css/select.css \
+    toolkit/styles/2013/css/label.css \
+    toolkit/styles/2013/css/container.css \
+    toolkit/styles/2013/css/pager.css \
+    toolkit/styles/2013/css/expander.css \
+    toolkit/styles/2013/css/valueknob.css \
+    toolkit/styles/2013/css/multimeter.css \
 
 toolkit.min.js:	$(js_input_files) makefile
 	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@
@@ -100,11 +101,11 @@ toolkit.all.js: makefile
 	for file in $(js_input_files); do echo 'document.writeln("'"<script src='"'"'" + toolkit_base_dir + "'"'"/$$file'></script>"'");'; done >> $@
 	echo "})();" >> $@
 
-toolkit/styles/css/toolkit.all.css: makefile
+toolkit/styles/2013/css/toolkit.all.css: makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
 
 .PHONY: jsdoc
-jsdoc: makefile $(js_input_files) jsdoc/conf.json toolkit.all.js toolkit/styles/css/toolkit.all.css
+jsdoc: makefile $(js_input_files) jsdoc/conf.json toolkit.all.js toolkit/styles/2013/css/toolkit.all.css
 	jsdoc -u tutorials/ --readme docs/Main.md -t ../jsdoc-toolkit/ -c jsdoc/conf.json $(js_input_files)
 	cp -r images/ out/
 	cp -r toolkit.all.js toolkit/ out/
