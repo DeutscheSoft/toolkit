@@ -117,7 +117,7 @@ function remove_scale() {
  * @param {Object} options
  * @property {number} [options.value] - The fader position. This options is
  *      modified by user interaction.
- * @property {function} options.tooltip - An optional formatting function for
+ * @property {function} [options.tooltip=false] - An optional formatting function for
  *      the tooltip value. The tooltip will show that value the mouse cursor is
  *      currently hovering over. If this option is not set, no tooltip will be shown.
  * @property {boolean} [options.bind_click=false] - If true, a <code>click</code>
@@ -126,6 +126,8 @@ function remove_scale() {
  *      on the fader will reset the fader value to <code>options.reset</code>.
  * @property {number} [options.reset=options.value] - The reset value, which is used by
  *      the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
+ * @property {boolean} [options.show_scale=true] - If true, a scale is drawn.
+ *
  */
 w.TK.Fader = w.Fader = $class({
     _class: "Fader",
@@ -177,6 +179,11 @@ w.TK.Fader = w.Fader = $class({
         this.widgetize(E, true, true, true);
 
         this.scale = this._scale = null;
+        /**
+         * @member {TK.Scale} TK.Fader#scale - If <code>option.show_scale</code> is true,
+         *      <code>scale</code> will be the corresponding instance of {@link TK.Scale}.
+         *
+         */
         
         this._handle = TK.element("div", "toolkit-handle");
         this._handle_size = 0;
@@ -191,6 +198,10 @@ w.TK.Fader = w.Fader = $class({
         var self = THIS.bind(this);
         var get = GET.bind(O);
         var set = SET.bind(this);
+        /**
+         * @member {TK.DragValue} TK.Fader#drag - Instance of {@link TK.DragValue} used for the handle
+         *      interaction.
+         */
         this.drag = new TK.DragValue({
             node:    this._handle,
             range:   self,
@@ -199,6 +210,10 @@ w.TK.Fader = w.Fader = $class({
             events:  self,
             direction: O.direction
         });
+        /**
+         * @member {TK.ScrollValue} TK.Fader#scroll - Instance of {@link TK.ScrollValue} used for the
+         *      handle interaction.
+         */
         this.scroll = new TK.ScrollValue({
             node:    this.element,
             range:   self,
