@@ -729,26 +729,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var range_y = this.range_y;
         var range_z = this.range_z;
         
-        if ((this._zhandling || this._zwheel)
-        && (O.z >= O.z_max && O.z_max !== false
-        ||  O.z <= O.z_min && O.z_min !== false)) {
-            this.warning(this.element);
-        }
-        
-        // do we have to restrict movement?
-        if (O.x_min !== false)
-            O.x = Math.max(O.x_min, O.x);
-        if (O.x_max !== false)
-            O.x = Math.min(O.x_max, O.x);
-        if (O.y_min !== false)
-            O.y = Math.max(O.y_min, O.y);
-        if (O.y_max !== false)
-            O.y = Math.min(O.y_max, O.y);
-        if (O.z_min !== false)
-            O.z = Math.max(O.z_min, O.z);
-        if (O.z_max !== false)
-            O.z = Math.min(O.z_max, O.z);
-        
         O.x = range_x.snap(O.x);
         O.y = range_y.snap(O.y);
         O.z = range_z.snap(O.z);
@@ -1315,6 +1295,54 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 TK.warn("Unsupported mode", pref[i]);
         }
         TK.Widget.prototype.redraw.call(this);
+    },
+    set: function(key, value) {
+        var O = this.options;
+
+        switch (key) {
+        case "x":
+            if (O.x_min !== false && value < O.x_min) value = O.x_min;
+            if (O.x_max !== false && value > O.x_max) value = O.x_max;
+            break;
+        case "y":
+            if (O.y_min !== false && value < O.y_min) value = O.y_min;
+            if (O.y_max !== false && value > O.y_max) value = O.y_max;
+            break;
+        case "z":
+            if (O.z_min !== false && value < O.z_min) {
+                value = O.z_min;
+                this.warning(this.element);
+            } else if (O.z_max !== false && value > O.z_max) {
+                value = O.z_max;
+                this.warning(this.element);
+            }
+            break;
+        }
+
+        value = TK.Widget.prototype.set.call(this, key, value);
+
+        switch (key) {
+        case "x_min":
+            if (value !== false && O.x < value) this.set("x", value);
+            break;
+        case "x_max":
+            if (value !== false && O.x > value) this.set("x", value);
+            break;
+        case "y_min":
+            if (value !== false && O.y < value) this.set("y", value);
+            break;
+        case "y_max":
+            if (value !== false && O.y > value) this.set("y", value);
+            break;
+        case "z_min":
+            if (value !== false && O.z < value) this.set("z", value);
+            break;
+        case "z_max":
+            if (value !== false && O.z > value) this.set("z", value);
+            break;
+        }
+
+        return value;
     },
     destroy: function () {
         this._line1.remove();
