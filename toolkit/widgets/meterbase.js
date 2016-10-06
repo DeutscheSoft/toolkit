@@ -257,7 +257,7 @@ w.TK.MeterBase = w.MeterBase = $class({
 
         if (this._fillstyle === false) {
             this._fillstyle = TK.get_style(this._canvas, "background-color");
-            this._canvas.getContext("2d").fillStyle = this._fillStyle;
+            this._canvas.getContext("2d").fillStyle = this._fillstyle;
             this._canvas.style.background = 'none';
         }
 
@@ -331,6 +331,7 @@ w.TK.MeterBase = w.MeterBase = $class({
             /* FIXME: I am not sure why this is even necessary */
             this._canvas.style.width = O._width + "px";
             this._canvas.style.height = O._height + "px";
+            this._canvas.getContext("2d").fillStyle = this._fillstyle;
         }
         
         if (I.value || I.basis) {
