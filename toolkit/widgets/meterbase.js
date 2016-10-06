@@ -377,7 +377,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         var v1 = this.val2px(base)|0;
         var v2 = this.val2px(value)|0;
 
-        if (segment !== 1) v2 -= v2 % segment;
+        if (segment !== 1) v2 = segment*(Math.round(v2/segment)|0);
 
         if (v2 < v1) {
             to.push(v2, v1);
