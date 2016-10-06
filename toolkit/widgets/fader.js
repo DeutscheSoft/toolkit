@@ -117,9 +117,15 @@ function remove_scale() {
  * @param {Object} options
  * @property {number} [options.value] - The fader position. This options is
  *      modified by user interaction.
- * @property {function} [options.tooltip] - An optional formatting function for
+ * @property {function} options.tooltip - An optional formatting function for
  *      the tooltip value. The tooltip will show that value the mouse cursor is
- *      currently hovering over.
+ *      currently hovering over. If this option is not set, no tooltip will be shown.
+ * @property {boolean} [options.bind_click=false] - If true, a <code>click</code>
+ *      on the fader will move the handle to the pointed position.
+ * @property {boolean} [options.bind_dblclick=true] - If true, a <code>dblclick</code>
+ *      on the fader will reset the fader value to <code>options.reset</code>.
+ * @property {number} [options.reset=options.value] - The reset value, which is used by
+ *      the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
  */
 w.TK.Fader = w.Fader = $class({
     _class: "Fader",
@@ -141,6 +147,8 @@ w.TK.Fader = w.Fader = $class({
         fixed_labels: "boolean",
         direction: "int",
         reset: "number",
+        bind_click: "boolean",
+        bind_dblclick: "boolean",
     }),
     options: {
         value: 0,
@@ -154,7 +162,9 @@ w.TK.Fader = w.Fader = $class({
         tooltip: false,
         layout: "left",
         fixed_dots: false,
-        fixed_labels: false
+        fixed_labels: false,
+        bind_click: false,
+        bind_dblclick: true,
     },
     initialize: function (options) {
         this.__tt = false;
@@ -200,14 +210,14 @@ w.TK.Fader = w.Fader = $class({
         this.tooltip_by_position = tooltip_by_position.bind(this);
         this.tooltip_by_value = tooltip_by_value.bind(this);
         
-        this.add_event("click", clicked);
         this.add_event("mouseenter", mouseenter);
         this.add_event("mouseleave", mouseleave);
-        this.add_event("dblclick", dblclick);
         
         this.drag.add_event("startdrag", startdrag.bind(this));
         this.drag.add_event("stopdrag", stopdrag.bind(this));
         this.scroll.add_event("scrolling", scrolling.bind(this));
+        this.set("bind_click", O.bind_click);
+        this.set("bind_dblclick", O.bind_dblclick);
     },
 
     initialized: function () {
@@ -305,6 +315,15 @@ w.TK.Fader = w.Fader = $class({
         TK.tooltip.remove(0, this.tooltip_by_value);
         TK.tooltip.remove(1, this.tooltip_by_position);
     },
+
+    /**
+     * Resets the fader value to <code>options.reset</code>.
+     *
+     * @method TK.Fader#reset
+     */
+    reset: function() {
+        this.set("value", this.options.reset);
+    },
     
     // GETTER & SETTER
     set: function (key, value) {
@@ -329,6 +348,14 @@ w.TK.Fader = w.Fader = $class({
             case "show_scale":
                 if (!value)
                     remove_scale.call(this);
+                break;
+            case "bind_click":
+                if (value) this.add_event("click", clicked);
+                else this.remove_event("click", clicked);
+                break;
+            case "bind_dblclick":
+                if (value) this.add_event("dblclick", dblclick);
+                else this.remove_event("dblclick", dblclick);
                 break;
         }
 
