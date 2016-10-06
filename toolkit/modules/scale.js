@@ -178,12 +178,19 @@ function create_dot(value, position) {
     var elem = document.createElement("DIV");
     elem.className = "toolkit-dot";
     elem.style.position = "absolute";
-
+    
     if (O.layout === "left" || O.layout === "right") {
         elem.style.bottom = Math.round(position + 0.5) + "px";
     } else {
         elem.style.left = Math.round(position - 0.5) + "px";
     }
+    
+    if (get_base(O) === value)
+        TK.add_class(elem, "toolkit-base");
+    else if (O.max === value)
+        TK.add_class(elem, "toolkit-max");
+    else if (O.min === value)
+        TK.add_class(elem, "toolkit-min");
 
     return elem;
 }
