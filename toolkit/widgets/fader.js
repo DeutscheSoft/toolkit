@@ -236,6 +236,7 @@ w.TK.Fader = w.Fader = $class({
         this.set("bind_click", O.bind_click);
         this.set("bind_dblclick", O.bind_dblclick);
         this.set("tooltip", O.tooltip);
+        this.set("show_scale", O.show_scale);
     },
 
     initialized: function () {
@@ -255,7 +256,6 @@ w.TK.Fader = w.Fader = $class({
             I.show_scale = false;
             if (O.show_scale) {
                 if (!this._scale) {
-                    create_scale.call(this);
                     this._scale = this.scale.element;
                     E.appendChild(this._scale);
                 }
@@ -365,8 +365,11 @@ w.TK.Fader = w.Fader = $class({
                 this.scroll.set("direction", this.options.direction);
                 break;
             case "show_scale":
-                if (!value)
+                if (value) {
+                    create_scale.call(this);
+                } else {
                     remove_scale.call(this);
+                }
                 break;
             case "bind_click":
                 if (value) this.add_event("click", clicked);
