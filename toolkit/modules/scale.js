@@ -184,6 +184,13 @@ function create_dot(value, position) {
     } else {
         elem.style.left = Math.round(position - 0.5) + "px";
     }
+    
+    if (get_base(O) === value)
+        TK.add_class(elem, "toolkit-base");
+    else if (O.max === value)
+        TK.add_class(elem, "toolkit-max");
+    else if (O.min === value)
+        TK.add_class(elem, "toolkit-min");
 
     return elem;
 }
