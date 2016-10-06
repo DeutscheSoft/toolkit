@@ -104,6 +104,32 @@ function remove_scale() {
         this.scale = null;
     }
 }
+
+function activate_tooltip() {
+    if (!this.tooltip_by_position) {
+        this.tooltip_by_position = tooltip_by_position.bind(this);
+        this.tooltip_by_value = tooltip_by_value.bind(this);
+        this.__startdrag = startdrag.bind(this);
+        this.__stopdrag = stopdrag.bind(this);
+        this.__scrolling = scrolling.bind(this);
+    }
+    this.add_event("mouseenter", mouseenter);
+    this.add_event("mouseleave", mouseleave);
+    this.drag.add_event("startdrag", this.__startdrag);
+    this.drag.add_event("stopdrag", this.__stopdrag);
+    this.scroll.add_event("scrolling", this.__scrolling);
+}
+
+function deactivate_tooltip() {
+    if (!this.tooltip_by_position) return;
+    TK.tooltip.remove(0, this.tooltip_by_value);
+    TK.tooltip.remove(1, this.tooltip_by_position);
+    this.remove_event("mouseenter", mouseenter);
+    this.remove_event("mouseleave", mouseleave);
+    this.drag.remove_event("startdrag", this.__startdrag);
+    this.drag.remove_event("stopdrag", this.__stopdrag);
+    this.scroll.remove_event("scrolling", this.__scrolling);
+}
 /**
  * TK.Fader is a fader widget. It is implemented as a slidable control which
  * can be both dragged and scrolled. TK.Fader implements {@link TK.Ranged},
@@ -206,18 +232,10 @@ w.TK.Fader = w.Fader = $class({
             set:     set,
             events:  self
         });
-
-        this.tooltip_by_position = tooltip_by_position.bind(this);
-        this.tooltip_by_value = tooltip_by_value.bind(this);
         
-        this.add_event("mouseenter", mouseenter);
-        this.add_event("mouseleave", mouseleave);
-        
-        this.drag.add_event("startdrag", startdrag.bind(this));
-        this.drag.add_event("stopdrag", stopdrag.bind(this));
-        this.scroll.add_event("scrolling", scrolling.bind(this));
         this.set("bind_click", O.bind_click);
         this.set("bind_dblclick", O.bind_dblclick);
+        this.set("tooltip", O.tooltip);
     },
 
     initialized: function () {
@@ -329,9 +347,10 @@ w.TK.Fader = w.Fader = $class({
     set: function (key, value) {
         switch (key) {
             case "tooltip":
-                if (!value) {
-                    TK.tooltip.remove(0, this.tooltip_by_value);
-                    TK.tooltip.remove(1, this.tooltip_by_position);
+                if (value) {
+                    activate_tooltip.call(this);
+                } else {
+                    deactivate_tooltip.call(this);
                 }
                 break;
             case "value":
