@@ -776,7 +776,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 _handle.setAttribute("r", width / 2);
                 _handle.setAttribute("cx", x.toFixed(1));
                 _handle.setAttribute("cy", y.toFixed(1));
-                this.element.setAttribute("transform",  "translate(0,0)");
                 this.handle = {
                     x1: x - width / 2,
                     y1: y - width / 2,
@@ -806,7 +805,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
                 _handle.setAttribute("height", height);
-                this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case "line-horizontal":
@@ -831,7 +829,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
                 _handle.setAttribute("height", height);
-                this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case "block-left":
@@ -856,7 +853,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
                 _handle.setAttribute("height", height);
-                this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case "block-right":
@@ -884,7 +880,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
                 _handle.setAttribute("height", height);
-                this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case "block-top":
@@ -908,7 +903,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
                 _handle.setAttribute("height", height);
-                this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             case "block-bottom":
@@ -934,7 +928,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 _handle.setAttribute("y", y);
                 _handle.setAttribute("width", width);
                 _handle.setAttribute("height", height);
-                this.element.setAttribute("transform", "translate(0,0)");
                 this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
                 break;
             default:
