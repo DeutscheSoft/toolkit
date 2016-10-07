@@ -252,7 +252,6 @@ pre, code {
 /* METERBASE */
 
 .toolkit-meter-base {
-    overflow: hidden;
     position: relative;
 }
 .toolkit-meter-base .toolkit-label {
