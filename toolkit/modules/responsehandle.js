@@ -707,6 +707,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._handle.onselectstart = function () { return false; };
         
         this.set("active", O.active);
+        this.set("x", O.x);
+        this.set("y", O.y);
+        this.set("z", O.z);
     },
     
     redraw: function () {
@@ -727,10 +730,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var range_x = this.range_x;
         var range_y = this.range_y;
         var range_z = this.range_z;
-        
-        O.x = range_x.snap(O.x);
-        O.y = range_y.snap(O.y);
-        O.z = range_z.snap(O.z);
         
         this.x = range_x.val2px(O.x);
         this.y = range_y.val2px(O.y);
@@ -1300,14 +1299,17 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
 
         switch (key) {
         case "x":
+            value = this.range_x.snap(value);
             if (O.x_min !== false && value < O.x_min) value = O.x_min;
             if (O.x_max !== false && value > O.x_max) value = O.x_max;
             break;
         case "y":
+            value = this.range_y.snap(value);
             if (O.y_min !== false && value < O.y_min) value = O.y_min;
             if (O.y_max !== false && value > O.y_max) value = O.y_max;
             break;
         case "z":
+            value = this.range_z.snap(value);
             if (O.z_min !== false && value < O.z_min) {
                 value = O.z_min;
                 this.warning(this.element);
