@@ -25,20 +25,23 @@ w.TK.Gradient = w.Gradient = $class({
      * Gradient needs a {@link TK.Range} to be implemented on.
      *
      * @mixin TK.Gradient
-     * @property {Object} options.gradient - Gradient definition for the background.
+     * @property {Object|boolean} options.gradient - Gradient definition for the background.
      * Keys are ints or floats as string corresponding to the widgets scale.
      * Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
-     * @property {string} [options.background="#000000"] - Background color if no gradient is used
+     * If set to false the css style color is used.
+     * @property {string|boolean} [options.background="#000000"] - Background color if no gradient is used.
+     * Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
+     * If set to false the css style color is used.
      */
     _class: "Gradient",
     Implements: Ranged,
     _options: Object.assign(Ranged.prototype._options, {
-        gradient: "object",
-        background: "string",
+        gradient: "object|boolean",
+        background: "string|boolean",
     }),
     options: {
         gradient:        false,
-        background:      "#00000"
+        background:      false
     },
     draw_gradient: function (element, gradient, fallback, range) {
         /**
@@ -184,7 +187,7 @@ w.TK.Gradient = w.Gradient = $class({
         }
         
         if (element) {
-            element.style.background = bg;
+            element.style.background = bg ? bg : void 0;
             /**
              * Is fired when the gradient was created.
              *
