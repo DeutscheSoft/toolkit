@@ -34,7 +34,7 @@
  *
  * @param {Object} options
  * @property {boolean} [options.state=false] - The state.
- * @property {string} [options.color="red"] - A css color string for the state LED.
+ * @property {string|boolean} [options.color="red"] - A css color string for the state LED or false to unset the style.
  *      <code>false</code>.
  */
 w.TK.State = w.State = $class({
@@ -42,11 +42,11 @@ w.TK.State = w.State = $class({
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         state: "boolean",
-        color: "string",
+        color: "string|boolean",
     }),
     options: {
         state:           false,     // the initial state (0 ... 1)
-        color:           "red", // the base color
+        color:           false, // the base color
     },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
@@ -74,7 +74,10 @@ w.TK.State = w.State = $class({
 
         if (I.color) {
             I.color = false;
-            this.element.style["background-color"] = O.color;
+            if (O.color)
+                this.element.style["background-color"] = O.color;
+            else
+                this.element.style["background-color"] = void 0;
         }
 
         if (I.state || I.opacity) {
