@@ -79,7 +79,6 @@ function mousedown(e) {
     this._clickZ  = this.z;
     this._pageX   = ev.pageX;
     this._pageY   = ev.pageY;
-    this.redraw();
     if (!this._zhandling) {
         this.fire_event("handlegrabbed", {
             x:     this.options.x,
