@@ -242,6 +242,13 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             (O.show_peak ? TK.add_class : TK.remove_class)(E, "toolkit-has-peak");
         }
 
+        if (I.top || I.bottom) {
+            /* top and bottom require a meter redraw, so lets invalidate
+             * value */
+            I.top = I.bottom = false;
+            I.value = true;
+        }
+
         TK.MeterBase.prototype.redraw.call(this);
 
         if (I.peak) {
@@ -409,7 +416,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
                 this.set("peak", value);
             }
             if (O.auto_hold !== false && O.show_hold && value > O.top) {
-                this.set("top", value, true);
+                this.set("top", value);
             }
             if (O.auto_hold !== false && O.show_hold && value < O.bottom && this.__based) {
                 this.set("bottom", value);
