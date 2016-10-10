@@ -266,7 +266,7 @@ w.TK.Filter = w.Filter = $class({
     Extends: TK.Base,
     Implements: [AudioMath],
     _options: {
-        type: "int",
+        type: "mixed",
         freq: "number",
         gain: "number",
         q: "number",
@@ -283,22 +283,33 @@ w.TK.Filter = w.Filter = $class({
         this.fire_event("initialized");
     },
     reset: function () {
-        var m = FilterModule(window, this.options);
+        var O = this.options;
+        var m;
 
-        switch (this.options.type) {
-            case "parametric": this.freq2gain = m.peak; break;
-            case "notch": this.freq2gain = m.notch; break;
-            case "low-shelf": this.freq2gain = m.low_shelf; break;
-            case "high-shelf": this.freq2gain = m.high_shelf; break;
-            case "lowpass1": this.freq2gain = m.lpf_order1; break;
-            case "lowpass2": this.freq2gain = m.lpf_order2; break;
-            case "lowpass3": this.freq2gain = m.lpf_order3; break;
-            case "lowpass4": this.freq2gain = m.lpf_order4; break;
-            case "highpass1": this.freq2gain = m.hpf_order1; break;
-            case "highpass2": this.freq2gain = m.hpf_order2; break;
-            case "highpass3": this.freq2gain = m.hpf_order3; break;
-            case "highpass4": this.freq2gain = m.hpf_order4; break;
-            default: throw new Error("undefined type!\n");
+        if (typeof(O.type) === "string") {
+            m = FilterModule(window, O);
+
+            switch (this.options.type) {
+                case "parametric": this.freq2gain = m.peak; break;
+                case "notch": this.freq2gain = m.notch; break;
+                case "low-shelf": this.freq2gain = m.low_shelf; break;
+                case "high-shelf": this.freq2gain = m.high_shelf; break;
+                case "lowpass1": this.freq2gain = m.lpf_order1; break;
+                case "lowpass2": this.freq2gain = m.lpf_order2; break;
+                case "lowpass3": this.freq2gain = m.lpf_order3; break;
+                case "lowpass4": this.freq2gain = m.lpf_order4; break;
+                case "highpass1": this.freq2gain = m.hpf_order1; break;
+                case "highpass2": this.freq2gain = m.hpf_order2; break;
+                case "highpass3": this.freq2gain = m.hpf_order3; break;
+                case "highpass4": this.freq2gain = m.hpf_order4; break;
+                default: throw new Error("undefined type!\n");
+            }
+        } else if (typeof(O.type) === "function") {
+            m = O.type(window, O);
+
+            this.freq2gain = m.freq2gain;
+        } else {
+            TK.error("Unsupported option 'type'.");
         }
         this.fire_event("reset");
     },
