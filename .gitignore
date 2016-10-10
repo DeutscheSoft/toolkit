@@ -1,6 +1,10 @@
-toolkit.min.js
-toolkit.min.map
+*toolkit.all.js
+*toolkit.min.js
+*toolkit.max.js
+*toolkit.min.map
 backup.html
 javascript/items.js
 *.swp
 out/
+*toolkit.min.css
+*toolkit.all.css
