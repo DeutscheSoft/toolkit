@@ -307,7 +307,7 @@ function ROT(a) {
     return [ +Math.sin(+a), +Math.cos(+a) ];
 }
 
-var POSITIONS = {
+var ZHANDLE_POSITION_circular = {
     "top":          ROT(0),
     "top-right":    ROT(Math.PI/4),
     "right":        ROT(Math.PI/2),
@@ -318,15 +318,16 @@ var POSITIONS = {
     "top-left":     ROT(Math.PI*7/4),
 };
 
-function position_to_vector(pos) {
-    var vec = POSITIONS[pos];
+function get_zhandle_position_circular(O, X) {
+    var vec = ZHANDLE_POSITION_circular[O.z_handle];
+    var x = (X[0]+X[2])/2;
+    var y = (X[1]+X[3])/2;
+    var R = (X[2] - X[0] - O.z_handle_size)/2;
 
-    if (!vec) {
-        TK.warn("Unknown position: ", pos);
-        vec = POSITIONS.right;
-    }
-
-    return vec;
+    return [
+        x + R*vec[0],
+        y + R*vec[1]
+    ];
 }
 
 var Z_HANDLE_SIZE_corner = [ 1, 1, 0, 0 ];
@@ -351,10 +352,12 @@ function Z_HANDLE_SIZE(pos) {
     }
 };
 
-function get_zhandle_size(O, width, height) {
+function get_zhandle_size(O, X) {
     var vec = Z_HANDLE_SIZE(O.z_handle);
     var z_handle_size = O.z_handle_size;
     var z_handle_centered = O.z_handle_centered;
+    var width = X[2] - X[0];
+    var height = X[3] - X[1];
 
     if (z_handle_centered < 1) {
         width *= z_handle_centered;
@@ -381,73 +384,120 @@ var Z_HANDLE_POS = {
     "bottom":       [ 0, 1 ],
     "bottom-left":  [ -1, 1 ],
     "left":         [ -1, 0 ],
-    "top-left":     [ -1, -1 ]
+    "top-left":     [ -1, -1 ],
+    "center":       [ 0, 0 ],
 };
 
-function get_zhandle_position(O, width, height, zhandle_size) {
-    var x = width/2 - zhandle_size[0]/2;
-    var y = height/2 - zhandle_size[1]/2;
+function get_zhandle_position(O, X, zhandle_size) {
+    var x = +(+X[0]+X[2]-+zhandle_size[0])/2;
+    var y = +(+X[1]+X[3]-+zhandle_size[1])/2;
+    var width = +X[2] - +X[0];
+    var height = +X[3] - +X[1];
     var vec = Z_HANDLE_POS[O.z_handle] || Z_HANDLE_POS["top-right"];
 
-    x += vec[0] * (width - zhandle_size[0])/2;
-    y += vec[1] * (height - zhandle_size[1])/2;
+    x += +vec[0] * +(width - +zhandle_size[0])/2;
+    y += +vec[1] * +(height - +zhandle_size[1])/2;
 
     return [x, y];
 }
 
-var LABEL_ALIGN = {
+var LABEL_ALIGN_outside = {
     "top":      "middle",
     "bottom":   "middle",
     "left":     "end",
-    "top-left": "end",
-    "bottom-left":"end",
+    "top-left": "start",
+    "bottom-left":"start",
     "right":    "start",
-    "top-right":"start",
-    "bottom-right":"start",
+    "top-right":"end",
+    "bottom-right":"end",
     "center" : "middle",
 };
 
-function is_label_inside(mode, pos) {
-    if (mode === "block-left" || mode === "block-right") {
-        if (pos === "center") return true;
-        if (pos.search(mode.substr(7)) !== -1) return true;
-    } else if (mode === "block-top" || mode === "block-bottom") {
-        /* FIXME: this is not at all consistent with the above */
-        return true;
-    } else if (mode === "line-horizontal") {
-        return true;
-    }
+var LABEL_ALIGN_inside = {
+    "top":      "middle",
+    "bottom":   "middle",
+    "left":     "start",
+    "top-left": "start",
+    "bottom-left":"start",
+    "right":    "end",
+    "top-right":"end",
+    "bottom-right":"end",
+    "center" : "middle",
+};
 
-    return false;
+
+function is_label_inside(O) {
+    var mode = O.mode;
+    return (mode === "block-left" || mode === "block-right" ||
+            mode === "block-top" || mode === "block-bottom");
 }
 
-function get_label_align(mode, pos) {
+function get_label_align(O, pos) {
     var align;
-
-    if (pos === "center") {
-        return mode === "block-left" ? "end" : "start";
-    }
+    var LABEL_ALIGN = is_label_inside(O) ? LABEL_ALIGN_inside : LABEL_ALIGN_outside;
 
     align = LABEL_ALIGN[pos];
-
-    if (is_label_inside(mode, pos)) {
-        if (align === "start") return "end";
-        if (align === "end") return "start";
-    }
 
     return align;
 }
 
+var LABEL_POSITION_outside = {
+    top:                 [ 0, -1, 0, -1, 0, -1 ],
+    right:               [ 1, 0, 0, -1/2, 1, 0 ],
+    left:                [ -1, 0, 0, -1/2, -1, 0 ],
+    bottom:              [ 0, 1, 0, 0, 0, 1 ],
+    "bottom-left":       [ -1, 1, 0, 0, 0, 1 ],
+    "bottom-right":      [ 1, 1, 0, 0, 0, 1 ],
+    "top-right":         [ 1, -1, 0, -1, 0, -1 ],
+    "top-left":          [ -1, -1, 0, -1, 0, -1 ],
+    center:              [ 0, 0, 0, -1/2, 0, 0 ],
+};
+
+var LABEL_POSITION_inside = {
+    top:                 [ 0, -1, 0, 0, 0, 1 ],
+    bottom:              [ 0, 1, 0, -1, 0, -1 ],
+    right:               [ 1, 0, 0, -1/2, -1, 0 ],
+    left:                [ -1, 0, 0, -1/2, 1, 0 ],
+    "bottom-left":       [ -1, 1, 0, -1, 1, -1 ],
+    "bottom-right":      [ 1, 1, 0, -1, -1, -1 ],
+    "top-right":         [ 1, -1, 0, 0, -1, 1 ],
+    "top-left":          [ -1, -1, 0, 0, 1, 1 ],
+    center:              [ 0, 0, 0, -1/2, 0, 0 ],
+};
+
+function get_label_position(O, X, pos, label_size) {
+    var m = O.margin;
+
+    var x = (X[0]+X[2])/2;
+    var y = (X[1]+X[3])/2;
+
+    var width = +X[2]-+X[0];
+    var height = +X[3]-+X[1];
+
+    var LABEL_POSITION = is_label_inside(O) ? LABEL_POSITION_inside : LABEL_POSITION_outside;
+
+    var vec = LABEL_POSITION[pos];
+
+    x += vec[0] * width/2 + vec[2] * label_size[0] + vec[4] * m;
+    y += vec[1] * height/2 + vec[3] * label_size[1] + vec[5] * m;
+
+    return [x,y];
+}
+
+/* Prints a line, making sure that an offset of 0.5 px aligns them on
+ * pixel boundaries */
+var format_line = TK.FORMAT("M %.0f.5 %.0f.5 L %.0f.5 %.0f.5");
+
 /* calculates the actual label positions based on given alignment
  * and dimensions */
-function get_label_position(align, x, y, width, height) {
+function get_label_dimensions(align, X, label_size) {
     switch (align) {
     case "start":
-        return [ x, y, x+width, y+height ];
+        return [ X[0], X[1], X[0]+label_size[0], X[1]+label_size[1] ];
     case "middle":
-        return [ x-width/2, y, x+width/2, y+height ];
+        return [ X[0]-label_size[0]/2, X[1], X[0]+label_size[0]/2, X[1]+label_size[1] ];
     case "end":
-        return [ x-width, y, x, y+height ];
+        return [ X[0]-label_size[0], X[1], X[0], X[1]+label_size[1] ];
     }
 }
 
@@ -574,10 +624,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.x = 0;
         this.y = 0;
         this.z = 0;
-        this.label =   {x:0, y: 0, width: 0, height:0};
-        this.handle = {x:0, y: 0, width: 0, height:0};
+        this.label = [0,0,0,0];
+        this.handle = [0,0,0,0];
         this.__active = false;
-        this._add = .5;
         this._tdist = false;
         this._zhandling = false;
         this._zwheel = false;
@@ -632,9 +681,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             default:
                 TK.warn("Unsupported mode:", O.mode);
         }
-        
-        if (O.container)
-            O.container.appendChild(E);
         
         this._label = TK.make_svg("text", {
             "class": "toolkit-label"
@@ -710,15 +756,12 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.set("x", O.x);
         this.set("y", O.y);
         this.set("z", O.z);
+        this.set("z_handle", O.z_handle);
     },
     
     redraw: function () {
         var O = this.options;
-        var x      = 0;
-        var y      = 0;
-        var width  = 0;
-        var height = 0;
-        var m      = O.margin;
+        var x, y, z;
         
         if (O.active) {
             TK.remove_class(this.element, "toolkit-disabled");
@@ -730,189 +773,109 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var range_x = this.range_x;
         var range_y = this.range_y;
         var range_z = this.range_z;
-        
-        this.x = range_x.val2px(O.x);
-        this.y = range_y.val2px(O.y);
-        this.z = range_z.val2px(O.z);
-        
-        var rnd = {
-            x: Math.round(this.x),
-            y: Math.round(this.y),
-            z: Math.round(this.z)
-        }
 
+        var tmp;
+
+        this.x = x = range_x.val2px(O.x);
+        this.y = y = range_y.val2px(O.y);
+        this.z = z = range_z.val2px(O.z);
+        
         var _handle = this._handle;
+
+        /* These are the coordinates of the corners (x1, y1, x2, y2)
+         * NOTE: x,y are not necessarily in the midde. */
+        var X  = [ 0, 0, 0, 0 ];
+
+        if (!range_x.options.basis || !range_y.options.basis) return;
         
         // ELEMENT / HANDLE / MAIN COORDS
-        switch (O.mode) {
-            case "circular":
-                // circle
-                x      = rnd.x;
-                y      = rnd.y;
-                width  = Math.max(O.min_size, rnd.z);
-                height = width;
-                _handle.setAttribute("r", width / 2);
-                _handle.setAttribute("cx", x.toFixed(1));
-                _handle.setAttribute("cy", y.toFixed(1));
-                this.handle = {
-                    x1: x - width / 2,
-                    y1: y - width / 2,
-                    x2: x + width / 2,
-                    y2: y + height / 2
-                }
-                break;
+        if (O.mode === "circular") {
+            tmp = Math.max(O.min_size, z)/2;
+            X[0] = x-tmp;
+            X[1] = y-tmp;
+            X[2] = x+tmp;
+            X[3] = y+tmp;
+
+            _handle.setAttribute("r", Math.round(tmp).toFixed(0));
+            _handle.setAttribute("cx", Math.round(x).toFixed(0));
+            _handle.setAttribute("cy", Math.round(y).toFixed(0));
+        } else {
+            var x_min = O.x_min !== false ? range_x.val2px(range_x.snap(O.x_min)) : 0;
+            var x_max = O.x_max !== false ? range_x.val2px(range_x.snap(O.x_max)) : range_x.options.basis;
+
+            if (x_min > x_max) {
+                tmp = x_min;
+                x_min = x_max;
+                x_max = tmp;
+            }
+
+            var y_min = O.y_min !== false ? range_y.val2px(range_y.snap(O.y_min)) : 0;
+            var y_max = O.y_max !== false ? range_y.val2px(range_y.snap(O.y_max)) : range_y.options.basis;
+
+            if (y_min > y_max) {
+                tmp = y_min;
+                y_min = y_max;
+                y_max = tmp;
+            }
+        
+            /* All other modes are drawn as rectangles */
+            switch (O.mode) {
             case "line-vertical":
-                // line vertical
-                width  = Math.round(Math.max(O.min_size, rnd.z));
-                x      = Math.round(
-                            Math.min(
-                                range_x.get("basis") - width / 2,
-                                Math.max(width / -2, rnd.x - width / 2)));
-                y      = Math.round(
-                            Math.max(
-                                0,
-                                O.y_max === false ?
-                                0 : range_y.val2px(range_y.snap(O.y_max))));
-                height = Math.round(
-                             Math.min(
-                                 range_y.get("basis"),
-                                 O.y_min === false
-                                     ? range_y.get("basis")
-                                     : range_y.val2px(range_y.snap(O.y_min))) - y);
-                _handle.setAttribute("x", x);
-                _handle.setAttribute("y", y);
-                _handle.setAttribute("width", width);
-                _handle.setAttribute("height", height);
-                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
+                tmp = Math.max(O.min_size, z)/2;
+                X[0] = x-tmp;
+                X[1] = y_min;
+                X[2] = x+tmp;
+                X[3] = y_max;
                 break;
             case "line-horizontal":
                 // line horizontal
-                height = Math.round(Math.max(O.min_size, rnd.z));
-                y      = Math.round(
-                            Math.min(
-                                range_y.get("basis") - height / 2,
-                                Math.max(height / -2, rnd.y - height / 2)));
-                x      = Math.round(
-                            Math.max(
-                                0,
-                                O.x_min === false
-                                    ? 0 : range_x.val2px(range_x.snap(O.x_min))));
-                width  = Math.round(
-                             Math.min(
-                                 range_x.get("basis"),
-                                 O.x_max === false
-                                     ? range_x.get("basis")
-                                     : range_x.val2px(range_x.snap(O.x_max))) - x);
-                _handle.setAttribute("x", x);
-                _handle.setAttribute("y", y);
-                _handle.setAttribute("width", width);
-                _handle.setAttribute("height", height);
-                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
+                tmp = Math.max(O.min_size, z)/2;
+                X[0] = x_min;
+                X[1] = y - tmp;
+                X[2] = x_max; 
+                X[3] = y + tmp;
                 break;
             case "block-left":
                 // rect lefthand
-                x      = 0;
-                y      = Math.round(
-                            Math.max(
-                                0,
-                                O.y_max === false
-                                    ? 0 : range_y.val2px(range_y.snap(O.y_max))));
-                width  = Math.round(
-                            Math.max(
-                                O.min_size / 2,
-                                Math.min(rnd.x, range_x.get("basis"))));
-                height = Math.round(
-                            Math.min(
-                                range_y.get("basis"),
-                                O.y_min === false
-                                    ? range_y.get("basis")
-                                    : range_y.val2px(range_y.snap(O.y_min))) - y);
-                _handle.setAttribute("x", x);
-                _handle.setAttribute("y", y);
-                _handle.setAttribute("width", width);
-                _handle.setAttribute("height", height);
-                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
+                X[0] = 0;
+                X[1] = y_min;
+                X[2] = x;
+                X[3] = y_max;
                 break;
             case "block-right":
                 // rect righthand
-                x      = Math.max(
-                            0,
-                            Math.min(
-                                rnd.x,
-                                range_x.get("basis") - O.min_size / 2));
-                y      = Math.round(
-                            Math.max(
-                                0,
-                                O.y_max === false
-                                    ? 0 : range_y.val2px(range_y.snap(O.y_max))));
-                width  = Math.max(
-                            O.min_size / 2,
-                            range_x.get("basis") - x);
-                height = Math.round(
-                            Math.min(
-                                range_y.get("basis"),
-                                O.y_min === false
-                                    ? range_y.get("basis")
-                                    : range_y.val2px(range_y.snap(O.y_min))) - y);
-                _handle.setAttribute("x", x);
-                _handle.setAttribute("y", y);
-                _handle.setAttribute("width", width);
-                _handle.setAttribute("height", height);
-                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
+                X[0] = x;
+                X[1] = y_min;
+                X[2] = range_x.options.basis;
+                X[3] = y_max;
                 break;
             case "block-top":
                 // rect top
-                x      = Math.round(Math.max(
-                            0,
-                            O.x_min === false
-                                ? 0 : range_x.val2px(range_x.snap(O.x_min))));
-                y      = 0;
-                width  = Math.round(
-                            Math.min(
-                                range_x.get("basis"),
-                                O.x_max === false
-                                    ? range_x.get("basis")
-                                    : range_x.val2px(range_x.snap(O.x_max))) - x);
-                height = Math.round(
-                            Math.max(
-                                O.min_size / 2,
-                                Math.min(rnd.y, range_y.get("basis"))));
-                _handle.setAttribute("x", x);
-                _handle.setAttribute("y", y);
-                _handle.setAttribute("width", width);
-                _handle.setAttribute("height", height);
-                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
+                X[0] = x_min;
+                X[1] = 0;
+                X[2] = x_max;
+                X[3] = y;
                 break;
             case "block-bottom":
                 // rect bottom
-                x      = Math.round(Math.max(
-                            0,
-                            O.x_min === false
-                                ? 0 : range_x.val2px(range_x.snap(O.x_min))));
-                y      = Math.max(
-                            0,
-                            Math.min(
-                                rnd.y,
-                                range_y.get("basis") - O.min_size / 2));
-                width  = Math.round(Math.min(
-                            range_x.get("basis"),
-                            O.x_max === false
-                                ? range_x.get("basis")
-                                : range_x.val2px(range_x.snap(O.x_max))) - x);
-                height = Math.max(
-                            O.min_size / 2,
-                            range_y.get("basis") - y);
-                _handle.setAttribute("x", x);
-                _handle.setAttribute("y", y);
-                _handle.setAttribute("width", width);
-                _handle.setAttribute("height", height);
-                this.handle = {x1: x, y1: y, x2: x + width, y2: y + height};
+                X[0] = x_min;
+                X[1] = y;
+                X[2] = x_max; 
+                X[3] = range_y.options.basis;
                 break;
             default:
                 TK.warn("Unsupported mode:", O.mode);
+            }
+
+            /* Draw the rectangle */
+            _handle.setAttribute("x", Math.round(+X[0]).toFixed(0));
+            _handle.setAttribute("y", Math.round(+X[1]).toFixed(0));
+            _handle.setAttribute("width", Math.round(+X[2]-X[0]).toFixed(0));
+            _handle.setAttribute("height", Math.round(+X[3]-X[1]).toFixed(0));
         }
-        
-        
+
+        this.handle = X;
+
         // Z-HANDLE
         var zhandle = this._zhandle;
 
@@ -926,32 +889,28 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 /*
                  * position the z_handle on the circle.
                  */
-                var vec = position_to_vector(O.z_handle);
+                var vec = get_zhandle_position_circular(O, X);
                 /* width and height are equal here */
-                zhandle.setAttribute("cx", (x+(width - O.z_handle_size) * vec[0]/2).toFixed(1));
-                zhandle.setAttribute("cy", (y+-(width - O.z_handle_size) * vec[1]/2).toFixed(1));
+                zhandle.setAttribute("cx", vec[0].toFixed(1));
+                zhandle.setAttribute("cy", vec[1].toFixed(1));
                 zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
             } else {
                 // all other handle types (lines/blocks)
-                var vec = get_zhandle_size(O, width, height);
+                var vec = get_zhandle_size(O, X);
 
                 zhandle.setAttribute("width", vec[0].toFixed(1));
                 zhandle.setAttribute("height", vec[1].toFixed(1));
 
-                var vec = get_zhandle_position(O, width, height, vec);
+                var vec = get_zhandle_position(O, X, vec);
 
-                zhandle.setAttribute("x", (x+vec[0]).toFixed(1));
-                zhandle.setAttribute("y", (y+vec[1]).toFixed(1));
+                zhandle.setAttribute("x", Math.round(vec[0]).toFixed(0));
+                zhandle.setAttribute("y", Math.round(vec[1]).toFixed(0));
             }
+
         }
         
         // LABEL
-        var t = O.label(
-                    O.title,
-                    O.x,
-                    O.y,
-                    O.z);
-        var a = t.split("\n");
+        var a = O.label(O.title, O.x, O.y, O.z).split("\n");
         var c = this._label.childNodes;
         while (c.length < a.length) {
             this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
@@ -966,7 +925,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         for (var i = 0; i < a.length; i++) {
             w = Math.max(w, c[i].getComputedTextLength());
         }
-        
 
         var bbox;
 
@@ -977,12 +935,14 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             return;
         }
 
-        bbox = { width: w, height: bbox.height };
+        var label_size = [ w, bbox.height ];
         
-        var xl, yl, i;
+        var i;
         var pref = O.preferences;
         var area = 0;
-        var pos = {};
+        var label_position;
+        var text_position;
+        var text_anchor;
         var tmp;
 
         /*
@@ -990,287 +950,56 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
          * that position which has the smallest intersection area with all other handles and labels
          */
         for (i = 0; i < pref.length; i++) {
-            switch (O.mode) {
-            case "circular":
-                switch (pref[i]) {
-                case "top":
-                    yl = y - height / 2 - m - bbox.height;
-                    xl = x;
-                    break;
-                case "right":
-                    xl = x + width / 2 + m;
-                    yl = y - bbox.height / 2;
-                    break;
-                case "bottom":
-                    yl = y + height / 2 + m;
-                    xl = x;
-                    break;
-                case "left":
-                    xl = x - width / 2 - m;
-                    yl = y - bbox.height / 2;
-                    break;
-                default:
-                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                    continue;
-                }
-                break;
-            case "line-vertical":
-                switch (pref[i]) {
-                case "top-left":
-                    yl = y + m;
-                    xl = x - m;
-                    break;
-                case "top-right":
-                    xl = x + width + m;
-                    yl = y + m;
-                    break;
-                case "bottom-left":
-                    yl = y + height - bbox.height - m;
-                    xl = x - m;
-                    break;
-                case "bottom-right":
-                    xl = x + width + m;
-                    yl = y + height - bbox.height - m;
-                    break;
-                case "left":
-                    xl = x - m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "right":
-                    xl = x + width + m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                default:
-                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                    continue;
-                }
-                break;
-            case "line-horizontal":
-                switch (pref[i]) {
-                case "top-left":
-                    xl = x + m;
-                    yl = y - m - bbox.height;
-                    break;
-                case "top-right":
-                    yl = y - m - bbox.height;
-                    xl = x + width - m;
-                    break;
-                case "bottom-left":
-                    xl = x + m;
-                    yl = y + height + m;
-                    break;
-                case "bottom-right":
-                    yl = y - m - bbox.height;
-                    xl = x + width - m;
-                    break;
-                case "top":
-                    yl = y - m - bbox.height;
-                    xl = x + width / 2;
-                    break;
-                case "bottom":
-                    yl = y + height + m;
-                    xl = x + width / 2;
-                    break;
-                default:
-                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                    continue;
-                }
-                break;
-            case "block-left":
-                switch (pref[i]) {
-                case "top-left":
-                    xl = x + m;
-                    yl = y + m;
-                    break;
-                case "top":
-                    xl = x - m;
-                    yl = y + m;
-                    break;
-                case "top-right":
-                    xl = width + m;
-                    yl = y + m;
-                    break;
-                case "left":
-                    xl = m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "center":
-                    xl = x + width - m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "right":
-                    xl = width + m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "bottom-left":
-                    xl = m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                case "bottom":
-                    xl = x - m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                case "bottom-right":
-                    xl = width + m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                default:
-                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                    continue;
-                }
-                break;
-            case "block-right":
-                switch (pref[i]) {
-                case "top-left":
-                    xl = x - m;
-                    yl = y + m;
-                    break;
-                case "top":
-                    xl = x + m;
-                    yl = y + m;
-                    break;
-                case "top-right":
-                    xl = width + x - m;
-                    yl = y + m;
-                    break;
-                case "left":
-                    xl = x - m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "center":
-                    xl = x + m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "right":
-                    xl = x + width - m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "bottom-left":
-                    xl = x - m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                case "bottom":
-                    xl = x + m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                case "bottom-right":
-                    xl = width + x + m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                default:
-                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                    continue;
-                }
-                break;
-            case "block-top":
-            case "block-bottom":
-                switch (pref[i]) {
-                case "top-left":
-                    xl = x + m;
-                    yl = y + m;
-                    break;
-                case "top":
-                    xl = x + width / 2;
-                    yl = y + m;
-                    break;
-                case "top-right":
-                    xl = x + width - m;
-                    yl = y + m;
-                    break;
-                case "left":
-                    xl = x + m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "center":
-                    xl = x + width / 2;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "right":
-                    xl = x + width - m;
-                    yl = y + height / 2 - bbox.height / 2;
-                    break;
-                case "bottom-left":
-                    xl = x + m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                case "bottom":
-                    xl = x + width / 2;
-                    yl = y + height - m - bbox.height;
-                    break;
-                case "bottom-right":
-                    xl = x + width - m;
-                    yl = y + height - m - bbox.height;
-                    break;
-                default:
-                    TK.warn("Preference not supported for mode", O.mode, pref[i]);
-                    continue;
-                }
-                break;
-            }
 
             /* get alignment */
+            var align = get_label_align(O, pref[i]);
 
-            var align = get_label_align(O.mode, pref[i]);
+            /* get label position */
+            var LX = get_label_position(O, X, pref[i], label_size);
+            
+            /* calculate the label bounding box using anchor and dimensions */
+            var pos = get_label_dimensions(align, LX, label_size);
 
-            /* calculate the actual label bounding box using anchor and dimensions */
-
-            var label_position = get_label_position(align, xl, yl, bbox.width, bbox.height);
-
-            tmp = O.intersect(label_position[0],
-                              label_position[1],
-                              label_position[2],
-                              label_position[3],
-                              this);
+            tmp = O.intersect(pos, this);
 
             if (area === 0 || tmp.intersect < area) {
                 area = tmp.intersect;
-                pos.x1 = label_position[0];
-                pos.y1 = label_position[1];
-                pos.x2 = label_position[2];
-                pos.y2 = label_position[3];
-                pos.xl = xl;
-                pos.yl = yl;
-                pos.align = align;
+                label_position = pos;
+                text_position = LX;
+                text_anchor = align;
 
                 /* there is no intersections, we are done */
                 if (area === 0) break;
             }
         }
 
-        this.label = pos;
-        this._label.setAttribute("x", (pos.xl) + "px");
-        this._label.setAttribute("y", (pos.yl) + "px");
-        this._label.setAttribute("text-anchor", pos.align);
+        this.label = label_position;
+        tmp = Math.round(text_position[0]) + "px";
+        this._label.setAttribute("x", tmp);
+        this._label.setAttribute("y", Math.round(text_position[1]) + "px");
+        this._label.setAttribute("text-anchor", text_anchor);
         var c = this._label.childNodes;
         for (var i = 0; i < c.length; i++)
-            c[i].setAttribute("x", (pos.xl) + "px");
-        
+            c[i].setAttribute("x", tmp);
+
         // LINES
         switch (O.mode) {
             case "circular":
                 if (O.show_axis) {
-                    var _x = Math.max(width / 2 + O.margin,
-                                      this.label.x2 - rnd.x + O.margin);
-                    var _y = Math.max(height / 2 + O.margin,
-                                      this.label.y2 - this.y + O.margin);
-                    this._line1.setAttribute("d", "M "  + _x + " 0" + this._add + " L"
-                                               + (range_x.get("basis") - (x - _x))
-                                               + " 0" + this._add);
-                    this._line2.setAttribute("d", "M 0" + this._add + " " + _y + " L 0"
-                                               + this._add + " "
-                                               + (range_y.get("basis") - (y - _y)));
+                    this._line1.setAttribute("d", 
+                         format_line(((y >= pos[1] && y <= pos[3]) ? Math.max(X[2], pos[2]) : X[2]) + O.margin, y,
+                                     range_x.options.basis, y));
+                    this._line2.setAttribute("d", 
+                         format_line(x, ((x >= pos[0] && x <= pos[2]) ? Math.max(X[3], pos[3]) : X[3]) + O.margin,
+                                     x, range_y.options.basis));
                 }
                 break;
             case "line-vertical":
             case "block-left":
             case "block-right":
-                this._line1.setAttribute("d", "M " + (rnd.x + this._add) + " " + y
-                                          + " L " + (rnd.x + this._add) + " "
-                                          + (y + height));
+                this._line1.setAttribute("d", format_line(x, X[1], x, X[3]));
                 if (O.show_axis) {
-                    this._line2.setAttribute("d", "M 0 " + (rnd.y + this._add) + " L "
-                                                + range_x.get("basis") + " "
-                                                + (rnd.y + this._add));
+                    this._line2.setAttribute("d", format_line(0, y, range_x.options.basis, y));
                 } else {
                     this._line2.setAttribute("d", "M 0 0");
                 }
@@ -1278,13 +1007,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             case "line-horizontal":
             case "block-top":
             case "block-bottom":
-                this._line1.setAttribute("d", "M "   + x + " " + (rnd.y + this._add)
-                                            + " L " + (x + width) + " "
-                                            + (rnd.y + this._add));
+                this._line1.setAttribute("d", format_line(X[0], y, X[2], y));
                 if (O.show_axis) {
-                    this._line2.setAttribute("d", "M " + (rnd.x + this._add) + " 0 L "
-                                              + (rnd.x + this._add) + " "
-                                              + range_y.get("basis"));
+                    this._line2.setAttribute("d", format_line(x, 0, x, range_y.options.basis));
                 } else {
                     this._line2.setAttribute("d", "M 0 0");
                 }
@@ -1298,6 +1023,12 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var O = this.options;
 
         switch (key) {
+        case "z_handle":
+            if (value !== value && !ZHANDLE_POSITION_circular[value]) {
+                TK.warn("Unsupported z_handle option:", value);
+                value = false;
+            }
+            break;
         case "x":
             value = this.range_x.snap(value);
             if (O.x_min !== false && value < O.x_min) value = O.x_min;

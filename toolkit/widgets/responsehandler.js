@@ -18,35 +18,12 @@
  */
 "use strict";
 (function(w){ 
-function hit_test(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
-    // hit test takes two defined rectangles and calculates the overlapping
-    // pixels.
-    var aw = ax2 - ax1;
-    var bw = bx2 - bx1;
-    var zw = bx1 - ax1;
-    var ow = 0;
-    if (zw < aw && -bw < zw) {
-        if (0 <= zw && zw <= aw) {
-            ow = aw - zw;
-        } else if (-bw <= zw && zw <= 0) {
-            ow = bw + zw;
-        }
-    }
-    if (!ow) return 0;
-                
-    var ah = ay2 - ay1;
-    var bh = by2 - by1;
-    var zh = by1 - ay1;
-    var oh = 0;
-    if (zh < ah && -bh < zh) {
-        if (0 <= zh && zh <= ah) {
-            oh = ah - zh;
-        } else if (-bh <= zh && zh <= 0) {
-            oh = bh + zh;
-        }
-    }
-    if (!oh) return 0;
-    return Math.min(Math.min(aw, bw), ow) * Math.min(Math.min(ah, bh), oh);
+function calculate_overlap(X, Y) {
+    /* no overlap, return 0 */
+    if (X[2] < Y[0] || Y[2] < X[0] || X[3] < Y[1] || Y[3] < X[1]) return 0;
+
+    return (Math.min(X[2], Y[2]) - Math.max(X[0], Y[0])) *
+           (Math.min(X[3], Y[3]) - Math.max(X[1], Y[1]));
 }
 
 function show_handles() {
@@ -209,54 +186,58 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         this.fire_event("emptied")
     },
     
-    intersect: function (x1, y1, x2, y2, handle) {
+    intersect: function (X, handle) {
         // this function walks over all known handles and asks for the coords
         // of the label and the handle. Calculates intersecting square pixels
         // according to the importance set in options. Returns an object
         // containing intersect (the amount of intersecting square pixels) and
         // count (the amount of overlapping elements)
         var c = 0;
-        var a = 0;
+        var a = 0, _a;
+        var O = this.options;
+        var importance_handle = O.importance_handle
+        var importance_label = O.importance_label
+
         for (var i = 0; i < this.handles.length; i++) {
             var h = this.handles[i];
             if (h === handle || !h.get("active")) continue;
             
-            var _a = hit_test(
-                     x1, y1, x2, y2,
-                     h.handle.x1, h.handle.y1, h.handle.x2, h.handle.y2)
-                     * this.options.importance_handle;
-            if (_a) c ++;
-            a += _a;
+            _a = calculate_overlap(X, h.handle);
+
+            if (_a) {
+                c ++;
+                a += _a * importance_handle;
+            }
             
-            var _a = hit_test(x1, y1, x2, y2,
-                     h.label.x1, h.label.y1, h.label.x2, h.label.y2)
-                     * this.options.importance_label;
-            if (_a) c ++;
-            a += _a;
+            _a = calculate_overlap(X, h.label);
+
+            if (_a) {
+                c ++;
+                a += _a * importance_label;
+            }
         }
         if (this.bands && this.bands.length) {
             for (var i = 0; i < this.bands.length; i++) {
                 var b = this.bands[i];
                 if (b === handle || !b.get("active")) continue;
                 
-                var _a = hit_test(
-                         x1, y1, x2, y2,
-                         b.handle.x1, b.handle.y1, b.handle.x2, b.handle.y2)
-                         * this.options.importance_handle;
-                if (_a) c ++;
-                a += _a;
+                _a = calculate_overlap(X, b.handle);
+
+                if (_a > 0) {
+                    c ++;
+                    a += _a * importance_handle;
+                }
                 
-                var _a = hit_test(x1, y1, x2, y2,
-                         b.label.x1, b.label.y1, b.label.x2, b.label.y2)
-                         * this.options.importance_label;
-                if (_a) c ++;
-                a += _a;
+                _a = calculate_overlap(X, b.label);
+                if (_a > 0) {
+                    c ++;
+                    a += _a * importance_label;
+                }
             }
         }
-        a += ((x2 - x1) * (y2 - y1) - hit_test(
-             x1, y1, x2, y2, 0, 0,
-             this.range_x.get("basis"), this.range_y.get("basis")))
-             * this.options.importance_border;
+        /* calculate intersection with border */
+        _a = calculate_overlap(X, [ 0, 0, this.range_x.options.basis, this.range_y.options.basis ]);
+        a += ((X[2] - X[0]) * (X[3] - X[1]) - _a) * O.importance_border;
         return {intersect: a, count: c};
     },
     
