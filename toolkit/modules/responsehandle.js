@@ -114,6 +114,11 @@ function mouseup(e) {
     this.__active = false;
     return false;
 }
+function normalize(v) {
+    var n = Math.sqrt(v[0]*v[0] + v[1]*v[1]);
+    v[0] /= n;
+    v[1] /= n;
+}
 function mousemove(e) {
     if (!this.__active) return;
     var O = this.options;
@@ -142,59 +147,22 @@ function mousemove(e) {
         mz *= range_z.get("shift_up");
     }
     if (this._zhandling) {
-        if (O.z_handle === "left"
-            || O.mode === "line-vertical" && O.z_handle === "top-left"
-            || O.mode === "line-vertical" && O.z_handle === "bottom-left"
-            || O.mode === "block-left" && O.z_handle === "top-left"
-            || O.mode === "block-left" && O.z_handle === "bottom-left"
-            || O.mode === "block-right" && O.z_handle === "top-left"
-            || O.mode === "block-right" && O.z_handle === "bottom-left") {
-            // movement to left
-            this.set("z",
-                range_z.snap(range_z.px2val(this.z - ((ev.pageX - this._pageX) * mz))));
-            this.fire_event("zchanged", O.z);
-            this._pageX = ev.pageX;
-            this._pageY = ev.pageY;
-        } else if (O.z_handle === "right"
-            || O.mode === "line-vertical" && O.z_handle === "top-right"
-            || O.mode === "line-vertical" && O.z_handle === "bottom-right"
-            || O.mode === "block-left" && O.z_handle === "top-right"
-            || O.mode === "block-left" && O.z_handle === "bottom-right"
-            || O.mode === "block-right" && O.z_handle === "top-right"
-            || O.mode === "block-right" && O.z_handle === "bottom-right") {
-            // movement to right
-            this.set("z",
-                range_z.snap(range_z.px2val(this.z + ((ev.pageX - this._pageX) * mz))));
-            this.fire_event("zchanged", O.z);
-            this._pageX = ev.pageX;
-            this._pageY = ev.pageY;
-        } else if (O.z_handle === "top"
-            || O.mode === "line-horizontal" && O.z_handle === "top-left"
-            || O.mode === "line-horizontal" && O.z_handle === "top-right"
-            || O.mode === "block-top" && O.z_handle === "top-left"
-            || O.mode === "block-top" && O.z_handle === "top-right"
-            || O.mode === "block-bottom" && O.z_handle === "top-left"
-            || O.mode === "block-bottom" && O.z_handle === "top-right") {
-            // movement to top
-            this.set("z",
-                range_z.snap(range_z.px2val(this.z - ((ev.pageY - this._pageY) * mz))));
-            this.fire_event("zchanged", O.z);
-            this._pageX = ev.pageX;
-            this._pageY = ev.pageY;
-        } else if (O.z_handle === "bottom"
-            || O.mode === "line-horizontal" && O.z_handle === "bottom-left"
-            || O.mode === "line-horizontal" && O.z_handle === "bottom-right"
-            || O.mode === "block-top" && O.z_handle === "bottom-left"
-            || O.mode === "block-top" && O.z_handle === "bottom-right"
-            || O.mode === "block-bottom" && O.z_handle === "bottom-left"
-            || O.mode === "block-bottom" && O.z_handle === "bottom-right") {
-            // movement to bottom
-            this.set("z",
-                range_z.snap(range_z.px2val(this.z + ((ev.pageY - this._pageY) * mz))));
-            this.fire_event("zchanged", O.z);
-            this._pageX = ev.pageX;
-            this._pageY = ev.pageY;
+        var v = this.zhandle_position;
+
+        /* we calculate the px distance of the current position and
+         * the position of the mousedown event. This distance is measured
+         * along the (normalized) vector from the handle to the zhandle
+         */
+
+        var d = (v[0] * (ev.pageX - this._pageX) + v[1] * (ev.pageY - this._pageY)) * mz;
+
+        if (d > 0) {
+            d = range_z.snap_up(range_z.px2val(this._clickZ + d));
+        } else {
+            d = range_z.snap_down(range_z.px2val(this._clickZ + d));
         }
+
+        this.fire_event("zchanged", this.set("z", d));
     } else if (this._sticky) {
         var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
         var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
@@ -784,11 +752,10 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
 
         /* These are the coordinates of the corners (x1, y1, x2, y2)
          * NOTE: x,y are not necessarily in the midde. */
-        var X  = [ 0, 0, 0, 0 ];
+        var X  = this.handle;
 
         if (!range_x.options.basis || !range_y.options.basis) return;
         
-        // ELEMENT / HANDLE / MAIN COORDS
         if (O.mode === "circular") {
             tmp = Math.max(O.min_size, z)/2;
             X[0] = x-tmp;
@@ -874,14 +841,13 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             _handle.setAttribute("height", Math.round(+X[3]-X[1]).toFixed(0));
         }
 
-        this.handle = X;
-
         // Z-HANDLE
         var zhandle = this._zhandle;
 
         if (O.z_handle === false) {
             if (zhandle.parentNode) zhandle.remove();
         } else {
+            var vec;
             if (!zhandle.parentNode)
                 this.element.appendChild(zhandle);
 
@@ -889,24 +855,35 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 /*
                  * position the z_handle on the circle.
                  */
-                var vec = get_zhandle_position_circular(O, X);
+                vec = get_zhandle_position_circular(O, X);
                 /* width and height are equal here */
                 zhandle.setAttribute("cx", vec[0].toFixed(1));
                 zhandle.setAttribute("cy", vec[1].toFixed(1));
                 zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
+
+                this.zhandle_position = vec;
             } else {
                 // all other handle types (lines/blocks)
-                var vec = get_zhandle_size(O, X);
+                this.zhandle_position = vec = get_zhandle_size(O, X);
 
-                zhandle.setAttribute("width", vec[0].toFixed(1));
-                zhandle.setAttribute("height", vec[1].toFixed(1));
+                zhandle.setAttribute("width", vec[0].toFixed(0));
+                zhandle.setAttribute("height", vec[1].toFixed(0));
 
-                var vec = get_zhandle_position(O, X, vec);
+                vec = get_zhandle_position(O, X, vec);
 
-                zhandle.setAttribute("x", Math.round(vec[0]).toFixed(0));
-                zhandle.setAttribute("y", Math.round(vec[1]).toFixed(0));
+                zhandle.setAttribute("x", vec[0].toFixed(0));
+                zhandle.setAttribute("y", vec[1].toFixed(0));
+
+                /* adjust to the center of the zhandle */
+                this.zhandle_position[0] /= 2;
+                this.zhandle_position[1] /= 2;
+                this.zhandle_position[0] += vec[0];
+                this.zhandle_position[1] += vec[1];
             }
 
+            this.zhandle_position[0] -= (X[0]+X[2])/2;
+            this.zhandle_position[1] -= (X[1]+X[3])/2;
+            normalize(this.zhandle_position);
         }
         
         // LABEL
