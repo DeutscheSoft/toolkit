@@ -962,7 +962,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
 
             tmp = O.intersect(pos, this);
 
-            if (area === 0 || tmp.intersect < area) {
+            /* We require at least one square px smaller intersection
+             * to avoid flickering label positions */
+            if (area === 0 || tmp.intersect + 1 < area) {
                 area = tmp.intersect;
                 label_position = pos;
                 text_position = LX;
