@@ -23,7 +23,7 @@
  * an easy convertion between dB or Hz and a linear scale mixin
  * this class.
  *
- * @mixin
+ * @mixin TK.AudioMath
  */
 TK.AudioMath = (function(stdlib, foreign, heap) {
     "use asm";
