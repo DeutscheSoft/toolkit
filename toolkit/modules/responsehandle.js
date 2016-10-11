@@ -162,7 +162,9 @@ function mousemove(e) {
             d = range_z.snap_down(range_z.px2val(this._clickZ + d));
         }
 
-        this.fire_event("zchanged", this.set("z", d));
+        d = this.set("z", d);
+        this.fire_event("useraction", "z", d);
+        this.fire_event("zchanged", d);
     } else if (this._sticky) {
         var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
         var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
