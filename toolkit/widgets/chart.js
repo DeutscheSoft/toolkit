@@ -464,6 +464,12 @@ w.TK.Chart = w.Chart = $class({
                 this.trigger_draw();
             }
         }.bind(this));
+        /**
+         * Is fired when a graph was added. Arguments are the graph
+         * and its position in the array.
+         * @type {Array.<Graph, number>}
+         * @event TK.Chart#graphadded
+         */
         this.fire_event("graphadded", g, this.graphs.length - 1);
 
         this.invalid.graphs = true;
@@ -480,6 +486,12 @@ w.TK.Chart = w.Chart = $class({
     remove_graph: function (g) {
         var i;
         if ((i = this.graphs.indexOf(g)) !== -1) {
+            /**
+             * Is fired when a graph was removed. Arguments are the graph
+             * and its position in the array.
+             * @type {Array.<Graph, number>}
+             * @event TK.Chart#graphremoved
+             */
             this.fire_event("graphremoved", g, i);
             g.destroy();
             this.graphs.splice(i, 1);
@@ -495,6 +507,10 @@ w.TK.Chart = w.Chart = $class({
      */
     empty: function () {
         this.graphs.map(this.remove_graph, this);
+        /**
+         * Is fired when all graphs are removed from the chart.
+         * @event TK.Chart#emptied
+         */
         this.fire_event("emptied");
     },
     
