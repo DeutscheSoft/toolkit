@@ -96,6 +96,10 @@ w.TK.Pager = w.Pager = $class({
             container: this.element,
             onuseraction: function(key, value) {
                 if (key == "show") value = this.set("show", value);
+                 /**
+                 * Is fired when the user switches the page.
+                 * @event TK.Pager#useraction
+                 */
                 this.fire_event("useraction", key, value);
             }.bind(this),
         });
@@ -424,6 +428,11 @@ w.TK.Pager = w.Pager = $class({
                 if (page) {
                     page.set("active", true);
                     this.show_child(page);
+                    /**
+                     * The page was switched.
+                     * @type {Array.<Widget, number>}
+                     * @event TK.Pager#changed
+                     */
                     this.fire_event("changed", page, value);
                 }
 
