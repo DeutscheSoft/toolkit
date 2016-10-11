@@ -30,6 +30,13 @@ w.TK.EqBand = w.EqBand = $class({
      *  Possible values are <code>"parametric"</code>, <code>"notch"</code>,
      *  <code>"low-shelf"</code>, <code>"high-shelf"</code>, <code>"lowpass"+n</code> or
      *  <code>"highpass"+n</code>.
+     * @property {number} options.freq - Frequency setting. This is an alias for the option <code>x</code>
+     *  defined by {@link TK.ResponseHandle}.
+     * @property {number} options.gain - Gain setting. This is an alias for the option <code>y</code>
+     *  defined by {@link TK.ResponseHandle}.
+     * @property {number} options.q - Quality setting. This is an alias for the option <code>z</code>
+     *  defined by {@link TK.ResponseHandle}.
+     *
      * @extends TK.ResponseHandle
      */
     _class: "EqBand",
@@ -44,7 +51,7 @@ w.TK.EqBand = w.EqBand = $class({
         q: "number",
     }),
     options: {
-        type:    "parametric" // The type of the filter.
+        type:    "parametric"
     },
     
     initialize: function (options) {
