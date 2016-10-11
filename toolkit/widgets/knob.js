@@ -16,13 +16,24 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * Is fired when the knob is manipulated by the user.
+ * @type {number}
+ * @event TK.Knob#useraction
+ */
+     
 "use strict";
 (function(w){ 
 var format_viewbox = TK.FORMAT("0 0 %d %d");
 function dblclick() {
     this.set("value", this.options.reset);
+    /**
+     * Is fired when the fader receives a double click.
+     * @event TK.Fader#doubleclick
+     */
     this.fire_event("doubleclick", this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
+    this.fire_event("useraction", this.options.value);
 }
 /**
  * TK.Knob is a {@link TK.Circular} inside of an SVG and which can be
@@ -93,7 +104,7 @@ w.TK.Knob = w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 v = this.set("value", v);
-                this.fire_event("useraction", "value", v);
+                this.fire_event("useraction", v);
             }.bind(this),
             direction: this.options.direction,
             rotation: this.options.rotation,
@@ -106,7 +117,7 @@ w.TK.Knob = w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 v = this.set("value", v);
-                this.fire_event("useraction", "value", v);
+                this.fire_event("useraction", v);
             }.bind(this),
             events: function () { return this }.bind(this),
         });
@@ -160,6 +171,11 @@ w.TK.Knob = w.Knob = $class({
     set: function(key, value) {
         if (key === "base") {
             if (value === false) value = this.options.min;
+            /**
+             * Is fired when the base value was changed.
+             * @type {number}
+             * @event TK.Knob#basechanged
+             */
             this.fire_event("basechanged", value);
         }
         // TK.Circular does the snapping
