@@ -16,6 +16,14 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * Is fired when the user manipulates the handle. The arguments are
+ * the values of x, y and z.
+ * @type {Array.<number, number, number>}
+ * @event TK.ResponseHandle#useraction
+ */
+     
 "use strict";
 (function(w){
 function mouseenter(e) {
@@ -80,6 +88,18 @@ function mousedown(e) {
     this._pageX   = ev.pageX;
     this._pageY   = ev.pageY;
     if (!this._zhandling) {
+        /**
+         * Is fired when the main handle is grabbed by the user.
+         * The argument is an object with the following members:
+         * <ul>
+         * <li>x: the actual value on the x axis</li>
+         * <li>y: the actual value on the y axis</li>
+         * <li>pos_x: the position in pixels on the x axis</li>
+         * <li>pos_y: the position in pixels on the y axis</li>
+         * </ul>
+         * @event TK.ResponseHandle#handlegrabbed
+         * @type {Object}
+         */
         this.fire_event("handlegrabbed", {
             x:     this.options.x,
             y:     this.options.y,
@@ -87,9 +107,16 @@ function mousedown(e) {
             pos_y: this.y
         });
     } else {
+        /**
+         * Is fired when the user grabs the z-handle. The argument is the
+         * actual z value.
+         * @type{number}
+         * @event TK.ResponseHandle#zchangestarted
+         */
         this.fire_event("zchangestarted", this.options.z);
     }
     //document.addEventListener("mouseup", this._mouseup.bind(this));
+    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
     return false;
 }
 function mouseup(e) {
@@ -101,6 +128,18 @@ function mouseup(e) {
         TK.remove_class(parent, "toolkit-dragging");
     this.remove_cursor("move");
     if (!this._zhandling) {
+        /**
+         * Is fired when the user releases the main handle.
+         * The argument is an object with the following members:
+         * <ul>
+         * <li>x: the actual value on the x axis</li>
+         * <li>y: the actual value on the y axis</li>
+         * <li>pos_x: the position in pixels on the x axis</li>
+         * <li>pos_y: the position in pixels on the y axis</li>
+         * </ul>
+         * @event TK.ResponseHandle#handlereleased
+         * @type {Object}
+         */
         this.fire_event("handlereleased", {
             x:     this.options.x,
             y:     this.options.y,
@@ -108,10 +147,17 @@ function mouseup(e) {
             pos_y: this.y
         });
     } else {
+        /**
+         * Is fired when the user releases the z-handle. The argument is the
+         * actual z value.
+         * @type{number}
+         * @event TK.ResponseHandle#zchangeended
+         */
         this.fire_event("zchangeended", this.options.z);
         this._zhandling = false;
     }
     this.__active = false;
+    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
     return false;
 }
 function normalize(v) {
@@ -161,10 +207,14 @@ function mousemove(e) {
         } else {
             d = range_z.snap_down(range_z.px2val(this._clickZ + d));
         }
-
-        d = this.set("z", d);
-        this.fire_event("useraction", "z", d);
-        this.fire_event("zchanged", d);
+        /**
+         * Is fired when the user drags the z-handle. The argument is
+         * the actual z value.
+         * @type {number}
+         * @event TK.ResponseHandle#zchanged
+         */
+        this.fire_event("zchanged", this.set("z", d));
+        this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
     } else if (this._sticky) {
         var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
         var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
@@ -174,15 +224,26 @@ function mousemove(e) {
     } else {
         this.set("x", range_x.snap(range_x.px2val(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx)));
         this.set("y", range_y.snap(range_y.px2val(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my)));
-        this.fire_event("useraction", "x", this.get("x"));
-        this.fire_event("useraction", "y", this.get("y"));
+        /**
+         * Is fired when the user drags the main handle.
+         * The argument is an object with the following members:
+         * <ul>
+         * <li>x: the actual value on the x axis</li>
+         * <li>y: the actual value on the y axis</li>
+         * <li>pos_x: the position in pixels on the x axis</li>
+         * <li>pos_y: the position in pixels on the y axis</li>
+         * </ul>
+         * @event TK.ResponseHandle#handledragging
+         * @type {Object}
+         */
+        this.fire_event("handledragging", {
+            x:     O.x,
+            y:     O.y,
+            pos_x: this.x,
+            pos_y: this.y
+        });
     }
-    this.fire_event("handledragging", {
-        x:     O.x,
-        y:     O.y,
-        pos_x: this.x,
-        pos_y: this.y
-    });
+    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
     return false;
 }
 function scrollwheel(e) {
@@ -210,7 +271,7 @@ function scrollwheel(e) {
     if (!this._zwheel)
         this.fire_event("zchangestarted", this.options.z);
     this.fire_event("zchanged", this.options.z);
-    this.fire_event("useraction", "z", this.options.z);
+    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
     this._zwheel = true;
 }
 function touchstart(e) {
@@ -257,6 +318,7 @@ function touchmove(e) {
             Math.min(z, this.range_z.get("max")),
             this.range_z.get("min")));
         this.fire_event("zchanged", O.z);
+        this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
         e.preventDefault();
         e.stopPropagation();
         return false;
