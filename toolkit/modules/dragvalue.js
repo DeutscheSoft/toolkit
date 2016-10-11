@@ -140,7 +140,11 @@ function start_drag(ev, x, y) {
         scheduled: false,
         id: 0,
     };
-
+    /**
+     * Is fired when a user starts dragging.
+     * @type {Event}
+     * @event TK.DragValue#startdrag
+     */
     this.fire_event("startdrag", ev);
 
     return true;
@@ -165,7 +169,11 @@ function update_drag() {
     var e = state.event;
 
     var multi = range.options.step || 1;
-
+    /**
+     * Is fired while a user is dragging.
+     * @type {Event}
+     * @event TK.DragValue#startdrag
+     */
     this.fire_event("dragging", e);
 
     if (e.ctrlKey && e.shiftKey) {
@@ -234,7 +242,11 @@ function stop_drag(ev, x, y) {
             this.remove_cursor("col-resize");
         }
     }
-
+    /**
+     * Is fired when a user stops dragging.
+     * @type {Event}
+     * @event TK.DragValue#stopdrag
+     */
     this.fire_event("stopdrag", ev);
 }
 
