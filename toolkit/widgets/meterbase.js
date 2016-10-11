@@ -446,9 +446,10 @@ w.TK.MeterBase = w.MeterBase = $class({
     set: function (key, value) {
         value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
-            case "show_label":
-            case "show_title":
             case "show_scale":
+                this.trigger_resize();
+                break;
+            case "show_label":
                 this.trigger_resize();
                 // fallthrough
             case "label":
@@ -457,6 +458,9 @@ w.TK.MeterBase = w.MeterBase = $class({
             case "value":
                 this.fire_event("valuechanged", value);
                 break;
+            case "show_title":
+                this.trigger_resize();
+                // fallthrough
             case "title":
                 this.fire_event("titlechanged", value);
                 break;
