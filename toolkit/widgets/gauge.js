@@ -132,6 +132,10 @@ w.TK.Gauge = w.Gauge = $class({
                         _title.setAttribute("transform", format_translate(coords.x + mx, coords.y + my));
                         _title.setAttribute("text-anchor", "middle");
                     }.bind(this), 1);
+                    /**
+                     * Is fired when the title changed.
+                     * @event TK.Gauge#titledrawn
+                     */
                     this.fire_event("titledrawn");
                 }.bind(this));
             }
