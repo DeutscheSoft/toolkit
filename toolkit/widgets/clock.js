@@ -65,6 +65,11 @@ function draw_time(force) {
     }
     
     if (drawn)
+        /**
+         * Is fired when the time was drawn.
+         * @type {Date}
+         * @event TK.Clock#timedrawn
+         */
         this.fire_event("timedrawn", O.time);
 }
 function set_labels() {
