@@ -77,6 +77,13 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * @class TK.ButtonArray
      * @extends TK.Container
      */
+    /**
+     * The <code>useraction</code> event is emitted when the selected button is
+     * changed by a user interaction. Its arguments are the option name <code>"show"</code>
+     * and the new option value.
+     *
+     * @event TK.ButtonArray#useraction
+     */
     _class: "ButtonArray",
     Extends: TK.Container,
     _options: Object.assign(Object.create(TK.Container.prototype._options), {

@@ -353,6 +353,13 @@ function zhandledown(e) {
  * @mixes TK.Warning
  * @mixes TK.GlobalCursor
  */
+/**
+ * The <code>useraction</code> event is emitted when a responsehandle is moved or modified
+ * by user interaction. The event is emitted for the options <code>x</code>, <code>y</code> and
+ * <code>z</code>.
+ *
+ * @event TK.ResponseHandle#useraction
+ */
 w.TK.ResponseHandle = w.ResponseHandle = $class({
     _class: "ResponseHandle",
     Extends: TK.Widget,
