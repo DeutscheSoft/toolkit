@@ -23,6 +23,7 @@ function mousedown(e) {
     this.__toggleclick = this.__toggledown = true;
     if (this.options.press) {
         this.toggle();
+        this.fire_event("useraction", "state", this.options.state);
         this.__toto = window.setTimeout(function () {
             this.__toggleclick = false;
         }.bind(this), this.options.press);
@@ -42,6 +43,7 @@ function mouseup(e) {
         return;
     }
     this.toggle();
+    this.fire_event("useraction", "state", this.options.state);
     this.__toggleclick = false;
     e.preventDefault();
     return false;
@@ -123,7 +125,6 @@ w.TK.Toggle = w.Toggle = $class({
         clear_to.call(this);
         this.set("state", state);
         this.fire_event("toggled", state);
-        this.fire_event("useraction", "state", state);
     },
     cancel_press: function () {
         if (!this.__tp) return;
