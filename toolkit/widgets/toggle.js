@@ -61,6 +61,23 @@ w.TK.Toggle = w.Toggle = $class({
      *
      * @class TK.Toggle
      * @extends TK.Button
+     *
+     * @param {Object} options
+     * @property {boolean} [options.state=false] - The state of the button.
+     * @property {boolean} [options.toggle=true] - If true, the toggle button does not switch
+     *  back to its original state on release.
+     * @property {integer} [options.press=0] - Time in milliseconds. If the button is released
+     *  after this timeout, the button state will not toggle back.
+     * @property {string} [options.icon_active] - An optional icon which is only displayed
+     *  when the button toggle state is <code>true</code>.
+     * @property {string} [options.label_active] - An optional label which is only displayed
+     *  when the button toggle state is <code>true</code>.
+     */
+    /**
+     * The <code>useraction</code> event is emitted if the button state is changed by a user
+     * interaction. It is emitted for the <code>state</code> option.
+     *
+     * @event TK.Toggle#useraction
      */
     _class: "Toggle",
     Extends: TK.Button,
@@ -120,12 +137,18 @@ w.TK.Toggle = w.Toggle = $class({
             this._label.innerHTML = tmp || "";
         }
     },
+    /**
+     * Toggle the button state.
+     *
+     * @method TK.Toggle#toggle
+     */
     toggle: function () {
         var state = !this.options.state;
         clear_to.call(this);
         this.set("state", state);
         this.fire_event("toggled", state);
     },
+    /* INTERNAL */
     cancel_press: function () {
         if (!this.__tp) return;
         this.__tp = false;
