@@ -61,6 +61,47 @@ TK.Widget = $class({
      * @class TK.Widget
      * @extends TK.Base
      */
+    /**
+     * The <code>set</code> event is emitted when an option was set using the {@link TK.Widget#set}
+     * method. The arguments are the option name and its new value.
+     *
+     * Note that this happens both for user interaction and programmatical option changes.
+     *
+     * @event TK.Widget#set
+     */
+    /**
+     * The <code>redraw</code> event is emitted when a widget is redrawn. This can be used
+     * to do additional DOM modifications to a Widget.
+     *
+     * @event TK.Widget#redraw
+     */
+    /**
+     * The <code>resize</code> event is emitted whenever a widget is being resized. This event can
+     * be used to e.g. measure its new size. Note that some widgets do internal adjustments after
+     * the <code>resize</code> event. If that is relevant, the {@link TK.Widget#resized} event can
+     * be used, instead.
+     *
+     * @event TK.Widget#resize
+     */
+    /**
+     * The <code>resized</code> event is emitted after each rendering frame, which was triggered by
+     * a resize event.
+     *
+     * @event TK.Widget#resized
+     */
+    /**
+     * The <code>hide</code> event is emitted when a widget is hidden and is not rendered anymore.
+     * This happens both with browser visibility changes and also internally when using layout widgets
+     * such as {@link TK.Pager}.
+     *
+     * @event TK.Widget#hide
+     */
+    /**
+     * The <code>show</code> event is emitted when a widget is shown and is being rendered. This is the
+     * counterpart to {@link TK.Widget#hide}.
+     *
+     * @event TK.Widget#show
+     */
     Extends : BASE,
     _class: "Widget",
     _options: {
