@@ -34,6 +34,10 @@ function enable_draw_self() {
     if (this.needs_redraw) {
         TK.S.add(this._redraw, 1);
     }
+    /**
+     * Is fired when the container is shown.
+     * @event TK.Container#show
+     */
     this.fire_event("show");
 }
 function enable_draw_children() {
@@ -48,6 +52,10 @@ function disable_draw_self() {
         TK.S.remove(this._redraw, 1);
         TK.S.remove_next(this._redraw, 1);
     }
+    /**
+     * Is fired when the container is hidden.
+     * @event TK.Container#hide
+     */
     this.fire_event("hide");
 }
 function disable_draw_children() {
