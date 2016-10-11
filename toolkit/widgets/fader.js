@@ -75,6 +75,10 @@ function scrolling(ev) {
 }
 function dblclick(ev) {
     SET.call(this, this.options.reset);
+    /**
+     * Is fired when the handle receives a double click.
+     * @event TK.Fader#doubleclick
+     */
     this.fire_event("doubleclick", this.options.value);
 }
 function GET() {
@@ -85,7 +89,12 @@ function THIS() {
 }
 function SET(v) {
     v = this.set("value", v);
-    this.fire_event("useraction", "value", v);
+    /**
+     * Is fired when the fader is manipulated by the user.
+     * @type {number}
+     * @event TK.Fader#useraction
+     */
+    this.fire_event("useraction", v);
     return v;
 }
 function create_scale() {
@@ -376,6 +385,11 @@ w.TK.Fader = w.Fader = $class({
 
         if (this.scale && !TK.Widget.prototype._options[key] && TK.Scale.prototype._options[key]) {
             this.scale.set(key, value);
+            /**
+             * Is fired when the scale was changed.
+             * @type {Array.<string, mixed>}
+             * @event TK.Fader#scalechanged
+             */
             this.fire_event("scalechanged", key, value);
         }
 
