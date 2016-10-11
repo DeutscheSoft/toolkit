@@ -50,6 +50,10 @@ Invalid.prototype = {
 function redraw(fun) {
     this.needs_redraw = false;
     fun.call(this);
+    /**
+     * Is fired when a redraw is executed.
+     * @event TK.Widget#redraw
+     */
     this.fire_event("redraw");
 }
 TK.Widget = $class({
@@ -207,11 +211,19 @@ TK.Widget = $class({
     },
 
     resize: function() {
+        /**
+         * Is fired when a resize is requested.
+         * @event TK.Widget#resize
+         */
         this.fire_event("resize");
 
         if (this._options.resized)
             this.set("resized", true);
-
+        
+        /**
+         * Is fired after the resize was executed and the DOM is updated.
+         * @event TK.Widget#resized
+         */
         if (this.has_event_listeners("resized")) {
             TK.S.after_frame(this.fire_event.bind(this, "resized"));
         }
@@ -233,6 +245,10 @@ TK.Widget = $class({
 
     initialized: function () {
         // Main actions every widget needs to take
+        /**
+         * Is fired when a widget is initialized.
+         * @event TK.Widget#initialized
+         */
         this.fire_event("initialized");
         this.trigger_draw();
     },
@@ -278,6 +294,10 @@ TK.Widget = $class({
         }
     },
     destroy: function () {
+        /**
+         * Is fired when a widget is destroyed.
+         * @event TK.Widget#destroy
+         */
         this.fire_event("destroy");
 
         if (this.needs_redraw) TK.S.remove(this._redraw, 1);
@@ -295,6 +315,11 @@ TK.Widget = $class({
     delegate: function (element) {
         this.delegate_events(element);
         this.__delegated = element;
+        /**
+         * Is fired when a widget gets delegated.
+         * @type {HTMLElement}
+         * @event TK.Widget#initialized
+         */
         this.fire_event("delegated", element);
         return element;
     },
@@ -313,6 +338,11 @@ TK.Widget = $class({
         this.__classified = element;
         if (this.options.class && element)
             TK.add_class(element, this.options.class);
+        /**
+         * Is fired when a widget is classified.
+         * @type {HTMLElement}
+         * @event TK.Widget#classified
+         */
         this.fire_event("classified", element);
         return element;
     },
@@ -341,6 +371,11 @@ TK.Widget = $class({
         if (this.options.styles) {
             TK.set_styles(element, this.options.styles);
         }
+        /**
+         * Is fired when a widget is stylized.
+         * @type {HTMLElement}
+         * @event TK.Widget#stylized
+         */
         this.fire_event("stylized", element);
         return element;
     },
@@ -379,6 +414,11 @@ TK.Widget = $class({
         if (stylize)
             this.stylize(element);
         this.__widgetized = element;
+        /**
+         * Is fired when a widget is widgetized.
+         * @type {HTMLElement}
+         * @event TK.Widget#widgetize
+         */
         this.fire_event("widgetized", element);
         return element;
     },
@@ -428,6 +468,10 @@ TK.Widget = $class({
         if (this.needs_redraw) {
             TK.S.add(this._redraw, 1);
         }
+        /**
+         * Is fired when a widget gets enabled for drawing.
+         * @event TK.Widget#show
+         */
         this.fire_event("show");
         var C = this.children;
         for (var i = 0; i < C.length; i++) C[i].enable_draw();
@@ -444,6 +488,10 @@ TK.Widget = $class({
             TK.S.remove(this._redraw, 1);
             TK.S.remove_next(this._redraw, 1);
         }
+        /**
+         * Is fired when a widget gets hidden from being drawn.
+         * @event TK.Widget#hide
+         */
         this.fire_event("hide");
         var C = this.children;
         for (var i = 0; i < C.length; i++) C[i].disable_draw();
