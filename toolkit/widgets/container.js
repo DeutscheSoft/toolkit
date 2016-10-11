@@ -276,6 +276,7 @@ w.TK.Container = w.Container = $class({
         TK.Widget.prototype.redraw.call(this);
 
         if (I.display_state) {
+            I.display_state = false;
             var time;
             TK.remove_class(E, "toolkit-hiding");
             TK.remove_class(E, "toolkit-hide");
