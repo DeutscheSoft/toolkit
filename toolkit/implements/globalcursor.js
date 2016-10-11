@@ -20,7 +20,7 @@
 (function(w){ 
 /**
  * GlobalCursor adds global cursor classes to ensure
- * one of the standard cursors (http://www.echoecho.com/csscursors.htm)
+ * one of the <a href="https://developer.mozilla.org/de/docs/Web/CSS/cursor">standard cursors</a>
  * is shown in the overall application.
  *
  * @mixin TK.GlobalCursor
