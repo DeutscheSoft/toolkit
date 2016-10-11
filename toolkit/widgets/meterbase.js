@@ -453,15 +453,33 @@ w.TK.MeterBase = w.MeterBase = $class({
                 this.trigger_resize();
                 // fallthrough
             case "label":
+                /**
+                 * Is fired when the label changed.
+                 * The argument is the actual label value.
+                 * @type {string}
+                 * @event TK.MeterBase#labelchanged
+                 */
                 this.fire_event("labelchanged", value);
                 break;
             case "value":
+                /**
+                 * Is fired when the value changed.
+                 * The argument is the actual value.
+                 * @type {number}
+                 * @event TK.MeterBase#valuechanged
+                 */
                 this.fire_event("valuechanged", value);
                 break;
             case "show_title":
                 this.trigger_resize();
                 // fallthrough
             case "title":
+                /**
+                 * Is fired when the title changed.
+                 * The argument is the actual title.
+                 * @type {string}
+                 * @event TK.MeterBase#titlechanged
+                 */
                 this.fire_event("titlechanged", value);
                 break;
             case "segment":
@@ -469,6 +487,12 @@ w.TK.MeterBase = w.MeterBase = $class({
                 this.set("value", this.options.value);
                 break;
             case "format_labels":
+                /**
+                 * Is fired when the scale changed. The arguments are
+                 * the name of the changed value and the new value.
+                 * @type {Array.<string, mixed>}
+                 * @event TK.MeterBase#scalechanged
+                 */
                 this.fire_event("scalechanged", key, value);
                 this.scale.set("labels", value);
                 break;
@@ -483,6 +507,12 @@ w.TK.MeterBase = w.MeterBase = $class({
                 } else {
                     this.__based = true;
                 }
+                /**
+                 * Is fired when the base value changed.
+                 * The argument is the actual base value.
+                 * @type {number}
+                 * @event TK.MeterBase#basechanged
+                 */
                 this.fire_event("basechanged", value);
                 break;
             default:
