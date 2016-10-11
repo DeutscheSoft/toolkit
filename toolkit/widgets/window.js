@@ -555,8 +555,9 @@ w.TK.Window = w.Window = $class({
         
         this.add_event("mouseenter", mover);
         this.add_event("mouseleave", mout);
-        /* TODO: event handler leak */
-        this._header.addEventListener("dblclick", header_action.bind(this));
+        
+        this.__dblclick_cb = header_action.bind(this)
+        this._header.addEventListener("dblclick", this.__dblclick_cb);
         
         this.drag = new TK.Drag({
             node        : this.element,
@@ -605,6 +606,8 @@ w.TK.Window = w.Window = $class({
     },
     
     destroy: function () {
+        this._header.addEventListener("dblclick", this.__dblclick_cb);
+
         this._title.remove();
         this._status.remove();
         this._icon.remove();
