@@ -164,6 +164,11 @@ w.TK.Equalizer = w.Equalizer = $class({
             document.removeEventListener("touchend",  _touchend);
         }.bind(this));
         b.add_event("set", invalidate_bands.bind(this)); 
+        /**
+         * Is fired when a new band was added.
+         * @type {Band}
+         * @event TK.Equalizer#bandadded
+         */
         this.fire_event("bandadded", b);
         if (this.options.show_bands)
             this.add_child(b);
@@ -182,6 +187,10 @@ w.TK.Equalizer = w.Equalizer = $class({
                     this.remove_child(h);
                 h.destroy();
                 this.bands.splice(i, 1);
+                /**
+                 * Is fired when a band was removed.
+                 * @event TK.Equalizer#bandremoved
+                 */
                 this.fire_event("bandremoved");
                 break;
             }
@@ -192,6 +201,10 @@ w.TK.Equalizer = w.Equalizer = $class({
             this.remove_band(this.bands[i]);
         }
         this.bands = [];
+        /**
+         * Is fired when all bands are removed.
+         * @event TK.Equalizer#emptied
+         */
         this.fire_event("emptied");
         invalidate_bands.call(this);
     },
