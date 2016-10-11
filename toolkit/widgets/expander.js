@@ -109,6 +109,10 @@ function update_visibility() {
                 this.hide_child(i);
         }
         this.fire_event("expand");
+        /**
+         * Is fired when the expander expands.
+         * @event TK.Expander#expand
+         */
     } else {
         for (var i = 0; i < C.length; i++) {
             if (visible_when_collapsed(C[i]))
@@ -116,6 +120,10 @@ function update_visibility() {
             else
                 this.hide_child(i);
         }
+        /**
+         * Is fired when the expander collapses.
+         * @event TK.Expander#collapse
+         */
         this.fire_event("collapse");
     }
 }
