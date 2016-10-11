@@ -542,7 +542,13 @@ w.TK.Scale = w.Scale = $class({
             case "gap_dots":
             case "gap_labels":
             case "show_labels":
-                this.fire_event("scalechanged")
+                /**
+                 * Gets fired when an option the rendering depends on was changed
+                 *
+                 * @type {Array.<string, mixed>}
+                 * @event TK.Scale#scalechanged
+                 */
+                this.fire_event("scalechanged", key, value)
                 break;
         }
     }
