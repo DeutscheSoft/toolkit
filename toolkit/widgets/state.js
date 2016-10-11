@@ -94,9 +94,19 @@ w.TK.State = w.State = $class({
         value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
             case "color":
+                /**
+                 * The color changed.
+                 * @type {number}
+                 * @event TK.State#colorchanged
+                 */
                 this.fire_event("colorchanged", value);
                 break;
             case "state":
+                /**
+                 * The state changed.
+                 * @type {number}
+                 * @event TK.State#statechanged
+                 */
                 this.fire_event("statechanged", value);
                 break;
         }
