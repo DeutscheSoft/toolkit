@@ -82,10 +82,26 @@ function show_list(show) {
 w.TK.Select = w.Select = $class({
     /**
      * TK.Select provides a button with a select list to choose from
-     * different entries.
+     * a list of entries.
      *
      * @class TK.Select
      * @extends TK.Button
+     *
+     * @param {Object} options
+     * @property {integer} options.selected - The index of the selected entry.
+     * @property options.value - The value of the selected entry.
+     * @property {boolean} [options.auto_size=true] - If true, the drop-down button is
+     *  auto-sized to be as wide as the longest entry.
+     * @property {Array} [options.entries=[]] - The list of entries. Each entry is a an
+     *  object with the two properties <code>title</code> and <code>value</code>.
+     *
+     */
+    /**
+     * The <code>useraction</code> event is emitted when the selected entry is changed by
+     * a user interaction. The arguments are the option name and its new value. This event is
+     * emitted for the options <code>selected</code> and <code>value</code>.
+     *
+     * @event TK.Select#useraction
      */
     _class: "Select",
     Extends: TK.Button,
@@ -175,6 +191,7 @@ w.TK.Select = w.Select = $class({
         var up_cb = function (e) {
             this.select(id);
             this.fire_event("useraction", "selected", this.options.selected);
+            this.fire_event("useraction", "value", this.options.value);
             this.fire_event("select", entry.value, id, entry.title);
             show_list.call(this, false);
         }.bind(this);
