@@ -65,6 +65,7 @@ w.TK.Button = w.Button = $class({
         /** @member {HTMLImageElement} TK.Button#_icon - The icon of the button. Has class <code>toolkit-icon</code> 
          */
         this._icon  = TK.element("img","toolkit-icon");
+        this._icon.setAttribute("draggable", "false");
         /** @member {HTMLDivElement} TK.Button#_label - The label of the button. Has class <code>toolkit-label</code>
          */
         this._label = TK.element("div","toolkit-label");
