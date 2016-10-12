@@ -16,6 +16,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+/**
+ * The <code>useraction</code> event is emitted when a handle gets modified by user interaction.
+ * @type {Array.<string, ResponseHandle, string, number>}
+ * @event TK.ResponseHandler#useraction
+ */
+ 
 "use strict";
 (function(w){ 
 function calculate_overlap(X, Y) {
@@ -156,6 +163,11 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         }.bind(this));
         if (this.options.show_handles)
             this.add_child(h);
+        h.add_event("useraction", (function (that, handle) {
+            return function (key, val) {
+                that.fire_event("useraction", "handle", handle, key, val);
+            };
+        })(this, h));
         /**
          * Is fired when a new handle was added.
          * @type {Handle}
