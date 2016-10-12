@@ -30,27 +30,26 @@
 function toggle(O) {
     var state = !O.state;
     state = this.set("state", state);
-    this.fire_event("useraction", "state", state);
 }
 function press_start() {
     var O = this.options;
     this.__press_start_time = Date.now();
-
+    this.fire_event("useraction", "state", state);
     if (O.press) toggle.call(this, O);
 }
 function press_end() {
     var O = this.options;
     var t = Date.now() - this.__press_start_time;
-
+    this.fire_event("useraction", "state", state);
     if ((O.toggle && (!O.press || t > O.press)) || (!O.toggle && O.press)) {
         toggle.call(this, O);
     }
 }
 function press_cancel() {
     var O = this.options;
-
-    /* this is definitely not a click, its a cancel */
-
+    /* this is definitely not a click, its a cancel by leaving the
+     * button with mouse or finger while pressing */
+    this.fire_event("useraction", "state", state);
     if (O.press) toggle.call(this, O);
 }
 
@@ -205,17 +204,11 @@ w.TK.Toggle = w.Toggle = $class({
         var state = !this.options.state;
         this.set("state", state);
         /**
-         * Is fired when the toggle button was clicked by the user.
+         * Is fired when the button was toggled.
          * @type{boolean}
          * @event TK.Toggle#toggled
          */
         this.fire_event("toggled", state);
-        /**
-         * Is fired when the toggle is manipulated by the user.
-         * @type {boolean}
-         * @event TK.Toggle#useraction
-         */
-        this.fire_event("useraction", "state", state);
     },
 });
 })(this);
