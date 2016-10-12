@@ -99,6 +99,8 @@ function mousedown(e) {
             pos_x: this.x,
             pos_y: this.y
         });
+        this.fire_event("useraction", "x", this.options.x);
+        this.fire_event("useraction", "y", this.options.y);
     } else {
         /**
          * Is fired when the user grabs the z-handle. The argument is the
@@ -107,11 +109,9 @@ function mousedown(e) {
          * @event TK.ResponseHandle#zchangestarted
          */
         this.fire_event("zchangestarted", this.options.z);
+        this.fire_event("useraction", "z", this.options.z);
     }
     //document.addEventListener("mouseup", this._mouseup.bind(this));
-    this.fire_event("useraction", "x", this.options.x);
-    this.fire_event("useraction", "y", this.options.y);
-    this.fire_event("useraction", "z", this.options.z);
     return false;
 }
 function mouseup(e) {
@@ -141,6 +141,8 @@ function mouseup(e) {
             pos_x: this.x,
             pos_y: this.y
         });
+        this.fire_event("useraction", "x", this.options.x);
+        this.fire_event("useraction", "y", this.options.y);
     } else {
         /**
          * Is fired when the user releases the z-handle. The argument is the
@@ -149,12 +151,10 @@ function mouseup(e) {
          * @event TK.ResponseHandle#zchangeended
          */
         this.fire_event("zchangeended", this.options.z);
+        this.fire_event("useraction", "z", this.options.z);
         this._zhandling = false;
     }
     this.__active = false;
-    this.fire_event("useraction", "x", this.options.x);
-    this.fire_event("useraction", "y", this.options.y);
-    this.fire_event("useraction", "z", this.options.z);
     return false;
 }
 function normalize(v) {
@@ -211,8 +211,6 @@ function mousemove(e) {
          * @event TK.ResponseHandle#zchanged
          */
         this.fire_event("zchanged", this.set("z", d));
-        this.fire_event("useraction", "x", this.options.x);
-        this.fire_event("useraction", "y", this.options.y);
         this.fire_event("useraction", "z", this.options.z);
     } else if (this._sticky) {
         var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
@@ -241,10 +239,9 @@ function mousemove(e) {
             pos_x: this.x,
             pos_y: this.y
         });
+        this.fire_event("useraction", "x", this.options.x);
+        this.fire_event("useraction", "y", this.options.y);
     }
-    this.fire_event("useraction", "x", this.options.x);
-    this.fire_event("useraction", "y", this.options.y);
-    this.fire_event("useraction", "z", this.options.z);
     return false;
 }
 function scrollwheel(e) {
@@ -273,8 +270,6 @@ function scrollwheel(e) {
         this.fire_event("zchangestarted", this.options.z);
     this.fire_event("zchanged", this.options.z);
     this.fire_event("useraction", "x", this.options.x);
-    this.fire_event("useraction", "y", this.options.y);
-    this.fire_event("useraction", "z", this.options.z);
     this._zwheel = true;
 }
 function touchstart(e) {
@@ -321,8 +316,6 @@ function touchmove(e) {
             Math.min(z, this.range_z.get("max")),
             this.range_z.get("min")));
         this.fire_event("zchanged", O.z);
-        this.fire_event("useraction", "x", this.options.x);
-        this.fire_event("useraction", "y", this.options.y);
         this.fire_event("useraction", "z", this.options.z);
         e.preventDefault();
         e.stopPropagation();
