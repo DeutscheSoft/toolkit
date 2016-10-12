@@ -43,7 +43,13 @@ function value_clicked(e) {
     this._input.setAttribute("value", this.options.value);
     this.__editing = true;
     this._input.focus();
+    /**
+     * Is fired when the value was clicked
+     * @type {number}
+     * @event TK.Value#valueclicked
+     */
     this.fire_event("valueclicked", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
     //e.stopPropagation();
 }
 function value_init(e) {
@@ -56,6 +62,11 @@ function value_typing(e) {
         case 27:
             // ESC
             value_done.call(this);
+            /**
+             * Is fired when the ESC key was pressed while editing the value.
+             * @type {string}
+             * @event TK.Value#valueescape
+             */
             this.fire_event("valueescape", this.options.value);
             break;
         case 13:
@@ -63,8 +74,13 @@ function value_typing(e) {
             var val = this.options.set.call(this, this._input.value);
             this.set("value", val);
             value_done.call(this);
+            /**
+             * Is fired when any other key was pressed while editing the value.
+             * @type {string}
+             * @event TK.Value#valueescape
+             */
             this.fire_event("valueset", this.options.value);
-            this.fire_event("useraction", "value", this.options.value);
+            
             e.preventDefault();
             return false;
             break;
@@ -72,13 +88,24 @@ function value_typing(e) {
             //this.set("value", val, true);
             break;
     }
+    /**
+     * Is fired when the user hits a key while editing the value.
+     * @type {Array.<Event, number}
+     * @event TK.Value#valuetyping
+     */
     this.fire_event("valuetyping", e, this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
 }
 function value_done(e) {
     if (!this.__editing) return;
     this.__editing = false;
     TK.remove_class(this.element, "toolkit-active");
     this._input.blur();
+    /**
+     * Is fired when editing of the value ends.
+     * @type {string}
+     * @event TK.Value#valuedone
+     */
     this.fire_event("valuedone", this.options.value);
     this.invalid.value = true;
     this.trigger_draw();
