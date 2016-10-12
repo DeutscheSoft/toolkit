@@ -148,6 +148,7 @@ var __native_events = {
     DOMMouseScroll : true,
 
     submit     : true,
+    contextmenu: true,
 };
 var __event_replacements = {
     pointerdown: [
