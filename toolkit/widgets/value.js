@@ -90,7 +90,7 @@ function value_typing(e) {
     }
     /**
      * Is fired when the user hits a key while editing the value.
-     * @type {Array.<Event, number}
+     * @type {Array.<Event, number>}
      * @event TK.Value#valuetyping
      */
     this.fire_event("valuetyping", e, this.options.value);
