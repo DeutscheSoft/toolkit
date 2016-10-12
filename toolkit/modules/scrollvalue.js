@@ -19,6 +19,10 @@
 "use strict";
 (function(w) {
 function scroll_timeout() {
+    /**
+     * Is fired when scrolling ended.
+     * @event TK.ScrollValue#scrollended
+     */
     fire_event.call(this, "scrollended");
     this._wheel = false;
     this.__sto = false;
@@ -72,8 +76,15 @@ function scrollwheel(e) {
     O.set(value);
     
     if (!this._wheel)
+        /**
+         * Is fired when scrolling starts.
+         * @event TK.ScrollValue#scrollstarted
+         */
         fire_event.call(this, "scrollstarted", e);
-    
+    /**
+     * Is fired while scrolling happens.
+     * @event TK.ScrollValue#scrolling
+     */
     fire_event.call(this, "scrolling", e);
     
     this._wheel = true;
