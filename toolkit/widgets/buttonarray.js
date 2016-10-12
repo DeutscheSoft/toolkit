@@ -205,7 +205,11 @@ w.TK.ButtonArray = w.ButtonArray = $class({
          */
         if (b === this.current())
             b.set("state", true);
-
+        /**
+         * Is fired when a button was added
+         * @type {Button}
+         * @event TK.ButtonArray#added
+         */
         this.fire_event("added", b);
 
         return b;
@@ -331,7 +335,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 if (button) {
                     button.set("state", true);
                     /**
-                     * Is fired when a button is activated
+                     * Is fired when a button is activated.
+                     * @type {Array.<Button, boolean>}
                      * @event TK.ButtonArray#changed
                      */
                     this.fire_event("changed", button, value);

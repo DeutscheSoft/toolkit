@@ -28,10 +28,20 @@ function dragstart(e, drag) {
     this._ysize  = E.offsetHeight;
     this._xpos   = E.offsetLeft;
     this._ypos   = E.offsetTop;
+    /**
+     * Is fired when resizing starts
+     * @type {HTMLElement}
+     * @event TK.Resize#resizestart
+     */
     this.fire_event("resizestart", e);
 }
 function dragend(e, drag) {
     if (!this.options.active) return;
+    /**
+     * Is fired when resizing stops
+     * @type {HTMLElement}
+     * @event TK.Resize#resizestop
+     */
     this.fire_event("resizestop", e);
 }
 function dragging(e, drag) {
@@ -46,6 +56,11 @@ function dragging(e, drag) {
     O.node.style.width = w + "px";
     O.node.style.height = h + "px";
     
+    /**
+     * Is fired when resizing is in progress
+     * @type {HTMLElement}
+     * @event TK.Resize#resizing
+     */
     this.fire_event("resizing", e, w, h);
 }
 function set_handle() {

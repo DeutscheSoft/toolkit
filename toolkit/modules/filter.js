@@ -280,6 +280,10 @@ w.TK.Filter = w.Filter = $class({
 
     initialized: function () {
         this.reset();
+        /**
+         * Is fired when an instance gets initialized
+         * @event TK.Filter#initialized
+         */
         this.fire_event("initialized");
     },
     reset: function () {
@@ -311,6 +315,10 @@ w.TK.Filter = w.Filter = $class({
         } else {
             TK.error("Unsupported option 'type'.");
         }
+        /**
+         * Is fired when a filters drawing function is reset
+         * @event TK.Filter#reset
+         */
         this.fire_event("reset");
     },
     set: function (key, value) {

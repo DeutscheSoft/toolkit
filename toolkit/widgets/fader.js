@@ -85,6 +85,7 @@ function dblclick(ev) {
     /**
      * Is fired when the handle receives a double click.
      * @event TK.Fader#doubleclick
+     * @type number
      */
     this.fire_event("doubleclick", this.options.value);
 }

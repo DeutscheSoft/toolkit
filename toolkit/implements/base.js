@@ -183,6 +183,10 @@ TK.Base = w.BASE = $class({
         this.set_options(options);
     },
     initialized : function() {
+        /**
+         * Is fired when an instance is initialized
+         * @event TK.Base#initialized
+         */
         this.fire_event("initialized");
     },
     /**
@@ -255,8 +259,18 @@ TK.Base = w.BASE = $class({
      */
     set: function (key, value) {
         this.options[key] = value;
+        /**
+         * Is fired when an option is set.
+         * @type {Array.<string, mixed>}
+         * @event TK.Base#set
+         */
         if (this.__events.set)
             this.fire_event("set", key, value);
+        /**
+         * Is fired when an option is set.
+         * @type {mixed}
+         * @event TK.Base#set_[option]
+         */
         if (this.__events["set_"+key])
             this.fire_event("set_" + key, value);
     },
@@ -268,6 +282,11 @@ TK.Base = w.BASE = $class({
     delegate_events: function (element) {
         var ev = this.__events;
         var old_target = this.__event_target;
+        /**
+         * Is fired when an element is delegated
+         * @type {HTMLElement}
+         * @event TK.Base#delegated
+         */
         this.fire_event("delegated", element);
 
         if (old_target) remove_native_events(old_target, ev);

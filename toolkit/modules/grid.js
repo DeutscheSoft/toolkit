@@ -223,7 +223,12 @@ w.TK.Grid = w.Grid = $class({
         switch (key) {
             case "grid_x":
             case "grid_y":
-                this.fire_event("gridchanged");
+                /**
+                 * Is fired when
+                 * @type {Array.<Array, Array>}
+                 * @event TK.Base#delegated
+                 */
+                this.fire_event("gridchanged", this.options.grid_x, this.options.grid_y);
                 break;
             case "width":
                 this.range_x.set("basis", value);

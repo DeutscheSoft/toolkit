@@ -88,6 +88,10 @@ function draw_dots() {
             + this.val2real(this.snap(pos)) + " "
             + (O.size / 2) + " " + (this.options.size / 2) + ")");
     }
+    /**
+     * Is fired when dots are (re)drawn.
+     * @event TK.Circular#dotsdrawn
+     */
     this.fire_event("dotsdrawn");
 }
 function draw_markers() {
@@ -130,6 +134,10 @@ function draw_markers() {
         
         draw_slice.call(this, this.val2real(this.snap(from)), this.val2real(this.snap(to)), inner_p, outer_p, outer, s);
     }
+    /**
+     * Is fired when markers are (re)drawn.
+     * @event TK.Circular#markersdrawn
+     */
     this.fire_event("markersdrawn");
 }
 function draw_labels() {
@@ -194,6 +202,10 @@ function draw_labels() {
                 p = a[i];
                 p.setAttribute("transform", positions[i]);
             }
+            /**
+             * Is fired when labels are (re)drawn.
+             * @event TK.Circular#labelsdrawn
+             */
             this.fire_event("labelsdrawn");
         }.bind(this), 1);
     }.bind(this));
@@ -520,7 +532,6 @@ w.TK.Circular = w.Circular = $class({
             } else {
                 this.__based = true;
             }
-            this.fire_event("basechanged", value);
             break;
         case "value":
             if (value > this.options.max || value < this.options.min)

@@ -320,6 +320,10 @@ w.TK.Graph = w.Graph = $class({
                 this.range_y.set("basis", value);
                 break;
             case "dots":
+                /**
+                 * Is fired when the graph changes
+                 * @event TK.Graph#graphchanged
+                 */
                 this.fire_event("graphchanged");
                 break;
         }
