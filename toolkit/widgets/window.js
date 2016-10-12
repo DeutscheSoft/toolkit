@@ -16,6 +16,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ *
+ * @event TK.Window#useraction
+ */
+ 
 "use strict";
 (function(w){ 
 function header_action() {
@@ -40,6 +47,7 @@ function header_action() {
             break;
     }
     this.fire_event("headeraction", this.options.header_action);
+    this.fire_event("useraction");
 }
 function mout(e) {
     if(this.options.auto_active && !this.dragging && !this.resizing)
@@ -59,28 +67,34 @@ function max_width() {
 }
 function close(e) {
     this.fire_event("closeclicked");
+    this.fire_event("useraction");
     if (this.options.auto_close)
         this.destroy();
 }
 function maximize(e) {
     if (this.options.auto_maximize) this.toggle_maximize();
     this.fire_event("maximizeclicked", this.options.maximize);
+    this.fire_event("useraction");
 }
 function maximizevertical(e) {
     if (this.options.auto_maximize) this.toggle_maximize_vertical();
     this.fire_event("maximizeverticalclicked", this.options.maximize.y);
+    this.fire_event("useraction");
 }
 function maximizehorizontal(e) {
     if (this.options.auto_maximize) this.toggle_maximize_horizontal();
     this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
+    this.fire_event("useraction");
 }
 function minimize(e) {
     if (this.options.auto_minimize) this.toggle_minimize();
     this.fire_event("minimizeclicked", this.options.minimize);
+    this.fire_event("useraction");
 }
 function shrink(e) {
     if (this.options.auto_shrink) this.toggle_shrink();
     this.fire_event("shrinkclicked", this.options.shrink);
+    this.fire_event("useraction");
 }
 function start_resize(el, ev) {
     this.__docmouse = TK.get_style(document.body, "cursor");
@@ -88,6 +102,7 @@ function start_resize(el, ev) {
     this.resizing = true;
     TK.add_class(this.element, "toolkit-resizing");
     this.fire_event("startresize", ev);
+    this.fire_event("useraction");
 }
 function stop_resize(el, ev) {
     document.body.style.cursor = this.__docmouse;
@@ -98,6 +113,7 @@ function stop_resize(el, ev) {
     check_footer.call(this, true);
     calculate_dimensions.call(this);
     this.fire_event("stopresize", ev);
+    this.fire_event("useraction");
 }
 function resizing(el, ev) {
     if (this.options.resizing === "continuous") {
@@ -107,6 +123,7 @@ function resizing(el, ev) {
         calculate_dimensions.call(this);
     }
     this.fire_event("resizing", ev);
+    this.fire_event("useraction");
 }
 function build_header() {
     build_from_const.call(this, "header_left");
@@ -206,12 +223,14 @@ function start_drag(ev, el) {
     
     TK.add_class(this.element, "toolkit-dragging");
     this.fire_event("startdrag", ev);
+    this.fire_event("useraction");
 }
 function stop_drag(ev, el) {
     this.dragging = false;
     calculate_position.call(this);
     TK.remove_class(this.element, "toolkit-dragging");
     this.fire_event("stopdrag", ev);
+    this.fire_event("useraction");
 }
 function dragging(ev, el) {
     if (!this.dragging) {
@@ -222,6 +241,7 @@ function dragging(ev, el) {
     }
     calculate_position.call(this);
     this.fire_event("dragging", ev);
+    this.fire_event("useraction");
 }
 function size_footer() {
     TK.outer_width(this._footer_center, true,
