@@ -16,6 +16,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the option <code>show</code>.
+ *
+ * @event TK.Knob#useraction
+ */
+ 
 "use strict";
 (function(w){
 function hide_arrows() {
@@ -76,13 +83,6 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * 
      * @class TK.ButtonArray
      * @extends TK.Container
-     */
-    /**
-     * The <code>useraction</code> event is emitted when the selected button is
-     * changed by a user interaction. Its arguments are the option name <code>"show"</code>
-     * and the new option value.
-     *
-     * @event TK.ButtonArray#useraction
      */
     _class: "ButtonArray",
     Extends: TK.Container,
@@ -330,6 +330,10 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                 button = this.current();
                 if (button) {
                     button.set("state", true);
+                    /**
+                     * Is fired when a button is activated
+                     * @event TK.ButtonArray#changed
+                     */
                     this.fire_event("changed", button, value);
                 }
                 break;
