@@ -51,7 +51,7 @@ function header_action() {
      * @event TK.Window.headeraction
      */
     this.fire_event("headeraction", this.options.header_action);
-    this.fire_event("useraction");
+    this.fire_event("useraction","headeraction");
 }
 function mout(e) {
     if(this.options.auto_active && !this.dragging && !this.resizing)
@@ -75,7 +75,7 @@ function close(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("closeclicked");
-    this.fire_event("useraction");
+    this.fire_event("useraction", "closeclicked");
     if (this.options.auto_close)
         this.destroy();
 }
@@ -86,7 +86,7 @@ function maximize(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("maximizeclicked", this.options.maximize);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "maximizeclicked");
 }
 function maximizevertical(e) {
     if (this.options.auto_maximize) this.toggle_maximize_vertical();
@@ -95,7 +95,7 @@ function maximizevertical(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("maximizeverticalclicked", this.options.maximize.y);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "maximizeverticalclicked");
 }
 function maximizehorizontal(e) {
     if (this.options.auto_maximize) this.toggle_maximize_horizontal();
@@ -104,7 +104,7 @@ function maximizehorizontal(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "maximizehorizontalclicked");
 }
 function minimize(e) {
     if (this.options.auto_minimize) this.toggle_minimize();
@@ -113,7 +113,7 @@ function minimize(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("minimizeclicked", this.options.minimize);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "minimizeclicked");
 }
 function shrink(e) {
     if (this.options.auto_shrink) this.toggle_shrink();
@@ -122,7 +122,7 @@ function shrink(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("shrinkclicked", this.options.shrink);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "shrinkclicked");
 }
 function start_resize(el, ev) {
     this.__docmouse = TK.get_style(document.body, "cursor");
@@ -134,7 +134,7 @@ function start_resize(el, ev) {
      * @event TK.Window.startresize
      */
     this.fire_event("startresize", ev);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "startresize");
 }
 function stop_resize(el, ev) {
     document.body.style.cursor = this.__docmouse;
@@ -149,7 +149,7 @@ function stop_resize(el, ev) {
      * @event TK.Window.stopresize
      */
     this.fire_event("stopresize", ev);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "stopresize");
 }
 function resizing(el, ev) {
     if (this.options.resizing === "continuous") {
@@ -163,7 +163,7 @@ function resizing(el, ev) {
      * @event TK.Window.resizing
      */
     this.fire_event("resizing", ev);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "resizing");
 }
 function build_header() {
     build_from_const.call(this, "header_left");
@@ -279,7 +279,7 @@ function start_drag(ev, el) {
      * @event TK.Window.startdrag
      */
     this.fire_event("startdrag", ev);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "startdrag");
 }
 function stop_drag(ev, el) {
     this.dragging = false;
@@ -290,7 +290,7 @@ function stop_drag(ev, el) {
      * @event TK.Window.stopdrag
      */
     this.fire_event("stopdrag", ev);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "stopdrag");
 }
 function dragging(ev, el) {
     if (!this.dragging) {
@@ -305,7 +305,7 @@ function dragging(ev, el) {
      * @event TK.Window.dragging
      */
     this.fire_event("dragging", ev);
-    this.fire_event("useraction");
+    this.fire_event("useraction", "dragging");
 }
 function size_footer() {
     TK.outer_width(this._footer_center, true,
