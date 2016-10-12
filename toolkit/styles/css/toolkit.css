@@ -622,3 +622,7 @@ pre, code {
 .toolkit-expander.toolkit-remove > .toolkit-toggle-expand {
     display: none;
 }
+/* BUTTON */
+.toolkit-button > .toolkit-cell >  .toolkit-icon {
+    pointer-events: none;
+}
