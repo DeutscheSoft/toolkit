@@ -204,13 +204,7 @@ function mousemove(e) {
         } else {
             d = range_z.snap_down(range_z.px2val(this._clickZ + d));
         }
-        /**
-         * Is fired when the user drags the z-handle. The argument is
-         * the actual z value.
-         * @type {number}
-         * @event TK.ResponseHandle#zchanged
-         */
-        this.fire_event("zchanged", this.set("z", d));
+        this.set("z", d)
         this.fire_event("useraction", "z", this.options.z);
     } else if (this._sticky) {
         var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
@@ -268,7 +262,6 @@ function scrollwheel(e) {
     this.set("z", this.get("z") + s);
     if (!this._zwheel)
         this.fire_event("zchangestarted", this.options.z);
-    this.fire_event("zchanged", this.options.z);
     this.fire_event("useraction", "x", this.options.x);
     this._zwheel = true;
 }
@@ -315,7 +308,6 @@ function touchmove(e) {
         this.set("z", Math.max(
             Math.min(z, this.range_z.get("max")),
             this.range_z.get("min")));
-        this.fire_event("zchanged", O.z);
         this.fire_event("useraction", "z", this.options.z);
         e.preventDefault();
         e.stopPropagation();
