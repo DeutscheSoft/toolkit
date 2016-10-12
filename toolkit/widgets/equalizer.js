@@ -16,6 +16,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * The <code>useraction</code> event is emitted when a band gets modified by user interaction.
+ * @type {Array.<string, Band, string, number>}
+ * @event TK.Knob#useraction
+ */
+ 
 "use strict";
 (function(w){
 function invalidate_bands() {
@@ -163,7 +170,12 @@ w.TK.Equalizer = w.Equalizer = $class({
             document.removeEventListener("touchmove", _touchmove);
             document.removeEventListener("touchend",  _touchend);
         }.bind(this));
-        b.add_event("set", invalidate_bands.bind(this)); 
+        b.add_event("set", invalidate_bands.bind(this));
+        b.add_event("useraction", (function (that, band) {
+            return function (key, val) {
+                that.fire_event("useraction", "band", band, key, val);
+            };
+        })(this, b));
         /**
          * Is fired when a new band was added.
          * @type {Band}
