@@ -16,6 +16,14 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the option <code>value</code>.
+ *
+ * @event TK.Value#useraction
+ */
+ 
 "use strict";
 (function(w){
 function value_clicked(e) {

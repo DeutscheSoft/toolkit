@@ -17,9 +17,10 @@
  * Boston, MA  02110-1301  USA
  */
  
- /**
- * Is fired when the knob is manipulated by the user.
- * @type {number}
+/**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the option <code>value</code>.
+ *
  * @event TK.Knob#useraction
  */
      
@@ -33,7 +34,7 @@ function dblclick() {
      * @event TK.Fader#doubleclick
      */
     this.fire_event("doubleclick", this.options.value);
-    this.fire_event("useraction", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
 }
 /**
  * TK.Knob is a {@link TK.Circular} inside of an SVG and which can be
@@ -104,7 +105,7 @@ w.TK.Knob = w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 v = this.set("value", v);
-                this.fire_event("useraction", v);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             direction: this.options.direction,
             rotation: this.options.rotation,
@@ -117,7 +118,7 @@ w.TK.Knob = w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 v = this.set("value", v);
-                this.fire_event("useraction", v);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             events: function () { return this }.bind(this),
         });

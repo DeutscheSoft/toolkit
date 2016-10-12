@@ -16,6 +16,14 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the options <code>selected</code> and <code>value</code>.
+ *
+ * @event TK.Select#useraction
+ */
+ 
 "use strict";
 (function(w){
 function index_by_value(val) {
@@ -95,13 +103,6 @@ w.TK.Select = w.Select = $class({
      * @property {Array} [options.entries=[]] - The list of entries. Each entry is a an
      *  object with the two properties <code>title</code> and <code>value</code>.
      *
-     */
-    /**
-     * The <code>useraction</code> event is emitted when the selected entry is changed by
-     * a user interaction. The arguments are the option name and its new value. This event is
-     * emitted for the options <code>selected</code> and <code>value</code>.
-     *
-     * @event TK.Select#useraction
      */
     _class: "Select",
     Extends: TK.Button,

@@ -16,6 +16,12 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the option <code>state</code>.
+ *
+ * @event TK.Toggle#useraction
+ */
 "use strict";
 (function(w){ 
 function mousedown(e) {
@@ -72,12 +78,6 @@ w.TK.Toggle = w.Toggle = $class({
      *  when the button toggle state is <code>true</code>.
      * @property {string} [options.label_active] - An optional label which is only displayed
      *  when the button toggle state is <code>true</code>.
-     */
-    /**
-     * The <code>useraction</code> event is emitted if the button state is changed by a user
-     * interaction. It is emitted for the <code>state</code> option.
-     *
-     * @event TK.Toggle#useraction
      */
     _class: "Toggle",
     Extends: TK.Button,

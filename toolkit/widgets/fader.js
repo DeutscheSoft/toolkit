@@ -16,6 +16,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the option <code>value</code>.
+ *
+ * @event TK.Fader#useraction
+ */
 "use strict";
 (function(w){
 
@@ -89,12 +96,7 @@ function THIS() {
 }
 function SET(v) {
     v = this.set("value", v);
-    /**
-     * Is fired when the fader is manipulated by the user.
-     * @type {number}
-     * @event TK.Fader#useraction
-     */
-    this.fire_event("useraction", v);
+    this.fire_event("useraction", "value", v);
     return v;
 }
 function create_scale() {

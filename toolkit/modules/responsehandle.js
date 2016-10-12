@@ -17,13 +17,6 @@
  * Boston, MA  02110-1301  USA
  */
  
- /**
- * Is fired when the user manipulates the handle. The arguments are
- * the values of x, y and z.
- * @type {Array.<number, number, number>}
- * @event TK.ResponseHandle#useraction
- */
-     
 "use strict";
 (function(w){
 function mouseenter(e) {
@@ -116,7 +109,9 @@ function mousedown(e) {
         this.fire_event("zchangestarted", this.options.z);
     }
     //document.addEventListener("mouseup", this._mouseup.bind(this));
-    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
+    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "y", this.options.y);
+    this.fire_event("useraction", "z", this.options.z);
     return false;
 }
 function mouseup(e) {
@@ -157,7 +152,9 @@ function mouseup(e) {
         this._zhandling = false;
     }
     this.__active = false;
-    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
+    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "y", this.options.y);
+    this.fire_event("useraction", "z", this.options.z);
     return false;
 }
 function normalize(v) {
@@ -214,7 +211,9 @@ function mousemove(e) {
          * @event TK.ResponseHandle#zchanged
          */
         this.fire_event("zchanged", this.set("z", d));
-        this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
+        this.fire_event("useraction", "x", this.options.x);
+        this.fire_event("useraction", "y", this.options.y);
+        this.fire_event("useraction", "z", this.options.z);
     } else if (this._sticky) {
         var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
         var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
@@ -243,7 +242,9 @@ function mousemove(e) {
             pos_y: this.y
         });
     }
-    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
+    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "y", this.options.y);
+    this.fire_event("useraction", "z", this.options.z);
     return false;
 }
 function scrollwheel(e) {
@@ -271,7 +272,9 @@ function scrollwheel(e) {
     if (!this._zwheel)
         this.fire_event("zchangestarted", this.options.z);
     this.fire_event("zchanged", this.options.z);
-    this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
+    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "y", this.options.y);
+    this.fire_event("useraction", "z", this.options.z);
     this._zwheel = true;
 }
 function touchstart(e) {
@@ -318,7 +321,9 @@ function touchmove(e) {
             Math.min(z, this.range_z.get("max")),
             this.range_z.get("min")));
         this.fire_event("zchanged", O.z);
-        this.fire_event("useraction", this.options.x, this.options.y, this.options.z);
+        this.fire_event("useraction", "x", this.options.x);
+        this.fire_event("useraction", "y", this.options.y);
+        this.fire_event("useraction", "z", this.options.z);
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -587,9 +592,8 @@ function get_label_dimensions(align, X, label_size) {
  * @mixes TK.GlobalCursor
  */
 /**
- * The <code>useraction</code> event is emitted when a responsehandle is moved or modified
- * by user interaction. The event is emitted for the options <code>x</code>, <code>y</code> and
- * <code>z</code>.
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the options <code>x</code>, <code>y</code> and <code>z</code>.
  *
  * @event TK.ResponseHandle#useraction
  */

@@ -16,6 +16,14 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the option <code>show</code>.
+ *
+ * @event TK.Pager#useraction
+ */
+ 
 "use strict";
 (function(w){
 w.TK.Pager = w.Pager = $class({
@@ -96,10 +104,6 @@ w.TK.Pager = w.Pager = $class({
             container: this.element,
             onuseraction: function(key, value) {
                 if (key === "show") value = this.set("show", value);
-                 /**
-                 * Is fired when the user switches the page.
-                 * @event TK.Pager#useraction
-                 */
                 this.fire_event("useraction", key, value);
             }.bind(this),
         });
