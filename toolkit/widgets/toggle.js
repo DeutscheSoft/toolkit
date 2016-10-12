@@ -63,17 +63,21 @@ function clear_to() {
     
 w.TK.Toggle = w.Toggle = $class({
     /**
-     * A toggle button.
+     * A toggle button. The toggle button can either be pressed (which means that it will
+     * switch its state as long as it is pressed) or toggled. Its behavior is controlled by
+     * the two options <code>press</code> and <code>toggle</code>.
      *
      * @class TK.Toggle
      * @extends TK.Button
      *
      * @param {Object} options
      * @property {boolean} [options.state=false] - The state of the button.
-     * @property {boolean} [options.toggle=true] - If true, the toggle button does not switch
-     *  back to its original state on release.
-     * @property {integer} [options.press=0] - Time in milliseconds. If the button is released
-     *  after this timeout, the button state will not toggle back.
+     * @property {boolean} [options.toggle=true] - If true, the button is toggled by a click.
+     * @property {integer|boolean} [options.press] - Controls press behavior. If <code>options.toggle</code>
+     *  is <code>false</code> and this option is <code>true</code>, the toggle button will toggle until
+     *  released. If <code>options.toggle</code> is true and this option is a positive integer, it is
+     *  interpreted as a milliseconds timeout. When pressing a button longer than this timeout, it will
+     *  be toggled until released, otherwise it will toggle permanently.
      * @property {string} [options.icon_active] - An optional icon which is only displayed
      *  when the button toggle state is <code>true</code>.
      * @property {string} [options.label_active] - An optional label which is only displayed
@@ -89,10 +93,10 @@ w.TK.Toggle = w.Toggle = $class({
         state: "boolean",
     }),
     options: {
-        label_active:  false, // the label for the active toggle, false for default label
-        icon_active:   false, // this icon of the active toggle, false for default icon
-        press:         0,     // time in milliseconds after a press is interpreted as a toggle, 0 to disable press toggle
-        toggle:        true,  // button is toggleable
+        label_active:  false,
+        icon_active:   false,
+        press:         false,
+        toggle:        true,
         state:         false
     },
     
