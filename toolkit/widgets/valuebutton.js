@@ -16,16 +16,37 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+  /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ * The event is emitted for the option <code>value</code>.
+ *
+ * @event TK.ValueButton#useraction
+ */
+ 
 "use strict";
 (function(w){
 function value_clicked() {
     this.scroll.set("active", false);
     this.drag.set("active", false);
+    /**
+     * Is fired when the user starts editing the value manually
+     * @type number
+     * @event TK.ValueButton#valueedit
+     */
+    this.fire_event("valueedit", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
 }
 function value_done() {
     this.scroll.set("active", true);
     this.drag.set("active", true);
+    /**
+     * Is fired when the user finished editing the value manually
+     * @type number
+     * @event TK.ValueButton#valueset
+     */
     this.fire_event("valueset", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
 }
     
 w.TK.ValueButton = w.ValueButton = $class({
@@ -118,6 +139,12 @@ w.TK.ValueButton = w.ValueButton = $class({
         this.element.addEventListener("dblclick", function () {
             var v = this.set("value", this.options.reset);
             this.fire_event("useraction", "value", v);
+            /**
+             * Is fired when the user doubleclicks the valuebutton in order to to reset to initial value.
+             * The Argument is the new value.
+             * @type number
+             * @event TK.ValueButton#doubleclick
+             */
             this.fire_event("doubleclick", this.options.value);
         }.bind(this));
         
@@ -176,7 +203,6 @@ w.TK.ValueButton = w.ValueButton = $class({
         switch (key) {
             case "value":
                 this.value.set("value", value);
-                this.fire_event("valuechanged", value);
                 break;
             case "value_format":
                 this.value.set("format", value);

@@ -28,10 +28,22 @@
 function value_clicked() {
     this.knob.scroll.set("active", false);
     this.knob.drag.set("active", false);
+    /**
+     * Is fired when the user starts editing the value manually
+     * @type number
+     * @event TK.ValueButton#valueedit
+     */
+    this.fire_event("valueedit", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
 }
 function value_done() {
     this.knob.scroll.set("active", true);
     this.knob.drag.set("active", true);
+    /**
+     * Is fired when the user finished editing the value manually
+     * @type number
+     * @event TK.ValueButton#valueset
+     */
     this.fire_event("valueset", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
 }
