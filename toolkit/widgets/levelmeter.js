@@ -96,7 +96,7 @@ function draw_peak() {
         this._peak.style.display = "none";
     }
     /**
-     * Is fired when the pek was drawn.
+     * Is fired when the peak was drawn.
      * @event TK.LevelMeter#drawpeak
      */
     this.fire_event("drawpeak");
@@ -453,39 +453,19 @@ w.TK.LevelMeter = w.LevelMeter = $class({
                 this.trigger_resize();
                 // fallthrough
             case "peak":
-                /**
-                 * Is fired when the peak changed.
-                 * @event TK.LevelMeter#peakchanged
-                 */
-                this.fire_event("peakchanged");
                 peak_timeout.call(this);
                 break;
             case "clip":
                 if (value) {
-                    /**
-                     * Is fired when the clipping changed.
-                     * @event TK.LevelMeter#clipping
-                     */
-                    this.fire_event("clipping");
                     clip_timeout.call(this);
                 }
                 this.state.set("state", value);
                 break;
             case "top":
                 top_timeout.call(this);
-                /**
-                 * Is fired when the top value changed.
-                 * @event TK.LevelMeter#topchanged
-                 */
-                this.fire_event("topchanged");
                 break;
             case "bottom":
                 bottom_timeout.call(this);
-                /**
-                 * Is fired when the bottom value changed.
-                 * @event TK.LevelMeter#bottomchanged
-                 */
-                this.fire_event("bottomchanged");
                 break;
             case "label":
                 label_timeout.call(this);
