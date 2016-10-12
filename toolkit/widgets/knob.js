@@ -30,7 +30,7 @@ var format_viewbox = TK.FORMAT("0 0 %d %d");
 function dblclick() {
     this.set("value", this.options.reset);
     /**
-     * Is fired when the fader receives a double click.
+     * Is fired when the fader receives a double click in order to reset to initial value.
      * @event TK.Fader#doubleclick
      */
     this.fire_event("doubleclick", this.options.value);
@@ -172,12 +172,6 @@ w.TK.Knob = w.Knob = $class({
     set: function(key, value) {
         if (key === "base") {
             if (value === false) value = this.options.min;
-            /**
-             * Is fired when the base value was changed.
-             * @type {number}
-             * @event TK.Knob#basechanged
-             */
-            this.fire_event("basechanged", value);
         }
         // TK.Circular does the snapping
         if (!TK.Widget.prototype._options[key]) {
