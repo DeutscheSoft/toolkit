@@ -146,7 +146,18 @@ w.TK.Toggle = w.Toggle = $class({
         var state = !this.options.state;
         clear_to.call(this);
         this.set("state", state);
+        /**
+         * Is fired when the toggle button was clicked by the user.
+         * @type{boolean}
+         * @event TK.Toggle#toggled
+         */
         this.fire_event("toggled", state);
+        /**
+         * Is fired when the toggle is manipulated by the user.
+         * @type {boolean}
+         * @event TK.Toggle#useraction
+         */
+        this.fire_event("useraction", "state", state);
     },
     /* INTERNAL */
     cancel_press: function () {
