@@ -16,6 +16,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
+ /**
+ * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
+ *
+ * @event TK.Button#useraction
+ */
+ 
 "use strict";
 (function(w){ 
 w.TK.Button = w.Button = $class({
@@ -73,6 +80,10 @@ w.TK.Button = w.Button = $class({
         this._cell.appendChild(this._icon);
         this._cell.appendChild(this._label);
         E.appendChild(this._cell);
+        
+        this.add_events(
+            ["click", "mousedown", "mouseup", "touchstart", "touchend"],
+            (function (e) { this.fire_event("useraction", e); }).bind(this));
     },
     destroy: function () {
         this._icon.remove();
