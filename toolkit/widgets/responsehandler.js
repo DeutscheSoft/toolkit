@@ -179,6 +179,11 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         }.bind(this));
         if (this.options.show_handles)
             this.add_child(h);
+        /**
+         * Is fired when a new handle was added.
+         * @type {Handle}
+         * @event TK.ResponseHandler#handleadded
+         */
         this.fire_event("handleadded", h);
         return h;
     },
@@ -195,6 +200,10 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
                     this.remove_child(handle);
                 this.handles[i].destroy();
                 this.handles.splice(i, 1);
+                /**
+                 * Is fired when a handle was removed.
+                 * @event TK.ResponseHandler#handleremoved
+                 */
                 this.fire_event("handleremoved");
                 break;
             }
@@ -206,6 +215,10 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
             this.remove_handle(this.handles[i]);
         }
         this.handles = [];
+        /**
+         * Is fired when all handles are removed.
+         * @event TK.ResponseHandler#emptied
+         */
         this.fire_event("emptied")
     },
     
