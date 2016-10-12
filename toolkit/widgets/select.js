@@ -203,8 +203,9 @@ w.TK.Select = w.Select = $class({
             show_list.call(this, false);
         }.bind(this);
 
-        li.addEventListener("click", up_cb);
-
+        li.addEventListener("touchstart", up_cb);
+        li.addEventListener("mousedown", up_cb);
+        
         this.invalid.entries = true;
 
         if (this.options.selected === id) {
