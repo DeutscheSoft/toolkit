@@ -82,7 +82,6 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     },
     initialize: function (options) {
         this.handles = [];
-        this._active = 0;
         TK.FrequencyResponse.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_z, "range_z");
@@ -142,25 +141,19 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         options.intersect = this.intersect.bind(this);
         
         var h = new TK.ResponseHandle(options);
-        var _mousemove = h._mousemove.bind(h);
-        var _mouseup = h._mouseup.bind(h);
-        var _touchmove = h._touchmove.bind(h);
-        var _touchend = h._touchend.bind(h);
         this.handles.push(h);
         h.add_events(["handlegrabbed", "zchangestarted"], function () {
-            this._active++;
-            document.addEventListener("mousemove", _mousemove);
-            document.addEventListener("mouseup",   _mouseup);
-            document.addEventListener("touchmove", _touchmove);
-            document.addEventListener("touchend",  _touchend);
-        }.bind(this));
+            document.addEventListener("mousemove", this._mousemove);
+            document.addEventListener("mouseup",   this._mouseup);
+            document.addEventListener("touchmove", this._touchmove);
+            document.addEventListener("touchend",  this._touchend);
+        });
         h.add_events(["destroy", "handlereleased", "zchangeended"],  function () {
-            if (this._active) this._active--;
-            document.removeEventListener("mousemove", _mousemove);
-            document.removeEventListener("mouseup",   _mouseup);
-            document.removeEventListener("touchmove", _touchmove);
-            document.removeEventListener("touchend",  _touchend);
-        }.bind(this));
+            document.removeEventListener("mousemove", this._mousemove);
+            document.removeEventListener("mouseup",   this._mouseup);
+            document.removeEventListener("touchmove", this._touchmove);
+            document.removeEventListener("touchend",  this._touchend);
+        });
         if (this.options.show_handles)
             this.add_child(h);
         h.add_event("useraction", (function (that, handle) {

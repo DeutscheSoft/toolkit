@@ -152,24 +152,18 @@ w.TK.Equalizer = w.Equalizer = $class({
         }
         
         this.bands.push(b);
-        var _mousemove = b._mousemove.bind(b);
-        var _mouseup = b._mouseup.bind(b);
-        var _touchmove = b._touchmove.bind(b);
-        var _touchend = b._touchend.bind(b);
         b.add_events(["handlegrabbed", "zchangestarted"], function () {
-            this._active++;
-            document.addEventListener("mousemove", _mousemove);
-            document.addEventListener("mouseup",   _mouseup);
-            document.addEventListener("touchmove", _touchmove);
-            document.addEventListener("touchend",  _touchend);
-        }.bind(this));
+            document.addEventListener("mousemove", this._mousemove);
+            document.addEventListener("mouseup",   this._mouseup);
+            document.addEventListener("touchmove", this._touchmove);
+            document.addEventListener("touchend",  this._touchend);
+        });
         b.add_events(["handlereleased", "zchangeended"],  function () {
-            if (this._active) this._active--;
-            document.removeEventListener("mousemove", _mousemove);
-            document.removeEventListener("mouseup",   _mouseup);
-            document.removeEventListener("touchmove", _touchmove);
-            document.removeEventListener("touchend",  _touchend);
-        }.bind(this));
+            document.removeEventListener("mousemove", this._mousemove);
+            document.removeEventListener("mouseup",   this._mouseup);
+            document.removeEventListener("touchmove", this._touchmove);
+            document.removeEventListener("touchend",  this._touchend);
+        });
         b.add_event("set", invalidate_bands.bind(this));
         b.add_event("useraction", (function (that, band) {
             return function (key, val) {
