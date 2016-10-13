@@ -1,7 +1,7 @@
     function run_scale(root) {
         scales = {};
         scales.left = new Scale({
-            layout: _TOOLKIT_LEFT,
+            layout: "left",
             division: 1,
             levels: [1, 6, 12],
             min: -96,
@@ -12,7 +12,7 @@
             id: "sc_scale_v_l"
         })
         scales.right = new Scale({
-            layout: _TOOLKIT_RIGHT,
+            layout: "right",
             division: 1,
             levels: [1, 6, 12],
             min: -96,
@@ -22,7 +22,7 @@
             id: "sc_scale_v_r"
         })
         scales.top = new Scale({
-            layout: _TOOLKIT_TOP,
+            layout: "top",
             division: 1,
             levels: [1, 6, 12],
             min: -24,
@@ -33,7 +33,7 @@
             id: "sc_scale_h_t"
         })
         scales.bottom = new Scale({
-            layout: _TOOLKIT_BOTTOM,
+            layout: "bottom",
             division: 1,
             levels: [1, 6, 12],
             min: -24,
