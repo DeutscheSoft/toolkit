@@ -198,6 +198,8 @@ w.TK.Graph = w.Graph = $class({
     
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
+        /** @member {SVGImage} TK.Graph#element - The main SVG image. Has class <code>toolkit-graph</code> 
+         */
         this.element = this.widgetize(TK.make_svg("path"), true, true, true);
         TK.add_class(this.element, "toolkit-graph");
 
