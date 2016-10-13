@@ -67,6 +67,8 @@ w.TK.Dynamics = w.Dynamics = $class({
         if (O.size) this.set("size", O.size);
         this.set("min", O.min);
         this.set("max", O.max);
+        /** @member {TK.Graph} TK.Dynamics#element - The graph drawing the zero line. Has class <code>toolkit-steady</code> 
+         */
         this.steady = this.add_graph({
             dots: [{x:O.min, y:O.min},
                    {x:O.max, y:O.max}],
