@@ -716,9 +716,41 @@ function redraw_zhandle(O, X) {
     normalize(this.zhandle_position);
 }
 
+function create_label() {
+    var E;
+    this._label = E = TK.make_svg("text", {
+        "class": "toolkit-label"
+    });
+    E.addEventListener("mouseenter",      this._mouseelement);
+    E.addEventListener("touchstart",      this._mouseelement);
+    E.addEventListener("mousewheel",      this._scrollwheel);
+    E.addEventListener("DOMMouseScroll",  this._scrollwheel);
+    E.addEventListener('contextmenu', function(e){e.preventDefault();});
+}
+
+function remove_label() {
+    var E = this._label;
+    this._label = null;
+    E.remove();
+    E.removeEventListener("mouseenter",      this._mouseelement);
+    E.removeEventListener("touchstart",      this._mouseelement);
+    E.removeEventListener("mousewheel",      this._scrollwheel);
+    E.removeEventListener("DOMMouseScroll",  this._scrollwheel);
+    E.removeEventListener('contextmenu', function(e){e.preventDefault();});
+
+    this.label = [0,0,0,0];
+}
+
+
 function redraw_label(O, X) {
+    if (O.label === false) {
+        if (this._label) remove_label.call(this);
+        return false;
+    }
+
     var a = O.label.call(this, O.title, O.x, O.y, O.z).split("\n");
     var c = this._label.childNodes;
+
     while (c.length < a.length) {
         this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
     }
@@ -728,6 +760,8 @@ function redraw_label(O, X) {
     for (var i = 0; i < a.length; i++) {
         c[i].textContent = a[i];
     }
+
+    if (!this._label.parentNode) this.element.appendChild(this._label);
 
     TK.S.add(function() {
         var w = 0;
@@ -878,7 +912,8 @@ function redraw_lines(O, X) {
  * @property {number} [options.min_size=24] - Minimum size of the handle in px.
  *
  * @property {function} options.label - Label formatting function. Arguments are
- *  <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>.
+ *  <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>. If this options is
+ *  <code>false</code>, no label is displayed.
  * @property {array}  [options.preferences=["left", "top", "right", "bottom"]] - Possible label
  *  positions by order of preference. Depending on the selected <code>mode</code> is can
  *  be a subset of <code>"top"</code>, <code>"top-right"</code>, <code>"right"</code>,
@@ -1042,11 +1077,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 TK.warn("Unsupported mode:", O.mode);
         }
 
-        this._label = TK.make_svg("text", {
-            "class": "toolkit-label"
-        });
-        E.appendChild(this._label);
-
         this._handle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
                 "class": "toolkit-handle",
@@ -1073,13 +1103,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.addEventListener("touchstart",     this._touchstart);
         E.addEventListener('contextmenu', function(e){e.preventDefault();});
 
-        E = this._label;
-        E.addEventListener("mouseenter",      this._mouseelement);
-        E.addEventListener("touchstart",      this._mouseelement);
-        E.addEventListener("mousewheel",      this._scrollwheel);
-        E.addEventListener("DOMMouseScroll",  this._scrollwheel);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
-
         E = this._handle;
         E.addEventListener("mouseenter",     this._mouseelement);
         E.addEventListener("touchstart",     this._mouseelement);
@@ -1089,7 +1112,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.addEventListener('contextmenu', function(e){e.preventDefault();});
 
         this._handle.onselectstart = function () { return false; };
-        this._zhandle = this._line1 = this._line2 = null;
+        this._zhandle = this._line1 = this._line2 = this._label = null;
 
         this.set("mode", O.mode);
         this.set("show_axis", O.show_axis);
@@ -1098,6 +1121,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.set("y", O.y);
         this.set("z", O.z);
         this.set("z_handle", O.z_handle);
+        this.set("label", O.label);
     },
 
     redraw: function () {
@@ -1186,6 +1210,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 create_line2.call(this);
             }
             break;
+        case "label":
+            if (value !== false && !this._label) create_label.call(this);
+            break;
         case "mode":
             if (value !== "circular") create_line1.call(this);
             break;
@@ -1212,9 +1239,10 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         return value;
     },
     destroy: function () {
-        this._line1.remove();
-        this._line2.remove();
-        this._label.remove();
+        remove_zhandle.call(this);
+        remove_line1.call(this);
+        remove_line2.call(this);
+        remove_label.call(this);
         this._handle.remove();
         this.element.remove();
         TK.Widget.prototype.destroy.call(this);
