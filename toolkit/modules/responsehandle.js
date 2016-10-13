@@ -940,6 +940,16 @@ function redraw_lines(O, X) {
  * @mixes TK.Warning
  * @mixes TK.GlobalCursor
  */
+
+/** @member {SVGText} TK.ReponseHandle#_label - The label. Has class <code>toolkit-label</code> 
+ */
+/** @member {SVGPath} TK.ReponseHandle#_line1 - The first line. Has class <code>toolkit-line toolkit-line-1</code> 
+ */
+/** @member {SVGPath} TK.ReponseHandle#_line2 - The first line. Has class <code>toolkit-line toolkit-line-2</code> 
+ */
+/** @member {SVGCircular} TK.ReponseHandle#_handle - The main handle. Has class <code>toolkit-handle</code> 
+ */
+         
 /**
  * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
  * The event is emitted for the options <code>x</code>, <code>y</code> and <code>z</code>.
@@ -1025,7 +1035,13 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._sticky = false;
         TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
-
+        
+        /** @member {TK.Range} TK.ResponseHandle#range_x - The range for the x axis.
+         */
+        /** @member {TK.Range} TK.ResponseHandle#range_y - The range for the y axis.
+         */
+        /** @member {TK.Range} TK.ResponseHandle#range_z - The range for the z axis.
+         */
         this.add_range(O.range_x, "range_x");
         this.add_range(O.range_y, "range_y");
         this.add_range(O.range_z, "range_z");
@@ -1040,7 +1056,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.range_z.add_event("set", set_cb);
 
         var E = TK.make_svg("g");
-
+        
+        /** @member {SVGGroup} TK.ResponseHandle#element - The main SVG group containing all handle elements. Has class <code>toolkit-response-handle</code> 
+         */
         this.element = E;
 
         this.widgetize(E, true, true);
@@ -1076,7 +1094,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             default:
                 TK.warn("Unsupported mode:", O.mode);
         }
-
+        
         this._handle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
                 "class": "toolkit-handle",
@@ -1084,6 +1102,16 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             }
         );
         E.appendChild(this._handle);
+        
+        /** @member {SVGCircular} TK.ReponseHandle#_zhandle - The handle for manipulating z axis. Has class <code>toolkit-z-handle</code> 
+         */
+        this._zhandle = TK.make_svg(
+            O.mode === "circular" ? "circle" : "rect", {
+                "class": "toolkit-z-handle",
+                "width":  O.z_handle_size,
+                "height": O.z_handle_size
+            }
+        );
 
         this._mouseenter = mouseenter.bind(this);
         this._mouseleave = mouseleave.bind(this);
