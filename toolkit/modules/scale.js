@@ -354,6 +354,23 @@ function auto_size(labels) {
             TK.S.add(size_fun.bind(this, this.element, true, new_size), 1);
     }.bind(this));
 }
+function mark_markers(labels, dots) {
+    var i, j;
+
+    var a = labels.values;
+    var b = dots.values;
+    var nodes = dots.nodes;
+
+    for (i = j = 0; i < a.length && j < b.length;) {
+        if (a[i] < b[j]) i++;
+        else if (a[i] > b[j]) j++;
+        else {
+            TK.add_class(nodes[j], "toolkit-marker");
+            i++;
+            j++;
+        }
+    }
+}
 /**
  * TK.Scale can be used to draw scales. It is used in {@link TK.MeterBase} and
  * {@link TK.Fader}. TK.Scale draws labels and markers based on its parameters
@@ -384,9 +401,9 @@ function auto_size(labels) {
  * @property {boolean} [options.show_base=true] - If <code>true</code>, display a label and a
  *  dot for the 'base' value.
  * @property {Array} [options.fixed_dots] - This option can be used to specify fixed positions
- *      for the markers to be drawn at.
+ *      for the markers to be drawn at. The values must be sorted in ascending order.
  * @property {Array} [options.fixed_labels] - This option can be used to specify fixed positions
- *      for the labels to be drawn at.
+ *      for the labels to be drawn at. The values must be sorted in ascending order.
  */
 w.TK.Scale = w.Scale = $class({
     _class: "Scale",
@@ -499,15 +516,15 @@ w.TK.Scale = w.Scale = $class({
             }
         }
 
-        if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max",
+        if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max", "show_markers",
                        "fixed_dots", "fixed_labels", "levels", "basis", "scale", "reverse", "show_labels")) {
             TK.empty(E);
 
-            var labels = [];
-
             if (O.fixed_dots && O.fixed_labels) {
+                var labels;
+
                 if (O.show_labels) {
-                    var labels = {
+                    labels = {
                         values: O.fixed_labels,
                         positions: O.fixed_labels.map(this.val2px, this),
                     };
@@ -519,11 +536,16 @@ w.TK.Scale = w.Scale = $class({
                         }.bind(this));
                     }
                 }
+
                 var dots = {
                     values: O.fixed_dots,
                     positions: O.fixed_dots.map(this.val2px, this),
                 };
                 create_dom_nodes.call(this, dots, create_dot.bind(this));
+
+                if (O.show_markers && labels) {
+                    mark_markers(labels, dots);
+                }
             } else {
                 var base = get_base(O);
 
