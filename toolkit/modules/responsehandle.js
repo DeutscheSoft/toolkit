@@ -758,7 +758,7 @@ function redraw_label(O, X) {
         this._label.removeChild(this._label.lastChild);
     }
     for (var i = 0; i < a.length; i++) {
-        c[i].textContent = a[i];
+        TK.set_text(c[i], a[i]);
     }
 
     if (!this._label.parentNode) this.element.appendChild(this._label);
