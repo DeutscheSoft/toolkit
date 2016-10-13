@@ -279,14 +279,17 @@ function empty(element) {
      */
     while (element.lastChild) element.removeChild(element.lastChild);
 }
-function set_text(element, string) {
+function set_text(element, text) {
     /**
      * Sets a string as new exclusive text node of an HTMLElement.
      * @param {HTMLElement} element - The element to clean up
      * @param {string} text - The string to set as text content
      * @function TK.textContent
      */
-    element.textContent = string;
+    if (element.childNodes.length === 1 && typeof element.childNodes[0].data === "string")
+        element.childNodes[0].data = text;
+    else
+        element.textContent = text;
 }
 function html(string) {
     /**
