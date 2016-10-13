@@ -207,25 +207,35 @@ w.TK.Clock = w.Clock = $class({
     },
     initialize: function (options) {
         var E, S;
+        /** @member {Object} TK.Clock#circulars - An object holding all three TK.Circular as members <code>seconds</code>, <code>minutes</code> and <code>hours</code>.
+         */
         this.circulars = {};
         this._margin = -1;
         TK.Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
         if (!(E = this.element)) this.element = E = TK.element("div");
+        /** @member {SVGImage} TK.Clock#svg - The main SVG image. Has class <code>toolkit-clock</code>
+         */
         this.svg = S = TK.make_svg("svg");
         this.widgetize(E, true, true, true);
         TK.add_class(E, "toolkit-clock");
         
+        /** @member {SVGText} TK.Clock#_label - The center label showing the time. Has class<code>toolkit-label</code>
+         */
         this._label       = TK.make_svg("text", {
             "class":       "toolkit-label",
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"
         });
+        /** @member {SVGText} TK.Clock#_label_upper - The upper label showing the day. Has class<code>toolkit-label-upper</code>
+         */
         this._label_upper = TK.make_svg("text", {
             "class": "toolkit-label-upper",
             "text-anchor": "middle",
             "style":       "dominant-baseline: central;"
         });
+        /** @member {SVGText} TK.Clock#_label_lower - The lower label showing the date. Has class<code>toolkit-label-lower</code>
+         */
         this._label_lower = TK.make_svg("text", {
             "class": "toolkit-label-lower",
             "text-anchor": "middle",
