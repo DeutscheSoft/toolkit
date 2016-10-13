@@ -404,6 +404,8 @@ function mark_markers(labels, dots) {
  *      for the markers to be drawn at. The values must be sorted in ascending order.
  * @property {Array} [options.fixed_labels] - This option can be used to specify fixed positions
  *      for the labels to be drawn at. The values must be sorted in ascending order.
+ * @property {boolean} [options.show_markers=true] - If true, every dot which is located at the same
+ *      position as a label has the <code>toolkit-marker</code> class set.
  */
 w.TK.Scale = w.Scale = $class({
     _class: "Scale",
