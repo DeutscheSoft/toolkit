@@ -296,11 +296,17 @@ w.TK.Chart = w.Chart = $class({
         this.graphs = [];
         TK.Widget.prototype.initialize.call(this, options);
         
+        /** @member {TK.Range} TK.Chart#range_x - The range for the x axis. 
+         */
+        /** @member {TK.Range} TK.Chart#range_y - The range for the y axis.
+         */
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
         this.range_y.set("reverse", true, true, true);
         
         if (!(E = this.element)) this.element = E = TK.element("div");
+        /** @member {SVGImage} TK.Chart#svg - The main SVG image. Has class <code>toolkit-chart</code>
+         */
         this.svg = S = TK.make_svg("svg");
 
         TK.add_class(E, "toolkit-chart");
@@ -313,20 +319,29 @@ w.TK.Chart = w.Chart = $class({
             this.options.height = this.range_y.options.basis;
         
         this.grid = null;
-        
+        /** @member {SVGText} TK.Chart#_title - The title of the chart. Has class <code>toolkit-title</code>
+         */
         this._title = TK.make_svg("text", {
             "class": "toolkit-title",
             style: "dominant-baseline: central;"
         });
         S.appendChild(this._title);
         
+        /** @member {SVGGroup} TK.Chart#_graphs - The group containing all graphs. Has class <code>toolkit-graphs</code>
+         */
         this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
         S.appendChild(this._graphs);
         
+        /** @member {SVGRect} TK.Chart#_key_background - The rectangle of the key. Has class <code>toolkit-background</code>
+         */
         this._key_background = TK.make_svg("rect",
             {"class": "toolkit-background"});
+        /** @member {SVGGroup} TK.Chart#_key - The group containing all descriptions. Has class <code>toolkit-key</code>
+         */
         this._key = TK.make_svg("g", {"class": "toolkit-key"});
-        this._key_txt = TK.make_svg("text");
+        /** @member {SVGText} TK.Chart#_key_txt - The text label for the key. Has class <code>toolkit-key-text</code>
+         */
+        this._key_txt = TK.make_svg("text", {"class": "toolkit-key-text"});
 
         S.appendChild(this._key_background);
         S.appendChild(this._key);
