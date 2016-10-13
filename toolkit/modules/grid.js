@@ -184,8 +184,14 @@ w.TK.Grid = w.Grid = $class({
     },
     initialize: function (options, hold) {
         TK.Widget.prototype.initialize.call(this, options);
+        /** @member {SVGGroup} TK.Grid#element - The main SVG group containing all grid elements. Has class <code>toolkit-grid</code> 
+         */
         this.element = this.widgetize(
                        TK.make_svg("g", {"class": "toolkit-grid"}), true, true, true);
+        /** @member {TK.Range} TK.Grid#range_x - The range for the x axis. 
+         */
+        /** @member {TK.Range} TK.Grid#range_y - The range for the y axis.
+         */
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
         if (this.options.width)
