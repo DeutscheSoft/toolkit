@@ -350,24 +350,38 @@ w.TK.Circular = w.Circular = $class({
         TK.Widget.prototype.initialize.call(this, options);
         var E;
         
+        /** @member {SVGImage} TK.Circular#element - The main SVG element. Has class <code>toolkit-circular</code> 
+         */
         this.element = E = TK.make_svg("g", {"class": "toolkit-circular"});
         this.widgetize(E, true, true, true);
         
+        /** @member {SVGPath} TK.Circular#_base - The base of the ring. Has class <code>toolkit-base</code> 
+         */
         this._base = TK.make_svg("path", {"class": "toolkit-base"});
         E.appendChild(this._base);
         
+        /** @member {SVGGroup} TK.Circular#_markers - A group containing all markers. Has class <code>toolkit-markers</code> 
+         */
         this._markers = TK.make_svg("g", {"class": "toolkit-markers"});
         E.appendChild(this._markers);
         
+        /** @member {SVGPath} TK.Circular#_value - The ring showing the value. Has class <code>toolkit-value</code> 
+         */
         this._value = TK.make_svg("path", {"class": "toolkit-value"});
         E.appendChild(this._value);
         
+        /** @member {SVGGroup} TK.Circular#_dots - A group containing all dots. Has class <code>toolkit-dots</code> 
+         */
         this._dots = TK.make_svg("g", {"class": "toolkit-dots"});
         E.appendChild(this._dots);
         
+        /** @member {SVGGroup} TK.Circular#_labels - A group containing all labels. Has class <code>toolkit-labels</code> 
+         */
         this._labels = TK.make_svg("g", {"class": "toolkit-labels"});
         E.appendChild(this._labels);
         
+        /** @member {SVGRect} TK.Circular#_hand - The hand of the knob. Has class <code>toolkit-hand</code> 
+         */
         this._hand = TK.make_svg("rect", {"class": "toolkit-hand"});
         E.appendChild(this._hand);
 
