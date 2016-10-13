@@ -213,8 +213,10 @@ w.TK.Clock = w.Clock = $class({
         this._margin = -1;
         TK.Widget.prototype.initialize.call(this, options);
         this.options.time = new Date();
+        /** @member {HTMLDivElement} TK.Clock#element - The main DIV element. Has class <code>toolkit-clock</code> 
+         */
         if (!(E = this.element)) this.element = E = TK.element("div");
-        /** @member {SVGImage} TK.Clock#svg - The main SVG image. Has class <code>toolkit-clock</code>
+        /** @member {SVGImage} TK.Clock#svg - The main SVG image.
          */
         this.svg = S = TK.make_svg("svg");
         this.widgetize(E, true, true, true);
