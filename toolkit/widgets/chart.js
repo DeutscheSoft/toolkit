@@ -208,6 +208,8 @@ function draw_title() {
 
 function create_grid() {
     if (!this.grid) {
+        /** @member {TK.Grid} TK.Chart#grid - The grid for the chart.
+         */
         this.grid = new TK.Grid({
             grid_x: this.options.grid_x,
             grid_y: this.options.grid_y,
