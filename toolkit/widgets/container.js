@@ -96,6 +96,8 @@ w.TK.Container = w.Container = $class({
         var E;
         TK.Widget.prototype.initialize.call(this, options);
         this.hidden_children = [];
+        /** @member {HTMLDivElement} TK.Container#element - The main DIV element. Has class <code>toolkit-container</code> 
+         */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-container"); 
         this.widgetize(E, true, true, true);
