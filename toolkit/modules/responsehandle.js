@@ -506,6 +506,51 @@ function get_label_position(O, X, pos, label_size) {
     return [x,y];
 }
 
+function remove_zhandle() {
+    var E = this._zhandle;
+    this._zhandle = null;
+
+    E.remove();
+
+    E.removeEventListener("mousedown", this._zhandledown);
+    E.removeEventListener("touchstart", this._zhandledown);
+    E.removeEventListener('contextmenu', function(e){e.preventDefault();});
+}
+
+function create_zhandle() {
+    var E;
+
+    E = TK.make_svg(
+        this.options.mode === "circular" ? "circle" : "rect", {
+            "class": "toolkit-z-handle",
+        }
+    );
+
+    E.addEventListener("mousedown", this._zhandledown);
+    E.addEventListener("touchstart", this._zhandledown);
+    E.addEventListener('contextmenu', function(e){e.preventDefault();});
+    this._zhandle = E;
+}
+
+function create_line1() {
+    this._line1 = TK.make_svg("path", {
+        "class": "toolkit-line toolkit-line-1"
+    });
+}
+function create_line2() {
+    this._line2 = TK.make_svg("path", {
+        "class": "toolkit-line toolkit-line-2"
+    });
+}
+function remove_line1() {
+    this._line1.remove();
+    this._line1 = null;
+}
+function remove_line2() {
+    this._line2.remove();
+    this._line2 = null;
+}
+
 /* Prints a line, making sure that an offset of 0.5 px aligns them on
  * pixel boundaries */
 var format_line = TK.FORMAT("M %.0f.5 %.0f.5 L %.0f.5 %.0f.5");
@@ -715,15 +760,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         });
         E.appendChild(this._label);
         
-        this._line1 = TK.make_svg("path", {
-            "class": "toolkit-line toolkit-line-1"
-        });
-        E.appendChild(this._line1);
-        this._line2 = TK.make_svg("path", {
-            "class": "toolkit-line toolkit-line-2"
-        });
-        E.appendChild(this._line2);
-        
         this._handle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
                 "class": "toolkit-handle",
@@ -732,14 +768,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         );
         E.appendChild(this._handle);
         
-        this._zhandle = TK.make_svg(
-            O.mode === "circular" ? "circle" : "rect", {
-                "class": "toolkit-z-handle",
-                "width":  O.z_handle_size,
-                "height": O.z_handle_size
-            }
-        );
-
         this._mouseenter = mouseenter.bind(this);
         this._mouseleave = mouseleave.bind(this);
         this._mouseelement = mouseelement.bind(this);
@@ -773,13 +801,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.addEventListener("touchstart",     this._touchstart);
         E.addEventListener('contextmenu', function(e){e.preventDefault();});
         
-        E = this._zhandle;
-        E.addEventListener("mousedown",     this._zhandledown);
-        E.addEventListener("touchstart",    this._zhandledown);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
-        
         this._handle.onselectstart = function () { return false; };
+        this._zhandle = this._line1 = this._line2 = null;
         
+        this.set("mode", O.mode);
+        this.set("show_axis", O.show_axis);
         this.set("active", O.active);
         this.set("x", O.x);
         this.set("y", O.y);
@@ -905,7 +931,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var zhandle = this._zhandle;
 
         if (O.z_handle === false) {
-            if (zhandle.parentNode) zhandle.remove();
+            if (zhandle) remove_zhandle.call(this);
         } else {
             var vec;
             if (!zhandle.parentNode)
@@ -1031,6 +1057,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                     this._line2.setAttribute("d", 
                          format_line(x, ((x >= pos[0] && x <= pos[2]) ? Math.max(X[3], pos[3]) : X[3]) + O.margin,
                                      x, range_y.options.basis));
+                } else {
+                    if (this._line1) remove_line1.call(this);
+                    if (this._line2) remove_line2.call(this);
                 }
                 break;
             case "line-vertical":
@@ -1039,8 +1068,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this._line1.setAttribute("d", format_line(x, X[1], x, X[3]));
                 if (O.show_axis) {
                     this._line2.setAttribute("d", format_line(0, y, range_x.options.basis, y));
-                } else {
-                    this._line2.setAttribute("d", "M 0 0");
+                } else if (this._line2) {
+                    remove_line2.call(this);
                 }
                 break;
             case "line-horizontal":
@@ -1049,13 +1078,17 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 this._line1.setAttribute("d", format_line(X[0], y, X[2], y));
                 if (O.show_axis) {
                     this._line2.setAttribute("d", format_line(x, 0, x, range_y.options.basis));
-                } else {
-                    this._line2.setAttribute("d", "M 0 0");
+                } else if (this._line2) {
+                    remove_line2.call(this);
                 }
                 break;
             default:
                 TK.warn("Unsupported mode", pref[i]);
         }
+
+        if (this._line1 && !this._line1.parentNode) this.element.append(this._line1);
+        if (this._line2 && !this._line2.parentNode) this.element.append(this._line2);
+
         TK.Widget.prototype.redraw.call(this);
     },
     set: function(key, value) {
@@ -1063,10 +1096,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
 
         switch (key) {
         case "z_handle":
-            if (value !== value && !ZHANDLE_POSITION_circular[value]) {
+            if (value !== false && !ZHANDLE_POSITION_circular[value]) {
                 TK.warn("Unsupported z_handle option:", value);
                 value = false;
             }
+            if (value !== false && !this._zhandle) create_zhandle.call(this);
             break;
         case "x":
             value = this.range_x.snap(value);
@@ -1093,6 +1127,15 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         value = TK.Widget.prototype.set.call(this, key, value);
 
         switch (key) {
+        case "show_axis":
+            if (value) {
+                if (O.mode === "circular") create_line1.call(this);
+                create_line2.call(this);
+            }
+            break;
+        case "mode":
+            if (value !== "circular") create_line1.call(this);
+            break;
         case "x_min":
             if (value !== false && O.x < value) this.set("x", value);
             break;
