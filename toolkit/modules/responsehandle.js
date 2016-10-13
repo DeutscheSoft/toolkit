@@ -568,6 +568,290 @@ function get_label_dimensions(align, X, label_size) {
     }
 }
 
+function redraw_handle(O, X) {
+    var _handle = this._handle;
+
+    var range_x = this.range_x;
+    var range_y = this.range_y;
+    var range_z = this.range_z;
+
+    if (!range_x.options.basis || !range_y.options.basis) return;
+
+    var x = range_x.val2px(O.x);
+    var y = range_y.val2px(O.y);
+    var z = range_z.val2px(O.z);
+
+    var tmp;
+
+    if (O.mode === "circular") {
+        tmp = Math.max(O.min_size, z)/2;
+        X[0] = x-tmp;
+        X[1] = y-tmp;
+        X[2] = x+tmp;
+        X[3] = y+tmp;
+
+        _handle.setAttribute("r", Math.round(tmp).toFixed(0));
+        _handle.setAttribute("cx", Math.round(x).toFixed(0));
+        _handle.setAttribute("cy", Math.round(y).toFixed(0));
+    } else {
+        var x_min = O.x_min !== false ? range_x.val2px(range_x.snap(O.x_min)) : 0;
+        var x_max = O.x_max !== false ? range_x.val2px(range_x.snap(O.x_max)) : range_x.options.basis;
+
+        if (x_min > x_max) {
+            tmp = x_min;
+            x_min = x_max;
+            x_max = tmp;
+        }
+
+        var y_min = O.y_min !== false ? range_y.val2px(range_y.snap(O.y_min)) : 0;
+        var y_max = O.y_max !== false ? range_y.val2px(range_y.snap(O.y_max)) : range_y.options.basis;
+
+        if (y_min > y_max) {
+            tmp = y_min;
+            y_min = y_max;
+            y_max = tmp;
+        }
+
+        /* All other modes are drawn as rectangles */
+        switch (O.mode) {
+        case "line-vertical":
+            tmp = Math.max(O.min_size, z)/2;
+            X[0] = x-tmp;
+            X[1] = y_min;
+            X[2] = x+tmp;
+            X[3] = y_max;
+            break;
+        case "line-horizontal":
+            // line horizontal
+            tmp = Math.max(O.min_size, z)/2;
+            X[0] = x_min;
+            X[1] = y - tmp;
+            X[2] = x_max;
+            X[3] = y + tmp;
+            break;
+        case "block-left":
+            // rect lefthand
+            X[0] = 0;
+            X[1] = y_min;
+            X[2] = x;
+            X[3] = y_max;
+            break;
+        case "block-right":
+            // rect righthand
+            X[0] = x;
+            X[1] = y_min;
+            X[2] = range_x.options.basis;
+            X[3] = y_max;
+            break;
+        case "block-top":
+            // rect top
+            X[0] = x_min;
+            X[1] = 0;
+            X[2] = x_max;
+            X[3] = y;
+            break;
+        case "block-bottom":
+            // rect bottom
+            X[0] = x_min;
+            X[1] = y;
+            X[2] = x_max;
+            X[3] = range_y.options.basis;
+            break;
+        default:
+            TK.warn("Unsupported mode:", O.mode);
+        }
+
+        /* Draw the rectangle */
+        _handle.setAttribute("x", Math.round(+X[0]).toFixed(0));
+        _handle.setAttribute("y", Math.round(+X[1]).toFixed(0));
+        _handle.setAttribute("width", Math.round(+X[2]-X[0]).toFixed(0));
+        _handle.setAttribute("height", Math.round(+X[3]-X[1]).toFixed(0));
+    }
+}
+
+function redraw_zhandle(O, X) {
+    var vec;
+    var zhandle = this._zhandle;
+
+    if (O.z_handle === false) {
+        if (zhandle) remove_zhandle.call(this);
+        return;
+    }
+
+    if (!zhandle.parentNode)
+        this.element.appendChild(zhandle);
+
+    if (O.mode === "circular") {
+        /*
+         * position the z_handle on the circle.
+         */
+        vec = get_zhandle_position_circular(O, X);
+        /* width and height are equal here */
+        zhandle.setAttribute("cx", vec[0].toFixed(1));
+        zhandle.setAttribute("cy", vec[1].toFixed(1));
+        zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
+
+        this.zhandle_position = vec;
+    } else {
+        // all other handle types (lines/blocks)
+        this.zhandle_position = vec = get_zhandle_size(O, X);
+
+        zhandle.setAttribute("width", vec[0].toFixed(0));
+        zhandle.setAttribute("height", vec[1].toFixed(0));
+
+        vec = get_zhandle_position(O, X, vec);
+
+        zhandle.setAttribute("x", vec[0].toFixed(0));
+        zhandle.setAttribute("y", vec[1].toFixed(0));
+
+        /* adjust to the center of the zhandle */
+        this.zhandle_position[0] /= 2;
+        this.zhandle_position[1] /= 2;
+        this.zhandle_position[0] += vec[0];
+        this.zhandle_position[1] += vec[1];
+    }
+
+    this.zhandle_position[0] -= (X[0]+X[2])/2;
+    this.zhandle_position[1] -= (X[1]+X[3])/2;
+    normalize(this.zhandle_position);
+}
+
+function redraw_label(O, X) {
+    var a = O.label.call(this, O.title, O.x, O.y, O.z).split("\n");
+    var c = this._label.childNodes;
+    while (c.length < a.length) {
+        this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
+    }
+    while (c.length > a.length) {
+        this._label.removeChild(this._label.lastChild);
+    }
+    for (var i = 0; i < a.length; i++) {
+        c[i].textContent = a[i];
+    }
+
+    TK.S.add(function() {
+        var w = 0;
+        for (var i = 0; i < a.length; i++) {
+            w = Math.max(w, c[i].getComputedTextLength());
+        }
+
+        var bbox;
+
+        try {
+            bbox = this._label.getBBox();
+        } catch(e) {
+            /* _label is not in the DOM yet */
+            return;
+        }
+
+        TK.S.add(function() {
+            var label_size = [ w, bbox.height ];
+
+            var i;
+            var pref = O.preferences;
+            var area = 0;
+            var label_position;
+            var text_position;
+            var text_anchor;
+            var tmp;
+
+            /*
+             * Calculate possible positions of the labels and calculate their intersections. Choose
+             * that position which has the smallest intersection area with all other handles and labels
+             */
+            for (i = 0; i < pref.length; i++) {
+
+                /* get alignment */
+                var align = get_label_align(O, pref[i]);
+
+                /* get label position */
+                var LX = get_label_position(O, X, pref[i], label_size);
+
+                /* calculate the label bounding box using anchor and dimensions */
+                var pos = get_label_dimensions(align, LX, label_size);
+
+                tmp = O.intersect(pos, this);
+
+                /* We require at least one square px smaller intersection
+                 * to avoid flickering label positions */
+                if (area === 0 || tmp.intersect + 1 < area) {
+                    area = tmp.intersect;
+                    label_position = pos;
+                    text_position = LX;
+                    text_anchor = align;
+
+                    /* there is no intersections, we are done */
+                    if (area === 0) break;
+                }
+            }
+
+            this.label = label_position;
+            tmp = Math.round(text_position[0]) + "px";
+            this._label.setAttribute("x", tmp);
+            this._label.setAttribute("y", Math.round(text_position[1]) + "px");
+            this._label.setAttribute("text-anchor", text_anchor);
+            var c = this._label.childNodes;
+            for (var i = 0; i < c.length; i++)
+                c[i].setAttribute("x", tmp);
+
+            redraw_lines.call(this, O, X);
+        }.bind(this), 1);
+    }.bind(this));
+
+    return true;
+}
+
+function redraw_lines(O, X) {
+    var pos = this.label;
+    var x = this.x;
+    var y = this.y;
+    var z = this.z;
+    var range_x = this.range_x;
+    var range_y = this.range_y;
+    var range_z = this.range_z;
+
+    switch (O.mode) {
+        case "circular":
+            if (O.show_axis) {
+                this._line1.setAttribute("d",
+                     format_line(((y >= pos[1] && y <= pos[3]) ? Math.max(X[2], pos[2]) : X[2]) + O.margin, y,
+                                 range_x.options.basis, y));
+                this._line2.setAttribute("d",
+                     format_line(x, ((x >= pos[0] && x <= pos[2]) ? Math.max(X[3], pos[3]) : X[3]) + O.margin,
+                                 x, range_y.options.basis));
+            } else {
+                if (this._line1) remove_line1.call(this);
+                if (this._line2) remove_line2.call(this);
+            }
+            break;
+        case "line-vertical":
+        case "block-left":
+        case "block-right":
+            this._line1.setAttribute("d", format_line(x, X[1], x, X[3]));
+            if (O.show_axis) {
+                this._line2.setAttribute("d", format_line(0, y, range_x.options.basis, y));
+            } else if (this._line2) {
+                remove_line2.call(this);
+            }
+            break;
+        case "line-horizontal":
+        case "block-top":
+        case "block-bottom":
+            this._line1.setAttribute("d", format_line(X[0], y, X[2], y));
+            if (O.show_axis) {
+                this._line2.setAttribute("d", format_line(x, 0, x, range_y.options.basis));
+            } else if (this._line2) {
+                remove_line2.call(this);
+            }
+            break;
+        default:
+            TK.warn("Unsupported mode", pref[i]);
+    }
+
+    if (this._line1 && !this._line1.parentNode) this.element.append(this._line1);
+    if (this._line2 && !this._line2.parentNode) this.element.append(this._line2);
+}
+
 /**
  * @class TK.ResponseHandle
  * @extends TK.Widget
@@ -659,7 +943,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         title: "string",
     }),
     options: {
-        range_x:          {}, 
+        range_x:          {},
         range_y:          {},
         range_z:          {},
         intersect:        function () { return { intersect: 0, count: 0 } },
@@ -692,7 +976,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         active:           true,
         show_axis:        false
     },
-    
+
     initialize: function (options, hold) {
         this.x = 0;
         this.y = 0;
@@ -706,13 +990,16 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._sticky = false;
         TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
-        
+
         this.add_range(O.range_x, "range_x");
         this.add_range(O.range_y, "range_y");
         this.add_range(O.range_z, "range_z");
 
-        var set_cb = this.trigger_draw.bind(this);
-        
+        var set_cb = function() {
+            this.invalid.x = true;
+            this.trigger_draw();
+        }.bind(this);
+
         this.range_x.add_event("set", set_cb);
         this.range_y.add_event("set", set_cb);
         this.range_z.add_event("set", set_cb);
@@ -720,9 +1007,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         var E = TK.make_svg("g");
 
         this.element = E;
-        
+
         this.widgetize(E, true, true);
-        
+
         TK.add_class(E, "toolkit-response-handle");
         switch (O.mode) {
             case "circular":
@@ -754,12 +1041,12 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             default:
                 TK.warn("Unsupported mode:", O.mode);
         }
-        
+
         this._label = TK.make_svg("text", {
             "class": "toolkit-label"
         });
         E.appendChild(this._label);
-        
+
         this._handle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
                 "class": "toolkit-handle",
@@ -767,11 +1054,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             }
         );
         E.appendChild(this._handle);
-        
+
         this._mouseenter = mouseenter.bind(this);
         this._mouseleave = mouseleave.bind(this);
         this._mouseelement = mouseelement.bind(this);
-        this._mousedown = mousedown.bind(this); 
+        this._mousedown = mousedown.bind(this);
         this._mouseup = mouseup.bind(this);
         this._mousemove = mousemove.bind(this);
         this._scrollwheel = scrollwheel.bind(this);
@@ -785,14 +1072,14 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.addEventListener("mousedown",      this._mousedown);
         E.addEventListener("touchstart",     this._touchstart);
         E.addEventListener('contextmenu', function(e){e.preventDefault();});
-        
+
         E = this._label;
         E.addEventListener("mouseenter",      this._mouseelement);
         E.addEventListener("touchstart",      this._mouseelement);
         E.addEventListener("mousewheel",      this._scrollwheel);
         E.addEventListener("DOMMouseScroll",  this._scrollwheel);
         E.addEventListener('contextmenu', function(e){e.preventDefault();});
-        
+
         E = this._handle;
         E.addEventListener("mouseenter",     this._mouseelement);
         E.addEventListener("touchstart",     this._mouseelement);
@@ -800,10 +1087,10 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.addEventListener("DOMMouseScroll", this._scrollwheel);
         E.addEventListener("touchstart",     this._touchstart);
         E.addEventListener('contextmenu', function(e){e.preventDefault();});
-        
+
         this._handle.onselectstart = function () { return false; };
         this._zhandle = this._line1 = this._line2 = null;
-        
+
         this.set("mode", O.mode);
         this.set("show_axis", O.show_axis);
         this.set("active", O.active);
@@ -812,284 +1099,46 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.set("z", O.z);
         this.set("z_handle", O.z_handle);
     },
-    
+
     redraw: function () {
+        TK.Widget.prototype.redraw.call(this);
         var O = this.options;
-        var x, y, z;
-        
-        if (O.active) {
-            TK.remove_class(this.element, "toolkit-disabled");
-        } else {
-            TK.add_class(this.element, "toolkit-disabled");
-            return;
-        }
-        
+        var I = this.invalid;
+
         var range_x = this.range_x;
         var range_y = this.range_y;
         var range_z = this.range_z;
 
-        var tmp;
-
-        this.x = x = range_x.val2px(O.x);
-        this.y = y = range_y.val2px(O.y);
-        this.z = z = range_z.val2px(O.z);
-        
-        var _handle = this._handle;
+        /* NOTE: this is currently done for the mouse events */
+        this.x = range_x.val2px(O.x);
+        this.y = range_y.val2px(O.y);
+        this.z = range_z.val2px(O.z);
 
         /* These are the coordinates of the corners (x1, y1, x2, y2)
          * NOTE: x,y are not necessarily in the midde. */
         var X  = this.handle;
 
-        if (!range_x.options.basis || !range_y.options.basis) return;
-        
-        if (O.mode === "circular") {
-            tmp = Math.max(O.min_size, z)/2;
-            X[0] = x-tmp;
-            X[1] = y-tmp;
-            X[2] = x+tmp;
-            X[3] = y+tmp;
+        var moved = I.validate("x", "y", "z", "mode");
 
-            _handle.setAttribute("r", Math.round(tmp).toFixed(0));
-            _handle.setAttribute("cx", Math.round(x).toFixed(0));
-            _handle.setAttribute("cy", Math.round(y).toFixed(0));
-        } else {
-            var x_min = O.x_min !== false ? range_x.val2px(range_x.snap(O.x_min)) : 0;
-            var x_max = O.x_max !== false ? range_x.val2px(range_x.snap(O.x_max)) : range_x.options.basis;
-
-            if (x_min > x_max) {
-                tmp = x_min;
-                x_min = x_max;
-                x_max = tmp;
-            }
-
-            var y_min = O.y_min !== false ? range_y.val2px(range_y.snap(O.y_min)) : 0;
-            var y_max = O.y_max !== false ? range_y.val2px(range_y.snap(O.y_max)) : range_y.options.basis;
-
-            if (y_min > y_max) {
-                tmp = y_min;
-                y_min = y_max;
-                y_max = tmp;
-            }
-        
-            /* All other modes are drawn as rectangles */
-            switch (O.mode) {
-            case "line-vertical":
-                tmp = Math.max(O.min_size, z)/2;
-                X[0] = x-tmp;
-                X[1] = y_min;
-                X[2] = x+tmp;
-                X[3] = y_max;
-                break;
-            case "line-horizontal":
-                // line horizontal
-                tmp = Math.max(O.min_size, z)/2;
-                X[0] = x_min;
-                X[1] = y - tmp;
-                X[2] = x_max; 
-                X[3] = y + tmp;
-                break;
-            case "block-left":
-                // rect lefthand
-                X[0] = 0;
-                X[1] = y_min;
-                X[2] = x;
-                X[3] = y_max;
-                break;
-            case "block-right":
-                // rect righthand
-                X[0] = x;
-                X[1] = y_min;
-                X[2] = range_x.options.basis;
-                X[3] = y_max;
-                break;
-            case "block-top":
-                // rect top
-                X[0] = x_min;
-                X[1] = 0;
-                X[2] = x_max;
-                X[3] = y;
-                break;
-            case "block-bottom":
-                // rect bottom
-                X[0] = x_min;
-                X[1] = y;
-                X[2] = x_max; 
-                X[3] = range_y.options.basis;
-                break;
-            default:
-                TK.warn("Unsupported mode:", O.mode);
-            }
-
-            /* Draw the rectangle */
-            _handle.setAttribute("x", Math.round(+X[0]).toFixed(0));
-            _handle.setAttribute("y", Math.round(+X[1]).toFixed(0));
-            _handle.setAttribute("width", Math.round(+X[2]-X[0]).toFixed(0));
-            _handle.setAttribute("height", Math.round(+X[3]-X[1]).toFixed(0));
-        }
+        if (moved) redraw_handle.call(this, O, X);
 
         // Z-HANDLE
-        var zhandle = this._zhandle;
 
-        if (O.z_handle === false) {
-            if (zhandle) remove_zhandle.call(this);
-        } else {
-            var vec;
-            if (!zhandle.parentNode)
-                this.element.appendChild(zhandle);
-
-            if (O.mode === "circular") {
-                /*
-                 * position the z_handle on the circle.
-                 */
-                vec = get_zhandle_position_circular(O, X);
-                /* width and height are equal here */
-                zhandle.setAttribute("cx", vec[0].toFixed(1));
-                zhandle.setAttribute("cy", vec[1].toFixed(1));
-                zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
-
-                this.zhandle_position = vec;
-            } else {
-                // all other handle types (lines/blocks)
-                this.zhandle_position = vec = get_zhandle_size(O, X);
-
-                zhandle.setAttribute("width", vec[0].toFixed(0));
-                zhandle.setAttribute("height", vec[1].toFixed(0));
-
-                vec = get_zhandle_position(O, X, vec);
-
-                zhandle.setAttribute("x", vec[0].toFixed(0));
-                zhandle.setAttribute("y", vec[1].toFixed(0));
-
-                /* adjust to the center of the zhandle */
-                this.zhandle_position[0] /= 2;
-                this.zhandle_position[1] /= 2;
-                this.zhandle_position[0] += vec[0];
-                this.zhandle_position[1] += vec[1];
-            }
-
-            this.zhandle_position[0] -= (X[0]+X[2])/2;
-            this.zhandle_position[1] -= (X[1]+X[3])/2;
-            normalize(this.zhandle_position);
+        if (I.validate("z_handle") || moved) {
+            redraw_zhandle.call(this, O, X);
         }
+
+        var delay_lines;
         
         // LABEL
-        var a = O.label(O.title, O.x, O.y, O.z).split("\n");
-        var c = this._label.childNodes;
-        while (c.length < a.length) {
-            this._label.appendChild(TK.make_svg("tspan", {dy:"1.0em"}));
+        if (I.validate("label", "title", "preference") || moved) {
+            delay_lines = redraw_label.call(this, O, X);
         }
-        while (c.length > a.length) {
-            this._label.removeChild(this._label.lastChild);
-        }
-        for (var i = 0; i < a.length; i++) {
-            c[i].textContent = a[i];
-        }
-        var w = 0;
-        for (var i = 0; i < a.length; i++) {
-            w = Math.max(w, c[i].getComputedTextLength());
-        }
-
-        var bbox;
-
-        try {
-            bbox = this._label.getBBox();
-        } catch(e) {
-            /* _label is not in the DOM yet */
-            return;
-        }
-
-        var label_size = [ w, bbox.height ];
-        
-        var i;
-        var pref = O.preferences;
-        var area = 0;
-        var label_position;
-        var text_position;
-        var text_anchor;
-        var tmp;
-
-        /*
-         * Calculate possible positions of the labels and calculate their intersections. Choose
-         * that position which has the smallest intersection area with all other handles and labels
-         */
-        for (i = 0; i < pref.length; i++) {
-
-            /* get alignment */
-            var align = get_label_align(O, pref[i]);
-
-            /* get label position */
-            var LX = get_label_position(O, X, pref[i], label_size);
-            
-            /* calculate the label bounding box using anchor and dimensions */
-            var pos = get_label_dimensions(align, LX, label_size);
-
-            tmp = O.intersect(pos, this);
-
-            /* We require at least one square px smaller intersection
-             * to avoid flickering label positions */
-            if (area === 0 || tmp.intersect + 1 < area) {
-                area = tmp.intersect;
-                label_position = pos;
-                text_position = LX;
-                text_anchor = align;
-
-                /* there is no intersections, we are done */
-                if (area === 0) break;
-            }
-        }
-
-        this.label = label_position;
-        tmp = Math.round(text_position[0]) + "px";
-        this._label.setAttribute("x", tmp);
-        this._label.setAttribute("y", Math.round(text_position[1]) + "px");
-        this._label.setAttribute("text-anchor", text_anchor);
-        var c = this._label.childNodes;
-        for (var i = 0; i < c.length; i++)
-            c[i].setAttribute("x", tmp);
 
         // LINES
-        switch (O.mode) {
-            case "circular":
-                if (O.show_axis) {
-                    this._line1.setAttribute("d", 
-                         format_line(((y >= pos[1] && y <= pos[3]) ? Math.max(X[2], pos[2]) : X[2]) + O.margin, y,
-                                     range_x.options.basis, y));
-                    this._line2.setAttribute("d", 
-                         format_line(x, ((x >= pos[0] && x <= pos[2]) ? Math.max(X[3], pos[3]) : X[3]) + O.margin,
-                                     x, range_y.options.basis));
-                } else {
-                    if (this._line1) remove_line1.call(this);
-                    if (this._line2) remove_line2.call(this);
-                }
-                break;
-            case "line-vertical":
-            case "block-left":
-            case "block-right":
-                this._line1.setAttribute("d", format_line(x, X[1], x, X[3]));
-                if (O.show_axis) {
-                    this._line2.setAttribute("d", format_line(0, y, range_x.options.basis, y));
-                } else if (this._line2) {
-                    remove_line2.call(this);
-                }
-                break;
-            case "line-horizontal":
-            case "block-top":
-            case "block-bottom":
-                this._line1.setAttribute("d", format_line(X[0], y, X[2], y));
-                if (O.show_axis) {
-                    this._line2.setAttribute("d", format_line(x, 0, x, range_y.options.basis));
-                } else if (this._line2) {
-                    remove_line2.call(this);
-                }
-                break;
-            default:
-                TK.warn("Unsupported mode", pref[i]);
+        if (I.validate("show_axis") || moved) {
+            if (!delay_lines) redraw_lines.call(this, O, X);
         }
-
-        if (this._line1 && !this._line1.parentNode) this.element.append(this._line1);
-        if (this._line2 && !this._line2.parentNode) this.element.append(this._line2);
-
-        TK.Widget.prototype.redraw.call(this);
     },
     set: function(key, value) {
         var O = this.options;
@@ -1127,6 +1176,10 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         value = TK.Widget.prototype.set.call(this, key, value);
 
         switch (key) {
+        case "active":
+            /* THIS IS ONLY FOR BACKWARD COMPATIBILITY */
+            this.set("disabled", value);
+            break;
         case "show_axis":
             if (value) {
                 if (O.mode === "circular") create_line1.call(this);
