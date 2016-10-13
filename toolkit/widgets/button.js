@@ -61,6 +61,8 @@ w.TK.Button = w.Button = $class({
     initialize: function (options) {
         var E;
         TK.Widget.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.Button#element - The main DIV element. Has class <code>toolkit-button</code> 
+         */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
         this.widgetize(E, true, true, true);
