@@ -454,6 +454,8 @@ w.TK.Scale = w.Scale = $class({
     initialize: function (options) {
         var E;
         TK.Widget.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.Scale#element - The main DIV element. Has class <code>toolkit-scale</code> 
+         */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-scale");
         this.element = this.widgetize(E, true, true, true);
