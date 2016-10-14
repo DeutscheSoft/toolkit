@@ -941,14 +941,13 @@ function redraw_lines(O, X) {
  * @mixes TK.GlobalCursor
  */
 
-/** @member {SVGText} TK.ReponseHandle#_label - The label. Has class <code>toolkit-label</code> 
+/** @member {SVGText} TK.ResponseHandle#_label - The label. Has class <code>toolkit-label</code> 
  */
-/** @member {SVGPath} TK.ReponseHandle#_line1 - The first line. Has class <code>toolkit-line toolkit-line-1</code> 
+/** @member {SVGPath} TK.ResponseHandle#_line1 - The first line. Has class <code>toolkit-line toolkit-line-1</code> 
  */
-/** @member {SVGPath} TK.ReponseHandle#_line2 - The first line. Has class <code>toolkit-line toolkit-line-2</code> 
+/** @member {SVGPath} TK.ResponseHandle#_line2 - The first line. Has class <code>toolkit-line toolkit-line-2</code> 
  */
-/** @member {SVGCircular} TK.ReponseHandle#_handle - The main handle. Has class <code>toolkit-handle</code> 
- */
+
          
 /**
  * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
@@ -1095,6 +1094,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 TK.warn("Unsupported mode:", O.mode);
         }
         
+        /** @member {SVGCircular} TK.ResponseHandle#_handle - The main handle. Has class <code>toolkit-handle</code> 
+         */
         this._handle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
                 "class": "toolkit-handle",
@@ -1103,7 +1104,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         );
         E.appendChild(this._handle);
         
-        /** @member {SVGCircular} TK.ReponseHandle#_zhandle - The handle for manipulating z axis. Has class <code>toolkit-z-handle</code> 
+        /** @member {SVGCircular} TK.ResponseHandle#_zhandle - The handle for manipulating z axis. Has class <code>toolkit-z-handle</code> 
          */
         this._zhandle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
