@@ -265,8 +265,8 @@ w.TK.MeterBase = w.MeterBase = $class({
             I.title = false;
             TK.set_content(this._title, O.title);
         }
-        if (I.label) {
-            I.label = false;
+        if (I.label || I.format_label) {
+            I.label = I.format_label = false;
             TK.set_text(this._label, O.format_label(O.label));
         }
         if (I.show_scale) {
