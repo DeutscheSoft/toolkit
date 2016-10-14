@@ -101,6 +101,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         resized: false,
     },
     initialize: function (options) {
+        /** @member {Array} TK.ButtonArray#buttons - An array holding all buttons. */
         this.buttons = [];
         TK.Container.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-buttonarray");
