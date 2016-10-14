@@ -222,7 +222,13 @@ w.TK.Fader = w.Fader = $class({
          *      <code>scale</code> will be the corresponding instance of {@link TK.Scale}.
          *
          */
-        
+        /**
+         * @member {HTMLDivElement} TK.Fader#_scale - If <code>option.show_scale</code> is true,
+         *      <code>_scale</code> will be the element of {@link TK.Scale}.
+         *
+         */
+        /** @member {HTMLDivElement} TK.Fader#_handle - The handle of the fader. Has class <code>toolkit-handle</code> 
+         */
         this._handle = TK.element("div", "toolkit-handle");
         this._handle_size = 0;
         this.element.appendChild(this._handle);
