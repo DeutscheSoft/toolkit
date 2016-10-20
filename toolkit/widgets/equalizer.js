@@ -165,11 +165,6 @@ w.TK.Equalizer = w.Equalizer = $class({
             document.removeEventListener("touchend",  this._touchend);
         });
         b.add_event("set", invalidate_bands.bind(this));
-        b.add_event("useraction", (function (that, band) {
-            return function (key, val) {
-                that.fire_event("useraction", "band", band, key, val);
-            };
-        })(this, b));
         /**
          * Is fired when a new band was added.
          * @type {Band}

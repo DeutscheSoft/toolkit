@@ -34,7 +34,6 @@ w.TK.Button = w.Button = $class({
      * @property {string} [options.label=""] - Text for the button label
      * @property {string} [options.icon=""] - URL to an icon for the button
      * @property {boolean} [options.state=false] - TK.State of the button
-     * @property {boolean} [options.state_color=false] - Background color of the state indication
      * @property {integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
      * "vertical" means icon on top of the label, "horizontal" puts the icon left to the label.
      * 
@@ -48,14 +47,12 @@ w.TK.Button = w.Button = $class({
         label: "string",
         icon: "string",
         state: "boolean",
-        state_color: "string",
         layout: "int",
     }),
     options: {
         label:            "",
         icon:             false,
         state:            false,
-        state_color:      false,
         layout:           "vertical"
     },
     initialize: function (options) {
@@ -84,8 +81,10 @@ w.TK.Button = w.Button = $class({
         E.appendChild(this._cell);
         
         this.add_events(
-            ["click", "mousedown", "mouseup", "touchstart", "touchend"],
-            (function (e) { this.fire_event("useraction", e); }).bind(this));
+            ["click", "mousedown", "mouseup", "touchstart", "touchend", "touchcancel"],
+            (function (e) {
+                this.fire_event("useraction", "state", this.options.state);
+            }).bind(this));
     },
     destroy: function () {
         this._icon.remove();
@@ -139,12 +138,10 @@ w.TK.Button = w.Button = $class({
                 _icon.style.display = "none";
             }
         }
-        if (I.state || I.state_color) {
-            I.state_color = I.state = false;
-            value = O.state;
-            if (value) {
+        if (I.state) {
+            I.state = false;
+            if (O.state) {
                 TK.add_class(E, "toolkit-active");
-                _label.style.backgroundColor = (O.state_color && value) ? O.state_color : null;
             } else {
                 TK.remove_class(E, "toolkit-active");
             }

@@ -156,11 +156,6 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         });
         if (this.options.show_handles)
             this.add_child(h);
-        h.add_event("useraction", (function (that, handle) {
-            return function (key, val) {
-                that.fire_event("useraction", "handle", handle, key, val);
-            };
-        })(this, h));
         /**
          * Is fired when a new handle was added.
          * @type {Handle}

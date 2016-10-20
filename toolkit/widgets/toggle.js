@@ -16,12 +16,6 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
- /**
- * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
- * The event is emitted for the option <code>state</code>.
- *
- * @event TK.Toggle#useraction
- */
 "use strict";
 (function(w){ 
 
@@ -35,7 +29,6 @@ function press_start() {
     var O = this.options;
     this.__press_start_time = Date.now();
     if (O.press) toggle.call(this, O);
-    this.fire_event("useraction", "state", this.options.state);
 }
 function press_end() {
     var O = this.options;
@@ -43,14 +36,12 @@ function press_end() {
     if ((O.toggle && (!O.press || t > O.press)) || (!O.toggle && O.press)) {
         toggle.call(this, O);
     }
-    this.fire_event("useraction", "state", this.options.state);
 }
 function press_cancel() {
     var O = this.options;
     /* this is definitely not a click, its a cancel by leaving the
      * button with mouse or finger while pressing */
     if (O.press) toggle.call(this, O);
-    this.fire_event("useraction", "state", this.options.state);
 }
 
 /* MOUSE handling */
