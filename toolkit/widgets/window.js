@@ -51,7 +51,6 @@ function header_action() {
      * @event TK.Window.headeraction
      */
     this.fire_event("headeraction", this.options.header_action);
-    this.fire_event("useraction","headeraction");
 }
 function mout(e) {
     if(this.options.auto_active && !this.dragging && !this.resizing)
@@ -75,7 +74,6 @@ function close(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("closeclicked");
-    this.fire_event("useraction", "closeclicked");
     if (this.options.auto_close)
         this.destroy();
 }
@@ -86,7 +84,7 @@ function maximize(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("maximizeclicked", this.options.maximize);
-    this.fire_event("useraction", "maximizeclicked");
+    this.fire_event("useraction", "maximize", this.options.maximize);
 }
 function maximizevertical(e) {
     if (this.options.auto_maximize) this.toggle_maximize_vertical();
@@ -95,7 +93,7 @@ function maximizevertical(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("maximizeverticalclicked", this.options.maximize.y);
-    this.fire_event("useraction", "maximizeverticalclicked");
+    this.fire_event("useraction", "maximize", this.options.maimize);
 }
 function maximizehorizontal(e) {
     if (this.options.auto_maximize) this.toggle_maximize_horizontal();
@@ -104,7 +102,7 @@ function maximizehorizontal(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
-    this.fire_event("useraction", "maximizehorizontalclicked");
+    this.fire_event("useraction", "maximize", this.options.maximize);
 }
 function minimize(e) {
     if (this.options.auto_minimize) this.toggle_minimize();
@@ -113,7 +111,7 @@ function minimize(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("minimizeclicked", this.options.minimize);
-    this.fire_event("useraction", "minimizeclicked");
+    this.fire_event("useraction", "minimize", this.options.minimize);
 }
 function shrink(e) {
     if (this.options.auto_shrink) this.toggle_shrink();
@@ -122,7 +120,7 @@ function shrink(e) {
      * @event TK.Window.closeclicked
      */
     this.fire_event("shrinkclicked", this.options.shrink);
-    this.fire_event("useraction", "shrinkclicked");
+    this.fire_event("useraction", "shrink", this.options.shrink);
 }
 function start_resize(el, ev) {
     this.__docmouse = TK.get_style(document.body, "cursor");
@@ -134,7 +132,6 @@ function start_resize(el, ev) {
      * @event TK.Window.startresize
      */
     this.fire_event("startresize", ev);
-    this.fire_event("useraction", "startresize");
 }
 function stop_resize(el, ev) {
     document.body.style.cursor = this.__docmouse;
@@ -149,7 +146,6 @@ function stop_resize(el, ev) {
      * @event TK.Window.stopresize
      */
     this.fire_event("stopresize", ev);
-    this.fire_event("useraction", "stopresize");
 }
 function resizing(el, ev) {
     if (this.options.resizing === "continuous") {
@@ -163,7 +159,9 @@ function resizing(el, ev) {
      * @event TK.Window.resizing
      */
     this.fire_event("resizing", ev);
-    this.fire_event("useraction", "resizing");
+    
+    this.fire_event("useraction", "width", this.options.width);
+    this.fire_event("useraction", "height", this.options.height);
 }
 function build_header() {
     build_from_const.call(this, "header_left");
@@ -279,7 +277,9 @@ function start_drag(ev, el) {
      * @event TK.Window.startdrag
      */
     this.fire_event("startdrag", ev);
-    this.fire_event("useraction", "startdrag");
+    
+    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "y", this.options.y);
 }
 function stop_drag(ev, el) {
     this.dragging = false;
@@ -290,14 +290,22 @@ function stop_drag(ev, el) {
      * @event TK.Window.stopdrag
      */
     this.fire_event("stopdrag", ev);
-    this.fire_event("useraction", "stopdrag");
+    
+    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "y", this.options.y);
 }
 function dragging(ev, el) {
     if (!this.dragging) {
         this.dragging = true;
         // un-maximize
-        if (horiz_max.call(this)) this.set("maximize", {x: false});
-        if (vert_max.call(this))  this.set("maximize", {y: false});
+        if (horiz_max.call(this)) {
+            this.set("maximize", {x: false});
+            this.fire_event("useraction", "maximize", this.options.maximize);
+        }
+        if (vert_max.call(this)) {
+            this.set("maximize", {y: false});
+            this.fire_event("useraction", "maximize", this.options.maximize);
+        }
     }
     calculate_position.call(this);
     /**
@@ -305,7 +313,9 @@ function dragging(ev, el) {
      * @event TK.Window.dragging
      */
     this.fire_event("dragging", ev);
-    this.fire_event("useraction", "dragging");
+    
+    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "y", this.options.y);
 }
 function size_footer() {
     TK.outer_width(this._footer_center, true,
@@ -737,15 +747,12 @@ w.TK.Window = w.Window = $class({
          * The maximize option was toggled.
          * @event TK.Window.maximizetoggled
          */
-        this.fire_event("maximizetoggled", this.options.maximize);
     },
     toggle_maximize_vertical: function () {
         this.set("maximize", {y: !this.options.maximize.y});
-        this.fire_event("maximizetoggled", this.options.maximize);
     },
     toggle_maximize_horizontal: function () {
         this.set("maximize", {x: !this.options.maximize.x});
-        this.fire_event("maximizetoggled", this.options.maximize);
     },
     toggle_minimize: function () {
         this.set("minimize", !this.options.minimize);
@@ -753,7 +760,6 @@ w.TK.Window = w.Window = $class({
          * The minimize option was toggled.
          * @event TK.Window.minimizetoggled
          */
-        this.fire_event("minimizetoggled", this.options.minimize);
     },
     toggle_shrink: function () {
         this.set("shrink", !this.options.shrink);
@@ -761,7 +767,6 @@ w.TK.Window = w.Window = $class({
          * The shrink option was toggled.
          * @event TK.Window.shrinktoggled
          */
-        this.fire_event("shrinktoggled", this.options.shrink);
     },
     
     set: function (key, value, hold) {
