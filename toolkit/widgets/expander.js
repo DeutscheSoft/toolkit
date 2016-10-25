@@ -172,6 +172,10 @@ w.TK.Expander = w.Expander = $class({
         icon: "",
     },
     Extends: TK.Container,
+    /*
+     * Toggles the collapsed state of the widget.
+     * @method TK.Expander#toggle
+     */
     toggle: function() {
         toggle.call(this);
     },
