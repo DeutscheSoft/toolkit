@@ -33,6 +33,7 @@ w.TK.Warning = w.Warning = $class({
      * already is a timeout waiting it gets updated.
      *
      * @method TK.Warning#warning
+     * @emits TK.Warning#warning
      * @param {HTMLElement|SVGElement} element - The DOM node the class should be added to
      * @param {number} [timeout=250] - The timeout in ms until the class should be removed again.
      */

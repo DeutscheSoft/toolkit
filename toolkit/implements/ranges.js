@@ -39,6 +39,7 @@ w.TK.Ranges = w.Ranges = $class({
      * set the options of the range. Use the set function like this:
      * this.set("name", {key: value});
      * @returns {TK.Range} The new range.
+     * @emits TK.Ranges#rangeadded
      */
     add_range: function (from, name) {
         var r;

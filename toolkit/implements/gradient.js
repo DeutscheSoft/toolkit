@@ -62,6 +62,8 @@ w.TK.Gradient = w.Gradient = $class({
          * @returns {string} A string to be used as background CSS
          *
          * @mixes TK.Ranged
+         * 
+         * @emits TK.Gradient#backgroundchanged
          */
         
         //  {"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}
