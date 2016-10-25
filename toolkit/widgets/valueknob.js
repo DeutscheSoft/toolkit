@@ -80,8 +80,14 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         ko = TK.object_sub(ko, TK.Widget.prototype._options);
         ko.container = E;
 
+        /**
+         * @member {TK.Knob} knob - The TK.Knob widget.
+         */
         this.knob = new TK.Knob(ko);
-
+        
+        /**
+         * @member {TK.Value} value - The TK.Value widget.
+         */
         this.value = new TK.Value({
             container: E,
             value: this.options.value,

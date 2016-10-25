@@ -94,6 +94,9 @@ w.TK.ValueButton = w.ValueButton = $class({
         this._bar.appendChild(this._base);
         this._bar.appendChild(this._over);
         
+        /**
+         * @member {TK.Value} value - The value widget for editing the value manually.
+         */
         this.value = new TK.Value({
             container: this.element,
             value: this.options.value,
@@ -108,10 +111,16 @@ w.TK.ValueButton = w.ValueButton = $class({
         this.value.add_event("valuedone", value_done.bind(this));
         this.add_child(this.value);
         
+        /**
+         * @member {HTMLInputElement} _input - The text entry of the TK.Value.
+         */
         this._input = this.value._input;
         
         this.element.appendChild(this._bar);
         
+        /**
+         * @member {TK.DragValue} drag - The DragValue module.
+         */
         this.drag = new TK.DragValue({
             node:      this.element,
             range:     function () { return this; }.bind(this),
@@ -125,6 +134,9 @@ w.TK.ValueButton = w.ValueButton = $class({
             blind_angle: this.options.blind_angle,
             events: function () { return this }.bind(this)
         });
+        /**
+         * @member {TK.ScrollValue} scroll - The ScrollValue module.
+         */
         this.scroll = new TK.ScrollValue({
             element: this.element,
             range:   function () { return this }.bind(this),
