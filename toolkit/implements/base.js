@@ -254,24 +254,25 @@ TK.Base = w.BASE = $class({
      * and <code>value</code>; and the event <code>'set_'+key</code> with argument <code>value</code>.
      *
      * @method TK.Base#set
-     * @param {string} key - The option name.
-     * @param value - The option value.
+     * @param {string} key - The name of the option
+     * @param {mixed} value - The value of the option
      */
     set: function (key, value) {
         this.options[key] = value;
         /**
          * Is fired when an option is set.
-         * @type {Array.<string, mixed>}
+         * @param {string} name - The name of the option
+         * @param {mixed} value - The value of the option
          * @event TK.Base#set
          */
         if (this.__events.set)
             this.fire_event("set", key, value);
         /**
          * Is fired when an option is set.
-         * @type {mixed}
+         * @param {mixed} value - The value of the option
          * @event TK.Base#set_[option]
          */
-        if (this.__events["set_"+key])
+        if (this.__events["set_" + key])
             this.fire_event("set_" + key, value);
     },
     /**
@@ -284,7 +285,7 @@ TK.Base = w.BASE = $class({
         var old_target = this.__event_target;
         /**
          * Is fired when an element is delegated
-         * @type {HTMLElement}
+         * @param {HTMLElement} element - The element which receives all native DOM events
          * @event TK.Base#delegated
          */
         this.fire_event("delegated", element);
