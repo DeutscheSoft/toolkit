@@ -27,18 +27,38 @@ w.TK.Notes = w.Notes = $class({
      * @mixin Notes
      */
     _class: "Notes",
+    /*
+     * Returns a note name for a MIDI note number.
+     * @method TK.Notes#midi2note
+     * @param {int} note - The MIDI note to translate.
+     */
     midi2note: function (num) {
         return notes[num % 12] + parseInt(num / 12);
     },
+    /*
+     * Returns a frequency of a MIDI note number.
+     * @method TK.Notes#midi2freq
+     * @param {int} note - The MIDI note to translate.
+     */
     midi2freq: function (num, base) {
         if (!base) base = 440;
         return Math.pow(2, (num - 69) / 12) * base;
     },
+    /*
+     * Returns a MIDI note number for a frequency.
+     * @method TK.Notes#freq2midi
+     * @param {number} frequency - The frequency to translate.
+     */
     freq2midi: function (freq, base) {
         if (!base) base = 440;
         var f2 = Math.log2(freq / base);
         return Math.max(0, Math.round(12 * f2 + 69));
     },
+    /*
+     * Returns the percents a frequency misses a real note by.
+     * @method TK.Notes#freq2cents
+     * @param {number} frequency - The frequency to translate.
+     */
     freq2cents: function (freq, base) {
         if (!base) base = 440;
         var f2 = Math.log2(freq / base);
@@ -46,6 +66,11 @@ w.TK.Notes = w.Notes = $class({
         f2 %= 100;
         return (f2 < -50) ? 100 + f2 : (f2 > 50) ? -(100 - f2) : f2;
     },
+    /*
+     * Returns a note name for a frequency.
+     * @method TK.Notes#freq2note
+     * @param {number} frequency - The frequency to translate.
+     */
     freq2note: function (freq, base) {
         if (!base) base = 440;
         return this.midi2note(this.freq2midi(freq, base));
