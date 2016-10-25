@@ -85,7 +85,7 @@ function maximize(e) {
     if (this.options.auto_maximize) this.toggle_maximize();
     /**
      * The user clicked the maximize button.
-     * @event TK.Window.closeclicked
+     * @event TK.Window.maximizeclicked
      */
     this.fire_event("maximizeclicked", this.options.maximize);
     this.fire_event("useraction", "maximize", this.options.maximize);
@@ -94,7 +94,7 @@ function maximizevertical(e) {
     if (this.options.auto_maximize) this.toggle_maximize_vertical();
     /**
      * The user clicked the maximize-vertical button.
-     * @event TK.Window.closeclicked
+     * @event TK.Window.maximizeverticalclicked
      */
     this.fire_event("maximizeverticalclicked", this.options.maximize.y);
     this.fire_event("useraction", "maximize", this.options.maimize);
@@ -103,7 +103,7 @@ function maximizehorizontal(e) {
     if (this.options.auto_maximize) this.toggle_maximize_horizontal();
     /**
      * The user clicked the maximize-horizontal button.
-     * @event TK.Window.closeclicked
+     * @event TK.Window.maximizehorizontalclicked
      */
     this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
     this.fire_event("useraction", "maximize", this.options.maximize);
@@ -112,7 +112,7 @@ function minimize(e) {
     if (this.options.auto_minimize) this.toggle_minimize();
     /**
      * The user clicked the minimize button.
-     * @event TK.Window.closeclicked
+     * @event TK.Window.minimizeclicked
      */
     this.fire_event("minimizeclicked", this.options.minimize);
     this.fire_event("useraction", "minimize", this.options.minimize);
@@ -121,7 +121,7 @@ function shrink(e) {
     if (this.options.auto_shrink) this.toggle_shrink();
     /**
      * The user clicked the shrink button.
-     * @event TK.Window.closeclicked
+     * @event TK.Window.shrinkclicked
      */
     this.fire_event("shrinkclicked", this.options.shrink);
     this.fire_event("useraction", "shrink", this.options.shrink);
@@ -747,10 +747,6 @@ w.TK.Window = w.Window = $class({
             this.set("maximize", {x: true, y: true});
         else
             this.set("maximize", {x: false, y: false});
-        /**
-         * The maximize option was toggled.
-         * @event TK.Window.maximizetoggled
-         */
     },
     toggle_maximize_vertical: function () {
         this.set("maximize", {y: !this.options.maximize.y});
@@ -760,17 +756,9 @@ w.TK.Window = w.Window = $class({
     },
     toggle_minimize: function () {
         this.set("minimize", !this.options.minimize);
-        /**
-         * The minimize option was toggled.
-         * @event TK.Window.minimizetoggled
-         */
     },
     toggle_shrink: function () {
         this.set("shrink", !this.options.shrink);
-        /**
-         * The shrink option was toggled.
-         * @event TK.Window.shrinktoggled
-         */
     },
     
     set: function (key, value, hold) {
