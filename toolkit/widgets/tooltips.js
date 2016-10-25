@@ -24,6 +24,10 @@ function get_event(event) {
     return (event.touches && event.touches.length)
           ? event.touches[0] : event;
 }
+/**
+ * TK.Tooltip and GlobalTooltip is a small text field following the mouse.
+ * @class TK.Tooltip
+ */
 w.GlobalTooltip = function() {
     var overlay = TK.element("div", "toolkit-tooltip");
     var table   = TK.element("div", "toolkit-table");
@@ -108,14 +112,21 @@ w.GlobalTooltip = function() {
 
     var hidden = false;
     var num_tooltips = 0;
-
+    
+    /**
+     * Hide the tooltips
+     * @method TK.Tooltip#hide
+     */
     function hide() {
         document.removeEventListener("mousemove", onmove_mouse);
         document.removeEventListener("touchmove", onmove_touch);
         overlay.style.display = "none";
         hidden = true;
     }
-
+    /**
+     * Show the tooltips
+     * @method TK.Tooltip#show
+     */
     function show() {
         if (!overlay.parentNode)
             document.body.appendChild(overlay);
@@ -124,14 +135,24 @@ w.GlobalTooltip = function() {
         overlay.style.removeProperty("display");
         hidden = false;
     }
-
+    /**
+     * Add a new tooltip.
+     * @method TK.Tooltip#add
+     * @param {int} priority - The priority of the tooltip. States its position in the list.
+     * @param {Function} onmove - The function which sets the text of the tooltip while moving the mouse.
+     */
     function add(priority, onmove) {
         if (!tooltips[priority]) tooltips[priority] = [];
         tooltips[priority].push(onmove);
         if (hidden) show();
         num_tooltips++;
     }
-
+    /**
+     * Remove a tooltip.
+     * @method TK.Tooltip#remove
+     * @param {int} priority - The priority of the tooltip.
+     * @param {Function} onmove - The function which sets the text of the tooltip while moving the mouse.
+     */
     function remove(priority, onmove) {
         if (!tooltips[priority]) return;
         var i = tooltips[priority].indexOf(onmove);
@@ -149,8 +170,18 @@ w.GlobalTooltip = function() {
     this.add = add;
     this.remove = remove;
     this.trigger = onmove_touch;
+    
+    /** @member {HTMLDivElement} TK.Tooltip#_overlay - The overlay containing the tooltip table.
+     *  Has class <code>toolkit-tooltip</code>.
+     */
     this._overlay = overlay;
+    /** @member {HTMLDivElement} TK.Tooltip#_table - The table containing the tooltips.
+     *  Has class <code>toolkit-table</code>.
+     */
     this._table = table;
+    /** @member {HTMLDivElement} TK.Tooltip#_entry - The element containing the tooltip text.
+     *  Has class <code>toolkit-entry</code>.
+     */
     this._entry = entry;
 };
 w.GlobalTooltip.prototype = {
@@ -159,5 +190,5 @@ w.GlobalTooltip.prototype = {
         this._overlay.remove();
     },
 };
-w.TK.tooltip = new GlobalTooltip();
+w.TK.Tooltip = new GlobalTooltip();
 })(this);
