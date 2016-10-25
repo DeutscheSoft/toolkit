@@ -274,6 +274,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         this._peak_label.remove();
         TK.MeterBase.prototype.destroy.call(this);
     },
+    /* Resets the peak label.
+     * @method TK.LevelMeter#reset_peak
+     * @emits TK.LevelMeter#resetpeak
+     */
     reset_peak: function () {
         if (this.__pto) clearTimeout(this.__pto);
         this.__pto = false;
@@ -284,6 +288,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
          */
         this.fire_event("resetpeak");
     },
+    /* Resets the label.
+     * @method TK.LevelMeter#reset_label
+     * @emits TK.LevelMeter#resetlabel
+     */
     reset_label: function () {
         if (this.__lto) clearTimeout(this.__lto);
         this.__lto = false;
@@ -294,6 +302,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
          */
         this.fire_event("resetlabel");
     },
+    /* Resets the clipping LED.
+     * @method TK.LevelMeter#reset_clip
+     * @emits TK.LevelMeter#resetclip
+     */
     reset_clip: function () {
         if (this.__cto) clearTimeout(this.__cto);
         this.__cto = false;
@@ -304,6 +316,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
          */
         this.fire_event("resetclip");
     },
+    /* Resets the top hold.
+     * @method TK.LevelMeter#reset_top
+     * @emits TK.LevelMeter#resettop
+     */
     reset_top: function () {
         this.set("top", this.effective_value());
         /**
@@ -312,6 +328,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
          */
         this.fire_event("resettop");
     },
+    /* Resets the bottom hold.
+     * @method TK.LevelMeter#reset_bottom
+     * @emits TK.LevelMeter#resetbottom
+     */
     reset_bottom: function () {
         this.set("bottom", this.effective_value());
         /**
@@ -320,6 +340,14 @@ w.TK.LevelMeter = w.LevelMeter = $class({
          */
         this.fire_event("resetbottom");
     },
+    /* Resets all hold features.
+     * @method TK.LevelMeter#reset_all
+     * @emits TK.LevelMeter#resetpeak
+     * @emits TK.LevelMeter#resetlabel
+     * @emits TK.LevelMeter#resetclip
+     * @emits TK.LevelMeter#resettop
+     * @emits TK.LevelMeter#resetbottom
+     */
     reset_all: function () {
         this.reset_label();
         this.reset_peak();
