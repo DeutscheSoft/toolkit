@@ -19,8 +19,11 @@
  
  /**
  * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
- *
+ * The event is emitted for the options <code>maximize</code>, <code>minimize</code>, <code>shrink</code>, <code>width</code>, <code>height</code>, <code>x</code> and <code>y</code>.
  * @event TK.Window#useraction
+ * @param {string} name - The name of the option which was changed due to the users action
+ * @param {mixed} value - The new value of the option
+ * 
  */
  
 "use strict";
@@ -49,6 +52,7 @@ function header_action() {
     /**
      * The user double-clicked on the header.
      * @event TK.Window.headeraction
+     * @param {string} action - The function which was executed, e.g. "shrink", "maximize" or "close"
      */
     this.fire_event("headeraction", this.options.header_action);
 }

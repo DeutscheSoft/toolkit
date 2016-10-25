@@ -22,6 +22,8 @@
  * The event is emitted for the option <code>value</code>.
  *
  * @event TK.Value#useraction
+ * @param {string} name - The name of the option which was changed due to the users action
+ * @param {mixed} value - The new value of the option
  */
  
 "use strict";

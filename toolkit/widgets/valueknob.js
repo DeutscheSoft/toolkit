@@ -18,9 +18,11 @@
  */
  /**
  * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
- * The event is emitted for the options <code>value</code>.
+ * The event is emitted for the option <code>value</code>.
  *
  * @event TK.ValueKnob#useraction
+ * @param {string} name - The name of the option which was changed due to the users action
+ * @param {mixed} value - The new value of the option
  */
  
 "use strict";

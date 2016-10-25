@@ -17,12 +17,6 @@
  * Boston, MA  02110-1301  USA
  */
  
- /**
- * The <code>useraction</code> event is emitted when a band gets modified by user interaction.
- * @type {Array.<string, Band, string, number>}
- * @event TK.Knob#useraction
- */
- 
 "use strict";
 (function(w){
 function invalidate_bands() {

@@ -954,6 +954,8 @@ function redraw_lines(O, X) {
  * The event is emitted for the options <code>x</code>, <code>y</code> and <code>z</code>.
  *
  * @event TK.ResponseHandle#useraction
+ * @param {string} name - The name of the option which was changed due to the users action
+ * @param {mixed} value - The new value of the option
  */
 w.TK.ResponseHandle = w.ResponseHandle = $class({
     _class: "ResponseHandle",

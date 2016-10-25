@@ -17,12 +17,6 @@
  * Boston, MA  02110-1301  USA
  */
  
-/**
- * The <code>useraction</code> event is emitted when a handle gets modified by user interaction.
- * @type {Array.<string, ResponseHandle, string, number>}
- * @event TK.ResponseHandler#useraction
- */
- 
 "use strict";
 (function(w){ 
 function calculate_overlap(X, Y) {
