@@ -256,6 +256,8 @@ TK.Base = w.BASE = $class({
      * @method TK.Base#set
      * @param {string} key - The name of the option
      * @param {mixed} value - The value of the option
+     * @emits TK.Base#set
+     * @emits TK.Base#set_[option]
      */
     set: function (key, value) {
         this.options[key] = value;
@@ -279,6 +281,7 @@ TK.Base = w.BASE = $class({
      * @method TK.Base#delegate_events
      * @param {HTMLElement} element - The element all native events should be bound to
      * @returns {HTMLElement} The element
+     * @emits TK.Base#delegated
      */
     delegate_events: function (element) {
         var ev = this.__events;

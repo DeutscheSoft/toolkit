@@ -460,6 +460,7 @@ w.TK.Chart = w.Chart = $class({
      *  instance of {@link TK.Graph} or an object of options to
      *  {@link TK.Graph}.
      * @returns {Object} The instance of {@link TK.Graph}.
+     * @emits TK.Chart#graphadded
      */
     add_graph: function (options) {
         var g;
@@ -499,6 +500,7 @@ w.TK.Chart = w.Chart = $class({
      *
      * @method TK.Chart#remove_graph
      * @param {TK.Graph} graph - The {@link TK.Graph} to remove.
+     * @emits TK.Chart#graphremoved
      */
     remove_graph: function (g) {
         var i;
@@ -521,6 +523,7 @@ w.TK.Chart = w.Chart = $class({
      * Remove all graphs from the chart.
      *
      * @method TK.Chart#empty
+     * @emits TK.Chart#emptied
      */
     empty: function () {
         this.graphs.map(this.remove_graph, this);

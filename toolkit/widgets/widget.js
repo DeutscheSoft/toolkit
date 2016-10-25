@@ -387,6 +387,7 @@ TK.Widget = $class({
          * if classify is true, CSS functions will be bound to the widget instance.
          *
          * @method TK.Widget#widgetize
+         * @emits TK.Widget#widgetize
          */
         var O = this.options;
         
@@ -463,6 +464,7 @@ TK.Widget = $class({
      * Schedules this widget for drawing.
      *
      * @method TK.Widget#enable_draw
+     * @emits TK.Widget#show
      */
     enable_draw: function () {
         if (this._drawn) return;
@@ -482,6 +484,7 @@ TK.Widget = $class({
      * Stop drawing this widget.
      *
      * @method TK.Widget#enable_draw
+     * @emits TK.Widget#hide
      */
     disable_draw: function () {
         if (!this._drawn) return;
