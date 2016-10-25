@@ -165,11 +165,11 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         return h;
     },
     /*
-     * Add multiple new TK.ResponseHandle to the widget. Options is an array
-     * of objects containing options for the new instances of TK.ResponseHandle
+     * Add multiple new {@link TK.ResponseHandle} to the widget. Options is an array
+     * of objects containing options for the new instances of {@link TK.ResponseHandle}.
      * 
      * @method TK.ResponseHandler#add_handles
-     * @param {Array<Object>} options - An array of options objects for the TK.ResponseHandle
+     * @param {Array<Object>} options - An array of options objects for the {@link TK.ResponseHandle}.
      */
     add_handles: function (handles) {
         for (var i = 0; i < handles.length; i++)
@@ -179,7 +179,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      * Remove a handle from the widget.
      * 
      * @method TK.ResponseHandler#remove_handle
-     * @param {TK.RespoinseHandle} handle - The TK.ResponseHandle to remove.
+     * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} to remove.
      * @emits TK.ResponseHandler#handleremoved
      */
     remove_handle: function (handle) {
@@ -200,11 +200,11 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         }
     },
     /*
-     * Remove multiple TK.ResponseHandle from the widget. Options is an array
-     * of TK.ResponseHandle instances.
+     * Remove multiple {@link TK.ResponseHandle} from the widget. Options is an array
+     * of {@link TK.ResponseHandle} instances.
      * 
      * @method TK.ResponseHandler#remove_handles
-     * @param {Array<TK.ResponseHandle>} handles - An array of TK.ResponseHandle instances.
+     * @param {Array<TK.ResponseHandle>} handles - An array of {@link TK.ResponseHandle} instances.
      */
     remove_handles: function () {
         // remove all handles from the widget.

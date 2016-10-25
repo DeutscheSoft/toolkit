@@ -130,10 +130,10 @@ w.TK.Equalizer = w.Equalizer = $class({
     },
     /*
      * Add a new band to the equalizer. Options is an object containing
-     * options for the TK.EqBand
+     * options for the {@link TK.EqBand}
      * 
      * @method TK.Equalizer#add_band
-     * @param {Object} options - The options for the TK.EqBand
+     * @param {Object} options - The options for the {@link TK.EqBand}
      * @emits TK.Equalizer#bandadded
      */
     add_band: function (options) {
@@ -179,11 +179,11 @@ w.TK.Equalizer = w.Equalizer = $class({
         return b;
     },
     /*
-     * Add multiple new TK.EqBand to the equalizer. Options is an array
-     * of objects containing options for the new instances of TK.EqBand
+     * Add multiple new {@link TK.EqBand} to the equalizer. Options is an array
+     * of objects containing options for the new instances of {@link TK.EqBand}
      * 
      * @method TK.Equalizer#add_bands
-     * @param {Array<Object>} options - An array of options objects for the TK.EqBand
+     * @param {Array<Object>} options - An array of options objects for the {@link TK.EqBand}
      */
     add_bands: function (bands) {
         for (var i = 0; i < bands.length; i++)
@@ -193,7 +193,7 @@ w.TK.Equalizer = w.Equalizer = $class({
      * Remove a band from the widget.
      * 
      * @method TK.Equalizer#remove_handle
-     * @param {TK.EqBand} band - The TK.EqBand to remove.
+     * @param {TK.EqBand} band - The {@link TK.EqBand} to remove.
      * @emits TK.Equalizer#bandremoved
      */
     remove_band: function (h) {
@@ -213,11 +213,11 @@ w.TK.Equalizer = w.Equalizer = $class({
         }
     },
     /*
-     * Remove multiple TK.EqBand from the equalizer. Options is an array
-     * of TK.EqBand instances.
+     * Remove multiple {@link TK.EqBand} from the equalizer. Options is an array
+     * of {@link TK.EqBand} instances.
      * 
      * @method TK.Equalizer#remove_bands
-     * @param {Array<TK.EqBand>} bands - An array of TK.EqBand instances.
+     * @param {Array<TK.EqBand>} bands - An array of {@link TK.EqBand} instances.
      */
     remove_bands: function () {
         for (var i = 0; i < this.bands.length; i++) {
