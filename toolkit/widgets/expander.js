@@ -223,6 +223,7 @@ w.TK.Expander = w.Expander = $class({
         child.add_event("set__collapsed", this._update_visibility);
     },
     remove_child: function(child) {
+        TK.Container.prototype.remove_child.call(this, child);
         child.remove_event("set__expanded", this._update_visibility);
         child.remove_event("set__collapsed", this._update_visibility);
     },
