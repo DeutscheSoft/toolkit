@@ -190,6 +190,7 @@ w.TK.Toggle = w.Toggle = $class({
      * Toggle the button state.
      *
      * @method TK.Toggle#toggle
+     * @emits TK.Toggle#toggled
      */
     toggle: function () {
         var state = !this.options.state;
