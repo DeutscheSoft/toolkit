@@ -158,25 +158,49 @@ w.TK.Select = w.Select = $class({
         TK.Button.prototype.destroy.call(this);
     },
     
+    /*
+     * Select an entry by its ID.
+     * @method TK.Select#select
+     * @param {int} id - The ID of the entry to select
+     */
     select: function (id) {
         this.set("selected", id);
     },
-    
+    /*
+     * Select an entry by its value.
+     * @method TK.Select#select_value
+     * @param {mixed} value - The value of the entry to select
+     */
     select_value: function (value) {
         var id = index_by_value.call(this, value);
         this.set("selected", id);
     },
-    
+    /*
+     * Replaces the list to select from with an entirely new one.
+     * @method TK.Select#set_entries
+     * @param {Array} entries - An array of entries to set as the new list to select from.
+     */
     set_entries: function (entries) {
         // Replace all entries with a new options list
         this.clear();
         this.add_entries(entries);
         this.select(index_by_value.call(this, this.options.value));
     },
+    /*
+     * Adds new entries to the end of the list to select from.
+     * @method TK.Select#add_entries
+     * @param {Array} entries - An array of entries to add at the end of the list to select from.
+     */
     add_entries: function (entries) {
         for (var i = 0; i < entries.length; i++)
             this.add_entry(entries[i], true);
     },
+    /*
+     * Adds a single entry to the end of the list.
+     * @method TK.Select.add_entry
+     * @emits TK.Select.entryadded
+     * @param {mixed} entry - A string to be displayed and used as the value or an object with members <code>title</code> and <code>value</code>.
+     */
     add_entry: function (ent) {
         var li = TK.element("li", "toolkit-option");
         var entry = {};
@@ -220,16 +244,46 @@ w.TK.Select = w.Select = $class({
         }
 
         this._list.appendChild(li);
+        /*
+         * Is fired when a new entry is added to the list.
+         * @event TK.Select.entryadded
+         * @param {Object} entry - An object containing the members <code>title</code> and <code>value</code>.
+         */
+        this.fire_event("entryadded", entry);
     },
+    /*
+     * Remove an entry from the list by its value.
+     * @method TK.Select#remove_value
+     * @param {mixed} value - The value of the entry to be removed from the list.
+     * @emits TK.Select#entryremoved
+     */
     remove_value: function (val) {
         this.remove_id(index_by_value.call(this, val));
     },
+    /*
+     * Remove an entry from the list by its title.
+     * @method TK.Select#remove_title
+     * @param {string} title - The title of the entry to be removed from the list.
+     * @emits TK.Select#entryremoved
+     */
     remove_title: function (title) {
         this.remove_id(index_by_title.call(this, title));
     },
+    /*
+     * Remove an entry from the list.
+     * @method TK.Select#remove_entry
+     * @param {Object} entry - The entry to be removed from the list.
+     * @emits TK.Select#entryremoved
+     */
     remove_entry: function (entry) {
         this.remove_id(get_entry.call(this, entry));
     },
+    /*
+     * Remove an entry from the list by its ID.
+     * @method TK.Select#remove_id
+     * @param {int} id - The ID of the entry to be removed from the list.
+     * @emits TK.Select#entryremoved
+     */
     remove_id: function (id) {
         // remove DOM element
         var entry = this.entries[id];
@@ -251,12 +305,28 @@ w.TK.Select = w.Select = $class({
             }
             this.invalid.entries = true;
             this.select(this.options.selected);
+            /*
+             * Is fired when a new entry is added to the list.
+             * @event TK.Select.entryremoved
+             * @param {Object} entry - An object containing the members <code>title</code> and <code>value</code>.
+             */
+            this.fire_event("entryremoved", entry);
         }
     },
+    /*
+     * Remove all entries from the list.
+     * @method TK.Select#clear
+     * @emits TK.Select#cleared
+     */
     clear: function () {
         TK.empty(this._list);
         this.select(false);
         this.entries = [];
+        /*
+         * Is fired when the list is cleared.
+         * @event TK.Select.cleared
+         */
+        this.fire_event("cleared");
     },
 
     redraw: function() {
@@ -304,6 +374,11 @@ w.TK.Select = w.Select = $class({
             }
         }
     },
+    /*
+     * Get the currently selected entry.
+     * @method TK.Select#current
+     * @returns {Object} The entry object with the members <code>title</code> and <code>value</code>.
+     */
     current: function() {
         return this.entries[this.options.selected];
     },
