@@ -121,9 +121,15 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         TK.FrequencyResponse.prototype.destroy.call(this);
     },
     
+    /*
+     * Add a new handle to the widget. Options is an object containing
+     * options for the TK.ResponseHandle
+     * 
+     * @method TK.ResponseHandler#add_handle
+     * @param {Object} options - The options for the TK.ResponseHandle
+     * @emits TK.ResponseHandler#handleadded
+     */
     add_handle: function (options) {
-        // ad a new handle to the widget. Options is an object containing
-        // options for the handle
         options.container = this._handles;
         if (options.range_x === void(0))
             options.range_x = function () { return this.range_x; }.bind(this);
@@ -158,11 +164,24 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         this.fire_event("handleadded", h);
         return h;
     },
+    /*
+     * Add multiple new TK.ResponseHandle to the widget. Options is an array
+     * of objects containing options for the new instances of TK.ResponseHandle
+     * 
+     * @method TK.ResponseHandler#add_handles
+     * @param {Array<Object>} options - An array of options objects for the TK.ResponseHandle
+     */
     add_handles: function (handles) {
         for (var i = 0; i < handles.length; i++)
             this.add_handle(handles[i]);
     },
-    
+    /*
+     * Remove a handle from the widget.
+     * 
+     * @method TK.ResponseHandler#remove_handle
+     * @param {TK.RespoinseHandle} handle - The TK.ResponseHandle to remove.
+     * @emits TK.ResponseHandler#handleremoved
+     */
     remove_handle: function (handle) {
         // remove a handle from the widget.
         for (var i = 0; i < this.handles.length; i++) {
@@ -180,6 +199,13 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
             }
         }
     },
+    /*
+     * Remove multiple TK.ResponseHandle from the widget. Options is an array
+     * of TK.ResponseHandle instances.
+     * 
+     * @method TK.ResponseHandler#remove_handles
+     * @param {Array<TK.ResponseHandle>} handles - An array of TK.ResponseHandle instances.
+     */
     remove_handles: function () {
         // remove all handles from the widget.
         for (var i = 0; i < this.handles.length; i++) {

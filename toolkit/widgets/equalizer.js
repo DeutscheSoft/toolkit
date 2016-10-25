@@ -128,6 +128,14 @@ w.TK.Equalizer = w.Equalizer = $class({
         invalidate_bands.call(this);
         TK.ResponseHandler.prototype.resize.call(this);
     },
+    /*
+     * Add a new band to the equalizer. Options is an object containing
+     * options for the TK.EqBand
+     * 
+     * @method TK.Equalizer#add_band
+     * @param {Object} options - The options for the TK.EqBand
+     * @emits TK.Equalizer#bandadded
+     */
     add_band: function (options) {
         var b;
         if (TK.EqBand.prototype.isPrototypeOf(options)) {
@@ -170,11 +178,24 @@ w.TK.Equalizer = w.Equalizer = $class({
         invalidate_bands.call(this);
         return b;
     },
+    /*
+     * Add multiple new TK.EqBand to the equalizer. Options is an array
+     * of objects containing options for the new instances of TK.EqBand
+     * 
+     * @method TK.Equalizer#add_bands
+     * @param {Array<Object>} options - An array of options objects for the TK.EqBand
+     */
     add_bands: function (bands) {
         for (var i = 0; i < bands.length; i++)
             this.add_band(bands[i]);
     },
-    
+    /*
+     * Remove a band from the widget.
+     * 
+     * @method TK.Equalizer#remove_handle
+     * @param {TK.EqBand} band - The TK.EqBand to remove.
+     * @emits TK.Equalizer#bandremoved
+     */
     remove_band: function (h) {
         for (var i = 0; i < this.bands.length; i++) {
             if (this.bands[i] === h) {
@@ -191,6 +212,13 @@ w.TK.Equalizer = w.Equalizer = $class({
             }
         }
     },
+    /*
+     * Remove multiple TK.EqBand from the equalizer. Options is an array
+     * of TK.EqBand instances.
+     * 
+     * @method TK.Equalizer#remove_bands
+     * @param {Array<TK.EqBand>} bands - An array of TK.EqBand instances.
+     */
     remove_bands: function () {
         for (var i = 0; i < this.bands.length; i++) {
             this.remove_band(this.bands[i]);
