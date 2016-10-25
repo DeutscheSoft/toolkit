@@ -30,7 +30,7 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
     /**
      * Adds a class <code>"toolkit-cursor-" + cursor</code> to the <code>document.body</code> to show a specific cursor.
      * @method TK.GlobalCursor#global_cursor
-     * @param {string} cursor - The name of the cursor to show (http://www.echoecho.com/csscursors.htm)
+     * @param {string} cursor - The name of the <a href="https://developer.mozilla.org/de/docs/Web/CSS/cursor">cursor</a> to show.
      * @emits TK.GlobalCursor#globalcursor
      */
     global_cursor: function (cursor) {
@@ -38,7 +38,7 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
         /**
          * Is fired when a cursor gets set.
          * @event TK.GlobalCursor#globalcursor
-         * @type {string}
+         * @param {string} cursor - The name of the <a href="https://developer.mozilla.org/de/docs/Web/CSS/cursor">cursor</a> to show. 
          */
         this.fire_event("globalcursor", cursor);
     },
@@ -46,14 +46,15 @@ w.TK.GlobalCursor = w.GlobalCursor = $class({
      * Removes the class from <code>document.body</code> node.
      *
      * @method TK.GlobalCursor#remove_cursor
-     * @param {string} cursor - The name of the cursor to remove (http://www.echoecho.com/csscursors.htm)
+     * @param {string} cursor - The name of the <a href="https://developer.mozilla.org/de/docs/Web/CSS/cursor">cursor</a> to remome.
+     * @emits TK.GlobalCursor#cursorremoved
      */
     remove_cursor: function (cursor) {
         TK.remove_class(document.body, "toolkit-cursor-" + cursor);
         /**
          * Is fired when a cursor is removed.
          * @event TK.GlobalCursor#cursorremoved
-         * @type {string}
+         * @param {string} cursor - The name of the <a href="https://developer.mozilla.org/de/docs/Web/CSS/cursor">cursor</a> to remove.
          */
         this.fire_event("cursorremoved", cursor);
     }
