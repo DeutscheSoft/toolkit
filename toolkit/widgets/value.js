@@ -162,7 +162,7 @@ w.TK.Value = w.Value = $class({
         this.widgetize(E, true, true, true);
         
         /**
-         * @member {HTMLInputElement} _input - The text input.
+         * @member {HTMLInputElement} TK.Value#_input - The text input.
          * Has class <code>toolkit-input</code>.
          */
         this._input  = TK.element("input", "toolkit-input");

@@ -195,7 +195,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         var O = this.options;
         
         /**
-         * @member {TK.Label} title - The title of the MultiMeter.
+         * @member {TK.Label} TK.MultiMeter#itle - The title of the MultiMeter.
          * Has class <code>toolkit-title</code>.
          */
         this.title = new TK.Label({
@@ -204,7 +204,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
             "container": this.element
         });
         /**
-         * @member {HTMLDivElement} _title - The DIV element of the {@link TK.Label} module.
+         * @member {HTMLDivElement} TK.MultiMeter#_title - The DIV element of the {@link TK.Label} module.
          */
         this._title = this.title.element;
         this.add_child(this.title);

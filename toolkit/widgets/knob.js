@@ -92,7 +92,7 @@ w.TK.Knob = w.Knob = $class({
         TK.add_class(E, "toolkit-knob");
 
         /**
-         * @member {SVGImage} svg - The main SVG image.
+         * @member {SVGImage} TK.Knob#svg - The main SVG image.
          */
         this.svg = S = TK.make_svg("svg");
         
@@ -101,14 +101,14 @@ w.TK.Knob = w.Knob = $class({
         co.container = S;
 
         /**
-         * @member {TK.Circular} circular - The {@link TK.Circular} module.
+         * @member {TK.Circular} TK.Knob#circular - The {@link TK.Circular} module.
          */
         this.circular = new TK.Circular(co);
 
         this.widgetize(E, true, true, true);
         
         /**
-         * @member {TK.DragValue} TK.Fader#drag - Instance of {@link TK.DragValue} used for the
+         * @member {TK.DragValue} TK.Knob#drag - Instance of {@link TK.DragValue} used for the
          * interaction.
          */
         this.drag = new TK.DragValue({
@@ -125,7 +125,7 @@ w.TK.Knob = w.Knob = $class({
             events: function () { return this }.bind(this),
         });
         /**
-         * @member {TK.ScrollValue} TK.Fader#scroll - Instance of {@link TK.ScrollValue} used for the
+         * @member {TK.ScrollValue} TK.Knob#scroll - Instance of {@link TK.ScrollValue} used for the
          * interaction.
          */
         this.scroll = new TK.ScrollValue({

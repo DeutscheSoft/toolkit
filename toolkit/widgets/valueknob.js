@@ -81,12 +81,12 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         ko.container = E;
 
         /**
-         * @member {TK.Knob} knob - The TK.Knob widget.
+         * @member {TK.Knob} TK.ValueKnob#knob - The TK.Knob widget.
          */
         this.knob = new TK.Knob(ko);
         
         /**
-         * @member {TK.Value} value - The TK.Value widget.
+         * @member {TK.Value} TK.ValueKnob#value - The TK.Value widget.
          */
         this.value = new TK.Value({
             container: E,

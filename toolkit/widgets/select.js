@@ -125,7 +125,7 @@ w.TK.Select = w.Select = $class({
         this.__timeout = -1;
         
         /**
-         * @member {Array} entries - An array containing all entry objects with members <code>title</code> and <code>value</code>.
+         * @member {Array} TK.Select#entries - An array containing all entry objects with members <code>title</code> and <code>value</code>.
          */
         this.entries = [];
         this._active = null;
@@ -137,7 +137,7 @@ w.TK.Select = w.Select = $class({
         }.bind(this));
         
         /**
-         * @member {HTMLListElement} _list - A HTML list for displaying the entry titles.
+         * @member {HTMLListElement} TK.Select#_list - A HTML list for displaying the entry titles.
          * Has class <code>toolkit-select-list</code>.
          */
         this._list = TK.element("ul", "toolkit-select-list");
@@ -150,7 +150,7 @@ w.TK.Select = w.Select = $class({
             }
         }.bind(this);
         /**
-         * @member {HTMLDivElement} _arrow - A DIV element displaaying a small arrow to click on in order to show the select list.
+         * @member {HTMLDivElement} TK.Select#_arrow - A DIV element displaaying a small arrow to click on in order to show the select list.
          * Has class <code>toolkit-arrow</code>.
          */
         this._arrow = TK.element("div", "toolkit-arrow");

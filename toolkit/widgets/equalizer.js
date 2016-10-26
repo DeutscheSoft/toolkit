@@ -57,20 +57,20 @@ w.TK.Equalizer = w.Equalizer = $class({
     },
     
     initialize: function (options) {
-        /** @member {Array} bands - Array of {@link TK.EqBand} instances.
+        /** @member {Array} TK.Equalizer#bands - Array of {@link TK.EqBand} instances.
          */
         this.bands = [];
         TK.ResponseHandler.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-equalizer");
         
         /**
-         * @member {SVGGroup} _bands - The SVG group containing all the bands SVG elements.
+         * @member {SVGGroup} TK.Equalizer#_bands - The SVG group containing all the bands SVG elements.
          * Has class <code>toolkit-eqbands</code>.
          */
         this._bands = TK.make_svg("g", {"class": "toolkit-eqbands"});
         this.svg.appendChild(this._bands);
         
-        /** @member {TK.Graph} baseline - The graph drawing the zero line.
+        /** @member {TK.Graph} TK.Equalizer#baseline - The graph drawing the zero line.
          * Has class <code>toolkit-baseline</code> 
          */
         this.baseline = this.add_graph({

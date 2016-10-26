@@ -76,7 +76,7 @@ w.TK.Gauge = w.Gauge = $class({
         if (!(E = this.element)) this.element = E = TK.element("div");
         
         /**
-         * @member {SVGImage} svg - The main SVG image.
+         * @member {SVGImage} TK.Gauge#svg - The main SVG image.
          */
         this.svg = S = TK.make_svg("svg");
 
@@ -84,7 +84,7 @@ w.TK.Gauge = w.Gauge = $class({
         this.widgetize(E, true, true, true);
         
         /**
-         * @member {SVGText} _title - The title of the gauge.
+         * @member {SVGText} TK.Gauge#_title - The title of the gauge.
          * Has class <code>toolkit-title</code>.
          */
         this._title = TK.make_svg("text", {"class": "toolkit-title"});
@@ -95,7 +95,7 @@ w.TK.Gauge = w.Gauge = $class({
         co.container = S;
         
         /**
-         * @member {TK.Circular} circular - The {@link TK.Circular} module.
+         * @member {TK.Circular} TK.Gauge#circular - The {@link TK.Circular} module.
          */
         this.circular = new TK.Circular(co);
         this.add_child(this.circular);

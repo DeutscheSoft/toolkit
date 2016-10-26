@@ -86,6 +86,7 @@ function maximize(e) {
     /**
      * The user clicked the maximize button.
      * @event TK.Window.maximizeclicked
+     * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizeclicked", this.options.maximize);
     this.fire_event("useraction", "maximize", this.options.maximize);
@@ -95,6 +96,7 @@ function maximizevertical(e) {
     /**
      * The user clicked the maximize-vertical button.
      * @event TK.Window.maximizeverticalclicked
+     * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizeverticalclicked", this.options.maximize.y);
     this.fire_event("useraction", "maximize", this.options.maimize);
@@ -104,6 +106,7 @@ function maximizehorizontal(e) {
     /**
      * The user clicked the maximize-horizontal button.
      * @event TK.Window.maximizehorizontalclicked
+     * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
     this.fire_event("useraction", "maximize", this.options.maximize);
@@ -113,6 +116,7 @@ function minimize(e) {
     /**
      * The user clicked the minimize button.
      * @event TK.Window.minimizeclicked
+     * @param {Object} minimize - The minimize option.
      */
     this.fire_event("minimizeclicked", this.options.minimize);
     this.fire_event("useraction", "minimize", this.options.minimize);
@@ -122,6 +126,7 @@ function shrink(e) {
     /**
      * The user clicked the shrink button.
      * @event TK.Window.shrinkclicked
+     * @param {Object} shrink - The shrink option.
      */
     this.fire_event("shrinkclicked", this.options.shrink);
     this.fire_event("useraction", "shrink", this.options.shrink);
@@ -134,6 +139,7 @@ function start_resize(el, ev) {
     /**
      * The user starts resizing the window.
      * @event TK.Window.startresize
+     * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("startresize", ev);
 }
@@ -148,6 +154,7 @@ function stop_resize(el, ev) {
     /**
      * The user stops resizing the window.
      * @event TK.Window.stopresize
+     * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("stopresize", ev);
 }
@@ -161,6 +168,7 @@ function resizing(el, ev) {
     /**
      * The user resizes the window.
      * @event TK.Window.resizing
+     * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("resizing", ev);
     
@@ -279,6 +287,7 @@ function start_drag(ev, el) {
     /**
      * The user starts dragging the window.
      * @event TK.Window.startdrag
+     * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("startdrag", ev);
     
@@ -292,6 +301,7 @@ function stop_drag(ev, el) {
     /**
      * The user stops dragging the window.
      * @event TK.Window.stopdrag
+     * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("stopdrag", ev);
     
@@ -315,6 +325,7 @@ function dragging(ev, el) {
     /**
      * The user is dragging the window.
      * @event TK.Window.dragging
+     * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("dragging", ev);
     
@@ -372,6 +383,7 @@ function set_position() {
     /**
      * The position of the window changed.
      * @event TK.Window.positionchanged
+     * @param {Object} event - The {@link TK.Window#dimensions} dimensions object.
      */
     this.fire_event("positionchanged", this.dimensions);
 }
@@ -410,6 +422,7 @@ function set_dimensions() {
     /**
      * The dimensions of the window changed.
      * @event TK.Window.dimensionschanged
+     * @param {Object} event - The {@link TK.Window#dimensions} dimensions object.
      */
     this.fire_event("dimensionschanged", this.dimensions);
 }

@@ -218,7 +218,7 @@ w.TK.Expander = w.Expander = $class({
         this.set("always_expanded", this.options.always_expanded);
         
         /**
-         * @member {TK.Button} button - The button for toggling the state of the expander.
+         * @member {TK.Button} TK.Expander#button - The button for toggling the state of the expander.
          */
         this.button = new TK.Button(bo);
         this.add_child(this.button);

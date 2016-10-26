@@ -201,7 +201,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         var O = this.options;
         
         /**
-         * @member {TK.State} state - The {@link TK.State} instance for the clipping LED.
+         * @member {TK.State} TK.LevelMeter#state - The {@link TK.State} instance for the clipping LED.
          * Has class <code>toolkit-clip</code>.
          */
         this.state = new TK.State(Object.assign({
@@ -210,16 +210,16 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         this.add_child(this.state);
         
         /**
-         * @member {HTMLDivElement} _clip - The DIV element of the clipping LED.
+         * @member {HTMLDivElement} TK.LevelMeter#_clip - The DIV element of the clipping LED.
          */
         this._clip       = this.state.element;
         /**
-         * @member {HTMLDivElement} _peak - The DIV element for the peak marker.
+         * @member {HTMLDivElement} TK.LevelMeter#_peak - The DIV element for the peak marker.
          * Has class <code>toolkit-peak</code>.
          */
         this._peak       = TK.element("div","toolkit-peak");
         /**
-         * @member {HTMLDivElement} _peak_label - The DIV element for the peak value.
+         * @member {HTMLDivElement} TK.LevelMeter#_peak_label - The DIV element for the peak value.
          * Has class <code>toolkit-peak-label</code>.
          */
         this._peak_label = TK.element("div","toolkit-peak-label");

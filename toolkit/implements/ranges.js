@@ -69,8 +69,8 @@ w.TK.Ranges = w.Ranges = $class({
         /**
          * Gets fired when a new range is added
          *
-         * @type {TK.Range}
-         * @event rangeadded
+         * @param {TK.Range} range - The range that was added.
+         * @event TK.Ranges#rangeadded
          */
         this.fire_event("rangeadded", r);
         return r;

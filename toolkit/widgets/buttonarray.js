@@ -43,13 +43,6 @@ function show_arrows() {
     this.trigger_resize();
 }
 function prev_clicked(e) {
-    /**
-     * When a {@link TK.Button} or an arrow gets clicked and
-     * the currently active button changes.
-     *
-     * @type Button
-     * @event clicked
-     */
     var v = this.set("show", this.options.show - 1);
     this.fire_event("useraction", "show", v);
 }
@@ -125,10 +118,10 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.prev.add_event("click", prev_clicked.bind(this));
         this.next.add_event("click", next_clicked.bind(this));
         
-        /** @member {HTMLDivElement} _prev - The HTMLDivElement of the previous button.
+        /** @member {HTMLDivElement} TK.ButtonArray#_prev - The HTMLDivElement of the previous button.
          */
         this._prev = this.prev.element;
-        /** @member {HTMLDivElement} _next - The HTMLDivElement of the next button.
+        /** @member {HTMLDivElement} TK.ButtonArray#_next - The HTMLDivElement of the next button.
          */
         this._next = this.next.element;
         
@@ -208,16 +201,11 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         /**
          * A {@link TK.Button} was added to the ButtonArray.
          *
-         * @event added
-         * @type Button
+         * @event TK.ButtonArray#added
+         * @param {TK.Button} button - The button which was added to ButtonArray.
          */
         if (b === this.current())
             b.set("state", true);
-        /**
-         * Is fired when a button was added
-         * @type {Button}
-         * @event TK.ButtonArray#added
-         */
         this.fire_event("added", b);
 
         return b;
@@ -237,8 +225,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         /**
          * A {@link TK.Button} was removed from the ButtonArray.
          *
-         * @event removed
-         * @type Button
+         * @event TK.ButtonArray#removed
+         * @param {TK.Button} button - The {@link TK.Button} instance which was removed.
          */
         this.fire_event("removed", this.buttons[button]);
         if (this.current() && button <= this.options.show) {
