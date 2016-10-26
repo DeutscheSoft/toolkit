@@ -109,6 +109,10 @@ w.TK.Pager = w.Pager = $class({
                 this.fire_event("useraction", key, value);
             }.bind(this),
         });
+        /**
+         * @member {HTMLDivElement} _clip - The clipping of the pages.
+         * Has class <code>toolkit-clip</code>.
+         */
         this._clip = TK.element("div", "toolkit-clip");
         this.element.appendChild(this._clip);
         

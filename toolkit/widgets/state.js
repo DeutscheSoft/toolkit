@@ -57,6 +57,10 @@ w.TK.State = w.State = $class({
         TK.add_class(E, "toolkit-state");
         this.widgetize(E, true, true, true);
         
+        /**
+         * @member {HTMLDivElement} _mask - A DIV for masking the background.
+         * Has class <code>toolkit-mask</code>.
+         */
         this._mask   = TK.element("div","toolkit-mask");
 
         E.appendChild(this._mask);

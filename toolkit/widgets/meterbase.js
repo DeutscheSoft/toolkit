@@ -202,11 +202,30 @@ w.TK.MeterBase = w.MeterBase = $class({
         TK.add_class(E, "toolkit-meter-base");
         this.widgetize(E, false, true, true);
         
+        /**
+         * @member {HTMLDivElement} _title - The DIV element displaying the title.
+         * Has class <code>toolkit-title</code>.
+         */
         this._title  = TK.element("div", "toolkit-title");
+        /**
+         * @member {HTMLDivElement} _label - The DIV element displaying the value.
+         * Has class <code>toolkit-label</code>.
+         */
         this._label  = TK.element("div", "toolkit-label");
+        /**
+         * @member {HTMLDivElement} _bar - The DIV element containing the masks and drawing the background.
+         * Has class <code>toolkit-bar</code>.
+         */
         this._bar    = TK.element("div", "toolkit-bar");
+        /**
+         * @member {HTMLDivElement} _over - The DIV element for the peak marker.
+         * Has class <code>toolkit-over</code>.
+         */
         this._over   = TK.element("div", "toolkit-over");
-
+        /**
+         * @member {HTMLCanvas} _canvas - The canvas element drawing the mask.
+         * Has class <code>toolkit-mask</code>.
+         */
         this._canvas = document.createElement("canvas");
         TK.add_class(this._canvas, "toolkit-mask");
 
@@ -227,7 +246,14 @@ w.TK.MeterBase = w.MeterBase = $class({
         options.labels    = O.format_labels;
         options.base      = this.__based ? O.base : O.scale_base;
         options.container = E;
+        
+        /**
+         * @member {TK.Scale} scale - The {@link TK.Scale} module of the meter.
+         */
         this.scale        = new TK.Scale(options);
+        /**
+         * @member {HTMLDivElement} _scale - The DIV element of the scale.
+         */
         this._scale       = this.scale.element;
         this.add_child(this.scale);
         this.delegate(this._bar);

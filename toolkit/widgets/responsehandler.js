@@ -75,6 +75,9 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         show_handles: true,
     },
     initialize: function (options) {
+        /**
+         * @member {Array} handles - An array containing all {@link TK.ResponseHandle} instances.
+         */
         this.handles = [];
         TK.FrequencyResponse.prototype.initialize.call(this, options);
         
@@ -86,6 +89,10 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
 //         }.bind(this));
         
         TK.add_class(this.element, "toolkit-response-handler");
+        /**
+         * @member {SVGImage} _handles - An SVG group element containing all {@link TK.ResponseHandle} graphics.
+         * Has class <code>toolkit-response-handles</code>.
+         */
         this._handles = TK.make_svg("g", {"class": "toolkit-response-handles"});
         this.svg.appendChild(this._handles);
         this.svg.onselectstart = function () { return false; };

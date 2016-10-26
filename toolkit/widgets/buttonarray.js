@@ -124,7 +124,12 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         this.next = new TK.Button({class: "toolkit-next"});
         this.prev.add_event("click", prev_clicked.bind(this));
         this.next.add_event("click", next_clicked.bind(this));
+        
+        /** @member {HTMLDivElement} _prev - The HTMLDivElement of the previous button.
+         */
         this._prev = this.prev.element;
+        /** @member {HTMLDivElement} _next - The HTMLDivElement of the next button.
+         */
         this._next = this.next.element;
         
         this.set("direction", this.options.direction);

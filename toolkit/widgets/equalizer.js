@@ -57,6 +57,8 @@ w.TK.Equalizer = w.Equalizer = $class({
     },
     
     initialize: function (options) {
+        /** @member {Array} bands - Array of {@link TK.EqBand} instances.
+         */
         this.bands = [];
         TK.ResponseHandler.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-equalizer");

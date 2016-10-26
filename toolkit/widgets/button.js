@@ -68,7 +68,7 @@ w.TK.Button = w.Button = $class({
         this.widgetize(E, true, true, true);
         
         /** @member {HTMLDivElement} TK.Button#_cell - An internal container for label and icon.
-         *      Has class <code>toolkit-cell</code>
+         *  Has class <code>toolkit-cell</code>
          */
         this._cell  = TK.element("div","toolkit-cell");
         /** @member {HTMLImageElement} TK.Button#_icon - The icon of the button. Has class <code>toolkit-icon</code> 
