@@ -83,6 +83,12 @@ function set_handle() {
  *
  * @class TK.Resize
  * @extends TK.Base
+ * 
+ * @property {HTMLElement} [node=null] - The element to resize.
+ * @property {HTMLElement} [handle=null] - A DOM node used as handle. If none set the element is used.
+ * @property {Boolean} [active=true] - Set to false to disable resizing.
+ * @property {Object} [min={x: -1, y: -1}] - Object containing x and y determining minimum size. A value of -1 means no minimum.
+ * @property {Object} [max={x: -1, y: -1}] - Object containing x and y determining maximum size. A value of -1 means no maximum.
  */
 w.TK.Resize = w.Resize = $class({
     // TK.Resize enables resizing of elements on the screen.
@@ -93,17 +99,14 @@ w.TK.Resize = w.Resize = $class({
         active : "boolean",
         min : "object",
         max : "object",
-        node : "object",
+        node : "object"
     },
     options: {
-        node      : null,           // the element to resize
-        handle    : null,           // a DOM node used as handle. if none set
-                                    // element is used
-        active    : true,           // set to false if resize is disabled
-        min       : {x: -1, y: -1}, // object containing x and y determining minimum size
-                                    // a value of -1 means no min
-        max       : {x: -1, y: -1}, // object containing x and y determining maximum size
-                                    // a value of -1 means no max
+        node      : null,
+        handle    : null,
+        active    : true,
+        min       : {x: -1, y: -1},
+        max       : {x: -1, y: -1}
     },
     initialize: function (options) {
         TK.Base.prototype.initialize.call(this, options);
