@@ -130,6 +130,9 @@ w.TK.Select = w.Select = $class({
         this.entries = [];
         this._active = null;
         TK.Button.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.Select#element - The main DIV container.
+         * Has class <code>toolkit-select</code>.
+         */
         TK.add_class(this.element, "toolkit-select");
         
         this.add_event("click", function (e) {

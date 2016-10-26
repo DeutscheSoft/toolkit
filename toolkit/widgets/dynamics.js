@@ -62,12 +62,15 @@ w.TK.Dynamics = w.Dynamics = $class({
     initialize: function (options) {
         TK.Chart.prototype.initialize.call(this, options, true);
         var O = this.options;
+        /** @member {HTMLDivElement} TK.Dynamics#element - The main DIV container.
+         * Has class <code>toolkit-dynamics</code>.
+         */
         TK.add_class(this.element, "toolkit-dynamics");
         this.set("scale", O.scale);
         if (O.size) this.set("size", O.size);
         this.set("min", O.min);
         this.set("max", O.max);
-        /** @member {TK.Graph} TK.Dynamics#element - The graph drawing the zero line. Has class <code>toolkit-steady</code> 
+        /** @member {TK.Graph} TK.Dynamics#steady - The graph drawing the zero line. Has class <code>toolkit-steady</code> 
          */
         this.steady = this.add_graph({
             dots: [{x:O.min, y:O.min},

@@ -196,6 +196,10 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         this._reset_peak = this.reset_peak.bind(this);
         this._reset_top = this.reset_top.bind(this);
         this._reset_bottom = this.reset_bottom.bind(this);
+        
+        /** @member {HTMLDivElement} TK.LevelMeter#element - The main DIV container.
+         * Has class <code>toolkit-level-meter</code>.
+         */
         TK.add_class(this.element, "toolkit-level-meter");
 
         var O = this.options;

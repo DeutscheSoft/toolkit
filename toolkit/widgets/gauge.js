@@ -79,7 +79,10 @@ w.TK.Gauge = w.Gauge = $class({
          * @member {SVGImage} TK.Gauge#svg - The main SVG image.
          */
         this.svg = S = TK.make_svg("svg");
-
+        
+        /** @member {HTMLDivElement} TK.Gauge#element - The main DIV container.
+         * Has class <code>toolkit-gauge</code>.
+         */
         TK.add_class(E, "toolkit-gauge");
         this.widgetize(E, true, true, true);
         

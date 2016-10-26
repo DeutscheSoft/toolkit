@@ -98,6 +98,9 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
         if (options.scale)
             this.set("scale", options.scale, true);
         TK.Chart.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.FrequencyResponse#element - The main DIV container.
+         * Has class <code>toolkit-frequency-response</code>.
+         */
         TK.add_class(this.element, "toolkit-frequency-response");
         // do not overwrite custom grids, please
         if (this.options.db_grid && !this.options.grid_y.length)

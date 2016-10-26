@@ -89,6 +89,9 @@ w.TK.Knob = w.Knob = $class({
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E, S;
+        /** @member {HTMLDivElement} TK.Knob#element - The main DIV container.
+         * Has class <code>toolkit-knob</code>.
+         */
         if (!(E = this.element)) this.element = E = TK.element("div")
         TK.add_class(E, "toolkit-knob");
 

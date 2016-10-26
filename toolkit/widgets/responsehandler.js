@@ -88,6 +88,9 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
 //             if (!hold) this.redraw();
 //         }.bind(this));
         
+        /** @member {HTMLDivElement} TK.ResponseHandler#element - The main DIV container.
+         * Has class <code>toolkit-response-handler</code>.
+         */
         TK.add_class(this.element, "toolkit-response-handler");
         /**
          * @member {SVGImage} TK.ResponseHandler#_handles - An SVG group element containing all {@link TK.ResponseHandle} graphics.

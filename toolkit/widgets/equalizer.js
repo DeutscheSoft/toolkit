@@ -61,6 +61,9 @@ w.TK.Equalizer = w.Equalizer = $class({
          */
         this.bands = [];
         TK.ResponseHandler.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.Equalizer#element - The main DIV container.
+         * Has class <code>toolkit-equalizer</code>.
+         */
         TK.add_class(this.element, "toolkit-equalizer");
         
         /**

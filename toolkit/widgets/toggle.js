@@ -144,6 +144,9 @@ w.TK.Toggle = w.Toggle = $class({
     
     initialize: function (options) {
         TK.Button.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.Toggle#element - The main DIV container.
+         * Has class <code>toolkit-toggle</code>.
+         */
         TK.add_class(this.element, "toolkit-toggle");
         this.add_event("mousedown", mousedown);
         this.add_event("touchstart", touchstart, true, true);

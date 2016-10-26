@@ -103,6 +103,9 @@ w.TK.EqBand = w.EqBand = $class({
         else if (options.q !== void(0))
             this.set("q", options.q);
         
+        /** @member {HTMLDivElement} TK.EqBand#element - The main SVG group.
+         * Has class <code>toolkit-eqband</code>.
+         */
         TK.add_class(this.element, "toolkit-eqband");
         
         this.filter.reset();

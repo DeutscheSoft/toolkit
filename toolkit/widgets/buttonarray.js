@@ -99,6 +99,9 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         /** @member {Array} TK.ButtonArray#buttons - An array holding all buttons. */
         this.buttons = [];
         TK.Container.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.ButtonArray#element - The main DIV container.
+         * Has class <code>toolkit-buttonarray</code>.
+         */
         TK.add_class(this.element, "toolkit-buttonarray");
         /** @member {HTMLDivElement} TK.ButtonArray#_clip - A clipping area containing the list of buttons.
          *      Has class <code>toolkit-clip</code> */

@@ -190,6 +190,9 @@ w.TK.MultiMeter = w.MultiMeter = $class({
     /* end of bloat */
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options, true);
+        /** @member {HTMLDivElement} TK.MultiMeter#element - The main DIV container.
+         * Has class <code>toolkit-multi-meter</code>.
+         */
         TK.add_class(this.element, "toolkit-multi-meter");
         this.meters = [];
         var O = this.options;

@@ -198,6 +198,9 @@ w.TK.Expander = w.Expander = $class({
     },
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.Expander#element - The main DIV container.
+         * Has class <code>toolkit-expander</code>.
+         */
         TK.add_class(this.element, "toolkit-expander");
 
         var bo = TK.object_and(this.options, TK.Button.prototype._options);

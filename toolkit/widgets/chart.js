@@ -306,14 +306,14 @@ w.TK.Chart = w.Chart = $class({
         this.add_range(this.options.range_y, "range_y");
         this.range_y.set("reverse", true, true, true);
         
-        if (!(E = this.element)) this.element = E = TK.element("div");
-        /** @member {SVGImage} TK.Chart#svg - The main SVG image. Has class <code>toolkit-chart</code>
+        /** @member {HTMLDivElement} TK.Chart#element - The main DIV container.
+         * Has class <code>toolkit-chart</code> 
          */
-        this.svg = S = TK.make_svg("svg");
-
+        if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-chart");
-
         this.widgetize(E, true, true, true);
+        
+        this.svg = S = TK.make_svg("svg");
 
         if (!this.options.width)
             this.options.width = this.range_x.options.basis;

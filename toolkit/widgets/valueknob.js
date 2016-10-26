@@ -71,10 +71,11 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E;
+        /** @member {HTMLDivElement} TK.ValueKnob#element - The main DIV container.
+         * Has class <code>toolkit-valueknob</code>.
+         */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-valueknob");
-
-        TK.element("div", "toolkit-valueknob");
 
         var ko = TK.object_and(this.options, TK.Knob.prototype._options);
         ko = TK.object_sub(ko, TK.Widget.prototype._options);

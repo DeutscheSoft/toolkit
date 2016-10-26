@@ -83,7 +83,7 @@ w.TK.Pager = w.Pager = $class({
         this.pages = [];
         TK.Container.prototype.initialize.call(this, options);
         /**
-         * The main pager element. It has the CSS classes <code>toolkit-container</code> and <code>toolkit-pager</code>.
+         * The main DIV element. Has the class <code>toolkit-pager</code>.
          *
          * @member TK.Pager#element
          */

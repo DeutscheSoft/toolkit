@@ -171,10 +171,10 @@ w.GlobalTooltip = function() {
     this.remove = remove;
     this.trigger = onmove_touch;
     
-    /** @member {HTMLDivElement} TK.Tooltip#_overlay - The overlay containing the tooltip table.
+    /** @member {HTMLDivElement} TK.Tooltip#element - The overlay containing the tooltip table.
      *  Has class <code>toolkit-tooltip</code>.
      */
-    this._overlay = overlay;
+    this.element = overlay;
     /** @member {HTMLDivElement} TK.Tooltip#_table - The table containing the tooltips.
      *  Has class <code>toolkit-table</code>.
      */
@@ -187,7 +187,7 @@ w.GlobalTooltip = function() {
 w.GlobalTooltip.prototype = {
     destroy: function() {
         this.hide();
-        this._overlay.remove();
+        this.element.remove();
     },
 };
 w.TK.Tooltip = new GlobalTooltip();

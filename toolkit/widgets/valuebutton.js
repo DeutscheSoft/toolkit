@@ -85,6 +85,9 @@ w.TK.ValueButton = w.ValueButton = $class({
     initialize: function (options) {
         TK.Button.prototype.initialize.call(this, options);
         
+        /** @member {HTMLDivElement} TK.ValueButton#element - The main DIV container.
+         * Has class <code>toolkit-valuebutton</code>.
+         */
         TK.add_class(this.element, "toolkit-valuebutton");
         
         this._bar     = TK.element("div","toolkit-bar");

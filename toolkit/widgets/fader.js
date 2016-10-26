@@ -214,6 +214,9 @@ w.TK.Fader = w.Fader = $class({
 
         var E, O = this.options;
         
+        /** @member {HTMLDivElement} TK.Fader#element - The main DIV container.
+         * Has class <code>toolkit-fader</code>.
+         */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-fader");
         this.widgetize(E, true, true, true);
