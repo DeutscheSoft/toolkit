@@ -469,7 +469,7 @@ w.TK.Window = w.Window = $class({
         max_width: "number",
         min_height: "number",
         max_height: "number",
-        anchor: "int",
+        anchor: "string",
         modal: "boolean",
         dock: "boolean",
         maximize: "boolean",
@@ -561,7 +561,7 @@ w.TK.Window = w.Window = $class({
         hide_status:   0 // if set to !0 status message hides after n milliseconds
     },
     initialize: function (options) {
-        this.dimensions = {anchor: 0, x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
+        this.dimensions = {anchor: "top-left", x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
         TK.Container.prototype.initialize.call(this, options);
         
         TK.add_class(this.element, "toolkit-window");
