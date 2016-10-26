@@ -116,14 +116,14 @@ w.TK.Toggle = w.Toggle = $class({
      * @property {boolean} [options.state=false] - The state of the button.
      * @property {boolean} [options.toggle=true] - If true, the button is toggled by a click.
      * @property {integer|boolean} [options.press] - Controls press behavior. If <code>options.toggle</code>
-     *  is <code>false</code> and this option is <code>true</code>, the toggle button will toggle until
-     *  released. If <code>options.toggle</code> is true and this option is a positive integer, it is
-     *  interpreted as a milliseconds timeout. When pressing a button longer than this timeout, it will
+     *   is <code>false</code> and this option is <code>true</code>, the toggle button will toggle until
+     *   released. If <code>options.toggle</code> is true and this option is a positive integer, it is
+     *   interpreted as a milliseconds timeout. When pressing a button longer than this timeout, it will
      *  be toggled until released, otherwise it will toggle permanently.
      * @property {string} [options.icon_active] - An optional icon which is only displayed
-     *  when the button toggle state is <code>true</code>.
+     *   when the button toggle state is <code>true</code>.
      * @property {string} [options.label_active] - An optional label which is only displayed
-     *  when the button toggle state is <code>true</code>.
+     *   when the button toggle state is <code>true</code>.
      */
     _class: "Toggle",
     Extends: TK.Button,

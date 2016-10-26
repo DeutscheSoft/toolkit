@@ -128,11 +128,11 @@ function submit_cb(e) {
  * @param {Object} options
  * @property {number} [options.value=0] - The value.
  * @property {function} [options.format=TK.FORMAT("%.2f")] - A formatting
- *      function used to display the value.
+ *   function used to display the value.
  * @property {int} [options.size=5] - Size attribute of the INPUT element.
  * @property {int} [options.maxlength] - Maxlength attribute of the INPUT element.
  * @property {function} [options.set=function (val) { return parseFloat(val || 0); }] -
- *      A function which is called to parse user input.
+ *   A function which is called to parse user input.
  */
 w.TK.Value = w.Value = $class({
     _class: "Value",

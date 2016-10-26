@@ -101,9 +101,9 @@ w.TK.Select = w.Select = $class({
      * @property {integer} options.selected - The index of the selected entry.
      * @property options.value - The value of the selected entry.
      * @property {boolean} [options.auto_size=true] - If true, the drop-down button is
-     *  auto-sized to be as wide as the longest entry.
+     *   auto-sized to be as wide as the longest entry.
      * @property {Array} [options.entries=[]] - The list of entries. Each entry is a an
-     *  object with the two properties <code>title</code> and <code>value</code>.
+     *   object with the two properties <code>title</code> and <code>value</code>.
      *
      */
     _class: "Select",

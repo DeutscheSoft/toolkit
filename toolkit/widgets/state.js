@@ -35,7 +35,7 @@
  * @param {Object} options
  * @property {number} [options.state=0] - The state.
  * @property {string} [options.color="red"] - A css color string for the state LED.
- *      <code>false</code>.
+ *   <code>false</code>.
  */
 w.TK.State = w.State = $class({
     _class: "State",
