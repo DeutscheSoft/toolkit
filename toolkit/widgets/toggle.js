@@ -197,7 +197,7 @@ w.TK.Toggle = w.Toggle = $class({
         this.set("state", state);
         /**
          * Is fired when the button was toggled.
-         * @type{boolean}
+         * @param {boolean} state - The state of the {@link TK.Toggle}.
          * @event TK.Toggle#toggled
          */
         this.fire_event("toggled", state);

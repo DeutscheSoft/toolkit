@@ -332,7 +332,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                     button.set("state", true);
                     /**
                      * Is fired when a button is activated.
-                     * @type {Array.<Button, boolean>}
+                     * @param {TK.Button} button - The {@link TK.Button} which was clicked.
+                     * @param {int} the ID of the clicked {@link TK.Button}.
                      * @event TK.ButtonArray#changed
                      */
                     this.fire_event("changed", button, value);

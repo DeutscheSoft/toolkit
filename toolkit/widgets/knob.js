@@ -34,6 +34,7 @@ function dblclick() {
     /**
      * Is fired when the fader receives a double click in order to reset to initial value.
      * @event TK.Fader#doubleclick
+     * @param {number} value - The value of the widget.
      */
     this.fire_event("doubleclick", this.options.value);
     this.fire_event("useraction", "value", this.options.value);

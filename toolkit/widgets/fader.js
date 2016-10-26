@@ -87,7 +87,7 @@ function dblclick(ev) {
     /**
      * Is fired when the handle receives a double click.
      * @event TK.Fader#doubleclick
-     * @type number
+     * @param {number} value - The value of the {@link TK.Fader}.
      */
     this.fire_event("doubleclick", this.options.value);
 }
@@ -420,7 +420,8 @@ w.TK.Fader = w.Fader = $class({
             this.scale.set(key, value);
             /**
              * Is fired when the scale was changed.
-             * @type {Array.<string, mixed>}
+             * @param {string} key - The key which was set.
+             * @param {mixed} value - The value which was set.
              * @event TK.Fader#scalechanged
              */
             this.fire_event("scalechanged", key, value);

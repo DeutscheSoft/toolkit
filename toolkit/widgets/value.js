@@ -47,7 +47,7 @@ function value_clicked(e) {
     this._input.focus();
     /**
      * Is fired when the value was clicked
-     * @type {number}
+     * @param {number} value - The value of the widget.
      * @event TK.Value#valueclicked
      */
     this.fire_event("valueclicked", this.options.value);
@@ -66,7 +66,7 @@ function value_typing(e) {
             value_done.call(this);
             /**
              * Is fired when the ESC key was pressed while editing the value.
-             * @type {string}
+             * @param {string} value - The new value of the widget.
              * @event TK.Value#valueescape
              */
             this.fire_event("valueescape", this.options.value);
@@ -78,7 +78,7 @@ function value_typing(e) {
             value_done.call(this);
             /**
              * Is fired when any other key was pressed while editing the value.
-             * @type {string}
+             * @param {string} value - The new value of the widget.
              * @event TK.Value#valueescape
              */
             this.fire_event("valueset", this.options.value);
@@ -92,7 +92,8 @@ function value_typing(e) {
     }
     /**
      * Is fired when the user hits a key while editing the value.
-     * @type {Array.<Event, number>}
+     * @param {DOMEvent} event - The native DOM event.
+     * @param {string} value - The new value of the widget.
      * @event TK.Value#valuetyping
      */
     this.fire_event("valuetyping", e, this.options.value);
@@ -105,7 +106,7 @@ function value_done(e) {
     this._input.blur();
     /**
      * Is fired when editing of the value ends.
-     * @type {string}
+     * @param {string} value - The new value of the widget.
      * @event TK.Value#valuedone
      */
     this.fire_event("valuedone", this.options.value);

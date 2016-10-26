@@ -165,7 +165,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
             this.add_child(h);
         /**
          * Is fired when a new handle was added.
-         * @type {Handle}
+         * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} which was added.
          * @event TK.ResponseHandler#handleadded
          */
         this.fire_event("handleadded", h);

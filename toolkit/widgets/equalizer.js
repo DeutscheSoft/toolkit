@@ -180,7 +180,7 @@ w.TK.Equalizer = w.Equalizer = $class({
         b.add_event("set", invalidate_bands.bind(this));
         /**
          * Is fired when a new band was added.
-         * @type {Band}
+         * @param {TK.Band} band - The {@link TK.EqBand} which was added.
          * @event TK.Equalizer#bandadded
          */
         this.fire_event("bandadded", b);
@@ -212,13 +212,15 @@ w.TK.Equalizer = w.Equalizer = $class({
             if (this.bands[i] === h) {
                 if (this.options.show_bands)
                     this.remove_child(h);
-                h.destroy();
+                
                 this.bands.splice(i, 1);
                 /**
                  * Is fired when a band was removed.
                  * @event TK.Equalizer#bandremoved
+                 * @param {TK.EqBand} band - The {@link TK.EqBand} which was removed.
                  */
-                this.fire_event("bandremoved");
+                this.fire_event("bandremoved", h);
+                h.destroy();
                 break;
             }
         }

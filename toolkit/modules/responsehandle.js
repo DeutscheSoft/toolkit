@@ -91,7 +91,7 @@ function mousedown(e) {
          * <li>pos_y: the position in pixels on the y axis</li>
          * </ul>
          * @event TK.ResponseHandle#handlegrabbed
-         * @type {Object}
+         * @param {Object} positions - An object containing all relevant positions of the pointer.
          */
         this.fire_event("handlegrabbed", {
             x:     this.options.x,
@@ -105,7 +105,7 @@ function mousedown(e) {
         /**
          * Is fired when the user grabs the z-handle. The argument is the
          * actual z value.
-         * @type{number}
+         * @param {number} z - The z value.
          * @event TK.ResponseHandle#zchangestarted
          */
         this.fire_event("zchangestarted", this.options.z);
@@ -133,7 +133,7 @@ function mouseup(e) {
          * <li>pos_y: the position in pixels on the y axis</li>
          * </ul>
          * @event TK.ResponseHandle#handlereleased
-         * @type {Object}
+         * @param {Object} positions - An object containing all relevant positions of the pointer.
          */
         this.fire_event("handlereleased", {
             x:     this.options.x,
@@ -147,7 +147,7 @@ function mouseup(e) {
         /**
          * Is fired when the user releases the z-handle. The argument is the
          * actual z value.
-         * @type{number}
+         * @param {number} z - The z value.
          * @event TK.ResponseHandle#zchangeended
          */
         this.fire_event("zchangeended", this.options.z);
@@ -225,7 +225,7 @@ function mousemove(e) {
          * <li>pos_y: the position in pixels on the y axis</li>
          * </ul>
          * @event TK.ResponseHandle#handledragging
-         * @type {Object}
+         * @param {Object} positions - An object containing all relevant positions of the pointer.
          */
         this.fire_event("handledragging", {
             x:     O.x,

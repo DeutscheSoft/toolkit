@@ -79,11 +79,13 @@ function scrollwheel(e) {
         /**
          * Is fired when scrolling starts.
          * @event TK.ScrollValue#scrollstarted
+         * @param {DOMEvent} event - The native DOM event.
          */
         fire_event.call(this, "scrollstarted", e);
     /**
      * Is fired while scrolling happens.
      * @event TK.ScrollValue#scrolling
+     * @param {DOMEvent} event - The native DOM event.
      */
     fire_event.call(this, "scrolling", e);
     

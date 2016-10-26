@@ -33,7 +33,7 @@ function value_clicked() {
     this.drag.set("active", false);
     /**
      * Is fired when the user starts editing the value manually
-     * @type number
+     * @param {number} value - The value of the widget.
      * @event TK.ValueButton#valueedit
      */
     this.fire_event("valueedit", this.options.value);
@@ -44,7 +44,7 @@ function value_done() {
     this.drag.set("active", true);
     /**
      * Is fired when the user finished editing the value manually
-     * @type number
+     * @param {number} value - The value of the widget.
      * @event TK.ValueButton#valueset
      */
     this.fire_event("valueset", this.options.value);
@@ -156,7 +156,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             /**
              * Is fired when the user doubleclicks the valuebutton in order to to reset to initial value.
              * The Argument is the new value.
-             * @type number
+             * @param {number} value - The value of the widget.
              * @event TK.ValueButton#doubleclick
              */
             this.fire_event("doubleclick", this.options.value);

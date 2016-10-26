@@ -142,7 +142,7 @@ function start_drag(ev, x, y) {
     };
     /**
      * Is fired when a user starts dragging.
-     * @type {Event}
+     * @param {DOMEvent} event - The native DOM event.
      * @event TK.DragValue#startdrag
      */
     this.fire_event("startdrag", ev);
@@ -171,7 +171,7 @@ function update_drag() {
     var multi = range.options.step || 1;
     /**
      * Is fired while a user is dragging.
-     * @type {Event}
+     * @param {DOMEvent} event - The native DOM event.
      * @event TK.DragValue#startdrag
      */
     this.fire_event("dragging", e);
@@ -244,7 +244,7 @@ function stop_drag(ev, x, y) {
     }
     /**
      * Is fired when a user stops dragging.
-     * @type {Event}
+     * @param {DOMEvent} event - The native DOM event.
      * @event TK.DragValue#stopdrag
      */
     this.fire_event("stopdrag", ev);

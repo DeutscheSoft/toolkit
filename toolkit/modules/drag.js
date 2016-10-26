@@ -30,8 +30,7 @@ function dragstart(e, drag) {
     TK.add_class(O.node, "toolkit-dragging");
     /** 
      * The user started dragging this item.
-     *
-     * @type {Event}
+     * @param {DOMEvent} event - The native DOM event.
      * @event TK.Drag#dragstart
      */
     this.fire_event("dragstart", e);
@@ -42,8 +41,7 @@ function dragend(e, drag) {
     TK.remove_class(this.options.node, "toolkit-dragging");
     /**
      * The user stopped dragging this item.
-     *
-     * @type {Event}
+     * @param {DOMEvent} event - The native DOM event.
      * @event TK.Drag#dragstop
      */
     this.fire_event("dragstop", e);
@@ -69,7 +67,9 @@ function dragging(e, drag) {
      * The user is dragging this item.
      * The arguments are the native DOM event object and both the x and y coordinate.
      *
-     * @type {Event}
+     * @param {DOMEvent} event - The native DOM event.
+     * @param {int} x - The new x position.
+     * @param {int} y - The new y position.
      * @event TK.Drag#dragging
      */
     this.fire_event("dragging", e, x, y);

@@ -317,7 +317,7 @@ TK.Widget = $class({
         this.__delegated = element;
         /**
          * Is fired when a widget gets delegated.
-         * @type {HTMLElement}
+         * @param {HTMLElement} element - The element all native DOM events are delegated to.
          * @event TK.Widget#initialized
          */
         this.fire_event("delegated", element);
@@ -340,7 +340,7 @@ TK.Widget = $class({
             TK.add_class(element, this.options.class);
         /**
          * Is fired when a widget is classified.
-         * @type {HTMLElement}
+         * @param {HTMLElement} element - The element which receives all further class changes.
          * @event TK.Widget#classified
          */
         this.fire_event("classified", element);
@@ -373,7 +373,7 @@ TK.Widget = $class({
         }
         /**
          * Is fired when a widget is stylized.
-         * @type {HTMLElement}
+         * @param {HTMLElement} element - The element which receives all further style changes.
          * @event TK.Widget#stylized
          */
         this.fire_event("stylized", element);
@@ -417,7 +417,7 @@ TK.Widget = $class({
         this.__widgetized = element;
         /**
          * Is fired when a widget is widgetized.
-         * @type {HTMLElement}
+         * @param {HTMLElement} element - The element which got widgetized.
          * @event TK.Widget#widgetize
          */
         this.fire_event("widgetized", element);

@@ -67,7 +67,7 @@ function draw_time(force) {
     if (drawn)
         /**
          * Is fired when the time was drawn.
-         * @type {Date}
+         * @param {Date} time - The time which was drawn.
          * @event TK.Clock#timedrawn
          */
         this.fire_event("timedrawn", O.time);

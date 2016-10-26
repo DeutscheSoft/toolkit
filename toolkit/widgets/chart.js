@@ -485,7 +485,8 @@ w.TK.Chart = w.Chart = $class({
         /**
          * Is fired when a graph was added. Arguments are the graph
          * and its position in the array.
-         * @type {Array.<Graph, number>}
+         * @param {TK.Graph} graph - The {@link TK.Graph} which was added.
+         * @param {int} id - The ID of the added {@link TK.Graph}.
          * @event TK.Chart#graphadded
          */
         this.fire_event("graphadded", g, this.graphs.length - 1);
@@ -508,7 +509,8 @@ w.TK.Chart = w.Chart = $class({
             /**
              * Is fired when a graph was removed. Arguments are the graph
              * and its position in the array.
-             * @type {Array.<Graph, number>}
+             * @param {TK.Graph} graph - The {@link TK.Graph} which was removed.
+             * @param {int} id - The ID of the removed {@link TK.Graph}.
              * @event TK.Chart#graphremoved
              */
             this.fire_event("graphremoved", g, i);

@@ -30,7 +30,7 @@ function dragstart(e, drag) {
     this._ypos   = E.offsetTop;
     /**
      * Is fired when resizing starts
-     * @type {HTMLElement}
+     * @param {DOMEvent} event - The native DOM event.
      * @event TK.Resize#resizestart
      */
     this.fire_event("resizestart", e);
@@ -39,7 +39,7 @@ function dragend(e, drag) {
     if (!this.options.active) return;
     /**
      * Is fired when resizing stops
-     * @type {HTMLElement}
+     * @param {DOMEvent} event - The native DOM event.
      * @event TK.Resize#resizestop
      */
     this.fire_event("resizestop", e);
@@ -58,7 +58,9 @@ function dragging(e, drag) {
     
     /**
      * Is fired when resizing is in progress
-     * @type {HTMLElement}
+     * @param {DOMEvent} event - The native DOM event.
+     * @param {int} width - The new width of the element.
+     * @param {int} height - The new height of the element.
      * @event TK.Resize#resizing
      */
     this.fire_event("resizing", e, w, h);

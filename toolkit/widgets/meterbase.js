@@ -482,7 +482,7 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the label changed.
                  * The argument is the actual label value.
-                 * @type {string}
+                 * @param {string} label - The label of the {@link TK.MeterBase}.
                  * @event TK.MeterBase#labelchanged
                  */
                 this.fire_event("labelchanged", value);
@@ -491,7 +491,7 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the value changed.
                  * The argument is the actual value.
-                 * @type {number}
+                 * @param {number} value - The value of the {@link TK.MeterBase}.
                  * @event TK.MeterBase#valuechanged
                  */
                 this.fire_event("valuechanged", value);
@@ -503,7 +503,7 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the title changed.
                  * The argument is the actual title.
-                 * @type {string}
+                 * @param {string} title - The title of the {@link TK.MeterBase}.
                  * @event TK.MeterBase#titlechanged
                  */
                 this.fire_event("titlechanged", value);
@@ -516,7 +516,8 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the scale changed. The arguments are
                  * the name of the changed value and the new value.
-                 * @type {Array.<string, mixed>}
+                 * @param {string} key - The option which was set to change the scale.
+                 * @param {mixed} - The value of the option.
                  * @event TK.MeterBase#scalechanged
                  */
                 this.fire_event("scalechanged", key, value);
@@ -536,7 +537,7 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the base value changed.
                  * The argument is the actual base value.
-                 * @type {number}
+                 * @param {number} base - The value of the base.
                  * @event TK.MeterBase#basechanged
                  */
                 this.fire_event("basechanged", value);

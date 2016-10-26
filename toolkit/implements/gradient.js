@@ -194,7 +194,8 @@ w.TK.Gradient = w.Gradient = $class({
              * Is fired when the gradient was created.
              *
              * @event TK.Gradient#backgroundchanged
-             * @type {Array.<HTMLElement, string>}
+             * @param {HTMLElement} element - The element which background has changed.
+             * @param {string} background - The background of the element as CSS color string.
              */
             this.fire_event("backgroundchanged", element, bg);
         }

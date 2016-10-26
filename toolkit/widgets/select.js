@@ -232,7 +232,9 @@ w.TK.Select = w.Select = $class({
             /**
              * Is fired when a selection was made by the user. The arguments
              * are the value of the entry, the id of the selected element and the title of the entry.
-             * @type{Array.<number, number, string>}
+             * @param {mixed} value - The value of the selected entry.
+             * @param {number} value - The ID of the selected entry.
+             * @param {string} value - The title of the selected entry.
              * @event TK.Select#select
              */
             this.fire_event("select", entry.value, id, entry.title);

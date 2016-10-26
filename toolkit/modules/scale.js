@@ -570,8 +570,8 @@ w.TK.Scale = w.Scale = $class({
             case "show_labels":
                 /**
                  * Gets fired when an option the rendering depends on was changed
-                 *
-                 * @type {Array.<string, mixed>}
+                 * @param {string} key - The name of the option which changed the {@link TK.Scale}.
+                 * @param {mixed} value - The value of the option.
                  * @event TK.Scale#scalechanged
                  */
                 this.fire_event("scalechanged", key, value)

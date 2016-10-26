@@ -298,7 +298,7 @@ w.TK.Pager = w.Pager = $class({
          * A page was added to the TK.Pager.
          *
          * @event TK.Pager#added
-         * @type {TK.Container}
+         * @param {TK.Container} page - The {@link TK.Container} which was added as a page.
          */
         this.fire_event("added", p);
 
@@ -346,7 +346,7 @@ w.TK.Pager = w.Pager = $class({
          * A page was removed from the Pager
          *
          * @event TK.Pager#removed
-         * @type Page
+         * @param {TK.Container} page - The {@link TK.Container} which was removed.
          */
         this.fire_event("removed", p);
     },
@@ -440,7 +440,8 @@ w.TK.Pager = w.Pager = $class({
                     this.show_child(page);
                     /**
                      * The page was switched.
-                     * @type {Array.<Widget, number>}
+                     * @param {TK.Container} page - The {@link TK.Container} instance of the newly selected page.
+                     * @param {number} id - The ID of the page.
                      * @event TK.Pager#changed
                      */
                     this.fire_event("changed", page, value);
