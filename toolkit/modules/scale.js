@@ -383,29 +383,29 @@ function mark_markers(labels, dots) {
  *
  * @param {Object} options
  * @property {string} [options.layout="right"] - The layout of the Scale. <code>"right"</code> and
- *      <code>"left"</code> are vertical layouts with the labels being drawn right and left of the scale,
- *      respectively. <code>"top"</code> and <code>"bottom"</code> are horizontal layouts for which the 
- *      labels are drawn on top and below the scale, respectively.
+ *   <code>"left"</code> are vertical layouts with the labels being drawn right and left of the scale,
+ *   respectively. <code>"top"</code> and <code>"bottom"</code> are horizontal layouts for which the 
+ *   labels are drawn on top and below the scale, respectively.
  * @property {int} [options.division=1] - Minimal step size of the markers.
  * @property {Array} [options.levels=[1]] - Array of steps for labels and markers.
  * @property {number} [options.base=false]] - Base of the scale. If set to <code>false</code> it will
- *      default to the minimum value.
+ *   default to the minimum value.
  * @property {function} [options.labels=TK.FORMAT("%.2f")] - Formatting function for the scale labels.
  * @property {int} [options.gap_dots=4] - Minimum gap in pixels between two adjacent markers.
  * @property {int} [options.gap_labels=40] - Minimum gap in pixels between two adjacent labels.
  * @property {boolean} [options.show_labels=true] - If <code>true</code>, labels are drawn.
  * @property {boolean} [options.show_max=true] - If <code>true</code>, display a label and a
- *  dot for the 'max' value.
+ *   dot for the 'max' value.
  * @property {boolean} [options.show_min=true] - If <code>true</code>, display a label and a
- *  dot for the 'min' value.
+ *   dot for the 'min' value.
  * @property {boolean} [options.show_base=true] - If <code>true</code>, display a label and a
- *  dot for the 'base' value.
+ *   dot for the 'base' value.
  * @property {Array} [options.fixed_dots] - This option can be used to specify fixed positions
- *      for the markers to be drawn at. The values must be sorted in ascending order.
+ *   for the markers to be drawn at. The values must be sorted in ascending order.
  * @property {Array} [options.fixed_labels] - This option can be used to specify fixed positions
- *      for the labels to be drawn at. The values must be sorted in ascending order.
+ *   for the labels to be drawn at. The values must be sorted in ascending order.
  * @property {boolean} [options.show_markers=true] - If true, every dot which is located at the same
- *      position as a label has the <code>toolkit-marker</code> class set.
+ *   position as a label has the <code>toolkit-marker</code> class set.
  */
 w.TK.Scale = w.Scale = $class({
     _class: "Scale",

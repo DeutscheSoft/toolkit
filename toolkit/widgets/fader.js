@@ -156,16 +156,16 @@ function deactivate_tooltip() {
  *
  * @param {Object} options
  * @property {number} [options.value] - The fader position. This options is
- *      modified by user interaction.
+ *   modified by user interaction.
  * @property {function} [options.tooltip=false] - An optional formatting function for
- *      the tooltip value. The tooltip will show that value the mouse cursor is
- *      currently hovering over. If this option is not set, no tooltip will be shown.
+ *   the tooltip value. The tooltip will show that value the mouse cursor is
+ *   currently hovering over. If this option is not set, no tooltip will be shown.
  * @property {boolean} [options.bind_click=false] - If true, a <code>click</code>
- *      on the fader will move the handle to the pointed position.
+ *   on the fader will move the handle to the pointed position.
  * @property {boolean} [options.bind_dblclick=true] - If true, a <code>dblclick</code>
- *      on the fader will reset the fader value to <code>options.reset</code>.
+ *   on the fader will reset the fader value to <code>options.reset</code>.
  * @property {number} [options.reset=options.value] - The reset value, which is used by
- *      the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
+ *   the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
  * @property {boolean} [options.show_scale=true] - If true, a scale is drawn.
  *
  */

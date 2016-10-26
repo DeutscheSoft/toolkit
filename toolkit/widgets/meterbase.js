@@ -129,29 +129,29 @@ w.TK.MeterBase = w.MeterBase = $class({
      *
      * @param {Object} options
      * @property {string} [options.layout="left"] - A string describing the layout of the meter.
-     *  Possible values are <code>"left"</code>, <code>"right"</code>, <code>"top"</code> and 
-     *  <code>"bottom"</code>. <code>"left"</code> and <code>"right"</code> are vertical
-     *  layouts, where the meter is on the left or right of the scale, respectively. Similarly,
-     *  <code>"top"</code> and <code>"bottom"</code> are horizontal layouts in which the meter
-     *  is at the top or the bottom, respectively.
+     *   Possible values are <code>"left"</code>, <code>"right"</code>, <code>"top"</code> and 
+     *   <code>"bottom"</code>. <code>"left"</code> and <code>"right"</code> are vertical
+     *   layouts, where the meter is on the left or right of the scale, respectively. Similarly,
+     *   <code>"top"</code> and <code>"bottom"</code> are horizontal layouts in which the meter
+     *   is at the top or the bottom, respectively.
      * @property {int} [options.segment=1] - Segment size. Pixel positions of the meter level are
-     *  rounded to multiples of this size. This can be used to give the level meter a LED effect.
+     *   rounded to multiples of this size. This can be used to give the level meter a LED effect.
      * @property {number} [options.value=0] - Level value.
      * @property {number} [options.base=false] - The base value of the meter. If set to <code>false</code>,
-     *  the base will coincide with the minimum value <code>options.min</code>. The meter level is drawn
-     *  starting from the base to the value.
+     *   the base will coincide with the minimum value <code>options.min</code>. The meter level is drawn
+     *   starting from the base to the value.
      * @property {number} [options.label=false] - Value of the label position. 
      * @property {number} [options.title=""] - The title.
      * @property {boolean} [options.show_title=false] - If set to <code>true</code> a title is displayed.
      * @property {boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
      * @property {boolean} [options.show_scale=true] - If set to <code>true</code> the scale is displayed.
      * @property {function} [options.format_label=TK.FORMAT("%.2f")] - Function for formatting the 
-     *  label.
+     *   label.
      * @property {number} [options.scale_base=false] - Base of the meter scale, see {@link TK.Scale}.
      * @property {boolean} [options.show_labels=true] - If <code>true</code>, display labels in the
-     *  scale.
+     *   scale.
      * @property {function} [options.format_labels=TK.FORMAT("%.2f")] - Function for formatting the 
-     *  scale labels. This is passed to the Scale as option <code>labels</code>.
+     *   scale labels. This is passed to the Scale as option <code>labels</code>.
      *
      */
     

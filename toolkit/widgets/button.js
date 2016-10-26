@@ -38,7 +38,7 @@ w.TK.Button = w.Button = $class({
      * @property {string} [options.icon=""] - URL to an icon for the button
      * @property {boolean} [options.state=false] - TK.State of the button
      * @property {integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
-     * "vertical" means icon on top of the label, "horizontal" puts the icon left to the label.
+     *   "vertical" means icon on top of the label, "horizontal" puts the icon left to the label.
      * 
      * @extends TK.Widget
      * 

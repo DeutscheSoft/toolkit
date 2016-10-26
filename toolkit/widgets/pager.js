@@ -39,9 +39,9 @@ w.TK.Pager = w.Pager = $class({
      * @param {Object} options
      * @property {integer} [options.position="top"] - The position of the ButtonArray
      * @property {Array} [options.pages=[]] -
-     *          An array of mappings (objects) containing the members "label" and "content".
-     *          "label" is a string for the buttons label or an object containing options for
-     *          a button and content is either a HTML string or a HTMLElement node.
+     *   An array of mappings (objects) containing the members "label" and "content".
+     *   "label" is a string for the buttons label or an object containing options for
+     *   a button and content is either a HTML string or a HTMLElement node.
      * @property {integer} [options.show=-1] - The page to show
      * @property {boolean} [options.overlap=false] - If false,  pages are automatically resized so that the {@link TK.ButtonArray} does not overlap the page contents.
      *

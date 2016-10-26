@@ -72,14 +72,14 @@ w.TK.Container = w.Container = $class({
      *
      * @param {Object} options
      * @property {string|HTMLElement} options.content - The content of the container. It can either be
-     *  a string which is interpreted as Text or a DOM node. Note that this options will remove all
-     *  child nodes from the container element including those added via append_child.
+     *   a string which is interpreted as Text or a DOM node. Note that this options will remove all
+     *   child nodes from the container element including those added via append_child.
      * @property {number} options.hiding_duration - The duration in ms of the hiding CSS
-     *  transition/animation of this container. If this option is not set, the transition duration
-     *  will be determined by the computed style, which can be rather
-     *  expensive. Setting this option explicitly can therefore be an optimization.
+     *   transition/animation of this container. If this option is not set, the transition duration
+     *   will be determined by the computed style, which can be rather
+     *   expensive. Setting this option explicitly can therefore be an optimization.
      * @property {number} options.showing_duration - The duration in ms of the showing CSS
-     *  transition/animation of this container.
+     *   transition/animation of this container.
      */
     _class: "Container",
     Extends: TK.Widget,

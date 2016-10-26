@@ -65,16 +65,16 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * list.
      *
      * @property {Array} [options.buttons=[]] - A list of button options
-     *  or label strings which is converted to button instances on init.
-     *  If get is called, the converted list of button instances is
-     *  returned.
+     *   or label strings which is converted to button instances on init.
+     *   If get is called, the converted list of button instances is
+     *   returned.
      * @property {boolean} [options.auto_arrows=true] - If arrow buttons are
-     *  added automatically
+     *   added automatically
      * @property {string} [options.direction="horizontal"] - The direction of
-     *  the button list, either "horizontal" or "vertical".
+     *   the button list, either "horizontal" or "vertical".
      * @property {integer|TK.Button} [options.show=-1] - The button to scroll
-     *  to, either the button index starting from zero or the button object
-     *  itself.
+     *   to, either the button index starting from zero or the button object
+     *   itself.
      * 
      * @class TK.ButtonArray
      * @extends TK.Container

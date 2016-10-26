@@ -145,13 +145,13 @@ w.TK.Expander = w.Expander = $class({
      * @param {Object} options
      * @property {boolean} [options.expanded=false] - This is the state of this widget.
      * @property {boolean} [options.always_expanded=false] - This essentially overwrites
-     *  the <code>expanded</code> option. This can be used to switch this widget to be
-     *  always expanded, e.g. when the screen size is big enough.
+     *   the <code>expanded</code> option. This can be used to switch this widget to be
+     *   always expanded, e.g. when the screen size is big enough.
      * @property {string} options.group - If set, this expander is grouped together with
-     *  all other expanders of the same group name. At most one expander of the same group
-     *  can be open at one time.
+     *   all other expanders of the same group name. At most one expander of the same group
+     *   can be open at one time.
      * @property {string} options.group_default - If set to true, this expander is expanded
-     *  if all other group members are collapsed.
+     *   if all other group members are collapsed.
      * @class TK.Expander
      * @extends TK.Container
      */

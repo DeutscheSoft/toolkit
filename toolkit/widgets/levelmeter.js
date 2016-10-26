@@ -112,36 +112,36 @@ w.TK.LevelMeter = w.LevelMeter = $class({
      * @param {Object} options
      * @property {boolean} [options.show_clip=false] - If set to <code>true</code>, show the clipping LED.
      * @property {number} [options.clipping=0] - If clipping is enabled, this is the threshold for the
-     *  clipping effect.
+     *   clipping effect.
      * @property {int|boolean} [options.auto_clip=false] - This is the clipping timeout. If set to
-     *  <code>false</code> automatic clipping is disabled. If set to <code>n</code> the clipping effect
-     *  times out after <code>n</code> ms, if set to <code>-1</code> it remains forever.
+     *   <code>false</code> automatic clipping is disabled. If set to <code>n</code> the clipping effect
+     *   times out after <code>n</code> ms, if set to <code>-1</code> it remains forever.
      * @property {boolean} [options.clip=false] - If clipping is enabled, this option is set to
-     *  <code>true</code> when clipping happens. When automatic clipping is disabled, it can be set to
-     *  <code>true</code> to set the clipping state.
+     *   <code>true</code> when clipping happens. When automatic clipping is disabled, it can be set to
+     *   <code>true</code> to set the clipping state.
      * @property {Object} [options.clip_options={}] - Additional options for the {@link TK.State} clip LED.
      * @property {boolean} [options.show_hold=false] - If set to <code>true</code>, show the hold value LED.
      * @property {int} [options.hold_size=1] - Size of the hold value LED in the number of segments.
      * @property {number|boolean} [options.auto_hold=false] - If set to <code>false</code> the automatic
-     *  hold LED is disabled, if set to <code>n</code> the hold value is reset after <code>n</code> ms and
-     *  if set to <code>-1</code> the hold value is not reset automatically.
+     *   hold LED is disabled, if set to <code>n</code> the hold value is reset after <code>n</code> ms and
+     *   if set to <code>-1</code> the hold value is not reset automatically.
      * @property {number} [options.top=false] - The top hold value. If set to <code>false</code> it will
-     *  equal the meter level.
+     *   equal the meter level.
      * @property {number} [options.bottom=false] - The bottom hold value. This only exists if a
-     *  <code>base</code> value is set and the value falls below the base.
+     *   <code>base</code> value is set and the value falls below the base.
      * @property {boolean} [options.show_peak=false] - If set to <code>true</code>, show the peak label.
      * @property {int|boolean} [options.peak_label=false] - If set to <code>false</code> the automatic peak
-     *  label is disabled, if set to <code>n</code> the peak label is reset after <code>n</code> ms and
-     *  if set to <code>-1</code> it remains forever.
+     *   label is disabled, if set to <code>n</code> the peak label is reset after <code>n</code> ms and
+     *   if set to <code>-1</code> it remains forever.
      * @property {function} [options.format_peak=TK.FORMAT("%.2f")] - Formatting function for the peak label.
      * @property {number} [options.falling=0] - If set to a positive number, activates the automatic falling
-     *  animation. The meter level will fall by this amount per frame.
+     *   animation. The meter level will fall by this amount per frame.
      * @property {number} [options.falling_fps=24] - This is the number of frames of the falling animation.
-     *  It is not an actual frame rate, but instead is used to determine the actual speed of the falling
-     *  animation together with the option <code>falling</code>.
+     *   It is not an actual frame rate, but instead is used to determine the actual speed of the falling
+     *   animation together with the option <code>falling</code>.
      * @property {number} [options.falling_init=2] - Initial falling delay in number of frames. This option
-     *  can be used to delay the start of the falling animation in order to avoid flickering if internal
-     *  and external falling are combined.
+     *   can be used to delay the start of the falling animation in order to avoid flickering if internal
+     *   and external falling are combined.
      *
      * @class TK.LevelMeter
      * @extends TK.MeterBase

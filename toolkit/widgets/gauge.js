@@ -36,13 +36,13 @@ var format_viewbox = TK.FORMAT("0 0 %d %d");
  *
  * @param {Object} options
  * @property {number} [options.x=0] - Displacement of the {@link TK.Circular}
- *  in horizontal direction. This allows drawing gauges which are only
- *  represented by a segment of a circle.
+ *   in horizontal direction. This allows drawing gauges which are only
+ *   represented by a segment of a circle.
  * @property {number} [options.y=0] - Displacement of the {@link TK.Circular}
- *  in vertical direction.
+ *   in vertical direction.
  * @property {Object} [options.title] - Optional gauge title.
  * @property {number} [options.title.pos] - Position inside of the circle in
- *  degrees.
+ *   degrees.
  * @property {string} [options.title.title] - Title string.
  * @property {number} [options.title.margin] - Margin of the title string.
  * @property {string} [options.title.align] - Alignment of the title, either
