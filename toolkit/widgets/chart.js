@@ -252,8 +252,8 @@ function remove_grid() {
  *      Possible values are <code>"top-left"</code>, <code>"top-right"</code>,
  *      <code>"bottom-left"</code> and <code>"bottom-right"</code>.
  * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored rectangles
- *      inside of the key descrining individual graphs.
- * @property {boolean} [options.show_chart=true] - Set to <code>false</code> to
+ *      inside of the key describing individual graphs.
+ * @property {boolean} [options.show_grid=true] - Set to <code>false</code> to
  *      disable the grid.
  */
 w.TK.Chart = w.Chart = $class({
