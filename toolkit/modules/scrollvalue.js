@@ -108,6 +108,14 @@ function fire_event(title, event) {
  *
  * @class TK.ScrollValue
  * @extends TK.Base
+ * 
+ * @property {Function} [get=function () { return; }] - Callback returning the value.
+ * @property {Function} [set=function () { return; }] - Callback setting the value.
+ * @property {Function} [range=function () { return {}; }] - A {@link TK.Range} instance.
+ * @property {Object} [events=false] - Element receiving events or false to fire events on the main element.
+ * @property {Object} [classes=false] - Element receiving classes or false to set classes on the main element.
+ * @property {HTMLElement} [node=false] - The element receiving the scroll event.
+ * @property {Boolean} [active=true] - Disable the scroll event.
  */
 w.TK.ScrollValue = w.ScrollValue = $class({
     _class: "ScrollValue",
@@ -119,21 +127,16 @@ w.TK.ScrollValue = w.ScrollValue = $class({
         events: "object",
         classes: "object",
         node: "object",
-        active: "boolean",
+        active: "boolean"
     },
     options: {
-        range:     function () { return {}; }, // a range oject
-        node:      false,                      // the element receiving
-                                               // the drag
-        events:    false,                      // element receiving events
-                                               // or false to fire events
-                                               // on the main element
-        classes:   false,                      // element receiving classes
-                                               // or false to set class
-                                               // on the main element
-        get:       function () { return; },    // callback returning the value
-        set:       function () { return; },    // callback setting the value
-        active:    true                        // deactivate the event
+        range:     function () { return {}; },
+        node:      false,
+        events:    false,
+        classes:   false,
+        get:       function () { return; },
+        set:       function () { return; },
+        active:    true
     },
     initialize: function (options) {
         TK.Base.prototype.initialize.call(this, options);
