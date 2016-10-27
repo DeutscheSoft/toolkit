@@ -256,6 +256,14 @@ function remove_grid() {
  *   inside of the key describing individual graphs.
  * @property {boolean} [options.show_grid=true] - Set to <code>false</code> to
  *   disable the grid.
+ * @property {Array<Object>} [grid_x=[]] - An array containing objects with the following optional members:
+ *   <code>{pos:x[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
+ * @property {Array<Object>} [grid_y=[]] - An array containing objects with the following optional members:
+ *   <code>{pos:y[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
+ * @property {Function|Object} [range_x={}] - Either a function returning a {@link TK.Range}
+ *   or an object containing options for a new {@link TK.Range}
+ * @property {Function|Object} [range_y={}] - Either a function returning a {@link TK.Range}
+ *   or an object containing options for a new {@link TK.Range}
  */
 w.TK.Chart = w.Chart = $class({
     _class: "Chart",
@@ -266,7 +274,7 @@ w.TK.Chart = w.Chart = $class({
         grid_y: "array",
         show_grid: "boolean",
         width: "int",
-        height: "height",
+        height: "int",
         _width: "int",
         _height: "int",
         range_x: "object",
@@ -465,10 +473,13 @@ w.TK.Chart = w.Chart = $class({
      * Add a graph to the chart.
      *
      * @method TK.Chart#add_graph
+     * 
      * @param {Object} graph - The graph to add. This can be either an
      *  instance of {@link TK.Graph} or an object of options to
      *  {@link TK.Graph}.
+     * 
      * @returns {Object} The instance of {@link TK.Graph}.
+     * 
      * @emits TK.Chart#graphadded
      */
     add_graph: function (options) {
