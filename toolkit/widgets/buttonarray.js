@@ -64,6 +64,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * adds arrow buttons if the overal width is smaller than the buttons
      * list.
      *
+     * @param {Object} options
+     * 
      * @property {Array} [options.buttons=[]] - A list of button options
      *   or label strings which is converted to button instances on init.
      *   If get is called, the converted list of button instances is
@@ -77,6 +79,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      *   itself.
      * 
      * @class TK.ButtonArray
+     * 
      * @extends TK.Container
      */
     _class: "ButtonArray",
@@ -96,35 +99,48 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         resized: false,
     },
     initialize: function (options) {
-        /** @member {Array} TK.ButtonArray#buttons - An array holding all buttons. */
+        /**
+         * @member {Array} TK.ButtonArray#buttons - An array holding all buttons.
+         */
         this.buttons = [];
         TK.Container.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.ButtonArray#element - The main DIV container.
-         * Has class <code>toolkit-buttonarray</code>.
+        /**
+         * @member {HTMLDivElement} TK.ButtonArray#element - The main DIV container.
+         *   Has class <code>toolkit-buttonarray</code>.
          */
         TK.add_class(this.element, "toolkit-buttonarray");
-        /** @member {HTMLDivElement} TK.ButtonArray#_clip - A clipping area containing the list of buttons.
-         *      Has class <code>toolkit-clip</code> */
+        /**
+         * @member {HTMLDivElement} TK.ButtonArray#_clip - A clipping area containing the list of buttons.
+         *    Has class <code>toolkit-clip</code>.
+         */
         this._clip      = TK.element("div", "toolkit-clip");
-        /** @member {HTMLDivElement} TK.ButtonArray#_container - A container for all the buttons.
-         *      Has class <code>toolkit-container</code> */
+        /**
+         * @member {HTMLDivElement} TK.ButtonArray#_container - A container for all the buttons.
+         *    Has class <code>toolkit-container</code>.
+         */
         this._container = TK.element("div", "toolkit-container");
         this.element.appendChild(this._clip);
         this._clip.appendChild(this._container);
         
         var vert = this.get("direction") === "vertical";
         
-        /** @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance */
+        /**
+         * @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance.
+         */
         this.prev = new TK.Button({class: "toolkit-previous"});
-        /** @member {TK.Button} TK.ButtonArray#next - The next arrow {@link TK.Button} instance */
+        /**
+         * @member {TK.Button} TK.ButtonArray#next - The next arrow {@link TK.Button} instance.
+         */
         this.next = new TK.Button({class: "toolkit-next"});
         this.prev.add_event("click", prev_clicked.bind(this));
         this.next.add_event("click", next_clicked.bind(this));
         
-        /** @member {HTMLDivElement} TK.ButtonArray#_prev - The HTMLDivElement of the previous button.
+        /**
+         * @member {HTMLDivElement} TK.ButtonArray#_prev - The HTMLDivElement of the previous button.
          */
         this._prev = this.prev.element;
-        /** @member {HTMLDivElement} TK.ButtonArray#_next - The HTMLDivElement of the next button.
+        /**
+         * @member {HTMLDivElement} TK.ButtonArray#_next - The HTMLDivElement of the next button.
          */
         this._next = this.next.element;
         
@@ -160,10 +176,11 @@ w.TK.ButtonArray = w.ButtonArray = $class({
     /**
      * Adds an array of buttons to the end of the list.
      *
-     * @param {Array.<string|object>} options - An Array containing objects
-     *  with options for the buttons (see {@link TK.Button} for more
-     *  information) or strings for the buttons labels.
      * @method TK.ButtonArray#add_buttons
+     * 
+     * @param {Array.<string|object>} options - An Array containing objects
+     *   with options for the buttons (see {@link TK.Button} for more
+     *   information) or strings for the buttons labels.
      */
     add_buttons: function (options) {
         for (var i = 0; i < options.length; i++)
@@ -174,11 +191,13 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * Adds a {@link TK.Button} to the TK.ButtonArray.
      *
      * @method TK.ButtonArray#add_button
+     * 
      * @param {Object|string} options - An object containing options for the
-     *  {@link TK.Button} to add or a string for the label
+     *   {@link TK.Button} to add or a string for the label.
      * @param {integer} [position] - The position to add the {@link TK.Button}
-     *  to. If avoided the {@link TK.Button} is added to the end of the list.
-     * @returns {TK.Button} The {@link TK.Button} instance
+     *   to. If avoided the {@link TK.Button} is added to the end of the list.
+     * 
+     * @returns {TK.Button} The {@link TK.Button} instance.
      */
     add_button: function (options, position) {
         if (typeof options === "string")
@@ -205,6 +224,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
          * A {@link TK.Button} was added to the ButtonArray.
          *
          * @event TK.ButtonArray#added
+         * 
          * @param {TK.Button} button - The button which was added to ButtonArray.
          */
         if (b === this.current())
@@ -217,8 +237,9 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * Removes a {@link TK.Button} from the ButtonArray.
      *
      * @method TK.ButtonArray#remove_button
+     * 
      * @param {integer|TK.Button} button - Button index or the {@link TK.Button}
-     *  instance.
+     *   instance.
      */
     remove_button: function (button) {
         if (typeof button === "object")
@@ -229,6 +250,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
          * A {@link TK.Button} was removed from the ButtonArray.
          *
          * @event TK.ButtonArray#removed
+         * 
          * @param {TK.Button} button - The {@link TK.Button} instance which was removed.
          */
         this.fire_event("removed", this.buttons[button]);
@@ -307,6 +329,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
      * The currently active button.
      *
      * @method TK.ButtonArray#current
+     * 
      * @returns {TK.Button} The active {@link TK.Button} or null.
      */
     current: function() {
@@ -335,9 +358,11 @@ w.TK.ButtonArray = w.ButtonArray = $class({
                     button.set("state", true);
                     /**
                      * Is fired when a button is activated.
+                     * 
+                     * @event TK.ButtonArray#changed
+                     * 
                      * @param {TK.Button} button - The {@link TK.Button} which was clicked.
                      * @param {int} the ID of the clicked {@link TK.Button}.
-                     * @event TK.ButtonArray#changed
                      */
                     this.fire_event("changed", button, value);
                 }

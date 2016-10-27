@@ -253,13 +253,17 @@ w.TK.Filter = w.Filter = $class({
      * TK.Filter provides the math for calculating a gain from
      * a given frequency for different types of filters.
      *
-     * @property {integer} [options.type="parametric"] - The type of the filter,  "parametric"|"notch"|"low-shelf"|"high-shelf"|"lowpass"+n|"highpass"+[n]
-     * @property {number} [options.freq=0] - The initial frequency
-     * @property {number} [options.gain=0] - The initial gain
-     * @property {number} [options.q=1] - The initial Q of the filter
+     * @param {Object} options
+     * 
+     * @property {integer} [options.type="parametric"] - The type of the filter,  "parametric"|"notch"|"low-shelf"|"high-shelf"|"lowpass"+n|"highpass"+[n].
+     * @property {number} [options.freq=0] - The initial frequency.
+     * @property {number} [options.gain=0] - The initial gain.
+     * @property {number} [options.q=1] - The initial Q of the filter.
      *
      * @mixin TK.Filter
+     * 
      * @extends TK.Base
+     * 
      * @mixes TK.AudioMath
      */
     _class: "Filter",
@@ -281,7 +285,8 @@ w.TK.Filter = w.Filter = $class({
     initialized: function () {
         this.reset();
         /**
-         * Is fired when an instance gets initialized
+         * Is fired when an instance gets initialized.
+         * 
          * @event TK.Filter#initialized
          */
         this.fire_event("initialized");
@@ -316,7 +321,8 @@ w.TK.Filter = w.Filter = $class({
             TK.error("Unsupported option 'type'.");
         }
         /**
-         * Is fired when a filters drawing function is reset
+         * Is fired when a filters drawing function is reset.
+         * 
          * @event TK.Filter#reset
          */
         this.fire_event("reset");

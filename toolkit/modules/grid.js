@@ -154,13 +154,18 @@ w.TK.Grid = w.Grid = $class({
      * SVG group containing all the labels and lines.
      *
      * @class TK.Grid
+     * 
+     * @param {Object} options
+     * 
      * @property {Array} [options.grid_x=[]] - Array for vertical grid lines containing {pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
      * @property {Array} [options.grid_y=[]] - Array for horizontal grid lines containing {pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}
      * @property {Function|Object} [options.range_x={}] - A function returning a {@link TK.Range} instance for vertical grid lines or an object containing options. for a new {@link Range}
      * @property {Function|Object} [options.range_y={}] - A function returning a {@link TK.Range} instance for horizontal grid lines or an object containing options. for a new {@link Range}
      * @property {number} [options.width=0] - The width of the grid
      * @property {number} [options.height=0] - The height of the grid
+     * 
      * @extends TK.Widget
+     * 
      * @mixes TK.Ranges
      */
     _class: "Grid",
@@ -184,13 +189,16 @@ w.TK.Grid = w.Grid = $class({
     },
     initialize: function (options, hold) {
         TK.Widget.prototype.initialize.call(this, options);
-        /** @member {SVGGroup} TK.Grid#element - The main SVG group containing all grid elements. Has class <code>toolkit-grid</code> 
+        /**
+         * @member {SVGGroup} TK.Grid#element - The main SVG group containing all grid elements. Has class <code>toolkit-grid</code>.
          */
         this.element = this.widgetize(
                        TK.make_svg("g", {"class": "toolkit-grid"}), true, true, true);
-        /** @member {TK.Range} TK.Grid#range_x - The range for the x axis. 
+        /**
+         * @member {TK.Range} TK.Grid#range_x - The range for the x axis. 
          */
-        /** @member {TK.Range} TK.Grid#range_y - The range for the y axis.
+        /**
+         * @member {TK.Range} TK.Grid#range_y - The range for the y axis.
          */
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
@@ -230,10 +238,12 @@ w.TK.Grid = w.Grid = $class({
             case "grid_x":
             case "grid_y":
                 /**
-                 * Is fired when the grid has changed
+                 * Is fired when the grid has changed.
+                 * 
+                 * @event TK.Grid#gridchanged
+                 * 
                  * @param {Array} grid_x - The grid elements for x axis.
                  * @param {Array} grid_y - The grid elements for y axis.
-                 * @event TK.Grid#gridchanged
                  */
                 this.fire_event("gridchanged", this.options.grid_x, this.options.grid_y);
                 break;

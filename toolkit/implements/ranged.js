@@ -61,8 +61,10 @@ function LinearSnapModule(stdlib, foreign) {
      * Returns the nearest value on the grid which is bigger than <code>value</code>.
      *
      * @method TK.Ranged#snap_up
-     * @param {number} value
-     * @param {number}
+     * 
+     * @param {number} value - The value to snap.
+     * 
+     * @returns {number} The snapped value.
      */
     function snap_up(v) {
         v = +v;
@@ -73,8 +75,10 @@ function LinearSnapModule(stdlib, foreign) {
      * Returns the nearest value on the grid which is smaller than <code>value</code>.
      *
      * @method TK.Ranged#snap_down
-     * @param {number} value
-     * @param {number}
+     * 
+     * @param {number} value - The value to snap.
+     * 
+     * @returns {number} The snapped value.
      */
     function snap_down(v) {
         v = +v;
@@ -86,8 +90,10 @@ function LinearSnapModule(stdlib, foreign) {
      * of <code>Math.round</code>.
      *
      * @method TK.Ranged#snap
-     * @param {number} value
-     * @param {number}
+     * 
+     * @param {number} value - The value to snap.
+     * 
+     * @returns {number} The snapped value.
      */
     function snap(v) {
         v = +v;
@@ -374,8 +380,10 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Transforms a value from the coordinate system to the interval <code>0</code>...<code>basis</code>.
          *
          * @method TK.Ranged#val2based
+         * 
          * @param {number} value
          * @param {number} basis
+         * 
          * @returns {number}
          */
         val2based:val2based,
@@ -383,8 +391,10 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Transforms a value from the interval <code>0</code>...<code>basis</code> to the coordinate system.
          *
          * @method TK.Ranged#based2val
+         * 
          * @param {number} value
          * @param {number} basis
+         * 
          * @returns {number}
          */
         based2val:based2val,
@@ -392,7 +402,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = options.basis</code>.
          *
          * @method TK.Ranged#val2real
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         val2real:val2real,
@@ -400,7 +412,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = options.basis</code>.
          *
          * @method TK.Ranged#real2val
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         real2val:real2val,
@@ -408,7 +422,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * This is an alias for {@link TK.Ranged#val2real}.
          *
          * @method TK.Ranged#val2px
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         val2px:val2px,
@@ -416,7 +432,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * This is an alias for {@link TK.Ranged#px2val}.
          *
          * @method TK.Ranged#px2val
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         px2val:px2val,
@@ -424,7 +442,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = 1</code>.
          *
          * @method TK.Ranged#val2coef
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         val2coef:val2coef,
@@ -432,7 +452,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = 1</code>.
          *
          * @method TK.Ranged#coef2val
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         coef2val:coef2val,
@@ -440,7 +462,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = 100</code>.
          *
          * @method TK.Ranged#val2perc
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         val2perc:val2perc,
@@ -448,7 +472,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = 100</code>.
          *
          * @method TK.Ranged#perc2val
+         * 
          * @param {number} value
+         * 
          * @returns {number}
          */
         perc2val:perc2val,
@@ -610,10 +636,12 @@ function set_cb(key, value) {
 }
 /**
  * @callback TK.Ranged~scale_cb
+ * 
  * @param {number} value - The value to be transformed.
  * @param {Object} options - The options of the corresponding Ranged object.
  * @param {boolean} inverse - Determines if the value is to be transformed from or
- *      to the coordinate system.
+ *   to the coordinate system.
+ * 
  * @returns {number} The transformed value.
  */
 w.TK.Ranged = w.Ranged = $class({
@@ -641,6 +669,8 @@ w.TK.Ranged = w.Ranged = $class({
      * Its signature is {@link TK.Ranged~scale_cb}. This allows the definition of custom
      * coordinate transformations, which go beyond the standard types.
      *
+     * @param {Object} options
+     * 
      * @property {integer|Function} [options.scale="linear"] -
      *  The type of the scale. Either one of "linear", "decibel", "log2",
      *  "frequency" or "frequency-reverse"; or a callback function of type {@link TK.Ranged~scale_cb}.
@@ -660,7 +690,6 @@ w.TK.Ranged = w.Ranged = $class({
      *  point, respectively.
      *  In order to define grids with non-uniform spacing, set <code>options.snap</code> to an Array
      *  of grid points.
-     *  
      * @property {base} [options.base=0] - Base point.
      * @property {number} [options.step=0] - Step size. Used for instance by {@link TK.ScrollValue}
      *  as the step size.
@@ -668,6 +697,7 @@ w.TK.Ranged = w.Ranged = $class({
      *  {@link TK.ScrollValue} when simultaneously pressing 'shift'.
      * @property {number} [options.shift_down=0.25] - Multiplier for descresed stepping speed, e.g. used by
      *  {@link TK.ScrollValue} when simultaneously pressing 'shift' and 'ctrl'.
+     * 
      * @mixin TK.Ranged
      */
      

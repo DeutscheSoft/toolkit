@@ -145,6 +145,9 @@ w.TK.Graph = w.Graph = $class({
      * derivates.
      *
      * @class TK.Graph
+     * 
+     * @param {Object} options
+     * 
      * @property {Array|string} [options.dots=[]] - The dots of the path. Can be a ready-to-use SVG-path-string or an array of objects like {x: x, y: y [, x1, y1, x2, y2]} (depending on the type)
      * @property {string} [options.type="L"] - Type of the graph (needed values in dots object):
      *   L = normal (needs x,y) |
@@ -166,7 +169,9 @@ w.TK.Graph = w.Graph = $class({
      * @property {number} [options.width=0] - The width of the graph
      * @property {number} [options.height=0] - The height of the graph
      * @property {string|boolean} [options.key=false] - Show a description for this graph in the charts key, false to turn it off
+     * 
      * @extends TK.Widget
+     * 
      * @mixes TK.Ranges
      */
     _class: "Graph",

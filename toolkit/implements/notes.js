@@ -27,29 +27,38 @@ w.TK.Notes = w.Notes = $class({
      * @mixin Notes
      */
     _class: "Notes",
-    /*
+    /**
      * Returns a note name for a MIDI note number.
+     * 
      * @method TK.Notes#midi2note
+     * 
      * @param {int} note - The MIDI note to translate.
+     * 
      * @returns {string} note - The name of the note.
      */
     midi2note: function (num) {
         return notes[num % 12] + parseInt(num / 12);
     },
-    /*
+    /**
      * Returns a frequency of a MIDI note number.
+     * 
      * @method TK.Notes#midi2freq
+     * 
      * @param {int} note - The MIDI note to translate.
+     * 
      * @returns {number} frequency - The frequency of the MIDI number.
      */
     midi2freq: function (num, base) {
         if (!base) base = 440;
         return Math.pow(2, (num - 69) / 12) * base;
     },
-    /*
+    /**
      * Returns a MIDI note number for a frequency.
+     * 
      * @method TK.Notes#freq2midi
+     * 
      * @param {number} frequency - The frequency to translate.
+     * 
      * @returns {int} number - The MIDI number of the frequency.
      */
     freq2midi: function (freq, base) {
@@ -57,10 +66,13 @@ w.TK.Notes = w.Notes = $class({
         var f2 = Math.log2(freq / base);
         return Math.max(0, Math.round(12 * f2 + 69));
     },
-    /*
+    /**
      * Returns the percents a frequency misses a real note by.
+     * 
      * @method TK.Notes#freq2cents
+     * 
      * @param {number} frequency - The frequency to translate.
+     * 
      * @returns {number} cents - The percent of the difference to the next full note.
      */
     freq2cents: function (freq, base) {
@@ -70,10 +82,13 @@ w.TK.Notes = w.Notes = $class({
         f2 %= 100;
         return (f2 < -50) ? 100 + f2 : (f2 > 50) ? -(100 - f2) : f2;
     },
-    /*
+    /**
      * Returns a note name for a frequency.
+     * 
      * @method TK.Notes#freq2note
+     * 
      * @param {number} frequency - The frequency to translate.
+     * 
      * @returns {string} note - The name of the note.
      */
     freq2note: function (freq, base) {

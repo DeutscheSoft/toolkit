@@ -90,7 +90,9 @@ function mousedown(e) {
          * <li>pos_x: the position in pixels on the x axis</li>
          * <li>pos_y: the position in pixels on the y axis</li>
          * </ul>
+         * 
          * @event TK.ResponseHandle#handlegrabbed
+         * 
          * @param {Object} positions - An object containing all relevant positions of the pointer.
          */
         this.fire_event("handlegrabbed", {
@@ -105,8 +107,10 @@ function mousedown(e) {
         /**
          * Is fired when the user grabs the z-handle. The argument is the
          * actual z value.
-         * @param {number} z - The z value.
+         * 
          * @event TK.ResponseHandle#zchangestarted
+         * 
+         * @param {number} z - The z value.
          */
         this.fire_event("zchangestarted", this.options.z);
         this.fire_event("useraction", "z", this.options.z);
@@ -132,7 +136,9 @@ function mouseup(e) {
          * <li>pos_x: the position in pixels on the x axis</li>
          * <li>pos_y: the position in pixels on the y axis</li>
          * </ul>
+         * 
          * @event TK.ResponseHandle#handlereleased
+         * 
          * @param {Object} positions - An object containing all relevant positions of the pointer.
          */
         this.fire_event("handlereleased", {
@@ -147,8 +153,10 @@ function mouseup(e) {
         /**
          * Is fired when the user releases the z-handle. The argument is the
          * actual z value.
-         * @param {number} z - The z value.
+         * 
          * @event TK.ResponseHandle#zchangeended
+         * 
+         * @param {number} z - The z value.
          */
         this.fire_event("zchangeended", this.options.z);
         this.fire_event("useraction", "z", this.options.z);
@@ -224,7 +232,9 @@ function mousemove(e) {
          * <li>pos_x: the position in pixels on the x axis</li>
          * <li>pos_y: the position in pixels on the y axis</li>
          * </ul>
+         * 
          * @event TK.ResponseHandle#handledragging
+         * 
          * @param {Object} positions - An object containing all relevant positions of the pointer.
          */
         this.fire_event("handledragging", {
@@ -887,65 +897,67 @@ function redraw_lines(O, X) {
 }
 
 /**
- * @class TK.ResponseHandle
- * @extends TK.Widget
- *
- * @description Class which represents a draggable SVG element, which can be used to represent and change
+ * Class which represents a draggable SVG element, which can be used to represent and change
  * a value inside of a {@link TK.ResponseHandler} and is drawn inside of a chart.
  *
+ * @class TK.ResponseHandle
+ * 
+ * @extends TK.Widget
+ *
  * @param {Object} options
+ * 
  * @property {function|Object} options.range_x - Callback returning a {@link TK.Range}
- *  for the x-axis or an object with options for a {@link TK.Range}. This is usually
- *  the <code>x_range</code> of the parent chart.
+ *   for the x-axis or an object with options for a {@link TK.Range}. This is usually
+ *   the <code>x_range</code> of the parent chart.
  * @property {function|Object} options.range_y - Callback returning a {@link TK.Range}
- *  for the y-axis or an object with options for a {@link TK.Range}. This is usually
- *  the <code>y_range</code> of the parent chart.
+ *   for the y-axis or an object with options for a {@link TK.Range}. This is usually
+ *   the <code>y_range</code> of the parent chart.
  * @property {function|Object} options.range_z - Callback returning a {@link TK.Range}
- *  for the z-axis or an object with options for a {@link TK.Range}.
+ *   for the z-axis or an object with options for a {@link TK.Range}.
  * @property {string} [options.mode="circular"] - Type of the handle. Can be one of
- *  <code>"circular"</code>, <code>"line-vertical"</code>, <code>"line-horizontal"</code>,
- *  <code>"block-left"</code>, <code>"block-right"</code>, <code>"block-top"</code> or
- *  <code>"block-right"</code>.
+ *   <code>"circular"</code>, <code>"line-vertical"</code>, <code>"line-horizontal"</code>,
+ *   <code>"block-left"</code>, <code>"block-right"</code>, <code>"block-top"</code> or
+ *   <code>"block-right"</code>.
  * @property {number} options.x - Value of the x-coordinate.
  * @property {number} options.y - Value of the y-coordinate.
  * @property {number} options.z - Value of the z-coordinate.
  * @property {number} [options.min_size=24] - Minimum size of the handle in px.
- *
  * @property {function} options.label - Label formatting function. Arguments are
- *  <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>. If this options is
- *  <code>false</code>, no label is displayed.
+ *   <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>. If this options is
+ *   <code>false</code>, no label is displayed.
  * @property {array}  [options.preferences=["left", "top", "right", "bottom"]] - Possible label
- *  positions by order of preference. Depending on the selected <code>mode</code> is can
- *  be a subset of <code>"top"</code>, <code>"top-right"</code>, <code>"right"</code>,
- *  <code>"bottom-right"</code>, <code>"bottom"</code>, <code>"bottom-left"</code>,
- *  <code>"left"</code>, <code>"top-left"</code> and <code>"center"</code>.
+ *   positions by order of preference. Depending on the selected <code>mode</code> is can
+ *   be a subset of <code>"top"</code>, <code>"top-right"</code>, <code>"right"</code>,
+ *   <code>"bottom-right"</code>, <code>"bottom"</code>, <code>"bottom-left"</code>,
+ *   <code>"left"</code>, <code>"top-left"</code> and <code>"center"</code>.
  * @property {number} [options.margin=3] - Margin in px between the handle and the label.
  * @property {boolean} [options.z_handle=false] - If true, a small handle is drawn, which can
- *  be dragged to change the value of the z-coordinate.
+ *   be dragged to change the value of the z-coordinate.
  * @property {number} [options.z_handle_size=6] - Size in px of the z-handle.
  * @property {number} [options.z_handle_centered=0.1] - Size of the z-handle in center positions.
- *  If this options is smaller than 1, it is interpreted as a ratio, otherwise as a px size.
- *
+ *   If this options is smaller than 1, it is interpreted as a ratio, otherwise as a px size.
  * @property {number} [options.x_min] - Minimum value of the x-coordinate.
  * @property {number} [options.x_max] - Maximum value of the x-coordinate.
  * @property {number} [options.y_min] - Minimum value of the y-coordinate.
  * @property {number} [options.y_max] - Maximum value of the y-coordinate.
  * @property {number} [options.z_min] - Minimum value of the z-coordinate.
  * @property {number} [options.z_max] - Maximum value of the z-coordinate.
- *
  * @property {boolean} [options.show_axis=false] - If set to true, draws additional lines at
- *  the coordinate values.
+ *   the coordinate values.
  *
  * @mixes TK.Ranges
  * @mixes TK.Warning
  * @mixes TK.GlobalCursor
  */
 
-/** @member {SVGText} TK.ResponseHandle#_label - The label. Has class <code>toolkit-label</code> 
+/**
+ * @member {SVGText} TK.ResponseHandle#_label - The label. Has class <code>toolkit-label</code>.
  */
-/** @member {SVGPath} TK.ResponseHandle#_line1 - The first line. Has class <code>toolkit-line toolkit-line-1</code> 
+/**
+ * @member {SVGPath} TK.ResponseHandle#_line1 - The first line. Has class <code>toolkit-line toolkit-line-1</code>.
  */
-/** @member {SVGPath} TK.ResponseHandle#_line2 - The first line. Has class <code>toolkit-line toolkit-line-2</code> 
+/**
+ * @member {SVGPath} TK.ResponseHandle#_line2 - The first line. Has class <code>toolkit-line toolkit-line-2</code>.
  */
 
          
@@ -954,8 +966,9 @@ function redraw_lines(O, X) {
  * The event is emitted for the options <code>x</code>, <code>y</code> and <code>z</code>.
  *
  * @event TK.ResponseHandle#useraction
- * @param {string} name - The name of the option which was changed due to the users action
- * @param {mixed} value - The new value of the option
+ * 
+ * @param {string} name - The name of the option which was changed due to the users action.
+ * @param {mixed} value - The new value of the option.
  */
 w.TK.ResponseHandle = w.ResponseHandle = $class({
     _class: "ResponseHandle",
@@ -1037,11 +1050,14 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
         
-        /** @member {TK.Range} TK.ResponseHandle#range_x - The range for the x axis.
+        /**
+         * @member {TK.Range} TK.ResponseHandle#range_x - The range for the x axis.
          */
-        /** @member {TK.Range} TK.ResponseHandle#range_y - The range for the y axis.
+        /**
+         * @member {TK.Range} TK.ResponseHandle#range_y - The range for the y axis.
          */
-        /** @member {TK.Range} TK.ResponseHandle#range_z - The range for the z axis.
+        /**
+         * @member {TK.Range} TK.ResponseHandle#range_z - The range for the z axis.
          */
         this.add_range(O.range_x, "range_x");
         this.add_range(O.range_y, "range_y");
@@ -1058,7 +1074,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
 
         var E = TK.make_svg("g");
         
-        /** @member {SVGGroup} TK.ResponseHandle#element - The main SVG group containing all handle elements. Has class <code>toolkit-response-handle</code> 
+        /**
+         * @member {SVGGroup} TK.ResponseHandle#element - The main SVG group containing all handle elements. Has class <code>toolkit-response-handle</code>.
          */
         this.element = E;
 
@@ -1096,7 +1113,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 TK.warn("Unsupported mode:", O.mode);
         }
         
-        /** @member {SVGCircular} TK.ResponseHandle#_handle - The main handle. Has class <code>toolkit-handle</code> 
+        /**
+         * @member {SVGCircular} TK.ResponseHandle#_handle - The main handle. Has class <code>toolkit-handle</code>.
          */
         this._handle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
@@ -1106,7 +1124,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         );
         E.appendChild(this._handle);
         
-        /** @member {SVGCircular} TK.ResponseHandle#_zhandle - The handle for manipulating z axis. Has class <code>toolkit-z-handle</code> 
+        /**
+         * @member {SVGCircular} TK.ResponseHandle#_zhandle - The handle for manipulating z axis. Has class <code>toolkit-z-handle</code>.
          */
         this._zhandle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {

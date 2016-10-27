@@ -142,8 +142,10 @@ function start_drag(ev, x, y) {
     };
     /**
      * Is fired when a user starts dragging.
-     * @param {DOMEvent} event - The native DOM event.
+     * 
      * @event TK.DragValue#startdrag
+     * 
+     * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("startdrag", ev);
 
@@ -171,8 +173,10 @@ function update_drag() {
     var multi = range.options.step || 1;
     /**
      * Is fired while a user is dragging.
-     * @param {DOMEvent} event - The native DOM event.
+     * 
      * @event TK.DragValue#startdrag
+     * 
+     * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("dragging", e);
 
@@ -244,8 +248,10 @@ function stop_drag(ev, x, y) {
     }
     /**
      * Is fired when a user stops dragging.
-     * @param {DOMEvent} event - The native DOM event.
+     * 
      * @event TK.DragValue#stopdrag
+     * 
+     * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("stopdrag", ev);
 }
@@ -262,24 +268,29 @@ w.TK.DragValue = w.DragValue = $class({
      * or #TK.ValueButton.
      *
      * @class TK.DragValue
+     * 
+     * @param {Object} options
+     * 
      * @property {Function} options.range - A function returning a {@link TK.Range} object for calculating the value.
      * @property {Element} options.node - The DOM node used for dragging.
-     *  All DOM events are registered with this Element.
+     *   All DOM events are registered with this Element.
      * @property {Element} [options.events=options.node] - A DOM element firing the drag events.
      * @property {Element} [options.classes=options.node] - While dragging, the class
-     *  <code>toolkit-dragging</code> will be added to this Element.
+     *   <code>toolkit-dragging</code> will be added to this Element.
      * @property {Function} options.get - Callback function returning the value to drag.
      * @property {Function} options.set - Callback function for setting the value.
      * @property {integer} [options.direction="polar"] - Direction for changing the value.
-     *  Can be "polar", "vertical" or "horizontal".
+     *   Can be "polar", "vertical" or "horizontal".
      * @property {boolean} [options.active=true] - If false, dragging is deactivated.
      * @property {boolean} [options.cursor=false] - If true, a global cursor is set while dragging.
      * @property {number} [options.blind_angle=20] - If options.direction is "polar",
-     *  this is the angle of separation between positive and negative value changes
+     *   this is the angle of separation between positive and negative value changes
      * @property {number} [options.rotation=45] - Defines the angle of the center of the positive value
-     *  changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
-     *  moving towards top and right.
+     *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
+     *   moving towards top and right.
+     * 
      * @extends TK.Base
+     * 
      * @mixes TK.GlobalCursor
      */
     _class: "DragValue",

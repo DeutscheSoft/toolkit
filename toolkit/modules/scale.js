@@ -378,10 +378,13 @@ function mark_markers(labels, dots) {
  * Scale mixes in {@link TK.Ranged} and inherits all its options.
  *
  * @extends TK.Widget
+ * 
  * @mixes TK.Ranged
+ * 
  * @class TK.Scale
  *
  * @param {Object} options
+ * 
  * @property {string} [options.layout="right"] - The layout of the Scale. <code>"right"</code> and
  *   <code>"left"</code> are vertical layouts with the labels being drawn right and left of the scale,
  *   respectively. <code>"top"</code> and <code>"bottom"</code> are horizontal layouts for which the 
@@ -454,7 +457,8 @@ w.TK.Scale = w.Scale = $class({
     initialize: function (options) {
         var E;
         TK.Widget.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.Scale#element - The main DIV element. Has class <code>toolkit-scale</code> 
+        /**
+         * @member {HTMLDivElement} TK.Scale#element - The main DIV element. Has class <code>toolkit-scale</code> 
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-scale");
@@ -570,9 +574,11 @@ w.TK.Scale = w.Scale = $class({
             case "show_labels":
                 /**
                  * Gets fired when an option the rendering depends on was changed
+                 * 
+                 * @event TK.Scale#scalechanged
+                 * 
                  * @param {string} key - The name of the option which changed the {@link TK.Scale}.
                  * @param {mixed} value - The value of the option.
-                 * @event TK.Scale#scalechanged
                  */
                 this.fire_event("scalechanged", key, value)
                 break;

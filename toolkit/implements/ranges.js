@@ -32,14 +32,17 @@ w.TK.Ranges = w.Ranges = $class({
      * before a range is created.
      *
      * @method TK.Ranges#add_range
+     * 
      * @param {Function|Object} from - A function returning a {@link TK.Range}
      *   instance or an object containing options for a new {@link TK.Range}.
      * @param {string} name - Designator of the new #TK.Range.
-     * If a name is set a new set function is added to the item to
-     * set the options of the range. Use the set function like this:
-     * this.set("name", {key: value});
-     * @returns {TK.Range} The new range.
+     *   If a name is set a new set function is added to the item to
+     *   set the options of the range. Use the set function like this:
+     *   this.set("name", {key: value});
+     * 
      * @emits TK.Ranges#rangeadded
+     * 
+     * @returns {TK.Range} The new range.
      */
     add_range: function (from, name) {
         var r;
@@ -69,8 +72,9 @@ w.TK.Ranges = w.Ranges = $class({
         /**
          * Gets fired when a new range is added
          *
-         * @param {TK.Range} range - The {@link TK.Range} that was added.
          * @event TK.Ranges#rangeadded
+         * 
+         * @param {TK.Range} range - The {@link TK.Range} that was added.
          */
         this.fire_event("rangeadded", r);
         return r;

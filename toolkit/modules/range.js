@@ -26,9 +26,15 @@ w.TK.Range = w.Range = $class({
     * TK.Range is used e.g. in {@link TK.Scale}, {@link TK.MeterBase} and {@link TK.Graph} to draw
     * elements on a certain position according to a value on an
     * arbitrary scale.
+    * 
     * @class TK.Range
+    * 
     * @extends TK.Base
+    * 
     * @mixes TK.Ranged
+    * 
+    * @param {Object} options
+    * 
     * @property {string} [options.scale="linear"] - What kind of value are we working with?
     *   <ul><li>"linear"</li>
     *   <li>"decibel" / "log2"</li>

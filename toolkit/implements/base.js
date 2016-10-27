@@ -184,13 +184,14 @@ TK.Base = w.BASE = $class({
     },
     initialized : function() {
         /**
-         * Is fired when an instance is initialized
+         * Is fired when an instance is initialized.
+         * 
          * @event TK.Base#initialized
          */
         this.fire_event("initialized");
     },
     /**
-     * Destroys all event handlers and the options object
+     * Destroys all event handlers and the options object.
      *
      * @method TK.Base#destroy
      */
@@ -211,7 +212,8 @@ TK.Base = w.BASE = $class({
      * the corresponding name without the first "on" characters.
      *
      * @method TK.Base#set_options(options)
-     * @param {Object} [options={ }] - An object containing initial options
+     * 
+     * @param {Object} [options={ }] - An object containing initial options.
      */
     set_options : function(o) {
         var opt = this.options;
@@ -244,6 +246,7 @@ TK.Base = w.BASE = $class({
      * Get the value of an option.
      *
      * @method TK.Base#get
+     * 
      * @param {string} key - The option name.
      */
     get: function (key) {
@@ -254,8 +257,10 @@ TK.Base = w.BASE = $class({
      * and <code>value</code>; and the event <code>'set_'+key</code> with argument <code>value</code>.
      *
      * @method TK.Base#set
-     * @param {string} key - The name of the option
-     * @param {mixed} value - The value of the option
+     * 
+     * @param {string} key - The name of the option.
+     * @param {mixed} value - The value of the option.
+     * 
      * @emits TK.Base#set
      * @emits TK.Base#set_[option]
      */
@@ -263,33 +268,46 @@ TK.Base = w.BASE = $class({
         this.options[key] = value;
         /**
          * Is fired when an option is set.
-         * @param {string} name - The name of the option
-         * @param {mixed} value - The value of the option
+         * 
          * @event TK.Base#set
+         * 
+         * @param {string} name - The name of the option.
+         * @param {mixed} value - The value of the option.
          */
         if (this.__events.set)
             this.fire_event("set", key, value);
         /**
          * Is fired when an option is set.
-         * @param {mixed} value - The value of the option
+         * 
          * @event TK.Base#set_[option]
+         * 
+         * @param {mixed} value - The value of the option.
          */
         if (this.__events["set_" + key])
             this.fire_event("set_" + key, value);
     },
     /**
+     * Delegates all occuring DOM events of a specific DOM node to the widget.
+     * This way the widget fires e.g. a click event if someone clicks on the
+     * given DOM node.
+     * 
      * @method TK.Base#delegate_events
-     * @param {HTMLElement} element - The element all native events should be bound to
+     * 
+     * @param {HTMLElement} element - The element all native events of the widget should be bound to.
+     * 
      * @returns {HTMLElement} The element
+     * 
      * @emits TK.Base#delegated
      */
     delegate_events: function (element) {
         var ev = this.__events;
         var old_target = this.__event_target;
         /**
-         * Is fired when an element is delegated
-         * @param {HTMLElement} element - The element which receives all native DOM events
+         * Is fired when an element is delegated.
+         * 
          * @event TK.Base#delegated
+         * 
+         * @param {HTMLElement} element - The element which receives all native DOM events.
          */
         this.fire_event("delegated", element);
 
@@ -304,10 +322,11 @@ TK.Base = w.BASE = $class({
      * Register an event handler.
      *
      * @method TK.Base#add_event
-     * @param {string} event - The event descriptor
-     * @param {Function} func - The function to call when the event happens
-     * @param {boolean} prevent - Set to true if the event should prevent the default behavior
-     * @param {boolean} stop - Set to true if the event should stop bubbling up the tree
+     * 
+     * @param {string} event - The event descriptor.
+     * @param {Function} func - The function to call when the event happens.
+     * @param {boolean} prevent - Set to true if the event should prevent the default behavior.
+     * @param {boolean} stop - Set to true if the event should stop bubbling up the tree.
      */
     add_event: function (event, func, prevent, stop) {
         var ev;
@@ -364,8 +383,9 @@ TK.Base = w.BASE = $class({
      * as well.
      *
      * @method TK.Base#remove_event
-     * @param {string} event - The event descriptor
-     * @param {Function} func - The function to remove
+     * 
+     * @param {string} event - The event descriptor.
+     * @param {Function} func - The function to remove.
      */
     remove_event: function (event, func) {
         if (__event_replacements.hasOwnProperty(event)) {
@@ -405,9 +425,10 @@ TK.Base = w.BASE = $class({
     /**
      * Fires an event.
      *
-     * @param {string} event - The event descriptor
-     * @param {...*} args - Event arguments
      * @method TK.Base#fire_event
+     * 
+     * @param {string} event - The event descriptor.
+     * @param {...*} args - Event arguments.
      */
     fire_event: function (event) {
         var ev = this.__events;
@@ -430,8 +451,10 @@ TK.Base = w.BASE = $class({
      * Test if the event descriptor has some handler functions in the queue.
      *
      * @method TK.Base#has_event_listeners
-     * @param {string} event - The event desriptor
-     * @returns {boolean} True if the event has some handler functions in the queue, false if not
+     * 
+     * @param {string} event - The event desriptor.
+     * 
+     * @returns {boolean} True if the event has some handler functions in the queue, false if not.
      */
     has_event_listeners: function (event) {
         var ev = this.__events;
@@ -448,6 +471,7 @@ TK.Base = w.BASE = $class({
      * descriptors with a single handler function.
      *
      * @method TK.Base#add_events
+     * 
      * @param {Object | Array} events - Object with event descriptors as keys and functions as
      *   values or Array of event descriptors. The latter requires a handler function as the
      *   second argument.
@@ -470,11 +494,12 @@ TK.Base = w.BASE = $class({
      * event descriptors with a single handler function.
      *
      * @method TK.Base#remove_events
+     * 
      * @param {Object | Array} events - Object with event descriptors as keys and functions as
      *   values or Array of event descriptors. The latter requires the handler function as the
      *   second argument.
      * @param {Function} func - A function to remove from event handler queue if the first
-     *   argument is an array of event desriptors
+     *   argument is an array of event desriptors.
      */
     remove_events: function (events, func) {
         var i;
@@ -491,6 +516,7 @@ TK.Base = w.BASE = $class({
      * Fires several events.
      *
      * @method TK.Base#fire_events
+     * 
      * @param {Array.<string>} events - A list of event names to fire.
      */
     fire_events: function (events) {

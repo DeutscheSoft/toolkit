@@ -30,8 +30,10 @@ function dragstart(e, drag) {
     TK.add_class(O.node, "toolkit-dragging");
     /** 
      * The user started dragging this item.
-     * @param {DOMEvent} event - The native DOM event.
+     * 
      * @event TK.Drag#dragstart
+     * 
+     * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("dragstart", e);
 }
@@ -41,8 +43,10 @@ function dragend(e, drag) {
     TK.remove_class(this.options.node, "toolkit-dragging");
     /**
      * The user stopped dragging this item.
-     * @param {DOMEvent} event - The native DOM event.
+     * 
      * @event TK.Drag#dragstop
+     * 
+     * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("dragstop", e);
 }
@@ -67,10 +71,11 @@ function dragging(e, drag) {
      * The user is dragging this item.
      * The arguments are the native DOM event object and both the x and y coordinate.
      *
+     * @event TK.Drag#dragging
+     * 
      * @param {DOMEvent} event - The native DOM event.
      * @param {int} x - The new x position.
      * @param {int} y - The new y position.
-     * @event TK.Drag#dragging
      */
     this.fire_event("dragging", e, x, y);
 }
@@ -90,14 +95,18 @@ function set_handle() {
 /**
  * TK.Drag enables dragging of absolutely positioned
  * elements on the screen.
+ * 
  * @param {Object} options
+ * 
  * @property {HTMLElement|SVGElement} options.node - The element to drag
  * @property {HTMLElement|SVGElement} [options.handle=options.node] A DOM node to be used as a handle. If not set options.node is used.
  * @property {boolean} options.active - Enable or disable dragging
  * @property {{ x: number, y: number }} [options.min={x: -1, y: -1}] - Object containing the minimum positions for x and y. A value of false is interpreted as no minimum.
  * @property {{ x: number, y: number }} [options.max={x: -1, y: -1}] - Object containing the maximum positions for x and y. A value of false is interpreted as no maximum.
  * @property {number} [options.initial=2] - Number of pixels the user has to move until dragging starts.
+ * 
  * @extends TK.Base
+ * 
  * @class TK.Drag
  */
 TK.Drag = w.Drag = $class({

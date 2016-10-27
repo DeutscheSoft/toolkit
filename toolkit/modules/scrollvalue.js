@@ -21,6 +21,7 @@
 function scroll_timeout() {
     /**
      * Is fired when scrolling ended.
+     * 
      * @event TK.ScrollValue#scrollended
      */
     fire_event.call(this, "scrollended");
@@ -78,13 +79,17 @@ function scrollwheel(e) {
     if (!this._wheel)
         /**
          * Is fired when scrolling starts.
+         * 
          * @event TK.ScrollValue#scrollstarted
+         * 
          * @param {DOMEvent} event - The native DOM event.
          */
         fire_event.call(this, "scrollstarted", e);
     /**
      * Is fired while scrolling happens.
+     * 
      * @event TK.ScrollValue#scrolling
+     * 
      * @param {DOMEvent} event - The native DOM event.
      */
     fire_event.call(this, "scrolling", e);
@@ -107,6 +112,7 @@ function fire_event(title, event) {
  * the knob using the scroll wheel.
  *
  * @class TK.ScrollValue
+ * 
  * @extends TK.Base
  * 
  * @property {Function} [get=function () { return; }] - Callback returning the value.

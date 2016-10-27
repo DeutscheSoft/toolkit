@@ -239,6 +239,7 @@ function remove_grid() {
  * @extends TK.Widget
  *
  * @param {Object} options
+ * 
  * @property {string} [options.title=""] - A title for the Chart.
  * @property {string} [options.title_position="top-right"] - Position of the
  *   title inside of the chart. Possible values are
@@ -298,16 +299,19 @@ w.TK.Chart = w.Chart = $class({
         this.graphs = [];
         TK.Widget.prototype.initialize.call(this, options);
         
-        /** @member {TK.Range} TK.Chart#range_x - The range for the x axis. 
+        /**
+         * @member {TK.Range} TK.Chart#range_x - The range for the x axis. 
          */
-        /** @member {TK.Range} TK.Chart#range_y - The range for the y axis.
+        /**
+         * @member {TK.Range} TK.Chart#range_y - The range for the y axis.
          */
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
         this.range_y.set("reverse", true, true, true);
         
-        /** @member {HTMLDivElement} TK.Chart#element - The main DIV container.
-         * Has class <code>toolkit-chart</code> 
+        /**
+         * @member {HTMLDivElement} TK.Chart#element - The main DIV container.
+         *   Has class <code>toolkit-chart</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-chart");
@@ -321,7 +325,8 @@ w.TK.Chart = w.Chart = $class({
             this.options.height = this.range_y.options.basis;
         
         this.grid = null;
-        /** @member {SVGText} TK.Chart#_title - The title of the chart. Has class <code>toolkit-title</code>
+        /**
+         * @member {SVGText} TK.Chart#_title - The title of the chart. Has class <code>toolkit-title</code>.
          */
         this._title = TK.make_svg("text", {
             "class": "toolkit-title",
@@ -329,19 +334,23 @@ w.TK.Chart = w.Chart = $class({
         });
         S.appendChild(this._title);
         
-        /** @member {SVGGroup} TK.Chart#_graphs - The group containing all graphs. Has class <code>toolkit-graphs</code>
+        /** 
+         * @member {SVGGroup} TK.Chart#_graphs - The group containing all graphs. Has class <code>toolkit-graphs</code>.
          */
         this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
         S.appendChild(this._graphs);
         
-        /** @member {SVGRect} TK.Chart#_key_background - The rectangle of the key. Has class <code>toolkit-background</code>
+        /**
+         * @member {SVGRect} TK.Chart#_key_background - The rectangle of the key. Has class <code>toolkit-background</code>.
          */
         this._key_background = TK.make_svg("rect",
             {"class": "toolkit-background"});
-        /** @member {SVGGroup} TK.Chart#_key - The group containing all descriptions. Has class <code>toolkit-key</code>
+        /**
+         * @member {SVGGroup} TK.Chart#_key - The group containing all descriptions. Has class <code>toolkit-key</code>.
          */
         this._key = TK.make_svg("g", {"class": "toolkit-key"});
-        /** @member {SVGText} TK.Chart#_key_txt - The text label for the key. Has class <code>toolkit-key-text</code>
+        /**
+         * @member {SVGText} TK.Chart#_key_txt - The text label for the key. Has class <code>toolkit-key-text</code>.
          */
         this._key_txt = TK.make_svg("text", {"class": "toolkit-key-text"});
 
@@ -485,9 +494,11 @@ w.TK.Chart = w.Chart = $class({
         /**
          * Is fired when a graph was added. Arguments are the graph
          * and its position in the array.
+         * 
+         * @event TK.Chart#graphadded
+         * 
          * @param {TK.Graph} graph - The {@link TK.Graph} which was added.
          * @param {int} id - The ID of the added {@link TK.Graph}.
-         * @event TK.Chart#graphadded
          */
         this.fire_event("graphadded", g, this.graphs.length - 1);
 
@@ -500,7 +511,9 @@ w.TK.Chart = w.Chart = $class({
      * Remove a graph from the chart.
      *
      * @method TK.Chart#remove_graph
+     * 
      * @param {TK.Graph} graph - The {@link TK.Graph} to remove.
+     * 
      * @emits TK.Chart#graphremoved
      */
     remove_graph: function (g) {
@@ -509,9 +522,11 @@ w.TK.Chart = w.Chart = $class({
             /**
              * Is fired when a graph was removed. Arguments are the graph
              * and its position in the array.
+             * 
+             * @event TK.Chart#graphremoved
+             * 
              * @param {TK.Graph} graph - The {@link TK.Graph} which was removed.
              * @param {int} id - The ID of the removed {@link TK.Graph}.
-             * @event TK.Chart#graphremoved
              */
             this.fire_event("graphremoved", g, i);
             g.destroy();
@@ -525,12 +540,14 @@ w.TK.Chart = w.Chart = $class({
      * Remove all graphs from the chart.
      *
      * @method TK.Chart#empty
+     * 
      * @emits TK.Chart#emptied
      */
     empty: function () {
         this.graphs.map(this.remove_graph, this);
         /**
          * Is fired when all graphs are removed from the chart.
+         * 
          * @event TK.Chart#emptied
          */
         this.fire_event("emptied");

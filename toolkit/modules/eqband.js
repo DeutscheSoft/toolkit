@@ -26,16 +26,19 @@ w.TK.EqBand = w.EqBand = $class({
      * or any other derivate to be drawn in.
      *
      * @class TK.EqBand
+     * 
+     * @param {Object} options
+     * 
      * @property {integer} [options.type="parametric"] - The type of the filter.
-     *  Possible values are <code>"parametric"</code>, <code>"notch"</code>,
-     *  <code>"low-shelf"</code>, <code>"high-shelf"</code>, <code>"lowpass"+n</code> or
-     *  <code>"highpass"+n</code>.
+     *   Possible values are <code>"parametric"</code>, <code>"notch"</code>,
+     *   <code>"low-shelf"</code>, <code>"high-shelf"</code>, <code>"lowpass"+n</code> or
+     *   <code>"highpass"+n</code>.
      * @property {number} options.freq - Frequency setting. This is an alias for the option <code>x</code>
-     *  defined by {@link TK.ResponseHandle}.
+     *   defined by {@link TK.ResponseHandle}.
      * @property {number} options.gain - Gain setting. This is an alias for the option <code>y</code>
-     *  defined by {@link TK.ResponseHandle}.
+     *   defined by {@link TK.ResponseHandle}.
      * @property {number} options.q - Quality setting. This is an alias for the option <code>z</code>
-     *  defined by {@link TK.ResponseHandle}.
+     *   defined by {@link TK.ResponseHandle}.
      *
      * @extends TK.ResponseHandle
      */
@@ -83,7 +86,8 @@ w.TK.EqBand = w.EqBand = $class({
             }
         }
         
-        /** @member {TK.Filter} TK.EqBand#filter - The filter providing the graphical calculations. 
+        /**
+         * @member {TK.Filter} TK.EqBand#filter - The filter providing the graphical calculations. 
          */
         this.filter = new TK.Filter();
         this.filter.options = this.options;
@@ -103,8 +107,9 @@ w.TK.EqBand = w.EqBand = $class({
         else if (options.q !== void(0))
             this.set("q", options.q);
         
-        /** @member {HTMLDivElement} TK.EqBand#element - The main SVG group.
-         * Has class <code>toolkit-eqband</code>.
+        /** 
+         * @member {HTMLDivElement} TK.EqBand#element - The main SVG group.
+         *   Has class <code>toolkit-eqband</code>.
          */
         TK.add_class(this.element, "toolkit-eqband");
         
@@ -115,7 +120,9 @@ w.TK.EqBand = w.EqBand = $class({
      * Calculate the gain for a given frequency in Hz.
      *
      * @method TK.EqBand#freq2gain
+     * 
      * @param {number} freq - The frequency.
+     * 
      * @returns {number} The gain at the given frequency.
      */
     freq2gain: function (freq) {

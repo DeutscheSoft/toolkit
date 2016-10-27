@@ -22,8 +22,9 @@
  * The event is emitted for the <code>state</code> option.
  * 
  * @event TK.Button#useraction
- * @param {string} name - The name of the option which was changed due to the users action
- * @param {mixed} value - The new value of the option
+ * 
+ * @param {string} name - The name of the option which was changed due to the users action.
+ * @param {mixed} value - The new value of the option.
  */
  
 "use strict";
@@ -33,6 +34,8 @@ w.TK.Button = w.Button = $class({
      * TK.Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.
      * Buttons are used as a base to build different other widgets from, too.
+     * 
+     * @param {Object} options
      * 
      * @property {string} [options.label=""] - Text for the button label
      * @property {string} [options.icon=""] - URL to an icon for the button
@@ -61,21 +64,25 @@ w.TK.Button = w.Button = $class({
     initialize: function (options) {
         var E;
         TK.Widget.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.Button#element - The main DIV element. Has class <code>toolkit-button</code> 
+        /**
+         * @member {HTMLDivElement} TK.Button#element - The main DIV element. Has class <code>toolkit-button</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
         this.widgetize(E, true, true, true);
         
-        /** @member {HTMLDivElement} TK.Button#_cell - An internal container for label and icon.
+        /**
+         * @member {HTMLDivElement} TK.Button#_cell - An internal container for label and icon.
          *  Has class <code>toolkit-cell</code>
          */
         this._cell  = TK.element("div","toolkit-cell");
-        /** @member {HTMLImageElement} TK.Button#_icon - The icon of the button. Has class <code>toolkit-icon</code> 
+        /**
+         * @member {HTMLImageElement} TK.Button#_icon - The icon of the button. Has class <code>toolkit-icon</code>.
          */
         this._icon  = TK.element("img","toolkit-icon");
         this._icon.setAttribute("draggable", "false");
-        /** @member {HTMLDivElement} TK.Button#_label - The label of the button. Has class <code>toolkit-label</code>
+        /**
+         * @member {HTMLDivElement} TK.Button#_label - The label of the button. Has class <code>toolkit-label</code>.
          */
         this._label = TK.element("div","toolkit-label");
         
