@@ -154,11 +154,12 @@ w.TK.Expander = w.Expander = $class({
      * @property {boolean} [options.always_expanded=false] - This essentially overwrites
      *   the <code>expanded</code> option. This can be used to switch this widget to be
      *   always expanded, e.g. when the screen size is big enough.
-     * @property {string} options.group - If set, this expander is grouped together with
+     * @property {string} [options.group=""] - If set, this expander is grouped together with
      *   all other expanders of the same group name. At most one expander of the same group
      *   can be open at one time.
-     * @property {string} options.group_default - If set to true, this expander is expanded
+     * @property {boolean} [options.group_default=false] - If set, this expander is expanded
      *   if all other group members are collapsed.
+     * @param {String} [options.icon=""] - Icon of the {@link TK.Button} which toggles expand state.
      */
     _class: "Expander",
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
