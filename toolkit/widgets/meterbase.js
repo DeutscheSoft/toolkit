@@ -125,9 +125,11 @@ w.TK.MeterBase = w.MeterBase = $class({
      * changes to the meter level, which fall into the same segment.
      *
      * @class TK.MeterBase
+     * 
      * @extends TK.Widget
      *
      * @param {Object} options
+     * 
      * @property {string} [options.layout="left"] - A string describing the layout of the meter.
      *   Possible values are <code>"left"</code>, <code>"right"</code>, <code>"top"</code> and 
      *   <code>"bottom"</code>. <code>"left"</code> and <code>"right"</code> are vertical
@@ -198,8 +200,9 @@ w.TK.MeterBase = w.MeterBase = $class({
         TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
         this.__based = false;
-        /** @member {HTMLDivElement} TK.MeterBase#element - The main DIV container.
-         * Has class <code>toolkit-meter-base</code>.
+        /**
+         * @member {HTMLDivElement} TK.MeterBase#element - The main DIV container.
+         *   Has class <code>toolkit-meter-base</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-meter-base");
@@ -207,27 +210,27 @@ w.TK.MeterBase = w.MeterBase = $class({
         
         /**
          * @member {HTMLDivElement} TK.MeterBase#_title - The DIV element displaying the title.
-         * Has class <code>toolkit-title</code>.
+         *   Has class <code>toolkit-title</code>.
          */
         this._title  = TK.element("div", "toolkit-title");
         /**
          * @member {HTMLDivElement} TK.MeterBase#_label - The DIV element displaying the value.
-         * Has class <code>toolkit-label</code>.
+         *   Has class <code>toolkit-label</code>.
          */
         this._label  = TK.element("div", "toolkit-label");
         /**
          * @member {HTMLDivElement} TK.MeterBase#_bar - The DIV element containing the masks and drawing the background.
-         * Has class <code>toolkit-bar</code>.
+         *   Has class <code>toolkit-bar</code>.
          */
         this._bar    = TK.element("div", "toolkit-bar");
         /**
          * @member {HTMLDivElement} TK.MeterBase#_over - The DIV element for the peak marker.
-         * Has class <code>toolkit-over</code>.
+         *   Has class <code>toolkit-over</code>.
          */
         this._over   = TK.element("div", "toolkit-over");
         /**
          * @member {HTMLCanvas} TK.MeterBase#_canvas - The canvas element drawing the mask.
-         * Has class <code>toolkit-mask</code>.
+         *   Has class <code>toolkit-mask</code>.
          */
         this._canvas = document.createElement("canvas");
         TK.add_class(this._canvas, "toolkit-mask");
@@ -485,8 +488,10 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the label changed.
                  * The argument is the actual label value.
-                 * @param {string} label - The label of the {@link TK.MeterBase}.
+                 * 
                  * @event TK.MeterBase#labelchanged
+                 * 
+                 * @param {string} label - The label of the {@link TK.MeterBase}.
                  */
                 this.fire_event("labelchanged", value);
                 break;
@@ -494,8 +499,10 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the value changed.
                  * The argument is the actual value.
-                 * @param {number} value - The value of the {@link TK.MeterBase}.
+                 * 
                  * @event TK.MeterBase#valuechanged
+                 * 
+                 * @param {number} value - The value of the {@link TK.MeterBase}.
                  */
                 this.fire_event("valuechanged", value);
                 break;
@@ -506,8 +513,10 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the title changed.
                  * The argument is the actual title.
-                 * @param {string} title - The title of the {@link TK.MeterBase}.
+                 * 
                  * @event TK.MeterBase#titlechanged
+                 * 
+                 * @param {string} title - The title of the {@link TK.MeterBase}.
                  */
                 this.fire_event("titlechanged", value);
                 break;
@@ -519,9 +528,11 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the scale changed. The arguments are
                  * the name of the changed value and the new value.
+                 * 
+                 * @event TK.MeterBase#scalechanged
+                 * 
                  * @param {string} key - The option which was set to change the scale.
                  * @param {mixed} - The value of the option.
-                 * @event TK.MeterBase#scalechanged
                  */
                 this.fire_event("scalechanged", key, value);
                 this.scale.set("labels", value);
@@ -540,8 +551,10 @@ w.TK.MeterBase = w.MeterBase = $class({
                 /**
                  * Is fired when the base value changed.
                  * The argument is the actual base value.
-                 * @param {number} base - The value of the base.
+                 * 
                  * @event TK.MeterBase#basechanged
+                 * 
+                 * @param {number} base - The value of the base.
                  */
                 this.fire_event("basechanged", value);
                 break;
