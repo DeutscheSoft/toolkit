@@ -51,8 +51,10 @@ function header_action() {
     }
     /**
      * The user double-clicked on the header.
+     * 
      * @event TK.Window.headeraction
-     * @param {string} action - The function which was executed, e.g. "shrink", "maximize" or "close"
+     * 
+     * @param {string} action - The function which was executed, e.g. <code>shrink</code>, <code>maximize</code> or <code>close</code>.
      */
     this.fire_event("headeraction", this.options.header_action);
 }
@@ -75,6 +77,7 @@ function max_width() {
 function close(e) {
     /**
      * The user clicked the close button.
+     * 
      * @event TK.Window.closeclicked
      */
     this.fire_event("closeclicked");
@@ -85,7 +88,9 @@ function maximize(e) {
     if (this.options.auto_maximize) this.toggle_maximize();
     /**
      * The user clicked the maximize button.
+     * 
      * @event TK.Window.maximizeclicked
+     * 
      * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizeclicked", this.options.maximize);
@@ -95,7 +100,9 @@ function maximizevertical(e) {
     if (this.options.auto_maximize) this.toggle_maximize_vertical();
     /**
      * The user clicked the maximize-vertical button.
+     * 
      * @event TK.Window.maximizeverticalclicked
+     * 
      * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizeverticalclicked", this.options.maximize.y);
@@ -105,7 +112,9 @@ function maximizehorizontal(e) {
     if (this.options.auto_maximize) this.toggle_maximize_horizontal();
     /**
      * The user clicked the maximize-horizontal button.
+     * 
      * @event TK.Window.maximizehorizontalclicked
+     * 
      * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
@@ -115,7 +124,9 @@ function minimize(e) {
     if (this.options.auto_minimize) this.toggle_minimize();
     /**
      * The user clicked the minimize button.
+     * 
      * @event TK.Window.minimizeclicked
+     * 
      * @param {Object} minimize - The minimize option.
      */
     this.fire_event("minimizeclicked", this.options.minimize);
@@ -125,7 +136,9 @@ function shrink(e) {
     if (this.options.auto_shrink) this.toggle_shrink();
     /**
      * The user clicked the shrink button.
+     * 
      * @event TK.Window.shrinkclicked
+     * 
      * @param {Object} shrink - The shrink option.
      */
     this.fire_event("shrinkclicked", this.options.shrink);
@@ -138,7 +151,9 @@ function start_resize(el, ev) {
     TK.add_class(this.element, "toolkit-resizing");
     /**
      * The user starts resizing the window.
+     * 
      * @event TK.Window.startresize
+     * 
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("startresize", ev);
@@ -153,7 +168,9 @@ function stop_resize(el, ev) {
     calculate_dimensions.call(this);
     /**
      * The user stops resizing the window.
+     * 
      * @event TK.Window.stopresize
+     * 
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("stopresize", ev);
@@ -167,7 +184,9 @@ function resizing(el, ev) {
     }
     /**
      * The user resizes the window.
+     * 
      * @event TK.Window.resizing
+     * 
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("resizing", ev);
@@ -182,6 +201,7 @@ function build_header() {
     check_header.call(this, false);
     /**
      * The header changed.
+     * 
      * @event TK.Window.headerchanged
      */
     this.fire_event("headerchanged");
@@ -193,6 +213,7 @@ function build_footer() {
     check_footer.call(this, false);
     /**
      * The footer changed.
+     * 
      * @event TK.Window.footerchanged
      */
     this.fire_event("footerchanged");
@@ -200,6 +221,7 @@ function build_footer() {
 function set_content() {
     /**
      * The content was set.
+     * 
      * @event TK.Window.contentresized
      */
     this.fire_event("contentresized");
@@ -286,7 +308,9 @@ function start_drag(ev, el) {
     TK.add_class(this.element, "toolkit-dragging");
     /**
      * The user starts dragging the window.
+     * 
      * @event TK.Window.startdrag
+     * 
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("startdrag", ev);
@@ -300,7 +324,9 @@ function stop_drag(ev, el) {
     TK.remove_class(this.element, "toolkit-dragging");
     /**
      * The user stops dragging the window.
+     * 
      * @event TK.Window.stopdrag
+     * 
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("stopdrag", ev);
@@ -324,7 +350,9 @@ function dragging(ev, el) {
     calculate_position.call(this);
     /**
      * The user is dragging the window.
+     * 
      * @event TK.Window.dragging
+     * 
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("dragging", ev);
@@ -382,7 +410,9 @@ function set_position() {
     this.dimensions.y2     = pos.y + this.dimensions.height;
     /**
      * The position of the window changed.
+     * 
      * @event TK.Window.positionchanged
+     * 
      * @param {Object} event - The {@link TK.Window#dimensions} dimensions object.
      */
     this.fire_event("positionchanged", this.dimensions);
@@ -421,7 +451,9 @@ function set_dimensions() {
     set_content.call(this);
     /**
      * The dimensions of the window changed.
+     * 
      * @event TK.Window.dimensionschanged
+     * 
      * @param {Object} event - The {@link TK.Window#dimensions} dimensions object.
      */
     this.fire_event("dimensionschanged", this.dimensions);
@@ -468,7 +500,95 @@ w.TK.Window = w.Window = $class({
      * This widget is a flexible overlay window.
      *
      * @class TK.Window
+     * 
      * @extends TK.Container
+     * 
+     * @param {Object} options
+     * 
+     * @property {Number} [options.width=500] - Initial width, can be a CSS length or an integer (pixels).
+     * @property {Number} [options.height=200] - Initial height, can be a CSS length or an integer (pixels).
+     * @property {Number} [options.x=0] - X position of the window.
+     * @property {Number} [options.y=0] - Y position of the window.
+     * @property {Number} [options.min_width=64] - Minimum width of the window.
+     * @property {Number} [options.max_width=-1] - Maximum width of the window, -1 ~ infinite.
+     * @property {Number} [options.min_height=64] - Minimum height of the window.
+     * @property {Number} [options.max_height=-1] - Maximum height of the window, -1 ~ infinite.
+     * @property {String} [options.anchor="top-left"] - Anchor of the window, can be one out of
+     *   "top-left", "top", "top-right",
+     *   "left", "center", "right",
+     *   "bottom-left", "bottom", "bottom-right"
+     * @property {Boolean} [options.modal=false] - If modal window blocks all other elements
+     * @property {String} [options.dock=false] - Docking of the window, can be one out of
+     *   "top-left", "top", "top-right",
+     *   "left", "center", "right",
+     *   "bottom-left", "bottom", "bottom-right"
+     * @property {Object|Boolean} [options.maximize=false] - Boolean or object with members <code>x</code> and <code>y</code> as boolean to determine the maximized state.
+     * @property {Boolean} [options.minimize=false] - Minimize window (does only make sense with a
+     *   window manager application to keep track of it)
+     * @property {Boolean} [options.shrink=false] - Shrink rolls the window up into the title bar.
+     * @property {String|HTMLElement} [options.content=""] - The content of the window.
+     * @property {String} [options.open="center"] - initial position of the window, can be one out of
+     *   "top-left", "top", "top-right",
+     *   "left", "center", "right",
+     *   "bottom-left", "bottom", "bottom-right"
+     * @property {Integer} [options.z_index=10000] - Z index for piling windows. does make more sense
+     *   when used together with a window manager
+     * @property {String|Array<String>} [options.header_left=["icon"]] - Single element or array of
+     *   "title", "icon",
+     *   "close", "minimize",
+     *   "shrink",
+     *   "maximize", "maximize-vertical"
+     *   "maximize-horizontal", "status".
+     * @property {String|Array<String>} [options.header_center=["title"]] - Single element or array of
+     *   "title", "icon",
+     *   "close", "minimize",
+     *   "shrink",
+     *   "maximize", "maximize-vertical"
+     *   "maximize-horizontal", "status".
+     * @property {String|Array<String>} [options.header_right=["maximize", "close"]] - Single element or array of
+     *   "title", "icon",
+     *   "close", "minimize",
+     *   "shrink",
+     *   "maximize", "maximize-vertical"
+     *   "maximize-horizontal", "status".
+     * @property {String|Array<String>} [options.footer_left=[]] - Single element or array of
+     *   "title", "icon",
+     *   "close", "minimize",
+     *   "shrink",
+     *   "maximize", "maximize-vertical"
+     *   "maximize-horizontal", "status".
+     * @property {String|Array<String>} [options.footer_center=[]] - Single element or array of
+     *   "title", "icon",
+     *   "close", "minimize",
+     *   "shrink",
+     *   "maximize", "maximize-vertical"
+     *   "maximize-horizontal", "status".
+     * @property {String|Array<String>} [options.footer_right=[]] - Single element or array of
+     *   "title", "icon",
+     *   "close", "minimize",
+     *   "shrink",
+     *   "maximize", "maximize-vertical"
+     *   "maximize-horizontal", "status".
+     * @property {String} [options.title=""] - Window title.
+     * @property {String} [options.status=""] Window status.
+     * @property {String} [options.icon=""] URL to window icon.
+     * @property {Boolean} [options.fixed=true] - Whether the window sticks to the viewport
+     *   rather than the document
+     * @property {Boolean} [options.auto_active=false] - Auto-toggle the active-class when mouseovered
+     * @property {Boolean} [options.auto_close=true] - Set whether close destroys the window or not
+     * @property {Boolean} [options.auto_maximize=true] - Set whether maximize toggles the window or not
+     * @property {Boolean} [options.auto_minimize=true] - Set whether minimize toggles the window or not
+     * @property {Boolean} [options.auto_shrink=true] - Set whether shrink toggles the window or not
+     * @property {Boolean} [options.draggable=true] - Set whether the window is draggable
+     * @property {Boolean} [options.resizable=true] - Set whether the window is resizable
+     * @property {String} [options.resizing="continuous"] - Resizing policy, "continuous"
+     *   or "compressor"LETE
+     * @property {Number} [options.header_action="maximize"] - Action for double clicking the window header, one out of "close", "minimize",
+     *   "shrink",
+     *   "maximize", "maximize-vertical"
+     *   "maximize-horizontal"
+     * @property {Boolean} [options.active=true] - Active state of the window.
+     * @property {Integer} [options.hide_status=0] - If set to !0 status message hides after [n] milliseconds.
      */
     _class: "Window",
     Extends: TK.Container,
@@ -750,26 +870,69 @@ w.TK.Window = w.Window = $class({
         TK.Container.prototype.destroy.call(this);
     },
     
+    /**
+     * Appends a new child to the window content area.
+     * 
+     * @method TK.Window#append_child
+     * 
+     * @param {TK.Widget} child - The child widget to add to the windows content area.
+     */
     append_child : function(child) {
         child.set("container", this._content);
         this.add_child(child);
     },
     
+    /**
+     * Toggles the overall maximize state of the window.
+     * 
+     * @method TK.Window#toggle_maximize
+     * 
+     * @param {Boolean} maximize - State of maximization. If window is already
+     *   maximized in one or both directions it is un-maximized, otherwise maximized.
+     */
     toggle_maximize: function () {
         if (!vert_max.call(this) || !horiz_max.call(this))
             this.set("maximize", {x: true, y: true});
         else
             this.set("maximize", {x: false, y: false});
     },
+    /**
+     * Toggles the vertical maximize state of the window.
+     * 
+     * @method TK.Window#toggle_maximize_vertical
+     * 
+     * @param {Boolean} maximize - The new vertical maximization.
+     */
     toggle_maximize_vertical: function () {
         this.set("maximize", {y: !this.options.maximize.y});
     },
+    /**
+     * Toggles the horizontal maximize state of the window.
+     * 
+     * @method TK.Window#toggle_maximize_horizontal
+     * 
+     * @param {Boolean} maximize - The new horizontal maximization.
+     */
     toggle_maximize_horizontal: function () {
         this.set("maximize", {x: !this.options.maximize.x});
     },
+    /**
+     * Toggles the minimize state of the window.
+     * 
+     * @method TK.Window#toggle_minimize
+     * 
+     * @param {Boolean} minimize - The new minimization.
+     */
     toggle_minimize: function () {
         this.set("minimize", !this.options.minimize);
     },
+    /**
+     * Toggles the shrink state of the window.
+     * 
+     * @method TK.Window#toggle_shrink
+     * 
+     * @param {Boolean} shrink - The new shrink state.
+     */
     toggle_shrink: function () {
         this.set("shrink", !this.options.shrink);
     },
