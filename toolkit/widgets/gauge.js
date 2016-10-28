@@ -32,9 +32,11 @@ var format_viewbox = TK.FORMAT("0 0 %d %d");
  * all options of {@link TK.Circular}.
  *
  * @class TK.Gauge
+ * 
  * @extends TK.Widget
  *
  * @param {Object} options
+ * 
  * @property {number} [options.x=0] - Displacement of the {@link TK.Circular}
  *   in horizontal direction. This allows drawing gauges which are only
  *   represented by a segment of a circle.
@@ -46,7 +48,7 @@ var format_viewbox = TK.FORMAT("0 0 %d %d");
  * @property {string} [options.title.title] - Title string.
  * @property {number} [options.title.margin] - Margin of the title string.
  * @property {string} [options.title.align] - Alignment of the title, either
- *      "inner" or "outer".
+ *   <code>inner</code> or <code>outer</code>.
  */
 w.TK.Gauge = w.Gauge = $class({
     _class: "Gauge",
@@ -80,15 +82,16 @@ w.TK.Gauge = w.Gauge = $class({
          */
         this.svg = S = TK.make_svg("svg");
         
-        /** @member {HTMLDivElement} TK.Gauge#element - The main DIV container.
-         * Has class <code>toolkit-gauge</code>.
+        /**
+         * @member {HTMLDivElement} TK.Gauge#element - The main DIV container.
+         *   Has class <code>toolkit-gauge</code>.
          */
         TK.add_class(E, "toolkit-gauge");
         this.widgetize(E, true, true, true);
         
         /**
          * @member {SVGText} TK.Gauge#_title - The title of the gauge.
-         * Has class <code>toolkit-title</code>.
+         *   Has class <code>toolkit-title</code>.
          */
         this._title = TK.make_svg("text", {"class": "toolkit-title"});
         S.appendChild(this._title);
@@ -149,6 +152,7 @@ w.TK.Gauge = w.Gauge = $class({
                     }.bind(this), 1);
                     /**
                      * Is fired when the title changed.
+                     * 
                      * @event TK.Gauge#titledrawn
                      */
                     this.fire_event("titledrawn");
