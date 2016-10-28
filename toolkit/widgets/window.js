@@ -20,7 +20,9 @@
  /**
  * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
  * The event is emitted for the options <code>maximize</code>, <code>minimize</code>, <code>shrink</code>, <code>width</code>, <code>height</code>, <code>x</code> and <code>y</code>.
+ * 
  * @event TK.Window#useraction
+ * 
  * @param {string} name - The name of the option which was changed due to the users action
  * @param {mixed} value - The new value of the option
  * 
