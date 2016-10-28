@@ -22,6 +22,7 @@
  * The event is emitted for the option <code>value</code>.
  *
  * @event TK.Knob#useraction
+ * 
  * @param {string} name - The name of the option which was changed due to the users action
  * @param {mixed} value - The new value of the option
  */
@@ -33,7 +34,9 @@ function dblclick() {
     this.set("value", this.options.reset);
     /**
      * Is fired when the fader receives a double click in order to reset to initial value.
+     * 
      * @event TK.Fader#doubleclick
+     * 
      * @param {number} value - The value of the widget.
      */
     this.fire_event("doubleclick", this.options.value);
@@ -47,6 +50,7 @@ function dblclick() {
  * It inherits all options of {@link TK.Circular} and {@link TK.DragValue}.
  *
  * @class TK.Knob
+ * 
  * @extends TK.Widget
  *
  * @param {Object} options
@@ -89,8 +93,9 @@ w.TK.Knob = w.Knob = $class({
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E, S;
-        /** @member {HTMLDivElement} TK.Knob#element - The main DIV container.
-         * Has class <code>toolkit-knob</code>.
+        /**
+         * @member {HTMLDivElement} TK.Knob#element - The main DIV container.
+         *   Has class <code>toolkit-knob</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div")
         TK.add_class(E, "toolkit-knob");
@@ -113,7 +118,7 @@ w.TK.Knob = w.Knob = $class({
         
         /**
          * @member {TK.DragValue} TK.Knob#drag - Instance of {@link TK.DragValue} used for the
-         * interaction.
+         *   interaction.
          */
         this.drag = new TK.DragValue({
             node:    S,
@@ -130,7 +135,7 @@ w.TK.Knob = w.Knob = $class({
         });
         /**
          * @member {TK.ScrollValue} TK.Knob#scroll - Instance of {@link TK.ScrollValue} used for the
-         * interaction.
+         *   interaction.
          */
         this.scroll = new TK.ScrollValue({
             node:    S,

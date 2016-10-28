@@ -49,23 +49,23 @@ w.TK.Range = w.Range = $class({
     *   supposed to return a value depending
     *   on a coefficient handed over as the 
     *   first argument.
-    * @property {boolean} [reverse=false] - true if the range is reversed.
-    * @property {number} [basis=0] - Dimensions of the range, set to
+    * @property {boolean} [options.reverse=false] - true if the range is reversed.
+    * @property {number} [options.basis=0] - Dimensions of the range, set to
     *   width/height in pixels, if you need
     *   it for drawing purposes, to 100 if
     *   you need percentual values or to 1
     *   if you just need a linear
     *   coefficient for a e.g. logarithmic
     *   scale.
-    * @property {number} [min=0] - The minimum value possible.
-    * @property {number} [max=0] - The maximum value possible.
-    * @property {number} [step=1] - Step size, needed for e.g. user
+    * @property {number} [options.min=0] - The minimum value possible.
+    * @property {number} [options.max=0] - The maximum value possible.
+    * @property {number} [options.step=1] - Step size, needed for e.g. user
     *   interaction
-    * @property {number} [shift_up=4] - Multiplier for e.g. SHIFT pressed
+    * @property {number} [options.shift_up=4] - Multiplier for e.g. SHIFT pressed
     *   while stepping
-    * @property {number} [shift_down=0.25] - Multiplier for e.g. SHIFT + CONTROL
+    * @property {number} [options.shift_down=0.25] - Multiplier for e.g. SHIFT + CONTROL
     *   pressed while stepping
-    * @property {mixed} [snap=0] - Snap the value to a virtual grid
+    * @property {mixed} [options.snap=0] - Snap the value to a virtual grid
     *   with this distance
     *   Using snap option with float values
     *   causes the range to reduce its
@@ -78,7 +78,7 @@ w.TK.Range = w.Range = $class({
     *   from 9,007,199,254,740,992 to
     *   9,007,199,254,740.992 (note the
     *   decimal point)
-    * @property {boolean} [round=false] - if snap is set decide how to jump
+    * @property {boolean} [options.round=false] - if snap is set decide how to jump
     *   between snaps. Setting this to true
     *   slips to the next snap if the value
     *   is more than on its half way to it.

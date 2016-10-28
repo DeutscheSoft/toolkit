@@ -42,9 +42,9 @@ w.TK.Equalizer = w.Equalizer = $class({
      *
      * @property {Object} options
      * 
-     * @param {Number} [options.accuracy=1] - The distance between points on the x axis.
-     * @param {Array} [bands=[]] - A list of bands to add on init.
-     * @param {Boolean} [show_bands=true] - Show or hide all bands.
+     * @param {Number} [options.options.accuracy=1] - The distance between points on the x axis.
+     * @param {Array} [options.bands=[]] - A list of bands to add on init.
+     * @param {Boolean} [options.show_bands=true] - Show or hide all bands.
      * 
      * @class TK.Equalizer
      * 

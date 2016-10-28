@@ -23,7 +23,12 @@ w.TK.Label = w.Label = $class({
      * TK.Label is a simple text field displaying strings.
      *
      * @class TK.Label
+     * 
      * @extends TK.Widget
+     * 
+     * @property {Object} options
+     * 
+     * @param {String} [options.label=""] - The text of the label.
      */
     _class: "Label",
     Extends: TK.Widget,

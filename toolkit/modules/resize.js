@@ -93,11 +93,11 @@ function set_handle() {
  * 
  * @param {Object} options
  * 
- * @property {HTMLElement} [node=null] - The element to resize.
- * @property {HTMLElement} [handle=null] - A DOM node used as handle. If none set the element is used.
- * @property {Boolean} [active=true] - Set to false to disable resizing.
- * @property {Object} [min={x: -1, y: -1}] - Object containing x and y determining minimum size. A value of -1 means no minimum.
- * @property {Object} [max={x: -1, y: -1}] - Object containing x and y determining maximum size. A value of -1 means no maximum.
+ * @property {HTMLElement} [options.node=null] - The element to resize.
+ * @property {HTMLElement} [options.handle=null] - A DOM node used as handle. If none set the element is used.
+ * @property {Boolean} [aoptions.ctive=true] - Set to false to disable resizing.
+ * @property {Object} [options.min={x: -1, y: -1}] - Object containing x and y determining minimum size. A value of -1 means no minimum.
+ * @property {Object} [options.max={x: -1, y: -1}] - Object containing x and y determining maximum size. A value of -1 means no maximum.
  */
 w.TK.Resize = w.Resize = $class({
     // TK.Resize enables resizing of elements on the screen.
