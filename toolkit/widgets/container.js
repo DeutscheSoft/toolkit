@@ -69,21 +69,33 @@ w.TK.Container = w.Container = $class({
     /**
      * TK.Container represents a <code>&lt;DIV></code> element.
      *
+     * Container have four different display states: <code>show</code>, <code>hide</code>,
+     * <code>showing</code> and <code>hiding</code>. Each of these states has a corresponding
+     * CSS class called <code>toolkit-show</code>, <code>toolkit-hide</code>, <code>toolkit-showing</code>
+     * and <code>toolkit-hiding</code>, respectively. The display state can be controlled using
+     * the methods {@link TK.Container#show}, {@link TK.Container#hide} and {@link TK.Widget#toggle_hidden}.
+     *
+     * A container can keep track of the display states of its children.
+     * The display state of a child can be changed using {@link TK.Container#hide_child},
+     * {@link TK.Container#show_child} and {@link TK.Container#toggle_child}.
+     *
      * @class TK.Container
      * 
      * @extends TK.Widget
      *
      * @param {Object} options
      * 
-     * @property {string|HTMLElement} options.content - The content of the container. It can either be
+     * @property {string|HTMLElement} [options.content] - The content of the container. It can either be
      *   a string which is interpreted as Text or a DOM node. Note that this options will remove all
      *   child nodes from the container element including those added via append_child.
-     * @property {number} options.hiding_duration - The duration in ms of the hiding CSS
+     * @property {number} [options.hiding_duration] - The duration in ms of the hiding CSS
      *   transition/animation of this container. If this option is not set, the transition duration
      *   will be determined by the computed style, which can be rather
      *   expensive. Setting this option explicitly can therefore be an optimization.
-     * @property {number} options.showing_duration - The duration in ms of the showing CSS
+     * @property {number} [options.showing_duration] - The duration in ms of the showing CSS
      *   transition/animation of this container.
+     * @property {string} [options.display_state="show"] - The current display state of this container.
+     *   Do not modify, manually.
      */
     _class: "Container",
     Extends: TK.Widget,
@@ -171,6 +183,12 @@ w.TK.Container = w.Container = $class({
         disable_draw_self.call(this);
         disable_draw_children.call(this);
     },
+    /** 
+     * Starts the transition of the <code>display_state</code> to <code>hide</code>.
+     *
+     * @method TK.Container#hide
+     *
+     */
     hide: function () {
         var O = this.options;
         if (O.display_state === "hide") return;
@@ -179,6 +197,14 @@ w.TK.Container = w.Container = $class({
         if (O.display_state === "hiding") return;
         this.set("display_state", "hiding");
     },
+    /** 
+     * Immediately switches the display state of this container to <code>hide</code>.
+     * Unlike {@link TK.Container#hide} this method does not perform the hiding transition
+     * and immediately modifies the DOM by setting the <code>toolkit-hide</code> class.
+     *
+     * @method TK.Container#force_hide
+     *
+     */
     force_hide: function () {
         var O = this.options;
         if (O.display_state === "hide") return;
@@ -190,12 +216,26 @@ w.TK.Container = w.Container = $class({
         TK.remove_class(E, "toolkit-showing");
         TK.remove_class(E, "toolkit-show");
     },
+    /** 
+     * Starts the transition of the <code>display_state</code> to <code>show</code>.
+     *
+     * @method TK.Container#show
+     *
+     */
     show: function() {
         var O = this.options;
         enable_draw_self.call(this);
         if (O.display_state === "show" || O.display_state === "showing") return;
         this.set("display_state", "showing");
     },
+    /** 
+     * Immediately switches the display state of this container to <code>show</code>.
+     * Unlike {@link TK.Container#hide} this method does not perform the hiding transition
+     * and immediately modifies the DOM by setting the <code>toolkit-show</code> class.
+     *
+     * @method TK.Container#force_show
+     *
+     */
     force_show: function() {
         var O = this.options;
         if (O.display_state === "show") return;
@@ -227,6 +267,15 @@ w.TK.Container = w.Container = $class({
         var i;
         for (i = 0; i < C.length; i++) if (!H[i]) C[i].hide_nodraw();
     },
+
+    /**
+     * Switches the hidden state of a child to <code>hidden</code>.
+     * The argument is either the child index or the child itself.
+     *
+     * @method TK.Container#hide_child
+     * @param {Object|integer} child - Child or its index.
+     *
+     */
     hide_child: function(i) {
         var C = this.children;
         var H = this.hidden_children;
@@ -240,6 +289,14 @@ w.TK.Container = w.Container = $class({
         C[i].hide();
     },
 
+    /**
+     * Switches the hidden state of a child to <code>shown</code>.
+     * The argument is either the child index or the child itself.
+     *
+     * @method TK.Container#show_child
+     * @param {Object|integer} child - Child or its index.
+     *
+     */
     show_child: function(i) {
         var C = this.children;
         var H = this.hidden_children;
@@ -256,6 +313,14 @@ w.TK.Container = w.Container = $class({
         }
     },
 
+    /**
+     * Toggles the hidden state of a child.
+     * The argument is either the child index or the child itself.
+     *
+     * @method TK.Container#toggle_child
+     * @param {Object|integer} child - Child or its index.
+     *
+     */
     toggle_child: function(i) {
         var C = this.children;
         var H = this.hidden_children;
