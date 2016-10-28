@@ -22,6 +22,7 @@
  * The event is emitted for the option <code>value</code>.
  *
  * @event TK.ValueButton#useraction
+ * 
  * @param {string} name - The name of the option which was changed due to the users action
  * @param {mixed} value - The new value of the option
  */
@@ -33,8 +34,10 @@ function value_clicked() {
     this.drag.set("active", false);
     /**
      * Is fired when the user starts editing the value manually
-     * @param {number} value - The value of the widget.
+     * 
      * @event TK.ValueButton#valueedit
+     * 
+     * @param {number} value - The value of the widget.
      */
     this.fire_event("valueedit", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
@@ -44,8 +47,10 @@ function value_done() {
     this.drag.set("active", true);
     /**
      * Is fired when the user finished editing the value manually
-     * @param {number} value - The value of the widget.
+     * 
      * @event TK.ValueButton#valueset
+     * 
+     * @param {number} value - The value of the widget.
      */
     this.fire_event("valueset", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
@@ -54,9 +59,28 @@ function value_done() {
 w.TK.ValueButton = w.ValueButton = $class({
     /**
      * This widget combines a {@link TK.Button} and a {@link TK.Value}.
+     * TK.ValueButton uses {@link TK.DragValue} and {@link TK.ScrollValue}
+     * for setting its value.
+     * It inherits all options of {@link TK.DragValue}.
      *
      * @class TK.ValueButton
+     * 
      * @extends TK.Button
+     * 
+     * @param {Object} options
+     * 
+     * @property {Number} [options.value=0] - The value of the widget.
+     * @property {Number} [options.value_format=function (val) { return val.toFixed(2); }] - Callback to format the value label.
+     * @property {Number} [options.value_size=5] - Amount of digits of the value input.
+     * @property {Number} [options.bar_direction="horizontal"] - Direction of the bar, either <code>horizontal</code> or <code>vertical<code>.
+     * @property {String} [options.direction="polar"] - Direction for changing the value.
+     *   Can be "polar", "vertical" or "horizontal".
+     * @property {Number} [options.blind_angle=20] - If options.direction is "polar",
+     *   this is the angle of separation between positive and negative value changes
+     * @property {Number} [options.rotation=45] - Defines the angle of the center of the positive value
+     *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
+     *   moving towards top and right.
+     * @property {Number} [options.snap=0.01] - Snap value while dragging.
      */
     _class: "ValueButton",
     Extends: TK.Button,
@@ -65,8 +89,8 @@ w.TK.ValueButton = w.ValueButton = $class({
         value: "number",
         value_format: "function",
         value_size: "number",
-        bar_direction: "int",
-        drag_direction: "int",
+        bar_direction: "string",
+        drag_direction: "string",
         rotation: "number",
         blind_angle: "number",
         snap: "number",
@@ -85,8 +109,9 @@ w.TK.ValueButton = w.ValueButton = $class({
     initialize: function (options) {
         TK.Button.prototype.initialize.call(this, options);
         
-        /** @member {HTMLDivElement} TK.ValueButton#element - The main DIV container.
-         * Has class <code>toolkit-valuebutton</code>.
+        /**
+         * @member {HTMLDivElement} TK.ValueButton#element - The main DIV container.
+         *   Has class <code>toolkit-valuebutton</code>.
          */
         TK.add_class(this.element, "toolkit-valuebutton");
         
@@ -159,8 +184,10 @@ w.TK.ValueButton = w.ValueButton = $class({
             /**
              * Is fired when the user doubleclicks the valuebutton in order to to reset to initial value.
              * The Argument is the new value.
-             * @param {number} value - The value of the widget.
+             * 
              * @event TK.ValueButton#doubleclick
+             * 
+             * @param {number} value - The value of the widget.
              */
             this.fire_event("doubleclick", this.options.value);
         }.bind(this));

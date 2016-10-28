@@ -279,7 +279,7 @@ w.TK.DragValue = w.DragValue = $class({
      *   <code>toolkit-dragging</code> will be added to this Element.
      * @property {Function} options.get - Callback function returning the value to drag.
      * @property {Function} options.set - Callback function for setting the value.
-     * @property {integer} [options.direction="polar"] - Direction for changing the value.
+     * @property {string} [options.direction="polar"] - Direction for changing the value.
      *   Can be "polar", "vertical" or "horizontal".
      * @property {boolean} [options.active=true] - If false, dragging is deactivated.
      * @property {boolean} [options.cursor=false] - If true, a global cursor is set while dragging.
