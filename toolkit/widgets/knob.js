@@ -64,9 +64,14 @@ function dblclick() {
  * @property {Object} [options.dot={length: 6, margin: 13, width: 2}]
  * @property {Object} [options.marker={thickness: 6, margin: 13}]
  * @property {Object} [options.label={margin: 10, align: "outer", format: function(val){return val;}}]
- * @property {Integer} [options.direction="polar"]
- * @property {Number} [options.rotation=45]
- * @property {Number} [options.blind_angle=20]
+ * @property {Number} [options.bar_direction="horizontal"] - Direction of the bar, either <code>horizontal</code> or <code>vertical<code>.
+ * @property {String} [options.direction="polar"] - Direction for changing the value.
+ *   Can be "polar", "vertical" or "horizontal".
+ * @property {Number} [options.blind_angle=20] - If options.direction is "polar",
+ *   this is the angle of separation between positive and negative value changes
+ * @property {Number} [options.rotation=45] - Defines the angle of the center of the positive value
+ *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
+ *   moving towards top and right.
  */
 w.TK.Knob = w.Knob = $class({
     _class: "Knob",
