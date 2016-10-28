@@ -54,6 +54,19 @@ function dblclick() {
  * @extends TK.Widget
  *
  * @param {Object} options
+ * 
+ * @property {Object} [options.hand={width: 1, length: 12, margin: 24}]
+ * @property {Number} [options.margin=13]
+ * @property {Number} [options.thickness=6]
+ * @property {Number} [options.step=1] 
+ * @property {Number} [options.shift_up=4]
+ * @property {Number} [options.shift_down=0.25]
+ * @property {Object} [options.dot={length: 6, margin: 13, width: 2}]
+ * @property {Object} [options.marker={thickness: 6, margin: 13}]
+ * @property {Object} [options.label={margin: 10, align: "outer", format: function(val){return val;}}]
+ * @property {Integer} [options.direction="polar"]
+ * @property {Number} [options.rotation=45]
+ * @property {Number} [options.blind_angle=20]
  */
 w.TK.Knob = w.Knob = $class({
     _class: "Knob",
