@@ -21,6 +21,7 @@
  * The event is emitted for the option <code>value</code>.
  *
  * @event TK.ValueKnob#useraction
+ * 
  * @param {string} name - The name of the option which was changed due to the users action
  * @param {mixed} value - The new value of the option
  */
@@ -31,9 +32,11 @@ function value_clicked() {
     this.knob.scroll.set("active", false);
     this.knob.drag.set("active", false);
     /**
-     * Is fired when the user starts editing the value manually
-     * @param {number} value - The value of the widget.
+     * Is fired when the user starts editing the value manually.
+     * 
      * @event TK.ValueButton#valueedit
+     * 
+     * @param {number} value - The value of the widget.
      */
     this.fire_event("valueedit", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
@@ -42,9 +45,11 @@ function value_done() {
     this.knob.scroll.set("active", true);
     this.knob.drag.set("active", true);
     /**
-     * Is fired when the user finished editing the value manually
-     * @param {number} value - The value of the widget.
+     * Is fired when the user finished editing the value manually.
+     * 
      * @event TK.ValueButton#valueset
+     * 
+     * @param {number} value - The value of the widget.
      */
     this.fire_event("valueset", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
@@ -55,7 +60,13 @@ w.TK.ValueKnob = w.ValueKnob = $class({
      * value is synchronized.
      *
      * @class TK.ValueKnob
+     * 
      * @extends TK.Widget
+     * 
+     * @param {Object} options
+     * 
+     * @property {Function} [options.value_format=function (val) { return val.toFixed(2); }] - Callback to format the value.
+     * @property {Number} [options.value_size=5] - Amount of digits for the value input.
      */
     _class: "ValueKnob",
     Extends: TK.Widget,
@@ -71,8 +82,9 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E;
-        /** @member {HTMLDivElement} TK.ValueKnob#element - The main DIV container.
-         * Has class <code>toolkit-valueknob</code>.
+        /**
+         * @member {HTMLDivElement} TK.ValueKnob#element - The main DIV container.
+         *   Has class <code>toolkit-valueknob</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-valueknob");
