@@ -30,9 +30,11 @@
  * <code>options.opactity</code>.
  *
  * @class TK.State
+ * 
  * @extends TK.Widget
  *
  * @param {Object} options
+ * 
  * @property {number} [options.state=0] - The state.
  * @property {string} [options.color="red"] - A css color string for the state LED.
  *   <code>false</code>.
@@ -52,8 +54,9 @@ w.TK.State = w.State = $class({
         TK.Widget.prototype.initialize.call(this, options);
 
         var E;
-        /** @member {HTMLDivElement} TK.State#element - The main DIV container.
-         * Has class <code>toolkit-state</code>.
+        /**
+         * @member {HTMLDivElement} TK.State#element - The main DIV container.
+         *   Has class <code>toolkit-state</code>.
          */
         if (!(E = this.element)) this.element = E = toolkit.element("div");
         TK.add_class(E, "toolkit-state");
@@ -61,7 +64,7 @@ w.TK.State = w.State = $class({
         
         /**
          * @member {HTMLDivElement} TK.State#_mask - A DIV for masking the background.
-         * Has class <code>toolkit-mask</code>.
+         *   Has class <code>toolkit-mask</code>.
          */
         this._mask   = TK.element("div","toolkit-mask");
 
