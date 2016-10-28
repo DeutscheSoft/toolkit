@@ -70,8 +70,13 @@ w.TK.MultiMeter = w.MultiMeter = $class({
      * TK.MultiMeter is a collection of {@link TK.LevelMeter}s to show levels of full channels
      * containing multiple audio streams. It offers all options of {@link TK.LevelMeter} and
      * {@link TK.MeterBase} which are passed to all instantiated level meters.
+     *
+     * @class TK.MultiMeter
+     * 
+     * @extends TK.Container
      * 
      * @param {Object} options
+     * 
      * @property {number} [options.count=2] - The amount of level meters
      * @property {string} [options.title=""] - The title of the multi meter
      * @property {Array} [options.titles=["L", "R"]] - An Array containing titles for the level meters. Their order is the same as the meters.
@@ -81,9 +86,6 @@ w.TK.MultiMeter = w.MultiMeter = $class({
      * @property {Array} [options.peaks=[]] - An Array containing peak values for the level meters. Their order is the same as the meters.
      * @property {Array} [options.tops=[]] - An Array containing values for top for the level meters. Their order is the same as the meters.
      * @property {Array} [options.bottoms=[]] - An Array containing values for bottom for the level meters. Their order is the same as the meters.
-     *
-     * @class TK.MultiMeter
-     * @extends TK.Container
      */
     _class: "MultiMeter",
     Extends: TK.Container,
@@ -190,8 +192,9 @@ w.TK.MultiMeter = w.MultiMeter = $class({
     /* end of bloat */
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options, true);
-        /** @member {HTMLDivElement} TK.MultiMeter#element - The main DIV container.
-         * Has class <code>toolkit-multi-meter</code>.
+        /**
+         * @member {HTMLDivElement} TK.MultiMeter#element - The main DIV container.
+         *   Has class <code>toolkit-multi-meter</code>.
          */
         TK.add_class(this.element, "toolkit-multi-meter");
         this.meters = [];
@@ -199,7 +202,7 @@ w.TK.MultiMeter = w.MultiMeter = $class({
         
         /**
          * @member {TK.Label} TK.MultiMeter#itle - The title of the MultiMeter.
-         * Has class <code>toolkit-title</code>.
+         *   Has class <code>toolkit-title</code>.
          */
         this.title = new TK.Label({
             "class": "toolkit-title",
