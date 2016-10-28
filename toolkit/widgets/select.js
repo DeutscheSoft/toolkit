@@ -22,6 +22,7 @@
  * The event is emitted for the options <code>selected</code> and <code>value</code>.
  *
  * @event TK.Select#useraction
+ * 
  * @param {string} name - The name of the option which was changed due to the users action
  * @param {mixed} value - The new value of the option
  */
@@ -95,6 +96,7 @@ w.TK.Select = w.Select = $class({
      * a list of entries.
      *
      * @class TK.Select
+     * 
      * @extends TK.Button
      *
      * @param {Object} options
@@ -130,8 +132,9 @@ w.TK.Select = w.Select = $class({
         this.entries = [];
         this._active = null;
         TK.Button.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.Select#element - The main DIV container.
-         * Has class <code>toolkit-select</code>.
+        /**
+         * @member {HTMLDivElement} TK.Select#element - The main DIV container.
+         *   Has class <code>toolkit-select</code>.
          */
         TK.add_class(this.element, "toolkit-select");
         
@@ -141,7 +144,7 @@ w.TK.Select = w.Select = $class({
         
         /**
          * @member {HTMLListElement} TK.Select#_list - A HTML list for displaying the entry titles.
-         * Has class <code>toolkit-select-list</code>.
+         *   Has class <code>toolkit-select-list</code>.
          */
         this._list = TK.element("ul", "toolkit-select-list");
         this._global_touch_start = function (e) {
@@ -154,7 +157,7 @@ w.TK.Select = w.Select = $class({
         }.bind(this);
         /**
          * @member {HTMLDivElement} TK.Select#_arrow - A DIV element displaaying a small arrow to click on in order to show the select list.
-         * Has class <code>toolkit-arrow</code>.
+         *   Has class <code>toolkit-arrow</code>.
          */
         this._arrow = TK.element("div", "toolkit-arrow");
         this._cell.appendChild(this._arrow);
@@ -173,26 +176,32 @@ w.TK.Select = w.Select = $class({
         TK.Button.prototype.destroy.call(this);
     },
     
-    /*
+    /**
      * Select an entry by its ID.
+     * 
      * @method TK.Select#select
-     * @param {int} id - The ID of the entry to select
+     * 
+     * @param {int} id - The ID of the entry to select.
      */
     select: function (id) {
         this.set("selected", id);
     },
-    /*
+    /**
      * Select an entry by its value.
+     * 
      * @method TK.Select#select_value
-     * @param {mixed} value - The value of the entry to select
+     * 
+     * @param {mixed} value - The value of the entry to select.
      */
     select_value: function (value) {
         var id = index_by_value.call(this, value);
         this.set("selected", id);
     },
-    /*
+    /**
      * Replaces the list to select from with an entirely new one.
+     * 
      * @method TK.Select#set_entries
+     * 
      * @param {Array} entries - An array of entries to set as the new list to select from.
      */
     set_entries: function (entries) {
@@ -201,20 +210,25 @@ w.TK.Select = w.Select = $class({
         this.add_entries(entries);
         this.select(index_by_value.call(this, this.options.value));
     },
-    /*
+    /**
      * Adds new entries to the end of the list to select from.
+     * 
      * @method TK.Select#add_entries
+     * 
      * @param {Array} entries - An array of entries to add at the end of the list to select from.
      */
     add_entries: function (entries) {
         for (var i = 0; i < entries.length; i++)
             this.add_entry(entries[i], true);
     },
-    /*
+    /**
      * Adds a single entry to the end of the list.
+     * 
      * @method TK.Select.add_entry
-     * @emits TK.Select.entryadded
+     * 
      * @param {mixed} entry - A string to be displayed and used as the value or an object with members <code>title</code> and <code>value</code>.
+     * 
+     * @emits TK.Select.entryadded
      */
     add_entry: function (ent) {
         var li = TK.element("li", "toolkit-option");
@@ -235,10 +249,12 @@ w.TK.Select = w.Select = $class({
             /**
              * Is fired when a selection was made by the user. The arguments
              * are the value of the entry, the id of the selected element and the title of the entry.
+             * 
+             * @event TK.Select#select
+             * 
              * @param {mixed} value - The value of the selected entry.
              * @param {number} value - The ID of the selected entry.
              * @param {string} value - The title of the selected entry.
-             * @event TK.Select#select
              */
             this.fire_event("select", entry.value, id, entry.title);
             this.fire_event("useraction", "selected", this.options.selected);
@@ -261,44 +277,58 @@ w.TK.Select = w.Select = $class({
         }
 
         this._list.appendChild(li);
-        /*
+        /**
          * Is fired when a new entry is added to the list.
+         * 
          * @event TK.Select.entryadded
+         * 
          * @param {Object} entry - An object containing the members <code>title</code> and <code>value</code>.
          */
         this.fire_event("entryadded", entry);
     },
-    /*
+    /**
      * Remove an entry from the list by its value.
+     * 
      * @method TK.Select#remove_value
+     * 
      * @param {mixed} value - The value of the entry to be removed from the list.
+     * 
      * @emits TK.Select#entryremoved
      */
     remove_value: function (val) {
         this.remove_id(index_by_value.call(this, val));
     },
-    /*
+    /**
      * Remove an entry from the list by its title.
+     * 
      * @method TK.Select#remove_title
+     * 
      * @param {string} title - The title of the entry to be removed from the list.
+     * 
      * @emits TK.Select#entryremoved
      */
     remove_title: function (title) {
         this.remove_id(index_by_title.call(this, title));
     },
-    /*
+    /**
      * Remove an entry from the list.
+     * 
      * @method TK.Select#remove_entry
+     * 
      * @param {Object} entry - The entry to be removed from the list.
+     * 
      * @emits TK.Select#entryremoved
      */
     remove_entry: function (entry) {
         this.remove_id(get_entry.call(this, entry));
     },
-    /*
+    /**
      * Remove an entry from the list by its ID.
+     * 
      * @method TK.Select#remove_id
+     * 
      * @param {int} id - The ID of the entry to be removed from the list.
+     * 
      * @emits TK.Select#entryremoved
      */
     remove_id: function (id) {
@@ -322,25 +352,30 @@ w.TK.Select = w.Select = $class({
             }
             this.invalid.entries = true;
             this.select(this.options.selected);
-            /*
+            /**
              * Is fired when a new entry is added to the list.
+             * 
              * @event TK.Select.entryremoved
+             * 
              * @param {Object} entry - An object containing the members <code>title</code> and <code>value</code>.
              */
             this.fire_event("entryremoved", entry);
         }
     },
-    /*
+    /**
      * Remove all entries from the list.
+     * 
      * @method TK.Select#clear
+     * 
      * @emits TK.Select#cleared
      */
     clear: function () {
         TK.empty(this._list);
         this.select(false);
         this.entries = [];
-        /*
+        /**
          * Is fired when the list is cleared.
+         * 
          * @event TK.Select.cleared
          */
         this.fire_event("cleared");
@@ -391,9 +426,11 @@ w.TK.Select = w.Select = $class({
             }
         }
     },
-    /*
+    /**
      * Get the currently selected entry.
+     * 
      * @method TK.Select#current
+     * 
      * @returns {Object} The entry object with the members <code>title</code> and <code>value</code>.
      */
     current: function() {
