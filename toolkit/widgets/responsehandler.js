@@ -49,7 +49,18 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      * meant as a universal user interface for equalizers and the like.
      *
      * @class TK.ResponseHandler
+     * 
      * @extends TK.FrequencyResponse
+     * 
+     * @property {Object} options
+     * 
+     * @param {Number} [options.importance_label=4] - Multiplicator of square pixels on hit testing labels to gain importance.
+     * @param {Number} [options.importance_handle=1] - Multiplicator of square pixels on hit testing handles to gain importance.
+     * @param {Number} [options.importance_border=50] - Multiplicator of square pixels on hit testing borders to gain importance.
+     * @param {Object|Function} [options.range_z={ scale: "linear", min: 0, max: 1 }] - Options for z {@link TK.Range}.
+     * @param {Number} [options.depth=0] - The depth of the z axis (<code>basis</code> of options.range_z)
+     * @param {Array} [options.handles=[]] - An array of options for creating {@link TK.ResponseHandle} on init.
+     * @param {Bollean} [options.show_handles=true] - Show or hide all handles.
      */
     _class: "ResponseHandler",
     Extends: TK.FrequencyResponse,
@@ -88,13 +99,14 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
 //             if (!hold) this.redraw();
 //         }.bind(this));
         
-        /** @member {HTMLDivElement} TK.ResponseHandler#element - The main DIV container.
-         * Has class <code>toolkit-response-handler</code>.
+        /**
+         * @member {HTMLDivElement} TK.ResponseHandler#element - The main DIV container.
+         *   Has class <code>toolkit-response-handler</code>.
          */
         TK.add_class(this.element, "toolkit-response-handler");
         /**
          * @member {SVGImage} TK.ResponseHandler#_handles - An SVG group element containing all {@link TK.ResponseHandle} graphics.
-         * Has class <code>toolkit-response-handles</code>.
+         *   Has class <code>toolkit-response-handles</code>.
          */
         this._handles = TK.make_svg("g", {"class": "toolkit-response-handles"});
         this.svg.appendChild(this._handles);
@@ -136,7 +148,9 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      * options for the TK.ResponseHandle
      * 
      * @method TK.ResponseHandler#add_handle
+     * 
      * @param {Object} options - The options for the TK.ResponseHandle
+     * 
      * @emits TK.ResponseHandler#handleadded
      */
     add_handle: function (options) {
@@ -168,7 +182,9 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
             this.add_child(h);
         /**
          * Is fired when a new handle was added.
+         * 
          * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} which was added.
+         * 
          * @event TK.ResponseHandler#handleadded
          */
         this.fire_event("handleadded", h);
@@ -179,6 +195,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      * of objects containing options for the new instances of {@link TK.ResponseHandle}.
      * 
      * @method TK.ResponseHandler#add_handles
+     * 
      * @param {Array<Object>} options - An array of options objects for the {@link TK.ResponseHandle}.
      */
     add_handles: function (handles) {
@@ -189,7 +206,9 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      * Remove a handle from the widget.
      * 
      * @method TK.ResponseHandler#remove_handle
+     * 
      * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} to remove.
+     * 
      * @emits TK.ResponseHandler#handleremoved
      */
     remove_handle: function (handle) {
@@ -202,6 +221,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
                 this.handles.splice(i, 1);
                 /**
                  * Is fired when a handle was removed.
+                 * 
                  * @event TK.ResponseHandler#handleremoved
                  */
                 this.fire_event("handleremoved");
@@ -214,6 +234,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
      * of {@link TK.ResponseHandle} instances.
      * 
      * @method TK.ResponseHandler#remove_handles
+     * 
      * @param {Array<TK.ResponseHandle>} handles - An array of {@link TK.ResponseHandle} instances.
      */
     remove_handles: function () {
@@ -224,6 +245,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         this.handles = [];
         /**
          * Is fired when all handles are removed.
+         * 
          * @event TK.ResponseHandler#emptied
          */
         this.fire_event("emptied")
