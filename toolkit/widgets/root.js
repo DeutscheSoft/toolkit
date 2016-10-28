@@ -36,6 +36,7 @@ function loaded() {
 }
 /**
  * @extends TK.Container
+ * 
  * @class TK.Root
  */
 w.TK.Root = w.Root = $class({
@@ -44,8 +45,9 @@ w.TK.Root = w.Root = $class({
     _options: Object.create(TK.Container.prototype._options),
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.Root#element - The main DIV container.
-         * Has class <code>toolkit-root</code>.
+        /**
+         * @member {HTMLDivElement} TK.Root#element - The main DIV container.
+         *   Has class <code>toolkit-root</code>.
          */
         TK.add_class(this.element, "toolkit-root", "toolkit-loading");
         this._resize_cb = resized.bind(this);
