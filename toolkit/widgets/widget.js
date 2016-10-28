@@ -52,6 +52,7 @@ function redraw(fun) {
     fun.call(this);
     /**
      * Is fired when a redraw is executed.
+     * 
      * @event TK.Widget#redraw
      */
     this.fire_event("redraw");
@@ -63,7 +64,19 @@ TK.Widget = $class({
      * firing some events.Widget implements AudioMath, Options and Events.
      *
      * @class TK.Widget
+     * 
      * @extends TK.Base
+     * 
+     * @param {Object} options
+     * 
+     * @property {String} [options.class=""] - A class to add to the class attribute of the main element.
+     * @property {Object} [options.container] - A container the main element shall be added to.
+     * @property {String} [options.id=""] - A string to be set as id attribute on the main element.
+     * @property {Object} [options.styles=""] - An object containing CSS declarations to be added directly to the main element.
+     * @property {Boolean} [options.disabled=false] - Toggles the class <code>toolkit-disabled</code>.
+     * @property {Object} [options.element] - An element to be used as the main element.
+     * @property {Boolean} [options.active] - Toggles the class <code>toolkit-inactive</code>.
+     * @property {Boolean} [options.needs_resize=true] - Set to true if the resize function shall be called before the next redraw.
      */
     /**
      * The <code>set</code> event is emitted when an option was set using the {@link TK.Widget#set}
@@ -213,6 +226,7 @@ TK.Widget = $class({
     resize: function() {
         /**
          * Is fired when a resize is requested.
+         * 
          * @event TK.Widget#resize
          */
         this.fire_event("resize");
@@ -222,6 +236,7 @@ TK.Widget = $class({
         
         /**
          * Is fired after the resize was executed and the DOM is updated.
+         * 
          * @event TK.Widget#resized
          */
         if (this.has_event_listeners("resized")) {
@@ -247,6 +262,7 @@ TK.Widget = $class({
         // Main actions every widget needs to take
         /**
          * Is fired when a widget is initialized.
+         * 
          * @event TK.Widget#initialized
          */
         this.fire_event("initialized");
@@ -296,6 +312,7 @@ TK.Widget = $class({
     destroy: function () {
         /**
          * Is fired when a widget is destroyed.
+         * 
          * @event TK.Widget#destroy
          */
         this.fire_event("destroy");
@@ -317,8 +334,10 @@ TK.Widget = $class({
         this.__delegated = element;
         /**
          * Is fired when a widget gets delegated.
-         * @param {HTMLElement} element - The element all native DOM events are delegated to.
+         * 
          * @event TK.Widget#initialized
+         * 
+         * @param {HTMLElement} element - The element all native DOM events are delegated to.
          */
         this.fire_event("delegated", element);
         return element;
@@ -340,8 +359,10 @@ TK.Widget = $class({
             TK.add_class(element, this.options.class);
         /**
          * Is fired when a widget is classified.
-         * @param {HTMLElement} element - The element which receives all further class changes.
+         * 
          * @event TK.Widget#classified
+         * 
+         * @param {HTMLElement} element - The element which receives all further class changes.
          */
         this.fire_event("classified", element);
         return element;
@@ -373,8 +394,10 @@ TK.Widget = $class({
         }
         /**
          * Is fired when a widget is stylized.
-         * @param {HTMLElement} element - The element which receives all further style changes.
+         * 
          * @event TK.Widget#stylized
+         * 
+         * @param {HTMLElement} element - The element which receives all further style changes.
          */
         this.fire_event("stylized", element);
         return element;
@@ -417,8 +440,10 @@ TK.Widget = $class({
         this.__widgetized = element;
         /**
          * Is fired when a widget is widgetized.
-         * @param {HTMLElement} element - The element which got widgetized.
+         * 
          * @event TK.Widget#widgetize
+         * 
+         * @param {HTMLElement} element - The element which got widgetized.
          */
         this.fire_event("widgetized", element);
         return element;
@@ -429,6 +454,7 @@ TK.Widget = $class({
      * Sets an option.
      *
      * @method TK.Widget#set
+     * 
      * @param {string} key - The option name.
      * @param value - The option value.
      */
@@ -464,6 +490,7 @@ TK.Widget = $class({
      * Schedules this widget for drawing.
      *
      * @method TK.Widget#enable_draw
+     * 
      * @emits TK.Widget#show
      */
     enable_draw: function () {
@@ -474,6 +501,7 @@ TK.Widget = $class({
         }
         /**
          * Is fired when a widget gets enabled for drawing.
+         * 
          * @event TK.Widget#show
          */
         this.fire_event("show");
@@ -484,6 +512,7 @@ TK.Widget = $class({
      * Stop drawing this widget.
      *
      * @method TK.Widget#enable_draw
+     * 
      * @emits TK.Widget#hide
      */
     disable_draw: function () {
@@ -495,6 +524,7 @@ TK.Widget = $class({
         }
         /**
          * Is fired when a widget gets hidden from being drawn.
+         * 
          * @event TK.Widget#hide
          */
         this.fire_event("hide");
@@ -553,7 +583,9 @@ TK.Widget = $class({
      * Registers a widget as a child widget. This method is used to build up the widget tree. It does not modify the DOM tree.
      *
      * @method TK.Widget#add_child
+     * 
      * @param {TK.Widget} child - The child to add.
+     * 
      * @see TK.Container#append_child
      */
     add_child: function(child) {
@@ -572,6 +604,7 @@ TK.Widget = $class({
      * the widget tree and does not change the DOM.
      *
      * @method TK.Widget#remove_child
+     * 
      * @param {TK.Widget} child - The child to remove.
      */
     remove_child : function(child) {
@@ -587,6 +620,7 @@ TK.Widget = $class({
      * Removes an array of children.
      *
      * @method TK.Widget#remove_children
+     * 
      * @param {Array.<TK.Widget>} a - An array of Widgets.
      */
     remove_children : function(a) {
@@ -596,6 +630,7 @@ TK.Widget = $class({
      * Registers an array of widgets as children.
      *
      * @method TK.Widget#add_children
+     * 
      * @param {Array.<TK.Widget>} a - An array of Widgets.
      */
     add_children : function (a) {
