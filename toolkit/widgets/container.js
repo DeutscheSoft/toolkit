@@ -36,6 +36,7 @@ function enable_draw_self() {
     }
     /**
      * Is fired when the container is shown.
+     * 
      * @event TK.Container#show
      */
     this.fire_event("show");
@@ -54,6 +55,7 @@ function disable_draw_self() {
     }
     /**
      * Is fired when the container is hidden.
+     * 
      * @event TK.Container#hide
      */
     this.fire_event("hide");
@@ -68,9 +70,11 @@ w.TK.Container = w.Container = $class({
      * TK.Container represents a <code>&lt;DIV></code> element.
      *
      * @class TK.Container
+     * 
      * @extends TK.Widget
      *
      * @param {Object} options
+     * 
      * @property {string|HTMLElement} options.content - The content of the container. It can either be
      *   a string which is interpreted as Text or a DOM node. Note that this options will remove all
      *   child nodes from the container element including those added via append_child.
@@ -96,7 +100,8 @@ w.TK.Container = w.Container = $class({
         var E;
         TK.Widget.prototype.initialize.call(this, options);
         this.hidden_children = [];
-        /** @member {HTMLDivElement} TK.Container#element - The main DIV element. Has class <code>toolkit-container</code> 
+        /** 
+         * @member {HTMLDivElement} TK.Container#element - The main DIV element. Has class <code>toolkit-container</code> 
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-container"); 
@@ -114,9 +119,10 @@ w.TK.Container = w.Container = $class({
     },
     /**
      * Calls {@link TK.Container#append_child} for an array of widgets.
+     * 
+     * @method TK.Container#append_children
      *
      * @param {Array.<TK.Widget>} children - The child widgets to append.
-     * @method TK.Container#append_children
      */
     append_children : function (a) {
         a.map(this.append_child, this);
@@ -124,9 +130,10 @@ w.TK.Container = w.Container = $class({
     /**
      * Appends <code>child.element</code> to the container element and
      * registers <code>child</code> as a child widget.
+     * 
+     * @method TK.Container#append_child
      *
      * @param {TK.Widget} child - The child widget to append.
-     * @method TK.Container#append_child
      */
     append_child : function(child) {
         child.set("container", this.element);

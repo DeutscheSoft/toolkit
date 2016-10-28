@@ -25,7 +25,22 @@ w.TK.Dynamics = w.Dynamics = $class({
      * the range.
      *
      * @class TK.Dynamics
+     * 
      * @extends TK.Chart
+     * 
+     * @property {Object} options
+     * 
+     * @param {Number} [options.min=-96] - Minimum decibels to display.
+     * @param {Number} [options.max=24] - Maximum decibels to display.
+     * @param {String} [options.scale="linear"] - Scale of the display, look into {@link TK.Range} for details.
+     * @param {String} [options.type=false] - Type of the dynamics: <code>compressor</code>, <code>expander</code>, <code>gate</code>, <code>limiter</code> or <code>false</code> to draw your own graph.
+     * @param {Number} [options.threshold=0] - Threshold of the dynamics.
+     * @param {Number} [options.ratio=1] - Ratio of the dynamics.
+     * @param {Number} [options.makeup=0] - Makeup of the dynamics.
+     * @param {Number} [options.floor=0] - Floor of the dynamics.
+     * @param {Number} [options.range=0] - Range of the dynamics.
+     * @param {Function} [options.grid_labels=function (val) { return val + (!val ? "dB":""); }] - Callback to format the labels of the {@link TK.Grid}.
+     * @param {Number} [options.db_grid=12] - Draw a grid line every [n] decibels.
      */
     _class: "Dynamics",
     Extends: TK.Chart,
@@ -62,15 +77,17 @@ w.TK.Dynamics = w.Dynamics = $class({
     initialize: function (options) {
         TK.Chart.prototype.initialize.call(this, options, true);
         var O = this.options;
-        /** @member {HTMLDivElement} TK.Dynamics#element - The main DIV container.
-         * Has class <code>toolkit-dynamics</code>.
+        /**
+         * @member {HTMLDivElement} TK.Dynamics#element - The main DIV container.
+         *   Has class <code>toolkit-dynamics</code>.
          */
         TK.add_class(this.element, "toolkit-dynamics");
         this.set("scale", O.scale);
         if (O.size) this.set("size", O.size);
         this.set("min", O.min);
         this.set("max", O.max);
-        /** @member {TK.Graph} TK.Dynamics#steady - The graph drawing the zero line. Has class <code>toolkit-steady</code> 
+        /**
+         * @member {TK.Graph} TK.Dynamics#steady - The graph drawing the zero line. Has class <code>toolkit-steady</code> 
          */
         this.steady = this.add_graph({
             dots: [{x:O.min, y:O.min},
@@ -217,6 +234,7 @@ w.TK.Dynamics = w.Dynamics = $class({
     
     set: function (key, value) {
         if (key === "size") {
+            TK.error("using deprecated 'size' option");
             this.set("width", value);
             this.set("height", value);
             return;
