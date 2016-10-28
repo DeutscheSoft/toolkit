@@ -22,6 +22,7 @@
  * The event is emitted for the option <code>value</code>.
  *
  * @event TK.Value#useraction
+ * 
  * @param {string} name - The name of the option which was changed due to the users action
  * @param {mixed} value - The new value of the option
  */
@@ -46,9 +47,11 @@ function value_clicked(e) {
     this.__editing = true;
     this._input.focus();
     /**
-     * Is fired when the value was clicked
-     * @param {number} value - The value of the widget.
+     * Is fired when the value was clicked.
+     * 
      * @event TK.Value#valueclicked
+     * 
+     * @param {number} value - The value of the widget.
      */
     this.fire_event("valueclicked", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
@@ -66,8 +69,10 @@ function value_typing(e) {
             value_done.call(this);
             /**
              * Is fired when the ESC key was pressed while editing the value.
-             * @param {string} value - The new value of the widget.
+             * 
              * @event TK.Value#valueescape
+             * 
+             * @param {string} value - The new value of the widget.
              */
             this.fire_event("valueescape", this.options.value);
             break;
@@ -78,8 +83,10 @@ function value_typing(e) {
             value_done.call(this);
             /**
              * Is fired when any other key was pressed while editing the value.
-             * @param {string} value - The new value of the widget.
+             * 
              * @event TK.Value#valueescape
+             * 
+             * @param {string} value - The new value of the widget.
              */
             this.fire_event("valueset", this.options.value);
             
@@ -92,9 +99,11 @@ function value_typing(e) {
     }
     /**
      * Is fired when the user hits a key while editing the value.
+     * 
+     * @event TK.Value#valuetyping
+     * 
      * @param {DOMEvent} event - The native DOM event.
      * @param {string} value - The new value of the widget.
-     * @event TK.Value#valuetyping
      */
     this.fire_event("valuetyping", e, this.options.value);
     this.fire_event("useraction", "value", this.options.value);
@@ -106,8 +115,10 @@ function value_done(e) {
     this._input.blur();
     /**
      * Is fired when editing of the value ends.
-     * @param {string} value - The new value of the widget.
+     * 
      * @event TK.Value#valuedone
+     * 
+     * @param {string} value - The new value of the widget.
      */
     this.fire_event("valuedone", this.options.value);
     this.invalid.value = true;
@@ -123,9 +134,11 @@ function submit_cb(e) {
  * a input field for editing the value.
  *
  * @class TK.Value
+ * 
  * @extends TK.Widget
  *
  * @param {Object} options
+ * 
  * @property {number} [options.value=0] - The value.
  * @property {function} [options.format=TK.FORMAT("%.2f")] - A formatting
  *   function used to display the value.
@@ -157,8 +170,9 @@ w.TK.Value = w.Value = $class({
     initialize: function (options) {
         var E;
         TK.Widget.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.Value#element - The main DIV container.
-         * Has class <code>toolkit-value</code>.
+        /**
+         * @member {HTMLDivElement} TK.Value#element - The main DIV container.
+         *   Has class <code>toolkit-value</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-value");
@@ -167,7 +181,7 @@ w.TK.Value = w.Value = $class({
         
         /**
          * @member {HTMLInputElement} TK.Value#_input - The text input.
-         * Has class <code>toolkit-input</code>.
+         *   Has class <code>toolkit-input</code>.
          */
         this._input  = TK.element("input", "toolkit-input");
         this._input.type = "text";
