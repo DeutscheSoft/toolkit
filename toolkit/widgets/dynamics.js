@@ -32,7 +32,7 @@ w.TK.Dynamics = w.Dynamics = $class({
      * 
      * @param {Number} [options.min=-96] - Minimum decibels to display.
      * @param {Number} [options.max=24] - Maximum decibels to display.
-     * @param {String} [options.scale="linear"] - Scale of the display, look into {@link TK.Range} for details.
+     * @param {String} [options.scale="linear"] - Scale of the display, see {@link TK.Range} for details.
      * @param {String} [options.type=false] - Type of the dynamics: <code>compressor</code>, <code>expander</code>, <code>gate</code>, <code>limiter</code> or <code>false</code> to draw your own graph.
      * @param {Number} [options.threshold=0] - Threshold of the dynamics.
      * @param {Number} [options.ratio=1] - Ratio of the dynamics.
