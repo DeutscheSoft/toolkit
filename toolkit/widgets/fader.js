@@ -22,6 +22,7 @@
  * The event is emitted for the option <code>value</code>.
  *
  * @event TK.Fader#useraction
+ * 
  * @param {string} name - The name of the option which was changed due to the users action
  * @param {mixed} value - The new value of the option
  */
@@ -86,7 +87,9 @@ function dblclick(ev) {
     SET.call(this, this.options.reset);
     /**
      * Is fired when the handle receives a double click.
+     * 
      * @event TK.Fader#doubleclick
+     * 
      * @param {number} value - The value of the {@link TK.Fader}.
      */
     this.fire_event("doubleclick", this.options.value);
@@ -152,9 +155,11 @@ function deactivate_tooltip() {
  * it inherits, aswell.
  *
  * @class TK.Fader
+ * 
  * @extends TK.Widget
  *
  * @param {Object} options
+ * 
  * @property {number} [options.value] - The fader position. This options is
  *   modified by user interaction.
  * @property {function} [options.tooltip=false] - An optional formatting function for
@@ -214,8 +219,9 @@ w.TK.Fader = w.Fader = $class({
 
         var E, O = this.options;
         
-        /** @member {HTMLDivElement} TK.Fader#element - The main DIV container.
-         * Has class <code>toolkit-fader</code>.
+        /**
+         * @member {HTMLDivElement} TK.Fader#element - The main DIV container.
+         *   Has class <code>toolkit-fader</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-fader");
@@ -224,15 +230,14 @@ w.TK.Fader = w.Fader = $class({
         this.scale = this._scale = null;
         /**
          * @member {TK.Scale} TK.Fader#scale - If <code>option.show_scale</code> is true,
-         *      <code>scale</code> will be the corresponding instance of {@link TK.Scale}.
-         *
+         *   <code>scale</code> will be the corresponding instance of {@link TK.Scale}.
          */
         /**
          * @member {HTMLDivElement} TK.Fader#_scale - If <code>option.show_scale</code> is true,
-         *      <code>_scale</code> will be the element of {@link TK.Scale}.
-         *
+         *   <code>_scale</code> will be the element of {@link TK.Scale}.
          */
-        /** @member {HTMLDivElement} TK.Fader#_handle - The handle of the fader. Has class <code>toolkit-handle</code> 
+        /**
+         * @member {HTMLDivElement} TK.Fader#_handle - The handle of the fader. Has class <code>toolkit-handle</code>.
          */
         this._handle = TK.element("div", "toolkit-handle");
         this._handle_size = 0;
@@ -249,7 +254,7 @@ w.TK.Fader = w.Fader = $class({
         var set = SET.bind(this);
         /**
          * @member {TK.DragValue} TK.Fader#drag - Instance of {@link TK.DragValue} used for the handle
-         *      interaction.
+         *   interaction.
          */
         this.drag = new TK.DragValue({
             node:    this._handle,
@@ -261,7 +266,7 @@ w.TK.Fader = w.Fader = $class({
         });
         /**
          * @member {TK.ScrollValue} TK.Fader#scroll - Instance of {@link TK.ScrollValue} used for the
-         *      handle interaction.
+         *   handle interaction.
          */
         this.scroll = new TK.ScrollValue({
             node:    this.element,
@@ -423,9 +428,11 @@ w.TK.Fader = w.Fader = $class({
             this.scale.set(key, value);
             /**
              * Is fired when the scale was changed.
+             * 
+             * @event TK.Fader#scalechanged
+             * 
              * @param {string} key - The key which was set.
              * @param {mixed} value - The value which was set.
-             * @event TK.Fader#scalechanged
              */
             this.fire_event("scalechanged", key, value);
         }
