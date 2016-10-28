@@ -100,6 +100,7 @@ w.TK.Select = w.Select = $class({
      * @extends TK.Button
      *
      * @param {Object} options
+     * 
      * @property {integer} options.selected - The index of the selected entry.
      * @property options.value - The value of the selected entry.
      * @property {boolean} [options.auto_size=true] - If true, the drop-down button is

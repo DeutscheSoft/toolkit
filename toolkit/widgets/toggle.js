@@ -110,9 +110,11 @@ w.TK.Toggle = w.Toggle = $class({
      * the two options <code>press</code> and <code>toggle</code>.
      *
      * @class TK.Toggle
+     * 
      * @extends TK.Button
      *
      * @param {Object} options
+     * 
      * @property {boolean} [options.state=false] - The state of the button.
      * @property {boolean} [options.toggle=true] - If true, the button is toggled by a click.
      * @property {integer|boolean} [options.press] - Controls press behavior. If <code>options.toggle</code>
@@ -144,8 +146,9 @@ w.TK.Toggle = w.Toggle = $class({
     
     initialize: function (options) {
         TK.Button.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.Toggle#element - The main DIV container.
-         * Has class <code>toolkit-toggle</code>.
+        /**
+         * @member {HTMLDivElement} TK.Toggle#element - The main DIV container.
+         *   Has class <code>toolkit-toggle</code>.
          */
         TK.add_class(this.element, "toolkit-toggle");
         this.add_event("mousedown", mousedown);
@@ -193,6 +196,7 @@ w.TK.Toggle = w.Toggle = $class({
      * Toggle the button state.
      *
      * @method TK.Toggle#toggle
+     * 
      * @emits TK.Toggle#toggled
      */
     toggle: function () {
@@ -200,8 +204,10 @@ w.TK.Toggle = w.Toggle = $class({
         this.set("state", state);
         /**
          * Is fired when the button was toggled.
-         * @param {boolean} state - The state of the {@link TK.Toggle}.
+         * 
          * @event TK.Toggle#toggled
+         * 
+         * @param {boolean} state - The state of the {@link TK.Toggle}.
          */
         this.fire_event("toggled", state);
     },
