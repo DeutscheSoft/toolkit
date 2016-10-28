@@ -111,6 +111,7 @@ function update_visibility() {
         this.fire_event("expand");
         /**
          * Is fired when the expander expands.
+         * 
          * @event TK.Expander#expand
          */
     } else {
@@ -122,6 +123,7 @@ function update_visibility() {
         }
         /**
          * Is fired when the expander collapses.
+         * 
          * @event TK.Expander#collapse
          */
         this.fire_event("collapse");
@@ -141,8 +143,13 @@ w.TK.Expander = w.Expander = $class({
      * expanded state. If a child widget has <code>_collapsed</code> set to false, it
      * will be shown in collapsed state. This feature can be used to make interfaces
      * more reactive.
+     * 
+     * @class TK.Expander
+     * 
+     * @extends TK.Container
      *
      * @param {Object} options
+     * 
      * @property {boolean} [options.expanded=false] - This is the state of this widget.
      * @property {boolean} [options.always_expanded=false] - This essentially overwrites
      *   the <code>expanded</code> option. This can be used to switch this widget to be
@@ -152,8 +159,6 @@ w.TK.Expander = w.Expander = $class({
      *   can be open at one time.
      * @property {string} options.group_default - If set to true, this expander is expanded
      *   if all other group members are collapsed.
-     * @class TK.Expander
-     * @extends TK.Container
      */
     _class: "Expander",
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
@@ -174,6 +179,7 @@ w.TK.Expander = w.Expander = $class({
     Extends: TK.Container,
     /*
      * Toggles the collapsed state of the widget.
+     * 
      * @method TK.Expander#toggle
      */
     toggle: function() {
@@ -198,8 +204,9 @@ w.TK.Expander = w.Expander = $class({
     },
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
-        /** @member {HTMLDivElement} TK.Expander#element - The main DIV container.
-         * Has class <code>toolkit-expander</code>.
+        /**
+         * @member {HTMLDivElement} TK.Expander#element - The main DIV container.
+         *   Has class <code>toolkit-expander</code>.
          */
         TK.add_class(this.element, "toolkit-expander");
 
