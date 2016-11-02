@@ -259,6 +259,7 @@ TK.Base = w.BASE = $class({
             this.fire_event("set", key, value);
         if (this.__events["set_"+key])
             this.fire_event("set_" + key, value);
+        return value;
     },
     /**
      * @method TK.Base#delegate_events
