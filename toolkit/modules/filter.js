@@ -303,7 +303,7 @@ w.TK.Filter = w.Filter = $class({
         this.fire_event("reset");
     },
     set: function (key, value) {
-        TK.Base.prototype.set.call(this, key, value);
+        value = TK.Base.prototype.set.call(this, key, value);
         switch (key) {
         case "freq":
         case "type":
