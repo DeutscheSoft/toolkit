@@ -89,8 +89,9 @@ w.TK.EqBand = w.EqBand = $class({
         /**
          * @member {TK.Filter} TK.EqBand#filter - The filter providing the graphical calculations. 
          */
-        this.filter = new TK.Filter();
-        this.filter.options = this.options;
+        this.filter = new TK.Filter({
+            type: options.type,
+        });
         
         TK.ResponseHandle.prototype.initialize.call(this, options);
         
