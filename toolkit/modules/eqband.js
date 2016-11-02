@@ -83,10 +83,10 @@ w.TK.EqBand = w.EqBand = $class({
             }
         }
         
+        this.filter = new TK.Filter({
+            type: options.type,
+        });
         TK.ResponseHandle.prototype.initialize.call(this, options);
-        
-        this.filter = new TK.Filter();
-        this.filter.options = this.options;
         
         if (typeof options.x !== "undefined")
             this.set("x", options.x);
