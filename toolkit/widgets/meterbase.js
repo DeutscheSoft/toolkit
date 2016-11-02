@@ -290,7 +290,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         if (this._fillstyle === false) {
             this._fillstyle = TK.get_style(this._canvas, "background-color");
             this._canvas.getContext("2d").fillStyle = this._fillstyle;
-            this._canvas.style.background = 'none';
+            this._canvas.style.setProperty("background", "none", "important");
         }
 
         if (I.title) {
