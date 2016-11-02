@@ -285,6 +285,7 @@ TK.Base = w.BASE = $class({
          */
         if (this.__events["set_" + key])
             this.fire_event("set_" + key, value);
+        return value;
     },
     /**
      * Delegates all occuring DOM events of a specific DOM node to the widget.
