@@ -49,7 +49,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates 10^(value / factor).
          * Transforms a dBFS value to the corresponding gain.
          * 
-         * @function TK.AudioMath.db2gain
+         * @function TK.AudioMath#db2gain
          *
          * @param {number} value - A decibel value in dBFS.
          * @param {number} [factor=20] - The factor.
@@ -70,7 +70,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates factor * log10(value).
          * Transforms a gain value to the corresponding dBFS value.
          * 
-         * @function TK.AudioMath.gain2db
+         * @function TK.AudioMath#gain2db
          *
          * @param {number} value - A gain factor.
          * @param {number} [factor=20] - The factor.
@@ -90,7 +90,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a linear value between 0.0 and 1.0
          * from a value and its lower and upper boundaries in decibels.
          * 
-         * @function TK.AudioMath.db2coef
+         * @function TK.AudioMath#db2coef
          *
          * @param {number} value - The value in decibels.
          * @param {number} min - The minimum value in decibels.
@@ -119,7 +119,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a value in decibels from a value
          * between 0.0 and 1.0 and some lower and upper boundaries in decibels.
          * 
-         * @function TK.AudioMath.coef2db
+         * @function TK.AudioMath#coef2db
          *
          * @param {number} coef - A value between 0.0 and 1.0.
          * @param {number} min - The minimum value in decibels.
@@ -147,7 +147,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a linear value between 0.0 and scale.
          * from a value and its lower and upper boundaries in decibels.
          * 
-         * @function TK.AudioMath.db2scale
+         * @function TK.AudioMath#db2scale
          *
          * @param {number} value - The value in decibels.
          * @param {number} min - The minimum value in decibels.
@@ -176,7 +176,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a value in decibels from a value
          * between 0.0 and scale and some lower and upper boundaries in decibels.
          *  
-         * @function TK.AudioMath.scale2db
+         * @function TK.AudioMath#scale2db
          *
          * @param {number} value - A value between 0.0 and scale.
          * @param {number} min - The minimum value in decibels.
@@ -206,7 +206,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a linear value between 0.0 and 1.0
          * from a value and its lower and upper boundaries in hertz.
          * 
-         * @function TK.AudioMath.freq2coef
+         * @function TK.AudioMath#freq2coef
          *
          * @param {number} value - The value in hertz.
          * @param {number} min - The minimum value in hertz.
@@ -232,7 +232,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a value in hertz from a value
          * between 0.0 and 1.0 and some lower and upper boundaries in hertz.
          * 
-         * @function TK.AudioMath.coef2freq
+         * @function TK.AudioMath#coef2freq
          *
          * @param {number} coef - A value between 0.0 and 1.0.
          * @param {number} min - The minimum value in hertz.
@@ -258,7 +258,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a linear value between 0.0 and scale
          * from a value and its lower and upper boundaries in hertz.
          * 
-         * @function TK.AudioMath.freq2scale
+         * @function TK.AudioMath#freq2scale
          * 
          * @param {number} value - The value in hertz.
          * @param {number} min - The minimum value in hertz.
@@ -284,7 +284,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
          * Calculates a value in hertz from a value
          * between 0.0 and scale and some lower and upper boundaries in hertz.
          * 
-         * @function TK.AudioMath.scale2freq
+         * @function TK.AudioMath#scale2freq
          * 
          * @param {number} value - A value between 0.0 and scale.
          * @param {number} min - The minimum value in hertz.

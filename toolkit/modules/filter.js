@@ -251,11 +251,11 @@ function FilterModule(stdlib, foreign, heap) {
 w.TK.Filter = w.Filter = $class({
     /**
      * TK.Filter provides the math for calculating a gain from
-     * a given frequency for different types of filters.
+     * a given frequency for different types of biquad filters.
      *
      * @param {Object} options
      * 
-     * @property {integer} [options.type="parametric"] - The type of the filter,  "parametric"|"notch"|"low-shelf"|"high-shelf"|"lowpass"+n|"highpass"+[n].
+     * @property {integer} [options.type="parametric"] - The type of the filter,  "parametric"|"notch"|"low-shelf"|"high-shelf"|"lowpass"+[n]|"highpass"+[n].
      * @property {number} [options.freq=0] - The initial frequency.
      * @property {number} [options.gain=0] - The initial gain.
      * @property {number} [options.q=1] - The initial Q of the filter.
@@ -265,10 +265,21 @@ w.TK.Filter = w.Filter = $class({
      * @extends TK.Base
      * 
      * @mixes TK.AudioMath
+     * @mixes TK.Notes
      */
+     
+     /**
+      * Returns the gain for a given frequency
+      * 
+      * @method TK.Filter#freq2gain
+      * 
+      * @param {number} frequency - The frequency to calculate the gain for.
+      * 
+      * @returns {number} gain - The gain at the given frequency.
+      */ 
     _class: "Filter",
     Extends: TK.Base,
-    Implements: [AudioMath],
+    Implements: [AudioMath, Notes],
     _options: {
         type: "mixed",
         freq: "number",

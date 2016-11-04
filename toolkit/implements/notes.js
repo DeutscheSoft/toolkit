@@ -21,10 +21,10 @@
 var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
 w.TK.Notes = w.Notes = $class({
     /**
-     * Notes converts between frequencies, midi notes
+     * Notes converts between frequencies, MIDI notes
      * and note names.
      *
-     * @mixin Notes
+     * @mixin TK.Notes
      */
     _class: "Notes",
     /**
