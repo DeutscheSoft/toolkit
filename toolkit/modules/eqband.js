@@ -32,9 +32,6 @@ var type_to_mode = {
     highpass4: "block-left",
     "low-shelf": "line-vertical",
     "high-shelf": "line-vertical",
-        options.mode = "line-vertical";
-        options.show_axis = true;
-        break;
 };
 
 w.TK.EqBand = w.EqBand = $class({
