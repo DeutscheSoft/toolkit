@@ -518,20 +518,23 @@ function get_label_position(O, X, pos, label_size) {
 
 function remove_zhandle() {
     var E = this._zhandle;
+    if (!E) return;
     this._zhandle = null;
 
     E.remove();
 
     E.removeEventListener("mousedown", this._zhandledown);
     E.removeEventListener("touchstart", this._zhandledown);
-    E.removeEventListener('contextmenu', function(e){e.preventDefault();});
 }
 
 function create_zhandle() {
     var E;
+    var O = this.options;
+
+    if (this._zhandle) remove_zhandle.call(this);
 
     E = TK.make_svg(
-        this.options.mode === "circular" ? "circle" : "rect", {
+        O.mode === "circular" ? "circle" : "rect", {
             "class": "toolkit-z-handle",
         }
     );
@@ -543,20 +546,24 @@ function create_zhandle() {
 }
 
 function create_line1() {
+    if (this._line1) remove_line1.call(this);
     this._line1 = TK.make_svg("path", {
         "class": "toolkit-line toolkit-line-1"
     });
 }
 function create_line2() {
+    if (this._line2) remove_line2.call(this);
     this._line2 = TK.make_svg("path", {
         "class": "toolkit-line toolkit-line-2"
     });
 }
 function remove_line1() {
+    if (!this._line1) return;
     this._line1.remove();
     this._line1 = null;
 }
 function remove_line2() {
+    if (!this._line2) return;
     this._line2.remove();
     this._line2 = null;
 }
@@ -751,6 +758,36 @@ function remove_label() {
     this.label = [0,0,0,0];
 }
 
+function create_handle() {
+    var O = this.options;
+    var E;
+
+    if (this._handle) remove_handle.call(this);
+    
+    E = TK.make_svg(O.mode === "circular" ? "circle" : "rect",
+                    { class: "toolkit-handle" });
+    E.addEventListener("mouseenter",     this._mouseelement);
+    E.addEventListener("touchstart",     this._mouseelement);
+    E.addEventListener("mousewheel",     this._scrollwheel);
+    E.addEventListener("DOMMouseScroll", this._scrollwheel);
+    E.addEventListener("touchstart",     this._touchstart);
+    E.addEventListener('contextmenu', function(e){e.preventDefault();});
+    E.addEventListener('selectstart', function(){ return false; });
+    this._handle = E;
+    this.element.appendChild(E);
+}
+
+function remove_handle() {
+    var E = this._handle;
+    if (!E) return;
+    this._handle = null;
+    E.remove();
+    E.removeEventListener("mouseenter",     this._mouseelement);
+    E.removeEventListener("touchstart",     this._mouseelement);
+    E.removeEventListener("mousewheel",     this._scrollwheel);
+    E.removeEventListener("DOMMouseScroll", this._scrollwheel);
+    E.removeEventListener("touchstart",     this._touchstart);
+}
 
 function redraw_label(O, X) {
     if (O.label === false) {
@@ -979,7 +1016,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         range_y: "mixed",
         range_z: "mixed",
         intersect: "function",
-        mode: "int",
+        mode: "string",
         preferences: "array",
         label: "function",
         x: "number",
@@ -1117,13 +1154,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
          * @member {SVGCircular} TK.ResponseHandle#_handle - The main handle.
          *      Has class <code>toolkit-handle</code>.
          */
-        this._handle = TK.make_svg(
-            O.mode === "circular" ? "circle" : "rect", {
-                "class": "toolkit-handle",
-                "r":     O.z_handle_size
-            }
-        );
-        E.appendChild(this._handle);
         
         /**
          * @member {SVGCircular} TK.ResponseHandle#_zhandle - The handle for manipulating z axis.
@@ -1148,16 +1178,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.addEventListener("touchstart",     this._touchstart);
         E.addEventListener('contextmenu', function(e){e.preventDefault();});
 
-        E = this._handle;
-        E.addEventListener("mouseenter",     this._mouseelement);
-        E.addEventListener("touchstart",     this._mouseelement);
-        E.addEventListener("mousewheel",     this._scrollwheel);
-        E.addEventListener("DOMMouseScroll", this._scrollwheel);
-        E.addEventListener("touchstart",     this._touchstart);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
-
-        this._handle.onselectstart = function () { return false; };
-        this._zhandle = this._line1 = this._line2 = this._label = null;
+        this._handle = this._zhandle = this._line1 = this._line2 = this._label = null;
 
         this.set("mode", O.mode);
         this.set("show_axis", O.show_axis);
@@ -1218,7 +1239,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
                 TK.warn("Unsupported z_handle option:", value);
                 value = false;
             }
-            if (value !== false && !this._zhandle) create_zhandle.call(this);
+            if (value !== false) create_zhandle.call(this);
             break;
         case "x":
             value = this.range_x.snap(value);
@@ -1259,6 +1280,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             if (value !== false && !this._label) create_label.call(this);
             break;
         case "mode":
+            create_handle.call(this);
+            if (O.z_handle !== false) create_zhandle.call(this);
             if (value !== "circular") create_line1.call(this);
             break;
         case "x_min":
@@ -1288,7 +1311,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         remove_line1.call(this);
         remove_line2.call(this);
         remove_label.call(this);
-        this._handle.remove();
+        remove_handle.call(this);
         this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
