@@ -286,6 +286,7 @@ pre, code {
     width:    100%;
     height:   100%;
     z-index:  100;
+    background-position: bottom left;
 }
 .toolkit-meter-base > .toolkit-bar > .toolkit-mask {
     position: absolute;
