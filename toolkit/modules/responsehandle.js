@@ -1114,7 +1114,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         }
         
         /**
-         * @member {SVGCircular} TK.ResponseHandle#_handle - The main handle. Has class <code>toolkit-handle</code>.
+         * @member {SVGCircular} TK.ResponseHandle#_handle - The main handle.
+         *      Has class <code>toolkit-handle</code>.
          */
         this._handle = TK.make_svg(
             O.mode === "circular" ? "circle" : "rect", {
@@ -1125,15 +1126,9 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         E.appendChild(this._handle);
         
         /**
-         * @member {SVGCircular} TK.ResponseHandle#_zhandle - The handle for manipulating z axis. Has class <code>toolkit-z-handle</code>.
+         * @member {SVGCircular} TK.ResponseHandle#_zhandle - The handle for manipulating z axis.
+         *      Has class <code>toolkit-z-handle</code>.
          */
-        this._zhandle = TK.make_svg(
-            O.mode === "circular" ? "circle" : "rect", {
-                "class": "toolkit-z-handle",
-                "width":  O.z_handle_size,
-                "height": O.z_handle_size
-            }
-        );
 
         this._mouseenter = mouseenter.bind(this);
         this._mouseleave = mouseleave.bind(this);

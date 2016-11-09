@@ -39,8 +39,8 @@ w.TK.Gradient = w.Gradient = $class({
     _class: "Gradient",
     Implements: Ranged,
     _options: Object.assign(Ranged.prototype._options, {
-        gradient: "object|boolean",
-        background: "string|boolean",
+        gradient: "mixed",
+        background: "mixed",
     }),
     options: {
         gradient:        false,
