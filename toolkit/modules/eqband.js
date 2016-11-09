@@ -18,6 +18,25 @@
  */
 "use strict";
 (function(w){
+
+var type_to_mode = {
+    parametric: "circular",
+    notch: "circular",
+    lowpass1: "block-right",
+    lowpass2: "block-right",
+    lowpass3: "block-right",
+    lowpass4: "block-right",
+    highpass1: "block-left",
+    highpass2: "block-left",
+    highpass3: "block-left",
+    highpass4: "block-left",
+    "low-shelf": "line-vertical",
+    "high-shelf": "line-vertical",
+        options.mode = "line-vertical";
+        options.show_axis = true;
+        break;
+};
+
 w.TK.EqBand = w.EqBand = $class({
     /**
      * An TK.EqBand extends a {@link TK.ResponseHandle} and holds a
@@ -58,34 +77,6 @@ w.TK.EqBand = w.EqBand = $class({
     },
     
     initialize: function (options) {
-        if (options.mode === void(0)) {
-            switch (options.type) {
-                case "parametric":
-                case "notch":
-                    options.mode = "circular"
-                    break;
-                case "lowpass1":
-                case "lowpass2":
-                case "lowpass3":
-                case "lowpass4":
-                    options.mode = "block-right";
-                    break;
-                case "highpass1":
-                case "highpass2":
-                case "highpass3":
-                case "highpass4":
-                    options.mode = "block-left";
-                    break;
-                case "low-shelf":
-                case "high-shelf":
-                    options.mode = "line-vertical";
-                    options.show_axis = true;
-                    break;
-                default:
-                    TK.warn("Unsupported filter type:", options.type);
-            }
-        }
-        
         /**
          * @member {TK.Filter} TK.EqBand#filter - The filter providing the graphical calculations. 
          */
@@ -95,6 +86,8 @@ w.TK.EqBand = w.EqBand = $class({
         
         TK.ResponseHandle.prototype.initialize.call(this, options);
         
+        this.set("type", options.type);
+
         if (options.x !== void(0))
             this.set("x", options.x);
         else if (options.freq !== void(0))
@@ -133,9 +126,17 @@ w.TK.EqBand = w.EqBand = $class({
     // GETTER & SETTER
     set: function (key, value) {
         switch (key) {
-            case "type":
+            case "type": {
+                var mode = type_to_mode[value];                    
+                if (!mode) {
+                    TK.warn("Unsupported type:", value);
+                    return;
+                }
+                this.set("mode", mode);
+                this.set("show_axis", mode === "line-vertical");
                 this.filter.set("type", value);
                 break;
+            }
             case "freq":
             case "x":
                 value = this.filter.set("freq", this.range_x.snap(value));
