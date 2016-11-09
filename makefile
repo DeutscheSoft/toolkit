@@ -129,15 +129,6 @@ css_input_files = \
 toolkit.min.js:	$(js_input_files) makefile
 	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@
 
-toolkit.all.js: makefile
-	echo "(function(){" > $@
-	echo "var current_script = document.currentScript || (function() { var a = document.getElementsByTagName('script'); return a[a.length - 1]; })();" >> $@
-	echo "var toolkit_base_dir = current_script.src;" >> $@
-	echo "toolkit_base_dir = toolkit_base_dir.split('/');" >> $@
-	echo "toolkit_base_dir = toolkit_base_dir.slice(0, toolkit_base_dir.length-1).join('/');" >> $@
-	for file in $(js_input_files); do echo 'document.writeln("'"<script src='"'"'" + toolkit_base_dir + "'"'"/$$file'></script>"'");'; done >> $@
-	echo "})();" >> $@
-
 toolkit/styles/2013/css/toolkit.all.css: makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
 
