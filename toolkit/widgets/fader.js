@@ -94,7 +94,7 @@ function SET(v) {
      * @type {number}
      * @event TK.Fader#useraction
      */
-    this.fire_event("useraction", v);
+    this.fire_event("useraction", "value", v);
     return v;
 }
 function create_scale() {

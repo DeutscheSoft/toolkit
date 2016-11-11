@@ -104,7 +104,7 @@ w.TK.Knob = w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 v = this.set("value", v);
-                this.fire_event("useraction", v);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             direction: this.options.direction,
             rotation: this.options.rotation,
@@ -117,7 +117,7 @@ w.TK.Knob = w.Knob = $class({
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
                 v = this.set("value", v);
-                this.fire_event("useraction", v);
+                this.fire_event("useraction", "value", v);
             }.bind(this),
             events: function () { return this }.bind(this),
         });
