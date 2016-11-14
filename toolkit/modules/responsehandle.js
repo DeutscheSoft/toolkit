@@ -1024,7 +1024,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         z: "number",
         min_size: "number",
         margin: "number",
-        z_handle: "boolean",
+        z_handle: "boolean|string",
         z_handle_size: "number",
         z_handle_centered: "number",
         min_drag: "number",
