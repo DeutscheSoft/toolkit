@@ -18,18 +18,18 @@
  */
 /*
     AVAILABLE DEFAULT BACKGROUNDS
-    background: url(../images/meterbase/grid_soft.png);
-    background: url(../images/meterbase/grid_strong.png);
-    background: url(../images/meterbase/slim_soft_vertical.png);
-    background: url(../images/meterbase/slim_strong_vertical.png);
-    background: url(../images/meterbase/slim_soft_horizontal.png);
-    background: url(../images/meterbase/slim_strong_horizontal.png);
-    background: url(../images/meterbase/led_vertical.png);
-    background: url(../images/meterbase/led_horizontal.png);
-    background: url(../images/meterbase/bevel_soft_vertical.png);
-    background: url(../images/meterbase/bevel_strong_vertical.png);
-    background: url(../images/meterbase/bevel_soft_horizontal.png);
-    background: url(../images/meterbase/bevel_strong_horizontal.png);
+    background-image: url(../images/meterbase/grid_soft.png);
+    background-image: url(../images/meterbase/grid_strong.png);
+    background-image: url(../images/meterbase/slim_soft_vertical.png);
+    background-image: url(../images/meterbase/slim_strong_vertical.png);
+    background-image: url(../images/meterbase/slim_soft_horizontal.png);
+    background-image: url(../images/meterbase/slim_strong_horizontal.png);
+    background-image: url(../images/meterbase/led_vertical.png);
+    background-image: url(../images/meterbase/led_horizontal.png);
+    background-image: url(../images/meterbase/bevel_soft_vertical.png);
+    background-image: url(../images/meterbase/bevel_strong_vertical.png);
+    background-image: url(../images/meterbase/bevel_soft_horizontal.png);
+    background-image: url(../images/meterbase/bevel_strong_horizontal.png);
     
     
     
@@ -263,10 +263,10 @@
     opacity:  0.66;
 }
 .toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-over {
-    background: url(../images/meterbase/slim_soft_vertical.png);
+    background-image: url(../images/meterbase/slim_soft_vertical.png);
 }
 .toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-over {
-    background: url(../images/meterbase/slim_soft_horizontal.png);
+    background-image: url(../images/meterbase/slim_soft_horizontal.png);
 }
 
 /* MASK */
