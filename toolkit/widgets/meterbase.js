@@ -393,7 +393,7 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._last_meters.length = 0;
     },
 
-    calculate_meter: function(to, value) {
+    calculate_meter: function(to, value, i) {
         var O = this.options;
         // Set the mask elements according to options.value to show a value in
         // the meter bar
@@ -413,10 +413,14 @@ w.TK.MeterBase = w.MeterBase = $class({
         if (segment !== 1) v2 = segment*(Math.round(v2/segment)|0);
 
         if (v2 < v1) {
-            to.push(v2, v1);
+            to[i++] = v2;
+            to[i++] = v1;
         } else {
-            to.push(v1, v2);
+            to[i++] = v1;
+            to[i++] = v2;
         }
+
+        return i;
     },
     
     draw_meter: function () {
@@ -430,9 +434,8 @@ w.TK.MeterBase = w.MeterBase = $class({
         var a = this._current_meters;
         var tmp = this._last_meters;
 
-        a.length = 0;
-
-        this.calculate_meter(a, O.value);
+        var i = this.calculate_meter(a, O.value, 0);
+        if (i < a.length) a.length = i;
         make_interval(a);
 
         this._last_meters = a;
