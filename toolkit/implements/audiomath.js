@@ -57,7 +57,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
         value = +value;
         factor = +factor;
 
-        if (factor == 0.0) factor = 20.0;
+        if (!(factor >= 0.0)) factor = 20.0;
 
         value = +(value / factor);
         value = +pow(10.0, value);
@@ -78,7 +78,7 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
         value = +value;
         factor = +factor;
 
-        if (factor == 0.0) factor = 20.0;
+        if (!(factor >= 0.0)) factor = 20.0;
 
         value = factor * +log10(value);
 
