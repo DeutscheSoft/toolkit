@@ -19,6 +19,15 @@
  
 "use strict";
 (function(w){
+var MODES = [
+    "circular",
+    "line-horizontal",
+    "line-vertical",
+    "block-top",
+    "block-bottom",
+    "block-left",
+    "block-right"
+];
 function mouseenter(e) {
     e.preventDefault();
     this._zwheel = false;
@@ -933,6 +942,35 @@ function redraw_lines(O, X) {
     if (this._line2 && !this._line2.parentNode) this.element.append(this._line2);
 }
 
+function set_main_class(O) {
+    var E = this.element;
+    var i;
+
+    for (i = 0; i < MODES.length; i++) TK.remove_class(E, "toolkit-"+MODES[i]);
+
+    TK.remove_class(E, "toolkit-line");
+    TK.remove_class(E, "toolkit-block");
+
+    switch (O.mode) {
+    case "line-vertical":
+    case "line-horizontal":
+        TK.add_class(E, "toolkit-line");
+    case "circular":
+        break;
+    case "block-left":
+    case "block-right":
+    case "block-top":
+    case "block-bottom":
+        TK.add_class(E, "toolkit-block");
+        break;
+    default:
+        TK.warn("Unsupported mode:", O.mode);
+        return;
+    }
+
+    TK.add_class(E, "toolkit-"+O.mode);
+}
+
 /**
  * Class which represents a draggable SVG element, which can be used to represent and change
  * a value inside of a {@link TK.ResponseHandler} and is drawn inside of a chart.
@@ -1119,37 +1157,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this.widgetize(E, true, true);
 
         TK.add_class(E, "toolkit-response-handle");
-        switch (O.mode) {
-            case "circular":
-                TK.add_class(E, "toolkit-circular"); break;
-            case "line-vertical":
-                TK.add_class(E, "toolkit-line-vertical");
-                TK.add_class(E, "toolkit-line");
-                break;
-            case "line-horizontal":
-                TK.add_class(E, "toolkit-line-horizontal");
-                TK.add_class(E, "toolkit-line");
-                break;
-            case "block-left":
-                TK.add_class(E, "toolkit-block-left");
-                TK.add_class(E, "toolkit-block");
-                break;
-            case "block-right":
-                TK.add_class(E, "toolkit-block-right")
-                TK.add_class(E, "toolkit-block");
-                break;
-            case "block-top":
-                TK.add_class(E, "toolkit-block-top");
-                TK.add_class(E, "toolkit-block");
-                break;
-            case "block-bottom":
-                TK.add_class(E, "toolkit-block");
-                TK.add_class(E, "toolkit-block-bottom");
-                break;
-            default:
-                TK.warn("Unsupported mode:", O.mode);
-        }
-        
         /**
          * @member {SVGCircular} TK.ResponseHandle#_handle - The main handle.
          *      Has class <code>toolkit-handle</code>.
@@ -1207,6 +1214,8 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         /* These are the coordinates of the corners (x1, y1, x2, y2)
          * NOTE: x,y are not necessarily in the midde. */
         var X  = this.handle;
+
+        if (I.mode) set_main_class.call(this, O);
 
         var moved = I.validate("x", "y", "z", "mode");
 
