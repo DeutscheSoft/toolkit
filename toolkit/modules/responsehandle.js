@@ -1238,6 +1238,13 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         if (I.validate("show_axis") || moved) {
             if (!delay_lines) redraw_lines.call(this, O, X);
         }
+
+        if (I.validate("active")) {
+            // TODO: this is not very nice, we should really use the options
+            // for that. 1) set "active" from the mouse handlers 2) set disabled instead
+            // of active
+            (O.active ? TK.remove_class : TK.add_class)(this.element, "toolkit-disabled");
+        }
     },
     set: function(key, value) {
         var O = this.options;
@@ -1275,10 +1282,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         value = TK.Widget.prototype.set.call(this, key, value);
 
         switch (key) {
-        case "active":
-            /* THIS IS ONLY FOR BACKWARD COMPATIBILITY */
-            this.set("disabled", value);
-            break;
         case "show_axis":
             if (value) {
                 if (O.mode === "circular") create_line1.call(this);
