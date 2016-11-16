@@ -24,6 +24,8 @@
 function toggle(O) {
     var state = !O.state;
     state = this.set("state", state);
+    this.fire_event("toggled", state);
+    this.fire_event("useraction", "state", state);
 }
 function press_start() {
     var O = this.options;
@@ -200,8 +202,7 @@ w.TK.Toggle = w.Toggle = $class({
      * @emits TK.Toggle#toggled
      */
     toggle: function () {
-        var state = !this.options.state;
-        this.set("state", state);
+        toggle.call(this, this.options);
         /**
          * Is fired when the button was toggled.
          * 
@@ -209,7 +210,6 @@ w.TK.Toggle = w.Toggle = $class({
          * 
          * @param {boolean} state - The state of the {@link TK.Toggle}.
          */
-        this.fire_event("toggled", state);
     },
 });
 })(this);
