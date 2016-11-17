@@ -638,10 +638,12 @@ function redraw_handle(O, X) {
             y_max = tmp;
         }
 
+        tmp = O.min_size / 2;
+
         /* All other modes are drawn as rectangles */
         switch (O.mode) {
         case "line-vertical":
-            tmp = Math.max(O.min_size, z)/2;
+            tmp = Math.max(tmp, z/2);
             X[0] = x-tmp;
             X[1] = y_min;
             X[2] = x+tmp;
@@ -649,7 +651,7 @@ function redraw_handle(O, X) {
             break;
         case "line-horizontal":
             // line horizontal
-            tmp = Math.max(O.min_size, z)/2;
+            tmp = Math.max(tmp, z/2);
             X[0] = x_min;
             X[1] = y - tmp;
             X[2] = x_max;
@@ -659,7 +661,7 @@ function redraw_handle(O, X) {
             // rect lefthand
             X[0] = 0;
             X[1] = y_min;
-            X[2] = x;
+            X[2] = Math.max(x, tmp);
             X[3] = y_max;
             break;
         case "block-right":
@@ -668,13 +670,14 @@ function redraw_handle(O, X) {
             X[1] = y_min;
             X[2] = range_x.options.basis;
             X[3] = y_max;
+            if (X[2] - X[0] < tmp) X[0] = X[2] - tmp;
             break;
         case "block-top":
             // rect top
             X[0] = x_min;
             X[1] = 0;
             X[2] = x_max;
-            X[3] = y;
+            X[3] = Math.max(y, tmp);
             break;
         case "block-bottom":
             // rect bottom
@@ -682,6 +685,7 @@ function redraw_handle(O, X) {
             X[1] = y;
             X[2] = x_max;
             X[3] = range_y.options.basis;
+            if (X[3] - X[1] < tmp) X[1] = X[3] - tmp;
             break;
         default:
             TK.warn("Unsupported mode:", O.mode);
