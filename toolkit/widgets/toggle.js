@@ -81,6 +81,7 @@ function is_current_touch(ev) {
 function touchend(e) {
     if (!is_current_touch.call(this, e)) return;
     this.__touch_id = false;
+    e.preventDefault();
     press_end.call(this);
 
     this.remove_event("touchend", touchend);
@@ -90,6 +91,7 @@ function touchend(e) {
 function touchleave(e) {
     if (!is_current_touch.call(this, e)) return;
     this.__touch_id = false;
+    e.preventDefault();
     press_cancel.call(this);
 
     this.remove_event("touchend", touchend);
@@ -99,6 +101,7 @@ function touchleave(e) {
 function touchstart(e) {
     if (this.__touch_id !== false) return;
     this.__touch_id = e.targetTouches[0].identifier;
+    e.preventDefault();
     press_start.call(this);
     this.add_event("touchend", touchend);
     this.add_event("touchcancel", touchleave);
