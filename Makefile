@@ -126,14 +126,14 @@ css_input_files = \
     toolkit/styles/plain/css/valueknob.css \
     toolkit/styles/plain/css/multimeter.css \
 
-toolkit.min.js:	$(js_input_files) makefile
+toolkit.min.js:	$(js_input_files) Makefile
 	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@
 
-toolkit/styles/2013/css/toolkit.all.css: makefile
+toolkit/styles/2013/css/toolkit.all.css: Makefile
 	for file in $(css_input_files); do echo '@import "../../../'"$$file"'";' ; done > $@
 
 .PHONY: jsdoc
-jsdoc: makefile $(js_input_files) jsdoc/conf.json toolkit.all.js toolkit/styles/2013/css/toolkit.all.css
+
+jsdoc: Makefile $(js_input_files) jsdoc/conf.json toolkit/styles/2013/css/toolkit.all.css
 	jsdoc -u tutorials/ --readme docs/Main.md -t ../jsdoc-toolkit/ -c jsdoc/conf.json $(js_input_files)
 	cp -r images/ out/
-	cp -r toolkit.all.js toolkit/ out/
