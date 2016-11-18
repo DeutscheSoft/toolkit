@@ -325,31 +325,24 @@ w.TK.MeterBase = w.MeterBase = $class({
         
         if (I.layout) {
             I.layout = false;
-            TK.remove_class(E, "toolkit-vertical");
-            TK.remove_class(E, "toolkit-horizontal");
-            TK.remove_class(E, "toolkit-left");
-            TK.remove_class(E, "toolkit-right");
-            TK.remove_class(E, "toolkit-top");
-            TK.remove_class(E, "toolkit-bottom");
+            TK.remove_class(E, "toolkit-vertical",
+                            "toolkit-horizontal", "toolkit-left",
+                            "toolkit-right", "toolkit-top", "toolkit-bottom");
             switch (O.layout) {
                 case "left":
-                    TK.add_class(E, "toolkit-vertical");
-                    TK.add_class(E, "toolkit-left");
+                    TK.add_class(E, "toolkit-vertical", "toolkit-left");
                     TK.insert_after(this._scale, this._bar);
                     break;
                 case "right":
-                    TK.add_class(E, "toolkit-vertical");
-                    TK.add_class(E, "toolkit-right");
+                    TK.add_class(E, "toolkit-vertical", "toolkit-right");
                     TK.insert_after(this._bar, this._scale);
                     break;
                 case "top":
-                    TK.add_class(E, "toolkit-horizontal");
-                    TK.add_class(E, "toolkit-top");
+                    TK.add_class(E, "toolkit-horizontal", "toolkit-top");
                     TK.insert_after(this._scale, this._bar);
                     break;
                 case "bottom":
-                    TK.add_class(E, "toolkit-horizontal");
-                    TK.add_class(E, "toolkit-bottom");
+                    TK.add_class(E, "toolkit-horizontal", "toolkit-bottom");
                     TK.insert_after(this._bar, this._scale);
                     break;
                 default:

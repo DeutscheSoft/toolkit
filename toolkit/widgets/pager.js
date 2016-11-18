@@ -139,35 +139,26 @@ w.TK.Pager = w.Pager = $class({
         
         if (I.direction) {
             I.direction = false;
-            TK.remove_class(E, "toolkit-forward");
-            TK.remove_class(E, "toolkit-backward");
+            TK.remove_class(E, "toolkit-forward", "toolkit-backward");
             TK.add_class(E, "toolkit-" + O.direction);
         }
         
         if (I.position) {
             I.position = false;
-            TK.remove_class(E, "toolkit-top");
-            TK.remove_class(E, "toolkit-right");
-            TK.remove_class(E, "toolkit-bottom");
-            TK.remove_class(E, "toolkit-left");
-            TK.remove_class(E, "toolkit-vertical");
-            TK.remove_class(E, "toolkit-horizontal");
+            TK.remove_class(E, "toolkit-top", "toolkit-right", "toolkit-bottom",
+                            "toolkit-left", "toolkit-vertical", "toolkit-horizontal");
             switch (O.position) {
                 case "top":
-                    TK.add_class(E, "toolkit-top");
-                    TK.add_class(E, "toolkit-vertical");
+                    TK.add_class(E, "toolkit-top", "toolkit-vertical");
                     break;
                 case "bottom":
-                    TK.add_class(E, "toolkit-bottom");
-                    TK.add_class(E, "toolkit-vertical");
+                    TK.add_class(E, "toolkit-bottom", "toolkit-vertical");
                     break;
                 case "left":
-                    TK.add_class(E, "toolkit-left");
-                    TK.add_class(E, "toolkit-horizontal");
+                    TK.add_class(E, "toolkit-left", "toolkit-horizontal");
                     break;
                 case "right":
-                    TK.add_class(E, "toolkit-right");
-                    TK.add_class(E, "toolkit-horizontal");
+                    TK.add_class(E, "toolkit-right", "toolkit-horizontal");
                     break;
                 default:
                     TK.warn("Unsupported position", O.position);
@@ -187,34 +178,12 @@ w.TK.Pager = w.Pager = $class({
                     size = TK.outer_width(this.buttonarray.element) + "px";
                 }
                 TK.S.add(function() {
-                    switch (O.position) {
-                        case "top":
-                            this._clip.style.top = size;
-                            this._clip.style.bottom = null;
-                            this._clip.style.left = null;
-                            this._clip.style.right = null;
-                            break;
-                        case "bottom":
-                            this._clip.style.bottom = size;
-                            this._clip.style.top = null;
-                            this._clip.style.left = null;
-                            this._clip.style.right = null;
-                            break;
-                        case "left":
-                            this._clip.style.left = size;
-                            this._clip.style.right = null;
-                            this._clip.style.top = null;
-                            this._clip.style.bottom = null;
-                            break;
-                        case "right":
-                            this._clip.style.right = size;
-                            this._clip.style.left = null;
-                            this._clip.style.top = null;
-                            this._clip.style.bottom = null;
-                            break;
-                        default:
-                            TK.warn("Unsupported position", O.position);
-                    }
+                    var style = this._clip.style;
+                    style.top = null;
+                    style.bottom = null;
+                    style.left = null;
+                    style.right = null;
+                    style[O.position] = size;
                     /* we essentially resize the pages container, so we need to call
                      * resize() on all children */
                     this.trigger_resize_children();

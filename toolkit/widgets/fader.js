@@ -315,17 +315,10 @@ w.TK.Fader = w.Fader = $class({
         if (I.layout) {
             I.layout = false;
             value = O.layout;
-            TK.remove_class(E, "toolkit-vertical");
-            TK.remove_class(E, "toolkit-horizontal");
-            TK.remove_class(E, "toolkit-left");
-            TK.remove_class(E, "toolkit-right");
-            TK.remove_class(E, "toolkit-top");
-            TK.remove_class(E, "toolkit-bottom");
+            TK.remove_class(E, "toolkit-vertical", "toolkit-horizontal", "toolkit-left",
+                            "toolkit-right", "toolkit-top", "toolkit-bottom");
             TK.add_class(E, vert(O) ? "toolkit-vertical" : "toolkit-horizontal");
-            tmp = value === "left"   ? "toolkit-left" :
-                    value === "right"  ? "toolkit-right" :
-                    value === "top"    ? "toolkit-top" : "toolkit-bottom";
-            TK.add_class(E, tmp);
+            TK.add_class(E, "toolkit-"+value);
 
             I.value = false;
         }

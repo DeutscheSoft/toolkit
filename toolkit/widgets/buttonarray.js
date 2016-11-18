@@ -281,9 +281,8 @@ w.TK.ButtonArray = w.ButtonArray = $class({
 
         if (I.direction) {
             var E = this.element;
-            TK.remove_class(E, "toolkit-vertical");
-            TK.remove_class(E, "toolkit-horizontal");
-            TK.add_class(E, O.direction === "vertical" ? "toolkit-vertical" : "toolkit-horizontal");
+            TK.remove_class(E, "toolkit-vertical", "toolkit-horizontal");
+            TK.add_class(E, "toolkit-"+O.direction);
         }
 
         if (I.validate("direction", "auto_arrows") || I.resized) {

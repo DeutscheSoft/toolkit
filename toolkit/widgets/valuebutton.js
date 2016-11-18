@@ -210,8 +210,9 @@ w.TK.ValueButton = w.ValueButton = $class({
         if (I.bar_direction) {
             I.bar_direction = false;
             switch (O.bar_direction) {
-                case "horizontal":
                 default:
+                    // TODO: warn here.
+                case "horizontal":
                     TK.remove_class(this.element, "toolkit-vertical");
                     TK.add_class(this.element, "toolkit-horizontal");
                     break;

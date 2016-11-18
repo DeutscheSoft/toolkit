@@ -123,6 +123,7 @@ w.TK.Button = w.Button = $class({
             }
         }
 
+        // TODO: why is this here, widget does take care of it?
         if (I["class"]) {
             I["class"] = false;
             if (O["class"])

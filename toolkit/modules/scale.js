@@ -479,28 +479,20 @@ w.TK.Scale = w.Scale = $class({
 
         if (I.layout) {
             I.layout = false;
-            TK.remove_class(E, "toolkit-vertical");
-            TK.remove_class(E, "toolkit-horizontal");
-            TK.remove_class(E, "toolkit-top");
-            TK.remove_class(E, "toolkit-bottom");
-            TK.remove_class(E, "toolkit-right");
-            TK.remove_class(E, "toolkit-left");
+            TK.remove_class(E, "toolkit-vertical", "toolkit-horizontal", "toolkit-top",
+                            "toolkit-bottom", "toolkit-right", "toolkit-left");
             switch (O.layout) {
             case "left":
-                TK.add_class(E, "toolkit-vertical");
-                TK.add_class(E, "toolkit-left");
+                TK.add_class(E, "toolkit-vertical", "toolkit-left");
                 break;
             case "right":
-                TK.add_class(E, "toolkit-vertical");
-                TK.add_class(E, "toolkit-right");
+                TK.add_class(E, "toolkit-vertical", "toolkit-right");
                 break;
             case "top":
-                TK.add_class(E, "toolkit-horizontal");
-                TK.add_class(E, "toolkit-top");
+                TK.add_class(E, "toolkit-horizontal", "toolkit-top");
                 break;
             case "bottom":
-                TK.add_class(E, "toolkit-horizontal");
-                TK.add_class(E, "toolkit-bottom");
+                TK.add_class(E, "toolkit-horizontal", "toolkit-bottom");
                 break;
             default:
                 TK.warn("Unsupported layout setting:", O.layout);

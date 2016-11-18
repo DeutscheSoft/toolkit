@@ -212,9 +212,7 @@ w.TK.Container = w.Container = $class({
         var E = this.element;
         O.display_state = "hide";
         TK.add_class(E, "toolkit-hide");
-        TK.remove_class(E, "toolkit-hiding");
-        TK.remove_class(E, "toolkit-showing");
-        TK.remove_class(E, "toolkit-show");
+        TK.remove_class(E, "toolkit-hiding", "toolkit-showing", "toolkit-show");
     },
     /** 
      * Starts the transition of the <code>display_state</code> to <code>show</code>.
@@ -243,9 +241,7 @@ w.TK.Container = w.Container = $class({
         var E = this.element;
         O.display_state = "show";
         TK.add_class(E, "toolkit-show");
-        TK.remove_class(E, "toolkit-hiding");
-        TK.remove_class(E, "toolkit-showing");
-        TK.remove_class(E, "toolkit-hide");
+        TK.remove_class(E, "toolkit-hiding", "toolkit-showing", "toolkit-hide");
     },
     show_nodraw: function() {
         var O = this.options;
@@ -360,10 +356,7 @@ w.TK.Container = w.Container = $class({
         if (I.display_state) {
             I.display_state = false;
             var time;
-            TK.remove_class(E, "toolkit-hiding");
-            TK.remove_class(E, "toolkit-hide");
-            TK.remove_class(E, "toolkit-showing");
-            TK.remove_class(E, "toolkit-show");
+            TK.remove_class(E, "toolkit-hiding", "toolkit-hide", "toolkit-showing", "toolkit-show");
 
             if (this.__hide_id) {
                 w.clearTimeout(this.__hide_id);
