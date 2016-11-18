@@ -44,7 +44,8 @@ w.TK.Root = w.Root = $class({
     _options: Object.create(TK.Container.prototype._options),
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
-        TK.add_class(this.element, "toolkit-root", "toolkit-loading");
+        TK.add_class(this.element, "toolkit-root")
+        TK.add_class(this.element, "toolkit-loading");
         this._resize_cb = resized.bind(this);
         this._visibility_cb = visibility_change.bind(this);
         this.resize_event = false;
