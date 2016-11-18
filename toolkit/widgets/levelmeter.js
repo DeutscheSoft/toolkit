@@ -256,17 +256,17 @@ w.TK.LevelMeter = w.LevelMeter = $class({
 
         if (I.show_hold) {
             I.show_hold = false;
-            (O.show_hold ? TK.add_class : TK.remove_class)(E, "toolkit-has-hold");
+            TK.toggle_class(E, "toolkit-has-hold", O.show_hold);
         }
         if (I.show_clip) {
             I.show_clip = false;
             this._clip.style.display =  O.show_clip  ? "block" : "none";
-            (O.show_clip ? TK.add_class : TK.remove_class)(E, "toolkit-has-clip");
+            TK.toggle_class(E, "toolkit-has-clip", O.show_clip);
         }
         if (I.show_peak) {
             I.show_peak = false;
             this._peak.style.display =  O.show_peak  ? "block" : "none";
-            (O.show_peak ? TK.add_class : TK.remove_class)(E, "toolkit-has-peak");
+            TK.toggle_class(E, "toolkit-has-peak", O.show_peak);
         }
 
         if (I.top || I.bottom) {
@@ -284,11 +284,7 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         }
         if (I.clip) {
             I.clip = false;
-            if (O.clip) {
-                TK.add_class(E, "toolkit-clipping");
-            } else {
-                TK.remove_class(E, "toolkit-clipping");
-            }
+            TK.toggle_class(E, "toolkit-clipping", O.clip);
         }
     },
     destroy: function () {

@@ -302,19 +302,19 @@ w.TK.MeterBase = w.MeterBase = $class({
             TK.set_text(this._label, O.format_label(O.label));
         }
         if (I.show_scale) {
-            (O.show_scale ? TK.add_class : TK.remove_class)(E, "toolkit-has-scale");
+            TK.toggle_class(E, "toolkit-has-scale", O.show_scale);
         }
         if (I.show_title) {
             I.show_title = false;
-            (O.show_title ? TK.add_class : TK.remove_class)(E, "toolkit-has-title");
+            TK.toggle_class(E, "toolkit-has-title", O.show_title);
         }
         if (I.show_label) {
             I.show_label = false;
-            (O.show_label ? TK.add_class : TK.remove_class)(E, "toolkit-has-label");
+            TK.toggle_class(E, "toolkit-has-label", O.show_label);
         }
         if (I.reverse) {
             I.reverse = false;
-            (O.reverse ? TK.add_class : TK.remove_class)(E, "toolkit-reverse");
+            TK.toggle_class(E, "toolkit-reverse", O.reverse);
         }
         if (I.gradient || I.background) {
             I.gradient = I.background = false;

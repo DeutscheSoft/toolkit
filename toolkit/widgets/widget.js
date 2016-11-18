@@ -285,12 +285,12 @@ TK.Widget = $class({
         if (E) {
             if (I.active) {
                 I.active = false;
-                (O.active ? TK.remove_class : TK.add_class)(E, "toolkit-inactive");
+                TK.toggle_class(E, "toolkit-inactive", !O.active);
             }
 
             if (I.disabled) {
                 I.disabled = false;
-                (O.disabled ? TK.add_class : TK.remove_class)(E, "toolkit-disabled");
+                TK.toggle_class(E, "toolkit-disabled", O.disabled);
             }
 
             if (I.styles) {

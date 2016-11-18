@@ -1247,7 +1247,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             // TODO: this is not very nice, we should really use the options
             // for that. 1) set "active" from the mouse handlers 2) set disabled instead
             // of active
-            (O.active ? TK.remove_class : TK.add_class)(this.element, "toolkit-disabled");
+            TK.toggle_class(this.element, "toolkit-disabled", !O.active);
         }
     },
     set: function(key, value) {
