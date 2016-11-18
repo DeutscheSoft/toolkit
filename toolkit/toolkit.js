@@ -56,19 +56,30 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
    */
   has_class = function (e, cls) { return e.classList.contains(cls); }
   /** 
-   * Adds a CSS class to a DOM node.
+   * Adds a CSS class to a DOM node. 
+   *
    * @param {HTMLElement|SVGElement} node - The DOM node.
-   * @param {string} name - The class name.
+   * @param {...*} names - The class names.
    * @function TK.add_class
    */
-  add_class = function (e, cls) { e.classList.add(cls); }
+  add_class = function (e) {
+      var i;
+      e = e.classList;
+      for (i = 1; i < arguments.length; i++)
+          e.add(arguments[i]);
+  }
   /** 
    * Removes a CSS class from a DOM node.
    * @param {HTMLElement|SVGElement} node - The DOM node.
-   * @param {string} name - The class name.
+   * @param {...*} names - The class names.
    * @function TK.remove_class
    */
-  remove_class = function (e, cls) { e.classList.remove(cls); }
+  remove_class = function (e) {
+      var i;
+      e = e.classList;
+      for (i = 1; i < arguments.length; i++)
+          e.remove(arguments[i]);
+  }
   /** 
    * Toggles a CSS class from a DOM node.
    * @param {HTMLElement|SVGElement} node - The DOM node.
@@ -90,30 +101,36 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
   has_class = function (e, cls) {
     return get_class_name(e).split(" ").indexOf(cls) !== -1;
   };
-  add_class = function (e, cls) {
-    var s = get_class_name(e);
-    if (!s.length) {
-      set_class_name(e, cls);
-      return;
-    }
-    var a = s.split(" ");
-    if (a.indexOf(cls) === -1) {
-      a.push(cls);
-      set_class_name(e,  a.join(" "));
-    }
-  };
-  remove_class = function(e, cls) {
+  add_class = function (e) {
+    var i, cls;
     var a = get_class_name(e).split(" ");
-    var i = a.indexOf(cls);
 
-    if (i !== -1) {
-      do {
-        a.splice(i, 1);
-        i = a.indexOf(cls);
-      } while (i !== -1);
-
-      set_class_name(e, a.join(" "));
+    for (i = 1; i < arguments.length; i++) {
+        cls = arguments[i];
+        if (a.indexOf(cls) === -1) {
+          a.push(cls);
+        }
     }
+    set_class_name(e, a.join(" "));
+  };
+  remove_class = function(e) {
+    var j, cls, i;
+    var a = get_class_name(e).split(" ");
+
+    for (j = 1; j < arguments.length; j++) {
+        cls = arguments[j];
+        i = a.indexOf(cls);
+
+        if (i !== -1) {
+          do {
+            a.splice(i, 1);
+            i = a.indexOf(cls);
+          } while (i !== -1);
+
+        }
+    }
+
+    set_class_name(e, a.join(" "));
   };
   toggle_class = function(e, cls, cond) {
       if (arguments.length < 3) {
