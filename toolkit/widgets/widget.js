@@ -119,7 +119,7 @@ TK.Widget = $class({
      *
      * @event TK.Widget#show
      */
-    Extends : BASE,
+    Extends : TK.Base,
     _class: "Widget",
     _options: {
         // A CSS class to add to the main element
@@ -142,7 +142,7 @@ TK.Widget = $class({
         disabled:  false,  // Widgets can be disabled by setting this to true
         needs_resize: true,
     },
-    Implements: [AudioMath],
+    Implements: [TK.AudioMath],
     initialize: function (options) {
         // Main actions every widget needs to take
         if (!options) options = {};
