@@ -414,8 +414,8 @@ w.TK.Scale = w.Scale = $class({
     _class: "Scale",
     
     Extends: TK.Widget,
-    Implements: [Ranged],
-    _options: Object.assign(Object.create(TK.Widget.prototype._options), Ranged.prototype._options, {
+    Implements: [TK.Ranged],
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Ranged.prototype._options, {
         layout: "string",
         division: "number",
         levels: "array",

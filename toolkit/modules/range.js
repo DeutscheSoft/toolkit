@@ -88,7 +88,7 @@ w.TK.Range = w.Range = $class({
      */
     Extends : TK.Base,
     _class: "Range",
-    Implements: [Ranged],
+    Implements: [TK.Ranged],
     _options: {
         scale: "string",
         reverse: "boolean",

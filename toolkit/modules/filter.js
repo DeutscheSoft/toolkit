@@ -279,7 +279,7 @@ w.TK.Filter = w.Filter = $class({
       */ 
     _class: "Filter",
     Extends: TK.Base,
-    Implements: [AudioMath, Notes],
+    Implements: [TK.AudioMath, TK.Notes],
     _options: {
         type: "mixed",
         freq: "number",

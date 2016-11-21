@@ -268,7 +268,7 @@ function remove_grid() {
 w.TK.Chart = w.Chart = $class({
     _class: "Chart",
     Extends: TK.Widget,
-    Implements: Ranges,
+    Implements: TK.Ranges,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         grid_x: "array",
         grid_y: "array",

@@ -295,7 +295,7 @@ w.TK.DragValue = w.DragValue = $class({
      */
     _class: "DragValue",
     Extends: TK.Base,
-    Implements: GlobalCursor,
+    Implements: TK.GlobalCursor,
     _options: {
         get: "function",
         set: "function",

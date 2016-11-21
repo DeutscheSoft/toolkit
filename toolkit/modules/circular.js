@@ -308,7 +308,7 @@ w.TK.Circular = w.Circular = $class({
      */
     _class: "Circular",
     Extends: TK.Widget,
-    Implements: [Warning, Ranged],
+    Implements: [TK.Warning, TK.Ranged],
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Ranged.prototype._options, {
         value: "number",
         size: "number",

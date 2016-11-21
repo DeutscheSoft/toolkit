@@ -176,7 +176,7 @@ w.TK.Graph = w.Graph = $class({
      */
     _class: "Graph",
     Extends: TK.Widget,
-    Implements: Ranges,
+    Implements: TK.Ranges,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         dots: "array",
         type: "string",

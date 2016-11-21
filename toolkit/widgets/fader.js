@@ -177,9 +177,9 @@ function deactivate_tooltip() {
 w.TK.Fader = w.Fader = $class({
     _class: "Fader",
     Extends: TK.Widget,
-    Implements: [Ranged, Warning, GlobalCursor],
+    Implements: [TK.Ranged, TK.Warning, TK.GlobalCursor],
     _options: Object.assign(Object.create(TK.Widget.prototype._options),
-                            Ranged.prototype._options, TK.Scale.prototype._options, {
+                            TK.Ranged.prototype._options, TK.Scale.prototype._options, {
         value:    "number",
         division: "number",
         levels:   "array",

@@ -1052,8 +1052,8 @@ function set_main_class(O) {
 w.TK.ResponseHandle = w.ResponseHandle = $class({
     _class: "ResponseHandle",
     Extends: TK.Widget,
-    Implements: [GlobalCursor, Ranges, Warning],
-    _options: Object.assign(Object.create(TK.Widget.prototype._options), Ranges.prototype._options, {
+    Implements: [TK.GlobalCursor, TK.Ranges, TK.Warning],
+    _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Ranges.prototype._options, {
         range_x: "mixed",
         range_y: "mixed",
         range_z: "mixed",

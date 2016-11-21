@@ -170,7 +170,7 @@ w.TK.Grid = w.Grid = $class({
      */
     _class: "Grid",
     Extends: TK.Widget,
-    Implements: Ranges,
+    Implements: TK.Ranges,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         grid_x: "array",
         grid_y: "array",

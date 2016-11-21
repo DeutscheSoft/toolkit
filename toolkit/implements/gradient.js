@@ -37,8 +37,8 @@ w.TK.Gradient = w.Gradient = $class({
      *   If set to false the css style color is used.
      */
     _class: "Gradient",
-    Implements: Ranged,
-    _options: Object.assign(Ranged.prototype._options, {
+    Implements: TK.Ranged,
+    _options: Object.assign(TK.Ranged.prototype._options, {
         gradient: "mixed",
         background: "mixed",
     }),
