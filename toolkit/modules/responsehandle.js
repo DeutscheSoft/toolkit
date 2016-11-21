@@ -942,8 +942,8 @@ function redraw_lines(O, X) {
             TK.warn("Unsupported mode", pref[i]);
     }
 
-    if (this._line1 && !this._line1.parentNode) this.element.append(this._line1);
-    if (this._line2 && !this._line2.parentNode) this.element.append(this._line2);
+    if (this._line1 && !this._line1.parentNode) this.element.appendChild(this._line1);
+    if (this._line2 && !this._line2.parentNode) this.element.appendChild(this._line2);
 }
 
 function set_main_class(O) {
