@@ -29,5 +29,5 @@
     visibility: visible;
 }
 .toolkit-root.toolkit-loading * {
-    visibility: hidden;
+    
 }
