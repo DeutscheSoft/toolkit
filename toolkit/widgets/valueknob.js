@@ -74,10 +74,12 @@ w.TK.ValueKnob = w.ValueKnob = $class({
                             TK.Value.prototype._options, TK.Knob.prototype._options, {
         value_format: "function",
         value_size: "number",
+        value_set: "function"
     }),
     options: Object.assign({}, TK.Value.prototype.options, TK.Knob.prototype.options, {
         value_format: function (val) { return val.toFixed(2); },
         value_size: 5,
+        value_set: TK.FORMAT("%.2f")
     }),
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
@@ -101,12 +103,14 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         /**
          * @member {TK.Value} TK.ValueKnob#value - The TK.Value widget.
          */
+        var O = this.options;
         this.value = new TK.Value({
             container: E,
             value: this.options.value,
             format: this.options.value_format,
             set: function (val) {
-                return this.parent.set("value", parseFloat(val));
+                var v = O.value_set(val);
+                return this.parent.set("value", parseFloat(v));
             },
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
@@ -121,9 +125,6 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         this.label = new TK.Label({
             container: E,
             label: this.options.label,
-            set: function (val) {
-                return this.parent.set("label", parseFloat(val));
-            },
         });
         
         
@@ -147,6 +148,16 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     set: function (key, value) {
         if (key === "value_size")
             value = this.value.set("size", value);
+        else if (key === "value_format")
+            value = this.value.set("format", value);
+        else if (key === "value_set") {
+            var O = this.options;
+            var fun = function (val) {
+                var v = O.value_set(val);
+                return this.parent.set("value", parseFloat(v));
+            }
+            value = this.value.set("set", fun);
+        }
         else if (!TK.Widget.prototype._options[key]) {
             if (TK.Knob.prototype._options[key])
                 value = this.knob.set(key, value);
