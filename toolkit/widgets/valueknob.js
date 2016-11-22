@@ -54,6 +54,20 @@ function value_done() {
     this.fire_event("valueset", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
 }
+function create_label() {
+    if (this.label) return;
+
+    this.label = new TK.Label({
+        label: this.options.label,
+        container: this.element
+    });
+    this.add_child(this.label);
+}
+function destroy_label() {
+    if (!this.label) return;
+    this.label.destroy();
+    this.label = null;
+}
 w.TK.ValueKnob = w.ValueKnob = $class({
     /**
      * This widget combines a {@link TK.Knob}, a {@link TK.Label}  and a {@link TK.Value} whose
@@ -74,12 +88,14 @@ w.TK.ValueKnob = w.ValueKnob = $class({
                             TK.Value.prototype._options, TK.Knob.prototype._options, {
         value_format: "function",
         value_size: "number",
-        value_set: "function"
+        value_set: "function",
+        show_label: "boolean"
     }),
     options: Object.assign({}, TK.Value.prototype.options, TK.Knob.prototype.options, {
         value_format: function (val) { return val.toFixed(2); },
         value_size: 5,
-        value_set: TK.FORMAT("%.2f")
+        value_set: TK.FORMAT("%.2f"),
+        show_label: false
     }),
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
@@ -122,15 +138,11 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         /**
          * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
          */
-        this.label = new TK.Label({
-            container: E,
-            label: this.options.label,
-        });
-        
+        this.label = null;
         
         this.add_child(this.value);
         this.add_child(this.knob);
-        this.add_child(this.label);
+        this.set("show_label", this.options.show_label);
         this.widgetize(E, true, true, true);
     },
     
@@ -138,6 +150,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         this.knob.destroy();
         this.value.destroy();
         TK.Widget.prototype.destroy.call(this);
+        if (this.label) this.label.destroy();
     },
 
     get: function (key) {
@@ -145,18 +158,31 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             return this.value.get("size");
         return TK.Widget.prototype.get.call(this, key);
     },
+
+    redraw: function() {
+        TK.Widget.prototype.redraw.call(this);
+        var I = this.invalid;
+
+        if (I.show_label) {
+            I.show_label = false;
+            if (!this.options.show_label) destroy_label.call(this);
+        }
+    },
+
     set: function (key, value) {
-        if (key === "value_size")
+        if (key === "value_size") {
             value = this.value.set("size", value);
-        else if (key === "value_format")
+        } else if (key === "value_format") {
             value = this.value.set("format", value);
-        else if (key === "value_set") {
+        } else if (key === "value_set") {
             var O = this.options;
             var fun = function (val) {
                 var v = O.value_set(val);
                 return this.parent.set("value", parseFloat(v));
             }
             value = this.value.set("set", fun);
+        } else if (key === "show_label") {
+            if (value) create_label.call(this);
         }
         else if (!TK.Widget.prototype._options[key]) {
             if (TK.Knob.prototype._options[key])
