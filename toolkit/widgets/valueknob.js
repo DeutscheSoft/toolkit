@@ -56,7 +56,7 @@ function value_done() {
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
     /**
-     * This widget combines a {@link TK.Knob} and a {@link TK.Value} whose
+     * This widget combines a {@link TK.Knob}, a {@link TK.Label}  and a {@link TK.Value} whose
      * value is synchronized.
      *
      * @class TK.ValueKnob
@@ -77,7 +77,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     }),
     options: Object.assign({}, TK.Value.prototype.options, TK.Knob.prototype.options, {
         value_format: function (val) { return val.toFixed(2); },
-        value_size: 5
+        value_size: 5,
     }),
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
@@ -115,8 +115,21 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             this.parent.set(key, value);
             this.parent.fire_event("useraction", key, value);
         });
+        /**
+         * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
+         */
+        this.label = new TK.Label({
+            container: E,
+            label: this.options.label,
+            set: function (val) {
+                return this.parent.set("label", parseFloat(val));
+            },
+        });
+        
+        
         this.add_child(this.value);
         this.add_child(this.knob);
+        this.add_child(this.label);
         this.widgetize(E, true, true, true);
     },
     
@@ -138,7 +151,9 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             if (TK.Knob.prototype._options[key])
                 value = this.knob.set(key, value);
             if (TK.Value.prototype._options[key])
-                this.value.set(key, value);
+                value = this.value.set(key, value);
+            if (TK.Label.prototype._options[key])
+                value = this.label.set(key, value);
         }
         return TK.Widget.prototype.set.call(this, key, value);
     }

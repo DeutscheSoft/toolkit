@@ -3,7 +3,8 @@
             min: -100,
             max: 100,
             value: -20,
-            snap: 0.01
+            snap: 0.01,
+            label: "Value"
         });
         root.append_child(valueknob);
     }
