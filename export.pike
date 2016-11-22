@@ -269,10 +269,10 @@ int main(int argc, array(string) argv) {
         out->truncate(0);
         out->write(
 #"/* This file is part of the Toolkit library.
-     * It has been generated using the command
-     *  pike export.pike %{%s %}
-     */
-    ", orig_args);
+ * It has been generated using the command
+ *  pike export.pike %{%s %}
+ */
+", orig_args);
 
         Process.create_process(
                 cmd,
