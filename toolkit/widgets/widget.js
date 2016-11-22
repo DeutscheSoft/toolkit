@@ -317,11 +317,10 @@ TK.Widget = $class({
          */
         this.fire_event("destroy");
 
-        if (this.needs_redraw) TK.S.remove(this._redraw, 1);
+        this.disable_draw();
+        if (this.parent) this.parent.remove_child(this);
 
         BASE.prototype.destroy.call(this);
-
-        if (this.parent) this.parent.remove_child(this);
 
         this._redraw = null;
         this.__resize = null;
