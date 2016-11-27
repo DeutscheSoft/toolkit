@@ -152,13 +152,18 @@ var __native_events = {
 };
 function remove_native_events(element, events) {
     var type;
+    var handler = this.__native_handler;
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
-        element.removeEventListener(type, events[type].callback);
+        element.removeEventListener(type, handler);
 }
 function add_native_events(element, events) {
     var type;
+    var handler = this.__native_handler;
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
-        element.addEventListener(type, events[type].callback);
+        element.addEventListener(type, handler);
+}
+function native_handler(ev) {
+    if (this.fire_event(ev.type, ev) === false) return false;
 }
 /**
  * This is the base class for all widgets in toolkit.
@@ -170,6 +175,7 @@ TK.Base = w.BASE = $class({
     initialize : function(options) {
         this.__events = {};
         this.__event_target = null;
+        this.__native_handler = native_handler.bind(this);
         this.set_options(options);
     },
     initialized : function() {
@@ -187,11 +193,12 @@ TK.Base = w.BASE = $class({
      */
     destroy : function() {
         if (this.__event_target) {
-            remove_native_events(this.__event_target, this.__events);
+            remove_native_events.call(this, this.__event_target, this.__events);
         }
 
         this.__events = null;
         this.__event_target = null;
+        this.__native_handler = null;
         this.options = null;
     },
     /**
@@ -303,8 +310,8 @@ TK.Base = w.BASE = $class({
          */
         this.fire_event("delegated", element);
 
-        if (old_target) remove_native_events(old_target, ev);
-        if (element) add_native_events(element, ev);
+        if (old_target) remove_native_events.call(this, old_target, ev);
+        if (element) add_native_events.call(this, element, ev);
 
         this.__event_target = element;
 
@@ -336,27 +343,15 @@ TK.Base = w.BASE = $class({
         // add an event listener to a widget. These can be native DOM
         // events if the widget has a delegated element and the widgets
         // native events.
-        ev = this.__events;
-        if (!ev.hasOwnProperty(event)) {
-            if (__native_events[event]) {
-                // seems it's a DOM event and there's no callback bound
-                // to this event by now
-                //
-                // we create a callback even if we have no DOM element currently
-                // the necessary callbacks will be bound on delegate_events()
-                cb = function (evnt) {
-                    /* just in case fire_event throws an exception,
-                     * we make sure to do the preventDefault, etc first
-                     */
-                    if (this.fire_event(evnt.type, evnt) === false) return false;
-                }.bind(this)
-                if (this.__event_target)
-                    this.__event_target.addEventListener(event, cb);
+        ev = this.__events[event];
+        if (!ev) {
+            this.__events[event] = ev = [];
+            if (__native_events[event] && this.__event_target) {
+                this.__event_target.addEventListener(event, this.__native_handler);
             }
-            // add to the internal __events list
-            ev[event] = { callback: cb, queue: [] };
         }
-        ev[event].queue.push(func);
+
+        ev.push(func);
     },
     /**
      * Removes the given function from the event queue.
@@ -369,23 +364,21 @@ TK.Base = w.BASE = $class({
      * @param {Function} func - The function to remove.
      */
     remove_event: function (event, func) {
-        var ev = this.__events;
-        if (ev.hasOwnProperty(event)) {
-            for (var j = ev[event].queue.length - 1; j >= 0; j--) {
+        var ev = this.__events[event];
+        if (ev) {
+            for (var j = ev.length - 1; j >= 0; j--) {
                 // loop over the callback list of the event
-                if (ev[event].queue[j] === func)
+                if (ev[j] === func)
                     // remove the callback
-                    ev[event].queue.splice(j, 1);
+                    ev.splice(j, 1);
             }
-            if (!ev[event].queue.length) {
+            if (!ev.length) {
                 // no callbacks left
-                if (__native_events[event]
-                && this.__event_target
-                && ev[event].callback)
+                if (__native_events[event] && this.__event_target)
                     // remove native DOM event listener from __event_target
-                    this.__event_target.removeEventListener(event, ev[event].callback);
+                    this.__event_target.removeEventListener(event, this.__native_handler);
                 // delete event from the list
-                delete ev[event];
+                this.__events[event] = null;
             }
         }
     },
@@ -402,7 +395,7 @@ TK.Base = w.BASE = $class({
 
         if (!ev.hasOwnProperty(event)) return;
 
-        ev = ev[event].queue;
+        ev = ev[event];
 
         if (!ev.length) return;
 
@@ -428,7 +421,7 @@ TK.Base = w.BASE = $class({
 
         if (!ev.hasOwnProperty(event)) return false;
 
-        ev = ev[event].queue;
+        ev = ev[event];
 
         if (!ev.length) return false;
         return true;
