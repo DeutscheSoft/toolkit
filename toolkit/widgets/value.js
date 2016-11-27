@@ -37,9 +37,6 @@ function value_clicked(e) {
         return false;
     }
     // TODO
-    if (!this.__clicked)
-        return;
-    this.__clicked = false;
     if (!this.options.set) return;
     if (this.__editing) return false;
     TK.add_class(this.element, "toolkit-active");
@@ -55,10 +52,6 @@ function value_clicked(e) {
      */
     this.fire_event("valueclicked", this.options.value);
     this.fire_event("useraction", "value", this.options.value);
-    //e.stopPropagation();
-}
-function value_init(e) {
-    this.__clicked = true;
 }
 function value_typing(e) {
     if (!this.options.set) return;
@@ -188,17 +181,13 @@ w.TK.Value = w.Value = $class({
         E.appendChild(this._input);
         
         this.add_event("submit", submit_cb);
-        
-        this.add_event("pointerdown", value_init);
-        this.add_event("pointerup", value_clicked);
+        this.add_event("click", value_clicked);
 
         this._value_typing = value_typing.bind(this);
         this._value_done = value_done.bind(this);
                 
         this._input.addEventListener("keyup", this._value_typing);
         this._input.addEventListener("blur", this._value_done);
-        
-        this.__clicked = false;
     },
     
     redraw: function () {
