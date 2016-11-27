@@ -1115,7 +1115,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         show_axis:        false
     },
 
-    initialize: function (options, hold) {
+    initialize: function (options) {
         this.x = 0;
         this.y = 0;
         this.z = 0;

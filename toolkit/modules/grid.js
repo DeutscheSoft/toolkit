@@ -187,7 +187,7 @@ w.TK.Grid = w.Grid = $class({
         width:   0,
         height:  0
     },
-    initialize: function (options, hold) {
+    initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         /**
          * @member {SVGGroup} TK.Grid#element - The main SVG group containing all grid elements. Has class <code>toolkit-grid</code>.

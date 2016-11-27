@@ -95,10 +95,6 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         this.add_range(this.options.range_z, "range_z");
         if (this.options.depth)
             this.set("depth", this.options.depth, true);
-//         this.range_z.add_event("set", function (key, value, hold) {
-//             if (!hold) this.redraw();
-//         }.bind(this));
-        
         /**
          * @member {HTMLDivElement} TK.ResponseHandler#element - The main DIV container.
          *   Has class <code>toolkit-response-handler</code>.
