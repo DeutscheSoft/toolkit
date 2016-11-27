@@ -101,13 +101,20 @@ function touchleave(e) {
 function touchstart(e) {
     if (this.__touch_id !== false) return;
     this.__touch_id = e.targetTouches[0].identifier;
-    e.preventDefault();
     press_start.call(this);
     this.add_event("touchend", touchend);
     this.add_event("touchcancel", touchleave);
     this.add_event("touchleave", touchleave);
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
 }
-    
+function contextmenu(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+}
+
 w.TK.Toggle = w.Toggle = $class({
     /**
      * A toggle button. The toggle button can either be pressed (which means that it will
@@ -157,8 +164,8 @@ w.TK.Toggle = w.Toggle = $class({
          */
         TK.add_class(this.element, "toolkit-toggle");
         this.add_event("mousedown", mousedown);
-        this.add_event("touchstart", touchstart, true, true);
-        this.add_event("contextmenu", function(ev) {}, true, true);
+        this.add_event("touchstart", touchstart);
+        this.add_event("contextmenu", contextmenu);
         this.__press_start_time = 0;
         this.__touch_id = false;
     },

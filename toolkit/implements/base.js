@@ -48,11 +48,12 @@ var mixin = function(dst, src) {
 function dispatch_events(handlers, args) {
     for (var i = 0; i < handlers.length; i++) {
         try {
-            handlers[i].apply(this, args);
+            if (false === handlers[i].apply(this, args)) return false;
         } catch (e) {
             TK.warn("event handler", handlers[i], "threw", e);
         }
     }
+    return true;
 }
 w.$class = function(o) {
     var constructor;
@@ -149,16 +150,6 @@ var __native_events = {
     submit     : true,
     contextmenu: true,
 };
-var __event_replacements = {
-    pointerdown: [
-        { event: "mousedown", prevent: false, stop: false },
-        { event: "touchstart", prevent: true, stop: false }
-    ],
-    pointerup: [
-        { event: "mouseup", prevent: false, stop: false },
-        { event: "touchend", prevent: true, stop: false }
-    ]
-}
 function remove_native_events(element, events) {
     var type;
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
@@ -329,7 +320,7 @@ TK.Base = w.BASE = $class({
      * @param {boolean} prevent - Set to true if the event should prevent the default behavior.
      * @param {boolean} stop - Set to true if the event should stop bubbling up the tree.
      */
-    add_event: function (event, func, prevent, stop) {
+    add_event: function (event, func) {
         var ev;
         var cb;
 
@@ -339,18 +330,12 @@ TK.Base = w.BASE = $class({
         if (typeof func !== "function")
             throw new TypeError("Expected function.");
 
+        if (arguments.length !== 2)
+            throw new Error("Bad number of arguments.");
+
         // add an event listener to a widget. These can be native DOM
         // events if the widget has a delegated element and the widgets
         // native events.
-        if (__event_replacements.hasOwnProperty(event)) {
-            // it's a native event which needs one or more replacement
-            // events like pointerdown -> mousedown/touchstart as
-            // stated in the list below
-            ev = __event_replacements[event];
-            for (var i = 0; i < ev.length; i++)
-                this.add_event(ev[i].event, func, ev[i].prevent, ev[i].stop);
-            return;
-        }
         ev = this.__events;
         if (!ev.hasOwnProperty(event)) {
             if (__native_events[event]) {
@@ -363,12 +348,7 @@ TK.Base = w.BASE = $class({
                     /* just in case fire_event throws an exception,
                      * we make sure to do the preventDefault, etc first
                      */
-                    if (stop) evnt.stopPropagation();
-                    if (prevent) evnt.preventDefault();
-
-                    this.fire_event(event, evnt);
-
-                    if (prevent) return false;
+                    if (this.fire_event(evnt.type, evnt) === false) return false;
                 }.bind(this)
                 if (this.__event_target)
                     this.__event_target.addEventListener(event, cb);
@@ -389,16 +369,7 @@ TK.Base = w.BASE = $class({
      * @param {Function} func - The function to remove.
      */
     remove_event: function (event, func) {
-        var ev;
-        if (__event_replacements.hasOwnProperty(event)) {
-            // it is an event which has one or more replacement events
-            // so remove all those replacements
-            ev = __event_replacements[event];
-            for (var i = 0; i < ev.length; i++)
-                this.remove_event(ev[i].event, func);
-            return;
-        }
-        ev = this.__events;
+        var ev = this.__events;
         if (ev.hasOwnProperty(event)) {
             for (var j = ev[event].queue.length - 1; j >= 0; j--) {
                 // loop over the callback list of the event
@@ -441,7 +412,7 @@ TK.Base = w.BASE = $class({
             args[i] = arguments[i+1];
         }
 
-        dispatch_events.call(this, ev, args);
+        return dispatch_events.call(this, ev, args);
     },
     /**
      * Test if the event descriptor has some handler functions in the queue.
