@@ -388,18 +388,13 @@ TK.Base = w.BASE = $class({
      * @param {Function} func - The function to remove.
      */
     remove_event: function (event, func) {
+        var ev;
         if (__event_replacements.hasOwnProperty(event)) {
             // it is an event which has one or more replacement events
             // so remove all those replacements
-            var ev = __event_replacements[event];
+            ev = __event_replacements[event];
             for (var i = 0; i < ev.length; i++)
                 this.remove_event(ev[i].event, func);
-            return;
-        }
-        // handle resize events globally since there's no resize event
-        // for DOM elements
-        if (event === "resize") {
-            TK.remove_resize_event(this);
             return;
         }
         ev = this.__events;
