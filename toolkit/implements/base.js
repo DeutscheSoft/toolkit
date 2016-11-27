@@ -54,7 +54,6 @@ function dispatch_events(handlers, args) {
         }
     }
 }
-w.$mixin = merge;
 w.$class = function(o) {
     var constructor;
     var methods;
