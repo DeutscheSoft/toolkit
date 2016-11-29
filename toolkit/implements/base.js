@@ -286,6 +286,26 @@ TK.Base = w.BASE = $class({
         return value;
     },
     /**
+     * Sets an option by user interaction. Emits the <code>useraction</code>
+     * event. The useraction event can be cancelled (if an event handler
+     * returns <code>false</code>), in which case the option is not set.
+     * Returns <code>true</code> if the option was set, <code>false</code>
+     * otherwise.
+     *
+     * @method TK.Base#useraction
+     * 
+     * @param {string} key - The name of the option.
+     * @param {mixed} value - The value of the option.
+     *
+     * @emits TK.Base#useraction
+     */
+    useraction: function(key, value) {
+        if (false === this.fire_event("useraction", key, value)) return false;
+        /* TODO: support user option mappings */
+        this.set(key, value);
+        return true;
+    },
+    /**
      * Delegates all occuring DOM events of a specific DOM node to the widget.
      * This way the widget fires e.g. a click event if someone clicks on the
      * given DOM node.
