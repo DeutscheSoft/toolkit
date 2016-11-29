@@ -185,11 +185,11 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             if (value) create_label.call(this);
         }
         else if (!TK.Widget.prototype._options[key]) {
-            if (TK.Knob.prototype._options[key])
+            if (TK.Knob.prototype._options[key] && this.knob)
                 value = this.knob.set(key, value);
-            if (TK.Value.prototype._options[key])
+            if (TK.Value.prototype._options[key] && this.value)
                 value = this.value.set(key, value);
-            if (TK.Label.prototype._options[key])
+            if (TK.Label.prototype._options[key] && this.label)
                 value = this.label.set(key, value);
         }
         return TK.Widget.prototype.set.call(this, key, value);
