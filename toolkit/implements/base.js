@@ -55,10 +55,44 @@ function dispatch_events(handlers, args) {
     }
     return true;
 }
+function add_static_event(w, event, fun) {
+    var p = w.prototype, e;
+    if (!p.hasOwnProperty('static_events')) {
+        if (p.static_events) {
+            p.static_events = e = Object.assign({}, p.static_events);
+        } else {
+            p.static_events = e = {};
+        }
+    } else e = p.static_events;
+    if (!(event in e)) {
+        e[event] = [ fun ];
+    } else e[event].push(fun);
+}
+function arrayify(x) {
+    if (!Array.isArray(x)) x = [ x ];
+    return x;
+}
+function merge_static_events(a, b) {
+    var event;
+    for (event in b) {
+        if (!Array.isArray(b[event])) {
+            b[event] = [ b[event] ];
+        }
+    }
+    if (!a) return b;
+    for (event in a) {
+        if (b.hasOwnProperty(event)) {
+            b[event] = a[event].concat(b[event]);
+        }
+    }
+    return Object.assign({}, a, b);
+}
 w.$class = function(o) {
     var constructor;
     var methods;
     var tmp, i, c, key;
+
+    if (o.static_events) o.static_events = merge_static_events(null, o.static_events);
 
     if (tmp = o.Extends) {
         if (typeof(tmp) === "function") {
@@ -68,17 +102,16 @@ w.$class = function(o) {
             typeof(tmp.options) === "object") {
             o.options = Object.assign(Object.create(tmp.options), o.options);
         }
+        if (o.static_events) o.static_events = merge_static_events(tmp.static_events, o.static_events);
         methods = Object.assign(Object.create(tmp), o);
     } else {
         methods = o;
     }
 
+    tmp = o.Implements;
     // mixins
-    if (tmp = o.Implements) {
-        if (!Array.isArray(tmp)) {
-            tmp = [ tmp ];
-        }
-
+    if (tmp !== void(0)) {
+        tmp = arrayify(tmp);
         for (i = 0; i < tmp.length; i++) {
             if (typeof(tmp[i]) === "function") {
                 c = tmp[i].prototype;
@@ -90,6 +123,8 @@ w.$class = function(o) {
                 }
                 methods.options = merge({}, c.options, methods.options);
             }
+            if (c.static_events) methods.static_events = merge_static_events(c.static_events,
+                                                                             methods.static_events||{});
 
             methods = mixin(methods, c, true);
         }
@@ -164,6 +199,15 @@ function add_native_events(element, events) {
 }
 function native_handler(ev) {
     if (this.fire_event(ev.type, ev) === false) return false;
+}
+function has_event_listeners(event) {
+    var ev = this.__events;
+
+    if (ev.hasOwnProperty(event)) return true;
+
+    ev = this.static_events;
+
+    return ev && ev.hasOwnProperty(event);
 }
 /**
  * This is the base class for all widgets in toolkit.
@@ -263,6 +307,8 @@ TK.Base = w.BASE = $class({
      * @emits TK.Base#set_[option]
      */
     set: function (key, value) {
+        var e;
+
         this.options[key] = value;
         /**
          * Is fired when an option is set.
@@ -272,7 +318,7 @@ TK.Base = w.BASE = $class({
          * @param {string} name - The name of the option.
          * @param {mixed} value - The value of the option.
          */
-        if (this.__events.set)
+        if (has_event_listeners.call(this, "set"))
             this.fire_event("set", key, value);
         /**
          * Is fired when an option is set.
@@ -281,8 +327,10 @@ TK.Base = w.BASE = $class({
          * 
          * @param {mixed} value - The value of the option.
          */
-        if (this.__events["set_" + key])
-            this.fire_event("set_" + key, value, key);
+        e = "set_"+key;
+        if (has_event_listeners.call(this, e))
+            this.fire_event(e, value, key);
+
         return value;
     },
     /**
@@ -320,7 +368,6 @@ TK.Base = w.BASE = $class({
      * @emits TK.Base#delegated
      */
     delegate_events: function (element) {
-        var ev = this.__events;
         var old_target = this.__event_target;
         /**
          * Is fired when an element is delegated.
@@ -331,8 +378,15 @@ TK.Base = w.BASE = $class({
          */
         this.fire_event("delegated", element);
 
-        if (old_target) remove_native_events.call(this, old_target, ev);
-        if (element) add_native_events.call(this, element, ev);
+        if (old_target) {
+            remove_native_events.call(this, old_target, this.__events);
+            if (this.static_events) remove_native_events.call(this, old_target, this.static_events);
+        }
+
+        if (element) {
+            if (this.static_events) add_native_events.call(this, element, this.static_events);
+            add_native_events.call(this, element, this.__events);
+        }
 
         this.__event_target = element;
 
@@ -412,21 +466,27 @@ TK.Base = w.BASE = $class({
      * @param {...*} args - Event arguments.
      */
     fire_event: function (event) {
-        var ev = this.__events;
+        var ev
+        var args;
 
-        if (!ev.hasOwnProperty(event)) return;
+        ev = this.static_events;
 
-        ev = ev[event];
+        if (ev !== void(0) && (event in ev)) {
+            ev = ev[event];
 
-        if (!ev.length) return;
+            args = Array.prototype.slice.call(arguments, 1);
 
-        var args = new Array(arguments.length-1);
-
-        for (var i = 0; i < args.length; i++) {
-            args[i] = arguments[i+1];
+            if (dispatch_events.call(this, ev, args) === false) return false;
         }
 
-        return dispatch_events.call(this, ev, args);
+        ev = this.__events;
+
+        if (ev = ev[event]) {
+
+            if (args === void(0)) args = Array.prototype.slice.call(arguments, 1);
+
+            if (dispatch_events.call(this, ev, args) === false) return false;
+        }
     },
     /**
      * Test if the event descriptor has some handler functions in the queue.
@@ -437,16 +497,7 @@ TK.Base = w.BASE = $class({
      * 
      * @returns {boolean} True if the event has some handler functions in the queue, false if not.
      */
-    has_event_listeners: function (event) {
-        var ev = this.__events;
-
-        if (!ev.hasOwnProperty(event)) return false;
-
-        ev = ev[event];
-
-        if (!ev.length) return false;
-        return true;
-    },
+    has_event_listeners: has_event_listeners,
     /**
      * Add multiple event handlers at once, either as dedicated event handlers or a list of event
      * descriptors with a single handler function.
