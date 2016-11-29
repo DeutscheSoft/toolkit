@@ -253,7 +253,8 @@ TK.Base = w.BASE = $class({
     },
     /**
      * Sets an option. Fires both the events <code>set</code> with arguments <code>key</code>
-     * and <code>value</code>; and the event <code>'set_'+key</code> with argument <code>value</code>.
+     * and <code>value</code>; and the event <code>'set_'+key</code> with arguments <code>value</code>
+     * and <code>key</code>.
      *
      * @method TK.Base#set
      * 
@@ -283,7 +284,7 @@ TK.Base = w.BASE = $class({
          * @param {mixed} value - The value of the option.
          */
         if (this.__events["set_" + key])
-            this.fire_event("set_" + key, value);
+            this.fire_event("set_" + key, value, key);
         return value;
     },
     /**
