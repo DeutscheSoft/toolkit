@@ -29,7 +29,7 @@ function get_event(event) {
  * 
  * @class TK.Tooltip
  */
-w.GlobalTooltip = function() {
+w.TK.GlobalTooltip = function() {
     var overlay = TK.element("div", "toolkit-tooltip");
     var table   = TK.element("div", "toolkit-table");
     var row     = TK.element("div", "toolkit-row");
@@ -194,11 +194,11 @@ w.GlobalTooltip = function() {
      */
     this._entry = entry;
 };
-w.GlobalTooltip.prototype = {
+w.TK.GlobalTooltip.prototype = {
     destroy: function() {
         this.hide();
         this.element.remove();
     },
 };
-w.TK.Tooltip = new GlobalTooltip();
+w.TK.tooltip = new w.TK.GlobalTooltip();
 })(this);
