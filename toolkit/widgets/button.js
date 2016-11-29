@@ -89,12 +89,6 @@ w.TK.Button = w.Button = $class({
         this._cell.appendChild(this._icon);
         this._cell.appendChild(this._label);
         E.appendChild(this._cell);
-        
-        this.add_events(
-            ["click", "mousedown", "mouseup", "touchstart", "touchend", "touchcancel"],
-            (function (e) {
-                this.fire_event("useraction", "state", this.options.state);
-            }).bind(this));
     },
     destroy: function () {
         this._icon.remove();

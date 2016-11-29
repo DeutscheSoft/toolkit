@@ -246,7 +246,7 @@ w.TK.Select = w.Select = $class({
         this.entries.push(entry);
         var id = this.entries.length - 1;
         var up_cb = function (e) {
-            this.select(id);
+            if (this.useraction("selected", id) === false) return;
             /**
              * Is fired when a selection was made by the user. The arguments
              * are the value of the entry, the id of the selected element and the title of the entry.
@@ -258,8 +258,6 @@ w.TK.Select = w.Select = $class({
              * @param {string} value - The title of the selected entry.
              */
             this.fire_event("select", entry.value, id, entry.title);
-            this.fire_event("useraction", "selected", this.options.selected);
-            this.fire_event("useraction", "value", this.options.value);
             show_list.call(this, false);
         }.bind(this);
 

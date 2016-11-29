@@ -39,7 +39,6 @@ function value_clicked() {
      * @param {number} value - The value of the widget.
      */
     this.fire_event("valueedit", this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
 }
 function value_done() {
     this.knob.scroll.set("active", true);
@@ -52,7 +51,6 @@ function value_done() {
      * @param {number} value - The value of the widget.
      */
     this.fire_event("valueset", this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
 }
 function create_label() {
     if (this.label) return;
@@ -67,6 +65,11 @@ function destroy_label() {
     if (!this.label) return;
     this.label.destroy();
     this.label = null;
+}
+function useraction_cb(key, value) {
+    /* We cancel all modifications in the child and transfer it to the parent (us) */
+    this.parent.useraction(key, value);
+    return false;
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
     /**
@@ -126,15 +129,13 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             format: this.options.value_format,
             set: function (val) {
                 var v = O.value_set(val);
-                return this.parent.set("value", parseFloat(v));
+                return parseFloat(v);
             },
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
-        this.knob.add_event("useraction", function(key, value) {
-            this.parent.set(key, value);
-            this.parent.fire_event("useraction", key, value);
-        });
+        this.value.add_event("useraction", useraction_cb);
+        this.knob.add_event("useraction", useraction_cb);
         /**
          * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
          */
@@ -178,7 +179,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             var O = this.options;
             var fun = function (val) {
                 var v = O.value_set(val);
-                return this.parent.set("value", parseFloat(v));
+                return parseFloat(v);
             }
             value = this.value.set("set", fun);
         } else if (key === "show_label") {

@@ -110,8 +110,6 @@ function mousedown(e) {
             pos_x: this.x,
             pos_y: this.y
         });
-        this.fire_event("useraction", "x", this.options.x);
-        this.fire_event("useraction", "y", this.options.y);
     } else {
         /**
          * Is fired when the user grabs the z-handle. The argument is the
@@ -122,7 +120,6 @@ function mousedown(e) {
          * @param {number} z - The z value.
          */
         this.fire_event("zchangestarted", this.options.z);
-        this.fire_event("useraction", "z", this.options.z);
     }
     //document.addEventListener("mouseup", this._mouseup.bind(this));
     return false;
@@ -156,8 +153,6 @@ function mouseup(e) {
             pos_x: this.x,
             pos_y: this.y
         });
-        this.fire_event("useraction", "x", this.options.x);
-        this.fire_event("useraction", "y", this.options.y);
     } else {
         /**
          * Is fired when the user releases the z-handle. The argument is the
@@ -168,7 +163,6 @@ function mouseup(e) {
          * @param {number} z - The z value.
          */
         this.fire_event("zchangeended", this.options.z);
-        this.fire_event("useraction", "z", this.options.z);
         this._zhandling = false;
     }
     this.__active = false;
@@ -221,8 +215,7 @@ function mousemove(e) {
         } else {
             d = range_z.snap_down(range_z.px2val(this._clickZ + d));
         }
-        this.set("z", d)
-        this.fire_event("useraction", "z", this.options.z);
+        this.useraction("z", d);
     } else if (this._sticky) {
         var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
         var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
@@ -230,8 +223,8 @@ function mousemove(e) {
         if (dist > O.min_drag)
             this._sticky = false;
     } else {
-        this.set("x", range_x.snap(range_x.px2val(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx)));
-        this.set("y", range_y.snap(range_y.px2val(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my)));
+        this.useraction("x", range_x.snap(range_x.px2val(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx)));
+        this.useraction("y", range_y.snap(range_y.px2val(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my)));
         /**
          * Is fired when the user drags the main handle.
          * The argument is an object with the following members:
@@ -252,8 +245,6 @@ function mousemove(e) {
             pos_x: this.x,
             pos_y: this.y
         });
-        this.fire_event("useraction", "x", this.options.x);
-        this.fire_event("useraction", "y", this.options.y);
     }
     return false;
 }
@@ -278,10 +269,9 @@ function scrollwheel(e) {
         s *= this.range_z.get("shift_down");
     else if (e.shiftKey)
         s *= this.range_z.get("shift_up");
-    this.set("z", this.get("z") + s);
+    this.useraction("z", this.get("z") + s);
     if (!this._zwheel)
         this.fire_event("zchangestarted", this.options.z);
-    this.fire_event("useraction", "z", this.options.z);
     this._zwheel = true;
 }
 function touchstart(e) {
@@ -324,10 +314,9 @@ function touchmove(e) {
             this.__z = O.z;
             this.warning(this.element);
         }
-        this.set("z", Math.max(
+        this.useraction("z", Math.max(
             Math.min(z, this.range_z.get("max")),
             this.range_z.get("min")));
-        this.fire_event("useraction", "z", this.options.z);
         e.preventDefault();
         e.stopPropagation();
         return false;

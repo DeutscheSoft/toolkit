@@ -40,7 +40,6 @@ function value_clicked() {
      * @param {number} value - The value of the widget.
      */
     this.fire_event("valueedit", this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
 }
 function value_done() {
     this.scroll.set("active", true);
@@ -53,9 +52,12 @@ function value_done() {
      * @param {number} value - The value of the widget.
      */
     this.fire_event("valueset", this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
 }
-    
+function useraction_cb(key, value) {
+    /* We cancel all modifications in the child and transfer it to the parent (us) */
+    this.parent.useraction(key, value);
+    return false;
+}
 w.TK.ValueButton = w.ValueButton = $class({
     /**
      * This widget combines a {@link TK.Button} and a {@link TK.Value}.
@@ -129,14 +131,10 @@ w.TK.ValueButton = w.ValueButton = $class({
             container: this.element,
             value: this.options.value,
             format: this.options.value_format,
-            set: function (val) {
-                    val = parseFloat(val);
-                    val = this.set("value", val);
-                    this.fire_event("useraction", "value", val);
-                    return this.options.value; }.bind(this)
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
+        this.value.add_event("useraction", useraction_cb);
         this.add_child(this.value);
         
         /**
@@ -154,8 +152,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             range:     function () { return this; }.bind(this),
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) {
-                v = this.set("value", v);
-                this.fire_event("useraction", "value", v);
+                this.useraction("value", v);
             }.bind(this),
             direction: this.options.drag_direction,
             rotation: this.options.rotation,
@@ -170,8 +167,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
-                v = this.set("value", v);
-                this.fire_event("useraction", "value", v);
+                this.useraction("value", v);
             }.bind(this),
             events: function () { return this }.bind(this)
         });
@@ -179,8 +175,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         if (this.options.reset === void(0))
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
-            var v = this.set("value", this.options.reset);
-            this.fire_event("useraction", "value", v);
+            this.useraction("value", this.options.reset);
             /**
              * Is fired when the user doubleclicks the valuebutton in order to to reset to initial value.
              * The Argument is the new value.

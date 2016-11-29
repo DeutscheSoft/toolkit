@@ -31,7 +31,7 @@
 (function(w){ 
 var format_viewbox = TK.FORMAT("0 0 %d %d");
 function dblclick() {
-    this.set("value", this.options.reset);
+    this.useraction("value", this.options.reset);
     /**
      * Is fired when the fader receives a double click in order to reset to initial value.
      * 
@@ -40,7 +40,6 @@ function dblclick() {
      * @param {number} value - The value of the widget.
      */
     this.fire_event("doubleclick", this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
 }
 /**
  * TK.Knob is a {@link TK.Circular} inside of an SVG and which can be
@@ -143,8 +142,7 @@ w.TK.Knob = w.Knob = $class({
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
-                v = this.set("value", v);
-                this.fire_event("useraction", "value", v);
+                this.useraction("value", v);
             }.bind(this),
             direction: this.options.direction,
             rotation: this.options.rotation,
@@ -160,8 +158,7 @@ w.TK.Knob = w.Knob = $class({
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
-                v = this.set("value", v);
-                this.fire_event("useraction", "value", v);
+                this.useraction("value", v);
             }.bind(this),
             events: function () { return this }.bind(this),
         });

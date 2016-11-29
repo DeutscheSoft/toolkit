@@ -43,18 +43,15 @@ function show_arrows() {
     this.trigger_resize();
 }
 function prev_clicked(e) {
-    var v = this.set("show", this.options.show - 1);
-    this.fire_event("useraction", "show", v);
+    this.useraction("show", this.options.show - 1);
 }
 
 function next_clicked(e) {
-    var v = this.set("show", this.options.show + 1);
-    this.fire_event("useraction", "show", v);
+    this.useraction("show", this.options.show + 1);
 }
 
 function button_clicked(button) {
-    var v = this.set("show", this.buttons.indexOf(button));
-    this.fire_event("useraction", "show", v);
+    this.useraction("show", this.buttons.indexOf(button));
 }
 
 w.TK.ButtonArray = w.ButtonArray = $class({

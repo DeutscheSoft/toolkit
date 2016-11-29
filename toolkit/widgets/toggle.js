@@ -22,10 +22,8 @@
 /* Abstract toggle logic */
 
 function toggle(O) {
-    var state = !O.state;
-    state = this.set("state", state);
-    this.fire_event("toggled", state);
-    this.fire_event("useraction", "state", state);
+    if (this.useraction("state", !O.state) === false) return;
+    this.fire_event("toggled", O.state);
 }
 function press_start() {
     var O = this.options;

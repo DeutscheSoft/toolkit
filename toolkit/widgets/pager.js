@@ -110,10 +110,10 @@ w.TK.Pager = w.Pager = $class({
          */
         this.buttonarray = new TK.ButtonArray({
             container: this.element,
-            onuseraction: function(key, value) {
-                if (key === "show") value = this.set("show", value);
-                this.fire_event("useraction", key, value);
-            }.bind(this),
+        });
+        this.buttonarray.add_event("useraction", function(key, value) {
+            this.parent.useraction(key, value);
+            return false;
         });
         /**
          * @member {HTMLDivElement} TK.Pager#_clip - The clipping of the pages.

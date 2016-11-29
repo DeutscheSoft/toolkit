@@ -51,7 +51,6 @@ function value_clicked(e) {
      * @param {number} value - The value of the widget.
      */
     this.fire_event("valueclicked", this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
 }
 function value_typing(e) {
     if (!this.options.set) return;
@@ -72,12 +71,12 @@ function value_typing(e) {
         case 13:
             // ENTER
             var val = this.options.set.call(this, this._input.value);
-            this.set("value", val);
+            this.useraction("value", val);
             value_done.call(this);
             /**
-             * Is fired when any other key was pressed while editing the value.
+             * Is fired after the value has been set and editing has ended.
              * 
-             * @event TK.Value#valueescape
+             * @event TK.Value#valueset
              * 
              * @param {string} value - The new value of the widget.
              */
@@ -85,9 +84,6 @@ function value_typing(e) {
             
             e.preventDefault();
             return false;
-            break;
-        default:
-            //this.set("value", val, true);
             break;
     }
     /**
@@ -99,7 +95,6 @@ function value_typing(e) {
      * @param {string} value - The new value of the widget.
      */
     this.fire_event("valuetyping", e, this.options.value);
-    this.fire_event("useraction", "value", this.options.value);
 }
 function value_done(e) {
     if (!this.__editing) return;
