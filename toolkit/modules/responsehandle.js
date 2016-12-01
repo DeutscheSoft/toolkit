@@ -281,7 +281,7 @@ function scrollwheel(e) {
     this.set("z", this.get("z") + s);
     if (!this._zwheel)
         this.fire_event("zchangestarted", this.options.z);
-    this.fire_event("useraction", "x", this.options.x);
+    this.fire_event("useraction", "z", this.options.z);
     this._zwheel = true;
 }
 function touchstart(e) {
