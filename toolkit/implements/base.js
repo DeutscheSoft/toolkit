@@ -286,23 +286,24 @@ TK.Base = w.BASE = $class({
         return value;
     },
     /**
-     * Sets an option by user interaction. Emits the <code>useraction</code>
-     * event. The useraction event can be cancelled (if an event handler
+     * Sets an option by user interaction. Emits the <code>userset</code>
+     * event. The <code>userset</code> event can be cancelled (if an event handler
      * returns <code>false</code>), in which case the option is not set.
      * Returns <code>true</code> if the option was set, <code>false</code>
-     * otherwise.
+     * otherwise. If the option was set, it will emit a <code>useraction</code> event.
      *
-     * @method TK.Base#useraction
+     * @method TK.Base#userset
      * 
      * @param {string} key - The name of the option.
      * @param {mixed} value - The value of the option.
      *
+     * @emits TK.Base#userset
      * @emits TK.Base#useraction
      */
-    useraction: function(key, value) {
-        if (false === this.fire_event("useraction", key, value)) return false;
-        /* TODO: support user option mappings */
-        this.set(key, value);
+    userset: function(key, value) {
+        if (false === this.fire_event("userset", key, value)) return false;
+        value = this.set(key, value);
+        this.fire_event("useraction", key, value);
         return true;
     },
     /**

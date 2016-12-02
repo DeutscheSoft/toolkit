@@ -66,9 +66,9 @@ function destroy_label() {
     this.label.destroy();
     this.label = null;
 }
-function useraction_cb(key, value) {
+function userset_cb(key, value) {
     /* We cancel all modifications in the child and transfer it to the parent (us) */
-    this.parent.useraction(key, value);
+    this.parent.userset(key, value);
     return false;
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
@@ -134,8 +134,8 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
-        this.value.add_event("useraction", useraction_cb);
-        this.knob.add_event("useraction", useraction_cb);
+        this.value.add_event("userset", userset_cb);
+        this.knob.add_event("userset", userset_cb);
         /**
          * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
          */

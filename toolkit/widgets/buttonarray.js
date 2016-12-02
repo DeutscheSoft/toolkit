@@ -43,15 +43,15 @@ function show_arrows() {
     this.trigger_resize();
 }
 function prev_clicked(e) {
-    this.useraction("show", this.options.show - 1);
+    this.userset("show", this.options.show - 1);
 }
 
 function next_clicked(e) {
-    this.useraction("show", this.options.show + 1);
+    this.userset("show", this.options.show + 1);
 }
 
 function button_clicked(button) {
-    this.useraction("show", this.buttons.indexOf(button));
+    this.userset("show", this.buttons.indexOf(button));
 }
 
 w.TK.ButtonArray = w.ButtonArray = $class({

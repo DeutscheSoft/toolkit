@@ -101,7 +101,7 @@ function THIS() {
     return this;
 }
 function SET(v) {
-    this.useraction("value", v);
+    this.userset("value", v);
 }
 function create_scale() {
     if (!this.scale) {

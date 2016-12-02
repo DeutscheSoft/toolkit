@@ -53,9 +53,9 @@ function value_done() {
      */
     this.fire_event("valueset", this.options.value);
 }
-function useraction_cb(key, value) {
+function userset_cb(key, value) {
     /* We cancel all modifications in the child and transfer it to the parent (us) */
-    this.parent.useraction(key, value);
+    this.parent.userset(key, value);
     return false;
 }
 w.TK.ValueButton = w.ValueButton = $class({
@@ -134,7 +134,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
         this.value.add_event("valuedone", value_done.bind(this));
-        this.value.add_event("useraction", useraction_cb);
+        this.value.add_event("userset", userset_cb);
         this.add_child(this.value);
         
         /**
@@ -152,7 +152,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             range:     function () { return this; }.bind(this),
             get:       function () { return this.options.value; }.bind(this),
             set:       function (v) {
-                this.useraction("value", v);
+                this.userset("value", v);
             }.bind(this),
             direction: this.options.drag_direction,
             rotation: this.options.rotation,
@@ -167,7 +167,7 @@ w.TK.ValueButton = w.ValueButton = $class({
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
-                this.useraction("value", v);
+                this.userset("value", v);
             }.bind(this),
             events: function () { return this }.bind(this)
         });
@@ -175,7 +175,7 @@ w.TK.ValueButton = w.ValueButton = $class({
         if (this.options.reset === void(0))
             this.options.reset = this.options.value;
         this.element.addEventListener("dblclick", function () {
-            this.useraction("value", this.options.reset);
+            this.userset("value", this.options.reset);
             /**
              * Is fired when the user doubleclicks the valuebutton in order to to reset to initial value.
              * The Argument is the new value.

@@ -70,8 +70,7 @@ function value_typing(e) {
             break;
         case 13:
             // ENTER
-            var val = this.options.set.call(this, this._input.value);
-            this.useraction("value", val);
+            this.userset("value", this._input.value);
             value_done.call(this);
             /**
              * Is fired after the value has been set and editing has ended.

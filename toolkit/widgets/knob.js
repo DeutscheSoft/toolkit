@@ -31,7 +31,7 @@
 (function(w){ 
 var format_viewbox = TK.FORMAT("0 0 %d %d");
 function dblclick() {
-    this.useraction("value", this.options.reset);
+    this.userset("value", this.options.reset);
     /**
      * Is fired when the fader receives a double click in order to reset to initial value.
      * 
@@ -142,7 +142,7 @@ w.TK.Knob = w.Knob = $class({
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
-                this.useraction("value", v);
+                this.userset("value", v);
             }.bind(this),
             direction: this.options.direction,
             rotation: this.options.rotation,
@@ -158,7 +158,7 @@ w.TK.Knob = w.Knob = $class({
             range:   function () { return this.circular; }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
-                this.useraction("value", v);
+                this.userset("value", v);
             }.bind(this),
             events: function () { return this }.bind(this),
         });

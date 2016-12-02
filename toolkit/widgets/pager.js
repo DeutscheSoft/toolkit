@@ -111,8 +111,8 @@ w.TK.Pager = w.Pager = $class({
         this.buttonarray = new TK.ButtonArray({
             container: this.element,
         });
-        this.buttonarray.add_event("useraction", function(key, value) {
-            this.parent.useraction(key, value);
+        this.buttonarray.add_event("userset", function(key, value) {
+            this.parent.userset(key, value);
             return false;
         });
         /**
