@@ -167,7 +167,7 @@ w.TK.EqBand = w.EqBand = $class({
                 TK.ResponseHandle.prototype.set.call(this, "gain", value);
                 break;
         }
-        TK.ResponseHandle.prototype.set.call(this, key, value);
+        return TK.ResponseHandle.prototype.set.call(this, key, value);
     }
 });
 })(this);
