@@ -299,7 +299,7 @@ function BiquadFilter1(trafo) {
 
 function BiquadFilterN(trafos) {
     function factory(stdlib, O) {
-        var A = new Array(arguments.length);
+        var A = new Array(trafos.length);
         var i;
 
         for (i = 0; i < trafos.length; i ++) {
