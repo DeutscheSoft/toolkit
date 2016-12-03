@@ -248,6 +248,89 @@ function FilterModule(stdlib, foreign, heap) {
     };
 };
 
+function BiquadModule(stdlib, foreign) {
+    "use asm";
+
+    var a0 = +foreign.a0;
+    var a1 = +foreign.a1;
+    var a2 = +foreign.a2;
+    var b0 = +foreign.b0;
+    var b1 = +foreign.b1;
+    var b2 = +foreign.b2;
+    var sample_rate = +foreign.sample_rate;
+    var log = stdlib.Math.log;
+    var sin = stdlib.Math.sin;
+    var LN10 = stdlib.Math.LN10;
+    var PI = stdlib.Math.PI;
+
+    var Ra = (a0 + a1 + a2) * (a0 + a1 + a2) / 4;
+    var Rb = (b0 + b1 + b2) * (b0 + b1 + b2) / 4;
+    var Xa = 4 * a0 * a2;
+    var Ya = a1 * (a0 + a2);
+    var Xb = 4 * b0 * b2;
+    var Yb = b1 * (b0 + b2);
+
+    console.log(foreign);
+
+    function log10(v) {
+        v = +v;
+        return +log(v) / LN10;
+    }
+
+    function freq2gain(f) {
+        f = +f;
+        var w = PI * f / sample_rate;
+        var S = +sin(w)
+        S *= S;
+        return 10 * ( log10(Rb - S * (Xb * (1 - S) + Yb)) 
+                    - log10(Ra - S * (Xa * (1 - S) + Ya)) );
+    }
+
+    return { freq2gain: freq2gain };
+}
+
+function BiquadFilter1(trafo) {
+    function factory(stdlib, O) {
+        return BiquadModule(stdlib, trafo(O));
+    }
+
+    return factory;
+}
+
+function BiquadFilterN(trafos) {
+    function factory(stdlib, O) {
+        var A = new Array(arguments.length);
+        var i;
+
+        for (i = 0; i < trafos.length; i ++) {
+            A[i] = BiquadModule(stdlib, trafos[i](O)).freq2gain;
+        }
+
+        return {
+            freq2gain: function(f) {
+                var ret = 0.0;
+                var i;
+
+                for (i = 0; i < A.length; i++) {
+                    ret += A[i](f);
+                }
+
+                return ret;
+            }
+        };
+    }
+
+    return factory;
+}
+
+function BiquadFilter() {
+    if (arguments.length === 1) return BiquadFilter1(arguments[0]);
+
+    return BiquadFilterN.call(this, Array.prototype.slice.call(arguments));
+}
+
+w.TK.BiquadFilter = BiquadFilter;
+
 w.TK.Filter = w.Filter = $class({
     /**
      * TK.Filter provides the math for calculating a gain from

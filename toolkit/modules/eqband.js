@@ -123,17 +123,18 @@ w.TK.EqBand = w.EqBand = $class({
     // GETTER & SETTER
     set: function (key, value) {
         switch (key) {
-            case "type": {
-                var mode = type_to_mode[value];                    
-                if (!mode) {
-                    TK.warn("Unsupported type:", value);
-                    return;
+            case "type":
+                if (typeof value === "string") {
+                    var mode = type_to_mode[value];
+                    if (!mode) {
+                        TK.warn("Unsupported type:", value);
+                        return;
+                    }
+                    this.set("mode", mode);
+                    this.set("show_axis", mode === "line-vertical");
                 }
-                this.set("mode", mode);
-                this.set("show_axis", mode === "line-vertical");
                 this.filter.set("type", value);
                 break;
-            }
             case "freq":
             case "x":
                 value = this.filter.set("freq", this.range_x.snap(value));
