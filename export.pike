@@ -100,6 +100,7 @@ constant ARGS = ({
     ({ "theme", Getopt.HAS_ARG, ({ "-t", "--theme" }) }),
     ({ "output", Getopt.HAS_ARG, ({ "-o", "--output" }) }),
     ({ "help", Getopt.NO_ARG, ({ "-h", "--help" }) }),
+    ({ "debug", Getopt.NO_ARG, ({ "-d", "--debug" }) }),
 });
 
 void help() {
@@ -116,6 +117,9 @@ Options:
 
     --output            Output directory. All files will be placed into the
     -o                  directory specified here.
+
+    --debug             Generate a 'debug' version which is not minified.
+    -d
 
     --help              Print this help.
     -h
@@ -256,8 +260,14 @@ int main(int argc, array(string) argv) {
         foreach (widgets; string w;) {
             js_files[widget_to_file[w]] = 1;
         }
-        array(string) cmd = ({ "closure-compiler", "--language_in", "ECMASCRIPT5_STRICT" }) +
-                filter(input_files, js_files);
+        array(string) cmd;
+
+        if (options->debug) {
+            cmd = ({ "cat" }) + filter(input_files, js_files);
+        } else {
+            cmd = ({ "closure-compiler", "--language_in", "ECMASCRIPT5_STRICT" }) +
+                    filter(input_files, js_files);
+        }
 
 
         string fname = combine_path(options->output, "toolkit.min.js");
