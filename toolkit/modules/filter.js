@@ -270,8 +270,6 @@ function BiquadModule(stdlib, foreign) {
     var Xb = 4 * b0 * b2;
     var Yb = b1 * (b0 + b2);
 
-    console.log(foreign);
-
     function log10(v) {
         v = +v;
         return +log(v) / LN10;
