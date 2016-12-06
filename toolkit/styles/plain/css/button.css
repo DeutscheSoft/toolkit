@@ -25,6 +25,7 @@
     border: 2px solid white;
     transition: background-color 0.25s,
                 border-color 0.25s;
+    background-clip: padding-box;
 }
 .toolkit-button:hover {
     

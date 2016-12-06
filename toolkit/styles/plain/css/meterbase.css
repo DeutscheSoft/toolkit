@@ -205,6 +205,7 @@
     right: 0px;
     top: 0px;
     bottom: 0px;
+    background-clip: padding-box !important;
 }
 
 .toolkit-meter-base.toolkit-top.toolkit-has-label > .toolkit-bar,

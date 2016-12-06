@@ -32,6 +32,7 @@ horizontal.png
     background-image:  url(../images/state/circle.png);
     background-position: 0 0;
     background-size: 100% 100%;
+    background-clip: padding-box !important;
     border-top: 3px solid #ddd;
     border-bottom: 3px solid #fff;
     border-left: 2px solid #e8e8e8;

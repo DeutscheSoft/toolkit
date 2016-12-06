@@ -26,6 +26,7 @@
     background-repeat: repeat-x;
     background-size: 100% 200%;
     background-position: 50% 0;
+    background-clip: padding-box;
     border: 1px solid #aaa;
     -webkit-border-radius: 6px;
     -moz-border-radius:    6px;

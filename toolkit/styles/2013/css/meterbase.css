@@ -218,6 +218,7 @@
     border-bottom: 3px solid #fff;
     border-left: 2px solid #e8e8e8;
     border-right: 2px solid #f3f3f3;
+    background-clip: padding-box !important;
 }
 
 .toolkit-meter-base.toolkit-top.toolkit-has-label > .toolkit-bar,

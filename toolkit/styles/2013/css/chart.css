@@ -22,6 +22,7 @@
     background-repeat: repeat-x;
     background-size: 100% 100%;
     background-position: 50% 50%;
+    background-clip: padding-box;
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/chart/background.png',sizingMethod='scale');
     -webkit-box-shadow: inset 0px 4px 12px 0px rgba(0, 0, 0, 0.9);
     -moz-box-shadow: inset 0px 4px 12px 0px rgba(0, 0, 0, 0.9);
