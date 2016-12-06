@@ -1,5 +1,6 @@
 @import "toolkit.css";
 
+@import "plain/css/root.css";
 @import "plain/css/globalcursor.css";
 @import "plain/css/tooltip.css";
 @import "plain/css/scale.css";
