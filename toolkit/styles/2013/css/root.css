@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 .toolkit-root {
-    
+    font-family: sans-serif;
 }
 .toolkit-root.toolkit-loading {
     background-image: url(../images/loading.gif);
