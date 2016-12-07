@@ -129,8 +129,10 @@ w.TK.Button = w.Button = $class({
             if (value !== false) {
                 TK.set_content(_label, value);
                 _label.style.display = null;
+                this.add_class("toolkit-has-label");
             } else {
                 _label.style.display = "none";
+                this.remove_class("toolkit-has-label");
             }
         }
         if (I.icon) {
@@ -139,8 +141,10 @@ w.TK.Button = w.Button = $class({
             if (value) {
                 _icon.setAttribute("src", value);
                 _icon.style.display = null;
+                this.add_class("toolkit-has-icon");
             } else {
                 _icon.style.display = "none";
+                this.remove_class("toolkit-has-icon");
             }
         }
         if (I.state) {
