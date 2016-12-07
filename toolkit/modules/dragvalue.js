@@ -87,7 +87,7 @@ function touchmove(e) {
 /* MOUSE EVENTS */
 
 function mousedown(e) {
-    e.preventDefault();
+    /* prevent default here would disable mousemove events to be fired outside of iframes */
 
     if (!start_drag.call(this, e, e.pageX, e.pageY)) return;
 
