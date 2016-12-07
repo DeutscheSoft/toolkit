@@ -31,9 +31,6 @@ function resized() {
         this.trigger_resize();
     }
 }
-function loaded() {
-    this.remove_class("toolkit-loading");
-}
 /**
  * @extends TK.Container
  * 
@@ -49,13 +46,12 @@ w.TK.Root = w.Root = $class({
          * @member {HTMLDivElement} TK.Root#element - The main DIV container.
          *   Has class <code>toolkit-root</code>.
          */
-        TK.add_class(this.element, "toolkit-root", "toolkit-loading");
+        TK.add_class(this.element, "toolkit-root");
         this._resize_cb = resized.bind(this);
         this._visibility_cb = visibility_change.bind(this);
         this.resize_event = false;
         w.addEventListener("resize", this._resize_cb);
         document.addEventListener("visibilitychange", this._visibility_cb, false);
-        document.addEventListener("DOMContentLoaded", loaded.bind(this));
     },
     redraw: function() {
         TK.Container.prototype.redraw.call(this);
