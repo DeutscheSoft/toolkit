@@ -61,7 +61,7 @@
     margin: auto;
 }
 .toolkit-button.toolkit-vertical > .toolkit-cell >  .toolkit-icon {
-    margin-bottom: 0px;
+    margin-bottom: 5px;
 }
 .toolkit-button.toolkit-horizontal > .toolkit-cell >  .toolkit-icon {
     margin-right: 5px;
