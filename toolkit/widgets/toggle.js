@@ -22,7 +22,7 @@
 /* Abstract toggle logic */
 
 function toggle(O) {
-    if (this.useraction("state", !O.state) === false) return;
+    if (this.userset("state", !O.state) === false) return;
     this.fire_event("toggled", O.state);
 }
 function press_start() {
