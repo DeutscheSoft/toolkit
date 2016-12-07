@@ -56,7 +56,7 @@ function create_label() {
     if (this.label) return;
 
     this.label = new TK.Label({
-        label: this.options.label,
+        label: this.options["label.label"],
         container: this.element
     });
     this.add_child(this.label);
@@ -92,7 +92,8 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         value_format: "function",
         value_size: "number",
         value_set: "function",
-        show_label: "boolean"
+        show_label: "boolean",
+        "label.label": "string"
     }),
     options: Object.assign({}, TK.Value.prototype.options, TK.Knob.prototype.options, {
         value_format: function (val) { return val.toFixed(2); },
@@ -190,9 +191,8 @@ w.TK.ValueKnob = w.ValueKnob = $class({
                 value = this.knob.set(key, value);
             if (TK.Value.prototype._options[key] && this.value)
                 value = this.value.set(key, value);
-            if (TK.Label.prototype._options[key] && this.label)
-                value = this.label.set(key, value);
         }
+        if (key === "label.label") this.label.set("label", value);
         return TK.Widget.prototype.set.call(this, key, value);
     }
     
