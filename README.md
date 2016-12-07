@@ -14,7 +14,7 @@ and intuitive APIs.
 
 ## Documentation
 
-The complete API documentation can be found at [http://deuso.de/toolkit/docs/].
+The complete API documentation can be found at [http://docs.deuso.de/].
 The documentation contains interactive examples for many Widgets.
 
 Alternatively, the documentation can be directly built from the source code.
@@ -24,7 +24,7 @@ can be used to generate the documentation. If you have jsdoc installed, simply r
     make jsdoc
 
 Apart from the documentation inside the source tree, there are several longer
-introductory articles and usage examples in the directories `docs/` and `tutorials/`.
+introductory articles and usage examples in the directories `doc/docs/` and `doc/tutorials/`.
 These articles automatically get added to the generated documentation by our jsdoc configuration.
 
 ## Demos
