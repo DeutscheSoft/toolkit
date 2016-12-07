@@ -6,6 +6,16 @@ New Features
 
 o added MultiLevelMeter widget.
 
+o Events can now be cancelled by returning 'false' from an event handler. When
+  used for native DOM events this will make the native event handler to return
+  false, aswell.
+
+o The userset() method was added to all widgets. It is used internally whenever
+  an option is changed by user interaction. It fires the 'userset' event, which
+  has the same API as the 'useraction' event. The 'userset' event can be
+  cancelled, in which case the option will not be set. This can be used to
+  prevent or restrict user interaction.
+
 Improvements
 ============
 
@@ -17,6 +27,14 @@ o rewrote most of the rendering path of ResponseHandle. The code
 o rewrote the mouse/touch-event handling in Toggle. In particular it now
   properly handles multiple touchpoints and should work more reliable in
   edge cases.
+
+API Changes
+===========
+
+o the add_event() method no longer accepts flags to automatically
+  preventDefault or stopPropagation. These have to be called manually now.
+
+o The 'pointerdown' and 'pointerup' synthetic events have been removed.
 
 Version 1.0.0: Changes since version 0.66
 -----------------------------------------
