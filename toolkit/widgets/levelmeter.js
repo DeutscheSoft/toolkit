@@ -191,6 +191,37 @@ w.TK.LevelMeter = w.LevelMeter = $class({
         format_peak: TK.FORMAT("%.2f"),
         clip_options: {}
     },
+    static_events: {
+        set_label: label_timeout,
+        set_bottom: bottom_timeout,
+        set_top: top_timeout,
+        set_peak: peak_timeout,
+        set_clip: function(value) {
+            if (value) {
+                clip_timeout.call(this);
+            }
+            if (this.state) this.state.set("state", value);
+        },
+        set_show_peak: peak_timeout,
+        set_auto_clip: function(value) {
+            if (this.__cto && 0|value <=0)
+                window.clearTimeout(this.__cto);
+        },
+        set_auto_peak: function(value) {
+            if (this.__pto && 0|value <=0)
+                window.clearTimeout(this.__pto);
+        },
+        set_peak_label: function(value) {
+            if (this.__lto && 0|value <=0)
+                window.clearTimeout(this.__lto);
+        },
+        set_auto_hold: function(value) {
+            if (this.__tto && 0|value <=0)
+                window.clearTimeout(this.__tto);
+            if (this.__bto && 0|value <=0)
+                window.clearTimeout(this.__bto);
+        },
+    },
     
     initialize: function (options) {
         TK.MeterBase.prototype.initialize.call(this, options, true);
@@ -526,41 +557,6 @@ w.TK.LevelMeter = w.LevelMeter = $class({
             case "show_clip":
                 this.trigger_resize();
                 // fallthrough
-            case "peak":
-                peak_timeout.call(this);
-                break;
-            case "clip":
-                if (value) {
-                    clip_timeout.call(this);
-                }
-                this.state.set("state", value);
-                break;
-            case "top":
-                top_timeout.call(this);
-                break;
-            case "bottom":
-                bottom_timeout.call(this);
-                break;
-            case "label":
-                label_timeout.call(this);
-                break;
-            case "auto_clip":
-                if (this.__cto && 0|value <=0)
-                    window.clearTimeout(this.__cto);
-                break;
-            case "auto_peak":
-                if (this.__pto && 0|value <=0)
-                    window.clearTimeout(this.__pto);
-                break;
-            case "peak_label":
-                if (this.__lto && 0|value <=0)
-                    window.clearTimeout(this.__lto);
-                break;
-            case "auto_hold":
-                if (this.__tto && 0|value <=0)
-                    window.clearTimeout(this.__tto);
-                if (this.__bto && 0|value <=0)
-                    window.clearTimeout(this.__bto);
                 break;
         }
 
