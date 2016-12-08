@@ -131,6 +131,9 @@ function update_visibility() {
 }
 var expander_groups = { };
 w.eg = expander_groups;
+function button_set(value, key) {
+    this.button.set(key, value);
+}
 w.TK.Expander = w.Expander = $class({
     /**
      * TK.Expander is a container which can be toggled between two different states,
@@ -180,6 +183,11 @@ w.TK.Expander = w.Expander = $class({
     static_events: {
         set_expanded: changed_expanded,
         set_always_expanded: update_visibility,
+        set_label: button_set,
+        set_icon: button_set,
+        set_group: function(value) {
+            if (value) add_to_group.call(this, value);
+        }
     },
     Extends: TK.Container,
     /*
@@ -258,16 +266,7 @@ w.TK.Expander = w.Expander = $class({
             if (!value && this.options.group_default)
                 remove_group_default.call(this, this.options.group);
         }
-        TK.Container.prototype.set.call(this, key, value);
-        switch (key) {
-        case "label":
-        case "icon":
-            this.button.set(key, value);
-            break;
-        case "group":
-            if (value) add_to_group.call(this, value);
-            break;
-        }
+        return TK.Container.prototype.set.call(this, key, value);
     },
 });
 })(this);
