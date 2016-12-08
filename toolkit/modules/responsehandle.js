@@ -89,6 +89,7 @@ function mousedown(e) {
     this._clickZ  = this.z;
     this._pageX   = ev.pageX;
     this._pageY   = ev.pageY;
+    this._buttons = (ev.buttons||ev.which);
     if (!this._zhandling) {
         /**
          * Is fired when the main handle is grabbed by the user.
@@ -177,6 +178,11 @@ function mousemove(e) {
     if (!this.__active) return;
     var O = this.options;
     e.preventDefault();
+
+    if (this._buttons !== (e.buttons||e.which)) {
+        mouseup.call(this, e);
+        return;
+    }
     
     var ev;
     var range_x = this.range_x;
