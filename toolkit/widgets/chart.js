@@ -265,6 +265,13 @@ function remove_grid() {
  * @property {Function|Object} [options.range_y={}] - Either a function returning a {@link TK.Range}
  *   or an object containing options for a new {@link TK.Range}
  */
+function grid_set(value, key) {
+    if (this.grid) this.grid.set(key, value);
+}
+function geom_set(value, key) {
+    this.set_style(key, value+"px");
+    TK.error("using deprecated '"+key+"' options");
+}
 w.TK.Chart = w.Chart = $class({
     _class: "Chart",
     Extends: TK.Widget,
@@ -301,6 +308,12 @@ w.TK.Chart = w.Chart = $class({
         title_position: "top-right", // the position of the title
         resized: false,
         show_grid: true
+    },
+    static_events: {
+        set_grid_x: grid_set,
+        set_grid_y: grid_set,
+        set_width: geom_set,
+        set_height: geom_set,
     },
     initialize: function (options) {
         var E, S;
@@ -563,31 +576,5 @@ w.TK.Chart = w.Chart = $class({
          */
         this.fire_event("emptied");
     },
-    
-    // GETTER & SETER
-    set: function (key, value) {
-        switch (key) {
-            case "width":
-                this.set_style("width", value+"px");
-                TK.error("using deprecated 'width' options");
-                return;
-            case "height":
-                this.set_style("height", value+"px");
-                TK.error("using deprecated 'height' options");
-                return;
-        }
-        value = TK.Widget.prototype.set.call(this, key, value);
-        switch (key) {
-            case "grid_x":
-                if (this.grid)
-                    this.grid.set("grid_x", value);
-                break;
-            case "grid_y":
-                if (this.grid)
-                    this.grid.set("grid_y", value);
-                break;
-        }
-        return value;
-    }
 });
 })(this);
