@@ -194,6 +194,76 @@ w.TK.MeterBase = w.MeterBase = $class({
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
     },
+    static_events: {
+        set_label: function(value) {
+            /**
+             * Is fired when the label changed.
+             * The argument is the actual label value.
+             * 
+             * @event TK.MeterBase#labelchanged
+             * 
+             * @param {string} label - The label of the {@link TK.MeterBase}.
+             */
+            this.fire_event("labelchanged", value);
+        },
+        set_title: function(value) {
+            /**
+             * Is fired when the title changed.
+             * The argument is the actual title.
+             * 
+             * @event TK.MeterBase#titlechanged
+             * 
+             * @param {string} title - The title of the {@link TK.MeterBase}.
+             */
+            this.fire_event("titlechanged", value);
+        },
+        set_segment: function(value) {
+            // what is this supposed to do?
+            // -> probably invalidate the value to force a redraw
+            this.set("value", this.options.value);
+        },
+        set_format_labels: function(value, key) {
+            /* TODO: the scalechanged event should probably always trigger
+             * when the scale has changed. */
+            /**
+             * Is fired when the scale changed. The arguments are
+             * the name of the changed value and the new value.
+             * 
+             * @event TK.MeterBase#scalechanged
+             * 
+             * @param {string} key - The option which was set to change the scale.
+             * @param {mixed} - The value of the option.
+             */
+            this.fire_event("scalechanged", key, value);
+            this.scale.set("labels", value);
+        },
+        set_scale_base: function(value, key) {
+            this.fire_event("scalechanged", key, value);
+            this.scale.set("base", value);
+        },
+        set_value: function(value) {
+            /**
+             * Is fired when the value changed.
+             * The argument is the actual value.
+             * 
+             * @event TK.MeterBase#valuechanged
+             * 
+             * @param {number} value - The value of the {@link TK.MeterBase}.
+             */
+            this.fire_event("valuechanged", value);
+        },
+        set_base: function(value) {
+            /**
+             * Is fired when the base value changed.
+             * The argument is the actual base value.
+             * 
+             * @event TK.MeterBase#basechanged
+             * 
+             * @param {number} base - The value of the base.
+             */
+            this.fire_event("basechanged", value);
+        },
+    },
     
     initialize: function (options) {
         var E;
@@ -244,9 +314,6 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._bar.appendChild(this._over);
         this._bar.appendChild(this._canvas);
         
-        this.set("label", O.value);
-        this.set("base", O.base);
-        
         var options = TK.object_and(O, TK.Scale.prototype._options);
         options = TK.object_sub(options, TK.Widget.prototype._options);
         options.labels    = O.format_labels;
@@ -263,9 +330,11 @@ w.TK.MeterBase = w.MeterBase = $class({
         this._scale       = this.scale.element;
         this.add_child(this.scale);
         this.delegate(this._bar);
-
         this._last_meters = [];
         this._current_meters = [];
+
+        this.set("label", O.value);
+        this.set("base", O.base);
     },
 
     initialized: function () {
@@ -472,94 +541,23 @@ w.TK.MeterBase = w.MeterBase = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
+        if (key === "base") {
+            this.__based = value !== false;
+            if (!this.__based) value = this.options.min;
+        }
         value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
-            case "show_scale":
-                this.trigger_resize();
-                break;
-            case "show_label":
-                this.trigger_resize();
-                // fallthrough
-            case "label":
-                /**
-                 * Is fired when the label changed.
-                 * The argument is the actual label value.
-                 * 
-                 * @event TK.MeterBase#labelchanged
-                 * 
-                 * @param {string} label - The label of the {@link TK.MeterBase}.
-                 */
-                this.fire_event("labelchanged", value);
-                break;
-            case "value":
-                /**
-                 * Is fired when the value changed.
-                 * The argument is the actual value.
-                 * 
-                 * @event TK.MeterBase#valuechanged
-                 * 
-                 * @param {number} value - The value of the {@link TK.MeterBase}.
-                 */
-                this.fire_event("valuechanged", value);
-                break;
-            case "show_title":
-                this.trigger_resize();
-                // fallthrough
-            case "title":
-                /**
-                 * Is fired when the title changed.
-                 * The argument is the actual title.
-                 * 
-                 * @event TK.MeterBase#titlechanged
-                 * 
-                 * @param {string} title - The title of the {@link TK.MeterBase}.
-                 */
-                this.fire_event("titlechanged", value);
-                break;
-            case "segment":
-                // what is this supposed to do
-                this.set("value", this.options.value);
-                break;
-            case "format_labels":
-                /**
-                 * Is fired when the scale changed. The arguments are
-                 * the name of the changed value and the new value.
-                 * 
-                 * @event TK.MeterBase#scalechanged
-                 * 
-                 * @param {string} key - The option which was set to change the scale.
-                 * @param {mixed} - The value of the option.
-                 */
+        case "show_scale":
+        case "show_label":
+        case "show_title":
+            this.trigger_resize();
+            break;
+        default:
+            if (TK.Widget.prototype._options[key]) break;
+            if (TK.Scale.prototype._options[key]) {
                 this.fire_event("scalechanged", key, value);
-                this.scale.set("labels", value);
-                break;
-            case "scale_base":
-                this.fire_event("scalechanged", key, value);
-                this.scale.set("base", value);
-                break;
-            case "base":
-                if (value === false) {
-                    this.options.base = this.options.min;
-                    this.__based = false;
-                } else {
-                    this.__based = true;
-                }
-                /**
-                 * Is fired when the base value changed.
-                 * The argument is the actual base value.
-                 * 
-                 * @event TK.MeterBase#basechanged
-                 * 
-                 * @param {number} base - The value of the base.
-                 */
-                this.fire_event("basechanged", value);
-                break;
-            default:
-                if (TK.Widget.prototype._options[key]) break;
-                if (TK.Scale.prototype._options[key]) {
-                    this.fire_event("scalechanged", key, value);
-                    this.scale.set(key, value);
-                }
+                this.scale.set(key, value);
+            }
         }
         return value;
     }
