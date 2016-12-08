@@ -106,6 +106,14 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
         scale:  false                                        // the mode of the
                                                              // dB scale
     },
+    static_events: {
+        set_scale: function(value, key) {
+            this.range_y.set("scale", value);
+        },
+        set_db_grid: function(value) {
+            this.set("grid_y", calculate_grid(this.range_y, value));
+        },
+    },
     initialize: function (options) {
         if (options.scale)
             this.set("scale", options.scale, true);
@@ -136,20 +144,5 @@ w.TK.FrequencyResponse = w.FrequencyResponse = $class({
 
         TK.Chart.prototype.redraw.call(this);
     },
-    
-    set: function (key, value) {
-        switch (key) {
-            case "scale":
-                this.range_y.set("scale", value);
-                break;
-            case "db_grid":
-                if (value) {
-                    key = "grid_y";
-                    value = calculate_grid(this.range_y, value);
-                }
-                break;
-        }
-        return TK.Chart.prototype.set.call(this, key, value);
-    }
 });
 })(this);
