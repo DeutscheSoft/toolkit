@@ -82,7 +82,7 @@ w.TK.ValueKnob = w.ValueKnob = $class({
      * 
      * @param {Object} options
      * 
-     * @property {Function} [options.value_format=function (val) { return val.toFixed(2); }] - Callback to format the value.
+     * @property {Function} [options.value_format=TK.FORMAT("%.2f")] - Callback to format the value.
      * @property {Number} [options.value_size=5] - Amount of digits for the value input.
      */
     _class: "ValueKnob",
@@ -96,11 +96,28 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         "label.label": "string"
     }),
     options: Object.assign({}, TK.Value.prototype.options, TK.Knob.prototype.options, {
-        value_format: function (val) { return val.toFixed(2); },
+        value_format: TK.FORMAT("%.2f"),
         value_size: 5,
         value_set: TK.FORMAT("%.2f"),
         show_label: false
     }),
+    static_events: {
+        set_show_label: function(value) {
+            if (value) create_label.call(this);
+        },
+        "set_label.label": function(value) {
+            this.label.set("label", value);
+        },
+        set_value_format: function(value) {
+            this.value.set("format", value);
+        },
+        set_value_size: function(value) {
+            this.value.set("size", value);
+        },
+        set_value_set: function(value) {
+            this.value.set("set", value);
+        },
+    },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E;
@@ -129,8 +146,8 @@ w.TK.ValueKnob = w.ValueKnob = $class({
             value: this.options.value,
             format: this.options.value_format,
             set: function (val) {
-                var v = O.value_set(val);
-                return parseFloat(v);
+                val = this.parent.options.value_set(val);
+                return parseFloat(val);
             },
         });
         this.value.add_event("valueclicked", value_clicked.bind(this));
@@ -155,12 +172,6 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         if (this.label) this.label.destroy();
     },
 
-    get: function (key) {
-        if (key === "value_size")
-            return this.value.get("size");
-        return TK.Widget.prototype.get.call(this, key);
-    },
-
     redraw: function() {
         TK.Widget.prototype.redraw.call(this);
         var I = this.invalid;
@@ -172,27 +183,12 @@ w.TK.ValueKnob = w.ValueKnob = $class({
     },
 
     set: function (key, value) {
-        if (key === "value_size") {
-            value = this.value.set("size", value);
-        } else if (key === "value_format") {
-            value = this.value.set("format", value);
-        } else if (key === "value_set") {
-            var O = this.options;
-            var fun = function (val) {
-                var v = O.value_set(val);
-                return parseFloat(v);
-            }
-            value = this.value.set("set", fun);
-        } else if (key === "show_label") {
-            if (value) create_label.call(this);
-        }
-        else if (!TK.Widget.prototype._options[key]) {
+        if (!TK.Widget.prototype._options[key]) {
             if (TK.Knob.prototype._options[key] && this.knob)
                 value = this.knob.set(key, value);
             if (TK.Value.prototype._options[key] && this.value)
                 value = this.value.set(key, value);
         }
-        if (key === "label.label") this.label.set("label", value);
         return TK.Widget.prototype.set.call(this, key, value);
     }
     
