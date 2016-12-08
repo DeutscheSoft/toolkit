@@ -62,6 +62,15 @@ w.TK.Equalizer = w.Equalizer = $class({
         bands: [],   // list of bands to create on init
         show_bands: true,
     },
+    static_events: {
+        set_bands: function(value) {
+            if (this.bands.length) this.remove_bands();
+            this.add_bands(value);
+        },
+        set_show_bands: function(value) {
+            (value ? show_bands : hide_bands).call(this);
+        },
+    },
     
     initialize: function (options) {
         /**
@@ -267,19 +276,6 @@ w.TK.Equalizer = w.Equalizer = $class({
          */
         this.fire_event("emptied");
         invalidate_bands.call(this);
-    },
-    set: function(key, value) {
-        TK.ResponseHandler.prototype.set.call(this, key, value);
-        if (key === "bands") {
-            if (this.bands.length) this.remove_bands();
-            this.add_bands(value);
-        } else if (key === "show_bands") {
-            if (value) {
-                show_bands.call(this);
-            } else {
-                hide_bands.call(this);
-            }
-        }
     },
 });
 })(this);
