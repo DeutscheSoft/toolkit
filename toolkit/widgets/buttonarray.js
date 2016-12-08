@@ -95,6 +95,33 @@ w.TK.ButtonArray = w.ButtonArray = $class({
         show: -1,
         resized: false,
     },
+    static_events: {
+        set_buttons: function(value) {
+            for (var i = 0; i < this.buttons.length; i++)
+                this.buttons[i].destroy();
+            this.buttons = [];
+            this.add_buttons(value);
+        },
+        set_direction: function(value) {
+            this.prev.set("label", value === "vertical" ? "\u25B2" : "\u25C0");
+            this.next.set("label", value === "vertical" ? "\u25BC" : "\u25B6");
+        },
+        set_show: function(value) {
+            var button = this.current();
+            if (button) {
+                button.set("state", true);
+                /**
+                 * Is fired when a button is activated.
+                 * 
+                 * @event TK.ButtonArray#changed
+                 * 
+                 * @param {TK.Button} button - The {@link TK.Button} which was clicked.
+                 * @param {int} the ID of the clicked {@link TK.Button}.
+                 */
+                this.fire_event("changed", button, value);
+            }
+        },
+    },
     initialize: function (options) {
         /**
          * @member {Array} TK.ButtonArray#buttons - An array holding all buttons.
@@ -346,35 +373,7 @@ w.TK.ButtonArray = w.ButtonArray = $class({
             button = this.current();
             if (button) button.set("state", false);
         }
-        value = TK.Container.prototype.set.call(this, key, value);
-        switch (key) {
-            case "show":
-                button = this.current();
-                if (button) {
-                    button.set("state", true);
-                    /**
-                     * Is fired when a button is activated.
-                     * 
-                     * @event TK.ButtonArray#changed
-                     * 
-                     * @param {TK.Button} button - The {@link TK.Button} which was clicked.
-                     * @param {int} the ID of the clicked {@link TK.Button}.
-                     */
-                    this.fire_event("changed", button, value);
-                }
-                break;
-            case "buttons":
-                for (var i = 0; i < this.buttons.length; i++)
-                    this.buttons[i].destroy();
-                this.buttons = [];
-                this.add_buttons(value);
-                break;
-            case "direction":
-                this.prev.set("label", value === "vertical" ? "\u25B2" : "\u25C0");
-                this.next.set("label", value === "vertical" ? "\u25BC" : "\u25B6");
-                break;
-        }
-        return value;
+        return TK.Container.prototype.set.call(this, key, value);
     },
     get: function (key) {
         if (key === "buttons") return this.buttons;
