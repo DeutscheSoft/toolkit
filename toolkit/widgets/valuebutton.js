@@ -108,6 +108,26 @@ w.TK.ValueButton = w.ValueButton = $class({
         blind_angle:    20,
         snap:           0.01
     },
+    static_events: {
+        set_value: function(value) {
+            this.value.set("value", value);
+        },
+        set_value_format: function(value) {
+            this.value.set("format", value);
+        },
+        set_value_size: function(value) {
+            this.value.set("size", value);
+        },
+        set_drag_direction: function(value) {
+            this.drag.set("direction", value);
+        },
+        set_drag_rotation: function(value) {
+            this.drag.set("rotation", value);
+        },
+        set_blind_angle: function(value) {
+            this.drag.set("blind_angle", value);
+        },
+    },
     initialize: function (options) {
         TK.Button.prototype.initialize.call(this, options);
         
@@ -239,28 +259,7 @@ w.TK.ValueButton = w.ValueButton = $class({
                 this.warning(this.element);
             value = this.snap(value);
         }
-        value = TK.Button.prototype.set.call(this, key, value);
-        switch (key) {
-            case "value":
-                this.value.set("value", value);
-                break;
-            case "value_format":
-                this.value.set("format", value);
-                break;
-            case "value_size":
-                this.value.set("size", value);
-                break;
-            case "drag_direction":
-                this.drag.set("direction", value);
-                break;
-            case "rotation":
-                this.drag.set("rotation", value);
-                break;
-            case "blind_angle":
-                this.drag.set("blind_angle", value);
-                break;
-        }
-        return value;
+        return TK.Button.prototype.set.call(this, key, value);
     }
 });
 })(this);
