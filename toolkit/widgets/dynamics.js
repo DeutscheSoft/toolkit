@@ -18,6 +18,10 @@
  */
 "use strict";
 (function(w){
+function range_set(value, key) {
+    this.range_x.set(key, value);
+    this.range_y.set(key, value);
+}
 w.TK.Dynamics = w.Dynamics = $class({
     /**
      * TK.Dynamics are based on Charts and display the characteristics of dynamic
@@ -73,6 +77,16 @@ w.TK.Dynamics = w.Dynamics = $class({
         floor:     0,
         range:     0,
         grid_labels: function (val) { return val + (!val ? "dB":""); }
+    },
+    static_events: {
+        size: function(value) {
+            TK.error("using deprecated 'size' option");
+            this.set("width", value);
+            this.set("height", value);
+        },
+        min: range_set,
+        max: range_set,
+        scale: range_set,
     },
     initialize: function (options) {
         TK.Chart.prototype.initialize.call(this, options, true);
@@ -231,24 +245,5 @@ w.TK.Dynamics = w.Dynamics = $class({
         }
         this.graph.set("dots", curve);
     },
-    
-    set: function (key, value) {
-        if (key === "size") {
-            TK.error("using deprecated 'size' option");
-            this.set("width", value);
-            this.set("height", value);
-            return;
-        }
-        value = TK.Chart.prototype.set.call(this, key, value);
-        switch (key) {
-            case "min":
-            case "max":
-            case "scale":
-                this.range_x.set(key, value);
-                this.range_y.set(key, value);
-                break;
-        }
-        return value;
-    }
 });
 })(this);
