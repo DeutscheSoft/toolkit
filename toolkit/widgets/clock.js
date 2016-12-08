@@ -231,6 +231,7 @@ w.TK.Clock = w.Clock = $class({
     static_events: {
         hide: onhide,
         show: timeout,
+        timeout: timeout,
     },
     initialize: function (options) {
         var E, S;
@@ -362,11 +363,5 @@ w.TK.Clock = w.Clock = $class({
             window.clearTimeout(this.__to);
         TK.Widget.prototype.destroy.call(this);
     },
-    
-    // GETTERS & SETTERS
-    set: function (key, value) {
-        if (key === "timeout") timeout.call(this);
-        return TK.Widget.prototype.set.call(this, key, value);
-    }
 });
 })(this);
