@@ -81,6 +81,40 @@ w.TK.Pager = w.Pager = $class({
         resized: false,
         overlap:   false
     },
+    static_events: {
+        set_show: function(value) {
+            page = this.current();
+
+            if (page) {
+                page.set("active", true);
+                this.show_child(page);
+                /**
+                 * The page was switched.
+                 * 
+                 * @param {TK.Container} page - The {@link TK.Container} instance of the newly selected page.
+                 * @param {number} id - The ID of the page.
+                 * 
+                 * @event TK.Pager#changed
+                 */
+                this.fire_event("changed", page, value);
+            }
+        },
+        set_pages: function(value) {
+            for (var i = 0; i < this.pages.length; i++)
+                this.pages[i].destroy();
+            this.pages = [];
+            this.add_pages(value);
+        },
+        set_position: function(value) {
+            var badir;
+            if (value === "top" || value === "bottom") {
+                badir = "horizontal";
+            } else {
+                badir = "vertical";
+            }
+            this.buttonarray.set("direction", badir);
+        },
+    },
     
     initialize: function (options) {
         this.pages = [];
@@ -414,43 +448,7 @@ w.TK.Pager = w.Pager = $class({
 
             this.buttonarray.set("show", value);
         }
-        value = TK.Container.prototype.set.call(this, key, value);
-        switch(key) {
-            case "show":
-                page = this.current();
-
-                if (page) {
-                    page.set("active", true);
-                    this.show_child(page);
-                    /**
-                     * The page was switched.
-                     * 
-                     * @param {TK.Container} page - The {@link TK.Container} instance of the newly selected page.
-                     * @param {number} id - The ID of the page.
-                     * 
-                     * @event TK.Pager#changed
-                     */
-                    this.fire_event("changed", page, value);
-                }
-
-                break;
-            case "pages":
-                for (var i = 0; i < this.pages.length; i++)
-                    this.pages[i].destroy();
-                this.pages = [];
-                this.add_pages(value);
-                break;
-            case "position":
-                var badir;
-                if (value === "top" || value === "bottom") {
-                    badir = "horizontal";
-                } else {
-                    badir = "vertical";
-                }
-                this.buttonarray.set("direction", badir);
-                break;
-        }
-        return value;
+        return TK.Container.prototype.set.call(this, key, value);
     },
     get: function (key) {
         if (key === "pages") return this.pages;
