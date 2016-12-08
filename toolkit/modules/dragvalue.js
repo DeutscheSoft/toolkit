@@ -109,7 +109,7 @@ function mouseup(e) {
 }
 
 function mousemove(e) {
-    if (this._drag_state.buttons !== e.buttons) {
+    if (this._drag_state.buttons !== (e.buttons||e.which)) {
         /* We assume here that the drag interaction was cancelled.
          * see comment in mousedown. */
         mouseup.call(this, e);
@@ -147,13 +147,13 @@ function start_drag(ev, x, y) {
         event: ev,
         scheduled: false,
         id: 0,
-        buttons: ev.buttons,
+        buttons: ev.buttons||ev.which,
     };
     /**
      * Is fired when a user starts dragging.
-     * 
+     *
      * @event TK.DragValue#startdrag
-     * 
+     *
      * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("startdrag", ev);
@@ -182,9 +182,9 @@ function update_drag() {
     var multi = range.options.step || 1;
     /**
      * Is fired while a user is dragging.
-     * 
+     *
      * @event TK.DragValue#startdrag
-     * 
+     *
      * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("dragging", e);
@@ -224,7 +224,7 @@ function update_drag() {
     var nval = range.px2val(state.start_pos + dist);
 
     if (val === nval) return;
-    
+
     O.set(nval);
 
     // this might happen in case of value snapping
@@ -256,9 +256,9 @@ function stop_drag(ev, x, y) {
     }
     /**
      * Is fired when a user stops dragging.
-     * 
+     *
      * @event TK.DragValue#stopdrag
-     * 
+     *
      * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("stopdrag", ev);
@@ -276,9 +276,9 @@ w.TK.DragValue = w.DragValue = $class({
      * or #TK.ValueButton.
      *
      * @class TK.DragValue
-     * 
+     *
      * @param {Object} options
-     * 
+     *
      * @property {Function} options.range - A function returning a {@link TK.Range} object for calculating the value.
      * @property {Element} options.node - The DOM node used for dragging.
      *   All DOM events are registered with this Element.
@@ -296,9 +296,9 @@ w.TK.DragValue = w.DragValue = $class({
      * @property {number} [options.rotation=45] - Defines the angle of the center of the positive value
      *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
      *   moving towards top and right.
-     * 
+     *
      * @extends TK.Base
-     * 
+     *
      * @mixes TK.GlobalCursor
      */
     _class: "DragValue",
