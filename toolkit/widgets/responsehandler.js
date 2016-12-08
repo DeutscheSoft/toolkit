@@ -42,6 +42,12 @@ function hide_handles() {
         this.remove_child(handles[i]);
     }
 }
+
+var STOP = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+}
     
 w.TK.ResponseHandler = w.ResponseHandler = $class({
     /**
@@ -73,6 +79,10 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         handles: "array", 
         show_handles: "boolean",
     }),
+    static_events: {
+        mousewheel: STOP,
+        DOMMouseScroll: STOP,
+    },
     options: {
         importance_label:  4,   // multiplicator of square pixels on hit testing
                                 // labels to gain importance
@@ -107,13 +117,6 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         this._handles = TK.make_svg("g", {"class": "toolkit-response-handles"});
         this.svg.appendChild(this._handles);
         this.svg.onselectstart = function () { return false; };
-        var cb = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        };
-        this.add_event("mousewheel", cb);
-        this.add_event("DOMMouseScroll", cb);
         this.add_handles(this.options.handles);
     },
     

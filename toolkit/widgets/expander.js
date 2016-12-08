@@ -177,6 +177,10 @@ w.TK.Expander = w.Expander = $class({
         label: "",
         icon: "",
     },
+    static_events: {
+        set_expanded: changed_expanded,
+        set_always_expanded: update_visibility,
+    },
     Extends: TK.Container,
     /*
      * Toggles the collapsed state of the widget.
@@ -220,8 +224,6 @@ w.TK.Expander = w.Expander = $class({
         bo._collapsed = true;
 
         this._update_visibility = update_visibility.bind(this);
-        this.add_event("set_expanded", changed_expanded);
-        this.add_event("set_always_expanded", update_visibility);
 
         if (this.options.group) add_to_group.call(this, this.options.group);
 

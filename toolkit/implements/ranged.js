@@ -730,15 +730,15 @@ w.TK.Ranged = w.Ranged = $class({
         log_factor: "number",
         trafo_reverse: "boolean",
     },
-
+    static_events: {
+        set: set_cb,
+    },
     initialized: function () {
         var O = this.options;
         if (!(O.min <= O.max))
             TK.warn("Ranged needs min <= max. min: ", O.min, ", max:", O.max, ", options:", O);
         update_snap.call(this);
         update_transformation.call(this);
-        this.add_event("set", set_cb);
     },
-
 });
 })(this);

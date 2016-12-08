@@ -123,6 +123,9 @@ w.TK.Select = w.Select = $class({
         value: false,
         auto_size: true
     },
+    static_events: {
+        click: function(e) { show_list.call(this, !this.__open); },
+    },
     initialize: function (options)  {
         this.__open = false;
         this.__timeout = -1;
@@ -138,10 +141,6 @@ w.TK.Select = w.Select = $class({
          *   Has class <code>toolkit-select</code>.
          */
         TK.add_class(this.element, "toolkit-select");
-        
-        this.add_event("click", function (e) {
-            show_list.call(this, !this.__open);
-        }.bind(this));
         
         /**
          * @member {HTMLListElement} TK.Select#_list - A HTML list for displaying the entry titles.

@@ -107,6 +107,9 @@ w.TK.Knob = w.Knob = $class({
         rotation:       45,
         blind_angle:    20
     }),
+    static_events: {
+        dblclick: dblclick,
+    },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E, S;
@@ -167,7 +170,6 @@ w.TK.Knob = w.Knob = $class({
         this.set("base", this.options.base);
         if (this.options.reset === void(0))
             this.options.reset = this.options.value;
-        this.add_event("dblclick", dblclick);
         this.add_child(this.circular);
     },
     

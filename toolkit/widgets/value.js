@@ -154,6 +154,10 @@ w.TK.Value = w.Value = $class({
         // the value treated by the parent widget.
         set: function (val) { return parseFloat(val || 0); }
     },
+    static_events: {
+        submit: submit_cb,
+        click: value_clicked,
+    },
     initialize: function (options) {
         var E;
         TK.Widget.prototype.initialize.call(this, options);
@@ -173,9 +177,6 @@ w.TK.Value = w.Value = $class({
         this._input  = TK.element("input", "toolkit-input");
         this._input.type = "text";
         E.appendChild(this._input);
-        
-        this.add_event("submit", submit_cb);
-        this.add_event("click", value_clicked);
 
         this._value_typing = value_typing.bind(this);
         this._value_done = value_done.bind(this);

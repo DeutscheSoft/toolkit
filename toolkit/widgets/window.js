@@ -695,6 +695,10 @@ w.TK.Window = w.Window = $class({
         active:        true,
         hide_status:   0 // if set to !0 status message hides after n milliseconds
     },
+    static_events: {
+        mouseenter: mover,
+        mouseleave: mout,
+    },
     initialize: function (options) {
         this.dimensions = {anchor: "top-left", x: 0, x1: 0, x2: 0, y: 0, y1: 0, y2: 0, width: 0, height: 0};
         TK.Container.prototype.initialize.call(this, options);
@@ -793,9 +797,6 @@ w.TK.Window = w.Window = $class({
         this.set("max_height", this.options.max_height);
         
         this.set("content", this.options.content);
-        
-        this.add_event("mouseenter", mover);
-        this.add_event("mouseleave", mout);
         
         this.__dblclick_cb = header_action.bind(this)
         this._header.addEventListener("dblclick", this.__dblclick_cb);

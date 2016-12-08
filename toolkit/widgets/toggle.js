@@ -153,6 +153,11 @@ w.TK.Toggle = w.Toggle = $class({
         toggle:        true,
         state:         false
     },
+    static_events: {
+        mousedown: mousedown,
+        touchstart: touchstart,
+        contextmenu: contextmenu,
+    },
     
     initialize: function (options) {
         TK.Button.prototype.initialize.call(this, options);
@@ -161,9 +166,6 @@ w.TK.Toggle = w.Toggle = $class({
          *   Has class <code>toolkit-toggle</code>.
          */
         TK.add_class(this.element, "toolkit-toggle");
-        this.add_event("mousedown", mousedown);
-        this.add_event("touchstart", touchstart);
-        this.add_event("contextmenu", contextmenu);
         this.__press_start_time = 0;
         this.__touch_id = false;
     },

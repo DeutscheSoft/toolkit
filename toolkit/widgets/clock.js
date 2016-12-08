@@ -228,6 +228,10 @@ w.TK.Clock = w.Clock = $class({
         label_scale: 0.33           // the scale of the upper and lower labels
                                    // compared to the main label
     },
+    static_events: {
+        hide: onhide,
+        show: timeout,
+    },
     initialize: function (options) {
         var E, S;
         /**
@@ -276,9 +280,6 @@ w.TK.Clock = w.Clock = $class({
         S.appendChild(this._label_lower);
         E.appendChild(S);
 
-        this.add_event("hide", onhide);
-        this.add_event("show", timeout);
-        
         var circ_options = {
             container: S,
             show_hand: false,
