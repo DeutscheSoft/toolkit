@@ -1,4 +1,4 @@
-# ![toolkit logo](/logo.png)
+# ![toolkit](/logo.png)
 
 toolkit is a JavaScript widget library with special focus on building
 low latency user interfaces for audio applications. It contains a wide range
