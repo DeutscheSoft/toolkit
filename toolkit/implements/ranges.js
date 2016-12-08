@@ -24,6 +24,12 @@
  *
  * @mixin TK.Ranges
  */
+function range_changed(value, name) {
+    var range = this[name];
+    for (var i in value) {
+        range.set(i, value[i]);
+    }
+}
 w.TK.Ranges = w.Ranges = $class({
     _class: "Ranges",
     /**
@@ -61,13 +67,7 @@ w.TK.Ranges = w.Ranges = $class({
         }
         if (name) {
             this[name] = r;
-            this.add_event("set", function (key, value) {
-                if (key === name) {
-                    for (var i in value) {
-                        this[name].set(i, value[i]);
-                    }
-                }
-            }.bind(this));
+            this.add_event("set_"+name, range_changed);
         }
         /**
          * Gets fired when a new range is added
