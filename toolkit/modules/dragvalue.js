@@ -87,7 +87,11 @@ function touchmove(e) {
 /* MOUSE EVENTS */
 
 function mousedown(e) {
-    /* prevent default here would disable mousemove events to be fired outside of iframes */
+    /* preventDefault prevents text selection, etc. but also
+     * mouse events when moving the cursor out of an iframe.
+     * this is why we check the button state in mouse move
+     */
+    e.preventDefault();
 
     if (!start_drag.call(this, e, e.pageX, e.pageY)) return;
 
@@ -105,7 +109,11 @@ function mouseup(e) {
 }
 
 function mousemove(e) {
-    move_drag.call(this, e, e.pageX, e.pageY);
+    if (this._drag_state.buttons !== e.buttons) {
+        /* We assume here that the drag interaction was cancelled.
+         * see comment in mousedown. */
+        mouseup.call(this, e);
+    } else move_drag.call(this, e, e.pageX, e.pageY);
 }
 
 function start_drag(ev, x, y) {
@@ -139,6 +147,7 @@ function start_drag(ev, x, y) {
         event: ev,
         scheduled: false,
         id: 0,
+        buttons: ev.buttons,
     };
     /**
      * Is fired when a user starts dragging.
@@ -224,7 +233,6 @@ function update_drag() {
     state.start_x = state.x;
     state.start_y = state.y;
     state.start_pos += dist;
-    
 }
 
 function stop_drag(ev, x, y) {
