@@ -82,6 +82,12 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
     static_events: {
         mousewheel: STOP,
         DOMMouseScroll: STOP,
+        set_depth: function(value) {
+            this.range_z.set("basis", value);
+        },
+        set_show_handles: function(value) {
+            (value ? show_handles : hide_handles).call(this);
+        },
     },
     options: {
         importance_label:  4,   // multiplicator of square pixels on hit testing
@@ -103,8 +109,7 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         TK.FrequencyResponse.prototype.initialize.call(this, options);
         
         this.add_range(this.options.range_z, "range_z");
-        if (this.options.depth)
-            this.set("depth", this.options.depth, true);
+        if (this.options.depth) this.set("depth", this.options.depth);
         /**
          * @member {HTMLDivElement} TK.ResponseHandler#element - The main DIV container.
          *   Has class <code>toolkit-response-handler</code>.
@@ -304,19 +309,5 @@ w.TK.ResponseHandler = w.ResponseHandler = $class({
         a += ((X[2] - X[0]) * (X[3] - X[1]) - _a) * O.importance_border;
         return {intersect: a, count: c};
     },
-    
-    // GETTER & SETER
-    set: function (key, value) {
-        value = TK.FrequencyResponse.prototype.set.call(this, key, value);
-        switch (key) {
-            case "depth":
-                this.range_z.set("basis", value);
-                break;
-            case "show_handles":
-                if (value) show_handled();
-                else hide_handles();
-                break;
-        }
-    }
 });
 })(this);
