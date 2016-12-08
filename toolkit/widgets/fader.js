@@ -211,6 +211,42 @@ w.TK.Fader = w.Fader = $class({
         bind_click: false,
         bind_dblclick: true,
     },
+    static_events: {
+        set_bind_click: function(value) {
+            if (value) this.add_event("click", clicked);
+            else this.remove_event("click", clicked);
+        },
+        set_bind_dblclick: function(value) {
+            if (value) this.add_event("dblclick", dblclick);
+            else this.remove_event("dblclick", dblclick);
+        },
+        set_tooltip: function(value) {
+            (value ? activate_tooltip : deactivate_tooltip).call(this);
+        },
+        set_show_scale: function(value) {
+            (value ? create_scale : remove_scale).call(this);
+        },
+        set_layout: function(value) {
+            if (this.scale) this.scale.set("layout", value);
+            this.options.direction = vert(this.options) ? "vertical" : "horizontal";
+            this.drag.set("direction", this.options.direction);
+            this.scroll.set("direction", this.options.direction);
+        },
+        set: function(key, value) {
+            if (this.scale && !TK.Widget.prototype._options[key] && TK.Scale.prototype._options[key]) {
+                this.scale.set(key, value);
+                /**
+                 * Is fired when the scale was changed.
+                 * 
+                 * @event TK.Fader#scalechanged
+                 * 
+                 * @param {string} key - The key which was set.
+                 * @param {mixed} value - The value which was set.
+                 */
+                this.fire_event("scalechanged", key, value);
+            }
+        },
+    },
     initialize: function (options) {
         this.__tt = false;
         TK.Widget.prototype.initialize.call(this, options);
@@ -379,53 +415,10 @@ w.TK.Fader = w.Fader = $class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        switch (key) {
-            case "tooltip":
-                if (value) {
-                    activate_tooltip.call(this);
-                } else {
-                    deactivate_tooltip.call(this);
-                }
-                break;
-            case "value":
-                if (value > this.options.max || value < this.options.min)
-                    this.warning(this.element);
-                value = this.snap(value);
-                break;
-            case "layout":
-                if (this.scale) this.scale.set("layout", value);
-                this.options.direction = vert(this.options) ? "vertical" : "horizontal";
-                this.drag.set("direction", this.options.direction);
-                this.scroll.set("direction", this.options.direction);
-                break;
-            case "show_scale":
-                if (value) {
-                    create_scale.call(this);
-                } else {
-                    remove_scale.call(this);
-                }
-                break;
-            case "bind_click":
-                if (value) this.add_event("click", clicked);
-                else this.remove_event("click", clicked);
-                break;
-            case "bind_dblclick":
-                if (value) this.add_event("dblclick", dblclick);
-                else this.remove_event("dblclick", dblclick);
-                break;
-        }
-
-        if (this.scale && !TK.Widget.prototype._options[key] && TK.Scale.prototype._options[key]) {
-            this.scale.set(key, value);
-            /**
-             * Is fired when the scale was changed.
-             * 
-             * @event TK.Fader#scalechanged
-             * 
-             * @param {string} key - The key which was set.
-             * @param {mixed} value - The value which was set.
-             */
-            this.fire_event("scalechanged", key, value);
+        if (key === "value") {
+            if (value > this.options.max || value < this.options.min)
+                this.warning(this.element);
+            value = this.snap(value);
         }
 
         return TK.Widget.prototype.set.call(this, key, value);
