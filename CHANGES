@@ -1,5 +1,8 @@
-Version 1.*: Changes since version 0.1
+Changes since version 1.1
 --------------------------------------
+
+Version 1.1: Changes since version 1.0
+-----------------------------------------
 
 New Features
 ============
@@ -27,6 +30,11 @@ o rewrote most of the rendering path of ResponseHandle. The code
 o rewrote the mouse/touch-event handling in Toggle. In particular it now
   properly handles multiple touchpoints and should work more reliable in
   edge cases.
+
+o The mouseevents in DragValue and ResponseHandle will now compare the button
+  state between different events. When the button state changes, the drag
+  action will be cancelled. This works around problems where the mouseup
+  event is not received.
 
 API Changes
 ===========
