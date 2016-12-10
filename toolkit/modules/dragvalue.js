@@ -19,136 +19,12 @@
 "use strict";
 (function(w){
 
-/* TOUCH EVENTS */
+function start_drag(value) {
+    if (!value) return;
 
-function touchstart(e) {
-    e.preventDefault();
-
-    var touches = e.changedTouches;
-
-    if (!touches || !touches.length) return;
-
-    // we use the first touchstart and keep that identifier
-    var touch = touches.item(0);
-
-    if (!start_drag.call(this, e, touch.pageX, touch.pageY)) return;
-
-    this._drag_state.id = touch.identifier;
-
-    var node = this.options.node;
-
-    node.addEventListener("touchmove", this.__touchmove);
-    node.addEventListener("touchcancel", this.__touchend);
-    node.addEventListener("touchend", this.__touchend);
-}
-function find_touch(e, id) {
-    var touches = e.changedTouches;
-    var touch;
-
-    if (!touches || !touches.length) return false;
-
-    for (var i = 0; i < touches.length; i++) {
-        touch = touches.item(i);
-        if (touch.identifier === id) {
-            return touch;
-        }
-    }
-
-    return false;
-}
-function touchend(e) {
-    e.preventDefault();
-
-    var state = this._drag_state;
-    var touch = find_touch(e, state.id);
-
-    // this is a different touch point, ignore it
-    if (!touch) return;
-
-    var node = this.options.node;
-
-    node.removeEventListener("touchmove", this.__touchmove);
-    node.removeEventListener("touchcancel", this.__touchend);
-    node.removeEventListener("touchend", this.__touchend);
-
-    stop_drag.call(this, e);
-}
-
-function touchmove(e) {
-    e.preventDefault();
-
-    var state = this._drag_state;
-
-    var touch = find_touch(e, state.id);
-
-    if (touch) move_drag.call(this, e, touch.pageX, touch.pageY);
-}
-
-/* MOUSE EVENTS */
-
-function mousedown(e) {
-    /* preventDefault prevents text selection, etc. but also
-     * mouse events when moving the cursor out of an iframe.
-     * this is why we check the button state in mouse move
-     */
-    e.preventDefault();
-
-    if (!start_drag.call(this, e, e.pageX, e.pageY)) return;
-
-    document.addEventListener("mousemove", this.__mousemove);
-    document.addEventListener("mouseup", this.__mouseup);
-}
-
-function mouseup(e) {
-    e.preventDefault();
-
-    document.removeEventListener("mousemove", this.__mousemove);
-    document.removeEventListener("mouseup", this.__mouseup);
-
-    stop_drag.call(this, e, e.pageX, e.pageY);
-}
-
-function mousemove(e) {
-    if (this._drag_state.buttons !== (e.buttons||e.which)) {
-        /* We assume here that the drag interaction was cancelled.
-         * see comment in mousedown. */
-        mouseup.call(this, e);
-    } else move_drag.call(this, e, e.pageX, e.pageY);
-}
-
-function start_drag(ev, x, y) {
     var O = this.options;
 
-    if (!O.active) return false;
-
-    // we are already dragging with another
-    // pointer
-    if (this._drag_state) return false;
-
-    TK.add_class(O.classes, "toolkit-dragging");
-
-    if (O.cursor) {
-        if (O.direction === "vertical") {
-            this.global_cursor("row-resize");
-        } else {
-            this.global_cursor("col-resize");
-        }
-    }
-
-    var value = O.get();
-
-    this._drag_state = {
-        start_value: value,
-        start_pos: O.range().val2px(value),
-        start_x: x,
-        start_y: y,
-        x: x,
-        y: y,
-        event: ev,
-        scheduled: false,
-        id: 0,
-        buttons: ev.buttons||ev.which,
-    };
+    this.start_pos = O.range().val2px(O.get());
     /**
      * Is fired when a user starts dragging.
      *
@@ -156,38 +32,34 @@ function start_drag(ev, x, y) {
      *
      * @param {DOMEvent} event - The native DOM event.
      */
-    this.fire_event("startdrag", ev);
-
-    return true;
+    this.fire_event("startdrag", this.drag_state.start);
+    if (O.events) O.events().fire_event("startdrag", this.drag_state.start);
 }
 
-function move_drag(ev, x, y) {
-    var s = this._drag_state;
-    s.event = ev;
-    s.x = x;
-    s.y = y;
-    if (!s.scheduled) {
-        s.scheduled = true;
-        TK.S.add(this.__update_drag, 1);
+function movecapture(state) {
+    var O = this.options;
+
+    if (O.active === false) return false;
+
+    if (!this.scheduled) {
+        this.scheduled = true;
+        TK.S.add(this._updatedrag);
     }
 }
 
-function update_drag() {
-    var state = this._drag_state;
-    state.scheduled = false;
+function updatedrag() {
     var O = this.options;
+    var state = this.drag_state;
+
+    this.scheduled = false;
+
+    /* the drag was cancelled while this callback was already scheduled */
+    if (!state) return;
+
     var range = O.range();
-    var e = state.event;
+    var e = state.current;
 
     var multi = range.options.step || 1;
-    /**
-     * Is fired while a user is dragging.
-     *
-     * @event TK.DragValue#startdrag
-     *
-     * @param {DOMEvent} event - The native DOM event.
-     */
-    this.fire_event("dragging", e);
 
     if (e.ctrlKey && e.shiftKey) {
         multi *= range.options.shift_down;
@@ -196,10 +68,13 @@ function update_drag() {
     }
 
     var dist = 0;
+
+    var v = state.vdistance();
+
     switch(O.direction) {
     case "polar":
-        var x = state.x - state.start_x;
-        var y = state.start_y - state.y;
+        var x = v[0];
+        var y = -v[1];
         var r = Math.sqrt(x * x + y * y);
         var a = Math.atan2(x, y) * (180 / Math.PI) + 360;
         if (angle_diff(O.rotation, a) < 90 - O.blind_angle / 2) {
@@ -209,51 +84,23 @@ function update_drag() {
         } else return;
         break;
     case "vertical":
-        dist = state.start_y - state.y;
+        dist = -v[1];
         break;
     case "horizontal":
-        dist = state.x - state.start_x;
+        dist = v[0];
         break;
     default:
         TK.warn("Unsupported direction:", O.direction);
     }
 
-    dist *= multi;
-
-    var val = O.get();
-    var nval = range.px2val(state.start_pos + dist);
-
-    if (val === nval) return;
-
+    var nval = range.px2val(this.start_pos + dist * multi);
     O.set(nval);
 
-    // this might happen in case of value snapping
-    if (val === O.get()) return;
-
-    state.start_x = state.x;
-    state.start_y = state.y;
-    state.start_pos += dist;
+    this.fire_event("dragging", state.current);
+    if (O.events) O.events().fire_event("dragging", state.current);
 }
 
-function stop_drag(ev, x, y) {
-    var O = this.options;
-
-    if (this._drag_state.scheduled) {
-        TK.S.remove(this.__update_drag, 1);
-        this.__update_drag();
-    }
-
-    this._drag_state = false;
-
-    TK.remove_class(O.classes, "toolkit-dragging");
-
-    if (O.cursor) {
-        if (O.direction === "vertical") {
-            this.remove_cursor("row-resize");
-        } else {
-            this.remove_cursor("col-resize");
-        }
-    }
+function stop_drag(state, ev) {
     /**
      * Is fired when a user stops dragging.
      *
@@ -262,6 +109,8 @@ function stop_drag(ev, x, y) {
      * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("stopdrag", ev);
+    var O = this.options;
+    if (O.events) O.events().fire_event("stopdrag", ev);
 }
 
 function angle_diff(a, b) {
@@ -301,8 +150,15 @@ w.TK.DragValue = w.DragValue = $class({
      *
      * @mixes TK.GlobalCursor
      */
+    /**
+     * Is fired while a user is dragging.
+     *
+     * @event TK.DragValue#startdrag
+     *
+     * @param {DOMEvent} event - The native DOM event.
+     */
     _class: "DragValue",
-    Extends: TK.Base,
+    Extends: TK.DragCapture,
     Implements: TK.GlobalCursor,
     _options: {
         get: "function",
@@ -310,7 +166,6 @@ w.TK.DragValue = w.DragValue = $class({
         range: "function",
         events: "object",
         classes: "object",
-        node: "object",
         direction: "int",
         active: "boolean",
         cursor: "boolean",
@@ -319,11 +174,6 @@ w.TK.DragValue = w.DragValue = $class({
     },
     options: {
         range:     function () { return {}; }, // a range oject
-        node:   false,                         // the element receiving
-                                               // the drag
-        events:    false,                      // element receiving events
-                                               // or false to fire events
-                                               // on the main element
         classes:   false,                      // element receiving classes
                                                // or false to set class
                                                // on the main element
@@ -346,69 +196,49 @@ w.TK.DragValue = w.DragValue = $class({
                                                // value changes in upper and
                                                // right directions
     },
+    static_events: {
+        set_state: start_drag,
+        stopcapture: stop_drag,
+        startcapture: function() {
+            if (this.options.active === false) return false;
+        },
+        movecapture: movecapture,
+        startdrag: function(ev) {
+            TK.S.add(function() {
+                var O = this.options;
+                TK.add_class(O.classes || O.node, "toolkit-dragging");
+                if (O.cursor) {
+                    if (O.direction === "vertical") {
+                        this.global_cursor("row-resize");
+                    } else {
+                        this.global_cursor("col-resize");
+                    }
+                }
+            }.bind(this), 1);
+        },
+        stopdrag: function() {
+            TK.S.add(function() {
+                var O = this.options;
+                TK.remove_class(O.classes || O.node, "toolkit-dragging");
+
+                if (O.cursor) {
+                    if (O.direction === "vertical") {
+                        this.remove_cursor("row-resize");
+                    } else {
+                        this.remove_cursor("col-resize");
+                    }
+                }
+            }.bind(this), 1);
+        },
+    },
     initialize: function (options) {
-        this.__touchstart = touchstart.bind(this);
-        this.__touchend = touchend.bind(this);
-        this.__touchmove = touchmove.bind(this);
-
-        this.__mousedown = mousedown.bind(this);
-        this.__mouseup = mouseup.bind(this);
-        this.__mousemove = mousemove.bind(this);
-        this.__contextmenu = function () {return false;}
-        this.__update_drag = update_drag.bind(this);
-
-        TK.Base.prototype.initialize.call(this, options);
+        TK.DragCapture.prototype.initialize.call(this, options);
 
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
-        this.set("node", this.options.node);
+        this._updatedrag = updatedrag.bind(this);
+        this.scheduled = false;
+        this.start_pos = 0;
     },
-    destroy: function () {
-        TK.Base.prototype.destroy.call(this);
-        var node = this.options.node;
-
-        if (node) {
-            node.removeEventListener("contextmenu", this.__contextmenu);
-            node.removeEventListener("mousedown",   this.__mousedown);
-            node.removeEventListener("touchstart",  this.__touchstart);
-        }
-    },
-
-    // GETTERS & SETTERS
-    set: function (key, value) {
-        var O = this.options;
-        if (key === "node" && O.node) {
-            O.node.addEventListener("contextmenu", this.__contextmenu);
-            O.node.addEventListener("mousedown",   this.__mousedown);
-            O.node.addEventListener("touchstart",  this.__touchstart);
-        }
-        TK.Base.prototype.set.call(this, key, value);
-        switch (key) {
-            case "node":
-                if (value) {
-                    value.addEventListener("contextmenu", this.__contextmenu);
-                    value.addEventListener("mousedown",   this.__mousedown);
-                    value.addEventListener("touchstart",  this.__touchstart);
-
-                    if (!O.events) {
-                        O.events = value;
-                    }
-                    if (!O.classes) {
-                        O.classes = value;
-                    }
-                }
-                break;
-            case "events":
-                if (!value && O.node) {
-                    O.events = O.node;
-                }
-                break;
-            case "classes":
-                if (!value && O.node) {
-                    O.classes = O.node;
-                }
-                break;
-        }
-    }
 });
 })(this);
