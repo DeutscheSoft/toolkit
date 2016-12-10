@@ -166,7 +166,7 @@ var __native_events = {
     drop       : true,
     dragend    : true,
 
-    // tourch
+    // touch
     touchstart : true,
     touchend   : true,
     touchmove  : true,
@@ -185,19 +185,34 @@ var __native_events = {
     submit     : true,
     contextmenu: true,
 };
-function remove_native_events(element, events) {
+function remove_native_events(element) {
     var type;
+    var s = this.static_events;
+    var d = this.__events;
     var handler = this.__native_handler;
-    for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
+
+    for (type in s) if (__native_events.hasOwnProperty(type))
+        element.removeEventListener(type, handler);
+
+    for (type in d) if (__native_events.hasOwnProperty(type) && (!s || !s.hasOwnProperty(type)))
         element.removeEventListener(type, handler);
 }
-function add_native_events(element, events) {
+function add_native_events(element) {
     var type;
+    var s = this.static_events;
+    var d = this.__events;
     var handler = this.__native_handler;
-    for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
+    for (type in s) if (__native_events.hasOwnProperty(type))
+        element.addEventListener(type, handler);
+
+    for (type in d) if (__native_events.hasOwnProperty(type) && (!s || !s.hasOwnProperty(type)))
         element.addEventListener(type, handler);
 }
 function native_handler(ev) {
+    /* FIXME:
+     * * mouseover and error are cancelled with true
+     * * beforeunload is cancelled with null
+     */
     if (this.fire_event(ev.type, ev) === false) return false;
 }
 function has_event_listeners(event) {
@@ -273,10 +288,12 @@ TK.Base = w.BASE = $class({
                 o[key] = merge({}, b, a);
             }
         }
-        if (this.hasOwnProperty("options") && typeof(opt) === "object") {
+        if (this.hasOwnProperty("options")) {
             this.options = merge(opt, o);
-        } else {
+        } else if (opt) {
             this.options = Object.assign(Object.create(opt), o);
+        } else {
+            this.options = Object.assign({}, o);
         }
         for (key in this.options) if (key.startsWith("on")) {
             this.add_event(key.substr(2).toLowerCase(), this.options[key]);
@@ -378,15 +395,8 @@ TK.Base = w.BASE = $class({
          */
         this.fire_event("delegated", element);
 
-        if (old_target) {
-            remove_native_events.call(this, old_target, this.__events);
-            if (this.static_events) remove_native_events.call(this, old_target, this.static_events);
-        }
-
-        if (element) {
-            if (this.static_events) add_native_events.call(this, element, this.static_events);
-            add_native_events.call(this, element, this.__events);
-        }
+        if (old_target) remove_native_events.call(this, old_target);
+        if (element) add_native_events.call(this, element);
 
         this.__event_target = element;
 
@@ -403,8 +413,7 @@ TK.Base = w.BASE = $class({
      * @param {boolean} stop - Set to true if the event should stop bubbling up the tree.
      */
     add_event: function (event, func) {
-        var ev;
-        var cb;
+        var ev, tmp;
 
         if (typeof event !== "string")
             throw new TypeError("Expected string.");
@@ -418,15 +427,18 @@ TK.Base = w.BASE = $class({
         // add an event listener to a widget. These can be native DOM
         // events if the widget has a delegated element and the widgets
         // native events.
-        ev = this.__events[event];
-        if (!ev) {
-            this.__events[event] = ev = [];
-            if (__native_events[event] && this.__event_target) {
-                this.__event_target.addEventListener(event, this.__native_handler);
-            }
-        }
+        ev = this.__events;
+        tmp = ev[event];
 
-        ev.push(func);
+        if (!tmp) {
+            ev[event] = [ func ];
+
+            if (__native_events.hasOwnProperty(event) && (ev = this.__event_target)) {
+                tmp = this.static_events;
+                if (!tmp || !tmp.hasOwnProperty(event))
+                    ev.addEventListener(event, this.__native_handler);
+            }
+        } else tmp.push(func);
     },
     /**
      * Removes the given function from the event queue.
@@ -449,11 +461,12 @@ TK.Base = w.BASE = $class({
             }
             if (!ev.length) {
                 // no callbacks left
-                if (__native_events[event] && this.__event_target)
-                    // remove native DOM event listener from __event_target
-                    this.__event_target.removeEventListener(event, this.__native_handler);
                 // delete event from the list
                 this.__events[event] = null;
+                // remove native DOM event listener from __event_target
+                ev = this.__event_target;
+                if (__native_events.hasOwnProperty(event) && !this.has_event_listeners(event))
+                    ev.removeEventListener(event, this.__native_handler);
             }
         }
     },
