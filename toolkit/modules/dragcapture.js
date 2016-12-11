@@ -37,6 +37,16 @@ CaptureState.prototype = {
         this.current = ev;
         return true;
     },
+    vdistance: function() {
+        var start = this.start;
+        var current = this.current;
+        return [ current.clientX - start.clientX, current.clientY - start.clientY ];
+    },
+    prev_distance: function() {
+        var prev = this.prev;
+        var current = this.current;
+        return [ current.clientX - prev.clientX, current.clientY - prev.clientY ];
+    },
 };
 /* general api */
 function startcapture(state) {
@@ -56,14 +66,18 @@ function movecapture(ev) {
     }
 }
 function stopcapture(ev) {
-    if (this.drag_state === null) return;
-    this.fire_event("stopcapture", this.drag_state, ev);
+    var s = this.drag_state;
+    if (s === null) return;
+    this.fire_event("stopcapture", s, ev);
     this.set("state", false);
+    s.destroy();
     this.drag_state = null;
 }
 
 /* mouse handling */
 function MouseCaptureState(start) {
+    this.__mouseup = null;
+    this.__mousemove = null;
     CaptureState.call(this, start);
 }
 MouseCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype), {
@@ -73,40 +87,29 @@ MouseCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype
         if (start.buttons !== ev.buttons || start.which !== ev.which) return false;
         return CaptureState.prototype.set_current.call(this, ev);
     },
-    vdistance: function() {
-        var start = this.start;
-        var current = this.current;
-        return [ current.clientX - start.clientX, current.clientY - start.clientY ];
+    init: function(widget) {
+        this.__mouseup = mouseup.bind(widget);
+        this.__mousemove = mousemove.bind(widget);
+        document.addEventListener("mousemove", this.__mousemove);
+        document.addEventListener("mouseup", this.__mouseup);
     },
-    prev_distance: function() {
-        var prev = this.prev;
-        var current = this.current;
-        return [ current.clientX - prev.clientX, current.clientY - prev.clientY ];
-    },
-});
-function mousedown(ev) {
-    if (!startcapture.call(this, new MouseCaptureState(ev))) return;
-    ev.preventDefault();
-    if (!this.__mousemove) {
-        this.__mouseup = mouseup.bind(this);
-        this.__mousemove = mousemove.bind(this);
-    }
-    document.addEventListener("mousemove", this.__mousemove);
-    document.addEventListener("mouseup", this.__mouseup);
-}
-function mousemove(ev) {
-    if (movecapture.call(this, ev) === false) {
+    destroy: function() {
         document.removeEventListener("mousemove", this.__mousemove);
         document.removeEventListener("mouseup", this.__mouseup);
         this.__mouseup = null;
         this.__mousemove = null;
-    }
+    },
+});
+function mousedown(ev) {
+    var s = new MouseCaptureState(ev);
+    if (!startcapture.call(this, s)) return;
+    ev.preventDefault();
+    s.init(this);
+}
+function mousemove(ev) {
+    movecapture.call(this, ev);
 }
 function mouseup(ev) {
-    document.removeEventListener("mousemove", this.__mousemove);
-    document.removeEventListener("mouseup", this.__mouseup);
-    this.__mouseup = null;
-    this.__mousemove = null;
     stopcapture.call(this, ev);
 }
 
@@ -147,6 +150,8 @@ TouchCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype
         var current = this.ctouch;
         return [ current.clientX - prev.clientX, current.clientY - prev.clientY ];
     },
+    destroy: function() {
+    },
 });
 function touchstart(ev) {
     /* if cancelable is false, this is an async touchstart, which happens
@@ -164,29 +169,54 @@ function touchstart(ev) {
 function touchmove(ev) {
     /* we are scrolling, ignore the event */
     if (!ev.cancelable) return;
-    var state = this.drag_state;
-    var touch = state.find_touch(ev);
     /* if we cannot find the right touch, some other touchpoint
      * triggered this event and we do not care about that */
-    if (!touch) return;
+    if (!this.drag_state.find_touch(ev)) return;
     /* if movecapture returns false, the capture has ended */
-    if (movecapture.call(this, ev) === false) {
+    if (movecapture.call(this, ev) !== false) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        return false;
     }
-    ev.preventDefault();
-    ev.stopPropagation();
-    return false;
 }
 function touchend(ev) {
+    var s;
     if (!ev.cancelable) return;
+    s = this.drag_state;
+    /* either we are not dragging or it is another touch point */
+    if (!s || !s.find_touch(ev)) return;
     stopcapture.call(this, ev);
     ev.stopPropagation();
     ev.preventDefault();
     return false;
 }
 function touchcancel(ev) {
-    stopcapture.call(this, ev);
+    return touchend.call(this, ev);
 }
 var dummy = function() {};
+
+var static_events = {
+    set_node: function(value) {
+        this.delegate_events(value);
+    },
+    contextmenu: function() { return false; },
+    delegated: [
+        function(element, old_element) {
+            /* cancel the current capture */
+            if (old_element) stopcapture.call(this);
+        },
+        function(elem, old) {
+            /* NOTE: this works around a bug in chrome (#673102) */
+            if (old && old.parentNode) old.parentNode.removeEventListener("touchstart", dummy);
+            if (elem && elem.parentNode) elem.parentNode.addEventListener("touchstart", dummy);
+        }
+    ],
+    touchstart: touchstart,
+    touchmove: touchmove,
+    touchend: touchend,
+    touchcancel: touchcancel,
+    mousedown: mousedown,
+};
 
 w.TK.DragCapture = $class({
     Extends: TK.Base,
@@ -195,32 +225,16 @@ w.TK.DragCapture = $class({
         node: "object",
         state: "boolean",
     },
-    static_events: {
-        set_node: function(value) {
-            this.delegate_events(value);
-        },
-        touchstart: touchstart,
-        touchmove: touchmove,
-        touchend: touchend,
-        touchcancel: touchcancel,
-        mousedown: mousedown,
-        contextmenu: function() { return false; },
-    },
-    delegate_events: function(elem) {
-        /* NOTE: this works around a bug in chrome. */
-        var old = this.__event_target;
-        if (old && old.parentNode) old.parentNode.removeEventListener("touchstart", dummy);
-        if (elem && elem.parentNode) elem.parentNode.addEventListener("touchstart", dummy);
-        TK.Base.prototype.delegate_events.call(this, elem);
-    },
+    static_events: static_events,
     initialize: function(O) {
         TK.Base.prototype.initialize.call(this, O);
         this.drag_state = null;
         this.set("node", O.node);
-        this.start_value = 0;
-
-        this.__mouseup = null;
-        this.__mousemove = null;
     },
+    destroy: function() {
+        TK.Base.prototype.destroy.call(this);
+        stopcapture.call(this);
+    },
+    cancel_drag: stopcapture,
 });
 })(this);
