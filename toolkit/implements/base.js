@@ -185,16 +185,19 @@ var __native_events = {
     submit     : true,
     contextmenu: true,
 };
+function is_native_event(type) {
+    return __native_events.hasOwnProperty(type);
+}
 function remove_native_events(element) {
     var type;
     var s = this.static_events;
     var d = this.__events;
     var handler = this.__native_handler;
 
-    for (type in s) if (__native_events.hasOwnProperty(type))
+    for (type in s) if (is_native_event(type))
         element.removeEventListener(type, handler);
 
-    for (type in d) if (__native_events.hasOwnProperty(type) && (!s || !s.hasOwnProperty(type)))
+    for (type in d) if (is_native_event(type) && (!s || !s.hasOwnProperty(type)))
         element.removeEventListener(type, handler);
 }
 function add_native_events(element) {
@@ -202,10 +205,10 @@ function add_native_events(element) {
     var s = this.static_events;
     var d = this.__events;
     var handler = this.__native_handler;
-    for (type in s) if (__native_events.hasOwnProperty(type))
+    for (type in s) if (is_native_event(type))
         element.addEventListener(type, handler);
 
-    for (type in d) if (__native_events.hasOwnProperty(type) && (!s || !s.hasOwnProperty(type)))
+    for (type in d) if (is_native_event(type) && (!s || !s.hasOwnProperty(type)))
         element.addEventListener(type, handler);
 }
 function native_handler(ev) {
@@ -433,7 +436,7 @@ TK.Base = w.BASE = $class({
         if (!tmp) {
             ev[event] = [ func ];
 
-            if (__native_events.hasOwnProperty(event) && (ev = this.__event_target)) {
+            if (is_native_event(event) && (ev = this.__event_target)) {
                 tmp = this.static_events;
                 if (!tmp || !tmp.hasOwnProperty(event))
                     ev.addEventListener(event, this.__native_handler);
@@ -465,7 +468,7 @@ TK.Base = w.BASE = $class({
                 this.__events[event] = null;
                 // remove native DOM event listener from __event_target
                 ev = this.__event_target;
-                if (__native_events.hasOwnProperty(event) && !this.has_event_listeners(event))
+                if (is_native_event(event) && !this.has_event_listeners(event))
                     ev.removeEventListener(event, this.__native_handler);
             }
         }
