@@ -394,9 +394,12 @@ TK.Base = w.BASE = $class({
          * 
          * @event TK.Base#delegated
          * 
-         * @param {HTMLElement} element - The element which receives all native DOM events.
+         * @param {HTMLElement} element - The element which receives all
+         *      native DOM events.
+         * @param {HTMLElement} old_element - The element which previously
+         *      received all native DOM events.
          */
-        this.fire_event("delegated", element);
+        this.fire_event("delegated", element, old_target);
 
         if (old_target) remove_native_events.call(this, old_target);
         if (element) add_native_events.call(this, element);
