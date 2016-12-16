@@ -179,7 +179,7 @@ function mousemove(e) {
     var O = this.options;
     e.preventDefault();
 
-    if (this._buttons !== (e.buttons||e.which)) {
+    if (e.type === "mousemove" && this._buttons !== (e.buttons||e.which)) {
         mouseup.call(this, e);
         return;
     }
