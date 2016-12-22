@@ -1216,7 +1216,14 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
 
         if (I.mode) set_main_class.call(this, O);
 
-        var moved = I.validate("x", "y", "z", "mode");
+        if (I.active) {
+            // TODO: this is not very nice, we should really use the options
+            // for that. 1) set "active" from the mouse handlers 2) set disabled instead
+            // of active
+            TK.toggle_class(this.element, "toolkit-disabled", !O.active);
+        }
+
+        var moved = I.validate("x", "y", "z", "mode", "active");
 
         if (moved) redraw_handle.call(this, O, X);
 
@@ -1236,13 +1243,6 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         // LINES
         if (I.validate("show_axis") || moved) {
             if (!delay_lines) redraw_lines.call(this, O, X);
-        }
-
-        if (I.validate("active")) {
-            // TODO: this is not very nice, we should really use the options
-            // for that. 1) set "active" from the mouse handlers 2) set disabled instead
-            // of active
-            TK.toggle_class(this.element, "toolkit-disabled", !O.active);
         }
     },
     set: function(key, value) {
