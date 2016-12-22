@@ -1034,6 +1034,17 @@ function set_main_class(O) {
  * @member {SVGPath} TK.ResponseHandle#_line2 - The first line. Has class <code>toolkit-line toolkit-line-2</code>.
  */
 
+function set_min(value, key) {
+    var name = key.substr(0, 1);
+    var O = this.options;
+    if (value !== false && O[name] < value) this.set(name, value);
+}
+
+function set_max(value, key) {
+    var name = key.substr(0, 1);
+    var O = this.options;
+    if (value !== false && O[name] > value) this.set(name, value);
+}
          
 /**
  * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
@@ -1108,6 +1119,28 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         z_max:            false,
         active:           true,
         show_axis:        false
+    },
+    static_events: {
+        set_show_axis: function(value) {
+            var O = this.options;
+            if (O.mode === "circular") create_line1.call(this);
+            create_line2.call(this);
+        },
+        set_label: function(value) {
+            if (value !== false && !this._label) create_label.call(this);
+        },
+        set_mode: function(value) {
+            var O = this.options;
+            create_handle.call(this);
+            if (O.z_handle !== false) create_zhandle.call(this);
+            if (value !== "circular") create_line1.call(this);
+        },
+        set_x_min: set_min,
+        set_y_min: set_min,
+        set_z_min: set_min,
+        set_x_max: set_max,
+        set_y_max: set_max,
+        set_z_max: set_max,
     },
 
     initialize: function (options) {
@@ -1278,44 +1311,7 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
             break;
         }
 
-        value = TK.Widget.prototype.set.call(this, key, value);
-
-        switch (key) {
-        case "show_axis":
-            if (value) {
-                if (O.mode === "circular") create_line1.call(this);
-                create_line2.call(this);
-            }
-            break;
-        case "label":
-            if (value !== false && !this._label) create_label.call(this);
-            break;
-        case "mode":
-            create_handle.call(this);
-            if (O.z_handle !== false) create_zhandle.call(this);
-            if (value !== "circular") create_line1.call(this);
-            break;
-        case "x_min":
-            if (value !== false && O.x < value) this.set("x", value);
-            break;
-        case "x_max":
-            if (value !== false && O.x > value) this.set("x", value);
-            break;
-        case "y_min":
-            if (value !== false && O.y < value) this.set("y", value);
-            break;
-        case "y_max":
-            if (value !== false && O.y > value) this.set("y", value);
-            break;
-        case "z_min":
-            if (value !== false && O.z < value) this.set("z", value);
-            break;
-        case "z_max":
-            if (value !== false && O.z > value) this.set("z", value);
-            break;
-        }
-
-        return value;
+        return TK.Widget.prototype.set.call(this, key, value);
     },
     destroy: function () {
         remove_zhandle.call(this);
