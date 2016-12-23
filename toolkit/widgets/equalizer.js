@@ -19,6 +19,41 @@
  
 "use strict";
 (function(w){
+function fast_draw_plinear(X, Y) {
+    var ret = [];
+    var i, len = X.length;
+    var dy = 0, x, y, tmp;
+
+    var accuracy = 20;
+    var c = 0;
+
+    if (len < 2) return "";
+
+    x = +X[0];
+    y = +Y[0];
+
+    ret.push("M", x.toFixed(1), ",", y.toFixed(1));
+
+    x = +X[1];
+    y = +Y[1];
+
+    dy = ((y - Y[0])*accuracy)|0;
+
+    for (i = 2; i < len; i++) {
+       tmp = ((Y[i] - y)*accuracy)|0;
+        if (tmp !== dy) {
+           ret.push("L", x.toFixed(1), ",", y.toFixed(1));
+           dy = tmp;
+           c++;
+        }
+        x = +X[i];
+        y = +Y[i];
+    }
+
+    ret.push("L", x.toFixed(1), ",", y.toFixed(1));
+
+    return ret.join("");
+}
 function invalidate_bands() {
     this.invalid.bands = true;
     this.trigger_draw();
@@ -122,29 +157,31 @@ w.TK.Equalizer = w.Equalizer = $class({
                 var x_px_to_val = this.range_x.px2val;
                 var y_val_to_px = this.range_y.val2px;
                 var f = [];
-                var y = 0, x = x_px_to_val(0);
+                var i, j;
+                var x, y;
 
-                for (var i = 0; i < this.bands.length; i++) {
+                for (i = 0; i < this.bands.length; i++) {
                     if (this.bands[i].get("active")) {
-                        f[c] = this.bands[i].filter.freq2gain;
-                        y += f[c](x);
-                        c++;
+                        f.push(this.bands[i].filter.freq2gain);
                     }
                 }
 
-                var d = new Array(end / step);
-                c = 1;
-
-                d[0] = "M0," + y_val_to_px(y).toFixed(1);
-
-                for (var i = 1; i < end; i += step) {
-                    x = x_px_to_val(i);
-                    y = 0;
-                    for (var j = 0; j < f.length; j++) y += f[j](x);
-
-                    d[c ++] = "L" + i + "," + y_val_to_px(y).toFixed(1);
+                var X = new Array(end / step);
+                c = 0;
+                for (i = 0; i < X.length; i++) {
+                    X[i] = c;
+                    c += step;
                 }
-                this.baseline.set("dots", d.join(""));
+                var Y = new Array(end / step);
+                var y;
+
+                for (i = 0; i < X.length; i++) {
+                    x = x_px_to_val(X[i]);
+                    y = 0.0;
+                    for (j = 0; j < f.length; j++) y += f[j](x);
+                    Y[i] = y_val_to_px(y);
+                }
+                this.baseline.set("dots", fast_draw_plinear(X, Y));
             }
         }
 
