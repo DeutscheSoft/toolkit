@@ -311,6 +311,8 @@ w.TK.Circular = w.Circular = $class({
     Implements: [TK.Warning, TK.Ranged],
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Ranged.prototype._options, {
         value: "number",
+        value_hand: "number",
+        value_ring: "number",
         size: "number",
         thickness: "number",
         margin: "number",
@@ -330,6 +332,12 @@ w.TK.Circular = w.Circular = $class({
         label: "object",
         labels: "array"
     }),
+    static_events: {
+        set_value: function(value) {
+            this.set("value_hand", value);
+            this.set("value_ring", value);
+        },
+    },
     options: {
         value:      0,
         size:       100,
@@ -401,6 +409,7 @@ w.TK.Circular = w.Circular = $class({
         // calculate the stroke here once. this happens before
         // the initial redraw
         TK.S.after_frame(this._get_stroke.bind(this));
+        this.set("value", this.options.value);
     },
 
     resize: function () {
@@ -439,10 +448,10 @@ w.TK.Circular = w.Circular = $class({
         var outer_p = outer - stroke / 2 - O.margin;
         var inner_p = inner - stroke / 2 - O.margin;
         
-        if (I.show_value || I.value) {
+        if (I.show_value || I.value_ring) {
             I.show_value = false;
             if (O.show_value) {
-                draw_slice.call(this, this.val2real(this.snap(O.base)), this.val2real(this.snap(O.value)), inner_p, outer_p, outer,
+                draw_slice.call(this, this.val2real(this.snap(O.base)), this.val2real(this.snap(O.value_ring)), inner_p, outer_p, outer,
                                 this._value);
             } else {
                 this._value.removeAttribute("d");
@@ -465,14 +474,14 @@ w.TK.Circular = w.Circular = $class({
                 this._hand.style.display = "none";
             }
         }
-        if (I.validate("size", "value", "hand", "min", "max", "start")) {
+        if (I.validate("size", "value_hand", "hand", "min", "max", "start")) {
             tmp = this._hand;
             tmp.setAttribute("x", O.size - O.hand.length - O.hand.margin);
             tmp.setAttribute("y", (O.size - O.hand.width) / 2.0);
             tmp.setAttribute("width", O.hand.length);
             tmp.setAttribute("height",O.hand.width);
             tmp.setAttribute("transform",
-                             format_rotate(this.val2real(this.snap(O.value)), O.size / 2, O.size / 2));
+                             format_rotate(this.val2real(this.snap(O.value_hand)), O.size / 2, O.size / 2));
         }
     },
     
