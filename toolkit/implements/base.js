@@ -485,10 +485,10 @@ TK.Base = w.BASE = $class({
      * @param {...*} args - Event arguments.
      */
     fire_event: function (event) {
-        var ev
+        var ev;
         var args;
 
-        ev = this.static_events;
+        ev = this.__events;
 
         if (ev !== void(0) && (event in ev)) {
             ev = ev[event];
@@ -498,9 +498,9 @@ TK.Base = w.BASE = $class({
             if (dispatch_events.call(this, ev, args) === false) return false;
         }
 
-        ev = this.__events;
+        ev = this.static_events;
 
-        if (ev = ev[event]) {
+        if (ev !== void(0) && (ev = ev[event])) {
 
             if (args === void(0)) args = Array.prototype.slice.call(arguments, 1);
 
