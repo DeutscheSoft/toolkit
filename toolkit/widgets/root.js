@@ -40,6 +40,22 @@ TK.Root = TK.class({
     Extends: TK.Container,
     _class: "Root",
     _options: Object.create(TK.Container.prototype._options),
+    static_events: {
+        initialized: function () {
+            w.addEventListener("resize", this._resize_cb);
+            document.addEventListener("visibilitychange", this._visibility_cb, false);
+            this.enable_draw();
+        },
+        destroy: function() {
+            w.removeEventListener("resize", this._resize_cb);
+            document.removeEventListener("visibilitychange", this._visibility_cb)
+            this._resize_cb = this._visibility_cb = null;
+        },
+        redraw: function() {
+            if (this.resize_event)
+                this.resize_event = false;
+        },
+    },
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
         /**
@@ -50,23 +66,6 @@ TK.Root = TK.class({
         this._resize_cb = resized.bind(this);
         this._visibility_cb = visibility_change.bind(this);
         this.resize_event = false;
-        w.addEventListener("resize", this._resize_cb);
-        document.addEventListener("visibilitychange", this._visibility_cb, false);
-    },
-    redraw: function() {
-        TK.Container.prototype.redraw.call(this);
-        if (this.resize_event)
-            this.resize_event = false;
-    },
-    initialized: function () {
-        TK.Container.prototype.initialized.call(this);
-        this.enable_draw();
-    },
-    destroy: function () {
-        TK.Container.prototype.destroy.call(this);
-        w.removeEventListener("resize", this._resize_cb);
-        document.removeEventListener("visibilitychange", this._visibility_cb)
-        this._resize_cb = this._visibility_cb = null;
     },
 });
 })(this, this.TK);
