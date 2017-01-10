@@ -732,13 +732,13 @@ TK.Ranged = TK.class({
     },
     static_events: {
         set: set_cb,
-    },
-    initialized: function () {
-        var O = this.options;
-        if (!(O.min <= O.max))
-            TK.warn("Ranged needs min <= max. min: ", O.min, ", max:", O.max, ", options:", O);
-        update_snap.call(this);
-        update_transformation.call(this);
+        initialized: function() {
+            var O = this.options;
+            if (!(O.min <= O.max))
+                TK.warn("Ranged needs min <= max. min: ", O.min, ", max:", O.max, ", options:", O);
+            update_snap.call(this);
+            update_transformation.call(this);
+        },
     },
 });
 })(this, this.TK);

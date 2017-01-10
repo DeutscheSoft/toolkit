@@ -316,11 +316,6 @@ TK.Fader = TK.class({
         this.set("show_scale", O.show_scale);
     },
 
-    initialized: function () {
-        TK.Widget.prototype.initialized.call(this);
-        TK.Ranged.prototype.initialized.call(this);
-    },
-    
     redraw: function () {
         TK.Widget.prototype.redraw.call(this);
         var I = this.invalid;

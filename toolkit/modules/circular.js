@@ -337,6 +337,12 @@ TK.Circular = TK.class({
             this.set("value_hand", value);
             this.set("value_ring", value);
         },
+        initialized: function() {
+            // calculate the stroke here once. this happens before
+            // the initial redraw
+            TK.S.after_frame(this._get_stroke.bind(this));
+            this.set("value", this.options.value);
+        },
     },
     options: {
         value:      0,
@@ -401,15 +407,6 @@ TK.Circular = TK.class({
 
         if (this.options.labels)
             this.set("labels", this.options.labels);
-    },
-
-    initialized: function () {
-        TK.Widget.prototype.initialized.call(this);
-        TK.Ranged.prototype.initialized.call(this);
-        // calculate the stroke here once. this happens before
-        // the initial redraw
-        TK.S.after_frame(this._get_stroke.bind(this));
-        this.set("value", this.options.value);
     },
 
     resize: function () {

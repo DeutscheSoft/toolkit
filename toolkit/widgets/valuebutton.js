@@ -212,11 +212,6 @@ TK.ValueButton = TK.class({
         });
     },
 
-    initialized: function() {
-        TK.Button.prototype.initialized.call(this);
-        Ranged.prototype.initialized.call(this);
-    },
-    
     redraw: function () {
         TK.Button.prototype.redraw.call(this);
         var I = this.invalid;

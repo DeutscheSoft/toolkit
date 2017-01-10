@@ -465,11 +465,6 @@ TK.Scale = TK.class({
         this.element = this.widgetize(E, true, true, true);
     },
 
-    initialized: function() {
-        TK.Widget.prototype.initialized.call(this);
-        TK.Ranged.prototype.initialized.call(this);
-    },
-    
     redraw: function () {
         TK.Widget.prototype.redraw.call(this);
 

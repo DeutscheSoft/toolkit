@@ -337,11 +337,6 @@ TK.MeterBase = TK.class({
         this.set("base", O.base);
     },
 
-    initialized: function () {
-        TK.Widget.prototype.initialized.call(this);
-        TK.Ranged.prototype.initialized.call(this);
-    },
-    
     destroy: function () {
         this._label.remove();
         this._scale.remove();

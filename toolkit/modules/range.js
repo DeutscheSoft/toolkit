@@ -113,10 +113,5 @@ TK.Range = TK.class({
         snap:       0, 
         round:      false 
     },
-    
-    initialized: function() {
-        TK.Ranged.prototype.initialized.call(this);
-        TK.Base.prototype.initialized.call(this);
-    },
 });
 })(this, this.TK);
