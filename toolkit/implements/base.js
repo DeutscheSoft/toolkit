@@ -698,7 +698,7 @@ function ChildWidget(widget, name, config) {
         }
     }
     p._options[key] = "boolean";
-    p.options[key] = true;
+    p.options[key] = config.show;
 }
 TK.ChildWidget = ChildWidget;
 })(this, this.TK);
