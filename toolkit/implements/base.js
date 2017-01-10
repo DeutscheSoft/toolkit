@@ -45,15 +45,49 @@ var mixin = function(dst, src) {
 
     return dst;
 };
-function dispatch_events(handlers, args) {
-    for (var i = 0; i < handlers.length; i++) {
-        try {
-            if (false === handlers[i].apply(this, args)) return false;
-        } catch (e) {
-            TK.warn("event handler", handlers[i], "threw", e);
-        }
+function call_handler(self, fun, args) {
+    try {
+        if (false === fun.apply(self, args)) return false;
+    } catch (e) {
+        TK.warn("event handler", fun, "threw", e);
     }
+
     return true;
+}
+function dispatch_events(self, handlers, args) {
+    if (Array.isArray(handlers)) {
+        for (var i = 0; i < handlers.length; i++) {
+            if (false === call_handler(self, handlers[i], args)) return false;
+        }
+        return true;
+    } else return call_handler(self, handlers, args);
+}
+function add_event(to, event, fun) {
+    var tmp = to[event];
+
+    if (!tmp) {
+        to[event] = fun;
+    } else if (Array.isArray(tmp)) {
+        tmp.push(fun);
+    } else {
+        to[event] = [ tmp, fun ];
+    }
+}
+function remove_event(from, event, fun) {
+    var tmp = from[event];
+    if (!tmp) return;
+    if (Array.isArray(tmp)) {
+        for (var i = 0; i < tmp.length; i++) {
+            if (tmp[i] === fun) {
+                tmp[i] = tmp[tmp.length-1];
+                tmp.length --;
+            }
+        }
+        if (tmp.length === 1) from[event] = tmp[0];
+        else if (tmp.length === 0) delete from[event];
+    } else if (tmp === fun) {
+        delete from[event];
+    }
 }
 function add_static_event(w, event, fun) {
     var p = w.prototype, e;
@@ -64,9 +98,7 @@ function add_static_event(w, event, fun) {
             p.static_events = e = {};
         }
     } else e = p.static_events;
-    if (!(event in e)) {
-        e[event] = [ fun ];
-    } else e[event].push(fun);
+    add_event(e, event, fun);
 }
 function arrayify(x) {
     if (!Array.isArray(x)) x = [ x ];
@@ -74,15 +106,10 @@ function arrayify(x) {
 }
 function merge_static_events(a, b) {
     var event;
-    for (event in b) {
-        if (!Array.isArray(b[event])) {
-            b[event] = [ b[event] ];
-        }
-    }
     if (!a) return b;
     for (event in a) {
         if (b.hasOwnProperty(event)) {
-            b[event] = a[event].concat(b[event]);
+            b[event] = arrayify(a[event]).concat(arrayify(b[event]));
         }
     }
     return Object.assign({}, a, b);
@@ -91,8 +118,6 @@ w.TK.class = function(o) {
     var constructor;
     var methods;
     var tmp, i, c, key;
-
-    if (o.static_events) o.static_events = merge_static_events(null, o.static_events);
 
     if (tmp = o.Extends) {
         if (typeof(tmp) === "function") {
@@ -338,7 +363,7 @@ TK.Base = TK.class({
          * @param {string} name - The name of the option.
          * @param {mixed} value - The value of the option.
          */
-        if (has_event_listeners.call(this, "set"))
+        if (this.has_event_listeners("set"))
             this.fire_event("set", key, value);
         /**
          * Is fired when an option is set.
@@ -348,7 +373,7 @@ TK.Base = TK.class({
          * @param {mixed} value - The value of the option.
          */
         e = "set_"+key;
-        if (has_event_listeners.call(this, e))
+        if (this.has_event_listeners(e))
             this.fire_event(e, value, key);
 
         return value;
@@ -430,21 +455,10 @@ TK.Base = TK.class({
         if (arguments.length !== 2)
             throw new Error("Bad number of arguments.");
 
-        // add an event listener to a widget. These can be native DOM
-        // events if the widget has a delegated element and the widgets
-        // native events.
+        if (is_native_event(event) && (ev = this.__event_target) && !this.has_event_listener(event))
+            ev.addEventListener(event, this.__native_handler);
         ev = this.__events;
-        tmp = ev[event];
-
-        if (!tmp) {
-            ev[event] = [ func ];
-
-            if (is_native_event(event) && (ev = this.__event_target)) {
-                tmp = this.static_events;
-                if (!tmp || !tmp.hasOwnProperty(event))
-                    ev.addEventListener(event, this.__native_handler);
-            }
-        } else tmp.push(func);
+        add_event(ev, event, func);
     },
     /**
      * Removes the given function from the event queue.
@@ -454,26 +468,16 @@ TK.Base = TK.class({
      * @method TK.Base#remove_event
      * 
      * @param {string} event - The event descriptor.
-     * @param {Function} func - The function to remove.
+     * @param {Function} fun - The function to remove.
      */
-    remove_event: function (event, func) {
+    remove_event: function (event, fun) {
         var ev = this.__events[event];
-        if (ev) {
-            for (var j = ev.length - 1; j >= 0; j--) {
-                // loop over the callback list of the event
-                if (ev[j] === func)
-                    // remove the callback
-                    ev.splice(j, 1);
-            }
-            if (!ev.length) {
-                // no callbacks left
-                // delete event from the list
-                this.__events[event] = null;
-                // remove native DOM event listener from __event_target
-                ev = this.__event_target;
-                if (is_native_event(event) && !this.has_event_listeners(event))
-                    ev.removeEventListener(event, this.__native_handler);
-            }
+        if (ev) remove_event(ev, event, fun);
+
+        // remove native DOM event listener from __event_target
+        if (is_native_event(event) && !this.has_event_listeners(event)) {
+            ev = this.__event_target;
+            if (ev) ev.removeEventListener(event, this.__native_handler);
         }
     },
     /**
@@ -495,16 +499,17 @@ TK.Base = TK.class({
 
             args = Array.prototype.slice.call(arguments, 1);
 
-            if (dispatch_events.call(this, ev, args) === false) return false;
+            if (dispatch_events(this, ev, args) === false) return false;
         }
 
         ev = this.static_events;
 
-        if (ev !== void(0) && (ev = ev[event])) {
+        if (ev !== void(0) && (event in ev)) {
+            ev = ev[event];
 
             if (args === void(0)) args = Array.prototype.slice.call(arguments, 1);
 
-            if (dispatch_events.call(this, ev, args) === false) return false;
+            if (dispatch_events(this, ev, args) === false) return false;
         }
     },
     /**
