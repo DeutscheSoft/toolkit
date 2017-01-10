@@ -320,7 +320,7 @@ TK.Widget = TK.class({
         this.disable_draw();
         if (this.parent) this.parent.remove_child(this);
 
-        BASE.prototype.destroy.call(this);
+        TK.Base.prototype.destroy.call(this);
 
         this._redraw = null;
         this.__resize = null;
