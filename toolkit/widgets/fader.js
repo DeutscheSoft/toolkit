@@ -318,7 +318,7 @@ TK.Fader = TK.class({
 
     initialized: function () {
         TK.Widget.prototype.initialized.call(this);
-        Ranged.prototype.initialized.call(this);
+        TK.Ranged.prototype.initialized.call(this);
     },
     
     redraw: function () {
@@ -357,7 +357,7 @@ TK.Fader = TK.class({
             I.value = false;
         }
 
-        if (I.validate.apply(I, Object.keys(Ranged.prototype._options)) || I.value) {
+        if (I.validate.apply(I, Object.keys(TK.Ranged.prototype._options)) || I.value) {
             I.value = false;
             // TODO: value is snapped already in set(). This is not enough for values which are set during
             // initialization.

@@ -158,7 +158,7 @@ TK.Dynamics = TK.class({
         var S = this.svg;
 
         /* bypass the Chart resize logic here */
-        Widget.prototype.resize.call(this);
+        TK.Widget.prototype.resize.call(this);
 
         var tmp = TK.css_space(S, "border", "padding");
         var w = TK.inner_width(E) - tmp.left - tmp.right;
