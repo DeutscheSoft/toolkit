@@ -83,7 +83,7 @@ TK.Pager = TK.class({
     },
     static_events: {
         set_show: function(value) {
-            page = this.current();
+            var page = this.current();
 
             if (page) {
                 page.set("active", true);
