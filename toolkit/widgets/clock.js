@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function draw_time(force) {
     var tmp, drawn;
     var O = this.options;
@@ -147,7 +147,7 @@ function onhide() {
     }
 }
 
-w.TK.Clock = TK.class({
+TK.Clock = TK.class({
     /**
      * TK.Clock shows a customized clock with circulars displaying hours, minutes
      * and seconds. It has three free formatable labels.
@@ -364,4 +364,4 @@ w.TK.Clock = TK.class({
         TK.Widget.prototype.destroy.call(this);
     },
 });
-})(this);
+})(this, this.TK);

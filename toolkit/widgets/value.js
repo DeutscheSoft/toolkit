@@ -28,7 +28,7 @@
  */
  
 "use strict";
-(function(w){
+(function(w, TK){
 function value_clicked(e) {
     // TODO: FIXME by finishing the dedicated keyboard widget
     if (toolkit.os() === "Android") {
@@ -134,7 +134,7 @@ function submit_cb(e) {
  * @property {function} [options.set=function (val) { return parseFloat(val || 0); }] -
  *   A function which is called to parse user input.
  */
-w.TK.Value = TK.class({
+TK.Value = TK.class({
     _class: "Value",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
@@ -217,4 +217,4 @@ w.TK.Value = TK.class({
         TK.Widget.prototype.destroy.call(this);
     },
 });
-})(this);
+})(this, this.TK);

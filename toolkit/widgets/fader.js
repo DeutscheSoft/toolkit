@@ -27,7 +27,7 @@
  * @param {mixed} value - The new value of the option
  */
 "use strict";
-(function(w){
+(function(w, TK){
 
 var supports_transform = 'transform' in w.document.createElement("div").style;
 
@@ -172,7 +172,7 @@ function deactivate_tooltip() {
  * @property {boolean} [options.show_scale=true] - If true, a scale is drawn.
  *
  */
-w.TK.Fader = TK.class({
+TK.Fader = TK.class({
     _class: "Fader",
     Extends: TK.Widget,
     Implements: [TK.Ranged, TK.Warning, TK.GlobalCursor],
@@ -424,4 +424,4 @@ w.TK.Fader = TK.class({
         return TK.Widget.prototype.set.call(this, key, value);
     }
 });
-})(this);
+})(this, this.TK);

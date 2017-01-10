@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 
 function start_drag(value) {
     if (!value) return;
@@ -118,7 +118,7 @@ function angle_diff(a, b) {
     var d = (Math.abs(a - b) + 360) % 360;
     return d > 180 ? 360 - d : d;
 }
-w.TK.DragValue = TK.class({
+TK.DragValue = TK.class({
     /**
      * TK.DragValue enables dragging an element and setting a
      * value according to the dragged distance. TK.DragValue is used in #Knob
@@ -241,4 +241,4 @@ w.TK.DragValue = TK.class({
         this.start_pos = 0;
     },
 });
-})(this);
+})(this, this.TK);

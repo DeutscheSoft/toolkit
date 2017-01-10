@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 function dragstart(e, drag) {
     var O = this.options;
     if (!O.active) return;
@@ -99,7 +99,7 @@ function set_handle() {
  * @property {Object} [options.min={x: -1, y: -1}] - Object containing x and y determining minimum size. A value of -1 means no minimum.
  * @property {Object} [options.max={x: -1, y: -1}] - Object containing x and y determining maximum size. A value of -1 means no maximum.
  */
-w.TK.Resize = TK.class({
+TK.Resize = TK.class({
     // TK.Resize enables resizing of elements on the screen.
     _class: "Resize",
     Extends: TK.Base,
@@ -130,4 +130,4 @@ w.TK.Resize = TK.class({
         TK.Base.prototype.set.call(this, key, value);
     }
 });
-})(this);
+})(this, this.TK);

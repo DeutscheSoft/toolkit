@@ -17,8 +17,8 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w) { 
-w.TK.Range = TK.class({
+(function(w, TK) {
+TK.Range = TK.class({
     /**
     * TK.Range is used for calculating linear scales from
     * different values. They are useful to build coordinate systems,
@@ -115,8 +115,8 @@ w.TK.Range = TK.class({
     },
     
     initialized: function() {
-        Ranged.prototype.initialized.call(this);
+        TK.Ranged.prototype.initialized.call(this);
         TK.Base.prototype.initialized.call(this);
     },
 });
-})(this);
+})(this, this.TK);

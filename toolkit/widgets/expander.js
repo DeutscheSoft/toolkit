@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function toggle(e) {
     return collapse.call(this, !this.options.expanded, e);
 }
@@ -134,7 +134,7 @@ w.eg = expander_groups;
 function button_set(value, key) {
     this.button.set(key, value);
 }
-w.TK.Expander = TK.class({
+TK.Expander = TK.class({
     /**
      * TK.Expander is a container which can be toggled between two different states,
      * expanded and collapsed. It can be used to implement overlay popups, but it is
@@ -269,4 +269,4 @@ w.TK.Expander = TK.class({
         return TK.Container.prototype.set.call(this, key, value);
     },
 });
-})(this);
+})(this, this.TK);

@@ -28,7 +28,7 @@
  */
  
 "use strict";
-(function(w){
+(function(w, TK){
 function value_clicked() {
     this.scroll.set("active", false);
     this.drag.set("active", false);
@@ -58,7 +58,7 @@ function userset_cb(key, value) {
     this.parent.userset(key, value);
     return false;
 }
-w.TK.ValueButton = TK.class({
+TK.ValueButton = TK.class({
     /**
      * This widget combines a {@link TK.Button} and a {@link TK.Value}.
      * TK.ValueButton uses {@link TK.DragValue} and {@link TK.ScrollValue}
@@ -262,4 +262,4 @@ w.TK.ValueButton = TK.class({
         return TK.Button.prototype.set.call(this, key, value);
     }
 });
-})(this);
+})(this, this.TK);

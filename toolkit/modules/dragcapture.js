@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 var document = w.document;
 
 /* this has no global symbol */
@@ -237,4 +237,4 @@ w.TK.DragCapture = TK.class({
     },
     cancel_drag: stopcapture,
 });
-})(this);
+})(this, this.TK);

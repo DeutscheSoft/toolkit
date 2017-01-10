@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 
 var type_to_mode = {
     parametric: "circular",
@@ -34,7 +34,7 @@ var type_to_mode = {
     "high-shelf": "line-vertical",
 };
 
-w.TK.EqBand = TK.class({
+TK.EqBand = TK.class({
     /**
      * An TK.EqBand extends a {@link TK.ResponseHandle} and holds a
      * dependent {@link TK.Filter}. It is used as a fully functional representation
@@ -171,4 +171,4 @@ w.TK.EqBand = TK.class({
         return TK.ResponseHandle.prototype.set.call(this, key, value);
     }
 });
-})(this);
+})(this, this.TK);

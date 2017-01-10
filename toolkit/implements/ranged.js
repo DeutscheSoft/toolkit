@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 function LinearSnapModule(stdlib, foreign) {
     "use asm";
     var min = +foreign.min;
@@ -644,7 +644,7 @@ function set_cb(key, value) {
  * 
  * @returns {number} The transformed value.
  */
-w.TK.Ranged = TK.class({
+TK.Ranged = TK.class({
     /**
      * Ranged combines functionality for two distinct purposes.
      * Firstly, Ranged can be used to snap values to a virtual grid.
@@ -741,4 +741,4 @@ w.TK.Ranged = TK.class({
         update_transformation.call(this);
     },
 });
-})(this);
+})(this, this.TK);

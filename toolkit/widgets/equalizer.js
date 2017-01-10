@@ -18,7 +18,7 @@
  */
  
 "use strict";
-(function(w){
+(function(w, TK){
 function fast_draw_plinear(X, Y) {
     var ret = [];
     var i, len = X.length;
@@ -70,7 +70,7 @@ function hide_bands() {
         this.remove_child(b[i]);
     }
 }
-w.TK.Equalizer = TK.class({
+TK.Equalizer = TK.class({
     /**
      * TK.Equalizer is a TK.ResponseHandler adding some EqBands instead of
      * simple ResponseHandles.
@@ -315,4 +315,4 @@ w.TK.Equalizer = TK.class({
         invalidate_bands.call(this);
     },
 });
-})(this);
+})(this, this.TK);

@@ -26,7 +26,7 @@
  */
  
 "use strict";
-(function(w){
+(function(w, TK){
 function hide_arrows() {
     if (!this._prev.parentNode) return;
     var E = this.element;
@@ -54,7 +54,7 @@ function button_clicked(button) {
     this.userset("show", this.buttons.indexOf(button));
 }
 
-w.TK.ButtonArray = TK.class({
+TK.ButtonArray = TK.class({
     /**
      * TK.ButtonArray is a list of buttons ({@link TK.Button}) layouted
      * either vertically or horizontally. TK.ButtonArray automatically
@@ -380,4 +380,4 @@ w.TK.ButtonArray = TK.class({
         return TK.Container.prototype.get.call(this, key);
     }
 });
-})(this);
+})(this, this.TK);

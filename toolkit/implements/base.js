@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w) {
+(function(w, TK) {
 var merge = function(dst) {
     var key, i, src;
     for (i = 1; i < arguments.length; i++) {
@@ -114,7 +114,7 @@ function merge_static_events(a, b) {
     }
     return Object.assign({}, a, b);
 }
-w.TK.class = function(o) {
+TK.class = function(o) {
     var constructor;
     var methods;
     var tmp, i, c, key;
@@ -697,5 +697,5 @@ function ChildWidget(widget, name, config) {
     p._options[key] = "boolean";
     p.options[key] = true;
 }
-w.TK.ChildWidget = ChildWidget;
-})(this);
+TK.ChildWidget = ChildWidget;
+})(this, this.TK);

@@ -18,7 +18,7 @@
  */
  
 "use strict";
-(function(w){
+(function(w, TK){
 var MODES = [
     "circular",
     "line-horizontal",
@@ -1055,7 +1055,7 @@ function set_max(value, key) {
  * @param {string} name - The name of the option which was changed due to the users action.
  * @param {mixed} value - The new value of the option.
  */
-w.TK.ResponseHandle = TK.class({
+TK.ResponseHandle = TK.class({
     _class: "ResponseHandle",
     Extends: TK.Widget,
     Implements: [TK.GlobalCursor, TK.Ranges, TK.Warning],
@@ -1323,4 +1323,4 @@ w.TK.ResponseHandle = TK.class({
         TK.Widget.prototype.destroy.call(this);
     },
 });
-})(this);
+})(this, this.TK);

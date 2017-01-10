@@ -18,7 +18,7 @@
  */
 "use strict";
 
-(function(w){ 
+(function(w, TK){
 
 function Invalid(options) {
     for (var key in options) this[key] = true;
@@ -682,5 +682,4 @@ TK.Widget.prototype.force_hide = TK.Widget.prototype.hide;
  * @method TK.Widget#force_show
  */
 TK.Widget.prototype.force_show = TK.Widget.prototype.show;
-if (!w.Widget) w.Widget = TK.Widget;
-})(this);
+})(this, this.TK);

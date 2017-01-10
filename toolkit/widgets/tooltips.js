@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 function get_event(event) {
     // return the right event if touch surface is used
     // with multiple fingers
@@ -29,7 +29,7 @@ function get_event(event) {
  * 
  * @class TK.Tooltip
  */
-w.TK.GlobalTooltip = function() {
+TK.GlobalTooltip = function() {
     var overlay = TK.element("div", "toolkit-tooltip");
     var table   = TK.element("div", "toolkit-table");
     var row     = TK.element("div", "toolkit-row");
@@ -194,11 +194,11 @@ w.TK.GlobalTooltip = function() {
      */
     this._entry = entry;
 };
-w.TK.GlobalTooltip.prototype = {
+TK.GlobalTooltip.prototype = {
     destroy: function() {
         this.hide();
         this.element.remove();
     },
 };
-w.TK.tooltip = new w.TK.GlobalTooltip();
-})(this);
+TK.tooltip = new TK.GlobalTooltip();
+})(this, TK);

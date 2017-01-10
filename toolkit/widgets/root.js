@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function visibility_change() {
     if (document.hidden) {
         this.disable_draw();
@@ -36,7 +36,7 @@ function resized() {
  * 
  * @class TK.Root
  */
-w.TK.Root = TK.class({
+TK.Root = TK.class({
     Extends: TK.Container,
     _class: "Root",
     _options: Object.create(TK.Container.prototype._options),
@@ -69,4 +69,4 @@ w.TK.Root = TK.class({
         this._resize_cb = this._visibility_cb = null;
     },
 });
-})(this);
+})(this, this.TK);

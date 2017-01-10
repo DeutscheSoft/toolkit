@@ -323,4 +323,3 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
         scale2freq: scale2freq
     }
 })(this);
-if (!window.AudioMath) window.AudioMath = TK.AudioMath;

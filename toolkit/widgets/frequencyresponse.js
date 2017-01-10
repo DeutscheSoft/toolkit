@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function calculate_grid(range, step) {
     var min = range.get("min");
     var max = range.get("max");
@@ -40,7 +40,7 @@ function calculate_grid(range, step) {
 
     return grid;
 }
-w.TK.FrequencyResponse = TK.class({
+TK.FrequencyResponse = TK.class({
     /**
      * TK.FrequencyResponse is a TK.Chart drawing frequencies on the x axis and dB
      * values on the y axis. This widget automatically draws a TK.Grid depending
@@ -145,4 +145,4 @@ w.TK.FrequencyResponse = TK.class({
         TK.Chart.prototype.redraw.call(this);
     },
 });
-})(this);
+})(this, this.TK);

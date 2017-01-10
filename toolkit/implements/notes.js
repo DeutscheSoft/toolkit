@@ -17,9 +17,9 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
-w.TK.Notes = TK.class({
+TK.Notes = TK.class({
     /**
      * Notes converts between frequencies, MIDI notes
      * and note names.
@@ -96,4 +96,4 @@ w.TK.Notes = TK.class({
         return this.midi2note(this.freq2midi(freq, base));
     }
 });
-})(this);
+})(this, this.TK);

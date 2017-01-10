@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 /**
  * The TK.State widget is a multi-functional adaption of a traditional LED. It
  * is able to show different colors as well as on/off states. The
@@ -39,7 +39,7 @@
  * @property {string} [options.color="red"] - A css color string for the state LED.
  *   <code>false</code>.
  */
-w.TK.State = TK.class({
+TK.State = TK.class({
     _class: "State",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
@@ -102,4 +102,4 @@ w.TK.State = TK.class({
         }
     }
 });
-})(this);
+})(this, this.TK);

@@ -17,8 +17,8 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
-w.TK.Label = TK.class({
+(function(w, TK){
+TK.Label = TK.class({
     /**
      * TK.Label is a simple text field displaying strings.
      *
@@ -70,4 +70,4 @@ w.TK.Label = TK.class({
         TK.Widget.prototype.destroy.call(this);
     },
 });
-})(this);
+})(this, this.TK);

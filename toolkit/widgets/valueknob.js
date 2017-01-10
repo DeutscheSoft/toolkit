@@ -27,7 +27,7 @@
  */
  
 "use strict";
-(function(w){
+(function(w, TK){
 function value_clicked() {
     var self = this.parent;
     var knob = self.knob;
@@ -56,7 +56,7 @@ function value_done() {
      */
     self.fire_event("valueset", this.options.value);
 }
-w.TK.ValueKnob = TK.class({
+TK.ValueKnob = TK.class({
     /**
      * This widget combines a {@link TK.Knob}, a {@link TK.Label}  and a {@link TK.Value} whose
      * value is synchronized.
@@ -94,7 +94,7 @@ w.TK.ValueKnob = TK.class({
 /**
  * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
  */
-w.TK.ChildWidget(w.TK.ValueKnob, "label", {
+TK.ChildWidget(TK.ValueKnob, "label", {
     create: TK.Label,
     show: false,
     inherit_options: false,
@@ -102,7 +102,7 @@ w.TK.ChildWidget(w.TK.ValueKnob, "label", {
 /**
  * @member {TK.Knob} TK.ValueKnob#knob - The TK.Knob widget.
  */
-w.TK.ChildWidget(w.TK.ValueKnob, "knob", {
+TK.ChildWidget(TK.ValueKnob, "knob", {
     create: TK.Knob,
     show: true,
     inherit_options: true,
@@ -110,7 +110,7 @@ w.TK.ChildWidget(w.TK.ValueKnob, "knob", {
 /**
  * @member {TK.Value} TK.ValueKnob#value - The TK.Value widget.
  */
-w.TK.ChildWidget(w.TK.ValueKnob, "value", {
+TK.ChildWidget(TK.ValueKnob, "value", {
     create: TK.Value,
     show: true,
     inherit_options: true,
@@ -123,4 +123,4 @@ w.TK.ChildWidget(w.TK.ValueKnob, "value", {
         valuedone: value_done,
     },
 });
-})(this);
+})(this, this.TK);

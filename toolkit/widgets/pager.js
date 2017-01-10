@@ -28,8 +28,8 @@
  */
  
 "use strict";
-(function(w){
-w.TK.Pager = TK.class({
+(function(w, TK){
+TK.Pager = TK.class({
     /**
      * TK.Pager, also known as Notebook in other UI toolkits, provides
      * multiple containers for displaying contents which are switchable
@@ -455,4 +455,4 @@ w.TK.Pager = TK.class({
         return TK.Container.prototype.get.call(this, key);
     }
 });
-})(this);
+})(this, this.TK);

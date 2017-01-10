@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 /**
  * GlobalCursor adds global cursor classes to ensure
  * one of the <a href="https://developer.mozilla.org/de/docs/Web/CSS/cursor">standard cursors</a>
@@ -25,7 +25,7 @@
  *
  * @mixin TK.GlobalCursor
  */
-w.TK.GlobalCursor = TK.class({
+TK.GlobalCursor = TK.class({
     _class: "GlobalCursor",
     /**
      * Adds a class <code>"toolkit-cursor-" + cursor</code> to the <code>document.body</code> to show a specific cursor.
@@ -68,4 +68,4 @@ w.TK.GlobalCursor = TK.class({
         this.fire_event("cursorremoved", cursor);
     }
 });
-})(this);
+})(this, this.TK);

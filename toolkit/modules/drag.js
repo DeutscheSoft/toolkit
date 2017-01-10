@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 function dragstart(e, drag) {
     this._dragged = 0;
     var O = this.options;
@@ -146,4 +146,4 @@ TK.Drag = TK.class({
         if (key === "initial" && this.drag) this.drag.set("initial", value);
     }
 });
-})(this);
+})(this, this.TK);

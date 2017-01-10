@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function vert(O) {
     return O.layout === "left" || O.layout === "right";
 }
@@ -111,7 +111,7 @@ function subtract_intervals(a, b) {
 
     return ret;
 }
-w.TK.MeterBase = TK.class({
+TK.MeterBase = TK.class({
     /**
      * TK.MeterBase is a base class to build different meters such as TK.LevelMeter.
      * TK.MeterBase uses TK.Gradient and has a TK.Scale widget. TK.MeterBase inherits all
@@ -562,4 +562,4 @@ w.TK.MeterBase = TK.class({
         return value;
     }
 });
-})(this);
+})(this, this.TK);

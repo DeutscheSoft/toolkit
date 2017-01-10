@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w) { 
+(function(w, TK) {
 function range_change_cb() {
     this.invalidate_all();
     this.trigger_draw();
@@ -138,7 +138,7 @@ function _end(d, s) {
     }
 }
     
-w.TK.Graph = TK.class({
+TK.Graph = TK.class({
     /**
      * TK.Graph is a single SVG path element. It provides
      * some functions to easily draw paths inside Charts and other
@@ -339,4 +339,4 @@ w.TK.Graph = TK.class({
         }
     }
 });
-})(this);
+})(this, this.TK);

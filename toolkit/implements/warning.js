@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 /**
  * Adds the class "toolkit-warn" on <code>this.element</code> for a certain
  * period of time. It is used e.g. in {@link TK.ResponseHandle} or {@link TK.Knob} when the value
@@ -25,7 +25,7 @@
  *
  * @mixin TK.Warning
  */
-w.TK.Warning = TK.class({
+TK.Warning = TK.class({
     _class: "Warning",
     /** 
      * Adds the class "toolkit-warn" to the given element and
@@ -55,4 +55,4 @@ w.TK.Warning = TK.class({
         this.fire_event("warning");
     }
 });
-})(this);
+})(this, this.TK);

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 function FilterModule(stdlib, foreign, heap) {
     "use asm";
     var freq = +foreign.freq;
@@ -327,9 +327,9 @@ function BiquadFilter() {
     return BiquadFilterN.call(this, Array.prototype.slice.call(arguments));
 }
 
-w.TK.BiquadFilter = BiquadFilter;
+TK.BiquadFilter = BiquadFilter;
 
-w.TK.Filter = TK.class({
+TK.Filter = TK.class({
     /**
      * TK.Filter provides the math for calculating a gain from
      * a given frequency for different types of biquad filters.
@@ -432,4 +432,4 @@ w.TK.Filter = TK.class({
         return value;
     },
 });
-})(this);
+})(this, this.TK);

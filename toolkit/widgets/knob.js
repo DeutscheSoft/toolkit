@@ -28,7 +28,7 @@
  */
      
 "use strict";
-(function(w){ 
+(function(w, TK){
 var format_viewbox = TK.FORMAT("0 0 %d %d");
 function dblclick() {
     this.userset("value", this.options.reset);
@@ -72,7 +72,7 @@ function dblclick() {
  *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
  *   moving towards top and right.
  */
-w.TK.Knob = TK.class({
+TK.Knob = TK.class({
     _class: "Knob",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options,
@@ -225,4 +225,4 @@ w.TK.Knob = TK.class({
         return TK.Widget.prototype.set.call(this, key, value);
     },
 });
-})(this);
+})(this, this.TK);

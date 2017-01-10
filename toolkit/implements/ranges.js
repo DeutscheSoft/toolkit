@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 /**
  * Ranges provides multiple {@link TK.Range} for a widget. They
  * can be used for building coordinate systems.
@@ -30,7 +30,7 @@ function range_changed(value, name) {
         range.set(i, value[i]);
     }
 }
-w.TK.Ranges = TK.class({
+TK.Ranges = TK.class({
     _class: "Ranges",
     /**
      * Add a new range. If name is set and this.options[name]
@@ -80,4 +80,4 @@ w.TK.Ranges = TK.class({
         return r;
     }
 })
-})(this);
+})(this, this.TK);

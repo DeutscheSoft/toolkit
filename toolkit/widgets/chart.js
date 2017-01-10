@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 // HELPERS & STUFF
 function draw_key() {
     var __key, bb;
@@ -272,7 +272,7 @@ function geom_set(value, key) {
     this.set_style(key, value+"px");
     TK.error("using deprecated '"+key+"' options");
 }
-w.TK.Chart = TK.class({
+TK.Chart = TK.class({
     _class: "Chart",
     Extends: TK.Widget,
     Implements: TK.Ranges,
@@ -577,4 +577,4 @@ w.TK.Chart = TK.class({
         this.fire_event("emptied");
     },
 });
-})(this);
+})(this, this.TK);

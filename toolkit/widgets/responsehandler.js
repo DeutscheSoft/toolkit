@@ -18,7 +18,7 @@
  */
  
 "use strict";
-(function(w){ 
+(function(w, TK){
 function calculate_overlap(X, Y) {
     /* no overlap, return 0 */
     if (X[2] < Y[0] || Y[2] < X[0] || X[3] < Y[1] || Y[3] < X[1]) return 0;
@@ -49,7 +49,7 @@ var STOP = function(e) {
     return false;
 }
     
-w.TK.ResponseHandler = TK.class({
+TK.ResponseHandler = TK.class({
     /**
      * TK.ResponseHandler is a TK.FrequencyResponse adding some ResponseHandles. It is
      * meant as a universal user interface for equalizers and the like.
@@ -310,4 +310,4 @@ w.TK.ResponseHandler = TK.class({
         return {intersect: a, count: c};
     },
 });
-})(this);
+})(this, this.TK);

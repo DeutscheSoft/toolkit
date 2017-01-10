@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w) {
+(function(w, TK) {
 function draw_lines(a, mode, last) {
     var labels = new Array(a.length);
     var coords = new Array(a.length);
@@ -145,7 +145,7 @@ function draw_lines(a, mode, last) {
         }.bind(this), 1);
     }.bind(this));
 }
-w.TK.Grid = TK.class({
+TK.Grid = TK.class({
     /**
      * TK.Grid creates a couple of lines and labels in a SVG
      * image on the x and y axis. It is used in e.g. {@link TK.Graph} and
@@ -257,4 +257,4 @@ w.TK.Grid = TK.class({
         TK.Widget.prototype.set.call(this, key, value);
     }
 });
-})(this);
+})(this, this.TK);

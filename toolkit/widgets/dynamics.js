@@ -17,12 +17,12 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){
+(function(w, TK){
 function range_set(value, key) {
     this.range_x.set(key, value);
     this.range_y.set(key, value);
 }
-w.TK.Dynamics = TK.class({
+TK.Dynamics = TK.class({
     /**
      * TK.Dynamics are based on Charts and display the characteristics of dynamic
      * processors. They are square widgets drawing a TK.Grid automatically based on
@@ -246,4 +246,4 @@ w.TK.Dynamics = TK.class({
         this.graph.set("dots", curve);
     },
 });
-})(this);
+})(this, this.TK);

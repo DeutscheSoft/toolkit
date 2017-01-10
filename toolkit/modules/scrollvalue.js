@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w) {
+(function(w, TK) {
 function scroll_timeout() {
     /**
      * Is fired when scrolling ended.
@@ -123,7 +123,7 @@ function fire_event(title, event) {
  * @property {HTMLElement} [node=false] - The element receiving the scroll event.
  * @property {Boolean} [active=true] - Disable the scroll event.
  */
-w.TK.ScrollValue = TK.class({
+TK.ScrollValue = TK.class({
     _class: "ScrollValue",
     Extends: TK.Base,
     _options: {
@@ -187,4 +187,4 @@ w.TK.ScrollValue = TK.class({
         }
     }
 })
-})(this);
+})(this, this.TK);

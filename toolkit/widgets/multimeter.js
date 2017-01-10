@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function add_meters (cnt, options) {
     for (var i = 0; i < cnt; i++)
         this.add_meter(options);
@@ -65,7 +65,7 @@ function remove_meter (meter) {
 }
     
     
-w.TK.MultiMeter = TK.class({
+TK.MultiMeter = TK.class({
     /**
      * TK.MultiMeter is a collection of {@link TK.LevelMeter}s to show levels of full channels
      * containing multiple audio streams. It offers all options of {@link TK.LevelMeter} and
@@ -331,4 +331,4 @@ w.TK.MultiMeter = TK.class({
         return value;
     }
 });
-})(this);
+})(this, this.TK);

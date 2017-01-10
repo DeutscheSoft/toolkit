@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function after_hiding() {
     this.__hide_id = false;
     if (this.options.display_state === "hiding")
@@ -65,7 +65,7 @@ function disable_draw_children() {
     var H = this.hidden_children;
     for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
 }
-w.TK.Container = TK.class({
+TK.Container = TK.class({
     /**
      * TK.Container represents a <code>&lt;DIV></code> element.
      *
@@ -404,4 +404,4 @@ w.TK.Container = TK.class({
         }
     },
 });
-})(this);
+})(this, this.TK);

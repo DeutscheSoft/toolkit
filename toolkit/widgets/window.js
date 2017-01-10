@@ -29,7 +29,7 @@
  */
  
 "use strict";
-(function(w){ 
+(function(w, TK){
 function header_action() {
     switch (this.options.header_action) {
         case "shrink":
@@ -497,7 +497,7 @@ function build_from_const(element) {
     }
 }
     
-w.TK.Window = TK.class({
+TK.Window = TK.class({
     /**
      * This widget is a flexible overlay window.
      *
@@ -1097,4 +1097,4 @@ w.TK.Window = TK.class({
         return TK.Container.prototype.set.call(this, key, value, hold);
     }
 });
-})(this);
+})(this, this.TK);

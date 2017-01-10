@@ -28,7 +28,7 @@
  */
  
 "use strict";
-(function(w){
+(function(w, TK){
 function index_by_value(val) {
     var entries = this.entries;
     for (var i = 0; i < entries.length; i++) {
@@ -90,7 +90,7 @@ function show_list(show) {
     var dur = parseFloat(TK.get_style(this._list, "transition-duration"));
     this.__timeout = window.setTimeout(hide_list.bind(this), dur * 1000);
 }
-w.TK.Select = TK.class({
+TK.Select = TK.class({
     /**
      * TK.Select provides a button with a select list to choose from
      * a list of entries.
@@ -461,4 +461,4 @@ w.TK.Select = TK.class({
         return value;
     }
 });
-})(this);
+})(this, this.TK);

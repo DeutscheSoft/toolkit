@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 
 /* Abstract toggle logic */
 
@@ -113,7 +113,7 @@ function contextmenu(e) {
     return false;
 }
 
-w.TK.Toggle = TK.class({
+TK.Toggle = TK.class({
     /**
      * A toggle button. The toggle button can either be pressed (which means that it will
      * switch its state as long as it is pressed) or toggled. Its behavior is controlled by
@@ -222,4 +222,4 @@ w.TK.Toggle = TK.class({
          */
     },
 });
-})(this);
+})(this, this.TK);

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function (w) {
+(function (w, TK) {
 function interpret_label(x) {
     if (typeof x === "object") return x;
     if (typeof x === "number") return { pos: x };
@@ -244,7 +244,7 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
                            r_inner, r_inner, large, !sweep, from.x2, from.y2);
     slice.setAttribute("d", path);
 }
-w.TK.Circular = TK.class({
+TK.Circular = TK.class({
     /**
      * TK.Circular is a SVG group element containing two paths for displaying
      * numerical values in a circular manner. TK.Circular is able to draw labels,
@@ -578,4 +578,4 @@ w.TK.Circular = TK.class({
         return TK.Widget.prototype.set.call(this, key, value);
     }
 });
-})(this);
+})(this, this.TK);

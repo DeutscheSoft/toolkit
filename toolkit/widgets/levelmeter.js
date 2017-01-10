@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 function vert(O) {
     return O.layout === "left" || O.layout === "right";
 }
@@ -103,7 +103,7 @@ function draw_peak() {
     this.fire_event("drawpeak");
 }
     
-w.TK.LevelMeter = TK.class({
+TK.LevelMeter = TK.class({
     /**
      * TK.LevelMeter is a fully functional display of numerical values. They are
      * enhanced {@link TK.MeterBase}'s containing a clip LED, a peak pin with value label
@@ -563,4 +563,4 @@ w.TK.LevelMeter = TK.class({
         return value;
     }
 });
-})(this);
+})(this, this.TK);

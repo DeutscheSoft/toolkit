@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w) { 
+(function(w, TK) {
 function get_base(O) {
     return Math.max(Math.min(O.max, O.base), O.min);
 }
@@ -410,7 +410,7 @@ function mark_markers(labels, dots) {
  * @property {boolean} [options.show_markers=true] - If true, every dot which is located at the same
  *   position as a label has the <code>toolkit-marker</code> class set.
  */
-w.TK.Scale = TK.class({
+TK.Scale = TK.class({
     _class: "Scale",
     
     Extends: TK.Widget,
@@ -577,4 +577,4 @@ w.TK.Scale = TK.class({
         }
     }
 });
-})(this);
+})(this, this.TK);

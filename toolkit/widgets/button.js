@@ -28,8 +28,8 @@
  */
  
 "use strict";
-(function(w){ 
-w.TK.Button = TK.class({
+(function(w, TK){
+TK.Button = TK.class({
     /**
      * TK.Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.
@@ -157,4 +157,4 @@ w.TK.Button = TK.class({
         }
     }
 });
-})(this);
+})(this, this.TK);

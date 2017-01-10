@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 "use strict";
-(function(w){ 
+(function(w, TK){
 /**
  * TK.Anchor provides a single function translate_anchor
  * which returns real x and y values from a relative positioning.
@@ -27,7 +27,7 @@
  *
  * @mixin TK.Anchor
  */
-w.TK.Anchor = TK.class({
+TK.Anchor = TK.class({
     /**
      * Returns real x and y values from a relative positioning.
      * 
@@ -79,4 +79,4 @@ w.TK.Anchor = TK.class({
         return {x: Math.round(x), y: Math.round(y)};
     }
 });
-})(this);
+})(this, this.TK);
