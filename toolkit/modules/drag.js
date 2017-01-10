@@ -109,7 +109,7 @@ function set_handle() {
  * 
  * @class TK.Drag
  */
-TK.Drag = w.Drag = $class({
+TK.Drag = TK.class({
     _class: "Drag",
     Extends: TK.Base,
     _options: {

@@ -103,7 +103,7 @@ function draw_peak() {
     this.fire_event("drawpeak");
 }
     
-w.TK.LevelMeter = w.LevelMeter = $class({
+w.TK.LevelMeter = TK.class({
     /**
      * TK.LevelMeter is a fully functional display of numerical values. They are
      * enhanced {@link TK.MeterBase}'s containing a clip LED, a peak pin with value label

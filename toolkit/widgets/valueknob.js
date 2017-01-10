@@ -56,7 +56,7 @@ function value_done() {
      */
     self.fire_event("valueset", this.options.value);
 }
-w.TK.ValueKnob = w.ValueKnob = $class({
+w.TK.ValueKnob = TK.class({
     /**
      * This widget combines a {@link TK.Knob}, a {@link TK.Label}  and a {@link TK.Value} whose
      * value is synchronized.

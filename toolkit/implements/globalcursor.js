@@ -25,7 +25,7 @@
  *
  * @mixin TK.GlobalCursor
  */
-w.TK.GlobalCursor = w.GlobalCursor = $class({
+w.TK.GlobalCursor = TK.class({
     _class: "GlobalCursor",
     /**
      * Adds a class <code>"toolkit-cursor-" + cursor</code> to the <code>document.body</code> to show a specific cursor.

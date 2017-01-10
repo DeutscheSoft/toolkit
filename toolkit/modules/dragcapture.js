@@ -218,7 +218,7 @@ var static_events = {
     mousedown: mousedown,
 };
 
-w.TK.DragCapture = $class({
+w.TK.DragCapture = TK.class({
     Extends: TK.Base,
     _class: "DragCapture",
     _options: {

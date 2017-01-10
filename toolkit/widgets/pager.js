@@ -29,7 +29,7 @@
  
 "use strict";
 (function(w){
-w.TK.Pager = w.Pager = $class({
+w.TK.Pager = TK.class({
     /**
      * TK.Pager, also known as Notebook in other UI toolkits, provides
      * multiple containers for displaying contents which are switchable

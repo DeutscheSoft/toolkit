@@ -87,7 +87,7 @@ function merge_static_events(a, b) {
     }
     return Object.assign({}, a, b);
 }
-w.$class = function(o) {
+w.TK.class = function(o) {
     var constructor;
     var methods;
     var tmp, i, c, key;
@@ -233,7 +233,7 @@ function has_event_listeners(event) {
  *
  * @class TK.Base
  */
-TK.Base = w.BASE = $class({
+TK.Base = TK.class({
     initialize : function(options) {
         this.__events = {};
         this.__event_target = null;
@@ -624,7 +624,7 @@ function ChildWidget(widget, name, config) {
     if (m = config.static_events)
         Object.assign(static_events, m);
 
-    var child = $class({
+    var child = TK.class({
         Extends: config.create,
         static_events: static_events,
     });

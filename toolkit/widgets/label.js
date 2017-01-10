@@ -18,7 +18,7 @@
  */
 "use strict";
 (function(w){ 
-w.TK.Label = w.Label = $class({
+w.TK.Label = TK.class({
     /**
      * TK.Label is a simple text field displaying strings.
      *

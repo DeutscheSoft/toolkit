@@ -70,7 +70,7 @@ function hide_bands() {
         this.remove_child(b[i]);
     }
 }
-w.TK.Equalizer = w.Equalizer = $class({
+w.TK.Equalizer = TK.class({
     /**
      * TK.Equalizer is a TK.ResponseHandler adding some EqBands instead of
      * simple ResponseHandles.

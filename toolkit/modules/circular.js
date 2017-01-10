@@ -244,7 +244,7 @@ function draw_slice(a_from, a_to, r_inner, r_outer, pos, slice) {
                            r_inner, r_inner, large, !sweep, from.x2, from.y2);
     slice.setAttribute("d", path);
 }
-w.TK.Circular = w.Circular = $class({
+w.TK.Circular = TK.class({
     /**
      * TK.Circular is a SVG group element containing two paths for displaying
      * numerical values in a circular manner. TK.Circular is able to draw labels,
@@ -405,7 +405,7 @@ w.TK.Circular = w.Circular = $class({
 
     initialized: function () {
         TK.Widget.prototype.initialized.call(this);
-        Ranged.prototype.initialized.call(this);
+        TK.Ranged.prototype.initialized.call(this);
         // calculate the stroke here once. this happens before
         // the initial redraw
         TK.S.after_frame(this._get_stroke.bind(this));

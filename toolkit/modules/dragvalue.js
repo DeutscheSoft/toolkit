@@ -118,7 +118,7 @@ function angle_diff(a, b) {
     var d = (Math.abs(a - b) + 360) % 360;
     return d > 180 ? 360 - d : d;
 }
-w.TK.DragValue = w.DragValue = $class({
+w.TK.DragValue = TK.class({
     /**
      * TK.DragValue enables dragging an element and setting a
      * value according to the dragged distance. TK.DragValue is used in #Knob

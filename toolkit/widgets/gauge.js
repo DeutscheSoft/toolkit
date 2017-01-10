@@ -50,7 +50,7 @@ var format_viewbox = TK.FORMAT("0 0 %d %d");
  * @property {string} [options.title.align] - Alignment of the title, either
  *   <code>inner</code> or <code>outer</code>.
  */
-w.TK.Gauge = w.Gauge = $class({
+w.TK.Gauge = TK.class({
     _class: "Gauge",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options, {

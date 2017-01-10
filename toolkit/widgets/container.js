@@ -65,7 +65,7 @@ function disable_draw_children() {
     var H = this.hidden_children;
     for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
 }
-w.TK.Container = w.Container = $class({
+w.TK.Container = TK.class({
     /**
      * TK.Container represents a <code>&lt;DIV></code> element.
      *

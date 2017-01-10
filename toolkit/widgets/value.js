@@ -134,7 +134,7 @@ function submit_cb(e) {
  * @property {function} [options.set=function (val) { return parseFloat(val || 0); }] -
  *   A function which is called to parse user input.
  */
-w.TK.Value = w.Value = $class({
+w.TK.Value = TK.class({
     _class: "Value",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {

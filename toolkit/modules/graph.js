@@ -138,7 +138,7 @@ function _end(d, s) {
     }
 }
     
-w.TK.Graph = w.Graph = $class({
+w.TK.Graph = TK.class({
     /**
      * TK.Graph is a single SVG path element. It provides
      * some functions to easily draw paths inside Charts and other

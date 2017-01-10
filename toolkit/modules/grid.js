@@ -145,7 +145,7 @@ function draw_lines(a, mode, last) {
         }.bind(this), 1);
     }.bind(this));
 }
-w.TK.Grid = w.Grid = $class({
+w.TK.Grid = TK.class({
     /**
      * TK.Grid creates a couple of lines and labels in a SVG
      * image on the x and y axis. It is used in e.g. {@link TK.Graph} and

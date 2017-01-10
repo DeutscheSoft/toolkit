@@ -113,7 +113,7 @@ function contextmenu(e) {
     return false;
 }
 
-w.TK.Toggle = w.Toggle = $class({
+w.TK.Toggle = TK.class({
     /**
      * A toggle button. The toggle button can either be pressed (which means that it will
      * switch its state as long as it is pressed) or toggled. Its behavior is controlled by

@@ -54,7 +54,7 @@ function button_clicked(button) {
     this.userset("show", this.buttons.indexOf(button));
 }
 
-w.TK.ButtonArray = w.ButtonArray = $class({
+w.TK.ButtonArray = TK.class({
     /**
      * TK.ButtonArray is a list of buttons ({@link TK.Button}) layouted
      * either vertically or horizontally. TK.ButtonArray automatically

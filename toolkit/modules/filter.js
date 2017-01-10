@@ -329,7 +329,7 @@ function BiquadFilter() {
 
 w.TK.BiquadFilter = BiquadFilter;
 
-w.TK.Filter = w.Filter = $class({
+w.TK.Filter = TK.class({
     /**
      * TK.Filter provides the math for calculating a gain from
      * a given frequency for different types of biquad filters.

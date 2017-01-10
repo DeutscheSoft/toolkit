@@ -22,7 +22,7 @@ function range_set(value, key) {
     this.range_x.set(key, value);
     this.range_y.set(key, value);
 }
-w.TK.Dynamics = w.Dynamics = $class({
+w.TK.Dynamics = TK.class({
     /**
      * TK.Dynamics are based on Charts and display the characteristics of dynamic
      * processors. They are square widgets drawing a TK.Grid automatically based on

@@ -49,7 +49,7 @@ var STOP = function(e) {
     return false;
 }
     
-w.TK.ResponseHandler = w.ResponseHandler = $class({
+w.TK.ResponseHandler = TK.class({
     /**
      * TK.ResponseHandler is a TK.FrequencyResponse adding some ResponseHandles. It is
      * meant as a universal user interface for equalizers and the like.

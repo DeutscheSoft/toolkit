@@ -29,7 +29,7 @@
  
 "use strict";
 (function(w){ 
-w.TK.Button = w.Button = $class({
+w.TK.Button = TK.class({
     /**
      * TK.Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.

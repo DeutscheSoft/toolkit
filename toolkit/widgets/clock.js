@@ -147,7 +147,7 @@ function onhide() {
     }
 }
 
-w.TK.Clock = w.Clock = $class({
+w.TK.Clock = TK.class({
     /**
      * TK.Clock shows a customized clock with circulars displaying hours, minutes
      * and seconds. It has three free formatable labels.

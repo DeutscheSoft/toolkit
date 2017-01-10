@@ -123,7 +123,7 @@ function fire_event(title, event) {
  * @property {HTMLElement} [node=false] - The element receiving the scroll event.
  * @property {Boolean} [active=true] - Disable the scroll event.
  */
-w.TK.ScrollValue = w.ScrollValue = $class({
+w.TK.ScrollValue = TK.class({
     _class: "ScrollValue",
     Extends: TK.Base,
     _options: {

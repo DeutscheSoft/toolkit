@@ -39,7 +39,7 @@
  * @property {string} [options.color="red"] - A css color string for the state LED.
  *   <code>false</code>.
  */
-w.TK.State = w.State = $class({
+w.TK.State = TK.class({
     _class: "State",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {

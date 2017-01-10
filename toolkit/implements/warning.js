@@ -25,7 +25,7 @@
  *
  * @mixin TK.Warning
  */
-w.TK.Warning = w.Warning = $class({
+w.TK.Warning = TK.class({
     _class: "Warning",
     /** 
      * Adds the class "toolkit-warn" to the given element and

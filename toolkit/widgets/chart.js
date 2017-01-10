@@ -272,7 +272,7 @@ function geom_set(value, key) {
     this.set_style(key, value+"px");
     TK.error("using deprecated '"+key+"' options");
 }
-w.TK.Chart = w.Chart = $class({
+w.TK.Chart = TK.class({
     _class: "Chart",
     Extends: TK.Widget,
     Implements: TK.Ranges,

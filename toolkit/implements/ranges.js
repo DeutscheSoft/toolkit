@@ -30,7 +30,7 @@ function range_changed(value, name) {
         range.set(i, value[i]);
     }
 }
-w.TK.Ranges = w.Ranges = $class({
+w.TK.Ranges = TK.class({
     _class: "Ranges",
     /**
      * Add a new range. If name is set and this.options[name]

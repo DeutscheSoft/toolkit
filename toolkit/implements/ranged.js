@@ -644,7 +644,7 @@ function set_cb(key, value) {
  * 
  * @returns {number} The transformed value.
  */
-w.TK.Ranged = w.Ranged = $class({
+w.TK.Ranged = TK.class({
     /**
      * Ranged combines functionality for two distinct purposes.
      * Firstly, Ranged can be used to snap values to a virtual grid.

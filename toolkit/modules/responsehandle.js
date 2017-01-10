@@ -1055,7 +1055,7 @@ function set_max(value, key) {
  * @param {string} name - The name of the option which was changed due to the users action.
  * @param {mixed} value - The new value of the option.
  */
-w.TK.ResponseHandle = w.ResponseHandle = $class({
+w.TK.ResponseHandle = TK.class({
     _class: "ResponseHandle",
     Extends: TK.Widget,
     Implements: [TK.GlobalCursor, TK.Ranges, TK.Warning],

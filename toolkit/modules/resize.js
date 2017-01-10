@@ -99,7 +99,7 @@ function set_handle() {
  * @property {Object} [options.min={x: -1, y: -1}] - Object containing x and y determining minimum size. A value of -1 means no minimum.
  * @property {Object} [options.max={x: -1, y: -1}] - Object containing x and y determining maximum size. A value of -1 means no maximum.
  */
-w.TK.Resize = w.Resize = $class({
+w.TK.Resize = TK.class({
     // TK.Resize enables resizing of elements on the screen.
     _class: "Resize",
     Extends: TK.Base,

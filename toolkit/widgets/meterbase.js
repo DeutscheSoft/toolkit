@@ -111,7 +111,7 @@ function subtract_intervals(a, b) {
 
     return ret;
 }
-w.TK.MeterBase = w.MeterBase = $class({
+w.TK.MeterBase = TK.class({
     /**
      * TK.MeterBase is a base class to build different meters such as TK.LevelMeter.
      * TK.MeterBase uses TK.Gradient and has a TK.Scale widget. TK.MeterBase inherits all

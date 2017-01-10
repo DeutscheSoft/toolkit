@@ -34,7 +34,7 @@ var type_to_mode = {
     "high-shelf": "line-vertical",
 };
 
-w.TK.EqBand = w.EqBand = $class({
+w.TK.EqBand = TK.class({
     /**
      * An TK.EqBand extends a {@link TK.ResponseHandle} and holds a
      * dependent {@link TK.Filter}. It is used as a fully functional representation

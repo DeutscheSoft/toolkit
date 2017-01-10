@@ -36,7 +36,7 @@ function resized() {
  * 
  * @class TK.Root
  */
-w.TK.Root = w.Root = $class({
+w.TK.Root = TK.class({
     Extends: TK.Container,
     _class: "Root",
     _options: Object.create(TK.Container.prototype._options),

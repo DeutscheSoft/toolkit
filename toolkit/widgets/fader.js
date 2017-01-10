@@ -172,7 +172,7 @@ function deactivate_tooltip() {
  * @property {boolean} [options.show_scale=true] - If true, a scale is drawn.
  *
  */
-w.TK.Fader = w.Fader = $class({
+w.TK.Fader = TK.class({
     _class: "Fader",
     Extends: TK.Widget,
     Implements: [TK.Ranged, TK.Warning, TK.GlobalCursor],

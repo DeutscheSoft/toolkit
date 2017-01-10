@@ -65,7 +65,7 @@ function remove_meter (meter) {
 }
     
     
-w.TK.MultiMeter = w.MultiMeter = $class({
+w.TK.MultiMeter = TK.class({
     /**
      * TK.MultiMeter is a collection of {@link TK.LevelMeter}s to show levels of full channels
      * containing multiple audio streams. It offers all options of {@link TK.LevelMeter} and

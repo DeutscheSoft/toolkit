@@ -27,7 +27,7 @@
  *
  * @mixin TK.Anchor
  */
-w.TK.Anchor = w.Anchor = $class({
+w.TK.Anchor = TK.class({
     /**
      * Returns real x and y values from a relative positioning.
      * 

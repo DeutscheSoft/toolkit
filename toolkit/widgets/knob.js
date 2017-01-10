@@ -72,7 +72,7 @@ function dblclick() {
  *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
  *   moving towards top and right.
  */
-w.TK.Knob = w.Knob = $class({
+w.TK.Knob = TK.class({
     _class: "Knob",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options,

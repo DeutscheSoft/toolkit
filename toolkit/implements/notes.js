@@ -19,7 +19,7 @@
 "use strict";
 (function(w){
 var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
-w.TK.Notes = w.Notes = $class({
+w.TK.Notes = TK.class({
     /**
      * Notes converts between frequencies, MIDI notes
      * and note names.

@@ -18,7 +18,7 @@
  */
 "use strict";
 (function(w) { 
-w.TK.Range = w.Range = $class({
+w.TK.Range = TK.class({
     /**
     * TK.Range is used for calculating linear scales from
     * different values. They are useful to build coordinate systems,

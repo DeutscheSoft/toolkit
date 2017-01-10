@@ -18,7 +18,7 @@
  */
 "use strict";
 (function(w){ 
-w.TK.Gradient = w.Gradient = $class({
+w.TK.Gradient = TK.class({
     /**
      * Gradient provides a function to set the background of a
      * DOM element to a CSS gradient according on the users browser and version.
