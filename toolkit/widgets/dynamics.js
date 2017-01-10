@@ -79,14 +79,14 @@ TK.Dynamics = TK.class({
         grid_labels: function (val) { return val + (!val ? "dB":""); }
     },
     static_events: {
-        size: function(value) {
+        set_size: function(value) {
             TK.error("using deprecated 'size' option");
             this.set("width", value);
             this.set("height", value);
         },
-        min: range_set,
-        max: range_set,
-        scale: range_set,
+        set_min: range_set,
+        set_max: range_set,
+        set_scale: range_set,
     },
     initialize: function (options) {
         TK.Chart.prototype.initialize.call(this, options, true);
