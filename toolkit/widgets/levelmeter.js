@@ -161,7 +161,6 @@ TK.LevelMeter = TK.class({
         bottom: "number",
         hold_size: "int",
         show_peak: "boolean",
-        show_clip: "boolean",
         show_hold: "boolean",
         clipping: "number",
         auto_clip: "int|boolean",
@@ -181,7 +180,6 @@ TK.LevelMeter = TK.class({
         bottom:       false,
         hold_size:    1,
         show_peak:    false,
-        show_clip:    false,
         show_hold:    false,
         clipping:     0,
         auto_clip:    false,
@@ -200,7 +198,6 @@ TK.LevelMeter = TK.class({
             if (value) {
                 clip_timeout.call(this);
             }
-            if (this.state) this.state.set("state", value);
         },
         set_show_peak: peak_timeout,
         set_auto_clip: function(value) {
@@ -240,19 +237,6 @@ TK.LevelMeter = TK.class({
         var O = this.options;
         
         /**
-         * @member {TK.State} TK.LevelMeter#state - The {@link TK.State} instance for the clipping LED.
-         *   Has class <code>toolkit-clip</code>.
-         */
-        this.state = new TK.State(Object.assign({
-            "class": "toolkit-clip"
-        }, O.clip_options));
-        this.add_child(this.state);
-        
-        /**
-         * @member {HTMLDivElement} TK.LevelMeter#_clip - The DIV element of the clipping LED.
-         */
-        this._clip       = this.state.element;
-        /**
          * @member {HTMLDivElement} TK.LevelMeter#_peak - The DIV element for the peak marker.
          *   Has class <code>toolkit-peak</code>.
          */
@@ -263,7 +247,6 @@ TK.LevelMeter = TK.class({
          */
         this._peak_label = TK.element("div","toolkit-peak-label");
         
-        this.element.appendChild(this._clip);
         this._peak.appendChild(this._peak_label);
         this._bar.appendChild(this._peak);
         
@@ -291,7 +274,6 @@ TK.LevelMeter = TK.class({
         }
         if (I.show_clip) {
             I.show_clip = false;
-            this._clip.style.display =  O.show_clip  ? "block" : "none";
             TK.toggle_class(E, "toolkit-has-clip", O.show_clip);
         }
         if (I.show_peak) {
@@ -319,7 +301,6 @@ TK.LevelMeter = TK.class({
         }
     },
     destroy: function () {
-        this.state.destroy();
         this._peak.remove();
         this._peak_label.remove();
         TK.MeterBase.prototype.destroy.call(this);
@@ -554,7 +535,6 @@ TK.LevelMeter = TK.class({
         value = TK.MeterBase.prototype.set.call(this, key, value);
         switch (key) {
             case "show_peak":
-            case "show_clip":
                 this.trigger_resize();
                 // fallthrough
                 break;
@@ -562,5 +542,21 @@ TK.LevelMeter = TK.class({
 
         return value;
     }
+});
+
+/**
+ * @member {TK.State} TK.LevelMeter#clip - The {@link TK.State} instance for the clipping LED.
+ * @member {HTMLDivElement} TK.LevelMeter#clip.element - The DIV element of the clipping LED.
+ *   Has class <code>toolkit-clip</code>.
+ */
+TK.ChildWidget(TK.LevelMeter, "clip", {
+    create: TK.State,
+    show: false,
+    map_options: {
+        clip: "state",
+    },
+    default_options: {
+        "class": "toolkit-clip"
+    },
 });
 })(this, this.TK);
