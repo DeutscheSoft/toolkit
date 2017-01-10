@@ -455,7 +455,7 @@ TK.Base = TK.class({
         if (arguments.length !== 2)
             throw new Error("Bad number of arguments.");
 
-        if (is_native_event(event) && (ev = this.__event_target) && !this.has_event_listener(event))
+        if (is_native_event(event) && (ev = this.__event_target) && !this.has_event_listeners(event))
             ev.addEventListener(event, this.__native_handler);
         ev = this.__events;
         add_event(ev, event, func);
