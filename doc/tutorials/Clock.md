@@ -1,5 +1,5 @@
     function run_clock (root) {
-        clock = new Clock();
+        clock = new TK.Clock();
         root.append_child(clock);
         TK.seat_all_svg()
     }

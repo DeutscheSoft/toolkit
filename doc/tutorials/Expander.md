@@ -1,8 +1,8 @@
     function run_chart (root) {
-        chart = new Chart({
+        chart = new TK.Chart({
             _collapsed: true,
-            range_x: {scale: _TOOLKIT_LINEAR, min:0, max:1},
-            range_y: {scale: _TOOLKIT_LINEAR, min:0, max:1},
+            range_x: {scale: "linear", min:0, max:1},
+            range_y: {scale: "linear", min:0, max:1},
             grid_x: [{pos:0.0, label:"0"},
                      {pos:0.1},
                      {pos:0.2, label:"20"},
@@ -21,9 +21,9 @@
                      {pos:0.6, label:"60"},
                      {pos:0.8, label:"80"},
                      {pos:1.0, label:"100"}],
-            key: _TOOLKIT_TOP_LEFT,
+            key: "top-left",
             title: "Chart Example",
-            title_position: _TOOLKIT_TOP_RIGHT,
+            title_position: "top-right",
         });
         cgraph1 = chart.add_graph({
             dots: [{x:0.0, y:0.0},
@@ -39,7 +39,7 @@
                    {x:1.0, y:0.0}
             ],
             type: "H3",
-            mode: _TOOLKIT_BOTTOM,
+            mode: "bottom",
             key:  "foobar"
         });
         expander = new Expander({"class":"toolkit-popup"});

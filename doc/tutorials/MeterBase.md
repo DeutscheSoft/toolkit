@@ -1,7 +1,7 @@
     function run_meterbase(root) {
-        mbvl = new MeterBase({
-            layout: _TOOLKIT_RIGHT,
-            scale: _TOOLKIT_DECIBEL,
+        mbvl = new TK.MeterBase({
+            layout: "right",
+            scale: "decibel",
             segment: 2,
             min: -60,
             max: 3,
@@ -14,8 +14,8 @@
             levels: [1, 3, 6, 12],
             gap_labels: 20
         });
-        mbvr = new MeterBase({
-            layout: _TOOLKIT_LEFT,
+        mbvr = new TK.MeterBase({
+            layout: "left",
             segment: 2,
             min: -96,
             max: 24,
@@ -28,8 +28,8 @@
             levels: [1, 6, 12],
             gap_labels: 30
         });
-        mbhb = new MeterBase({
-            layout: _TOOLKIT_BOTTOM,
+        mbhb = new TK.MeterBase({
+            layout: "bottom",
             segment: 2,
             min: -15,
             max: 15,
@@ -42,8 +42,8 @@
             gradient: {"-15": "#001f83", "0": "#008bea", "15": "#001f83"},
             levels: [1, 5]
         });
-        mbht = new MeterBase({
-            layout: _TOOLKIT_TOP,
+        mbht = new TK.MeterBase({
+            layout: "top",
             segment: 2,
             min: -15,
             max: 15,

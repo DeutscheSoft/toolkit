@@ -16,19 +16,19 @@
             snap: 1,
             fixed_dots: [60, 40, 20, 0, -20, -40, -60, -80, -120, -160, -200, -280, -580],
             fixed_labels: [60, 40, 20, 0, -20, -40, -60, -80, -120, -160, -200, -280, -580],
-            scale:_TOOLKIT_DB
+            scale:"decibel"
         }
         options.layout = "right";
-        faders.push(new Fader(options));
+        faders.push(new TK.Fader(options));
         
         options.layout = "left";
-        faders.push(new Fader(options));
+        faders.push(new TK.Fader(options));
         
         options.layout = "bottom";
-        faders.push(new Fader(options));
+        faders.push(new TK.Fader(options));
         
         options.layout = "top";
-        faders.push(new Fader(options));
+        faders.push(new TK.Fader(options));
         
         root.append_children(faders);
 

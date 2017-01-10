@@ -1,5 +1,5 @@
     function run_frequencyresponse(root) {
-        fr = new FrequencyResponse({
+        fr = new TK.FrequencyResponse({
             width: 906,
             height: 300,
             db_grid: 12
@@ -14,7 +14,7 @@
                    {x:20000, y:-36}
             ],
             type: "H4",
-            mode: _TOOLKIT_LINE
+            mode: "line"
         });
         root.append_child(fr);
         TK.seat_all_svg()

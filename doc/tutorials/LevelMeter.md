@@ -1,9 +1,9 @@
     function run_levelmeter(root) {
-        var con1 = new Container({style:'display:block'});
-        var con2 = new Container({style:'display:block'});
+        var con1 = new TK.Container({style:'display:block'});
+        var con2 = new TK.Container({style:'display:block'});
         meters = {
-            mvr: new LevelMeter({
-                layout: _TOOLKIT_RIGHT,
+            mvr: new TK.LevelMeter({
+                layout: "right",
                 reverse: false,
                 segment: 2,
                 min: -96,
@@ -26,7 +26,7 @@
                 gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
                 levels: [1, 6, 12]
             }),
-            mvl: new LevelMeter({
+            mvl: new TK.LevelMeter({
                 reverse: false,
                 segment: 2,
                 min: -96,
@@ -49,8 +49,8 @@
                 gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
                 levels: [1, 6, 12]
             }),
-            mvrr: new LevelMeter({
-                layout: _TOOLKIT_RIGHT,
+            mvrr: new TK.LevelMeter({
+                layout: "right",
                 reverse: true,
                 segment: 2,
                 min: -24,
@@ -68,7 +68,7 @@
                 gradient: {"-24": "#008bea", "0": "#001f83", "24": "#008bea"},
                 levels: [1, 6, 12]
             }),
-            mvlr: new LevelMeter({
+            mvlr: new TK.LevelMeter({
                 reverse: true,
                 segment: 2,
                 min: -24,
@@ -87,9 +87,9 @@
                 levels: [1, 6, 12]
             }),
             
-            mhb: new LevelMeter({
+            mhb: new TK.LevelMeter({
                 segment: 2,
-                layout: _TOOLKIT_BOTTOM,
+                layout: "bottom",
                 min: -96,
                 max: 24,
                 value: -96,
@@ -110,9 +110,9 @@
                 gradient: {"-96": "#001f83", "-0.1": "#008bea", "0": "#ff6000", "24": "#ffa000"},
                 levels: [1, 6, 12]
             }),
-            mht: new LevelMeter({
+            mht: new TK.LevelMeter({
                 segment: 2,
-                layout: _TOOLKIT_TOP,
+                layout: "top",
                 min: -96,
                 max: 24,
                 value: -96,
@@ -134,9 +134,9 @@
                 levels: [1, 6, 12]
             }),
             
-            mhbr: new LevelMeter({
+            mhbr: new TK.LevelMeter({
                 segment: 2,
-                layout: _TOOLKIT_BOTTOM,
+                layout: "bottom",
                 reverse: false,
                 min: 0,
                 max: 24,
@@ -157,10 +157,10 @@
                 gradient: {"0": "#001f83", "24": "#008bea"},
                 levels: [1, 6, 12]
             }),
-            mhtr: new LevelMeter({
+            mhtr: new TK.LevelMeter({
                 segment: 2,
                 reverse: true,
-                layout: _TOOLKIT_TOP,
+                layout: "top",
                 min: 0,
                 max: 25,
                 value: 0,

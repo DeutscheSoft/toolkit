@@ -1,5 +1,5 @@
     function run_pager(root) {
-        pager1 = new Pager({
+        pager1 = new TK.Pager({
             pages: [
                 {label: "Page #1", content: TK.html("<h1>Page #1</h1><p>This is Page #1.</p>") },
                 {label: "Page #2", content: TK.html("<h1>Page #2</h1><p>This is Page #2.</p>") },
@@ -15,10 +15,10 @@
                 {label: "Page #12", content: TK.html("<h1>Page #12</h1><p>This is Page #12.</p>") }
             ],
             show: 4,
-            position: _TOOLKIT_RIGHT,
+            position: "right",
             "class": "pager-newspaper",
         });
-        pager2 = new Pager({
+        pager2 = new TK.Pager({
             pages: [
                 {label: "Page #1", content: TK.html("<h1>Page #1</h1><p>This is Page #1.</p>") },
                 {label: "Page #2", content: TK.html("<h1>Page #2</h1><p>This is Page #2.</p>") },

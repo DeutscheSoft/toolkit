@@ -1,5 +1,5 @@
     function run_knob(root) {
-        knob1 = new Knob({
+        knob1 = new TK.Knob({
             id: "knob1",
             min: -96,
             max: 24,
@@ -8,7 +8,7 @@
                 {from: 0, to: 24}
             ],
         });
-        knob = new Knob({
+        knob = new TK.Knob({
             id: "knob",
             min: -96,
             max: 24,
@@ -24,16 +24,16 @@
                 {pos: -96}, {pos: -72}, {pos: -48}, {pos: -24}, {pos: -12}, {pos: 0, label: "\u00B10"}, {pos: 12}, {pos: 24}
             ]
         });
-        knob2 = new Knob({
+        knob2 = new TK.Knob({
             id: "knob2",
             margin: 0,
             thickness: 4,
             min: 20,
             max: 20000,
             value: 1000,
-            scale: _TOOLKIT_FREQ,
+            scale: "frequency",
             dot: {length: 4, margin: 0, width: 1},
-            label: {align: _TOOLKIT_INNER, margin: 4},
+            label: {align: "inner", margin: 4},
             dots: [
                 {pos: 20}, {pos: 30}, {pos: 40}, {pos: 50}, {pos: 60}, {pos: 70}, {pos: 80}, {pos: 90},
                 {pos: 100}, {pos: 200}, {pos: 300}, {pos: 400}, {pos: 500}, {pos: 600}, {pos: 700}, {pos: 800}, {pos: 900},

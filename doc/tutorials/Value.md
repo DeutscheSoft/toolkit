@@ -1,5 +1,5 @@
     function run_value(root) {
-        value = new Value({
+        value = new TK.Value({
             size: 10,
             value: 123.97,
             format: TK.FORMAT("%.3f Hz"),

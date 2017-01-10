@@ -1,28 +1,28 @@
     function run_state(root) {
-        s1 = new State({ });
-        s2 = new State({ color: "#00ff00"
+        s1 = new TK.State({ });
+        s2 = new TK.State({ color: "#00ff00"
         });
-        s3 = new State({
+        s3 = new TK.State({
             color: "blue",
             state: 1
         });
-        s4 = new State({
+        s4 = new TK.State({
             color: "blue",
             state: 1,
         });
-        s5 = new State({
+        s5 = new TK.State({
             color: "#cc0000",
             state: 1,
         });
-        s6 = new State({
+        s6 = new TK.State({
             color: "#ff8800",
             state: 1,
         });
-        s7 = new State({
+        s7 = new TK.State({
             color: "grey",
             state: 1,
         });
-        s8 = new State({
+        s8 = new TK.State({
             color: "#d00",
             state: 0,
             "class": "on_air",

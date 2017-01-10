@@ -1,20 +1,20 @@
     function run_button (root) {
-        button = new Button({
+        button = new TK.Button({
             label: "Demo Button",
             icon: "images/icons_big/showcase.png",
             onclick: function () { alert("clicked") }
         });
-        button2 = new Button({
+        button2 = new TK.Button({
             label: "Demo Button",
             icon: "images/icons_big/showcase.png",
-            layout: _TOOLKIT_HORIZONTAL,
+            layout: "horizontal",
             onclick: function () { alert("clicked") }
         });
-        button3 = new Button({
+        button3 = new TK.Button({
             icon: "images/icons_big/showcase.png",
             onclick: function () { alert("clicked") }
         });
-        button4 = new Button({
+        button4 = new TK.Button({
             label: "Demo Button",
             onclick: function () { alert("clicked") }
         });

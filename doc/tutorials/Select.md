@@ -1,5 +1,5 @@
     function run_select(root) {
-        select = new Select({
+        select = new TK.Select({
             entries: [
                 {title:"haha", value:11},
                 {title:"huu", value:12},

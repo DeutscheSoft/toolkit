@@ -1,5 +1,5 @@
     function run_valueknob(root) {
-        valueknob = new ValueKnob({
+        valueknob = new TK.ValueKnob({
             min: -100,
             max: 100,
             value: -20,

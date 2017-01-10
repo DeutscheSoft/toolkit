@@ -1,6 +1,6 @@
     function run_gauge(root) {
         gauge = [];
-        gauge[0] = new Gauge({
+        gauge[0] = new TK.Gauge({
             id: "gauge0",
             min:0,
             max:10,
@@ -16,12 +16,12 @@
             thickness: 27,
             show_value: false,
             markers: [{from:0, to:2, margin:20, thickness: 5, color: "rgba(255,0,0,0.8)"}],
-            label: {align:_TOOLKIT_OUTER, margin: 20},
+            label: {align:"outer", margin: 20},
             show_hand: true,
             hand: {margin: 29, length: 21, width: 2, color:"white"},
             labels: [{pos:0},{pos:2},{pos:4},{pos:6},{pos:8},{pos:10}]
         });
-        gauge[1] = new Gauge({
+        gauge[1] = new TK.Gauge({
             id: "gauge1",
             min:0,
             max:60,
@@ -31,13 +31,13 @@
             basis: 360,
             title: {margin:38,title:"t/sec"},
             dot: {width: 1, length: 1, margin: 17},
-            label: {align:_TOOLKIT_OUTER, margin:17},
+            label: {align:"outer", margin:17},
             show_hand: false,
             dots:[{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:25},{pos:30},
                   {pos:35},{pos:40},{pos:45}, {pos:50},{pos:55}],
             labels: [{pos:0},{pos:5},{pos:10},{pos:15},{pos:20},{pos:30},{pos:40},{pos:50}]
         });
-        gauge[2] = new Gauge({
+        gauge[2] = new TK.Gauge({
             id: "gauge2",
             min:-60,
             max:12,
@@ -48,7 +48,7 @@
                   {pos:0},{pos:5},{pos:10},{pos:120}],
             labels: [{pos:-60},{pos:-40},{pos:-20},{pos:0,label:"0 dB"},{pos:12,label:"+12"}]
         });
-        gauge[3] = new Gauge({
+        gauge[3] = new TK.Gauge({
             id: "gauge3",
             min:-100,
             max:100,
@@ -62,7 +62,7 @@
             labels: [{pos:0, label:"0"},{pos:20},{pos:60},{pos:40},{pos:80},{pos:100},
                      {pos:-20},{pos:-60},{pos:-40},{pos:-80},{pos:-100}]
         });
-        gauge[4] = new Gauge({
+        gauge[4] = new TK.Gauge({
             id: "gauge4",
             "class": "inset",
             min:-40,
@@ -80,7 +80,7 @@
             dot: {margin: 12, width: 1, length: 10},
             marker: {margin: 11, thickness: 10},
             hand: {margin: 12, length:70, width:2},
-            label: {margin: 12, align: _TOOLKIT_OUTER},
+            label: {margin: 12, align: "outer"},
             title: {margin: 46, pos: 270, title: "VU"},
             show_value: false,
             markers: [{from:0, to:12},
@@ -93,12 +93,12 @@
                   {pos:0, margin:23, length: 7}
             ],
             labels: [{pos:-40},{pos:-20},{pos:0,label:"0 dB"},{pos:12,label:"+12"},
-                {pos: -20, label:"0", margin: 29, align:_TOOLKIT_INNER},
-                {pos: -10, label:"50", margin: 29, align:_TOOLKIT_INNER},
-                {pos: -0, label:"100%", margin: 29, align:_TOOLKIT_INNER}
+                {pos: -20, label:"0", margin: 29, align:"inner"},
+                {pos: -10, label:"50", margin: 29, align:"inner"},
+                {pos: -0, label:"100%", margin: 29, align:"inner"}
             ]
         });
-        gauge[5] = new Gauge({
+        gauge[5] = new TK.Gauge({
             id: "gauge5",
             "class": "inset",
             min:-40,
@@ -116,7 +116,7 @@
             dot: {margin: 12, width: 1, length: 10},
             marker: {margin: 11, thickness: 10},
             hand: {margin: 12, length:70, width:2},
-            label: {margin: 12, align: _TOOLKIT_OUTER},
+            label: {margin: 12, align: "outer"},
             title: {margin: 46, pos: 270, title: "VU"},
             show_value: false,
             markers: [{from:0, to:12},
@@ -129,9 +129,9 @@
                   {pos:0, margin:23, length: 7}
             ],
             labels: [{pos:-40,label:"-40"},{pos:-20,label:"-20"},{pos:0,label:"0 dB"},{pos:12,label:"+12"},
-                {pos: -20, label:"0", margin: 29, align:_TOOLKIT_INNER},
-                {pos: -10, label:"50", margin: 29, align:_TOOLKIT_INNER},
-                {pos: -0, label:"100%", margin: 29, align:_TOOLKIT_INNER}
+                {pos: -20, label:"0", margin: 29, align:"inner"},
+                {pos: -10, label:"50", margin: 29, align:"inner"},
+                {pos: -0, label:"100%", margin: 29, align:"inner"}
             ]
         });
         TK.seat_all_svg()

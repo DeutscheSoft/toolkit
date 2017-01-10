@@ -1,5 +1,5 @@
     function run_multimeter(root) {
-        mr = new MultiMeter({
+        mr = new TK.MultiMeter({
             count: 6,
             layout: 'right',
             scale: 'decibel',
@@ -18,7 +18,7 @@
             gap_labels: 20,
             format_label: TK.FORMAT("%d")
         });
-        ml = new MultiMeter({
+        ml = new TK.MultiMeter({
             count: 6,
             layout: 'left',
             scale: 'decibel',
@@ -38,7 +38,7 @@
             format_label: TK.FORMAT("%d"),
             show_clip: true
         });
-        mb = new MultiMeter({
+        mb = new TK.MultiMeter({
             count: 6,
             layout: 'bottom',
             scale: 'decibel',
@@ -56,7 +56,7 @@
             levels: [1, 3, 6, 12],
             gap_labels: 20
         });
-        mt = new MultiMeter({
+        mt = new TK.MultiMeter({
             count: 6,
             layout: 'top',
             scale: 'decibel',

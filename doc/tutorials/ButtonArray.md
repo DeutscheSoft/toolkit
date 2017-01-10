@@ -1,5 +1,5 @@
     function run_buttonarray(root) {
-        ba_horiz1 = new ButtonArray({
+        ba_horiz1 = new TK.ButtonArray({
             buttons: [
                 {label: "Button 1"},
                 {label: "Button 2"},
@@ -20,7 +20,7 @@
             ],
             show: 3
         });
-        ba_horiz2 = new ButtonArray({
+        ba_horiz2 = new TK.ButtonArray({
             buttons: [
                 {label: "Button 1"},
                 {label: "Button 2"},
@@ -41,8 +41,8 @@
             ],
             show: 1
         });
-        ba_vert1 = new ButtonArray({
-            direction: _TOOLKIT_VERT,
+        ba_vert1 = new TK.ButtonArray({
+            direction: "vertical",
             buttons: [
                 {label: "Button 1"},
                 {label: "Button 2"},
@@ -63,8 +63,8 @@
             ],
             show: 8
         });
-        ba_vert2 = new ButtonArray({
-            direction: _TOOLKIT_VERT,
+        ba_vert2 = new TK.ButtonArray({
+            direction: "vertical",
             buttons: [
                 {label: "Button 1"},
                 {label: "Button 2"},

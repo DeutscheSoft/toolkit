@@ -1,6 +1,6 @@
     function run_scale(root) {
         scales = {};
-        scales.left = new Scale({
+        scales.left = new TK.Scale({
             layout: "left",
             division: 1,
             levels: [1, 6, 12],
@@ -8,10 +8,10 @@
             max: +24,
             base: 0,
             basis: 200,
-            scale: _TOOLKIT_DB,
+            scale: "decibel",
             id: "sc_scale_v_l"
         })
-        scales.right = new Scale({
+        scales.right = new TK.Scale({
             layout: "right",
             division: 1,
             levels: [1, 6, 12],
@@ -21,7 +21,7 @@
             basis: 200,
             id: "sc_scale_v_r"
         })
-        scales.top = new Scale({
+        scales.top = new TK.Scale({
             layout: "top",
             division: 1,
             levels: [1, 6, 12],
@@ -32,7 +32,7 @@
             gap_labels: 50,
             id: "sc_scale_h_t"
         })
-        scales.bottom = new Scale({
+        scales.bottom = new TK.Scale({
             layout: "bottom",
             division: 1,
             levels: [1, 6, 12],

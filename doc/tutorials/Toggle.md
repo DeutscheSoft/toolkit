@@ -1,11 +1,11 @@
     function run_toggle(root) {
-        toggle = new Toggle({
+        toggle = new TK.Toggle({
             label: "Mic Active",
             label_active: "Mic Muted",
             icon: "images/icons_big/microphone.png",
             icon_active: "images/icons_big/microphone_muted.png"
         });
-        press = new Toggle({
+        press = new TK.Toggle({
             label: "Mic Active",
             label_active: "Mic Muted",
             icon: "images/icons_big/microphone.png",

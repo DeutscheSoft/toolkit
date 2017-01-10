@@ -1,5 +1,5 @@
     function run_dynamics (root) {
-        comp = new Dynamics({
+        comp = new TK.Dynamics({
             size: 298,
         });
         gcomp = comp.add_graph({
@@ -7,16 +7,16 @@
                    {x:-24, y:0},
                    {x:24, y: 12},
             ],
-            mode: _TOOLKIT_LINE
+            mode: "line"
         });
-        expand = new Dynamics({
+        expand = new TK.Dynamics({
             size: 298,
-            type: _TOOLKIT_EXPANDER,
+            type: "expander",
             threshold: -12,
             ratio: 4,
             range: -36
         });
-        dyna = new Dynamics({
+        dyna = new TK.Dynamics({
             size: 298,
         });
         gdyna = dyna.add_graph({
@@ -26,7 +26,7 @@
                    {x:-12, y:-12},
                    {x:24, y:-8}
             ],
-            mode: _TOOLKIT_LINE
+            mode: "line"
         });
         root.append_children([ comp, expand, dyna ]);
         TK.seat_all_svg()
