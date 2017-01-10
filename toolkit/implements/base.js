@@ -685,13 +685,15 @@ function ChildWidget(widget, name, config) {
             p._options[tmp] = child.prototype._options[tmp];
         }
     }
-    set_cb = function(key, val) {
-        this.set(key, val);
+    set_cb = function(key) {
+        return function(val) {
+            this[name].set(key, val);
+        };
     };
     if (m = config.map_options) {
         for (tmp in m) {
             p._options[key] = child.prototype._options[m[tmp]];
-            add_static_event(widget, "set_"+tmp, set_cb.bind(m[tmp]));
+            add_static_event(widget, "set_"+tmp, set_cb(m[tmp]));
         }
     }
     p._options[key] = "boolean";
