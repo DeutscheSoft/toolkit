@@ -481,8 +481,8 @@ function TRAFO_LINEAR(stdlib, foreign) {
     };
 }
 function TRAFO_LOG(stdlib, foreign) {
-    var db2scale = stdlib.AudioMath.db2scale;
-    var scale2db = stdlib.AudioMath.scale2db;
+    var db2scale = stdlib.TK.AudioMath.db2scale;
+    var scale2db = stdlib.TK.AudioMath.scale2db;
     var reverse = foreign.reverse|0;
     var min = +foreign.min;
     var max = +foreign.max;
@@ -525,8 +525,8 @@ function TRAFO_LOG(stdlib, foreign) {
     };
 }
 function TRAFO_FREQ(stdlib, foreign) {
-    var freq2scale = stdlib.AudioMath.freq2scale;
-    var scale2freq = stdlib.AudioMath.scale2freq;
+    var freq2scale = stdlib.TK.AudioMath.freq2scale;
+    var scale2freq = stdlib.TK.AudioMath.scale2freq;
     var reverse = foreign.reverse|0;
     var min = +foreign.min;
     var max = +foreign.max;
