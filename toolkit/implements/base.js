@@ -577,4 +577,120 @@ TK.Base = w.BASE = $class({
         }
     }
 });
+function get_child_options(name, options, config) {
+    var ret = {};
+    var key, pref = name+".";
+
+    var inherit_options = !!config.inherit_options;
+
+    if (config.default_options)
+        Object.assign(ret, config.default_options);
+
+    for (key in options) {
+        if (key.startsWith(pref)) {
+            ret[key.substr(pref.length)] = options[key];
+        }
+
+        if (inherit_options) {
+            if (key in config.create.prototype._options && !(key in TK.Widget.prototype._options)) {
+                ret[key] = options[key];
+            }
+        }
+    }
+
+    var map_options = config.map_options;
+
+    if (map_options) for (key in map_options) {
+        if (options[key]) {
+            ret[map_options[key]] = options[key];
+        }
+    }
+
+    return ret;
+}
+function ChildWidget(widget, name, config) {
+    var p = widget.prototype;
+    var key = "show_"+name;
+    var tmp, m;
+
+    var userset_cb = config.inherit_options
+        ? function(key, value) { this.parent.userset(key, value); return false; }
+        : function(key, value) { this.parent.userset(name+"."+key, value); return false; };
+
+    var static_events = {
+        userset: userset_cb,
+    };
+
+    if (m = config.static_events)
+        Object.assign(static_events, m);
+
+    var child = $class({
+        Extends: config.create,
+        static_events: static_events,
+    });
+
+
+    /* trigger child widget creation after initialization */
+    add_static_event(widget, "initialized", function() {
+        /* we do not want to trash the class cache */
+        this[name] = null;
+        this.set(key, this.options[key]);
+    });
+
+    /* clean up on destroy */
+    add_static_event(widget, "destroy", function() {
+        if (this[name]) {
+            this[name].destroy();
+            this[name] = null;
+        }
+    });
+
+    /* child widget creation */
+    add_static_event(widget, "set_"+key, function(val) {
+        if (val) {
+            var O = get_child_options(name, this.options, config);
+            O.container = this.element;
+            var w = new child(O);
+            this.add_child(w);
+            this[name] = w;
+        } else {
+            if (this[name]) {
+                this[name].destroy();
+                this[name] = null;
+            }
+        }
+    });
+    var set_cb = function(val, key) {
+        if (this[name]) this[name].set(key.substr(name.length+1), val);
+    };
+
+    for (tmp in child.prototype._options) {
+        add_static_event(widget, "set_"+name+"."+tmp, set_cb);
+        p._options[name+"."+tmp] = child.prototype._options[tmp];
+    }
+
+    /* direct option inherit */
+    if (config.inherit_options) {
+        set_cb = function(val, key) {
+            if (this[name]) this[name].set(key, val);
+        };
+        for (tmp in child.prototype._options) {
+            if (tmp in TK.Widget.prototype._options) continue;
+            add_static_event(widget, "set_"+tmp, set_cb);
+            p._options[tmp] = child.prototype._options[tmp];
+        }
+    }
+    set_cb = function(key, val) {
+        this.set(key, val);
+    };
+    if (m = config.map_options) {
+        for (tmp in m) {
+            p._options[key] = child.prototype._options[m[tmp]];
+            add_static_event(widget, "set_"+tmp, set_cb.bind(m[tmp]));
+        }
+    }
+    p._options[key] = "boolean";
+    p.options[key] = true;
+}
+w.TK.ChildWidget = ChildWidget;
 })(this);
