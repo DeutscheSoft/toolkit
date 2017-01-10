@@ -29,8 +29,10 @@
 "use strict";
 (function(w){
 function value_clicked() {
-    this.knob.scroll.set("active", false);
-    this.knob.drag.set("active", false);
+    var self = this.parent;
+    var knob = self.knob;
+    knob.scroll.set("active", false);
+    knob.drag.set("active", false);
     /**
      * Is fired when the user starts editing the value manually.
      * 
@@ -38,11 +40,13 @@ function value_clicked() {
      * 
      * @param {number} value - The value of the widget.
      */
-    this.fire_event("valueedit", this.options.value);
+    self.fire_event("valueedit", this.options.value);
 }
 function value_done() {
-    this.knob.scroll.set("active", true);
-    this.knob.drag.set("active", true);
+    var self = this.parent;
+    var knob = self.knob;
+    knob.scroll.set("active", true);
+    knob.drag.set("active", true);
     /**
      * Is fired when the user finished editing the value manually.
      * 
@@ -50,26 +54,7 @@ function value_done() {
      * 
      * @param {number} value - The value of the widget.
      */
-    this.fire_event("valueset", this.options.value);
-}
-function create_label() {
-    if (this.label) return;
-
-    this.label = new TK.Label({
-        label: this.options["label.label"],
-        container: this.element
-    });
-    this.add_child(this.label);
-}
-function destroy_label() {
-    if (!this.label) return;
-    this.label.destroy();
-    this.label = null;
-}
-function userset_cb(key, value) {
-    /* We cancel all modifications in the child and transfer it to the parent (us) */
-    this.parent.userset(key, value);
-    return false;
+    self.fire_event("valueset", this.options.value);
 }
 w.TK.ValueKnob = w.ValueKnob = $class({
     /**
@@ -87,36 +72,11 @@ w.TK.ValueKnob = w.ValueKnob = $class({
      */
     _class: "ValueKnob",
     Extends: TK.Widget,
-    _options: Object.assign(Object.create(TK.Widget.prototype._options),
-                            TK.Value.prototype._options, TK.Knob.prototype._options, {
-        value_format: "function",
-        value_size: "number",
-        value_set: "function",
-        show_label: "boolean",
-        "label.label": "string"
-    }),
-    options: Object.assign({}, TK.Value.prototype.options, TK.Knob.prototype.options, {
+    _options: Object.create(TK.Widget.prototype._options),
+    options: {
         value_format: TK.FORMAT("%.2f"),
         value_size: 5,
-        value_set: TK.FORMAT("%.2f"),
-        show_label: false
-    }),
-    static_events: {
-        set_show_label: function(value) {
-            if (value) create_label.call(this);
-        },
-        "set_label.label": function(value) {
-            this.label.set("label", value);
-        },
-        set_value_format: function(value) {
-            this.value.set("format", value);
-        },
-        set_value_size: function(value) {
-            this.value.set("size", value);
-        },
-        set_value_set: function(value) {
-            this.value.set("set", value);
-        },
+        value_set: parseFloat,
     },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
@@ -128,69 +88,39 @@ w.TK.ValueKnob = w.ValueKnob = $class({
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-valueknob");
 
-        var ko = TK.object_and(this.options, TK.Knob.prototype._options);
-        ko = TK.object_sub(ko, TK.Widget.prototype._options);
-        ko.container = E;
-
-        /**
-         * @member {TK.Knob} TK.ValueKnob#knob - The TK.Knob widget.
-         */
-        this.knob = new TK.Knob(ko);
-        
-        /**
-         * @member {TK.Value} TK.ValueKnob#value - The TK.Value widget.
-         */
-        var O = this.options;
-        this.value = new TK.Value({
-            container: E,
-            value: this.options.value,
-            format: this.options.value_format,
-            set: function (val) {
-                val = this.parent.options.value_set(val);
-                return parseFloat(val);
-            },
-        });
-        this.value.add_event("valueclicked", value_clicked.bind(this));
-        this.value.add_event("valuedone", value_done.bind(this));
-        this.value.add_event("userset", userset_cb);
-        this.knob.add_event("userset", userset_cb);
-        /**
-         * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
-         */
-        this.label = null;
-        
-        this.add_child(this.value);
-        this.add_child(this.knob);
-        this.set("show_label", this.options.show_label);
         this.widgetize(E, true, true, true);
     },
-    
-    destroy: function () {
-        this.knob.destroy();
-        this.value.destroy();
-        TK.Widget.prototype.destroy.call(this);
-        if (this.label) this.label.destroy();
+});
+/**
+ * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
+ */
+w.TK.ChildWidget(w.TK.ValueKnob, "label", {
+    create: TK.Label,
+    show: false,
+    inherit_options: false,
+});
+/**
+ * @member {TK.Knob} TK.ValueKnob#knob - The TK.Knob widget.
+ */
+w.TK.ChildWidget(w.TK.ValueKnob, "knob", {
+    create: TK.Knob,
+    show: true,
+    inherit_options: true,
+});
+/**
+ * @member {TK.Value} TK.ValueKnob#value - The TK.Value widget.
+ */
+w.TK.ChildWidget(w.TK.ValueKnob, "value", {
+    create: TK.Value,
+    show: true,
+    inherit_options: true,
+    map_options: {
+        value_format: "format",
+        value_set: "set",
     },
-
-    redraw: function() {
-        TK.Widget.prototype.redraw.call(this);
-        var I = this.invalid;
-
-        if (I.show_label) {
-            I.show_label = false;
-            if (!this.options.show_label) destroy_label.call(this);
-        }
+    static_events: {
+        valueclicked: value_clicked,
+        valuedone: value_done,
     },
-
-    set: function (key, value) {
-        if (!TK.Widget.prototype._options[key]) {
-            if (TK.Knob.prototype._options[key] && this.knob)
-                value = this.knob.set(key, value);
-            if (TK.Value.prototype._options[key] && this.value)
-                value = this.value.set(key, value);
-        }
-        return TK.Widget.prototype.set.call(this, key, value);
-    }
-    
 });
 })(this);
