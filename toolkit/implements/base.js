@@ -664,6 +664,7 @@ function ChildWidget(widget, name, config) {
                 this[name] = null;
             }
         }
+        this.trigger_resize();
     });
     var set_cb = function(val, key) {
         if (this[name]) this[name].set(key.substr(name.length+1), val);
