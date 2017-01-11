@@ -34,7 +34,8 @@ function scrollwheel(e) {
     var O = this.options;
     if (!O.active) return;
     e.preventDefault();
-    var d = e.wheelDelta ? e.wheelDelta : -e.detail;
+    var DIR = O.scroll_direction;
+    var d = e.deltaX * DIR[0] + e.deltaY * DIR[1] + e.deltaZ * DIR[2];
     var direction = d > 0 ? 1 : -1;
     var range = O.range();
 
@@ -133,7 +134,8 @@ TK.ScrollValue = TK.class({
         events: "object",
         classes: "object",
         node: "object",
-        active: "boolean"
+        active: "boolean",
+        scroll_direction: "object",
     },
     options: {
         range:     function () { return {}; },
@@ -142,7 +144,8 @@ TK.ScrollValue = TK.class({
         classes:   false,
         get:       function () { return; },
         set:       function () { return; },
-        active:    true
+        active:    true,
+        scroll_direction: [0, -1, 0],
     },
     initialize: function (options) {
         TK.Base.prototype.initialize.call(this, options);
@@ -161,8 +164,7 @@ TK.ScrollValue = TK.class({
                 if (!O.classes) this.set("classes", value);
             }
         },
-        mousewheel: scrollwheel,
-        DOMMouseScroll: scrollwheel,
+        wheel: scrollwheel,
     },
     set: function (key, value) {
         if ((key === "event" || key === "classes") && !value) value = this.options.node;
