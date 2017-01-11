@@ -585,14 +585,15 @@ TK.Base = TK.class({
         }
     }
 });
-function get_child_options(name, options, config) {
+function get_child_options(parent, name, options, config) {
     var ret = {};
     var key, pref = name+".";
+    var tmp;
 
     var inherit_options = !!config.inherit_options;
 
-    if (config.default_options)
-        Object.assign(ret, config.default_options);
+    if (tmp = config.default_options)
+        Object.assign(ret, (typeof(tmp) === "function") ?  tmp.call(parent) : tmp);
 
     for (key in options) {
         if (key.startsWith(pref)) {
@@ -653,15 +654,22 @@ function ChildWidget(widget, name, config) {
         }
     });
 
+    var append = config.append;
+
+    if (append === void(0)) append = true;
+
     /* child widget creation */
     add_static_event(widget, "set_"+key, function(val) {
         var C = this[name];
         if (val && !C) {
-            var O = get_child_options(name, this.options, config);
-            O.container = this.element;
+            var O = get_child_options(this, name, this.options, config);
+            if (append === true)
+                O.container = this.element;
             var w = new child(O);
             this.add_child(w);
             this[name] = w;
+            if (typeof(append) === "function")
+                append.call(this);
         } else if (!val && C) {
             C.destroy();
             this[name] = null;
@@ -695,7 +703,7 @@ function ChildWidget(widget, name, config) {
     };
     if (m = config.map_options) {
         for (tmp in m) {
-            p._options[key] = child.prototype._options[m[tmp]];
+            p._options[tmp] = child.prototype._options[m[tmp]];
             add_static_event(widget, "set_"+tmp, set_cb(m[tmp]));
         }
     }
