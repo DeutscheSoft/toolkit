@@ -622,7 +622,7 @@ function ChildWidget(widget, name, config) {
     var key = "show_"+name;
     var tmp, m;
 
-    var userset_cb = config.inherit_options
+    var userset_cb = (config.inherit_options || config.userset_delegate)
         ? function(key, value) { this.parent.userset(key, value); return false; }
         : function(key, value) { this.parent.userset(name+"."+key, value); return false; };
 
