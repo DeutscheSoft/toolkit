@@ -206,30 +206,6 @@ function draw_title() {
     }.bind(this));
 }
 
-function create_grid() {
-    if (!this.grid) {
-        /** @member {TK.Grid} TK.Chart#grid - The grid for the chart.
-         */
-        this.grid = new TK.Grid({
-            grid_x: this.options.grid_x,
-            grid_y: this.options.grid_y,
-            range_x: function () { return this.range_x; }.bind(this),
-            range_y: function () { return this.range_y; }.bind(this),
-        });
-        this.add_child(this.grid);
-    }
-
-    return this.grid;
-}
-
-function remove_grid() {
-    if (this.grid) {
-        this.remove_child(this.grid);
-        this.grid.destroy();
-    }
-    this.grid = null;
-}
-    
 /**
  * TK.Chart is an SVG image containing one or more Graphs. There are functions
  * to add and remove graphs. TK.Chart extends TK.Widget and contains a Grid
@@ -265,9 +241,6 @@ function remove_grid() {
  * @property {Function|Object} [options.range_y={}] - Either a function returning a {@link TK.Range}
  *   or an object containing options for a new {@link TK.Range}
  */
-function grid_set(value, key) {
-    if (this.grid) this.grid.set(key, value);
-}
 function geom_set(value, key) {
     this.set_style(key, value+"px");
     TK.error("using deprecated '"+key+"' options");
@@ -277,9 +250,6 @@ TK.Chart = TK.class({
     Extends: TK.Widget,
     Implements: TK.Ranges,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
-        grid_x: "array",
-        grid_y: "array",
-        show_grid: "boolean",
         width: "int",
         height: "int",
         _width: "int",
@@ -293,10 +263,8 @@ TK.Chart = TK.class({
         resized: "boolean",
     }),
     options: {
-        grid_x:  [], // array containing {pos:x[, color: "colorstring"[,
-                     //       class: "classname"[, label:"labeltext"]]]}
-        grid_y:  [], // array containing {pos:y[, color: "colorstring"[,
-                     //       class: "classname"[, label:"labeltext"]]]}
+        grid_x: [],
+        grid_y: [],
         range_x: {}, // an object with options for a range for the x axis
                      // or a function returning a TK.Range instance (only on init)
         range_y: {}, // an object with options for a range for the y axis
@@ -307,11 +275,8 @@ TK.Chart = TK.class({
         title:   "", // a title for the chart
         title_position: "top-right", // the position of the title
         resized: false,
-        show_grid: true
     },
     static_events: {
-        set_grid_x: grid_set,
-        set_grid_y: grid_set,
         set_width: geom_set,
         set_height: geom_set,
     },
@@ -345,7 +310,6 @@ TK.Chart = TK.class({
         if (!this.options.height)
             this.options.height = this.range_y.options.basis;
         
-        this.grid = null;
         /**
          * @member {SVGText} TK.Chart#_title - The title of the chart. Has class <code>toolkit-title</code>.
          */
@@ -420,16 +384,6 @@ TK.Chart = TK.class({
         var E = this.svg;
         var O = this.options;
 
-        if (I.show_grid) {
-            I.show_grid = false;
-            if (O.show_grid) {
-                create_grid.call(this);
-                this.svg.insertBefore(this.grid.element, this.svg.firstChild);
-            } else {
-                remove_grid.call(this);
-            }
-        }
-
         TK.Widget.prototype.redraw.call(this);
 
         if (I.validate("ranges", "_width", "_height", "range_x", "range_y")) {
@@ -462,7 +416,6 @@ TK.Chart = TK.class({
             this._graphs[i].destroy();
         }
         this._graphs.remove();
-        remove_grid.call(this);
         TK.Widget.prototype.destroy.call(this);
     },
     add_child: function(child) {
@@ -574,6 +527,23 @@ TK.Chart = TK.class({
          * @event TK.Chart#emptied
          */
         this.fire_event("emptied");
+    },
+});
+TK.ChildWidget(TK.Chart, "grid", {
+    create: TK.Grid,
+    show: true,
+    append: function() {
+        this.svg.insertBefore(this.grid.element, this.svg.firstChild);
+    },
+    map_options: {
+        grid_x: "grid_x",
+        grid_y: "grid_y",
+    },
+    default_options: function () {
+        return {
+            range_x: this.range_x,
+            range_y: this.range_y,
+        };
     },
 });
 })(this, this.TK);
