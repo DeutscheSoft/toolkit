@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
  
-  /**
+/**
  * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
  * The event is emitted for the option <code>value</code>.
  *
@@ -29,35 +29,6 @@
  
 "use strict";
 (function(w, TK){
-function value_clicked() {
-    this.scroll.set("active", false);
-    this.drag.set("active", false);
-    /**
-     * Is fired when the user starts editing the value manually
-     * 
-     * @event TK.ValueButton#valueedit
-     * 
-     * @param {number} value - The value of the widget.
-     */
-    this.fire_event("valueedit", this.options.value);
-}
-function value_done() {
-    this.scroll.set("active", true);
-    this.drag.set("active", true);
-    /**
-     * Is fired when the user finished editing the value manually
-     * 
-     * @event TK.ValueButton#valueset
-     * 
-     * @param {number} value - The value of the widget.
-     */
-    this.fire_event("valueset", this.options.value);
-}
-function userset_cb(key, value) {
-    /* We cancel all modifications in the child and transfer it to the parent (us) */
-    this.parent.userset(key, value);
-    return false;
-}
 TK.ValueButton = TK.class({
     /**
      * This widget combines a {@link TK.Button} and a {@link TK.Value}.
@@ -109,15 +80,6 @@ TK.ValueButton = TK.class({
         snap:           0.01
     },
     static_events: {
-        set_value: function(value) {
-            this.value.set("value", value);
-        },
-        set_value_format: function(value) {
-            this.value.set("format", value);
-        },
-        set_value_size: function(value) {
-            this.value.set("size", value);
-        },
         set_drag_direction: function(value) {
             this.drag.set("direction", value);
         },
@@ -143,24 +105,6 @@ TK.ValueButton = TK.class({
 
         this._bar.appendChild(this._base);
         this._bar.appendChild(this._over);
-        
-        /**
-         * @member {TK.Value} TK.ValueButton#value - The value widget for editing the value manually.
-         */
-        this.value = new TK.Value({
-            container: this.element,
-            value: this.options.value,
-            format: this.options.value_format,
-        });
-        this.value.add_event("valueclicked", value_clicked.bind(this));
-        this.value.add_event("valuedone", value_done.bind(this));
-        this.value.add_event("userset", userset_cb);
-        this.add_child(this.value);
-        
-        /**
-         * @member {HTMLInputElement} TK.ValueButton#_input - The text entry of the TK.Value.
-         */
-        this._input = this.value._input;
         
         this.element.appendChild(this._bar);
         
@@ -206,10 +150,6 @@ TK.ValueButton = TK.class({
              */
             this.fire_event("doubleclick", this.options.value);
         }.bind(this));
-        
-        this._input.addEventListener("dblclick", function (e) {
-            e.stopPropagation();
-        });
     },
 
     redraw: function () {
@@ -241,7 +181,6 @@ TK.ValueButton = TK.class({
     destroy: function () {
         this.drag.destroy();
         this.scroll.destroy();
-        this.value.destroy();
         this._over.remove();
         this._base.remove();
         this._bar.remove();
@@ -256,5 +195,51 @@ TK.ValueButton = TK.class({
         }
         return TK.Button.prototype.set.call(this, key, value);
     }
+});
+function value_clicked() {
+    var self = this.parent;
+    self.scroll.set("active", false);
+    self.drag.set("active", false);
+    /**
+     * Is fired when the user starts editing the value manually
+     * 
+     * @event TK.ValueButton#valueedit
+     * 
+     * @param {number} value - The value of the widget.
+     */
+    self.fire_event("valueedit", self.options.value);
+}
+function value_done() {
+    var self = this.parent;
+    self.scroll.set("active", true);
+    self.drag.set("active", true);
+    /**
+     * Is fired when the user finished editing the value manually
+     * 
+     * @event TK.ValueButton#valueset
+     * 
+     * @param {number} value - The value of the widget.
+     */
+    self.fire_event("valueset", self.options.value);
+}
+/**
+ * @member {TK.Value} TK.ValueButton#value - The value widget for editing the value manually.
+ */
+TK.ChildWidget(TK.ValueButton, "input", {
+    create: TK.Value,
+    show: true,
+    map_options: {
+        value: "value",
+        value_format: "format",
+        value_size: "size",
+    },
+    userset_delegate: true,
+    static_events: {
+        dblclick: function(e) {
+            e.stopPropagation();
+        },
+        valueclicked: value_clicked,
+        valuedone: value_done,
+    },
 });
 })(this, this.TK);
