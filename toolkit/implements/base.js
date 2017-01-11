@@ -173,7 +173,6 @@ var __native_events = {
     // mouse
     mouseenter : true,
     mouseleave : true,
-    mousewheel : true,
     mousedown  : true,
     mouseup    : true,
     mousemove  : true,
@@ -205,7 +204,11 @@ var __native_events = {
     scroll     : true,
     focus      : true,
     blur       : true,
+
+    // mousewheel
+    mousewheel : true,
     DOMMouseScroll : true,
+    wheel : true,
 
     submit     : true,
     contextmenu: true,
