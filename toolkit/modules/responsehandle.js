@@ -1319,7 +1319,6 @@ TK.ResponseHandle = TK.class({
         remove_line2.call(this);
         remove_label.call(this);
         remove_handle.call(this);
-        this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
 });

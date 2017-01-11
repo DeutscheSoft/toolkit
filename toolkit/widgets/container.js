@@ -125,10 +125,6 @@ TK.Container = TK.class({
         TK.add_class(E, "toolkit-show");
     },
     
-    destroy: function () {
-        this.element.remove();
-        TK.Widget.prototype.destroy.call(this);
-    },
     /**
      * Calls {@link TK.Container#append_child} for an array of widgets.
      * 

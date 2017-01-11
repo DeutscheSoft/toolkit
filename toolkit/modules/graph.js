@@ -306,10 +306,6 @@ TK.Graph = TK.class({
         }
         TK.Widget.prototype.redraw.call(this);
     },
-    destroy: function () {
-        this.element.remove();
-        TK.Widget.prototype.destroy.call(this);
-    },
     
     // GETTER & SETTER
     set: function (key, value) {

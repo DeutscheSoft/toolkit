@@ -869,7 +869,6 @@ TK.Window = TK.class({
         this.maximize_horiz.destroy();
         this.minimize.destroy();
         this.shrink.destroy();
-        this.element.remove();
         TK.Container.prototype.destroy.call(this);
     },
     

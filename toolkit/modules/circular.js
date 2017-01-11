@@ -487,7 +487,6 @@ TK.Circular = TK.class({
         this._markers.remove();
         this._base.remove();
         this._value.remove();
-        this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
     _get_stroke: function () {

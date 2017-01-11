@@ -226,7 +226,6 @@ TK.Grid = TK.class({
         TK.Widget.prototype.redraw.call(this);
     },
     destroy: function () {
-        this.element.remove();
         this.range_x.remove_event("set", this.invalidate_ranges);
         this.range_y.remove_event("set", this.invalidate_ranges);
         TK.Widget.prototype.destroy.call(this);

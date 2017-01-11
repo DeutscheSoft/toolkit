@@ -213,7 +213,6 @@ TK.Value = TK.class({
         this._input.removeEventListener("keyup", this._value_typing);
         this._input.removeEventListener("blur", this._value_done);
         this._input.remove();
-        this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
 });

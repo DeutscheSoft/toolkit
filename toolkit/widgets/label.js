@@ -64,10 +64,5 @@ TK.Label = TK.class({
             TK.set_text(this.element, O.label);
         }
     },
-    
-    destroy: function () {
-        this.element.remove();
-        TK.Widget.prototype.destroy.call(this);
-    },
 });
 })(this, this.TK);

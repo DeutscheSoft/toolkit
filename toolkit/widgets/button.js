@@ -93,7 +93,6 @@ TK.Button = TK.class({
     destroy: function () {
         this._icon.remove();
         this._label.remove();
-        this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
 

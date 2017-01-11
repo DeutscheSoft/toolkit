@@ -327,6 +327,11 @@ TK.Widget = TK.class({
         this._schedule_resize = null;
         this.children = null;
         this.parent = null;
+
+        if (this.element) {
+            this.element.remove();
+            this.element = null;
+        }
     },
     delegate: function (element) {
         this.delegate_events(element);

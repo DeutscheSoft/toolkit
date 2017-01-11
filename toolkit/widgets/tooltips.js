@@ -197,7 +197,6 @@ TK.GlobalTooltip = function() {
 TK.GlobalTooltip.prototype = {
     destroy: function() {
         this.hide();
-        this.element.remove();
     },
 };
 TK.tooltip = new TK.GlobalTooltip();

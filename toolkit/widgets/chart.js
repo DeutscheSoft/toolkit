@@ -462,7 +462,6 @@ TK.Chart = TK.class({
             this._graphs[i].destroy();
         }
         this._graphs.remove();
-        this.element.remove();
         remove_grid.call(this);
         TK.Widget.prototype.destroy.call(this);
     },

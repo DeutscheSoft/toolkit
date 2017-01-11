@@ -392,8 +392,6 @@ TK.Fader = TK.class({
     },
     destroy: function () {
         this._handle.remove();
-        remove_scale.call(this);
-        this.element.remove();
         TK.Widget.prototype.destroy.call(this);
         TK.tooltip.remove(0, this.tooltip_by_value);
         TK.tooltip.remove(1, this.tooltip_by_position);

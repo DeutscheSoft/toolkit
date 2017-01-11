@@ -172,7 +172,6 @@ TK.Select = TK.class({
     },
     destroy: function () {
         this._list.remove();
-        this.element.remove();
         TK.Button.prototype.destroy.call(this);
     },
     

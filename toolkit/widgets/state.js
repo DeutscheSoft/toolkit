@@ -72,7 +72,6 @@ TK.State = TK.class({
     },
     destroy: function () {
         this._mask.remove();
-        this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
 

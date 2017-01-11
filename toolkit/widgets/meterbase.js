@@ -309,7 +309,6 @@ TK.MeterBase = TK.class({
         this._bar.remove();
         this._title.remove();
         this._over.remove();
-        this.element.remove();
         TK.Widget.prototype.destroy.call(this);
     },
     redraw: function () {
