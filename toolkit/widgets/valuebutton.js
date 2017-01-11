@@ -127,7 +127,7 @@ TK.ValueButton = TK.class({
          * @member {TK.ScrollValue} TK.ValueButton#scroll - The ScrollValue module.
          */
         this.scroll = new TK.ScrollValue({
-            element: this.element,
+            node: this.element,
             range:   function () { return this }.bind(this),
             get:     function () { return this.options.value; }.bind(this),
             set:     function (v) {
