@@ -19,13 +19,12 @@
 "use strict";
 (function(w, TK){
 function toggle(e) {
-    return collapse.call(this, !this.options.expanded, e);
+    var self = this.parent;
+    e.preventDefault();
+    e.stopPropagation();
+    return collapse.call(self, !self.options.expanded);
 }
-function collapse(state, e) {
-    if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
+function collapse(state) {
     this.set("expanded", state);
     return false;
 }
@@ -131,9 +130,6 @@ function update_visibility() {
 }
 var expander_groups = { };
 w.eg = expander_groups;
-function button_set(value, key) {
-    this.button.set(key, value);
-}
 TK.Expander = TK.class({
     /**
      * TK.Expander is a container which can be toggled between two different states,
@@ -183,8 +179,6 @@ TK.Expander = TK.class({
     static_events: {
         set_expanded: changed_expanded,
         set_always_expanded: update_visibility,
-        set_label: button_set,
-        set_icon: button_set,
         set_group: function(value) {
             if (value) add_to_group.call(this, value);
         }
@@ -223,14 +217,6 @@ TK.Expander = TK.class({
          */
         TK.add_class(this.element, "toolkit-expander");
 
-        var bo = TK.object_and(this.options, TK.Button.prototype._options);
-        bo = TK.object_sub(bo, TK.Widget.prototype._options);
-        bo.onclick = toggle.bind(this);
-        bo.container = this.element;
-        bo.class = "toolkit-toggle-expand";
-        bo._expanded = true;
-        bo._collapsed = true;
-
         this._update_visibility = update_visibility.bind(this);
 
         if (this.options.group) add_to_group.call(this, this.options.group);
@@ -238,11 +224,6 @@ TK.Expander = TK.class({
         this.set("expanded", this.options.expanded);
         this.set("always_expanded", this.options.always_expanded);
         
-        /**
-         * @member {TK.Button} TK.Expander#button - The button for toggling the state of the expander.
-         */
-        this.button = new TK.Button(bo);
-        this.add_child(this.button);
     },
     add_child: function(child) {
         TK.Container.prototype.add_child.call(this, child);
@@ -267,6 +248,25 @@ TK.Expander = TK.class({
                 remove_group_default.call(this, this.options.group);
         }
         return TK.Container.prototype.set.call(this, key, value);
+    },
+});
+/**
+ * @member {TK.Button} TK.Expander#button - The button for toggling the state of the expander.
+ */
+TK.ChildWidget(TK.Expander, "button", {
+    create: TK.Button,
+    show: true,
+    map_options: {
+        label: "label",
+        icon: "icon",
+    },
+    default_options: {
+        _expanded: true,
+        _collapsed: true,
+        class: "toolkit-toggle-expand"
+    },
+    static_events: {
+        click: toggle,
     },
 });
 })(this, this.TK);
