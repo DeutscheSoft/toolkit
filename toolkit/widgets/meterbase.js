@@ -172,7 +172,6 @@ TK.MeterBase = TK.class({
         title: "string",
         show_title: "boolean",
         show_label: "boolean",
-        show_scale: "boolean",
         show_labels: "boolean",
         format_label: "function",
         scale_base: "number",
@@ -187,7 +186,6 @@ TK.MeterBase = TK.class({
         title:           "",
         show_title:      false,
         show_label:      false,
-        show_scale:      true,
         show_labels:     true,
         format_label:    TK.FORMAT("%.2f"),
         levels:          [1, 5, 10],     // array of steps where to draw labels
@@ -221,25 +219,6 @@ TK.MeterBase = TK.class({
             // what is this supposed to do?
             // -> probably invalidate the value to force a redraw
             this.set("value", this.options.value);
-        },
-        set_format_labels: function(value, key) {
-            /* TODO: the scalechanged event should probably always trigger
-             * when the scale has changed. */
-            /**
-             * Is fired when the scale changed. The arguments are
-             * the name of the changed value and the new value.
-             * 
-             * @event TK.MeterBase#scalechanged
-             * 
-             * @param {string} key - The option which was set to change the scale.
-             * @param {mixed} - The value of the option.
-             */
-            this.fire_event("scalechanged", key, value);
-            this.scale.set("labels", value);
-        },
-        set_scale_base: function(value, key) {
-            this.fire_event("scalechanged", key, value);
-            this.scale.set("base", value);
         },
         set_value: function(value) {
             /**
@@ -314,21 +293,9 @@ TK.MeterBase = TK.class({
         this._bar.appendChild(this._over);
         this._bar.appendChild(this._canvas);
         
-        var options = TK.object_and(O, TK.Scale.prototype._options);
-        options = TK.object_sub(options, TK.Widget.prototype._options);
-        options.labels    = O.format_labels;
-        options.base      = this.__based ? O.base : O.scale_base;
-        options.container = E;
-        
-        /**
-         * @member {TK.Scale} TK.MeterBase#scale - The {@link TK.Scale} module of the meter.
-         */
-        this.scale        = new TK.Scale(options);
         /**
          * @member {HTMLDivElement} TK.MeterBase#_scale - The DIV element of the scale.
          */
-        this._scale       = this.scale.element;
-        this.add_child(this.scale);
         this.delegate(this._bar);
         this._last_meters = [];
         this._current_meters = [];
@@ -339,7 +306,6 @@ TK.MeterBase = TK.class({
 
     destroy: function () {
         this._label.remove();
-        this._scale.remove();
         this._bar.remove();
         this._title.remove();
         this._over.remove();
@@ -366,6 +332,7 @@ TK.MeterBase = TK.class({
             TK.set_text(this._label, O.format_label(O.label));
         }
         if (I.show_scale) {
+            I.show_scale = false;
             TK.toggle_class(E, "toolkit-has-scale", O.show_scale);
         }
         if (I.show_title) {
@@ -392,22 +359,24 @@ TK.MeterBase = TK.class({
             TK.remove_class(E, "toolkit-vertical",
                             "toolkit-horizontal", "toolkit-left",
                             "toolkit-right", "toolkit-top", "toolkit-bottom");
+            var scale = this.scale ? this.scale.element : null;
+            var bar = this._bar;
             switch (O.layout) {
                 case "left":
                     TK.add_class(E, "toolkit-vertical", "toolkit-left");
-                    TK.insert_after(this._scale, this._bar);
+                    if (scale) TK.insert_after(scale, bar);
                     break;
                 case "right":
                     TK.add_class(E, "toolkit-vertical", "toolkit-right");
-                    TK.insert_after(this._bar, this._scale);
+                    if (scale) TK.insert_after(bar, scale);
                     break;
                 case "top":
                     TK.add_class(E, "toolkit-horizontal", "toolkit-top");
-                    TK.insert_after(this._scale, this._bar);
+                    if (scale) TK.insert_after(scale, bar);
                     break;
                 case "bottom":
                     TK.add_class(E, "toolkit-horizontal", "toolkit-bottom");
-                    TK.insert_after(this._bar, this._scale);
+                    if (scale) TK.insert_after(bar, scale);
                     break;
                 default:
                     throw("unsupported layout");
@@ -426,15 +395,6 @@ TK.MeterBase = TK.class({
         if (I.value || I.basis) {
             I.basis = I.value = false;
             this.draw_meter();
-        }
-
-        if (I.show_scale) {
-            I.show_scale = false;
-            var is_vertical = vert(O);
-            if (O.show_scale) {
-                this.scale.invalidate_all();
-                this.scale.redraw();
-            }
         }
     },
 
@@ -542,19 +502,29 @@ TK.MeterBase = TK.class({
         }
         value = TK.Widget.prototype.set.call(this, key, value);
         switch (key) {
-        case "show_scale":
         case "show_label":
         case "show_title":
             this.trigger_resize();
             break;
-        default:
-            if (TK.Widget.prototype._options[key]) break;
-            if (TK.Scale.prototype._options[key]) {
-                this.fire_event("scalechanged", key, value);
-                this.scale.set(key, value);
-            }
         }
         return value;
     }
+});
+/**
+ * @member {TK.Scale} TK.MeterBase#scale - The {@link TK.Scale} module of the meter.
+ */
+TK.ChildWidget(TK.MeterBase, "scale", {
+    create: TK.Scale,
+    map_options: {
+        format_labels: "labels",
+        scale_base: "base",
+    },
+    inherit_options: true,
+    show: true,
+    static_events: {
+        set: function(key, value) {
+            this.parent.fire_event("scalechanged", key, value);
+        },
+    },
 });
 })(this, this.TK);
