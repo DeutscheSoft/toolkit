@@ -146,45 +146,27 @@ TK.ScrollValue = TK.class({
     },
     initialize: function (options) {
         TK.Base.prototype.initialize.call(this, options);
-        this._scrollwheel = scrollwheel.bind(this);
-        if (this.options.node)
-            this.set("element", this.options.node);
+        this.set("node", this.options.node);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
+
+        this._wheel = false;
     },
-    destroy: function () {
-        var E = this.options.node;
-        if (E) {
-            E.removeEventListener("mousewheel", this._scrollwheel);
-            E.removeEventListener("DOMMouseScroll", this._scrollwheel);
-        }
-        TK.Base.prototype.destroy.call(this);
+    static_events: {
+        set_node: function(value) {
+            this.delegate_events(value);
+            if (value) {
+                var O = this.options;
+                if (!O.events) this.set("events", value);
+                if (!O.classes) this.set("classes", value);
+            }
+        },
+        mousewheel: scrollwheel,
+        DOMMouseScroll: scrollwheel,
     },
-    // GETTERS & SETTERS
     set: function (key, value) {
-        TK.Base.prototype.set.call(this, key, value);
-        switch (key) {
-            case "element":
-                value.addEventListener("mousewheel", this._scrollwheel);
-                value.addEventListener("DOMMouseScroll", this._scrollwheel);
-                if (value && !this.options.events) {
-                    this.options.events = value;
-                }
-                if (value && !this.options.classes) {
-                    this.options.classes = value;
-                }
-                break;
-            case "events":
-                if (!value && this.options.node) {
-                    this.options.events = this.options.node;
-                }
-                break;
-            case "classes":
-                if (!value && this.options.node) {
-                    this.options.classes = this.options.node;
-                }
-                break;
-        }
+        if ((key === "event" || key === "classes") && !value) value = this.options.node;
+        return TK.Base.prototype.set.call(this, key, value);
     }
 })
 })(this, this.TK);
