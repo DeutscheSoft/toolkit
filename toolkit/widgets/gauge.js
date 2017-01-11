@@ -109,7 +109,7 @@ TK.Gauge = TK.class({
         E.appendChild(S);
     },
     resize: function() {
-        Widget.prototype.resize.call(this);
+        TK.Widget.prototype.resize.call(this);
         this.invalid.title = true;
         this.trigger_draw();
     },
