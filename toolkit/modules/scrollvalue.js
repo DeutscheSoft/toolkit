@@ -131,7 +131,7 @@ TK.ScrollValue = TK.class({
         get: "function",
         set: "function",
         range: "function",
-        events: "object",
+        events: "function",
         classes: "object",
         node: "object",
         active: "boolean",
@@ -158,16 +158,12 @@ TK.ScrollValue = TK.class({
     static_events: {
         set_node: function(value) {
             this.delegate_events(value);
-            if (value) {
-                var O = this.options;
-                if (!O.events) this.set("events", value);
-                if (!O.classes) this.set("classes", value);
-            }
+            if (value && !this.options.classes) this.set("classes", value);
         },
         wheel: scrollwheel,
     },
     set: function (key, value) {
-        if ((key === "event" || key === "classes") && !value) value = this.options.node;
+        if ((key === "classes") && !value) value = this.options.node;
         return TK.Base.prototype.set.call(this, key, value);
     }
 })
