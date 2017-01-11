@@ -655,17 +655,16 @@ function ChildWidget(widget, name, config) {
 
     /* child widget creation */
     add_static_event(widget, "set_"+key, function(val) {
-        if (val) {
+        var C = this[name];
+        if (val && !C) {
             var O = get_child_options(name, this.options, config);
             O.container = this.element;
             var w = new child(O);
             this.add_child(w);
             this[name] = w;
-        } else {
-            if (this[name]) {
-                this[name].destroy();
-                this[name] = null;
-            }
+        } else if (!val && C) {
+            C.destroy();
+            this[name] = null;
         }
         this.trigger_resize();
     });
@@ -691,7 +690,7 @@ function ChildWidget(widget, name, config) {
     }
     set_cb = function(key) {
         return function(val) {
-            this[name].set(key, val);
+            if (this[name]) this[name].set(key, val);
         };
     };
     if (m = config.map_options) {
