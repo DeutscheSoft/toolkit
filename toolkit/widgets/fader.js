@@ -103,23 +103,6 @@ function THIS() {
 function SET(v) {
     this.userset("value", v);
 }
-function create_scale() {
-    if (!this.scale) {
-        var O = this.options;
-        var so = TK.object_and(O, TK.Scale.prototype._options);
-        so = TK.object_sub(so, TK.Widget.prototype._options);
-        
-        this.scale = new TK.Scale(so);
-        this.add_child(this.scale);
-    }
-}
-function remove_scale() {
-    if (this.scale) {
-        this.scale.destroy();
-        this.scale = null;
-    }
-}
-
 function activate_tooltip() {
     if (!this.tooltip_by_position) {
         this.tooltip_by_position = tooltip_by_position.bind(this);
@@ -184,7 +167,6 @@ TK.Fader = TK.class({
         gap_dots: "number",
         gap_labels: "number",
         show_labels: "boolean",
-        show_scale: "boolean",
         labels: "function",
         tooltip: "function",
         layout: "string",
@@ -202,7 +184,6 @@ TK.Fader = TK.class({
         gap_dots: 3,
         gap_labels: 40,
         show_labels: true,
-        show_scale: true,
         labels: function (val) { return val.toFixed(2); },
         tooltip: false,
         layout: "left",
@@ -223,28 +204,10 @@ TK.Fader = TK.class({
         set_tooltip: function(value) {
             (value ? activate_tooltip : deactivate_tooltip).call(this);
         },
-        set_show_scale: function(value) {
-            (value ? create_scale : remove_scale).call(this);
-        },
         set_layout: function(value) {
-            if (this.scale) this.scale.set("layout", value);
             this.options.direction = vert(this.options) ? "vertical" : "horizontal";
             this.drag.set("direction", this.options.direction);
             this.scroll.set("direction", this.options.direction);
-        },
-        set: function(key, value) {
-            if (this.scale && !TK.Widget.prototype._options[key] && TK.Scale.prototype._options[key]) {
-                this.scale.set(key, value);
-                /**
-                 * Is fired when the scale was changed.
-                 * 
-                 * @event TK.Fader#scalechanged
-                 * 
-                 * @param {string} key - The key which was set.
-                 * @param {mixed} value - The value which was set.
-                 */
-                this.fire_event("scalechanged", key, value);
-            }
         },
     },
     initialize: function (options) {
@@ -261,15 +224,6 @@ TK.Fader = TK.class({
         TK.add_class(E, "toolkit-fader");
         this.widgetize(E, true, true, true);
 
-        this.scale = this._scale = null;
-        /**
-         * @member {TK.Scale} TK.Fader#scale - If <code>option.show_scale</code> is true,
-         *   <code>scale</code> will be the corresponding instance of {@link TK.Scale}.
-         */
-        /**
-         * @member {HTMLDivElement} TK.Fader#_scale - If <code>option.show_scale</code> is true,
-         *   <code>_scale</code> will be the element of {@link TK.Scale}.
-         */
         /**
          * @member {HTMLDivElement} TK.Fader#_handle - The handle of the fader. Has class <code>toolkit-handle</code>.
          */
@@ -313,7 +267,6 @@ TK.Fader = TK.class({
         this.set("bind_click", O.bind_click);
         this.set("bind_dblclick", O.bind_dblclick);
         this.set("tooltip", O.tooltip);
-        this.set("show_scale", O.show_scale);
     },
 
     redraw: function () {
@@ -326,19 +279,7 @@ TK.Fader = TK.class({
 
         if (I.show_scale) {
             I.show_scale = false;
-            if (O.show_scale) {
-                if (!this._scale) {
-                    this._scale = this.scale.element;
-                    E.appendChild(this._scale);
-                }
-                TK.add_class(this.element, "toolkit-has-scale");
-            } else {
-                if (this._scale) {
-                    E.removeChild(this._scale)
-                    this._scale = null;
-                }
-                TK.remove_class(this.element, "toolkit-has-scale");
-            }
+            TK.toggle_class(this.element, "toolkit-has-scale", O.show_scale);
         }
 
         if (I.layout) {
@@ -416,5 +357,27 @@ TK.Fader = TK.class({
 
         return TK.Widget.prototype.set.call(this, key, value);
     }
+});
+/**
+ * @member {TK.Scale} TK.Fader#scale - If <code>option.show_scale</code> is true,
+ *   <code>scale</code> will be the corresponding instance of {@link TK.Scale}.
+ */
+TK.ChildWidget(TK.Fader, "scale", {
+    create: TK.Scale,
+    show: true,
+    inherit_options: true,
+    static_events: {
+        set: function(key, value) {
+            /**
+             * Is fired when the scale was changed.
+             * 
+             * @event TK.Fader#scalechanged
+             * 
+             * @param {string} key - The key which was set.
+             * @param {mixed} value - The value which was set.
+             */
+            this.parent.fire_event("scalechanged", key, value);
+        },
+    },
 });
 })(this, this.TK);
