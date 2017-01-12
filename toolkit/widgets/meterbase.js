@@ -317,9 +317,14 @@ TK.MeterBase = TK.class({
         var E = this.element;
 
         if (this._fillstyle === false) {
-            this._fillstyle = TK.get_style(this._canvas, "background-color");
-            this._canvas.getContext("2d").fillStyle = this._fillstyle;
-            this._canvas.style.setProperty("background", "none", "important");
+            TK.S.add(function() {
+                this._fillstyle = TK.get_style(this._canvas, "background-color");
+                TK.S.add(function() {
+                    this._canvas.getContext("2d").fillStyle = this._fillstyle;
+                    this._canvas.style.setProperty("background", "none", "important");
+                    this.trigger_draw();
+                }.bind(this), 1);
+            }.bind(this));
         }
 
         if (I.title) {
@@ -381,6 +386,8 @@ TK.MeterBase = TK.class({
                     throw("unsupported layout");
             }
         }
+
+        if (this._fillstyle === false) return;
 
         if (I.basis && O._height > 0 && O._width > 0) {
             this._canvas.setAttribute("height", Math.round(O._height));
