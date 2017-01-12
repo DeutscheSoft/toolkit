@@ -655,6 +655,7 @@ function ChildWidget(widget, name, config) {
     });
 
     var append = config.append;
+    var toggle_class = !!config.toggle_class;
 
     if (append === void(0)) append = true;
 
@@ -674,6 +675,7 @@ function ChildWidget(widget, name, config) {
             C.destroy();
             this[name] = null;
         }
+        if (toggle_class) TK.toggle_class(this.element, "toolkit-has-"+name, val);
         this.trigger_resize();
     });
     var set_cb = function(val, key) {
@@ -708,7 +710,7 @@ function ChildWidget(widget, name, config) {
         }
     }
     p._options[key] = "boolean";
-    p.options[key] = config.show;
+    p.options[key] = !!config.show;
 }
 TK.ChildWidget = ChildWidget;
 })(this, this.TK);
