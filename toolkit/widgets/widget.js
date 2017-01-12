@@ -142,7 +142,6 @@ TK.Widget = TK.class({
         disabled:  false,  // Widgets can be disabled by setting this to true
         needs_resize: true,
     },
-    Implements: [TK.AudioMath],
     initialize: function (options) {
         // Main actions every widget needs to take
         if (!options) options = {};
