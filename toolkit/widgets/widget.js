@@ -163,6 +163,7 @@ TK.Widget = TK.class({
         this._drawn = false;
         this.parent = null;
         this.children = [];
+        this.draw_queue = null;
     },
 
     is_destructed: function() {
@@ -268,6 +269,17 @@ TK.Widget = TK.class({
         this.fire_event("initialized");
         this.trigger_draw();
     },
+    draw_once: function(fun) {
+        var q = this.draw_queue;
+
+        if (q === null) {
+            this.draw_queue = [ fun ];
+            return;
+        } else {
+            for (var i = 0; i < q.length; i++) if (q[i] === fun) return;
+            q[i] = fun;
+        }
+    },
     redraw: function () {
         var I = this.invalid;
         var O = this.options;
@@ -307,6 +319,14 @@ TK.Widget = TK.class({
 
                 TK.S.after_frame(this._schedule_resize);
             }
+        }
+
+        var q = this.draw_queue;
+
+        this.draw_queue = null;
+
+        if (q) for (var i = 0; i < q.length; i++) {
+            q[i].call(this, O);
         }
     },
     destroy: function () {
