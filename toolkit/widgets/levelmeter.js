@@ -73,35 +73,6 @@ function bottom_timeout() {
     else
         this.__bto = null;
 }
-function draw_peak() {
-    var O = this.options;
-    var n = this._peak_label;
-    var v = O.format_peak(O.peak);
-    if (n.firstChild) {
-        n.firstChild.nodeValue = v;
-    } else n.appendChild(document.createTextNode(v));
-    if (O.peak > O.min && O.peak < O.max && O.show_peak) {
-        this._peak.style.display = "block";
-        var pos = 0;
-        if (vert(O)) {
-            pos = O.basis - this.val2px(this.snap(O.peak));
-            pos = Math.min(O.basis, pos);
-            this._peak.style.top = pos + "px";
-        } else {
-            pos = this.val2px(this.snap(O.peak));
-            pos = Math.min(O.basis, pos)
-            this._peak.style.left = pos + "px";
-        }
-    } else {
-        this._peak.style.display = "none";
-    }
-    /**
-     * Is fired when the peak was drawn.
-     * 
-     * @event TK.LevelMeter#drawpeak
-     */
-    this.fire_event("drawpeak");
-}
     
 TK.LevelMeter = TK.class({
     /**
@@ -160,7 +131,6 @@ TK.LevelMeter = TK.class({
         top: "number",
         bottom: "number",
         hold_size: "int",
-        show_peak: "boolean",
         show_hold: "boolean",
         clipping: "number",
         auto_clip: "int|boolean",
@@ -179,7 +149,6 @@ TK.LevelMeter = TK.class({
         top:          false,
         bottom:       false,
         hold_size:    1,
-        show_peak:    false,
         show_hold:    false,
         clipping:     0,
         auto_clip:    false,
@@ -236,20 +205,6 @@ TK.LevelMeter = TK.class({
 
         var O = this.options;
         
-        /**
-         * @member {HTMLDivElement} TK.LevelMeter#_peak - The DIV element for the peak marker.
-         *   Has class <code>toolkit-peak</code>.
-         */
-        this._peak       = TK.element("div","toolkit-peak");
-        /**
-         * @member {HTMLDivElement} TK.LevelMeter#_peak_label - The DIV element for the peak value.
-         *   Has class <code>toolkit-peak-label</code>.
-         */
-        this._peak_label = TK.element("div","toolkit-peak-label");
-        
-        this._peak.appendChild(this._peak_label);
-        this._bar.appendChild(this._peak);
-        
         if (O.peak === false)
             O.peak = O.value;
         if (O.top === false)
@@ -272,15 +227,6 @@ TK.LevelMeter = TK.class({
             I.show_hold = false;
             TK.toggle_class(E, "toolkit-has-hold", O.show_hold);
         }
-        if (I.show_clip) {
-            I.show_clip = false;
-            TK.toggle_class(E, "toolkit-has-clip", O.show_clip);
-        }
-        if (I.show_peak) {
-            I.show_peak = false;
-            this._peak.style.display =  O.show_peak  ? "block" : "none";
-            TK.toggle_class(E, "toolkit-has-peak", O.show_peak);
-        }
 
         if (I.top || I.bottom) {
             /* top and bottom require a meter redraw, so lets invalidate
@@ -291,18 +237,12 @@ TK.LevelMeter = TK.class({
 
         TK.MeterBase.prototype.redraw.call(this);
 
-        if (I.peak) {
-            I.peak = false;
-            draw_peak.call(this);
-        }
         if (I.clip) {
             I.clip = false;
             TK.toggle_class(E, "toolkit-clipping", O.clip);
         }
     },
     destroy: function () {
-        this._peak.remove();
-        this._peak_label.remove();
         TK.MeterBase.prototype.destroy.call(this);
     },
     /**
@@ -532,15 +472,7 @@ TK.LevelMeter = TK.class({
                 this.set("bottom", value);
             }
         }
-        value = TK.MeterBase.prototype.set.call(this, key, value);
-        switch (key) {
-            case "show_peak":
-                this.trigger_resize();
-                // fallthrough
-                break;
-        }
-
-        return value;
+        return TK.MeterBase.prototype.set.call(this, key, value);
     }
 });
 
@@ -557,6 +489,50 @@ TK.ChildWidget(TK.LevelMeter, "clip", {
     },
     default_options: {
         "class": "toolkit-clip"
+    },
+    toggle_class: true,
+});
+/**
+ * @member {HTMLDivElement} TK.LevelMeter#_peak - The DIV element for the peak marker.
+ *   Has class <code>toolkit-peak</code>.
+ */
+TK.ChildElement(TK.LevelMeter, "peak", {
+    show: false,
+    create: function() {
+        var peak = TK.element("div","toolkit-peak");
+        peak.appendChild(TK.element("div","toolkit-peak-label"));
+        return peak;
+    },
+    append: function() {
+        this._bar.appendChild(this._peak);
+    },
+    toggle_class: true,
+    draw_options: [ "peak" ],
+    draw: function (O) {
+        if (!this._peak) return;
+        var n = this._peak.firstChild;
+        TK.set_text(n, O.format_peak(O.peak));
+        if (O.peak > O.min && O.peak < O.max && O.show_peak) {
+            this._peak.style.display = "block";
+            var pos = 0;
+            if (vert(O)) {
+                pos = O.basis - this.val2px(this.snap(O.peak));
+                pos = Math.min(O.basis, pos);
+                this._peak.style.top = pos + "px";
+            } else {
+                pos = this.val2px(this.snap(O.peak));
+                pos = Math.min(O.basis, pos)
+                this._peak.style.left = pos + "px";
+            }
+        } else {
+            this._peak.style.display = "none";
+        }
+        /**
+         * Is fired when the peak was drawn.
+         * 
+         * @event TK.LevelMeter#drawpeak
+         */
+        this.fire_event("drawpeak");
     },
 });
 })(this, this.TK);
