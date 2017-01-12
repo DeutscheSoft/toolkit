@@ -149,6 +149,7 @@ TK.Toggle = TK.class({
     options: {
         label_active:  false,
         icon_active:   false,
+        icon_inactive: false,
         press:         false,
         toggle:        true,
         state:         false
@@ -173,36 +174,39 @@ TK.Toggle = TK.class({
     redraw: function () {
         var O = this.options;
         var I = this.invalid;
+        var E = this.element;
         var tmp;
         
-        // NOTE: we do not call TK.Button.redraw here, since it overwrites labels and icons
-        // NOTE2: unfortunately this doesn't work cause button sets some CSS classes
-        // so the solution is to remember the relevant values and reset them after
-        // calling TK.Button.prototype.redraw
-        var I_ = { icon_active: I.icon_active, label_active: I.label_active, icon: I.icon, label: I.label, state: I.state };
-        TK.Button.prototype.redraw.call(this);
-        I.icon_active = I.icon_active; I.label_active = I_.label_active; I.icon = I_.icon; I.label = I_.label, I.state = I_.state;
-        
-        if (I.validate("icon_active", "icon") || I.state) {
+        if (O.show_icon && (I.validate("icon_active", "icon") || I.state)) {
             if (O.state) {
                 tmp = O.icon_active || O.icon;
             } else {
                 tmp = O.icon;
             }
 
-            if (tmp) this._icon.setAttribute("src", tmp);
-            else this._icon.removeAttribute("src");
+            var icon = this._icon;
+
+            if (tmp) {
+                icon.setAttribute("src", tmp);
+                icon.style.display = null;
+            } else {
+                icon.style.display = "none";
+                icon.removeAttribute("src");
+            }
+            TK.toggle_class(E, "toolkit-has-icon", !!tmp);
         }
 
-        if (I.validate("label_active", "label", "state")) {
+        if (O.show_label && (I.validate("label_active", "label") || I.state)) {
             if (O.state) {
                 tmp = O.label_active || O.label;
             } else {
                 tmp = O.label;
             }
 
-            this._label.innerHTML = tmp || "";
+            TK.set_content(this._label, tmp);
         }
+
+        TK.Button.prototype.redraw.call(this);
     },
     /**
      * Toggle the button state.

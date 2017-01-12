@@ -65,7 +65,8 @@ TK.Button = TK.class({
         var E;
         TK.Widget.prototype.initialize.call(this, options);
         /**
-         * @member {HTMLDivElement} TK.Button#element - The main DIV element. Has class <code>toolkit-button</code>.
+         * @member {HTMLDivElement} TK.Button#element - The main DIV element.
+         *      Has class <code>toolkit-button</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
@@ -76,23 +77,9 @@ TK.Button = TK.class({
          *  Has class <code>toolkit-cell</code>
          */
         this._cell  = TK.element("div","toolkit-cell");
-        /**
-         * @member {HTMLImageElement} TK.Button#_icon - The icon of the button. Has class <code>toolkit-icon</code>.
-         */
-        this._icon  = TK.element("img","toolkit-icon");
-        this._icon.setAttribute("draggable", "false");
-        /**
-         * @member {HTMLDivElement} TK.Button#_label - The label of the button. Has class <code>toolkit-label</code>.
-         */
-        this._label = TK.element("div","toolkit-label");
-        
-        this._cell.appendChild(this._icon);
-        this._cell.appendChild(this._label);
         E.appendChild(this._cell);
     },
     destroy: function () {
-        this._icon.remove();
-        this._label.remove();
         TK.Widget.prototype.destroy.call(this);
     },
 
@@ -101,9 +88,6 @@ TK.Button = TK.class({
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
-        var _icon = this._icon;
-        var _label = this._label;
-        var value;
         
         if (I.layout) {
             I.layout = false;
@@ -111,33 +95,62 @@ TK.Button = TK.class({
             TK.toggle_class(E, "toolkit-horizontal", O.layout !== "vertical");
         }
 
-        if (I.label) {
-            I.label = false;
-            value = O.label;
-            if (value !== false) {
-                TK.set_content(_label, value);
-                _label.style.display = null;
-                this.add_class("toolkit-has-label");
-            } else {
-                _label.style.display = "none";
-                this.remove_class("toolkit-has-label");
-            }
-        }
-        if (I.icon) {
-            I.icon = false;
-            value = O.icon;
-            if (value) {
-                _icon.setAttribute("src", value);
-                _icon.style.display = null;
-            } else {
-                _icon.style.display = "none";
-            }
-            TK.toggle_class(E, "toolkit-has-icon", !!value);
-        }
         if (I.state) {
             I.state = false;
             TK.toggle_class(E, "toolkit-active", O.state);
         }
+
+        /* FIXME: These two cases are not solved using the ChildElement API in order
+         * to support TK.Toggle */
+        if (O.show_icon && I.validate("icon")) {
+            var icon = this._icon;
+            var has_icon = !!O.icon;
+            if (has_icon) {
+                icon.setAttribute("src", O.icon);
+                icon.style.display = null;
+            } else {
+                icon.style.display = "none";
+            }
+            TK.toggle_class(E, "toolkit-has-icon", has_icon);
+        }
+
+        if (O.show_label && I.validate("label")) {
+            var _label = this._label;
+            var has_value = O.label !== false;
+            if (has_value) {
+                TK.set_content(_label, O.label);
+                _label.style.display = null;
+            } else {
+                _label.style.display = "none";
+            }
+            TK.toggle_class(this.element, "toolkit-has-label", has_value);
+        }
     }
+});
+/**
+ * @member {HTMLImageElement} TK.Button#_icon - The icon of the button.
+ *      Has class <code>toolkit-icon</code>.
+ */
+TK.ChildElement(TK.Button, "icon", {
+    show: true,
+    create: function() {
+        var icon = TK.element("img","toolkit-icon");
+        icon.setAttribute("draggable", "false");
+        return icon;
+    },
+    append: function() {
+        this._cell.appendChild(this._icon);
+    },
+    toggle_class: true,
+});
+/**
+ * @member {HTMLDivElement} TK.Button#_label - The label of the button.
+ *      Has class <code>toolkit-label</code>.
+ */
+TK.ChildElement(TK.Button, "label", {
+    show: true,
+    append: function() {
+        this._cell.appendChild(this._label);
+    },
 });
 })(this, this.TK);
