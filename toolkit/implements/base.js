@@ -713,4 +713,63 @@ function ChildWidget(widget, name, config) {
     p.options[key] = !!config.show;
 }
 TK.ChildWidget = ChildWidget;
+function ChildElement(widget, name, config) {
+    var p = widget.prototype;
+    var show_option = "show_" + name;
+    var index = "_"+name;
+
+    /* trigger child element creation after initialization */
+    add_static_event(widget, "initialized", function() {
+        /* we do not want to trash the class cache */
+        this[index] = null;
+        this.set(show_option, this.options[show_option]);
+    });
+
+    /* clean up on destroy */
+    add_static_event(widget, "destroy", function() {
+        if (this[index]) {
+            this[index].remove();
+            this[index] = null;
+        }
+    });
+
+    var append = config.append;
+    var create = config.create;
+    var toggle_class = !!config.toggle_class;
+
+    if (create === void(0)) create = function() { return TK.element("div", "toolkit-"+name); }
+    if (append === void(0)) append = function() { this.element.appendChild(this[index]); }
+
+    add_static_event(widget, "set_"+show_option, function(value) {
+        var C = this[index];
+        if (value && !C) {
+            C = create.call(this);
+            this[index] = C;
+            append.call(this, this.options);
+        } else if (C) {
+            this[index] = null;
+            C.remove();
+        }
+        if (toggle_class) TK.toggle_class(this.element, "toolkit-has-"+name, value);
+        this.trigger_resize();
+    });
+
+    if (config.draw) {
+        var m = config.draw_options;
+
+        if (!m) m = [ show_option ];
+        else m.push(show_option);
+
+        for (var i = 0; i < m.length; i++) {
+            add_static_event(widget, "set_"+m[i], function() {
+                if (this.options[show_option])
+                    this.draw_once(config.draw);
+            });
+        }
+    }
+
+    p._options[show_option] = "boolean";
+    p.options[show_option] = !!config.show;
+}
+TK.ChildElement = ChildElement;
 })(this, this.TK);
