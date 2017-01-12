@@ -107,21 +107,10 @@ TK.Button = TK.class({
         
         if (I.layout) {
             I.layout = false;
-            if (O.layout === "vertical") {
-                this.remove_class("toolkit-horizontal");
-                this.add_class("toolkit-vertical");
-            } else {
-                this.remove_class("toolkit-vertical");
-                this.add_class("toolkit-horizontal");
-            }
+            TK.toggle_class(E, "toolkit-vertical", O.layout === "vertical");
+            TK.toggle_class(E, "toolkit-horizontal", O.layout !== "vertical");
         }
 
-        // TODO: why is this here, widget does take care of it?
-        if (I["class"]) {
-            I["class"] = false;
-            if (O["class"])
-                TK.add_class(E, O["class"]);
-        }
         if (I.label) {
             I.label = false;
             value = O.label;
@@ -140,19 +129,14 @@ TK.Button = TK.class({
             if (value) {
                 _icon.setAttribute("src", value);
                 _icon.style.display = null;
-                this.add_class("toolkit-has-icon");
             } else {
                 _icon.style.display = "none";
-                this.remove_class("toolkit-has-icon");
             }
+            TK.toggle_class(E, "toolkit-has-icon", !!value);
         }
         if (I.state) {
             I.state = false;
-            if (O.state) {
-                TK.add_class(E, "toolkit-active");
-            } else {
-                TK.remove_class(E, "toolkit-active");
-            }
+            TK.toggle_class(E, "toolkit-active", O.state);
         }
     }
 });
