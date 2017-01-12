@@ -170,8 +170,6 @@ TK.MeterBase = TK.class({
         max: "number",
         label: "string",
         title: "string",
-        show_title: "boolean",
-        show_label: "boolean",
         show_labels: "boolean",
         format_label: "function",
         scale_base: "number",
@@ -184,8 +182,6 @@ TK.MeterBase = TK.class({
         base:            false,
         label:           false,
         title:           "",
-        show_title:      false,
-        show_label:      false,
         show_labels:     true,
         format_label:    TK.FORMAT("%.2f"),
         levels:          [1, 5, 10],     // array of steps where to draw labels
@@ -257,26 +253,7 @@ TK.MeterBase = TK.class({
         TK.add_class(E, "toolkit-meter-base");
         this.widgetize(E, false, true, true);
         
-        /**
-         * @member {HTMLDivElement} TK.MeterBase#_title - The DIV element displaying the title.
-         *   Has class <code>toolkit-title</code>.
-         */
-        this._title  = TK.element("div", "toolkit-title");
-        /**
-         * @member {HTMLDivElement} TK.MeterBase#_label - The DIV element displaying the value.
-         *   Has class <code>toolkit-label</code>.
-         */
-        this._label  = TK.element("div", "toolkit-label");
-        /**
-         * @member {HTMLDivElement} TK.MeterBase#_bar - The DIV element containing the masks and drawing the background.
-         *   Has class <code>toolkit-bar</code>.
-         */
         this._bar    = TK.element("div", "toolkit-bar");
-        /**
-         * @member {HTMLDivElement} TK.MeterBase#_over - The DIV element for the peak marker.
-         *   Has class <code>toolkit-over</code>.
-         */
-        this._over   = TK.element("div", "toolkit-over");
         /**
          * @member {HTMLCanvas} TK.MeterBase#_canvas - The canvas element drawing the mask.
          *   Has class <code>toolkit-mask</code>.
@@ -286,15 +263,13 @@ TK.MeterBase = TK.class({
 
         this._fillstyle = false;
         
-        E.appendChild(this._title);
-        E.appendChild(this._label);
         E.appendChild(this._bar);
 
-        this._bar.appendChild(this._over);
         this._bar.appendChild(this._canvas);
         
         /**
-         * @member {HTMLDivElement} TK.MeterBase#_scale - The DIV element of the scale.
+         * @member {HTMLDivElement} TK.MeterBase#_bar - The DIV element containing the masks
+         *      and drawing the background. Has class <code>toolkit-bar</code>.
          */
         this.delegate(this._bar);
         this._last_meters = [];
@@ -305,10 +280,7 @@ TK.MeterBase = TK.class({
     },
 
     destroy: function () {
-        this._label.remove();
         this._bar.remove();
-        this._title.remove();
-        this._over.remove();
         TK.Widget.prototype.destroy.call(this);
     },
     redraw: function () {
@@ -327,26 +299,6 @@ TK.MeterBase = TK.class({
             }.bind(this));
         }
 
-        if (I.title) {
-            I.title = false;
-            TK.set_content(this._title, O.title);
-        }
-        if (I.label || I.format_label) {
-            I.label = I.format_label = false;
-            TK.set_text(this._label, O.format_label(O.label));
-        }
-        if (I.show_scale) {
-            I.show_scale = false;
-            TK.toggle_class(E, "toolkit-has-scale", O.show_scale);
-        }
-        if (I.show_title) {
-            I.show_title = false;
-            TK.toggle_class(E, "toolkit-has-title", O.show_title);
-        }
-        if (I.show_label) {
-            I.show_label = false;
-            TK.toggle_class(E, "toolkit-has-label", O.show_label);
-        }
         if (I.reverse) {
             I.reverse = false;
             TK.toggle_class(E, "toolkit-reverse", O.reverse);
@@ -506,14 +458,7 @@ TK.MeterBase = TK.class({
             this.__based = value !== false;
             if (!this.__based) value = this.options.min;
         }
-        value = TK.Widget.prototype.set.call(this, key, value);
-        switch (key) {
-        case "show_label":
-        case "show_title":
-            this.trigger_resize();
-            break;
-        }
-        return value;
+        return TK.Widget.prototype.set.call(this, key, value);
     }
 });
 /**
@@ -527,10 +472,47 @@ TK.ChildWidget(TK.MeterBase, "scale", {
     },
     inherit_options: true,
     show: true,
+    toggle_class: true,
     static_events: {
         set: function(key, value) {
             this.parent.fire_event("scalechanged", key, value);
         },
+    },
+});
+/**
+ * @member {HTMLDivElement} TK.MeterBase#_over - The DIV element for the peak marker.
+ *   Has class <code>toolkit-over</code>.
+ */
+TK.ChildElement(TK.MeterBase, "over", {
+    append: function(O) {
+        this._bar.appendChild(this._over);
+    },
+    show: true,
+});
+/**
+ * @member {HTMLDivElement} TK.MeterBase#_title - The DIV element displaying the title.
+ *   Has class <code>toolkit-title</code>.
+ */
+TK.ChildElement(TK.MeterBase, "title", {
+    append: function(O) {
+        this._bar.appendChild(this._title);
+    },
+    show: false,
+    draw_options: [ "title" ],
+    draw: function(O) {
+        if (this._title) TK.set_content(this._title, O.title);
+    },
+    toggle_class: true,
+});
+/**
+ * @member {HTMLDivElement} TK.MeterBase#_label - The DIV element of the label.
+ */
+TK.ChildElement(TK.MeterBase, "label", {
+    show: false,
+    toggle_class: true,
+    draw_options: [ "label", "format_label" ],
+    draw: function(O) {
+        if (this._label) TK.set_text(this._label, O.format_label(O.label));
     },
 });
 })(this, this.TK);
