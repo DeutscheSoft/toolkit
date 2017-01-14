@@ -103,8 +103,10 @@ MouseCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype
 function mousedown(ev) {
     var s = new MouseCaptureState(ev);
     if (!startcapture.call(this, s)) return;
+    ev.stopPropagation();
     ev.preventDefault();
     s.init(this);
+    return false;
 }
 function mousemove(ev) {
     movecapture.call(this, ev);
