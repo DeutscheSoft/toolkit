@@ -245,5 +245,11 @@ w.TK.DragCapture = TK.class({
         stopcapture.call(this);
     },
     cancel_drag: stopcapture,
+    dragging: function() {
+        return this.options.state;
+    },
+    state: function() {
+        return this.draw_state;
+    },
 });
 })(this, this.TK);
