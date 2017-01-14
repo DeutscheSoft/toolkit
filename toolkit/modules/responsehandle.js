@@ -28,231 +28,10 @@ var MODES = [
     "block-left",
     "block-right"
 ];
-function mouseenter(e) {
-    e.preventDefault();
-    this._zwheel = false;
-    TK.add_class(this.element, "toolkit-hover");
-    return false;
-}
-function mouseleave(e) {
-    e.preventDefault();
-    this._raised = false;
-    TK.remove_class(this.element, "toolkit-hover");
-    return false;
-}
-function mouseelement(e) {
-    var C = this.options.container;
-    e.preventDefault();
-    // NOTE: the second check is most likely cheaper
-    if (C && !this._raised) {
-        C.appendChild(this.element);
-        this._raised = true;
-    }
-    return false;
-    //e.stopPropagation();
-}
-function mousedown(e) {
-    e.preventDefault();
-    this._zwheel = false;
-    if (this.options.min_drag)
-        this._sticky = true;
-    if (!this.options.active) return false;
-    
-    // order
-    if (this.options.container) {
-        if (e.button === 2) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.options.container.insertBefore(this.element, this.options.container.firstChild);
-            return false;
-        } else {
-            this.options.container.appendChild(this.element);
-        }
-    }
-    
-    // touch
-    if (e.touches && e.touches.length) {
-        var ev = e.touches[e.touches.length - 1];
-    } else {
-        ev = e;
-    }
-    
-    // classes and stuff
-    TK.add_class(this.element, "toolkit-active");
-    TK.add_class(this.element.parentNode.parentNode, "toolkit-dragging");
-    this.global_cursor("move");
-    this.__active = true;
-    this._offsetX = ev.pageX - this.x;
-    this._offsetY = ev.pageY - this.y;
-    this._clickX  = this.x;
-    this._clickY  = this.y;
-    this._clickZ  = this.z;
-    this._pageX   = ev.pageX;
-    this._pageY   = ev.pageY;
-    this._buttons = (ev.buttons||ev.which);
-    if (!this._zhandling) {
-        /**
-         * Is fired when the main handle is grabbed by the user.
-         * The argument is an object with the following members:
-         * <ul>
-         * <li>x: the actual value on the x axis</li>
-         * <li>y: the actual value on the y axis</li>
-         * <li>pos_x: the position in pixels on the x axis</li>
-         * <li>pos_y: the position in pixels on the y axis</li>
-         * </ul>
-         * 
-         * @event TK.ResponseHandle#handlegrabbed
-         * 
-         * @param {Object} positions - An object containing all relevant positions of the pointer.
-         */
-        this.fire_event("handlegrabbed", {
-            x:     this.options.x,
-            y:     this.options.y,
-            pos_x: this.x,
-            pos_y: this.y
-        });
-    } else {
-        /**
-         * Is fired when the user grabs the z-handle. The argument is the
-         * actual z value.
-         * 
-         * @event TK.ResponseHandle#zchangestarted
-         * 
-         * @param {number} z - The z value.
-         */
-        this.fire_event("zchangestarted", this.options.z);
-    }
-    //document.addEventListener("mouseup", this._mouseup.bind(this));
-    return false;
-}
-function mouseup(e) {
-    if (!this.__active) return;
-    e.preventDefault();
-    TK.remove_class(this.element, "toolkit-active");
-    var parent = this.element.parentNode.parentNode;
-    if (parent)
-        TK.remove_class(parent, "toolkit-dragging");
-    this.remove_cursor("move");
-    if (!this._zhandling) {
-        /**
-         * Is fired when the user releases the main handle.
-         * The argument is an object with the following members:
-         * <ul>
-         * <li>x: the actual value on the x axis</li>
-         * <li>y: the actual value on the y axis</li>
-         * <li>pos_x: the position in pixels on the x axis</li>
-         * <li>pos_y: the position in pixels on the y axis</li>
-         * </ul>
-         * 
-         * @event TK.ResponseHandle#handlereleased
-         * 
-         * @param {Object} positions - An object containing all relevant positions of the pointer.
-         */
-        this.fire_event("handlereleased", {
-            x:     this.options.x,
-            y:     this.options.y,
-            pos_x: this.x,
-            pos_y: this.y
-        });
-    } else {
-        /**
-         * Is fired when the user releases the z-handle. The argument is the
-         * actual z value.
-         * 
-         * @event TK.ResponseHandle#zchangeended
-         * 
-         * @param {number} z - The z value.
-         */
-        this.fire_event("zchangeended", this.options.z);
-        this._zhandling = false;
-    }
-    this.__active = false;
-    return false;
-}
 function normalize(v) {
     var n = Math.sqrt(v[0]*v[0] + v[1]*v[1]);
     v[0] /= n;
     v[1] /= n;
-}
-function mousemove(e) {
-    if (!this.__active) return;
-    var O = this.options;
-    e.preventDefault();
-
-    if (e.type === "mousemove" && this._buttons !== (e.buttons||e.which)) {
-        mouseup.call(this, e);
-        return;
-    }
-    
-    var ev;
-    var range_x = this.range_x;
-    var range_y = this.range_y;
-    var range_z = this.range_z;
-
-    if (e.touches && e.touches.length) {
-        ev = e.touches[e.touches.length - 1];
-    } else {
-        ev = e;
-    }
-    var mx = range_x.options.step || 1;
-    var my = range_y.options.step || 1;
-    var mz = range_z.options.step || 1;
-    if (e.ctrlKey && e.shiftKey) {
-        mx *= range_x.get("shift_down");
-        my *= range_y.get("shift_down");
-        mz *= range_z.get("shift_down");
-    } else if (e.shiftKey) {
-        mx *= range_x.get("shift_up");
-        my *= range_y.get("shift_up");
-        mz *= range_z.get("shift_up");
-    }
-    if (this._zhandling) {
-        var v = this.zhandle_position;
-
-        /* we calculate the px distance of the current position and
-         * the position of the mousedown event. This distance is measured
-         * along the (normalized) vector from the handle to the zhandle
-         */
-
-        var d = (v[0] * (ev.pageX - this._pageX) + v[1] * (ev.pageY - this._pageY)) * mz;
-
-        if (d > 0) {
-            d = range_z.snap_up(range_z.px2val(this._clickZ + d));
-        } else {
-            d = range_z.snap_down(range_z.px2val(this._clickZ + d));
-        }
-        this.userset("z", d);
-    } else if (this._sticky) {
-        var dx = Math.abs((ev.pageX - this._offsetX) - this._clickX);
-        var dy = Math.abs((ev.pageY - this._offsetY) - this._clickY);
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > O.min_drag)
-            this._sticky = false;
-    } else {
-        this.userset("x", range_x.snap(range_x.px2val(this._clickX + ((ev.pageX - this._offsetX) - this._clickX) * mx)));
-        this.userset("y", range_y.snap(range_y.px2val(this._clickY + ((ev.pageY - this._offsetY) - this._clickY) * my)));
-        /**
-         * Is fired when the user drags the main handle.
-         * The argument is an object with the following members:
-         * <ul>
-         * <li>x: the actual value on the x axis</li>
-         * <li>y: the actual value on the y axis</li>
-         * <li>pos_x: the position in pixels on the x axis</li>
-         * <li>pos_y: the position in pixels on the y axis</li>
-         * </ul>
-         * 
-         * @event TK.ResponseHandle#handledragging
-         * 
-         * @param {Object} positions - An object containing all relevant positions of the pointer.
-         */
-        this.fire_event("handledragging", {
-            x:     O.x,
-            y:     O.y,
-            pos_x: this.x,
-            pos_y: this.y
-        });
-    }
-    return false;
 }
 function scrollwheel(e) {
     var direction;
@@ -280,61 +59,6 @@ function scrollwheel(e) {
         this.fire_event("zchangestarted", this.options.z);
     this._zwheel = true;
 }
-function touchstart(e) {
-    if (e.touches && e.touches.length === 2) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    } else {
-        this._mousedown(e);
-    }
-}
-function touchend(e) {
-    this._tdist = false;
-    if (e.touches && e.touches.length >= 1) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    } else {
-        this._mouseup(e);
-    }
-}
-function touchmove(e) {
-    var O = this.options;
-    if (!this.__active) return;
-    if (e.touches && e.touches.length > 1 && this._tdist === false) {
-        var x = e.touches[1].pageX - (this.x + this._offsetX);
-        var y = e.touches[1].pageY - (this.y + this._offsetY);
-        this._tdist = Math.sqrt(y*y + x*x);
-        this.__z = O.z;
-    }
-    if (e.touches && e.touches.length >= 2) {
-        var x = e.touches[1].pageX - (this.x + this._offsetX);
-        var y = e.touches[1].pageY - (this.y + this._offsetY);
-        var tdist = Math.sqrt(y * y + x * x);
-        var z = Math.min(this.__z * (tdist / this._tdist));
-        if (z >= this.range_z.get("max") || z <= this.range_z.get("min")) {
-            var x = e.touches[1].pageX - (this.x + this._offsetX);
-            var y = e.touches[1].pageY - (this.y + this._offsetY);
-            this._tdist = Math.sqrt(y * y + x * x);
-            this.__z = O.z;
-            this.warning(this.element);
-        }
-        this.userset("z", Math.max(
-            Math.min(z, this.range_z.get("max")),
-            this.range_z.get("min")));
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    } else {
-        this._mousemove(e);
-        e.preventDefault();
-    }
-}
-function zhandledown(e) {
-    this._zhandling = true;
-}
-
 
 /* The following functions turn positioning options
  * into somethine we can calculate with */
@@ -524,11 +248,10 @@ function remove_zhandle() {
     var E = this._zhandle;
     if (!E) return;
     this._zhandle = null;
+    if (this.z_drag.get("node") === E)
+        this.z_drag.set("node", null);
 
     E.remove();
-
-    E.removeEventListener("mousedown", this._zhandledown);
-    E.removeEventListener("touchstart", this._zhandledown);
 }
 
 function create_zhandle() {
@@ -543,10 +266,9 @@ function create_zhandle() {
         }
     );
 
-    E.addEventListener("mousedown", this._zhandledown);
-    E.addEventListener("touchstart", this._zhandledown);
-    E.addEventListener('contextmenu', function(e){e.preventDefault();});
     this._zhandle = E;
+    if (!this.z_drag.get("node"))
+        this.z_drag.set("node", E);
 }
 
 function create_line1() {
@@ -746,8 +468,6 @@ function create_label() {
     this._label = E = TK.make_svg("text", {
         "class": "toolkit-label"
     });
-    E.addEventListener("mouseenter",      this._mouseelement);
-    E.addEventListener("touchstart",      this._mouseelement);
     E.addEventListener("mousewheel",      this._scrollwheel);
     E.addEventListener("DOMMouseScroll",  this._scrollwheel);
     E.addEventListener('contextmenu', function(e){e.preventDefault();});
@@ -757,8 +477,6 @@ function remove_label() {
     var E = this._label;
     this._label = null;
     E.remove();
-    E.removeEventListener("mouseenter",      this._mouseelement);
-    E.removeEventListener("touchstart",      this._mouseelement);
     E.removeEventListener("mousewheel",      this._scrollwheel);
     E.removeEventListener("DOMMouseScroll",  this._scrollwheel);
     E.removeEventListener('contextmenu', function(e){e.preventDefault();});
@@ -774,12 +492,8 @@ function create_handle() {
     
     E = TK.make_svg(O.mode === "circular" ? "circle" : "rect",
                     { class: "toolkit-handle" });
-    E.addEventListener("mouseenter",     this._mouseelement);
-    E.addEventListener("touchstart",     this._mouseelement);
     E.addEventListener("mousewheel",     this._scrollwheel);
     E.addEventListener("DOMMouseScroll", this._scrollwheel);
-    E.addEventListener("touchstart",     this._touchstart);
-    E.addEventListener('contextmenu', function(e){e.preventDefault();});
     E.addEventListener('selectstart', function(){ return false; });
     this._handle = E;
     this.element.appendChild(E);
@@ -790,11 +504,8 @@ function remove_handle() {
     if (!E) return;
     this._handle = null;
     E.remove();
-    E.removeEventListener("mouseenter",     this._mouseelement);
-    E.removeEventListener("touchstart",     this._mouseelement);
     E.removeEventListener("mousewheel",     this._scrollwheel);
     E.removeEventListener("DOMMouseScroll", this._scrollwheel);
-    E.removeEventListener("touchstart",     this._touchstart);
 }
 
 function redraw_label(O, X) {
@@ -892,12 +603,13 @@ function redraw_label(O, X) {
 
 function redraw_lines(O, X) {
     var pos = this.label;
-    var x = this.x;
-    var y = this.y;
-    var z = this.z;
     var range_x = this.range_x;
     var range_y = this.range_y;
     var range_z = this.range_z;
+
+    var x = range_x.val2px(O.x);
+    var y = range_y.val2px(O.y);
+    var z = range_z.val2px(O.z);
 
     switch (O.mode) {
         case "circular":
@@ -968,6 +680,36 @@ function set_main_class(O) {
     }
 
     TK.add_class(E, "toolkit-"+O.mode);
+}
+
+function startdrag() {
+    this.draw_once(function() {
+        var e = this.element;
+        var p = e.parentNode;
+        TK.add_class(e, "toolkit-active");
+
+        /* TODO: move this into the parent */
+        TK.add_class(this.parent.element, "toolkit-dragging");
+
+        this.global_cursor("move");
+
+        return;
+        /* make sure we move the handle to the front */
+        if (p.lastChild !== e)
+            p.appendChild(e);
+    });
+}
+
+function enddrag() {
+    this.draw_once(function() {
+        var e = this.element;
+        TK.remove_class(e, "toolkit-active");
+
+        /* TODO: move this into the parent */
+        TK.remove_class(this.parent.element, "toolkit-dragging");
+
+        this.remove_cursor("move");
+    });
 }
 
 /**
@@ -1085,6 +827,7 @@ TK.ResponseHandle = TK.class({
         active: "boolean",
         show_axis: "boolean",
         title: "string",
+        hover: "boolean",
     }),
     options: {
         range_x:          {},
@@ -1118,7 +861,8 @@ TK.ResponseHandle = TK.class({
         z_min:            false,
         z_max:            false,
         active:           true,
-        show_axis:        false
+        show_axis:        false,
+        hover:            false,
     },
     static_events: {
         set_show_axis: function(value) {
@@ -1141,19 +885,19 @@ TK.ResponseHandle = TK.class({
         set_x_max: set_max,
         set_y_max: set_max,
         set_z_max: set_max,
+        mouseenter: function() {
+            this.set("hover", true);
+        },
+        mouseleave: function() {
+            this.set("hover", false);
+        },
     },
 
     initialize: function (options) {
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
         this.label = [0,0,0,0];
         this.handle = [0,0,0,0];
-        this.__active = false;
-        this._tdist = false;
-        this._zhandling = false;
         this._zwheel = false;
-        this._sticky = false;
+        this.__sto = 0;
         TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
         
@@ -1199,25 +943,160 @@ TK.ResponseHandle = TK.class({
          *      Has class <code>toolkit-z-handle</code>.
          */
 
-        this._mouseenter = mouseenter.bind(this);
-        this._mouseleave = mouseleave.bind(this);
-        this._mouseelement = mouseelement.bind(this);
-        this._mousedown = mousedown.bind(this);
-        this._mouseup = mouseup.bind(this);
-        this._mousemove = mousemove.bind(this);
         this._scrollwheel = scrollwheel.bind(this);
-        this._touchstart = touchstart.bind(this);
-        this._touchend = touchend.bind(this);
-        this._touchmove = touchmove.bind(this);
-        this._zhandledown = zhandledown.bind(this);
-
-        E.addEventListener("mouseenter",     this._mouseenter);
-        E.addEventListener("mouseleave",     this._mouseleave);
-        E.addEventListener("mousedown",      this._mousedown);
-        E.addEventListener("touchstart",     this._touchstart);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
 
         this._handle = this._zhandle = this._line1 = this._line2 = this._label = null;
+
+        this.z_drag = new TK.DragCapture({
+            node: E,
+            onstartcapture: function(state) {
+                var O = this.options;
+                if (O.active !== true) return false;
+                state.z = this.range_z.val2px(O.z);
+
+                /* the main handle is active,
+                 * this is a z gesture */
+                var pstate = this.pos_drag.state();
+                if (pstate) {
+                    var d;
+                    var v = [ state.current.clientX - pstate.prev.clientX,
+                              state.current.clientY - pstate.prev.clientY ];
+                    normalize(v);
+                    state.vector = v;
+                } else {
+                    state.vector = this.zhandle_position;
+                }
+                /**
+                 * Is fired when the user grabs the z-handle. The argument is the
+                 * actual z value.
+                 * 
+                 * @event TK.ResponseHandle#zchangestarted
+                 * 
+                 * @param {number} z - The z value.
+                 */
+                this.fire_event("zchangestarted", O.z);
+                startdrag.call(this);
+            }.bind(this),
+            onmovecapture: function(state) {
+                var O = this.options;
+
+                var zv = state.vector;
+                var v = state.vdistance();
+
+                var d = zv[0] * v[0] + zv[1] * v[1];
+
+                /* ignore small movements */
+                if (O.min_drag > 0 && O.min_drag > d) return;
+
+                var range_z = this.range_z;
+                var z = range_z.px2val(state.z + d);
+
+                this.userset("z", z);
+            }.bind(this),
+            onstopcapture: function() {
+                /**
+                 * Is fired when the user releases the z-handle. The argument is the
+                 * actual z value.
+                 * 
+                 * @event TK.ResponseHandle#zchangeended
+                 * 
+                 * @param {number} z - The z value.
+                 */
+                this.fire_event("zchangeended", this.options.z);
+                enddrag.call(this);
+            }.bind(this),
+        });
+        this.pos_drag = new TK.DragCapture({
+            node: this.element,
+            onstartcapture: function(state) {
+                var O = this.options;
+                if (O.active !== true) return false;
+
+                var button = state.current.button;
+                var E = this.element;
+                var p = E.parentNode;
+
+                this.z_drag.set("node", document);
+
+                /* right click triggers move to the back */
+                if (state.current.button === 2) {
+                    if (element !== p.firstChild)
+                        this.draw_once(function() {
+                            var e = this.element;
+                            var p = e.parentNode;
+                            if (p && e !== p.firstChild) p.insertBefore(e, p.firstChild);
+                        });
+                    return false;
+                }
+
+                state.x = this.range_x.val2px(O.x);
+                state.y = this.range_y.val2px(O.y);
+                /**
+                 * Is fired when the main handle is grabbed by the user.
+                 * The argument is an object with the following members:
+                 * <ul>
+                 * <li>x: the actual value on the x axis</li>
+                 * <li>y: the actual value on the y axis</li>
+                 * <li>pos_x: the position in pixels on the x axis</li>
+                 * <li>pos_y: the position in pixels on the y axis</li>
+                 * </ul>
+                 * 
+                 * @event TK.ResponseHandle#handlegrabbed
+                 * 
+                 * @param {Object} positions - An object containing all relevant positions of the pointer.
+                 */
+                this.fire_event("handlegrabbed", {
+                    x:     O.x,
+                    y:     O.y,
+                    pos_x: state.x,
+                    pos_y: state.y
+                });
+                startdrag.call(this);
+            }.bind(this),
+            onmovecapture: function(state) {
+                var O = this.options;
+
+                /* ignore small movements */
+                if (O.min_drag > 0 && O.min_drag > state.distance()) return;
+
+                /* we are changing z right now using a gesture, irgnore this movement */
+                if (this.z_drag.dragging()) return;
+
+                var v = state.vdistance();
+                var range_x = this.range_x;
+                var range_y = this.range_y;
+                var x = range_x.px2val(state.x + v[0]);
+                var y = range_y.px2val(state.y + v[1]);
+
+                this.userset("x", x);
+                this.userset("y", y);
+            }.bind(this),
+            onstopcapture: function() {
+                /**
+                 * Is fired when the user releases the main handle.
+                 * The argument is an object with the following members:
+                 * <ul>
+                 * <li>x: the actual value on the x axis</li>
+                 * <li>y: the actual value on the y axis</li>
+                 * <li>pos_x: the position in pixels on the x axis</li>
+                 * <li>pos_y: the position in pixels on the y axis</li>
+                 * </ul>
+                 * 
+                 * @event TK.ResponseHandle#handlereleased
+                 * 
+                 * @param {Object} positions - An object containing all relevant positions of the pointer.
+                 */
+                var O = this.options;
+                this.fire_event("handlereleased", {
+                    x:     O.x,
+                    y:     O.y,
+                    pos_x: this.range_x.val2px(O.x),
+                    pos_y: this.range_y.val2px(O.y),
+                });
+                enddrag.call(this);
+                this.z_drag.set("node", this._zhandle);
+            }.bind(this),
+        });
 
         this.set("mode", O.mode);
         this.set("show_axis", O.show_axis);
@@ -1227,6 +1106,7 @@ TK.ResponseHandle = TK.class({
         this.set("z", O.z);
         this.set("z_handle", O.z_handle);
         this.set("label", O.label);
+
     },
 
     redraw: function () {
@@ -1238,16 +1118,16 @@ TK.ResponseHandle = TK.class({
         var range_y = this.range_y;
         var range_z = this.range_z;
 
-        /* NOTE: this is currently done for the mouse events */
-        this.x = range_x.val2px(O.x);
-        this.y = range_y.val2px(O.y);
-        this.z = range_z.val2px(O.z);
-
         /* These are the coordinates of the corners (x1, y1, x2, y2)
          * NOTE: x,y are not necessarily in the midde. */
         var X  = this.handle;
 
         if (I.mode) set_main_class.call(this, O);
+
+        if (I.hover) {
+            I.hover = false;
+            TK.toggle_class(this.element, "toolkit-hover", O.hover);
+        }
 
         if (I.active) {
             // TODO: this is not very nice, we should really use the options

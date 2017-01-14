@@ -170,18 +170,6 @@ TK.ResponseHandler = TK.class({
         
         var h = new TK.ResponseHandle(options);
         this.handles.push(h);
-        h.add_events(["handlegrabbed", "zchangestarted"], function () {
-            document.addEventListener("mousemove", this._mousemove);
-            document.addEventListener("mouseup",   this._mouseup);
-            document.addEventListener("touchmove", this._touchmove);
-            document.addEventListener("touchend",  this._touchend);
-        });
-        h.add_events(["destroy", "handlereleased", "zchangeended"],  function () {
-            document.removeEventListener("mousemove", this._mousemove);
-            document.removeEventListener("mouseup",   this._mouseup);
-            document.removeEventListener("touchmove", this._touchmove);
-            document.removeEventListener("touchend",  this._touchend);
-        });
         if (this.options.show_handles)
             this.add_child(h);
         /**
