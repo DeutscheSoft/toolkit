@@ -197,6 +197,13 @@ function touchcancel(ev) {
 }
 var dummy = function() {};
 
+function get_parents(e) {
+    var ret = [];
+    if (Array.isArray(e)) e.map(function(e) { e = e.parentNode; if (e) ret.push(e); });
+    else if (e = e.parentNode) ret.push(e);
+    return ret;
+}
+
 var static_events = {
     set_node: function(value) {
         this.delegate_events(value);
@@ -209,8 +216,8 @@ var static_events = {
         },
         function(elem, old) {
             /* NOTE: this works around a bug in chrome (#673102) */
-            if (old && old.parentNode) old.parentNode.removeEventListener("touchstart", dummy);
-            if (elem && elem.parentNode) elem.parentNode.addEventListener("touchstart", dummy);
+            if (old) TK.remove_event_listener(get_parents(old), "touchstart", dummy);
+            if (elem) TK.add_event_listener(get_parents(elem), "touchstart", dummy);
         }
     ],
     touchstart: touchstart,
