@@ -223,21 +223,22 @@ function remove_native_events(element) {
     var handler = this.__native_handler;
 
     for (type in s) if (is_native_event(type))
-        element.removeEventListener(type, handler);
+        TK.remove_event_listener(element, type, handler);
 
     for (type in d) if (is_native_event(type) && (!s || !s.hasOwnProperty(type)))
-        element.removeEventListener(type, handler);
+        TK.remove_event_listener(event, type, handler);
 }
 function add_native_events(element) {
     var type;
     var s = this.static_events;
     var d = this.__events;
     var handler = this.__native_handler;
+
     for (type in s) if (is_native_event(type))
-        element.addEventListener(type, handler);
+        TK.add_event_listener(element, type, handler);
 
     for (type in d) if (is_native_event(type) && (!s || !s.hasOwnProperty(type)))
-        element.addEventListener(type, handler);
+        TK.add_event_listener(element, type, handler);
 }
 function native_handler(ev) {
     /* FIXME:
@@ -422,9 +423,9 @@ TK.Base = TK.class({
          * 
          * @event TK.Base#delegated
          * 
-         * @param {HTMLElement} element - The element which receives all
+         * @param {HTMLElement|Array} element - The element which receives all
          *      native DOM events.
-         * @param {HTMLElement} old_element - The element which previously
+         * @param {HTMLElement|Array} old_element - The element which previously
          *      received all native DOM events.
          */
         this.fire_event("delegated", element, old_target);
@@ -459,7 +460,7 @@ TK.Base = TK.class({
             throw new Error("Bad number of arguments.");
 
         if (is_native_event(event) && (ev = this.__event_target) && !this.has_event_listeners(event))
-            ev.addEventListener(event, this.__native_handler);
+            TK.add_event_listener(ev, event, this.__native_handler);
         ev = this.__events;
         add_event(ev, event, func);
     },
@@ -480,7 +481,7 @@ TK.Base = TK.class({
         // remove native DOM event listener from __event_target
         if (is_native_event(event) && !this.has_event_listeners(event)) {
             ev = this.__event_target;
-            if (ev) ev.removeEventListener(event, this.__native_handler);
+            if (ev) TK.remove_event_listener(ev, event, this.__native_handler);
         }
     },
     /**
