@@ -1152,6 +1152,18 @@ TK = w.toolkit = {
     // EVENTS
     
     delayed_callback : delayed_callback,
+    add_event_listener: function(e, type, cb) {
+        if (Array.isArray(e)) {
+            for (var i = 0; i < e.length; i++)
+                e[i].addEventListener(type, cb);
+        } else e.addEventListener(type, cb);
+    },
+    remove_event_listener: function(e, type, cb) {
+        if (Array.isArray(e)) {
+            for (var i = 0; i < e.length; i++)
+                e[i].removeEventListener(type, cb);
+        } else e.removeEventListener(type, cb);
+    },
     
     // OTHER
     
