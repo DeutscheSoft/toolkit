@@ -273,11 +273,11 @@ TK.Widget = TK.class({
 
         if (q === null) {
             this.draw_queue = [ fun ];
-            return;
         } else {
             for (var i = 0; i < q.length; i++) if (q[i] === fun) return;
             q[i] = fun;
         }
+        this.trigger_draw();
     },
     redraw: function () {
         var I = this.invalid;
