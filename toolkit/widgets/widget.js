@@ -706,4 +706,15 @@ TK.Widget.prototype.force_hide = TK.Widget.prototype.hide;
  * @method TK.Widget#force_show
  */
 TK.Widget.prototype.force_show = TK.Widget.prototype.show;
+TK.Module = TK.class({
+    Extends: TK.Base,
+    initialize: function(widget, options) {
+        this.parent = widget;
+        TK.Base.prototype.initialize.call(this, options);
+    },
+    destroy: function() {
+        this.parent = null;
+        TK.Base.prototype.destroy.call(this);
+    },
+});
 })(this, this.TK);
