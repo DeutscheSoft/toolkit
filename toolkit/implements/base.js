@@ -716,8 +716,10 @@ function ChildWidget(widget, name, config) {
 TK.ChildWidget = ChildWidget;
 function ChildElement(widget, name, config) {
     var p = widget.prototype;
-    var show_option = "show_" + name;
+    var show_option = config.option || ("show_" + name);
     var index = "_"+name;
+
+    var display_check = config.display_check;
 
     /* trigger child element creation after initialization */
     add_static_event(widget, "initialized", function() {
@@ -743,11 +745,12 @@ function ChildElement(widget, name, config) {
 
     add_static_event(widget, "set_"+show_option, function(value) {
         var C = this[index];
-        if (value && !C) {
+        var show = display_check ? display_check(value) : (value !== false);
+        if (show && !C) {
             C = create.call(this);
             this[index] = C;
             append.call(this, this.options);
-        } else if (C) {
+        } else if (C && !show) {
             this[index] = null;
             C.remove();
         }
@@ -769,8 +772,10 @@ function ChildElement(widget, name, config) {
         }
     }
 
-    p._options[show_option] = "boolean";
-    p.options[show_option] = !!config.show;
+    if (p._options[show_option] === void(0)) {
+        p._options[show_option] = "boolean";
+        p.options[show_option] = !!config.show;
+    }
 }
 TK.ChildElement = ChildElement;
 })(this, this.TK);
