@@ -21,30 +21,23 @@
 // HELPERS & STUFF
 function draw_key() {
     var __key, bb;
-    TK.empty(this._key_txt);
-    TK.empty(this._key);
-    
-    if (this.options.key === false) {
-        this._key.style.display = "none";
-        this._key_background.style.display = "none";
-        return;
-    }
-    
-    this._key.appendChild(this._key_txt);
+    var tmp = this._key;
+
+    if (!tmp) return;
+
+    var _key = tmp[1];
+    var _key_bg = tmp[0];
+
+    while (_key.firstChild !== _key.lastChild)
+        _key.removeChild(_key.lastChild);
+
+    TK.empty(_key.firstChild);
+
+    var O = this.options;
     
     var disp = "none";
-    var gpad = {
-        top:    parseInt(TK.get_style(this._key, "padding-top")) || 0,
-        right:  parseInt(TK.get_style(this._key, "padding-right")) || 0,
-        bottom: parseInt(TK.get_style(this._key, "padding-bottom")) || 0,
-        left:   parseInt(TK.get_style(this._key, "padding-left")) || 0
-    }
-    var gmarg = {
-        top:    parseInt(TK.get_style(this._key, "margin-top")) || 0,
-        right:  parseInt(TK.get_style(this._key, "margin-right")) || 0,
-        bottom: parseInt(TK.get_style(this._key, "margin-bottom")) || 0,
-        left:   parseInt(TK.get_style(this._key, "margin-left")) || 0
-    }
+    var gpad = TK.css_space(_key, "padding");
+    var gmarg = TK.css_space(_key, "margin");
     var c   = 0;
     var w   = 0;
     var top = 0;
@@ -56,9 +49,9 @@ function draw_key() {
             });
             t.textContent = this.graphs[i].get("key");
             t.setAttribute("x", gpad.left);
-            this._key_txt.appendChild(t);
+            _key.firstChild.appendChild(t);
             
-            if (!bb) bb = this._key.getBoundingClientRect();
+            if (!bb) bb = _key.getBoundingClientRect();
             top += c ? parseInt(TK.get_style(t, "line-height")) : gpad.top;
             t.setAttribute("y", top + bb.height / 2);
             
@@ -82,20 +75,20 @@ function draw_key() {
             color:   lines[i].color,
             style:   lines[i].style,
             x:       lines[i].x + 0.5 + w + gpad.left,
-            y:       lines[i].y + 0.5 + parseInt(lines[i].height / 2 - this.options.key_size.y / 2),
-            height:  this.options.key_size.y,
-            width:   this.options.key_size.x
+            y:       lines[i].y + 0.5 + parseInt(lines[i].height / 2 - O.key_size.y / 2),
+            height:  O.key_size.y,
+            width:   O.key_size.x
         });
-        this._key.appendChild(b);
+        _key.appendChild(b);
     }
-    this._key_background.style.display = disp;
-    this._key.style.display = disp;
+    _key_bg.style.display = disp;
+    _key.style.display = disp;
     
-    bb = this._key.getBoundingClientRect();
+    bb = _key.getBoundingClientRect();
     var width  = this.range_x.options.basis;
     var height = this.range_y.options.basis;
     
-    switch (this.options.key) {
+    switch (O.key) {
         case "top-left":
             __key = {
                 x1: gmarg.left,
@@ -129,16 +122,18 @@ function draw_key() {
             }
             break;
         default:
-            TK.warn("Unsupported key", this.options.key);
+            TK.warn("Unsupported key", O.key);
     }
-    this._key.setAttribute("transform", "translate(" + __key.x1 + "," + __key.y1 + ")");
-    this._key_background.setAttribute("x", __key.x1);
-    this._key_background.setAttribute("y", __key.y1);
-    this._key_background.setAttribute("width", __key.x2 - __key.x1);
-    this._key_background.setAttribute("height", __key.y2 - __key.y1);
+    _key.setAttribute("transform", "translate(" + __key.x1 + "," + __key.y1 + ")");
+    _key_bg.setAttribute("x", __key.x1);
+    _key_bg.setAttribute("y", __key.y1);
+    _key_bg.setAttribute("width", __key.x2 - __key.x1);
+    _key_bg.setAttribute("height", __key.y2 - __key.y1);
 }
 function draw_title() {
     var _title  = this._title;
+    if (!_title) return;
+
     _title.textContent = this.options.title;
 
     /* FORCE_RELAYOUT */
@@ -310,48 +305,14 @@ TK.Chart = TK.class({
         if (!this.options.height)
             this.options.height = this.range_y.options.basis;
         
-        /**
-         * @member {SVGText} TK.Chart#_title - The title of the chart. Has class <code>toolkit-title</code>.
-         */
-        this._title = TK.make_svg("text", {
-            "class": "toolkit-title",
-            style: "dominant-baseline: central;"
-        });
-        S.appendChild(this._title);
-        
         /** 
-         * @member {SVGGroup} TK.Chart#_graphs - The group containing all graphs. Has class <code>toolkit-graphs</code>.
+         * @member {SVGGroup} TK.Chart#_graphs - The group containing all graphs.
+         *      Has class <code>toolkit-graphs</code>.
          */
         this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
         S.appendChild(this._graphs);
-        
-        /**
-         * @member {SVGRect} TK.Chart#_key_background - The rectangle of the key. Has class <code>toolkit-background</code>.
-         */
-        this._key_background = TK.make_svg("rect",
-            {"class": "toolkit-background"});
-        /**
-         * @member {SVGGroup} TK.Chart#_key - The group containing all descriptions. Has class <code>toolkit-key</code>.
-         */
-        this._key = TK.make_svg("g", {"class": "toolkit-key"});
-        /**
-         * @member {SVGText} TK.Chart#_key_txt - The text label for the key. Has class <code>toolkit-key-text</code>.
-         */
-        this._key_txt = TK.make_svg("text", {"class": "toolkit-key-text"});
-
-        S.appendChild(this._key_background);
-        S.appendChild(this._key);
-        S.appendChild(this._key_txt);
         E.appendChild(S);
         
-        this._key_background.addEventListener("mouseenter", function () {
-                TK.add_class(this._key, "toolkit-hover");
-                TK.add_class(this._key_background, "toolkit-hover");
-            }.bind(this));
-        this._key_background.addEventListener("mouseleave", function () {
-                TK.remove_class(this._key, "toolkit-hover");
-                TK.remove_class(this._key_background, "toolkit-hover");
-            }.bind(this));
         if (this.options.width) this.set("width", this.options.width);
         if (this.options.height) this.set("height", this.options.height);
     },
@@ -544,6 +505,63 @@ TK.ChildWidget(TK.Chart, "grid", {
             range_x: this.range_x,
             range_y: this.range_y,
         };
+    },
+});
+function key_hover_cb(ev) {
+    var b = ev.type === "mouseenter";
+    TK.toggle_class(this, "toolkit-hover", b);
+    /* this.nextSibling is the key */
+    TK.toggle_class(this.nextSibling, "toolkit-hover", b);
+}
+/**
+ * @member {SVGRect} TK.Chart#_key_background - The rectangle of the key.
+ *      Has class <code>toolkit-background</code>.
+ */
+TK.ChildElement(TK.Chart, "key_background", {
+    option: "key",
+    create: function() {
+        var k = TK.make_svg("rect", {"class": "toolkit-background"});
+        k.addEventListener("mouseenter", key_hover_cb);
+        k.addEventListener("mouseleave", key_hover_cb);
+        return k;
+    },
+    append: function() {
+        this.svg.appendChild(this._key_background);
+    },
+});
+/**
+ * @member {SVGGroup} TK.Chart#_key - The group containing all descriptions.
+ *      Has class <code>toolkit-key</code>.
+ */
+TK.ChildElement(TK.Chart, "key", {
+    option: "key",
+    create: function() {
+        var key = TK.make_svg("g", {"class": "toolkit-key"});
+        k.appendChild(TK.make_svg("text", {"class": "toolkit-key-text"}));
+        return k;
+    },
+    append: function() {
+        this.svg.appendChild(this._key);
+    },
+});
+/**
+ * @member {SVGText} TK.Chart#_title - The title of the chart.
+ *      Has class <code>toolkit-title</code>.
+ */
+TK.ChildElement(TK.Chart, "title", {
+    option: "title",
+    display_check: function(v) {
+        return typeof(v) === "string" && v.length;
+    },
+    create: function() {
+        return TK.make_svg("text", {
+            "class": "toolkit-title",
+            style: "dominant-baseline: central;"
+        });
+    },
+    append: function() {
+        var svg = this.svg;
+        svg.insertBefore(this._title, svg.firstChild);
     },
 });
 })(this, this.TK);
