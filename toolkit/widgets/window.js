@@ -17,17 +17,6 @@
  * Boston, MA  02110-1301  USA
  */
  
- /**
- * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
- * The event is emitted for the options <code>maximize</code>, <code>minimize</code>, <code>shrink</code>, <code>width</code>, <code>height</code>, <code>x</code> and <code>y</code>.
- * 
- * @event TK.Window#useraction
- * 
- * @param {string} name - The name of the option which was changed due to the users action
- * @param {mixed} value - The new value of the option
- * 
- */
- 
 "use strict";
 (function(w, TK){
 function header_action() {
@@ -96,7 +85,6 @@ function maximize(e) {
      * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizeclicked", this.options.maximize);
-    this.fire_event("useraction", "maximize", this.options.maximize);
 }
 function maximizevertical(e) {
     if (this.options.auto_maximize) this.toggle_maximize_vertical();
@@ -108,7 +96,6 @@ function maximizevertical(e) {
      * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizeverticalclicked", this.options.maximize.y);
-    this.fire_event("useraction", "maximize", this.options.maimize);
 }
 function maximizehorizontal(e) {
     if (this.options.auto_maximize) this.toggle_maximize_horizontal();
@@ -120,7 +107,6 @@ function maximizehorizontal(e) {
      * @param {Object} maximize - The maximize option.
      */
     this.fire_event("maximizehorizontalclicked", this.options.maximize.x);
-    this.fire_event("useraction", "maximize", this.options.maximize);
 }
 function minimize(e) {
     if (this.options.auto_minimize) this.toggle_minimize();
@@ -132,7 +118,6 @@ function minimize(e) {
      * @param {Object} minimize - The minimize option.
      */
     this.fire_event("minimizeclicked", this.options.minimize);
-    this.fire_event("useraction", "minimize", this.options.minimize);
 }
 function shrink(e) {
     if (this.options.auto_shrink) this.toggle_shrink();
@@ -144,7 +129,6 @@ function shrink(e) {
      * @param {Object} shrink - The shrink option.
      */
     this.fire_event("shrinkclicked", this.options.shrink);
-    this.fire_event("useraction", "shrink", this.options.shrink);
 }
 function start_resize(el, ev) {
     this.__docmouse = TK.get_style(document.body, "cursor");
@@ -192,9 +176,6 @@ function resizing(el, ev) {
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("resizing", ev);
-    
-    this.fire_event("useraction", "width", this.options.width);
-    this.fire_event("useraction", "height", this.options.height);
 }
 function build_header() {
     build_from_const.call(this, "header_left");
@@ -316,9 +297,6 @@ function start_drag(ev, el) {
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("startdrag", ev);
-    
-    this.fire_event("useraction", "x", this.options.x);
-    this.fire_event("useraction", "y", this.options.y);
 }
 function stop_drag(ev, el) {
     this.dragging = false;
@@ -332,9 +310,6 @@ function stop_drag(ev, el) {
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("stopdrag", ev);
-    
-    this.fire_event("useraction", "x", this.options.x);
-    this.fire_event("useraction", "y", this.options.y);
 }
 function dragging(ev, el) {
     if (!this.dragging) {
@@ -342,11 +317,9 @@ function dragging(ev, el) {
         // un-maximize
         if (horiz_max.call(this)) {
             this.set("maximize", {x: false});
-            this.fire_event("useraction", "maximize", this.options.maximize);
         }
         if (vert_max.call(this)) {
             this.set("maximize", {y: false});
-            this.fire_event("useraction", "maximize", this.options.maximize);
         }
     }
     calculate_position.call(this);
@@ -358,9 +331,6 @@ function dragging(ev, el) {
      * @param {DOMEvent} event - The DOM event.
      */
     this.fire_event("dragging", ev);
-    
-    this.fire_event("useraction", "x", this.options.x);
-    this.fire_event("useraction", "y", this.options.y);
 }
 function size_footer() {
     TK.outer_width(this._footer_center, true,
