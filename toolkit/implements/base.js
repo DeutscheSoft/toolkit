@@ -226,7 +226,7 @@ function remove_native_events(element) {
         TK.remove_event_listener(element, type, handler);
 
     for (type in d) if (is_native_event(type) && (!s || !s.hasOwnProperty(type)))
-        TK.remove_event_listener(event, type, handler);
+        TK.remove_event_listener(element, type, handler);
 }
 function add_native_events(element) {
     var type;
