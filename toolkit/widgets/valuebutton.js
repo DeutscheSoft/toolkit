@@ -111,29 +111,17 @@ TK.ValueButton = TK.class({
         /**
          * @member {TK.DragValue} TK.ValueButton#drag - The DragValue module.
          */
-        this.drag = new TK.DragValue({
+        this.drag = new TK.DragValue(this, {
             node:      this.element,
-            range:     function () { return this; }.bind(this),
-            get:       function () { return this.options.value; }.bind(this),
-            set:       function (v) {
-                this.userset("value", v);
-            }.bind(this),
             direction: this.options.drag_direction,
             rotation: this.options.rotation,
             blind_angle: this.options.blind_angle,
-            events: function () { return this }.bind(this)
         });
         /**
          * @member {TK.ScrollValue} TK.ValueButton#scroll - The ScrollValue module.
          */
-        this.scroll = new TK.ScrollValue({
+        this.scroll = new TK.ScrollValue(this, {
             node: this.element,
-            range:   function () { return this }.bind(this),
-            get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) {
-                this.userset("value", v);
-            }.bind(this),
-            events: function () { return this }.bind(this)
         });
         
         if (this.options.reset === void(0))

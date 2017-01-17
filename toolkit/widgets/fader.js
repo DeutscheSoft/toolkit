@@ -65,7 +65,7 @@ function mouseenter (ev) {
 function clicked(ev) {
     var value;
     if (this._handle.contains(ev.target)) return;
-    value = SET.call(this, get_value.call(this, ev));
+    value = this.userset("value", get_value.call(this, ev));
     if (this.options.tooltip && TK.tooltip._entry)
         TK.set_text(TK.tooltip._entry, this.options.tooltip(this.options.value));
 }
@@ -84,7 +84,7 @@ function scrolling(ev) {
     TK.set_text(TK.tooltip._entry, this.options.tooltip(this.options.value));
 }
 function dblclick(ev) {
-    SET.call(this, this.options.reset);
+    this.userset("value", this.options.reset);
     /**
      * Is fired when the handle receives a double click.
      * 
@@ -93,15 +93,6 @@ function dblclick(ev) {
      * @param {number} value - The value of the {@link TK.Fader}.
      */
     this.fire_event("doubleclick", this.options.value);
-}
-function GET() {
-    return this.value;
-}
-function THIS() {
-    return this;
-}
-function SET(v) {
-    this.userset("value", v);
 }
 function activate_tooltip() {
     if (!this.tooltip_by_position) {
@@ -236,32 +227,20 @@ TK.Fader = TK.class({
 
         if (O.direction === void(0))
             O.direction = vert(O) ? "vertical" : "horizontal";
-            
-        var self = THIS.bind(this);
-        var get = GET.bind(O);
-        var set = SET.bind(this);
         /**
          * @member {TK.DragValue} TK.Fader#drag - Instance of {@link TK.DragValue} used for the handle
          *   interaction.
          */
-        this.drag = new TK.DragValue({
+        this.drag = new TK.DragValue(this, {
             node:    this._handle,
-            range:   self,
-            get:     get,
-            set:     set,
-            events:  self,
             direction: O.direction
         });
         /**
          * @member {TK.ScrollValue} TK.Fader#scroll - Instance of {@link TK.ScrollValue} used for the
          *   handle interaction.
          */
-        this.scroll = new TK.ScrollValue({
+        this.scroll = new TK.ScrollValue(this, {
             node:    this.element,
-            range:   self,
-            get:     get,
-            set:     set,
-            events:  self
         });
         
         this.set("bind_click", O.bind_click);

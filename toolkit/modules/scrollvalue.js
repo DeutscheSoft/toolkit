@@ -52,7 +52,7 @@ function scrollwheel(e) {
         step *= range.options.shift_up;
     }
 
-    var pos = range.val2real(O.get());
+    var pos = range.val2real(O.get.call(this));
     var value;
     
     pos += step;
@@ -63,19 +63,19 @@ function scrollwheel(e) {
      * If that fails too, we are probably at the boundary of our range, and pass
      * the original value, in order to trigger the range overflow detection (warning).
      */
-    if (range.snap(value) === O.get()) {
+    if (range.snap(value) === O.get.call(this)) {
         var tmp;
         if (d > 0) {
             tmp = range.snap_up(value);
         } else {
             tmp = range.snap_down(value);
         }
-        if (tmp !== O.get()) {
+        if (tmp !== O.get.call(this)) {
             value = tmp;
         }
     }
 
-    O.set(value);
+    O.set.call(this, value);
     
     if (!this._wheel)
         /**
@@ -104,8 +104,8 @@ function fire_event(title, event) {
     // fire an event on this drag object and one with more
     // information on the draggified element
     this.fire_event(title, this, event);
-    var e = O.events();
-    if (e) e.fire_event(title, event, O.get(), O.node, this, O.range());
+    var e = O.events.call(this);
+    if (e) e.fire_event(title, event, O.get.call(this), O.node, this, O.range.call(this));
 }
 /**
  * TK.ScrollValue enables the scroll wheel for setting a value of an
@@ -114,7 +114,7 @@ function fire_event(title, event) {
  *
  * @class TK.ScrollValue
  * 
- * @extends TK.Base
+ * @extends TK.Module
  * 
  * @property {Function} [get=function () { return; }] - Callback returning the value.
  * @property {Function} [set=function () { return; }] - Callback setting the value.
@@ -126,7 +126,7 @@ function fire_event(title, event) {
  */
 TK.ScrollValue = TK.class({
     _class: "ScrollValue",
-    Extends: TK.Base,
+    Extends: TK.Module,
     _options: {
         get: "function",
         set: "function",
@@ -138,17 +138,16 @@ TK.ScrollValue = TK.class({
         scroll_direction: "object",
     },
     options: {
-        range:     function () { return {}; },
-        node:      false,
-        events:    false,
+        range:     function () { return this.parent; },
+        events:    function () { return this.parent; },
         classes:   false,
-        get:       function () { return; },
-        set:       function () { return; },
+        get:       function () { return this.parent.options.value; },
+        set:       function (v) { this.parent.userset("value", v); },
         active:    true,
         scroll_direction: [0, -1, 0],
     },
-    initialize: function (options) {
-        TK.Base.prototype.initialize.call(this, options);
+    initialize: function (widget, options) {
+        TK.Module.prototype.initialize.call(this, widget, options);
         this.set("node", this.options.node);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
@@ -164,7 +163,7 @@ TK.ScrollValue = TK.class({
     },
     set: function (key, value) {
         if ((key === "classes") && !value) value = this.options.node;
-        return TK.Base.prototype.set.call(this, key, value);
+        return TK.Module.prototype.set.call(this, key, value);
     }
 })
 })(this, this.TK);

@@ -41,6 +41,9 @@ function dblclick() {
      */
     this.fire_event("doubleclick", this.options.value);
 }
+function module_range() {
+    return this.parent.circular;
+}
 /**
  * TK.Knob is a {@link TK.Circular} inside of an SVG and which can be
  * modified both by dragging and scrolling.
@@ -112,6 +115,7 @@ TK.Knob = TK.class({
     },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
+        options = this.options;
         var E, S;
         /**
          * @member {HTMLDivElement} TK.Knob#element - The main DIV container.
@@ -125,7 +129,7 @@ TK.Knob = TK.class({
          */
         this.svg = S = TK.make_svg("svg");
         
-        var co = TK.object_and(this.options, TK.Circular.prototype._options);
+        var co = TK.object_and(options, TK.Circular.prototype._options);
         co = TK.object_sub(co, TK.Widget.prototype._options);
         co.container = S;
 
@@ -140,17 +144,12 @@ TK.Knob = TK.class({
          * @member {TK.DragValue} TK.Knob#drag - Instance of {@link TK.DragValue} used for the
          *   interaction.
          */
-        this.drag = new TK.DragValue({
+        this.drag = new TK.DragValue(this, {
             node:    S,
-            range:   function () { return this.circular; }.bind(this),
-            get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) {
-                this.userset("value", v);
-            }.bind(this),
-            direction: this.options.direction,
-            rotation: this.options.rotation,
-            blind_angle: this.options.blind_angle,
-            events: function () { return this }.bind(this),
+            range:   module_range,
+            direction: options.direction,
+            rotation: options.rotation,
+            blind_angle: options.blind_angle,
         });
         /**
          * @member {TK.ScrollValue} TK.Knob#scroll - Instance of {@link TK.ScrollValue} used for the
@@ -158,18 +157,13 @@ TK.Knob = TK.class({
          */
         this.scroll = new TK.ScrollValue({
             node:    S,
-            range:   function () { return this.circular; }.bind(this),
-            get:     function () { return this.options.value; }.bind(this),
-            set:     function (v) {
-                this.userset("value", v);
-            }.bind(this),
-            events: function () { return this }.bind(this),
+            range:   module_range,
         });
 
         E.appendChild(S);
-        this.set("base", this.options.base);
-        if (this.options.reset === void(0))
-            this.options.reset = this.options.value;
+        this.set("base", options.base);
+        if (options.reset === void(0))
+            options.reset = options.value;
         this.add_child(this.circular);
     },
     

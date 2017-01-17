@@ -76,7 +76,7 @@ function set_handle() {
     if (this.drag)
         this.drag.destroy();
     var range = new TK.Range({});
-    this.drag = new TK.DragValue({ node: h,
+    this.drag = new TK.DragValue(this, { node: h,
         range: function () { return range; },
         onStartdrag  : dragstart.bind(this),
         onStopdrag   : dragend.bind(this),

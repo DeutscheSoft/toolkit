@@ -18,7 +18,7 @@
  */
 "use strict";
 (function(w, TK){
-function dragstart(e, drag) {
+function startdrag(e, drag) {
     this._dragged = 0;
     var O = this.options;
     if (!O.active) return;
@@ -35,9 +35,8 @@ function dragstart(e, drag) {
      * 
      * @param {DOMEvent} event - The native DOM event.
      */
-    this.fire_event("dragstart", e);
 }
-function dragend(e, drag) {
+function stopdrag(e, drag) {
     if (!this.options.active) return;
     if (e.button !== void(0) && e.button > 0) return;
     TK.remove_class(this.options.node, "toolkit-dragging");
@@ -48,7 +47,6 @@ function dragend(e, drag) {
      * 
      * @param {DOMEvent} event - The native DOM event.
      */
-    this.fire_event("dragstop", e);
 }
 function dragging(e, drag) {
     var O = this.options;
@@ -77,19 +75,17 @@ function dragging(e, drag) {
      * @param {int} x - The new x position.
      * @param {int} y - The new y position.
      */
-    this.fire_event("dragging", e, x, y);
 }
 function set_handle() {
     var h = this.options.handle;
     if (this.drag)
         this.drag.destroy();
     var range = new TK.Range({});
-    this.drag = new TK.DragValue({
+    this.drag = new TK.DragValue(this, {
         node: h,
         range: function () { return range; },
-        onStartdrag  : this._dragstart,
-        onStopdrag   : this._dragend,
-        onDragging   : this._dragging
+        get: function() { return 0; },
+        set: function(v) { return; },
     });
 }
 /**
@@ -128,11 +124,13 @@ TK.Drag = TK.class({
         max       : {x: -1, y: -1},
         initial   : 2,
     },
+    static_events: {
+        startdrag: startdrag,
+        dragging: dragging,
+        stopdrag: stopdrag,
+    },
     initialize: function (options) {
         TK.Base.prototype.initialize.call(this, options);
-        this._dragging = dragging.bind(this);
-        this._dragstart = dragstart.bind(this);
-        this._dragend = dragend.bind(this);
         this.set("handle", this.options.handle);
     },
     // GETTERS & SETTERS

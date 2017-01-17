@@ -24,7 +24,7 @@ function start_drag(value) {
 
     var O = this.options;
 
-    this.start_pos = O.range().val2px(O.get());
+    this.start_pos = O.range.call(this).val2px(O.get.call(this));
     /**
      * Is fired when a user starts dragging.
      *
@@ -33,7 +33,7 @@ function start_drag(value) {
      * @param {DOMEvent} event - The native DOM event.
      */
     this.fire_event("startdrag", this.drag_state.start);
-    if (O.events) O.events().fire_event("startdrag", this.drag_state.start);
+    if (O.events) O.events.call(this).fire_event("startdrag", this.drag_state.start);
 }
 
 function movecapture(state) {
@@ -56,7 +56,7 @@ function updatedrag() {
     /* the drag was cancelled while this callback was already scheduled */
     if (!state) return;
 
-    var range = O.range();
+    var range = O.range.call(this);
     var e = state.current;
 
     var multi = range.options.step || 1;
@@ -94,10 +94,10 @@ function updatedrag() {
     }
 
     var nval = range.px2val(this.start_pos + dist * multi);
-    O.set(nval);
+    O.set.call(this, nval);
 
     this.fire_event("dragging", state.current);
-    if (O.events) O.events().fire_event("dragging", state.current);
+    if (O.events) O.events.call(this).fire_event("dragging", state.current);
 }
 
 function stop_drag(state, ev) {
@@ -110,7 +110,7 @@ function stop_drag(state, ev) {
      */
     this.fire_event("stopdrag", ev);
     var O = this.options;
-    if (O.events) O.events().fire_event("stopdrag", ev);
+    if (O.events) O.events.call(this).fire_event("stopdrag", ev);
 }
 
 function angle_diff(a, b) {
@@ -146,7 +146,7 @@ TK.DragValue = TK.class({
      *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
      *   moving towards top and right.
      *
-     * @extends TK.Base
+     * @extends TK.Module
      *
      * @mixes TK.GlobalCursor
      */
@@ -173,28 +173,16 @@ TK.DragValue = TK.class({
         rotation: "number",
     },
     options: {
-        range:     function () { return {}; }, // a range oject
-        classes:   false,                      // element receiving classes
-                                               // or false to set class
-                                               // on the main element
-        get:       function () { return; },    // callback returning the value
-        set:       function () { return; },    // callback setting the value
-        direction: "polar",             // direction: vertical,
-                                               // horizontal or polar
-        active:    true,                       // deactivate the event
-        cursor:    false,                      // enable global cursors
-        blind_angle: 20,                       // used when direction = "polar"
-                                               // amount of degrees to
-                                               // separate positive from negative
-                                               // value changes
-        rotation:  45,                         // used when direction = "polar"
-                                               // defines the angle of
-                                               // the middle of the positive
-                                               // value changes. 0 means
-                                               // straight upward. E.g. a
-                                               // value of 45 does positive
-                                               // value changes in upper and
-                                               // right directions
+        range:     function () { return this.parent; },
+        classes:   false,
+        get:       function () { return this.parent.options.value; },
+        set:       function (v) { this.parent.userset("value", v); },
+        events:    function () { return this.parent; },
+        direction: "polar",
+        active:    true,
+        cursor:    false,
+        blind_angle: 20,
+        rotation:  45,
     },
     static_events: {
         set_state: start_drag,
@@ -231,8 +219,8 @@ TK.DragValue = TK.class({
             }.bind(this), 1);
         },
     },
-    initialize: function (options) {
-        TK.DragCapture.prototype.initialize.call(this, options);
+    initialize: function (widget, options) {
+        TK.DragCapture.prototype.initialize.call(this, widget, options);
 
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);

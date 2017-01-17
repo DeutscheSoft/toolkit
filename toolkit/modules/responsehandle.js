@@ -463,6 +463,10 @@ function redraw_zhandle(O, X) {
     normalize(this.zhandle_position);
 }
 
+function prevent_default(e) {
+    e.preventDefault();
+}
+
 function create_label() {
     var E;
     this._label = E = TK.make_svg("text", {
@@ -470,7 +474,7 @@ function create_label() {
     });
     E.addEventListener("mousewheel",      this._scrollwheel);
     E.addEventListener("DOMMouseScroll",  this._scrollwheel);
-    E.addEventListener('contextmenu', function(e){e.preventDefault();});
+    E.addEventListener('contextmenu', prevent_default);
 }
 
 function remove_label() {
@@ -479,10 +483,12 @@ function remove_label() {
     E.remove();
     E.removeEventListener("mousewheel",      this._scrollwheel);
     E.removeEventListener("DOMMouseScroll",  this._scrollwheel);
-    E.removeEventListener('contextmenu', function(e){e.preventDefault();});
+    E.removeEventListener('contextmenu', prevent_default);
 
     this.label = [0,0,0,0];
 }
+
+function STOP() { return false; };
 
 function create_handle() {
     var O = this.options;
@@ -494,7 +500,7 @@ function create_handle() {
                     { class: "toolkit-handle" });
     E.addEventListener("mousewheel",     this._scrollwheel);
     E.addEventListener("DOMMouseScroll", this._scrollwheel);
-    E.addEventListener('selectstart', function(){ return false; });
+    E.addEventListener('selectstart', STOP);
     this._handle = E;
     this.element.appendChild(E);
 }
@@ -506,6 +512,7 @@ function remove_handle() {
     E.remove();
     E.removeEventListener("mousewheel",     this._scrollwheel);
     E.removeEventListener("DOMMouseScroll", this._scrollwheel);
+    E.removeEventListener("selectstart", STOP);
 }
 
 function redraw_label(O, X) {
@@ -947,16 +954,17 @@ TK.ResponseHandle = TK.class({
 
         this._handle = this._zhandle = this._line1 = this._line2 = this._label = null;
 
-        this.z_drag = new TK.DragCapture({
+        this.z_drag = new TK.DragCapture(this, {
             node: E,
             onstartcapture: function(state) {
-                var O = this.options;
+                var self = this.parent;
+                var O = self.options;
                 if (O.active !== true) return false;
-                state.z = this.range_z.val2px(O.z);
+                state.z = self.range_z.val2px(O.z);
 
                 /* the main handle is active,
                  * this is a z gesture */
-                var pstate = this.pos_drag.state();
+                var pstate = self.pos_drag.state();
                 if (pstate) {
                     var d;
                     var v = [ state.current.clientX - pstate.prev.clientX,
@@ -964,7 +972,7 @@ TK.ResponseHandle = TK.class({
                     normalize(v);
                     state.vector = v;
                 } else {
-                    state.vector = this.zhandle_position;
+                    state.vector = self.zhandle_position;
                 }
                 /**
                  * Is fired when the user grabs the z-handle. The argument is the
@@ -974,11 +982,12 @@ TK.ResponseHandle = TK.class({
                  * 
                  * @param {number} z - The z value.
                  */
-                this.fire_event("zchangestarted", O.z);
-                startdrag.call(this);
-            }.bind(this),
+                self.fire_event("zchangestarted", O.z);
+                startdrag.call(self);
+            },
             onmovecapture: function(state) {
-                var O = this.options;
+                var self = this.parent;
+                var O = self.options;
 
                 var zv = state.vector;
                 var v = state.vdistance();
@@ -988,12 +997,13 @@ TK.ResponseHandle = TK.class({
                 /* ignore small movements */
                 if (O.min_drag > 0 && O.min_drag > d) return;
 
-                var range_z = this.range_z;
+                var range_z = self.range_z;
                 var z = range_z.px2val(state.z + d);
 
-                this.userset("z", z);
-            }.bind(this),
+                self.userset("z", z);
+            },
             onstopcapture: function() {
+                var self = this.parent;
                 /**
                  * Is fired when the user releases the z-handle. The argument is the
                  * actual z value.
@@ -1002,26 +1012,27 @@ TK.ResponseHandle = TK.class({
                  * 
                  * @param {number} z - The z value.
                  */
-                this.fire_event("zchangeended", this.options.z);
-                enddrag.call(this);
-            }.bind(this),
+                self.fire_event("zchangeended", self.options.z);
+                enddrag.call(self);
+            },
         });
-        this.pos_drag = new TK.DragCapture({
+        this.pos_drag = new TK.DragCapture(this, {
             node: this.element,
             onstartcapture: function(state) {
-                var O = this.options;
+                var self = this.parent;
+                var O = self.options;
                 if (O.active !== true) return false;
 
                 var button = state.current.button;
-                var E = this.element;
+                var E = self.element;
                 var p = E.parentNode;
 
-                this.z_drag.set("node", document);
+                self.z_drag.set("node", document);
 
                 /* right click triggers move to the back */
                 if (state.current.button === 2) {
                     if (element !== p.firstChild)
-                        this.draw_once(function() {
+                        self.draw_once(function() {
                             var e = this.element;
                             var p = e.parentNode;
                             if (p && e !== p.firstChild) p.insertBefore(e, p.firstChild);
@@ -1029,8 +1040,8 @@ TK.ResponseHandle = TK.class({
                     return false;
                 }
 
-                state.x = this.range_x.val2px(O.x);
-                state.y = this.range_y.val2px(O.y);
+                state.x = self.range_x.val2px(O.x);
+                state.y = self.range_y.val2px(O.y);
                 /**
                  * Is fired when the main handle is grabbed by the user.
                  * The argument is an object with the following members:
@@ -1045,32 +1056,33 @@ TK.ResponseHandle = TK.class({
                  * 
                  * @param {Object} positions - An object containing all relevant positions of the pointer.
                  */
-                this.fire_event("handlegrabbed", {
+                self.fire_event("handlegrabbed", {
                     x:     O.x,
                     y:     O.y,
                     pos_x: state.x,
                     pos_y: state.y
                 });
-                startdrag.call(this);
-            }.bind(this),
+                startdrag.call(self);
+            },
             onmovecapture: function(state) {
-                var O = this.options;
+                var self = this.parent;
+                var O = self.options;
 
                 /* ignore small movements */
                 if (O.min_drag > 0 && O.min_drag > state.distance()) return;
 
                 /* we are changing z right now using a gesture, irgnore this movement */
-                if (this.z_drag.dragging()) return;
+                if (self.z_drag.dragging()) return;
 
                 var v = state.vdistance();
-                var range_x = this.range_x;
-                var range_y = this.range_y;
+                var range_x = self.range_x;
+                var range_y = self.range_y;
                 var x = range_x.px2val(state.x + v[0]);
                 var y = range_y.px2val(state.y + v[1]);
 
-                this.userset("x", x);
-                this.userset("y", y);
-            }.bind(this),
+                self.userset("x", x);
+                self.userset("y", y);
+            },
             onstopcapture: function() {
                 /**
                  * Is fired when the user releases the main handle.
@@ -1086,16 +1098,17 @@ TK.ResponseHandle = TK.class({
                  * 
                  * @param {Object} positions - An object containing all relevant positions of the pointer.
                  */
-                var O = this.options;
-                this.fire_event("handlereleased", {
+                var self = this.parent;
+                var O = self.options;
+                self.fire_event("handlereleased", {
                     x:     O.x,
                     y:     O.y,
-                    pos_x: this.range_x.val2px(O.x),
-                    pos_y: this.range_y.val2px(O.y),
+                    pos_x: self.range_x.val2px(O.x),
+                    pos_y: self.range_y.val2px(O.y),
                 });
-                enddrag.call(this);
-                this.z_drag.set("node", this._zhandle);
-            }.bind(this),
+                enddrag.call(self);
+                self.z_drag.set("node", self._zhandle);
+            },
         });
 
         this.set("mode", O.mode);

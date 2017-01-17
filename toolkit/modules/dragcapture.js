@@ -228,17 +228,20 @@ var static_events = {
 };
 
 w.TK.DragCapture = TK.class({
-    Extends: TK.Base,
+    Extends: TK.Module,
     _class: "DragCapture",
     _options: {
         node: "object",
         state: "boolean",
     },
+    options: {
+        state: false,
+    },
     static_events: static_events,
-    initialize: function(O) {
-        TK.Base.prototype.initialize.call(this, O);
+    initialize: function(widget, O) {
+        TK.Module.prototype.initialize.call(this, widget, O);
         this.drag_state = null;
-        this.set("node", O.node);
+        this.set("node", O.node || widget.element);
     },
     destroy: function() {
         TK.Base.prototype.destroy.call(this);
