@@ -18,270 +18,211 @@
  */
 "use strict";
 (function(w, TK){
-function FilterModule(stdlib, foreign, heap) {
-    "use asm";
-    var freq = +foreign.freq;
-    var q    = +foreign.q;
-    var gain = +foreign.gain;
-
-    var exp = stdlib.Math.exp;
-    var log = stdlib.Math.log;
-    var pow = stdlib.Math.pow;
-    var MAX = stdlib.Math.max;
-    var sqrt = stdlib.Math.sqrt;
-
-    var LN2 = stdlib.Math.LN2;
-    var LN10 = stdlib.Math.LN10;
-    var PI = stdlib.Math.PI;
-
-    function log2(v) {
-        v = +v;
-        return +log(v) / LN2;
-    }
-
-    function log10(v) {
-        v = +v;
-        return +log(v) / LN10;
-    }
-    function lpf_order1(f) {
-        f = +f;
-        var wo = 0.0, wo2 = 0.0, Re2 = 0.0, w = 0.0, w2 = 0.0, Im = 0.0, den = 0.0;
-        wo  = 2.0 * PI * freq;
-        wo2 = wo * wo;
-        Re2 = wo2 * wo2;
-        w   = 2.0 * PI * f;
-        w2  = w * w;
-        Im  = -w * wo;
-        den = wo2 + w2;
-
-        return 20.0 * +log10(+sqrt((Re2) + (Im * Im)) / den);
-    }
-    function lpf_order2(f) {
-        f = +f;
-        var wo = 0.0, wo2 = 0.0, wo4 = 0.0, Q2 = 0.0, wo3Q = 0.0, w = 0.0, w2 = 0.0, wo2w22 = 0.0, beta = 0.0, Re = 0.0, Im = 0.0, den = 0.0;
-
-        wo   = 2.0 * PI * freq;
-        wo2  = wo * wo;
-        wo4  = wo2 * wo2;
-        Q2   = q * q;
-        wo3Q = -(wo * wo2) / q;
-        w      = 2.0 * PI * f;
-        w2     = w * w;
-        wo2w22 = wo2 - w2;
-        wo2w22 = wo2w22 * wo2w22;
-        beta  = wo2 * w2;
-        Re     = wo4 - beta;
-        Im     = wo3Q * w;
-        den    = wo2w22 + (beta / Q2);
-
-        return 20.0 * +log10(+sqrt( (Re * Re) + (Im * Im)) / den);
-    }
-    function lpf_order3(f) {
-        f = +f;
-        return +lpf_order1(f) + +lpf_order2(f);
-    }
-    function lpf_order4(f) {
-        f = +f;
-        return 2.0 * +lpf_order2(f);
-    }
-    function hpf_order1(f) {
-        f = +f;
-        var wo = 0.0, wo2 = 0.0, w = 0.0, w2 = 0.0, Im = 0.0, den = 0.0;
-        wo  = 2.0 * PI * freq;
-        wo2 = wo * wo;
-        w   = 2.0 * PI * f;
-        w2  = w * w;
-        Im  = w * wo;
-        den = wo2 + w2;
-
-        return 20.0 * +log10(+sqrt( (w2 * w2) +(Im * Im)) / den);
-    }
-    function hpf_order2(f) {
-        f = +f;
-        var wo = 0.0, wo2 = 0.0, Q2 = 0.0, woQ = 0.0, w = 0.0, w2 = 0.0, wo2w22 = 0.0,
-            beta = 0.0, Re = 0.0, Im = 0.0, den = 0.0;
-        wo  = 2.0 * PI * freq;
-        wo2 = wo * wo;
-        Q2  = q * q;
-        woQ = wo / q;
-        w      = 2.0 * PI * f;
-        w2     = w * w;
-        wo2w22 = wo2 - w2;
-        wo2w22 = wo2w22 * wo2w22;
-        beta  = wo2 * w2;
-        Re     = (w2 * w2) - beta;
-        Im     = woQ * w * w2;
-        den    = wo2w22 + (beta / Q2);
-
-        return 20.0 * +log10(+sqrt( (Re * Re) +(Im * Im)) / den);
-    }
-    function hpf_order3(f) {
-        f = +f;
-        return +hpf_order1(f) + +hpf_order2(f);
-    }
-    function hpf_order4(f) {
-        f = +f;
-        return 2.0 * +hpf_order2(f);
-    }
-    function low_shelf(f) {
-        f = +f;
-        var wo = 0.0, A = 0.0, wo2 = 0.0, wo4 = 0.0, Q2 = 0.0, A2 = 0.0, AQ2 = 0.0,
-            wo2AQ2_A2_1 = 0.0, ArAQ = 0.0, wo3 = 0.0, AQ2wo2 = 0.0, w = 0.0, w2 = 0.0,
-            Re = 0.0, Im = 0.0, den = 0.0;
-        wo          = 2.0 * PI * freq;
-        A           = +pow(10.0, gain / 40.0);
-        wo2         = wo * wo;
-        wo4         = wo2 * wo2;
-        Q2          = q * q;
-        A2          = A * A;
-        AQ2         = A / Q2;
-        wo2AQ2_A2_1 = (AQ2 - A2 - 1.0) * wo2;
-        ArAQ        = (1.0 - A) * ((A * +sqrt(A)) / q)
-        wo3         = wo2 * wo;
-        AQ2wo2      = AQ2 * wo2;
-        w   = 2.0 * PI * f;
-        w2  = w * w;
-        Re  = A * (A * (wo4 + w2 * w2) + w2 * wo2AQ2_A2_1);
-        Im  = ArAQ * (wo3 * w + wo * w2 * w);
-        den = wo2 - A * w2;
-        den = den * den;
-        den = den + AQ2wo2 * w2;
-
-        f = 20.0 * +log10(+sqrt( (Re * Re) + (Im * Im)) / den);
-
-        //Force zero to avoid some drawing noise
-        if (f > 0.1) return f;
-        if (f < 0.1) return f;
-        return 0.0;
-    }
-    function high_shelf(f) {
-        f = +f;
-        var wo = 0.0, A = 0.0, wo2 = 0.0, wo4 = 0.0, Q2 = 0.0, A2 = 0.0, AQ2 = 0.0, wo2AQ2_A2_1 = 0.0,
-            ArAQ = 0.0, wo3 = 0.0, AQ2wo2 = 0.0, w = 0.0, w2 = 0.0, Re = 0.0, Im = 0.0, den = 0.0;
-        wo          = 2.0 * PI * freq;
-        A           = +pow(10.0, gain / 40.0);
-        wo2         = wo * wo;
-        wo4         = wo2 * wo2;
-        Q2          = q * q;
-        A2          = A * A;
-        AQ2         = A / Q2;
-        wo2AQ2_A2_1 = (AQ2 - A2 - 1.0) * wo2;
-        ArAQ        = (1.0 - A) * ((A * +sqrt(A)) / q);
-        wo3         = wo2 * wo;
-        AQ2wo2      = AQ2 * wo2;
-        w   = 2.0 * PI * f;
-        w2  = w * w;
-        Re  = A * (A * (wo4 + w2 * w2) + w2 * wo2AQ2_A2_1);
-        Im  = ArAQ * (wo3 * w + wo * w2 * w);
-        den = A * wo2 - w2;
-        den = den * den;
-        den = den + AQ2wo2 * w2;
-
-        f = 20.0 * +log10(+sqrt( (Re * Re) + (Im * Im)) / den);
-
-        //Force zero to avoid some drawing noise
-        if (f > 0.1) return f;
-        if (f < 0.1) return f;
-        return 0.0;
-    }
-    function peak(f) {
-        f = +f;
-        var wo = 0.0, A = 0.0, A2 = 0.0, wo2 = 0.0, wo3 = 0.0, Q2 = 0.0, wo2Q2 = 0.0, gamma = 0.0,
-            w = 0.0, w2 = 0.0, wo2w22 = 0.0, beta = 0.0, Re = 0.0, Im = 0.0, den = 0.0;
-        wo    = 2.0 * PI * freq;
-        A     = +pow(10.0, gain/40.0);
-        A2    = A * A;
-        wo2   = wo * wo;
-        wo3   = wo2 * wo;
-        Q2    = q*q;
-        wo2Q2 = wo2 / Q2;
-        gamma = (A2 - 1.0) / (A * q);
-        w      = 2.0 * PI * f;
-        w2     = w * w;
-
-        wo2w22 = wo2 - w2;
-        wo2w22 = wo2w22 * wo2w22;
-        beta  = wo2Q2 * w2;
-
-        Re     = wo2w22 + beta;
-        Im     = gamma * ((wo3 * w) - (wo * w2 * w));
-        den    = wo2w22 + (beta / A2);
-
-        return 20.0 * +log10(+sqrt((Re * Re) + (Im * Im)) / den);
-    }
-    function notch(f) {
-        f = +f;
-        var wo = 0.0, wo2 = 0.0, wo4 = 0.0, Q2 = 0.0, doswo2 = 0.0, woQ = 0.0, wo2Q2 = 0.0, w = 0.0,
-            w2 = 0.0, Re = 0.0, Im = 0.0, den = 0.0;
-        wo = 2.0 * PI * freq;
-        wo2 = wo * wo;
-        wo4 = wo2 * wo2;
-        Q2 = q * q;
-        doswo2 = 2.0 * wo2;
-        woQ = wo / q;
-        wo2Q2 = wo2 / Q2;
-        w   = 2.0 * PI * f;
-        w2  = w * w;
-        Re  = wo4 + w2 * w2 - doswo2 * w2;
-        Im  = woQ * w * (w2 - wo2);
-        den = wo2 - w2;
-        den = den * den;
-        den = den + wo2Q2 * w2;
-
-        if (w >= wo) return -100.0;
-        return 20.0 * +log10(+sqrt( (Re * Re) + (Im * Im)) / den);
-    }
-
+/* These formulae for 'standard' biquad filter coefficients are
+ * from
+ *  "Cookbook formulae for audio EQ biquad filter coefficients"
+ *  by Robert Bristow-Johnson.
+ *
+ */
+function LowShelf(O) {
+    var cos = Math.cos,
+        sqrt = Math.sqrt,
+        A = Math.pow(10, O.gain / 40),
+        w0 = 2*Math.PI*O.freq/O.sample_rate,
+        alpha = Math.sin(w0)/(2*O.q);
     return {
-        lpf_order1:lpf_order1,
-        lpf_order2:lpf_order2,
-        lpf_order3:lpf_order3,
-        lpf_order4:lpf_order4,
-        hpf_order1:hpf_order1,
-        hpf_order2:hpf_order2,
-        hpf_order3:hpf_order3,
-        hpf_order4:hpf_order4,
-        low_shelf:low_shelf,
-        high_shelf:high_shelf,
-        peak:peak,
-        notch:notch
+	b0:    A*( (A+1) - (A-1)*cos(w0) + 2*sqrt(A)*alpha ),
+	b1:  2*A*( (A-1) - (A+1)*cos(w0)                   ),
+	b2:    A*( (A+1) - (A-1)*cos(w0) - 2*sqrt(A)*alpha ),
+	a0:        (A+1) + (A-1)*cos(w0) + 2*sqrt(A)*alpha,
+	a1:   -2*( (A-1) + (A+1)*cos(w0)                   ),
+	a2:        (A+1) + (A-1)*cos(w0) - 2*sqrt(A)*alpha,
+	sample_rate: O.sample_rate,
     };
+}
+
+function HighShelf(O) {
+    var cos = Math.cos;
+    var sqrt = Math.sqrt;
+    var A = Math.pow(10, O.gain / 40);
+    var w0 = 2*Math.PI*O.freq/O.sample_rate;
+    var alpha = Math.sin(w0)/(2*O.q);
+    return {
+	b0:    A*( (A+1) + (A-1)*cos(w0) + 2*sqrt(A)*alpha ),
+	b1: -2*A*( (A-1) + (A+1)*cos(w0)                   ),
+	b2:    A*( (A+1) + (A-1)*cos(w0) - 2*sqrt(A)*alpha ),
+	a0:        (A+1) - (A-1)*cos(w0) + 2*sqrt(A)*alpha,
+	a1:    2*( (A-1) - (A+1)*cos(w0)                   ),
+	a2:        (A+1) - (A-1)*cos(w0) - 2*sqrt(A)*alpha,
+	sample_rate: O.sample_rate,
+    };
+}
+
+function Peaking(O) {
+    var cos = Math.cos;
+    var A = Math.pow(10, O.gain / 40);
+    var w0 = 2*Math.PI*O.freq/O.sample_rate;
+    var alpha = Math.sin(w0)/(2*O.q);
+    return {
+        b0:   1 + alpha*A,
+        b1:  -2*cos(w0),
+        b2:   1 - alpha*A,
+        a0:   1 + alpha/A,
+        a1:  -2*cos(w0),
+        a2:   1 - alpha/A,
+        sample_rate: O.sample_rate,
+    };
+}
+
+function Notch(O) {
+    var cos = Math.cos;
+    var w0 = 2*Math.PI*O.freq/O.sample_rate;
+    var alpha = Math.sin(w0)/(2*O.q);
+    return {
+	b0:   1,
+	b1:  -2*cos(w0),
+	b2:   1,
+	a0:   1 + alpha,
+	a1:  -2*cos(w0),
+	a2:   1 - alpha,
+        sample_rate: O.sample_rate,
+    };
+}
+
+/* This is a standard highpass filter with transfer function
+ * H(s) = 1/(1+s)
+ */
+function LowPass1(O) {
+    var w0 = 2*Math.PI*O.freq/O.sample_rate,
+        s0 = Math.sin(w0),
+        c0 = Math.cos(w0);
+    return {
+	b0: 1-c0,
+	b1: 2*(1-c0),
+        b2: 1-c0,
+	a0: 1 - c0 + s0,
+	a1: 2*(1-c0),
+        a2: 1 - c0 - s0,
+        sample_rate: O.sample_rate,
+    };
+}
+
+function LowPass2(O) {
+    var cos = Math.cos;
+    var w0 = 2*Math.PI*O.freq/O.sample_rate;
+    var alpha = Math.sin(w0)/(2*O.q);
+    return {
+	b0:  (1 - cos(w0))/2,
+	b1:   1 - cos(w0),
+	b2:  (1 - cos(w0))/2,
+	a0:   1 + alpha,
+	a1:  -2*cos(w0),
+	a2:   1 - alpha,
+        sample_rate: O.sample_rate,
+    };
+}
+
+function LowPass4(O) {
+    O = LowPass2(O);
+    O.factor = 2;
+    return O;
+}
+
+/* This is a standard highpass filter with transfer function
+ * H(s) = s/(1+s)
+ */
+function HighPass1(O) {
+    var w0 = 2*Math.PI*O.freq/O.sample_rate,
+        s0 = Math.sin(w0),
+        c0 = Math.cos(w0);
+    return {
+	b0: s0,
+	b1: 0,
+        b2: -s0,
+	a0: 1 - c0 + s0,
+	a1: 2*(1-c0),
+        a2: 1 - c0 - s0,
+        sample_rate: O.sample_rate,
+    };
+}
+
+function HighPass2(O) {
+    var cos = Math.cos;
+    var w0 = 2*Math.PI*O.freq/O.sample_rate;
+    var alpha = Math.sin(w0)/(2*O.q);
+    return {
+	b0:  (1 + cos(w0))/2,
+	b1: -(1 + cos(w0)),
+	b2:  (1 + cos(w0))/2,
+	a0:   1 + alpha,
+	a1:  -2*cos(w0),
+	a2:   1 - alpha,
+        sample_rate: O.sample_rate,
+    };
+}
+
+function HighPass4(O) {
+    O = HighPass2(O);
+    O.factor = 2;
+    return O;
+}
+
+var standard_biquads = {
+    "low-shelf":  BiquadFilter(LowShelf),
+    "high-shelf": BiquadFilter(HighShelf),
+    parametric:   BiquadFilter(Peaking),
+    notch:        BiquadFilter(Notch),
+    lowpass1:     BiquadFilter(LowPass1),
+    lowpass2:     BiquadFilter(LowPass2),
+    lowpass3:     BiquadFilter(LowPass1, LowPass2),
+    lowpass4:     BiquadFilter(LowPass4),
+    highpass1:    BiquadFilter(HighPass1),
+    highpass2:    BiquadFilter(HighPass2),
+    highpass3:    BiquadFilter(HighPass1, HighPass2),
+    highpass4:    BiquadFilter(HighPass4),
 };
 
-function BiquadModule(stdlib, foreign) {
-    "use asm";
+function BilinearModule(w, O) {
+    var log = w.Math.log;
+    var sin = w.Math.sin;
 
-    var a0 = +foreign.a0;
-    var a1 = +foreign.a1;
-    var a2 = +foreign.a2;
-    var b0 = +foreign.b0;
-    var b1 = +foreign.b1;
-    var b2 = +foreign.b2;
-    var sample_rate = +foreign.sample_rate;
-    var log = stdlib.Math.log;
-    var sin = stdlib.Math.sin;
-    var LN10 = stdlib.Math.LN10;
-    var PI = stdlib.Math.PI;
-
-    var Ra = (a0 + a1 + a2) * (a0 + a1 + a2) / 4;
-    var Rb = (b0 + b1 + b2) * (b0 + b1 + b2) / 4;
-    var Xa = 4 * a0 * a2;
-    var Ya = a1 * (a0 + a2);
-    var Xb = 4 * b0 * b2;
-    var Yb = b1 * (b0 + b2);
-
-    function log10(v) {
-        v = +v;
-        return +log(v) / LN10;
-    }
+    var LN10_10 = (O.factor||1.0) * 10/w.Math.LN10;
+    var PI = +(w.Math.PI/O.sample_rate);
+    var Ra = +((O.a0 + O.a1) * (O.a0 + O.a1) / 4);
+    var Rb = +((O.b0 + O.b1) * (O.b0 + O.b1) / 4);
+    var Ya = +(O.a1 * O.a0);
+    var Yb = +(O.b1 * O.b0);
 
     function freq2gain(f) {
         f = +f;
-        var w = PI * f / sample_rate;
-        var S = +sin(w)
+        var S = +sin(PI * f)
         S *= S;
-        return 10 * ( log10(Rb - S * (Xb * (1 - S) + Yb)) 
-                    - log10(Ra - S * (Xa * (1 - S) + Ya)) );
+        return LN10_10 * log( (Rb - S * Yb) /
+                              (Ra - S * Ya) );
+    }
+
+    return { freq2gain: freq2gain };
+}
+
+function BiquadModule(w, O) {
+    var log = w.Math.log;
+    var sin = w.Math.sin;
+
+    var LN10_10 = (O.factor||1.0) * 10/w.Math.LN10;
+    var PI = +(w.Math.PI/O.sample_rate);
+    var Ra = +((O.a0 + O.a1 + O.a2) * (O.a0 + O.a1 + O.a2) / 4);
+    var Rb = +((O.b0 + O.b1 + O.b2) * (O.b0 + O.b1 + O.b2) / 4);
+    var Xa = +(4 * O.a0 * O.a2);
+    var Ya = +(O.a1 * (O.a0 + O.a2));
+    var Xb = +(4 * O.b0 * O.b2);
+    var Yb = +(O.b1 * (O.b0 + O.b2));
+
+    function freq2gain(f) {
+        f = +f;
+        var S = +sin(PI * f)
+        S *= S;
+        return LN10_10 * log( (Rb - S * (Xb * (1 - S) + Yb)) /
+                              (Ra - S * (Xa * (1 - S) + Ya)) );
     }
 
     return { freq2gain: freq2gain };
@@ -375,12 +316,14 @@ TK.Filter = TK.class({
         freq: "number",
         gain: "number",
         q: "number",
+	sample_rate: "number",
     },
     options: {
         type: "parametric",
         freq: 0,
         gain: 0,
-        q:    1
+        q:    1,
+	sample_rate: 44000,
     },
     static_events: {
         set_freq: reset,
@@ -394,36 +337,19 @@ TK.Filter = TK.class({
         var m;
 
         if (typeof(O.type) === "string") {
-            m = FilterModule(window, O);
+            m = standard_biquads[O.type];
 
-            switch (this.options.type) {
-                case "parametric": this.freq2gain = m.peak; break;
-                case "notch": this.freq2gain = m.notch; break;
-                case "low-shelf": this.freq2gain = m.low_shelf; break;
-                case "high-shelf": this.freq2gain = m.high_shelf; break;
-                case "lowpass1": this.freq2gain = m.lpf_order1; break;
-                case "lowpass2": this.freq2gain = m.lpf_order2; break;
-                case "lowpass3": this.freq2gain = m.lpf_order3; break;
-                case "lowpass4": this.freq2gain = m.lpf_order4; break;
-                case "highpass1": this.freq2gain = m.hpf_order1; break;
-                case "highpass2": this.freq2gain = m.hpf_order2; break;
-                case "highpass3": this.freq2gain = m.hpf_order3; break;
-                case "highpass4": this.freq2gain = m.hpf_order4; break;
-                default: throw new Error("undefined type!\n");
+            if (!m) {
+                TK.error("Unknown standard filter: "+O.type);
+                return;
             }
         } else if (typeof(O.type) === "function") {
-            m = O.type(window, O);
-
-            this.freq2gain = m.freq2gain;
+            m = O.type;
         } else {
             TK.error("Unsupported option 'type'.");
+            return;
         }
-        /**
-         * Is fired when a filters drawing function is reset.
-         * 
-         * @event TK.Filter#reset
-         */
-        this.fire_event("reset");
+        this.freq2gain = m(window, O).freq2gain;
     },
     get_freq2gain: function() {
         if (this.freq2gain === null) this.create_freq2gain();
