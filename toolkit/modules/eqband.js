@@ -21,7 +21,7 @@
 
 var type_to_mode = {
     parametric: "circular",
-    notch: "circular",
+    notch: "line-vertical",
     lowpass1: "block-right",
     lowpass2: "block-right",
     lowpass3: "block-right",
