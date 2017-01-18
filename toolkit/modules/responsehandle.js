@@ -1026,17 +1026,20 @@ TK.ResponseHandle = TK.class({
                 var button = state.current.button;
                 var E = self.element;
                 var p = E.parentNode;
+                var ev = state.current;
 
                 self.z_drag.set("node", document);
 
                 /* right click triggers move to the back */
-                if (state.current.button === 2) {
-                    if (element !== p.firstChild)
+                if (ev.button === 2) {
+                    if (E !== p.firstChild)
                         self.draw_once(function() {
                             var e = this.element;
                             var p = e.parentNode;
                             if (p && e !== p.firstChild) p.insertBefore(e, p.firstChild);
                         });
+                    ev.preventDefault();
+                    ev.stopPropagation();
                     return false;
                 }
 
