@@ -117,7 +117,7 @@ TK.EqBand = TK.class({
      * @returns {number} The gain at the given frequency.
      */
     freq2gain: function (freq) {
-        return this.filter.freq2gain(freq);
+        return this.filter.get_freq2gain()(freq);
     },
     
     // GETTER & SETTER

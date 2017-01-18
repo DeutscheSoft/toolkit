@@ -329,6 +329,16 @@ function BiquadFilter() {
 
 TK.BiquadFilter = BiquadFilter;
 
+function reset() {
+    this.freq2gain = null;
+    /**
+     * Is fired when a filters drawing function is reset.
+     * 
+     * @event TK.Filter#reset
+     */
+    this.fire_event("reset");
+}
+
 TK.Filter = TK.class({
     /**
      * TK.Filter provides the math for calculating a gain from
@@ -360,7 +370,6 @@ TK.Filter = TK.class({
       */ 
     _class: "Filter",
     Extends: TK.Base,
-    Implements: [TK.AudioMath, TK.Notes],
     _options: {
         type: "mixed",
         freq: "number",
@@ -373,17 +382,14 @@ TK.Filter = TK.class({
         gain: 0,
         q:    1
     },
-
-    initialized: function () {
-        this.reset();
-        /**
-         * Is fired when an instance gets initialized.
-         * 
-         * @event TK.Filter#initialized
-         */
-        this.fire_event("initialized");
+    static_events: {
+        set_freq: reset,
+        set_type: reset,
+        set_q: reset,
+        set_gain: reset,
+        initialized: reset,
     },
-    reset: function () {
+    create_freq2gain: function() {
         var O = this.options;
         var m;
 
@@ -419,17 +425,10 @@ TK.Filter = TK.class({
          */
         this.fire_event("reset");
     },
-    set: function (key, value) {
-        value = TK.Base.prototype.set.call(this, key, value);
-        switch (key) {
-        case "freq":
-        case "type":
-        case "q":
-        case "gain":
-            this.reset();
-            break;
-        }
-        return value;
+    get_freq2gain: function() {
+        if (this.freq2gain === null) this.create_freq2gain();
+        return this.freq2gain;
     },
+    reset: reset,
 });
 })(this, this.TK);

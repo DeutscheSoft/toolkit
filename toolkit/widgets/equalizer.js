@@ -162,7 +162,7 @@ TK.Equalizer = TK.class({
 
                 for (i = 0; i < this.bands.length; i++) {
                     if (this.bands[i].get("active")) {
-                        f.push(this.bands[i].filter.freq2gain);
+                        f.push(this.bands[i].filter.get_freq2gain());
                     }
                 }
 
