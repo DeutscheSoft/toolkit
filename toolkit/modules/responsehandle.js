@@ -959,7 +959,7 @@ TK.ResponseHandle = TK.class({
             onstartcapture: function(state) {
                 var self = this.parent;
                 var O = self.options;
-                if (O.active !== true) return false;
+                if (!O.active) return;
                 state.z = self.range_z.val2px(O.z);
 
                 /* the main handle is active,
@@ -984,6 +984,7 @@ TK.ResponseHandle = TK.class({
                  */
                 self.fire_event("zchangestarted", O.z);
                 startdrag.call(self);
+                return true;
             },
             onmovecapture: function(state) {
                 var self = this.parent;
@@ -1021,7 +1022,7 @@ TK.ResponseHandle = TK.class({
             onstartcapture: function(state) {
                 var self = this.parent;
                 var O = self.options;
-                if (O.active !== true) return false;
+                if (!O.active) return;
 
                 var button = state.current.button;
                 var E = self.element;
@@ -1038,6 +1039,7 @@ TK.ResponseHandle = TK.class({
                             var p = e.parentNode;
                             if (p && e !== p.firstChild) p.insertBefore(e, p.firstChild);
                         });
+                    /* cancel everything else, but do not drag */
                     ev.preventDefault();
                     ev.stopPropagation();
                     return false;
@@ -1066,6 +1068,7 @@ TK.ResponseHandle = TK.class({
                     pos_y: state.y
                 });
                 startdrag.call(self);
+                return true;
             },
             onmovecapture: function(state) {
                 var self = this.parent;
