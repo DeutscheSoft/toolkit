@@ -465,6 +465,7 @@ function redraw_zhandle(O, X) {
 
 function prevent_default(e) {
     e.preventDefault();
+    return false;
 }
 
 function create_label() {
@@ -500,7 +501,8 @@ function create_handle() {
                     { class: "toolkit-handle" });
     E.addEventListener("mousewheel",     this._scrollwheel);
     E.addEventListener("DOMMouseScroll", this._scrollwheel);
-    E.addEventListener('selectstart', STOP);
+    E.addEventListener('selectstart', prevent_default);
+    E.addEventListener('contextmenu', prevent_default);
     this._handle = E;
     this.element.appendChild(E);
 }
@@ -512,7 +514,8 @@ function remove_handle() {
     E.remove();
     E.removeEventListener("mousewheel",     this._scrollwheel);
     E.removeEventListener("DOMMouseScroll", this._scrollwheel);
-    E.removeEventListener("selectstart", STOP);
+    E.removeEventListener("selectstart", prevent_default);
+    E.removeEventListener('contextmenu', prevent_default);
 }
 
 function redraw_label(O, X) {
