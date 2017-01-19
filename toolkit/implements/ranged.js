@@ -273,25 +273,17 @@ function TRAFO_PIECEWISE(stdlib, foreign, heap) {
 
         return +Y[a << 3 >> 3] + (coef - +X[a << 3 >> 3]) * t;
     }
-    function val2real(n) { return val2based(n, basis || 1); }
-    function real2val(n) { return based2val(n, basis || 1); }
     function val2px(n) { return val2based(n, basis || 1); }
     function px2val(n) { return based2val(n, basis || 1); }
     function val2coef(n) { return val2based(n, 1); }
     function coef2val(n) { return based2val(n, 1); }
-    function val2perc(n) { return val2based(n, 100); }
-    function perc2val(n) { return based2val(n, 100); }
     return {
         val2based:val2based,
         based2val:based2val,
-        val2real:val2real,
-        real2val:real2val,
         val2px:val2px,
         px2val:px2val,
         val2coef:val2coef,
         coef2val:coef2val,
-        val2perc:val2perc,
-        perc2val:perc2val,
     };
 };
 function TRAFO_FUNCTION(stdlib, foreign) {
@@ -314,25 +306,17 @@ function TRAFO_FUNCTION(stdlib, foreign) {
         coef = scale(coef/size, foreign, true);
         return coef;
     }
-    function val2real(n) { return val2based(n, basis || 1); }
-    function real2val(n) { return based2val(n, basis || 1); }
     function val2px(n) { return val2based(n, basis || 1); }
     function px2val(n) { return based2val(n, basis || 1); }
     function val2coef(n) { return val2based(n, 1); }
     function coef2val(n) { return based2val(n, 1); }
-    function val2perc(n) { return val2based(n, 100); }
-    function perc2val(n) { return based2val(n, 100); }
     return {
         val2based:val2based,
         based2val:based2val,
-        val2real:val2real,
-        real2val:real2val,
         val2px:val2px,
         px2val:px2val,
         val2coef:val2coef,
         coef2val:coef2val,
-        val2perc:val2perc,
-        perc2val:perc2val,
     };
 }
 function TRAFO_LINEAR(stdlib, foreign) {
@@ -355,12 +339,6 @@ function TRAFO_LINEAR(stdlib, foreign) {
         coef = (coef / size) * (max - min) + min;
         return coef;
     }
-    // calculates "real world" values (positions, coefficients, ...)
-    // depending on options.basis
-    function val2real(n) { n = +n; if (basis == 0.0) basis = 1.0; return +val2based(n, basis); }
-    // returns a point on the scale for the "real world" value (positions,
-    // coefficients, ...) based on options.basis
-    function real2val(n) { n = +n; if (basis == 0.0) basis = 1.0; return +based2val(n, basis); }
     // just a wrapper for having understandable code and backward
     // compatibility
     function val2px(n) { n = +n; if (basis == 0.0) basis = 1.0; return +val2based(n, basis); }
@@ -371,10 +349,6 @@ function TRAFO_LINEAR(stdlib, foreign) {
     function val2coef(n) { n = +n; return +val2based(n, 1.0); }
     // calculates a value from a coefficient
     function coef2val(n) { n = +n; return +based2val(n, 1.0); }
-    // calculates percents on the scale from a value
-    function val2perc(n) { n = +n; return +val2based(n, 100.0); }
-    // calculates a value from percents of the scale
-    function perc2val(n) { n = +n; return +based2val(n, 100.0); }
     return {
         /**
          * Transforms a value from the coordinate system to the interval <code>0</code>...<code>basis</code>.
@@ -399,27 +373,7 @@ function TRAFO_LINEAR(stdlib, foreign) {
          */
         based2val:based2val,
         /**
-         * Calls {@link based2val} with <code>basis = options.basis</code>.
-         *
-         * @method TK.Ranged#val2real
-         * 
-         * @param {number} value
-         * 
-         * @returns {number}
-         */
-        val2real:val2real,
-        /**
-         * Calls {@link based2val} with <code>basis = options.basis</code>.
-         *
-         * @method TK.Ranged#real2val
-         * 
-         * @param {number} value
-         * 
-         * @returns {number}
-         */
-        real2val:real2val,
-        /**
-         * This is an alias for {@link TK.Ranged#val2real}.
+         * This is an alias for {@link TK.Ranged#val2px}.
          *
          * @method TK.Ranged#val2px
          * 
@@ -458,26 +412,6 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * @returns {number}
          */
         coef2val:coef2val,
-        /**
-         * Calls {@link based2val} with <code>basis = 100</code>.
-         *
-         * @method TK.Ranged#val2perc
-         * 
-         * @param {number} value
-         * 
-         * @returns {number}
-         */
-        val2perc:val2perc,
-        /**
-         * Calls {@link based2val} with <code>basis = 100</code>.
-         *
-         * @method TK.Ranged#perc2val
-         * 
-         * @param {number} value
-         * 
-         * @returns {number}
-         */
-        perc2val:perc2val,
     };
 }
 function TRAFO_LOG(stdlib, foreign) {
@@ -503,25 +437,17 @@ function TRAFO_LOG(stdlib, foreign) {
         coef = +scale2db(coef, min, max, size, trafo_reverse, log_factor);
         return coef;
     }
-    function val2real(n) { return val2based(n, basis || 1); }
-    function real2val(n) { return based2val(n, basis || 1); }
     function val2px(n) { return val2based(n, basis || 1); }
     function px2val(n) { return based2val(n, basis || 1); }
     function val2coef(n) { return val2based(n, 1); }
     function coef2val(n) { return based2val(n, 1); }
-    function val2perc(n) { return val2based(n, 100); }
-    function perc2val(n) { return based2val(n, 100); }
     return {
         val2based:val2based,
         based2val:based2val,
-        val2real:val2real,
-        real2val:real2val,
         val2px:val2px,
         px2val:px2val,
         val2coef:val2coef,
         coef2val:coef2val,
-        val2perc:val2perc,
-        perc2val:perc2val,
     };
 }
 function TRAFO_FREQ(stdlib, foreign) {
@@ -546,25 +472,17 @@ function TRAFO_FREQ(stdlib, foreign) {
         coef = +scale2freq(coef, min, max, size, trafo_reverse);
         return coef;
     }
-    function val2real(n) { return val2based(n, basis || 1); }
-    function real2val(n) { return based2val(n, basis || 1); }
     function val2px(n) { return val2based(n, basis || 1); }
     function px2val(n) { return based2val(n, basis || 1); }
     function val2coef(n) { return val2based(n, 1); }
     function coef2val(n) { return based2val(n, 1); }
-    function val2perc(n) { return val2based(n, 100); }
-    function perc2val(n) { return based2val(n, 100); }
     return {
         val2based:val2based,
         based2val:based2val,
-        val2real:val2real,
-        real2val:real2val,
         val2px:val2px,
         px2val:px2val,
         val2coef:val2coef,
         coef2val:coef2val,
-        val2perc:val2perc,
-        perc2val:perc2val,
     };
 }
 function update_transformation() {
