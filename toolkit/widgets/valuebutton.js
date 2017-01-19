@@ -162,7 +162,7 @@ TK.ValueButton = TK.class({
         }
         if (I.value) {
             I.value = false;
-            this._base.style[O.bar_direction === "horizontal" ? "width" : "height"] = this.val2perc(this.snap(O.value)) + "%";
+            this._base.style[O.bar_direction === "horizontal" ? "width" : "height"] = (100*this.val2coef(this.snap(O.value))).toFixed(2) + "%";
         }
     },
     
