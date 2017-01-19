@@ -37,7 +37,7 @@ function scrollwheel(e) {
     var DIR = O.scroll_direction;
     var d = e.deltaX * DIR[0] + e.deltaY * DIR[1] + e.deltaZ * DIR[2];
     var direction = d > 0 ? 1 : -1;
-    var range = O.range();
+    var range = O.range.call(this);
 
     // timeout for resetting the class
     if (this.__sto) window.clearTimeout(this.__sto);
@@ -148,11 +148,10 @@ TK.ScrollValue = TK.class({
     },
     initialize: function (widget, options) {
         TK.Module.prototype.initialize.call(this, widget, options);
+        this._wheel = false;
         this.set("node", this.options.node);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
-
-        this._wheel = false;
     },
     static_events: {
         set_node: function(value) {

@@ -155,7 +155,7 @@ TK.Knob = TK.class({
          * @member {TK.ScrollValue} TK.Knob#scroll - Instance of {@link TK.ScrollValue} used for the
          *   interaction.
          */
-        this.scroll = new TK.ScrollValue({
+        this.scroll = new TK.ScrollValue(this, {
             node:    S,
             range:   module_range,
         });
