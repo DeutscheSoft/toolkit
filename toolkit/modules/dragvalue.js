@@ -188,7 +188,7 @@ TK.DragValue = TK.class({
         set_state: start_drag,
         stopcapture: stop_drag,
         startcapture: function() {
-            if (!this.options.active) return true;
+            if (this.options.active) return true;
         },
         movecapture: movecapture,
         startdrag: function(ev) {
