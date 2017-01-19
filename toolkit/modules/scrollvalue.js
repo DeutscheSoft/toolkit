@@ -52,12 +52,12 @@ function scrollwheel(e) {
         step *= range.options.shift_up;
     }
 
-    var pos = range.val2real(O.get.call(this));
+    var pos = range.val2px(O.get.call(this));
     var value;
     
     pos += step;
 
-    value = range.real2val(pos);
+    value = range.px2val(pos);
 
     /* If snap() returns to the old value, we try to snap in the right direction.
      * If that fails too, we are probably at the boundary of our range, and pass

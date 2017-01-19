@@ -45,7 +45,7 @@ function get_value(ev) {
         /* we calculate the position from the left of the scale */
         real  = ev.offsetX - hsize;
     }
-    return this.real2val(real);
+    return this.px2val(real);
 }
 function tooltip_by_position(ev, tt) {
     if (this._handle.contains(ev.target)) {
@@ -276,7 +276,7 @@ TK.Fader = TK.class({
             I.value = false;
             // TODO: value is snapped already in set(). This is not enough for values which are set during
             // initialization.
-            tmp = this.val2real(this.snap(O.value)) + "px"
+            tmp = this.val2px(this.snap(O.value)) + "px"
 
             // TODO: this does not work on IE9
 

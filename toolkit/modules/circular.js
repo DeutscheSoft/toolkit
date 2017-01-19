@@ -85,7 +85,7 @@ function draw_dots() {
         r.setAttribute("height", width);
         
         r.setAttribute("transform", "rotate("
-            + this.val2real(this.snap(pos)) + " "
+            + this.val2px(this.snap(pos)) + " "
             + (O.size / 2) + " " + (this.options.size / 2) + ")");
     }
     /**
@@ -132,7 +132,7 @@ function draw_markers() {
         if (m["class"]) TK.add_class(s, m["class"]);
         if (m.color) s.style.fill = m.color;
         
-        draw_slice.call(this, this.val2real(this.snap(from)), this.val2real(this.snap(to)), inner_p, outer_p, outer, s);
+        draw_slice.call(this, this.val2px(this.snap(from)), this.val2px(this.snap(to)), inner_p, outer_p, outer, s);
     }
     /**
      * Is fired when markers are (re)drawn.
@@ -187,7 +187,7 @@ function draw_labels() {
             var align   = (l.align !== void(0) ? l.align : O.label.align) === "inner";
             var pos     = Math.min(O.max, Math.max(O.min, l.pos));
             var bb      = p.getBBox();
-            var angle   = (this.val2real(this.snap(pos)) + O.start) % 360;
+            var angle   = (this.val2px(this.snap(pos)) + O.start) % 360;
             var outer_p = outer - margin;
             var coords  = _get_coords_single(angle, outer_p, outer);
             
@@ -444,7 +444,7 @@ TK.Circular = TK.class({
         if (I.show_value || I.value_ring) {
             I.show_value = false;
             if (O.show_value) {
-                draw_slice.call(this, this.val2real(this.snap(O.base)), this.val2real(this.snap(O.value_ring)), inner_p, outer_p, outer,
+                draw_slice.call(this, this.val2px(this.snap(O.base)), this.val2px(this.snap(O.value_ring)), inner_p, outer_p, outer,
                                 this._value);
             } else {
                 this._value.removeAttribute("d");
@@ -474,7 +474,7 @@ TK.Circular = TK.class({
             tmp.setAttribute("width", O.hand.length);
             tmp.setAttribute("height",O.hand.width);
             tmp.setAttribute("transform",
-                             format_rotate(this.val2real(this.snap(O.value_hand)), O.size / 2, O.size / 2));
+                             format_rotate(this.val2px(this.snap(O.value_hand)), O.size / 2, O.size / 2));
         }
     },
     
