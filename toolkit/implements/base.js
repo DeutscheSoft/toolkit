@@ -47,19 +47,18 @@ var mixin = function(dst, src) {
 };
 function call_handler(self, fun, args) {
     try {
-        if (false === fun.apply(self, args)) return false;
+        return fun.apply(self, args);
     } catch (e) {
         TK.warn("event handler", fun, "threw", e);
     }
-
-    return true;
 }
 function dispatch_events(self, handlers, args) {
+    var v;
     if (Array.isArray(handlers)) {
         for (var i = 0; i < handlers.length; i++) {
-            if (false === call_handler(self, handlers[i], args)) return false;
+            v = call_handler(self, handlers[i], args);
+            if (v !== void(0)) return v;
         }
-        return true;
     } else return call_handler(self, handlers, args);
 }
 function add_event(to, event, fun) {
@@ -495,6 +494,7 @@ TK.Base = TK.class({
     fire_event: function (event) {
         var ev;
         var args;
+        var v;
 
         ev = this.__events;
 
@@ -503,7 +503,8 @@ TK.Base = TK.class({
 
             args = Array.prototype.slice.call(arguments, 1);
 
-            if (dispatch_events(this, ev, args) === false) return false;
+            v = dispatch_events(this, ev, args);
+            if (v !== void(0)) return v;
         }
 
         ev = this.static_events;
@@ -513,7 +514,8 @@ TK.Base = TK.class({
 
             if (args === void(0)) args = Array.prototype.slice.call(arguments, 1);
 
-            if (dispatch_events(this, ev, args) === false) return false;
+            v = dispatch_events(this, ev, args);
+            if (v !== void(0)) return v;
         }
     },
     /**
