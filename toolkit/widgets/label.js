@@ -46,11 +46,9 @@ TK.Label = TK.class({
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-label");
+        this._text = document.createTextNode("");
+        E.appendChild(this._text);
         this.widgetize(E, true, true, true);
-        if (this.options.container)
-            this.set("container", this.options.container);
-        
-        this.set("label", this.options.label);
     },
     
     redraw: function () {
@@ -61,7 +59,7 @@ TK.Label = TK.class({
 
         if (I.label) {
             I.label = false;
-            TK.set_text(this.element, O.label);
+            this._text.data = O.label;
         }
     },
 });
