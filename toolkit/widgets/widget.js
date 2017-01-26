@@ -154,7 +154,7 @@ TK.Widget = TK.class({
         this.__delegated = null;
         this.__widgetized = null;
         this.invalid = new Invalid(this.options);
-        this.value_time = Object.create(null);
+        this.value_time = null;
         this.needs_redraw = false;
         this._redraw = redraw.bind(this, this.redraw);
         this.__resize = this.resize.bind(this);
@@ -497,7 +497,7 @@ TK.Widget = TK.class({
         }
         if (this._options[key]) {
             this.invalid[key] = true;
-            if (this.value_time[key])
+            if (this.value_time && this.value_time[key])
                 this.value_time[key] = Date.now();
             this.trigger_draw();
         } else if (key.charCodeAt(0) !== 95) {
@@ -507,6 +507,7 @@ TK.Widget = TK.class({
         return value;
     },
     track_option: function(key) {
+        if (!this.value_time) this.value_time = {};
         this.value_time[key] = Date.now();
     },
     /**
