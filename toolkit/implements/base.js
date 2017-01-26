@@ -698,7 +698,8 @@ function ChildWidget(widget, name, config) {
         for (tmp in child.prototype._options) {
             if (tmp in TK.Widget.prototype._options) continue;
             add_static_event(widget, "set_"+tmp, set_cb);
-            p._options[tmp] = child.prototype._options[tmp];
+            if (!p._options[tmp])
+                p._options[tmp] = child.prototype._options[tmp];
         }
     }
     set_cb = function(key) {
