@@ -166,7 +166,7 @@ TK.Widget = TK.class({
     },
 
     is_destructed: function() {
-        return this.children === null;
+        return this.options === null;
     },
 
     invalidate_all: function() {
@@ -195,7 +195,7 @@ TK.Widget = TK.class({
         if (!this.options.needs_resize) {
             var C = this.children;
 
-            if (!C) {
+            if (this.is_destructed()) {
                 // This object was destroyed but trigger resize was still scheduled for the next frame.
                 // FIXME: fix this whole problem properly
                 return;
@@ -345,6 +345,7 @@ TK.Widget = TK.class({
         this.__resize = null;
         this._schedule_resize = null;
         this.children = null;
+        this.options = null;
         this.parent = null;
 
         if (this.element) {
