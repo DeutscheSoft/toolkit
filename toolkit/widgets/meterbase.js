@@ -165,7 +165,7 @@ TK.MeterBase = TK.class({
         layout: "string",
         segment: "number",
         value: "number",
-        base: "number",
+        base: "number|boolean",
         min: "number",
         max: "number",
         label: "string",
