@@ -90,6 +90,13 @@ TK.ValueKnob = TK.class({
 
         this.widgetize(E, true, true, true);
     },
+    set: function (key, value) {
+        /* this gets triggered twice, but we need it in order to make the snapping work */
+        if (key === "value" && this.knob)
+            value = this.knob.set("value", value);
+
+        return TK.Widget.prototype.set.call(this, key, value);
+    },
 });
 /**
  * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
