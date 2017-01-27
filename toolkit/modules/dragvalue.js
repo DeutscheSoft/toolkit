@@ -59,6 +59,38 @@ function updatedrag() {
     var range = O.range.call(this);
     var e = state.current;
 
+    var V;
+
+    switch(O.direction) {
+    case "polar":
+        V = [ Math.cos(O.rotation * (2*Math.PI/360)),
+            - Math.sin(O.rotation * (2*Math.PI/360)) ];
+        break;
+    case "vertical":
+        V = [ 0, -1 ];
+        break;
+    default:
+        TK.warn("Unsupported direction:", O.direction);
+    case "horizontal":
+        V = [ 1, 0 ];
+        break;
+    }
+
+    var v = state.vdistance();
+    var dist = v[0] * V[0] + v[1] * V[1];
+
+    if (O.blind_angle > 0) {
+        var cmp = O.blind_angle * Math.PI / 180;
+        /* V has length 1 and we do not care about the sign */
+        var C = Math.abs(2 * Math.acos(Math.abs(dist / Math.sqrt(v[0]*v[0] + v[1]*v[1]))) - Math.PI);
+
+        if (C < cmp) {
+            dist = 0;
+        } else {
+            dist *= (C - cmp) / (Math.PI - cmp);
+        }
+    }
+
     var multi = range.options.step || 1;
 
     if (e.ctrlKey && e.shiftKey) {
@@ -67,33 +99,9 @@ function updatedrag() {
         multi *= range.options.shift_up;
     }
 
-    var dist = 0;
+    dist += multi;
 
-    var v = state.vdistance();
-
-    switch(O.direction) {
-    case "polar":
-        var x = v[0];
-        var y = -v[1];
-        var r = Math.sqrt(x * x + y * y);
-        var a = Math.atan2(x, y) * (180 / Math.PI) + 360;
-        if (angle_diff(O.rotation, a) < 90 - O.blind_angle / 2) {
-            dist = r;
-        } else if (angle_diff(O.rotation + 180, a) < 90 - O.blind_angle / 2) {
-            dist = -r;
-        } else return;
-        break;
-    case "vertical":
-        dist = -v[1];
-        break;
-    case "horizontal":
-        dist = v[0];
-        break;
-    default:
-        TK.warn("Unsupported direction:", O.direction);
-    }
-
-    var nval = range.px2val(this.start_pos + dist * multi);
+    var nval = range.px2val(this.start_pos + dist);
     O.set.call(this, nval);
 
     this.fire_event("dragging", state.current);
