@@ -136,7 +136,8 @@ TK.DragValue = TK.class({
      *
      * @param {Object} options
      *
-     * @property {Function} options.range - A function returning a {@link TK.Range} object for calculating the value.
+     * @property {Function} options.range - A function returning a {@link TK.Range} object for
+     *  calculating the value.
      * @property {Element} options.node - The DOM node used for dragging.
      *   All DOM events are registered with this Element.
      * @property {Element} [options.events=options.node] - A DOM element firing the drag events.
@@ -230,8 +231,6 @@ TK.DragValue = TK.class({
     initialize: function (widget, options) {
         TK.DragCapture.prototype.initialize.call(this, widget, options);
 
-        this.set("events", this.options.events);
-        this.set("classes", this.options.classes);
         this._updatedrag = updatedrag.bind(this);
         this.scheduled = false;
         this.start_pos = 0;
