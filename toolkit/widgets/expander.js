@@ -101,7 +101,7 @@ function update_visibility() {
     var value = this.options.always_expanded || this.options.expanded;
 
     if (value) {
-        for (var i = 0; i < C.length; i++) {
+        if (C) for (var i = 0; i < C.length; i++) {
             if (visible_when_expanded(C[i]))
                 this.show_child(i);
             else
@@ -114,7 +114,7 @@ function update_visibility() {
          * @event TK.Expander#expand
          */
     } else {
-        for (var i = 0; i < C.length; i++) {
+        if (C) for (var i = 0; i < C.length; i++) {
             if (visible_when_collapsed(C[i]))
                 this.show_child(i);
             else

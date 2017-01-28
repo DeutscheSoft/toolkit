@@ -44,7 +44,7 @@ function enable_draw_self() {
 function enable_draw_children() {
     var C = this.children;
     var H = this.hidden_children;
-    for (var i = 0; i < C.length; i++) if (!H[i]) C[i].enable_draw();
+    if (C) for (var i = 0; i < C.length; i++) if (!H[i]) C[i].enable_draw();
 }
 function disable_draw_self() {
     if (!this._drawn) return;
@@ -63,7 +63,7 @@ function disable_draw_self() {
 function disable_draw_children() {
     var C = this.children;
     var H = this.hidden_children;
-    for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
+    if (C) for (var i = 0; i < C.length; i++) if (!H[i]) C[i].disable_draw();
 }
 TK.Container = TK.class({
     /**
@@ -154,9 +154,9 @@ TK.Container = TK.class({
         TK.Widget.prototype.set_parent.call(this, parent);
     },
     add_child : function(child) {
-        var C = this.children;
-        var H = this.hidden_children;
         TK.Widget.prototype.add_child.call(this, child);
+        var H = this.hidden_children;
+        if (!H) this.hidden_children = H = [];
         H.push(false);
     },
     remove_child : function(child) {
@@ -167,6 +167,10 @@ TK.Container = TK.class({
         if (i !== -1) {
             C.splice(i, 1);
             H.splice(i, 1);
+        }
+        if (!H) {
+            this.hidden_children = [];
+            this.children = [];
         }
     },
     enable_draw: function () {
@@ -246,8 +250,7 @@ TK.Container = TK.class({
 
         var C = this.children;
         var H = this.hidden_children;
-        var i;
-        for (i = 0; i < C.length; i++) if (!H[i]) C[i].show_nodraw();
+        if (C) for (var i = 0; i < C.length; i++) if (!H[i]) C[i].show_nodraw();
     },
     hide_nodraw: function() {
         var O = this.options;
@@ -256,8 +259,7 @@ TK.Container = TK.class({
 
         var C = this.children;
         var H = this.hidden_children;
-        var i;
-        for (i = 0; i < C.length; i++) if (!H[i]) C[i].hide_nodraw();
+        if (C) for (i = 0; i < C.length; i++) if (!H[i]) C[i].hide_nodraw();
     },
 
     /**
@@ -329,7 +331,7 @@ TK.Container = TK.class({
         if (!a) a = [];
         var C = this.children;
         var H = this.hidden_children;
-        for (var i = 0; i < C.length; i++) {
+        if (C) for (var i = 0; i < C.length; i++) {
             if (H[i]) continue;
             a.push(C[i]);
             C[i].visible_children(a);

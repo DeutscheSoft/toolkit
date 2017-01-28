@@ -161,7 +161,7 @@ TK.Widget = TK.class({
         this._schedule_resize = this.schedule_resize.bind(this);
         this._drawn = false;
         this.parent = null;
-        this.children = [];
+        this.children = null;
         this.draw_queue = null;
     },
 
@@ -193,8 +193,6 @@ TK.Widget = TK.class({
 
     trigger_resize: function() {
         if (!this.options.needs_resize) {
-            var C = this.children;
-
             if (this.is_destructed()) {
                 // This object was destroyed but trigger resize was still scheduled for the next frame.
                 // FIXME: fix this whole problem properly
@@ -202,6 +200,10 @@ TK.Widget = TK.class({
             }
 
             this.set("needs_resize", true);
+
+            var C = this.children;
+
+            if (!C) return;
 
             for (var i = 0; i < C.length; i++) {
                 C[i].trigger_resize();
@@ -531,7 +533,7 @@ TK.Widget = TK.class({
          */
         this.fire_event("show");
         var C = this.children;
-        for (var i = 0; i < C.length; i++) C[i].enable_draw();
+        if (C) for (var i = 0; i < C.length; i++) C[i].enable_draw();
     },
     /**
      * Stop drawing this widget.
@@ -554,7 +556,7 @@ TK.Widget = TK.class({
          */
         this.fire_event("hide");
         var C = this.children;
-        for (var i = 0; i < C.length; i++) C[i].disable_draw();
+        if (C) for (var i = 0; i < C.length; i++) C[i].disable_draw();
     },
     /**
      * Make the widget visible. This does not modify the DOM, instead it will only schedule
@@ -615,6 +617,7 @@ TK.Widget = TK.class({
      */
     add_child: function(child) {
         var C = this.children;
+        if (!C) this.children = C = [];
         child.set_parent(this);
         C.push(child);
         if (!this.hidden()) {
@@ -640,6 +643,7 @@ TK.Widget = TK.class({
         if (i !== -1) {
             C.splice(i, 1);
         }
+        if (!C.length) this.children = null;
     },
     /**
      * Removes an array of children.
@@ -670,7 +674,7 @@ TK.Widget = TK.class({
     visible_children: function(a) {
         if (!a) a = [];
         var C = this.children;
-        for (var i = 0; i < C.length; i++) {
+        if (C) for (var i = 0; i < C.length; i++) {
             a.push(C[i]);
             C[i].visible_children(a);
         }
@@ -685,7 +689,7 @@ TK.Widget = TK.class({
     all_children: function(a) {
         if (!a) a = [];
         var C = this.children;
-        for (var i = 0; i < C.length; i++) {
+        if (C) for (var i = 0; i < C.length; i++) {
             a.push(C[i]);
             C[i].all_children(a);
         }
