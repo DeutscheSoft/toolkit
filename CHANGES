@@ -1,6 +1,32 @@
 Changes since version 1.1
 --------------------------------------
 
+New Features
+============
+
+o added DragCapture. DragCapture implements a pointer capture logic. It is now used
+  in DragValue, Drag and ResponseHandler. It automatically supports multi touch.
+
+Improvements
+============
+
+o DragValue: The 'blind_angle' option now applies to all choices of the 'direction'
+  option.
+
+o ResponseHandle: has real MultiTouch support. This also applies to the z_handling
+  gesture, which means that any number of touch points can now drag handles in the
+  EQ.
+
+API Changes
+===========
+
+o The return value of event handlers is processed differently now.
+  Any return value which is not undefined will interrupt the execution of
+  any other handlers. fire_event will return that value.
+  This change was necessary because some DOM events use values !== false for
+  cancellation. It also makes more complex signalling logic possible for events.
+  This is used by the new DragCapture class.
+
 Version 1.1: Changes since version 1.0
 -----------------------------------------
 
