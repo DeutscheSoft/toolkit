@@ -361,4 +361,17 @@ TK.ChildWidget(TK.Fader, "scale", {
         },
     },
 });
+TK.ChildWidget(TK.Fader, "label", {
+    create: TK.Label,
+    show: false,
+    toggle_class: true,
+});
+TK.ChildWidget(TK.Fader, "value", {
+    create: TK.Value,
+    show: false,
+    map_options: {
+        value: "value",
+    },
+    toggle_class: true,
+});
 })(this, this.TK);
