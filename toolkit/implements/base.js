@@ -474,12 +474,11 @@ TK.Base = TK.class({
      * @param {Function} fun - The function to remove.
      */
     remove_event: function (event, fun) {
-        var ev = this.__events[event];
-        if (ev) remove_event(ev, event, fun);
+        remove_event(this.__events, event, fun);
 
         // remove native DOM event listener from __event_target
         if (is_native_event(event) && !this.has_event_listeners(event)) {
-            ev = this.__event_target;
+            var ev = this.__event_target;
             if (ev) TK.remove_event_listener(ev, event, this.__native_handler);
         }
     },
