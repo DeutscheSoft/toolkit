@@ -190,7 +190,9 @@ TK.LevelMeter = TK.class({
     },
     
     initialize: function (options) {
-        TK.MeterBase.prototype.initialize.call(this, options, true);
+        /* track the age of the value option */
+        this.track_option("value");
+        TK.MeterBase.prototype.initialize.call(this, options);
         this._reset_label = this.reset_label.bind(this);
         this._reset_clip = this.reset_clip.bind(this);
         this._reset_peak = this.reset_peak.bind(this);
@@ -213,9 +215,6 @@ TK.LevelMeter = TK.class({
             O.bottom = O.value;
         if (O.falling < 0)
             O.falling = -O.falling;
-
-        /* track the age of the value option */
-        this.track_option("value");
     },
     
     redraw: function () {
