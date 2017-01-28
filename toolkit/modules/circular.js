@@ -456,7 +456,8 @@ TK.Circular = TK.class({
             if (O.show_base) {
                 draw_slice.call(this, 0, O.basis, inner_p, outer_p, outer, this._base);
             } else {
-                this._base.setAttribute("d", null);
+                /* TODO: make this a child element */
+                this._base.removeAttribute("d");
             }
         }
         if (I.show_hand) {
