@@ -142,7 +142,7 @@ TK.Value = TK.class({
         format: "function",
         size: "number",
         maxlength: "int",
-        set: "function",
+        set: "function|boolean",
     }),
     options: {
         value: 0,
