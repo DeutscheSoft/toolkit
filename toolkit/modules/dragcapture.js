@@ -89,7 +89,7 @@ MouseCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype
     set_current: function(ev) {
         var start = this.start;
         /* If the buttons have changed, we assume that the capture has ended */
-        if (start.buttons !== ev.buttons || start.which !== ev.which) return false;
+        if (!this.is_dragged_by(ev)) return false;
         return CaptureState.prototype.set_current.call(this, ev);
     },
     init: function(widget) {
@@ -103,6 +103,11 @@ MouseCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype
         document.removeEventListener("mouseup", this.__mouseup);
         this.__mouseup = null;
         this.__mousemove = null;
+    },
+    is_dragged_by: function(ev) {
+        var start = this.start;
+        if (start.buttons !== ev.buttons || start.which !== ev.which) return false;
+        return true;
     },
 });
 function mousedown(ev) {
@@ -165,6 +170,9 @@ TouchCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype
         return [ current.clientX - prev.clientX, current.clientY - prev.clientY ];
     },
     destroy: function() {
+    },
+    is_dragged_by: function(ev) {
+        return this.find_touch(ev) !== null;
     },
 });
 function touchstart(ev) {
@@ -267,6 +275,9 @@ w.TK.DragCapture = TK.class({
     },
     state: function() {
         return this.draw_state;
+    },
+    is_dragged_by: function(ev) {
+        return this.drag_state !== null && this.drag_state.is_dragged_by(ev);
     },
 });
 })(this, this.TK);
