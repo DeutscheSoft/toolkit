@@ -35,7 +35,7 @@ function add_meter (options) {
         bottom: (typeof O.bottoms[l] !== "undefined") ? O.bottoms[l] : O.bottom,
         top: (typeof O.tops[l] !== "undefined") ? O.tops[l] : O.top,
     }
-    opt = TK.merge({}, O, opt);
+    opt = TK.merge(TK.object_sub(O, TK.Widget.prototype._options), opt);
     var m = new TK.LevelMeter(opt);
     this.meters.push(m);
     this.add_child(m);
