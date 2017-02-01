@@ -127,7 +127,8 @@ TK.MultiMeter = TK.class({
         scale_base: "number",
         format_labels: "function",
         levels: "array",
-        
+        background: "string|boolean",
+        gradient: "object|boolean",
         
         count: "int",
         
@@ -172,7 +173,8 @@ TK.MultiMeter = TK.class({
         levels:          [1, 5, 10],
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
-        
+        background:      false,
+        gradient:        false,
         
         count: 2,
         

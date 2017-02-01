@@ -174,6 +174,8 @@ TK.MeterBase = TK.class({
         format_label: "function",
         scale_base: "number",
         format_labels: "function",
+        background: "string|boolean",
+        gradient: "object|boolean"
     }),
     options: {
         layout:          "left",
@@ -187,6 +189,8 @@ TK.MeterBase = TK.class({
         levels:          [1, 5, 10],     // array of steps where to draw labels
         scale_base:       false,
         format_labels:    TK.FORMAT("%.2f"),
+        background:      false,
+        gradient:        false
     },
     static_events: {
         set_label: function(value) {
@@ -305,7 +309,7 @@ TK.MeterBase = TK.class({
         }
         if (I.gradient || I.background) {
             I.gradient = I.background = false;
-            this.draw_gradient(this._bar, O.gradient);
+            this.draw_gradient(this._bar, O.gradient, O.background);
         }
 
         TK.Widget.prototype.redraw.call(this);
