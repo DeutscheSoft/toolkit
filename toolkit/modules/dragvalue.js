@@ -36,62 +36,28 @@ function start_drag(value) {
     if (O.events) O.events.call(this).fire_event("startdrag", this.drag_state.start);
 }
 
-function movecapture(state) {
-    var O = this.options;
+/* This version integrates movements, instead
+ * of using the global change since the beginning */
+function movecapture_int(O, range, state) {
+    /* O.direction is always 'polar' here */
 
-    if (O.active === false) return false;
+    /* movement since last event */
+    var v = state.prev_distance();
 
-    if (!this.scheduled) {
-        this.scheduled = true;
-        TK.S.add(this._updatedrag);
-    }
-}
+    if (!v[0] && !v[1]) return;
 
-function updatedrag() {
-    var O = this.options;
-    var state = this.drag_state;
+    var V = O._direction;
 
-    this.scheduled = false;
+    var dist = Math.sqrt(v[0]*v[0] + v[1]*v[1]);
 
-    /* the drag was cancelled while this callback was already scheduled */
-    if (!state) return;
+    var c = (V[0]*v[0] - V[1]*v[1]) / dist;
 
-    var range = O.range.call(this);
-    var e = state.current;
+    if (Math.abs(c) > O._cutoff) return;
 
-    var V;
-
-    switch(O.direction) {
-    case "polar":
-        V = [ Math.cos(O.rotation * (2*Math.PI/360)),
-            - Math.sin(O.rotation * (2*Math.PI/360)) ];
-        break;
-    case "vertical":
-        V = [ 0, -1 ];
-        break;
-    default:
-        TK.warn("Unsupported direction:", O.direction);
-    case "horizontal":
-        V = [ 1, 0 ];
-        break;
-    }
-
-    var v = state.vdistance();
-    var dist = v[0] * V[0] + v[1] * V[1];
-
-    if (O.blind_angle > 0) {
-        var cmp = O.blind_angle * Math.PI / 180;
-        /* V has length 1 and we do not care about the sign */
-        var C = Math.abs(2 * Math.acos(Math.abs(dist / Math.sqrt(v[0]*v[0] + v[1]*v[1]))) - Math.PI);
-
-        if (C < cmp) {
-            dist = 0;
-        } else {
-            dist *= (C - cmp) / (Math.PI - cmp);
-        }
-    }
+    if (v[0] * V[1] + v[1] * V[0] < 0) dist = -dist;
 
     var multi = range.options.step || 1;
+    var e = state.current;
 
     if (e.ctrlKey && e.shiftKey) {
         multi *= range.options.shift_down;
@@ -99,10 +65,55 @@ function updatedrag() {
         multi *= range.options.shift_up;
     }
 
-    dist += multi;
+    dist *= multi;
+
+    var nval = range.px2val(range.val2px(O.get.call(this)) + dist);
+
+    O.set.call(this, nval);
+}
+
+function movecapture_abs(O, range, state) {
+    var dist;
+
+    switch(O.direction) {
+    case "vertical":
+        dist = -state.vdistance()[1];
+        break;
+    default:
+        TK.warn("Unsupported direction:", O.direction);
+    case "horizontal":
+        dist = state.vdistance()[0];
+        break;
+    }
+
+    var multi = range.options.step || 1;
+    var e = state.current;
+
+    if (e.ctrlKey && e.shiftKey) {
+        multi *= range.options.shift_down;
+    } else if (e.shiftKey) {
+        multi *= range.options.shift_up;
+    }
+
+    dist *= multi;
 
     var nval = range.px2val(this.start_pos + dist);
     O.set.call(this, nval);
+}
+
+function movecapture(state) {
+    var O = this.options;
+
+    if (O.active === false) return false;
+
+    var state = this.drag_state;
+    var range = O.range.call(this);
+
+    if (O.direction === "polar") {
+        movecapture_int.call(this, O, range, state);
+    } else {
+        movecapture_abs.call(this, O, range, state);
+    }
 
     this.fire_event("dragging", state.current);
     if (O.events) O.events.call(this).fire_event("dragging", state.current);
@@ -199,6 +210,14 @@ TK.DragValue = TK.class({
         startcapture: function() {
             if (this.options.active) return true;
         },
+        set_rotation: function(v) {
+            v *= Math.PI / 180;
+            this.set("_direction", [ -Math.sin(v), Math.cos(v) ]);
+        },
+        set_blind_angle: function(v) {
+            v *= Math.PI / 360;
+            this.set("_cutoff", Math.cos(v));
+        },
         movecapture: movecapture,
         startdrag: function(ev) {
             TK.S.add(function() {
@@ -230,10 +249,10 @@ TK.DragValue = TK.class({
     },
     initialize: function (widget, options) {
         TK.DragCapture.prototype.initialize.call(this, widget, options);
-
-        this._updatedrag = updatedrag.bind(this);
-        this.scheduled = false;
         this.start_pos = 0;
+        var O = this.options;
+        this.set("rotation", O.rotation);
+        this.set("blind_angle", O.blind_angle);
     },
 });
 })(this, this.TK);
