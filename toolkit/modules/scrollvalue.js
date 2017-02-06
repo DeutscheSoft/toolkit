@@ -39,9 +39,25 @@ function scrollwheel(e) {
     var direction = d > 0 ? 1 : -1;
     var range = O.range.call(this);
 
+    var v;
+
     // timeout for resetting the class
-    if (this.__sto) window.clearTimeout(this.__sto);
-    else TK.add_class(this.options.classes, "toolkit-scrolling");
+    if (this._wheel) {
+        v = this._raw_value;
+        window.clearTimeout(this.__sto);
+    } else {
+        this._raw_value = v = O.get.call(this);
+        TK.add_class(this.options.classes, "toolkit-scrolling");
+        /**
+         * Is fired when scrolling starts.
+         * 
+         * @event TK.ScrollValue#scrollstarted
+         * 
+         * @param {DOMEvent} event - The native DOM event.
+         */
+        fire_event.call(this, "scrollstarted", e);
+        this._wheel = true;
+    }
     this.__sto = window.setTimeout(scroll_timeout.bind(this), 200);
     
     // calc step depending on options.step, .shift up and .shift down
@@ -52,40 +68,14 @@ function scrollwheel(e) {
         step *= range.options.shift_up;
     }
 
-    var pos = range.val2px(O.get.call(this));
-    var value;
-    
+    var pos = range.val2px(v);
+
     pos += step;
 
-    value = range.px2val(pos);
+    v = range.px2val(pos);
 
-    /* If snap() returns to the old value, we try to snap in the right direction.
-     * If that fails too, we are probably at the boundary of our range, and pass
-     * the original value, in order to trigger the range overflow detection (warning).
-     */
-    if (range.snap(value) === O.get.call(this)) {
-        var tmp;
-        if (d > 0) {
-            tmp = range.snap_up(value);
-        } else {
-            tmp = range.snap_down(value);
-        }
-        if (tmp !== O.get.call(this)) {
-            value = tmp;
-        }
-    }
-
-    O.set.call(this, value);
+    O.set.call(this, v);
     
-    if (!this._wheel)
-        /**
-         * Is fired when scrolling starts.
-         * 
-         * @event TK.ScrollValue#scrollstarted
-         * 
-         * @param {DOMEvent} event - The native DOM event.
-         */
-        fire_event.call(this, "scrollstarted", e);
     /**
      * Is fired while scrolling happens.
      * 
@@ -94,8 +84,10 @@ function scrollwheel(e) {
      * @param {DOMEvent} event - The native DOM event.
      */
     fire_event.call(this, "scrolling", e);
-    
-    this._wheel = true;
+
+    /* do not remember out of range values */
+    if (v > range.options.min && v < range.options.max)
+        this._raw_value = v;
     
     return false;
 }
@@ -149,6 +141,7 @@ TK.ScrollValue = TK.class({
     initialize: function (widget, options) {
         TK.Module.prototype.initialize.call(this, widget, options);
         this._wheel = false;
+        this._raw_value = 0.0;
         this.set("node", this.options.node);
         this.set("events", this.options.events);
         this.set("classes", this.options.classes);
