@@ -66,10 +66,15 @@ function movecapture_int(O, range, state) {
     }
 
     dist *= multi;
+    var v = this.start_pos + dist;
 
-    var nval = range.px2val(range.val2px(O.get.call(this)) + dist);
+    var nval = range.px2val(v);
 
     O.set.call(this, nval);
+
+    if (!(nval > range.options.min) || !(nval < range.options.max)) return;
+
+    this.start_pos = v;
 }
 
 function movecapture_abs(O, range, state) {
