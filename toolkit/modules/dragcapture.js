@@ -133,9 +133,24 @@ function mouseup(ev) {
 }
 
 /* touch handling */
+
+/*
+ * Old Safari versions will keep the same Touch objects for the full lifetime
+ * and simply update the coordinates, etc. This is a bug, which we work around by
+ * cloning the information we need.
+ */
+function clone_touch(t) {
+    return {
+        clientX: t.clientX,
+        clientY: t.clientY,
+        identifier: t.identifier,
+    };
+}
+
 function TouchCaptureState(start) {
     CaptureState.call(this, start);
     var touch = start.changedTouches.item(0);
+    touch = clone_touch(touch);
     this.stouch = touch;
     this.ptouch = touch;
     this.ctouch = touch;
@@ -154,7 +169,7 @@ TouchCaptureState.prototype = Object.assign(Object.create(CaptureState.prototype
         return null;
     },
     set_current: function(ev) {
-        var touch = this.find_touch(ev);
+        var touch = clone_touch(this.find_touch(ev));
         this.ptouch = this.ctouch;
         this.ctouch = touch;
         return CaptureState.prototype.set_current.call(this, ev);
