@@ -370,6 +370,7 @@ TK.MeterBase = TK.class({
         var i = vert(O) ? h : w;
         this.set("basis", i);
         this._last_meters.length = 0;
+        this._fillstyle = false;
     },
 
     calculate_meter: function(to, value, i) {
