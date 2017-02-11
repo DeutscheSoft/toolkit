@@ -548,12 +548,7 @@ TK.Circular = TK.class({
             value = Object.assign(this.options[key], value);
             break;
         case "base":
-            if (value === false) {
-                value = this.options.min;
-                this.__based = false;
-            } else {
-                this.__based = true;
-            }
+            if (value === false) value = this.options.min;
             break;
         case "value":
             if (value > this.options.max || value < this.options.min)
