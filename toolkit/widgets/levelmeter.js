@@ -453,7 +453,7 @@ TK.LevelMeter = TK.class({
                     return;
                 }
             }
-            if (O.auto_clip !== false && value > O.clipping && !this.__based) {
+            if (O.auto_clip !== false && value > O.clipping && !this.has_base()) {
                 this.set("clip", true);
             }
             if (O.show_label && O.peak_label !== false &&
@@ -467,7 +467,7 @@ TK.LevelMeter = TK.class({
             if (O.auto_hold !== false && O.show_hold && value > O.top) {
                 this.set("top", value);
             }
-            if (O.auto_hold !== false && O.show_hold && value < O.bottom && this.__based) {
+            if (O.auto_hold !== false && O.show_hold && value < O.bottom && this.has_base()) {
                 this.set("bottom", value);
             }
         }

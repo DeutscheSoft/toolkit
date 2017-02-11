@@ -248,7 +248,6 @@ TK.MeterBase = TK.class({
         var E;
         TK.Widget.prototype.initialize.call(this, options);
         var O = this.options;
-        this.__based = false;
         /**
          * @member {HTMLDivElement} TK.MeterBase#element - The main DIV container.
          *   Has class <code>toolkit-meter-base</code>.
@@ -456,13 +455,15 @@ TK.MeterBase = TK.class({
             s = +this.options.basis - s;
         return s;
     },
+
+    has_base: function() {
+        var O = this.options;
+        return O.base > O.min;
+    },
     
     // GETTER & SETTER
     set: function (key, value) {
-        if (key === "base") {
-            this.__based = value !== false;
-            if (!this.__based) value = this.options.min;
-        }
+        if (key === "base" && value === false) value = this.options.min;
         return TK.Widget.prototype.set.call(this, key, value);
     }
 });
