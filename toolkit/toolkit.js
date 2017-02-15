@@ -1177,6 +1177,21 @@ TK = w.toolkit = {
     warn: warn,
     error: error,
     log: log,
+    assign_warn: function(a) {
+        for (var i = 1; i < arguments.length; i++) {
+            var b = arguments[i];
+            for (var key in b) if (b.hasOwnProperty(key)) {
+                if (a[key] === b[key]) {
+                    TK.warn("overwriting identical", key, "(", a[key], ")");
+                } else if (a[key]) {
+                    TK.warn("overwriting", key, "(", a[key], "vs", b[key], ")");
+                }
+                a[key] = b[key];
+            }
+        }
+
+        return a;
+    },
 };
 
 // POLYFILLS
