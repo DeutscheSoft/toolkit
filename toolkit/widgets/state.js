@@ -43,7 +43,7 @@ TK.State = TK.class({
     _class: "State",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
-        state: "number",
+        state: "number|boolean",
         color: "string",
     }),
     options: {
@@ -90,6 +90,10 @@ TK.State = TK.class({
 
         if (I.state) {
             I.state = false;
+            var v = +O.state;
+            if (!(v >= 0)) v = 0;
+            if (!(v <= 1)) v = 1;
+
             if (!O.state) {
                 this.remove_class("toolkit-state-on");
                 this.add_class("toolkit-state-off");
@@ -97,7 +101,7 @@ TK.State = TK.class({
                 this.remove_class("toolkit-state-off");
                 this.add_class("toolkit-state-on");
             }
-            this._mask.style["opacity"] = "" + (1 - +O.state);
+            this._mask.style["opacity"] = "" + (1 - v);
         }
     }
 });
