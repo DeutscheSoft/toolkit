@@ -634,7 +634,7 @@ TK.Ranged = TK.class({
         log_factor:     1
     },
     _options: {
-        scale: "string",
+        scale: "string|array|function",
         reverse: "boolean",
         basis: "number",
         min: "number",
