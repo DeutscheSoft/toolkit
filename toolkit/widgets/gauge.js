@@ -53,17 +53,12 @@ var format_viewbox = TK.FORMAT("0 0 %d %d");
 TK.Gauge = TK.class({
     _class: "Gauge",
     Extends: TK.Widget,
-    _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options, {
-        x: "number",
-        y: "number",
+    _options: Object.assign(Object.create(TK.Circular.prototype._options), {
         width:  "number",
         height: "number",
-        size:   "number",
         title: "object",
     }),
     options: Object.assign({}, TK.Circular.prototype.options, {
-        x:          0,
-        y:          0,
         width:  120, // width of the element
         height: 120, // height of the svg
         size:   120,

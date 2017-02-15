@@ -144,7 +144,6 @@ TK.Toggle = TK.class({
         icon_active: "string",
         press: "int",
         toggle: "boolean",
-        state: "boolean",
     }),
     options: {
         label_active:  false,
@@ -152,7 +151,6 @@ TK.Toggle = TK.class({
         icon_inactive: false,
         press:         false,
         toggle:        true,
-        state:         false
     },
     static_events: {
         mousedown: mousedown,

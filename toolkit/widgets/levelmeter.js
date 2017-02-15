@@ -123,7 +123,6 @@ TK.LevelMeter = TK.class({
     _class: "LevelMeter",
     Extends: TK.MeterBase,
     _options: Object.assign(Object.create(TK.MeterBase.prototype._options), {
-        clip: "boolean",
         falling: "number",
         falling_fps: "number",
         falling_init: "number",
