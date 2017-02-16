@@ -500,9 +500,6 @@ TK.ChildElement(TK.MeterBase, "over", {
  *   Has class <code>toolkit-title</code>.
  */
 TK.ChildElement(TK.MeterBase, "title", {
-    append: function(O) {
-        this._bar.appendChild(this._title);
-    },
     show: false,
     draw_options: [ "title" ],
     draw: function(O) {
