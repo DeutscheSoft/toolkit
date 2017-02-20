@@ -53,7 +53,8 @@ function value_clicked(e) {
     this.fire_event("valueclicked", this.options.value);
 }
 function value_typing(e) {
-    if (!this.options.set) return;
+    var O = this.options;
+    if (!O.set) return;
     if (!this.__editing) return;
     switch (e.keyCode) {
         case 27:
@@ -66,11 +67,11 @@ function value_typing(e) {
              * 
              * @param {string} value - The new value of the widget.
              */
-            this.fire_event("valueescape", this.options.value);
+            this.fire_event("valueescape", O.value);
             break;
         case 13:
             // ENTER
-            this.userset("value", this._input.value);
+            this.userset("value", O.set(this._input.value));
             value_done.call(this);
             /**
              * Is fired after the value has been set and editing has ended.
@@ -79,7 +80,7 @@ function value_typing(e) {
              * 
              * @param {string} value - The new value of the widget.
              */
-            this.fire_event("valueset", this.options.value);
+            this.fire_event("valueset", O.value);
             
             e.preventDefault();
             return false;
@@ -93,9 +94,9 @@ function value_typing(e) {
      * @param {DOMEvent} event - The native DOM event.
      * @param {string} value - The new value of the widget.
      */
-    this.fire_event("valuetyping", e, this.options.value);
+    this.fire_event("valuetyping", e, O.value);
 }
-function value_done(e) {
+function value_done() {
     if (!this.__editing) return;
     this.__editing = false;
     TK.remove_class(this.element, "toolkit-active");
