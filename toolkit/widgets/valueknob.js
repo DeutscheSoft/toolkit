@@ -73,11 +73,7 @@ TK.ValueKnob = TK.class({
     _class: "ValueKnob",
     Extends: TK.Widget,
     _options: Object.create(TK.Widget.prototype._options),
-    options: {
-        value_format: TK.FORMAT("%.2f"),
-        value_size: 5,
-        value_set: parseFloat,
-    },
+    options: { },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
         var E;
@@ -124,6 +120,7 @@ TK.ChildWidget(TK.ValueKnob, "value", {
     map_options: {
         value_format: "format",
         value_set: "set",
+        value_size: "size",
     },
     static_events: {
         valueclicked: value_clicked,
