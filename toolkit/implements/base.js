@@ -709,6 +709,8 @@ function ChildWidget(widget, name, config) {
     if (m = config.map_options) {
         for (tmp in m) {
             p._options[tmp] = child.prototype._options[m[tmp]];
+            if (!p.options[tmp])
+                p.options[tmp] = child.prototype.options[m[tmp]];
             add_static_event(widget, "set_"+tmp, set_cb(m[tmp]));
         }
     }
