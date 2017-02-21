@@ -55,6 +55,8 @@ function button_clicked(button) {
     this.userset("show", this.buttons.indexOf(button));
 }
 
+var zero = { width: 0, height: 0};
+
 TK.ButtonArray = TK.class({
     /**
      * TK.ButtonArray is a list of buttons ({@link TK.Button}) layouted
@@ -178,7 +180,8 @@ TK.ButtonArray = TK.class({
     resize: function () {
         var tmp, e;
 
-        this._sizes = {
+        var os = this._sizes;
+        var s = {
             container: this._container.getBoundingClientRect(),
             clip: {
                 height: TK.inner_height(this._clip),
@@ -186,13 +189,17 @@ TK.ButtonArray = TK.class({
             },
             buttons: [],
             buttons_pos: [],
+            prev: this._prev.parentNode ? this._prev.getBoundingClientRect() : os ? os.prev : zero,
+            next: this._next.parentNode ? this._next.getBoundingClientRect() : os ? os.next : zero,
             element: this.element.getBoundingClientRect(),
         };
 
+        this._sizes = s;
+
         for (var i = 0; i < this.buttons.length; i++) {
             e = this.buttons[i].element;
-            this._sizes.buttons[i] = e.getBoundingClientRect();
-            this._sizes.buttons_pos[i] = { left: e.offsetLeft, top: e.offsetTop };
+            s.buttons[i] = e.getBoundingClientRect();
+            s.buttons_pos[i] = { left: e.offsetLeft, top: e.offsetTop };
         }
 
         TK.Container.prototype.resize.call(this);
@@ -303,6 +310,7 @@ TK.ButtonArray = TK.class({
         TK.Container.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
+        var S = this._sizes;
 
         if (I.direction) {
             var E = this.element;
@@ -316,9 +324,10 @@ TK.ButtonArray = TK.class({
                 var subd     = dir ? 'top' : 'left';
                 var subs     = dir ? 'height' : 'width';
 
-                var elemsize = this._sizes.element[subs];
-                var listsize = this._sizes.buttons_pos[this.buttons.length-1][subd] +
-                               this._sizes.buttons[this.buttons.length-1][subs];
+                var elemsize = S.element[subs];
+                var listsize = S.buttons_pos[this.buttons.length-1][subd] +
+                               S.buttons[this.buttons.length-1][subs] +
+                               S.prev[subs] + S.next[subs];
 
                 if (listsize > elemsize)
                     show_arrows.call(this);
@@ -336,12 +345,12 @@ TK.ButtonArray = TK.class({
                     var subd     = dir ? 'top' : 'left';
                     var subs     = dir ? 'height' : 'width';
 
-                    var btnrect  = this._sizes.buttons[O.show];
-                    var clipsize = this._sizes.clip[subs];
-                    var listsize = this._sizes.buttons_pos[this.buttons.length-1][subd] +
-                                   this._sizes.buttons[this.buttons.length-1][subs];
-                    var btnsize  = this._sizes.buttons[O.show][subs];
-                    var btnpos   = this._sizes.buttons_pos[O.show][subd];
+                    var btnrect  = S.buttons[O.show];
+                    var clipsize = S.clip[subs];
+                    var listsize = S.buttons_pos[this.buttons.length-1][subd] +
+                                   S.buttons[this.buttons.length-1][subs];
+                    var btnsize  = S.buttons[O.show][subs];
+                    var btnpos   = S.buttons_pos[O.show][subd];
 
                     this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
                 }
