@@ -324,15 +324,15 @@ TK.ButtonArray = TK.class({
                 var subd     = dir ? 'top' : 'left';
                 var subs     = dir ? 'height' : 'width';
 
-                var elemsize = S.element[subs];
+                var clipsize = S.clip[subs];
                 var listsize = S.buttons_pos[this.buttons.length-1][subd] +
-                               S.buttons[this.buttons.length-1][subs] +
-                               S.prev[subs] + S.next[subs];
+                               S.buttons[this.buttons.length-1][subs];
 
-                if (listsize > elemsize)
+                if (listsize > clipsize) {
                     show_arrows.call(this);
-                else
+                } else if (listsize < clipsize) {
                     hide_arrows.call(this);
+                }
             } else if (!O.auto_arrows) {
                 hide_arrows.call(this);
             }
