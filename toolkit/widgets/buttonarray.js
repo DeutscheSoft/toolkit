@@ -29,17 +29,18 @@
 (function(w, TK){
 function hide_arrows() {
     if (!this._prev.parentNode) return;
+    if (this._prev.parentNode) this._prev.remove();
+    if (this._next.parentNode) this._next.remove();
     var E = this.element;
-    if (E.firstChild === this._prev) E.removeChild(this._prev);
-    if (E.lastChild === this._next) E.removeChild(this._next);
     TK.remove_class(E, "toolkit-over");
     this.trigger_resize();
 }
 function show_arrows() {
     if (this._prev.parentNode) return;
-    this.element.insertBefore(this._prev, this._clip);
-    this.element.appendChild(this._next);
-    TK.add_class(this.element, "toolkit-over");
+    var E = this.element;
+    E.insertBefore(this._prev, this._clip);
+    E.appendChild(this._next);
+    TK.add_class(E, "toolkit-over");
     this.trigger_resize();
 }
 function prev_clicked(e) {
