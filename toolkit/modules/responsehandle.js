@@ -818,7 +818,7 @@ TK.ResponseHandle = TK.class({
         intersect: "function",
         mode: "string",
         preferences: "array",
-        label: "function",
+        label: "function|boolean",
         x: "number",
         y: "number",
         z: "number",
