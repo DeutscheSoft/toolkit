@@ -56,7 +56,7 @@ array(string) input_files = ({
 });
 
 string find_name(string line) {
-    if (-1 == search(line, "$class")) return 0;
+    if (-1 == search(line, "TK.class")) return 0;
     array(string) tmp = line / "=";
 
     tmp = map(tmp, String.trim_all_whites);
@@ -136,12 +136,7 @@ mapping(string:array(string)) calculate_dependencies(mapping(string:string) widg
     mapping(string:array(string)) dependencies = ([]);
 
     foreach (src; int i; string file) {
-        array(string) lines = filter(file/"\n", has_value, '$');
-        if (!sizeof(lines)) {
-            /* no class definiton found, so we need this */
-            js_files[input_files[i]] = 1;
-            continue;
-        }
+        array(string) lines = file/"\n";
         foreach (lines;; string line) {
             string name = find_name(line);
             if (name) {
