@@ -101,6 +101,7 @@ constant ARGS = ({
     ({ "output", Getopt.HAS_ARG, ({ "-o", "--output" }) }),
     ({ "help", Getopt.NO_ARG, ({ "-h", "--help" }) }),
     ({ "debug", Getopt.NO_ARG, ({ "-d", "--debug" }) }),
+    ({ "gzip", Getopt.NO_ARG, ({ "-g", "--gzip" }) }),
 });
 
 void help() {
@@ -123,6 +124,9 @@ Options:
 
     --help              Print this help.
     -h
+
+    --gzip              Gzip all files by default.
+    -g
 
 
 ");
@@ -288,6 +292,9 @@ int main(int argc, array(string) argv) {
         )->wait();
 
         out->close();
+
+        if (options->gzip)
+            Process.create_process(({ "gzip", fname }), ([ "stderr" : Stdio.stderr ]))->wait();
     } else if (options->mode == "css") {
         string DST = combine_path(options->output, "css");
         string SRC = combine_path(DIR, "toolkit", "styles");
@@ -328,9 +335,13 @@ int main(int argc, array(string) argv) {
                 array cmd = ({ "csso", "-i", dst, "-o", dst });
                 Process.create_process(cmd, ([ "stderr": Stdio.stderr ]))->wait();
             }
+            if (options->gzip)
+                Process.create_process(({ "gzip", dst }), ([ "stderr" : Stdio.stderr ]))->wait();
         }
 
-        Stdio.File out = Stdio.File(combine_path(DST, "toolkit.all.css"), "wc");
+        string dst = combine_path(DST, "toolkit.all.css");
+
+        Stdio.File out = Stdio.File(dst, "wc");
         out->truncate(0);
         out->write(
 #"/* This file is part of the Toolkit library.
@@ -343,6 +354,9 @@ int main(int argc, array(string) argv) {
             out->write("@import %s;\n", string_to_utf8(Standards.JSON.encode(path)));
         }
         out->close();
+
+        if (options->gzip)
+            Process.create_process(({ "gzip", dst }), ([ "stderr" : Stdio.stderr ]))->wait();
 
     } else if (options->mode == "print") {
         werror("Dependencies:\n");
