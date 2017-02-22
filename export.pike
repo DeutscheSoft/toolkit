@@ -323,6 +323,11 @@ int main(int argc, array(string) argv) {
             if (!Stdio.cp(combine_path(SRC, path), dst)) {
                 werror("cp '%s' '%s' failed.\n", combine_path(SRC, path), dst);
             }
+
+            if (!options->debug) {
+                array cmd = ({ "csso", "-i", dst, "-o", dst });
+                Process.create_process(cmd, ([ "stderr": Stdio.stderr ]))->wait();
+            }
         }
 
         Stdio.File out = Stdio.File(combine_path(DST, "toolkit.all.css"), "wc");
