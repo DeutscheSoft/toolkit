@@ -486,16 +486,6 @@ TK.ChildWidget(TK.MeterBase, "scale", {
     },
 });
 /**
- * @member {HTMLDivElement} TK.MeterBase#_over - The DIV element for the peak marker.
- *   Has class <code>toolkit-over</code>.
- */
-TK.ChildElement(TK.MeterBase, "over", {
-    append: function(O) {
-        this._bar.appendChild(this._over);
-    },
-    show: true,
-});
-/**
  * @member {HTMLDivElement} TK.MeterBase#_title - The DIV element displaying the title.
  *   Has class <code>toolkit-title</code>.
  */
