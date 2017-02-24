@@ -144,7 +144,7 @@ function deactivate_tooltip() {
  * @property {number} [options.reset=options.value] - The reset value, which is used by
  *   the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
  * @property {boolean} [options.show_scale=true] - If true, a scale is drawn.
- *
+ * @property {number} [options.marker=0] - The value to set the markers position
  */
 TK.Fader = TK.class({
     _class: "Fader",
@@ -167,7 +167,8 @@ TK.Fader = TK.class({
         reset: "number",
         bind_click: "boolean",
         bind_dblclick: "boolean",
-        show_scale: "boolean"
+        show_scale: "boolean",
+        marker: "number"
     }),
     options: {
         value: 0,
@@ -183,7 +184,8 @@ TK.Fader = TK.class({
         fixed_labels: false,
         bind_click: false,
         bind_dblclick: true,
-        show_scale: true
+        show_scale: true,
+        marker: 0
     },
     static_events: {
         set_bind_click: function(value) {
@@ -363,6 +365,10 @@ TK.ChildWidget(TK.Fader, "scale", {
         },
     },
 });
+/**
+ * @member {TK.Label} TK.Fader#label - If <code>option.show_label</code> is true,
+ *   <code>label</code> will be the corresponding instance of {@link TK.Scale}.
+ */
 TK.ChildWidget(TK.Fader, "label", {
     create: TK.Label,
     show: false,
@@ -375,5 +381,29 @@ TK.ChildWidget(TK.Fader, "value", {
         value: "value",
     },
     toggle_class: true,
+});
+/**
+ * @member {HTMLDivElement} TK.Fader#_marker - The DIV element of the marker. It can be used to e.g. visualize the value set in the backend.
+ */
+TK.ChildElement(TK.Fader, "marker", {
+    show: false,
+    toggle_class: true,
+    draw_options: [ "marker" ],
+    draw: function(O) {
+        if (this._marker) {
+            var tmp = this.val2px(this.snap(O.marker)) + "px"
+            if (vert(O)) {
+                if (supports_transform)
+                    this._marker.style.transform = "translateY(-"+tmp+")";
+                else
+                    this._marker.style.bottom = tmp;
+            } else {
+                if (supports_transform)
+                    this._marker.style.transform = "translateX("+tmp+")";
+                else
+                    this._marker.style.left = tmp;
+            }
+        }
+    },
 });
 })(this, this.TK);
