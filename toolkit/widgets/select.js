@@ -176,6 +176,17 @@ TK.Select = TK.class({
     },
     
     /**
+     * Show or hide the select list
+     * 
+     * @method TK.Select#show_list
+     * 
+     * @param {boolean} show - true to show and false to hide the list
+     */
+    show_list: function (s) {
+        show_list.call(this, s);
+    },
+    
+    /**
      * Select an entry by its ID.
      * 
      * @method TK.Select#select
