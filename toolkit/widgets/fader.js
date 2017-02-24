@@ -167,6 +167,7 @@ TK.Fader = TK.class({
         reset: "number",
         bind_click: "boolean",
         bind_dblclick: "boolean",
+        show_scale: "boolean"
     }),
     options: {
         value: 0,
@@ -182,6 +183,7 @@ TK.Fader = TK.class({
         fixed_labels: false,
         bind_click: false,
         bind_dblclick: true,
+        show_scale: true
     },
     static_events: {
         set_bind_click: function(value) {
