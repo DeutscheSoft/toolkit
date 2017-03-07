@@ -107,8 +107,11 @@ function merge_static_events(a, b) {
     var event;
     if (!a) return b;
     for (event in a) {
+        var tmp = a[event];
         if (b.hasOwnProperty(event)) {
-            b[event] = arrayify(a[event]).concat(arrayify(b[event]));
+            b[event] = arrayify(tmp).concat(arrayify(b[event]));
+        } else {
+            b[event] = Array.isArray(tmp) ? tmp.slice(0) : tmp;
         }
     }
     return Object.assign({}, a, b);
