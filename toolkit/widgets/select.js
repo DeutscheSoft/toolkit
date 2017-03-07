@@ -86,6 +86,7 @@ function show_list(show) {
     TK.set_style(this._list, "opacity", show ? "1" : "0");
     this.__transition = true;
     this.__open = show;
+    this.set("show_list", !!show);
     if (this.__timeout !== false) window.clearTimeout(this.__timeout);
     var dur = parseFloat(TK.get_style(this._list, "transition-duration"));
     this.__timeout = window.setTimeout(hide_list.bind(this), dur * 1000);
@@ -116,18 +117,21 @@ TK.Select = TK.class({
         selected: "int",
         value: "mixed",
         auto_size: "boolean",
+        show_list: "boolean",
     }),
     options: {
         entries: [], // A list of strings or objects: {title: "Title", value: 1}
         selected: false,
         value: false,
-        auto_size: true
+        auto_size: true,
+        show_list: false,
     },
     static_events: {
         click: function(e) { show_list.call(this, !this.__open); },
     },
     initialize: function (options)  {
         this.__open = false;
+
         this.__timeout = -1;
         
         /**
