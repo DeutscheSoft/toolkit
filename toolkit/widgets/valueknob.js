@@ -86,6 +86,9 @@ TK.ValueKnob = TK.class({
 
         this.widgetize(E, true, true, true);
     },
+    get_range: function() {
+        return this.knob.get_range();
+    },
     set: function (key, value) {
         /* this gets triggered twice, but we need it in order to make the snapping work */
         if (key === "value" && this.knob)

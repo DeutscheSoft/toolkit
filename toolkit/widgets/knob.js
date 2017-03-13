@@ -166,6 +166,10 @@ TK.Knob = TK.class({
             options.reset = options.value;
         this.add_child(this.circular);
     },
+
+    get_range: function() {
+        return this.circular;
+    },
     
     destroy: function () {
         this.drag.destroy();
