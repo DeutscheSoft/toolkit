@@ -131,8 +131,14 @@ function draw_markers() {
         
         if (m["class"]) TK.add_class(s, m["class"]);
         if (m.color) s.style.fill = m.color;
+        if (!m.nosnap) {
+            from = this.snap(from);
+            to = this.snap(to);
+        }
+        from = this.val2px(from);
+        to = this.val2px(to);
         
-        draw_slice.call(this, this.val2px(this.snap(from)), this.val2px(this.snap(to)), inner_p, outer_p, outer, s);
+        draw_slice.call(this, from, to, inner_p, outer_p, outer, s);
     }
     /**
      * Is fired when markers are (re)drawn.
