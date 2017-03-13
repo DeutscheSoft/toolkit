@@ -86,7 +86,6 @@ function show_list(show) {
     TK.set_style(this._list, "opacity", show ? "1" : "0");
     this.__transition = true;
     this.__open = show;
-    this.set("show_list", !!show);
     if (this.__timeout !== false) window.clearTimeout(this.__timeout);
     var dur = parseFloat(TK.get_style(this._list, "transition-duration"));
     this.__timeout = window.setTimeout(hide_list.bind(this), dur * 1000);
@@ -127,7 +126,7 @@ TK.Select = TK.class({
         show_list: false,
     },
     static_events: {
-        click: function(e) { show_list.call(this, !this.__open); },
+        click: function(e) { this.set("show_list", !this.options.show_list); }
     },
     initialize: function (options)  {
         this.__open = false;
@@ -156,7 +155,7 @@ TK.Select = TK.class({
                 !this._list.contains(e.target) &&
                 !this.element.contains(e.target)) {
 
-                show_list.call(this, false);
+                this.show_list(false);
             }
         }.bind(this);
         /**
@@ -187,7 +186,7 @@ TK.Select = TK.class({
      * @param {boolean} show - true to show and false to hide the list
      */
     show_list: function (s) {
-        show_list.call(this, s);
+        this.set("show_list", !!s);
     },
     
     /**
@@ -271,7 +270,7 @@ TK.Select = TK.class({
              * @param {string} value - The title of the selected entry.
              */
             this.fire_event("select", entry.value, id, entry.title);
-            show_list.call(this, false);
+            this.show_list(false);
         }.bind(this);
 
         li.addEventListener("touchstart", up_cb);
@@ -436,6 +435,10 @@ TK.Select = TK.class({
                     }, 1);
                 });
             }
+        }
+
+        if (I.validate("show_list")) {
+            show_list.call(this, O.show_list);
         }
     },
     /**
