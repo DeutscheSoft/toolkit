@@ -72,6 +72,16 @@ TK.EqBand = TK.class({
     options: {
         type:    "parametric"
     },
+    static_events: {
+        set_freq: function(v) { this.set("x", v); },
+        set_gain: function(v) { this.set("y", v); },
+        set_q: function(v) { this.set("z", v); },
+        useraction: function(k, v) {
+            if (k === 'x') this.set("freq", v);
+            if (k === 'y') this.set("gain", v);
+            if (k === 'z') this.set("q", v);
+        },
+    },
     
     initialize: function (options) {
         /**
@@ -136,36 +146,18 @@ TK.EqBand = TK.class({
                 this.filter.set("type", value);
                 break;
             case "freq":
-            case "x":
-                value = this.filter.set("freq", this.range_x.snap(value));
-                break;
             case "gain":
-            case "y":
-                value = this.filter.set("gain", this.range_y.snap(value));
-                break;
             case "q":
-            case "z":
-                value = this.filter.set("q", this.range_z.snap(value));
+                value = this.filter.set(key, value);
                 break;
-        }
-        switch (key) {
             case "x":
-                TK.ResponseHandle.prototype.set.call(this, "freq", value);
-                break;
-            case "freq":
-                TK.ResponseHandle.prototype.set.call(this, "x", value);
-                break;
-            case "z":
-                TK.ResponseHandle.prototype.set.call(this, "q", value);
-                break;
-            case "q":
-                TK.ResponseHandle.prototype.set.call(this, "z", value);
-                break;
-            case "gain":
-                TK.ResponseHandle.prototype.set.call(this, "y", value);
+                value = this.range_x.snap(value);
                 break;
             case "y":
-                TK.ResponseHandle.prototype.set.call(this, "gain", value);
+                value = this.range_y.snap(value);
+                break;
+            case "z":
+                value = this.range_z.snap(value);
                 break;
         }
         return TK.ResponseHandle.prototype.set.call(this, key, value);
