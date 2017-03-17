@@ -285,8 +285,7 @@ TK.MultiMeter = TK.class({
                     M[i].set(k, (value[i] === void 0) ? O[k] : value[i]);
                 break;
             default:
-                if (key !== "container"
-                 && key !== "count") {
+                if (!TK.Container.prototype._options[key]) {
                     for (var i = 0; i < M.length; i++)
                         M[i].set(key, value);
                 }
