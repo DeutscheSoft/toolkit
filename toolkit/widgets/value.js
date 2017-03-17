@@ -54,7 +54,7 @@ function value_clicked(e) {
 }
 function value_typing(e) {
     var O = this.options;
-    if (!O.set) return;
+    if (O.set === false) return;
     if (!this.__editing) return;
     switch (e.keyCode) {
         case 27:
@@ -71,7 +71,7 @@ function value_typing(e) {
             break;
         case 13:
             // ENTER
-            this.userset("value", O.set(this._input.value));
+            this.userset("value", O.set ? O.set(this._input.value) : this._input.value);
             value_done.call(this);
             /**
              * Is fired after the value has been set and editing has ended.
@@ -143,7 +143,7 @@ TK.Value = TK.class({
         format: "function",
         size: "number",
         maxlength: "int",
-        set: "function|boolean",
+        set: "object|function|boolean",
     }),
     options: {
         value: 0,
