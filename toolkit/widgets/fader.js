@@ -391,7 +391,7 @@ TK.ChildWidget(TK.Fader, "value", {
 TK.ChildElement(TK.Fader, "marker", {
     show: false,
     toggle_class: true,
-    draw_options: [ "marker", "marker_type" ],
+    draw_options: [ "marker", "marker_type", "basis" ],
     draw: function(O) {
         if (this._marker) {
             var tmp = this.val2px(this.snap(O.marker)) + "px";
