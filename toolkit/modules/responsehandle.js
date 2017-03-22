@@ -314,6 +314,11 @@ function get_label_dimensions(align, X, label_size) {
 function redraw_handle(O, X) {
     var _handle = this._handle;
 
+    if (!O.show_handle) {
+        if (_handle) remove_handle.call(this);
+        return;
+    }
+
     var range_x = this.range_x;
     var range_y = this.range_y;
     var range_z = this.range_z;
@@ -420,7 +425,7 @@ function redraw_zhandle(O, X) {
     var vec;
     var zhandle = this._zhandle;
 
-    if (O.z_handle === false) {
+    if (!O.show_handle || O.z_handle === false) {
         if (zhandle) remove_zhandle.call(this);
         return;
     }
@@ -519,7 +524,7 @@ function remove_handle() {
 }
 
 function redraw_label(O, X) {
-    if (O.label === false) {
+    if (!O.show_handle || O.label === false) {
         if (this._label) remove_label.call(this);
         return false;
     }
@@ -612,6 +617,13 @@ function redraw_label(O, X) {
 }
 
 function redraw_lines(O, X) {
+
+    if (!O.show_handle) {
+        if (this._line1) remove_line1.call(this);
+        if (this._line2) remove_line2.call(this);
+        return;
+    }
+
     var pos = this.label;
     var range_x = this.range_x;
     var range_y = this.range_y;
@@ -620,7 +632,6 @@ function redraw_lines(O, X) {
     var x = range_x.val2px(O.x);
     var y = range_y.val2px(O.y);
     var z = range_z.val2px(O.z);
-
     switch (O.mode) {
         case "circular":
             if (O.show_axis) {
@@ -838,6 +849,7 @@ TK.ResponseHandle = TK.class({
         show_axis: "boolean",
         title: "string",
         hover: "boolean",
+        show_handle: "boolean"
     }),
     options: {
         range_x:          {},
@@ -873,6 +885,7 @@ TK.ResponseHandle = TK.class({
         active:           true,
         show_axis:        false,
         hover:            false,
+        show_handle:      true
     },
     static_events: {
         set_show_axis: function(value) {
@@ -883,8 +896,14 @@ TK.ResponseHandle = TK.class({
         set_label: function(value) {
             if (value !== false && !this._label) create_label.call(this);
         },
+        set_show_handle: function(value) {
+            this.set("mode", this.options.mode);
+            this.set("show_axis", this.options.show_axis);
+            this.set("label", this.options.label);
+        },
         set_mode: function(value) {
             var O = this.options;
+            if (!O.show_handle) return;
             create_handle.call(this);
             if (O.z_handle !== false) create_zhandle.call(this);
             if (value !== "circular") create_line1.call(this);
@@ -1121,6 +1140,7 @@ TK.ResponseHandle = TK.class({
         });
 
         this.set("mode", O.mode);
+        this.set("show_handle", O.show_handle);
         this.set("show_axis", O.show_axis);
         this.set("active", O.active);
         this.set("x", O.x);
@@ -1158,7 +1178,7 @@ TK.ResponseHandle = TK.class({
             TK.toggle_class(this.element, "toolkit-disabled", !O.active);
         }
 
-        var moved = I.validate("x", "y", "z", "mode", "active");
+        var moved = I.validate("x", "y", "z", "mode", "active", "show_handle");
 
         if (moved) redraw_handle.call(this, O, X);
 
