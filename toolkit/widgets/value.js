@@ -37,7 +37,7 @@ function value_clicked(e) {
         return false;
     }
     // TODO
-    if (!this.options.set) return;
+    if (this.options.set === false) return;
     if (this.__editing) return false;
     TK.add_class(this.element, "toolkit-active");
     this._input.setAttribute("value", this.options.value);
