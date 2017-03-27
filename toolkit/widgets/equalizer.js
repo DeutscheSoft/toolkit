@@ -180,6 +180,12 @@ TK.Equalizer = TK.class({
                     y = 0.0;
                     for (j = 0; j < f.length; j++) y += f[j](x);
                     Y[i] = y_val_to_px(y);
+
+                    if (!isFinite(Y[i])) {
+                        TK.warn("Singular filter in Equalizer.");
+                        this.baseline.set("dots", void(0));
+                        return;
+                    }
                 }
                 this.baseline.set("dots", fast_draw_plinear(X, Y));
             }

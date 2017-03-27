@@ -23,6 +23,7 @@ function range_change_cb() {
     this.trigger_draw();
 };
 function transform_dots(dots) {
+    if (dots === void(0)) return "";
     if (typeof dots === "string") return dots;
     if (typeof dots === "object") {
         if (Array.isArray(dots)) {
