@@ -24,6 +24,20 @@
  *  by Robert Bristow-Johnson.
  *
  */
+
+function Null(O) {
+    /* this biquad does not do anything */
+    return {
+	b0: 1,
+	b1: 1,
+	b2: 1,
+	a0: 1,
+	a1: 1,
+	a2: 1,
+	sample_rate: O.sample_rate,
+    };
+}
+
 function LowShelf(O) {
     var cos = Math.cos,
         sqrt = Math.sqrt,
@@ -168,6 +182,7 @@ function HighPass4(O) {
 }
 
 var standard_biquads = {
+    "null": BiquadFilter(Null),
     "low-shelf":  BiquadFilter(LowShelf),
     "high-shelf": BiquadFilter(HighShelf),
     parametric:   BiquadFilter(Peaking),
@@ -182,6 +197,8 @@ var standard_biquads = {
     highpass4:    BiquadFilter(HighPass4),
 };
 
+var NullModule = { freq2gain: function(f) { return 0.0; } };
+
 function BilinearModule(w, O) {
     var log = w.Math.log;
     var sin = w.Math.sin;
@@ -192,6 +209,8 @@ function BilinearModule(w, O) {
     var Rb = +((O.b0 + O.b1) * (O.b0 + O.b1) / 4);
     var Ya = +(O.a1 * O.a0);
     var Yb = +(O.b1 * O.b0);
+
+    if (Ra === Rb && Ya === Yb) return NullModule;
 
     function freq2gain(f) {
         f = +f;
@@ -216,6 +235,8 @@ function BiquadModule(w, O) {
     var Ya = +(O.a1 * (O.a0 + O.a2));
     var Xb = +(4 * O.b0 * O.b2);
     var Yb = +(O.b1 * (O.b0 + O.b2));
+
+    if (Ra === Rb && Ya === Yb && Xa === Xb) return NullModule;
 
     function freq2gain(f) {
         f = +f;
