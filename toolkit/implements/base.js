@@ -720,6 +720,7 @@ function ChildWidget(widget, name, config) {
     p._options[key] = "boolean";
     p.options[key] = !!config.show;
 }
+TK.add_static_event = add_static_event;
 TK.ChildWidget = ChildWidget;
 function ChildElement(widget, name, config) {
     var p = widget.prototype;

@@ -18,6 +18,7 @@
  */
 "use strict";
 (function(w, TK){
+
 function add_meters (cnt, options) {
     for (var i = 0; i < cnt; i++)
         this.add_meter(options);
@@ -25,20 +26,11 @@ function add_meters (cnt, options) {
 function add_meter (options) {
     var l = this.meters.length;
     var O = options;
-    var opt = {
-        "container": this.element,
-        title: (typeof O.titles[l] !== "undefined") ? O.titles[l] : O.title,
-        value: (typeof O.values[l] !== "undefined") ? O.values[l] : O.value,
-        label: (typeof O.labels[l] !== "undefined") ? O.labels[l] : O.label,
-        clip: (typeof O.clips[l] !== "undefined") ? O.clips[l] : O.clip,
-        peak: (typeof O.peaks[l] !== "undefined") ? O.peaks[l] : O.peak,
-        bottom: (typeof O.bottoms[l] !== "undefined") ? O.bottoms[l] : O.bottom,
-        top: (typeof O.tops[l] !== "undefined") ? O.tops[l] : O.top,
-    }
-    opt = TK.merge(TK.object_sub(O, TK.Widget.prototype._options), opt);
+    var opt = extract_child_options(O, l);
     var m = new TK.LevelMeter(opt);
+
     this.meters.push(m);
-    this.add_child(m);
+    this.append_child(m);
 }
 function remove_meter (meter) {
     /* meter can be int or meter instance */
@@ -92,68 +84,20 @@ TK.MultiMeter = TK.class({
     
     /* TODO: The following sucks cause we need to maintain it according to
     LevelMeters and MeterBases options. */
-    _options: Object.assign(Object.create(TK.LevelMeter.prototype._options), {
+    _options: Object.assign(Object.create(TK.Container.prototype._options), {
         count: "int",
+        title: "string",
         titles: "array",
-        values: "array",
-        labels: "array",
-        clips: 'array',
-        peaks: "array",
-        tops: "array",
-        bottoms: "array",
+        layout: "string",
+        show_scale: "boolean",
     }),
     options: {
-        clip:         false,
-        falling:      0,
-        falling_fps:  24,
-        falling_init: 2,
-        peak:         false,
-        top:          false,
-        bottom:       false,
-        hold_size:    1,
-        show_peak:    false,
-        show_clip:    false,
-        show_hold:    false,
-        clipping:     0,
-        auto_clip:    false,
-        auto_peak:    false,
-        peak_label:   false,
-        auto_hold:    false,
-        format_peak: TK.FORMAT("%.2f"),
-        clip_options: {},
-        layout:          "left",
-        segment:         1,
-        value:           0,
-        base:            false,
-        label:           false,
-        title:           "",
-        show_title:      false,
-        show_label:      false,
-        show_scale:      true,
-        show_labels:     true,
-        format_label:    TK.FORMAT("%.2f"),
-        levels:          [1, 5, 10],
-        scale_base:       false,
-        format_labels:    TK.FORMAT("%.2f"),
-        background:      false,
-        gradient:        false,
-        
         count: 2,
-        
-        // Convenient stuff - setting values for internal meters as array
-        // 
-        // Probably there's a better solution which makes it more generic
-        // so every option can be set as array containing values for all
-        // child meters
+        title: false,
         titles: ["L", "R"],
-        values: [],
-        labels: [],
-        clips: [],
-        peaks: [],
-        tops: [],
-        bottoms: [],
+        layout: "left",
+        show_scale: true,
     },
-    /* end of bloat */
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options, true);
         /**
@@ -178,20 +122,7 @@ TK.MultiMeter = TK.class({
          */
         this._title = this.title.element;
         this.add_child(this.title);
-        
-        this.set("count", O.count);
-        this.set("values", O.values);
-        this.set("labels", O.labels);
-        this.set("titles", O.titles);
-        this.set("peaks", O.peaks);
-        this.set("tops", O.tops);
-        this.set("bottoms", O.bottoms);
-        
-        this.redraw();
-        
-        this.set("layout", O.layout);
     },
-    
     
     redraw: function () {
         var O = this.options;
@@ -200,18 +131,17 @@ TK.MultiMeter = TK.class({
         var M = this.meters;
         
         if (I.count) {
-            I.count = false;
             while (M.length > O.count)
                 remove_meter.call(this, M[M.length-1]);
             while (M.length < O.count)
-                add_meter.call(this, this.options);
+                add_meter.call(this, O);
             E.setAttribute("class", E.getAttribute("class").replace(/toolkit-count-[0-9]*/g, ""));
             E.setAttribute("class", E.getAttribute("class").replace(/ +/g, " "));
             TK.add_class(E, "toolkit-count-" + O.count);
         }
         
-        if (I.layout) {
-            I.layout = false;
+        if (I.layout || I.count) {
+            I.count = I.layout = false;
             TK.remove_class(E, "toolkit-vertical", "toolkit-horizontal", "toolkit-left",
                             "toolkit-right", "toolkit-top", "toolkit-bottom");
             switch (O.layout) {
@@ -250,7 +180,7 @@ TK.MultiMeter = TK.class({
         
         if (I.title) {
             I.title = false;
-            TK.toggle_class(E, "toolkit-has-title", !!O.title);
+            TK.toggle_class(E, "toolkit-has-title", typeof O.title === "string");
         }
         
         TK.Container.prototype.redraw.call(this);
@@ -259,39 +189,62 @@ TK.MultiMeter = TK.class({
         this.title.destroy();
         TK.Container.prototype.destroy.call(this);
     },
-    // GETTER & SETTER
-    set: function (key, value) {
-        var O = this.options;
-        var E = this.element;
-        var M = this.meters;
-        var I = this.invalid;
-        value = TK.Container.prototype.set.call(this, key, value);
-        switch (key) {
-            case "count":
-                I.layout = true;
-                break;
-            case "title":
-                this.title.set("label", value);
-                break;
-            case "values":
-            case "labels":
-            case "titles":
-            case "clips":
-            case "peaks":
-            case "tops":
-            case "bottoms":
-                var k = key.substr(0, key.length-1);
-                for (var i = 0; i < M.length; i++)
-                    M[i].set(k, (value[i] === void 0) ? O[k] : value[i]);
-                break;
-            default:
-                if (!TK.Container.prototype._options[key]) {
-                    for (var i = 0; i < M.length; i++)
-                        M[i].set(key, value);
-                }
-                break;
-        }
-        return value;
-    }
 });
+
+/*
+ * This could be moved into TK.ChildWidgets(),
+ * which could in similar ways be used in the buttonarray,
+ * pager, etc.
+ *
+ */
+var mapped_options = {
+    titles: "title",
+};
+
+function map_child_option_simple(value, key) {
+    var M = this.meters, i;
+    for (i = 0; i < M.length; i++) M[i].set(key, value);
+}
+
+function map_child_option(value, key) {
+    var M = this.meters, i;
+    if (Array.isArray(value)) {
+        for (i = 0; i < M.length && i < value.length; i++) M[i].set(key, value[i]);
+    } else {
+        for (i = 0; i < M.length; i++) M[i].set(key, value);
+    }
+}
+
+for (var key in TK.object_sub(TK.LevelMeter.prototype._options, TK.Container.prototype._options)) {
+    if (TK.MultiMeter.prototype._options[key]) continue;
+    var type = TK.LevelMeter.prototype._options[key];
+    if (type.search("array") !== -1) {
+        TK.MultiMeter.prototype._options[key] = type;
+        mapped_options[key] = key;
+        TK.add_static_event(TK.MultiMeter, "set_"+key, map_child_option_simple);
+    } else {
+        TK.MultiMeter.prototype._options[key] = "array|"+type;
+        mapped_options[key] = key;
+        TK.add_static_event(TK.MultiMeter, "set_"+key, map_child_option);
+    }
+    if (key in TK.LevelMeter.prototype.options)
+        TK.MultiMeter.prototype.options[key] = TK.LevelMeter.prototype.options[key];
+}
+
+function extract_child_options(O, i) {
+    var o = {}, value;
+
+    for (var key in mapped_options) {
+        var ckey = mapped_options[key];
+        if (!O.hasOwnProperty(key)) continue;
+        value = O[key];
+        if (Array.isArray(value)) {
+            if (i < value.length) o[ckey] = value[i];
+        } else {
+            o[ckey] = value;
+        }
+    }
+
+    return o;
+}
 })(this, this.TK);
