@@ -532,6 +532,7 @@ TK.Widget = TK.class({
          * @event TK.Widget#show
          */
         this.fire_event("show");
+        this.fire_event("visibility", true);
         var C = this.children;
         if (C) for (var i = 0; i < C.length; i++) C[i].enable_draw();
     },
@@ -550,11 +551,19 @@ TK.Widget = TK.class({
             TK.S.remove_next(this._redraw, 1);
         }
         /**
-         * Is fired when a widget gets hidden from being drawn.
+         * Is fired when a widget is hidden and not rendered anymore.
          * 
          * @event TK.Widget#hide
          */
+        /**
+         * Is fired when the visibility state changes. The first argument
+         * is the visibility state, which is either <code>true</code>
+         * or <code>false</code>.
+         * 
+         * @event TK.Widget#visibility
+         */
         this.fire_event("hide");
+        this.fire_event("visibility", false);
         var C = this.children;
         if (C) for (var i = 0; i < C.length; i++) C[i].disable_draw();
     },
