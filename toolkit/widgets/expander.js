@@ -100,13 +100,17 @@ function update_visibility() {
     var C = this.children;
     var value = this.options.always_expanded || this.options.expanded;
 
-    if (value) {
-        if (C) for (var i = 0; i < C.length; i++) {
-            if (visible_when_expanded(C[i]))
+    if (C) {
+        var test = value ? visible_when_expanded : visible_when_collapsed;
+        for (var i = 0; i < C.length; i++) {
+            if (test(C[i]))
                 this.show_child(i);
             else
                 this.hide_child(i);
         }
+    }
+
+    if (value) {
         this.fire_event("expand");
         /**
          * Is fired when the expander expands.
@@ -114,12 +118,6 @@ function update_visibility() {
          * @event TK.Expander#expand
          */
     } else {
-        if (C) for (var i = 0; i < C.length; i++) {
-            if (visible_when_collapsed(C[i]))
-                this.show_child(i);
-            else
-                this.hide_child(i);
-        }
         /**
          * Is fired when the expander collapses.
          * 
