@@ -215,6 +215,10 @@ function map_child_option(value, key) {
     }
 }
 
+TK.add_static_event(TK.MultiMeter, "set_titles", function(value, key) {
+    map_child_option.call(this, value, "title");
+});
+
 for (var key in TK.object_sub(TK.LevelMeter.prototype._options, TK.Container.prototype._options)) {
     if (TK.MultiMeter.prototype._options[key]) continue;
     var type = TK.LevelMeter.prototype._options[key];
