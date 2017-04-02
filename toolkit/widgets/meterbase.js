@@ -292,12 +292,12 @@ TK.MeterBase = TK.class({
         var E = this.element;
 
         if (this._fillstyle === false) {
-            this._canvas.style.removeProperty("background");
+            this._canvas.style.removeProperty("background-color");
             TK.S.add(function() {
                 this._fillstyle = TK.get_style(this._canvas, "background-color");
                 TK.S.add(function() {
                     this._canvas.getContext("2d").fillStyle = this._fillstyle;
-                    this._canvas.style.setProperty("background", "none", "important");
+                    this._canvas.style.setProperty("background-color", "transparent", "important");
                     this.trigger_draw();
                 }.bind(this), 3);
             }.bind(this), 2);
