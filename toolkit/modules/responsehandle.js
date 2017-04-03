@@ -920,6 +920,12 @@ TK.ResponseHandle = TK.class({
         mouseleave: function() {
             this.set("hover", false);
         },
+        set_active: function(v) {
+            if (!v) {
+                this.pos_drag.cancel_drag();
+                this.z_drag.cancel_drag();
+            }
+        },
     },
 
     initialize: function (options) {
