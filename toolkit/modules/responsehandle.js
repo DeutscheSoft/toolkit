@@ -267,7 +267,7 @@ function create_zhandle() {
     );
 
     this._zhandle = E;
-    if (!this.z_drag.get("node"))
+    if (this.z_drag.get("node") !== document)
         this.z_drag.set("node", E);
 }
 
@@ -977,7 +977,7 @@ TK.ResponseHandle = TK.class({
         this._handle = this._zhandle = this._line1 = this._line2 = this._label = null;
 
         this.z_drag = new TK.DragCapture(this, {
-            node: E,
+            node: null,
             onstartcapture: function(state) {
                 var self = this.parent;
                 var O = self.options;
