@@ -278,7 +278,8 @@ w.TK.DragCapture = TK.class({
     initialize: function(widget, O) {
         TK.Module.prototype.initialize.call(this, widget, O);
         this.drag_state = null;
-        this.set("node", O.node || widget.element);
+        if (O.node === void(0)) O.node = widget.element;
+        this.set("node", O.node);
     },
     destroy: function() {
         TK.Base.prototype.destroy.call(this);
