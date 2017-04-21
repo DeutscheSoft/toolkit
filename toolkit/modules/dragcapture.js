@@ -290,7 +290,7 @@ w.TK.DragCapture = TK.class({
         return this.options.state;
     },
     state: function() {
-        return this.draw_state;
+        return this.drag_state;
     },
     is_dragged_by: function(ev) {
         return this.drag_state !== null && this.drag_state.is_dragged_by(ev);
