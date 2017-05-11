@@ -14,6 +14,7 @@ js_input_files = \
     toolkit/implements/gradient.js\
     toolkit/implements/notes.js\
     toolkit/widgets/widget.js\
+    toolkit/modules/dragcapture.js\
     toolkit/widgets/tooltips.js\
     toolkit/modules/grid.js\
     toolkit/modules/range.js\
@@ -30,6 +31,7 @@ js_input_files = \
     toolkit/widgets/container.js\
     toolkit/widgets/root.js\
     toolkit/widgets/button.js\
+    toolkit/widgets/value.js\
     toolkit/widgets/valuebutton.js\
     toolkit/widgets/buttonarray.js\
     toolkit/widgets/clock.js\
@@ -45,7 +47,6 @@ js_input_files = \
     toolkit/widgets/responsehandler.js\
     toolkit/widgets/equalizer.js\
     toolkit/widgets/fader.js\
-    toolkit/widgets/value.js\
     toolkit/widgets/label.js\
     toolkit/widgets/knob.js\
     toolkit/widgets/valueknob.js\
