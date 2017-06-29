@@ -25,7 +25,7 @@ function Scheduler() {
     this.debug = 0;
     this.after_frame_cbs = [];
     this.frame_count = 0;
-    this.current_priotity = -1;
+    this.current_priority = -1;
     this.current_cycle = 0;
 };
 function low_add(Q, o, prio) {
