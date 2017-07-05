@@ -96,6 +96,7 @@ TK.Container = TK.class({
      *   transition/animation of this container.
      * @property {string} [options.display_state="show"] - The current display state of this container.
      *   Do not modify, manually.
+     * @property {array} [options.children=[]] - Add child widgets on init. Will not be maintained on runtime! Just for convenience purposes on init.
      */
     _class: "Container",
     Extends: TK.Widget,
@@ -104,9 +105,11 @@ TK.Container = TK.class({
         display_state: "string",
         hiding_duration: "int",
         showing_duration: "int",
+        children: "array",
     }),
     options: {
         display_state : "show",
+        children: [],
     },
     initialize: function (options) {
         var E;
@@ -123,6 +126,9 @@ TK.Container = TK.class({
         this.__after_showing = after_showing.bind(this);
         this.__hide_id = false;
         TK.add_class(E, "toolkit-show");
+        
+        if (this.options.children.length)
+            this.append_children(this.options.children);
     },
     
     /**
