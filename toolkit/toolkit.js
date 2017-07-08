@@ -1050,6 +1050,42 @@ function log() {
     } catch(e) {}
 }
 
+function print_widget_tree(w, depth) {
+  if (!depth) depth = 0;
+
+  var print = function(fmt) {
+    var extra = Array.prototype.slice.call(arguments, 1);
+    if (depth) fmt = nchars(depth, " ") + fmt;
+    var args = [ fmt ];
+    log.apply(TK, args.concat(extra));
+  };
+
+  var nchars = function(n, c) {
+    var ret = new Array(n);
+
+    for (var i = 0; i < n; i++) ret[i] = c;
+
+    return ret.join("");
+  };
+
+  var C = w.children;
+  var nchildren = C ? C.length : 0;
+
+  var state = [ ];
+
+  state.push(w._drawn ? "show" : "hide");
+
+  if (w.needs_redraw) state.push("redraw");
+  if (w.needs_resize) state.push("resize");
+
+
+  print("%s (%s, children: %o)", w._class, state.join(" "), nchildren);
+
+  if (C) {
+    for (var i = 0; i < C.length; i++) print_widget_tree(C[i], depth+1);
+  }
+}
+
 TK = w.toolkit = {
     // ELEMENTS
     S: new DOMScheduler(),
@@ -1192,6 +1228,7 @@ TK = w.toolkit = {
 
         return a;
     },
+    print_widget_tree: print_widget_tree,
 };
 
 // POLYFILLS
