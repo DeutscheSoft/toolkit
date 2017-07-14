@@ -29,26 +29,7 @@
  
 "use strict";
 (function(w, TK){
-function index_by_value(val) {
-    var entries = this.entries;
-    for (var i = 0; i < entries.length; i++) {
-        if (entries[i].value === val)
-            return i;
-    }
-    return false;
-}
-function index_by_title(title) {
-    var entries = this.entries;
-    for (var i = 0; i < entries.length; i++) {
-        if (entries[i].title === title)
-            return i;
-    }
-    return false;
-}
-function index_by_entry(entry) {
-    var pos = this.entries.indexOf(entry);
-    return pos === -1 ? false : pos;
-}
+
 function hide_list() {
     this.__transition = false;
     this.__timeout = false;
@@ -87,8 +68,8 @@ function show_list(show) {
     this.__transition = true;
     this.__open = show;
     if (this.__timeout !== false) window.clearTimeout(this.__timeout);
-    var dur = parseFloat(TK.get_style(this._list, "transition-duration"));
-    this.__timeout = window.setTimeout(hide_list.bind(this), dur * 1000);
+    var dur = TK.get_duration(this._list);
+    this.__timeout = window.setTimeout(hide_list.bind(this), dur);
 }
 TK.Select = TK.class({
     /**
@@ -106,7 +87,7 @@ TK.Select = TK.class({
      * @property {boolean} [options.auto_size=true] - If true, the drop-down button is
      *   auto-sized to be as wide as the longest entry.
      * @property {Array} [options.entries=[]] - The list of entries. Each entry is a an
-     *   object with the two properties <code>title</code> and <code>value</code>.
+     *   object with the two properties <code>title</code> and <code>value</code>, a string or a SelectEntry instance.
      *
      */
     _class: "Select",
@@ -119,7 +100,7 @@ TK.Select = TK.class({
         show_list: "boolean",
     }),
     options: {
-        entries: [], // A list of strings or objects: {title: "Title", value: 1}
+        entries: [], // A list of strings or objects {title: "Title", value: 1} or SelectEntry instance
         selected: false,
         value: false,
         auto_size: true,
@@ -174,6 +155,7 @@ TK.Select = TK.class({
         }
     },
     destroy: function () {
+        this.clear();
         this._list.remove();
         TK.Button.prototype.destroy.call(this);
     },
@@ -207,7 +189,7 @@ TK.Select = TK.class({
      * @param {mixed} value - The value of the entry to select.
      */
     select_value: function (value) {
-        var id = index_by_value.call(this, value);
+        var id = this.index_by_value.call(this, value);
         this.set("selected", id);
     },
     /**
@@ -221,7 +203,7 @@ TK.Select = TK.class({
         // Replace all entries with a new options list
         this.clear();
         this.add_entries(entries);
-        this.select(index_by_value.call(this, this.options.value));
+        this.select(this.index_by_value.call(this, this.options.value));
     },
     /**
      * Adds new entries to the end of the list to select from.
@@ -244,18 +226,21 @@ TK.Select = TK.class({
      * @emits TK.Select.entryadded
      */
     add_entry: function (ent) {
-        var li = TK.element("li", "toolkit-option");
-        var entry = {};
-        entry.element = li;
-        entry.value = (typeof ent === "string") ? ent
-                                               : ent.value;
-        entry.title = (typeof ent === "string")
+        if (TK.SelectEntry.prototype.isPrototypeOf(ent)) {
+            var entry = ent;
+        } else {
+            var entry = new TK.SelectEntry({
+                value: (typeof ent === "string") ? ent : ent.value,
+                title: (typeof ent === "string")
                        ? ent : (ent.title !== void(0))
                        ? ent.title : ent.value.toString()
-        
-        TK.set_text(li, entry.title);
-        
+            });
+        }
+        entry.set("container", this._list)
+        this.add_child(entry);
+        entry.show();
         this.entries.push(entry);
+        
         var id = this.entries.length - 1;
         var up_cb = function (e) {
             if (this.userset("selected", id) === false) return;
@@ -269,12 +254,12 @@ TK.Select = TK.class({
              * @param {number} value - The ID of the selected entry.
              * @param {string} value - The title of the selected entry.
              */
-            this.fire_event("select", entry.value, id, entry.title);
+            this.fire_event("select", entry.options.value, id, entry.options.title);
             this.show_list(false);
         }.bind(this);
 
-        li.addEventListener("touchstart", up_cb);
-        li.addEventListener("mousedown", up_cb);
+        entry.add_event("touchstart", up_cb);
+        entry.add_event("mousedown", up_cb);
         
         this.invalid.entries = true;
 
@@ -286,8 +271,6 @@ TK.Select = TK.class({
         } else {
             this.trigger_draw();
         }
-
-        this._list.appendChild(li);
         /**
          * Is fired when a new entry is added to the list.
          * 
@@ -307,7 +290,7 @@ TK.Select = TK.class({
      * @emits TK.Select#entryremoved
      */
     remove_value: function (val) {
-        this.remove_id(index_by_value.call(this, val));
+        this.remove_id(this.index_by_value.call(this, val));
     },
     /**
      * Remove an entry from the list by its title.
@@ -319,7 +302,7 @@ TK.Select = TK.class({
      * @emits TK.Select#entryremoved
      */
     remove_title: function (title) {
-        this.remove_id(index_by_title.call(this, title));
+        this.remove_id(this.index_by_title.call(this, title));
     },
     /**
      * Remove an entry from the list.
@@ -348,9 +331,13 @@ TK.Select = TK.class({
 
         if (entry) {
             var li = entry.element;
-            this._list.removeChild(li);
+            // remove from DOM
+            if (li.parentElement == this._list)
+                this._list.removeChild(li);
             // remove from list
             this.entries.splice(id, 1);
+            // remove child
+            this.remove_child(entry);
             // selection
             var sel = this.options.selected;
             if (sel !== false) {
@@ -373,6 +360,77 @@ TK.Select = TK.class({
             this.fire_event("entryremoved", entry);
         }
     },
+    /*
+     * Get the index of an entry by its value
+     * 
+     * @method TK.SelectEntry#index_by_value
+     * 
+     * @returns {mixed} The index of the entry or false
+     */
+    index_by_value: function (val) {
+        var entries = this.entries;
+        for (var i = 0; i < entries.length; i++) {
+            if (entries[i].options.value === val)
+                return i;
+        }
+        return false;
+    },
+    /*
+     * Get the index of an entry by its title (or label)
+     * 
+     * @method TK.SelectEntry#index_by_title
+     * 
+     * @returns {mixed} The index of the entry or false
+     */
+    index_by_title: function (title) {
+        var entries = this.entries;
+        for (var i = 0; i < entries.length; i++) {
+            if (entries[i].options.title === title)
+                return i;
+        }
+        return false;
+    },
+    /*
+     * Get the index of an entry by the entry itself
+     * 
+     * @method TK.SelectEntry#index_by_entry
+     * 
+     * @returns {mixed} The index of the entry or false
+     */
+    index_by_entry: function (entry) {
+        var pos = this.entries.indexOf(entry);
+        return pos === -1 ? false : pos;
+    },
+    /*
+     * Get an entry by its value
+     * 
+     * @method TK.SelectEntry#entry_by_value
+     * 
+     * @returns {mixed} The entry or false
+     */
+    entry_by_value: function (val) {
+        var entries = this.entries;
+        for (var i = 0; i < entries.length; i++) {
+            if (entries[i].options.value === val)
+                return entries[i];
+        }
+        return false;
+    },
+    /*
+     * Get an entry by its title (or label)
+     * 
+     * @method TK.SelectEntry#entry_by_title
+     * 
+     * @returns {mixed} The entry or false
+     */
+    entry_by_title: function (title) {
+        var entries = this.entries;
+        for (var i = 0; i < entries.length; i++) {
+            if (entries[i].options.title === title)
+                return entries[i];
+        }
+        return false;
+    },
     /**
      * Remove all entries from the list.
      * 
@@ -383,6 +441,9 @@ TK.Select = TK.class({
     clear: function () {
         TK.empty(this._list);
         this.select(false);
+        var l = this.entries.length;
+        for (var i = 0; i < l; i++)
+            this.remove_id(i);
         this.entries = [];
         /**
          * Is fired when the list is cleared.
@@ -423,7 +484,7 @@ TK.Select = TK.class({
                 while (L.firstChild) orig_content.appendChild(L.firstChild);
                 var entries = this.entries;
                 for (var i = 0; i < entries.length; i++) {
-                    L.appendChild(document.createTextNode(entries[i].title));
+                    L.appendChild(document.createTextNode(entries[i].options.title));
                     L.appendChild(document.createElement("BR"));
                 }
                 TK.S.add(function() {
@@ -453,7 +514,7 @@ TK.Select = TK.class({
     },
     set: function (key, value) {
         if (key === "value") {
-            var index = index_by_value.call(this, value);
+            var index = this.index_by_value.call(this, value);
             if (index === false) return;
             key = "selected";
             value = index;
@@ -465,8 +526,8 @@ TK.Select = TK.class({
             case "selected":
                 var entry = this.current();
                 if (entry) {
-                    TK.Button.prototype.set.call(this, "value", entry.value); 
-                    this.set("label", entry.title);
+                    TK.Button.prototype.set.call(this, "value", entry.options.value); 
+                    this.set("label", entry.options.title);
                 } else {
                     this.set("label", "");
                 }
@@ -478,4 +539,50 @@ TK.Select = TK.class({
         return value;
     }
 });
+
+
+
+TK.SelectEntry = TK.class({
+    /**
+     * TK.SelectEntry provides a Label as an entry of a Select.
+     *
+     * @class TK.SelectEntry
+     * 
+     * @extends TK.Button
+     *
+     * @param {Object} options
+     * 
+     * @property {string} options.title - The title of the entry. Kept for backward compatibility, use label instead.
+     * @property {mixed} options.value - The value of the selected entry.
+     *
+     */
+    _class: "SelectEntry",
+    Extends: TK.Label,
+    
+    _options: Object.assign(Object.create(TK.Label.prototype._options), {
+        value: "mixed",
+        title: "string",
+    }),
+    options: {
+        title: "",
+        value: null
+    },
+    initialize: function (options) {
+        var E = this.element = TK.element("li", "toolkit-option");
+        TK.Label.prototype.initialize.call(this, options);
+        this.set("title", this.options.title);
+    },
+    set: function (key, value) {
+        switch (key) {
+            case "title":
+                this.set("label", value);
+                break;
+            case "label":
+                this.options.title = value;
+                break;
+        }
+        return TK.Label.prototype.set.call(this, key, value);
+    }
+});
+
 })(this, this.TK);

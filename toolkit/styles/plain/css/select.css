@@ -26,13 +26,20 @@
 }
 .toolkit-button.toolkit-select > .toolkit-cell > .toolkit-arrow {
     width: 12px;
+    height: 6px;
     position: absolute;
-    top: 3px;
+    top: 50%;
     right: 0;
     bottom: 0;
     border-width: 8px 6px 0 6px;
     border-style: solid;
     border-color: white transparent transparent transparent;
+    
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
 .toolkit-select-list {
@@ -49,6 +56,7 @@
     line-height: 2em;
     cursor: pointer;
     transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+    display: block;
 }
 
 .toolkit-select-list > .toolkit-option:hover {
