@@ -80,6 +80,7 @@ pre, code {
 .toolkit-widget {
     display: inline-block;
     vertical-align: middle;
+    position: relative;
     -moz-user-select:      none; /* Firefox */
     -ms-user-select:       none; /* Internet Explorer */
     -khtml-user-select:    none; /* KHTML browsers (e.g. Konqueror) */
