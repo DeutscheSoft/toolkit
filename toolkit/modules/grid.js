@@ -107,7 +107,8 @@ function draw_lines(a, mode, last) {
                         label.setAttribute("x", obj.x);
                         label.setAttribute("y", obj.y);
                     } else {
-                        this.element.removeChild(label);
+                        if (label.parentElement == this.element)
+                            this.element.removeChild(label);
                     }
                 }
             }
