@@ -144,8 +144,10 @@ function deactivate_tooltip() {
  * @property {number} [options.reset=options.value] - The reset value, which is used by
  *   the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
  * @property {boolean} [options.show_scale=true] - If true, a scale is drawn.
+ * @property {boolean} [options.show_marker=true] - If true, a marker is drawn.
  * @property {number} [options.marker=0] - The value to set the markers position
- * @property {string} [options.marker_type="pointer"] - The type of the marker, may bei either "bar" or "pointer"
+ * @property {boolean} [options.show_bar=true] - If true, a bar is drawn.
+ * @property {number} [options.bar=0] - The value to set the bars height
  */
 TK.Fader = TK.class({
     _class: "Fader",
@@ -167,8 +169,10 @@ TK.Fader = TK.class({
         bind_click: "boolean",
         bind_dblclick: "boolean",
         show_scale: "boolean",
+        show_marker: "boolean",
         marker: "number",
-        marker_type: "string"
+        show_bar: "boolean",
+        bar: "number",
     }),
     options: {
         value: 0,
@@ -183,8 +187,10 @@ TK.Fader = TK.class({
         bind_click: false,
         bind_dblclick: true,
         show_scale: true,
+        show_marker: false,
         marker: 0,
-        marker_type: "pointer"
+        show_bar: false,
+        marker: 0,
     },
     static_events: {
         set_bind_click: function(value) {
@@ -387,28 +393,39 @@ TK.ChildWidget(TK.Fader, "value", {
 TK.ChildElement(TK.Fader, "marker", {
     show: false,
     toggle_class: true,
-    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "marker", "marker_type", "basis" ]),
+    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "marker", "basis" ]),
     draw: function(O) {
         if (this._marker) {
             var tmp = this.val2px(this.snap(O.marker)) + "px";
-            if (O.marker_type == "bar") {
-                if (vert(O))
-                    this._marker.style.height = tmp;
+            if (vert(O)) {
+                if (supports_transform)
+                    this._marker.style.transform = "translateY(-"+tmp+")";
                 else
-                    this._marker.style.width = tmp;
+                    this._marker.style.bottom = tmp;
             } else {
-                if (vert(O)) {
-                    if (supports_transform)
-                        this._marker.style.transform = "translateY(-"+tmp+")";
-                    else
-                        this._marker.style.bottom = tmp;
-                } else {
-                    if (supports_transform)
-                        this._marker.style.transform = "translateX("+tmp+")";
-                    else
-                        this._marker.style.left = tmp;
-                }
+                if (supports_transform)
+                    this._marker.style.transform = "translateX("+tmp+")";
+                else
+                    this._marker.style.left = tmp;
             }
+        }
+    },
+});
+
+/**
+ * @member {HTMLDivElement} TK.Fader#_bar - The DIV element of the bar. It can be used to e.g. visualize the value set in the backend or to draw a simple levelmeter.
+ */
+TK.ChildElement(TK.Fader, "bar", {
+    show: false,
+    toggle_class: true,
+    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "bar", "basis" ]),
+    draw: function(O) {
+        if (this._bar) {
+            var tmp = this.val2px(this.snap(O.bar)) + "px";
+            if (vert(O))
+                this._bar.style.height = tmp;
+            else
+                this._bar.style.width = tmp;
         }
     },
 });
