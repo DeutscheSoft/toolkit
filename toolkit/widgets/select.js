@@ -512,6 +512,11 @@ TK.Select = TK.class({
     current: function() {
         return this.entries[this.options.selected];
     },
+    current_value: function() {
+        var w = this.current();
+        if (w) return w.get("value");
+        return void(0);
+    },
     set: function (key, value) {
         if (key === "value") {
             var index = this.index_by_value.call(this, value);
