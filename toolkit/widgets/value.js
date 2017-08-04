@@ -139,7 +139,7 @@ TK.Value = TK.class({
     _class: "Value",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
-        value: "number",
+        value: "number|string",
         format: "function",
         size: "number",
         maxlength: "int",
