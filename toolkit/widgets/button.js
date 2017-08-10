@@ -56,7 +56,7 @@ TK.Button = TK.class({
         layout: "int",
     }),
     options: {
-        label:            "",
+        label:            false,
         icon:             false,
         state:            false,
         layout:           "vertical"

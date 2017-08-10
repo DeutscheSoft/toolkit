@@ -65,8 +65,11 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
   add_class = function (e) {
       var i;
       e = e.classList;
-      for (i = 1; i < arguments.length; i++)
-          e.add(arguments[i]);
+      for (i = 1; i < arguments.length; i++) {
+          var a = arguments[i].split(" ");
+          for (var j = 0; j < a.length; j++)
+              e.add(a[j]);
+      }
   }
   /** 
    * Removes a CSS class from a DOM node.
