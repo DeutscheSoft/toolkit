@@ -79,7 +79,8 @@ TK.ChildWidget(TK.TagNode, "remove", {
       click: function (e) { this.parent.fire_event("remove", e, this.parent); }
     },
     default_options: {
-        class: "toolkit-remove"
+        class: "toolkit-remove",
+        label : ""
     },
 });
 
