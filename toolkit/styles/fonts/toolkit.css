@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "Toolkit";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Toolkit"), url("Toolkit.ttf") format("truetype");
+}
+
+.toolkit-icon {
+  font-family: Toolkit, sans-serif;
+  font-size: 24px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.toolkit-button.toolkit-icon::before{
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.toolkit-icon.toolkit-12  { font-size: 12px; }
+.toolkit-icon.toolkit-16  { font-size: 16px; }
+.toolkit-icon.toolkit-20  { font-size: 20px; }
+.toolkit-icon.toolkit-24  { font-size: 24px; }
+.toolkit-icon.toolkit-32  { font-size: 32px; }
+.toolkit-icon.toolkit-40  { font-size: 40px; }
+.toolkit-icon.toolkit-48  { font-size: 48px; }
+.toolkit-icon.toolkit-56  { font-size: 56px; }
+.toolkit-icon.toolkit-64  { font-size: 64px; }
+.toolkit-icon.toolkit-128 { font-size: 128px; }
+.toolkit-icon.toolkit-256 { font-size: 256px; }
+
+.toolkit-icon.warning::before { content: "1"; color: #ffcc00; }
+.toolkit-icon.info::before { content: "2"; }
+.toolkit-icon.error::before { content: "3"; color: #cc0000; }
+.toolkit-icon.message::before { content: "4"; }
+.toolkit-icon.close::before { content: "5"; }
+.toolkit-icon.success::before { content: "6"; color: #66cc00; }
