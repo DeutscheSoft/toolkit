@@ -431,6 +431,12 @@ TK.Select = TK.class({
         }
         return false;
     },
+    value_by_index: function(index) {
+        var entries = this.entries;
+        if (index >= 0 || index < entries.length) {
+          return entries[index].options.value;
+        }
+    },
     /**
      * Remove all entries from the list.
      * 
