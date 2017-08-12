@@ -1,17 +1,17 @@
 /*
- * This file is part of toolkit.
+ * This file is part of Toolkit.
  *
- * toolkit is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
+ * Toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 3 of the License, or (at your option) any later version.
  *
- * toolkit is distributed in the hope that it will be useful,
+ * Toolkit is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General
+ * You should have received a copy of the GNU General
  * Public License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
@@ -61,9 +61,9 @@ function LinearSnapModule(stdlib, foreign) {
      * Returns the nearest value on the grid which is bigger than <code>value</code>.
      *
      * @method TK.Ranged#snap_up
-     * 
+     *
      * @param {number} value - The value to snap.
-     * 
+     *
      * @returns {number} The snapped value.
      */
     function snap_up(v) {
@@ -75,9 +75,9 @@ function LinearSnapModule(stdlib, foreign) {
      * Returns the nearest value on the grid which is smaller than <code>value</code>.
      *
      * @method TK.Ranged#snap_down
-     * 
+     *
      * @param {number} value - The value to snap.
-     * 
+     *
      * @returns {number} The snapped value.
      */
     function snap_down(v) {
@@ -90,9 +90,9 @@ function LinearSnapModule(stdlib, foreign) {
      * of <code>Math.round</code>.
      *
      * @method TK.Ranged#snap
-     * 
+     *
      * @param {number} value - The value to snap.
-     * 
+     *
      * @returns {number} The snapped value.
      */
     function snap(v) {
@@ -354,10 +354,10 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Transforms a value from the coordinate system to the interval <code>0</code>...<code>basis</code>.
          *
          * @method TK.Ranged#val2based
-         * 
+         *
          * @param {number} value
          * @param {number} basis
-         * 
+         *
          * @returns {number}
          */
         val2based:val2based,
@@ -365,10 +365,10 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Transforms a value from the interval <code>0</code>...<code>basis</code> to the coordinate system.
          *
          * @method TK.Ranged#based2val
-         * 
+         *
          * @param {number} value
          * @param {number} basis
-         * 
+         *
          * @returns {number}
          */
         based2val:based2val,
@@ -376,9 +376,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * This is an alias for {@link TK.Ranged#val2px}.
          *
          * @method TK.Ranged#val2px
-         * 
+         *
          * @param {number} value
-         * 
+         *
          * @returns {number}
          */
         val2px:val2px,
@@ -386,9 +386,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * This is an alias for {@link TK.Ranged#px2val}.
          *
          * @method TK.Ranged#px2val
-         * 
+         *
          * @param {number} value
-         * 
+         *
          * @returns {number}
          */
         px2val:px2val,
@@ -396,9 +396,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = 1</code>.
          *
          * @method TK.Ranged#val2coef
-         * 
+         *
          * @param {number} value
-         * 
+         *
          * @returns {number}
          */
         val2coef:val2coef,
@@ -406,9 +406,9 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * Calls {@link based2val} with <code>basis = 1</code>.
          *
          * @method TK.Ranged#coef2val
-         * 
+         *
          * @param {number} value
-         * 
+         *
          * @returns {number}
          */
         coef2val:coef2val,
@@ -542,7 +542,7 @@ function set_cb(key, value) {
     case "min":
     case "max":
     case "snap":
-        update_snap.call(this); 
+        update_snap.call(this);
         /* fall through */
     case "log_factor":
     case "scale":
@@ -554,12 +554,12 @@ function set_cb(key, value) {
 }
 /**
  * @callback TK.Ranged~scale_cb
- * 
+ *
  * @param {number} value - The value to be transformed.
  * @param {Object} options - The options of the corresponding Ranged object.
  * @param {boolean} inverse - Determines if the value is to be transformed from or
  *   to the coordinate system.
- * 
+ *
  * @returns {number} The transformed value.
  */
 TK.Ranged = TK.class({
@@ -570,7 +570,7 @@ TK.Ranged = TK.class({
      * <code>step</code>, <code>min</code>, <code>max</code> and <code>base</code>.
      * The second feature of Ranged is that it allows transforming values between coordinate systems.
      * This can be used to transform values from and to linear scales in which they are displayed on the
-     * screen. It is used inside of toolkit to translate values (e.g. in Hz or dB) to pixel positions or
+     * screen. It is used inside of Toolkit to translate values (e.g. in Hz or dB) to pixel positions or
      * percentages, for instance in widgets such as {@link TK.Scale}, {@link TK.MeterBase} or
      * {@link TK.Graph}.
      *
@@ -588,7 +588,7 @@ TK.Ranged = TK.class({
      * coordinate transformations, which go beyond the standard types.
      *
      * @param {Object} options
-     * 
+     *
      * @property {integer|Function} [options.scale="linear"] -
      *  The type of the scale. Either one of "linear", "decibel", "log2",
      *  "frequency" or "frequency-reverse"; or a callback function of type {@link TK.Ranged~scale_cb}.
@@ -598,7 +598,7 @@ TK.Ranged = TK.class({
      * @property {number} options.min - Minimum value of the range
      * @property {number} options.max - Maximum value of the range
      * @property {number} [options.log_factor=1] - Used to range logarithmic curves.
-     * @property {number|Array.<number>} [options.snap=0] - 
+     * @property {number|Array.<number>} [options.snap=0] -
      *  This option defines the virtual grid.
      *  If <code>options.snap</code> is a positive number, it is interpreted as the distance of
      *  grid points.
@@ -615,10 +615,10 @@ TK.Ranged = TK.class({
      *  {@link TK.ScrollValue} when simultaneously pressing 'shift'.
      * @property {number} [options.shift_down=0.25] - Multiplier for descresed stepping speed, e.g. used by
      *  {@link TK.ScrollValue} when simultaneously pressing 'shift' and 'ctrl'.
-     * 
+     *
      * @mixin TK.Ranged
      */
-     
+
     _class: "Ranged",
     options: {
         scale:          "linear",

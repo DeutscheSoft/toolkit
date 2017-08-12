@@ -1,17 +1,17 @@
 /*
- * This file is part of toolkit.
+ * This file is part of Toolkit.
  *
- * toolkit is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
+ * Toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 3 of the License, or (at your option) any later version.
  *
- * toolkit is distributed in the hope that it will be useful,
+ * Toolkit is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General
+ * You should have received a copy of the GNU General
  * Public License along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
@@ -19,9 +19,9 @@
 "use strict";
 
 /** @namespace TK
- * 
- * @description This is the namespace of the toolkit library.
- * It contains all toolkit classes and constant.
+ *
+ * @description This is the namespace of the Toolkit library.
+ * It contains all Toolkit classes and constant.
  * There are also a couple of utility functions which provide
  * compatibility for older browsers.
  */
@@ -47,7 +47,7 @@ function set_class_name(e, s) {
 }
 
 if ('classList' in document.createElement("_") && 'classList' in make_svg('text')) {
-  /** 
+  /**
    * Returns true if the node has the given class.
    * @param {HTMLElement|SVGElement} node - The DOM node.
    * @param {string} name - The class name.
@@ -55,8 +55,8 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
    * @function TK.has_class
    */
   has_class = function (e, cls) { return e.classList.contains(cls); }
-  /** 
-   * Adds a CSS class to a DOM node. 
+  /**
+   * Adds a CSS class to a DOM node.
    *
    * @param {HTMLElement|SVGElement} node - The DOM node.
    * @param {...*} names - The class names.
@@ -71,7 +71,7 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
               e.add(a[j]);
       }
   }
-  /** 
+  /**
    * Removes a CSS class from a DOM node.
    * @param {HTMLElement|SVGElement} node - The DOM node.
    * @param {...*} names - The class names.
@@ -83,7 +83,7 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
       for (i = 1; i < arguments.length; i++)
           e.remove(arguments[i]);
   }
-  /** 
+  /**
    * Toggles a CSS class from a DOM node.
    * @param {HTMLElement|SVGElement} node - The DOM node.
    * @param {string} name - The class name.
@@ -181,8 +181,8 @@ if ('WeakMap' in w) {
 var get_style;
 
 if ('getComputedStyle' in w) {
-  /** 
-   * Returns the computed style of a node. 
+  /**
+   * Returns the computed style of a node.
    *
    * @param {HTMLElement|SVGElement} node - The DOM node.
    * @param {string} property - The CSS property name.
@@ -200,7 +200,7 @@ if ('getComputedStyle' in w) {
 }
 
 function get_max_time(string) {
-   /** 
+   /**
    * Returns the maximum value (float)  of a comma separated string. It is used
    * to find the longest CSS animation in a set of multiple animations.
    * @param {string} string - The comma separated string.
@@ -227,7 +227,7 @@ function get_max_time(string) {
 }
 
 function get_duration(element) {
-   /** 
+   /**
    * Returns the longest animation duration of CSS animations and transitions.
    * @param {HTMLElement} element - The element to evalute the animation duration for.
    * @function TK.get_duration
@@ -282,7 +282,7 @@ function element(tag) {
     var n = document.createElement(tag);
     var i, v, j;
     for (i = 1; i < arguments.length; i++) {
-        v = arguments[i]; 
+        v = arguments[i];
         if (typeof v === "object") {
             set_styles(n, v);
         } else if (typeof v === "string") {
@@ -655,7 +655,7 @@ function unique_id() {
     return id;
 };
 
-/** 
+/**
  * Generates formatting functions from sprintf-style format strings.
  * This is generally faster when the same format string is used many times.
  *
@@ -723,7 +723,7 @@ function FORMAT(fmt) {
     return new Function(args, s);
 }
 
-/** 
+/**
  * Formats the arguments according to a given format string.
  * @returns {function} A formatting function.
  * @param {string} fmt - The format string.
@@ -816,7 +816,7 @@ function is_touch() {
      * @returns {boolean}
      * @function TK.is_touch
      */
-    return 'ontouchstart' in w // works on most browsers 
+    return 'ontouchstart' in w // works on most browsers
       || 'onmsgesturechange' in w; // works on ie10
 }
 function os() {
@@ -1015,7 +1015,7 @@ function is_dom_node(o) {
 /**
  * Generates an error to the JavaScript console. This is virtually identical to console.error, however
  * it can safely be used in browsers which do not support it.
- * 
+ *
  * @param {...*} args
  * @function TK.error
  */
@@ -1029,7 +1029,7 @@ function error() {
 /**
  * Generates a warning to the JavaScript console. This is virtually identical to console.warn, however
  * it can safely be used in browsers which do not support it.
- * 
+ *
  * @param {...*} args
  * @function TK.warn
  */
@@ -1042,7 +1042,7 @@ function warn() {
 /**
  * Generates a log message to the JavaScript console. This is virtually identical to console.log, however
  * it can safely be used in browsers which do not support it.
- * 
+ *
  * @param {...*} args
  * @function TK.log
  */
@@ -1096,7 +1096,7 @@ TK = w.toolkit = {
     get_id: get_id,
     get_class: get_class,
     get_tag: get_tag,
-    element : element,    
+    element : element,
     empty: empty,
     set_text : set_text,
     set_content : set_content,
@@ -1104,73 +1104,73 @@ TK = w.toolkit = {
     remove_class : remove_class,
     add_class : add_class,
     toggle_class : toggle_class,
-    
+
     insert_after: insert_after,
     insert_before: insert_before,
-    
+
     // WINDOW
-    
+
     width: width,
     height: height,
-    
+
     // DIMENSIONS
-    
+
     scroll_top: scroll_top,
     scroll_left: scroll_left,
     scroll_all_top: scroll_all_top,
     scroll_all_left: scroll_all_left,
-    
+
     position_top: position_top,
     position_left: position_left,
-    
+
     fixed: fixed,
-    
+
     outer_width : outer_width,
-    
+
     outer_height : outer_height,
-    
+
     inner_width: inner_width,
-    
+
     inner_height: inner_height,
-    
+
     box_sizing: box_sizing,
-    
+
     css_space: css_space,
-    
+
     // CSS AND CLASSES
-    
+
     set_styles : set_styles,
     set_style: set_style,
     get_style: get_style,
     get_duration: get_duration,
-    
+
     // STRINGS
-    
+
     unique_id: unique_id,
-    
+
     FORMAT : FORMAT,
-    
+
     sprintf : sprintf,
     html : html,
-    
+
     escapeHTML : escapeHTML,
-    
+
     // OS AND BROWSER CAPABILITIES
-    
+
     is_touch: is_touch,
     os: os,
-    
+
     browser: function () {
         /**
          * Returns the name of the browser
          * @returns {string}
          * @function TK.browser
          */
-        var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+        var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
         if (/trident/i.test(M[1])) {
-            tem = /\brv[ :]+(\d+)/g.exec(ua) || []; 
+            tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
             return { name : 'IE', version : (tem[1]||'') };
-        }   
+        }
         if (M[1] === 'Chrome') {
             tem = ua.match(/\bOPR\/(\d+)/)
             if (tem!=null)
@@ -1180,16 +1180,16 @@ TK = w.toolkit = {
         if ((tem = ua.match(/version\/(\d+)/i)) !== null) { M.splice(1, 1, tem[1]); }
         return { name : M[0], version : M[1] };
     }(),
-    
+
     // SVG
-    
+
     make_svg: make_svg,
     seat_all_svg: seat_all_svg,
     seat_svg: seat_svg,
-    
-    
+
+
     // EVENTS
-    
+
     delayed_callback : delayed_callback,
     add_event_listener: function(e, type, cb) {
         if (Array.isArray(e)) {
@@ -1203,9 +1203,9 @@ TK = w.toolkit = {
                 e[i].removeEventListener(type, cb);
         } else e.removeEventListener(type, cb);
     },
-    
+
     // OTHER
-    
+
     data: data,
     store: store,
     retrieve: retrieve,
