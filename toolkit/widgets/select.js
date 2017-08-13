@@ -214,7 +214,7 @@ TK.Select = TK.class({
      */
     add_entries: function (entries) {
         for (var i = 0; i < entries.length; i++)
-            this.add_entry(entries[i], true);
+            this.add_entry(entries[i]);
     },
     /**
      * Adds a single entry to the end of the list.
@@ -315,6 +315,10 @@ TK.Select = TK.class({
      */
     remove_entry: function (entry) {
         this.remove_id(get_entry.call(this, entry));
+    },
+    remove_entries: function (a) {
+        for (var i = 0; i < entries.length; i++)
+            this.remove_entry(entries[i]);
     },
     /**
      * Remove an entry from the list by its ID.
