@@ -30,7 +30,8 @@ function close () {
   this.hide();
   var that = this;
   this.add_event("hide", function () {
-    that.parent.remove_child(that);
+    if (that.parent)
+      that.parent.remove_child(that);
     that.set("container", false);
     // @Arne: might this become a memory leak if it stays commented?
     // throws an error.
@@ -42,9 +43,9 @@ function close () {
 TK.Notification = TK.class({
     
   _class: "Notification",
-  Extends: TK.ListItem,
+  Extends: TK.Container,
   
-  _options: Object.assign(TK.ListItem.prototype._options, {
+  _options: Object.assign(TK.Container.prototype._options, {
     timeout: "number",
   }),
   options: {
@@ -52,7 +53,7 @@ TK.Notification = TK.class({
   },
   
   initialize: function (options) {
-    TK.ListItem.prototype.initialize.call(this, options);
+    TK.Container.prototype.initialize.call(this, options);
     var O = this.options;
     TK.add_class(this.element, "toolkit-notification");
     if (O.timeout)
@@ -62,7 +63,7 @@ TK.Notification = TK.class({
     var I = this.invalid;
     var O = this.options;
     var i = I.content;
-    TK.ListItem.prototype.redraw.call(this);
+    TK.Container.prototype.redraw.call(this);
     if (i && this.close)
       this.element.insertBefore(this.close.element, this.element.firstChild);
     

@@ -22,9 +22,9 @@
 TK.Notifications = TK.class({
     
     _class: "Notifications",
-    Extends: TK.List,
+    Extends: TK.Container,
     
-    _options: Object.assign(TK.List.prototype._options, {
+    _options: Object.assign(TK.Container.prototype._options, {
       stack: "string",
     }),
     options: {
@@ -32,7 +32,7 @@ TK.Notifications = TK.class({
     },
     
     initialize: function (options) {
-        TK.List.prototype.initialize.call(this, options);
+        TK.Container.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-notifications");
     },
     
@@ -43,6 +43,7 @@ TK.Notifications = TK.class({
         this.element.insertBefore(n.element, this.element.firstChild);
       else
         this.element.appendChild(n.element);
+      return n;
     }
 });
     
