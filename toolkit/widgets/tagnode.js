@@ -26,11 +26,11 @@ TK.TagNode = TK.class({
   
   _options: Object.assign(Object.create(TK.Container.prototype._options), {
     label: "string",
-    color: "string",
+    color: "string|null",
   }),
   options: {
     label: "",
-    color: "#000000",
+    color: null,
   },
   
   initialize: function (options, tag) {
@@ -47,7 +47,10 @@ TK.TagNode = TK.class({
     if (I.color) {
       I.color = false;
       this.element.style.backgroundColor = O.color;
-      this.element.style.color = this.rgb2bw(this.hex2rgb(O.color));
+      if (O.color)
+        this.element.style.color = this.rgb2bw(this.hex2rgb(O.color));
+      else
+        this.element.style.color = null;
     }
   }
 });
