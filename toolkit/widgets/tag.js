@@ -51,13 +51,13 @@ TK.Tag = TK.class({
     Implements: TK.Colors,
     
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
-        color: "string",
+        color: "string|null",
         tag: "string",
         async: "boolean",
         node_class: "object"
     }),
     options: {
-        color: "#000000",
+        color: null,
         tag: "",
         async: false,
         node_class: TK.TagNode
