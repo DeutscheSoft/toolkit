@@ -54,11 +54,13 @@ TK.Tag = TK.class({
         color: "string",
         tag: "string",
         async: "boolean",
+        node_class: "object"
     }),
     options: {
         color: "#000000",
         tag: "",
         async: false,
+        node_class: TK.TagNode
     },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);
@@ -105,7 +107,7 @@ TK.Tag = TK.class({
         options = options || {};
         options.color = O.color;
         options.tag = O.tag;
-        var node = new TK.TagNode(options, this);
+        var node = new O.node_class(options, this);
         node.add_event("colorize", colorize.bind(this));
         node.add_event("remove", remove.bind(this));
         this.nodes.push(node);
