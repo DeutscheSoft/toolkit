@@ -80,7 +80,10 @@ TK.Tag = TK.class({
             I.color = false;
             for (var i = 0; i < this.nodes.length; i++) {
                 this.nodes[i].element.style.backgroundColor = O.color;
-                this.nodes[i].element.style.color = this.rgb2gray(this.hex2rgb(O.color)) > 0.5 ? "black" : "white";
+                if (O.color)
+                    this.nodes[i].element.style.color = this.rgb2gray(this.hex2rgb(O.color)) > 0.5 ? "black" : "white";
+                else
+                    this.nodes[i].element.style.color = null;
             }
         }
         if (I.tag) {
