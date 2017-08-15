@@ -90,34 +90,49 @@ TK.Taggable = TK.class({
         var B = this.options.backend;
         tag = B.request_tag(tag);
         if (this.has_tag(tag)) return;
-        this.taglist.push(tag);
         
         var node = tag.create_node(options);
         this.tags.append_child(node);
         
         node.add_event("remove", remove.bind(this));
         this.fire_event("tagadded", tag, node);
-        return {tag:tag, node:node};
+        
+        var t = {tag:tag, node:node};
+        this.taglist.push(t);
+        return t;
     },
     has_tag: function (tag) {
         tag = this.request_tag(tag);
-        return this.taglist.indexOf(tag) >= 0;
+        for (var i = 0; i < this.taglist.length; i++) {
+            if (this.taglist[i].tag === tag)
+                return true;
+        }
     },
-    remove_tag: function (tag, purge) {
+    remove_tag: function (tag, node, purge) {
         var B = this.options.backend;
         tag = B.request_tag(tag);
         if (!this.has_tag(tag)) return;
-        this.taglist.splice(this.taglist.indexOf(tag), 1);
-        var c = this.tags.children;
-        if (c) {
-            for (var i = 0; i < c.length; i++) {
-                var tagnode = c[i];
-                if (tagnode.tag === tag) {
-                    tag.remove_node(tagnode);
-                    this.remove_child(tagnode);
-                    break;
+        for (var i = 0; i < this.taglist.length; i++) {
+            if (this.taglist[i].tag === tag) {
+                this.taglist.splice(i, 1);
+                break;
+            }
+        }
+        
+        if (!node) {
+            var c = this.tags.children;
+            if (c) {
+                for (var i = 0; i < c.length; i++) {
+                    var tagnode = c[i];
+                    if (tagnode.tag === tag) {
+                        tag.remove_node(tagnode);
+                        this.remove_child(tagnode);
+                        break;
+                    }
                 }
             }
+        } else {
+            tag.remove_node(node);
         }
         if (purge)
             B.remove_tag(tag);
@@ -126,7 +141,7 @@ TK.Taggable = TK.class({
     empty: function () {
         var T = this.taglist;
         while (T.length)
-            this.remove_tag(T[0]);
+            this.remove_tag(T[0].tag, T[0].node);
     },
     tag_to_string: function (tag) {
         return this.options.backend.tag_to_string.call(this, tag);
