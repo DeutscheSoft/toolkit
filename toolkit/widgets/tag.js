@@ -54,13 +54,13 @@ TK.Tag = TK.class({
         color: "string|null",
         tag: "string",
         async: "boolean",
-        node_class: "object"
+        node_class: "constructor",
     }),
     options: {
         color: null,
         tag: "",
         async: false,
-        node_class: TK.TagNode
+        node_class: TK.TagNode,
     },
     initialize: function (options) {
         TK.Widget.prototype.initialize.call(this, options);

@@ -30,14 +30,12 @@ TK.Tagger = TK.class({
         closenew: "boolean",
         add: "boolean",
         filter: "function|boolean",
-        visible_class: "string",
     }),
     options: {
         closenew: true,
         visible: false,
         add: true,
         filter: false,
-        visible_class: "inline-block",
     },
     initialize: function (options) {
         TK.Dialog.prototype.initialize.call(this, options);
@@ -83,10 +81,14 @@ TK.Tagger = TK.class({
         if (!this.tags.children || !this.tags.children.length) return;
         var O = this.options;
         var F = O.filter;
-        var tags = this.tags.children[0];
-        for (var i = 0; i < tags.length; i++) {
-            if (!F || !F(t)) tags[i].style.display = O.visible_class;
-            else tags[i].style.display = "none";
+        var tags = this.tags.children;
+        for (var i = 0; i < this.taglist.length; i++) {
+            var t = this.taglist[i];
+            if (F && F(t)) {
+              t.node.force_show();
+            } else {
+              t.node.force_hide();
+            }
         }
     },
     add_tag: function (tag, options) {
