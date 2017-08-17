@@ -93,9 +93,6 @@ TK.Dialog = TK.class({
     },
     open: function (x, y) {
         var O = this.options;
-        this.set("x", x);
-        this.set("y", y);
-        this.set("visible", true);
         if (O.display_state != "show")
             this.show();
         
@@ -108,10 +105,19 @@ TK.Dialog = TK.class({
                 that.close();
             }, true);
         }
+        
+        this.set("x", x);
+        this.set("y", y);
+        this.set("visible", true);
     },
     close: function () {
         this.set("visible", false);
         this.hide();
+    },
+    reposition: function () {
+        var O = this.options;
+        this.set("x", O.x);
+        this.set("y", O.y);
     }
 });
     
