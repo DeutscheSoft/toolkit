@@ -23,10 +23,10 @@ function add (e) {
     this.fire_event("addtag", e);
 }
 
-function remove (e, tag, node) {
-    this.fire_event("removetag", tag.tag);
+function remove (e, tagnode) {
+    this.fire_event("removetag", tagnode);
     if (!this.options.async)
-        this.remove_tag(tag);
+        this.remove_tag(tagnode.tag, tagnode);
 }
 
 TK.Taggable = TK.class({
@@ -88,7 +88,7 @@ TK.Taggable = TK.class({
     },
     add_tag: function (tag, options) {
         var B = this.options.backend;
-        tag = B.request_tag(tag);
+        tag = B.request_tag(tag, options);
         if (this.has_tag(tag)) return;
         
         var node = tag.create_node(options);

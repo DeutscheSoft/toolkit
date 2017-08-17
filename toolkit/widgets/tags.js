@@ -45,13 +45,14 @@ TK.Tags = TK.class({
     find_tag: function (tag) {
         return this.tags[this.tag_to_string(tag)];
     },
-    request_tag: function (tag) {
+    request_tag: function (tag, options) {
         var C = this.options.tag_class;
         var t = this.tag_to_string(tag);
         if (!this.find_tag(tag)) {
-            if (typeof tag == "string")
-                tag = new C({tag: tag});
-            else if (C.prototype.isPrototypeOf(tag))
+            if (typeof tag == "string") {
+                var o = Object.assign(options || {}, {tag:tag});
+                tag = new C(o);
+            } else if (C.prototype.isPrototypeOf(tag))
                 tag = tag;
             else
                 tag = new C(tag);

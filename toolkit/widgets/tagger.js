@@ -101,6 +101,11 @@ TK.Tagger = TK.class({
         })(this, t));
         return t;
     },
+    remove_tag: function (tag, node, purge) {
+      TK.Taggable.prototype.remove_tag.call(this, tag, node, purge);
+      if (!this.taglist.length)
+        this.close();
+    },
     open: function (x, y) {
         this.filter();
         TK.Dialog.prototype.open.call(this, x, y);

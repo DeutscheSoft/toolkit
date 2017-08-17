@@ -56,6 +56,14 @@ TK.Dialog = TK.class({
             this.open(O.x, O.y);
         else
             this.close();
+        this.add_event("set_display_state", function (val) {
+          if (val == "show") {
+            // BROKEN!
+            // sometimes isn't called when shown
+            this.invalid.anchor = true;
+            this.trigger_draw();
+          }
+        });
     },
     redraw: function () {
         TK.Container.prototype.redraw.call(this);
