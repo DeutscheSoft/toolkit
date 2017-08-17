@@ -38,3 +38,4 @@
 .toolkit-icon.close::before { content: "5"; }
 .toolkit-icon.success::before { content: "6"; color: #66cc00; }
 .toolkit-icon.loading::before { content: "7"; }
+.toolkit-icon.questionmark::before { content: "8"; }

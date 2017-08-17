@@ -27,10 +27,12 @@ TK.TagNode = TK.class({
   _options: Object.assign(Object.create(TK.Container.prototype._options), {
     label: "string",
     color: "string|null",
+    confirm: "boolean",
   }),
   options: {
     label: "",
     color: null,
+    confirm: false,
   },
   
   initialize: function (options, tag) {
@@ -75,15 +77,16 @@ TK.ChildWidget(TK.TagNode, "colorize", {
     },
 });
 TK.ChildWidget(TK.TagNode, "remove", {
-    create: TK.Button,
+    create: TK.ConfirmButton,
     show: true,
     toggle_class: true,
     static_events: {
-      click: function (e) { this.parent.fire_event("remove", e, this.parent); }
+      confirmed: function (e) { this.parent.fire_event("remove", e, this.parent); }
     },
     default_options: {
         class: "toolkit-remove",
-        label : ""
+        label : "",
+        confirm: false,
     },
 });
 
