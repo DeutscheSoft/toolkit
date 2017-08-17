@@ -20,6 +20,7 @@
 "use strict";
 (function(w, TK){
   
+  
 var clicked = function (e) {
   if (!this.options.confirm) {
     this.fire_event("confirmed");
@@ -28,14 +29,20 @@ var clicked = function (e) {
   if (this.options.state) {
     this.fire_event("confirmed");
   } else {
+    var O = this.options;
     var that = this;
-    document.addEventListener("click", function fun (e) {
-      document.removeEventListener(e.type, fun, true);
-      if (!that.options.state) return;
-      for (var i = 0; i < e.path.length; i++)
-        if (e.path[i] == that.element) return;
+    var reset = function (e) {
+      document.removeEventListener("click", reset, true);
+      if (!O.state) return;
+      if (e) {
+        for (var i = 0; i < e.path.length; i++)
+          if (e.path[i] == that.element) return;
+      }
       that.set("state", false);
-    }, true);
+    }
+    document.addEventListener("click", reset, true);
+    if (O.timeout)
+      setTimeout(reset, O.timeout);
   }
   this.set("state", !this.options.state);
 }
@@ -47,9 +54,11 @@ TK.ConfirmButton = TK.class({
   
   _options: Object.assign(Object.create(TK.Button.prototype._options), {
     confirm: "boolean",
+    timeout: "number",
   }),
   options: {
     confirm: true,
+    timeout: 0,
   },
   
   initialize: function (options) {
