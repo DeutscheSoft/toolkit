@@ -29,13 +29,11 @@ TK.Tagger = TK.class({
     _options: Object.assign(Object.create(TK.Dialog.prototype._options), {
         closenew: "boolean",
         add: "boolean",
-        filter: "function|boolean",
     }),
     options: {
         closenew: true,
         visible: false,
         add: true,
-        filter: false,
     },
     initialize: function (options) {
         TK.Dialog.prototype.initialize.call(this, options);
@@ -77,20 +75,6 @@ TK.Tagger = TK.class({
             }
         }
     },
-    filter: function () {
-        if (!this.tags.children || !this.tags.children.length) return;
-        var O = this.options;
-        var F = O.filter;
-        var tags = this.tags.children;
-        for (var i = 0; i < this.taglist.length; i++) {
-            var t = this.taglist[i];
-            if (F && F(t)) {
-              t.node.force_show();
-            } else {
-              t.node.force_hide();
-            }
-        }
-    },
     add_tag: function (tag, options) {
         var t = TK.Taggable.prototype.add_tag.call(this, tag, options);
         if (!t) return;
@@ -107,7 +91,6 @@ TK.Tagger = TK.class({
         this.close();
     },
     open: function (x, y) {
-        this.filter();
         TK.Dialog.prototype.open.call(this, x, y);
     },
 });
