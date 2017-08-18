@@ -109,10 +109,12 @@ TK.Dialog = TK.class({
         this.set("x", x);
         this.set("y", y);
         this.set("visible", true);
+        this.fire_event("open");
     },
     close: function () {
         this.set("visible", false);
         this.hide();
+        this.fire_event("close");
     },
     reposition: function () {
         var O = this.options;
