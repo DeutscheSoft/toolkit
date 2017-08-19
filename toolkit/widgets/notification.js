@@ -25,19 +25,14 @@ function close_clicked (e) {
 }
 
 function close () {
-  if (this._timeout !== void(0))
-    w.clearTimeout(this._timeout);
+  this.add_event("hide", this.destroy);
   this.hide();
-  var that = this;
-  this.add_event("hide", function () {
-    if (that.parent)
-      that.parent.remove_child(that);
-    that.set("container", false);
-    // @Arne: might this become a memory leak if it stays commented?
-    // throws an error.
-    //that.destroy();
-  });
   this.fire_event("closed");
+}
+
+function timeout() {
+  this._timeout = void(0);
+  close.call(this);
 }
 
 TK.Notification = TK.class({
@@ -56,7 +51,9 @@ TK.Notification = TK.class({
     TK.Container.prototype.initialize.call(this, options);
     var O = this.options;
     TK.add_class(this.element, "toolkit-notification");
-    if (O.timeout)
+    this._timeout = void(0);
+    this.set("timeout", O.timeout);
+    if (O.timeout > 0)
       this._timeout = w.setTimeout(close.bind(this), O.timeout);
   },
   redraw: function () {
@@ -73,8 +70,21 @@ TK.Notification = TK.class({
     }
   },
   
-  remove: close.bind(this),
-  
+  remove: close,
+  destroy: function() {
+    if (this._timeout !== void(0))
+      w.clearTimeout(this._timeout);
+    TK.Container.prototype.destroy.call(this);
+  },
+  set: function(key, val) {
+    TK.Container.prototype.set.call(this, key, val);
+    if (key === "timeout") {
+      if (this._timeout !== void(0))
+        w.clearTimeout(this._timeout);
+      if (val > 0)
+        this._timeout = w.setTimeout(timeout.bind(this), val);
+    }
+  },
 });
 
 /**
