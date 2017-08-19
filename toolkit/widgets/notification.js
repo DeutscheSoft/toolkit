@@ -53,8 +53,6 @@ TK.Notification = TK.class({
     TK.add_class(this.element, "toolkit-notification");
     this._timeout = void(0);
     this.set("timeout", O.timeout);
-    if (O.timeout > 0)
-      this._timeout = w.setTimeout(close.bind(this), O.timeout);
   },
   redraw: function () {
     var I = this.invalid;
