@@ -48,14 +48,15 @@ Invalid.prototype = {
     }
 };
 function redraw(fun) {
+    if (!this._drawn) return;
     this.needs_redraw = false;
-    fun.call(this);
     /**
      * Is fired when a redraw is executed.
      * 
      * @event TK.Widget#redraw
      */
     this.fire_event("redraw");
+    fun.call(this);
 }
 TK.Widget = TK.class({
     /**
