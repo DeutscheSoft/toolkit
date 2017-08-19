@@ -95,10 +95,10 @@ TK.Taggable = TK.class({
         this.tags.append_child(node);
         
         node.add_event("remove", remove.bind(this));
-        this.fire_event("tagadded", tag, node);
         
         var t = {tag:tag, node:node};
         this.taglist.push(t);
+        this.fire_event("tagadded", tag, node);
         return t;
     },
     has_tag: function (tag) {
@@ -107,6 +107,7 @@ TK.Taggable = TK.class({
             if (this.taglist[i].tag === tag)
                 return true;
         }
+        return false;
     },
     remove_tag: function (tag, node, purge) {
         var B = this.options.backend;
