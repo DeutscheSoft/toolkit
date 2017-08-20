@@ -638,8 +638,10 @@ function ChildWidget(widget, name, config) {
     if (m = config.static_events)
         Object.assign(static_events, m);
 
-    if (config.create === void(0))
-      throw new Error("'create' is not defined.");
+    if (config.create === void(0)) {
+      TK.warn("'create' is undefined. Skipping ChildWidget ", name);
+      return;
+    }
 
     var child = TK.class({
         Extends: config.create,
