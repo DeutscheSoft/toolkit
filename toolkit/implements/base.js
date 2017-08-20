@@ -638,6 +638,9 @@ function ChildWidget(widget, name, config) {
     if (m = config.static_events)
         Object.assign(static_events, m);
 
+    if (config.create === void(0))
+      throw new Error("'create' is not defined.");
+
     var child = TK.class({
         Extends: config.create,
         static_events: static_events,
