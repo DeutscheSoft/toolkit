@@ -31,40 +31,52 @@ TK.Tags = TK.class({
     },
     
     initialize: function (options) {
-        this.tags = {};
+        this.tags = new Map();
+        this.tag_to_name = new Map();
         TK.Widget.prototype.initialize.call(this, options);
     },
     tag_to_string: function (tag) {
-        if (typeof tag == "string")
+        if (typeof tag == "string") {
             return tag
-        else if (TK.Tag.prototype.isPrototypeOf(tag))
-            return tag.options.tag;
-        else
+        } else if (TK.Tag.prototype.isPrototypeOf(tag)) {
+            if (!tag.is_destructed()) {
+              return tag.options.tag;
+            } else {
+              return this.tag_to_name.get(tag);
+            }
+        } else {
             return tag.tag;
+        }
     },
     find_tag: function (tag) {
-        return this.tags[this.tag_to_string(tag)];
+        return this.tags.get(this.tag_to_string(tag));
     },
     request_tag: function (tag, options) {
         var C = this.options.tag_class;
         var t = this.tag_to_string(tag);
-        if (!this.find_tag(tag)) {
+        if (!this.tags.has(t)) {
             if (typeof tag == "string") {
                 var o = Object.assign(options || {}, {tag:tag});
                 tag = new C(o);
-            } else if (C.prototype.isPrototypeOf(tag))
+            } else if (C.prototype.isPrototypeOf(tag)) {
                 tag = tag;
-            else
+            } else {
                 tag = new C(tag);
+            }
             tag.show();
-            this.tags[t] = tag;
+            this.tags.set(t, tag);
+            this.tag_to_name.set(tag, t);
         }
-        return this.tags[t];
+        return this.tags.get(t);
     },
     remove_tag: function (tag) {
-        tag = find_tag(tag);
-        if (!tag) return;
-        this.tags.splice(this.tags.indexOf(tag), 1);
+        tag = this.find_tag(tag);
+        this.tags.remove(this.tag_to_string(tag));
+        this.tag_to_name.remove(tag);
+    },
+    empty: function() {
+        this.tags = new Map();
+        this.tag_to_name = new Map();
     },
 });
 
