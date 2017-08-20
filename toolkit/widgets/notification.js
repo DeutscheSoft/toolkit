@@ -24,8 +24,12 @@ function close_clicked (e) {
   close.call(this.parent);
 }
 
+function after_hide() {
+  TK.S.after_frame(this.destroy.bind(this));
+}
+
 function close () {
-  this.add_event("hide", this.destroy);
+  this.add_event("hide", after_hide);
   this.hide();
   this.fire_event("closed");
 }
