@@ -48,7 +48,12 @@ TK.Taggable = TK.class({
         tag_class: TK.Tag,
         tag_options: {},
     },
-    
+    static_events: {
+      destroy: function() {
+        this.tags.destroy();
+        this.add.destroy();
+      },
+    },
     initialize: function () {
         var O = this.options;
         this.taglist = [];
@@ -69,11 +74,6 @@ TK.Taggable = TK.class({
         this.append_child(this.add);
         
         this.add_tags(O.tags);
-    },
-    
-    destroy: function () {
-        this.tags.destroy();
-        this.add.destroy();
     },
     
     request_tag: function (tag, tag_class, tag_options) {
