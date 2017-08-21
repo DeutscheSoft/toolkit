@@ -99,8 +99,11 @@ TK.Dialog = TK.class({
         if (O.autoclose) {
             var that = this;
             document.addEventListener("click", function fun (e) {
-                for (var i = 0; i < e.path.length; i++)
-                    if (e.path[i].className && e.path[i].className.search("toolkit-dialog") >= 0) return;
+                var curr = e.target;
+                while (curr) {
+                  if (curr === that.element) return;
+                  curr = curr.parentElement;
+                }
                 document.removeEventListener(e.type, fun, true);
                 that.close();
             }, true);
