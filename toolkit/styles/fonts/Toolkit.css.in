@@ -1,11 +1,3 @@
-/*
-[prefix]
-[family]
-[title]
-[name]
-[path]
-*/
-
 @font-face {
   font-family: "[name]";
   font-style: normal;
