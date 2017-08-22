@@ -19,17 +19,10 @@
 "use strict";
 (function (w, TK) {
 
-function hide(value, key) {
-    if (value != "hide") return;
-    this.element.remove();
-}
-
 TK.Dialog = TK.class({
-    
     _class: "Dialog",
     Extends: TK.Container,
     Implements: TK.Anchor,
-    
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
         visible: "boolean",
         anchor: "string",
@@ -37,6 +30,35 @@ TK.Dialog = TK.class({
         y: "number",
         autoclose: "boolean",
     }),
+    static_events: {
+      hide: function() {
+        this.element.remove();
+      },
+      show: function() {
+        var O = this.options;
+        var C = O.container;
+        if (C) C.appendChild(this.element);
+
+        this.set('anchor', O.anchor);
+
+        if (O.autoclose) {
+            var that = this;
+            document.addEventListener("click", function fun (e) {
+                var curr = e.target;
+                while (curr) {
+                  if (curr === that.element) return;
+                  curr = curr.parentElement;
+                }
+                document.removeEventListener(e.type, fun, true);
+                that.close();
+            }, true);
+        }
+      },
+      set_visible: function(val) {
+        if (val) this.show();
+        else this.hide();
+      }
+    },
     options: {
         visible: true,
         anchor: "center",
@@ -45,25 +67,18 @@ TK.Dialog = TK.class({
         autoclose: false,
     },
     initialize: function (options) {
-        var c = options.container;
-        options.container = null;
         TK.Container.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-dialog");
-        this.add_event("set_display_state", hide);
         var O = this.options;
-        O.container = c;
+        /* This cannot be a default option because document.body
+         * is not defined there */
+        if (!O.container) O.container = w.document.body;
+        this.set('visible', O.visible);
+    },
+    resize: function() {
+        var O = this.options;
         if (O.visible)
-            this.open(O.x, O.y);
-        else
-            this.close();
-        this.add_event("set_display_state", function (val) {
-          if (val == "show") {
-            // BROKEN!
-            // sometimes isn't called when shown
-            this.invalid.anchor = true;
-            this.trigger_draw();
-          }
-        });
+          this.set('anchor', O.anchor);
     },
     redraw: function () {
         TK.Container.prototype.redraw.call(this);
@@ -92,23 +107,6 @@ TK.Dialog = TK.class({
         }
     },
     open: function (x, y) {
-        var O = this.options;
-        if (O.display_state != "show")
-            this.show();
-        
-        if (O.autoclose) {
-            var that = this;
-            document.addEventListener("click", function fun (e) {
-                var curr = e.target;
-                while (curr) {
-                  if (curr === that.element) return;
-                  curr = curr.parentElement;
-                }
-                document.removeEventListener(e.type, fun, true);
-                that.close();
-            }, true);
-        }
-        
         this.set("x", x);
         this.set("y", y);
         this.set("visible", true);
