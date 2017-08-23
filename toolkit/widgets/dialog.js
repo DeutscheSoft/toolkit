@@ -70,8 +70,7 @@ TK.Dialog = TK.class({
         if (val === "showing") {
           var C = O.container;
           if (C) C.appendChild(this.element);
-
-          this.set('anchor', O.anchor);
+          this.reposition();
         }
 
       },
@@ -140,9 +139,9 @@ TK.Dialog = TK.class({
     },
     open: function (x, y) {
         this.fire_event("open");
+        this.set("visible", true);
         this.set("x", x);
         this.set("y", y);
-        this.set("visible", true);
     },
     close: function () {
         this.set("visible", false);
