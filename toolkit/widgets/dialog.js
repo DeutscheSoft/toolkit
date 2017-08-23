@@ -108,6 +108,10 @@ TK.Dialog = TK.class({
         this._autoclose_active = false;
         this._autoclose_cb = autoclose_cb.bind(this);
         this.set('visible', O.visible);
+        if (O.visible)
+          this.force_show()
+        else
+          this.force_hide()
     },
     resize: function() {
         var O = this.options;
