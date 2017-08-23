@@ -19,6 +19,27 @@
 "use strict";
 (function (w, TK) {
 
+function autoclose_cb(e) {
+  var curr = e.target;
+  while (curr) {
+    if (curr === this.element) return;
+    curr = curr.parentElement;
+  }
+  this.close();
+}
+
+function activate_autoclose() {
+  if (this._autoclose_active) return;
+  document.body.addEventListener("click", this._autoclose_cb);
+  this._autoclose_active = true;
+}
+
+function deactivate_autoclose() {
+  if (!this._autoclose_active) return;
+  document.body.removeEventListener("click", this._autoclose_cb);
+  this._autoclose_active = false;
+}
+
 TK.Dialog = TK.class({
     _class: "Dialog",
     Extends: TK.Container,
@@ -32,31 +53,42 @@ TK.Dialog = TK.class({
     }),
     static_events: {
       hide: function() {
+        deactivate_autoclose.call(this);
         this.element.remove();
+        this.fire_event("close");
       },
-      show: function() {
+      set_display_state: function(val) {
         var O = this.options;
-        var C = O.container;
-        if (C) C.appendChild(this.element);
 
-        this.set('anchor', O.anchor);
+        if (val === "show") {
+          if (O.autoclose)
+            activate_autoclose.call(this);
+        } else {
+          deactivate_autoclose.call(this);
+        }
 
-        if (O.autoclose) {
-            var that = this;
-            document.addEventListener("click", function fun (e) {
-                var curr = e.target;
-                while (curr) {
-                  if (curr === that.element) return;
-                  curr = curr.parentElement;
-                }
-                document.removeEventListener(e.type, fun, true);
-                that.close();
-            }, true);
+        if (val === "showing") {
+          var C = O.container;
+          if (C) C.appendChild(this.element);
+
+          this.set('anchor', O.anchor);
+        }
+
+      },
+      set_autoclose: function(val) {
+        if (val) { 
+          if (!this.hidden()) activate_autoclose.call(this);
+        } else {
+          deactivate_autoclose.call(this);
         }
       },
       set_visible: function(val) {
-        if (val) this.show();
-        else this.hide();
+        if (val) {
+          deactivate_autoclose.call(this);
+          this.show();
+        } else {
+          this.hide();
+        }
       }
     },
     options: {
@@ -73,6 +105,8 @@ TK.Dialog = TK.class({
         /* This cannot be a default option because document.body
          * is not defined there */
         if (!O.container) O.container = w.document.body;
+        this._autoclose_active = false;
+        this._autoclose_cb = autoclose_cb.bind(this);
         this.set('visible', O.visible);
     },
     resize: function() {
@@ -85,12 +119,6 @@ TK.Dialog = TK.class({
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
-        
-        if (I.visible) {
-            I.visible = false;
-            if (O.visible)
-                this.set("container", O.container);
-        }
         
         if (I.x || I.y || I.anchor) {
             var bodybox = document.body.getBoundingClientRect();
@@ -107,15 +135,13 @@ TK.Dialog = TK.class({
         }
     },
     open: function (x, y) {
+        this.fire_event("open");
         this.set("x", x);
         this.set("y", y);
         this.set("visible", true);
-        this.fire_event("open");
     },
     close: function () {
         this.set("visible", false);
-        this.hide();
-        this.fire_event("close");
     },
     reposition: function () {
         var O = this.options;
