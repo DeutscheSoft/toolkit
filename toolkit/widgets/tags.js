@@ -54,20 +54,24 @@ TK.Tags = TK.class({
     request_tag: function (tag, options) {
         var C = this.options.tag_class;
         var t = this.tag_to_string(tag);
-        if (!this.tags.has(t)) {
-            if (typeof tag == "string") {
-                var o = Object.assign(options || {}, {tag:tag});
-                tag = new C(o);
-            } else if (C.prototype.isPrototypeOf(tag)) {
-                tag = tag;
-            } else {
-                tag = new C(tag);
-            }
-            tag.show();
-            this.tags.set(t, tag);
-            this.tag_to_name.set(tag, t);
+
+        if (this.tags.has(t)) {
+          tag = this.tags.get(t);
+          if (!tag.is_destructed()) return tag;
         }
-        return this.tags.get(t);
+
+        if (typeof tag == "string") {
+            var o = Object.assign(options || {}, {tag:tag});
+            tag = new C(o);
+        } else if (C.prototype.isPrototypeOf(tag)) {
+            tag = tag;
+        } else {
+            tag = new C(tag);
+        }
+        tag.show();
+        this.tags.set(t, tag);
+        this.tag_to_name.set(tag, t);
+        return tag;
     },
     remove_tag: function (tag) {
         tag = this.find_tag(tag);
