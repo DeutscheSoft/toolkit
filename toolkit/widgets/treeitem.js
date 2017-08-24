@@ -53,62 +53,65 @@ TK.TreeItem = TK.class({
     },
     initialize: function (options) {
         this.list = new TK.List();
+        this.flex = new TK.Container({"class":"toolkit-flex"});
         
         TK.ListItem.prototype.initialize.call(this, options);
         TK.add_class(this.element, "toolkit-tree-item");
         
-        this.add_child(this.list);
+        TK.ListItem.prototype.append_child.call(this, this.flex);
+        TK.ListItem.prototype.add_child.call(this, this.list);
+        this.flex.show();
         
         this.collapse = new TK.Button({"class":"toolkit-collapse"});
-        this.add_child(this.collapse);
+        this.append_child(this.collapse);
         this.collapse.add_event("click", toggle_collapsed.bind(this));
     },
     append_child: function (child) {
-        if (TK.ListItem.prototype.isPrototypeOf(child)) {
-            this.add_child(child);
-            return this.list.append_child(child);
-        } else {
-          TK.ListItem.prototype.append_child.call(this, child);
-        }
-        this.trigger_resize();
-    },
-    add_child : function(child) {
-        if (TK.ListItem.prototype.isPrototypeOf(child)) {
-            var r = this.list.add_child(child);
-            if (this.list.children.length && !this.list.element.parentElement) {
-                this.list.show();
-                this.invalid._list = true;
-                this.trigger_draw();
-            }
-        } else {
-          TK.ListItem.prototype.add_child.call(this, child);
-        }
         this.invalid._list = true;
         this.trigger_resize();
+        if (TK.ListItem.prototype.isPrototypeOf(child)) {
+            //if (this.list.children && this.list.children.length && !this.list.element.parentElement) {
+                //this.list.show();
+                //this.invalid._list = true;
+                //this.trigger_draw();
+            //}
+            return this.list.append_child(child);
+        } else {
+            return this.flex.append_child(child);
+        }
+    },
+    add_child : function(child) {
+        this.trigger_resize();
+        if (TK.ListItem.prototype.isPrototypeOf(child)) {
+            return this.list.add_child(child);
+        } else {
+            return this.flex.add_child(child);
+        }
     },
     remove_child : function(child) {
         if (TK.ListItem.prototype.isPrototypeOf(child)) {
             var r = this.list.remove_child(child);
-            if (!this.list.children.length && this.list.element.parentElement) {
-                this.list.hide();
-                this.invalid._list = true;
-                this.trigger_draw();
-            }
+            //if (!this.list.children.length && this.list.element.parentElement) {
+                //this.list.hide();
+                //this.invalid._list = true;
+                //this.trigger_draw();
+            //}
             return r;
         } else {
-          TK.ListItem.prototype.remove_child.call(this, child);
+          this.flex.remove_child(child);
         }
         this.invalid._list = true;
         this.trigger_resize();
     },
     resize: function() {
-        this.set("_scrollheight", this.element.scrollHeight);
+        this.set("_scrollheight", this.list.element.scrollHeight);
     },
     redraw: function () {
         TK.ListItem.prototype.redraw.call(this);
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
+        var F = this.flex.element;
         if (I._list) {
             I.collapsed = true;
             if (this.list.children && this.list.children.length) {
@@ -123,21 +126,21 @@ TK.TreeItem = TK.class({
         }
         if (I._list || I.collapsable || I.force_collapsable) {
             if ((this.list.children && this.list.children.length && O.collapsable) || O.force_collapsable)
-                E.appendChild(this.collapse.element);
+                F.appendChild(this.collapse.element);
             else if (this.collapse.element.parentElement == E)
-                E.removeChild(this.collapse.element);
+                F.removeChild(this.collapse.element);
             TK.toggle_class(E, "toolkit-force-collapsable", O.force_collapsable);
         }
         if (I.collapsed) {
             I.collapsed = false;
-            E.style["min-height"] = O.collapsed ? "0px" : O._scrollheight + "px";
+            this.list.element.style["height"] = O.collapsed ? "0px" : O._scrollheight + "px";
             TK.toggle_class(E, "toolkit-collapsed", O.collapsed);
             trigger_parent_resize.call(this);
         }
         if (I._scrollheight) {
             I._scrollheight = false;
             if (!O.collapsed)
-                E.style["min-height"] = O._scrollheight + "px";
+                this.list.element.style["height"] = O._scrollheight + "px";
         }
         I._list = I.collapsable = I.force_collapsable = false;
     },
