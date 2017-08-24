@@ -83,15 +83,16 @@ TK.Tagger = TK.class({
                 that.fire_event("tagclicked", tag.tag, tag.node);
             }
         })(this, t));
+        if (this.options.visible)
+          this.reposition();
         return t;
     },
     remove_tag: function (tag, node, purge) {
       TK.Taggable.prototype.remove_tag.call(this, tag, node, purge);
       if (!this.taglist.length)
         this.close();
-    },
-    open: function (x, y) {
-        TK.Dialog.prototype.open.call(this, x, y);
+      if (this.options.visible)
+          this.reposition();
     },
 });
 

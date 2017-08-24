@@ -113,9 +113,8 @@ TK.Dialog = TK.class({
           this.force_hide()
     },
     resize: function() {
-        var O = this.options;
-        if (O.visible)
-          this.set('anchor', O.anchor);
+        if (this.options.visible)
+          this.reposition();
     },
     redraw: function () {
         TK.Container.prototype.redraw.call(this);
