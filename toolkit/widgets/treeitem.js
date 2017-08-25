@@ -26,13 +26,8 @@ var set_collapsed = function (c) {
     this.set("collapsed", c);
 }
 
-function trigger_parent_resize() {
-  var w = this.parent;
-
-  while (w) {
-    w.trigger_resize();
-    w = w.parent;
-  }
+var reset_size = function (state) {
+    if (state == "show") this.element.style.height = null;
 }
 
 TK.TreeItem = TK.class({
@@ -44,7 +39,6 @@ TK.TreeItem = TK.class({
         collapsed: "boolean",
         collapsable: "boolean",
         force_collapsable: "boolean",
-        _scrollheight: "number",
     }),
     options: {
         collapsed: false,
@@ -52,7 +46,9 @@ TK.TreeItem = TK.class({
         force_collapsable: false,
     },
     initialize: function (options) {
-        this.list = new TK.List();
+        this.list = new TK.List({
+            "onset_display_state": reset_size
+        });
         this.flex = new TK.Container({"class":"toolkit-flex"});
         
         TK.ListItem.prototype.initialize.call(this, options);
@@ -65,16 +61,16 @@ TK.TreeItem = TK.class({
         this.collapse = new TK.Button({"class":"toolkit-collapse"});
         this.append_child(this.collapse);
         this.collapse.add_event("click", toggle_collapsed.bind(this));
+        
+        if (this.options.collapsable && this.options.collapsed) {
+          this.list.element.style.height = "0px";
+          this.list.hide();
+        }
     },
     append_child: function (child) {
         this.invalid._list = true;
         this.trigger_resize();
         if (TK.ListItem.prototype.isPrototypeOf(child)) {
-            //if (this.list.children && this.list.children.length && !this.list.element.parentElement) {
-                //this.list.show();
-                //this.invalid._list = true;
-                //this.trigger_draw();
-            //}
             return this.list.append_child(child);
         } else {
             return this.flex.append_child(child);
@@ -91,20 +87,12 @@ TK.TreeItem = TK.class({
     remove_child : function(child) {
         if (TK.ListItem.prototype.isPrototypeOf(child)) {
             var r = this.list.remove_child(child);
-            //if (!this.list.children.length && this.list.element.parentElement) {
-                //this.list.hide();
-                //this.invalid._list = true;
-                //this.trigger_draw();
-            //}
             return r;
         } else {
           this.flex.remove_child(child);
         }
         this.invalid._list = true;
         this.trigger_resize();
-    },
-    resize: function() {
-        this.set("_scrollheight", this.list.element.scrollHeight);
     },
     redraw: function () {
         TK.ListItem.prototype.redraw.call(this);
@@ -133,14 +121,19 @@ TK.TreeItem = TK.class({
         }
         if (I.collapsed) {
             I.collapsed = false;
-            this.list.element.style["height"] = O.collapsed ? "0px" : O._scrollheight + "px";
+            var s = this.list.element.style;
+            if (O.collapsed) {
+                var h = this.list.element.offsetHeight;
+                s["height"] = h + "px";
+                w.requestAnimationFrame(function () {s["height"] = "0px";});
+            } else {
+                var h0 = this.list.element.offsetHeight;
+                this.list.element.style["height"] = "auto";
+                var h = this.list.element.offsetHeight;
+                s["height"] = h0 + "px";
+                w.requestAnimationFrame(function () {s["height"] = h + "px";});
+            }
             TK.toggle_class(E, "toolkit-collapsed", O.collapsed);
-            trigger_parent_resize.call(this);
-        }
-        if (I._scrollheight) {
-            I._scrollheight = false;
-            if (!O.collapsed)
-                this.list.element.style["height"] = O._scrollheight + "px";
         }
         I._list = I.collapsable = I.force_collapsable = false;
     },
@@ -148,10 +141,11 @@ TK.TreeItem = TK.class({
         var O = this.options;
         switch (key) {
             case "collapsed":
-                if (!value && this.list)
-                    this.show_child(this.list);
+                if (!this.list) break;
+                if (!value)
+                    this.list.show();
                 else
-                    this.hide_child(this.list);
+                    this.list.hide();
                 break;
         }
         return TK.ListItem.prototype.set.call(this, key, value);
