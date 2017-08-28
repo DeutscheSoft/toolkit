@@ -416,6 +416,7 @@ pre, code {
     position: absolute;
     z-index: 100000;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 .toolkit-select-list > .toolkit-option {
     white-space: nowrap;
