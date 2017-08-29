@@ -25,7 +25,10 @@ function close_clicked (e) {
 }
 
 function after_hide() {
-  TK.S.after_frame(this.destroy.bind(this));
+  TK.S.after_frame(function() {
+    if (this.is_destructed()) return;
+    this.destroy();
+  }.bind(this));
 }
 
 function close () {
