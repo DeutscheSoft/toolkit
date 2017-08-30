@@ -22,7 +22,14 @@
 function autoclose_cb(e) {
   var curr = e.target;
   while (curr) {
-    if (curr === this.element) return;
+    // TODO: if a dialog is opened out of a dialog both should avoid
+    // closing any of those on click. former version:
+    //if (curr === this.element) return;
+    // this closes tagger in Cabasa Dante Tagger when interacting
+    // with the colorpicker.
+    // workaround for the moment:
+    // don't close on click on any dialog
+    if (curr.classList.contains("toolkit-dialog")) return;
     curr = curr.parentElement;
   }
   this.close();
