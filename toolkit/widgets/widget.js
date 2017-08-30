@@ -337,6 +337,10 @@ TK.Widget = TK.class({
          * 
          * @event TK.Widget#destroy
          */
+        if (this.is_destructed()) {
+          TK.warn("destroy called twice on ", this);
+          return;
+        }
         this.fire_event("destroy");
 
         this.disable_draw();
