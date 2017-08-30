@@ -98,6 +98,7 @@ TK.Select = TK.class({
         value: "mixed",
         auto_size: "boolean",
         show_list: "boolean",
+        sort: "function",
     }),
     options: {
         entries: [], // A list of strings or objects {title: "Title", value: 1} or SelectEntry instance
@@ -226,21 +227,34 @@ TK.Select = TK.class({
      * @emits TK.Select.entryadded
      */
     add_entry: function (ent) {
+        var O = this.options;
+        var entry;
+        var entries = this.entries;
+
         if (TK.SelectEntry.prototype.isPrototypeOf(ent)) {
-            var entry = ent;
+            entry = ent;
         } else {
-            var entry = new TK.SelectEntry({
+            entry = new TK.SelectEntry({
                 value: (typeof ent === "string") ? ent : ent.value,
                 title: (typeof ent === "string")
                        ? ent : (ent.title !== void(0))
                        ? ent.title : ent.value.toString()
             });
         }
-        entry.set("container", this._list)
         this.add_child(entry);
-        this.entries.push(entry);
-        
-        var id = this.entries.length - 1;
+        entries.push(entry);
+        entry.set("container", this._list)
+
+        var id;
+
+        if (O.sort) {
+          entries.sort(O.sort);
+          id = entries.indexOf(entry);
+          if (id !== entries.length - 1)
+            this._list.insertBefore(entry.element, entries[id+1].element);
+        } else {
+          id = entries.length - 1;
+        }
         
         this.invalid.entries = true;
 
