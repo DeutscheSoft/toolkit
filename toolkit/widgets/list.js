@@ -20,13 +20,26 @@
 (function (w, TK) {
 
 TK.List = TK.class({
-    
+    _options: Object.assign(Object.create(TK.Container.prototype._options), {
+      sort: "function",
+    }),
     _class: "List",
     Extends: TK.Container,
     
     initialize: function (options) {
         this.element = TK.element("ul", "toolkit-list");
         TK.Container.prototype.initialize.call(this, options);
+    },
+    append_child: function(w) {
+      TK.Container.prototype.append_child.call(this, w);
+      var O = this.options;
+      var C = this.children;
+      if (O.sort) {
+        C.sort(O.sort);
+        var pos = C.indexOf(w);
+        if (pos !== C.length - 1)
+          this.element.insertBefore(w.element, C[pos+1].element);
+      }
     },
 });
     
