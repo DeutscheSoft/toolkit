@@ -314,11 +314,11 @@ TK.Select = TK.class({
      * @emits TK.Select#entryremoved
      */
     remove_entry: function (entry) {
-        this.remove_id(get_entry.call(this, entry));
+        this.remove_id(this.index_by_entry.call(this, entry));
     },
     remove_entries: function (a) {
-        for (var i = 0; i < entries.length; i++)
-            this.remove_entry(entries[i]);
+        for (var i = 0; i < a.length; i++)
+            this.remove_entry(a[i]);
     },
     /**
      * Remove an entry from the list by its ID.
