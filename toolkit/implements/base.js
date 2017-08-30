@@ -626,14 +626,13 @@ function ChildWidget(widget, name, config) {
     var p = widget.prototype;
     var key = "show_"+name;
     var tmp, m;
+    var static_events = { };
 
-    var userset_cb = (config.inherit_options || config.userset_delegate)
-        ? function(key, value) { this.parent.userset(key, value); return false; }
-        : function(key, value) { this.parent.userset(name+"."+key, value); return false; };
+    if (!config.userset_ignore)
+      static_events.userset = (config.inherit_options || config.userset_delegate)
+          ? function(key, value) { this.parent.userset(key, value); return false; }
+          : function(key, value) { this.parent.userset(name+"."+key, value); return false; };
 
-    var static_events = {
-        userset: userset_cb,
-    };
 
     if (m = config.static_events)
         Object.assign(static_events, m);
