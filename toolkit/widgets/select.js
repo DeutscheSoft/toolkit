@@ -238,28 +238,9 @@ TK.Select = TK.class({
         }
         entry.set("container", this._list)
         this.add_child(entry);
-        entry.show();
         this.entries.push(entry);
         
         var id = this.entries.length - 1;
-        var up_cb = function (e) {
-            if (this.userset("selected", id) === false) return;
-            /**
-             * Is fired when a selection was made by the user. The arguments
-             * are the value of the entry, the id of the selected element and the title of the entry.
-             * 
-             * @event TK.Select#select
-             * 
-             * @param {mixed} value - The value of the selected entry.
-             * @param {number} value - The ID of the selected entry.
-             * @param {string} value - The title of the selected entry.
-             */
-            this.fire_event("select", entry.options.value, id, entry.options.title);
-            this.show_list(false);
-        }.bind(this);
-
-        entry.add_event("touchstart", up_cb);
-        entry.add_event("mousedown", up_cb);
         
         this.invalid.entries = true;
 
@@ -556,6 +537,27 @@ TK.Select = TK.class({
 });
 
 
+function on_select(e) {
+    var w = this.parent;
+    var id = w.index_by_entry(this);
+    var entry = this;
+
+    if (w.userset("selected", id) === false) return;
+    /**
+     * Is fired when a selection was made by the user. The arguments
+     * are the value of the entry, the id of the selected element and the title of the entry.
+     * 
+     * @event TK.Select#select
+     * 
+     * @param {mixed} value - The value of the selected entry.
+     * @param {number} value - The ID of the selected entry.
+     * @param {string} value - The title of the selected entry.
+     */
+    w.fire_event("select", entry.options.value, id, entry.options.title);
+    w.show_list(false);
+
+    return false;
+}
 
 TK.SelectEntry = TK.class({
     /**
@@ -586,6 +588,10 @@ TK.SelectEntry = TK.class({
         var E = this.element = TK.element("li", "toolkit-option");
         TK.Label.prototype.initialize.call(this, options);
         this.set("title", this.options.title);
+    },
+    static_events: {
+      touchstart: on_select,
+      mousedown: on_select,
     },
     set: function (key, value) {
         switch (key) {
