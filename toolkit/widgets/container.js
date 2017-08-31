@@ -375,7 +375,7 @@ TK.Container = TK.class({
                     this.__hide_id = w.setTimeout(this.__after_hiding, time);
                     break;
                 }
-                O.display_state = "hide";
+                this.set("display_state", "hide");
                 TK.remove_class(E, "toolkit-hiding");
                 /* FALL THROUGH */
             case "hide":
@@ -390,7 +390,7 @@ TK.Container = TK.class({
                     enable_draw_children.call(this);
                     break;
                 }
-                O.display_state = "show";
+                this.set("display_state", "show");
                 TK.remove_class(E, "toolkit-showing");
                 /* FALL THROUGH */
             case "show":
