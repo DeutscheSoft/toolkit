@@ -27,7 +27,8 @@ var set_collapsed = function (c) {
 }
 
 var reset_size = function (state) {
-    if (state == "show") this.element.style.height = null;
+    if (state !== "show") return;
+    //this.element.style.height = null;
 }
 
 TK.TreeItem = TK.class({
@@ -128,10 +129,18 @@ TK.TreeItem = TK.class({
                 w.requestAnimationFrame(function () {s["height"] = "0px";});
             } else {
                 var h0 = this.list.element.offsetHeight;
-                this.list.element.style["height"] = "auto";
+                var list = this.list.element;
+                s["height"] = "auto";
                 var h = this.list.element.offsetHeight;
                 s["height"] = h0 + "px";
-                w.requestAnimationFrame(function () {s["height"] = h + "px";});
+                w.requestAnimationFrame(function () {
+                  s["height"] = h + "px";
+
+                  var duration = TK.get_duration(list);
+                  setTimeout(function () {
+                    s.height = null;
+                  }, duration);
+                });
             }
             TK.toggle_class(E, "toolkit-collapsed", O.collapsed);
         }
