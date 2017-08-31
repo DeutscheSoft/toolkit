@@ -555,8 +555,10 @@ function on_select(e) {
     var w = this.parent;
     var id = w.index_by_entry(this);
     var entry = this;
+    e.stopPropagation();
+    e.preventDefault();
 
-    if (w.userset("selected", id) === false) return;
+    if (w.userset("selected", id) === false) return false;
     /**
      * Is fired when a selection was made by the user. The arguments
      * are the value of the entry, the id of the selected element and the title of the entry.
