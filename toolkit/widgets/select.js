@@ -71,6 +71,41 @@ function show_list(show) {
     var dur = TK.get_duration(this._list);
     this.__timeout = window.setTimeout(hide_list.bind(this), dur);
 }
+
+function low_remove_entry(entry) {
+  var li = entry.element;
+  var entries = this.entries;
+  var id = entries.indexOf(entry);
+
+  if (id === -1) throw new Error("Entry removed twice.");
+
+  // remove from DOM
+  if (li.parentElement == this._list)
+      this._list.removeChild(li);
+  // remove from list
+  entries.splice(id, 1);
+  // selection
+  var sel = this.options.selected;
+  if (sel !== false) {
+      if (sel > id) {
+          this.options.selected --;
+      } else if (sel === id) {
+          this.options.selected = false;
+          this.set("label", "");
+      }
+  }
+  this.invalid.entries = true;
+  this.select(this.options.selected);
+  /**
+   * Is fired when a new entry is added to the list.
+   * 
+   * @event TK.Select.entryremoved
+   * 
+   * @param {Object} entry - An object containing the members <code>title</code> and <code>value</code>.
+   */
+  this.fire_event("entryremoved", entry);
+}
+
 TK.Select = TK.class({
     /**
      * TK.Select provides a button with a select list to choose from
@@ -309,11 +344,17 @@ TK.Select = TK.class({
      * @emits TK.Select#entryremoved
      */
     remove_entry: function (entry) {
-        this.remove_id(this.index_by_entry.call(this, entry));
+        this.remove_child(entry);
     },
     remove_entries: function (a) {
         for (var i = 0; i < a.length; i++)
             this.remove_entry(a[i]);
+    },
+    remove_child: function(child) {
+      TK.Button.prototype.remove_child.call(this, child);
+      if (TK.SelectEntry.prototype.isPrototypeOf(child)) {
+        low_remove_entry.call(this, child);
+      }
     },
     /**
      * Remove an entry from the list by its ID.
@@ -328,36 +369,7 @@ TK.Select = TK.class({
         // remove DOM element
         var entry = this.entries[id];
 
-        if (entry) {
-            var li = entry.element;
-            // remove from DOM
-            if (li.parentElement == this._list)
-                this._list.removeChild(li);
-            // remove from list
-            this.entries.splice(id, 1);
-            // remove child
-            this.remove_child(entry);
-            // selection
-            var sel = this.options.selected;
-            if (sel !== false) {
-                if (sel > id) {
-                    this.options.selected --;
-                } else if (sel === id) {
-                    this.options.selected = false;
-                    this.set("label", "");
-                }
-            }
-            this.invalid.entries = true;
-            this.select(this.options.selected);
-            /**
-             * Is fired when a new entry is added to the list.
-             * 
-             * @event TK.Select.entryremoved
-             * 
-             * @param {Object} entry - An object containing the members <code>title</code> and <code>value</code>.
-             */
-            this.fire_event("entryremoved", entry);
-        }
+        this.remove_child(entry);
     },
     /*
      * Get the index of an entry by its value
@@ -446,10 +458,10 @@ TK.Select = TK.class({
     clear: function () {
         TK.empty(this._list);
         this.select(false);
-        var l = this.entries.length;
-        for (var i = 0; i < l; i++)
-            this.remove_id(i);
-        this.entries = [];
+        var entries = this.entries.slice(0);
+        for (var i = 0; i < entries.length; i++) {
+          this.remove_child(entries[i]);
+        }
         /**
          * Is fired when the list is cleared.
          * 
