@@ -128,18 +128,27 @@ TK.TreeItem = TK.class({
                 s["height"] = h + "px";
                 w.requestAnimationFrame(function () {s["height"] = "0px";});
             } else {
-                var h0 = this.list.element.offsetHeight;
                 var list = this.list.element;
-                s["height"] = "auto";
-                var h = this.list.element.offsetHeight;
-                s["height"] = h0 + "px";
-                w.requestAnimationFrame(function () {
-                  s["height"] = h + "px";
-
+                /* This is a train */
+                TK.S.add(function() {
+                  var h0 = list.offsetHeight;
                   var duration = TK.get_duration(list);
-                  setTimeout(function () {
-                    s.height = null;
-                  }, duration);
+                  TK.S.add(function() {
+                    s["height"] = "auto";
+                    TK.S.add(function() {
+                      var h = list.offsetHeight;
+                      TK.S.add(function() {
+                        s["height"] = h0 + "px";
+                        TK.S.add_next(function () {
+                          s["height"] = h + "px";
+
+                          setTimeout(function () {
+                            s.height = null;
+                          }, duration);
+                        });
+                      }, 1)
+                    });
+                  }, 1);
                 });
             }
             TK.toggle_class(E, "toolkit-collapsed", O.collapsed);
