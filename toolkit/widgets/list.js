@@ -30,6 +30,17 @@ TK.List = TK.class({
         this.element = TK.element("ul", "toolkit-list");
         TK.Container.prototype.initialize.call(this, options);
     },
+    static_events: {
+      set_sort: function(f) {
+        if (typeof(f) === "function") {
+          var C = this.children.slice(0);
+          C.sort(f);
+          for (var i = 0; i < C.length; i++) {
+            this.element.appendChild(C[i].element);
+          }
+        }
+      },
+    },
     append_child: function(w) {
       TK.Container.prototype.append_child.call(this, w);
       var O = this.options;
