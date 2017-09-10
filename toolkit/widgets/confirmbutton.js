@@ -35,8 +35,11 @@ var clicked = function (e) {
       document.removeEventListener("click", reset, true);
       if (!O.state) return;
       if (e) {
-        for (var i = 0; i < e.path.length; i++)
-          if (e.path[i] == that.element) return;
+        var t = e.target;
+        while (t) {
+          if (t == that.element) return;
+          t = t.parentElement;
+        }
       }
       that.set("state", false);
     }
