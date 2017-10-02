@@ -37,9 +37,9 @@ function touchstart(e) {
 
     var node = this.options.node;
 
-    node.addEventListener("touchmove", this.__touchmove);
-    node.addEventListener("touchcancel", this.__touchend);
-    node.addEventListener("touchend", this.__touchend);
+    TK.add_event_listener(node, "touchmove", this.__touchmove);
+    TK.add_event_listener(node, "touchcancel", this.__touchend);
+    TK.add_event_listener(node, "touchend", this.__touchend);
 }
 function find_touch(e, id) {
     var touches = e.changedTouches;
@@ -67,9 +67,9 @@ function touchend(e) {
 
     var node = this.options.node;
 
-    node.removeEventListener("touchmove", this.__touchmove);
-    node.removeEventListener("touchcancel", this.__touchend);
-    node.removeEventListener("touchend", this.__touchend);
+    TK.remove_event_listener(node, "touchmove", this.__touchmove);
+    TK.remove_event_listener(node, "touchcancel", this.__touchend);
+    TK.remove_event_listener(node, "touchend", this.__touchend);
 
     stop_drag.call(this, e);
 }
@@ -91,15 +91,15 @@ function mousedown(e) {
 
     if (!start_drag.call(this, e, e.pageX, e.pageY)) return;
 
-    document.addEventListener("mousemove", this.__mousemove);
-    document.addEventListener("mouseup", this.__mouseup);
+    TK.add_event_listener(document, "mousemove", this.__mousemove);
+    TK.add_event_listener(document, "mouseup", this.__mouseup);
 }
 
 function mouseup(e) {
     e.preventDefault();
 
-    document.removeEventListener("mousemove", this.__mousemove);
-    document.removeEventListener("mouseup", this.__mouseup);
+    TK.remove_event_listener(document, "mousemove", this.__mousemove);
+    TK.remove_event_listener(document, "mouseup", this.__mouseup);
 
     stop_drag.call(this, e, e.pageX, e.pageY);
 }
@@ -349,9 +349,9 @@ w.TK.DragValue = w.DragValue = $class({
         var node = this.options.node;
 
         if (node) {
-            node.removeEventListener("contextmenu", this.__contextmenu);
-            node.removeEventListener("mousedown",   this.__mousedown);
-            node.removeEventListener("touchstart",  this.__touchstart);
+            TK.remove_event_listener(node, "contextmenu", this.__contextmenu);
+            TK.remove_event_listener(node, "mousedown",   this.__mousedown);
+            TK.remove_event_listener(node, "touchstart",  this.__touchstart);
         }
     },
 
@@ -359,17 +359,17 @@ w.TK.DragValue = w.DragValue = $class({
     set: function (key, value) {
         var O = this.options;
         if (key === "node" && O.node) {
-            O.node.addEventListener("contextmenu", this.__contextmenu);
-            O.node.addEventListener("mousedown",   this.__mousedown);
-            O.node.addEventListener("touchstart",  this.__touchstart);
+            TK.add_event_listener(O.node, "contextmenu", this.__contextmenu);
+            TK.add_event_listener(O.node, "mousedown",   this.__mousedown);
+            TK.add_event_listener(O.node, "touchstart",  this.__touchstart);
         }
         TK.Base.prototype.set.call(this, key, value);
         switch (key) {
             case "node":
                 if (value) {
-                    value.addEventListener("contextmenu", this.__contextmenu);
-                    value.addEventListener("mousedown",   this.__mousedown);
-                    value.addEventListener("touchstart",  this.__touchstart);
+                    TK.add_event_listener(value, "contextmenu", this.__contextmenu);
+                    TK.add_event_listener(value, "mousedown",   this.__mousedown);
+                    TK.add_event_listener(value, "touchstart",  this.__touchstart);
 
                     if (!O.events) {
                         O.events = value;

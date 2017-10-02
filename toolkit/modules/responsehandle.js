@@ -535,31 +535,31 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._touchmove = touchmove.bind(this);
         this._zhandledown = zhandledown.bind(this);
 
-        E.addEventListener("mouseenter",     this._mouseenter);
-        E.addEventListener("mouseleave",     this._mouseleave);
-        E.addEventListener("mousedown",      this._mousedown);
-        E.addEventListener("touchstart",     this._touchstart);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
+        TK.add_event_listener(E, "mouseenter",     this._mouseenter);
+        TK.add_event_listener(E, "mouseleave",     this._mouseleave);
+        TK.add_event_listener(E, "mousedown",      this._mousedown);
+        TK.add_event_listener(E, "touchstart",     this._touchstart);
+        TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
         
         E = this._label;
-        E.addEventListener("mouseenter",      this._mouseelement);
-        E.addEventListener("touchstart",      this._mouseelement);
-        E.addEventListener("mousewheel",      this._scrollwheel);
-        E.addEventListener("DOMMouseScroll",  this._scrollwheel);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
+        TK.add_event_listener(E, "mouseenter",      this._mouseelement);
+        TK.add_event_listener(E, "touchstart",      this._mouseelement);
+        TK.add_event_listener(E, "mousewheel",      this._scrollwheel);
+        TK.add_event_listener(E, "DOMMouseScroll",  this._scrollwheel);
+        TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
         
         E = this._handle;
-        E.addEventListener("mouseenter",     this._mouseelement);
-        E.addEventListener("touchstart",     this._mouseelement);
-        E.addEventListener("mousewheel",     this._scrollwheel);
-        E.addEventListener("DOMMouseScroll", this._scrollwheel);
-        E.addEventListener("touchstart",     this._touchstart);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
+        TK.add_event_listener(E, "mouseenter",     this._mouseelement);
+        TK.add_event_listener(E, "touchstart",     this._mouseelement);
+        TK.add_event_listener(E, "mousewheel",     this._scrollwheel);
+        TK.add_event_listener(E, "DOMMouseScroll", this._scrollwheel);
+        TK.add_event_listener(E, "touchstart",     this._touchstart);
+        TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
         
         E = this._zhandle;
-        E.addEventListener("mousedown",     this._zhandledown);
-        E.addEventListener("touchstart",    this._zhandledown);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
+        TK.add_event_listener(E, "mousedown",     this._zhandledown);
+        TK.add_event_listener(E, "touchstart",    this._zhandledown);
+        TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
         
         this._handle.onselectstart = function () { return false; };
         

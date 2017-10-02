@@ -163,12 +163,12 @@ var __event_replacements = {
 function remove_native_events(element, events) {
     var type;
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
-        element.removeEventListener(type, events[type].callback);
+        TK.remove_event_listener(element, type, events[type].callback);
 }
 function add_native_events(element, events) {
     var type;
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
-        element.addEventListener(type, events[type].callback);
+        TK.add_event_listener(element, type, events[type].callback);
 }
 /**
  * This is the base class for all widgets in toolkit.
@@ -329,7 +329,7 @@ TK.Base = w.BASE = $class({
                     if (prevent) return false;
                 }.bind(this)
                 if (this.__event_target)
-                    this.__event_target.addEventListener(event, cb);
+                    TK.add_event_listener(this.__event_target, event, cb);
             }
             // add to the internal __events list
             ev[event] = { callback: cb, queue: [] };
@@ -374,7 +374,7 @@ TK.Base = w.BASE = $class({
                 && this.__event_target
                 && ev[event].callback)
                     // remove native DOM event listener from __event_target
-                    this.__event_target.removeEventListener(event, ev[event].callback);
+                    TK.remove_event_listener(this.__event_target, event, ev[event].callback);
                 // delete event from the list
                 delete ev[event];
             }
