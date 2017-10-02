@@ -1039,6 +1039,50 @@ function log() {
     } catch(e) {}
 }
 
+/* Detection and handling for passive event handler support.
+ * The chrome team has threatened to make passive event handlers
+ * the default in a future version. To make sure that this does
+ * not break our code, we explicitly register 'active' event handlers
+ * for most cases.
+ */
+
+function add_event_listener(e, type, cb, options) {
+    e.addEventListener(type, cb, options);
+}
+function remove_event_listener(e, type, cb, options) {
+    e.removeEventListener(type, cb, options);
+}
+
+/* Detect if the 'passive' option is supported.
+ * This code has been borrowed from mdn */
+var passiveSupported = false;
+
+try {
+  var options = Object.defineProperty({}, "passive", {
+    get: function() {
+      passiveSupported = true;
+    }
+  });
+
+  window.addEventListener("test", null, options);
+  window.removeEventListener("test", null);
+} catch(err) {}
+
+var active_options;
+
+if (passiveSupported) {
+  active_options = { passive: false };
+} else {
+  active_options = false;
+}
+
+function add_active_event_listener(e, type, cb) {
+  add_event_listener(e, type, cb, active_options);
+}
+function remove_active_event_listener(e, type, cb) {
+  remove_event_listener(e, type, cb, active_options);
+}
+
 TK = w.toolkit = {
     // ELEMENTS
     S: new DOMScheduler(),
@@ -1141,12 +1185,14 @@ TK = w.toolkit = {
     // EVENTS
     
     delayed_callback : delayed_callback,
+    add_event_listener: add_active_event_listener,
+    remove_event_listener: remove_active_event_listener,
     
     // MATH
     
     log2: log2,
     log10: log10,
-    
+
     // OTHER
     
     data: data,
