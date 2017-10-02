@@ -80,6 +80,7 @@ pre, code {
 }
 
 .toolkit-widget {
+    contain: content;
     display: inline-block;
     vertical-align: middle;
     position: relative;
