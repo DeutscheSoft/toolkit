@@ -155,8 +155,8 @@ w.TK.ScrollValue = w.ScrollValue = $class({
     destroy: function () {
         var E = this.options.node;
         if (E) {
-            E.removeEventListener("mousewheel", this._scrollwheel);
-            E.removeEventListener("DOMMouseScroll", this._scrollwheel);
+            TK.remove_event_listener(E, "mousewheel", this._scrollwheel);
+            TK.remove_event_listener(E, "DOMMouseScroll", this._scrollwheel);
         }
         TK.Base.prototype.destroy.call(this);
     },
@@ -165,8 +165,8 @@ w.TK.ScrollValue = w.ScrollValue = $class({
         TK.Base.prototype.set.call(this, key, value);
         switch (key) {
             case "element":
-                value.addEventListener("mousewheel", this._scrollwheel);
-                value.addEventListener("DOMMouseScroll", this._scrollwheel);
+                TK.add_event_listener(value, "mousewheel", this._scrollwheel);
+                TK.add_event_listener(value, "DOMMouseScroll", this._scrollwheel);
                 if (value && !this.options.events) {
                     this.options.events = value;
                 }

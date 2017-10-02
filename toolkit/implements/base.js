@@ -154,13 +154,13 @@ function remove_native_events(element, events) {
     var type;
     var handler = this.__native_handler;
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
-        element.removeEventListener(type, handler);
+        TK.remove_event_listener(element, type, handler);
 }
 function add_native_events(element, events) {
     var type;
     var handler = this.__native_handler;
     for (type in events) if (events.hasOwnProperty(type) && __native_events.hasOwnProperty(type))
-        element.addEventListener(type, handler);
+        TK.add_event_listener(element, type, handler);
 }
 function native_handler(ev) {
     if (this.fire_event(ev.type, ev) === false) return false;
@@ -368,7 +368,7 @@ TK.Base = w.BASE = $class({
         if (!ev) {
             this.__events[event] = ev = [];
             if (__native_events[event] && this.__event_target) {
-                this.__event_target.addEventListener(event, this.__native_handler);
+                TK.add_event_listener(this.__event_target, event, this.__native_handler);
             }
         }
 
@@ -397,7 +397,7 @@ TK.Base = w.BASE = $class({
                 // no callbacks left
                 if (__native_events[event] && this.__event_target)
                     // remove native DOM event listener from __event_target
-                    this.__event_target.removeEventListener(event, this.__native_handler);
+                    TK.remove_event_listener(this.__event_target, event, this.__native_handler);
                 // delete event from the list
                 this.__events[event] = null;
             }

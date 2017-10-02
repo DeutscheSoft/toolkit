@@ -181,16 +181,16 @@ w.TK.Equalizer = w.Equalizer = $class({
         
         this.bands.push(b);
         b.add_events(["handlegrabbed", "zchangestarted"], function () {
-            document.addEventListener("mousemove", this._mousemove);
-            document.addEventListener("mouseup",   this._mouseup);
-            document.addEventListener("touchmove", this._touchmove);
-            document.addEventListener("touchend",  this._touchend);
+            TK.add_event_listener(document, "mousemove", this._mousemove);
+            TK.add_event_listener(document, "mouseup",   this._mouseup);
+            TK.add_event_listener(document, "touchmove", this._touchmove);
+            TK.add_event_listener(document, "touchend",  this._touchend);
         });
         b.add_events(["handlereleased", "zchangeended"],  function () {
-            document.removeEventListener("mousemove", this._mousemove);
-            document.removeEventListener("mouseup",   this._mouseup);
-            document.removeEventListener("touchmove", this._touchmove);
-            document.removeEventListener("touchend",  this._touchend);
+            TK.remove_event_listener(document, "mousemove", this._mousemove);
+            TK.remove_event_listener(document, "mouseup",   this._mouseup);
+            TK.remove_event_listener(document, "touchmove", this._touchmove);
+            TK.remove_event_listener(document, "touchend",  this._touchend);
         });
         b.add_event("set", invalidate_bands.bind(this));
         /**

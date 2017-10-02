@@ -527,8 +527,8 @@ function remove_zhandle() {
 
     E.remove();
 
-    E.removeEventListener("mousedown", this._zhandledown);
-    E.removeEventListener("touchstart", this._zhandledown);
+    TK.remove_event_listener(E, "mousedown", this._zhandledown);
+    TK.remove_event_listener(E, "touchstart", this._zhandledown);
 }
 
 function create_zhandle() {
@@ -543,9 +543,9 @@ function create_zhandle() {
         }
     );
 
-    E.addEventListener("mousedown", this._zhandledown);
-    E.addEventListener("touchstart", this._zhandledown);
-    E.addEventListener('contextmenu', function(e){e.preventDefault();});
+    TK.add_event_listener(E, "mousedown", this._zhandledown);
+    TK.add_event_listener(E, "touchstart", this._zhandledown);
+    TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
     this._zhandle = E;
 }
 
@@ -746,22 +746,22 @@ function create_label() {
     this._label = E = TK.make_svg("text", {
         "class": "toolkit-label"
     });
-    E.addEventListener("mouseenter",      this._mouseelement);
-    E.addEventListener("touchstart",      this._mouseelement);
-    E.addEventListener("mousewheel",      this._scrollwheel);
-    E.addEventListener("DOMMouseScroll",  this._scrollwheel);
-    E.addEventListener('contextmenu', function(e){e.preventDefault();});
+    TK.add_event_listener(E, "mouseenter",      this._mouseelement);
+    TK.add_event_listener(E, "touchstart",      this._mouseelement);
+    TK.add_event_listener(E, "mousewheel",      this._scrollwheel);
+    TK.add_event_listener(E, "DOMMouseScroll",  this._scrollwheel);
+    TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
 }
 
 function remove_label() {
     var E = this._label;
     this._label = null;
     E.remove();
-    E.removeEventListener("mouseenter",      this._mouseelement);
-    E.removeEventListener("touchstart",      this._mouseelement);
-    E.removeEventListener("mousewheel",      this._scrollwheel);
-    E.removeEventListener("DOMMouseScroll",  this._scrollwheel);
-    E.removeEventListener('contextmenu', function(e){e.preventDefault();});
+    TK.remove_event_listener(E, "mouseenter",      this._mouseelement);
+    TK.remove_event_listener(E, "touchstart",      this._mouseelement);
+    TK.remove_event_listener(E, "mousewheel",      this._scrollwheel);
+    TK.remove_event_listener(E, "DOMMouseScroll",  this._scrollwheel);
+    TK.remove_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
 
     this.label = [0,0,0,0];
 }
@@ -774,13 +774,13 @@ function create_handle() {
     
     E = TK.make_svg(O.mode === "circular" ? "circle" : "rect",
                     { class: "toolkit-handle" });
-    E.addEventListener("mouseenter",     this._mouseelement);
-    E.addEventListener("touchstart",     this._mouseelement);
-    E.addEventListener("mousewheel",     this._scrollwheel);
-    E.addEventListener("DOMMouseScroll", this._scrollwheel);
-    E.addEventListener("touchstart",     this._touchstart);
-    E.addEventListener('contextmenu', function(e){e.preventDefault();});
-    E.addEventListener('selectstart', function(){ return false; });
+    TK.add_event_listener(E, "mouseenter",     this._mouseelement);
+    TK.add_event_listener(E, "touchstart",     this._mouseelement);
+    TK.add_event_listener(E, "mousewheel",     this._scrollwheel);
+    TK.add_event_listener(E, "DOMMouseScroll", this._scrollwheel);
+    TK.add_event_listener(E, "touchstart",     this._touchstart);
+    TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
+    TK.add_event_listener(E, 'selectstart', function(){ return false; });
     this._handle = E;
     this.element.appendChild(E);
 }
@@ -790,11 +790,11 @@ function remove_handle() {
     if (!E) return;
     this._handle = null;
     E.remove();
-    E.removeEventListener("mouseenter",     this._mouseelement);
-    E.removeEventListener("touchstart",     this._mouseelement);
-    E.removeEventListener("mousewheel",     this._scrollwheel);
-    E.removeEventListener("DOMMouseScroll", this._scrollwheel);
-    E.removeEventListener("touchstart",     this._touchstart);
+    TK.remove_event_listener(E, "mouseenter",     this._mouseelement);
+    TK.remove_event_listener(E, "touchstart",     this._mouseelement);
+    TK.remove_event_listener(E, "mousewheel",     this._scrollwheel);
+    TK.remove_event_listener(E, "DOMMouseScroll", this._scrollwheel);
+    TK.remove_event_listener(E, "touchstart",     this._touchstart);
 }
 
 function redraw_label(O, X) {
@@ -1178,11 +1178,11 @@ w.TK.ResponseHandle = w.ResponseHandle = $class({
         this._touchmove = touchmove.bind(this);
         this._zhandledown = zhandledown.bind(this);
 
-        E.addEventListener("mouseenter",     this._mouseenter);
-        E.addEventListener("mouseleave",     this._mouseleave);
-        E.addEventListener("mousedown",      this._mousedown);
-        E.addEventListener("touchstart",     this._touchstart);
-        E.addEventListener('contextmenu', function(e){e.preventDefault();});
+        TK.add_event_listener(E, "mouseenter",     this._mouseenter);
+        TK.add_event_listener(E, "mouseleave",     this._mouseleave);
+        TK.add_event_listener(E, "mousedown",      this._mousedown);
+        TK.add_event_listener(E, "touchstart",     this._touchstart);
+        TK.add_event_listener(E, 'contextmenu', function(e){e.preventDefault();});
 
         this._handle = this._zhandle = this._line1 = this._line2 = this._label = null;
 
