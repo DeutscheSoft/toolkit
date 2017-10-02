@@ -216,8 +216,9 @@ var __native_events = {
     contextmenu: true,
 };
 function is_native_event(type) {
-    return __native_events.hasOwnProperty(type);
+    return __native_events[type];
 }
+
 function remove_native_events(element) {
     var type;
     var s = this.static_events;
