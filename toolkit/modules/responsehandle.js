@@ -478,18 +478,18 @@ function create_label() {
     this._label = E = TK.make_svg("text", {
         "class": "toolkit-label"
     });
-    E.addEventListener("mousewheel",      this._scrollwheel);
-    E.addEventListener("DOMMouseScroll",  this._scrollwheel);
-    E.addEventListener('contextmenu', prevent_default);
+    TK.add_event_listener(E, "mousewheel", this._scrollwheel);
+    TK.add_event_listener(E, "DOMMouseScroll",  this._scrollwheel);
+    TK.add_event_listener(E, 'contextmenu', prevent_default);
 }
 
 function remove_label() {
     var E = this._label;
     this._label = null;
     E.remove();
-    E.removeEventListener("mousewheel",      this._scrollwheel);
-    E.removeEventListener("DOMMouseScroll",  this._scrollwheel);
-    E.removeEventListener('contextmenu', prevent_default);
+    TK.remove_event_listener(E, "mousewheel",      this._scrollwheel);
+    TK.remove_event_listener(E, "DOMMouseScroll",  this._scrollwheel);
+    TK.remove_event_listener(E, 'contextmenu', prevent_default);
 
     this.label = [0,0,0,0];
 }
@@ -504,10 +504,10 @@ function create_handle() {
     
     E = TK.make_svg(O.mode === "circular" ? "circle" : "rect",
                     { class: "toolkit-handle" });
-    E.addEventListener("mousewheel",     this._scrollwheel);
-    E.addEventListener("DOMMouseScroll", this._scrollwheel);
-    E.addEventListener('selectstart', prevent_default);
-    E.addEventListener('contextmenu', prevent_default);
+    TK.add_event_listener(E, "mousewheel",     this._scrollwheel);
+    TK.add_event_listener(E, "DOMMouseScroll", this._scrollwheel);
+    TK.add_event_listener(E, 'selectstart', prevent_default);
+    TK.add_event_listener(E, 'contextmenu', prevent_default);
     this._handle = E;
     this.element.appendChild(E);
 }
@@ -517,10 +517,10 @@ function remove_handle() {
     if (!E) return;
     this._handle = null;
     E.remove();
-    E.removeEventListener("mousewheel",     this._scrollwheel);
-    E.removeEventListener("DOMMouseScroll", this._scrollwheel);
-    E.removeEventListener("selectstart", prevent_default);
-    E.removeEventListener('contextmenu', prevent_default);
+    TK.remove_event_listener(E, "mousewheel",     this._scrollwheel);
+    TK.remove_event_listener(E, "DOMMouseScroll", this._scrollwheel);
+    TK.remove_event_listener(E, "selectstart", prevent_default);
+    TK.remove_event_listener(E, 'contextmenu', prevent_default);
 }
 
 function redraw_label(O, X) {
