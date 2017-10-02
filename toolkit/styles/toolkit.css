@@ -73,6 +73,7 @@ pre, code {
 
 .toolkit-disabled {
     opacity: 0.3;
+    pointer-events: none;
 }
 
 .toolkit-inactive {
