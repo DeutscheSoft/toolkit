@@ -217,6 +217,7 @@ pre, code {
 .toolkit-fader > .toolkit-handle {
     position: absolute;
     z-index: 10;
+    will-change: transform;
 }
 
 .toolkit-fader.toolkit-horizontal > .toolkit-handle {
@@ -310,6 +311,7 @@ pre, code {
     top: 0;
     width: 100%;
     height: 100%;
+    will-change: transform;
 }
 .toolkit-meter-base > .toolkit-bar > .toolkit-mark {
     position: absolute;
