@@ -81,7 +81,7 @@ pre, code {
 }
 
 .toolkit-widget {
-    contain: content;
+    contain: style layout;
     display: inline-block;
     vertical-align: middle;
     position: relative;
@@ -220,6 +220,7 @@ pre, code {
     position: absolute;
     z-index: 10;
     will-change: transform;
+    transform: translate3d(0, 0, 0);
 }
 
 .toolkit-fader.toolkit-horizontal > .toolkit-handle {
@@ -298,7 +299,6 @@ pre, code {
 }
 .toolkit-meter-base > .toolkit-bar {
     position: absolute;
-    overflow: hidden;
 }
 .toolkit-meter-base > .toolkit-bar > .toolkit-over {
     position: absolute;
@@ -314,6 +314,7 @@ pre, code {
     width: 100%;
     height: 100%;
     will-change: transform;
+    transform: translate3d(0, 0, 0);
 }
 .toolkit-meter-base > .toolkit-bar > .toolkit-mark {
     position: absolute;
@@ -352,6 +353,8 @@ pre, code {
     left: 0;
     width: 100%;
     height: 100%;
+    will-change: transform;
+    transform: translate3d(0,0,0);
 }
 .toolkit-pager.toolkit-right > .toolkit-buttonarray {
     float: right;
@@ -406,6 +409,7 @@ pre, code {
 
 .toolkit-scale {
     position: relative;
+    overflow: hidden;
 }
 
 /* SELECT */
@@ -531,6 +535,8 @@ pre, code {
 .toolkit-knob > svg {
     width: 100%;
     height: 100%;
+    transform: translate3d(0,0,0);
+    will-change: transform;
 }
 
 /* GAUGE */
