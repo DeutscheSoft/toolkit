@@ -411,7 +411,7 @@ TK.LevelMeter = TK.class({
 
         if (hold > base) {
             /* TODO: lets snap in set() */
-            pos = this.val2px(this.snap(hold))|0;
+            pos = this.val2px(hold)|0;
             if (segment !== 1) pos = segment*(Math.round(pos/segment)|0);
 
             to[i++] = pos;
@@ -421,7 +421,7 @@ TK.LevelMeter = TK.class({
         hold = +O.bottom;
 
         if (hold < base) {
-            pos = this.val2px(this.snap(hold))|0;
+            pos = this.val2px(hold)|0;
             if (segment !== 1) pos = segment*(Math.round(pos/segment)|0);
 
             to[i++] = pos;
@@ -469,6 +469,8 @@ TK.LevelMeter = TK.class({
             if (O.auto_hold !== false && O.show_hold && value < O.bottom && this.has_base()) {
                 this.set("bottom", value);
             }
+        } else if (key === "top" || key === "bottom") {
+          value = this.snap(value);
         }
         return TK.MeterBase.prototype.set.call(this, key, value);
     }
