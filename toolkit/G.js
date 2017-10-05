@@ -29,29 +29,41 @@ function Scheduler() {
     this.current_cycle = 0;
 };
 function low_add(Q, o, prio) {
-    prio = prio|0;
+    prio = prio << 1;
     var q = Q[prio];
+    var len = Q[prio+1];
     if (typeof(o) !== "function" && (typeof(o) !== "object" || !o.next)) throw("Bad argument.");
-    if (!q) Q[prio] = q = [];
-    q.push(o);
+    if (!q) {
+      Q[prio] = q = [];
+      len = 0;
+    }
+    q[len++] = o;
+    Q[prio+1] = len;
 }
 function low_remove(Q, o, prio) {
-    prio = prio|0;
+    prio = prio << 1;
     var q = Q[prio];
+    var len = Q[prio+1]
     if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
     if (!q) return;
-    var i = 0;
-    while ((i = q.indexOf(o, i)) !== -1) {
-        q.splice(i, 1);
-        return;
+    for (var i = 0; i < len; i++) {
+      if (o !== q[i]) continue;
+      /* NOTE: this looks odd, but it's correct */
+      q[i] = null;
+      q[i] = q[--len];
     }
+    Q[prio+1] = len;
 }
 function low_has(Q, o, prio) {
-    prio = prio|0;
+    prio = prio << 1;
     var q = Q[prio];
+    var len = Q[prio+1];
     if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
     if (!q) return false;
-    return -1 !== q.indexOf(o);
+    for (var i = 0; i < len; i++) {
+      if (o === q[i]) return true;
+    }
+    return false;
 }
 function request_frame() {
     this.will_render = true;
@@ -79,25 +91,26 @@ Scheduler.prototype = {
 
             empty = true;
 
-            for (i = 0; i < Q.length; i++) {
+            for (i = 0; i < Q.length; i+=2) {
                 var q = Q[i];
+                var len = Q[i+1];
 
-                if (!q || !q.length) continue;
+                if (!q || !len) continue;
 
                 empty = false;
-                this.current_priority = i;
+                this.current_priority = i>>1;
 
                 Q[i] = this.tmp;
+                Q[i+1] = 0;
                 this.tmp = q;
 
-                for (var j = 0; j < q.length; j++) {
+                for (var j = 0; j < len; j++) {
                     try { q[j](); } catch (e) {
                         TK.warn(q[j], "threw an error", e);
                     }
+                    q[j] = null;
                     calls++;
                 }
-
-                q.length = 0;
             }
             var after_frame_cbs = this.after_frame_cbs;
 
