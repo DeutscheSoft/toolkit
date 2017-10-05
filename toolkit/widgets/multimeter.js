@@ -199,6 +199,7 @@ TK.MultiMeter = TK.class({
  */
 var mapped_options = {
     titles: "title",
+    layout: "layout",
 };
 
 function map_child_option_simple(value, key) {
