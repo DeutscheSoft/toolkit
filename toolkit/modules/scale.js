@@ -150,16 +150,11 @@ function create_label(value, position) {
     var O = this.options;
     var elem = document.createElement("SPAN");
     elem.className = "toolkit-label";
-    elem.style.position = "absolute";
-    elem.style.cssFloat = "left";
-    elem.style.display = "block";
 
     if (vert(O)) {
         elem.style.bottom = position.toFixed(1) + "px";
-        elem.style.transform = "translateY(50%)";
     } else {
         elem.style.left = position.toFixed(1) + "px";
-        elem.style.transform = "translateX(-50%)";
     }
 
     TK.set_content(elem, O.labels(value));
@@ -177,7 +172,6 @@ function create_dot(value, position) {
     var O = this.options;
     var elem = document.createElement("DIV");
     elem.className = "toolkit-dot";
-    elem.style.position = "absolute";
     
     if (O.layout === "left" || O.layout === "right") {
         elem.style.bottom = Math.round(position + 0.5) + "px";
@@ -210,34 +204,12 @@ function measure_dimensions(data) {
 function handle_end(O, labels, i) {
     var node = labels.nodes[i];
     var v = labels.values[i];
-    var is_vert = vert(O);
-    var start;
 
     if (v === O.min) {
         TK.add_class(node, "toolkit-min");
-        start = !O.reverse;
     } else if (v === O.max) {
         TK.add_class(node, "toolkit-max");
-        start = !!O.reverse;
     } else return;
-
-    var size;
-
-    if (labels.width) {
-        size = is_vert ? labels.height[i] : labels.width[i];
-    }
-
-    if (start) {
-        if (size) labels.positions[i] += size/2; 
-        node.style.removeProperty("transform");
-    } else {
-        if (size) labels.positions[i] -= size/2; 
-        if (vert(O)) {
-            node.style.transform = "translateY(100%)";
-        } else {
-            node.style.transform = "translateX(-100%)";
-        }
-    }
 }
 function generate_scale(from, to, include_from, show_to) {
     var O = this.options;
@@ -506,9 +478,14 @@ TK.Scale = TK.class({
         if (I.basis || I.auto_size) {
             I.auto_size = false;
             if (O.auto_size) {
-                if (vert(O)) this.element.style.height = O.basis + "px";
-                else this.element.style.width = O.basis + "px";
+                if (vert(O)) E.style.height = O.basis + "px";
+                else E.style.width = O.basis + "px";
             }
+        }
+
+        if (I.reverse) {
+          /* NOTE: reverse will be validated below */
+          TK.toggle_class(E, "toolkit-reverse", O.reverse);
         }
 
         if (I.validate("base", "show_base", "gap_labels", "min", "show_min", "division", "max", "show_markers",

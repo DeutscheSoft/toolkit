@@ -409,7 +409,44 @@ pre, code {
 
 .toolkit-scale {
     position: relative;
-    overflow: hidden;
+}
+
+.toolkit-scale > .toolkit-label {
+    position: absolute;
+    display: block;
+    float: left;
+}
+
+.toolkit-scale > .toolkit-dot {
+    position: absolute;
+}
+
+.toolkit-scale.toolkit-vertical > .toolkit-label {
+    transform: translateY(50%);
+}
+
+.toolkit-scale.toolkit-vertical > .toolkit-max,
+.toolkit-scale.toolkit-vertical.toolkit-reverse > .toolkit-min {
+    transform: translateY(100%);
+}
+
+.toolkit-scale.toolkit-vertical > .toolkit-min,
+.toolkit-scale.toolkit-vertical.toolkit-reverse > .toolkit-max {
+    transform: translateY(0);
+}
+
+.toolkit-scale.toolkit-horizontal > .toolkit-label {
+    transform: translateX(-50%);
+}
+
+.toolkit-scale.toolkit-horizontal > .toolkit-max,
+.toolkit-scale.toolkit-horizontal.toolkit-reverse > .toolkit-min {
+    transform: translateX(-100%);
+}
+
+.toolkit-scale.toolkit-horizontal > .toolkit-min,
+.toolkit-scale.toolkit-horizontal.toolkit-reverse > .toolkit-max {
+    transform: translateX(0);
 }
 
 /* SELECT */
