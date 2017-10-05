@@ -173,8 +173,8 @@ function NullSnapModule(stdlib, foreign, heap) {
 
     function snap(v) {
         v = +v;
-        if (!(v < max)) return max;
-        if (!(v > min)) return min;
+        if (!(v < max)) v = max;
+        if (!(v > min)) v = min;
         return v;
     }
 
