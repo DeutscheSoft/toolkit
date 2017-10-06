@@ -62,10 +62,6 @@ function low_has(Q, o, prio) {
     }
     return false;
 }
-function request_frame() {
-    this.will_render = true;
-    this.rid = window.requestAnimationFrame(this.bound_run);
-}
 Scheduler.prototype = {
     run : function() {
         var Q = this.Q;
@@ -156,7 +152,6 @@ Scheduler.prototype = {
     },
     after_frame: function(fun) {
         this.after_frame_cbs.push(fun);
-        if (!this.will_render) request_frame.call(this);
     },
     get_frame_count: function() {
         return this.frame_count;
@@ -181,34 +176,42 @@ Scheduler.prototype = {
 function DOMScheduler() {
     Scheduler.call(this);
     this.will_render = false;
-    this.rid = 0;
     this.running = false;
     this.bound_run = this.run.bind(this);
 };
 DOMScheduler.prototype = Object.create(Scheduler.prototype);
 DOMScheduler.prototype.add_next = function(o, prio) {
     Scheduler.prototype.add_next.call(this, o, prio);
-    if (this.running) {
-      this.will_render = true;
-    } else {
-      if (!this.will_render) request_frame.call(this);
-    }
+
+    if (this.will_render) return;
+    this.will_render = true;
+    if (this.running) return;
+
+    w.requestAnimationFrame(this.bound_run);
 };
 DOMScheduler.prototype.add = function(o, prio) {
     Scheduler.prototype.add.call(this, o, prio);
-    if (!this.running && !this.will_render) request_frame.call(this);
+
+    if (this.will_render) return;
+    if (this.running) return;
+    this.will_render = true;
+
+    w.requestAnimationFrame(this.bound_run);
 };
 DOMScheduler.prototype.run = function() {
     this.will_render = false;
-    this.rid = 0;
     this.running = true;
     Scheduler.prototype.run.call(this);
     this.running = false;
-    if (this.will_render) request_frame.call(this);
+    if (this.will_render)
+      w.requestAnimationFrame(this.bound_run);
 };
 DOMScheduler.prototype.after_frame = function(fun) {
     Scheduler.prototype.after_frame.call(this, fun);
-    if (!this.running && !this.will_render) request_frame.call(this);
+    if (this.will_render) return;
+    if (this.running) return;
+    this.will_render = true;
+    w.requestAnimationFrame(this.bound_run);
 };
 w.Scheduler = Scheduler;
 w.DOMScheduler = DOMScheduler;
