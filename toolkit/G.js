@@ -188,7 +188,11 @@ function DOMScheduler() {
 DOMScheduler.prototype = Object.create(Scheduler.prototype);
 DOMScheduler.prototype.add_next = function(o, prio) {
     Scheduler.prototype.add_next.call(this, o, prio);
-    if (!this.will_render) request_frame.call(this);
+    if (this.running) {
+      this.will_render = true;
+    } else {
+      if (!this.will_render) request_frame.call(this);
+    }
 };
 DOMScheduler.prototype.add = function(o, prio) {
     Scheduler.prototype.add.call(this, o, prio);
@@ -200,6 +204,7 @@ DOMScheduler.prototype.run = function() {
     this.running = true;
     Scheduler.prototype.run.call(this);
     this.running = false;
+    if (this.will_render) request_frame.call(this);
 };
 DOMScheduler.prototype.after_frame = function(fun) {
     Scheduler.prototype.after_frame.call(this, fun);
