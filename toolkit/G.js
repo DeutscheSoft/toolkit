@@ -32,7 +32,6 @@ function low_add(Q, o, prio) {
     prio = prio << 1;
     var q = Q[prio];
     var len = Q[prio+1];
-    if (typeof(o) !== "function" && (typeof(o) !== "object" || !o.next)) throw("Bad argument.");
     if (!q) {
       Q[prio] = q = [];
       len = 0;
@@ -44,7 +43,6 @@ function low_remove(Q, o, prio) {
     prio = prio << 1;
     var q = Q[prio];
     var len = Q[prio+1]
-    if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
     if (!q) return;
     for (var i = 0; i < len; i++) {
       if (o !== q[i]) continue;
@@ -58,7 +56,6 @@ function low_has(Q, o, prio) {
     prio = prio << 1;
     var q = Q[prio];
     var len = Q[prio+1];
-    if (typeof(o) !== "function" && typeof(o) !== "object") throw("Bad argument.");
     if (!q) return false;
     for (var i = 0; i < len; i++) {
       if (o === q[i]) return true;
