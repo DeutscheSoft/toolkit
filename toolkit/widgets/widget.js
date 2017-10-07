@@ -143,6 +143,15 @@ TK.Widget = TK.class({
         disabled:  false,  // Widgets can be disabled by setting this to true
         needs_resize: true,
     },
+    static_events: {
+        set_container: function(value) {
+            if (value && this.element) {
+                value.appendChild(this.element);
+            } else if (!value && this.element.parentElement) {
+                this.element.parentElement.removeChild(this.element);
+            }
+        },
+    },
     initialize: function (options) {
         // Main actions every widget needs to take
         if (!options) options = {};
@@ -492,13 +501,6 @@ TK.Widget = TK.class({
     set: function (key, value) {
         /* These options are special and need to be handled immediately, in order
          * to preserve correct ordering */
-        if (key === "container") {
-            if (value && this.element) {
-                value.appendChild(this.element);
-            } else if (!value && this.element.parentElement) {
-                this.element.parentElement.removeChild(this.element);
-            }
-        }
         if (key === "class" && this.__classified) {
             if (this.options.class) TK.remove_class(this.__classified, this.options.class);
             if (value) TK.add_class(this.__classified, value);
