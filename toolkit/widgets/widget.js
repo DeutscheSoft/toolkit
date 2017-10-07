@@ -582,6 +582,15 @@ TK.Widget = TK.class({
         this.enable_draw();
     },
     /**
+     * This is an alias for hide, which may be overloaded.
+     * See {@link TK.Container} for an example.
+     *
+     * @method TK.Widget#force_show
+     */
+    force_show: function() {
+        this.enable_draw();
+    },
+    /**
      * Make the widget hidden. This does not modify the DOM, instead it will stop rendering
      * this widget. Options changed after calling hide will only be rendered (i.e. applied
      * to the DOM) when the widget is made visible again using {@link TK.Widget#show}.
@@ -589,6 +598,15 @@ TK.Widget = TK.class({
      * @method TK.Widget#hide
      */
     hide: function () {
+        this.disable_draw();
+    },
+    /**
+     * This is an alias for hide, which may be overloaded.
+     * See {@link TK.Container} for an example.
+     *
+     * @method TK.Widget#force_hide
+     */
+    force_hide: function () {
         this.disable_draw();
     },
     show_nodraw: function() { },
@@ -711,21 +729,6 @@ TK.Widget = TK.class({
     },
 });
 
-/**
- * This is an alias for hide, which may be overloaded.
- * See {@link TK.Container} for an example.
- *
- * @method TK.Widget#force_hide
- */
-TK.Widget.prototype.force_hide = TK.Widget.prototype.hide;
-
-/**
- * This is an alias for hide, which may be overloaded.
- * See {@link TK.Container} for an example.
- *
- * @method TK.Widget#force_show
- */
-TK.Widget.prototype.force_show = TK.Widget.prototype.show;
 TK.Module = TK.class({
     Extends: TK.Base,
     initialize: function(widget, options) {
