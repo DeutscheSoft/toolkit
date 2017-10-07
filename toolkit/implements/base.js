@@ -106,6 +106,7 @@ function arrayify(x) {
 function merge_static_events(a, b) {
     var event;
     if (!a) return b;
+    if (!b) return Object.assign({}, a);
     for (event in a) {
         var tmp = a[event];
         if (b.hasOwnProperty(event)) {
@@ -150,8 +151,14 @@ TK.class = function(o) {
                 }
                 methods.options = merge({}, c.options, methods.options);
             }
-            if (c.static_events) methods.static_events = merge_static_events(c.static_events,
-                                                                             methods.static_events||{});
+            if (c.static_events) {
+              if (methods.static_events) {
+                methods.static_events = merge_static_events(c.static_events,
+                                                            Object.assign({}, methods.static_events));
+              } else {
+                methods.static_events = c.static_events;
+              }
+            }
 
             methods = mixin(methods, c, true);
         }
