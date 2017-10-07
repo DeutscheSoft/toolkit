@@ -232,6 +232,10 @@ TK.MeterBase = TK.class({
             this.fire_event("valuechanged", value);
         },
         set_base: function(value) {
+            if (value === false) {
+              var O = this.options;
+              O.base = value = O.min;
+            }
             /**
              * Is fired when the base value changed.
              * The argument is the actual base value.
@@ -462,11 +466,6 @@ TK.MeterBase = TK.class({
         return O.base > O.min;
     },
     
-    // GETTER & SETTER
-    set: function (key, value) {
-        if (key === "base" && value === false) value = this.options.min;
-        return TK.Widget.prototype.set.call(this, key, value);
-    }
 });
 /**
  * @member {TK.Scale} TK.MeterBase#scale - The {@link TK.Scale} module of the meter.
