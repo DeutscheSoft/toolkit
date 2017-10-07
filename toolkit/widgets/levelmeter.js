@@ -433,8 +433,8 @@ TK.LevelMeter = TK.class({
     
     // GETTER & SETTER
     set: function (key, value) {
-        var O = this.options;
         if (key === "value") {
+            var O = this.options;
             var base = O.base;
 
             // snap will enforce clipping
@@ -470,7 +470,7 @@ TK.LevelMeter = TK.class({
                 this.set("bottom", value);
             }
         } else if (key === "top" || key === "bottom") {
-          value = this.snap(value);
+            value = this.snap(value);
         }
         return TK.MeterBase.prototype.set.call(this, key, value);
     }
