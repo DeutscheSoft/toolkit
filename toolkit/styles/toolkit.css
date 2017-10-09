@@ -465,6 +465,7 @@ pre, code {
 }
 .toolkit-select-list > .toolkit-option {
     white-space: nowrap;
+    display: block;
 }
 
 /* STATE */
