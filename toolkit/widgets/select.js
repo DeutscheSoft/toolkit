@@ -134,6 +134,7 @@ TK.Select = TK.class({
         auto_size: "boolean",
         show_list: "boolean",
         sort: "function",
+        resized: "boolean",
     }),
     options: {
         entries: [], // A list of strings or objects {title: "Title", value: 1} or SelectEntry instance
@@ -493,6 +494,9 @@ TK.Select = TK.class({
         }
 
         if (I.validate("entries", "auto_size")) {
+
+            I.show_list = true;
+
             if (O.auto_size) {
                 L = this._label;
                 var width = 0;
@@ -515,7 +519,7 @@ TK.Select = TK.class({
             }
         }
 
-        if (I.validate("show_list")) {
+        if (I.validate("show_list", "resized")) {
             show_list.call(this, O.show_list);
         }
     },
