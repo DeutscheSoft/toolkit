@@ -201,7 +201,14 @@ TK.Toggle = TK.class({
                 tmp = O.label;
             }
 
-            TK.set_content(this._label, tmp);
+            var _label = this._label;
+
+            if (tmp !== false) {
+                TK.set_content(_label, tmp);
+                _label.style.display = null;
+            } else {
+                _label.style.display = "none";
+            }
         }
 
         TK.Button.prototype.redraw.call(this);
