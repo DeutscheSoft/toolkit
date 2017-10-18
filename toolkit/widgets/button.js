@@ -78,6 +78,11 @@ TK.Button = TK.class({
          */
         this._cell  = TK.element("div","toolkit-cell");
         E.appendChild(this._cell);
+        
+        if (options.label)
+            this.options.show_label = true;
+        if (options.icon)
+            this.options.show_icon = true;
     },
     destroy: function () {
         TK.Widget.prototype.destroy.call(this);
@@ -125,14 +130,26 @@ TK.Button = TK.class({
             }
             TK.toggle_class(this.element, "toolkit-has-label", has_value);
         }
+    },
+    
+    set: function (key, value) {
+        TK.Widget.prototype.set.call(this, key, value);
+        switch (key) {
+            case "label":
+                this.set("show_label", !!value);
+                break;
+            case "icon":
+                this.set("show_icon", !!value);
+                break;
+        }
     }
+            
 });
 /**
  * @member {HTMLImageElement} TK.Button#_icon - The icon of the button.
  *      Has class <code>toolkit-icon</code>.
  */
 TK.ChildElement(TK.Button, "icon", {
-    show: true,
     create: function() {
         var icon = TK.element("img","toolkit-icon");
         icon.setAttribute("draggable", "false");
@@ -148,7 +165,6 @@ TK.ChildElement(TK.Button, "icon", {
  *      Has class <code>toolkit-label</code>.
  */
 TK.ChildElement(TK.Button, "label", {
-    show: true,
     append: function() {
         this._cell.appendChild(this._label);
     },
