@@ -7,7 +7,6 @@
             min: -96,
             max: +24,
             base: 0,
-            basis: 200,
             scale: "decibel",
             id: "sc_scale_v_l"
         })
@@ -18,7 +17,6 @@
             min: -96,
             max: +24,
             base: 0,
-            basis: 200,
             id: "sc_scale_v_r"
         })
         scales.top = new TK.Scale({
@@ -28,7 +26,6 @@
             min: -24,
             max: +24,
             base: 0,
-            basis: 750,
             gap_labels: 50,
             id: "sc_scale_h_t"
         })
@@ -39,7 +36,6 @@
             min: -24,
             max: +24,
             base: 0,
-            basis: 750,
             gap_labels: 50,
             id: "sc_scale_h_b"
         })

@@ -296,35 +296,14 @@ function generate_scale(from, to, include_from, show_to) {
         }
 
         create_dom_nodes.call(this, dots, create_dot.bind(this));
-
-        if (O.auto_size && O.show_labels) auto_size.call(this, labels);
     };
 
-    if (O.show_labels && O.avoid_collisions || O.auto_size)
+    if (O.show_labels && O.avoid_collisions)
         TK.S.add(function() {
             measure_dimensions(labels);
             TK.S.add(render_cb.bind(this), 3);
         }.bind(this), 2);
     else render_cb.call(this);
-}
-function auto_size(labels) {
-    var size_fun;
-    var new_size;
-
-    if (!labels.width.length) return;
-
-    if (vert(this.options)) {
-        size_fun = TK.outer_width;
-        new_size = Math.max.apply(Math, labels.width);
-    } else {
-        size_fun = TK.outer_height;
-        new_size = Math.max.apply(Math, labels.height);
-    }
-
-    TK.S.add(function() {
-        if (new_size > size_fun(this.element))
-            TK.S.add(size_fun.bind(this, this.element, true, new_size), 1);
-    }.bind(this));
 }
 function mark_markers(labels, dots) {
     var i, j;
@@ -402,7 +381,6 @@ TK.Scale = TK.class({
         show_base: "boolean",
         fixed_dots: "boolean|array",
         fixed_labels: "boolean|array",
-        auto_size: "boolean",
         avoid_collisions: "boolean",
         show_markers: "boolean",
     }),
@@ -422,8 +400,6 @@ TK.Scale = TK.class({
         show_markers:     true,
         fixed_dots:       false,
         fixed_labels:     false,
-        auto_size:        false           // the overall size can be set automatically
-                                          // according to labels width/height
     },
     
     initialize: function (options) {
@@ -466,23 +442,6 @@ TK.Scale = TK.class({
             }
         }
 
-        if (I.auto_size) {
-            I.auto_size = false;
-            if (O.auto_size) {
-                I.basis = true;
-            } else {
-                this.element.style.removeProperty(vert(O) ? "height" : "width"); 
-            }
-        }
-
-        if (I.basis || I.auto_size) {
-            I.auto_size = false;
-            if (O.auto_size) {
-                if (vert(O)) E.style.height = O.basis + "px";
-                else E.style.width = O.basis + "px";
-            }
-        }
-
         if (I.reverse) {
           /* NOTE: reverse will be validated below */
           TK.toggle_class(E, "toolkit-reverse", O.reverse);
@@ -501,12 +460,6 @@ TK.Scale = TK.class({
                         positions: O.fixed_labels.map(this.val2px, this),
                     };
                     create_dom_nodes.call(this, labels, create_label.bind(this));
-                    if (O.auto_size) {
-                        TK.S.add(function() {
-                            measure_dimensions(labels);
-                            TK.S.add(auto_size.bind(this, labels), 1);
-                        }.bind(this));
-                    }
                 }
 
                 var dots = {
@@ -526,6 +479,14 @@ TK.Scale = TK.class({
             }
         }
     },
+    
+    resize: function () {
+        TK.Widget.prototype.resize.call(this);
+        var O = this.options;
+        this.set("basis", vert(O) ? TK.inner_height(this.element)
+                                  : TK.inner_width(this.element) );
+    },
+    
     // GETTER & SETTER
     set: function (key, value) {
         TK.Widget.prototype.set.call(this, key, value);
