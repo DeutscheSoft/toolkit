@@ -192,19 +192,19 @@
             meters.mhbr,
             meters.mhtr
         ]);
-        con2.append_child(new Button({
+        con2.append_child(new TK.Button({
             onclick: run,
             label : "Run",
         }));
-        con2.append_child(new Button({
+        con2.append_child(new TK.Button({
             label : "Stop",
             onclick: function() { running = false; }
         }));
-        con2.append_child(new Button({
+        con2.append_child(new TK.Button({
             onclick: reset,
             label : "Reset",
         }));
-        con2.append_child(new Button({
+        con2.append_child(new TK.Button({
             onclick: hold,
             label : "Toggle Hold",
         }));
