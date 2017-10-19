@@ -141,6 +141,7 @@
 .toolkit-gauge {
     margin-right: 6px;
     margin-left: 6px;
+    width: 128px;
 }
 #gauge0 .toolkit-base {
     opacity: 1;
@@ -164,7 +165,7 @@
     background-size: contain;
     fill: white;
 }
-#gauge3 .toolkit-dot {
+#gauge3 .toolkit-dot, #gauge3 .toolkit-label {
     fill: white;
 }
 #gauge3 .toolkit-title {
@@ -188,6 +189,9 @@
 }
 #gauge4 .toolkit-title {
     opacity: 0.9;
+    fill: white;
+}
+#gauge4 .toolkit-dot, #gauge4 .toolkit-label {
     fill: white;
 }
 
