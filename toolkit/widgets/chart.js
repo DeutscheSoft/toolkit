@@ -21,12 +21,11 @@
 // HELPERS & STUFF
 function draw_key() {
     var __key, bb;
-    var tmp = this._key;
 
-    if (!tmp) return;
-
-    var _key = tmp[1];
-    var _key_bg = tmp[0];
+    var _key = this._key;
+    var _key_bg = this._key_background;
+    
+    if (!_key || !_key_bg) return;
 
     while (_key.firstChild !== _key.lastChild)
         _key.removeChild(_key.lastChild);
@@ -537,8 +536,8 @@ TK.ChildElement(TK.Chart, "key", {
     option: "key",
     create: function() {
         var key = TK.make_svg("g", {"class": "toolkit-key"});
-        k.appendChild(TK.make_svg("text", {"class": "toolkit-key-text"}));
-        return k;
+        key.appendChild(TK.make_svg("text", {"class": "toolkit-key-text"}));
+        return key;
     },
     append: function() {
         this.svg.appendChild(this._key);
