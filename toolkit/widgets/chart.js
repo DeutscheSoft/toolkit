@@ -518,6 +518,9 @@ function key_hover_cb(ev) {
  */
 TK.ChildElement(TK.Chart, "key_background", {
     option: "key",
+    display_check: function(v) {
+        return !!v;
+    },
     create: function() {
         var k = TK.make_svg("rect", {"class": "toolkit-background"});
         k.addEventListener("mouseenter", key_hover_cb);
@@ -534,6 +537,9 @@ TK.ChildElement(TK.Chart, "key_background", {
  */
 TK.ChildElement(TK.Chart, "key", {
     option: "key",
+    display_check: function(v) {
+        return !!v;
+    },
     create: function() {
         var key = TK.make_svg("g", {"class": "toolkit-key"});
         key.appendChild(TK.make_svg("text", {"class": "toolkit-key-text"}));
