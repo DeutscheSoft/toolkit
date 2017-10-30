@@ -54,6 +54,12 @@ function next_clicked(e) {
 function button_clicked(button) {
     this.userset("show", this.buttons.indexOf(button));
 }
+function easeInOut (t, b, c, d) {
+    t /= d/2;
+    if (t < 1) return c/2*t*t + b;
+    t--;
+    return -c/2 * (t*(t-2) - 1) + b;
+}
 
 var zero = { width: 0, height: 0};
 
@@ -77,6 +83,10 @@ TK.ButtonArray = TK.class({
      * @property {integer|TK.Button} [options.show=-1] - The button to scroll
      *   to, either the button index starting from zero or the button object
      *   itself.
+     * @property {number} [options.scroll=0] - Offer scrollbars and "real"
+     *   scrolling. This reduces performance because movement is done in JS
+     *   instead of (probably accelerated) CSS transitions. 0 for standard
+     *   behavior, n > 0 is handled as milliseconds for transitions.
      * 
      * @class TK.ButtonArray
      * 
@@ -90,6 +100,7 @@ TK.ButtonArray = TK.class({
         direction: "string",
         show: "int",
         resized: "boolean",
+        scroll: "number",
     }),
     options: {
         buttons: [],
@@ -97,6 +108,7 @@ TK.ButtonArray = TK.class({
         direction: "horizontal",
         show: -1,
         resized: false,
+        scroll: 0,
     },
     static_events: {
         set_buttons: function(value) {
@@ -172,6 +184,7 @@ TK.ButtonArray = TK.class({
         this._next = this.next.element;
         
         this.set("direction", this.options.direction);
+        this.set("scroll", this.options.scroll);
         this.add_children([this.prev, this.next]);
         this.add_buttons(this.options.buttons);
         this._sizes = null;
@@ -339,21 +352,49 @@ TK.ButtonArray = TK.class({
         }
         if (I.validate("show", "direction", "resized")) {
             if (O.resized) {
-                if (O.show >= 0 && O.show < this.buttons.length) {
+                var show = O.show
+                if (show >= 0 && show < this.buttons.length) {
                     /* move the container so that the requested button is shown */
                     var dir      = O.direction === "vertical";
                     var subd     = dir ? 'top' : 'left';
+                    var subt     = dir ? 'scrollTop' : 'scrollLeft';
                     var subs     = dir ? 'height' : 'width';
 
-                    var btnrect  = S.buttons[O.show];
+                    var btnrect  = S.buttons[show];
                     var clipsize = S.clip[subs];
                     var listsize = S.buttons_pos[this.buttons.length-1][subd] +
                                    S.buttons[this.buttons.length-1][subs];
-                    var btnsize  = S.buttons[O.show][subs];
-                    var btnpos   = S.buttons_pos[O.show][subd];
-
-                    this._container.style[subd] = -(Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2)))) + "px";
+                    var btnsize  = S.buttons[show][subs];
+                    var btnpos   = S.buttons_pos[show][subd];
+                    
+                    var p = (Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
+                    if (this.options.scroll) {
+                        var s = this._clip[subt];
+                        this._scroll = {to: ~~p, from: s, dir: p > s ? 1 : -1, diff: ~~p - s, time: Date.now()};
+                        this.invalid.scroll = true;
+                        if (this._container.style[subd])
+                            this._container.style[subd] = null;
+                    } else {
+                        this._container.style[subd] = p + "px";
+                        if (s)
+                            this._clip[subt] = 0;
+                    }
                 }
+            }
+        }
+        if (this.invalid.scroll && this._scroll) {
+            var subt = O.direction === "vertical" ? 'scrollTop' : 'scrollLeft';
+            var s = ~~this._clip[subt];
+            var _s = this._scroll;
+            var now = Date.now();
+            if ((s >= _s.to && _s.dir > 0)
+             || (s <= _s.to && _s.dir < 0)
+             || now > (_s.time + O.scroll)) {
+                this.invalid.scroll = false;
+                this._clip[subt] = _s.to;
+            } else {
+                this._clip[subt] = easeInOut(Date.now() - _s.time, _s.from, _s.diff, O.scroll);
+                this.trigger_draw_next();
             }
         }
     },
@@ -382,6 +423,10 @@ TK.ButtonArray = TK.class({
 
             button = this.current();
             if (button) button.set("state", false);
+        }
+        if (key == "scroll") {
+            TK[value>0?"add_class":"remove_class"](this.element, "toolkit-scroll");
+            this.trigger_resize();
         }
         return TK.Container.prototype.set.call(this, key, value);
     },

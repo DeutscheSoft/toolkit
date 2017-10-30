@@ -159,6 +159,12 @@ pre, code {
     overflow: hidden;
     box-sizing: border-box;
 }
+.toolkit-buttonarray.toolkit-horizontal.toolkit-scroll > .toolkit-clip {
+    overflow-x: scroll !important;
+}
+.toolkit-buttonarray.toolkit-vertical.toolkit-scroll > .toolkit-clip {
+    overflow-y: scroll !important;
+}
 .toolkit-buttonarray > .toolkit-clip > .toolkit-container {
     position: relative;
 }
