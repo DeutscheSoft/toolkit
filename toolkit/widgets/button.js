@@ -137,10 +137,11 @@ TK.Button = TK.class({
  *      Has class <code>toolkit-icon</code>.
  */
 TK.ChildElement(TK.Button, "icon", {
-    option: "icon",
-    display_check: function(v) {
-        return typeof(v) === "string" && v.length;
-    },
+    show: true,
+    //option: "icon",
+    //display_check: function(v) {
+        //return typeof(v) === "string" && v.length;
+    //},
     create: function() {
         var icon = TK.element("img","toolkit-icon");
         icon.setAttribute("draggable", "false");
@@ -156,10 +157,11 @@ TK.ChildElement(TK.Button, "icon", {
  *      Has class <code>toolkit-label</code>.
  */
 TK.ChildElement(TK.Button, "label", {
-    option: "label",
-    display_check: function(v) {
-        return typeof(v) === "string" && v.length;
-    },
+    show: true,
+    //option: "label",
+    //display_check: function(v) {
+        //return typeof(v) === "string" && v.length;
+    //},
     append: function() {
         this._cell.appendChild(this._label);
     },

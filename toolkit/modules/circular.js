@@ -577,6 +577,8 @@ TK.Circular = TK.class({
  *      Has class <code>toolkit-markers</code> 
  */
 TK.ChildElement(TK.Circular, "markers", {
+    //option: "markers",
+    //display_check: function(v) { return !!v.length; },
     show: true,
     create: function() {
         return TK.make_svg("g", {"class": "toolkit-markers"});
@@ -587,6 +589,8 @@ TK.ChildElement(TK.Circular, "markers", {
  *      Has class <code>toolkit-dots</code> 
  */
 TK.ChildElement(TK.Circular, "dots", {
+    //option: "dots",
+    //display_check: function(v) { return !!v.length; },
     show: true,
     create: function() {
         return TK.make_svg("g", {"class": "toolkit-dots"});
@@ -597,6 +601,8 @@ TK.ChildElement(TK.Circular, "dots", {
  *      Has class <code>toolkit-labels</code> 
  */
 TK.ChildElement(TK.Circular, "labels", {
+    //option: "labels",
+    //display_check: function(v) { return !!v.length; },
     show: true,
     create: function() {
         return TK.make_svg("g", {"class": "toolkit-labels"});
