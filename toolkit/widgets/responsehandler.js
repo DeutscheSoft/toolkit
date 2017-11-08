@@ -257,8 +257,7 @@ TK.ResponseHandler = TK.class({
 
         for (var i = 0; i < this.handles.length; i++) {
             var h = this.handles[i];
-            if (h === handle || !h.get("active")) continue;
-            
+            if (h === handle || !h.get("active") || !h.get("show_handle")) continue;
             _a = calculate_overlap(X, h.handle);
 
             if (_a) {
@@ -276,8 +275,7 @@ TK.ResponseHandler = TK.class({
         if (this.bands && this.bands.length) {
             for (var i = 0; i < this.bands.length; i++) {
                 var b = this.bands[i];
-                if (b === handle || !b.get("active")) continue;
-                
+                if (b === handle || !b.get("active") || !b.get("show_handle")) continue;
                 _a = calculate_overlap(X, b.handle);
 
                 if (_a > 0) {
