@@ -93,7 +93,9 @@ TK.EqBand = TK.class({
         
         TK.ResponseHandle.prototype.initialize.call(this, options);
         
+        if (options.mode) var _m = options.mode;
         this.set("type", options.type);
+        if (_m) this.set("mode", options.mode);
 
         if (options.x !== void(0))
             this.set("x", options.x);
