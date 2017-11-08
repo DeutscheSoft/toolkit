@@ -44,11 +44,11 @@ function show_arrows() {
     this.trigger_resize();
 }
 function prev_clicked(e) {
-    this.userset("show", this.options.show - 1);
+    this.userset("show", Math.max(0, this.options.show - 1));
 }
 
 function next_clicked(e) {
-    this.userset("show", this.options.show + 1);
+    this.userset("show", Math.min(this.buttons.length-1, this.options.show + 1));
 }
 
 function button_clicked(button) {
