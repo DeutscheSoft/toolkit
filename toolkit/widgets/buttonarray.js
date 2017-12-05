@@ -375,7 +375,7 @@ TK.ButtonArray = TK.class({
                         if (this._container.style[subd])
                             this._container.style[subd] = null;
                     } else {
-                        this._container.style[subd] = p + "px";
+                        this._container.style[subd] = -p + "px";
                         if (s)
                             this._clip[subt] = 0;
                     }
