@@ -6,6 +6,7 @@ backup.html
 javascript/items.js
 *.swp
 doc/documentation
+doc/toolkit
 *toolkit.min.css
 *toolkit.all.css
 export/
