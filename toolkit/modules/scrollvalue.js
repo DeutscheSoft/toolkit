@@ -62,7 +62,7 @@ function scrollwheel(e) {
     
     // calc step depending on options.step, .shift up and .shift down
     var step = (range.options.step || 1) * direction;
-    if (e.ctrlKey && e.shiftKey) {
+    if (e.ctrlKey || e.altKey) {
         step *= range.options.shift_down;
     } else if (e.shiftKey) {
         step *= range.options.shift_up;

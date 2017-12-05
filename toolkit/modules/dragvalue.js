@@ -59,7 +59,7 @@ function movecapture_int(O, range, state) {
     var multi = range.options.step || 1;
     var e = state.current;
 
-    if (e.ctrlKey && e.shiftKey) {
+    if (e.ctrlKey || e.altKey) {
         multi *= range.options.shift_down;
     } else if (e.shiftKey) {
         multi *= range.options.shift_up;
