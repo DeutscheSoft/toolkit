@@ -6,12 +6,12 @@
         });
         button2 = new TK.Button({
             label: "Demo Button",
-            icon: "images/icons_big/showcase.png",
+            icon: "warning",
             layout: "horizontal",
             onclick: function () { alert("clicked") }
         });
         button3 = new TK.Button({
-            icon: "images/icons_big/showcase.png",
+            icon: "message",
             onclick: function () { alert("clicked") }
         });
         button4 = new TK.Button({

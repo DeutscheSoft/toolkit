@@ -112,6 +112,10 @@ function contextmenu(e) {
     e.stopPropagation();
     return false;
 }
+var class_regex = /[^A-Za-z0-9_\-]/;
+function is_class_name (str) {
+    return !class_regex.test(str);
+}
 
 TK.Toggle = TK.class({
     /**
@@ -176,41 +180,38 @@ TK.Toggle = TK.class({
         var tmp;
         
         if (O.show_icon && (I.validate("icon_active", "icon") || I.state)) {
-            if (O.state) {
-                tmp = O.icon_active || O.icon;
-            } else {
-                tmp = O.icon;
-            }
-
+            tmp = (O.state && O.icon_active) || O.icon;
             var icon = this._icon;
-
+            
+            var old = this._icon_old;
+            if (old && is_class_name(old))
+                TK.remove_class(icon, old);
+            old = this._icon_active_old;
+            if (old && is_class_name(old))
+                TK.remove_class(icon, old);
+            TK.remove_class(icon, O.icon);
+            TK.remove_class(icon, O.icon_active);
+            
             if (tmp) {
-                icon.setAttribute("src", tmp);
-                icon.style.display = null;
-            } else {
-                icon.style.display = "none";
-                icon.removeAttribute("src");
+                if (is_class_name(tmp)) {
+                    icon.style["background-image"] = null;
+                    TK.add_class(icon, tmp);
+                } else {
+                    icon.style["background-image"] = "url(\"" + tmp + "\")";
+                }
             }
             TK.toggle_class(E, "toolkit-has-icon", !!tmp);
+            I.icon = false;
         }
 
         if (O.show_label && (I.validate("label_active", "label") || I.state)) {
-            if (O.state) {
-                tmp = O.label_active || O.label;
-            } else {
-                tmp = O.label;
-            }
-
-            var _label = this._label;
-
+            tmp = (O.state && O.label_active) || O.label;
             if (tmp !== false) {
-                TK.set_content(_label, tmp);
-                _label.style.display = null;
-            } else {
-                _label.style.display = "none";
+                TK.set_content(this._label, tmp);
             }
+            TK.toggle_class(E, "toolkit-has-label", !!tmp);
+            I.label = false;
         }
-
         TK.Button.prototype.redraw.call(this);
     },
     /**
@@ -229,6 +230,12 @@ TK.Toggle = TK.class({
          * 
          * @param {boolean} state - The state of the {@link TK.Toggle}.
          */
+    },
+    set: function (key, val) {
+        if (key == "icon_active") {
+            this._icon_active_old = this.options.icon_active;
+        }
+        return TK.Button.prototype.set.call(this, key, val);
     },
 });
 })(this, this.TK);

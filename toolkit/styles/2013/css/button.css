@@ -79,16 +79,25 @@
     -moz-border-radius:    4px;
     border-radius:         4px;
 }
-.toolkit-button.toolkit-horizontal > .toolkit-cell > .toolkit-label {
-    display: inline-block;
-}
-.toolkit-button > .toolkit-cell >  .toolkit-icon {
+.toolkit-button > .toolkit-cell > .toolkit-icon {
     margin: auto;
+    background-position: center center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -ms-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    color: #aaaaaa;
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    line-height: 32px;
 }
-.toolkit-button.toolkit-vertical > .toolkit-cell >  .toolkit-icon {
+
+.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-cell >  .toolkit-icon {
     margin-bottom: 5px;
 }
-.toolkit-button.toolkit-horizontal > .toolkit-cell >  .toolkit-icon {
+.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-cell >  .toolkit-icon {
     margin-right: 5px;
 }
 
@@ -99,7 +108,6 @@
     background-color: #002f42;
     color: white;
     text-shadow: 0px -1px 0px black;
-    
 }
 .toolkit-button.toolkit-active > .toolkit-cell >  .toolkit-icon {
     

@@ -114,13 +114,23 @@ pre, code {
 /* BUTTON */
 
 .toolkit-button > .toolkit-cell > .toolkit-label,
-.toolkit-button > .toolkit-cell >  .toolkit-icon {
+.toolkit-button > .toolkit-cell > .toolkit-icon {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    display: none;
+}
+.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-cell > .toolkit-label {
+    display: block;
+}
+.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-cell > .toolkit-label {
+    display: inline-block;
+}
+.toolkit-button.toolkit-has-icon > .toolkit-cell > .toolkit-icon {
+    display: inline-block;
 }
 
 /* BUTTONARRAY */

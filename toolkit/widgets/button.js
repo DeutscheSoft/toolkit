@@ -29,6 +29,11 @@
  
 "use strict";
 (function(w, TK){
+var class_regex = /[^A-Za-z0-9_\-]/;
+function is_class_name (str) {
+    return !class_regex.test(str);
+}
+
 TK.Button = TK.class({
     /**
      * TK.Button is a simple, clickable widget to trigger funcions. It fires a
@@ -38,7 +43,7 @@ TK.Button = TK.class({
      * @param {Object} options
      * 
      * @property {string} [options.label=""] - Text for the button label
-     * @property {string} [options.icon=""] - URL to an icon for the button
+     * @property {string} [options.icon=""] - URL to an icon for the button OR icon class (see styles/fonts/Toolkit.html)
      * @property {boolean} [options.state=false] - TK.State of the button
      * @property {integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
      *   "vertical" means icon on top of the label, "horizontal" puts the icon left to the label.
@@ -109,12 +114,17 @@ TK.Button = TK.class({
          * to support TK.Toggle */
         if (O.show_icon && I.validate("icon")) {
             var icon = this._icon;
+            var old = this._icon_old;
+            if (old && is_class_name(old))
+                TK.remove_class(icon, old);
             var has_icon = !!O.icon;
             if (has_icon) {
-                icon.setAttribute("src", O.icon);
-                icon.style.display = null;
-            } else {
-                icon.style.display = "none";
+                if (is_class_name(O.icon)) {
+                    icon.style["background-image"] = null;
+                    TK.add_class(icon, O.icon);
+                } else {
+                    icon.style["background-image"] = "url(\"" + O.icon + "\")";
+                }
             }
             TK.toggle_class(E, "toolkit-has-icon", has_icon);
         }
@@ -124,12 +134,15 @@ TK.Button = TK.class({
             var has_value = O.label !== false;
             if (has_value) {
                 TK.set_content(_label, O.label);
-                _label.style.display = null;
-            } else {
-                _label.style.display = "none";
             }
             TK.toggle_class(this.element, "toolkit-has-label", has_value);
         }
+    },
+    set: function (key, val) {
+        if (key == "icon") {
+            this._icon_old = this.options.icon;
+        }
+        return TK.Widget.prototype.set.call(this, key, val);
     },
 });
 /**
@@ -143,8 +156,7 @@ TK.ChildElement(TK.Button, "icon", {
         //return typeof(v) === "string" && v.length;
     //},
     create: function() {
-        var icon = TK.element("img","toolkit-icon");
-        icon.setAttribute("draggable", "false");
+        var icon = TK.element("div","toolkit-icon");
         return icon;
     },
     append: function() {
