@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 .toolkit-valuebutton {
-    
+    padding-left: 8px;
 }
 .toolkit-valuebutton.toolkit-vertical {
     
@@ -29,6 +29,18 @@
 .toolkit-button.toolkit-valuebutton > .toolkit-cell {
     text-align: left;
     width: 70%;
+    box-sizing: border-box;
+}
+.toolkit-button.toolkit-valuebutton.toolkit-vertical-bar > .toolkit-cell {
+    padding-left: 10px;
+}
+.toolkit-button.toolkit-valuebutton.toolkit-vertical-bar.toolkit-has-marker > .toolkit-cell {
+    padding-left: 16px;
+}
+.toolkit-button.toolkit-valuebutton.toolkit-horizontal-bar > .toolkit-cell {
+    padding-bottom: 6px;
+}
+.toolkit-button.toolkit-valuebutton.toolkit-horizontal-bar.toolkit-has-marker > .toolkit-cell {
     padding-bottom: 12px;
 }
 
@@ -48,7 +60,7 @@
 .toolkit-valuebutton.toolkit-warn {
     border: 1px solid #c00;
 }
-.toolkit-valuebutton > .toolkit-value > .toolkit-input {
+.toolkit-valuebutton > .toolkit-value {
     background: rgba(0,0,0,0.033);
     border: none;
     position: absolute;
@@ -63,6 +75,11 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+.toolkit-valuebutton > .toolkit-value > .toolkit-input {
+    width: 100%;
+    height: 100%;
+}
+
 .toolkit-valuebutton.toolkit-dragging > .toolkit-cell > .toolkit-label,
 .toolkit-valuebutton.toolkit-scrolling > .toolkit-cell > .toolkit-label {
     background-color: #002f42;
@@ -77,25 +94,48 @@
     border: 1px solid;
     border-color: #ddd #f3f3f3 #fff #e8e8e8;
     position: absolute;
-    bottom: 10%;
-    width: calc(60% - 24px);
-    left: 16px;
 }
-.toolkit-valuebutton.toolkit-vertical > .toolkit-bar {
+.toolkit-valuebutton.toolkit-vertical-bar > .toolkit-bar {
     width: 8px;
-    height: 100%;
+    height: calc(100% - 16px);
+    left: 4px;
 }
-.toolkit-valuebutton.toolkit-horizontal > .toolkit-bar {
+.toolkit-valuebutton.toolkit-horizontal-bar > .toolkit-bar {
+    width: calc(60% - 16px);
     height: 2px;
-    margin-top: 2px;
+    bottom: 10%;
+    left: 8px;
 }
 
 .toolkit-valuebutton > .toolkit-bar >  .toolkit-base {
     background: #002a42;
+    position: absolute;
+    left: 0;
 }
-.toolkit-valuebutton.toolkit-vertical > .toolkit-bar >  .toolkit-base {
+.toolkit-valuebutton.toolkit-vertical-bar > .toolkit-bar >  .toolkit-base {
     width: 8px;
+    bottom: 0;
 }
-.toolkit-valuebutton.toolkit-horizontal > .toolkit-bar >  .toolkit-base {
+.toolkit-valuebutton.toolkit-horizontal-bar > .toolkit-bar >  .toolkit-base {
     height: 2px;
+    top: 0;
+}
+
+.toolkit-valuebutton > .toolkit-marker {
+    box-sizing: content-box;
+    border-style: solid;
+    border-width: 4px;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+.toolkit-valuebutton.toolkit-vertical-bar > .toolkit-marker {
+    border-color: transparent #002A42 transparent transparent;
+    left: 10px;
+    bottom: 6px;
+}
+.toolkit-valuebutton.toolkit-horizontal-bar > .toolkit-marker {
+    border-color: #002A42 transparent transparent transparent;
+    left: 4px;
+    bottom: calc(10% - 1px);
 }

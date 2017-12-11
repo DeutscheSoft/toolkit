@@ -7,6 +7,8 @@ New Features
 o added DragCapture. DragCapture implements a pointer capture logic. It is now used
   in DragValue, Drag and ResponseHandler. It automatically supports multi touch.
 
+o Iconset as font
+
 Improvements
 ============
 
@@ -17,6 +19,10 @@ o ResponseHandle: has real MultiTouch support. This also applies to the z_handli
   gesture, which means that any number of touch points can now drag handles in the
   EQ.
 
+o ValueButton has a merker to display backend values
+
+o Button/Toggle: set URL or class name for icon
+
 API Changes
 ===========
 
@@ -26,6 +32,13 @@ o The return value of event handlers is processed differently now.
   This change was necessary because some DOM events use values !== false for
   cancellation. It also makes more complex signalling logic possible for events.
   This is used by the new DragCapture class.
+  
+Style Changes
+=============
+
+* ValueButton: no overlay element in bar
+* ValueButton: classes for bar layout changed from toolkit-[direction] to toolkit-[direction]-bar
+
 
 Version 1.1: Changes since version 1.0
 -----------------------------------------

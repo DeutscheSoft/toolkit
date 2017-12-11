@@ -1239,6 +1239,8 @@ TK = w.toolkit = {
         if ((tem = ua.match(/version\/(\d+)/i)) !== null) { M.splice(1, 1, tem[1]); }
         return { name : M[0], version : M[1] };
     }(),
+    
+    supports_transform: function () { return 'transform' in w.document.createElement("div").style; }(),
 
     // SVG
 

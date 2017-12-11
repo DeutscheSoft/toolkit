@@ -259,6 +259,21 @@
     background: white;
 }
 
+
+.toolkit-valuebutton > .toolkit-bar {
+    background: #e3e3e3;
+}
+.toolkit-valuebutton > .toolkit-bar > .toolkit-base {
+    background: #aa0066;
+}
+.toolkit-valuebutton.toolkit-vertical-bar > .toolkit-marker {
+    border-color: transparent #aa0066 transparent transparent;
+}
+.toolkit-valuebutton.toolkit-horizontal-bar > .toolkit-marker {
+    border-color: #aa0066 transparent transparent transparent;
+}
+
+
 .toolkit-window {
     background: #e3e3e3;
 }

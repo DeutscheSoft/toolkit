@@ -68,8 +68,12 @@ TK.ValueButton = TK.class({
         blind_angle: "number",
         snap: "number",
         reset: "number",
+        show_marker: "boolean",
+        marker: "number",
+        show_value: "boolean",
     }),
     options:  {
+        layout: "horizontal",
         value: 0,
         value_format:   function (val) { return val.toFixed(2); },
         value_size:     5,
@@ -77,7 +81,10 @@ TK.ValueButton = TK.class({
         drag_direction: "polar",
         rotation:       45,
         blind_angle:    20,
-        snap:           0.01
+        snap:           0.01,
+        show_marker: false,
+        marker: 0,
+        show_value: true,
     },
     static_events: {
         set_drag_direction: function(value) {
@@ -101,10 +108,8 @@ TK.ValueButton = TK.class({
         
         this._bar     = TK.element("div","toolkit-bar");
         this._base    = TK.element("div","toolkit-base");
-        this._over    = TK.element("div","toolkit-over");
 
         this._bar.appendChild(this._base);
-        this._bar.appendChild(this._over);
         
         this.element.appendChild(this._bar);
         
@@ -138,8 +143,11 @@ TK.ValueButton = TK.class({
              */
             this.fire_event("doubleclick", this.options.value);
         }.bind(this));
+        this.__barsize = 0;
     },
-
+    resize: function () {
+        this.__barsize = TK[this.options.bar_direction=="vertical"?"inner_height":"inner_width"](this._bar);
+    },
     redraw: function () {
         TK.Button.prototype.redraw.call(this);
         var I = this.invalid;
@@ -151,35 +159,41 @@ TK.ValueButton = TK.class({
                 default:
                     // TODO: warn here.
                 case "horizontal":
-                    TK.remove_class(this.element, "toolkit-vertical");
-                    TK.add_class(this.element, "toolkit-horizontal");
+                    TK.remove_class(this.element, "toolkit-vertical-bar");
+                    TK.add_class(this.element, "toolkit-horizontal-bar");
                     break;
                 case "vertical":
-                    TK.remove_class(this.element, "toolkit-horizontal");
-                    TK.add_class(this.element, "toolkit-vertical");
+                    TK.remove_class(this.element, "toolkit-horizontal-bar");
+                    TK.add_class(this.element, "toolkit-vertical-bar");
                     break;
             }
+            I.value = true;
         }
         if (I.value) {
             I.value = false;
             this._base.style[O.bar_direction === "horizontal" ? "width" : "height"] = (100*this.val2coef(this.snap(O.value))).toFixed(2) + "%";
+            this._base.style[O.bar_direction === "horizontal" ? "height" : "width"] = null;
         }
     },
     
     destroy: function () {
         this.drag.destroy();
         this.scroll.destroy();
-        this._over.remove();
         this._base.remove();
         this._bar.remove();
         TK.Button.prototype.destroy.call(this);
     },
     // GETTERS & SETTERS
     set: function (key, value) {
-        if (key === "value") {
-            if (value > this.options.max || value < this.options.min)
-                this.warning(this.element);
-            value = this.snap(value);
+        switch (key) {
+            case "value":
+                if (value > this.options.max || value < this.options.min)
+                    this.warning(this.element);
+                value = this.snap(value);
+                break;
+            case "bar_direction":
+                this.trigger_resize();
+                break;
         }
         return TK.Button.prototype.set.call(this, key, value);
     }
@@ -213,7 +227,7 @@ function value_done() {
 /**
  * @member {TK.Value} TK.ValueButton#value - The value widget for editing the value manually.
  */
-TK.ChildWidget(TK.ValueButton, "input", {
+TK.ChildWidget(TK.ValueButton, "value", {
     create: TK.Value,
     show: true,
     map_options: {
@@ -230,4 +244,29 @@ TK.ChildWidget(TK.ValueButton, "input", {
         valuedone: value_done,
     },
 });
+/**
+ * @member {HTMLDivElement} TK.ValueButton#_marker - The DIV element of the marker. It can be used to e.g. visualize the value set in the backend.
+ */
+TK.ChildElement(TK.ValueButton, "marker", {
+    show: false,
+    toggle_class: true,
+    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "marker", "basis" ]),
+    draw: function(O) {
+        if (this._marker) {
+            var tmp = (this.val2coef(this.snap(O.marker)) * this.__barsize) + "px";
+            if (O.bar_direction === "vertical") {
+                if (TK.supports_transform)
+                    this._marker.style.transform = "translateY(-"+tmp+")";
+                else
+                    this._marker.style.bottom = tmp;
+            } else {
+                if (TK.supports_transform)
+                    this._marker.style.transform = "translateX("+tmp+")";
+                else
+                    this._marker.style.left = tmp;
+            }
+        }
+    },
+});
+
 })(this, this.TK);
