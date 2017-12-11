@@ -33,7 +33,6 @@
 }
 
 .toolkit-button.toolkit-valuebutton > .toolkit-cell > .toolkit-icon {
-    display: inline;
     vertical-align: middle;
     margin: 0 10px 0 0;
 }
