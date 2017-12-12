@@ -26,7 +26,8 @@ var MODES = [
     "block-top",
     "block-bottom",
     "block-left",
-    "block-right"
+    "block-right",
+    "block",
 ];
 function normalize(v) {
     var n = Math.sqrt(v[0]*v[0] + v[1]*v[1]);
@@ -67,7 +68,7 @@ function ROT(a) {
     return [ +Math.sin(+a), +Math.cos(+a) ];
 }
 
-var ZHANDLE_POSITION_circular = {
+var ZHANDLE_POSITION_movable = {
     "top":          ROT(0),
     "top-right":    ROT(Math.PI/4),
     "right":        ROT(Math.PI/2),
@@ -78,8 +79,8 @@ var ZHANDLE_POSITION_circular = {
     "top-left":     ROT(Math.PI*7/4),
 };
 
-function get_zhandle_position_circular(O, X) {
-    var vec = ZHANDLE_POSITION_circular[O.z_handle];
+function get_zhandle_position_movable(O, X) {
+    var vec = ZHANDLE_POSITION_movable[O.z_handle];
     var x = (X[0]+X[2])/2;
     var y = (X[1]+X[3])/2;
     var R = (X[2] - X[0] - O.z_handle_size)/2;
@@ -341,6 +342,17 @@ function redraw_handle(O, X) {
         _handle.setAttribute("r", Math.round(tmp).toFixed(0));
         _handle.setAttribute("cx", Math.round(x).toFixed(0));
         _handle.setAttribute("cy", Math.round(y).toFixed(0));
+    } else if (O.mode === "block") {
+        tmp = Math.max(O.min_size, z)/2;
+        X[0] = x-tmp;
+        X[1] = y-tmp;
+        X[2] = x+tmp;
+        X[3] = y+tmp;
+
+        _handle.setAttribute("x", Math.round(+X[0]).toFixed(0));
+        _handle.setAttribute("y", Math.round(+X[1]).toFixed(0));
+        _handle.setAttribute("width", Math.round(+X[2]-X[0]).toFixed(0));
+        _handle.setAttribute("height", Math.round(+X[3]-X[1]).toFixed(0));
     } else {
         var x_min = O.x_min !== false ? range_x.val2px(range_x.snap(O.x_min)) : 0;
         var x_max = O.x_max !== false ? range_x.val2px(range_x.snap(O.x_max)) : range_x.options.basis;
@@ -423,6 +435,7 @@ function redraw_handle(O, X) {
 
 function redraw_zhandle(O, X) {
     var vec;
+    var size;
     var zhandle = this._zhandle;
 
     if (!O.show_handle || O.z_handle === false) {
@@ -437,11 +450,24 @@ function redraw_zhandle(O, X) {
         /*
          * position the z_handle on the circle.
          */
-        vec = get_zhandle_position_circular(O, X);
+        vec = get_zhandle_position_movable(O, X);
         /* width and height are equal here */
         zhandle.setAttribute("cx", vec[0].toFixed(1));
         zhandle.setAttribute("cy", vec[1].toFixed(1));
         zhandle.setAttribute("r",  (O.z_handle_size / 2).toFixed(1));
+
+        this.zhandle_position = vec;
+    } else if (O.mode === "block") {
+        /*
+         * position the z_handle on the box.
+         */
+        vec = get_zhandle_position_movable(O, X);
+        size = O.z_handle_size / 2;
+        /* width and height are equal here */
+        zhandle.setAttribute("x", vec[0].toFixed(0) - size);
+        zhandle.setAttribute("y", vec[1].toFixed(0) - size);
+        zhandle.setAttribute("width", O.z_handle_size);
+        zhandle.setAttribute("height", O.z_handle_size);
 
         this.zhandle_position = vec;
     } else {
@@ -634,6 +660,7 @@ function redraw_lines(O, X) {
     var z = range_z.val2px(O.z);
     switch (O.mode) {
         case "circular":
+        case "block":
             if (O.show_axis) {
                 this._line1.setAttribute("d",
                      format_line(((y >= pos[1] && y <= pos[3]) ? Math.max(X[2], pos[2]) : X[2]) + O.margin, y,
@@ -693,6 +720,7 @@ function set_main_class(O) {
     case "block-right":
     case "block-top":
     case "block-bottom":
+    case "block":
         TK.add_class(E, "toolkit-block");
         break;
     default:
@@ -1211,7 +1239,7 @@ TK.ResponseHandle = TK.class({
 
         switch (key) {
         case "z_handle":
-            if (value !== false && !ZHANDLE_POSITION_circular[value]) {
+            if (value !== false && !ZHANDLE_POSITION_movable[value]) {
                 TK.warn("Unsupported z_handle option:", value);
                 value = false;
             }
