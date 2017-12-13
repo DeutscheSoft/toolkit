@@ -72,7 +72,7 @@
             show_label: true,
             gradient: {&quot;-60&quot;: &quot;#001f83&quot;, &quot;-0.1&quot;: &quot;#008bea&quot;, &quot;0&quot;: &quot;#ff6000&quot;, &quot;12&quot;: &quot;#ffa000&quot;},
             levels: [1, 3, 6, 12],
-            gap_labels: 20,
+            gap_labels: 40,
             show_clip: true
         });
         root.append_children([mr, ml, mb, mt]);

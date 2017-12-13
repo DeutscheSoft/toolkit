@@ -83,6 +83,7 @@
     line-height: 1.2em;
     height: 1.2em;
     overflow: visible;
+    font-size: 0.8em;
 }
 .toolkit-meter-base.toolkit-has-label > .toolkit-label {
     display: block;
@@ -120,6 +121,7 @@
     line-height: 1.2em;
     height: 1.2em;
     overflow: visible;
+    font-size: 0.8em;
 }
 .toolkit-meter-base.toolkit-has-title > .toolkit-title {
     
