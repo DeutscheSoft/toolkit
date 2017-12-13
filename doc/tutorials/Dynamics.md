@@ -1,7 +1,5 @@
     function run_dynamics (root) {
-        comp = new TK.Dynamics({
-            size: 298,
-        });
+        comp = new TK.Dynamics({});
         gcomp = comp.add_graph({
             dots: [{x:-96, y:-72},
                    {x:-24, y:0},
@@ -10,15 +8,12 @@
             mode: "line"
         });
         expand = new TK.Dynamics({
-            size: 298,
             type: "expander",
             threshold: -12,
             ratio: 4,
             range: -36
         });
-        dyna = new TK.Dynamics({
-            size: 298,
-        });
+        dyna = new TK.Dynamics({});
         gdyna = dyna.add_graph({
             dots: [{x:-60, y:-96},
                    {x:-48, y:-48},
@@ -33,8 +28,8 @@
     }
 <pre class='css prettyprint source'><code>
 .toolkit-dynamics {
-    width: 40%;
-    height: 40%;
+    width: 250px;
+    height: 250px;
 }
 </code></pre>
 <script> prepare_example(); </script>
