@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301  USA
  */
 .toolkit-knob {
-    background: url(../images/knob/background.png) no-repeat 50% 50%;
+    background: url(../images/knob/background.svg) no-repeat 50% 50%;
     background-size: contain;
     cursor: pointer;
     width: 100px;
@@ -41,6 +41,6 @@
     fill: #002f42;
 }
 .toolkit-knob > svg > .toolkit-circular > .toolkit-labels > .toolkit-label {
-    font-size: 0.8em;
+    font-size: 8px;
     fill: #002f42;
 }

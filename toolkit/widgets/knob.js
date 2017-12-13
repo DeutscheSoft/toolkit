@@ -105,7 +105,7 @@ TK.Knob = TK.class({
         shift_down: 0.25,
         dot: {length: 6, margin: 13, width: 2},
         marker: {thickness: 6, margin: 13},
-        label: {margin: 10, align: "outer", format: function(val){return val;}},
+        label: {margin: 12, align: "outer", format: function(val){return val;}},
         direction: "polar",
         rotation:       45,
         blind_angle:    20

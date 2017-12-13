@@ -7,15 +7,6 @@
             markers: [
                 {from: 0, to: 24}
             ],
-        });
-        knob = new TK.Knob({
-            id: "knob",
-            min: -96,
-            max: 24,
-            value: -20,
-            markers: [
-                {from: 0, to: 24}
-            ],
             dots: [
                 {pos: -96}, {pos: -84}, {pos: -72}, {pos: -60}, {pos: -48}, {pos: -36}, {pos: -24},
                 {pos: -12}, {pos: 0}, {pos: 12}, {pos: 24}
@@ -33,7 +24,7 @@
             value: 1000,
             scale: "frequency",
             dot: {length: 4, margin: 0, width: 1},
-            label: {align: "inner", margin: 4},
+            label: {align: "inner", margin: 3},
             dots: [
                 {pos: 20}, {pos: 30}, {pos: 40}, {pos: 50}, {pos: 60}, {pos: 70}, {pos: 80}, {pos: 90},
                 {pos: 100}, {pos: 200}, {pos: 300}, {pos: 400}, {pos: 500}, {pos: 600}, {pos: 700}, {pos: 800}, {pos: 900},
@@ -47,11 +38,22 @@
             hand: {width: 3, length: 3, margin: 24},
             styles: {backgroundImage: "url(images/knob2.png)"}
         });
-        root.append_children([ knob, knob1, knob2 ]);
+        root.append_children([ knob1, knob2 ]);
     }
 <pre class='css prettyprint source'><code>
 .toolkit-knob {
     margin: 10px;
+}
+
+#knob1 {
+    width: 80px;
+    height: 80px;
+}
+
+#knob2 {
+    width: 120px;
+    heigh: 120px;
+    background-size: 75%;
 }
 #knob2 .toolkit-value {
     fill: rgba(0, 47, 66, 1);
@@ -65,20 +67,6 @@
 #knob2 .toolkit-base {
     fill: rgba(0, 47, 66, 0.5);
 }
-#knob2 .toolkit-label {
-    font-size: 0.7em;
-}
-#knob2 {
-    width: 120px;
-    heigh: 120px;
-}
-#knob {
-    width: 50px;
-    height: 50px;
-}
-#knob1 {
-    width: 80px;
-    height: 80px;
-}
+
 </code></pre>
 <script> prepare_example(); </script>
