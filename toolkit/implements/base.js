@@ -278,6 +278,7 @@ TK.Base = TK.class({
         this.__event_target = null;
         this.__native_handler = native_handler.bind(this);
         this.set_options(options);
+        this.fire_event("initialize");
     },
     initialized : function() {
         /**
@@ -741,10 +742,16 @@ function ChildElement(widget, name, config) {
 
     var display_check = config.display_check;
 
+    /* This is done to make sure that the object property is created
+     * inside of the constructor. Otherwise, if we add the widget later
+     * might be turned into a generic mapping.
+     */
+    add_static_event(widget, "initialize", function() {
+        this[index] = null;
+    });
+
     /* trigger child element creation after initialization */
     add_static_event(widget, "initialized", function() {
-        /* we do not want to trash the class cache */
-        this[index] = null;
         this.set(show_option, this.options[show_option]);
     });
 
