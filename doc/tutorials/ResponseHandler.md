@@ -1,7 +1,5 @@
     function run_responsehandler(root) {
         rh = new TK.ResponseHandler({
-            width: 908,
-            height: 300,
             depth: 120,
             db_grid: 12,
             range_z: {min: 1, max: 20, step: 0.1, shift_up: 5, shift_down: 0.2}
@@ -15,7 +13,7 @@
                            z_handle: "right", title:"handle 3", z_min: 1, z_max: 20}),
             rh.add_handle({x:50, y:-12, z: 7, mode:"circular",
                            z_handle: "right", title:"handle 4", z_min: 1, z_max: 20}),
-            rh.add_handle({x:200, y:24, z: 3, mode:"circular"circular"
+            rh.add_handle({x:200, y:24, z: 3, mode:"circular",
                            z_handle: "right", title:"handle 5", z_min: 1, z_max: 20}),
             rh.add_handle({x: 3000,
                            z: 3,
@@ -150,9 +148,13 @@
         TK.seat_all_svg()
     }
 <pre class='css prettyprint source'><code>
-.toolkit-responsehandler {
+.toolkit-response-handler {
     width: 100%;
     height: 100%;
+    max-width: 1024;
+    max-height: 480px;
+    min-width: 400px;
+    min-height: 120px;
 }
 </code></pre>
 <script> prepare_example(); </script>
