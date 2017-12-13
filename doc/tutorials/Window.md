@@ -32,8 +32,8 @@
             ok.add_event("click", win.destroy.bind(win));
             TK.set_styles(ok.element, {
                 position: "absolute",
-                bottom: 0,
-                right: 0
+                bottom: "0px",
+                right: "0px"
             });
             root.add_child(win);
         });

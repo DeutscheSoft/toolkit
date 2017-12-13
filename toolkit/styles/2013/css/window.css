@@ -109,13 +109,16 @@
     margin: 2px;
 }
 .toolkit-window > .toolkit-header .toolkit-button  {
-    padding: 2px;
-    border: 1px solid transparent;
+    margin: 0 2px;
+    padding: 0px;
+    border: 0px solid transparent;
     background: transparent;
     transition: border-color 0.33s;
+    border-radius: 0;
+    box-shadow: none;
 }
 .toolkit-window > .toolkit-header .toolkit-button:hover  {
-    border-color: rgba(0, 0, 0, 0.25);
+    background: white;
 }
 .toolkit-window > .toolkit-header .toolkit-button .toolkit-icon {
     background-position: 50% 50%;
