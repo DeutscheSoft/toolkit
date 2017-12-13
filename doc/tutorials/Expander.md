@@ -22,7 +22,7 @@
                      {pos:0.8, label:"80"},
                      {pos:1.0, label:"100"}],
             key: "top-left",
-            title: "Chart Example",
+            title: "Click Chart for Fullscreen",
             title_position: "top-right",
         });
         cgraph1 = chart.add_graph({
@@ -42,7 +42,7 @@
             mode: "bottom",
             key:  "foobar"
         });
-        expander = new Expander({"class":"toolkit-popup"});
+        expander = new TK.Expander({"class":"toolkit-popup"});
         root.append_child(expander);
         expander.append_child(chart);
         TK.seat_all_svg();
@@ -57,13 +57,6 @@
     width: 100%;
     height: 100%;
 }
-.toolkit-expanded .toolkit-chart {
-    width: 90%;
-    height: 90%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+
 </code></pre>
 <script> prepare_example(); </script>
