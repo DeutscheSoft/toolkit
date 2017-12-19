@@ -54,6 +54,7 @@ TK.ValueButton = TK.class({
      *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
      *   moving towards top and right.
      * @property {Number} [options.snap=0.01] - Snap value while dragging.
+     * @property {Number} [options.basis=300] - Distance to drag between <code>min</code> and <code>max</code>.
      */
     _class: "ValueButton",
     Extends: TK.Button,
@@ -85,6 +86,7 @@ TK.ValueButton = TK.class({
         show_marker: false,
         marker: 0,
         show_value: true,
+        basis: 300,
     },
     static_events: {
         set_drag_direction: function(value) {

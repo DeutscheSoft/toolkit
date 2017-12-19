@@ -61,6 +61,7 @@ function draw_dots() {
     var O = this.options;
     var dots = O.dots;
     var dot = O.dot;
+    var angle = O.angle;
     TK.empty(_dots);
     for (var i = 0; i < dots.length; i++) {
         var m = dots[i];
@@ -85,7 +86,7 @@ function draw_dots() {
         r.setAttribute("height", width);
         
         r.setAttribute("transform", "rotate("
-            + this.val2px(this.snap(pos)) + " "
+            + (this.val2coef(this.snap(pos)) * angle) + " "
             + (O.size / 2) + " " + (this.options.size / 2) + ")");
     }
     /**
@@ -104,6 +105,7 @@ function draw_markers() {
     
     var stroke  = this._get_stroke();
     var outer   = O.size / 2;
+    var angle = O.angle;
     
     for (var i = 0; i < markers.length; i++) {
         var m       = markers[i];
@@ -135,8 +137,8 @@ function draw_markers() {
             from = this.snap(from);
             to = this.snap(to);
         }
-        from = this.val2px(from);
-        to = this.val2px(to);
+        from = this.val2coef(from) * angle;
+        to = this.val2coef(to) * angle;
         
         draw_slice.call(this, from, to, inner_p, outer_p, outer, s);
     }
@@ -193,7 +195,7 @@ function draw_labels() {
             var align   = (l.align !== void(0) ? l.align : O.label.align) === "inner";
             var pos     = Math.min(O.max, Math.max(O.min, l.pos));
             var bb      = p.getBBox();
-            var angle   = (this.val2px(this.snap(pos)) + O.start) % 360;
+            var angle   = (this.val2coef(this.snap(pos)) * O.angle + O.start) % 360;
             var outer_p = outer - margin;
             var coords  = _get_coords_single(angle, outer_p, outer);
             
@@ -271,7 +273,7 @@ TK.Circular = TK.class({
      * @property {number} [options.hand.length=30] - Length of the hand.
      * @property {number} [options.hand.margin=10] - Margin of the hand.
      * @property {number} [options.start=135] - The starting point in degrees.
-     * @property {number} [options.basis=270] - The maximum degree of the rotation if
+     * @property {number} [options.angle=270] - The maximum degree of the rotation if
      *   <code>options.value === options.max</code>.
      * @property {number|boolean} [options.base=false] - If a base value is set in degrees,
      *   circular starts drawing elements from this position.
@@ -324,7 +326,7 @@ TK.Circular = TK.class({
         margin: "number",
         hand: "object",
         start: "number",
-        basis: "number",
+        angle: "number",
         base: "number",
         show_base: "boolean",
         show_value: "boolean",
@@ -357,7 +359,7 @@ TK.Circular = TK.class({
         margin:     0,
         hand:       {width: 2, length: 30, margin: 10},
         start:      135,
-        basis:      270,
+        angle:      270,
         base:       false,
         show_base:  true,
         show_value: true,
@@ -450,7 +452,7 @@ TK.Circular = TK.class({
         if (I.show_value || I.value_ring) {
             I.show_value = false;
             if (O.show_value) {
-                draw_slice.call(this, this.val2px(this.snap(O.base)), this.val2px(this.snap(O.value_ring)), inner_p, outer_p, outer,
+                draw_slice.call(this, this.val2coef(this.snap(O.base)) * O.angle, this.val2coef(this.snap(O.value_ring)) * O.angle, inner_p, outer_p, outer,
                                 this._value);
             } else {
                 this._value.removeAttribute("d");
@@ -460,7 +462,7 @@ TK.Circular = TK.class({
         if (I.show_base) {
             I.show_base = false;
             if (O.show_base) {
-                draw_slice.call(this, 0, O.basis, inner_p, outer_p, outer, this._base);
+                draw_slice.call(this, 0, O.angle, inner_p, outer_p, outer, this._base);
             } else {
                 /* TODO: make this a child element */
                 this._base.removeAttribute("d");
@@ -481,7 +483,7 @@ TK.Circular = TK.class({
             tmp.setAttribute("width", O.hand.length);
             tmp.setAttribute("height",O.hand.width);
             tmp.setAttribute("transform",
-                             format_rotate(this.val2px(this.snap(O.value_hand)), O.size / 2, O.size / 2));
+                             format_rotate(this.val2coef(this.snap(O.value_hand)) * O.angle, O.size / 2, O.size / 2));
         }
     },
     

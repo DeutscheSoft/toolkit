@@ -285,7 +285,7 @@ TK.Clock = TK.class({
             container: S,
             show_hand: false,
             start: 270,
-            basis: 360,
+            angle: 360,
             min: 0
         };
 

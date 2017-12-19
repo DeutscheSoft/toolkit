@@ -74,6 +74,8 @@ function module_range() {
  * @property {Number} [options.rotation=45] - Defines the angle of the center of the positive value
  *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
  *   moving towards top and right.
+ * @property {Number} [options.basis=300] - Distance to drag between <code>min</code> and <code>max</code>.
+
  */
 TK.Knob = TK.class({
     _class: "Knob",
@@ -108,7 +110,8 @@ TK.Knob = TK.class({
         label: {margin: 12, align: "outer", format: function(val){return val;}},
         direction: "polar",
         rotation:       45,
-        blind_angle:    20
+        blind_angle:    20,
+        basis: 300,
     }),
     static_events: {
         dblclick: dblclick,

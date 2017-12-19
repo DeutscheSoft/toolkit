@@ -33,6 +33,10 @@ o The return value of event handlers is processed differently now.
   cancellation. It also makes more complex signalling logic possible for events.
   This is used by the new DragCapture class.
   
+o Circular elements switched the option for the opening angle from "basis"
+  to "angle". This is to separate the distance to drag on Knob and ValueKnob
+  from the angle.
+  
 Style Changes
 =============
 
