@@ -36,13 +36,16 @@
 }
 
 .toolkit-fader.toolkit-vertical.toolkit-has-value {
+    /* keep and adjust this to height of value widget */
     padding-top: 25px;
 }
 .toolkit-fader.toolkit-vertical.toolkit-has-label {
+    /* keep and adjust this to height of label widget */
     padding-bottom: 25px;
 }
 .toolkit-fader.toolkit-horizontal.toolkit-has-value,
 .toolkit-fader.toolkit-horizontal.toolkit-has-label {
+    /* keep and adjust this to width of value/label widget */
     padding-right: 75px;
 }
 

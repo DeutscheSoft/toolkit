@@ -19,9 +19,13 @@ o ResponseHandle: has real MultiTouch support. This also applies to the z_handli
   gesture, which means that any number of touch points can now drag handles in the
   EQ.
 
-o ValueButton has a merker to display backend values
+o ValueButton has a marker to display backend values
 
 o Button/Toggle: set URL or class name for icon
+
+o Faders with markers (tiny triangles) and bars to visualize different other
+  values, e.g. backend values or a level meter. Additionally Faders got
+  title and value ChildWidgets.
 
 API Changes
 ===========
