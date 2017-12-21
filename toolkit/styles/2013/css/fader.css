@@ -35,6 +35,17 @@
     height: auto;
 }
 
+.toolkit-fader.toolkit-vertical.toolkit-has-value {
+    padding-top: 25px;
+}
+.toolkit-fader.toolkit-vertical.toolkit-has-label {
+    padding-bottom: 25px;
+}
+.toolkit-fader.toolkit-horizontal.toolkit-has-value,
+.toolkit-fader.toolkit-horizontal.toolkit-has-label {
+    padding-right: 75px;
+}
+
 /* BACKGROUNDS */
 
 .toolkit-fader.toolkit-vertical {
@@ -63,20 +74,59 @@
     background-position: 0 100%, 5px 100%, 100% 100%;
 }
 
-/*
-.toolkit-fader.toolkit-left.toolkit-has-scale {
-    background-position: 0 0, 0 5px, 0 100%;
+
+.toolkit-fader.toolkit-vertical.toolkit-has-label {
+    background-size: 46px 7px, 46px calc(100% - 10px - 25px), 46px 7px;
 }
-.toolkit-fader.toolkit-right.toolkit-has-scale {
-    background-position: 100% 0, 100% 5px, 100% 100%;
+.toolkit-fader.toolkit-vertical.toolkit-has-value {
+    background-size: 46px 7px, 46px calc(100% - 10px - 25px), 46px 7px;
 }
-.toolkit-fader.toolkit-top.toolkit-has-scale {
-    background-position: 0 0, 5px 0, 100% 0;
+.toolkit-fader.toolkit-vertical.toolkit-has-label.toolkit-has-value {
+    background-size: 46px 7px, 46px calc(100% - 10px - 50px), 46px 7px;
 }
-.toolkit-fader.toolkit-bottom.toolkit-has-scales {
-    background-position: 0 100%, 5px 100%, 100% 100%;
+
+
+.toolkit-fader.toolkit-horizontal.toolkit-has-label {
+    background-size: 7px 46px, calc(100% - 10px - 74px) 46px, 7px 46px;
 }
-*/
+.toolkit-fader.toolkit-horizontal.toolkit-has-value {
+    background-size: 7px 46px, calc(100% - 10px - 74px) 46px, 7px 46px;
+}
+.toolkit-fader.toolkit-horizontal.toolkit-has-label.toolkit-has-value {
+    background-size: 7px 46px, calc(100% - 10px - 74px) 46px, 7px 46px;
+}
+
+
+.toolkit-fader.toolkit-left.toolkit-has-label {
+    background-position: 0 0, 0 5px, 0 calc(100% - 25px);
+}
+.toolkit-fader.toolkit-left.toolkit-has-value {
+    background-position: 0 25px, 0 30px, 0 100%;
+}
+.toolkit-fader.toolkit-left.toolkit-has-label.toolkit-has-value {
+    background-position: 0 25px, 0 30px, 0 calc(100% - 25px);
+}
+
+
+.toolkit-fader.toolkit-right.toolkit-has-label {
+    background-position: 100% 0, 100% 5px, 100% calc(100% - 25px);
+}
+.toolkit-fader.toolkit-right.toolkit-has-value {
+    background-position: 100% 25px, 100% 30px, 100% 100%;
+}
+.toolkit-fader.toolkit-right.toolkit-has-label.toolkit-has-value {
+    background-position: 100% 25px, 100% 30px, 100% calc(100% - 25px);
+}
+
+
+.toolkit-fader.toolkit-top.toolkit-has-label,
+.toolkit-fader.toolkit-top.toolkit-has-value {
+    background-position: 0 0, 5px 0, calc(100% - 75px) 0;
+}
+.toolkit-fader.toolkit-bottom.toolkit-has-label,
+.toolkit-fader.toolkit-bottom.toolkit-has-value {
+    background-position: 0 100%, 5px 100%, calc(100% - 75px) 100%;
+}
 
 /* HANDLE */
 
@@ -120,6 +170,11 @@
     bottom: 0;
 }
 
+
+.toolkit-fader.toolkit-vertical.toolkit-has-label > .toolkit-handle {
+    bottom: 25px;
+}
+
 /* SCALE */
 
 .toolkit-fader > .toolkit-scale {
@@ -149,4 +204,158 @@
 }
 .toolkit-fader.toolkit-bottom > .toolkit-scale {
     margin-bottom: 48px;
+}
+
+
+/* LABEL */
+
+.toolkit-fader > .toolkit-label {
+    width: 70px;
+    line-height: 23px;
+    height: 23px;
+    position: absolute;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-label {
+    bottom: 0;
+}
+.toolkit-fader.toolkit-left > .toolkit-label {
+    left: -12px;
+}
+.toolkit-fader.toolkit-right > .toolkit-label {
+    right: -12px;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-label {
+    right: 0;
+}
+.toolkit-fader.toolkit-top > .toolkit-label {
+    top: 0px;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-label {
+    bottom: 23px;
+}
+
+
+/* VALUE */
+
+.toolkit-fader > .toolkit-value,
+.toolkit-fader > .toolkit-value > .toolkit-input {
+    width: 70px;
+    line-height: 23px;
+    height: 23px;
+    font-size: 14px;
+}
+.toolkit-fader > .toolkit-value > .toolkit-input {
+    background: transparent;
+}
+.toolkit-fader > .toolkit-value.toolkit-active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.toolkit-fader > .toolkit-value.toolkit-active > .toolkit-input {
+    background: #002f42;
+}
+
+.toolkit-fader.toolkit-horizontal > .toolkit-value > .toolkit-input,
+.toolkit-fader.toolkit-horizontal > .toolkit-label {
+    text-align: left;
+}
+
+.toolkit-fader > .toolkit-value {
+    position: absolute;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-value {
+    top: 0;
+}
+.toolkit-fader.toolkit-left > .toolkit-value {
+    left: -12px;
+}
+.toolkit-fader.toolkit-right > .toolkit-value {
+    right: -12px;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-value {
+    right: 0;
+}
+.toolkit-fader.toolkit-top > .toolkit-value {
+    top: 23px;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-value {
+    bottom: 0px;
+}
+
+
+/* MARKER */
+
+.toolkit-fader > .toolkit-marker {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    width: 12px;
+    height: 12px;
+    border-width: 6px;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.toolkit-fader.toolkit-vertical > .toolkit-marker {
+    bottom: 41px;
+    margin-bottom: -6px;
+}
+.toolkit-fader.toolkit-vertical.toolkit-has-label > .toolkit-marker {
+    bottom: 66px;
+}
+.toolkit-fader.toolkit-left > .toolkit-marker {
+    border-right-color: #BA1B25;
+    left: 40px;
+}
+.toolkit-fader.toolkit-right > .toolkit-marker {
+    border-left-color: #BA1B25;
+    right: 40px;
+}
+
+.toolkit-fader.toolkit-horizontal > .toolkit-marker {
+    left: 41px;
+    margin-left: -6px;
+}
+.toolkit-fader.toolkit-top > .toolkit-marker {
+    border-bottom-color: #BA1B25;
+    top: 40px;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-marker {
+    border-top-color: #BA1B25;
+    bottom: 40px;
+}
+
+
+
+/* BAR */
+
+.toolkit-fader > .toolkit-bar {
+    position: absolute;
+    background: #002f42;
+    z-index: -1;
+}
+
+.toolkit-fader.toolkit-vertical > .toolkit-bar {
+    width: 4px;
+    bottom: 41px;
+}
+.toolkit-fader.toolkit-vertical.toolkit-has-label > .toolkit-bar {
+    bottom: 66px;
+}
+.toolkit-fader.toolkit-left > .toolkit-bar {
+    left: 48px;
+}
+.toolkit-fader.toolkit-right > .toolkit-bar {
+    right: 48px;
+}
+
+.toolkit-fader.toolkit-horizontal > .toolkit-bar {
+    height: 4px;
+    left: 41px;
+}
+.toolkit-fader.toolkit-top > .toolkit-bar {
+    top: 48px;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-bar {
+    bottom: 48px;
 }

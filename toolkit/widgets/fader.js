@@ -34,14 +34,14 @@ function vert(O) {
 }
 function get_value(ev) {
     var is_vertical = vert(this.options);
-    var pos, real, hsize;
+    var pos, real, hsize, pad;
     hsize = this._handle_size / 2;
+    pad = this._padding;
+    
     if (is_vertical) {
-        /* we calculate the position from the bottom of the scale */
-        real  = this.options.basis - (ev.offsetY - hsize);
+        real  = this.options.basis - (ev.offsetY - hsize) + pad.bottom;
     } else {
-        /* we calculate the position from the left of the scale */
-        real  = ev.offsetX - hsize;
+        real  = ev.offsetX - hsize + pad.left;
     }
     return this.px2val(real);
 }
@@ -63,6 +63,8 @@ function mouseenter (ev) {
 function clicked(ev) {
     var value;
     if (this._handle.contains(ev.target)) return;
+    if (this.value.element.contains(ev.target)) return;
+    if (this.label.element.contains(ev.target)) return;
     value = this.userset("value", get_value.call(this, ev));
     if (this.options.tooltip && TK.tooltip._entry)
         TK.set_text(TK.tooltip._entry, this.options.tooltip(this.options.value));
@@ -166,10 +168,7 @@ TK.Fader = TK.class({
         reset: "number",
         bind_click: "boolean",
         bind_dblclick: "boolean",
-        show_scale: "boolean",
-        show_marker: "boolean",
         marker: "number",
-        show_bar: "boolean",
         bar: "number",
     }),
     options: {
@@ -184,10 +183,7 @@ TK.Fader = TK.class({
         layout: "left",
         bind_click: false,
         bind_dblclick: true,
-        show_scale: true,
-        show_marker: false,
         marker: 0,
-        show_bar: false,
         bar: 0,
     },
     static_events: {
@@ -308,7 +304,9 @@ TK.Fader = TK.class({
         var basis;
 
         TK.Widget.prototype.resize.call(this);
-
+        
+        this._padding = TK.css_space(E, "padding", "border");
+        
         if (vert(O)) {
             this._handle_size = TK.outer_height(H, true);
             basis = TK.inner_height(E) - this._handle_size;
@@ -376,12 +374,19 @@ TK.ChildWidget(TK.Fader, "label", {
     create: TK.Label,
     show: false,
     toggle_class: true,
+    map_options: {
+        label: "label",
+    },
 });
 TK.ChildWidget(TK.Fader, "value", {
     create: TK.Value,
     show: false,
+    static_events: {
+        "valueset" : function (v) { this.parent.set("value", v); }
+    },
     map_options: {
         value: "value",
+        format: "format",
     },
     toggle_class: true,
 });

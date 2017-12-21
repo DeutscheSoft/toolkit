@@ -89,6 +89,24 @@
 .toolkit-fader > .toolkit-handle::before {
     border-color: white;
 }
+.toolkit-fader > .toolkit-value.toolkit-active > .toolkit-input {
+    background: #00ccff;
+}
+.toolkit-fader.toolkit-left > .toolkit-marker {
+    border-right-color: #00ccff;
+}
+.toolkit-fader.toolkit-right > .toolkit-marker {
+    border-left-color: #00ccff;
+}
+.toolkit-fader.toolkit-top > .toolkit-marker {
+    border-bottom-color: #00ccff;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-marker {
+    border-top-color: #00ccff;
+}
+.toolkit-fader > .toolkit-bar {
+    background: white;
+}
 
 .toolkit-frequency-response > svg > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
     stroke: #00ccff;
