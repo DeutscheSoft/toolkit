@@ -684,19 +684,19 @@ TK.Window = TK.class({
         this.element.appendChild(this._content);
         
         this._header_left =
-            (toolkit.element("div", "toolkit-header-left"));
+            (TK.element("div", "toolkit-header-left"));
         this._header_center =
-            (toolkit.element("div", "toolkit-header-center"));
+            (TK.element("div", "toolkit-header-center"));
         this._header_right =
-            (toolkit.element("div", "toolkit-header-right"));
+            (TK.element("div", "toolkit-header-right"));
 
         this._header.appendChild(this._header_left);
         this._header.appendChild(this._header_center);
         this._header.appendChild(this._header_right);
         
-        this._footer_left = (toolkit.element("div", "toolkit-footer-left"));
-        this._footer_center = (toolkit.element("div", "toolkit-footer-center"));
-        this._footer_right = (toolkit.element("div", "toolkit-footer-right"));
+        this._footer_left = (TK.element("div", "toolkit-footer-left"));
+        this._footer_center = (TK.element("div", "toolkit-footer-center"));
+        this._footer_right = (TK.element("div", "toolkit-footer-right"));
 
         this._footer.appendChild(this._footer_left);
         this._footer.appendChild(this._footer_center);
@@ -706,39 +706,35 @@ TK.Window = TK.class({
         this._status = TK.element("div", "toolkit-status");
         this._icon   = TK.element("img", "toolkit-icon");
         
-        this.close = new TK.Button({"class": "toolkit-close"});
+        this.close = new TK.Button({"class": "toolkit-close", "icon": "closewin"});
         this.close.add_event("click", close.bind(this));
         this.close.add_event("mousedown", function (e) { e.stopPropagation(); });
+        this.add_child(this.close);
         
-        this.maximize = new TK.Button({"class": "toolkit-maximize"});
+        this.maximize = new TK.Button({"class": "toolkit-maximize", "icon":"maxwin"});
         this.maximize.add_event("click", maximize.bind(this));
         this.maximize.add_event("mousedown", function (e) { e.stopPropagation(); });
+        this.add_child(this.maximize);
         
-        this.maximize_vert = new TK.Button({"class": "toolkit-maximize-vertical"});
+        this.maximize_vert = new TK.Button({"class": "toolkit-maximize-vertical", "icon":"maxwinvert"});
         this.maximize_vert.add_event("click", maximizevertical.bind(this));
         this.maximize_vert.add_event("mousedown", function (e) { e.stopPropagation(); });
+        this.add_child(this.maximize_vert);
         
-        this.maximize_horiz = new TK.Button({"class": "toolkit-maximize-horizontal"});
+        this.maximize_horiz = new TK.Button({"class": "toolkit-maximize-horizontal", "icon":"maxwinhoriz"});
         this.maximize_horiz.add_event("click", maximizehorizontal.bind(this));
         this.maximize_horiz.add_event("mousedown", function (e) { e.stopPropagation(); });
+        this.add_child(this.maximize_horiz);
         
-        this.minimize = new TK.Button({"class": "toolkit-minimize"});
+        this.minimize = new TK.Button({"class": "toolkit-minimize", "icon":"minwin"});
         this.minimize.add_event("click", minimize.bind(this));
         this.minimize.add_event("mousedown", function (e) { e.stopPropagation(); });
+        this.add_child(this.minimize);
         
-        this.shrink = new TK.Button({"class": "toolkit-shrink"});
+        this.shrink = new TK.Button({"class": "toolkit-shrink", "icon":"shrinkwin"});
         this.shrink.add_event("click", shrink.bind(this));
         this.shrink.add_event("mousedown", function (e) { e.stopPropagation(); });
-        
-        this.__buttons = [this.close, this.maximize, this.maximize_vert,
-                          this.maximize_horiz, this.minimize, this.shrink];
-        for (var i = 0; i < this.__buttons.length; i++) {
-            this.__buttons[i].element.appendChild(
-                TK.element("div", "toolkit-icon")
-            );
-            this.__buttons[i]._icon.remove();
-            this.__buttons[i]._label.remove();
-        }
+        this.add_child(this.shrink);
         
         this.set("width", this.options.width, true);
         this.set("height", this.options.height, true);

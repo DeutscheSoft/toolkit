@@ -125,24 +125,12 @@
     background-repeat: no-repeat;
     height: 16px;
     margin: 0;
+    font-size: 16px;
+    line-height: 16px;
+    text-shadow: none !important;
 }
 .toolkit-window > .toolkit-header .toolkit-button.toolkit-close .toolkit-icon {
-    background-image: url(../images/window/close.png);
-}
-.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize .toolkit-icon {
-    background-image: url(../images/window/maximize.png);
-}
-.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-vertical .toolkit-icon {
-    background-image: url(../images/window/maximize_vert.png);
-}
-.toolkit-window > .toolkit-header .toolkit-button.toolkit-maximize-horizontal .toolkit-icon {
-    background-image: url(../images/window/maximize_horiz.png);
-}
-.toolkit-window > .toolkit-header .toolkit-button.toolkit-minimize .toolkit-icon {
-    background-image: url(../images/window/minimize.png);
-}
-.toolkit-window > .toolkit-header .toolkit-button.toolkit-shrink .toolkit-icon {
-    background-image: url(../images/window/shrink.png);
+    color: #BA1B25 !important;
 }
 
 .toolkit-window.toolkit-shrinked {
