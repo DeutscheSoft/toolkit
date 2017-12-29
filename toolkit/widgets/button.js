@@ -29,10 +29,6 @@
  
 "use strict";
 (function(w, TK){
-var class_regex = /[^A-Za-z0-9_\-]/;
-function is_class_name (str) {
-    return !class_regex.test(str);
-}
 
 TK.Button = TK.class({
     /**
@@ -56,13 +52,11 @@ TK.Button = TK.class({
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         label: "string",
-        icon: "string",
         state: "boolean",
         layout: "int",
     }),
     options: {
         label:            false,
-        icon:             false,
         state:            false,
         layout:           "vertical"
     },
@@ -110,24 +104,8 @@ TK.Button = TK.class({
             TK.toggle_class(E, "toolkit-active", O.state);
         }
 
-        /* FIXME: These two cases are not solved using the ChildElement API in order
+        /* FIXME: This case is not solved using the ChildElement API in order
          * to support TK.Toggle */
-        if (O.show_icon && I.validate("icon")) {
-            var icon = this._icon;
-            var old = this._icon_old;
-            if (old && is_class_name(old))
-                TK.remove_class(icon, old);
-            var has_icon = !!O.icon;
-            if (has_icon) {
-                if (is_class_name(O.icon)) {
-                    icon.style["background-image"] = null;
-                    TK.add_class(icon, O.icon);
-                } else {
-                    icon.style["background-image"] = "url(\"" + O.icon + "\")";
-                }
-            }
-            TK.toggle_class(E, "toolkit-has-icon", has_icon);
-        }
 
         if (O.show_label && I.validate("label")) {
             var _label = this._label;
@@ -138,29 +116,15 @@ TK.Button = TK.class({
             TK.toggle_class(this.element, "toolkit-has-label", has_value);
         }
     },
-    set: function (key, val) {
-        if (key == "icon") {
-            this._icon_old = this.options.icon;
-        }
-        return TK.Widget.prototype.set.call(this, key, val);
-    },
 });
 /**
- * @member {HTMLImageElement} TK.Button#_icon - The icon of the button.
- *      Has class <code>toolkit-icon</code>.
+ * @member {TK.Icon} TK.Button#icon - The {@link TK.Icon} widget.
  */
-TK.ChildElement(TK.Button, "icon", {
-    show: true,
-    //option: "icon",
-    //display_check: function(v) {
-        //return typeof(v) === "string" && v.length;
-    //},
-    create: function() {
-        var icon = TK.element("div","toolkit-icon");
-        return icon;
-    },
+TK.ChildWidget(TK.Button, "icon", {
+    create: TK.Icon,
+    inherit_options: true,
     append: function() {
-        this._cell.appendChild(this._icon);
+        this._cell.appendChild(this.icon.element);
     },
     toggle_class: true,
 });

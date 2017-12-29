@@ -81,32 +81,32 @@
          unicode="9"
          d="m 192,895.99999 c -35.456,0 -64,-28.544 -64,-64 V 429.25391 l 96,96 v 274.74608 h 274.7461 l 96,96 z m 493.2539,0 -96,-96 H 709.4922 L 562.7461,653.25391 653.2539,562.74609 800,709.49219 V 589.25391 l 96,96 V 895.99999 Z M 896,594.74609 l -96,-96 V 224 H 525.2539 l -96,-96 H 832 c 35.456,0 64,28.544 64,64 z M 370.7461,461.25391 224,314.50781 v 120.23828 l -96,-96 V 128 h 210.7461 l 96,96 H 314.5078 l 146.7461,146.74609 z" />
       <glyph
-         glyph-name="Minimize Window/Min Win"
+         glyph-name="Window Minimize/Win Min"
          id="glyph4538"
          unicode="a"
          d="m 224,448 h 576 c 53.184,0 96,-42.816 96,-96 0,-53.184 -42.816,-96 -96,-96 H 224 c -53.184,0 -96,42.816 -96,96 0,53.184 42.816,96 96,96 z" />
       <glyph
-         glyph-name="Close Window/Close Win"
+         glyph-name="Window Close/Win Close"
          id="glyph4540"
          unicode="0"
          d="m 226.38358,895.99999 a 98.012587,98.013445 0 0 1 -68.2733,-168.2914 l 215.4982,-215.5002 -215.9435,-215.9435 a 98.012587,98.013445 0 1 1 138.5976,-138.5989 l 215.9417,215.9435 215.4963,-215.4982 a 98.012587,98.013445 0 1 1 138.5976,138.5969 l -215.4982,215.5002 215.0529,215.0548 a 98.012587,98.013445 0 1 1 -138.5957,138.597 l -215.0529,-215.0549 -215.4964,215.5002 a 98.012587,98.013445 0 0 1 -70.3243,29.6945 z" />
       <glyph
-         glyph-name="Maximize Window/Max Win"
+         glyph-name="Window Maximize/Win Max"
          id="glyph4542"
          unicode="b"
          d="m 224,896 c -53.184,0 -96,-42.816 -96,-96 V 224 c 0,-53.184 42.816,-96 96,-96 h 576 c 53.184,0 96,42.816 96,96 v 576 c 0,53.184 -42.816,96 -96,96 z M 288,736 H 736 V 288 H 288 Z" />
       <glyph
-         glyph-name="Maximize Window Vertically/Max Win Vert"
+         glyph-name="Window Maximize Vertical/Win Max Vert"
          id="glyph4548"
          unicode="c"
          d="m 352,896 c -53.184,0 -96,-42.816 -96,-96 V 224 c 0,-53.184 42.816,-96 96,-96 h 320 c 53.184,0 96,42.816 96,96 v 576 c 0,53.184 -42.816,96 -96,96 z M 416,736 H 608 V 288 H 416 Z" />
       <glyph
-         glyph-name="Maximize Window Horizontally/Max Win Horiz"
+         glyph-name="Window Maximize Horizontal/Win Max Horiz"
          id="glyph4552"
          unicode="d"
          d="m 896,672 c 0,53.184 -42.816,96 -96,96 H 224 c -53.184,0 -96,-42.816 -96,-96 V 352 c 0,-53.184 42.816,-96 96,-96 h 576 c 53.184,0 96,42.816 96,96 z M 736,608 V 416 H 288 v 192 z" />
       <glyph
-         glyph-name="Shrink Window/Shrink Win"
+         glyph-name="Window Shrink/Win Shrink"
          id="glyph4560"
          unicode="e"
          d="m 224,768 h 576 c 53.184,0 96,-42.816 96,-96 0,-53.184 -42.816,-96 -96,-96 H 224 c -53.184,0 -96,42.816 -96,96 0,53.184 42.816,96 96,96 z" />
@@ -119,9 +119,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.22627417"
-     inkscape:cx="193.06667"
-     inkscape:cy="-201.62231"
+     inkscape:zoom="0.075185338"
+     inkscape:cx="3453.7917"
+     inkscape:cy="-162.32186"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="true"

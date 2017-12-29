@@ -147,8 +147,9 @@
     fill: #999;
 }
 
-
-
+.toolkit-icon {
+    
+}
 
 .toolkit-knob > svg > .toolkit-circular > .toolkit-hand {
     fill: #666;

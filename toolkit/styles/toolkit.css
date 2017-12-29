@@ -247,6 +247,18 @@ pre, code {
     bottom: 0;
 }
 
+/* ICON */
+
+.toolkit-icon {
+    background-position: center center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -ms-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 /* LEVELMETER */
 
 .toolkit-level-meter > .toolkit-clip {

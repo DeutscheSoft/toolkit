@@ -199,6 +199,17 @@ if ('getComputedStyle' in w) {
   };
 }
 
+var class_regex = /[^A-Za-z0-9_\-]/;
+function is_class_name (str) {
+    /**
+     * Returns true ii a string could be a class name
+     * @param {string} string - The string to test
+     * @function TK.is_class_name
+     * @returns {boolean}
+     */
+    return !class_regex.test(str);
+}
+
 function get_max_time(string) {
    /**
    * Returns the maximum value (float)  of a comma separated string. It is used
@@ -1163,6 +1174,7 @@ TK = w.toolkit = {
     remove_class : remove_class,
     add_class : add_class,
     toggle_class : toggle_class,
+    is_class_name : is_class_name,
 
     insert_after: insert_after,
     insert_before: insert_before,
