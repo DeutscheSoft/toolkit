@@ -66,8 +66,9 @@ TK.Icon = TK.class({
                 TK.remove_class(E, old);
             if (TK.is_class_name(O.icon)) {
                 E.style["background-image"] = null;
-                TK.add_class(E, O.icon);
-            } else {
+                if (O.icon)
+                    TK.add_class(E, O.icon);
+            } else if (O.icon) {
                 E.style["background-image"] = "url(\"" + O.icon + "\")";
             }
         }

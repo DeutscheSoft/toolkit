@@ -52,11 +52,13 @@ TK.Button = TK.class({
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         label: "string",
+        icon: "string",
         state: "boolean",
         layout: "int",
     }),
     options: {
         label:            false,
+        icon:            false,
         state:            false,
         layout:           "vertical"
     },
@@ -122,7 +124,7 @@ TK.Button = TK.class({
  */
 TK.ChildWidget(TK.Button, "icon", {
     create: TK.Icon,
-    inherit_options: true,
+    map_options: {icon:"icon"},
     append: function() {
         this._cell.appendChild(this.icon.element);
     },
