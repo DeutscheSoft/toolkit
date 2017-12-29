@@ -137,3 +137,6 @@ toolkit/styles/2013/css/toolkit.all.css: Makefile
 jsdoc: Makefile $(js_input_files) doc/jsdoc/conf.json toolkit/styles/2013/css/toolkit.all.css
 	jsdoc -u doc/tutorials/ --readme doc/docs/Main.md -t ../jsdoc-toolkit/ -c doc/jsdoc/conf.json -d doc/documentation/ $(js_input_files)
 	cp -r toolkit doc/documentation/
+	
+icons: Makefile
+	icongen -t -h -c -p toolkit- toolkit/styles/fonts/Toolkit
