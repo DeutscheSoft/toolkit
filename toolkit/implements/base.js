@@ -636,7 +636,7 @@ function ChildWidget(widget, name, config) {
     var key = "show_"+name;
     var tmp, m;
     var static_events = { };
-
+    
     if (!config.userset_ignore)
       static_events.userset = (config.inherit_options || config.userset_delegate)
           ? function(key, value) { this.parent.userset(key, value); return false; }
@@ -671,7 +671,8 @@ function ChildWidget(widget, name, config) {
             this[name] = null;
         }
     });
-
+    
+    var fixed = config.fixed;
     var append = config.append;
     var toggle_class = !!config.toggle_class;
 
@@ -680,7 +681,8 @@ function ChildWidget(widget, name, config) {
     /* child widget creation */
     add_static_event(widget, "set_"+key, function(val) {
         var C = this[name];
-        if (val && !C) {
+        var show = fixed || !!val;
+        if (show && !C) {
             var O = get_child_options(this, name, this.options, config);
             if (append === true)
                 O.container = this.element;
@@ -689,11 +691,11 @@ function ChildWidget(widget, name, config) {
             this[name] = w;
             if (typeof(append) === "function")
                 append.call(this);
-        } else if (!val && C) {
+        } else if (!show && C) {
             C.destroy();
             this[name] = null;
         }
-        if (toggle_class) TK.toggle_class(this.element, "toolkit-has-"+name, val);
+        if (toggle_class) TK.toggle_class(this.element, "toolkit-has-"+name, show);
         this.trigger_resize();
     });
     var set_cb = function(val, key) {
@@ -731,7 +733,7 @@ function ChildWidget(widget, name, config) {
         }
     }
     p._options[key] = "boolean";
-    p.options[key] = !!config.show;
+    p.options[key] = fixed || !!config.show;
 }
 TK.add_static_event = add_static_event;
 TK.ChildWidget = ChildWidget;
