@@ -35,74 +35,39 @@
 }
 
 .toolkit-window > .toolkit-content {
-    top: 30px;
-    bottom: 30px;
+    top: 32px;
+    bottom: 32px;
     margin: 4px;
-    text-align: justify;
 }
 
 .toolkit-window > .toolkit-header {
-    height: 30px;
-    line-height: 28px;
-    position: absolute;
-    cursor: default;
+    line-height: 30px;
     background: #00ccff;
     color: white;
 }
 .toolkit-window > .toolkit-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 28px;
-    line-height: 28px;
-    cursor: default;
+    line-height: 30px;
     border-top: 1px solid white;
 }
-.toolkit-window > .toolkit-header > .toolkit-header-left {
-    float: left;
-}
-.toolkit-window > .toolkit-header > .toolkit-header-center {
-    float: left;
-}
-.toolkit-window > .toolkit-header > .toolkit-header-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-.toolkit-window > .toolkit-footer > .toolkit-footer-left {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-}
-.toolkit-window > .toolkit-footer > .toolkit-footer-center {
-    position: absolute;
-    bottom: 0;
-    overflow: hidden;
-}
-.toolkit-window > .toolkit-footer > .toolkit-footer-right {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
 
-.toolkit-window > .toolkit-header > .toolkit-header-center > .toolkit-title {
-    font-weight: 700;
-    font-size: 14px;
-    margin: 0 5px;
-}
-.toolkit-window.toolkit-active > .toolkit-header > .toolkit-header-center >  .toolkit-title {
+.toolkit-window > .toolkit-header > .toolkit-title,
+.toolkit-window > .toolkit-footer > .toolkit-title {
     text-align: left;
+    font-size: bold;
 }
-.toolkit-window > .toolkit-footer .toolkit-status {
+.toolkit-window > .toolkit-header > .toolkit-status,
+.toolkit-window > .toolkit-footer > .toolkit-status {
+    text-align: left;
     margin: 0 5px;
 }
-.toolkit-window > .toolkit-header .toolkit-icon  {
+.toolkit-window > .toolkit-header > .toolkit-icon,
+.toolkit-window > .toolkit-footer > .toolkit-icon {
     width: 24px;
     height: 24px;
     margin: 3px;
 }
-.toolkit-window > .toolkit-header .toolkit-button  {
+.toolkit-window > .toolkit-header > .toolkit-button,
+.toolkit-window > .toolkit-footer > .toolkit-button {
     background: transparent;
     border-color: transparent;
     position: relative;
@@ -112,9 +77,8 @@
     margin: 0 2px;
 }
 
-.toolkit-window > .toolkit-header .toolkit-button .toolkit-icon {
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
+.toolkit-window > .toolkit-header > .toolkit-button .toolkit-icon,
+.toolkit-window > .toolkit-footer > .toolkit-button .toolkit-icon {
     height: 16px;
     margin: 0;
     font-size: 16px;
@@ -124,21 +88,5 @@
 
 
 .toolkit-window.toolkit-shrinked {
-    height: 30px !important;
-}
-.toolkit-window.toolkit-shrinked > .toolkit-footer,
-.toolkit-window.toolkit-shrinked .toolkit-resize {
-    display: none !important;
-}
-
-.toolkit-window > .toolkit-resize {
-    background-size: contain;
-    width: 24px;
-    height: 24px;
-    display: none;
-    opacity: 0.5;
-    margin: 2px;
-}
-.toolkit-window.toolkit-resizable > .toolkit-resize {
-    display: block;
+    height: 32px !important;
 }

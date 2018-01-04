@@ -560,41 +560,66 @@ pre, code {
     position: absolute;
     z-index: 10000;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .toolkit-window > .toolkit-content {
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 1;
     overflow: auto;
+    order: 2;
+    flex: 1 1 auto;
 }
 .toolkit-window > .toolkit-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    cursor: default;
+    order: 1;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.toolkit-window.toolkit-draggable > .toolkit-header {
+    cursor: pointer;
 }
 
-.toolkit-window .toolkit-title {
+.toolkit-window > .toolkit-footer {
+    cursor: default;
+    order: 3;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.toolkit-window > .toolkit-header > .toolkit-title,
+.toolkit-window > .toolkit-footer > .toolkit-title {
     white-space: nowrap;
+    flex: 1 1 auto;
 }
-.toolkit-window .toolkit-status {
+.toolkit-window > .toolkit-header .toolkit-status,
+.toolkit-window > .toolkit-footer .toolkit-status {
     white-space: nowrap;
+    flex: 1 1 auto;
 }
-.toolkit-window > .toolkit-resize {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 10000000;
-    cursor: se-resize;
+.toolkit-window > .toolkit-header > .toolkit-icon,
+.toolkit-window > .toolkit-footer > .toolkit-icon {
+    flex: 0 0 auto;
 }
+.toolkit-window > .toolkit-header > .toolkit-button,
+.toolkit-window > .toolkit-footer > .toolkit-button {
+    flex: 0 0 auto;
+}
+.toolkit-window.toolkit-shrinked > .toolkit-footer,
+.toolkit-window.toolkit-shrinked .toolkit-resize {
+    display: none !important;
+}
+.toolkit-window > .toolkit-header > .toolkit-resize,
+.toolkit-window > .toolkit-footer > .toolkit-resize {
+    cursor: pointer;
+}
+
 
 /* KNOB */
 

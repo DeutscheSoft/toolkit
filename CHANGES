@@ -26,6 +26,10 @@ o Button/Toggle: set URL or class name for icon
 o Faders with markers (tiny triangles) and bars to visualize different other
   values, e.g. backend values or a level meter. Additionally Faders got
   title and value ChildWidgets.
+  
+o Window: complete rewrite. Less DOM nodes, less complexity, using new
+  toolkit APIs. Additionally layout switched from table-like div zoo to
+  more slick flexbox.
 
 API Changes
 ===========
@@ -40,6 +44,23 @@ o The return value of event handlers is processed differently now.
 o Circular elements switched the option for the opening angle from "basis"
   to "angle". This is to separate the distance to drag on Knob and ValueKnob
   from the angle.
+  
+o Window: All sub elements are real widgets now using the new ChildWidget API.
+  There's only header and footer element left, header_left, header_center, header_right,
+  footer_left, footer_center and footer_right are removed.
+  The options are reduced to only header and footer, too. Setting one of them
+  to false removes the element from the window. It's not possible to set
+  simple strings without being wrapped in an array anymore.
+  
+  There's a new element to be added to header or footer: "resize".
+  
+  The option "resizable" was dropped in favour of setting "resize"
+  in "header" or "footer".
+  
+  
+  
+  TODO: startdrag and stopdrag events aren't fired in TK.Drag. This stops
+  Window from un-maximizing and other things.
   
 Style Changes
 =============

@@ -40,75 +40,49 @@
 }
 
 .toolkit-window > .toolkit-content {
-    top: 30px;
-    bottom: 30px;
-    margin: 4px;
-    text-align: justify;
+    padding: 4px;
 }
 
 .toolkit-window > .toolkit-header {
-    height: 30px;
-    line-height: 28px;
-    position: absolute;
-    cursor: default;
+    height: 32px;
+    line-height: 30px;
     border-bottom: 1px solid rgba(0,0,0,0.033);
     background: rgba(255,255,255,0.33);
 }
 .toolkit-window > .toolkit-footer {
     height: 28px;
     line-height: 28px;
-    cursor: default;
     border-top: 1px solid rgba(255,255,255,0.6);
     background: rgba(255,255,255,0.33);
 }
-.toolkit-window > .toolkit-header > .toolkit-header-left {
-    float: left;
-}
-.toolkit-window > .toolkit-header > .toolkit-header-center {
-    float: left;
-}
-.toolkit-window > .toolkit-header > .toolkit-header-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-.toolkit-window > .toolkit-footer > .toolkit-footer-left {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-}
-.toolkit-window > .toolkit-footer > .toolkit-footer-center {
-    position: absolute;
-    bottom: 0;
-    overflow: hidden;
-}
-.toolkit-window > .toolkit-footer > .toolkit-footer-right {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
 
-.toolkit-window > .toolkit-header > .toolkit-header-center > .toolkit-title {
+.toolkit-window > .toolkit-header > .toolkit-title,
+.toolkit-window > .toolkit-footer > .toolkit-title {
     font-weight: 700;
+    text-align: left;
     font-size: 14px;
     color: #999;
     text-shadow: 0px 1px 0px white;
     margin: 0 5px;
 }
-.toolkit-window.toolkit-active > .toolkit-header > .toolkit-header-center >  .toolkit-title {
+.toolkit-window.toolkit-active > .toolkit-header > .toolkit-title,
+.toolkit-window.toolkit-active > .toolkit-footer > .toolkit-title {
     color: #002f42;
-    text-align: left;
 }
+.toolkit-window > .toolkit-header .toolkit-status,
 .toolkit-window > .toolkit-footer .toolkit-status {
     color: #999;
     margin: 0 5px;
+    text-align: left;
 }
-.toolkit-window > .toolkit-header .toolkit-icon {
+.toolkit-window > .toolkit-header > .toolkit-icon,
+.toolkit-window > .toolkit-footer > .toolkit-icon {
     width: 24px;
     height: 24px;
     margin: 2px;
 }
-.toolkit-window > .toolkit-header .toolkit-button  {
+.toolkit-window > .toolkit-header > .toolkit-button,
+.toolkit-window > .toolkit-footer > .toolkit-button {
     margin: 0 2px;
     padding: 0px;
     border: 0px solid transparent;
@@ -117,39 +91,27 @@
     border-radius: 0;
     box-shadow: none;
 }
-.toolkit-window > .toolkit-header .toolkit-button:hover  {
+.toolkit-window > .toolkit-header > .toolkit-button:hover,
+.toolkit-window > .toolkit-footer > .toolkit-button:hover {
     background: white;
 }
-.toolkit-window > .toolkit-header .toolkit-button .toolkit-icon {
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
+.toolkit-window > .toolkit-header > .toolkit-button .toolkit-icon,
+.toolkit-window > .toolkit-footer > .toolkit-button .toolkit-icon {
     height: 16px;
     margin: 0;
     font-size: 16px;
     line-height: 16px;
     text-shadow: none !important;
 }
-.toolkit-window > .toolkit-header .toolkit-button.toolkit-close .toolkit-icon {
+.toolkit-window > .toolkit-header > .toolkit-button.toolkit-close .toolkit-icon,
+.toolkit-window > .toolkit-footer > .toolkit-button.toolkit-close .toolkit-icon {
     color: #BA1B25 !important;
 }
 
 .toolkit-window.toolkit-shrinked {
-    height: 30px !important;
+    height: 32px !important;
 }
-.toolkit-window.toolkit-shrinked > .toolkit-footer,
-.toolkit-window.toolkit-shrinked .toolkit-resize {
-    display: none !important;
-}
-
-.toolkit-window > .toolkit-resize {
-    background: url(../images/window/resize.png) no-repeat;
-    background-size: contain;
-    width: 24px;
-    height: 24px;
-    display: none;
-    opacity: 0.08;
-    margin: 2px;
-}
-.toolkit-window.toolkit-resizable > .toolkit-resize {
-    display: block;
+.toolkit-window > .toolkit-header > .toolkit-resize,
+.toolkit-window > .toolkit-footer > .toolkit-resize {
+    color: #ccc;
 }
