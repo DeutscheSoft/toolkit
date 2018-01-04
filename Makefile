@@ -15,6 +15,7 @@ js_input_files = \
     toolkit/implements/notes.js\
     toolkit/widgets/widget.js\
     toolkit/widgets/tooltips.js\
+    toolkit/widgets/icon.js\
     toolkit/modules/grid.js\
     toolkit/modules/range.js\
     toolkit/modules/scale.js\
