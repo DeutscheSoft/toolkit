@@ -54,3 +54,4 @@
 .toolkit-icon.winmaxhoriz::before                          { content: 'd'; }
 .toolkit-icon.windowshrink::before                         { content: 'e'; }
 .toolkit-icon.winshrink::before                            { content: 'e'; }
+.toolkit-icon.windowresize::before                         { content: 'f'; }
