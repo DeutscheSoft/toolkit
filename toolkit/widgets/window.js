@@ -190,8 +190,8 @@ function start_drag(ev, el) {
     if (horiz_max.call(this)) this.options.x = pos.x;
     if (vert_max.call(this))  this.options.y = pos.y;
     
-    this.drag._xpos += x;
-    this.drag._ypos += y;
+    this.Drag._xpos += x;
+    this.Drag._ypos += y;
     
     /**
      * The user starts dragging the window.
@@ -317,11 +317,11 @@ function build_header() {
         this.Drag = new TK.Drag({
             node        : this.element,
             handle      : this.header.element,
-            onDragstart : start_drag.bind(this),
-            onDragstop  : stop_drag.bind(this),
+            onStartdrag : start_drag.bind(this),
+            onStopdrag  : stop_drag.bind(this),
             onDragging  : dragging.bind(this),
             min         : {x: 0 - this.options.width + 20, y: 0},
-            max         : {x: TK.width() - 20, y: TK.height() - 20}
+            max         : {x: TK.width() - 20, y: TK.height() - 20},
         });
         //this.header.add_event("dblclick", header_action.bind(this));
     }
