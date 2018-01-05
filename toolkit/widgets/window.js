@@ -651,6 +651,7 @@ TK.Window = TK.class({
         }
         if (I.content) {
             I.content = false;
+            if (O.content) TK.set_content(this.content.element, O.content);
         }
         
         if (setD) set_dimensions.call(this);
