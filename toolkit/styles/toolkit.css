@@ -619,6 +619,10 @@ pre, code {
 .toolkit-window > .toolkit-footer > .toolkit-resize {
     cursor: pointer;
 }
+.toolkit-window > .toolkit-header > .toolkit-spacer,
+.toolkit-window > .toolkit-footer > .toolkit-spacer {
+    flex: 1 1 auto;
+}
 
 
 /* KNOB */

@@ -347,19 +347,23 @@ function build_from_const(element) {
     while (E.firstChild) E.firstChild.remove();
     if (!L) return;
     for (var i = 0; i < L.length; i++) {
-        this.set("show_" + L[i], true);
-        E.appendChild(this[L[i]].element);
-        if (L[i] == "resize" && !this.Resize && this.resize) {
-            this.Resize = new TK.Resize({
-                node          : this.element,
-                handle        : this.resize.element,
-                min           : {x: O.min_width, y: O.min_height},
-                max           : {x: max_width.call(this), y: max_height.call(this)},
-                onResizestart : start_resize.bind(this),
-                onResizestop  : stop_resize.bind(this),
-                onResizing    : resizing.bind(this),
-                active        : O.resizable
-            });
+        if (L[i] !== "spacer") {
+            this.set("show_" + L[i], true);
+            E.appendChild(this[L[i]].element);
+            if (L[i] == "resize" && !this.Resize && this.resize) {
+                this.Resize = new TK.Resize({
+                    node          : this.element,
+                    handle        : this.resize.element,
+                    min           : {x: O.min_width, y: O.min_height},
+                    max           : {x: max_width.call(this), y: max_height.call(this)},
+                    onResizestart : start_resize.bind(this),
+                    onResizestop  : stop_resize.bind(this),
+                    onResizing    : resizing.bind(this),
+                    active        : O.resizable
+                });
+            }
+        } else {
+            E.appendChild(TK.element("div", "toolkit-spacer"));
         }
     }
 }
@@ -410,9 +414,9 @@ TK.Window = TK.class({
      * @property {Integer} [options.z_index=10000] - Z index for piling windows. does make more sense
      *   when used together with a window manager
      * @property {String|Array<String>} [options.header=["icon","title","maximize","close"]] - Single element or array of
-     *   "title", "icon", "close", "minimize", "shrink", "maximize", "maximizevertical", "maximizehorizontal", "status", "resize".
+     *   "title", "icon", "close", "minimize", "shrink", "maximize", "maximizevertical", "maximizehorizontal", "status", "resize", "spacer".
      * @property {String|Array<String>} [options.footer=false] - Single element or array of
-     *   "title", "icon", "close", "minimize", "shrink", "maximize", "maximizevertical", "maximizehorizontal", "status", "resize".
+     *   "title", "icon", "close", "minimize", "shrink", "maximize", "maximizevertical", "maximizehorizontal", "status", "resize", "spacer".
      * @property {String} [options.title=false] - Window title.
      * @property {String} [options.status=false] Window status.
      * @property {String} [options.icon=false] URL to window icon.
