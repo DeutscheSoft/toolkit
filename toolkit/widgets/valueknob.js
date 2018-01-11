@@ -102,8 +102,7 @@ TK.ValueKnob = TK.class({
  */
 TK.ChildWidget(TK.ValueKnob, "label", {
     create: TK.Label,
-    show: false,
-    inherit_options: false,
+    toggle_class: true,
 });
 /**
  * @member {TK.Knob} TK.ValueKnob#knob - The TK.Knob widget.
@@ -112,6 +111,7 @@ TK.ChildWidget(TK.ValueKnob, "knob", {
     create: TK.Knob,
     show: true,
     inherit_options: true,
+    toggle_class: true,
 });
 /**
  * @member {TK.Value} TK.ValueKnob#value - The TK.Value widget.
@@ -129,5 +129,6 @@ TK.ChildWidget(TK.ValueKnob, "value", {
         valueclicked: value_clicked,
         valuedone: value_done,
     },
+    toggle_class: true,
 });
 })(this, this.TK);
