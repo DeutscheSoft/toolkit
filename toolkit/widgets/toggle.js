@@ -181,7 +181,7 @@ TK.Toggle = TK.class({
         
         if (O.show_icon && (I.validate("icon_active", "icon") || I.state)) {
             tmp = (O.state && O.icon_active) || O.icon;
-            var icon = this._icon;
+            var icon = this.icon.element;
             
             var old = this._icon_old;
             if (old && is_class_name(old))
