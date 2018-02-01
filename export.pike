@@ -225,10 +225,10 @@ int main(int argc, array(string) argv) {
     mapping(string:array(string)) dependencies = calculate_dependencies(widget_to_file, file_to_widget,
                                                                         js_files);
     /* widgets we need */
-    mapping(string:int) widgets = ([]);
     array(string) W = ({});
 
     {
+      mapping(string:int) widgets = ([]);
       array(string) tmp = filter(argv[1..], stringp);
 
       if (!sizeof(tmp)) {
@@ -291,7 +291,6 @@ int main(int argc, array(string) argv) {
         Stdio.mkdirhier(DST);
 
         string theme_dir = combine_path(SRC, options->theme);
-        array(string) W = dependency_sort(widgets, dependencies);
 
         /* super slow */
         foreach (W;; string widget) {
@@ -342,7 +341,6 @@ int main(int argc, array(string) argv) {
 
     } else if (options->mode == "print") {
         werror("Dependencies:\n");
-        array(string) W = dependency_sort(widgets, dependencies);
 
         foreach (W;; string widget) {
             array(string) widgets = dependencies[widget];
