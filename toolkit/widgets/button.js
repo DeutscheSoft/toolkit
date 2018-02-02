@@ -54,7 +54,7 @@ TK.Button = TK.class({
         label: "string",
         icon: "string",
         state: "boolean",
-        layout: "int",
+        layout: "string",
     }),
     options: {
         label:            false,
