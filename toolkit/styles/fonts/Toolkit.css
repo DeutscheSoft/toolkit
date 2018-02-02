@@ -57,3 +57,5 @@
 .toolkit-icon.windowresize::before                         { content: 'f'; }
 .toolkit-icon.unchecked::before                            { content: 'g'; }
 .toolkit-icon.checked::before                              { content: 'h'; }
+.toolkit-icon.speakeractive::before                        { content: 'i'; }
+.toolkit-icon.speakermute::before                          { content: 'j'; }
