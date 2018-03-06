@@ -75,8 +75,8 @@ TK.Tags = TK.class({
     },
     remove_tag: function (tag) {
         tag = this.find_tag(tag);
-        this.tags.remove(this.tag_to_string(tag));
-        this.tag_to_name.remove(tag);
+        this.tags.delete(this.tag_to_string(tag));
+        this.tag_to_name.delete(tag);
     },
     empty: function() {
         this.tags = new Map();
