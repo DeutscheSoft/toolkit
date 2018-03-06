@@ -29,10 +29,6 @@ TK.TaggableListItem = TK.class({
         TK.ListItem.prototype.initialize.call(this, options);
         TK.Taggable.prototype.initialize.call(this);
         TK.add_class(this.element, "toolkit-taggable-list-item");
-    },
-    destroy: function () {
-        TK.Taggable.prototype.destroy.call(this);
-        TK.ListItem.prototype.destroys.call(this, options);
     }
 });
     
