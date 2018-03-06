@@ -670,10 +670,11 @@ TK.Widget = TK.class({
      * @param {TK.Widget} child - The child to remove.
      */
     remove_child : function(child) {
-        var C = this.children;
-        var i = C.indexOf(child);
         child.disable_draw();
         child.parent = null;
+        var C = this.children;
+        if (C === null) return;
+        var i = C.indexOf(child);
         if (i !== -1) {
             C.splice(i, 1);
         }

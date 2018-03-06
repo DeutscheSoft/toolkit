@@ -166,17 +166,15 @@ TK.Container = TK.class({
         H.push(false);
     },
     remove_child : function(child) {
+        child.disable_draw();
+        child.parent = null;
         var C = this.children;
+        if (C === null) return;
         var H = this.hidden_children;
         var i = C.indexOf(child);
-        child.parent = null;
         if (i !== -1) {
             C.splice(i, 1);
             H.splice(i, 1);
-        }
-        if (!H) {
-            this.hidden_children = [];
-            this.children = [];
         }
     },
     enable_draw: function () {
