@@ -32,5 +32,7 @@
 @import "plain/css/expander.css";
 @import "plain/css/valueknob.css";
 @import "plain/css/multimeter.css";
+@import "plain/css/notification.css";
+@import "plain/css/notifications.css";
 
 @import "plain/raspberry.css";

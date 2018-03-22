@@ -53,6 +53,8 @@ js_input_files = \
     toolkit/widgets/select.js\
     toolkit/widgets/window.js\
     toolkit/widgets/toggle.js\
+    toolkit/widgets/notification.js\
+    toolkit/widgets/notifications.js\
     toolkit/widgets/multimeter.js
 
 css_input_files = \

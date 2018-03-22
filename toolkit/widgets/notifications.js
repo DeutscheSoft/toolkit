@@ -19,6 +19,19 @@
 "use strict";
 (function (w, TK) {
 
+/**
+ * TK.Notifications is a {@link TK.Container} for displaying {@link TK.Notification}
+ * popups.
+ * 
+ * @class TK.Notifications
+ * 
+ * @extends TK.Container
+ * 
+ * @param {Object} options
+ * 
+ * @property {string} [options.stack="end"] - Where does a new {@link TK.Notification} appear - "end" or "start"
+ */
+
 TK.Notifications = TK.class({
     
     _class: "Notifications",
@@ -28,7 +41,7 @@ TK.Notifications = TK.class({
       stack: "string",
     }),
     options: {
-      stack: "bottom"
+      stack: "start",
     },
     
     initialize: function (options) {
@@ -37,9 +50,17 @@ TK.Notifications = TK.class({
     },
     
     notify: function (options) {
+    /**
+     * Resets the peak label.
+     * 
+     * @method TK.Notification#notify
+     * 
+     * @param {object} options - Options for the {@link TK.Notification} to add
+     * 
+     */
       var n = new TK.Notification(options);
       this.add_child(n);
-      if (this.options.stack == "bottom")
+      if (this.options.stack == "start")
         this.element.insertBefore(n.element, this.element.firstChild);
       else
         this.element.appendChild(n.element);

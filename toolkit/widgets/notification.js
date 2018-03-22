@@ -42,6 +42,21 @@ function timeout() {
   close.call(this);
 }
 
+/**
+ * TK.Notification is a {@link TK.Container} to be used in {@link TK.Notifications}.
+ * 
+ * @class TK.Notification
+ * 
+ * @extends TK.Container
+ * 
+ * @param {Object} options
+ * 
+ * @property {number} [options.timeout=5000] - Time in milliseconds
+ * after the notification disappears. Set to 0 for permanent notification.
+ * @property {string} [options.icon=false] - Show an icon, <code>false</code> for no icon.
+ * @property {boolean} [options.show_close=false] - Show a close button.
+ */
+ 
 TK.Notification = TK.class({
     
   _class: "Notification",
@@ -49,9 +64,13 @@ TK.Notification = TK.class({
   
   _options: Object.assign(TK.Container.prototype._options, {
     timeout: "number",
+    icon: "string",
+    show_close: "boolean",
   }),
   options: {
     timeout: 5000,
+    icon: false,
+    show_close: false,
   },
   
   initialize: function (options) {
@@ -66,13 +85,10 @@ TK.Notification = TK.class({
     var O = this.options;
     var i = I.content;
     TK.Container.prototype.redraw.call(this);
+    if (i && this.icon)
+      this.element.insertBefore(this.icon.element, this.element.firstChild);
     if (i && this.close)
       this.element.insertBefore(this.close.element, this.element.firstChild);
-    
-    if (I["class"]) {
-      I["class"] = false;
-      TK.add_class(this.element, "toolkit-icon");
-    }
   },
   
   remove: close,
@@ -93,7 +109,7 @@ TK.Notification = TK.class({
 });
 
 /**
- * @member {TK.Button} TK.Notification#closes - The TK.Button widget.
+ * @member {TK.Button} TK.Notification#close - The TK.Button for closing the notification.
  */
 TK.ChildWidget(TK.Notification, "close", {
   create: TK.Button,
@@ -103,7 +119,21 @@ TK.ChildWidget(TK.Notification, "close", {
     click: close_clicked,
   },
   default_options: {
-    "class": "toolkit-icon close"
+    "icon" : "close",
+    "class" : "toolkit-close",
+  },
+});
+
+/**
+ * @member {TK.Icon} TK.Notification#icon - The TK.Icon widget.
+ */
+TK.ChildWidget(TK.Notification, "icon", {
+  create: TK.Icon,
+  show: false,
+  toggle_class: true,
+  option: "icon",
+  map_options: {
+    icon: "icon",
   },
 });
 

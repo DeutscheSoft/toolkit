@@ -208,6 +208,13 @@
     border-color: white !important;
 }
 
+.toolkit-notification {
+  background: white;
+}
+.toolkit-notification > .toolkit-icon {
+  color: #aa0066;
+}
+
 .toolkit-response-handle {
     fill: #aaa;
 }
