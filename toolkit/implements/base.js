@@ -633,7 +633,7 @@ function get_child_options(parent, name, options, config) {
 }
 function ChildWidget(widget, name, config) {
     var p = widget.prototype;
-    var key = "show_"+name;
+    var key = config.option || "show_"+name;
     var tmp, m;
     var static_events = { };
     
@@ -732,8 +732,10 @@ function ChildWidget(widget, name, config) {
             add_static_event(widget, "set_"+tmp, set_cb(m[tmp]));
         }
     }
-    p._options[key] = "boolean";
-    p.options[key] = fixed || !!config.show;
+    if (!config.options) {
+        p._options[key] = "boolean";
+        p.options[key] = fixed || !!config.show;
+    }
 }
 TK.add_static_event = add_static_event;
 TK.ChildWidget = ChildWidget;
