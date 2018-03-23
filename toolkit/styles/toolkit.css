@@ -496,6 +496,13 @@ pre, code {
     display: block;
 }
 
+/* SLIDER */
+
+.toolkit-slider {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
 /* STATE */
 
 .toolkit-state > .toolkit-mask {
