@@ -246,6 +246,15 @@ TK.MeterBase = TK.class({
              */
             this.fire_event("basechanged", value);
         },
+        rangedchanged: function() {
+            /* redraw the gradient, if we have any */
+
+            var gradient = this.options.gradient;
+
+            if (gradient) {
+              this.set("gradient", gradient);
+            }
+        },
     },
     
     initialize: function (options) {
