@@ -61,7 +61,7 @@ TK.EqBand = TK.class({
     _class: "EqBand",
     Extends: TK.ResponseHandle,
     _options: Object.assign(Object.create(TK.ResponseHandle.prototype._options), {
-        type: "string",
+        type: "string|function",
         gain: "number",
         freq: "number",
         x: "number",
