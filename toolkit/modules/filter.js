@@ -103,7 +103,7 @@ function Notch(O) {
     };
 }
 
-/* This is a standard highpass filter with transfer function
+/* This is a standard lowpass filter with transfer function
  * H(s) = 1/(1+s)
  */
 function LowPass1(O) {
@@ -181,8 +181,22 @@ function HighPass4(O) {
     return O;
 }
 
+var Filters = {
+    Null: Null,
+    LowShelf:  LowShelf,
+    HighShelf: HighShelf,
+    Peaking:   Peaking,
+    Notch:        Notch,
+    LowPass1:     LowPass1,
+    LowPass2:     LowPass2,
+    LowPass4:     LowPass4,
+    HighPass1:    HighPass1,
+    HighPass2:    HighPass2,
+    HighPass4:    HighPass4,
+};
+
 var standard_biquads = {
-    "null": BiquadFilter(Null),
+    "null":       BiquadFilter(Null),
     "low-shelf":  BiquadFilter(LowShelf),
     "high-shelf": BiquadFilter(HighShelf),
     parametric:   BiquadFilter(Peaking),
@@ -378,4 +392,7 @@ TK.Filter = TK.class({
     },
     reset: reset,
 });
+
+TK.Filters = Filters;
+
 })(this, this.TK);
