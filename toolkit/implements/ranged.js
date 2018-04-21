@@ -19,7 +19,6 @@
 "use strict";
 (function(w){
 function LinearSnapModule(stdlib, foreign) {
-    "use asm";
     var min = +foreign.min;
     var max = +foreign.max;
     var step = +foreign.step;
@@ -108,7 +107,6 @@ function LinearSnapModule(stdlib, foreign) {
 }
 
 function ArraySnapModule(stdlib, foreign, heap) {
-    "use asm";
     var values = new stdlib.Float64Array(heap);
     var len = (heap.byteLength>>3)|0;
     var min = +(foreign.min !== void 0 ? foreign.min : values[0]);
@@ -167,7 +165,6 @@ function ArraySnapModule(stdlib, foreign, heap) {
     };
 }
 function NullSnapModule(stdlib, foreign, heap) {
-    "use asm";
     var min = +foreign.min;
     var max = +foreign.max;
 
@@ -336,7 +333,6 @@ function TRAFO_FUNCTION(stdlib, foreign) {
     };
 }
 function TRAFO_LINEAR(stdlib, foreign) {
-    "use asm";
     var reverse = foreign.reverse|0;
     var min = +foreign.min;
     var max = +foreign.max;
