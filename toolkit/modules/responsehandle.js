@@ -744,8 +744,13 @@ function startdrag() {
 
         return;
         /* make sure we move the handle to the front */
+        /* Markus: unnecessary? unsure why this was made unreachable by
+         * return satement above. Will comment it to reduce warnings in
+         * FF */
+        /*
         if (p.lastChild !== e)
             p.appendChild(e);
+        */
     });
 }
 
