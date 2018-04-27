@@ -103,6 +103,7 @@ function Z_HANDLE_SIZE(pos) {
     case "bottom-right":
     case "bottom-left":
     case "top-left":
+    case "center":
         return Z_HANDLE_SIZE_corner;
     case "top":
     case "bottom":
