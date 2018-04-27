@@ -801,7 +801,7 @@ function enddrag() {
  *   <code>"bottom-right"</code>, <code>"bottom"</code>, <code>"bottom-left"</code>,
  *   <code>"left"</code>, <code>"top-left"</code> and <code>"center"</code>.
  * @property {number} [options.margin=3] - Margin in px between the handle and the label.
- * @property {boolean} [options.z_handle=false] - If true, a small handle is drawn, which can
+ * @property {boolean|string} [options.z_handle=false] - If not false, a small handle is drawn at the position (top, top-left, top.right, left, center, right, bottom-left, bottom, bottom-right), which can
  *   be dragged to change the value of the z-coordinate.
  * @property {number} [options.z_handle_size=6] - Size in px of the z-handle.
  * @property {number} [options.z_handle_centered=0.1] - Size of the z-handle in center positions.
