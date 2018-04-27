@@ -70,6 +70,7 @@ function ROT(a) {
 
 var ZHANDLE_POSITION_movable = {
     "top":          ROT(0),
+    "center":       ROT(0),
     "top-right":    ROT(Math.PI/4),
     "right":        ROT(Math.PI/2),
     "bottom-right": ROT(Math.PI*3/4),
@@ -98,7 +99,7 @@ var Z_HANDLE_SIZE_vert = [ 0, 1, 1, 0 ];
 function Z_HANDLE_SIZE(pos) {
     switch (pos) {
     default:
-        TK.warn("unsupported z_handle setting", pos);
+        TK.warn("Unsupported z_handle position:", pos);
     case "top-right":
     case "bottom-right":
     case "bottom-left":
