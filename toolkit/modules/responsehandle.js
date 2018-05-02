@@ -70,7 +70,7 @@ function ROT(a) {
 
 var ZHANDLE_POSITION_movable = {
     "top":          ROT(0),
-    "center":       ROT(0),
+    "center":       [1e-10, 1e-10],
     "top-right":    ROT(Math.PI/4),
     "right":        ROT(Math.PI/2),
     "bottom-right": ROT(Math.PI*3/4),
@@ -744,12 +744,18 @@ function startdrag() {
 
         this.global_cursor("move");
 
+<<<<<<< HEAD
         return;
         /* make sure we move the handle to the front */
+<<<<<<< HEAD
         /* Markus: unnecessary? unsure why this was made unreachable by
          * return satement above. Will comment it to reduce warnings in
          * FF */
         /*
+=======
+=======
+>>>>>>> edf81869... Responsehandle: allow center z-handle #3
+>>>>>>> Responsehandle: allow center z-handle #3
         if (p.lastChild !== e)
             p.appendChild(e);
         */
