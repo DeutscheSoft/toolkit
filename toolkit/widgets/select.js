@@ -542,8 +542,9 @@ TK.Select = TK.class({
         if (key === "value") {
             var index = this.index_by_value.call(this, value);
             if (index === false) return;
-            key = "selected";
-            value = index;
+            this.set("selected", index);
+
+            return this.options.value;
         }
 
         value = TK.Button.prototype.set.call(this, key, value);
