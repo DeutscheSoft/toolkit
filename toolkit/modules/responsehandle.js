@@ -447,7 +447,10 @@ function redraw_zhandle(O, X) {
 
     if (!zhandle.parentNode)
         this.element.appendChild(zhandle);
-
+    
+    if (this._handle && O.z_handle_below)
+        this.element.appendChild(this._handle);
+    
     if (O.mode === "circular") {
         /*
          * position the z_handle on the circle.
@@ -802,6 +805,7 @@ function enddrag() {
  * @property {number} [options.z_handle_size=6] - Size in px of the z-handle.
  * @property {number} [options.z_handle_centered=0.1] - Size of the z-handle in center positions.
  *   If this options is smaller than 1, it is interpreted as a ratio, otherwise as a px size.
+ * @property {number} [options.z_handle_below=false] - Render the z-handle below the normal handle in the DOM. SVG doesn't know CSS attribute z-index, so this workaround is needed some times.
  * @property {number} [options.x_min] - Minimum value of the x-coordinate.
  * @property {number} [options.x_max] - Maximum value of the x-coordinate.
  * @property {number} [options.y_min] - Minimum value of the y-coordinate.
@@ -868,6 +872,7 @@ TK.ResponseHandle = TK.class({
         z_handle: "boolean|string",
         z_handle_size: "number",
         z_handle_centered: "number",
+        z_handle_below: "boolean",
         min_drag: "number",
         x_min: "number",
         x_max: "number",
@@ -904,6 +909,7 @@ TK.ResponseHandle = TK.class({
         z_handle:         false,
         z_handle_size:    6,
         z_handle_centered:0.1,
+        z_handle_below:   false,
         min_drag:         0,
         // NOTE: not yet a public API
         // amount of pixels the handle has to be dragged before it starts to move
