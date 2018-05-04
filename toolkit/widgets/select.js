@@ -445,7 +445,7 @@ TK.Select = TK.class({
     },
     value_by_index: function(index) {
         var entries = this.entries;
-        if (index >= 0 || index < entries.length) {
+        if (index >= 0 && index < entries.length && entries[index]) {
           return entries[index].options.value;
         }
     },
