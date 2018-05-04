@@ -575,6 +575,7 @@ function on_select(e) {
     e.preventDefault();
 
     if (w.userset("selected", id) === false) return false;
+    w.userset("value", this.options.value);
     /**
      * Is fired when a selection was made by the user. The arguments
      * are the value of the entry, the id of the selected element and the title of the entry.
