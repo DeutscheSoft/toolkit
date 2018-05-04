@@ -330,12 +330,12 @@ function redraw_handle(O, X) {
 
     var x = range_x.val2px(O.x);
     var y = range_y.val2px(O.y);
-    var z = range_z.val2px(O.z);
+    var z = range_z.val2coef(O.z);
 
     var tmp;
 
     if (O.mode === "circular") {
-        tmp = Math.max(O.min_size, z)/2;
+        tmp = Math.max(O.min_size, z * O.max_size)/2;
         X[0] = x-tmp;
         X[1] = y-tmp;
         X[2] = x+tmp;
@@ -379,7 +379,7 @@ function redraw_handle(O, X) {
         /* All other modes are drawn as rectangles */
         switch (O.mode) {
         case "line-vertical":
-            tmp = Math.max(tmp, z/2);
+            tmp = Math.max(tmp, z * O.max_size/2);
             X[0] = x-tmp;
             X[1] = y_min;
             X[2] = x+tmp;
@@ -387,7 +387,7 @@ function redraw_handle(O, X) {
             break;
         case "line-horizontal":
             // line horizontal
-            tmp = Math.max(tmp, z/2);
+            tmp = Math.max(tmp, z * O.max_size/2);
             X[0] = x_min;
             X[1] = y - tmp;
             X[2] = x_max;
@@ -787,6 +787,7 @@ function enddrag() {
  * @property {number} options.y - Value of the y-coordinate.
  * @property {number} options.z - Value of the z-coordinate.
  * @property {number} [options.min_size=24] - Minimum size of the handle in px.
+ * @property {number} [options.max_size=100] - Maximum size of the handle in px.
  * @property {function} options.label - Label formatting function. Arguments are
  *   <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>. If this options is
  *   <code>false</code>, no label is displayed.
@@ -862,6 +863,7 @@ TK.ResponseHandle = TK.class({
         y: "number",
         z: "number",
         min_size: "number",
+        max_size: "number",
         margin: "number",
         z_handle: "boolean|string",
         z_handle_size: "number",
@@ -897,6 +899,7 @@ TK.ResponseHandle = TK.class({
         y:                0,
         z:                0,
         min_size:         24,
+        max_size:         100,
         margin:           3,
         z_handle:         false,
         z_handle_size:    6,
