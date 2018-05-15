@@ -338,7 +338,10 @@ TK.ButtonArray = TK.class({
                 var subs     = dir ? 'height' : 'width';
 
                 var clipsize = S.clip[subs];
-                var listsize = S.buttons_pos[this.buttons.length-1][subd] +
+                var listsize = 0;
+                
+                if (this.buttons.length)
+                    listsize = S.buttons_pos[this.buttons.length-1][subd] +
                                S.buttons[this.buttons.length-1][subs];
 
                 if (listsize > clipsize) {
