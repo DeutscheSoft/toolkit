@@ -1214,11 +1214,12 @@ TK.ResponseHandle = TK.class({
             TK.toggle_class(this.element, "toolkit-hover", O.hover);
         }
 
-        if (I.active) {
+        if (I.active || I.disabled) {
+            I.disabled = false;
             // TODO: this is not very nice, we should really use the options
             // for that. 1) set "active" from the mouse handlers 2) set disabled instead
             // of active
-            TK.toggle_class(this.element, "toolkit-disabled", !O.active);
+            TK.toggle_class(this.element, "toolkit-disabled", !O.active || O.disabled);
         }
 
         var moved = I.validate("x", "y", "z", "mode", "active", "show_handle");
