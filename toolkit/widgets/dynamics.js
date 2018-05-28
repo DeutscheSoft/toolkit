@@ -40,9 +40,9 @@ TK.Dynamics = TK.class({
      * @param {String} [options.type=false] - Type of the dynamics: <code>compressor</code>, <code>expander</code>, <code>gate</code>, <code>limiter</code> or <code>false</code> to draw your own graph.
      * @param {Number} [options.threshold=0] - Threshold of the dynamics.
      * @param {Number} [options.ratio=1] - Ratio of the dynamics.
-     * @param {Number} [options.makeup=0] - Makeup of the dynamics.
-     * @param {Number} [options.floor=0] - Floor of the dynamics.
-     * @param {Number} [options.range=0] - Range of the dynamics.
+     * @param {Number} [options.makeup=0] - Makeup of the dynamics. This raises the whole graph after all other parameters are applied.
+     * @param {Number} [options.range=0] - Range of the dynamics. Only used in type <code>expander</code>. The maximum gain reduction.
+     * @param {Number} [options.gain=0] - Input gain of the dynamics.
      * @param {Function} [options.grid_labels=function (val) { return val + (!val ? "dB":""); }] - Callback to format the labels of the {@link TK.Grid}.
      * @param {Number} [options.db_grid=12] - Draw a grid line every [n] decibels.
      */
@@ -57,8 +57,8 @@ TK.Dynamics = TK.class({
         threshold: "number",
         ratio:     "number",
         makeup:    "number",
-        floor:     "number",
         range:     "number",
+        gain:      "number",
         grid_labels: "function",
         db_grid: "number",
     }),
@@ -74,8 +74,8 @@ TK.Dynamics = TK.class({
         threshold: 0,
         ratio:     1,
         makeup:    0,
-        floor:     0,
         range:     0,
+        gain:      0,
         grid_labels: function (val) { return val + (!val ? "dB":""); }
     },
     static_events: {
@@ -147,7 +147,7 @@ TK.Dynamics = TK.class({
         }
         
 
-        if (I.validate("ratio", "threshold", "range", "makeup")) {
+        if (I.validate("ratio", "threshold", "range", "makeup", "gain")) {
             this.draw_graph();
         }
     },
@@ -184,61 +184,66 @@ TK.Dynamics = TK.class({
             });
         }
         var curve = [];
+        var range = O.range;
+        var ratio = O.ratio;
+        var thres = O.threshold;
+        var gain = O.gain;
+        var makeup = O.makeup;
+        var min = O.min;
+        var max = O.max;
         switch (O.type) {
             case "compressor":
-                curve.push({x: O.min,
-                            y: O.min + O.makeup});
-                curve.push({x: O.threshold,
-                            y: O.threshold + O.makeup});
-                if (isFinite(O.ratio) && O.ratio > 0) {
-                    curve.push({x: O.max,
-                                y: O.threshold + O.makeup + (O.max - O.threshold) / O.ratio
+                curve.push({x: min,
+                            y: min + makeup - gain});
+                curve.push({x: thres + gain,
+                            y: thres + makeup});
+                if (isFinite(ratio) && ratio > 0) {
+                    curve.push({x: max,
+                                y: thres + makeup + (max - thres - gain) / ratio
                                });
-                } else if (O.ratio === 0) {
-                    curve.push({x: O.threshold,
-                                y: O.max
+                } else if (ratio === 0) {
+                    curve.push({x: thres,
+                                y: max
                                });
                 } else {
-                    curve.push({x: O.max,
-                                y: O.threshold
+                    curve.push({x: max,
+                                y: thres
                                });
                 }
 
                 break;
             case "limiter":
-                curve.push({x: O.min,
-                            y: O.min + O.makeup});
-                curve.push({x: O.threshold,
-                            y: O.threshold + O.makeup});
-                curve.push({x: O.max,
-                            y: O.threshold + O.makeup});
+                curve.push({x: min,
+                            y: min + makeup - gain});
+                curve.push({x: thres + gain,
+                            y: thres + makeup});
+                curve.push({x: max,
+                            y: thres + makeup});
                 break;
             case "gate":
-                curve.push({x: O.threshold,
-                            y: O.min});
-                curve.push({x: O.threshold,
-                            y: O.threshold + O.makeup});
-                curve.push({x: O.max,
-                            y: this.opions.max + O.makeup});
+                curve.push({x: thres,
+                            y: min});
+                curve.push({x: thres,
+                            y: thres + makeup});
+                curve.push({x: max,
+                            y: max + makeup});
                 break;
             case "expander":
                 if (O.ratio !== 1) {
-                    curve.push({x: O.min,
-                                y: O.min + O.makeup + O.range});
-                    var range = O.range;
-                    var ratio = O.ratio;
-                    var thres = O.threshold;
+                    curve.push({x: min,
+                                y: min + makeup + range});
+                    
                     var y = (ratio * range + (ratio - 1) * thres) / (ratio - 1);
                     curve.push({x: y - range,
-                                y: y + O.makeup});
-                    curve.push({x: O.threshold,
-                                y: O.threshold + O.makeup});
+                                y: y + makeup});
+                    curve.push({x: thres,
+                                y: thres + makeup});
                 }
                 else
-                    curve.push({x: O.min,
-                                y: O.min + O.makeup});
-                curve.push({x: O.max,
-                            y: O.max + O.makeup});
+                    curve.push({x: min,
+                                y: min + makeup});
+                curve.push({x: max,
+                            y: max + makeup});
                 break;
             default:
                 TK.warn("Unsupported type", O.type);
