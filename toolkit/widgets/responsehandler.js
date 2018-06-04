@@ -19,40 +19,14 @@
  
 "use strict";
 (function(w, TK){
-function calculate_overlap(X, Y) {
-    /* no overlap, return 0 */
-    if (X[2] < Y[0] || Y[2] < X[0] || X[3] < Y[1] || Y[3] < X[1]) return 0;
-
-    return (Math.min(X[2], Y[2]) - Math.max(X[0], Y[0])) *
-           (Math.min(X[3], Y[3]) - Math.max(X[1], Y[1]));
-}
-
-function show_handles() {
-    var handles = this.handles;
-
-    for (var i = 0; i < handles.length; i++) {
-        this.add_child(handles[i]);
-    }
-}
-
-function hide_handles() {
-    var handles = this.handles;
-
-    for (var i = 0; i < handles.length; i++) {
-        this.remove_child(handles[i]);
-    }
-}
-
-var STOP = function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-}
     
 TK.ResponseHandler = TK.class({
     /**
      * TK.ResponseHandler is a TK.FrequencyResponse adding some ResponseHandles. It is
      * meant as a universal user interface for equalizers and the like.
+     * 
+     * This class is deprectaed since all relevant functionality went into
+     * the base class TK.Graph.
      *
      * @class TK.ResponseHandler
      * 
@@ -60,55 +34,18 @@ TK.ResponseHandler = TK.class({
      * 
      * @property {Object} options
      * 
-     * @param {Number} [options.importance_label=4] - Multiplicator of square pixels on hit testing labels to gain importance.
-     * @param {Number} [options.importance_handle=1] - Multiplicator of square pixels on hit testing handles to gain importance.
-     * @param {Number} [options.importance_border=50] - Multiplicator of square pixels on hit testing borders to gain importance.
-     * @param {Object|Function} [options.range_z={ scale: "linear", min: 0, max: 1 }] - Options for z {@link TK.Range}.
      * @param {Number} [options.depth=0] - The depth of the z axis (<code>basis</code> of options.range_z)
-     * @param {Array} [options.handles=[]] - An array of options for creating {@link TK.ResponseHandle} on init.
-     * @param {Bollean} [options.show_handles=true] - Show or hide all handles.
      */
     _class: "ResponseHandler",
     Extends: TK.FrequencyResponse,
     _options: Object.assign(Object.create(TK.FrequencyResponse.prototype._options), {
-        importance_label:  "number",
-        importance_handle: "number",
-        importance_border: "number",
-        range_z: "object",
         depth: "number",
-        handles: "array", 
-        show_handles: "boolean",
     }),
-    static_events: {
-        mousewheel: STOP,
-        DOMMouseScroll: STOP,
-        set_depth: function(value) {
-            this.range_z.set("basis", value);
-        },
-        set_show_handles: function(value) {
-            (value ? show_handles : hide_handles).call(this);
-        },
-    },
     options: {
-        importance_label:  4,   // multiplicator of square pixels on hit testing
-                                // labels to gain importance
-        importance_handle: 1,   // multiplicator of square pixels on hit testing
-                                // handles to gain importance
-        importance_border: 50,  // multiplicator of square pixels on hit testing
-                                // borders to gain importance
-        range_z:           { scale: "linear", min: 0, max: 1 }, // TK.Range z options
         depth:             0,   // the depth of the z axis (basis of range_z)
-        handles:           [],  // list of bands to create on init
-        show_handles: true,
     },
     initialize: function (options) {
-        /**
-         * @member {Array} TK.ResponseHandler#handles - An array containing all {@link TK.ResponseHandle} instances.
-         */
-        this.handles = [];
         TK.FrequencyResponse.prototype.initialize.call(this, options);
-        
-        this.add_range(this.options.range_z, "range_z");
         if (this.options.depth) this.set("depth", this.options.depth);
         /**
          * @member {HTMLDivElement} TK.ResponseHandler#element - The main DIV container.
@@ -119,181 +56,7 @@ TK.ResponseHandler = TK.class({
          * @member {SVGImage} TK.ResponseHandler#_handles - An SVG group element containing all {@link TK.ResponseHandle} graphics.
          *   Has class <code>toolkit-response-handles</code>.
          */
-        this._handles = TK.make_svg("g", {"class": "toolkit-response-handles"});
-        this.svg.appendChild(this._handles);
-        this.svg.onselectstart = function () { return false; };
-        this.add_handles(this.options.handles);
-    },
-    
-    redraw: function () {
-        var I = this.invalid;
-        var O = this.options;
-
-        if (I.show_handles) {
-            I.show_handles = false;
-            if (O.show_handles) {
-                this._handles.style.removeProperty("display");
-            } else {
-                this._handles.style.display = "none";
-            }
-        }
-
-        TK.FrequencyResponse.prototype.redraw.call(this);
-    },
-    
-    destroy: function () {
-        this.empty(); // ???
-        this._handles.remove();
-        TK.FrequencyResponse.prototype.destroy.call(this);
-    },
-    
-    /*
-     * Add a new handle to the widget. Options is an object containing
-     * options for the TK.ResponseHandle
-     * 
-     * @method TK.ResponseHandler#add_handle
-     * 
-     * @param {Object} options - The options for the TK.ResponseHandle
-     * 
-     * @emits TK.ResponseHandler#handleadded
-     */
-    add_handle: function (options) {
-        options.container = this._handles;
-        if (options.range_x === void(0))
-            options.range_x = function () { return this.range_x; }.bind(this);
-        if (options.range_y === void(0))
-            options.range_y = function () { return this.range_y; }.bind(this);
-        if (options.range_z === void(0))
-            options.range_z = function () { return this.range_z; }.bind(this);
-        
-        options.intersect = this.intersect.bind(this);
-        
-        var h = new TK.ResponseHandle(options);
-        this.handles.push(h);
-        if (this.options.show_handles)
-            this.add_child(h);
-        /**
-         * Is fired when a new handle was added.
-         * 
-         * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} which was added.
-         * 
-         * @event TK.ResponseHandler#handleadded
-         */
-        this.fire_event("handleadded", h);
-        return h;
-    },
-    /*
-     * Add multiple new {@link TK.ResponseHandle} to the widget. Options is an array
-     * of objects containing options for the new instances of {@link TK.ResponseHandle}.
-     * 
-     * @method TK.ResponseHandler#add_handles
-     * 
-     * @param {Array<Object>} options - An array of options objects for the {@link TK.ResponseHandle}.
-     */
-    add_handles: function (handles) {
-        for (var i = 0; i < handles.length; i++)
-            this.add_handle(handles[i]);
-    },
-    /*
-     * Remove a handle from the widget.
-     * 
-     * @method TK.ResponseHandler#remove_handle
-     * 
-     * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} to remove.
-     * 
-     * @emits TK.ResponseHandler#handleremoved
-     */
-    remove_handle: function (handle) {
-        // remove a handle from the widget.
-        for (var i = 0; i < this.handles.length; i++) {
-            if (this.handles[i] === handle) {
-                if (this.options.show_handles)
-                    this.remove_child(handle);
-                this.handles[i].destroy();
-                this.handles.splice(i, 1);
-                /**
-                 * Is fired when a handle was removed.
-                 * 
-                 * @event TK.ResponseHandler#handleremoved
-                 */
-                this.fire_event("handleremoved");
-                break;
-            }
-        }
-    },
-    /*
-     * Remove multiple {@link TK.ResponseHandle} from the widget. Options is an array
-     * of {@link TK.ResponseHandle} instances.
-     * 
-     * @method TK.ResponseHandler#remove_handles
-     * 
-     * @param {Array<TK.ResponseHandle>} handles - An array of {@link TK.ResponseHandle} instances.
-     */
-    remove_handles: function () {
-        // remove all handles from the widget.
-        for (var i = 0; i < this.handles.length; i++) {
-            this.remove_handle(this.handles[i]);
-        }
-        this.handles = [];
-        /**
-         * Is fired when all handles are removed.
-         * 
-         * @event TK.ResponseHandler#emptied
-         */
-        this.fire_event("emptied")
-    },
-    
-    intersect: function (X, handle) {
-        // this function walks over all known handles and asks for the coords
-        // of the label and the handle. Calculates intersecting square pixels
-        // according to the importance set in options. Returns an object
-        // containing intersect (the amount of intersecting square pixels) and
-        // count (the amount of overlapping elements)
-        var c = 0;
-        var a = 0, _a;
-        var O = this.options;
-        var importance_handle = O.importance_handle
-        var importance_label = O.importance_label
-
-        for (var i = 0; i < this.handles.length; i++) {
-            var h = this.handles[i];
-            if (h === handle || !h.get("active") || !h.get("show_handle")) continue;
-            _a = calculate_overlap(X, h.handle);
-
-            if (_a) {
-                c ++;
-                a += _a * importance_handle;
-            }
-            
-            _a = calculate_overlap(X, h.label);
-
-            if (_a) {
-                c ++;
-                a += _a * importance_label;
-            }
-        }
-        if (this.bands && this.bands.length) {
-            for (var i = 0; i < this.bands.length; i++) {
-                var b = this.bands[i];
-                if (b === handle || !b.get("active") || !b.get("show_handle")) continue;
-                _a = calculate_overlap(X, b.handle);
-
-                if (_a > 0) {
-                    c ++;
-                    a += _a * importance_handle;
-                }
-                
-                _a = calculate_overlap(X, b.label);
-                if (_a > 0) {
-                    c ++;
-                    a += _a * importance_label;
-                }
-            }
-        }
-        /* calculate intersection with border */
-        _a = calculate_overlap(X, [ 0, 0, this.range_x.options.basis, this.range_y.options.basis ]);
-        a += ((X[2] - X[0]) * (X[3] - X[1]) - _a) * O.importance_border;
-        return {intersect: a, count: c};
+        TK.add_class(this._handles, "toolkit-response-handles");
     },
 });
 })(this, this.TK);

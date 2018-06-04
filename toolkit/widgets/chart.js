@@ -18,7 +18,36 @@
  */
 "use strict";
 (function(w, TK){
-// HELPERS & STUFF
+    
+function calculate_overlap(X, Y) {
+    /* no overlap, return 0 */
+    if (X[2] < Y[0] || Y[2] < X[0] || X[3] < Y[1] || Y[3] < X[1]) return 0;
+
+    return (Math.min(X[2], Y[2]) - Math.max(X[0], Y[0])) *
+           (Math.min(X[3], Y[3]) - Math.max(X[1], Y[1]));
+}
+
+function show_handles() {
+    var handles = this.handles;
+
+    for (var i = 0; i < handles.length; i++) {
+        this.add_child(handles[i]);
+    }
+}
+
+function hide_handles() {
+    var handles = this.handles;
+
+    for (var i = 0; i < handles.length; i++) {
+        this.remove_child(handles[i]);
+    }
+}
+
+var STOP = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+}
 function draw_key() {
     var __key, bb;
 
@@ -234,6 +263,12 @@ function draw_title() {
  *   or an object containing options for a new {@link TK.Range}
  * @property {Function|Object} [options.range_y={}] - Either a function returning a {@link TK.Range}
  *   or an object containing options for a new {@link TK.Range}
+ * @param {Number} [options.importance_label=4] - Multiplicator of square pixels on hit testing labels to gain importance.
+ * @param {Number} [options.importance_handle=1] - Multiplicator of square pixels on hit testing handles to gain importance.
+ * @param {Number} [options.importance_border=50] - Multiplicator of square pixels on hit testing borders to gain importance.
+ * @param {Object|Function} [options.range_z={ scale: "linear", min: 0, max: 1 }] - Options for z {@link TK.Range}.
+ * @param {Array} [options.handles=[]] - An array of options for creating {@link TK.ResponseHandle} on init.
+ * @param {Bollean} [options.show_handles=true] - Show or hide all handles.
  */
 function geom_set(value, key) {
     this.set_style(key, value+"px");
@@ -255,6 +290,13 @@ TK.Chart = TK.class({
         title: "string",
         title_position: "int",
         resized: "boolean",
+        
+        importance_label:  "number",
+        importance_handle: "number",
+        importance_border: "number",
+        range_z: "object",
+        handles: "array", 
+        show_handles: "boolean",
     }),
     options: {
         grid_x: [],
@@ -269,14 +311,40 @@ TK.Chart = TK.class({
         title:   "", // a title for the chart
         title_position: "top-right", // the position of the title
         resized: false,
+        
+        importance_label:  4,   // multiplicator of square pixels on hit testing
+                                // labels to gain importance
+        importance_handle: 1,   // multiplicator of square pixels on hit testing
+                                // handles to gain importance
+        importance_border: 50,  // multiplicator of square pixels on hit testing
+                                // borders to gain importance
+        range_z:           { scale: "linear", min: 0, max: 1 }, // TK.Range z options
+        handles:           [],  // list of bands to create on init
+        show_handles: true,
     },
     static_events: {
         set_width: geom_set,
         set_height: geom_set,
+        
+        mousewheel: STOP,
+        DOMMouseScroll: STOP,
+        set_depth: function(value) {
+            this.range_z.set("basis", value);
+        },
+        set_show_handles: function(value) {
+            (value ? show_handles : hide_handles).call(this);
+        },
     },
     initialize: function (options) {
         var E, S;
+        /**
+         * @member {Array} TK.Chart#graphs - An array containing all SVG paths acting as graphs.
+         */
         this.graphs = [];
+        /**
+         * @member {Array} TK.Chart#handles - An array containing all {@link TK.ResponseHandle} instances.
+         */
+        this.handles = [];
         TK.Widget.prototype.initialize.call(this, options);
         
         /**
@@ -287,6 +355,7 @@ TK.Chart = TK.class({
          */
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
+        this.add_range(this.options.range_z, "range_z");
         this.range_y.set("reverse", true, true, true);
         
         /**
@@ -314,6 +383,11 @@ TK.Chart = TK.class({
         
         if (this.options.width) this.set("width", this.options.width);
         if (this.options.height) this.set("height", this.options.height);
+        
+        this._handles = TK.make_svg("g", {"class": "toolkit-response-handles toolkit-handles"});
+        this.svg.appendChild(this._handles);
+        this.svg.onselectstart = function () { return false; };
+        this.add_handles(this.options.handles);
     },
     resize: function () {
         var E = this.element;
@@ -370,12 +444,21 @@ TK.Chart = TK.class({
         if (I.validate("key", "key_size", "graphs")) {
             draw_key.call(this);
         }
+        if (I.show_handles) {
+            I.show_handles = false;
+            if (O.show_handles) {
+                this._handles.style.removeProperty("display");
+            } else {
+                this._handles.style.display = "none";
+            }
+        }
     },
     destroy: function () {
         for (var i = 0; i < this._graphs.length; i++) {
             this._graphs[i].destroy();
         }
         this._graphs.remove();
+        this._handles.remove();
         TK.Widget.prototype.destroy.call(this);
     },
     add_child: function(child) {
@@ -487,6 +570,155 @@ TK.Chart = TK.class({
          * @event TK.Chart#emptied
          */
         this.fire_event("emptied");
+    },
+    
+    /*
+     * Add a new handle to the widget. Options is an object containing
+     * options for the TK.ResponseHandle
+     * 
+     * @method TK.ResponseHandler#add_handle
+     * 
+     * @param {Object} options - The options for the TK.ResponseHandle
+     * 
+     * @emits TK.ResponseHandler#handleadded
+     */
+    add_handle: function (options) {
+        options.container = this._handles;
+        if (options.range_x === void(0))
+            options.range_x = function () { return this.range_x; }.bind(this);
+        if (options.range_y === void(0))
+            options.range_y = function () { return this.range_y; }.bind(this);
+        if (options.range_z === void(0))
+            options.range_z = function () { return this.range_z; }.bind(this);
+        
+        options.intersect = this.intersect.bind(this);
+        
+        var h = new TK.ResponseHandle(options);
+        this.handles.push(h);
+        if (this.options.show_handles)
+            this.add_child(h);
+        /**
+         * Is fired when a new handle was added.
+         * 
+         * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} which was added.
+         * 
+         * @event TK.ResponseHandler#handleadded
+         */
+        this.fire_event("handleadded", h);
+        return h;
+    },
+    /*
+     * Add multiple new {@link TK.ResponseHandle} to the widget. Options is an array
+     * of objects containing options for the new instances of {@link TK.ResponseHandle}.
+     * 
+     * @method TK.ResponseHandler#add_handles
+     * 
+     * @param {Array<Object>} options - An array of options objects for the {@link TK.ResponseHandle}.
+     */
+    add_handles: function (handles) {
+        for (var i = 0; i < handles.length; i++)
+            this.add_handle(handles[i]);
+    },
+    /*
+     * Remove a handle from the widget.
+     * 
+     * @method TK.ResponseHandler#remove_handle
+     * 
+     * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} to remove.
+     * 
+     * @emits TK.ResponseHandler#handleremoved
+     */
+    remove_handle: function (handle) {
+        // remove a handle from the widget.
+        for (var i = 0; i < this.handles.length; i++) {
+            if (this.handles[i] === handle) {
+                if (this.options.show_handles)
+                    this.remove_child(handle);
+                this.handles[i].destroy();
+                this.handles.splice(i, 1);
+                /**
+                 * Is fired when a handle was removed.
+                 * 
+                 * @event TK.ResponseHandler#handleremoved
+                 */
+                this.fire_event("handleremoved");
+                break;
+            }
+        }
+    },
+    /*
+     * Remove multiple {@link TK.ResponseHandle} from the widget. Options is an array
+     * of {@link TK.ResponseHandle} instances.
+     * 
+     * @method TK.ResponseHandler#remove_handles
+     * 
+     * @param {Array<TK.ResponseHandle>} handles - An array of {@link TK.ResponseHandle} instances.
+     */
+    remove_handles: function () {
+        // remove all handles from the widget.
+        for (var i = 0; i < this.handles.length; i++) {
+            this.remove_handle(this.handles[i]);
+        }
+        this.handles = [];
+        /**
+         * Is fired when all handles are removed.
+         * 
+         * @event TK.ResponseHandler#emptied
+         */
+        this.fire_event("emptied")
+    },
+    
+    intersect: function (X, handle) {
+        // this function walks over all known handles and asks for the coords
+        // of the label and the handle. Calculates intersecting square pixels
+        // according to the importance set in options. Returns an object
+        // containing intersect (the amount of intersecting square pixels) and
+        // count (the amount of overlapping elements)
+        var c = 0;
+        var a = 0, _a;
+        var O = this.options;
+        var importance_handle = O.importance_handle
+        var importance_label = O.importance_label
+
+        for (var i = 0; i < this.handles.length; i++) {
+            var h = this.handles[i];
+            if (h === handle || !h.get("active") || !h.get("show_handle")) continue;
+            _a = calculate_overlap(X, h.handle);
+
+            if (_a) {
+                c ++;
+                a += _a * importance_handle;
+            }
+            
+            _a = calculate_overlap(X, h.label);
+
+            if (_a) {
+                c ++;
+                a += _a * importance_label;
+            }
+        }
+        if (this.bands && this.bands.length) {
+            for (var i = 0; i < this.bands.length; i++) {
+                var b = this.bands[i];
+                if (b === handle || !b.get("active") || !b.get("show_handle")) continue;
+                _a = calculate_overlap(X, b.handle);
+
+                if (_a > 0) {
+                    c ++;
+                    a += _a * importance_handle;
+                }
+                
+                _a = calculate_overlap(X, b.label);
+                if (_a > 0) {
+                    c ++;
+                    a += _a * importance_label;
+                }
+            }
+        }
+        /* calculate intersection with border */
+        _a = calculate_overlap(X, [ 0, 0, this.range_x.options.basis, this.range_y.options.basis ]);
+        a += ((X[2] - X[0]) * (X[3] - X[1]) - _a) * O.importance_border;
+        return {intersect: a, count: c};
     },
 });
 TK.ChildWidget(TK.Chart, "grid", {
