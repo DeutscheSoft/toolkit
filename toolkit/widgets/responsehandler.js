@@ -25,28 +25,17 @@ TK.ResponseHandler = TK.class({
      * TK.ResponseHandler is a TK.FrequencyResponse adding some ResponseHandles. It is
      * meant as a universal user interface for equalizers and the like.
      * 
-     * This class is deprectaed since all relevant functionality went into
-     * the base class TK.Graph.
+     * This class is deprecated since all relevant functionality went into
+     * the base class TK.Graph. Use TK.FrequencyResponse instead.
      *
      * @class TK.ResponseHandler
      * 
      * @extends TK.FrequencyResponse
-     * 
-     * @property {Object} options
-     * 
-     * @param {Number} [options.depth=0] - The depth of the z axis (<code>basis</code> of options.range_z)
      */
     _class: "ResponseHandler",
     Extends: TK.FrequencyResponse,
-    _options: Object.assign(Object.create(TK.FrequencyResponse.prototype._options), {
-        depth: "number",
-    }),
-    options: {
-        depth:             0,   // the depth of the z axis (basis of range_z)
-    },
     initialize: function (options) {
         TK.FrequencyResponse.prototype.initialize.call(this, options);
-        if (this.options.depth) this.set("depth", this.options.depth);
         /**
          * @member {HTMLDivElement} TK.ResponseHandler#element - The main DIV container.
          *   Has class <code>toolkit-response-handler</code>.

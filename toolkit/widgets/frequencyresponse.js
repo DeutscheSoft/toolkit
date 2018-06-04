@@ -60,6 +60,7 @@ TK.FrequencyResponse = TK.class({
      * @property {Array<Object>} [options.grid_x=[{pos:    20, label: "20 Hz"}, {pos:    30}, {pos:    40}, {pos:    50}, {pos:    60}, {pos:    70}, {pos:    80}, {pos:    90}, {pos:   100, label: "100 Hz"}, {pos:   200}, {pos:   300}, {pos:   400}, {pos:   500}, {pos:   600}, {pos:   700}, {pos:   800}, {pos:   900}, {pos:  1000, label: "1000 Hz"}, {pos:  2000}, {pos:  3000}, {pos:  4000}, {pos:  5000}, {pos:  6000}, {pos:  7000}, {pos:  8000}, {pos:  9000}, {pos: 10000, label: "10000 Hz"}, {pos: 20000, label: "20000 Hz"}]] - An array containing objects with the following optional members:
      *   <code>{pos:y[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
      * @property {String} [options.scale="linear"] - The type of the decibels scale. See {@link TK.Range} for more details.
+     * @param {Number} [options.depth=0] - The depth of the z axis (<code>basis</code> of options.range_z)
      */
     _class: "FrequencyResponse",
     Extends: TK.Chart,
@@ -69,6 +70,7 @@ TK.FrequencyResponse = TK.class({
         range_y: "object",
         grid_x: "array",
         scale: "boolean",
+        depth: "number",
     }),
     options: {
         db_grid: 12,                                         // dB grid distance
@@ -103,8 +105,9 @@ TK.FrequencyResponse = TK.class({
                     {pos:  9000},
                     {pos: 10000, label: "10000 Hz"},
                     {pos: 20000, label: "20000 Hz"}],        // Frequency grid
-        scale:  false                                        // the mode of the
+        scale:  false,                                       // the mode of the
                                                              // dB scale
+        depth: 0,   // the depth of the z axis (basis of range_z)
     },
     static_events: {
         set_scale: function(value, key) {
@@ -130,6 +133,7 @@ TK.FrequencyResponse = TK.class({
             if (key === "scale")
                 this.options.scale = value;
         }.bind(this));
+        if (this.options.depth) this.set("depth", this.options.depth);
     },
 
     redraw: function() {
