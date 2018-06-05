@@ -21,6 +21,12 @@
 
 /* Abstract toggle logic */
 
+function reset_delay_to () {
+    w.clearTimeout(this.__delayed_to);
+    this.__delayed_to = -1;
+    this.remove_class("toolkit-delayed");
+}
+
 function toggle(O) {
     if (this.userset("state", !O.state) === false) return;
     this.fire_event("toggled", O.state);
@@ -28,10 +34,25 @@ function toggle(O) {
 function press_start() {
     var O = this.options;
     this.__press_start_time = Date.now();
+    if (O.delay && this.__delayed_to < 0) {
+        this.__delayed_to = w.setTimeout((function (t) {
+            return function () { press_start.call(t); }
+        })(this), O.delay);
+        this.add_class("toolkit-delayed");
+        return;
+    }
+    this.remove_class("toolkit-delayed");
+    if (O.delay && this.__delayed_to >= 0) {
+        toggle.call(this, O);
+    }
     if (O.press) toggle.call(this, O);
 }
 function press_end() {
     var O = this.options;
+    if (O.delay && this.__delayed_to >= 0) {
+        reset_delay_to.call(this);
+        return;
+    }
     var t = Date.now() - this.__press_start_time;
     if ((O.toggle && (!O.press || t > O.press)) || (!O.toggle && O.press)) {
         toggle.call(this, O);
@@ -39,6 +60,10 @@ function press_end() {
 }
 function press_cancel() {
     var O = this.options;
+    if (O.delay && this.__delayed_to >= 0) {
+        reset_delay_to.call(this);
+        return;
+    }
     /* this is definitely not a click, its a cancel by leaving the
      * button with mouse or finger while pressing */
     if (O.press) toggle.call(this, O);
@@ -131,11 +156,13 @@ TK.Toggle = TK.class({
      * 
      * @property {boolean} [options.state=false] - The state of the button.
      * @property {boolean} [options.toggle=true] - If true, the button is toggled by a click.
-     * @property {integer|boolean} [options.press] - Controls press behavior. If <code>options.toggle</code>
+     * @property {integer} [options.press=0] - Controls press behavior. If <code>options.toggle</code>
      *   is <code>false</code> and this option is <code>true</code>, the toggle button will toggle until
      *   released. If <code>options.toggle</code> is true and this option is a positive integer, it is
      *   interpreted as a milliseconds timeout. When pressing a button longer than this timeout, it will
      *  be toggled until released, otherwise it will toggle permanently.
+     * @property {integer} [options.delay] - Delay all actions for n milliseconds. While actions are
+     *   delayed, the widget has class <code>toolkit-delayed</code>.
      * @property {string} [options.icon_active] - An optional icon which is only displayed
      *   when the button toggle state is <code>true</code>.
      * @property {string} [options.label_active] - An optional label which is only displayed
@@ -147,6 +174,7 @@ TK.Toggle = TK.class({
         label_active: "string",
         icon_active: "string",
         press: "int",
+        delay: "int",
         toggle: "boolean",
     }),
     options: {
@@ -154,6 +182,7 @@ TK.Toggle = TK.class({
         icon_active:   false,
         icon_inactive: false,
         press:         0,
+        delay:         0,
         toggle:        true,
     },
     static_events: {
@@ -171,6 +200,7 @@ TK.Toggle = TK.class({
         TK.add_class(this.element, "toolkit-toggle");
         this.__press_start_time = 0;
         this.__touch_id = false;
+        this.__delayed_to = -1;
     },
     
     redraw: function () {
