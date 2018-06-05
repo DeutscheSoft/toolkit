@@ -153,7 +153,7 @@ TK.Toggle = TK.class({
         label_active:  false,
         icon_active:   false,
         icon_inactive: false,
-        press:         false,
+        press:         0,
         toggle:        true,
     },
     static_events: {
