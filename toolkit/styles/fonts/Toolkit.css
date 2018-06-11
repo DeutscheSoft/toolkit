@@ -59,3 +59,6 @@
 .toolkit-icon.checked::before                              { content: 'h'; }
 .toolkit-icon.speakeractive::before                        { content: 'i'; }
 .toolkit-icon.speakermute::before                          { content: 'j'; }
+.toolkit-icon.gear::before                                 { content: 'k'; }
+.toolkit-icon.cogwheel::before                             { content: 'k'; }
+.toolkit-icon.cog::before                                  { content: 'k'; }
