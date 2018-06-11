@@ -288,7 +288,7 @@ TK.Chart = TK.class({
         key: "string",
         key_size: "object",
         title: "string",
-        title_position: "int",
+        title_position: "string",
         resized: "boolean",
         
         importance_label:  "number",
