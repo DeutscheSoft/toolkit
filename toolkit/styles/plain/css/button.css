@@ -53,6 +53,7 @@
     text-align: center;
     margin: auto;
     padding: 0 3px;
+    transition: none;
 }
 .toolkit-button.toolkit-horizontal > .toolkit-cell > .toolkit-label {
     padding: 2px 4px;
@@ -66,7 +67,6 @@
     -o-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
-    color: #aaaaaa;
     width: 32px;
     height: 32px;
     font-size: 32px;
