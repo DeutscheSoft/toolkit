@@ -738,7 +738,6 @@ function set_main_class(O) {
 
 function startdrag() {
     this.draw_once(function() {
-        this.set("hover", true);
         var e = this.element;
         var p = e.parentNode;
         TK.add_class(e, "toolkit-active");
@@ -755,7 +754,6 @@ function startdrag() {
 
 function enddrag() {
     this.draw_once(function() {
-        this.set("hover", false);
         var e = this.element;
         TK.remove_class(e, "toolkit-active");
 
