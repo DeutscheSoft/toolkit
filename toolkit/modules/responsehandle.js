@@ -45,8 +45,10 @@ function scrollwheel(e) {
     } else return;
 
     if (this.__sto) window.clearTimeout(this.__sto);
+    this.set("dragging", true);
     TK.add_class(this.element, "toolkit-active");
     this.__sto = window.setTimeout(function () {
+        this.set("dragging", false);
         TK.remove_class(this.element, "toolkit-active");
         this.fire_event("zchangeended", this.options.z);
     }.bind(this), 250);
@@ -741,6 +743,7 @@ function startdrag() {
         var e = this.element;
         var p = e.parentNode;
         TK.add_class(e, "toolkit-active");
+        this.set("dragging", true);
 
         /* TODO: move this into the parent */
         TK.add_class(this.parent.element, "toolkit-dragging");
@@ -756,6 +759,7 @@ function enddrag() {
     this.draw_once(function() {
         var e = this.element;
         TK.remove_class(e, "toolkit-active");
+        this.set("dragging", false);
 
         /* TODO: move this into the parent */
         TK.remove_class(this.parent.element, "toolkit-dragging");
@@ -884,6 +888,7 @@ TK.ResponseHandle = TK.class({
         show_axis: "boolean",
         title: "string",
         hover: "boolean",
+        dragging: "boolean",
         show_handle: "boolean"
     }),
     options: {
@@ -922,6 +927,7 @@ TK.ResponseHandle = TK.class({
         active:           true,
         show_axis:        false,
         hover:            false,
+        dragging:         false,
         show_handle:      true
     },
     static_events: {
@@ -1214,6 +1220,10 @@ TK.ResponseHandle = TK.class({
         if (I.hover) {
             I.hover = false;
             TK.toggle_class(this.element, "toolkit-hover", O.hover);
+        }
+        if (I.dragging) {
+            I.dragging = false;
+            TK.toggle_class(this.element, "toolkit-dragging", O.dragging);
         }
 
         if (I.active || I.disabled) {
