@@ -738,6 +738,7 @@ function set_main_class(O) {
 
 function startdrag() {
     this.draw_once(function() {
+        this.set("hover", true);
         var e = this.element;
         var p = e.parentNode;
         TK.add_class(e, "toolkit-active");
@@ -754,6 +755,7 @@ function startdrag() {
 
 function enddrag() {
     this.draw_once(function() {
+        this.set("hover", false);
         var e = this.element;
         TK.remove_class(e, "toolkit-active");
 
@@ -952,10 +954,12 @@ TK.ResponseHandle = TK.class({
         set_y_max: set_max,
         set_z_max: set_max,
         mouseenter: function() {
-            this.set("hover", true);
+            if (!this.pos_drag.drag_state && !this.z_drag.drag_state)
+                this.set("hover", true);
         },
         mouseleave: function() {
-            this.set("hover", false);
+            if (!this.pos_drag.drag_state && !this.z_drag.drag_state)
+                this.set("hover", false);
         },
         set_active: function(v) {
             if (!v) {
