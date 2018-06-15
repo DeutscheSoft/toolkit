@@ -343,9 +343,9 @@ function redraw_handle(O, X) {
         X[2] = x+tmp;
         X[3] = y+tmp;
 
-        _handle.setAttribute("r", Math.round(tmp).toFixed(0));
-        _handle.setAttribute("cx", Math.round(x).toFixed(0));
-        _handle.setAttribute("cy", Math.round(y).toFixed(0));
+        _handle.setAttribute("r", tmp.toFixed(2));
+        _handle.setAttribute("cx", x.toFixed(2));
+        _handle.setAttribute("cy", y.toFixed(2));
     } else if (O.mode === "block") {
         tmp = Math.max(O.min_size, z)/2;
         X[0] = x-tmp;
