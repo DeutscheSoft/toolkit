@@ -705,19 +705,19 @@ pre, code {
     position: absolute;
     top: 0;
     right: 0;
-    transform: translateX(100%);
+    transform: translate3d(100%, 0, 0);
     transition: transform 500ms;
 }
 
 .toolkit-expander.toolkit-drawer-right.toolkit-expanded {
-    transform: translateX(0%);
+    transform: translate3d(0%, 0, 0);
 }
 
 .toolkit-expander.toolkit-drawer-right > .toolkit-toggle-expand {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
 }
 
 /* drawer left */
@@ -725,19 +725,19 @@ pre, code {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
     transition: transform 500ms;
 }
 
 .toolkit-expander.toolkit-drawer-left.toolkit-expanded {
-    transform: translateX(0%);
+    transform: translate3d(0%, 0, 0);
 }
 
 .toolkit-expander.toolkit-drawer-left > .toolkit-toggle-expand {
     position: absolute;
     top: 0;
     right: 0;
-    transform: translateX(100%);
+    transform: translate3d(100%, 0, 0);
 }
 
 /* hide */
