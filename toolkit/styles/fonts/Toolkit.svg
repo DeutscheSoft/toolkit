@@ -20,16 +20,19 @@
      id="defs">
     <font
        horiz-adv-x="1024"
-       id="Toolkit Icons"
-       inkscape:label="Toolkit Icons"
+       id="ToolkitIcons"
+       inkscape:label="ToolkitIcons"
        horiz-origin-x="0"
        horiz-origin-y="0"
-       vert-origin-x="45"
-       vert-origin-y="90"
-       vert-adv-y="90">
+       vert-origin-x="0"
+       vert-origin-y="0"
+       vert-adv-y="0"
+       >
       <font-face
          units-per-em="1024"
          id="font-face929"
+         ascent="1024"
+         descent="0"
          font-family="Toolkit" />
       <missing-glyph
          d=""
@@ -149,8 +152,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.12482244"
-     inkscape:cx="1911.9559"
-     inkscape:cy="779.96277"
+     inkscape:cx="-1052.2547"
+     inkscape:cy="-1142.7684"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="true"
@@ -336,6 +339,7 @@
      inkscape:connector-curvature="0" />
   <path
      style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     d="M 448 0 L 430.85547 137.15234 A 384 384 0 0 0 303.95508 189.28125 L 195.2168 104.70703 L 104.70703 195.2168 L 189.50977 304.24805 A 384 384 0 0 0 136.88477 430.88867 L 0 448 L 0 576 L 137.15234 593.14453 A 384 384 0 0 0 189.28125 720.04492 L 104.70703 828.7832 L 195.2168 919.29297 L 304.24805 834.49023 A 384 384 0 0 0 430.88867 887.11523 L 448 1024 L 576 1024 L 593.14453 886.84766 A 384 384 0 0 0 720.04492 834.71875 L 828.7832 919.29297 L 919.29297 828.7832 L 834.49023 719.75195 A 384 384 0 0 0 887.11523 593.11133 L 1024 576 L 1024 448 L 886.84766 430.85547 A 384 384 0 0 0 834.71875 303.95508 L 919.29297 195.2168 L 828.7832 104.70703 L 719.75195 189.50977 A 384 384 0 0 0 593.11133 136.88477 L 576 0 L 448 0 z M 512 288 A 224 224 0 0 1 736 512 A 224 224 0 0 1 512 736 A 224 224 0 0 1 288 512 A 224 224 0 0 1 512 288 z "
-     id="rect881" />
+     d="m -1846.8477,-1198.8555 -17.1445,137.1524 a 384,384 0 0 0 -126.9004,52.1289 l -108.7383,-84.5742 -90.5097,90.5097 84.8027,109.03128 a 384,384 0 0 0 -52.625,126.64062 l -136.8848,17.11133 v 128 l 137.1524,17.14453 a 384,384 0 0 0 52.1289,126.90039 l -84.5742,108.73828 90.5097,90.50977 109.0313,-84.80274 a 384,384 0 0 0 126.6406,52.625 l 17.1113,136.88477 h 128 l 17.1446,-137.15234 a 384,384 0 0 0 126.9004,-52.12891 l 108.7382,84.57422 90.5098,-90.50977 -84.8027,-109.03125 a 384,384 0 0 0 52.625,-126.64062 l 136.8847,-17.11133 v -128 L -1408,-768 a 384,384 0 0 0 -52.1289,-126.90039 l 84.5742,-108.73831 -90.5098,-90.5097 -109.0312,84.8027 a 384,384 0 0 0 -126.6406,-52.625 l -17.1114,-136.8848 z m 64,288.00003 a 224,224 0 0 1 224,224 224,224 0 0 1 -224,224 224,224 0 0 1 -224,-224 224,224 0 0 1 224,-224 z"
+     id="rect881"
+     inkscape:connector-curvature="0" />
 </svg>
