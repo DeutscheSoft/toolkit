@@ -958,12 +958,10 @@ TK.ResponseHandle = TK.class({
         set_y_max: set_max,
         set_z_max: set_max,
         mouseenter: function() {
-            if (!this.pos_drag.drag_state && !this.z_drag.drag_state)
-                this.set("hover", true);
+            this.set("hover", true);
         },
         mouseleave: function() {
-            if (!this.pos_drag.drag_state && !this.z_drag.drag_state)
-                this.set("hover", false);
+            this.set("hover", false);
         },
         set_active: function(v) {
             if (!v) {
