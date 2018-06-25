@@ -332,7 +332,7 @@ TK.ButtonArray = TK.class({
         }
 
         if (I.validate("direction", "auto_arrows") || I.resized) {
-            if (O.auto_arrows && O.resized) {
+            if (O.auto_arrows && O.resized && !O.needs_resize) {
                 var dir      = O.direction === "vertical";
                 var subd     = dir ? 'top' : 'left';
                 var subs     = dir ? 'height' : 'width';
@@ -354,7 +354,7 @@ TK.ButtonArray = TK.class({
             }
         }
         if (I.validate("show", "direction", "resized")) {
-            if (O.resized) {
+            if (O.resized && !O.needs_resize) {
                 var show = O.show
                 if (show >= 0 && show < this.buttons.length) {
                     /* move the container so that the requested button is shown */
