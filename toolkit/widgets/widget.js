@@ -58,6 +58,11 @@ function redraw(fun) {
     this.fire_event("redraw");
     fun.call(this);
 }
+function resize() {
+    if (this.is_destructed()) return;
+    this.resize();
+}
+
 TK.Widget = TK.class({
     /**
      * TK.Widget is the base class for all widgets drawing DOM elements. It
@@ -167,7 +172,7 @@ TK.Widget = TK.class({
         if (!this.value_time) this.value_time = null;
         this.needs_redraw = false;
         this._redraw = redraw.bind(this, this.redraw);
-        this.__resize = this.resize.bind(this);
+        this.__resize = resize.bind(this);
         this._schedule_resize = this.schedule_resize.bind(this);
         this._drawn = false;
         this.parent = null;
