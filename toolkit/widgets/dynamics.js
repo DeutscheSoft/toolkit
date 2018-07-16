@@ -43,6 +43,7 @@ TK.Dynamics = TK.class({
      * @param {Number} [options.makeup=0] - Makeup of the dynamics. This raises the whole graph after all other parameters are applied.
      * @param {Number} [options.range=0] - Range of the dynamics. Only used in type <code>expander</code>. The maximum gain reduction.
      * @param {Number} [options.gain=0] - Input gain of the dynamics.
+     * @param {Number} [options.reference=0] - Input reference of the dynamics.
      * @param {Function} [options.grid_labels=function (val) { return val + (!val ? "dB":""); }] - Callback to format the labels of the {@link TK.Grid}.
      * @param {Number} [options.db_grid=12] - Draw a grid line every [n] decibels.
      */
@@ -59,6 +60,7 @@ TK.Dynamics = TK.class({
         makeup:    "number",
         range:     "number",
         gain:      "number",
+        reference: "number",
         grid_labels: "function",
         db_grid: "number",
     }),
@@ -76,6 +78,7 @@ TK.Dynamics = TK.class({
         makeup:    0,
         range:     0,
         gain:      0,
+        reference: 0,
         grid_labels: function (val) { return val + (!val ? "dB":""); }
     },
     static_events: {
@@ -147,7 +150,7 @@ TK.Dynamics = TK.class({
         }
         
 
-        if (I.validate("ratio", "threshold", "range", "makeup", "gain")) {
+        if (I.validate("ratio", "threshold", "range", "makeup", "gain", "reference")) {
             this.draw_graph();
         }
     },
@@ -188,15 +191,19 @@ TK.Dynamics = TK.class({
         var ratio = O.ratio;
         var thres = O.threshold;
         var gain = O.gain;
+        var ref = O.reference;
         var makeup = O.makeup;
         var min = O.min;
         var max = O.max;
         switch (O.type) {
             case "compressor":
+                // entry point
                 curve.push({x: min,
-                            y: min + makeup - gain});
-                curve.push({x: thres + gain,
-                            y: thres + makeup});
+                            y: min + makeup - gain + (ref - ref / ratio)});
+                // salient point
+                curve.push({x: thres + gain - ref,
+                            y: thres + makeup - ref / ratio});
+                // exit point
                 if (isFinite(ratio) && ratio > 0) {
                     curve.push({x: max,
                                 y: thres + makeup + (max - thres - gain) / ratio
