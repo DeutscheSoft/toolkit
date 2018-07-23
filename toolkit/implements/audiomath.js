@@ -26,7 +26,7 @@
  * @mixin TK.AudioMath
  */
 TK.AudioMath = (function(stdlib, foreign, heap) {
-    "use asm";
+    //"use asm";
     var exp = stdlib.Math.exp;
     var log = stdlib.Math.log;
     var pow = stdlib.Math.pow;

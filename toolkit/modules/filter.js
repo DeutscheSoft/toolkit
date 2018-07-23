@@ -19,7 +19,7 @@
 "use strict";
 (function(w){
 function FilterModule(stdlib, foreign, heap) {
-    "use asm";
+    //"use asm";
     var freq = +foreign.freq;
     var q    = +foreign.q;
     var gain = +foreign.gain;
