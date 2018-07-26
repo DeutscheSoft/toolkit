@@ -66,6 +66,7 @@ TK.ConfirmButton = TK.class({
   
   initialize: function (options) {
     TK.Button.prototype.initialize.call(this, options);
+    TK.add_class(this.element, "toolkit-confirm-button");
     this.add_event("click", clicked.bind(this)); 
   },
   
