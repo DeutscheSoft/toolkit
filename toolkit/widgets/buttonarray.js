@@ -131,7 +131,7 @@ TK.ButtonArray = TK.class({
                  * @event TK.ButtonArray#changed
                  * 
                  * @param {TK.Button} button - The {@link TK.Button} which was clicked.
-                 * @param {int} the ID of the clicked {@link TK.Button}.
+                 * @param {int} id - the ID of the clicked {@link TK.Button}.
                  */
                 this.fire_event("changed", button, value);
             }
