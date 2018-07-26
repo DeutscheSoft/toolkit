@@ -121,6 +121,8 @@ TK.Button = TK.class({
 });
 /**
  * @member {TK.Icon} TK.Button#icon - The {@link TK.Icon} widget.
+ * 
+ * @property {string} [options.show_icon=false] - Show/hide the icon
  */
 TK.ChildWidget(TK.Button, "icon", {
     create: TK.Icon,
@@ -133,6 +135,8 @@ TK.ChildWidget(TK.Button, "icon", {
 /**
  * @member {HTMLDivElement} TK.Button#_label - The label of the button.
  *      Has class <code>toolkit-label</code>.
+ * 
+ * @property {string} [options.show_label=true] - Show/hide the icon
  */
 TK.ChildElement(TK.Button, "label", {
     show: true,
