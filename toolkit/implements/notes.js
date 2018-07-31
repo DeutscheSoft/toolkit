@@ -21,7 +21,7 @@
 var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
 TK.Notes = TK.class({
     /**
-     * Notes converts between frequencies, MIDI notes
+     * TK.Notes converts between frequencies, MIDI notes
      * and note names.
      *
      * @mixin TK.Notes
@@ -58,6 +58,7 @@ TK.Notes = TK.class({
      * @method TK.Notes#freq2midi
      * 
      * @param {number} frequency - The frequency to translate.
+     * @param {number} [base] - The frequency of A440.
      * 
      * @returns {int} number - The MIDI number of the frequency.
      */
@@ -72,6 +73,7 @@ TK.Notes = TK.class({
      * @method TK.Notes#freq2cents
      * 
      * @param {number} frequency - The frequency to translate.
+     * @param {number} [base] - The frequency of A440.
      * 
      * @returns {number} cents - The percent of the difference to the next full note.
      */
@@ -88,6 +90,7 @@ TK.Notes = TK.class({
      * @method TK.Notes#freq2note
      * 
      * @param {number} frequency - The frequency to translate.
+     * @param {number} [base] - The frequency of A440.
      * 
      * @returns {string} note - The name of the note.
      */

@@ -231,8 +231,8 @@ function draw_title() {
 
 /**
  * TK.Chart is an SVG image containing one or more Graphs. There are functions
- * to add and remove graphs. TK.Chart extends TK.Widget and contains a Grid
- * and two Ranges.
+ * to add and remove graphs. TK.Chart extends {@link TK.Widget} and contains a
+ * Grid and two Ranges.
  *
  * @class TK.Chart
  * @extends TK.Widget
@@ -348,10 +348,10 @@ TK.Chart = TK.class({
         TK.Widget.prototype.initialize.call(this, options);
         
         /**
-         * @member {TK.Range} TK.Chart#range_x - The range for the x axis. 
+         * @member {TK.Range} TK.Chart#range_x - The {@link TK.Range} for the x axis. 
          */
         /**
-         * @member {TK.Range} TK.Chart#range_y - The range for the y axis.
+         * @member {TK.Range} TK.Chart#range_y - The {@link TK.Range} for the y axis.
          */
         this.add_range(this.options.range_x, "range_x");
         this.add_range(this.options.range_y, "range_y");
@@ -574,11 +574,11 @@ TK.Chart = TK.class({
     
     /*
      * Add a new handle to the widget. Options is an object containing
-     * options for the TK.ResponseHandle
+     * options for the {@link TK.ResponseHandle}.
      * 
      * @method TK.ResponseHandler#add_handle
      * 
-     * @param {Object} options - The options for the TK.ResponseHandle
+     * @param {Object} options - The options for the {@link TK.ResponseHandle}.
      * 
      * @emits TK.ResponseHandler#handleadded
      */

@@ -19,7 +19,7 @@
 "use strict";
 (function(w, TK){
 /**
- * GlobalCursor adds global cursor classes to ensure
+ * TK.GlobalCursor adds global cursor classes to ensure
  * one of the <a href="https://developer.mozilla.org/de/docs/Web/CSS/cursor">standard cursors</a>
  * is shown in the overall application.
  *

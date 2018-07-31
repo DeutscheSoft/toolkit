@@ -18,7 +18,7 @@
  */
 "use strict";
 /**
- * AudioMath provides a couple of functions for turning
+ * TK.AudioMath provides a couple of functions for turning
  * linear values into logarithmic ones and vice versa. If you need
  * an easy convertion between dB or Hz and a linear scale mixin
  * this class.

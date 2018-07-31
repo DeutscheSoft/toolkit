@@ -352,7 +352,7 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * @method TK.Ranged#val2based
          *
          * @param {number} value
-         * @param {number} basis
+         * @param {number} [basis=1]
          *
          * @returns {number}
          */
@@ -363,7 +363,7 @@ function TRAFO_LINEAR(stdlib, foreign) {
          * @method TK.Ranged#based2val
          *
          * @param {number} value
-         * @param {number} basis
+         * @param {number} [basis=1]
          *
          * @returns {number}
          */
@@ -553,25 +553,25 @@ function set_cb(key, value) {
  * @callback TK.Ranged~scale_cb
  *
  * @param {number} value - The value to be transformed.
- * @param {Object} options - The options of the corresponding Ranged object.
- * @param {boolean} inverse - Determines if the value is to be transformed from or
+ * @param {Object} options - The options of the corresponding {@link TK.Ranged} object.
+ * @param {boolean} [inverse=false] - Determines if the value is to be transformed from or
  *   to the coordinate system.
  *
  * @returns {number} The transformed value.
  */
 TK.Ranged = TK.class({
     /**
-     * Ranged combines functionality for two distinct purposes.
-     * Firstly, Ranged can be used to snap values to a virtual grid.
+     * TK.Ranged combines functionality for two distinct purposes.
+     * Firstly, TK.Ranged can be used to snap values to a virtual grid.
      * This grid is defined by the options <code>snap</code>,
      * <code>step</code>, <code>min</code>, <code>max</code> and <code>base</code>.
-     * The second feature of Ranged is that it allows transforming values between coordinate systems.
+     * The second feature of TK.anged is that it allows transforming values between coordinate systems.
      * This can be used to transform values from and to linear scales in which they are displayed on the
      * screen. It is used inside of Toolkit to translate values (e.g. in Hz or dB) to pixel positions or
      * percentages, for instance in widgets such as {@link TK.Scale}, {@link TK.MeterBase} or
      * {@link TK.Graph}.
      *
-     * Ranged features several types of coordinate systems which are often used in audio applications.
+     * TK.Ranged features several types of coordinate systems which are often used in audio applications.
      * They can be configured using the <code>options.scale</code> option, possible values are:
      * <ul>
      *  <li><code>"linear"</code> for linear coordinates,
@@ -590,10 +590,10 @@ TK.Ranged = TK.class({
      *  The type of the scale. Either one of "linear", "decibel", "log2",
      *  "frequency" or "frequency-reverse"; or a callback function of type {@link TK.Ranged~scale_cb}.
      * @property {boolean} [options.reverse=false] - Reverse the scale of the range
-     * @property {number} [options.basis=0] - The size of the linear scale. Set to pixel width or height
+     * @property {number} [options.basis=1] - The size of the linear scale. Set to pixel width or height
      * if used for drawing purposes or to 100 for percentages.
-     * @property {number} options.min - Minimum value of the range
-     * @property {number} options.max - Maximum value of the range
+     * @property {number} [options.min=0] - Minimum value of the range
+     * @property {number} [options.max=1] - Maximum value of the range
      * @property {number} [options.log_factor=1] - Used to range logarithmic curves.
      * @property {number|Array.<number>} [options.snap=0] -
      *  This option defines the virtual grid.

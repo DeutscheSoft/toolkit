@@ -336,7 +336,7 @@ function mark_markers(labels, dots) {
  *
  * @param {Object} options
  * 
- * @property {string} [options.layout="right"] - The layout of the Scale. <code>"right"</code> and
+ * @property {string} [options.layout="right"] - The layout of the TK.Scale. <code>"right"</code> and
  *   <code>"left"</code> are vertical layouts with the labels being drawn right and left of the scale,
  *   respectively. <code>"top"</code> and <code>"bottom"</code> are horizontal layouts for which the 
  *   labels are drawn on top and below the scale, respectively.
@@ -344,7 +344,7 @@ function mark_markers(labels, dots) {
  * @property {Array} [options.levels=[1]] - Array of steps for labels and markers.
  * @property {number} [options.base=false]] - Base of the scale. If set to <code>false</code> it will
  *   default to the minimum value.
- * @property {function} [options.labels=TK.FORMAT("%.2f")] - Formatting function for the scale labels.
+ * @property {function} [options.labels=TK.FORMAT("%.2f")] - Formatting function for the labels.
  * @property {int} [options.gap_dots=4] - Minimum gap in pixels between two adjacent markers.
  * @property {int} [options.gap_labels=40] - Minimum gap in pixels between two adjacent labels.
  * @property {boolean} [options.show_labels=true] - If <code>true</code>, labels are drawn.

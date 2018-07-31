@@ -33,11 +33,11 @@ TK.Anchor = TK.class({
      * 
      * @method TK.Anchor#translate_anchor
      * 
-     * @param {string} [anchor="top-left"] - Position of the anchor
-     * @param {number} x - X position to translate
-     * @param {number} y - Y position to translate
-     * @param {number} width - Width of the element
-     * @param {number} height - Height of the element
+     * @param {string} [anchor="top-left"] - Position of the anchor.
+     * @param {number} x - X position to translate.
+     * @param {number} y - Y position to translate.
+     * @param {number} width - Width of the element.
+     * @param {number} height - Height of the element.
      * 
      * @returns {object} Object with members x and y as numbers
      */

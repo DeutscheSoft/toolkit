@@ -20,9 +20,9 @@
 (function(w, TK){
 TK.Gradient = TK.class({
     /**
-     * Gradient provides a function to set the background of a
+     * TK.Gradient provides a function to set the background of a
      * DOM element to a CSS gradient according on the users browser and version.
-     * Gradient needs a {@link TK.Range} to be implemented on.
+     * TK.Gradient needs a {@link TK.Range} to be implemented on.
      *
      * @mixin TK.Gradient
      * 
@@ -53,7 +53,7 @@ TK.Gradient = TK.class({
          * If element is given, the function automatically sets the
          * background. If gradient is omitted, the gradient is taken from
          * options. Fallback is used if no gradient can be created.
-         * If fallback is omitted, options.background is used. if no range
+         * If fallback is omitted, <code>options.background</code> is used. if no range
          * is set Gradient assumes that the implementing instance has
          * {@link TK.Range} functionality.
          *
@@ -62,7 +62,7 @@ TK.Gradient = TK.class({
          * @param {DOMNode} element - The DOM node to apply the gradient to.
          * @param {Object} [gradient=this.options.gradient] - Gradient definition for the background, e.g. <code>{"-96": "rgb(30,87,153)", "-0.001": "rgb(41,137,216)", "0": "rgb(32,124,202)", "24": "rgb(125,185,232)"}</code>.
          * @param {string} [fallback=this.options.background] - If no gradient can be applied, use this as background color string.
-         * @param {TK.Range} [range=this] - If a specific range is set, it is used for the calculations. If not, we expect the widget itself provides #Ranged functionality.
+         * @param {TK.Range} [range=this] - If a specific range is set, it is used for the calculations. If not, we expect the widget itself provides {@link TK.Ranged} functionality.
          * 
          * @returns {string} A string to be used as background CSS.
          *

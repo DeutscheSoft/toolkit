@@ -980,13 +980,13 @@ TK.ResponseHandle = TK.class({
         var O = this.options;
         
         /**
-         * @member {TK.Range} TK.ResponseHandle#range_x - The range for the x axis.
+         * @member {TK.Range} TK.ResponseHandle#range_x - The {@link TK.Range} for the x axis.
          */
         /**
-         * @member {TK.Range} TK.ResponseHandle#range_y - The range for the y axis.
+         * @member {TK.Range} TK.ResponseHandle#range_y - The {@link TK.Range} for the y axis.
          */
         /**
-         * @member {TK.Range} TK.ResponseHandle#range_z - The range for the z axis.
+         * @member {TK.Range} TK.ResponseHandle#range_z - The {@link TK.Range} for the z axis.
          */
         this.add_range(O.range_x, "range_x");
         this.add_range(O.range_y, "range_y");

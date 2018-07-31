@@ -145,8 +145,8 @@ function angle_diff(a, b) {
 TK.DragValue = TK.class({
     /**
      * TK.DragValue enables dragging an element and setting a
-     * value according to the dragged distance. TK.DragValue is used in #Knob
-     * or #TK.ValueButton.
+     * value according to the dragged distance. TK.DragValue is used in {@link TK.Knob}
+     * or {@link TK.ValueButton}.
      *
      * @class TK.DragValue
      *
@@ -158,13 +158,13 @@ TK.DragValue = TK.class({
      *   All DOM events are registered with this Element.
      * @property {Element} [options.events=options.node] - A DOM element firing the drag events.
      * @property {Element} [options.classes=options.node] - While dragging, the class
-     *   <code>toolkit-dragging</code> will be added to this Element.
+     *   <code>toolkit-dragging</code> will be added to <code>this.element</code>.
      * @property {Function} options.get - Callback function returning the value to drag.
      * @property {Function} options.set - Callback function for setting the value.
      * @property {string} [options.direction="polar"] - Direction for changing the value.
      *   Can be "polar", "vertical" or "horizontal".
      * @property {boolean} [options.active=true] - If false, dragging is deactivated.
-     * @property {boolean} [options.cursor=false] - If true, a global cursor is set while dragging.
+     * @property {boolean} [options.cursor=false] - If true, a {@link TK.GlobalCursor} is set while dragging.
      * @property {number} [options.blind_angle=20] - If options.direction is "polar",
      *   this is the angle of separation between positive and negative value changes
      * @property {number} [options.rotation=45] - Defines the angle of the center of the positive value

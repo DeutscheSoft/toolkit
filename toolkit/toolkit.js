@@ -202,7 +202,7 @@ if ('getComputedStyle' in w) {
 var class_regex = /[^A-Za-z0-9_\-]/;
 function is_class_name (str) {
     /**
-     * Returns true ii a string could be a class name
+     * Returns true ii a string could be a class name.
      * @param {string} string - The string to test
      * @function TK.is_class_name
      * @returns {boolean}
@@ -376,7 +376,7 @@ function insert_before(newnode, refnode) {
 }
 function width() {
     /**
-     * Returns the width of the viewport
+     * Returns the width of the viewport.
      * @returns {number}
      * @function TK.width
      */
@@ -384,7 +384,7 @@ function width() {
 }
 function height() {
     /**
-     * Returns the height of the viewport
+     * Returns the height of the viewport.
      * @returns {number}
      * @function TK.height
      */
@@ -470,7 +470,8 @@ function fixed(e) {
     return getComputedStyle(e).getPropertyValue("position") === "fixed";
 }
 function outer_width(element, margin, width) {
-    /** Gets or sets the outer width of an element as CSS pixels. The box sizing
+    /**
+     * Gets or sets the outer width of an element as CSS pixels. The box sizing
      * method is taken into account.
      * @param {HTMLElement} element - the element to evaluate / manipulate
      * @param {boolean} margin - Determine if margin is included
@@ -500,7 +501,8 @@ function outer_width(element, margin, width) {
     }
 }
 function outer_height(element, margin, height) {
-    /** Gets or sets the outer height of an element as CSS pixels. The box sizing
+    /**
+     * Gets or sets the outer height of an element as CSS pixels. The box sizing
      * method is taken into account.
      * @param {HTMLElement} element - the element to evaluate / manipulate
      * @param {boolean} margin - Determine if margin is included
@@ -530,7 +532,8 @@ function outer_height(element, margin, height) {
     }
 }
 function inner_width(element, width) {
-    /** Gets or sets the inner width of an element as CSS pixels. The box sizing
+    /**
+     * Gets or sets the inner width of an element as CSS pixels. The box sizing
      * method is taken into account.
      * @param {HTMLElement} element - the element to evaluate / manipulate
      * @param {number} width - If defined the elements inner width is set to this value
@@ -552,7 +555,8 @@ function inner_width(element, width) {
     }
 }
 function inner_height(element, height) {
-    /** Gets or sets the inner height of an element as CSS pixels. The box sizing
+    /**
+     * Gets or sets the inner height of an element as CSS pixels. The box sizing
      * method is taken into account.
      * @param {HTMLElement} element - the element to evaluate / manipulate
      * @param {number} height - If defined the elements outer height is set to this value
@@ -574,7 +578,8 @@ function inner_height(element, height) {
     }
 }
 function box_sizing(element) {
-    /** Returns the box-sizing method of an HTMLElement.
+    /**
+     * Returns the box-sizing method of an HTMLElement.
      * @param {HTMLElement} element - The element to evaluate
      * @returns {string}
      * @functionTK.box_sizing
@@ -588,7 +593,7 @@ function box_sizing(element) {
 }
 function css_space(element) {
     /**
-     * Returns the overall spacing around an HTMLElement of all given attributes
+     * Returns the overall spacing around an HTMLElement of all given attributes.
      * @param {HTMLElement} element - The element to evaluate
      * @param{...string} The CSS attributes to take into account
      * @returns {object} An object with the members "top", "bottom", "lfet", "right"
@@ -614,7 +619,7 @@ function css_space(element) {
 }
 function set_styles(elem, styles) {
     /**
-     * Set multiple CSS styles onto an HTMLElement
+     * Set multiple CSS styles onto an HTMLElement.
      * @param {HTMLElement} element - the element to add the styles to
      * @param {object} styles - A mapping containing all styles to add
      * @function TK.set_styles
@@ -657,7 +662,7 @@ function set_style(e, style, value) {
 var _id_cnt = 0;
 function unique_id() {
     /**
-     * Generate a unique ID string
+     * Generate a unique ID string.
      * @returns {string}
      * @function TK.unique_id
      */
@@ -807,7 +812,8 @@ function sprintf(fmt) {
 }
 
 function escapeHTML(text) {
-    /** Escape an HTML string to be displayed as text
+    /**
+     * Escape an HTML string to be displayed as text.
      * @param {string} html - The HTML code to escape
      * @returns {string}
      * @function TK.escapeHTML
@@ -823,7 +829,8 @@ function escapeHTML(text) {
 }
 
 function is_touch() {
-    /** Check if a device is touch-enabled
+    /**
+     * Check if a device is touch-enabled.
      * @returns {boolean}
      * @function TK.is_touch
      */
@@ -854,7 +861,7 @@ function os() {
 }
 function make_svg(tag, args) {
     /**
-     * Creates and returns an SVG child element
+     * Creates and returns an SVG child element.
      * @param {string} tag - The element to create as string, e.g. "line" or "g"
      * @param {object} arguments - The attributes to set onto the element
      * @returns {SVGElement}
@@ -867,7 +874,7 @@ function make_svg(tag, args) {
 function seat_all_svg(parent) {
     /**
      * Searches for all SVG that don't have the class "svg-fixed" and re-positions them
-     * in order to avoid blurry lines
+     * in order to avoid blurry lines.
      * @param {HTMLElement} parent - If set only children of parent are searched
      * @function TK.seat_all_svg
      */
@@ -879,7 +886,7 @@ function seat_all_svg(parent) {
 }
 function seat_svg(e) {
     /**
-     * Move SVG for some sub-pixel if their position in viewport is not int
+     * Move SVG for some sub-pixel if their position in viewport is not int.
      * @param {SVGElement} svg - The SVG to manipulate
      * @function TK.seat_svg
      */
@@ -934,7 +941,7 @@ function delayed_callback(timeout, cb, once) {
 
 function store(e, key, val) {
     /**
-     * Store a piece of data in an object
+     * Store a piece of data in an object.
      * @param {object} object - The object to store the data
      * @param {string} key - The key to identify the memory
      * @param {*} data - The data to store
@@ -944,7 +951,7 @@ function store(e, key, val) {
 }
 function retrieve(e, key) {
     /**
-     * Retrieve a piece of data from an object
+     * Retrieve a piece of data from an object.
      * @param {object} object - The object to retrieve the data from
      * @param {string} key - The key to identify the memory
      * @function TK.retrieve
@@ -956,7 +963,7 @@ function merge(dst) {
     /**
      * Merge two or more objects. The second and all following objects
      * will be merged into the first one.
-     * @param {...obhject} object - The objects to merge
+     * @param {...object} object - The objects to merge
      * @returns {object}
      * @function TK.merge
      */
@@ -972,7 +979,7 @@ function merge(dst) {
 }
 function object_and(orig, filter) {
     /**
-     * Filter an object via white list
+     * Filter an object via white list.
      * @param {object} origin - The object to filter
      * @param {object} filter - The object containing the white list
      * @returns {object} The filtered result
@@ -986,7 +993,7 @@ function object_and(orig, filter) {
 }
 function object_sub(orig, filter) {
     /**
-     * Filter an object via black list
+     * Filter an object via black list.
      * @param {object} origin - The object to filter
      * @param {object} filter - The object containing the black list
      * @returns {object} The filtered result
@@ -999,7 +1006,8 @@ function object_sub(orig, filter) {
     return ret;
 }
 function to_array(collection) {
-    /** Convert any collection (like NodeList) into an array
+    /**
+     * Convert any collection (like NodeList) into an array.
      * @param {collection} collection - The collection to convert into an array
      * @returns {array}
      * @functionTK.to_array
