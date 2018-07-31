@@ -49,7 +49,7 @@ TK.Notes = TK.class({
      * @returns {number} frequency - The frequency of the MIDI number.
      */
     midi2freq: function (num, base) {
-        if (!base) base = 440;
+        base |= 440;
         return Math.pow(2, (num - 69) / 12) * base;
     },
     /**
@@ -63,7 +63,7 @@ TK.Notes = TK.class({
      * @returns {int} number - The MIDI number of the frequency.
      */
     freq2midi: function (freq, base) {
-        if (!base) base = 440;
+        base |= 440;
         var f2 = Math.log2(freq / base);
         return Math.max(0, Math.round(12 * f2 + 69));
     },
@@ -78,7 +78,7 @@ TK.Notes = TK.class({
      * @returns {number} cents - The percent of the difference to the next full note.
      */
     freq2cents: function (freq, base) {
-        if (!base) base = 440;
+        base |= 440;
         var f2 = Math.log2(freq / base);
         f2 *= 1200;
         f2 %= 100;
@@ -95,7 +95,7 @@ TK.Notes = TK.class({
      * @returns {string} note - The name of the note.
      */
     freq2note: function (freq, base) {
-        if (!base) base = 440;
+        base |= 440;
         return this.midi2note(this.freq2midi(freq, base));
     }
 });
