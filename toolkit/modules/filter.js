@@ -348,18 +348,18 @@ TK.Filter = TK.class({
     _class: "Filter",
     Extends: TK.Base,
     _options: {
-        type: "mixed",
+        type: "string",
         freq: "number",
         gain: "number",
         q: "number",
-	sample_rate: "number",
+        sample_rate: "number",
     },
     options: {
         type: "parametric",
-        freq: 0,
+        freq: 1000,
         gain: 0,
         q:    1,
-	sample_rate: 44000,
+        sample_rate: 44100,
     },
     static_events: {
         set_freq: reset,
