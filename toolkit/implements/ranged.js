@@ -620,15 +620,17 @@ TK.Ranged = TK.class({
     options: {
         scale:          "linear",
         reverse:        false,
-        basis:          0,
+        basis:          1,
         min:            0,
-        max:            0,
-        step:           1,
+        max:            1,
+        base:           0,
+        step:           0,
         shift_up:       4,
         shift_down:     0.25,
         snap:           0,
         round:          true,
-        log_factor:     1
+        log_factor:     1,
+        trafo_reverse:  false,
     },
     _options: {
         scale: "string|array|function",
