@@ -363,6 +363,8 @@ TK.Circular = TK.class({
     },
     options: {
         value:      0,
+        value_hand: 0,
+        value_ring: 0,
         size:       100,
         thickness:  3,
         margin:     0,
