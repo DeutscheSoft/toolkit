@@ -19,7 +19,7 @@
 "use strict";
 (function(w, TK){
 /**
- * Ranges provides multiple {@link TK.Range} for a widget. They
+ * Ranges provides multiple {@link TK.Range}s for a widget. They
  * can be used for building coordinate systems.
  *
  * @mixin TK.Ranges

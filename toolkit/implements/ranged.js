@@ -594,9 +594,10 @@ TK.Ranged = TK.class({
      * if used for drawing purposes or to 100 for percentages.
      * @property {number} [options.min=0] - Minimum value of the range
      * @property {number} [options.max=1] - Maximum value of the range
-     * @property {number} [options.log_factor=1] - Used to range logarithmic curves.
+     * @property {number} [options.log_factor=1] - Used to overexpand logarithmic curves. 1 keeps the
+     *  natural curve while values above 1 will overbend.
      * @property {number|Array.<number>} [options.snap=0] -
-     *  This option defines the virtual grid.
+     *  Defines a virtual grid.
      *  If <code>options.snap</code> is a positive number, it is interpreted as the distance of
      *  grid points.
      *  Then, inside of the interval <code>options.min</code> ... <code>options.max</code> the grid
@@ -605,7 +606,7 @@ TK.Ranged = TK.class({
      *  point, respectively.
      *  In order to define grids with non-uniform spacing, set <code>options.snap</code> to an Array
      *  of grid points.
-     * @property {base} [options.base=0] - Base point.
+     * @property {base} [options.base=0] - Base point. Used e.g. to mark 0dB on a fader from -96dB to 12dB.
      * @property {number} [options.step=0] - Step size. Used for instance by {@link TK.ScrollValue}
      *  as the step size.
      * @property {number} [options.shift_up=4] - Multiplier for increased stepping speed, e.g. used by
@@ -628,9 +629,9 @@ TK.Ranged = TK.class({
         shift_up:       4,
         shift_down:     0.25,
         snap:           0,
-        round:          true,
+        round:          true, /* default for TK.Range, no dedicated option */
         log_factor:     1,
-        trafo_reverse:  false,
+        trafo_reverse:  false, /* used internally, no documentation */
     },
     _options: {
         scale: "string|array|function",

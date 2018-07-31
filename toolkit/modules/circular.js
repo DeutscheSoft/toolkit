@@ -263,8 +263,14 @@ TK.Circular = TK.class({
      * 
      * @param {Object} options
      * 
-     * @property {number} [options.value=0] - The current value.
-     * @property {number} [options.size=100] - The diameter of the circle.
+     * @property {number} [options.value=0] - Sets the value on the hand and on the
+     *   ring at the same time.
+     * @property {number} [options.value_hand=0] - Sets the value on the hand.
+     * @property {number} [options.value_ring=0] - Sets the value on the ring.
+     * @property {number} [options.size=100] - The diameter of the circle. This
+     *   is the base value for all following layout-related parameters. Keeping
+     *   it set to 100 offers percentual lenghts. Set the final size of the widget
+     *   via CSS.
      * @property {number} [options.thickness=3] - The thickness of the circle.
      * @property {number} [options.margin=0] - The margin between base and value circles.
      * @property {boolean} [options.show_hand=true] - Draw the hand.
@@ -273,7 +279,7 @@ TK.Circular = TK.class({
      * @property {number} [options.hand.length=30] - Length of the hand.
      * @property {number} [options.hand.margin=10] - Margin of the hand.
      * @property {number} [options.start=135] - The starting point in degrees.
-     * @property {number} [options.angle=270] - The maximum degree of the rotation if
+     * @property {number} [options.angle=270] - The maximum degree of the rotation when
      *   <code>options.value === options.max</code>.
      * @property {number|boolean} [options.base=false] - If a base value is set in degrees,
      *   circular starts drawing elements from this position.
@@ -281,6 +287,7 @@ TK.Circular = TK.class({
      * @property {boolean} [options.show_value=true] - Draw the value ring.
      * @property {number} [options.x=0] - Horizontal displacement of the circle.
      * @property {number} [options.y=0] - Vertical displacement of the circle.
+     * @property {boolean} [options.show_dots=true] - Show/hide all dots.
      * @property {Object} [options.dot] - This option acts as default values for the individual dots
      *   specified in <code>options.dots</code>.
      * @property {number} [options.dot.width=2] - Width of the dots.
@@ -289,6 +296,7 @@ TK.Circular = TK.class({
      * @property {Array} [options.dots=[]] - An array of objects describing where dots should be placed
      *   along the circle. Members are position <code>pos</code> in the value range and optionally
      *   <code>color</code> and <code>class</code> and any of the properties of <code>options.dot</code>.
+     * @property {boolean} [options.show_markers=true] - Show/hide all markers.
      * @property {Object} [options.marker] - This option acts as default values of the individual markers
      *   specified in <code>options.markers</code>.
      * @property {number} [options.marker.thickness=3] - Thickness of the marker.
@@ -296,6 +304,7 @@ TK.Circular = TK.class({
      * @property {Array} [options.markers=[]] - An array containing objects which describe where markers
      *   are to be places. Members are the position as <code>from</code> and <code>to</code> and optionally
      *   <code>color</code>, <code>class</code> and any of the properties of <code>options.marker</code>.
+     * @property {boolean} [options.show_labels=true] - Show/hide all labels.
      * @property {Object} [options.label] - This option acts as default values for the individual labels
      *   specified in <code>options.labels</code>.
      * @property {integer} [options.label.margin=8] - Distance of the label from the circle of diameter

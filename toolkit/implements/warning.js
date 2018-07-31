@@ -36,7 +36,7 @@ TK.Warning = TK.class({
      * 
      * @emits TK.Warning#warning
      * 
-     * @param {HTMLElement|SVGElement} element - The DOM node the class should be added to
+     * @param {HTMLElement|SVGElement} element - The DOM node the class should be added to.
      * @param {number} [timeout=250] - The timeout in ms until the class should be removed again.
      */
     warning: function (element, timeout) {

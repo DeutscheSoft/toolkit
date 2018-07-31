@@ -145,22 +145,29 @@ function angle_diff(a, b) {
 TK.DragValue = TK.class({
     /**
      * TK.DragValue enables dragging an element and setting a
-     * value according to the dragged distance. TK.DragValue is used in {@link TK.Knob}
-     * or {@link TK.ValueButton}.
+     * value according to the dragged distance. TK.DragValue is for example
+     * used in {@link TK.Knob} and {@link TK.ValueButton}.
      *
      * @class TK.DragValue
      *
      * @param {Object} options
      *
-     * @property {Function} options.range - A function returning a {@link TK.Range} object for
-     *  calculating the value.
      * @property {Element} options.node - The DOM node used for dragging.
      *   All DOM events are registered with this Element.
-     * @property {Element} [options.events=options.node] - A DOM element firing the drag events.
-     * @property {Element} [options.classes=options.node] - While dragging, the class
-     *   <code>toolkit-dragging</code> will be added to <code>this.element</code>.
-     * @property {Function} options.get - Callback function returning the value to drag.
-     * @property {Function} options.set - Callback function for setting the value.
+     * @property {Function} [options.range] - A function returning a
+     *  {@link TK.Range} object for
+     *  calculating the value. Returns its parent (usually having
+     *  {@link TK.Ranged}-features) by default.
+     * @property {function} [options.events] - Returns an element firing the
+     *   events <code>startdrag</code>, <code>dragging</code> and <code>stopdrag</code>.
+     *   By default it returns <code>this.parent</code>.
+     * @property {Element|boolean} [options.classes=false] - While dragging, the class
+     *   <code>toolkit-dragging</code> will be added to this element. If set to <code>false</code>
+     *   the class will be set on <code>options.node</code>.
+     * @property {Function} [options.get] - Callback function returning the value to drag.
+     *   By default it returns <code>this.parent.options.value</code>.
+     * @property {Function} [options.set] - Callback function for setting the value.
+     *   By default it calls <code>this.parent.userset("value", [value]);</code>.
      * @property {string} [options.direction="polar"] - Direction for changing the value.
      *   Can be "polar", "vertical" or "horizontal".
      * @property {boolean} [options.active=true] - If false, dragging is deactivated.
