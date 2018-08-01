@@ -586,14 +586,16 @@ TK.Ranged = TK.class({
      *
      * @param {Object} options
      *
-     * @property {integer|Function} [options.scale="linear"] -
-     *  The type of the scale. Either one of "linear", "decibel", "log2",
-     *  "frequency" or "frequency-reverse"; or a callback function of type {@link TK.Ranged~scale_cb}.
-     * @property {boolean} [options.reverse=false] - Reverse the scale of the range
+     * @property {string|array|function} [options.scale="linear"] -
+     *  The type of the scale. Either one of <code>linear</code>, <code>decibel</code>, <code>log2</code>,
+     *  <code>frequency</code> or <code>frequency-reverse</code>; or an array containing a
+     *  piece-wise linear scale;
+     *  or a callback function of type {@link TK.Ranged~scale_cb}.
+     * @property {boolean} [options.reverse=false] - Reverse the scale of the range.
      * @property {number} [options.basis=1] - The size of the linear scale. Set to pixel width or height
      * if used for drawing purposes or to 100 for percentages.
-     * @property {number} [options.min=0] - Minimum value of the range
-     * @property {number} [options.max=1] - Maximum value of the range
+     * @property {number} [options.min=0] - Minimum value of the range.
+     * @property {number} [options.max=1] - Maximum value of the range.
      * @property {number} [options.log_factor=1] - Used to overexpand logarithmic curves. 1 keeps the
      *  natural curve while values above 1 will overbend.
      * @property {number|Array.<number>} [options.snap=0] -

@@ -33,8 +33,8 @@ function range_changed(value, name) {
 TK.Ranges = TK.class({
     _class: "Ranges",
     /**
-     * Add a new {@link TK.Range}. If name is set and this.options[name]
-     * exists, is an object and from is an object, too, both are merged
+     * Add a new {@link TK.Range}. If <code>name</code> is set and <code>this.options[name]</code>
+     * exists, is an object and <code>from</code> is an object, too, both are merged
      * before a range is created.
      *
      * @method TK.Ranges#add_range
@@ -44,7 +44,7 @@ TK.Ranges = TK.class({
      * @param {string} name - Designator of the {@link TK.Range}.
      *   If a name is set a new set function is added to the item to
      *   set the options of the {@link TK.Range}. Use the set function like this:
-     *   this.set("name", {key: value});
+     *   <code>this.set("name", {key: value});</code>
      * 
      * @emits TK.Ranges#rangeadded
      * 

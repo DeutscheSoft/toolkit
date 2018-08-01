@@ -169,10 +169,10 @@ TK.DragValue = TK.class({
      * @property {Function} [options.set] - Callback function for setting the value.
      *   By default it calls <code>this.parent.userset("value", [value]);</code>.
      * @property {string} [options.direction="polar"] - Direction for changing the value.
-     *   Can be "polar", "vertical" or "horizontal".
+     *   Can be <code>polar</code>, <code>vertical</code> or <code>horizontal</code>.
      * @property {boolean} [options.active=true] - If false, dragging is deactivated.
      * @property {boolean} [options.cursor=false] - If true, a {@link TK.GlobalCursor} is set while dragging.
-     * @property {number} [options.blind_angle=20] - If options.direction is "polar",
+     * @property {number} [options.blind_angle=20] - If options.direction is <code>polar</code>,
      *   this is the angle of separation between positive and negative value changes
      * @property {number} [options.rotation=45] - Defines the angle of the center of the positive value
      *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when

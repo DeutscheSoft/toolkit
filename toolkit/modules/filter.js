@@ -322,7 +322,9 @@ TK.Filter = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {mixed} [options.type="parametric"] - The type of the filter,  "parametric"|"notch"|"low-shelf"|"high-shelf"|"lowpass"+[n]|"highpass"+[n].
+     * @property {mixed} [options.type="parametric"] - The type of the filter, possible values are
+     *   <code>parametric</code>, <code>notch</code>, <code>low-shelf</code>,
+     *   <code>high-shelf</code>, <code>lowpass[n]</code> or <code>highpass[n]</code>.
      * @property {number} [options.freq=1000] - The initial frequency.
      * @property {number} [options.gain=0] - The initial gain.
      * @property {number} [options.q=1] - The initial Q of the filter.

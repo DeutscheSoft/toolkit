@@ -35,28 +35,19 @@ TK.Range = TK.class({
     * 
     * @param {Object} options
     * 
-    * @property {string} [options.scale="linear"] - What kind of value are we working with?
-    *   <ul><li>"linear"</li>
-    *   <li>"decibel" / "log2"</li>
-    *   <li>"frequency" </li>
-    *   <li>function (value, options, coef) {}</li></ul>
-    *   If a function instead of a constant
-    *   is handed over, it receives the
-    *   actual options object as the second
-    *   argument and is supposed to return a
-    *   coefficient between 0 and 1. If the
-    *   third argument "coef" is true, it is
-    *   supposed to return a value depending
-    *   on a coefficient handed over as the 
+    * @property {string|function} [options.scale="linear"] - Type of the value.
+    *   <code>linear</code>, <code>decibel</code>, <code>log2</code>, <code>frequency</code>
+    *   or a <code>function (value, options, coef) {}</code>.
+    *   If a function instead of a constant is handed over, it receives the
+    *   actual options object as the second argument and is supposed to return a
+    *   coefficient between 0 and 1. If the third argument "coef" is true, it is
+    *   supposed to return a value depending on a coefficient handed over as the 
     *   first argument.
-    * @property {boolean} [options.reverse=false] - true if the range is reversed.
+    * @property {boolean} [options.reverse=false] - <code>true</code> if the range is reversed.
     * @property {number} [options.basis=0] - Dimensions of the range, set to
-    *   width/height in pixels, if you need
-    *   it for drawing purposes, to 100 if
-    *   you need percentual values or to 1
-    *   if you just need a linear
-    *   coefficient for a e.g. logarithmic
-    *   scale.
+    *   width/height in pixels, if you need it for drawing purposes, to 100 if
+    *   you need percentual values or to 1 if you just need a linear
+    *   coefficient for a e.g. logarithmic scale.
     * @property {number} [options.min=0] - The minimum value possible.
     * @property {number} [options.max=0] - The maximum value possible.
     * @property {number} [options.step=1] - Step size, needed for e.g. user

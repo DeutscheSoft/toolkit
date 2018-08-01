@@ -45,10 +45,10 @@ TK.EqBand = TK.class({
      * 
      * @param {Object} options
      * 
-     * @property {integer} [options.type="parametric"] - The type of the filter.
-     *   Possible values are <code>"parametric"</code>, <code>"notch"</code>,
-     *   <code>"low-shelf"</code>, <code>"high-shelf"</code>, <code>"lowpass"+n</code> or
-     *   <code>"highpass"+n</code>.
+     * @property {string|function} [options.type="parametric"] - The type of the filter.
+     *   Possible values are <code>parametric</code>, <code>notch</code>,
+     *   <code>low-shelf</code>, <code>high-shelf</code>, <code>lowpass[n]</code> or
+     *   <code>highpass[n]</code>.
      * @property {number} options.freq - Frequency setting. This is an alias for the option <code>x</code>
      *   defined by {@link TK.ResponseHandle}.
      * @property {number} options.gain - Gain setting. This is an alias for the option <code>y</code>

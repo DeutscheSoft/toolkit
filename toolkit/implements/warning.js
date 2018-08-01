@@ -28,7 +28,7 @@
 TK.Warning = TK.class({
     _class: "Warning",
     /** 
-     * Adds the class "toolkit-warn" to the given element and
+     * Adds the class <code>toolkit-warn</code> to the given element and
      * sets a timeout after which the class is removed again. If there
      * already is a timeout waiting it gets updated.
      *

@@ -639,7 +639,7 @@ function ChildWidget(widget, name, config) {
      * {@link TK.Button} is defined as a TK.ChildWidget. TK.ChildWidgets
      * are created/added after the initialization of the parent widget.
      * If not configured otherwise, all options of the child widget can
-     * be accessed via <code>TK.Widget.options[config.name + "." + option]
+     * be accessed via <code>TK.Widget.options[config.name + "." + option]</code>
      * on the parent widget.
      * 
      * @param {TK.Widget} widget - The {@link TK.Widget} to add the TK.ChildWidget to.
@@ -797,7 +797,7 @@ function ChildElement(widget, name, config) {
      * Creates a HTMLElement as a child for a widget. Is used to simplify
      * widget definitions. E.g. the tiny marker used to display the back-end
      * value is a simple DIV added as a TK.VChildElement. The generic element
-     * is a <code>DIV</code> added to TK.Widget.element with the class
+     * is a DIV added to TK.Widget.element with the class
      * <code>toolkit-[name]</code>. Default creating and adding can be
      * overwritten with custom callback functions.
      * 

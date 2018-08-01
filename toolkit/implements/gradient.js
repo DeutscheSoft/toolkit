@@ -30,10 +30,10 @@ TK.Gradient = TK.class({
      * 
      * @property {Object|boolean} options.gradient - Gradient definition for the background.
      *   Keys are ints or floats as string corresponding to the widgets scale.
-     *   Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
+     *   Values are valid css color strings like <code>#ff8000</code> or <code>rgb(0,56,103)</code>.
      *   If set to false the css style color is used.
      * @property {string|boolean} [options.background="#000000"] - Background color if no gradient is used.
-     *   Values are valid css color strings like "#ff8000" or "rgb(0,56,103)".
+     *   Values are valid css color strings like <code>#ff8000</code> or <code>rgb(0,56,103)</code>.
      *   If set to false the css style color is used.
      */
     _class: "Gradient",

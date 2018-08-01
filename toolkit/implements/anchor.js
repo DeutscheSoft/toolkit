@@ -21,7 +21,7 @@
 /**
  * TK.Anchor provides a single function translate_anchor
  * which returns real x and y values from a relative positioning.
- * For example positioning a {@link TK.Window} with anchor "center"
+ * For example positioning a {@link TK.Window} with anchor <code>center</code>
  * needs to subtract half of its width from y and half of its height
  * from x to appear at the correct position.
  *
