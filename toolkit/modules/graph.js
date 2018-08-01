@@ -149,7 +149,15 @@ TK.Graph = TK.class({
      * 
      * @param {Object} options
      * 
-     * @property {Array|string} [options.dots=[]] - The dots of the path. Can be a ready-to-use SVG-path-string or an array of objects like {x: x, y: y [, x1, y1, x2, y2]} (depending on the type)
+     * @property {Function|Object} options.range_x - Callback function
+     *   returning a {@link TK.Range} module for x axis or an object with options
+     *   for a new {@link Range}.
+     * @property {Function|Object} options.range_y - Callback function
+     *   returning a {@link TK.Range} module for y axis or an object with options
+     *   for a new {@link Range}.
+     * @property {Array|string} options.dots=[] - The dots of the path.
+     *   Can be a ready-to-use SVG-path-string or an array of objects like
+     *   <code>{x: x, y: y [, x1, y1, x2, y2]}</code> (depending on the type).
      * @property {string} [options.type="L"] - Type of the graph (needed values in dots object):
      *   L = normal (needs x,y) |
      *   T = smooth quadratic Bézier (needs x, y) |
@@ -163,13 +171,14 @@ TK.Graph = TK.class({
      *   "top": fill above the line |
      *   "center": fill from the vertical center of the canvas |
      *   "base": fill from a percentual position on the canvas (set with base)
-     * @property {number} [options.base=0] - If mode is "base" set the position of the base line to fill from between 0 (bottom) and 1 (top)
-     * @property {string} [options.color=""] - Set the color of the path
-     * @property {Function|Object} [options.range_x={}] - Callback function returning a {@link TK.Range} module for x axis or an object with options. for a new {@link Range}
-     * @property {Function|Object} [options.range_y={}] - Callback function returning a {@link TK.Range} module for y axis or an object with options. for a new {@link Range}
-     * @property {number} [options.width=0] - The width of the graph
-     * @property {number} [options.height=0] - The height of the graph
-     * @property {string|boolean} [options.key=false] - Show a description for this graph in the charts key, false to turn it off
+     * @property {number} [options.base=0] - If mode is "base" set the position
+     *   of the base line to fill from between 0 (bottom) and 1 (top).
+     * @property {string} [options.color=""] - Set the color of the path.
+     *   Better use <code>stroke</code> and <code>fill</code> via CSS.
+     * @property {number} [options.width=128] - The width of the graph.
+     * @property {number} [options.height=64] - The height of the graph.
+     * @property {string|boolean} [options.key=false] - Show a description
+     *   for this graph in the charts key, <code>false</code> to turn it off.
      * 
      * @extends TK.Widget
      * 
