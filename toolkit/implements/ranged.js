@@ -586,19 +586,19 @@ TK.Ranged = TK.class({
      *
      * @param {Object} options
      *
-     * @property {string|array|function} [options.scale="linear"] -
+     * @property {String|Array<Number>|Function} [options.scale="linear"] -
      *  The type of the scale. Either one of <code>linear</code>, <code>decibel</code>, <code>log2</code>,
      *  <code>frequency</code> or <code>frequency-reverse</code>; or an array containing a
      *  piece-wise linear scale;
      *  or a callback function of type {@link TK.Ranged~scale_cb}.
-     * @property {boolean} [options.reverse=false] - Reverse the scale of the range.
-     * @property {number} [options.basis=1] - The size of the linear scale. Set to pixel width or height
+     * @property {Boolean} [options.reverse=false] - Reverse the scale of the range.
+     * @property {Number} [options.basis=1] - The size of the linear scale. Set to pixel width or height
      * if used for drawing purposes or to 100 for percentages.
-     * @property {number} [options.min=0] - Minimum value of the range.
-     * @property {number} [options.max=1] - Maximum value of the range.
-     * @property {number} [options.log_factor=1] - Used to overexpand logarithmic curves. 1 keeps the
+     * @property {Number} [options.min=0] - Minimum value of the range.
+     * @property {Number} [options.max=1] - Maximum value of the range.
+     * @property {Number} [options.log_factor=1] - Used to overexpand logarithmic curves. 1 keeps the
      *  natural curve while values above 1 will overbend.
-     * @property {number|Array.<number>} [options.snap=0] -
+     * @property {Number|Array.<number>} [options.snap=0] -
      *  Defines a virtual grid.
      *  If <code>options.snap</code> is a positive number, it is interpreted as the distance of
      *  grid points.
@@ -608,12 +608,12 @@ TK.Ranged = TK.class({
      *  point, respectively.
      *  In order to define grids with non-uniform spacing, set <code>options.snap</code> to an Array
      *  of grid points.
-     * @property {base} [options.base=0] - Base point. Used e.g. to mark 0dB on a fader from -96dB to 12dB.
-     * @property {number} [options.step=0] - Step size. Used for instance by {@link TK.ScrollValue}
+     * @property {Number} [options.base=0] - Base point. Used e.g. to mark 0dB on a fader from -96dB to 12dB.
+     * @property {Number} [options.step=0] - Step size. Used for instance by {@link TK.ScrollValue}
      *  as the step size.
-     * @property {number} [options.shift_up=4] - Multiplier for increased stepping speed, e.g. used by
+     * @property {Number} [options.shift_up=4] - Multiplier for increased stepping speed, e.g. used by
      *  {@link TK.ScrollValue} when simultaneously pressing 'shift'.
-     * @property {number} [options.shift_down=0.25] - Multiplier for descresed stepping speed, e.g. used by
+     * @property {Number} [options.shift_down=0.25] - Multiplier for descresed stepping speed, e.g. used by
      *  {@link TK.ScrollValue} when simultaneously pressing 'shift' and 'ctrl'.
      *
      * @mixin TK.Ranged

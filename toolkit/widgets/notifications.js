@@ -29,7 +29,7 @@
  * 
  * @param {Object} options
  * 
- * @property {string} [options.stack="end"] - Where does a new {@link TK.Notification} appear - "end" or "start"
+ * @property {String} [options.stack="end"] - Where does a new {@link TK.Notification} appear - "end" or "start"
  */
 
 TK.Notifications = TK.class({

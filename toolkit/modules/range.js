@@ -35,7 +35,7 @@ TK.Range = TK.class({
     * 
     * @param {Object} options
     * 
-    * @property {string|function} [options.scale="linear"] - Type of the value.
+    * @property {String|Function} [options.scale="linear"] - Type of the value.
     *   <code>linear</code>, <code>decibel</code>, <code>log2</code>, <code>frequency</code>
     *   or a <code>function (value, options, coef) {}</code>.
     *   If a function instead of a constant is handed over, it receives the
@@ -43,27 +43,30 @@ TK.Range = TK.class({
     *   coefficient between 0 and 1. If the third argument "coef" is true, it is
     *   supposed to return a value depending on a coefficient handed over as the 
     *   first argument.
-    * @property {boolean} [options.reverse=false] - <code>true</code> if the range is reversed.
-    * @property {number} [options.basis=0] - Dimensions of the range, set to
+    * @property {Boolean} [options.reverse=false] - <code>true</code> if
+    *   the range is reversed.
+    * @property {Number} [options.basis=0] - Dimensions of the range, set to
     *   width/height in pixels, if you need it for drawing purposes, to 100 if
     *   you need percentual values or to 1 if you just need a linear
     *   coefficient for a e.g. logarithmic scale.
-    * @property {number} [options.min=0] - The minimum value possible.
-    * @property {number} [options.max=0] - The maximum value possible.
-    * @property {number} [options.step=1] - Step size, needed for e.g. user
+    * @property {Number} [options.min=0] - The minimum value possible.
+    * @property {Number} [options.max=0] - The maximum value possible.
+    * @property {Number} [options.step=1] - Step size, needed for e.g. user
     *   interaction
-    * @property {number} [options.shift_up=4] - Multiplier for e.g. SHIFT pressed
+    * @property {Number} [options.shift_up=4] - Multiplier for e.g. SHIFT pressed
     *   while stepping
-    * @property {number} [options.shift_down=0.25] - Multiplier for e.g. SHIFT + CONTROL
+    * @property {Number} [options.shift_down=0.25] - Multiplier for e.g. SHIFT + CONTROL
     *   pressed while stepping
-    * @property {mixed} [options.snap=0] - Snap the value to a virtual grid
-    *   with this distance Using snap option with float values
+    * @property {Number|Array} [options.snap=0] - Snap the value to a virtual grid
+    *   with this distance. Numbers define the step size between snaps, an
+    *   array contains a list pof values to snap to.
+    *   Using snap option with float values
     *   causes the range to reduce its minimum and maximum values depending
     *   on the amount of decimal digits because of the implementation of
     *   math in JavaScript. Using a step size of e.g. 1.125
     *   reduces the maximum usable value from 9,007,199,254,740,992 to
-    *   9,007,199,254,740.992 (note the decimal point)
-    * @property {boolean} [options.round=false] - if snap is set,
+    *   9,007,199,254,740.992 (note the decimal point).
+    * @property {Boolean} [options.round=false] - if snap is set,
     *   decide how to jump between snaps. Setting this to true
     *   slips to the next snap if the value is more than on its half way to it.
     *   Otherwise the value has to reach the next snap until it is hold there
@@ -81,7 +84,7 @@ TK.Range = TK.class({
         step: "number",
         shift_up: "number",
         shift_down: "number",
-        snap: "mixed",
+        snap: "number|array",
         round: "boolean",
     },
     options: {

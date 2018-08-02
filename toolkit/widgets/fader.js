@@ -132,22 +132,22 @@ function deactivate_tooltip() {
  *
  * @param {Object} options
  * 
- * @property {number} [options.value] - The fader position. This options is
+ * @property {Number} [options.value] - The fader position. This options is
  *   modified by user interaction.
- * @property {function} [options.tooltip=false] - An optional formatting function for
+ * @property {Function} [options.tooltip=false] - An optional formatting function for
  *   the tooltip value. The tooltip will show that value the mouse cursor is
  *   currently hovering over. If this option is not set, no tooltip will be shown.
- * @property {boolean} [options.bind_click=false] - If true, a <code>click</code>
+ * @property {Boolean} [options.bind_click=false] - If true, a <code>click</code>
  *   on the fader will move the handle to the pointed position.
- * @property {boolean} [options.bind_dblclick=true] - If true, a <code>dblclick</code>
+ * @property {Boolean} [options.bind_dblclick=true] - If true, a <code>dblclick</code>
  *   on the fader will reset the fader value to <code>options.reset</code>.
- * @property {number} [options.reset=options.value] - The reset value, which is used by
+ * @property {Number} [options.reset=options.value] - The reset value, which is used by
  *   the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
- * @property {boolean} [options.show_scale=true] - If true, a scale is drawn.
- * @property {boolean} [options.show_marker=true] - If true, a marker is drawn.
- * @property {number} [options.marker=0] - The value to set the markers position
- * @property {boolean} [options.show_bar=true] - If true, a bar is drawn.
- * @property {number} [options.bar=0] - The value to set the bars height
+ * @property {Boolean} [options.show_scale=true] - If true, a scale is drawn.
+ * @property {Boolean} [options.show_marker=true] - If true, a marker is drawn.
+ * @property {Number} [options.marker=0] - The value to set the markers position
+ * @property {Boolean} [options.show_bar=true] - If true, a bar is drawn.
+ * @property {Number} [options.bar=0] - The value to set the bars height
  */
 TK.Fader = TK.class({
     _class: "Fader",

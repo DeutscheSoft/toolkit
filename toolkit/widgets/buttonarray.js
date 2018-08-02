@@ -72,18 +72,18 @@ TK.ButtonArray = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {Array} [options.buttons=[]] - A list of button options
+     * @property {Array<Object|String>} [options.buttons=[]] - A list of button options
      *   or label strings which is converted to button instances on init.
      *   If get is called, the converted list of button instances is
      *   returned.
-     * @property {boolean} [options.auto_arrows=true] - If arrow buttons are
+     * @property {Boolean} [options.auto_arrows=true] - If arrow buttons are
      *   added automatically
-     * @property {string} [options.direction="horizontal"] - The direction of
+     * @property {String} [options.direction="horizontal"] - The direction of
      *   the button list, either "horizontal" or "vertical".
-     * @property {integer|TK.Button} [options.show=-1] - The {@link TK.Button} to scroll
+     * @property {Integer|TK.Button} [options.show=-1] - The {@link TK.Button} to scroll
      *   to, either the button index starting from zero or the button object
      *   itself.
-     * @property {number} [options.scroll=0] - Offer scrollbars and "real"
+     * @property {Number} [options.scroll=0] - Offer scrollbars and "real"
      *   scrolling. This reduces performance because movement is done in JS
      *   instead of (probably accelerated) CSS transitions. 0 for standard
      *   behavior, n > 0 is handled as milliseconds for transitions.

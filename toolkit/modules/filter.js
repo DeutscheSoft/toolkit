@@ -322,13 +322,13 @@ TK.Filter = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {mixed} [options.type="parametric"] - The type of the filter, possible values are
+     * @property {Stgring|Function} [options.type="parametric"] - The type of the filter. Possible values are
      *   <code>parametric</code>, <code>notch</code>, <code>low-shelf</code>,
      *   <code>high-shelf</code>, <code>lowpass[n]</code> or <code>highpass[n]</code>.
-     * @property {number} [options.freq=1000] - The initial frequency.
-     * @property {number} [options.gain=0] - The initial gain.
-     * @property {number} [options.q=1] - The initial Q of the filter.
-     * @property {number} [options.sample_rate=44100] - The sample rate.
+     * @property {Number} [options.freq=1000] - The initial frequency.
+     * @property {Number} [options.gain=0] - The initial gain.
+     * @property {Number} [options.q=1] - The initial Q of the filter.
+     * @property {Number} [options.sample_rate=44100] - The sample rate.
      *
      * @mixin TK.Filter
      * 
@@ -350,7 +350,7 @@ TK.Filter = TK.class({
     _class: "Filter",
     Extends: TK.Base,
     _options: {
-        type: "string",
+        type: "string|function",
         freq: "number",
         gain: "number",
         q: "number",

@@ -158,9 +158,9 @@ TK.Grid = TK.class({
      * 
      * @param {Object} options
      * 
-     * @property {Array} [options.grid_x=[]] - Array for vertical grid lines
+     * @property {Array<Number>} [options.grid_x=[]] - Array for vertical grid lines
      *   containing <code>{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</code>.
-     * @property {Array} [options.grid_y=[]] - Array for horizontal grid lines
+     * @property {Array<Number>} [options.grid_y=[]] - Array for horizontal grid lines
      *   containing <code>{pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</code>.
      * @property {Function|Object} [options.range_x={}] - A function returning
      *   a {@link TK.Range} instance for vertical grid lines or an object
@@ -168,8 +168,8 @@ TK.Grid = TK.class({
      * @property {Function|Object} [options.range_y={}] - A function returning
      *   a {@link TK.Range} instance for horizontal grid lines or an object
      *   containing options. for a new {@link Range}.
-     * @property {number} [options.width=0] - Width of the grid.
-     * @property {number} [options.height=0] - Height of the grid.
+     * @property {Number} [options.width=0] - Width of the grid.
+     * @property {Number} [options.height=0] - Height of the grid.
      * 
      * @extends TK.Widget
      * 

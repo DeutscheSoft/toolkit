@@ -108,12 +108,12 @@ function fire_event(title, event) {
  * 
  * @extends TK.Module
  * 
- * @property {Function} [get=function () { return; }] - Callback returning the value.
- * @property {Function} [set=function () { return; }] - Callback setting the value.
- * @property {Function} [range=function () { return {}; }] - A {@link TK.Range} instance.
- * @property {Object} [events=false] - Element receiving events or false to fire events on the main element.
- * @property {Object} [classes=false] - Element receiving classes or false to set classes on the main element.
- * @property {HTMLElement} [node=false] - The element receiving the scroll event.
+ * @property {HTMLElement} node - The element receiving the scroll event.
+ * @property {Function} [get=function () { return this.parent.options.value; }] - Callback returning the value.
+ * @property {Function} [set=function (v) { return this.parent.userset("value", v); }] - Callback setting the value.
+ * @property {Function} [range=function () { return this.parent; }] - A function returning a {@link TK.Range} instance or options for a new one.
+ * @property {Function|Boolean} [events=false] - A function returning an element receiving events or <code>false</code> to fire events on the main element.
+ * @property {HTMLElement|Boolean} [classes=false] - Element receiving classes or <code>false</code> to set classes on the main element.
  * @property {Boolean} [active=true] - Disable the scroll event.
  */
 TK.ScrollValue = TK.class({

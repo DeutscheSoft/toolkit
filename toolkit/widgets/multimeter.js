@@ -69,15 +69,15 @@ TK.MultiMeter = TK.class({
      * 
      * @param {Object} options
      * 
-     * @property {number} [options.count=2] - The amount of level meters
-     * @property {string} [options.title=""] - The title of the multi meter
-     * @property {Array} [options.titles=["L", "R"]] - An Array containing titles for the level meters. Their order is the same as the meters.
-     * @property {Array} [options.values=[]] - An Array containing values for the level meters. Their order is the same as the meters.
-     * @property {Array} [options.labels=[]] - An Array containing label values for the level meters. Their order is the same as the meters.
-     * @property {Array} [options.clips=[]] - An Array containing clippings for the level meters. Their order is the same as the meters.
-     * @property {Array} [options.peaks=[]] - An Array containing peak values for the level meters. Their order is the same as the meters.
-     * @property {Array} [options.tops=[]] - An Array containing values for top for the level meters. Their order is the same as the meters.
-     * @property {Array} [options.bottoms=[]] - An Array containing values for bottom for the level meters. Their order is the same as the meters.
+     * @property {Number} [options.count=2] - The amount of level meters
+     * @property {String} [options.title=""] - The title of the multi meter
+     * @property {Array<String>} [options.titles=["L", "R"]] - An Array containing titles for the level meters. Their order is the same as the meters.
+     * @property {Array<Number>} [options.values=[]] - An Array containing values for the level meters. Their order is the same as the meters.
+     * @property {Array<Number>} [options.labels=[]] - An Array containing label values for the level meters. Their order is the same as the meters.
+     * @property {Array<Boolean>} [options.clips=[]] - An Array containing clippings for the level meters. Their order is the same as the meters.
+     * @property {Array<Number>} [options.peaks=[]] - An Array containing peak values for the level meters. Their order is the same as the meters.
+     * @property {Array<Number>} [options.tops=[]] - An Array containing values for top for the level meters. Their order is the same as the meters.
+     * @property {Array<Number>} [options.bottoms=[]] - An Array containing values for bottom for the level meters. Their order is the same as the meters.
      */
     _class: "MultiMeter",
     Extends: TK.Container,

@@ -239,21 +239,21 @@ function draw_title() {
  *
  * @param {Object} options
  * 
- * @property {string} [options.title=""] - A title for the Chart.
- * @property {string} [options.title_position="top-right"] - Position of the
+ * @property {String} [options.title=""] - A title for the Chart.
+ * @property {String} [options.title_position="top-right"] - Position of the
  *   title inside of the chart. Possible values are
  *   <code>"top-left"</code>, <code>"top"</code>, <code>"top-right"</code>,
  *   <code>"left"</code>, <code>"center"</code>, <code>"right"</code>,
  *   <code>"bottom-left"</code>, <code>"bottom"</code> and
  *   <code>"bottom-right"</code>.
- * @property {boolean|string} [options.key=false] - If set to a string
+ * @property {Boolean|String} [options.key=false] - If set to a string
  *   a key is rendered into the chart at the given position. The key
  *   will detail names and colors of the graphs inside of this chart.
  *   Possible values are <code>"top-left"</code>, <code>"top-right"</code>,
  *   <code>"bottom-left"</code> and <code>"bottom-right"</code>.
  * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored rectangles
  *   inside of the key describing individual graphs.
- * @property {boolean} [options.show_grid=true] - Set to <code>false</code> to
+ * @property {Boolean} [options.show_grid=true] - Set to <code>false</code> to
  *   disable the grid.
  * @property {Array<Object>} [options.grid_x=[]] - An array containing objects with the following optional members:
  *   <code>{pos:x[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>

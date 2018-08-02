@@ -85,18 +85,18 @@ TK.Container = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {string|HTMLElement} [options.content] - The content of the container. It can either be
+     * @property {String|HTMLElement} [options.content] - The content of the container. It can either be
      *   a string which is interpreted as Text or a DOM node. Note that this options will remove all
      *   child nodes from the container element including those added via append_child.
-     * @property {number} [options.hiding_duration] - The duration in ms of the hiding CSS
+     * @property {Number} [options.hiding_duration] - The duration in ms of the hiding CSS
      *   transition/animation of this container. If this option is not set, the transition duration
      *   will be determined by the computed style, which can be rather
      *   expensive. Setting this option explicitly can therefore be an optimization.
-     * @property {number} [options.showing_duration] - The duration in ms of the showing CSS
+     * @property {Number} [options.showing_duration] - The duration in ms of the showing CSS
      *   transition/animation of this container.
-     * @property {string} [options.display_state="show"] - The current display state of this container.
+     * @property {String} [options.display_state="show"] - The current display state of this container.
      *   Do not modify, manually.
-     * @property {array} [options.children=[]] - Add child widgets on init. Will not be maintained on runtime! Just for convenience purposes on init.
+     * @property {Array<Object>} [options.children=[]] - Add child widgets on init. Will not be maintained on runtime! Just for convenience purposes on init.
      */
     _class: "Container",
     Extends: TK.Widget,

@@ -117,11 +117,11 @@ TK.Select = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {integer} options.selected - The index of the selected entry.
+     * @property {Integer} options.selected - The index of the selected entry.
      * @property options.value - The value of the selected entry.
-     * @property {boolean} [options.auto_size=true] - If true, the drop-down button is
+     * @property {Boolean} [options.auto_size=true] - If true, the drop-down button is
      *   auto-sized to be as wide as the longest entry.
-     * @property {Array} [options.entries=[]] - The list of entries. Each entry is a an
+     * @property {Array>Object>} [options.entries=[]] - The list of entries. Each entry is a an
      *   object with the two properties <code>title</code> and <code>value</code>, a string or a SelectEntry instance.
      *
      */
@@ -603,7 +603,7 @@ TK.SelectEntry = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {string} options.title - The title of the entry. Kept for backward compatibility, use label instead.
+     * @property {String} options.title - The title of the entry. Kept for backward compatibility, use label instead.
      * @property {mixed} options.value - The value of the selected entry.
      *
      */
