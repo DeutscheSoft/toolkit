@@ -197,7 +197,7 @@ TK.DragValue = TK.class({
         set: "function",
         range: "function",
         events: "function",
-        classes: "object",
+        classes: "object|boolean",
         direction: "int",
         active: "boolean",
         cursor: "boolean",

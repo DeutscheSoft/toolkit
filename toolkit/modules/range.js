@@ -57,31 +57,23 @@ TK.Range = TK.class({
     * @property {number} [options.shift_down=0.25] - Multiplier for e.g. SHIFT + CONTROL
     *   pressed while stepping
     * @property {mixed} [options.snap=0] - Snap the value to a virtual grid
-    *   with this distance
-    *   Using snap option with float values
-    *   causes the range to reduce its
-    *   minimum and maximum values depending
-    *   on the amount of decimal digits
-    *   because of the implementation of
-    *   math in JavaScript.
-    *   Using a step size of e.g. 1.125
-    *   reduces the maximum usable value
-    *   from 9,007,199,254,740,992 to
-    *   9,007,199,254,740.992 (note the
-    *   decimal point)
-    * @property {boolean} [options.round=false] - if snap is set decide how to jump
-    *   between snaps. Setting this to true
-    *   slips to the next snap if the value
-    *   is more than on its half way to it.
-    *   Otherwise the value has to reach the
-    *   next snap until it is hold there
+    *   with this distance Using snap option with float values
+    *   causes the range to reduce its minimum and maximum values depending
+    *   on the amount of decimal digits because of the implementation of
+    *   math in JavaScript. Using a step size of e.g. 1.125
+    *   reduces the maximum usable value from 9,007,199,254,740,992 to
+    *   9,007,199,254,740.992 (note the decimal point)
+    * @property {boolean} [options.round=false] - if snap is set,
+    *   decide how to jump between snaps. Setting this to true
+    *   slips to the next snap if the value is more than on its half way to it.
+    *   Otherwise the value has to reach the next snap until it is hold there
     *   again.
      */
     Extends : TK.Base,
     _class: "Range",
     Implements: [TK.Ranged],
     _options: {
-        scale: "string",
+        scale: "string|function",
         reverse: "boolean",
         basis: "number",
         min: "number",

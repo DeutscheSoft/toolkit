@@ -201,7 +201,7 @@ TK.Graph = TK.class({
         range_y: "object",
         width: "number",
         height: "number",
-        key: "string",
+        key: "string|boolean",
         element: void(0),
     }),
     options: {

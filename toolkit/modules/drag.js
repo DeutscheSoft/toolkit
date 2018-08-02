@@ -112,8 +112,8 @@ TK.Drag = TK.class({
         node    : "object",
         handle  : "object",
         active  : "boolean",
-        min     : "object",
-        max     : "object",
+        min     : "object|boolean",
+        max     : "object|boolean",
         initial : "number"
     },
     options: {

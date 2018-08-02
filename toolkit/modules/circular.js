@@ -336,7 +336,7 @@ TK.Circular = TK.class({
         hand: "object",
         start: "number",
         angle: "number",
-        base: "number",
+        base: "number|boolean",
         show_base: "boolean",
         show_value: "boolean",
         show_hand: "boolean",
