@@ -574,11 +574,11 @@ TK.Ranged = TK.class({
      * TK.Ranged features several types of coordinate systems which are often used in audio applications.
      * They can be configured using the <code>options.scale</code> option, possible values are:
      * <ul>
-     *  <li><code>"linear"</code> for linear coordinates,
-     *  <li><code>"decibel"</code> for linear coordinates,
-     *  <li><code>"log2"</code> for linear coordinates,
-     *  <li><code>"frequency"</code> for linear coordinates or
-     *  <li><code>"frequency-reverse"</code> for linear coordinates.
+     *  <li><code>linear</code> for linear coordinates,
+     *  <li><code>decibel</code> for linear coordinates,
+     *  <li><code>log2</code> for linear coordinates,
+     *  <li><code>frequency</code> for linear coordinates or
+     *  <li><code>frequency-reverse"</code> for linear coordinates.
      * </ul>
      * If <code>options.scale</code> is a function, it is used as the coordinate transformation.
      * Its signature is {@link TK.Ranged~scale_cb}. This allows the definition of custom

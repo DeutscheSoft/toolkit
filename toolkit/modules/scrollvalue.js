@@ -108,13 +108,19 @@ function fire_event(title, event) {
  * 
  * @extends TK.Module
  * 
- * @property {HTMLElement} node - The element receiving the scroll event.
- * @property {Function} [get=function () { return this.parent.options.value; }] - Callback returning the value.
- * @property {Function} [set=function (v) { return this.parent.userset("value", v); }] - Callback setting the value.
- * @property {Function} [range=function () { return this.parent; }] - A function returning a {@link TK.Range} instance or options for a new one.
- * @property {Function|Boolean} [events=false] - A function returning an element receiving events or <code>false</code> to fire events on the main element.
- * @property {HTMLElement|Boolean} [classes=false] - Element receiving classes or <code>false</code> to set classes on the main element.
- * @property {Boolean} [active=true] - Disable the scroll event.
+ * @param {Object} options
+ * 
+ * @property {HTMLElement} options.node - The element receiving the scroll event.
+ * @property {Function} [options.get=function () { return this.parent.options.value; }] - Callback returning the value.
+ * @property {Function} [options.set=function (v) { return this.parent.userset("value", v); }] - Callback setting the value.
+ * @property {Function} [options.range=function () { return this.parent; }] - A function returning a {@link TK.Range} instance or options for a new one.
+ * @property {Function|Boolean} [options.events=false] - A function returning
+ *   an element receiving events or <code>false</code> to fire events on the main element.
+ * @property {HTMLElement|Boolean} [options.classes=false] - Element receiving
+ *   classes or <code>false</code> to set classes on the main element.
+ * @property {Boolean} [<options.active=true] - Disable the scroll event.
+ * @property {Array<Number>} [options.scroll_direction=[0, -1, 0]] - An array 
+ *   containing values for x, y and z defining the direction of scrolling.
  */
 TK.ScrollValue = TK.class({
     _class: "ScrollValue",
@@ -127,7 +133,7 @@ TK.ScrollValue = TK.class({
         classes: "object|boolean",
         node: "object|boolean",
         active: "boolean",
-        scroll_direction: "object",
+        scroll_direction: "array",
     },
     options: {
         range:     function () { return this.parent; },

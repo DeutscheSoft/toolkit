@@ -59,7 +59,7 @@ TK.Range = TK.class({
     *   pressed while stepping
     * @property {Number|Array} [options.snap=0] - Snap the value to a virtual grid
     *   with this distance. Numbers define the step size between snaps, an
-    *   array contains a list pof values to snap to.
+    *   array contains a list of values to snap to.
     *   Using snap option with float values
     *   causes the range to reduce its minimum and maximum values depending
     *   on the amount of decimal digits because of the implementation of

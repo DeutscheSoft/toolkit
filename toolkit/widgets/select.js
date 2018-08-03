@@ -121,7 +121,7 @@ TK.Select = TK.class({
      * @property options.value - The value of the selected entry.
      * @property {Boolean} [options.auto_size=true] - If true, the drop-down button is
      *   auto-sized to be as wide as the longest entry.
-     * @property {Array>Object>} [options.entries=[]] - The list of entries. Each entry is a an
+     * @property {Array<Object>} [options.entries=[]] - The list of entries. Each entry is a an
      *   object with the two properties <code>title</code> and <code>value</code>, a string or a SelectEntry instance.
      *
      */
