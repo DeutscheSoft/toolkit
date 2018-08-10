@@ -195,14 +195,18 @@ TK.Dynamics = TK.class({
         var makeup = O.makeup;
         var min = O.min;
         var max = O.max;
+        var s = (1 / (Math.max(ratio, 1.001) - 1)) * ratio * ref;
+        var l = 5; // estimated with of line. dirty workaround for
+                   // keeping the line end out of sight in case
+                   // salient point is outside the visible are
         switch (O.type) {
             case "compressor":
                 // entry point
-                curve.push({x: min,
-                            y: min + makeup - gain + (ref - ref / ratio)});
+                curve.push({x: min - l,
+                            y: min + makeup - gain + ref - l});
                 // salient point
-                curve.push({x: thres + gain - ref,
-                            y: thres + makeup - ref / ratio});
+                curve.push({x: thres + gain - s,
+                            y: thres + makeup - s + ref});
                 // exit point
                 if (isFinite(ratio) && ratio > 0) {
                     curve.push({x: max,
