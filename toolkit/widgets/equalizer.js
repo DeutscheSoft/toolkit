@@ -32,7 +32,7 @@ function fast_draw_plinear(X, Y) {
     x = +X[0];
     y = +Y[0];
 
-    ret.push("M", x.toFixed(1), ",", y.toFixed(1));
+    ret.push("M", x.toFixed(2), ",", y.toFixed(2));
 
     x = +X[1];
     y = +Y[1];
@@ -40,9 +40,9 @@ function fast_draw_plinear(X, Y) {
     dy = ((y - Y[0])*accuracy)|0;
 
     for (i = 2; i < len; i++) {
-       tmp = ((Y[i] - y)*accuracy)|0;
+        tmp = ((Y[i] - y)*accuracy)|0;
         if (tmp !== dy) {
-           ret.push("L", x.toFixed(1), ",", y.toFixed(1));
+           ret.push("L", x.toFixed(2), ",", y.toFixed(2));
            dy = tmp;
            c++;
         }
@@ -50,7 +50,7 @@ function fast_draw_plinear(X, Y) {
         y = +Y[i];
     }
 
-    ret.push("L", x.toFixed(1), ",", y.toFixed(1));
+    ret.push("L", x.toFixed(2), ",", y.toFixed(2));
 
     return ret.join("");
 }
@@ -77,10 +77,13 @@ TK.Equalizer = TK.class({
      *
      * @property {Object} options
      * 
-     * @param {Number} [options.options.accuracy=1] - The distance between points on the x axis.
+     * @param {Number} [options.accuracy=1] - The distance between points on the x axis.
      * @param {Array} [options.bands=[]] - A list of bands to add on init.
      * @param {Boolean} [options.show_bands=true] - Show or hide all bands.
-     * 
+     * @param {Number} [options.oversampling=5] - If slope of the curve is too
+     *   steep, oversample n times in order to not miss a notch filter.
+     * @param {Number} [options.threshold=5] - Steepness of slope to oversample,
+     *   i.e. y pixels difference per x pixel
      * @class TK.Equalizer
      * 
      * @extends TK.ResponseHandler
@@ -89,11 +92,16 @@ TK.Equalizer = TK.class({
     Extends: TK.ResponseHandler,
     _options: Object.assign(Object.create(TK.ResponseHandler.prototype._options), {
         accuracy: "number",
+        oversampling: "number",
+        threshold: "number",
         bands:  "array",
         show_bands: "boolean",
     }),
     options: {
         accuracy: 1, // the distance between points of curves on the x axis
+        oversampling: 4, // if slope of the curve is too steep, oversample
+                         // n times in order to not miss a notch filter
+        threshold: 10, // steepness of slope, i.e. amount of y pixels difference
         bands: [],   // list of bands to create on init
         show_bands: true,
     },
@@ -154,11 +162,15 @@ TK.Equalizer = TK.class({
                 var c = 0;
                 var end = this.range_x.get("basis") | 0;
                 var step = O.accuracy;
+                var over = O.oversampling;
+                var thres = O.threshold;
                 var x_px_to_val = this.range_x.px2val;
                 var y_val_to_px = this.range_y.val2px;
                 var f = [];
-                var i, j;
+                var i, j, k;
                 var x, y;
+                var pursue;
+                var diff;
 
                 for (i = 0; i < this.bands.length; i++) {
                     if (this.bands[i].get("active")) {
@@ -180,6 +192,20 @@ TK.Equalizer = TK.class({
                     y = 0.0;
                     for (j = 0; j < f.length; j++) y += f[j](x);
                     Y[i] = y_val_to_px(y);
+                    var diff = Math.abs(Y[i] - Y[i-1]) >= thres;
+                    if (i && over > 1 && (diff || pursue)) {
+                        if (diff) pursue = true;
+                        else if (!diff && pursue) pursue = false;
+                        for (k = 1; k < over; k++) {
+                            x = X[i-k] + ((step / over) * k);
+                            X.splice(i, 0, x);
+                            x = x_px_to_val(x);
+                            y = 0.0;
+                            for (j = 0; j < f.length; j++) y += f[j](x);
+                            Y.splice(i, 0, y_val_to_px(y));
+                            i++;
+                        }
+                    }
 
                     if (!isFinite(Y[i])) {
                         TK.warn("Singular filter in Equalizer.");
