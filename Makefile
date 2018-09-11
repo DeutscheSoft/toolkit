@@ -32,6 +32,7 @@ js_input_files = \
     toolkit/widgets/root.js\
     toolkit/widgets/button.js\
     toolkit/widgets/valuebutton.js\
+    toolkit/widgets/confirmbutton.js\
     toolkit/widgets/buttonarray.js\
     toolkit/widgets/clock.js\
     toolkit/widgets/state.js\
