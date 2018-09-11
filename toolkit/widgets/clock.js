@@ -158,22 +158,22 @@ TK.Clock = TK.class({
      * 
      * @param {Object} options
      * 
-     * @property {integer} [options.thickness=10] - Thickness of the rings in percent of the maximum dimension.
-     * @property {integer} [options.margin=0] - Margin between the {@link TK.Circular} in percent of the maximum dimension.
-     * @property {integer} [options.size=200] - Width and height of the widget.
-     * @property {boolean} [options.show_seconds=true] - Show seconds ring.
-     * @property {boolean} [options.show_minutes=true] - Show minutes ring.
-     * @property {boolean} [options.show_hours=true] - Show hours ring.
-     * @property {integer} [options.timeout=1000] - The timeout of the redraw trigger.
-     * @property {integer} [options.timeadd=10] - Set additional milliseconds to add to the timeout target system clock regulary.
-     * @property {integer} [options.offset=0] - If a timeout is set offset the system time in milliseconds.
-     * @property {integer} [options.fps=25] - Framerate for calculating SMTP frames
+     * @property {Integer} [options.thickness=10] - Thickness of the rings in percent of the maximum dimension.
+     * @property {Integer} [options.margin=0] - Margin between the {@link TK.Circular} in percent of the maximum dimension.
+     * @property {Integer} [options.size=200] - Width and height of the widget.
+     * @property {Boolean} [options.show_seconds=true] - Show seconds ring.
+     * @property {Boolean} [options.show_minutes=true] - Show minutes ring.
+     * @property {Boolean} [options.show_hours=true] - Show hours ring.
+     * @property {Integer} [options.timeout=1000] - The timeout of the redraw trigger.
+     * @property {Integer} [options.timeadd=10] - Set additional milliseconds to add to the timeout target system clock regulary.
+     * @property {Integer} [options.offset=0] - If a timeout is set offset the system time in milliseconds.
+     * @property {Integer} [options.fps=25] - Framerate for calculating SMTP frames
      * @property {Array<String>} [options.months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]] - Array containing all months names.
      * @property {Array<String>} [options.days=["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]] - Array containing all days names.
      * @property {Function} [options.label=function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) { return ((hour < 10) ? ("0" + hour) : hour) + ":" + ((minute < 10) ? ("0" + minute) : minute) + ":" + ((second < 10) ? ("0" + second) : second);] - Callback to format the main label.
      * @property {Function} [options.label_upper=function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) { return days[day]; }] - Callback to format the upper label.
      * @property {Function} [options.label_lower=function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) { return ((date < 10) ? ("0" + date) : date) + ". " + months[month] + " " + year; }] - Callback to format the lower label.
-     * @property {number} [options.label_scale=0.33] - test
+     * @property {Number} [options.label_scale=0.33] - test
      * @property {Date} [options.time=10] - test
      */
     _class: "Clock",

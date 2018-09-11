@@ -52,6 +52,15 @@ CaptureState.prototype = {
 function startcapture(state) {
     /* do nothing, let other handlers be called */
     if (this.drag_state) return;
+    
+    /**
+     * Capturing started.
+     * 
+     * @event TK.Drag#startcapture
+     * 
+     * @param {object} state - An internal state object.
+     * @param {DOMEvent} start - The event object of the initial event.
+     */
 
     var v = this.fire_event("startcapture", state, state.start);
 
@@ -65,6 +74,15 @@ function startcapture(state) {
 }
 function movecapture(ev) {
     var d = this.drag_state;
+    
+    /**
+     * A movement was captured.
+     * 
+     * @event TK.Drag#movecapture
+     * 
+     * @param {DOMEvent} event - The event object of the current move event.
+     */
+     
     if (!d.set_current(ev) || this.fire_event("movecapture", d) === false) {
         stopcapture.call(this, ev);
         return false;
@@ -73,6 +91,16 @@ function movecapture(ev) {
 function stopcapture(ev) {
     var s = this.drag_state;
     if (s === null) return;
+    
+    /**
+     * Capturing stopped..
+     * 
+     * @event TK.Drag#stopcapture
+     * 
+     * @param {object} state - An internal state object.
+     * @param {DOMEvent} event - The event object of the current event.
+     */
+     
     this.fire_event("stopcapture", s, ev);
     this.set("state", false);
     s.destroy();
@@ -265,11 +293,27 @@ var static_events = {
 };
 
 w.TK.DragCapture = TK.class({
+    
+    /**
+     * TK.DragCapture is a low-level class for tracking drag events on
+     *   both, touch and mouse events. It can be used for implementing drag'n'drop
+     *   functionality as well as dragging the value of e.g. {@link TK.Fader} or
+     *   {@link TK.Knob}. {@link TK.DragValue} derives from TK.DragCapture.
+     * 
+     * @extends TK.Module
+     *
+     * @param {Object} options
+     * 
+     * @param {HTMLElement} node - The DOM element receiving the drag events.
+     * 
+     * @class TK.DragCapture
+     */
+     
     Extends: TK.Module,
     _class: "DragCapture",
     _options: {
         node: "object",
-        state: "boolean",
+        state: "boolean", /* internal, undocumented */
     },
     options: {
         state: false,

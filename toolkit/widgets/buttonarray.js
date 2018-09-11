@@ -72,18 +72,18 @@ TK.ButtonArray = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {Array} [options.buttons=[]] - A list of button options
+     * @property {Array<Object|String>} [options.buttons=[]] - A list of button options
      *   or label strings which is converted to button instances on init.
      *   If get is called, the converted list of button instances is
      *   returned.
-     * @property {boolean} [options.auto_arrows=true] - If arrow buttons are
+     * @property {Boolean} [options.auto_arrows=true] - If arrow buttons are
      *   added automatically
-     * @property {string} [options.direction="horizontal"] - The direction of
+     * @property {String} [options.direction="horizontal"] - The direction of
      *   the button list, either "horizontal" or "vertical".
-     * @property {integer|TK.Button} [options.show=-1] - The button to scroll
+     * @property {Integer|TK.Button} [options.show=-1] - The {@link TK.Button} to scroll
      *   to, either the button index starting from zero or the button object
      *   itself.
-     * @property {number} [options.scroll=0] - Offer scrollbars and "real"
+     * @property {Number} [options.scroll=0] - Offer scrollbars and "real"
      *   scrolling. This reduces performance because movement is done in JS
      *   instead of (probably accelerated) CSS transitions. 0 for standard
      *   behavior, n > 0 is handled as milliseconds for transitions.
@@ -139,7 +139,7 @@ TK.ButtonArray = TK.class({
     },
     initialize: function (options) {
         /**
-         * @member {Array} TK.ButtonArray#buttons - An array holding all buttons.
+         * @member {Array} TK.ButtonArray#buttons - An array holding all {@link TK.Button}s.
          */
         this.buttons = [];
         TK.Container.prototype.initialize.call(this, options);
@@ -149,12 +149,12 @@ TK.ButtonArray = TK.class({
          */
         TK.add_class(this.element, "toolkit-buttonarray");
         /**
-         * @member {HTMLDivElement} TK.ButtonArray#_clip - A clipping area containing the list of buttons.
+         * @member {HTMLDivElement} TK.ButtonArray#_clip - A clipping area containing the list of {@link TK.Button}s.
          *    Has class <code>toolkit-clip</code>.
          */
         this._clip      = TK.element("div", "toolkit-clip");
         /**
-         * @member {HTMLDivElement} TK.ButtonArray#_container - A container for all the buttons.
+         * @member {HTMLDivElement} TK.ButtonArray#_container - A container for all the {@link TK.Button}s.
          *    Has class <code>toolkit-container</code>.
          */
         this._container = TK.element("div", "toolkit-container");
@@ -175,11 +175,11 @@ TK.ButtonArray = TK.class({
         this.next.add_event("click", next_clicked.bind(this));
         
         /**
-         * @member {HTMLDivElement} TK.ButtonArray#_prev - The HTMLDivElement of the previous button.
+         * @member {HTMLDivElement} TK.ButtonArray#_prev - The HTMLDivElement of the previous {@link TK.Button}.
          */
         this._prev = this.prev.element;
         /**
-         * @member {HTMLDivElement} TK.ButtonArray#_next - The HTMLDivElement of the next button.
+         * @member {HTMLDivElement} TK.ButtonArray#_next - The HTMLDivElement of the next {@link TK.Button}.
          */
         this._next = this.next.element;
         
@@ -266,11 +266,11 @@ TK.ButtonArray = TK.class({
         this.trigger_resize();
         b.add_event("click", button_clicked.bind(this, b));
         /**
-         * A {@link TK.Button} was added to the ButtonArray.
+         * A {@link TK.Button} was added to the TK.ButtonArray.
          *
          * @event TK.ButtonArray#added
          * 
-         * @param {TK.Button} button - The button which was added to ButtonArray.
+         * @param {TK.Button} button - The {@link TK.Button} which was added to TK.ButtonArray.
          */
         if (b === this.current())
             b.set("state", true);
@@ -279,11 +279,11 @@ TK.ButtonArray = TK.class({
         return b;
     },
     /**
-     * Removes a {@link TK.Button} from the ButtonArray.
+     * Removes a {@link TK.Button} from the TK.ButtonArray.
      *
      * @method TK.ButtonArray#remove_button
      * 
-     * @param {integer|TK.Button} button - Button index or the {@link TK.Button}
+     * @param {integer|TK.Button} button - button index or the {@link TK.Button}
      *   instance.
      */
     remove_button: function (button) {
@@ -292,7 +292,7 @@ TK.ButtonArray = TK.class({
         if (button < 0 || button >= this.buttons.length)
             return;
         /**
-         * A {@link TK.Button} was removed from the ButtonArray.
+         * A {@link TK.Button} was removed from the TK.ButtonArray.
          *
          * @event TK.ButtonArray#removed
          * 

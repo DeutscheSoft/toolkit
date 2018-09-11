@@ -72,9 +72,9 @@ function set_background(horiz, vert, size) {
  *
  * @param {Object} options
  * 
- * @property {int} [options.frames=1] - The amount of frames contained
+ * @property {Integer} [options.frames=1] - The amount of frames contained
  * in the background image
- * @property {string} [options.alignment="horizontal"] - The direction
+ * @property {String} [options.alignment="horizontal"] - The direction
  * of the frames in the image, next to ("horizontal") or among each other ("vertical")
  * 
  */

@@ -28,7 +28,7 @@
 TK.Warning = TK.class({
     _class: "Warning",
     /** 
-     * Adds the class "toolkit-warn" to the given element and
+     * Adds the class <code>toolkit-warn</code> to the given element and
      * sets a timeout after which the class is removed again. If there
      * already is a timeout waiting it gets updated.
      *
@@ -36,8 +36,8 @@ TK.Warning = TK.class({
      * 
      * @emits TK.Warning#warning
      * 
-     * @param {HTMLElement|SVGElement} element - The DOM node the class should be added to
-     * @param {number} [timeout=250] - The timeout in ms until the class should be removed again.
+     * @param {HTMLElement|SVGElement} element - The DOM node the class should be added to.
+     * @param {Number} [timeout=250] - The timeout in ms until the class should be removed again.
      */
     warning: function (element, timeout) {
         if (!timeout) timeout = 250;

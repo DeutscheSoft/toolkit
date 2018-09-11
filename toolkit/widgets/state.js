@@ -35,8 +35,8 @@
  *
  * @param {Object} options
  * 
- * @property {number} [options.state=0] - The state.
- * @property {string} [options.color="red"] - A css color string for the state LED.
+ * @property {Number} [options.state=0] - The state.
+ * @property {String} [options.color="red"] - A css color string for the state LED.
  *   <code>false</code>.
  */
 TK.State = TK.class({

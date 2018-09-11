@@ -38,10 +38,10 @@ TK.Button = TK.class({
      * 
      * @param {Object} options
      * 
-     * @property {string} [options.label=""] - Text for the button label
-     * @property {string} [options.icon=""] - URL to an icon for the button OR icon class (see styles/fonts/Toolkit.html)
-     * @property {boolean} [options.state=false] - TK.State of the button
-     * @property {integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
+     * @property {String} [options.label=""] - Text for the button label
+     * @property {String} [options.icon=""] - URL to an icon for the button OR icon class (see styles/fonts/Toolkit.html)
+     * @property {Boolean} [options.state=false] - TK.State of the button
+     * @property {Integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
      *   "vertical" means icon on top of the label, "horizontal" puts the icon left to the label.
      * 
      * @extends TK.Widget
@@ -122,7 +122,7 @@ TK.Button = TK.class({
 /**
  * @member {TK.Icon} TK.Button#icon - The {@link TK.Icon} widget.
  * 
- * @property {string} [options.show_icon=false] - Show/hide the icon
+ * @property {String} [options.show_icon=false] - Show/hide the icon
  */
 TK.ChildWidget(TK.Button, "icon", {
     create: TK.Icon,
@@ -136,7 +136,7 @@ TK.ChildWidget(TK.Button, "icon", {
  * @member {HTMLDivElement} TK.Button#_label - The label of the button.
  *      Has class <code>toolkit-label</code>.
  * 
- * @property {string} [options.show_label=true] - Show/hide the icon
+ * @property {String} [options.show_label=true] - Show/hide the icon
  */
 TK.ChildElement(TK.Button, "label", {
     show: true,

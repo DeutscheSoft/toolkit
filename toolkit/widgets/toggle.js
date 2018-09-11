@@ -154,18 +154,18 @@ TK.Toggle = TK.class({
      *
      * @param {Object} options
      * 
-     * @property {boolean} [options.state=false] - The state of the button.
-     * @property {boolean} [options.toggle=true] - If true, the button is toggled by a click.
-     * @property {integer} [options.press=0] - Controls press behavior. If <code>options.toggle</code>
+     * @property {Boolean} [options.state=false] - The state of the button.
+     * @property {Boolean} [options.toggle=true] - If true, the button is toggled by a click.
+     * @property {Integer} [options.press=0] - Controls press behavior. If <code>options.toggle</code>
      *   is <code>false</code> and this option is <code>true</code>, the toggle button will toggle until
      *   released. If <code>options.toggle</code> is true and this option is a positive integer, it is
      *   interpreted as a milliseconds timeout. When pressing a button longer than this timeout, it will
      *  be toggled until released, otherwise it will toggle permanently.
-     * @property {integer} [options.delay] - Delay all actions for n milliseconds. While actions are
+     * @property {Integer} [options.delay] - Delay all actions for n milliseconds. While actions are
      *   delayed, the widget has class <code>toolkit-delayed</code>.
-     * @property {string} [options.icon_active] - An optional icon which is only displayed
+     * @property {String} [options.icon_active] - An optional icon which is only displayed
      *   when the button toggle state is <code>true</code>.
-     * @property {string} [options.label_active] - An optional label which is only displayed
+     * @property {String} [options.label_active] - An optional label which is only displayed
      *   when the button toggle state is <code>true</code>.
      */
     _class: "Toggle",

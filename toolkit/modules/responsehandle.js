@@ -778,45 +778,45 @@ function enddrag() {
  *
  * @param {Object} options
  * 
- * @property {function|Object} options.range_x - Callback returning a {@link TK.Range}
+ * @property {Function|Object} options.range_x - Callback returning a {@link TK.Range}
  *   for the x-axis or an object with options for a {@link TK.Range}. This is usually
  *   the <code>x_range</code> of the parent chart.
- * @property {function|Object} options.range_y - Callback returning a {@link TK.Range}
+ * @property {Function|Object} options.range_y - Callback returning a {@link TK.Range}
  *   for the y-axis or an object with options for a {@link TK.Range}. This is usually
  *   the <code>y_range</code> of the parent chart.
- * @property {function|Object} options.range_z - Callback returning a {@link TK.Range}
+ * @property {Function|Object} options.range_z - Callback returning a {@link TK.Range}
  *   for the z-axis or an object with options for a {@link TK.Range}.
- * @property {string} [options.mode="circular"] - Type of the handle. Can be one of
- *   <code>"circular"</code>, <code>"line-vertical"</code>, <code>"line-horizontal"</code>,
- *   <code>"block-left"</code>, <code>"block-right"</code>, <code>"block-top"</code> or
- *   <code>"block-right"</code>.
- * @property {number} options.x - Value of the x-coordinate.
- * @property {number} options.y - Value of the y-coordinate.
- * @property {number} options.z - Value of the z-coordinate.
- * @property {number} [options.min_size=24] - Minimum size of the handle in px.
- * @property {number} [options.max_size=100] - Maximum size of the handle in px.
- * @property {function} options.label - Label formatting function. Arguments are
+ * @property {String} [options.mode="circular"] - Type of the handle. Can be one of
+ *   <code>circular</code>, <code>line-vertical</code>, <code>line-horizontal</code>,
+ *   <code>block-left</code>, <code>block-right</code>, <code>block-top</code> or
+ *   <code>block-right</code>.
+ * @property {Number} [options.x] - Value of the x-coordinate.
+ * @property {Number} [options.y] - Value of the y-coordinate.
+ * @property {Number} [options.z] - Value of the z-coordinate.
+ * @property {Number} [options.min_size=24] - Minimum size of the handle in px.
+ * @property {Number} [options.max_size=100] - Maximum size of the handle in px.
+ * @property {Function|Boolean} options.label - Label formatting function. Arguments are
  *   <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>. If this options is
  *   <code>false</code>, no label is displayed.
- * @property {array}  [options.preferences=["left", "top", "right", "bottom"]] - Possible label
+ * @property {Array<String>}  [options.preferences=["left", "top", "right", "bottom"]] - Possible label
  *   positions by order of preference. Depending on the selected <code>mode</code> is can
- *   be a subset of <code>"top"</code>, <code>"top-right"</code>, <code>"right"</code>,
- *   <code>"bottom-right"</code>, <code>"bottom"</code>, <code>"bottom-left"</code>,
- *   <code>"left"</code>, <code>"top-left"</code> and <code>"center"</code>.
- * @property {number} [options.margin=3] - Margin in px between the handle and the label.
- * @property {boolean|string} [options.z_handle=false] - If not false, a small handle is drawn at the position (top, top-left, top.right, left, center, right, bottom-left, bottom, bottom-right), which can
+ *   be a subset of <code>top</code>, <code>top-right</code>, <code>right</code>,
+ *   <code>bottom-right</code>, <code>bottom</code>, <code>bottom-left</code>,
+ *   <code>left</code>, <code>top-left</code> and <code>center</code>.
+ * @property {Number} [options.margin=3] - Margin in px between the handle and the label.
+ * @property {Boolean|String} [options.z_handle=false] - If not false, a small handle is drawn at the position (top, top-left, top.right, left, center, right, bottom-left, bottom, bottom-right), which can
  *   be dragged to change the value of the z-coordinate.
- * @property {number} [options.z_handle_size=6] - Size in px of the z-handle.
- * @property {number} [options.z_handle_centered=0.1] - Size of the z-handle in center positions.
- *   If this options is smaller than 1, it is interpreted as a ratio, otherwise as a px size.
- * @property {number} [options.z_handle_below=false] - Render the z-handle below the normal handle in the DOM. SVG doesn't know CSS attribute z-index, so this workaround is needed some times.
- * @property {number} [options.x_min] - Minimum value of the x-coordinate.
- * @property {number} [options.x_max] - Maximum value of the x-coordinate.
- * @property {number} [options.y_min] - Minimum value of the y-coordinate.
- * @property {number} [options.y_max] - Maximum value of the y-coordinate.
- * @property {number} [options.z_min] - Minimum value of the z-coordinate.
- * @property {number} [options.z_max] - Maximum value of the z-coordinate.
- * @property {boolean} [options.show_axis=false] - If set to true, draws additional lines at
+ * @property {Number} [options.z_handle_size=6] - Size in px of the z-handle.
+ * @property {Number} [options.z_handle_centered=0.1] - Size of the z-handle in center positions.
+ *   If this options is between 0 and 1, it is interpreted as a ratio, otherwise as a px size.
+ * @property {Number} [options.z_handle_below=false] - Render the z-handle below the normal handle in the DOM. SVG doesn't know CSS attribute z-index, so this workaround is needed some times.
+ * @property {Number} [options.x_min] - Minimum value of the x-coordinate.
+ * @property {Number} [options.x_max] - Maximum value of the x-coordinate.
+ * @property {Number} [options.y_min] - Minimum value of the y-coordinate.
+ * @property {Number} [options.y_max] - Maximum value of the y-coordinate.
+ * @property {Number} [options.z_min] - Minimum value of the z-coordinate.
+ * @property {Number} [options.z_max] - Maximum value of the z-coordinate.
+ * @property {Boolean} [options.show_axis=false] - If set to true, draws additional lines at
  *   the coordinate values.
  *
  * @mixes TK.Ranges
@@ -980,13 +980,13 @@ TK.ResponseHandle = TK.class({
         var O = this.options;
         
         /**
-         * @member {TK.Range} TK.ResponseHandle#range_x - The range for the x axis.
+         * @member {TK.Range} TK.ResponseHandle#range_x - The {@link TK.Range} for the x axis.
          */
         /**
-         * @member {TK.Range} TK.ResponseHandle#range_y - The range for the y axis.
+         * @member {TK.Range} TK.ResponseHandle#range_y - The {@link TK.Range} for the y axis.
          */
         /**
-         * @member {TK.Range} TK.ResponseHandle#range_z - The range for the z axis.
+         * @member {TK.Range} TK.ResponseHandle#range_z - The {@link TK.Range} for the z axis.
          */
         this.add_range(O.range_x, "range_x");
         this.add_range(O.range_y, "range_y");

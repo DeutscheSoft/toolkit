@@ -51,10 +51,10 @@ function timeout() {
  * 
  * @param {Object} options
  * 
- * @property {number} [options.timeout=5000] - Time in milliseconds
+ * @property {Number} [options.timeout=5000] - Time in milliseconds
  * after the notification disappears. Set to 0 for permanent notification.
- * @property {string} [options.icon=false] - Show an icon, <code>false</code> for no icon.
- * @property {boolean} [options.show_close=false] - Show a close button.
+ * @property {String} [options.icon=false] - Show an icon, <code>false</code> for no icon.
+ * @property {Boolean} [options.show_close=false] - Show a close button.
  */
  
 TK.Notification = TK.class({
