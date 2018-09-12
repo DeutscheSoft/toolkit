@@ -198,6 +198,11 @@ nav#navigation div.navblock ul.itemsnav a::before {
 nav#navigation div.navblock ul.itemsnav li:last-child a::before {
     content: "1";
 }
+nav#navigation div.navblock ul.itemsnav a i {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.2em;
+}
 
 /*
 nav#navigation div.navblock ul.itemsnav a.active::before {
