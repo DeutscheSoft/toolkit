@@ -192,7 +192,7 @@ nav#navigation div.navblock ul.itemsnav a::before {
     display: inline-block;
     padding-right: 4px;
     color: #999;
-    font-size: 25px;
+    font-size: 27px;
     vertical-align: middle;
 }
 nav#navigation div.navblock ul.itemsnav li:last-child a::before {
@@ -201,7 +201,7 @@ nav#navigation div.navblock ul.itemsnav li:last-child a::before {
 nav#navigation div.navblock ul.itemsnav a i {
     font-style: normal;
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.25em;
 }
 
 /*
