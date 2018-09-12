@@ -8,6 +8,10 @@
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
     <link type="text/css" rel="stylesheet" href="screen.css">
+    <link type="text/css" rel="stylesheet" href="fonts/DeusoDocs.css">
+    <link type="text/css" rel="stylesheet" href="fonts/Ubuntu.css">
+    
+    <script src="script.js"></script>
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
 
@@ -69,118 +73,8 @@
     <script src="toolkit/widgets/expander.js"></script>
     <script src="toolkit/widgets/notification.js"></script>
     <script src="toolkit/widgets/notifications.js"></script>
-    <script>
-        (function (w) {
-        var fun;
-        w.__init__ = function () {
-            var nav = document.getElementById("navigation");
-            
-            var subnav = document.getElementsByClassName("subnav");
-            for (var i = 0; i < subnav.length; i++)
-                document.body.appendChild(subnav[i]);
-            
-            var navbutton = document.createElement("button");
-            navbutton.setAttribute("id", "navbutton");
-            navbutton.onclick = function (e) {
-                nav.style.transform = nav.style.transform ? "" : "translate(-50%, 0)";
-                if (nav.style.transform) {
-                    setTimeout(function () {
-                        document.body.addEventListener("click", function fun(e) {
-                            nav.style.transform = "";
-                            document.body.removeEventListener("click", fun);
-                        });
-                    }, 100);
-                }
-            }
-            document.body.appendChild(navbutton);
-                
-            if (subnav.length) {
-                
-            }
-            
-            if (location.hash == "#run")
-                setTimeout(run_example, 500);
-        }
-        w.prepare_example = function () {
-            window.addEventListener("load", setup_example.bind(this, document.currentScript));
-        }
-
-        function setup_javascript(current, code) {
-            var source = code.textContent;
-            if (source.match(/^\s*function/)) {
-                fun = new Function("", "return "+source)();
-            } else return;
-
-            var b = document.createElement("button");
-            b.setAttribute("class", "runbutton");
-            b.addEventListener("click", run_example);
-            b.appendChild(document.createTextNode("Run!"));
-            current.parentNode.insertBefore(b, current.nextSibling);
-
-            var h = document.createElement("h2");
-            h.appendChild(document.createTextNode("JavaScript"));
-            code.parentNode.insertBefore(h, code);
-        }
-        function setup_stylesheet(current, code) {
-            var style = document.createElement("STYLE");
-            style.setAttribute("type", "text/css");
-            if (style.styleSheet) style.styleSheet.cssText = code.textContent;
-            else style.appendChild(document.createTextNode(code.textContent));
-            document.head.appendChild(style);
-            var h = document.createElement("h2");
-            h.appendChild(document.createTextNode("Stylesheet"));
-            code.parentNode.insertBefore(h, code);
-        }
-        function setup_example(current) {
-            var code = current.parentNode.getElementsByTagName("pre");
-            if (!code.length) return;
-
-            for (var i = 0; i < code.length; i++) {
-                if (TK.has_class(code[i], "css")) {
-                    setup_stylesheet(current, code[i]);
-                } else {
-                    setup_javascript(current, code[i]);
-                }
-            }
-        }
-        function run_example () {
-            var hide_root = function (e) {
-                window.example.root.destroy();
-                window.example.blinder.parentNode.removeChild(window.example.blinder);
-                window.example = null;
-            }
-            
-            if (window.example && window.example.root)
-                window.example.root.destroy();
-            window.example = {};
-            var blinder = document.createElement("DIV");
-            blinder.setAttribute("class", "blinder");
-            document.body.appendChild(blinder);
-            window.example['blinder'] = blinder;
-            window.example['root'] = new TK.Root({
-                container: blinder
-            });
-            var b = document.createElement("button");
-            b.setAttribute("class", "closebutton");
-            b.addEventListener("click", hide_root);
-            b.appendChild(document.createTextNode("Close"));
-            window.example.root.element.appendChild(b);
-            
-            fun(window.example.root);
-
-            return false;
-        }
-        })(this);
-    </script>
 </head>
-<body onload="__init__()">
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
+<body>
 
 <nav id="navigation">
     <?js= this.nav(obj) ?>
@@ -193,7 +87,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc <?js= env.version.number ?></a><?js if(env.conf.templates && env.conf.templates.default && env.conf.templates.default.includeDate !== false) { ?> on <?js= (new Date()) ?><?js } ?> using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc <?js= env.version.number ?></a><?js if(env.conf.templates && env.conf.templates.default && env.conf.templates.default.includeDate !== false) { ?> on <?js= (new Date()) ?><?js } ?>.
 </footer>
 
 <script>prettyPrint();</script>

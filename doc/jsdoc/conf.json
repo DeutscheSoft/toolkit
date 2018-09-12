@@ -20,7 +20,8 @@
         "default": {
             "staticFiles": {
                 "include" : [
-                    "./doc/jsdoc/screen.css"
+                    "./doc/jsdoc/screen.css",
+                    "./doc/jsdoc/script.js"
                 ]
             },
             "outputSourceFiles": true,

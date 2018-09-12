@@ -17,16 +17,6 @@
  * Boston, MA  02110-1301  USA
  */
  
- /**
- * The <code>useraction</code> event is emitted when a widget gets modified by user interaction.
- * The event is emitted for the <code>state</code> option.
- * 
- * @event TK.Button#useraction
- * 
- * @param {string} name - The name of the option which was changed due to the users action.
- * @param {mixed} value - The new value of the option.
- */
- 
 "use strict";
 (function(w, TK){
 
@@ -34,7 +24,8 @@ TK.Button = TK.class({
     /**
      * TK.Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.
-     * Buttons are used as a base to build different other widgets from, too.
+     * Buttons are used as a base to build different other widgets from, too,
+     * e.g. {@link: TK.Toggle}, {@link: TK.ConfirmButton} and {@link: TK.Select}.
      * 
      * @param {Object} options
      * 
@@ -42,7 +33,7 @@ TK.Button = TK.class({
      * @property {String} [options.icon=""] - URL to an icon for the button OR icon class (see styles/fonts/Toolkit.html)
      * @property {Boolean} [options.state=false] - TK.State of the button
      * @property {Integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
-     *   "vertical" means icon on top of the label, "horizontal" puts the icon left to the label.
+     *   "vertical" means icon on top of the label, "horizontal" positions the icon left to the label.
      * 
      * @extends TK.Widget
      * 
@@ -51,8 +42,8 @@ TK.Button = TK.class({
     _class: "Button",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
-        label: "string",
-        icon: "string",
+        label: "string|boolean",
+        icon: "string|boolean",
         state: "boolean",
         layout: "string",
     }),
@@ -67,7 +58,7 @@ TK.Button = TK.class({
         TK.Widget.prototype.initialize.call(this, options);
         /**
          * @member {HTMLDivElement} TK.Button#element - The main DIV element.
-         *      Has class <code>toolkit-button</code>.
+         *   Has class <code>toolkit-button</code>.
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
