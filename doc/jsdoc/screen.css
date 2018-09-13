@@ -378,28 +378,35 @@ table {
     margin: 0px 0 1em 0;
     width: 100%;
     border-collapse: collapse;
+    border: 2px solid #ccc !important;
     overflow: auto !important;
     clear: both;
+/*
     border: none !important;
+*/
     box-shadow: none !important;
+    border-radius: 0 !important;
+}
+tbody {
+    
 }
 table tr {
     background: none !important;
-    border: 3px solid transparent;
-    border-width: 0px 0px 3px 0px;
 }
 table tr:nth-child(2n+2) {
-    background-color: rgba(255, 255, 255, 0.25) !important;
+    background-color: #eeeeee !important;
 }
 table th {
-    padding: 0 !important;
+    padding: 0 4px !important;
     font-weight: 500;
     color: #001940;
     font-size: 0.9em;
+    background: #ccc;
+    border: 2px solid #ccc !important;
 }
 table td {
-    padding: 8px 8px 8px 0 !important;
-    border: none !important;
+    padding: 8px 8px 8px 4px !important;
+    border: 2px solid #ccc !important;
     vertical-align: top;
 }
 table td:first-child {
