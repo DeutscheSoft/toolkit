@@ -2,14 +2,13 @@
 var fun;
 w.__init__ = function () {
     var nav = document.getElementById("navigation");
-    var targPos = nav.offsetHeight / 2;
     var hash = location.hash.substr(1);
     if (hash == "run") {
         setTimeout(run_example, 500);
     } else {
         var match = hash.match(/nav:([0-9]*)/);
         if (match && match.length)
-            targPos = parseInt(match[1]);
+            nav.scrollTop = parseInt(match[1]);
         location.hash = "";
     }
     var url = w.location.pathname;
@@ -20,10 +19,11 @@ w.__init__ = function () {
             var href = o.getAttribute("href");
             if (href && href.indexOf(url) >= 0) {
                 o.classList.add("active");
-                nav.scrollTop = o.offsetTop - targPos + o.offsetHeight / 2;
+                if (!match)
+                    nav.scrollTop = o.offsetTop - nav.offsetHeight / 2 + o.offsetHeight / 2;
             }
             function setscroll (e) {
-                this.href = this.href.split("#")[0] + "#nav:" + e.pageY;
+                this.href = this.href.split("#")[0] + "#nav:" + nav.scrollTop;
             }
             o.addEventListener("mousedown", setscroll);
             o.addEventListener("touchstart", setscroll);

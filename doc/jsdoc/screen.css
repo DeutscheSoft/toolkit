@@ -101,10 +101,10 @@ button {
     background: #003050;
     color: white;
     border: none;
-    padding: 0.2em 0.5em;
+    padding: 8px 16px;
     transition: all 0.33s;
     cursor: pointer;
-    border-radius: 0.25em;
+    border-radius: 4px
 }
 button:hover {
     
@@ -326,8 +326,8 @@ dl.param-type {
 
 .closebutton {
     position: absolute;
-    top: 0.5em;
-    right: 0.5em;
+    top: -16px;
+    right: -16px;
 }
 
 .blinder {
