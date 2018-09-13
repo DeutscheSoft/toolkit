@@ -50,10 +50,13 @@ h2 {
 }
 h3 {
     font-size: 2.5em !important;
-    line-height: 2em;
+    line-height: 1.2em;
     clear: left;
-    color: #999;
+    color: #fff;
+    background: #999;
     margin: 0 !important;
+    margin-bottom: 1em !important;
+    border-bottom: 2px solid #999;
 }
 h4 {
     font-size: 130%;
@@ -73,7 +76,6 @@ h5 {
 h4.name {
     clear: both;
     font-size: 1.3em;
-    border-top: 1px solid #ccc;
     margin-top: 1em;
 }
 
@@ -238,26 +240,23 @@ nav#navigation div.navblock ul.itemsnav a.active::before {
     }
 }
 .details {
-    font-size: 80%;
     float: right;
-    width: 280px;
     margin: 0;
     border: none;
-    text-align: right;
     margin-bottom: 2em;
 }
 .details dt {
-    margin-bottom: 1px;
-    width: 100px;
+    width: auto;
+    margin: 0px;
     text-align: right;
-    display: block;
+    display: inline-block;
 }
 .details dd {
-    margin-left: 100px;
-    margin-bottom: 1px;
+    width: auto;
+    margin: 0px;
     padding-left: 10px;
     text-align: left;
-    display: block;
+    display: inline-block;
 }
 .details li {
     white-space: nowrap;
