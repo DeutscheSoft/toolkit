@@ -40,7 +40,7 @@ h1 {
 
 h2 {
     font-weight: normal;
-    font-size: 2.8em;
+    font-size: 2.0em;
     line-height: 1em;
     color: #003050;
     background: none;
@@ -49,18 +49,20 @@ h2 {
     padding: 0px 0 0.5em 0;
 }
 h3 {
-    font-size: 2.5em !important;
-    line-height: 1.2em;
+    font-size: 1.8em !important;
+    line-height: 1em;
     clear: left;
     color: #fff;
-    background: #999;
+    background: #003050;
     margin: 0 !important;
     margin-bottom: 1em !important;
-    border-bottom: 2px solid #999;
+    padding: 4px;
+    position: sticky;
+    top: 0;
 }
 h4 {
     font-size: 130%;
-    line-height: 2em;
+    line-height: 1.5em;
     font-weight: bold;
     margin: 0;
 }
@@ -76,7 +78,13 @@ h5 {
 h4.name {
     clear: both;
     font-size: 1.3em;
-    margin-top: 1em;
+    margin: 1em 0;
+    padding: 2px 4px;
+    background: #fff;
+}
+h4.name a {
+    text-decoration: none;
+    border-bottom: 2px solid #003050;
 }
 
 p {
