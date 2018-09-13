@@ -378,7 +378,7 @@ table {
     margin: 0px 0 1em 0;
     width: 100%;
     border-collapse: collapse;
-    border: 2px solid #ccc !important;
+    border: 2px solid #fff !important;
     overflow: auto !important;
     clear: both;
 /*
@@ -394,29 +394,23 @@ table tr {
     background: none !important;
 }
 table tr:nth-child(2n+2) {
-    background-color: #eeeeee !important;
+    background-color: #d8d8d8 !important;
 }
 table th {
-    padding: 0 4px !important;
+    padding: 6px !important;
     font-weight: 500;
     color: #001940;
-    font-size: 0.9em;
-    background: #ccc;
-    border: 2px solid #ccc !important;
+    background: #fff;
+    border: 2px solid #fff !important;
 }
 table td {
-    padding: 8px 8px 8px 4px !important;
-    border: 2px solid #ccc !important;
+    padding: 6px !important;
+    border: 2px solid #fff !important;
     vertical-align: top;
 }
 table td:first-child {
     font-weight: 800;
     width: 120px;
-}
-table td:nth-child(2) {
-/*
-    width: 240px;
-*/
 }
 table td.headline {
     background: rgba(255, 255, 255, 0.1);
@@ -424,6 +418,12 @@ table td.headline {
 table tr.inherit {
     color: #aaa;
 }
-.props .props td {
-    padding: 2px 4px 2px 0 !important;
+.props .props td,
+.props .props th {
+    padding: 3px !important;
+    font-size: 0.85em !important;
+}
+.props .props td *,
+.props .props th * {
+    font-size: 0.85em !important;
 }
