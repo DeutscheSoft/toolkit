@@ -297,29 +297,6 @@ nav#navigation div.navblock ul.itemsnav a.active::before {
         margin: 0;
     }
 }
-.details {
-    float: right;
-    margin: 0;
-    border: none;
-    margin-bottom: 2em;
-}
-.details dt {
-    width: auto;
-    margin: 0px;
-    text-align: right;
-    display: inline-block;
-}
-.details dd {
-    width: auto;
-    margin: 0px;
-    padding-left: 10px;
-    text-align: left;
-    display: inline-block;
-}
-.details li {
-    white-space: nowrap;
-    margin: 0;
-}
 
 .toolkit-root {
     background: #eee;
@@ -487,4 +464,39 @@ table tr.inherit {
 .props .props td *,
 .props .props th * {
     font-size: 0.85em !important;
+}
+
+
+
+table.details {
+    float: right;
+    margin: 0;
+    border: none !important;
+    margin-bottom: 2em;
+    width: auto;
+    float: right;
+    line-height: 1.2em;
+}
+table.details tr {
+    background-color: transparent !important;
+}
+table.details tr td {
+    border: none !important;
+    background-color: transparent !important;
+    padding: 4px;
+}
+table.details tr td:nth-child(1) {
+    width: auto;
+    text-align: right;
+}
+table .details tr td:nth-child(2) {
+    width: auto;
+    margin: 0px;
+    padding-left: 10px;
+    text-align: left;
+    display: inline-block;
+}
+.details li {
+    white-space: nowrap;
+    margin: 0;
 }
