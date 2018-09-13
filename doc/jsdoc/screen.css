@@ -12,7 +12,7 @@ tt, code, kbd, samp {
 body {
     color: #333;
     font-weight: normal;
-    font-size: 0.9em;
+    font-size: 14px;
     overflow-y: scroll;
     padding: 20px;
     line-height: 1.5em;
@@ -49,16 +49,19 @@ h2 {
     padding: 0px 0 0.5em 0;
 }
 h3 {
-    font-size: 1.5em !important;
-    line-height: 1em;
-    clear: left;
+    font-size: 20px !important;
+    line-height: 40px;
+    clear: both;
     color: #fff;
     background: #003050;
     margin: 0 !important;
-    margin-bottom: 1em !important;
-    padding: 4px;
+    padding: 0 4px;
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
+    display: inline-block;
+    width: 100%;
+    z-index: 100;
 }
 h4 {
     font-size: 130%;
@@ -71,14 +74,12 @@ h5 {
     font-weight: bold;
     margin: 0;
     line-height: 2em;
-/*
     clear: both;
-*/
 }
 h4.name {
     clear: both;
-    font-size: 1.2em;
-    margin: 1em 0;
+    font-size: 16px;
+    margin: 1em 0 0.5em 0;
     padding: 2px 4px;
     background: #fff;
 }
@@ -123,7 +124,15 @@ button:hover {
 
 /* STRUCTURE */
 
-header {
+header#header {
+    height: 40px;
+    background: #003050;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 41px;
+    z-index: 20;
     
 }
 section {
@@ -148,6 +157,43 @@ footer {
 
 #main {
     width: calc(100% - 200px);
+    padding-top: 40px;
+}
+
+
+/* HEADER */
+
+header#header #navfilter {
+    background: #003050;
+    padding: 4px;
+    width: 200px;
+}
+header#header #navfilter input {
+    background: white;
+    padding: 4px;
+    width: 138px;
+    height: 28px;
+    box-sizing: border-box;
+    border: none;
+}
+header#header #navfilter button {
+    font-family: Toolkit !important;
+    color: white;
+}
+header#header #navfilter button::before {
+    content: "5";
+}
+
+#h1 {
+    position: fixed;
+    top: 0;
+    right: 8px;
+    z-index: 101;
+}
+#h1 h1 {
+    font-size: 20px;
+    color: white;
+    line-height: 40px;
 }
 
 /* NAVIGATION */
@@ -155,6 +201,10 @@ footer {
 nav#navigation {
     width: 200px;
     background: #e3e3e3;
+    position: fixed;
+    top: 40px;
+    left: 0;
+    bottom: 0;
 }
 nav#navigation .navblock {
     
@@ -295,6 +345,7 @@ nav#navigation div.navblock ul.itemsnav a.active::before {
 
 .description {
     margin-top: 0;
+    margin-bottom: 1.5em;
 }
 
 .container-overview {
@@ -310,7 +361,7 @@ nav#navigation div.navblock ul.itemsnav a.active::before {
 }
 
 .subsection-title {
-    margin-top: 2.5em !important;
+    margin: 1.5em 0 0.5em 0 !important;
 }
 .subsection-title + ul > li,
 .subsection-title + dl > dt {

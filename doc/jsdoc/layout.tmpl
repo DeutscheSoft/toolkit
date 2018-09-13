@@ -10,6 +10,7 @@
     <link type="text/css" rel="stylesheet" href="screen.css">
     <link type="text/css" rel="stylesheet" href="fonts/DeusoDocs.css">
     <link type="text/css" rel="stylesheet" href="fonts/Ubuntu.css">
+    <link type="text/css" rel="stylesheet" href="toolkit/styles/fonts/Toolkit.css">
     
     <script src="script.js"></script>
     <script src="scripts/prettify/prettify.js"></script>
@@ -76,6 +77,17 @@
 </head>
 <body>
 
+<header id="header">
+    <div id="navfilter">
+        <input id="nf_input" type=text placeholder="Filter">
+        <button id="nf_clear"></button>
+    </div>
+</header>
+
+<div id="h1">
+    <?js= this.longname ?>
+</div>
+    
 <nav id="navigation">
     <?js= this.nav(obj) ?>
 </nav>
