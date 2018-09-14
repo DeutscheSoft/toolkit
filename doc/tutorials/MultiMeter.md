@@ -76,15 +76,15 @@
             show_clip: true
         });
         root.append_children([mr, ml, mb, mt]);
-        ml.set("values", [-6, -56, 12, 3, -24, 0]);
-        mr.set("values", [6, -12, 6, 3, -3, -24]);
-        mt.set("values", [-6, -56, 12, 3, -24, 0]);
-        mb.set("values", [6, -12, 6, 3, -3, -24]);
+        ml.set("value", [-6, -56, 12, 3, -24, 0]);
+        mr.set("value", [6, -12, 6, 3, -3, -24]);
+        mt.set("value", [-6, -56, 12, 3, -24, 0]);
+        mb.set("value", [6, -12, 6, 3, -3, -24]);
         
-        ml.set("clips", [0, 0, 1, 1, 0, 1]);
-        mr.set("clips", [1, 0, 1, 1, 0, 0]);
-        mt.set("clips", [0, 0, 1, 1, 0, 1]);
-        mb.set("clips", [1, 0, 1, 1, 0, 0]);
+        ml.set("clip", [0, 0, 1, 1, 0, 1]);
+        mr.set("clip", [1, 0, 1, 1, 0, 0]);
+        mt.set("clip", [0, 0, 1, 1, 0, 1]);
+        mb.set("clip", [1, 0, 1, 1, 0, 0]);
     }
 <pre class='css prettyprint source'><code>
 .toolkit-multi-meter {
