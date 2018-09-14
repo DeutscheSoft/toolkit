@@ -5,18 +5,6 @@
                 {label: "Button 2"},
                 {label: "Button 3"},
                 {label: "Button 4"},
-                {label: "Button 5"},
-                {label: "Button 6"},
-                //{label: "Button 7"},
-                //{label: "Button 8"},
-                //{label: "Button 9"},
-                //{label: "Button 10"},
-                //{label: "Button 11"},
-                //{label: "Button 12"},
-                //{label: "Button 13"},
-                //{label: "Button 14"},
-                //{label: "Button 15"},
-                //{label: "Button 16"}
             ],
             show: 3
         });
@@ -52,14 +40,6 @@
                 {label: "Button 6"},
                 {label: "Button 7"},
                 {label: "Button 8"},
-                {label: "Button 9"},
-                //{label: "Button 10"},
-                //{label: "Button 11"},
-                //{label: "Button 12"},
-                //{label: "Button 13"},
-                //{label: "Button 14"},
-                //{label: "Button 15"},
-                //{label: "Button 16"}
             ],
             show: 8
         });
@@ -97,7 +77,7 @@
     float: left;
 }
 .toolkit-buttonarray.toolkit-horizontal {
-    width: 75%;
+    width: calc(100% - 250px);
     float: right;
     margin-bottom: 20px;
 }
