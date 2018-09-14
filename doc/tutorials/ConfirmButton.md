@@ -10,7 +10,7 @@
     }
 <pre class='css prettyprint source'><code>
 .toolkit-button {
-    width: 160px;
+    width: 180px;
 }
 </code></pre>
 <script> prepare_example(); </script>
