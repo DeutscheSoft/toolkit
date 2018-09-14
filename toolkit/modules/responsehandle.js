@@ -83,7 +83,7 @@ var ZHANDLE_POSITION_circular = {
 };
 
 function get_zhandle_position_movable(O, X) {
-    var vec = ZHANDLE_POSITION_movable[O.z_handle];
+    var vec = ZHANDLE_POSITION_circular[O.z_handle];
     var x = (X[0]+X[2])/2;
     var y = (X[1]+X[3])/2;
     var R = (X[2] - X[0] - O.z_handle_size)/2;
@@ -1259,7 +1259,7 @@ TK.ResponseHandle = TK.class({
 
         switch (key) {
         case "z_handle":
-            if (value !== false && !ZHANDLE_POSITION_movable[value]) {
+            if (value !== false && !ZHANDLE_POSITION_circular[value]) {
                 TK.warn("Unsupported z_handle option:", value);
                 value = false;
             }
