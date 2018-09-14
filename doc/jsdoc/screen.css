@@ -19,7 +19,7 @@ body {
 /*
     background: #D8D8D8; 
 */
-    background: #e3e3e3;
+    background: #ddd;
     text-align: left;
     width: 100%;
     height: 100%;
@@ -200,11 +200,11 @@ header#header #navfilter button::before {
 
 nav#navigation {
     width: 200px;
-    background: #e3e3e3;
+    background: #ddd;
     position: fixed;
     top: 40px;
     left: 0;
-    bottom: 0;
+    bottom: 40px;
 }
 nav#navigation .navblock {
     
@@ -430,21 +430,23 @@ tbody {
 table tr {
     background: none !important;
 }
-table tr:nth-child(2n+2) {
-    background-color: #d8d8d8 !important;
-}
 table th {
     padding: 2px !important;
     line-height: 1em;
-    font-weight: 500;
-    color: #003050;
-    background: #fff;
-    border: 2px solid #fff !important;
+    color: #fff;
+    background: #999;
+    border: 2px solid #999 !important;
+    text-align: center !important;
+    font-size: 0.9em;
 }
 table td {
     padding: 6px !important;
-    border: 2px solid #fff !important;
+    border: 2px solid #ddd !important;
     vertical-align: top;
+    background-color: #f4f4f4;
+}
+table tr:nth-child(2n+2) td {
+    background-color: #ededed !important;
 }
 table td:first-child {
     font-weight: 800;
