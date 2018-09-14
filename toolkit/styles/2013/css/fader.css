@@ -217,6 +217,7 @@
     line-height: 23px;
     height: 23px;
     position: absolute;
+    text-align: center;
 }
 .toolkit-fader.toolkit-vertical > .toolkit-label {
     bottom: 0;
