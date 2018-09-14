@@ -241,9 +241,12 @@ nav#navigation div.navblock ul.itemsnav a:hover {
 nav#navigation div.navblock ul.itemsnav a.active {
     background: #fff;
     border-style: solid;
+    font-weight: bold;
     border-color: #003050;
     border-width: 0px 0 0px 0;
-    color: #c00;
+/*
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+*/
 }
 
 nav#navigation div.navblock ul.itemsnav a::before {
@@ -257,6 +260,17 @@ nav#navigation div.navblock ul.itemsnav a::before {
 }
 nav#navigation div.navblock ul.itemsnav li:last-child a::before {
     content: "1";
+}
+nav#navigation div.navblock ul.itemsnav a.active::before {
+    content: "‣";
+    font-family: Ubuntu;
+    text-align: right;
+    font-size: 18px;
+    line-height: 1em;
+    color: #b00;
+    display: inline-block;
+    width: 27px;
+    vertical-align: middle;
 }
 nav#navigation div.navblock ul.itemsnav a i {
     font-style: normal;
