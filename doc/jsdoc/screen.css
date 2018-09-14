@@ -285,11 +285,11 @@ nav#navigation div.navblock ul.itemsnav a i {
     background: #999;
     height: 15px;
     width: 15px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    border-radius: 50%;
+    -webkit-border-radius: 2.5px;
+    -moz-border-radius: 2.5px;
+    -ms-border-radius: 2.5px;
+    -o-border-radius: 2.5px;
+    border-radius: 2.5px;
     
     display: block;
     position: absolute;
