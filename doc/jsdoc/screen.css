@@ -390,6 +390,7 @@ dl.param-type {
     right: 0;
     bottom: 0;
     background: rgba(216, 216, 216, 0.9);
+    z-index: 1000;
 }
 
 
