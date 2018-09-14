@@ -25,15 +25,19 @@ TK.Button = TK.class({
      * TK.Button is a simple, clickable widget to trigger funcions. It fires a
      * couple of click-related events and consists of a label and an icon.
      * Buttons are used as a base to build different other widgets from, too,
-     * e.g. {@link: TK.Toggle}, {@link: TK.ConfirmButton} and {@link: TK.Select}.
+     * e.g. {@link TK.Toggle}, {@link TK.ConfirmButton} and {@link TK.Select}.
      * 
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @property {String} [options.label=""] - Text for the button label
-     * @property {String} [options.icon=""] - URL to an icon for the button OR icon class (see styles/fonts/Toolkit.html)
+     * @property {String|Boolean} [options.label=false] - Text for the button label.
+     *   If <code>false</code>, the label is removed from DOM.
+     * @property {String|Boolean} [options.icon=false] - URL to an icon for the button OR
+     *   icon class (see styles/fonts/Toolkit.html). If <code>false</code>, the icon
+     *   is removed from DOM.
      * @property {Boolean} [options.state=false] - TK.State of the button
-     * @property {Integer} [options.layout="vertical"] - Determine the arrangement of label and icon.
-     *   "vertical" means icon on top of the label, "horizontal" positions the icon left to the label.
+     * @property {Integer} [options.layout="vertical"] - Define the arrangement
+     *   of label and icon. <code>vertical</code> means icon above the label,
+     *   <code>horizontal</code> places the icon left to the label.
      * 
      * @extends TK.Widget
      * 
@@ -112,11 +116,10 @@ TK.Button = TK.class({
 });
 /**
  * @member {TK.Icon} TK.Button#icon - The {@link TK.Icon} widget.
- * 
- * @property {String} [options.show_icon=false] - Show/hide the icon
  */
 TK.ChildWidget(TK.Button, "icon", {
     create: TK.Icon,
+    option: "icon",
     map_options: {icon:"icon"},
     append: function() {
         this._cell.appendChild(this.icon.element);
@@ -126,15 +129,12 @@ TK.ChildWidget(TK.Button, "icon", {
 /**
  * @member {HTMLDivElement} TK.Button#_label - The label of the button.
  *      Has class <code>toolkit-label</code>.
- * 
- * @property {String} [options.show_label=true] - Show/hide the icon
  */
 TK.ChildElement(TK.Button, "label", {
     show: true,
-    //option: "label",
-    //display_check: function(v) {
-        //return typeof(v) === "string" && v.length;
-    //},
+    option: "label",
+    inherit_options: true,
+    map_options: {label:"label"},
     append: function() {
         this._cell.appendChild(this._label);
     },
