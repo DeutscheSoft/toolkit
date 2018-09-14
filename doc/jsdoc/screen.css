@@ -272,14 +272,33 @@ nav#navigation div.navblock ul.itemsnav a.active::before {
     font-size: 18px;
     line-height: 1em;
     color: #b00;
-    display: inline-block;
-    width: 27px;
-    vertical-align: middle;
+    width: 36px;
 }
 nav#navigation div.navblock ul.itemsnav a i {
     font-style: normal;
     font-weight: bold;
-    font-size: 1.25em;
+    color: #fff;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    
+    background: #999;
+    height: 15px;
+    width: 15px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    
+    display: block;
+    position: absolute;
+    top: calc(50% - 7px);
+    left: 7px;
+}
+nav#navigation div.navblock ul.itemsnav a.active i {
+    color: #b00;
+    background: transparent;
 }
 
 /*
