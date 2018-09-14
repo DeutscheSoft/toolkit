@@ -646,38 +646,38 @@ function ChildWidget(widget, name, config) {
      * @param {string} name - The identifier of the element, <code>TK.Widget[config.name]</code>.
      * @param {object} config - The configuration of the child element.
      * 
-     * @param {TK.Widget} config.create - A TK.Widget class derivate to be used as child widget.
-     * @param {boolean} [config.fixed] - A fixed child widget cannot be removed after initialization.
-     * @param {boolean} [config.show=false] - Show/hide a non-fixed child widget on initialization.
-     * @param {string} [config.option="show_"+config.name] - A custom option of the parent widget
+     * @property {TK.Widget} config.create - A TK.Widget class derivate to be used as child widget.
+     * @property {boolean} [config.fixed] - A fixed child widget cannot be removed after initialization.
+     * @property {boolean} [config.show=false] - Show/hide a non-fixed child widget on initialization.
+     * @property {string} [config.option="show_"+config.name] - A custom option of the parent widget
      *     to determine the visibility of the child element. If this is
      *     <code>null</code>, <code>TK.Widget.options["show_"+  config.name]</code>
      *     is used to toggle its visibility. The child element is visible, if
      *     this options is <code>!== false</code>.
-     * @param {function} [config.append] - A function overriding the generic
+     * @property {function} [config.append] - A function overriding the generic
      *     append mechanism. If not <code>null</code>, this function is
      *     supposed to take care of adding the child widget to the parent
      *     widgets DOM. Otherwise the element of the child widget is added
      *     to the element of the parent widget.
-     * @param {boolean} [config.inherit_options=false] - Defines if both widgets share the
+     * @property {boolean} [config.inherit_options=false] - Defines if both widgets share the
      *     same set of options. If <code>true</code>, Setting an option on the
      *     parent widget also sets the same option on the child widget. If <code>false</code>,
      *     the options of the child widget can be accessed via <code>options[config.name + "." + option]</code>
      *     in the parent widget.
-     * @param {array} [config.map_options=[]] - An array containing option names to be
+     * @property {array} [config.map_options=[]] - An array containing option names to be
      *     mapped between parent and child widget. If one of these options is set
      *     on the parent widget, it also gets set on the child widget. This is
      *     a fine-grained version of <code>config.inherit-options</code>.
-     * @param {boolean} [config.userset_ignore=false] - Do not care about the <code>userset</code>
+     * @property {boolean} [config.userset_ignore=false] - Do not care about the <code>userset</code>
      *     event of the parent widget, only keep track of <code>set</code>.
-     * @param {boolean} [config.userset_delegate=false] - Delegates all user interaction from
+     * @property {boolean} [config.userset_delegate=false] - Delegates all user interaction from
      *     the child to the parent element. If the user triggers an event on
      *     the child widget, the <code>userset</code> function of the parent
      *     element is called.
-     * @param {array} [config.static_events=[]] - An array of static events to be
+     * @property {array} [config.static_events=[]] - An array of static events to be
      *     added to the parent widget. Each entry is a mapping between
      *     the name of the event and the callback function.
-     * @param {boolean} [config.toggle_class=false] - Defines if the parent widget
+     * @property {boolean} [config.toggle_class=false] - Defines if the parent widget
      *     receives the class <code>toolkit-has-[name]</code> as soon as
      *     the child element is shown.
      * 
@@ -806,32 +806,32 @@ function ChildElement(widget, name, config) {
      *     by an underscore <code>TK.Widget["_" + config.name]</code>.
      * @param {object} config - The configuration of the child element.
      * 
-     * @param {boolean} [config.show=false] - Show/hide the child element on initialization.
-     * @param {string} [config.option="show_"+config.name] - A custom option of the parent widget
+     * @property {boolean} [config.show=false] - Show/hide the child element on initialization.
+     * @property {string} [config.option="show_"+config.name] - A custom option of the parent widget
      *     to determine the visibility of the child element. If this is
      *     <code>null</code>, <code>TK.Widget.options["show_"+  config.name]</code>
      *     is used to toggle its visibility. The child element is visible, if
      *     this options is <code>!== false</code>.
-     * @param {function} [config.display_check] - A function overriding the 
+     * @property {function} [config.display_check] - A function overriding the 
      *     generic <code>show_option</code> behavior. If set, this function
      *     is called with the value of <code>show_option</code> as argument
      *     as soon as it gets set and is supposed to return a boolean
      *     defining the visibility of the element.
-     * @param {function} [config.append] - A function overriding the generic
+     * @property {function} [config.append] - A function overriding the generic
      *     append mechanism. If not <code>null</code>, this function is
      *     supposed to take care of adding the child element to the parent
      *     widgets DOM.
-     * @param {function} [config.create] - A function overriding the generic
+     * @property {function} [config.create] - A function overriding the generic
      *     creation mechanism. If not <code>null</code>, this function is
      *     supposed to create and return a DOM element to be added to the
      *     parent widget.
-     * @param {boolean} [config.toggle_class=false] - Defines if the parent widget
+     * @property {boolean} [config.toggle_class=false] - Defines if the parent widget
      *     receives the class <code>toolkit-has-[name]</code> as soon as
      *     the child element is shown.
-     * @param {array} [config.draw_options] - A list of options of the parent
+     * @property {array} [config.draw_options] - A list of options of the parent
      *     widget which are supposed to trigger a check if the element has to
      *     be added or removed.
-     * @param {function} [config.draw] - A function to be called on redraw.
+     * @property {function} [config.draw] - A function to be called on redraw.
      * 
      * @class TK.ChildElement
      * 
