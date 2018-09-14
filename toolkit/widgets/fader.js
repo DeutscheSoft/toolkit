@@ -130,7 +130,7 @@ function deactivate_tooltip() {
  * 
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Number} [options.value] - The fader position. This options is
  *   modified by user interaction.

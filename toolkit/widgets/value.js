@@ -125,7 +125,7 @@ function submit_cb(e) {
  * 
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Number} [options.value=0] - The value.
  * @property {Function} [options.format=TK.FORMAT("%.2f")] - A formatting

@@ -70,7 +70,7 @@ TK.ButtonArray = TK.class({
      * adds arrow buttons if the overal width is smaller than the buttons
      * list.
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Array<Object|String>} [options.buttons=[]] - A list of button options
      *   or label strings which is converted to button instances on init.

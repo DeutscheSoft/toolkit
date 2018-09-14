@@ -145,7 +145,7 @@ TK.Expander = TK.class({
      * 
      * @extends TK.Container
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Boolean} [options.expanded=false] - This is the state of this widget.
      * @property {Boolean} [options.always_expanded=false] - This essentially overwrites

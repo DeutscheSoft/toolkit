@@ -67,7 +67,7 @@ TK.MultiMeter = TK.class({
      * 
      * @extends TK.Container
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Number} [options.count=2] - The amount of level meters
      * @property {String} [options.title=""] - The title of the multi meter

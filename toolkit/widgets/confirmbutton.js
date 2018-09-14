@@ -111,7 +111,7 @@ TK.ConfirmButton = TK.class({
    * 
    * @extends TK.Button
    *
-   * @param {Object} options
+   * @param {Object} [options={ }] - An object containing initial options.
    * 
    * @property {Boolean} [options.confirm=true] - Defines if the button acts as <code>ConfirmButton</code> or normal <code>Button</code>.
    * @property {Number} [options.timeout=2000] - Defines a time in milliseconds after the button resets to defaults if no second click happens.

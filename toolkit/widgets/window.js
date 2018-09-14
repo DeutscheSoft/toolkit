@@ -389,7 +389,7 @@ TK.Window = TK.class({
      * @extends TK.Container
      * @implments TK.Anchor TK.GlobalCursor
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Number} [options.width=500] - Initial width, can be a CSS length or an integer (pixels).
      * @property {Number} [options.height=200] - Initial height, can be a CSS length or an integer (pixels).

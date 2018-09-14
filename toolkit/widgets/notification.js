@@ -49,7 +49,7 @@ function timeout() {
  * 
  * @extends TK.Container
  * 
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Number} [options.timeout=5000] - Time in milliseconds
  * after the notification disappears. Set to 0 for permanent notification.

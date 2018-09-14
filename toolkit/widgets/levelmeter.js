@@ -85,7 +85,7 @@ TK.LevelMeter = TK.class({
      * 
      * @extends TK.MeterBase
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Boolean} [options.show_clip=false] - If set to <code>true</code>, show the clipping LED.
      * @property {Number} [options.clipping=0] - If clipping is enabled, this is the threshold for the

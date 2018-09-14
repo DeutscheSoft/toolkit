@@ -37,7 +37,7 @@ TK.Pager = TK.class({
      * 
      * @class TK.Pager
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Integer} [options.position="top"] - The position of the ButtonArray
      * @property {Array<Object>} [options.pages=[]] -
@@ -271,7 +271,7 @@ TK.Pager = TK.class({
      * @param {string|Object} button - A string with the {@link TK.Button} s label or an object cotaining options for the {@link Button}
      * @param {TK.Widget|Class|string} content - The content of the page. Either a {@link TK.Container} (or derivate) widget,
      *   a class (needs option "options" to be set) or a string which get embedded in a new {@link TK.Container}
-     * @param {Object} options - An object containing options for the {@link TK.Container} to add as a page
+     * @param {Object} [options={ }] - An object containing initial options. - An object containing options for the {@link TK.Container} to add as a page
      * @param {integer|undefined} position - The position to add the new page to. If undefined, the page is added at the end.
      * @emits TK.Pager#added
      */

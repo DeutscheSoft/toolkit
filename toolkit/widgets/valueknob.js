@@ -65,7 +65,7 @@ TK.ValueKnob = TK.class({
      * 
      * @extends TK.Widget
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Function} [options.value_format=TK.FORMAT("%.2f")] - Callback to format the value.
      * @property {Number} [options.value_size=5] - Amount of digits for the value input.

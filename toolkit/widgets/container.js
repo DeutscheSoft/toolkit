@@ -83,7 +83,7 @@ TK.Container = TK.class({
      * 
      * @extends TK.Widget
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String|HTMLElement} [options.content] - The content of the container. It can either be
      *   a string which is interpreted as Text or a DOM node. Note that this options will remove all

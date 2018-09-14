@@ -73,7 +73,7 @@ TK.Widget = TK.class({
      * 
      * @extends TK.Base
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String} [options.class=""] - A class to add to the class attribute of the main element.
      * @property {Object} [options.container] - A container the main element shall be added to.

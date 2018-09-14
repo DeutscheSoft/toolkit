@@ -50,7 +50,7 @@ TK.FrequencyResponse = TK.class({
      * 
      * @extends TK.Chart
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Number} [options.db_grid=12] - Distance in decibels between y axis grid lines.
      * @property {Object} [options.range_x={min:20, max:20000, scale:"frequency"}] - Either a function returning a {@link TK.Range}

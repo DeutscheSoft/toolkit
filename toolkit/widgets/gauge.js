@@ -35,7 +35,7 @@ var format_viewbox = TK.FORMAT("0 0 %d %d");
  * 
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Number} [options.x=0] - Displacement of the {@link TK.Circular}
  *   in horizontal direction. This allows drawing gauges which are only

@@ -237,7 +237,7 @@ function draw_title() {
  * @class TK.Chart
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {String} [options.title=""] - A title for the Chart.
  * @property {String} [options.title_position="top-right"] - Position of the
@@ -578,7 +578,7 @@ TK.Chart = TK.class({
      * 
      * @method TK.ResponseHandler#add_handle
      * 
-     * @param {Object} options - The options for the {@link TK.ResponseHandle}.
+     * @param {Object} [options={ }] - An object containing initial options. - The options for the {@link TK.ResponseHandle}.
      * 
      * @emits TK.ResponseHandler#handleadded
      */

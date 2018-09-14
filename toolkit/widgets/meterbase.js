@@ -128,7 +128,7 @@ TK.MeterBase = TK.class({
      * 
      * @extends TK.Widget
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String} [options.layout="left"] - A string describing the layout of the meter.
      *   Possible values are <code>"left"</code>, <code>"right"</code>, <code>"top"</code> and 

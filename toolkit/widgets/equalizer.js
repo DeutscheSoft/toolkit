@@ -236,7 +236,7 @@ TK.Equalizer = TK.class({
      * 
      * @method TK.Equalizer#add_band
      * 
-     * @param {Object} options - The options for the {@link TK.EqBand}.
+     * @param {Object} [options={ }] - An object containing initial options. - The options for the {@link TK.EqBand}.
      * 
      * @emits TK.Equalizer#bandadded
      */

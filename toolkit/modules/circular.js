@@ -261,7 +261,7 @@ TK.Circular = TK.class({
      * 
      * @class TK.Circular
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Number} [options.value=0] - Sets the value on the hand and on the
      *   ring at the same time.

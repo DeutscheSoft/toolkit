@@ -27,7 +27,7 @@
  * 
  * @extends TK.Container
  * 
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {String} [options.stack="end"] - Where does a new {@link TK.Notification} appear - "end" or "start"
  */
@@ -55,7 +55,7 @@ TK.Notifications = TK.class({
      * 
      * @method TK.Notification#notify
      * 
-     * @param {object} options - Options for the {@link TK.Notification} to add
+     * @param {Object} [options={ }] - An object containing initial options. - Options for the {@link TK.Notification} to add
      * 
      */
       var n = new TK.Notification(options);

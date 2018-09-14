@@ -27,7 +27,7 @@ TK.Button = TK.class({
      * Buttons are used as a base to build different other widgets from, too,
      * e.g. {@link: TK.Toggle}, {@link: TK.ConfirmButton} and {@link: TK.Select}.
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String} [options.label=""] - Text for the button label
      * @property {String} [options.icon=""] - URL to an icon for the button OR icon class (see styles/fonts/Toolkit.html)

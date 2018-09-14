@@ -29,7 +29,7 @@ TK.Icon = TK.class({
      * 
      * @extends TK.Widget
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String} [options.icon] - The icon to show. It can either be
      *   a string which is interpreted as class name (if <code>[A-Za-z0-9_\-]</code>) or URI.

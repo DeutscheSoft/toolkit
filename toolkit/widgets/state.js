@@ -33,7 +33,7 @@
  * 
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Number} [options.state=0] - The state.
  * @property {String} [options.color="red"] - A css color string for the state LED.

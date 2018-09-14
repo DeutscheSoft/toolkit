@@ -40,7 +40,7 @@ TK.ValueButton = TK.class({
      * 
      * @extends TK.Button
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Number} [options.value=0] - The value of the widget.
      * @property {Number} [options.value_format=function (val) { return val.toFixed(2); }] - Callback to format the value label.

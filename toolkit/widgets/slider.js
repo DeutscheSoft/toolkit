@@ -70,7 +70,7 @@ function set_background(horiz, vert, size) {
  * 
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Integer} [options.frames=1] - The amount of frames contained
  * in the background image

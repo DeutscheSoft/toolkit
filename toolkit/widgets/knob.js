@@ -55,7 +55,7 @@ function module_range() {
  * 
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Object} [options.hand={width: 1, length: 12, margin: 24}]
  * @property {Number} [options.margin=13]

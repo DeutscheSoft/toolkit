@@ -115,7 +115,7 @@ TK.Select = TK.class({
      * 
      * @extends TK.Button
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Integer} options.selected - The index of the selected entry.
      * @property options.value - The value of the selected entry.
@@ -601,7 +601,7 @@ TK.SelectEntry = TK.class({
      * 
      * @extends TK.Button
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String} options.title - The title of the entry. Kept for backward compatibility, use label instead.
      * @property {mixed} options.value - The value of the selected entry.

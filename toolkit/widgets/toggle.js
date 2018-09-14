@@ -152,7 +152,7 @@ TK.Toggle = TK.class({
      * 
      * @extends TK.Button
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Boolean} [options.state=false] - The state of the button.
      * @property {Boolean} [options.toggle=true] - If true, the button is toggled by a click.

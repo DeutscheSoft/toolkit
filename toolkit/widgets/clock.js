@@ -156,7 +156,7 @@ TK.Clock = TK.class({
      * 
      * @extends TK.Widget
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Integer} [options.thickness=10] - Thickness of the rings in percent of the maximum dimension.
      * @property {Integer} [options.margin=0] - Margin between the {@link TK.Circular} in percent of the maximum dimension.
