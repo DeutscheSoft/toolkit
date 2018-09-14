@@ -1,7 +1,5 @@
     function run_frequencyresponse(root) {
         fr = new TK.FrequencyResponse({
-            width: 906,
-            height: 300,
             db_grid: 12
         });
         frgraph = fr.add_graph({
@@ -20,10 +18,10 @@
         TK.seat_all_svg()
     }
 <pre class='css prettyprint source'><code>
-.toolkit-frequencyresponse {
+.toolkit-frequency-response {
     margin: 10px;
     width: calc(100% - 20px);
-    height: calc(100% - 20px;)
+    height: calc(100% - 20px);
 }
 </code></pre>
 <script> prepare_example(); </script>
