@@ -147,7 +147,7 @@ TK.Graph = TK.class({
      *
      * @class TK.Graph
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Function|Object} options.range_x - Callback function
      *   returning a {@link TK.Range} module for x axis or an object with options

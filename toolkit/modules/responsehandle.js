@@ -776,7 +776,7 @@ function enddrag() {
  * 
  * @extends TK.Widget
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Function|Object} options.range_x - Callback returning a {@link TK.Range}
  *   for the x-axis or an object with options for a {@link TK.Range}. This is usually

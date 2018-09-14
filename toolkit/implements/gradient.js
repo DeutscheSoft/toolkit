@@ -26,7 +26,7 @@ TK.Gradient = TK.class({
      *
      * @mixin TK.Gradient
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Object|Boolean} options.gradient - Gradient definition for the background.
      *   Keys are ints or floats as string corresponding to the widgets scale.

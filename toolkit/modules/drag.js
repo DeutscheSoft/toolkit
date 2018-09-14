@@ -92,7 +92,7 @@ function set_handle() {
  * TK.Drag enables dragging of absolutely positioned
  * elements on the screen.
  * 
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {HTMLElement|SVGElement} options.node - The element to drag.
  * @property {HTMLElement|SVGElement} [options.handle] A DOM node to be used as a handle. If not set, <code>options.node</code> is used.

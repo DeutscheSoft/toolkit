@@ -156,7 +156,7 @@ TK.Grid = TK.class({
      *
      * @class TK.Grid
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Array<Number>} [options.grid_x=[]] - Array for vertical grid lines
      *   containing <code>{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</code>.

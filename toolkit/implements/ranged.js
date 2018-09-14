@@ -553,7 +553,7 @@ function set_cb(key, value) {
  * @callback TK.Ranged~scale_cb
  *
  * @param {number} value - The value to be transformed.
- * @param {Object} options - The options of the corresponding {@link TK.Ranged} object.
+ * @param {Object} [options={ }] - An object containing initial options. - The options of the corresponding {@link TK.Ranged} object.
  * @param {boolean} [inverse=false] - Determines if the value is to be transformed from or
  *   to the coordinate system.
  *
@@ -584,7 +584,7 @@ TK.Ranged = TK.class({
      * Its signature is {@link TK.Ranged~scale_cb}. This allows the definition of custom
      * coordinate transformations, which go beyond the standard types.
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      *
      * @property {String|Array<Number>|Function} [options.scale="linear"] -
      *  The type of the scale. Either one of <code>linear</code>, <code>decibel</code>, <code>log2</code>,

@@ -150,7 +150,7 @@ TK.DragValue = TK.class({
      *
      * @class TK.DragValue
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      *
      * @property {Element} options.node - The DOM node used for dragging.
      *   All DOM events are registered with this Element.

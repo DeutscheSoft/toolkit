@@ -108,7 +108,7 @@ function fire_event(title, event) {
  * 
  * @extends TK.Module
  * 
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {HTMLElement} options.node - The element receiving the scroll event.
  * @property {Function} [options.get=function () { return this.parent.options.value; }] - Callback returning the value.

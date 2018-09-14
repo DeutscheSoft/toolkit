@@ -91,7 +91,7 @@ function set_handle() {
  * 
  * @extends TK.Base
  * 
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {HTMLElement} options.node - The element to resize.
  * @property {HTMLElement} [options.handle] - A DOM node used as handle.

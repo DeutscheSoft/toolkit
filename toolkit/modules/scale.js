@@ -334,7 +334,7 @@ function mark_markers(labels, dots) {
  * 
  * @class TK.Scale
  *
- * @param {Object} options
+ * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {String} [options.layout="right"] - The layout of the TK.Scale. <code>right</code> and
  *   <code>left</code> are vertical layouts with the labels being drawn right and left of the scale,

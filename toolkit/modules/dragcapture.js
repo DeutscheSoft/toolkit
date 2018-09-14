@@ -302,7 +302,7 @@ w.TK.DragCapture = TK.class({
      * 
      * @extends TK.Module
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @param {HTMLElement} node - The DOM element receiving the drag events.
      * 

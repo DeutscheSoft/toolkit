@@ -33,7 +33,7 @@ TK.Range = TK.class({
     * 
     * @mixes TK.Ranged
     * 
-    * @param {Object} options
+    * @param {Object} [options={ }] - An object containing initial options.
     * 
     * @property {String|Function} [options.scale="linear"] - Type of the value.
     *   <code>linear</code>, <code>decibel</code>, <code>log2</code>, <code>frequency</code>

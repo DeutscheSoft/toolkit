@@ -43,7 +43,7 @@ TK.EqBand = TK.class({
      *
      * @class TK.EqBand
      * 
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String|Function} [options.type="parametric"] - The type of the filter.
      *   Possible values are <code>parametric</code>, <code>notch</code>,

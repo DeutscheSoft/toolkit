@@ -320,7 +320,7 @@ TK.Filter = TK.class({
      * TK.Filter provides the math for calculating a gain from
      * a given frequency for different types of biquad filters.
      *
-     * @param {Object} options
+     * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Stgring|Function} [options.type="parametric"] - The type of the filter. Possible values are
      *   <code>parametric</code>, <code>notch</code>, <code>low-shelf</code>,
