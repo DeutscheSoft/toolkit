@@ -70,22 +70,24 @@ h4 {
     margin: 0;
 }
 h5 {
-    font-size: 1em;
-    font-weight: bold;
+    font-size: 1.15em;
+    font-weight: normal;
     margin: 0;
     line-height: 2em;
-    clear: both;
 }
 h4.name {
     clear: both;
     font-size: 16px;
-    margin: 1em 0 0.5em 0;
+    margin: 2.5em 0 0.5em 0;
     padding: 2px 4px;
     background: #fff;
+    border-bottom: 2px solid #003050;
 }
 h4.name a {
+/*
     text-decoration: none;
     border-bottom: 2px solid #003050;
+*/
 }
 
 p {
@@ -262,7 +264,7 @@ nav#navigation div.navblock ul.itemsnav li:last-child a::before {
     content: "1";
 }
 nav#navigation div.navblock ul.itemsnav a.active::before {
-    content: "‣";
+    content: "‣" !important;
     font-family: Ubuntu;
     text-align: right;
     font-size: 18px;
@@ -488,7 +490,7 @@ table.details {
     float: right;
     margin: 0;
     border: none !important;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     width: auto;
     float: right;
     line-height: 1.2em;
