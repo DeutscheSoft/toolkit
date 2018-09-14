@@ -68,6 +68,8 @@ h4 {
     line-height: 1.5em;
     font-weight: bold;
     margin: 0;
+    display: inline-block;
+    width: 100%;
 }
 h5 {
     font-size: 1.15em;
