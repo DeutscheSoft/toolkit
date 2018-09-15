@@ -145,8 +145,8 @@ function is_class_name (str) {
 TK.Toggle = TK.class({
     /**
      * A toggle button. The toggle button can either be pressed (which means that it will
-     * switch its state as long as it is pressed) or toggled. Its behavior is controlled by
-     * the two options <code>press</code> and <code>toggle</code>.
+     * switch its state as long as it is pressed) or toggled permanently. Its behavior is
+     * controlled by the two options <code>press</code> and <code>toggle</code>.
      *
      * @class TK.Toggle
      * 
@@ -154,18 +154,17 @@ TK.Toggle = TK.class({
      *
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @property {Boolean} [options.state=false] - The state of the button.
-     * @property {Boolean} [options.toggle=true] - If true, the button is toggled by a click.
+     * @property {Boolean} [options.toggle=true] - If true, the button is toggled on click.
      * @property {Integer} [options.press=0] - Controls press behavior. If <code>options.toggle</code>
-     *   is <code>false</code> and this option is <code>true</code>, the toggle button will toggle until
+     *   is <code>false</code> and this option is <code>0</code>, the toggle button will toggle until
      *   released. If <code>options.toggle</code> is true and this option is a positive integer, it is
      *   interpreted as a milliseconds timeout. When pressing a button longer than this timeout, it will
-     *  be toggled until released, otherwise it will toggle permanently.
-     * @property {Integer} [options.delay] - Delay all actions for n milliseconds. While actions are
+     *   be toggled until released, otherwise it will be toggled permanently.
+     * @property {Integer} [options.delay=0] - Delay all actions for n milliseconds. While actions are
      *   delayed, the widget has class <code>toolkit-delayed</code>.
-     * @property {String} [options.icon_active] - An optional icon which is only displayed
+     * @property {String|Boolean} [options.icon_active=false] - An optional icon which is only displayed
      *   when the button toggle state is <code>true</code>.
-     * @property {String} [options.label_active] - An optional label which is only displayed
+     * @property {String|Boolean} [options.label_active=false] - An optional label which is only displayed
      *   when the button toggle state is <code>true</code>.
      */
     _class: "Toggle",
@@ -206,41 +205,11 @@ TK.Toggle = TK.class({
     redraw: function () {
         var O = this.options;
         var I = this.invalid;
-        var E = this.element;
-        var tmp;
-        
-        if (O.show_icon && (I.validate("icon_active", "icon") || I.state)) {
+        if (I.state) {
+            var tmp = (O.state && O.label_active) || O.label;
+            this.label.set("label", tmp);
             tmp = (O.state && O.icon_active) || O.icon;
-            var icon = this.icon.element;
-            
-            var old = this._icon_old;
-            if (old && is_class_name(old))
-                TK.remove_class(icon, old);
-            old = this._icon_active_old;
-            if (old && is_class_name(old))
-                TK.remove_class(icon, old);
-            TK.remove_class(icon, O.icon);
-            TK.remove_class(icon, O.icon_active);
-            
-            if (tmp) {
-                if (is_class_name(tmp)) {
-                    icon.style["background-image"] = null;
-                    TK.add_class(icon, tmp);
-                } else {
-                    icon.style["background-image"] = "url(\"" + tmp + "\")";
-                }
-            }
-            TK.toggle_class(E, "toolkit-has-icon", !!tmp);
-            I.icon = false;
-        }
-
-        if (O.show_label && (I.validate("label_active", "label") || I.state)) {
-            tmp = (O.state && O.label_active) || O.label;
-            if (tmp !== false) {
-                TK.set_content(this._label, tmp);
-            }
-            TK.toggle_class(E, "toolkit-has-label", !!tmp);
-            I.label = false;
+            this.icon.set("icon", tmp);
         }
         TK.Button.prototype.redraw.call(this);
     },
@@ -260,12 +229,6 @@ TK.Toggle = TK.class({
          * 
          * @param {boolean} state - The state of the {@link TK.Toggle}.
          */
-    },
-    set: function (key, val) {
-        if (key == "icon_active") {
-            this._icon_active_old = this.options.icon_active;
-        }
-        return TK.Button.prototype.set.call(this, key, val);
     },
 });
 })(this, this.TK);

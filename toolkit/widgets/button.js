@@ -23,7 +23,7 @@
 TK.Button = TK.class({
     /**
      * TK.Button is a simple, clickable widget to trigger funcions. It fires a
-     * couple of click-related events and consists of a label and an icon.
+     * couple of click-related events and consists of a {@link TK.Label} and a {@link TK.Icon}.
      * Buttons are used as a base to build different other widgets from, too,
      * e.g. {@link TK.Toggle}, {@link TK.ConfirmButton} and {@link TK.Select}.
      * 
@@ -34,7 +34,7 @@ TK.Button = TK.class({
      * @property {String|Boolean} [options.icon=false] - URL to an icon for the button OR
      *   icon class (see styles/fonts/Toolkit.html). If <code>false</code>, the icon
      *   is removed from DOM.
-     * @property {Boolean} [options.state=false] - TK.State of the button
+     * @property {Boolean} [options.state=false] - State of the button, is reflected as class <code>toolkit-active</code>.
      * @property {Integer} [options.layout="vertical"] - Define the arrangement
      *   of label and icon. <code>vertical</code> means icon above the label,
      *   <code>horizontal</code> places the icon left to the label.
@@ -74,11 +74,6 @@ TK.Button = TK.class({
          */
         this._cell  = TK.element("div","toolkit-cell");
         E.appendChild(this._cell);
-        
-        if (options.label)
-            this.options.show_label = true;
-        if (options.icon)
-            this.options.show_icon = true;
     },
     destroy: function () {
         TK.Widget.prototype.destroy.call(this);
@@ -100,18 +95,6 @@ TK.Button = TK.class({
             I.state = false;
             TK.toggle_class(E, "toolkit-active", O.state);
         }
-
-        /* FIXME: This case is not solved using the ChildElement API in order
-         * to support TK.Toggle */
-
-        if (O.show_label && I.validate("label")) {
-            var _label = this._label;
-            var has_value = O.label !== false;
-            if (has_value) {
-                TK.set_content(_label, O.label);
-            }
-            TK.toggle_class(this.element, "toolkit-has-label", has_value);
-        }
     },
 });
 /**
@@ -120,23 +103,22 @@ TK.Button = TK.class({
 TK.ChildWidget(TK.Button, "icon", {
     create: TK.Icon,
     option: "icon",
-    map_options: {icon:"icon"},
+    inherit_options: true,
     append: function() {
         this._cell.appendChild(this.icon.element);
     },
     toggle_class: true,
 });
 /**
- * @member {HTMLDivElement} TK.Button#_label - The label of the button.
- *      Has class <code>toolkit-label</code>.
+ * @member {TK.Label} TK.Button#label - The {@link TK.Label} of the button.
  */
-TK.ChildElement(TK.Button, "label", {
-    show: true,
+TK.ChildWidget(TK.Button, "label", {
+    create: TK.Label,
     option: "label",
     inherit_options: true,
-    map_options: {label:"label"},
     append: function() {
-        this._cell.appendChild(this._label);
+        this._cell.appendChild(this.label.element);
     },
+    toggle_class: true,
 });
 })(this, this.TK);

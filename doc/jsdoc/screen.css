@@ -296,10 +296,6 @@ nav#navigation div.navblock ul.itemsnav a i {
     top: calc(50% - 7px);
     left: 7px;
 }
-nav#navigation div.navblock ul.itemsnav a.active i {
-    color: #b00;
-    background: transparent;
-}
 
 /*
 nav#navigation div.navblock ul.itemsnav a.active::before {
@@ -425,10 +421,14 @@ dl.param-type {
 code {
     border-radius: 0;
     background: rgba(0, 0, 0, 0.1);
+    padding: 2px 4px;
 }
 table code {
-    background: none;
+    padding: 1px 2px;
+}
+table td:first-child code {
     padding: 0;
+    background: none;
 }
 .prettyprint {
     border-radius: 0;
