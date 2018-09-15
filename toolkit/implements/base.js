@@ -634,8 +634,10 @@ function get_child_options(parent, name, options, config) {
 function ChildWidget(widget, name, config) {
     
     /**
-     * Creates a {@link TK.Widget} as a child for another widget. Is used
-     * to simplify widget definitions. E.g. the {@link TK.Icon} of a
+     * @function TK.ChildWidget
+     *
+     * Defines a {@link TK.Widget} as a child for another widget. This function
+     * is used internally to simplify widget definitions. E.g. the {@link TK.Icon} of a
      * {@link TK.Button} is defined as a TK.ChildWidget. TK.ChildWidgets
      * are created/added after the initialization of the parent widget.
      * If not configured otherwise, all options of the child widget can
@@ -792,11 +794,14 @@ function ChildWidget(widget, name, config) {
 }
 TK.add_static_event = add_static_event;
 TK.ChildWidget = ChildWidget;
+
 function ChildElement(widget, name, config) {
     /**
+     * @function TK.ChildElement
+     *
      * Creates a HTMLElement as a child for a widget. Is used to simplify
      * widget definitions. E.g. the tiny marker used to display the back-end
-     * value is a simple DIV added as a TK.VChildElement. The generic element
+     * value is a simple DIV added using TK.ChildElement. The generic element
      * is a DIV added to TK.Widget.element with the class
      * <code>toolkit-[name]</code>. Default creating and adding can be
      * overwritten with custom callback functions.
