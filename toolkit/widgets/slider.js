@@ -76,7 +76,7 @@ function set_background(horiz, vert, size) {
  * in the background image
  * @property {String} [options.alignment="horizontal"] - The direction
  * of the frames in the image, next to ("horizontal") or among each other ("vertical")
- * 
+ * @property {String} image - The image containing all frames for the slider.
  */
 TK.Slider = TK.class({
     _class: "Slider",
@@ -88,6 +88,7 @@ TK.Slider = TK.class({
         value: "number",
         frames: "int",
         alignment: "string",
+        image: "string",
         _width: "number",
         _height: "number",
         
@@ -96,6 +97,7 @@ TK.Slider = TK.class({
         value: 0,
         frames: 1,
         alignment: "horizontal",
+        image: "",
         
         direction: "polar",
         rotation:       45,
@@ -150,8 +152,16 @@ TK.Slider = TK.class({
         var O = this.options;
         var E = this.element;
         
-        if (I.value) {
+        if (I.image) {
+            I.image = false;
+            this.element.style["background-image"] = "url('" + O.image + "')";
+            I.value = true;
+        }
+        
+        if (I.value || I.alignment || O.frames) {
             I.value = false;
+            I.alignment = false;
+            I.frames = false;
             var coef = this.val2coef(O.value);
             var frame = Math.round(Math.max(0, O.frames - 1) * coef);
             switch (O.alignment) {
@@ -183,10 +193,8 @@ TK.Slider = TK.class({
                 value = this.snap(value);
                 break;
         }
-        if (!TK.Widget.prototype._options[key]) {
-            if (TK.DragValue.prototype._options[key])
-                this.drag.set(key, value);
-        }
+        if (TK.DragValue.prototype._options[key])
+            this.drag.set(key, value);
         return TK.Widget.prototype.set.call(this, key, value);
     },
 });
