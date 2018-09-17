@@ -208,7 +208,8 @@ nav#navigation {
     position: fixed;
     top: 40px;
     left: 0;
-    bottom: 40px;
+    bottom: 0px;
+    height: auto;
 }
 nav#navigation .navblock {
     
