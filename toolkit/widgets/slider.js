@@ -76,7 +76,8 @@ function set_background(horiz, vert, size) {
  * in the background image
  * @property {String} [options.alignment="horizontal"] - The direction
  * of the frames in the image, next to ("horizontal") or among each other ("vertical")
- * @property {String} image - The image containing all frames for the slider.
+ * @property {String} options.image - The image containing all frames for the slider.
+ * 
  */
 TK.Slider = TK.class({
     _class: "Slider",
