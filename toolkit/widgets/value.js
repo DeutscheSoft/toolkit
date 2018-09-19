@@ -43,6 +43,7 @@ function value_clicked(e) {
     this._input.setAttribute("value", this.options.value);
     this.__editing = true;
     this._input.focus();
+    this._input.setSelectionRange(0, this._input.value.length)
     /**
      * Is fired when the value was clicked.
      * 
