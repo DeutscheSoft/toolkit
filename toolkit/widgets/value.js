@@ -30,6 +30,7 @@
 "use strict";
 (function(w, TK){
 function value_clicked(e) {
+    var O = this.options;
     // TODO: FIXME by finishing the dedicated keyboard widget
     if (toolkit.os() === "Android") {
         e.preventDefault();
@@ -37,13 +38,14 @@ function value_clicked(e) {
         return false;
     }
     // TODO
-    if (this.options.set === false) return;
+    if (O.set === false) return;
     if (this.__editing) return false;
     TK.add_class(this.element, "toolkit-active");
-    this._input.setAttribute("value", this.options.value);
+    this._input.setAttribute("value", O.value);
     this.__editing = true;
     this._input.focus();
-    this._input.setSelectionRange(0, this._input.value.length)
+    if (O.auto_select)
+        this._input.setSelectionRange(0, this._input.value.length)
     /**
      * Is fired when the value was clicked.
      * 
@@ -51,7 +53,7 @@ function value_clicked(e) {
      * 
      * @param {number} value - The value of the widget.
      */
-    this.fire_event("valueclicked", this.options.value);
+    this.fire_event("valueclicked", O.value);
 }
 function value_typing(e) {
     var O = this.options;
@@ -135,6 +137,8 @@ function submit_cb(e) {
  * @property {Integer} [options.maxlength] - Maxlength attribute of the INPUT element.
  * @property {Function} [options.set=function (val) { return parseFloat(val || 0); }] -
  *   A function which is called to parse user input.
+ * @property {boolean} [options.auto_select=false] - Select the entire text in the entry field if clicked (new in v1.3).
+ * 
  */
 TK.Value = TK.class({
     _class: "Value",
@@ -145,6 +149,7 @@ TK.Value = TK.class({
         size: "number",
         maxlength: "int",
         set: "object|function|boolean",
+        auto_select: "boolean"
     }),
     options: {
         value: 0,
@@ -154,7 +159,8 @@ TK.Value = TK.class({
         // set a callback function if value is editable or
         // false to disable editing. A function has to return
         // the value treated by the parent widget.
-        set: function (val) { return parseFloat(val || 0); }
+        set: function (val) { return parseFloat(val || 0); },
+        auto_select: false
     },
     static_events: {
         submit: submit_cb,
