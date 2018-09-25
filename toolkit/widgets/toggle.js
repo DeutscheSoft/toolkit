@@ -207,9 +207,11 @@ TK.Toggle = TK.class({
         var I = this.invalid;
         if (I.state) {
             var tmp = (O.state && O.label_active) || O.label;
-            this.label.set("label", tmp);
+            if (tmp)
+                this.label.set("label", tmp || "");
             tmp = (O.state && O.icon_active) || O.icon;
-            this.icon.set("icon", tmp);
+            if (tmp)
+                this.icon.set("icon", tmp || "");
         }
         TK.Button.prototype.redraw.call(this);
     },
