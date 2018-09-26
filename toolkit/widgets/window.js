@@ -777,7 +777,7 @@ TK.ChildWidget(TK.Window, "header", {
 TK.ChildWidget(TK.Window, "footer", {
     create: TK.Container,
     toggle_class: true,
-    show: true,
+    show: false,
     option: "footer",
     default_options: { "class" : "toolkit-footer" },
     append : function () { build_footer.call(this); this.element.appendChild(this.footer.element); },
