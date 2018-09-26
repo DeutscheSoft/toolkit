@@ -526,6 +526,7 @@ TK.Window = TK.class({
         this.__status_to = false;
         init_position.call(this, this.options.open);
         this.set("maximize", this.options.maximize);
+        this.set("minimize", this.options.minimize);
     },
     
     /**
