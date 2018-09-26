@@ -788,7 +788,8 @@ function ChildWidget(widget, name, config) {
         }
     }
     if (!config.options) {
-        p._options[key] = "boolean";
+        if (!p._options[key])
+            p._options[key] = "boolean";
         p.options[key] = fixed || !!config.show;
     }
 }
