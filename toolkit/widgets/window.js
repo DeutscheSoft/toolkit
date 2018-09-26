@@ -736,7 +736,6 @@ var bfactory = function (name) {
             "click" : function (e) { (eval(name)).call(this.parent, e); },
             "mousedown" : function (e) { e.stopPropagation(); },
         },
-        fixed: true,
     });
 }
 var b = ["close", "minimize", "maximize", "maximizevertical", "maximizehorizontal", "shrink"];
