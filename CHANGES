@@ -57,6 +57,8 @@ o Window: All sub elements are real widgets now using the new ChildWidget API.
   The option "resizable" was dropped in favour of setting "resize"
   in "header" or "footer".
   
+o ValueKnob: All children are of class ChildWidget now. This breaks the
+  use of "label" option for TK.Label, had to be renamed to "title".
   
   
   TODO: startdrag and stopdrag events aren't fired in TK.Drag. This stops

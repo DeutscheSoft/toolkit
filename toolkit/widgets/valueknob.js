@@ -104,7 +104,7 @@ TK.ChildWidget(TK.ValueKnob, "label", {
     create: TK.Label,
     toggle_class: true,
     map_options: {
-        label: "label",
+        title: "label",
     },
 });
 /**
