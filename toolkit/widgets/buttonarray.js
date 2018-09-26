@@ -365,10 +365,15 @@ TK.ButtonArray = TK.class({
 
                     var btnrect  = S.buttons[show];
                     var clipsize = S.clip[subs];
-                    var listsize = S.buttons_pos[this.buttons.length-1][subd] +
+                    var listsize = 0;
+                    var btnsize = 0;
+                    var btnpos = 0;
+                    if (S.buttons.length) {
+                        listsize = S.buttons_pos[this.buttons.length-1][subd] +
                                    S.buttons[this.buttons.length-1][subs];
-                    var btnsize  = S.buttons[show][subs];
-                    var btnpos   = S.buttons_pos[show][subd];
+                        btnsize  = S.buttons[show][subs];
+                        btnpos   = S.buttons_pos[show][subd];
+                    }
                     
                     var p = (Math.max(0, Math.min(listsize - clipsize, btnpos - (clipsize / 2 - btnsize / 2))));
                     if (this.options.scroll) {
