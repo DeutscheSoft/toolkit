@@ -166,6 +166,7 @@ TK.Container = TK.class({
         H.push(false);
     },
     remove_child : function(child) {
+        if (!child) return;
         child.disable_draw();
         child.parent = null;
         var C = this.children;
