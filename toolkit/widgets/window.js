@@ -664,7 +664,7 @@ TK.Window = TK.class({
         TK.Container.prototype.redraw.call(this);
     },
     
-    set: function (key, value, hold) {
+    set: function (key, value) {
         if (key == "maximize") {
             if (value === false) value = this.options.maximize = {x: false, y: false};
             else if (value === true) value = this.options.maximize = {x: true, y: true};
@@ -687,7 +687,7 @@ TK.Window = TK.class({
                 break;
             
         }
-        return TK.Container.prototype.set.call(this, key, value, hold);
+        return TK.Container.prototype.set.call(this, key, value);
     }
 });
 

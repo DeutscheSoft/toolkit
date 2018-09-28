@@ -56,12 +56,12 @@ o Window: All sub elements are real widgets now using the new ChildWidget API.
   
   The option "resizable" was dropped in favour of setting "resize"
   in "header" or "footer".
+
+o Window: "resize" handle had to be renamed since it overwrote the resize function
+  handle. New identifier for the resize handle is "size".
   
 o ValueKnob: All children are of class ChildWidget now. This breaks the
   use of "label" option for TK.Label, had to be renamed to "title".
-  
-o Window: "resize" handle had to be renamed since it overwrote the resize function
-  handle. New identifier for the resize handle is "size".
   
   TODO: startdrag and stopdrag events aren't fired in TK.Drag. This stops
   Window from un-maximizing and other things.
