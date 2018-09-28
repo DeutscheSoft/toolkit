@@ -350,10 +350,10 @@ function build_from_const(element) {
         if (L[i] !== "spacer") {
             this.set("show_" + L[i], true);
             E.appendChild(this[L[i]].element);
-            if (L[i] == "resize" && !this.Resize && this.resize) {
+            if (L[i] == "size" && !this.Resize && this.size) {
                 this.Resize = new TK.Resize({
                     node          : this.element,
-                    handle        : this.resize.element,
+                    handle        : this.size.element,
                     min           : {x: O.min_width, y: O.min_height},
                     max           : {x: max_width.call(this), y: max_height.call(this)},
                     onResizestart : start_resize.bind(this),
@@ -743,11 +743,11 @@ var b = ["close", "minimize", "maximize", "maximizevertical", "maximizehorizonta
 
 b.map(bfactory);
 /**
- * @member {TK.Icon} TK.Window#resize - A {@link TK.Icon} acting as handle for window resize.
+ * @member {TK.Icon} TK.Window#size - A {@link TK.Icon} acting as handle for window resize.
  */
-TK.ChildWidget(TK.Window, "resize", {
+TK.ChildWidget(TK.Window, "size", {
     create: TK.Icon,
-    default_options: { "icon" : "windowresize", "class" : "toolkit-resize" },
+    default_options: { "icon" : "windowresize", "class" : "toolkit-size" },
 });
 /**
  * @member {TK.Container} TK.Window#content - A {@link TK.Container} for the window content.
