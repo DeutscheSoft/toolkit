@@ -665,22 +665,28 @@ TK.Window = TK.class({
     },
     
     set: function (key, value) {
+        var O = this.options;
+        var E = this.element;
+        
         if (key == "maximize") {
             if (value === false) value = this.options.maximize = {x: false, y: false};
             else if (value === true) value = this.options.maximize = {x: true, y: true};
             else value = Object.assign(this.options.maximize, value);
         }
-        this.options[key] = value;
+        O[key] = value;
         
         switch (key) {
             case "shrink":
-                this.options.maximize.y = false;
+                O.maximize.y = false;
                 break;
             case "minimize":
-                if (value)
-                    this.element.remove();
-                else
-                    this.set("container", this.options.container)
+                if (value) {
+                    if (!this.options.container && E.parentElement)
+                        O.container = E.parentElement;
+                    E.remove();
+                } else if (O.container) {
+                    this.set("container", O.container)
+                }
                 break;
             case "resizable":
                 this.Resize.set("active", value);
