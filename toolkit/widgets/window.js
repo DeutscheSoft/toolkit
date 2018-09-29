@@ -587,7 +587,6 @@ TK.Window = TK.class({
     resize: function () {
         this.Drag.set("min", {x: 0 - this.options.width + 20, y: 0});
         this.Drag.set("max", {x: TK.width() - 20, y: TK.height() - 20});
-        console.log("resize")
         TK.Container.prototype.resize.call(this);
     },
     
