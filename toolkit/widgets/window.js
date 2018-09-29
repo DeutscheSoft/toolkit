@@ -771,7 +771,6 @@ TK.ChildWidget(TK.Window, "header", {
     create: TK.Container,
     toggle_class: true,
     show: true,
-    option: "header",
     default_options: { "class" : "toolkit-header" },
     static_events: {
         "dblclick" : header_action,
@@ -785,7 +784,6 @@ TK.ChildWidget(TK.Window, "footer", {
     create: TK.Container,
     toggle_class: true,
     show: false,
-    option: "footer",
     default_options: { "class" : "toolkit-footer" },
     append : function () { build_footer.call(this); this.element.appendChild(this.footer.element); },
 });
