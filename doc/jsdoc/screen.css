@@ -2,7 +2,7 @@
  * the settings in jsdoc-default.css */
 
 h1, h2, h3, h4, h5, h6, input, textarea, body, a, button, select, option {
-    font-family: "Ubuntu", sans-serif !important;
+    font-family: "Ubuntu", sans-serif;
     color: #003050;
 }
 tt, code, kbd, samp {
@@ -404,6 +404,9 @@ dl.param-type {
     position: absolute;
     top: -16px;
     right: -16px;
+    font-size: 16px !important;
+    line-height: 16px !important;
+    padding: 8px;
 }
 
 .blinder {

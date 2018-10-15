@@ -123,9 +123,8 @@ function run_example () {
         container: blinder
     });
     var b = document.createElement("button");
-    b.setAttribute("class", "closebutton");
+    b.setAttribute("class", "closebutton toolkit-icon close");
     b.addEventListener("click", hide_root);
-    b.appendChild(document.createTextNode("Close"));
     window.example.root.element.appendChild(b);
     
     fun(window.example.root);
