@@ -74,6 +74,7 @@ Style Changes
 * Flex-Layout: The following widgets have a changed layout based on flex-box:
   * Button (_cell member was dropped, icon and label are direct flex children)
   * ButtonArray
+  * ValueKnob
   
 Version 1.1: Changes since version 1.0
 -----------------------------------------

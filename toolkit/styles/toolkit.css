@@ -655,9 +655,23 @@ pre, code {
 
 /* VALUEKNOB */
 
-.toolkit-valueknob > .toolkit-knob {
-    width: 100%;
-    height: 100%;
+.toolkit-valueknob {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.toolkit-valueknob > .toolkit-label {
+    flex: 0 0 auto;
+}
+.toolkit-valueknob > .toolkit.knob {
+    width: 100px;
+    height: 100px;
+    flex: 0 0 auto;
+}
+.toolkit-valueknob > .toolkit-value {
+    flex: 0 0 auto;
 }
 
 /* EXPANDER */
