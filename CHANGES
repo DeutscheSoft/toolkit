@@ -71,7 +71,8 @@ Style Changes
 
 * ValueButton: no overlay element in bar
 * ValueButton: classes for bar layout changed from toolkit-[direction] to toolkit-[direction]-bar
-
+* Flex-Layout: The following widgets have a changed layout based on flex-box:
+  * Button (_cell member was dropped, icon and label are direct flex children)
 
 Version 1.1: Changes since version 1.0
 -----------------------------------------

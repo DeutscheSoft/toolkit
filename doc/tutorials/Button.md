@@ -20,10 +20,4 @@
         });
         root.append_children([ button, button2, button3, button4 ]);
     }
-<pre class='css prettyprint source'><code>
-.toolkit-button .toolkit-icon {
-    width: 3em;
-    height: auto;
-}
-</code></pre>
 <script> prepare_example(); </script>

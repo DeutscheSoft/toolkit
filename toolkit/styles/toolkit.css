@@ -113,24 +113,38 @@ pre, code {
 
 /* BUTTON */
 
-.toolkit-button > .toolkit-cell > .toolkit-label,
-.toolkit-button > .toolkit-cell > .toolkit-icon {
+.toolkit-button {
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.toolkit-button > .toolkit-label,
+.toolkit-button > .toolkit-icon {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    display: none;
+    flex: 0 0 auto;
+    margin: auto;
 }
-.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-cell > .toolkit-label {
-    display: block;
+.toolkit-button > .toolkit-icon {
+    background-position: center center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -ms-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+    order: 1;
 }
-.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-cell > .toolkit-label {
-    display: inline-block;
+.toolkit-button > .toolkit-label {
+    order: 2;
 }
-.toolkit-button.toolkit-has-icon > .toolkit-cell > .toolkit-icon {
-    display: inline-block;
+.toolkit-button.toolkit-vertical {
+    flex-direction: column;
 }
 
 /* BUTTONARRAY */

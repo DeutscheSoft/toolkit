@@ -31,10 +31,7 @@
     -webkit-border-radius: 6px;
     -moz-border-radius:    6px;
     border-radius:         6px;
-    cursor: pointer;
     text-decoration: none;
-    display: inline-table;
-    text-align: center;
     box-sizing: border-box;
     transition: border 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 }
@@ -56,38 +53,17 @@
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/gradients/grey_in.png',sizingMethod='scale');
 }
 
-.toolkit-button.toolkit-horizontal > .toolkit-cell > * {
-    vertical-align: middle;
-}
-
-.toolkit-button > .toolkit-cell {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    position: relative;
-}
-.toolkit-button.toolkit-horizontal > .toolkit-cell {
-    white-space: nowrap;
-}
-.toolkit-button > .toolkit-cell > .toolkit-label {
+.toolkit-button > .toolkit-label {
     line-height: 1.1em;
     text-align: center;
     margin: auto;
     padding: 0 3px;
     transition: background 0.33s ease-in-out, color 0.33s ease-in-out;
-    -webkit-border-radius: 4px;
-    -moz-border-radius:    4px;
-    border-radius:         4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius:    3px;
+    border-radius:         3px;
 }
-.toolkit-button > .toolkit-cell > .toolkit-icon {
-    margin: auto;
-    background-position: center center;
-    -webkit-background-size: contain;
-    -moz-background-size: contain;
-    -ms-background-size: contain;
-    -o-background-size: contain;
-    background-size: contain;
-    background-repeat: no-repeat;
+.toolkit-button > .toolkit-icon {
     color: #aaaaaa;
     width: 32px;
     height: 32px;
@@ -95,21 +71,21 @@
     line-height: 32px;
 }
 
-.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-cell >  .toolkit-icon {
+.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-icon {
     margin-bottom: 5px;
 }
-.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-cell >  .toolkit-icon {
+.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-icon {
     margin-right: 5px;
 }
 
 .toolkit-button.toolkit-active {
     border: 1px solid #002f42;
 }
-.toolkit-button.toolkit-active > .toolkit-cell >  .toolkit-label {
+.toolkit-button.toolkit-active > .toolkit-label {
     background-color: #002f42;
     color: white;
     text-shadow: 0px -1px 0px black;
 }
-.toolkit-button.toolkit-active > .toolkit-cell >  .toolkit-icon {
+.toolkit-button.toolkit-active > .toolkit-icon {
     
 }
