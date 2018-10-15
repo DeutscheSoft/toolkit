@@ -237,6 +237,7 @@ nav#navigation div.navblock ul.itemsnav a {
     -ms-transition: background 0.33s;
     transition: background 0.33s, color 0.33s;
     position: relative;
+    font-family: "Ubuntu", sans-serif;
 }
 nav#navigation div.navblock ul.itemsnav a:hover {
     background: #ccc;
