@@ -21,25 +21,7 @@
 }
 
 .toolkit-buttonarray.toolkit-vertical {
-    height: 100%;
     text-align: left;
-}
-
-.toolkit-buttonarray.toolkit-horizontal {
-    width: 100%;
-}
-
-.toolkit-buttonarray > .toolkit-previous {
-     margin: 0;
-}
-.toolkit-buttonarray > .toolkit-next {
-     margin: 0;
-}
-.toolkit-buttonarray.toolkit-vertical > .toolkit-previous {
-    
-}
-.toolkit-buttonarray.toolkit-vertical > .toolkit-next {
-    
 }
 .toolkit-buttonarray.toolkit-horizontal > .toolkit-previous {
     width: 40px;
