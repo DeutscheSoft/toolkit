@@ -17,9 +17,8 @@
  * Boston, MA  02110-1301  USA
  */
 
-.toolkit-button > .toolkit-cell > .toolkit-icon {
+.toolkit-icon {
     margin: auto;
-    color: #aaaaaa;
     width: 32px;
     height: 32px;
     font-size: 32px;
