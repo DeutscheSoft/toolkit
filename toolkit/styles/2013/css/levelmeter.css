@@ -29,97 +29,15 @@
     background-color: #f60 !important;
     margin: 0;
 }
-.toolkit-level-meter.toolkit-has-clip > .toolkit-clip {
-    display: block;
-}
-
-.toolkit-level-meter.toolkit-vertical > .toolkit-clip {
-    top: 2px;
-    left: 3px;
-    right: 3px;
-    height: 10px;
-}
-
-
-.toolkit-level-meter.toolkit-top.toolkit-has-label > .toolkit-clip,
-.toolkit-level-meter.toolkit-top.toolkit-has-title > .toolkit-clip {
-    bottom: calc(1.2em + 5px + 5px);
-}
-.toolkit-level-meter.toolkit-top.toolkit-has-scale > .toolkit-clip {
-    bottom: calc(20px + 5px);
-}
-.toolkit-level-meter.toolkit-top.toolkit-has-label.toolkit-has-scale > .toolkit-clip,
-.toolkit-level-meter.toolkit-top.toolkit-has-title.toolkit-has-scale > .toolkit-clip {
-    bottom: calc(1.2em + 5px + 5px + 20px);
-}
-
-.toolkit-level-meter.toolkit-bottom.toolkit-has-label > .toolkit-clip,
-.toolkit-level-meter.toolkit-bottom.toolkit-has-title > .toolkit-clip {
-    top: calc(1.2em + 5px + 5px);
-}
-.toolkit-level-meter.toolkit-bottom.toolkit-has-scale > .toolkit-clip {
-    top: calc(20px + 5px);
-}
-.toolkit-level-meter.toolkit-bottom.toolkit-has-label.toolkit-has-scale > .toolkit-clip,
-.toolkit-level-meter.toolkit-bottom.toolkit-has-title.toolkit-has-scale > .toolkit-clip {
-    top: calc(1.2em + 5px + 5px + 20px);
-}
-
-.toolkit-level-meter.toolkit-vertical.toolkit-has-label > .toolkit-clip {
-    top: calc(5px + 1.2em + 2px);
-}
-.toolkit-level-meter.toolkit-left.toolkit-has-scale > .toolkit-clip {
-    right: 32px;
-}
-.toolkit-level-meter.toolkit-right.toolkit-has-scale > .toolkit-clip {
-    left: 32px;
-}
-
 .toolkit-level-meter.toolkit-horizontal > .toolkit-clip {
-    top: 2px;
-    right: 3px;
-    bottom: 2px;
+    height: 32px;
     width: 8px;
-}
-.toolkit-level-meter.toolkit-has-label.toolkit-horizontal > .toolkit-clip,
-.toolkit-level-meter.toolkit-has-title.toolkit-horizontal > .toolkit-clip {
-    bottom: 2px;
-}
-
-/* SCALE */
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-horizontal > .toolkit-scale {
-    right: calc(3px + 5px + 5px);
-}
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-vertical > .toolkit-scale {
-    top: calc(5px + 11px + 2px);
-}
-.toolkit-level-meter.toolkit-has-clip.toolkit-has-label.toolkit-vertical > .toolkit-scale {
-    top: calc(5px + 1.2em + 11px + 2px);
-}
-
-
-/* BAR */
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-horizontal > .toolkit-bar {
-    right: calc(5px + 5px + 3px);
-}
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-vertical > .toolkit-bar {
-    top: calc(5px + 5px + 4px);
-}
-.toolkit-level-meter.toolkit-has-clip.toolkit-has-label.toolkit-vertical > .toolkit-bar {
-    top: calc(5px + 1.2em + 11px + 2px);
 }
 
 /* PEAK */
 
 .toolkit-level-meter > .toolkit-bar > .toolkit-peak {
     line-height: 16px;
-}
-.toolkit-level-meter.toolkit-has-peak > .toolkit-bar > .toolkit-peak {
-    
 }
 
 .toolkit-level-meter.toolkit-vertical > .toolkit-bar > .toolkit-peak {

@@ -58,15 +58,4 @@
         });
         root.append_children([ mbvl, mbvr, mbhb, mbht ]);
     }
-<pre class='css prettyprint source'><code>
-.toolkit-meter-base.toolkit-vertical {
-    height: 280px;
-    float: left;
-}
-.toolkit-meter-base.toolkit-horizontal {
-    width: 500px;
-    float: left;
-    height: 137px;
-}
-</code></pre>
 <script> prepare_example(); </script>

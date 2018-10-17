@@ -55,7 +55,7 @@
 /* VERTICAL */
 
 .toolkit-scale.toolkit-vertical {
-    width: 32px;
+    width: 40px;
 }
 .toolkit-scale.toolkit-vertical > .toolkit-label {
 }
@@ -164,7 +164,7 @@
 /* HORIZONTAL */
 
 .toolkit-scale.toolkit-horizontal {
-    height: 15px;
+    height: 24px;
 }
 .toolkit-scale.toolkit-horizontal > .toolkit-label {
 }

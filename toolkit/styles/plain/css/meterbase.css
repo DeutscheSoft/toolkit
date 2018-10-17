@@ -30,44 +30,15 @@
     background-image: url(../images/meterbase/bevel_strong_vertical.png);
     background-image: url(../images/meterbase/bevel_soft_horizontal.png);
     background-image: url(../images/meterbase/bevel_strong_horizontal.png);
-    
-    
-    
-    REMINDER
-    scale-height: 20px
-    scale-width: 32px
-    text-height: 1.2em
-    margin: 5px
-    bar-margin-x: 3px
-    bar-margin-y: 2px
-    
 */
 
 /* BASE */
 
 .toolkit-meter-base {
-    padding: 0;
+    padding: 4px;
+    margin: 4px;
 }
-.toolkit-meter-base.toolkit-vertical {
-    width: 64px;
-    height: 320px;
-}
-.toolkit-meter-base.toolkit-horizontal {
-    width: 320px;
-    height: 64px;
-}
-.toolkit-meter-base.toolkit-left {
-    margin: 10px 10px 10px 2px;
-}
-.toolkit-meter-base.toolkit-right {
-    margin: 10px 2px 10px 10px;
-}
-.toolkit-meter-base.toolkit-top {
-    margin: 2px 10px 10px 10px;
-}
-.toolkit-meter-base.toolkit-bottom {
-    margin: 10px 10px 2px 10px;
-}
+
 /* LABEL */
 
 .toolkit-meter-base > .toolkit-label {
@@ -75,35 +46,6 @@
     height: 1.2em;
     overflow: visible;
     font-size: 0.8em;
-}
-.toolkit-meter-base.toolkit-has-label > .toolkit-label {
-    display: block;
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-label {
-    text-align: center;
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-label {
-    text-align: right;
-}
-.toolkit-meter-base.toolkit-top > .toolkit-label {
-    left: 49%;
-    right: 0px;
-    bottom: 0px;
-}
-.toolkit-meter-base.toolkit-right > .toolkit-label {
-    left: calc(32px + 2px);
-    right: 0px;
-    top: 0px;
-}
-.toolkit-meter-base.toolkit-bottom > .toolkit-label {
-    left: 49%;
-    right: 0px;
-    top: 0px;
-}
-.toolkit-meter-base.toolkit-left > .toolkit-label {
-    left: 0px;
-    right: calc(32px + 2px);
-    top: 0px;
 }
 
 /* TITLE */
@@ -114,174 +56,21 @@
     overflow: visible;
     font-size: 0.8em;
 }
-.toolkit-meter-base.toolkit-has-title > .toolkit-title {
-    
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-title {
-    text-align: center;
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-title {
-    text-align: left;
-}
-.toolkit-meter-base.toolkit-top > .toolkit-title {
-    left: 0px;
-    right: 49%;
-    bottom: 0px;
-}
-.toolkit-meter-base.toolkit-right > .toolkit-title {
-    left: calc(32px + 2px);
-    right: 0px;
-    bottom: 0px;
-}
-.toolkit-meter-base.toolkit-bottom > .toolkit-title {
-    left: 0px;
-    right: 49%;
-    top: 0px;
-}
-.toolkit-meter-base.toolkit-left > .toolkit-title {
-    left: 0px;
-    right: calc(32px + 2px);
-    bottom: 0px;
-}
 
 /* SCALE */
 
 .toolkit-meter-base > .toolkit-scale {
     
 }
-.toolkit-meter-base.toolkit-vertical > .toolkit-scale {
-    width: 32px;
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-scale {
-    height: 20px;
-}
-.toolkit-meter-base.toolkit-has-scale > .toolkit-scale {
-    
-}
-
-.toolkit-meter-base.toolkit-top > .toolkit-scale {
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-}
-.toolkit-meter-base.toolkit-right > .toolkit-scale {
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
-}
-.toolkit-meter-base.toolkit-bottom > .toolkit-scale {
-    left: 0px;
-    right: 0px;
-    top: 0px;
-}
-.toolkit-meter-base.toolkit-left > .toolkit-scale {
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-}
-
-.toolkit-meter-base.toolkit-top.toolkit-has-label > .toolkit-scale,
-.toolkit-meter-base.toolkit-top.toolkit-has-title > .toolkit-scale {
-    bottom: 1.2em;
-}
-.toolkit-meter-base.toolkit-bottom.toolkit-has-label > .toolkit-scale,
-.toolkit-meter-base.toolkit-bottom.toolkit-has-title > .toolkit-scale {
-    top: 1.2em;
-}
-
-.toolkit-meter-base.toolkit-vertical.toolkit-has-label > .toolkit-scale {
-    top: 1.2em;
-}
-.toolkit-meter-base.toolkit-vertical.toolkit-has-title > .toolkit-scale {
-    bottom: 1.2em;
-}
-
-.toolkit-meter-base > .toolkit-scale > .toolkit-label.toolkit-base {
-    
-}
 
 /* BAR */
 
 .toolkit-meter-base > .toolkit-bar {
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background-clip: padding-box !important;
-}
-
-.toolkit-meter-base.toolkit-top.toolkit-has-label > .toolkit-bar,
-.toolkit-meter-base.toolkit-top.toolkit-has-title > .toolkit-bar {
-    bottom: 1.2em;
-}
-.toolkit-meter-base.toolkit-top.toolkit-has-scale > .toolkit-bar {
-    bottom: calc(20px + 2px);
-}
-.toolkit-meter-base.toolkit-top.toolkit-has-label.toolkit-has-scale > .toolkit-bar,
-.toolkit-meter-base.toolkit-top.toolkit-has-title.toolkit-has-scale > .toolkit-bar {
-    bottom: calc(1.2em + 20px + 2px);
-}
-
-.toolkit-meter-base.toolkit-bottom.toolkit-has-label > .toolkit-bar,
-.toolkit-meter-base.toolkit-bottom.toolkit-has-title > .toolkit-bar {
-    top: 1.2em;
-}
-.toolkit-meter-base.toolkit-bottom.toolkit-has-scale > .toolkit-bar {
-    top: calc(20px + 2px);
-}
-.toolkit-meter-base.toolkit-bottom.toolkit-has-label.toolkit-has-scale > .toolkit-bar,
-.toolkit-meter-base.toolkit-bottom.toolkit-has-title.toolkit-has-scale > .toolkit-bar {
-    top: calc(1.2em + 20px + 2px);
-}
-
-.toolkit-meter-base.toolkit-vertical.toolkit-has-label > .toolkit-bar {
-    top: calc(1.2em + 2px);
-}
-.toolkit-meter-base.toolkit-vertical.toolkit-has-title > .toolkit-bar {
-    bottom: calc(1.2em + 2px);
-}
-.toolkit-meter-base.toolkit-left.toolkit-has-scale > .toolkit-bar {
-    right: calc(32px + 2px);
-}
-.toolkit-meter-base.toolkit-right.toolkit-has-scale > .toolkit-bar {
-    left: calc(32px + 2px);
-}
-
-/* OVER */
-
-.toolkit-meter-base > .toolkit-bar > .toolkit-over {
-    
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-over {
-    
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-over {
     
 }
 
 /* MASK */
 
 .toolkit-meter-base > .toolkit-bar > .toolkit-mask {
-    
-}
-
-/* MARK */
-
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark {
-    
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot {
-    
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-marker,
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-min,
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-max,
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark > .toolkit-dot.toolkit-base {
-    
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mark > .toolkit-dot {
-    
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mark > .toolkit-dot {
     
 }

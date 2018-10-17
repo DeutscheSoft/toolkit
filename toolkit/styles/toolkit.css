@@ -260,25 +260,176 @@ pre, code {
     background-repeat: no-repeat;
 }
 
-/* LEVELMETER */
+/* METERBASE */
 
-.toolkit-level-meter > .toolkit-clip {
-    display: none;
-    position: absolute;
-    margin: 0;
-    width: auto;
-    height: auto;
+.toolkit-meter-base {
+    display: inline-grid;
+    overflow: hidden;
 }
-.toolkit-level-meter.toolkit-has-clip > .toolkit-clip {
-    display: block;
+.toolkit-meter-base.toolkit-vertical {
+    height: 320px;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto 1fr auto;
+}
+.toolkit-meter-base.toolkit-horizontal {
+    width: 320px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+}
+.toolkit-meter-base.toolkit-top {
+    grid-template-areas:
+        "bar bar"
+        "scale scale"
+        "title label";
+}
+.toolkit-meter-base.toolkit-bottom {
+    grid-template-areas:
+        "title label"
+        "scale scale"
+        "bar bar";
+}
+.toolkit-meter-base.toolkit-left {
+    grid-template-areas:
+        "label ."
+        "bar scale"
+        "title .";
+}
+.toolkit-meter-base.toolkit-right {
+    grid-template-areas:
+        ". label"
+        "scale bar"
+        ". title";
+}
+.toolkit-meter-base > .toolkit-label {
+    grid-area: label;
+    white-space: nowrap;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-label {
+    justify-self: end;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-label {
+    justify-self: center;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-title {
+    grid-area: title;
+    white-space: nowrap;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-title {
+    justify-self: start;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-title {
+    justify-self: center;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-scale {
+    grid-area: scale;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-scale {
+    height: 100%;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-scale {
+    width: 100%;
+}
+.toolkit-meter-base.toolkit-top > .toolkit-scale {
+    justify-self: center;
+    align-self: start;
+}
+.toolkit-meter-base.toolkit-bottom > .toolkit-scale {
+    justify-self: center;
+    align-self: end;
+}
+.toolkit-meter-base.toolkit-left > .toolkit-scale {
+    justify-self: start;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-right > .toolkit-scale {
+    justify-self: end;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-bar {
+    grid-area: bar;
+    position: relative;
+    overflow: hidden;
+    contain: style layout;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar {
+    height: 100%;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar {
+    width: 100%;
+}
+.toolkit-meter-base.toolkit-top > .toolkit-bar {
+    justify-self: center;
+    align-self: end;
+}
+.toolkit-meter-base.toolkit-bottom > .toolkit-bar {
+    justify-self: center;
+    align-self: start;
+}
+.toolkit-meter-base.toolkit-left > .toolkit-bar {
+    justify-self: end;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-right > .toolkit-bar {
+    justify-self: start;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-bar > .toolkit-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+/* LEVELMETER */
+.toolkit-level-meter.toolkit-vertical {
+    height: 320px;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto 1fr auto;
+}
+.toolkit-level-meter.toolkit-horizontal {
+    width: 320px;
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-rows: auto auto auto;
+}
+.toolkit-level-meter.toolkit-top {
+    grid-template-areas:
+        "bar bar clip"
+        "scale scale ."
+        "title label label";
+}
+.toolkit-level-meter.toolkit-bottom {
+    grid-template-areas:
+        "title label label"
+        "scale scale ."
+        "bar bar clip";
+}
+.toolkit-level-meter.toolkit-left {
+    grid-template-areas:
+        "label ."
+        "clip ."
+        "bar scale"
+        "title .";
+}
+.toolkit-level-meter.toolkit-right {
+    grid-template-areas:
+        ". label"
+        ". clip"
+        "scale bar"
+        ". title";
+}
+.toolkit-level-meter > .toolkit-clip {
+    grid-area: clip;
 }
 .toolkit-level-meter > .toolkit-bar > .toolkit-peak {
     position: absolute;
     z-index: 1000;
-    display: none;
-}
-.toolkit-level-meter.toolkit-has-peak > .toolkit-bar > .toolkit-peak {
-    display: block;
 }
 
 .toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
@@ -296,70 +447,6 @@ pre, code {
 }
 .toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
     float: left;
-}
-
-/* METERBASE */
-
-.toolkit-meter-base {
-    position: relative;
-}
-.toolkit-meter-base .toolkit-label {
-    position: absolute;
-    display: none;
-    white-space: nowrap;
-}
-.toolkit-meter-base.toolkit-has-label > .toolkit-label {
-    display: block;
-}
-.toolkit-meter-base > .toolkit-title {
-    position: absolute;
-    display: none;
-    white-space: nowrap;
-}
-.toolkit-meter-base.toolkit-has-title > .toolkit-title {
-    display: block;
-}
-.toolkit-meter-base > .toolkit-scale {
-    position: absolute;
-    display: none;
-}
-.toolkit-meter-base.toolkit-has-scale > .toolkit-scale {
-    display: block;
-}
-.toolkit-meter-base > .toolkit-bar {
-    position: absolute;
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-over {
-    position: absolute;
-    width:    100%;
-    height:   100%;
-    z-index:  100;
-    background-position: bottom left;
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-mask {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark {
-    position: absolute;
-    width:    100%;
-    height:   100%;
-    z-index:  10;
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mark > .toolkit-dot {
-    width: 100%;
-    height: 1px;
-    margin-top: 0px;
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mark > .toolkit-dot {
-    width: 1px;
-    height: 100%;
-    margin-left: 0px;
 }
 
 /* PAGER */
