@@ -561,8 +561,8 @@ TK.Circular = TK.class({
     // GETTERS & SETTERS
     set: function (key, value) {
         switch (key) {
-        case "dots":
-        case "markers":
+        case "dot":
+        case "marker":
         case "label":
             value = Object.assign(this.options[key], value);
             break;
