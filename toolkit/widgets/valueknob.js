@@ -102,6 +102,7 @@ TK.ValueKnob = TK.class({
  */
 TK.ChildWidget(TK.ValueKnob, "label", {
     create: TK.Label,
+    option: "title",
     toggle_class: true,
     option: "title",
     map_options: {
