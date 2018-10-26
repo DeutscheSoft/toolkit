@@ -62,3 +62,6 @@
 .toolkit-icon.gear::before                                 { content: 'k'; }
 .toolkit-icon.cogwheel::before                             { content: 'k'; }
 .toolkit-icon.cog::before                                  { content: 'k'; }
+.toolkit-icon.power::before                                { content: 'l'; }
+.toolkit-icon.phase::before                                { content: 'm'; }
+.toolkit-icon.phaseinvert::before                          { content: 'm'; }
