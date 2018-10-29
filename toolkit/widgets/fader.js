@@ -374,6 +374,7 @@ TK.ChildWidget(TK.Fader, "label", {
     create: TK.Label,
     show: false,
     toggle_class: true,
+    option: "label",
     map_options: {
         label: "label",
     },
