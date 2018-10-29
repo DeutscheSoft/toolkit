@@ -27,88 +27,11 @@
 .toolkit-level-meter > .toolkit-clip {
     margin: 0;
 }
-.toolkit-level-meter.toolkit-has-clip > .toolkit-clip {
-    display: block;
-}
-
 .toolkit-level-meter.toolkit-vertical > .toolkit-clip {
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    height: 4px;
+    margin-left: 4px;
 }
-
-
-.toolkit-level-meter.toolkit-top.toolkit-has-label > .toolkit-clip,
-.toolkit-level-meter.toolkit-top.toolkit-has-title > .toolkit-clip {
-    bottom: calc(1.2em);
-}
-.toolkit-level-meter.toolkit-top.toolkit-has-scale > .toolkit-clip {
-    bottom: calc(20px + 2px);
-}
-.toolkit-level-meter.toolkit-top.toolkit-has-label.toolkit-has-scale > .toolkit-clip,
-.toolkit-level-meter.toolkit-top.toolkit-has-title.toolkit-has-scale > .toolkit-clip {
-    bottom: calc(1.2em + 20px + 2px);
-}
-
-.toolkit-level-meter.toolkit-bottom.toolkit-has-label > .toolkit-clip,
-.toolkit-level-meter.toolkit-bottom.toolkit-has-title > .toolkit-clip {
-    top: calc(1.2em);
-}
-.toolkit-level-meter.toolkit-bottom.toolkit-has-scale > .toolkit-clip {
-    top: calc(20px + 2px);
-}
-.toolkit-level-meter.toolkit-bottom.toolkit-has-label.toolkit-has-scale > .toolkit-clip,
-.toolkit-level-meter.toolkit-bottom.toolkit-has-title.toolkit-has-scale > .toolkit-clip {
-    top: calc(1.2em + 2px + 20px);
-}
-
-.toolkit-level-meter.toolkit-vertical.toolkit-has-label > .toolkit-clip {
-    top: calc(1.2em);
-}
-.toolkit-level-meter.toolkit-left.toolkit-has-scale > .toolkit-clip {
-    right: calc(32px + 2px);
-}
-.toolkit-level-meter.toolkit-right.toolkit-has-scale > .toolkit-clip {
-    left: calc(32px + 2px);
-}
-
-.toolkit-level-meter.toolkit-horizontal > .toolkit-clip {
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    width: 5px;
-}
-.toolkit-level-meter.toolkit-has-label.toolkit-horizontal > .toolkit-clip,
-.toolkit-level-meter.toolkit-has-title.toolkit-horizontal > .toolkit-clip {
-    bottom: 0px;
-}
-
-/* SCALE */
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-horizontal > .toolkit-scale {
-    right: calc(3px + 5px + 5px);
-}
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-vertical > .toolkit-scale {
-    top: calc(5px + 11px + 2px);
-}
-.toolkit-level-meter.toolkit-has-clip.toolkit-has-label.toolkit-vertical > .toolkit-scale {
-    top: calc(5px + 1.2em + 11px + 2px);
-}
-
-
-/* BAR */
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-horizontal > .toolkit-bar {
-    right: calc(4px + 2px);
-}
-
-.toolkit-level-meter.toolkit-has-clip.toolkit-vertical > .toolkit-bar {
-    top: calc(4px + 2px);
-}
-.toolkit-level-meter.toolkit-has-clip.toolkit-has-label.toolkit-vertical > .toolkit-bar {
-    top: calc(1.2em + 4px + 2px);
+.toolkit-level-meter.toolkit-vertical > .toolkit-clip {
+    margin-bottom: 4px;
 }
 
 /* PEAK */
