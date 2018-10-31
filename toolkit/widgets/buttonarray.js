@@ -343,10 +343,9 @@ TK.ButtonArray = TK.class({
                 if (this.buttons.length)
                     listsize = S.buttons_pos[this.buttons.length-1][subd] +
                                S.buttons[this.buttons.length-1][subs];
-
-                if (listsize > clipsize) {
+                if (Math.round(listsize) > Math.round(clipsize)) {
                     show_arrows.call(this);
-                } else if (listsize < clipsize) {
+                } else if (Math.round(listsize) <= Math.round(clipsize)) {
                     hide_arrows.call(this);
                 }
             } else if (!O.auto_arrows) {
