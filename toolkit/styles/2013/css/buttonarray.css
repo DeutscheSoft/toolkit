@@ -82,7 +82,6 @@ s    -webkit-border-radius: 6px;
 }
 .toolkit-buttonarray > .toolkit-clip > .toolkit-container > .toolkit-button > .toolkit-label {
     white-space: nowrap;
-    display: block;
     width: 100%;
     box-sizing: border-box;
 }
@@ -90,7 +89,7 @@ s    -webkit-border-radius: 6px;
     height: 100%;
 }
 .toolkit-buttonarray.toolkit-vertical > .toolkit-clip > .toolkit-container > .toolkit-button {
-    display: block;
+    display: flex;
     width: 100%;
     background: none;
 }
