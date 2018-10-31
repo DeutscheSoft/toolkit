@@ -567,11 +567,21 @@ pre, code {
 
 /* SELECT */
 
-.toolkit-button.toolkit-select > .toolkit-cell > .toolkit-label {
-    float: left;
+.toolkit-button.toolkit-select {
+    flex-direction: row;
 }
-.toolkit-button.toolkit-select > .toolkit-arrow {
-    float: right;
+.toolkit-button.toolkit-select > .toolkit-label {
+    order: 1;
+    flex: 1 0 auto;
+}
+.toolkit-button.toolkit-select > .toolkit-icon {
+    order: 2;
+    flex: 0 0 auto;
+    font-size: 16px;
+    line-height: 16px;
+    height: 16px;
+    width: 16px;
+    margin: 0 0 0 4px !important;
 }
 .toolkit-select-list {
     position: absolute;
