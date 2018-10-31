@@ -65,3 +65,7 @@
 .toolkit-icon.power::before                                { content: 'l'; }
 .toolkit-icon.phase::before                                { content: 'm'; }
 .toolkit-icon.phaseinvert::before                          { content: 'm'; }
+.toolkit-icon.arrowdown::before                            { content: 'n'; }
+.toolkit-icon.arrowup::before                              { content: 'o'; }
+.toolkit-icon.arrowleft::before                            { content: 'p'; }
+.toolkit-icon.arrowright::before                           { content: 'q'; }
