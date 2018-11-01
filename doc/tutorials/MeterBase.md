@@ -58,4 +58,9 @@
         });
         root.append_children([ mbvl, mbvr, mbhb, mbht ]);
     }
+<pre class='css prettyprint source'><code>
+.toolkit-meter-base {
+    float: left;
+}
+</code></pre>
 <script> prepare_example(); </script>
