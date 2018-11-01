@@ -599,6 +599,7 @@ pre, code {
 .toolkit-slider {
     background-position: 0 0;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 /* STATE */
