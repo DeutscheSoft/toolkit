@@ -455,13 +455,24 @@ pre, code {
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.toolkit-pager.toolkit-vertical {
+    flex-direction: column;
 }
 .toolkit-pager > .toolkit-clip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    flex: 1 1 100%;
+    position: relative;
+}
+.toolkit-pager.toolkit-left > .toolkit-clip,
+.toolkit-pager.toolkit-top > .toolkit-clip {
+    order: 2;
+}
+.toolkit-pager.toolkit-right > .toolkit-clip,
+.toolkit-pager.toolkit-bottom > .toolkit-clip {
+    order: 1;
 }
 .toolkit-pager > .toolkit-clip > .toolkit-page {
     position: absolute;
@@ -469,30 +480,91 @@ pre, code {
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 1;
+    overflow: auto;
     will-change: transform;
     transform: translate3d(0,0,0);
 }
-.toolkit-pager.toolkit-right > .toolkit-buttonarray {
-    float: right;
+.toolkit-pager > .toolkit-buttonarray {
+    flex: 0 0 auto;
 }
-
-/* BUTTONARRAY */
-
-.toolkit-pager > .toolkit-buttonarray{
-    position: absolute;
-}
+.toolkit-pager.toolkit-left > .toolkit-buttonarray,
 .toolkit-pager.toolkit-top > .toolkit-buttonarray {
-    top: 0;
+    order: 1;
 }
-.toolkit-pager.toolkit-right > .toolkit-buttonarray {
-    right: 0;
-}
+.toolkit-pager.toolkit-right > .toolkit-buttonarray,
 .toolkit-pager.toolkit-bottom > .toolkit-buttonarray {
-    bottom: 0;
+    order: 2;
 }
-.toolkit-pager.toolkit-left > .toolkit-buttonarray {
-    left: 0;
+
+
+
+.toolkit-pager.toolkit-forward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-vertical-out-forward 0.5s ease-in-out;
+    transform: translateX(-100%);
 }
+.toolkit-pager.toolkit-forward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-vertical-in-forward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-backward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-vertical-out-backward 0.5s ease-in-out;
+    transform: translateX(100%);
+}
+.toolkit-pager.toolkit-backward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-vertical-in-backward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-forward.toolkit-horizontal > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-horizontal-out-forward 0.5s ease-in-out;
+    transform: translateY(-100%);
+}
+.toolkit-pager.toolkit-forward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-horizontal-in-forward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-backward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-horizontal-out-backward 0.5s ease-in-out;
+    transform: translateY(100%);
+}
+.toolkit-pager.toolkit-backward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-horizontal-in-backward 0.5s ease-in-out;
+}
+
+@keyframes toolkit-page-horizontal-in-forward {
+    0%   { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+@keyframes toolkit-page-horizontal-out-forward {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+@keyframes toolkit-page-horizontal-in-backward {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(0); }
+}
+@keyframes toolkit-page-horizontal-out-backward {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+}
+
+@keyframes toolkit-page-vertical-in-forward {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes toolkit-page-vertical-out-forward {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+@keyframes toolkit-page-vertical-in-backward {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes toolkit-page-vertical-out-backward {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
 
 /* RESPONSEHANDLE */
 
