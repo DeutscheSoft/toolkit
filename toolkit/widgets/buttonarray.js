@@ -46,9 +46,15 @@ function show_arrows() {
 function prev_clicked(e) {
     this.userset("show", Math.max(0, this.options.show - 1));
 }
+function prev_dblclicked(e) {
+    this.userset("show", 0);
+}
 
 function next_clicked(e) {
     this.userset("show", Math.min(this.buttons.length-1, this.options.show + 1));
+}
+function next_dblclicked(e) {
+    this.userset("show", this.buttons.length-1);
 }
 
 function button_clicked(button) {
@@ -172,7 +178,9 @@ TK.ButtonArray = TK.class({
          */
         this.next = new TK.Button({class: "toolkit-next"});
         this.prev.add_event("click", prev_clicked.bind(this));
+        this.prev.add_event("doubleclick", prev_dblclicked.bind(this));
         this.next.add_event("click", next_clicked.bind(this));
+        this.next.add_event("doubleclick", next_dblclicked.bind(this));
         
         /**
          * @member {HTMLDivElement} TK.ButtonArray#_prev - The HTMLDivElement of the previous {@link TK.Button}.
