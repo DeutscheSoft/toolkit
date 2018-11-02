@@ -172,11 +172,12 @@ TK.ButtonArray = TK.class({
         /**
          * @member {TK.Button} TK.ButtonArray#prev - The previous arrow {@link TK.Button} instance.
          */
-        this.prev = new TK.Button({class: "toolkit-previous"});
+        this.prev = new TK.Button({class: "toolkit-previous", dblclick:400});
         /**
          * @member {TK.Button} TK.ButtonArray#next - The next arrow {@link TK.Button} instance.
          */
-        this.next = new TK.Button({class: "toolkit-next"});
+        this.next = new TK.Button({class: "toolkit-next", dblclick:400});
+        
         this.prev.add_event("click", prev_clicked.bind(this));
         this.prev.add_event("doubleclick", prev_dblclicked.bind(this));
         this.next.add_event("click", next_clicked.bind(this));

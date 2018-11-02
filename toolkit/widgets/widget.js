@@ -171,7 +171,7 @@ TK.Widget = TK.class({
         // these options are of less use and only here to show what we need
         disabled:  false,  // Widgets can be disabled by setting this to true
         needs_resize: true,
-        dblclick: 400,
+        dblclick: 0,
     },
     static_events: {
         set_container: function(value) {
