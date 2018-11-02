@@ -62,6 +62,28 @@ function resize() {
     if (this.is_destructed()) return;
     this.resize();
 }
+function dblclick (e) {
+    /**
+     * Is fired after a double click appeared. Set `dblclick` to 0 to
+     * disable click event handling.
+     * 
+     * @event TK.Widget#doubleclick
+     * 
+     * @param {string} event - The browsers `MouseEvent`.
+     * 
+     */
+    var O = this.options;
+    var dbc = O.dblclick;
+    if (!dbc) return;
+    var d = + new Date();
+    if (this.__lastclick + dbc > d) {
+        e.lastclick = this.__lastclick;
+        this.fire_event("doubleclick", e);
+        this.__lastclick = 0;
+    } else {
+        this.__lastclick = d;
+    }
+}
 
 TK.Widget = TK.class({
     /**
@@ -83,6 +105,7 @@ TK.Widget = TK.class({
      * @property {Object} [options.element] - An element to be used as the main element.
      * @property {Boolean} [options.active] - Toggles the class <code>toolkit-inactive</code>.
      * @property {Boolean} [options.needs_resize=true] - Set to true if the resize function shall be called before the next redraw.
+     * @property {Boolean} [options.dblclick=400] - Set a time in milliseconds for triggering double click event. If 0, no double click events are fired.
      */
     /**
      * The <code>set</code> event is emitted when an option was set using the {@link TK.Widget#set}
@@ -142,11 +165,13 @@ TK.Widget = TK.class({
         element: "object",
         active: "boolean",
         needs_resize: "boolean",
+        dblclick: "number",
     },
     options: {
         // these options are of less use and only here to show what we need
         disabled:  false,  // Widgets can be disabled by setting this to true
         needs_resize: true,
+        dblclick: 400,
     },
     static_events: {
         set_container: function(value) {
@@ -155,6 +180,16 @@ TK.Widget = TK.class({
             } else if (!value && this.element.parentElement) {
                 this.element.parentElement.removeChild(this.element);
             }
+        },
+        set_dblclick: function (val) {
+            if (!this.__delegated) return;
+            if (!!val)
+                this.__delegated.addEventListener("click", this.__dblclick_cb);
+            else
+                this.__delegated.removeEventListener("click", this.__dblclick_cb);
+        },
+        initialized: function () {
+            this.set("dblclick", this.options.dblclick);
         },
     },
     initialize: function (options) {
@@ -178,6 +213,8 @@ TK.Widget = TK.class({
         this.parent = null;
         this.children = null;
         this.draw_queue = null;
+        this.__lastclick = 0;
+        this.__dblclick_cb = dblclick.bind(this);
     },
 
     is_destructed: function() {
