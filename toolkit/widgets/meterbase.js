@@ -143,7 +143,7 @@ TK.MeterBase = TK.class({
      *   the base will coincide with the minimum value <code>options.min</code>. The meter level is drawn
      *   starting from the base to the value.
      * @property {Number} [options.label=false] - Value of the label position. 
-     * @property {Number} [options.title=""] - The title.
+     * @property {Number} [options.title=false] - The title.
      * @property {Boolean} [options.show_title=false] - If set to <code>true</code> a title is displayed.
      * @property {Boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
      * @property {Boolean} [options.show_scale=true] - If set to <code>true</code> the scale is displayed.
@@ -168,8 +168,8 @@ TK.MeterBase = TK.class({
         base: "number|boolean",
         min: "number",
         max: "number",
-        label: "string",
-        title: "string",
+        label: "string|boolean",
+        title: "string|boolean",
         show_labels: "boolean",
         format_label: "function",
         scale_base: "number",
@@ -183,7 +183,7 @@ TK.MeterBase = TK.class({
         value:           0,
         base:            false,
         label:           false,
-        title:           "",
+        title:           false,
         show_labels:     true,
         format_label:    TK.FORMAT("%.2f"),
         levels:          [1, 5, 10],     // array of steps where to draw labels
@@ -367,6 +367,10 @@ TK.MeterBase = TK.class({
             this._canvas.getContext("2d").fillStyle = this._fillstyle;
         }
         
+        if (I.value && O.show_label) {
+            this.label.set("label", O.format_label(O.value));
+        }
+        
         if (I.value || I.basis) {
             I.basis = I.value = false;
             this.draw_meter();
@@ -490,31 +494,30 @@ TK.ChildWidget(TK.MeterBase, "scale", {
     toggle_class: true,
     static_events: {
         set: function(key, value) {
-            this.parent.fire_event("scalechanged", key, value);
+            if (this.parent)
+                this.parent.fire_event("scalechanged", key, value);
         },
     },
 });
 /**
- * @member {HTMLDivElement} TK.MeterBase#_title - The DIV element displaying the title.
+ * @member {TK.Label} TK.MeterBase#title - The DIV element displaying the title.
  *   Has class <code>toolkit-title</code>.
  */
-TK.ChildElement(TK.MeterBase, "title", {
+TK.ChildWidget(TK.MeterBase, "title", {
+    create: TK.Label,
     show: false,
-    draw_options: [ "title" ],
-    draw: function(O) {
-        if (this._title) TK.set_content(this._title, O.title);
-    },
+    option: "title",
+    default_options: { "class" : "toolkit-title" },
+    map_options: { "title" : "label" },
     toggle_class: true,
 });
 /**
- * @member {HTMLDivElement} TK.MeterBase#_label - The DIV element of the label.
+ * @member {TK.Label} TK.MeterBase#label - The DIV element of the label.
  */
-TK.ChildElement(TK.MeterBase, "label", {
+TK.ChildWidget(TK.MeterBase, "label", {
+    create: TK.Label,
     show: false,
+    default_options: { "class" : "toolkit-value" },
     toggle_class: true,
-    draw_options: [ "label", "format_label" ],
-    draw: function(O) {
-        if (this._label) TK.set_text(this._label, O.format_label(O.label));
-    },
 });
 })(this, this.TK);

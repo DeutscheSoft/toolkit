@@ -63,6 +63,12 @@ o Window: "resize" handle had to be renamed since it overwrote the resize functi
 o ValueKnob: All children are of class ChildWidget now. This breaks the
   use of "label" option for TK.Label, had to be renamed to "title".
   
+o MeterBase: Title and value label are real widgets now. Their name changed
+  so they don't have an underscore any more:
+  _label -> label and _title -> title
+
+o MultiMeter: Title is a ChildWidget now. Name changed from _title to title.
+  
   TODO: startdrag and stopdrag events aren't fired in TK.Drag. This stops
   Window from un-maximizing and other things.
   
@@ -71,13 +77,15 @@ Style Changes
 
 * ValueButton: no overlay element in bar
 * ValueButton: classes for bar layout changed from toolkit-[direction] to toolkit-[direction]-bar
-* Flex-Layout: The following widgets have a changed layout based on flex-box:
+* Flex-Layout: The following widgets have a changed layout based on flex-box and grid:
   * Button (_cell member was dropped, icon and label are direct flex children)
   * ButtonArray
   * ValueKnob
   * MeterBase
   * LevelMeter
   * Select
+  * Pager
+  * MultiMeter
   
 Version 1.1: Changes since version 1.0
 -----------------------------------------
