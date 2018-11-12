@@ -246,29 +246,5 @@ TK.ChildWidget(TK.ValueButton, "value", {
         valuedone: value_done,
     },
 });
-/**
- * @member {HTMLDivElement} TK.ValueButton#_marker - The DIV element of the marker. It can be used to e.g. visualize the value set in the backend.
- */
-TK.ChildElement(TK.ValueButton, "marker", {
-    show: false,
-    toggle_class: true,
-    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "marker", "basis" ]),
-    draw: function(O) {
-        if (this._marker) {
-            var tmp = (this.val2coef(this.snap(O.marker)) * this.__barsize) + "px";
-            if (O.bar_direction === "vertical") {
-                if (TK.supports_transform)
-                    this._marker.style.transform = "translateY(-"+tmp+")";
-                else
-                    this._marker.style.bottom = tmp;
-            } else {
-                if (TK.supports_transform)
-                    this._marker.style.transform = "translateX("+tmp+")";
-                else
-                    this._marker.style.left = tmp;
-            }
-        }
-    },
-});
 
 })(this, this.TK);
