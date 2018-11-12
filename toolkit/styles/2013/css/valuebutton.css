@@ -17,15 +17,14 @@
  * Boston, MA  02110-1301  USA
  */
 .toolkit-valuebutton {
-    padding-left: 8px;
+    
 }
 .toolkit-valuebutton.toolkit-vertical {
-    
+    padding-left: 8px;
 }
 .toolkit-valuebutton.toolkit-horizontal {
     
 }
-
 .toolkit-button.toolkit-valuebutton > .toolkit-cell {
     text-align: left;
     width: 70%;
