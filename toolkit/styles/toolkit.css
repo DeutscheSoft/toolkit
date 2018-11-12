@@ -813,18 +813,6 @@ pre, code {
     user-select: auto !important;
 }
 
-/* VALUEBUTTON */
-
-.toolkit-valuebutton {
-    position: relative;
-}
-
-/* VALUEKNOB */
-
-.toolkit-valueknob {
-    position: relative;
-}
-
 /* WINDOW */
 
 .toolkit-window {
