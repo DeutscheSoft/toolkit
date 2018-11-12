@@ -675,6 +675,60 @@ pre, code {
 .toolkit-scale.toolkit-horizontal.toolkit-reverse > .toolkit-max {
     transform: translateX(0);
 }
+.toolkit-scale > .toolkit-pointer {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: -1;
+    overflow: hidden;
+    width: 12px;
+    height: 12px;
+    border-width: 6px;
+    border-color: transparent;
+    border-style: solid;
+}
+.toolkit-scale.toolkit-vertical > .toolkit-pointer {
+    margin-bottom: -6px;
+    bottom: 0px;
+}
+.toolkit-scale.toolkit-left > .toolkit-pointer {
+    left: -6px;
+}
+.toolkit-scale.toolkit-right > .toolkit-pointer {
+    right: -6px;
+}
+.toolkit-scale.toolkit-horizontal > .toolkit-pointer {
+    margin-left: -6px;
+    left: 0;
+}
+.toolkit-scale.toolkit-top > .toolkit-pointer {
+    top: -6px;
+}
+.toolkit-scale.toolkit-bottom > .toolkit-pointer {
+    bottom: -6px;
+}
+.toolkit-scale > .toolkit-bar {
+    position: absolute;
+    z-index: -2;
+}
+.toolkit-scale.toolkit-vertical > .toolkit-bar {
+    bottom: 0px;
+}
+.toolkit-scale.toolkit-left > .toolkit-bar {
+    left: 0px;
+}
+.toolkit-scale.toolkit-right > .toolkit-bar {
+    right: 0px;
+}
+.toolkit-scale.toolkit-horizontal > .toolkit-bar {
+    left: 0px;
+}
+.toolkit-scale.toolkit-top > .toolkit-bar {
+    top: 0px;
+}
+.toolkit-scale.toolkit-bottom > .toolkit-bar {
+    bottom: 0px;
+}
+
 
 /* SELECT */
 

@@ -256,3 +256,13 @@
 .toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot.toolkit-marker {
     
 }
+
+
+/* BAR */
+
+.toolkit-scale.toolkit-vertical > .toolkit-bar {
+    width: 4px;
+}
+.toolkit-scale.toolkit-horizontal > .toolkit-bar {
+    height: 4px;
+}

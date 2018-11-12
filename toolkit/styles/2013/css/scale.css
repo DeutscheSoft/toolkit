@@ -259,3 +259,31 @@
 .toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot.toolkit-marker {
     
 }
+
+
+/* MARKER */
+
+.toolkit-scale.toolkit-left > .toolkit-pointer {
+    border-right-color: #BA1B25;
+}
+.toolkit-scale.toolkit-right > .toolkit-pointer {
+    border-left-color: #BA1B25;
+}
+.toolkit-scale.toolkit-top > .toolkit-pointer {
+    border-bottom-color: #BA1B25;
+}
+.toolkit-scale.toolkit-bottom > .toolkit-pointer {
+    border-top-color: #BA1B25;
+}
+.toolkit-scale > .toolkit-bar {
+    background: #002f42;
+}
+
+/* BAR */
+
+.toolkit-scale.toolkit-vertical > .toolkit-bar {
+    width: 4px;
+}
+.toolkit-scale.toolkit-horizontal > .toolkit-bar {
+    height: 4px;
+}
