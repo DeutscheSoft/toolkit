@@ -19,17 +19,27 @@ o ResponseHandle: has real MultiTouch support. This also applies to the z_handli
   gesture, which means that any number of touch points can now drag handles in the
   EQ.
 
-o ValueButton has a marker to display backend values
-
 o Button/Toggle: set URL or class name for icon
 
-o Faders with markers (tiny triangles) and bars to visualize different other
-  values, e.g. backend values or a level meter. Additionally Faders got
-  title and value ChildWidgets.
-  
+o Faders got title and value ChildWidgets.
+
+o Scale: New child elements pointer and bar to visualize values within Scale.
+
 o Window: complete rewrite. Less DOM nodes, less complexity, using new
   toolkit APIs. Additionally layout switched from table-like div zoo to
   more slick flexbox.
+  
+o ValueKnob: All children are of class ChildWidget now. This breaks the
+  use of "label" option for TK.Label, had to be renamed to "title".
+  
+o MeterBase: Title and value label are real widgets now. Their name changed
+  so they don't have an underscore any more:
+  _label -> label and _title -> title
+
+o MultiMeter: Title is a ChildWidget now. Name changed from _title to title.
+  
+o ValueButton: _bar, _base and marker were removed in favour of new Scale ChildWidget.
+
 
 API Changes
 ===========
@@ -60,23 +70,12 @@ o Window: All sub elements are real widgets now using the new ChildWidget API.
 o Window: "resize" handle had to be renamed since it overwrote the resize function
   handle. New identifier for the resize handle is "size".
   
-o ValueKnob: All children are of class ChildWidget now. This breaks the
-  use of "label" option for TK.Label, had to be renamed to "title".
-  
-o MeterBase: Title and value label are real widgets now. Their name changed
-  so they don't have an underscore any more:
-  _label -> label and _title -> title
-
-o MultiMeter: Title is a ChildWidget now. Name changed from _title to title.
-  
   TODO: startdrag and stopdrag events aren't fired in TK.Drag. This stops
   Window from un-maximizing and other things.
   
 Style Changes
 =============
 
-* ValueButton: no overlay element in bar
-* ValueButton: classes for bar layout changed from toolkit-[direction] to toolkit-[direction]-bar
 * Flex-Layout: The following widgets have a changed layout based on flex-box and grid:
   * Button (_cell member was dropped, icon and label are direct flex children)
   * ButtonArray
@@ -86,6 +85,7 @@ Style Changes
   * Select
   * Pager
   * MultiMeter
+  * ValueButton
   
 Version 1.1: Changes since version 1.0
 -----------------------------------------

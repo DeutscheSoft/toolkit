@@ -931,14 +931,15 @@ pre, code {
 
 .toolkit-valuebutton {
     display: inline-grid;
-}
-.toolkit-valuebutton.toolkit-horizontal {
+    
+    justify-content: stretch;
+    align-items: center;
+    
     grid-template-columns: auto 1fr auto;
     grid-template-rows: auto auto;
     grid-template-areas: "icon label value"
-                         "bar bar value";
+                         "scale scale value";
 }
-
 .toolkit-valuebutton > .toolkit-icon {
     grid-area: icon;
 }
@@ -948,8 +949,8 @@ pre, code {
 .toolkit-valuebutton > .toolkit-value {
     grid-area: value;
 }
-.toolkit-valuebutton > .toolkit-bar {
-    grid-area: bar;
+.toolkit-valuebutton > .toolkit-scale {
+    grid-area: scale;
 }
 
 

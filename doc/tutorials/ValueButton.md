@@ -62,7 +62,7 @@
     }
 <pre class='css prettyprint source'><code>
 .toolkit-valuebutton {
-    width: 220px;
+    width: 240px;
 }
 </code></pre>
 <script> prepare_example(); </script>
