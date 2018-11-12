@@ -640,12 +640,14 @@ pre, code {
 
 .toolkit-scale > .toolkit-label {
     position: absolute;
+    z-index: 4;
     display: block;
     float: left;
 }
 
 .toolkit-scale > .toolkit-dot {
     position: absolute;
+    z-index: 3;
 }
 
 .toolkit-scale.toolkit-vertical > .toolkit-label {
@@ -678,7 +680,7 @@ pre, code {
 .toolkit-scale > .toolkit-pointer {
     box-sizing: border-box;
     position: absolute;
-    z-index: -1;
+    z-index: 5;
     overflow: hidden;
     width: 12px;
     height: 12px;
@@ -708,7 +710,7 @@ pre, code {
 }
 .toolkit-scale > .toolkit-bar {
     position: absolute;
-    z-index: -2;
+    z-index: 0;
 }
 .toolkit-scale.toolkit-vertical > .toolkit-bar {
     bottom: 0px;
