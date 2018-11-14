@@ -26,7 +26,7 @@ function calculate_grid(range, step) {
 
 
     for (i = min; i <= max; i += step) {
-        if (i === ((max + min) / 2)) {
+        if (i == 0) {
             cls = "toolkit-highlight";
         } else {
             cls = "";
