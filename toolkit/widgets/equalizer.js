@@ -54,6 +54,56 @@ function fast_draw_plinear(X, Y) {
 
     return ret.join("");
 }
+function draw_graph (graph, bands) {
+    var O = this.options;
+    var c = 0;
+    var end = this.range_x.get("basis") | 0;
+    var step = O.accuracy;
+    var over = O.oversampling;
+    var thres = O.threshold;
+    var x_px_to_val = this.range_x.px2val;
+    var y_val_to_px = this.range_y.val2px;
+    var i, j, k;
+    var x, y;
+    var pursue;
+    var diff;
+                
+    var X = new Array(end / step);
+    for (i = 0; i < X.length; i++) {
+        X[i] = c;
+        c += step;
+    }
+    var Y = new Array(end / step);
+    var y;
+    
+    for (i = 0; i < X.length; i++) {
+        x = x_px_to_val(X[i]);
+        y = 0.0;
+        for (j = 0; j < bands.length; j++) y += bands[j](x);
+        Y[i] = y_val_to_px(y);
+        var diff = Math.abs(Y[i] - Y[i-1]) >= thres;
+        if (i && over > 1 && (diff || pursue)) {
+            if (diff) pursue = true;
+            else if (!diff && pursue) pursue = false;
+            for (k = 1; k < over; k++) {
+                x = X[i-k] + ((step / over) * k);
+                X.splice(i, 0, x);
+                x = x_px_to_val(x);
+                y = 0.0;
+                for (j = 0; j < bands.length; j++) y += bands[j](x);
+                Y.splice(i, 0, y_val_to_px(y));
+                i++;
+            }
+        }
+
+        if (!isFinite(Y[i])) {
+            TK.warn("Singular filter in Equalizer.");
+            graph.set("dots", void(0));
+            return;
+        }
+    }
+    graph.set("dots", fast_draw_plinear(X, Y));
+}
 function invalidate_bands() {
     this.invalid.bands = true;
     this.trigger_draw();
@@ -159,61 +209,13 @@ TK.Equalizer = TK.class({
         TK.ResponseHandler.prototype.redraw.call(this);
         if (I.validate("bands", "accuracy")) {
             if (this.baseline) {
-                var c = 0;
-                var end = this.range_x.get("basis") | 0;
-                var step = O.accuracy;
-                var over = O.oversampling;
-                var thres = O.threshold;
-                var x_px_to_val = this.range_x.px2val;
-                var y_val_to_px = this.range_y.val2px;
                 var f = [];
-                var i, j, k;
-                var x, y;
-                var pursue;
-                var diff;
-
-                for (i = 0; i < this.bands.length; i++) {
+                for (var i = 0; i < this.bands.length; i++) {
                     if (this.bands[i].get("active")) {
                         f.push(this.bands[i].filter.get_freq2gain());
                     }
                 }
-
-                var X = new Array(end / step);
-                c = 0;
-                for (i = 0; i < X.length; i++) {
-                    X[i] = c;
-                    c += step;
-                }
-                var Y = new Array(end / step);
-                var y;
-
-                for (i = 0; i < X.length; i++) {
-                    x = x_px_to_val(X[i]);
-                    y = 0.0;
-                    for (j = 0; j < f.length; j++) y += f[j](x);
-                    Y[i] = y_val_to_px(y);
-                    var diff = Math.abs(Y[i] - Y[i-1]) >= thres;
-                    if (i && over > 1 && (diff || pursue)) {
-                        if (diff) pursue = true;
-                        else if (!diff && pursue) pursue = false;
-                        for (k = 1; k < over; k++) {
-                            x = X[i-k] + ((step / over) * k);
-                            X.splice(i, 0, x);
-                            x = x_px_to_val(x);
-                            y = 0.0;
-                            for (j = 0; j < f.length; j++) y += f[j](x);
-                            Y.splice(i, 0, y_val_to_px(y));
-                            i++;
-                        }
-                    }
-
-                    if (!isFinite(Y[i])) {
-                        TK.warn("Singular filter in Equalizer.");
-                        this.baseline.set("dots", void(0));
-                        return;
-                    }
-                }
-                this.baseline.set("dots", fast_draw_plinear(X, Y));
+                draw_graph.call(this, this.baseline, f);
             }
         }
 
@@ -237,12 +239,14 @@ TK.Equalizer = TK.class({
      * @method TK.Equalizer#add_band
      * 
      * @param {Object} [options={ }] - An object containing initial options. - The options for the {@link TK.EqBand}.
+     * @param {Object} [type=TK.EqBand] - A widget class to be used for the new band.
      * 
      * @emits TK.Equalizer#bandadded
      */
-    add_band: function (options) {
+    add_band: function (options, type) {
         var b;
-        if (TK.EqBand.prototype.isPrototypeOf(options)) {
+        type = type || TK.EqBand;
+        if (type.prototype.isPrototypeOf(options)) {
           b = options;
         } else {
           options.container = this._bands;
@@ -254,7 +258,7 @@ TK.Equalizer = TK.class({
               options.range_z = function () { return this.range_z; }.bind(this);
           
           options.intersect = this.intersect.bind(this);
-          b = new TK.EqBand(options);
+          b = new type(options);
         }
         
         this.bands.push(b);
@@ -279,10 +283,11 @@ TK.Equalizer = TK.class({
      * @method TK.Equalizer#add_bands
      * 
      * @param {Array<Object>} options - An array of options objects for the {@link TK.EqBand}.
+     * @param {Object} [type=TK.EqBand] - A widget class to be used for the new band.
      */
-    add_bands: function (bands) {
+    add_bands: function (bands, type) {
         for (var i = 0; i < bands.length; i++)
-            this.add_band(bands[i]);
+            this.add_band(bands[i], type);
     },
     /*
      * Remove a band from the widget.
@@ -334,5 +339,6 @@ TK.Equalizer = TK.class({
         this.fire_event("emptied");
         invalidate_bands.call(this);
     },
+    _draw_graph: draw_graph,
 });
 })(this, this.TK);
