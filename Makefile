@@ -58,7 +58,8 @@ js_input_files = \
     toolkit/widgets/notification.js\
     toolkit/widgets/notifications.js\
     toolkit/widgets/multimeter.js\
-    toolkit/widgets/slider.js
+    toolkit/widgets/slider.js\
+    toolkit/widgets/crossover.js
 
 css_input_files = \
     toolkit/styles/toolkit.css \
@@ -137,6 +138,7 @@ css_input_files = \
     toolkit/styles/plain/css/notification.css \
     toolkit/styles/plain/css/notifications.css \
     toolkit/styles/plain/css/slider.css \
+    toolkit/styles/plain/css/crossover.css \
 
 toolkit.min.js:	$(js_input_files) Makefile
 	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@
