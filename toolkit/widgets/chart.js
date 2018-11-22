@@ -285,6 +285,7 @@ TK.Chart = TK.class({
         _height: "int",
         range_x: "object",
         range_y: "object",
+        range_z: "object",
         key: "string",
         key_size: "object",
         title: "string",
@@ -294,9 +295,9 @@ TK.Chart = TK.class({
         importance_label:  "number",
         importance_handle: "number",
         importance_border: "number",
-        range_z: "object",
         handles: "array", 
         show_handles: "boolean",
+        depth: "number",
     }),
     options: {
         grid_x: [],
@@ -305,6 +306,7 @@ TK.Chart = TK.class({
                      // or a function returning a TK.Range instance (only on init)
         range_y: {}, // an object with options for a range for the y axis
                      // or a function returning a TK.Range instance (only on init)
+        range_z: { scale: "linear", min: 0, max: 1 }, // TK.Range z options
         key: false,  // key draws a description for the graphs at the given
                      // position, use false for no key
         key_size: {x:20, y:10}, // size of the key rects
@@ -318,7 +320,6 @@ TK.Chart = TK.class({
                                 // handles to gain importance
         importance_border: 50,  // multiplicator of square pixels on hit testing
                                 // borders to gain importance
-        range_z:           { scale: "linear", min: 0, max: 1 }, // TK.Range z options
         handles:           [],  // list of bands to create on init
         show_handles: true,
     },
@@ -579,10 +580,12 @@ TK.Chart = TK.class({
      * @method TK.ResponseHandler#add_handle
      * 
      * @param {Object} [options={ }] - An object containing initial options. - The options for the {@link TK.ResponseHandle}.
+     * @param {Object} [type=TK.ResponseHandle] - A widget class to be used as the new handle.
      * 
      * @emits TK.ResponseHandler#handleadded
      */
-    add_handle: function (options) {
+    add_handle: function (options, type) {
+        type = type || TK.ResponseHandle;
         options.container = this._handles;
         if (options.range_x === void(0))
             options.range_x = function () { return this.range_x; }.bind(this);
@@ -593,7 +596,7 @@ TK.Chart = TK.class({
         
         options.intersect = this.intersect.bind(this);
         
-        var h = new TK.ResponseHandle(options);
+        var h = new type(options);
         this.handles.push(h);
         if (this.options.show_handles)
             this.add_child(h);
@@ -614,10 +617,11 @@ TK.Chart = TK.class({
      * @method TK.ResponseHandler#add_handles
      * 
      * @param {Array<Object>} options - An array of options objects for the {@link TK.ResponseHandle}.
+     * @param {Object} [type=TK.ResponseHandle] - A widget class to be used for the new handles.
      */
-    add_handles: function (handles) {
+    add_handles: function (handles, type) {
         for (var i = 0; i < handles.length; i++)
-            this.add_handle(handles[i]);
+            this.add_handle(handles[i], type);
     },
     /*
      * Remove a handle from the widget.
