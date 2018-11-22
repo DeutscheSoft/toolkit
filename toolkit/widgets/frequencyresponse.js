@@ -66,8 +66,6 @@ TK.FrequencyResponse = TK.class({
     Extends: TK.Chart,
     _options: Object.assign(Object.create(TK.Chart.prototype._options), {
         db_grid: "number",
-        range_x: "object",
-        range_y: "object",
         grid_x: "array",
         scale: "boolean",
         depth: "number",
@@ -76,6 +74,7 @@ TK.FrequencyResponse = TK.class({
         db_grid: 12,                                         // dB grid distance
         range_x: {min:20, max:20000, scale:"frequency"},   // TK.Range x options
         range_y: {min:-36, max: 36, scale: "linear"}, // TK.Range y options
+        range_z: {min:0.1, max:10, scale:"linear"},
         grid_x:  [
                     {pos:    20, label: "20 Hz"},
                     {pos:    30},
