@@ -154,7 +154,7 @@ TK.CrossoverBand = TK.class({
         upper: "highpass3",
         label: function (t, x, y, z) { return TK.sprintf("%.2f Hz", x); },
         mode: "line-vertical",
-        preferences: ["top-left", "top-right", "left", "right", "bottom-left", "bottom-right"],
+        preferences: [ "top-right", "right", "bottom-right", "top-left", "left", "bottom-left"],
     },
     initialize: function (options) {
         /**
