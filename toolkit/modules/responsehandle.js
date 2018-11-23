@@ -166,86 +166,141 @@ function get_zhandle_position(O, X, zhandle_size) {
     return [x, y];
 }
 
-var LABEL_ALIGN_outside = {
-    "top":      "middle",
-    "bottom":   "middle",
-    "left":     "end",
-    "top-left": "start",
-    "bottom-left":"start",
-    "right":    "start",
-    "top-right":"end",
-    "bottom-right":"end",
-    "center" : "middle",
-};
+function mode_to_handle(mode) {
+    if (mode === "block-left" || mode === "block-right" ||
+        mode === "block-top" || mode === "block-bottom")
+        return "block";
+    return mode;
+}
 
-var LABEL_ALIGN_inside = {
-    "top":      "middle",
-    "bottom":   "middle",
-    "left":     "start",
-    "top-left": "start",
-    "bottom-left":"start",
-    "right":    "end",
-    "top-right":"end",
-    "bottom-right":"end",
-    "center" : "middle",
-};
-
-
-function is_label_inside(O) {
-    var mode = O.mode;
-    return (mode === "block-left" || mode === "block-right" ||
-            mode === "block-top" || mode === "block-bottom");
+var LABEL_ALIGN = {
+    "line-vertical": {
+        "top":      "middle",
+        "bottom":   "middle",
+        "left":     "end",
+        "top-left": "end",
+        "bottom-left":"end",
+        "right":    "start",
+        "top-right":"start",
+        "bottom-right":"start",
+        "center" : "middle",
+    },
+    "line-horizontal": {
+        "top":      "middle",
+        "bottom":   "middle",
+        "left":     "start",
+        "top-left": "start",
+        "bottom-left":"start",
+        "right":    "end",
+        "top-right":"end",
+        "bottom-right":"end",
+        "center" : "middle",
+    },
+    "circular": {
+        "top":      "middle",
+        "bottom":   "middle",
+        "left":     "end",
+        "top-left": "start",
+        "bottom-left":"start",
+        "right":    "start",
+        "top-right":"end",
+        "bottom-right":"end",
+        "center" : "middle",
+    },
+    "block": {
+        "top":      "middle",
+        "bottom":   "middle",
+        "left":     "start",
+        "top-left": "start",
+        "bottom-left":"start",
+        "right":    "end",
+        "top-right":"end",
+        "bottom-right":"end",
+        "center" : "middle",
+    }
 }
 
 function get_label_align(O, pos) {
-    var align;
-    var LABEL_ALIGN = is_label_inside(O) ? LABEL_ALIGN_inside : LABEL_ALIGN_outside;
-
-    align = LABEL_ALIGN[pos];
-
-    return align;
+    return LABEL_ALIGN[mode_to_handle(O.mode)][pos];
 }
 
-var LABEL_POSITION_outside = {
-    top:                 [ 0, -1, 0, -1, 0, -1 ],
-    right:               [ 1, 0, 0, -1/2, 1, 0 ],
-    left:                [ -1, 0, 0, -1/2, -1, 0 ],
-    bottom:              [ 0, 1, 0, 0, 0, 1 ],
-    "bottom-left":       [ -1, 1, 0, 0, 0, 1 ],
-    "bottom-right":      [ 1, 1, 0, 0, 0, 1 ],
-    "top-right":         [ 1, -1, 0, -1, 0, -1 ],
-    "top-left":          [ -1, -1, 0, -1, 0, -1 ],
-    center:              [ 0, 0, 0, -1/2, 0, 0 ],
-};
+/* The following arrays contain multipliers, alternating x and y, starting with x.
+ * The first pair is a multiplier for the handle width and height
+ * The second pair is a multiplier for the label size
+ * The third pair is a multiplier for the margin
+*/ 
 
-var LABEL_POSITION_inside = {
-    top:                 [ 0, -1, 0, 0, 0, 1 ],
-    bottom:              [ 0, 1, 0, -1, 0, -1 ],
-    right:               [ 1, 0, 0, -1/2, -1, 0 ],
-    left:                [ -1, 0, 0, -1/2, 1, 0 ],
-    "bottom-left":       [ -1, 1, 0, -1, 1, -1 ],
-    "bottom-right":      [ 1, 1, 0, -1, -1, -1 ],
-    "top-right":         [ 1, -1, 0, 0, -1, 1 ],
-    "top-left":          [ -1, -1, 0, 0, 1, 1 ],
-    center:              [ 0, 0, 0, -1/2, 0, 0 ],
-};
+var LABEL_POSITION = {
+    "line-vertical": {
+        top:                 [ 0, -1, 0, 0, 0, 1 ],
+        right:               [ 1, 0, 0, -1/2, 1, 0 ],
+        left:                [ -1, 0, 0, -1/2, -1, 0 ],
+        bottom:              [ 0, 1, 0, -1, 0, -1 ],
+        "bottom-left":       [ -1, 1, 0, -1, -1, -1 ],
+        "bottom-right":      [ 1, 1, 0, -1, 1, -1 ],
+        "top-right":         [ 1, -1, 0, 0, 0, 1 ],
+        "top-left":          [ -1, -1, 0, 0, -1, 1 ],
+        center:              [ 0, 0, 0, -1/2, 0, 0 ],
+    },
+    "line-horizontal": {
+        top:                 [ 0, -1, 0, -1, 0, -1 ],
+        right:               [ 1, 0, 0, -1/2, 1, 0 ],
+        left:                [ -1, 0, 0, -1/2, -1, 0 ],
+        bottom:              [ 0, 1, 0, 0, 0, 1 ],
+        "bottom-left":       [ -1, 1, 0, 0, 1, 1 ],
+        "bottom-right":      [ 1, 1, 0, 0, -1, 1 ],
+        "top-right":         [ 1, -1, 0, -1, -1, -1 ],
+        "top-left":          [ -1, -1, 0, -1, 1, -1 ],
+        center:              [ 0, 0, 0, -1/2, 0, 0 ],
+    },
+    "circular": {
+        top:                 [ 0, -1, 0, -1, 0, -1 ],
+        right:               [ 1, 0, 0, -1/2, 1, 0 ],
+        left:                [ -1, 0, 0, -1/2, -1, 0 ],
+        bottom:              [ 0, 1, 0, 0, 0, 1 ],
+        "bottom-left":       [ -1, 1, 0, 0, 0, 1 ],
+        "bottom-right":      [ 1, 1, 0, 0, 0, 1 ],
+        "top-right":         [ 1, -1, 0, -1, 0, -1 ],
+        "top-left":          [ -1, -1, 0, -1, 0, -1 ],
+        center:              [ 0, 0, 0, -1/2, 0, 0 ],
+    },
+    "block": {
+        top:                 [ 0, -1, 0, 0, 0, 1 ],
+        bottom:              [ 0, 1, 0, -1, 0, -1 ],
+        right:               [ 1, 0, 0, -1/2, -1, 0 ],
+        left:                [ -1, 0, 0, -1/2, 1, 0 ],
+        "bottom-left":       [ -1, 1, 0, -1, 1, -1 ],
+        "bottom-right":      [ 1, 1, 0, -1, -1, -1 ],
+        "top-right":         [ 1, -1, 0, 0, -1, 1 ],
+        "top-left":          [ -1, -1, 0, 0, 1, 1 ],
+        center:              [ 0, 0, 0, -1/2, 0, 0 ],
+    }
+}
 
 function get_label_position(O, X, pos, label_size) {
+    /* X: array containing [X0, Y0, X1, Y1] of the handle
+     * pos: string describing the position of the label ("top", "bottom-right", ...)
+     * label_size: array containing width and height of the label
+     */
     var m = O.margin;
-
+    
+    // Pivot (x, y) is the center of the handle.
     var x = (X[0]+X[2])/2;
     var y = (X[1]+X[3])/2;
-
+    
+    // Size of handle
     var width = +X[2]-+X[0];
     var height = +X[3]-+X[1];
-
-    var LABEL_POSITION = is_label_inside(O) ? LABEL_POSITION_inside : LABEL_POSITION_outside;
-
-    var vec = LABEL_POSITION[pos];
+    
+    // multipliers
+    var vec = LABEL_POSITION[mode_to_handle(O.mode)][pos];
 
     x += vec[0] * width/2 + vec[2] * label_size[0] + vec[4] * m;
     y += vec[1] * height/2 + vec[3] * label_size[1] + vec[5] * m;
-
+    
+    // result is [x, y] of the "real" label position. Please note that
+    // the final x position depends on the LABEL_ALIGN value for pos.
+    // Y value is the top border of the overall label.
     return [x,y];
 }
 
