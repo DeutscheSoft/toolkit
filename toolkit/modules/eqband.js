@@ -34,6 +34,21 @@ var type_to_mode = {
     "high-shelf": "line-vertical",
 };
 
+var type_to_pref = {
+    parametric: ["left", "top", "right", "bottom"],
+    notch: ["left", "right", "top", "bottom"],
+    lowpass1: ["left", "top-left", "bottom-left", "right", "top-right", "bottom-right", "top", "bottom"],
+    lowpass2: ["left", "top-left", "bottom-left", "right", "top-right", "bottom-right", "top", "bottom"],
+    lowpass3: ["left", "top-left", "bottom-left", "right", "top-right", "bottom-right", "top", "bottom"],
+    lowpass4: ["left", "top-left", "bottom-left", "right", "top-right", "bottom-right", "top", "bottom"],
+    highpass1: ["right", "top-right", "bottom-right", "left", "top-left", "bottom-left", "top", "bottom"],
+    highpass2: ["right", "top-right", "bottom-right", "left", "top-left", "bottom-left", "top", "bottom"],
+    highpass3: ["right", "top-right", "bottom-right", "left", "top-left", "bottom-left", "top", "bottom"],
+    highpass4: ["right", "top-right", "bottom-right", "left", "top-left", "bottom-left", "top", "bottom"],
+    "low-shelf": ["left", "right", "top", "bottom"],
+    "high-shelf": ["left", "right", "top", "bottom"],
+};
+
 TK.EqBand = TK.class({
     /**
      * An TK.EqBand extends a {@link TK.ResponseHandle} and holds a
@@ -138,11 +153,13 @@ TK.EqBand = TK.class({
             case "type":
                 if (typeof value === "string") {
                     var mode = type_to_mode[value];
+                    var pref = type_to_pref[value];
                     if (!mode) {
                         TK.warn("Unsupported type:", value);
                         return;
                     }
                     this.set("mode", mode);
+                    this.set("preferences", pref);
                     this.set("show_axis", mode === "line-vertical");
                 }
                 this.filter.set("type", value);
