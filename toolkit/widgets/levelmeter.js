@@ -233,6 +233,9 @@ TK.LevelMeter = TK.class({
             I.value = true;
         }
 
+        if (I.base)
+          I.value = true;
+
         TK.MeterBase.prototype.redraw.call(this);
 
         if (I.clip) {
