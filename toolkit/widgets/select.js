@@ -477,7 +477,6 @@ TK.Select = TK.class({
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
-        var L;
 
         if (I.selected) {
             if (this._active) {
@@ -497,8 +496,9 @@ TK.Select = TK.class({
 
             I.show_list = true;
 
-            if (O.auto_size) {
-                L = this._label;
+            var L;
+
+            if (O.auto_size && (L = this._label)) {
                 var width = 0;
                 E.style.width = "auto";
                 var orig_content = document.createDocumentFragment();
