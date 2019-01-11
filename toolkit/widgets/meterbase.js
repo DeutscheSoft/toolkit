@@ -493,7 +493,9 @@ TK.ChildWidget(TK.MeterBase, "scale", {
     toggle_class: true,
     static_events: {
         set: function(key, value) {
-            this.parent.fire_event("scalechanged", key, value);
+            var p = this.parent;
+            if (p)
+              p.fire_event("scalechanged", key, value);
         },
     },
 });
