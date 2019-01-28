@@ -739,7 +739,7 @@ pre, code {
 }
 .toolkit-button.toolkit-select > .toolkit-label {
     order: 1;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
 }
 .toolkit-button.toolkit-select > .toolkit-icon {
     order: 2;
