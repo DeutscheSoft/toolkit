@@ -31,6 +31,7 @@ js_input_files = \
     toolkit/modules/drag.js\
     toolkit/widgets/container.js\
     toolkit/widgets/root.js\
+    toolkit/widgets/label.js\
     toolkit/widgets/button.js\
     toolkit/widgets/value.js\
     toolkit/widgets/valuebutton.js\
@@ -49,7 +50,6 @@ js_input_files = \
     toolkit/widgets/responsehandler.js\
     toolkit/widgets/equalizer.js\
     toolkit/widgets/fader.js\
-    toolkit/widgets/label.js\
     toolkit/widgets/knob.js\
     toolkit/widgets/valueknob.js\
     toolkit/widgets/select.js\
@@ -75,6 +75,7 @@ css_input_files = \
     toolkit/styles/2013/css/meterbase.css \
     toolkit/styles/2013/css/chart.css \
     toolkit/styles/2013/css/gauge.css \
+    toolkit/styles/2013/css/label.css \
     toolkit/styles/2013/css/button.css \
     toolkit/styles/2013/css/valuebutton.css \
     toolkit/styles/2013/css/toggle.css \
@@ -89,7 +90,6 @@ css_input_files = \
     toolkit/styles/2013/css/value.css \
     toolkit/styles/2013/css/fader.css \
     toolkit/styles/2013/css/select.css \
-    toolkit/styles/2013/css/label.css \
     toolkit/styles/2013/css/container.css \
     toolkit/styles/2013/css/pager.css \
     toolkit/styles/2013/css/expander.css \

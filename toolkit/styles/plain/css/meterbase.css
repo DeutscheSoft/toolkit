@@ -74,6 +74,12 @@
 .toolkit-meter-base.toolkit-vertical > .toolkit-bar {
     width: 16px;
 }
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar {
+    height: 16px;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar {
+    width: 16px;
+}
 
 /* MASK */
 

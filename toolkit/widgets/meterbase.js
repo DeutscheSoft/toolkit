@@ -309,7 +309,6 @@ TK.MeterBase = TK.class({
             TK.S.add(function() {
                 this._fillstyle = TK.get_style(this._canvas, "background-color");
                 TK.S.add(function() {
-                    this._canvas.getContext("2d").fillStyle = this._fillstyle;
                     this._canvas.style.setProperty("background-color", "transparent", "important");
                     this.trigger_draw();
                 }.bind(this), 3);
@@ -364,15 +363,10 @@ TK.MeterBase = TK.class({
             /* FIXME: I am not sure why this is even necessary */
             this._canvas.style.width = O._width + "px";
             this._canvas.style.height = O._height + "px";
-            this._canvas.getContext("2d").fillStyle = this._fillstyle;
         }
         
-        if (I.value && O.show_label) {
-            this.label.set("label", O.format_label(O.value));
-        }
-        
-        if (I.value || I.basis) {
-            I.basis = I.value = false;
+        if (I.value || I.basis || I.min || I.max) {
+            I.basis = I.value = I.min = I.max = false;
             this.draw_meter();
         }
     },
@@ -446,7 +440,12 @@ TK.MeterBase = TK.class({
 
         if (!diff) return;
 
+        // FIXME: this is currently broken for some reason
+        if (diff == 1)
+          diff = 4;
+
         var ctx = this._canvas.getContext("2d");
+        ctx.fillStyle = this._fillstyle;
         var is_vertical = vert(O);
 
         if (diff === 1) {
@@ -494,8 +493,9 @@ TK.ChildWidget(TK.MeterBase, "scale", {
     toggle_class: true,
     static_events: {
         set: function(key, value) {
-            if (this.parent)
-                this.parent.fire_event("scalechanged", key, value);
+            var p = this.parent;
+            if (p)
+              p.fire_event("scalechanged", key, value);
         },
     },
 });

@@ -149,6 +149,11 @@ TK.Dynamics = TK.class({
                 this.steady.set("dots", [{x:O.min, y:O.min}, {x:O.max, y:O.max}]);
         }
         
+        if (I.type) {
+            if (O._last_type)
+                TK.remove_class(this.element, "toolkit-" + O._last_type);
+            TK.add_class(this.element, "toolkit-" + O.type);
+        }
 
         if (I.validate("ratio", "threshold", "range", "makeup", "gain", "reference")) {
             this.draw_graph();
@@ -260,6 +265,11 @@ TK.Dynamics = TK.class({
                 TK.warn("Unsupported type", O.type);
         }
         this.graph.set("dots", curve);
+    },
+    set: function (key, val) {
+        if (key == "type")
+            this.options._last_type = this.options.type;
+        return TK.Chart.prototype.set.call(this, key, val);
     },
 });
 })(this, this.TK);

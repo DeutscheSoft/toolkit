@@ -189,7 +189,9 @@ TK.Widget = TK.class({
                 this.__delegated.removeEventListener("click", this.__dblclick_cb);
         },
         initialized: function () {
-            this.set("dblclick", this.options.dblclick);
+            var v = this.options.dblclick;
+            if (v > 0)
+              this.set("dblclick", v);
         },
     },
     initialize: function (options) {
