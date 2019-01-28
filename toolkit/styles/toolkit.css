@@ -479,8 +479,12 @@ pre, code {
 
 /* SELECT */
 
-.toolkit-button.toolkit-select > .toolkit-cell > .toolkit-label {
-    float: left;
+.toolkit-button.toolkit-select {
+    flex-direction: row;
+}
+.toolkit-button.toolkit-select > .toolkit-label {
+    order: 1;
+    flex: 1 1 auto;
 }
 .toolkit-button.toolkit-select > .toolkit-arrow {
     float: right;
