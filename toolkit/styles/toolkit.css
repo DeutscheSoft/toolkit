@@ -736,6 +736,7 @@ pre, code {
 
 .toolkit-button.toolkit-select {
     flex-direction: row;
+    justify-content: flex-end;
 }
 .toolkit-button.toolkit-select > .toolkit-label {
     order: 1;
