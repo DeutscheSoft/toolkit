@@ -260,6 +260,12 @@ pre, code {
     background-repeat: no-repeat;
 }
 
+/* LABEL */
+
+.toolkit-button.toolkit-select > .toolkit-label {
+    text-overflow: ellipsis;
+}
+
 /* METERBASE */
 
 .toolkit-meter-base {
