@@ -5,7 +5,7 @@
   src: local("Toolkit"), url("Toolkit.ttf") format("truetype");
 }
 
-.toolkit-icon {
+.icon {
   font-family: "Toolkit", sans-serif;
   font-size: 24px;
   text-align: center;
@@ -13,59 +13,71 @@
   vertical-align: middle;
 }
 
-.toolkit-button.toolkit-icon::before{
+.button.icon::before{
   display: table-cell;
   vertical-align: middle;
   text-align: center;
 }
 
-.toolkit-icon.toolkit-12  { font-size: 12px; }
-.toolkit-icon.toolkit-16  { font-size: 16px; }
-.toolkit-icon.toolkit-20  { font-size: 20px; }
-.toolkit-icon.toolkit-24  { font-size: 24px; }
-.toolkit-icon.toolkit-32  { font-size: 32px; }
-.toolkit-icon.toolkit-40  { font-size: 40px; }
-.toolkit-icon.toolkit-48  { font-size: 48px; }
-.toolkit-icon.toolkit-56  { font-size: 56px; }
-.toolkit-icon.toolkit-64  { font-size: 64px; }
-.toolkit-icon.toolkit-128 { font-size: 128px; }
-.toolkit-icon.toolkit-256 { font-size: 256px; }
+.icon.12  { font-size: 12px; }
+.icon.16  { font-size: 16px; }
+.icon.20  { font-size: 20px; }
+.icon.24  { font-size: 24px; }
+.icon.32  { font-size: 32px; }
+.icon.40  { font-size: 40px; }
+.icon.48  { font-size: 48px; }
+.icon.56  { font-size: 56px; }
+.icon.64  { font-size: 64px; }
+.icon.128 { font-size: 128px; }
+.icon.256 { font-size: 256px; }
 
-.toolkit-icon.warning::before                              { content: '1'; }
-.toolkit-icon.information::before                          { content: '2'; }
-.toolkit-icon.info::before                                 { content: '2'; }
-.toolkit-icon.error::before                                { content: '3'; }
-.toolkit-icon.message::before                              { content: '4'; }
-.toolkit-icon.close::before                                { content: '5'; }
-.toolkit-icon.success::before                              { content: '6'; }
-.toolkit-icon.hourglass::before                            { content: '7'; }
-.toolkit-icon.loading::before                              { content: '7'; }
-.toolkit-icon.questionmark::before                         { content: '8'; }
-.toolkit-icon.screensize::before                           { content: '9'; }
-.toolkit-icon.windowminimize::before                       { content: 'a'; }
-.toolkit-icon.winmin::before                               { content: 'a'; }
-.toolkit-icon.windowclose::before                          { content: '0'; }
-.toolkit-icon.winclose::before                             { content: '0'; }
-.toolkit-icon.windowmaximize::before                       { content: 'b'; }
-.toolkit-icon.winmax::before                               { content: 'b'; }
-.toolkit-icon.windowmaximizevertical::before               { content: 'c'; }
-.toolkit-icon.winmaxvert::before                           { content: 'c'; }
-.toolkit-icon.windowmaximizehorizontal::before             { content: 'd'; }
-.toolkit-icon.winmaxhoriz::before                          { content: 'd'; }
-.toolkit-icon.windowshrink::before                         { content: 'e'; }
-.toolkit-icon.winshrink::before                            { content: 'e'; }
-.toolkit-icon.windowresize::before                         { content: 'f'; }
-.toolkit-icon.unchecked::before                            { content: 'g'; }
-.toolkit-icon.checked::before                              { content: 'h'; }
-.toolkit-icon.speakeractive::before                        { content: 'i'; }
-.toolkit-icon.speakermute::before                          { content: 'j'; }
-.toolkit-icon.gear::before                                 { content: 'k'; }
-.toolkit-icon.cogwheel::before                             { content: 'k'; }
-.toolkit-icon.cog::before                                  { content: 'k'; }
-.toolkit-icon.power::before                                { content: 'l'; }
-.toolkit-icon.phase::before                                { content: 'm'; }
-.toolkit-icon.phaseinvert::before                          { content: 'm'; }
-.toolkit-icon.arrowdown::before                            { content: 'n'; }
-.toolkit-icon.arrowup::before                              { content: 'o'; }
-.toolkit-icon.arrowleft::before                            { content: 'p'; }
-.toolkit-icon.arrowright::before                           { content: 'q'; }
+.icon.warning::before                              { content: '1'; }
+.icon.information::before                          { content: '2'; }
+.icon.info::before                                 { content: '2'; }
+.icon.error::before                                { content: '3'; }
+.icon.message::before                              { content: '4'; }
+.icon.close::before                                { content: '5'; }
+.icon.success::before                              { content: '6'; }
+.icon.hourglass::before                            { content: '7'; }
+.icon.loading::before                              { content: '7'; }
+.icon.questionmark::before                         { content: '8'; }
+.icon.screensize::before                           { content: '9'; }
+.icon.windowminimize::before                       { content: 'a'; }
+.icon.winmin::before                               { content: 'a'; }
+.icon.windowclose::before                          { content: '0'; }
+.icon.winclose::before                             { content: '0'; }
+.icon.windowmaximize::before                       { content: 'b'; }
+.icon.winmax::before                               { content: 'b'; }
+.icon.windowmaximizevertical::before               { content: 'c'; }
+.icon.winmaxvert::before                           { content: 'c'; }
+.icon.windowmaximizehorizontal::before             { content: 'd'; }
+.icon.winmaxhoriz::before                          { content: 'd'; }
+.icon.windowshrink::before                         { content: 'e'; }
+.icon.winshrink::before                            { content: 'e'; }
+.icon.windowresize::before                         { content: 'f'; }
+.icon.unchecked::before                            { content: 'g'; }
+.icon.checked::before                              { content: 'h'; }
+.icon.speakeractive::before                        { content: 'i'; }
+.icon.speakermute::before                          { content: 'j'; }
+.icon.gear::before                                 { content: 'k'; }
+.icon.cogwheel::before                             { content: 'k'; }
+.icon.cog::before                                  { content: 'k'; }
+.icon.power::before                                { content: 'l'; }
+.icon.phase::before                                { content: 'm'; }
+.icon.phaseinvert::before                          { content: 'm'; }
+.icon.arrowdown::before                            { content: 'n'; }
+.icon.arrowup::before                              { content: 'o'; }
+.icon.arrowleft::before                            { content: 'p'; }
+.icon.arrowright::before                           { content: 'q'; }
+.icon.highpass::before                             { content: 'r'; }
+.icon.hipass::before                               { content: 'r'; }
+.icon.lowpass::before                              { content: 's'; }
+.icon.lopass::before                               { content: 's'; }
+.icon.highshelf::before                            { content: 't'; }
+.icon.hishelf::before                              { content: 't'; }
+.icon.lowshelf::before                             { content: 'u'; }
+.icon.loshelf::before                              { content: 'u'; }
+.icon.bandpass::before                             { content: 'v'; }
+.icon.bandreject::before                           { content: 'w'; }
+.icon.notch::before                                { content: 'x'; }
+.icon.parametric::before                           { content: 'y'; }
