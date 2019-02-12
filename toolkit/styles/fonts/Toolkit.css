@@ -2,7 +2,7 @@
   font-family: "Toolkit";
   font-style: normal;
   font-weight: normal;
-  src: local("Toolkit"), url("Toolkit.ttf") format("truetype");
+  src: url("Toolkit.ttf") format("truetype");
 }
 
 .toolkit-icon {
