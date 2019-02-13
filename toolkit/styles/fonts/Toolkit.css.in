@@ -2,7 +2,7 @@
   font-family: "[name]";
   font-style: normal;
   font-weight: normal;
-  src: local("[name]"), url("[name].ttf") format("truetype");
+  src: url("[name].ttf") format("truetype");
 }
 
 .[prefix]icon {
