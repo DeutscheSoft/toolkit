@@ -90,3 +90,5 @@
 .toolkit-icon.sawtooth::before                             { content: 'D'; }
 .toolkit-icon.triangle::before                             { content: 'E'; }
 .toolkit-icon.bypass::before                               { content: 'F'; }
+.toolkit-icon.stairs::before                               { content: 'G'; }
+.toolkit-icon.aliased::before                              { content: 'G'; }
