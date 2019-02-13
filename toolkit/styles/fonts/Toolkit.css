@@ -85,3 +85,7 @@
 .toolkit-icon.bandreject::before                           { content: 'y'; }
 .toolkit-icon.notch::before                                { content: 'z'; }
 .toolkit-icon.parametric::before                           { content: 'A'; }
+.toolkit-icon.sine::before                                 { content: 'B'; }
+.toolkit-icon.pulse::before                                { content: 'C'; }
+.toolkit-icon.sawtooth::before                             { content: 'D'; }
+.toolkit-icon.triangle::before                             { content: 'E'; }
