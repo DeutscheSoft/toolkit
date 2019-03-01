@@ -93,6 +93,7 @@ TK.ButtonArray = TK.class({
      *   scrolling. This reduces performance because movement is done in JS
      *   instead of (probably accelerated) CSS transitions. 0 for standard
      *   behavior, n > 0 is handled as milliseconds for transitions.
+     * @property {Object} [options.button_class=TK.Button] - A class to be used for instantiating the buttons.
      * 
      * @class TK.ButtonArray
      * 
@@ -107,6 +108,7 @@ TK.ButtonArray = TK.class({
         show: "int",
         resized: "boolean",
         scroll: "number",
+        button_class: "object",
     }),
     options: {
         buttons: [],
@@ -115,6 +117,7 @@ TK.ButtonArray = TK.class({
         show: -1,
         resized: false,
         scroll: 0,
+        button_class: TK.Button,
     },
     static_events: {
         set_buttons: function(value) {
@@ -256,7 +259,7 @@ TK.ButtonArray = TK.class({
     add_button: function (options, position) {
         if (typeof options === "string")
             options = {label: options}
-        var b    = new TK.Button(options);
+        var b    = new this.options.button_class(options);
         var len  = this.buttons.length;
         var vert = this.options.direction === "vertical";
         if (position === void(0))
