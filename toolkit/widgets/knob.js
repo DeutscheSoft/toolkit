@@ -33,7 +33,7 @@ function dblclick() {
      * @event TK.Fader#doubleclick
      */
     this.fire_event("doubleclick", this.options.value);
-    this.fire_event("useraction", this.options.value);
+    this.fire_event("useraction", "value", this.options.value);
 }
 /**
  * TK.Knob is a {@link TK.Circular} inside of an SVG and which can be
