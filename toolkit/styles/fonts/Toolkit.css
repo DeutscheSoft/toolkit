@@ -94,3 +94,7 @@
 .toolkit-icon.aliased::before                              { content: 'G'; }
 .toolkit-icon.stereo::before                               { content: 'H'; }
 .toolkit-icon.mono::before                                 { content: 'I'; }
+.toolkit-icon.zoom::before                                 { content: 'J'; }
+.toolkit-icon.magnifier::before                            { content: 'J'; }
+.toolkit-icon.zoomin::before                               { content: 'K'; }
+.toolkit-icon.zoomout::before                              { content: 'L'; }
