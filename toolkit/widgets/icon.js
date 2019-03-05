@@ -51,6 +51,7 @@ TK.Icon = TK.class({
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-icon"); 
         this.widgetize(E, true, true, true);
+        this._icon_old = [];
     },
     redraw: function() {
         var O = this.options;
@@ -62,8 +63,12 @@ TK.Icon = TK.class({
         if (I.icon) {
             I.icon = false;
             var old = this._icon_old;
-            if (old && TK.is_class_name(old))
-                TK.remove_class(E, old);
+            for (var i = 0; i < old.length; i++) {
+                if (old[i] && TK.is_class_name(old[i])) {
+                    TK.remove_class(E, old[i]);
+                }
+            }
+            this._icon_old = [];
             if (TK.is_class_name(O.icon)) {
                 E.style["background-image"] = null;
                 if (O.icon)
@@ -75,7 +80,7 @@ TK.Icon = TK.class({
     },
     set: function (key, val) {
         if (key == "icon") {
-            this._icon_old = this.options.icon;
+            this._icon_old.push(this.options.icon);
         }
         return TK.Widget.prototype.set.call(this, key, val);
     },
