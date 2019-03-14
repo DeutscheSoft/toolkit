@@ -335,6 +335,14 @@ TK.Fader = TK.class({
         }
 
         return TK.Widget.prototype.set.call(this, key, value);
+    },
+    userset: function (key, value) {
+        if (key == "value") {
+            if (value > this.options.max || value < this.options.min)
+                this.warning(this.element);
+            value = this.snap(value);
+        }
+        return TK.Widget.prototype.userset.call(this, key, value);
     }
 });
 /**
