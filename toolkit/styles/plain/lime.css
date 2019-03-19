@@ -115,6 +115,13 @@
     background: #e3e3e3;
 }
 
+.toolkit-frame {
+    border-color: white;
+}
+.toolkit-frame > .toolkit-frame-label {
+    background: #e3e3e3;
+}
+
 .toolkit-gauge > svg > .toolkit-circular {
     fill: #666;
 }

@@ -715,8 +715,11 @@ function ChildWidget(widget, name, config) {
     /* trigger child widget creation after initialization */
     add_static_event(widget, "initialized", function() {
         /* we do not want to trash the class cache */
-        this[name] = null;
-        this.set(key, this.options[key]);
+        if (!this[name])
+        {
+          this[name] = null;
+          this.set(key, this.options[key]);
+        }
     });
 
     /* clean up on destroy */
