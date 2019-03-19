@@ -127,7 +127,6 @@ pre, code {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    flex: 0 0 auto;
     margin: auto;
 }
 .toolkit-button > .toolkit-icon {
@@ -139,9 +138,11 @@ pre, code {
     background-size: contain;
     background-repeat: no-repeat;
     order: 1;
+    flex: 0 0 auto;
 }
 .toolkit-button > .toolkit-label {
     order: 2;
+    flex: 1 1 auto;
 }
 .toolkit-button.toolkit-vertical {
     flex-direction: column;
