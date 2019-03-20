@@ -95,13 +95,10 @@ function dragging(e, drag) {
     }
     /**
      * The user is dragging this item.
-     * The arguments are the native DOM event object and both the x and y coordinate.
      *
      * @event TK.Drag#dragging
      * 
      * @param {DOMEvent} event - The native DOM event.
-     * @param {int} x - The new x position.
-     * @param {int} y - The new y position.
      */
 }
 function set_handle() {

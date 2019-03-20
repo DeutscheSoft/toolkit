@@ -302,9 +302,10 @@ w.TK.DragCapture = TK.class({
      * 
      * @extends TK.Module
      *
+     * @param {Object} widget - The parent widget making use of DragValue.
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @param {HTMLElement} node - The DOM element receiving the drag events.
+     * @param {HTMLElement} [options.node] - The DOM element receiving the drag events. If not set the widgets element is used.
      * 
      * @class TK.DragCapture
      */
