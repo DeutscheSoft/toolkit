@@ -18,6 +18,19 @@
  */
 "use strict";
 (function(w, TK){
+    
+function extract_matrix (t) {
+    var a = t.indexOf("matrix(");
+    if (a < 0) return; 
+    t = t.substr(a+7);
+    return (t.split(")"))[0].split(",").map(function(v){return parseInt(v.trim())});
+}
+
+function xy_from_transform (t) {
+    var mx = extract_matrix(t);
+    return (!mx || !mx.length) ? [0, 0] : [mx[4], mx[5]];
+}
+
 function startdrag(e, drag) {
     this._dragged = 0;
     var O = this.options;
@@ -25,8 +38,14 @@ function startdrag(e, drag) {
     if (e.button !== void(0) && e.button > 0) return;
     this._xstart = this._xlast = e.pageX;
     this._ystart = this._ylast = e.pageY;
-    this._xpos   = O.node.offsetLeft;
-    this._ypos   = O.node.offsetTop;
+    if (O.transform) {
+        var xy = xy_from_transform(this._style.transform);
+        this._xpos = xy[0];
+        this._ypos = xy[1];
+    } else {
+        this._xpos = O.node.offsetLeft;
+        this._ypos = O.node.offsetTop;
+    }
     TK.add_class(O.node, "toolkit-dragging");
     /** 
      * The user started dragging this item.
@@ -63,8 +82,17 @@ function dragging(e, drag) {
     if (O.max.x !== false) x = Math.min(O.max.x, x);
     if (O.min.y !== false) y = Math.max(O.min.y, y);
     if (O.max.y !== false) y = Math.min(O.max.y, y);
-    O.node.style.top = y + "px";
-    O.node.style.left = x + "px";
+    if (O.transform) {
+        var t = this._style.transform;
+        var mx = extract_matrix(t);
+        mx[4] = x;
+        mx[5] = y;
+        var nt = t.replace(/matrix\([0-9 \,]*\)/, "matrix(" + mx.join(",") + ")");
+        O.node.style.transform = nt;
+    } else {
+        O.node.style.top = y + "px";
+        O.node.style.left = x + "px";
+    }
     /**
      * The user is dragging this item.
      * The arguments are the native DOM event object and both the x and y coordinate.
@@ -97,9 +125,10 @@ function set_handle() {
  * @property {HTMLElement|SVGElement} options.node - The element to drag.
  * @property {HTMLElement|SVGElement} [options.handle] A DOM node to be used as a handle. If not set, <code>options.node</code> is used.
  * @property {Boolean} [options.active=true] - Enable or disable dragging
- * @property {Object|Boolean} [options.min={x: -1, y: -1}] - Object containing the minimum positions for x and y. A value of <code>false</code> is interpreted as no minimum.
- * @property {Object|Boolean} [options.max={x: -1, y: -1}] - Object containing the maximum positions for x and y. A value of <code>false</code> is interpreted as no maximum.
+ * @property {Object|Boolean} [options.min={x: false, y: false}] - Object containing the minimum positions for x and y. A value of <code>false</code> is interpreted as no minimum.
+ * @property {Object|Boolean} [options.max={x: false, y: false}] - Object containing the maximum positions for x and y. A value of <code>false</code> is interpreted as no maximum.
  * @property {Number} [options.initial=2] - Number of pixels the user has to move until dragging starts.
+ * @property {Boolean} [options.transform=false] - Use CSS transformations instead of absolute positioning.
  * 
  * @extends TK.Base
  * 
@@ -112,17 +141,19 @@ TK.Drag = TK.class({
         node    : "object",
         handle  : "object",
         active  : "boolean",
-        min     : "object|boolean",
-        max     : "object|boolean",
-        initial : "number"
+        min     : "object",
+        max     : "object",
+        initial : "number",
+        transform : "boolean",
     },
     options: {
         node      : null,
         handle    : null,
         active    : true,
-        min       : {x: -1, y: -1},
-        max       : {x: -1, y: -1},
+        min       : {x: false, y: false},
+        max       : {x: false, y: false},
         initial   : 2,
+        transform : false,
     },
     static_events: {
         startdrag: startdrag,
@@ -132,16 +163,21 @@ TK.Drag = TK.class({
     initialize: function (options) {
         TK.Base.prototype.initialize.call(this, options);
         this.set("handle", this.options.handle);
+        this.set("node", this.options.node);
     },
     // GETTERS & SETTERS
     set: function (key, value) {
+        if (key === "node")
+            this._style = w.getComputedStyle(value);
         if (key === "handle" && !value)
             value = this.options.node;
 
         TK.Base.prototype.set.call(this, key, value);
 
-        if (key === "handle") set_handle.call(this);
-        if (key === "initial" && this.drag) this.drag.set("initial", value);
+        if (key === "handle")
+            set_handle.call(this);
+        if (key === "initial" && this.drag)
+            this.drag.set("initial", value);
     }
 });
 })(this, this.TK);

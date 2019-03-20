@@ -9,6 +9,8 @@ o added DragCapture. DragCapture implements a pointer capture logic. It is now u
 
 o Iconset as font
 
+o Drag supports CSS transformations if option "transform" is set to true.
+
 Improvements
 ============
 
