@@ -90,6 +90,8 @@ function movecapture_abs(O, range, state) {
         dist = state.vdistance()[0];
         break;
     }
+    if (O.reverse)
+        dist *= -1;
 
     var multi = range.options.step || 1;
     var e = state.current;
@@ -177,6 +179,7 @@ TK.DragValue = TK.class({
      * @property {Number} [options.rotation=45] - Defines the angle of the center of the positive value
      *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
      *   moving towards top and right.
+     * @property {Boolean} [options.reverse=false] - If true, the difference of pointer travel is inverted.
      *
      * @extends TK.Module
      *
@@ -203,6 +206,7 @@ TK.DragValue = TK.class({
         cursor: "boolean",
         blind_angle: "number",
         rotation: "number",
+        reverse: "boolean",
     },
     options: {
         range:     function () { return this.parent; },
@@ -215,6 +219,7 @@ TK.DragValue = TK.class({
         cursor:    false,
         blind_angle: 20,
         rotation:  45,
+        reverse:   false,
     },
     static_events: {
         set_state: start_drag,

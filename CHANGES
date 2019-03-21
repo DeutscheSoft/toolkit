@@ -9,13 +9,15 @@ o added DragCapture. DragCapture implements a pointer capture logic. It is now u
 
 o Iconset as font
 
-o Drag supports CSS transformations if option "transform" is set to true.
-
 Improvements
 ============
 
 o DragValue: The 'blind_angle' option now applies to all choices of the 'direction'
   option.
+
+o DragValue: can be reversed by setting the option "reverse" to true.
+
+o Drag: supports CSS transformations if option "transform" is set to true.
 
 o ResponseHandle: has real MultiTouch support. This also applies to the z_handling
   gesture, which means that any number of touch points can now drag handles in the
