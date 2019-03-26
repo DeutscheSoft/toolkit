@@ -34,6 +34,19 @@ o Faders with markers (tiny triangles) and bars to visualize different other
 o Window: complete rewrite. Less DOM nodes, less complexity, using new
   toolkit APIs. Additionally layout switched from table-like div zoo to
   more slick flexbox.
+  
+o ValueKnob: All children are of class ChildWidget now. This breaks the
+  use of "label" option for TK.Label, had to be renamed to "title".
+  
+o MeterBase: Title and value label are real widgets now. Their name changed
+  so they don't have an underscore any more:
+  _label -> label and _title -> title
+
+o MultiMeter: Title is a ChildWidget now. Name changed from _title to title.
+  
+o ValueButton: _bar, _base and marker were removed in favour of new Scale ChildWidget.
+
+o Value: new option "readonly"
 
 API Changes
 ===========
