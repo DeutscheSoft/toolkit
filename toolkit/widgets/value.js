@@ -138,6 +138,7 @@ function submit_cb(e) {
  * @property {Function} [options.set=function (val) { return parseFloat(val || 0); }] -
  *   A function which is called to parse user input.
  * @property {boolean} [options.auto_select=false] - Select the entire text in the entry field if clicked (new in v1.3).
+ * @property {boolean} [options.readonly=false] - Sets the readonly attribute (new in v1.3).
  * 
  */
 TK.Value = TK.class({
@@ -149,7 +150,8 @@ TK.Value = TK.class({
         size: "number",
         maxlength: "int",
         set: "object|function|boolean",
-        auto_select: "boolean"
+        auto_select: "boolean",
+        readonly: "boolean"
     }),
     options: {
         value: 0,
@@ -160,7 +162,8 @@ TK.Value = TK.class({
         // false to disable editing. A function has to return
         // the value treated by the parent widget.
         set: function (val) { return parseFloat(val || 0); },
-        auto_select: false
+        auto_select: false,
+        readonly: false
     },
     static_events: {
         submit: submit_cb,
@@ -214,6 +217,11 @@ TK.Value = TK.class({
         if ((I.value || I.format) && !this.__editing) {
             I.format = I.value = false;
             E.value = O.format(O.value);
+        }
+        
+        if (I.readonly) {
+            I.readonly = 0;
+            E.setAttribute("readonly", O.readonly ? "readonly" : null);
         }
     },
     
