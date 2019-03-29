@@ -235,7 +235,7 @@ TK.Dynamics = TK.class({
                                });
                 } else {
                     curve.push({x: max,
-                                y: thres
+                                y: thres + makeup
                                });
                 }
 
