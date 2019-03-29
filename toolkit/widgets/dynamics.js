@@ -200,7 +200,19 @@ TK.Dynamics = TK.class({
         var makeup = O.makeup;
         var min = O.min;
         var max = O.max;
-        var s = (1 / (Math.max(ratio, 1.001) - 1)) * ratio * ref;
+        var s;
+        if (ref == 0)
+        {
+          s = 0;
+        }
+        else if (!isFinite(ratio))
+        {
+          s = ref;
+        }
+        else
+        {
+          s = (1 / (Math.max(ratio, 1.001) - 1)) * ratio * ref;
+        }
         var l = 5; // estimated with of line. dirty workaround for
                    // keeping the line end out of sight in case
                    // salient point is outside the visible are
