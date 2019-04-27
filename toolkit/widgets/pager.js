@@ -124,18 +124,6 @@ TK.Pager = TK.class({
          *
          * @member TK.Pager#element
          */
-        /**
-         * @member {HTMLDivElement} TK.Pager#_buttonarray_wrapper - An internal container for layout purposes containing the #TK.ButtonArray.
-         *   Has classes <code>toolkit-buttonarray-wrapper</code> and <code>toolkit-wrapper</code>.
-         */
-        /**
-         * @member {HTMLDivElement} TK.Pager#_container_wrapper - An internal container for layout purposes containing the _clip element.
-         *   Has classes <code>toolkit-wrapper</code> and <code>toolkit-container-wrapper</code>.
-         */
-        /**
-         * @member {HTMLDivElement} TK.Pager#_clip - The clipping area containing the pages.
-         *   Has class <code>toolkit-clip</code>.
-         */
         TK.add_class(this.element, "toolkit-pager");
         /**
          * The {@link TK.ButtonArray} instance acting as the menu.
