@@ -234,6 +234,7 @@ function touchstart(ev) {
     return false;
 }
 function touchmove(ev) {
+    if (!this.drag_state) return;
     /* we are scrolling, ignore the event */
     if (!ev.cancelable) return;
     /* if we cannot find the right touch, some other touchpoint
