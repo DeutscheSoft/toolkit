@@ -327,8 +327,8 @@ TK.Equalizer = TK.class({
      * @param {Array<TK.EqBand>} bands - An array of {@link TK.EqBand} instances.
      */
     remove_bands: function () {
-        for (var i = 0; i < this.bands.length; i++) {
-            this.remove_band(this.bands[i]);
+        while (this.bands.length) {
+            this.remove_band(this.bands[0]);
         }
         this.bands = [];
         /**
