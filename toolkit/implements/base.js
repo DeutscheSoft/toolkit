@@ -615,7 +615,7 @@ function get_child_options(parent, name, options, config) {
         }
 
         if (inherit_options) {
-            if (key in config.create.prototype._options && !(key in TK.Widget.prototype._options)) {
+            if (key in config.create.prototype._options && !(key in TK["Widget"].prototype._options)) {
                 ret[key] = options[key];
             }
         }
@@ -771,7 +771,7 @@ function ChildWidget(widget, name, config) {
             if (this[name]) this[name].set(key, val);
         };
         for (tmp in child.prototype._options) {
-            if (tmp in TK.Widget.prototype._options) continue;
+            if (tmp in TK["Widget"].prototype._options) continue;
             add_static_event(widget, "set_"+tmp, set_cb);
             if (!p._options[tmp])
                 p._options[tmp] = child.prototype._options[tmp];
