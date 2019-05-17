@@ -1,3 +1,7 @@
+Changes since version 1.2
+--------------------------------------
+
+
 Changes since version 1.1
 --------------------------------------
 
@@ -36,6 +40,10 @@ o Window: complete rewrite. Less DOM nodes, less complexity, using new
   more slick flexbox.
   
 o Value: new option "readonly"
+
+o Refactorering to allow using toolkit in module context. This allows
+  using it from within Angular or similar frameworks and to bundle it
+  with tools such as webpack.
 
 API Changes
 ===========

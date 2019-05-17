@@ -45,6 +45,6 @@ When you find a bug in this software, please report it to our issue tracker at [
 toolkit is released unter the the terms of the GPLv3. See the file `COPYING`
 file for details.
 
-Copyright (c) 2013-2018 Markus Schmidt <markus@deuso.de>
+Copyright (c) 2013-2019 Markus Schmidt <markus@deuso.de>
 
-Copyright (c) 2014-2018 Arne G&ouml;deke <arne@deuso.de>
+Copyright (c) 2014-2019 Arne G&ouml;deke <arne@deuso.de>
