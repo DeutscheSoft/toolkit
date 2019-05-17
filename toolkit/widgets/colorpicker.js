@@ -55,7 +55,7 @@ Drag.prototype = {
             this.callback(Math.max(0, Math.min(1, (e.pageX - this.rect.left) / this.rect.width)),
                           Math.max(0, Math.min(1, (e.pageY - this.rect.top) / this.rect.height)));
     },
-    get_event(e) {
+    get_event: function(e) {
         if (e.hasOwnProperty("touches") && touches.length)
             return e.touches[0];
         return e;
