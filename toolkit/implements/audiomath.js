@@ -25,14 +25,13 @@
  *
  * @mixin TK.AudioMath
  */
-TK.AudioMath = (function(stdlib, foreign, heap) {
-    //"use asm";
-    var exp = stdlib.Math.exp;
-    var log = stdlib.Math.log;
-    var pow = stdlib.Math.pow;
-    var MAX = stdlib.Math.max;
-    var LN2 = stdlib.Math.LN2;
-    var LN10 = stdlib.Math.LN10;
+TK.AudioMath = (function() {
+    var exp = Math.exp;
+    var log = Math.log;
+    var pow = Math.pow;
+    var MAX = Math.max;
+    var LN2 = Math.LN2;
+    var LN10 = Math.LN10;
 
     function log2(value) {
         value = +value;
@@ -322,4 +321,4 @@ TK.AudioMath = (function(stdlib, foreign, heap) {
         freq2scale: freq2scale,
         scale2freq: scale2freq
     }
-})(this);
+})();

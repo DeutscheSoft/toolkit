@@ -18,7 +18,7 @@
  */
 "use strict";
 (function(w, TK){
-var document = w.document;
+var document = window.document;
 
 /* this has no global symbol */
 function CaptureState(start) {
@@ -293,7 +293,7 @@ var static_events = {
     mousedown: mousedown,
 };
 
-w.TK.DragCapture = TK.class({
+TK.DragCapture = TK.class({
     
     /**
      * TK.DragCapture is a low-level class for tracking drag events on

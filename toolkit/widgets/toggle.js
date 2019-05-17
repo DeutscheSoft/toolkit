@@ -22,7 +22,7 @@
 /* Abstract toggle logic */
 
 function reset_delay_to () {
-    w.clearTimeout(this.__delayed_to);
+    window.clearTimeout(this.__delayed_to);
     this.__delayed_to = -1;
     this.remove_class("toolkit-delayed");
 }
@@ -35,7 +35,7 @@ function press_start() {
     var O = this.options;
     this.__press_start_time = Date.now();
     if (O.delay && this.__delayed_to < 0) {
-        this.__delayed_to = w.setTimeout((function (t) {
+        this.__delayed_to = window.setTimeout((function (t) {
             return function () { press_start.call(t); }
         })(this), O.delay);
         this.add_class("toolkit-delayed");

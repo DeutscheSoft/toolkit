@@ -94,16 +94,16 @@ TK.Notification = TK.class({
   remove: close,
   destroy: function() {
     if (this._timeout !== void(0))
-      w.clearTimeout(this._timeout);
+      window.clearTimeout(this._timeout);
     TK.Container.prototype.destroy.call(this);
   },
   set: function(key, val) {
     TK.Container.prototype.set.call(this, key, val);
     if (key === "timeout") {
       if (this._timeout !== void(0))
-        w.clearTimeout(this._timeout);
+        window.clearTimeout(this._timeout);
       if (val > 0)
-        this._timeout = w.setTimeout(timeout.bind(this), val);
+        this._timeout = window.setTimeout(timeout.bind(this), val);
     }
   },
 });

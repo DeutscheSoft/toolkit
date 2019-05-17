@@ -914,4 +914,4 @@ function ChildElement(widget, name, config) {
     }
 }
 TK.ChildElement = ChildElement;
-})(this, this.TK);
+})(this, this.TK||{});

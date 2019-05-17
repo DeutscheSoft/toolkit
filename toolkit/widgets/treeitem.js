@@ -126,7 +126,7 @@ TK.TreeItem = TK.class({
             if (O.collapsed) {
                 var h = this.list.element.offsetHeight;
                 s["height"] = h + "px";
-                w.requestAnimationFrame(function () {s["height"] = "0px";});
+                window.requestAnimationFrame(function () {s["height"] = "0px";});
             } else {
                 var list = this.list.element;
                 /* This is a train */

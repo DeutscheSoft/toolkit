@@ -187,7 +187,7 @@ DOMScheduler.prototype.add_next = function(o, prio) {
     this.will_render = true;
     if (this.running) return;
 
-    w.requestAnimationFrame(this.bound_run);
+    window.requestAnimationFrame(this.bound_run);
 };
 DOMScheduler.prototype.add = function(o, prio) {
     Scheduler.prototype.add.call(this, o, prio);
@@ -196,7 +196,7 @@ DOMScheduler.prototype.add = function(o, prio) {
     if (this.running) return;
     this.will_render = true;
 
-    w.requestAnimationFrame(this.bound_run);
+    window.requestAnimationFrame(this.bound_run);
 };
 DOMScheduler.prototype.run = function() {
     this.will_render = false;
@@ -204,14 +204,14 @@ DOMScheduler.prototype.run = function() {
     Scheduler.prototype.run.call(this);
     this.running = false;
     if (this.will_render)
-      w.requestAnimationFrame(this.bound_run);
+      window.requestAnimationFrame(this.bound_run);
 };
 DOMScheduler.prototype.after_frame = function(fun) {
     Scheduler.prototype.after_frame.call(this, fun);
     if (this.will_render) return;
     if (this.running) return;
     this.will_render = true;
-    w.requestAnimationFrame(this.bound_run);
+    window.requestAnimationFrame(this.bound_run);
 };
 w.Scheduler = Scheduler;
 w.DOMScheduler = DOMScheduler;

@@ -65,7 +65,7 @@ var state_reset = function () {
     this.set("icon", T.icon);
     
   if (T.timeout >= 0)
-    w.clearTimeout(T.timeout);
+    window.clearTimeout(T.timeout);
   
   if (T.reset)
     document.removeEventListener("click", T.reset, true);

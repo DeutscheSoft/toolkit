@@ -42,12 +42,12 @@ TK.Root = TK.class({
     _options: Object.create(TK.Container.prototype._options),
     static_events: {
         initialized: function () {
-            w.addEventListener("resize", this._resize_cb);
+            window.addEventListener("resize", this._resize_cb);
             document.addEventListener("visibilitychange", this._visibility_cb, false);
             this.enable_draw();
         },
         destroy: function() {
-            w.removeEventListener("resize", this._resize_cb);
+            window.removeEventListener("resize", this._resize_cb);
             document.removeEventListener("visibilitychange", this._visibility_cb)
             this._resize_cb = this._visibility_cb = null;
         },

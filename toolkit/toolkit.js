@@ -150,10 +150,10 @@ if ('classList' in document.createElement("_") && 'classList' in make_svg('text'
 var data_store;
 var data;
 
-if ('WeakMap' in w) {
+if ('WeakMap' in window) {
     data = function(e) {
         var r;
-        if (!data_store) data_store = new w.WeakMap();
+        if (!data_store) data_store = new window.WeakMap();
 
         r = data_store[e];
 
@@ -180,7 +180,7 @@ if ('WeakMap' in w) {
 
 var get_style;
 
-if ('getComputedStyle' in w) {
+if ('getComputedStyle' in window) {
   /**
    * Returns the computed style of a node.
    *
@@ -191,7 +191,7 @@ if ('getComputedStyle' in w) {
    * @function TK.get_style
    */
   get_style = function(e, style) {
-    return w.getComputedStyle(e).getPropertyValue(style);
+    return window.getComputedStyle(e).getPropertyValue(style);
   };
 } else {
   get_style = function(e, style) {
@@ -380,7 +380,7 @@ function width() {
      * @returns {number}
      * @function TK.width
      */
-    return Math.max(document.documentElement.clientWidth || 0, w.innerWidth || 0, document.body.clientWidth || 0);
+    return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0, document.body.clientWidth || 0);
 }
 function height() {
     /**
@@ -388,7 +388,7 @@ function height() {
      * @returns {number}
      * @function TK.height
      */
-    return Math.max(document.documentElement.clientHeight, w.innerHeight || 0, document.body.clientHeight || 0);
+    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0, document.body.clientHeight || 0);
 }
 function scroll_top(element) {
     /**
@@ -399,7 +399,7 @@ function scroll_top(element) {
      */
     if (element)
         return element.scrollTop;
-    return Math.max(document.documentElement.scrollTop || 0, w.pageYOffset || 0, document.body.scrollTop || 0);
+    return Math.max(document.documentElement.scrollTop || 0, window.pageYOffset || 0, document.body.scrollTop || 0);
 }
 function scroll_left(element) {
     /**
@@ -410,7 +410,7 @@ function scroll_left(element) {
      */
     if (element)
         return element.scrollLeft;
-    return Math.max(document.documentElement.scrollLeft, w.pageXOffset || 0, document.body.scrollLeft || 0);
+    return Math.max(document.documentElement.scrollLeft, window.pageXOffset || 0, document.body.scrollLeft || 0);
 }
 function scroll_all_top(element) {
     /**
@@ -834,8 +834,8 @@ function is_touch() {
      * @returns {boolean}
      * @function TK.is_touch
      */
-    return 'ontouchstart' in w // works on most browsers
-      || 'onmsgesturechange' in w; // works on ie10
+    return 'ontouchstart' in window // works on most browsers
+      || 'onmsgesturechange' in window; // works on ie10
 }
 function os() {
     /**
@@ -933,9 +933,9 @@ function delayed_callback(timeout, cb, once) {
         args = Array.prototype.slice.call(arguments);
 
         if (tid)
-            w.clearTimeout(tid);
+            window.clearTimeout(tid);
         else if (once) once();
-        tid = w.setTimeout(my_cb, timeout);
+        tid = window.setTimeout(my_cb, timeout);
     };
 }
 
@@ -1039,9 +1039,9 @@ function is_dom_node(o) {
  * @function TK.error
  */
 function error() {
-    if (!w.console) return;
+    if (!window.console) return;
     try {
-        w.console.error.apply(w.console, arguments);
+        window.console.error.apply(window.console, arguments);
     } catch(e) {}
 }
 
@@ -1053,9 +1053,9 @@ function error() {
  * @function TK.warn
  */
 function warn() {
-    if (!w.console) return;
+    if (!window.console) return;
     try {
-        w.console.warn.apply(w.console, arguments);
+        window.console.warn.apply(window.console, arguments);
     } catch(e) {}
 }
 /**
@@ -1066,9 +1066,9 @@ function warn() {
  * @function TK.log
  */
 function log() {
-    if (!w.console) return;
+    if (!window.console) return;
     try {
-        w.console.log.apply(w.console, arguments);
+        window.console.log.apply(window.console, arguments);
     } catch(e) {}
 }
 
@@ -1167,9 +1167,9 @@ function remove_passive_event_listener(e, type, cb) {
   remove_event_listener(e, type, cb, passive_options);
 }
 
-TK = w.toolkit = {
+TK = w.toolkit = w.TK = {
     // ELEMENTS
-    S: new DOMScheduler(),
+    S: new w.DOMScheduler(),
     is_dom_node: is_dom_node,
     get_id: get_id,
     get_class: get_class,
@@ -1260,7 +1260,7 @@ TK = w.toolkit = {
         return { name : M[0], version : M[1] };
     }(),
     
-    supports_transform: function () { return 'transform' in w.document.createElement("div").style; }(),
+    supports_transform: function () { return 'transform' in document.createElement("div").style; }(),
 
     // SVG
 

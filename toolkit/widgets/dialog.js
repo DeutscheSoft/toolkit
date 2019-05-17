@@ -110,7 +110,7 @@ TK.Dialog = TK.class({
         var O = this.options;
         /* This cannot be a default option because document.body
          * is not defined there */
-        if (!O.container) O.container = w.document.body;
+        if (!O.container) O.container = window.document.body;
         this._autoclose_active = false;
         this._autoclose_cb = autoclose_cb.bind(this);
         this.set('visible', O.visible);

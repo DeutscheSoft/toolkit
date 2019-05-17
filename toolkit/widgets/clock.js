@@ -137,7 +137,7 @@ function timeout() {
         if (O.timeadd) {
             targ += (O.timeadd|0) - ((ts % 1000)|0)
         }
-        this.__to = w.setTimeout(this.__timeout, targ);
+        this.__to = window.setTimeout(this.__timeout, targ);
     } else this.__to = false;
 }
 function onhide() {

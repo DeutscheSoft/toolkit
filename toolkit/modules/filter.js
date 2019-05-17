@@ -214,11 +214,11 @@ var standard_biquads = {
 var NullModule = { freq2gain: function(f) { return 0.0; } };
 
 function BilinearModule(w, O) {
-    var log = w.Math.log;
-    var sin = w.Math.sin;
+    var log = Math.log;
+    var sin = Math.sin;
 
-    var LN10_10 = (O.factor||1.0) * 10/w.Math.LN10;
-    var PI = +(w.Math.PI/O.sample_rate);
+    var LN10_10 = (O.factor||1.0) * 10/Math.LN10;
+    var PI = +(Math.PI/O.sample_rate);
     var Ra = +((O.a0 + O.a1) * (O.a0 + O.a1) / 4);
     var Rb = +((O.b0 + O.b1) * (O.b0 + O.b1) / 4);
     var Ya = +(O.a1 * O.a0);
@@ -238,11 +238,11 @@ function BilinearModule(w, O) {
 }
 
 function BiquadModule(w, O) {
-    var log = w.Math.log;
-    var sin = w.Math.sin;
+    var log = Math.log;
+    var sin = Math.sin;
 
-    var LN10_10 = (O.factor||1.0) * 10/w.Math.LN10;
-    var PI = +(w.Math.PI/O.sample_rate);
+    var LN10_10 = (O.factor||1.0) * 10/Math.LN10;
+    var PI = +(Math.PI/O.sample_rate);
     var Ra = +((O.a0 + O.a1 + O.a2) * (O.a0 + O.a1 + O.a2) / 4);
     var Rb = +((O.b0 + O.b1 + O.b2) * (O.b0 + O.b1 + O.b2) / 4);
     var Xa = +(4 * O.a0 * O.a2);

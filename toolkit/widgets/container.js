@@ -362,7 +362,7 @@ TK.Container = TK.class({
             TK.remove_class(E, "toolkit-hiding", "toolkit-hide", "toolkit-showing", "toolkit-show");
 
             if (this.__hide_id) {
-                w.clearTimeout(this.__hide_id);
+                window.clearTimeout(this.__hide_id);
                 this.__hide_id = false;
             }
 
@@ -371,7 +371,7 @@ TK.Container = TK.class({
                 TK.add_class(E, "toolkit-hiding");
                 time = O.hiding_duration || TK.get_duration(E);
                 if (time > 0) {
-                    this.__hide_id = w.setTimeout(this.__after_hiding, time);
+                    this.__hide_id = window.setTimeout(this.__after_hiding, time);
                     break;
                 }
                 this.set("display_state", "hide");
@@ -385,7 +385,7 @@ TK.Container = TK.class({
                 TK.add_class(E, "toolkit-showing");
                 time = O.showing_duration || TK.get_duration(E);
                 if (time > 0) {
-                    this.__hide_id = w.setTimeout(this.__after_showing, time);
+                    this.__hide_id = window.setTimeout(this.__after_showing, time);
                     enable_draw_children.call(this);
                     break;
                 }

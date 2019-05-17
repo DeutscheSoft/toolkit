@@ -165,7 +165,7 @@ TK.Drag = TK.class({
     // GETTERS & SETTERS
     set: function (key, value) {
         if (key === "node")
-            this._style = w.getComputedStyle(value);
+            this._style = window.getComputedStyle(value);
         if (key === "handle" && !value)
             value = this.options.node;
 
