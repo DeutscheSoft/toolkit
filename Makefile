@@ -5,6 +5,7 @@ js_input_files = \
     toolkit/G.js\
     toolkit/toolkit.js\
     toolkit/implements/base.js\
+    toolkit/widgets/widget.js\
     toolkit/implements/audiomath.js\
     toolkit/implements/anchor.js\
     toolkit/implements/ranges.js\
@@ -13,10 +14,11 @@ js_input_files = \
     toolkit/implements/warning.js\
     toolkit/implements/gradient.js\
     toolkit/implements/notes.js\
-    toolkit/widgets/widget.js\
-    toolkit/modules/dragcapture.js\
     toolkit/widgets/tooltips.js\
     toolkit/widgets/icon.js\
+    toolkit/widgets/label.js\
+    toolkit/widgets/colors.js\
+    toolkit/modules/dragcapture.js\
     toolkit/modules/grid.js\
     toolkit/modules/range.js\
     toolkit/modules/scale.js\
@@ -31,7 +33,8 @@ js_input_files = \
     toolkit/modules/drag.js\
     toolkit/widgets/container.js\
     toolkit/widgets/root.js\
-    toolkit/widgets/label.js\
+    toolkit/widgets/dialog.js\
+    toolkit/widgets/frame.js\
     toolkit/widgets/button.js\
     toolkit/widgets/value.js\
     toolkit/widgets/valuebutton.js\
@@ -59,7 +62,21 @@ js_input_files = \
     toolkit/widgets/notifications.js\
     toolkit/widgets/multimeter.js\
     toolkit/widgets/slider.js\
-    toolkit/widgets/crossover.js
+    toolkit/widgets/crossover.js\
+    toolkit/widgets/colorpicker.js\
+    toolkit/widgets/colorpickerdialog.js\
+    toolkit/widgets/list.js\
+    toolkit/widgets/listitem.js\
+    toolkit/widgets/sortablelist.js\
+    toolkit/widgets/sortablelistitem.js\
+    toolkit/widgets/tag.js\
+    toolkit/widgets/taggable.js\
+    toolkit/widgets/taggablelistitem.js\
+    toolkit/widgets/taggabletreeitem.js\
+    toolkit/widgets/tagger.js\
+    toolkit/widgets/tagnode.js\
+    toolkit/widgets/tags.js\
+    toolkit/widgets/treeitem.js
 
 css_input_files = \
     toolkit/styles/toolkit.css \
