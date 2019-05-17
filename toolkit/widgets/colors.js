@@ -73,6 +73,14 @@ var rgb2hsl = function (r, g, b) {
 
     return { h:h, s:s, l:l };
 }
+function hue2rgb(p, q, t) {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1/6) return p + (q - p) * 6 * t;
+    if (t < 1/2) return q;
+    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    return p;
+}
 var hsl2rgb = function (h, s, l) {
     var col = args2object(arguments, "h", "s", "l");
     var h = col.h, s = col.s, l = col.l;
@@ -82,14 +90,6 @@ var hsl2rgb = function (h, s, l) {
     if (s == 0) {
         r = g = b = l; // achromatic
     } else {
-        function hue2rgb(p, q, t) {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1/6) return p + (q - p) * 6 * t;
-            if (t < 1/2) return q;
-            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-            return p;
-        }
 
         var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
         var p = 2 * l - q;
@@ -250,7 +250,6 @@ var color_names = {
     "deeppink" : "ff1493",
     "mediumvioletred" : "c71585",
     "palevioletred" : "db7093",
-    "lightsalmon" : "ffa07a",
     "coral" : "ff7f50",
     "tomato" : "ff6347",
     "orangered" : "ff4500",
@@ -327,7 +326,6 @@ var color_names = {
     "deepskyblue" : "00bfff",
     "dodgerblue" : "1e90ff",
     "cornflowerblue" : "6495ed",
-    "mediumslateblue" : "7b68ee",
     "royalblue" : "4169e1",
     "blue" : "0000ff",
     "mediumblue" : "0000cd",
