@@ -62,6 +62,7 @@ constant ARGS = ({
     ({ "help", Getopt.NO_ARG, ({ "-h", "--help" }) }),
     ({ "debug", Getopt.NO_ARG, ({ "-d", "--debug" }) }),
     ({ "gzip", Getopt.NO_ARG, ({ "-g", "--gzip" }) }),
+    ({ "module", Getopt.HAS_ARG, ({ "--module" }) }),
 });
 
 void help() {
@@ -123,12 +124,19 @@ mapping(string:array(string)) calculate_dependencies(mapping(string:string) widg
         }
     }
 
+    object regexp = Regexp.PCRE.Widestring("\(TK.[A-Za-z_]+\)");
+
     foreach (src; int i; string file) {
         array(string) tmp = ({ "LIB" });
+        array(string) words = ({ });
+
+        regexp.matchall(file, lambda(array a) {
+          words += a;
+        });
 
         foreach (widget_to_file; string widget; string fname) {
             if (input_files[i] == fname) continue;
-            if (widget == "Base" || search(file, "TK."+widget) != -1) {
+            if (widget == "Base" || has_value(words, "TK."+widget)) {
                 tmp += ({ widget });
             }
         }
@@ -272,6 +280,13 @@ int main(int argc, array(string) argv) {
                     "stdout" : out,
                  ])
         )->wait();
+
+        if (options->module == "ES2015") {
+          out->write("export { TK };\n");
+        } else if (options->module) {
+          error("Unsupported module type: %O\n", options->module);
+        }
+
 
         out->close();
 
