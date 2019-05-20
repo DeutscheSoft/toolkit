@@ -113,59 +113,61 @@ pre, code {
 
 /* BUTTON */
 
-.toolkit-button > .toolkit-cell > .toolkit-label,
-.toolkit-button > .toolkit-cell > .toolkit-icon {
+.toolkit-button {
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.toolkit-button > .toolkit-label,
+.toolkit-button > .toolkit-icon {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    display: none;
+    margin: auto;
 }
-.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-cell > .toolkit-label {
-    display: block;
+.toolkit-button > .toolkit-icon {
+    background-position: center center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -ms-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+    order: 1;
+    flex: 0 0 auto;
 }
-.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-cell > .toolkit-label {
-    display: inline-block;
+.toolkit-button > .toolkit-label {
+    order: 2;
+    flex: 1 1 auto;
 }
-.toolkit-button.toolkit-has-icon > .toolkit-cell > .toolkit-icon {
-    display: inline-block;
+.toolkit-button.toolkit-vertical {
+    flex-direction: column;
 }
 
 /* BUTTONARRAY */
 
 .toolkit-buttonarray {
     box-sizing: border-box;
-    position: relative;
+    display: inline-flex;
 }
-.toolkit-buttonarray > .toolkit-previous {
-    position: absolute;
+.toolkit-buttonarray.toolkit-vertical {
+    height: 100%;
+    flex-direction: column;
 }
+.toolkit-buttonarray.toolkit-horizontal {
+    width: 100%;
+}
+.toolkit-buttonarray > .toolkit-previous,
 .toolkit-buttonarray > .toolkit-next {
-    position: absolute;
-}
-.toolkit-buttonarray.toolkit-vertical > .toolkit-previous {
-    top: 0;
-    width: 100%;
-}
-.toolkit-buttonarray.toolkit-vertical > .toolkit-next {
-    bottom: 0;
-    width: 100%;
-}
-.toolkit-buttonarray.toolkit-horizontal > .toolkit-previous {
-    left: 0;
-    height: 100%;
-}
-.toolkit-buttonarray.toolkit-horizontal > .toolkit-next {
-    top: 0;
-    right: 0px;
-    height: 100%;
+    flex: 0 0 auto;
+    margin: 0;
 }
 .toolkit-buttonarray > .toolkit-clip {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    flex: 1 1 100%;
     overflow: hidden;
     box-sizing: border-box;
 }
@@ -259,25 +261,181 @@ pre, code {
     background-repeat: no-repeat;
 }
 
+/* LABEL */
+
+.toolkit-button.toolkit-select > .toolkit-label {
+    text-overflow: ellipsis;
+}
+
+/* METERBASE */
+
+.toolkit-meter-base {
+    display: inline-grid;
+    overflow: hidden;
+}
+.toolkit-meter-base.toolkit-vertical {
+    min-height: 128px;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto 1fr auto;
+}
+.toolkit-meter-base.toolkit-horizontal {
+    min-width: 128px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+}
+.toolkit-meter-base.toolkit-top {
+    grid-template-areas:
+        "bar bar"
+        "scale scale"
+        "title label";
+}
+.toolkit-meter-base.toolkit-bottom {
+    grid-template-areas:
+        "title label"
+        "scale scale"
+        "bar bar";
+}
+.toolkit-meter-base.toolkit-left {
+    grid-template-areas:
+        "label ."
+        "bar scale"
+        "title .";
+}
+.toolkit-meter-base.toolkit-right {
+    grid-template-areas:
+        ". label"
+        "scale bar"
+        ". title";
+}
+.toolkit-meter-base > .toolkit-label {
+    grid-area: label;
+    white-space: nowrap;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-label {
+    justify-self: end;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-label {
+    justify-self: center;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-title {
+    grid-area: title;
+    white-space: nowrap;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-title {
+    justify-self: start;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-title {
+    justify-self: center;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-scale {
+    grid-area: scale;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-scale {
+    height: 100%;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-scale {
+    width: 100%;
+}
+.toolkit-meter-base.toolkit-top > .toolkit-scale {
+    justify-self: center;
+    align-self: start;
+}
+.toolkit-meter-base.toolkit-bottom > .toolkit-scale {
+    justify-self: center;
+    align-self: end;
+}
+.toolkit-meter-base.toolkit-left > .toolkit-scale {
+    justify-self: start;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-right > .toolkit-scale {
+    justify-self: end;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-bar {
+    grid-area: bar;
+    position: relative;
+    overflow: hidden;
+    contain: style layout;
+}
+.toolkit-meter-base.toolkit-vertical > .toolkit-bar {
+    height: 100%;
+}
+.toolkit-meter-base.toolkit-horizontal > .toolkit-bar {
+    width: 100%;
+}
+.toolkit-meter-base.toolkit-top > .toolkit-bar {
+    justify-self: center;
+    align-self: end;
+}
+.toolkit-meter-base.toolkit-bottom > .toolkit-bar {
+    justify-self: center;
+    align-self: start;
+}
+.toolkit-meter-base.toolkit-left > .toolkit-bar {
+    justify-self: end;
+    align-self: center;
+}
+.toolkit-meter-base.toolkit-right > .toolkit-bar {
+    justify-self: start;
+    align-self: center;
+}
+.toolkit-meter-base > .toolkit-bar > .toolkit-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
 /* LEVELMETER */
 
-.toolkit-level-meter > .toolkit-clip {
-    display: none;
-    position: absolute;
-    margin: 0;
-    width: auto;
-    height: auto;
+.toolkit-level-meter.toolkit-vertical {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto 1fr auto;
 }
-.toolkit-level-meter.toolkit-has-clip > .toolkit-clip {
-    display: block;
+.toolkit-level-meter.toolkit-horizontal {
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-rows: auto auto auto;
+}
+.toolkit-level-meter.toolkit-top {
+    grid-template-areas:
+        "bar bar clip"
+        "scale scale ."
+        "title label label";
+}
+.toolkit-level-meter.toolkit-bottom {
+    grid-template-areas:
+        "title label label"
+        "scale scale ."
+        "bar bar clip";
+}
+.toolkit-level-meter.toolkit-left {
+    grid-template-areas:
+        "label ."
+        "clip ."
+        "bar scale"
+        "title .";
+}
+.toolkit-level-meter.toolkit-right {
+    grid-template-areas:
+        ". label"
+        ". clip"
+        "scale bar"
+        ". title";
+}
+.toolkit-level-meter > .toolkit-clip {
+    grid-area: clip;
 }
 .toolkit-level-meter > .toolkit-bar > .toolkit-peak {
     position: absolute;
     z-index: 1000;
-    display: none;
-}
-.toolkit-level-meter.toolkit-has-peak > .toolkit-bar > .toolkit-peak {
-    display: block;
 }
 
 .toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
@@ -297,68 +455,44 @@ pre, code {
     float: left;
 }
 
-/* METERBASE */
+/* MULTIMETER */
 
-.toolkit-meter-base {
-    position: relative;
+.toolkit-multi-meter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    align-content: center;
 }
-.toolkit-meter-base .toolkit-label {
-    position: absolute;
-    display: none;
-    white-space: nowrap;
+.toolkit-multi-meter.toolkit-horizontal {
+    flex-direction: column;
 }
-.toolkit-meter-base.toolkit-has-label > .toolkit-label {
-    display: block;
+.toolkit-multi-meter > .toolkit-title {
+    height: 1.2em;
+    line-height: 1.2em;
+    flex: 1 0 100%;
+    align-self: start;
 }
-.toolkit-meter-base > .toolkit-title {
-    position: absolute;
-    display: none;
-    white-space: nowrap;
+.toolkit-multi-meter > .toolkit-level-meter {
+    flex: 0 0 auto;
+    align-self: stretch;
 }
-.toolkit-meter-base.toolkit-has-title > .toolkit-title {
-    display: block;
+.toolkit-multi-meter.toolkit-horizontal .toolkit-level-meter {
+    grid-template-columns: 48px 1fr auto 48px;
+    grid-template-rows: auto auto;
 }
-.toolkit-meter-base > .toolkit-scale {
-    position: absolute;
-    display: none;
+.toolkit-multi-meter.toolkit-top .toolkit-level-meter {
+    grid-template-areas:
+        "title bar clip label"
+        ". scale . .";
 }
-.toolkit-meter-base.toolkit-has-scale > .toolkit-scale {
-    display: block;
+.toolkit-multi-meter.toolkit-bottom .toolkit-level-meter {
+    grid-template-areas:
+        ". scale . ."
+        "title bar clip label";
 }
-.toolkit-meter-base > .toolkit-bar {
-    position: absolute;
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-over {
-    position: absolute;
-    width:    100%;
-    height:   100%;
-    z-index:  100;
-    background-position: bottom left;
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-mask {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-}
-.toolkit-meter-base > .toolkit-bar > .toolkit-mark {
-    position: absolute;
-    width:    100%;
-    height:   100%;
-    z-index:  10;
-}
-.toolkit-meter-base.toolkit-vertical > .toolkit-bar > .toolkit-mark > .toolkit-dot {
-    width: 100%;
-    height: 1px;
-    margin-top: 0px;
-}
-.toolkit-meter-base.toolkit-horizontal > .toolkit-bar > .toolkit-mark > .toolkit-dot {
-    width: 1px;
-    height: 100%;
-    margin-left: 0px;
+.toolkit-multi-meter.toolkit-horizontal .toolkit-level-meter > .toolkit-title {
+    justify-self: end  !important;
 }
 
 /* PAGER */
@@ -367,13 +501,24 @@ pre, code {
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.toolkit-pager.toolkit-vertical {
+    flex-direction: column;
 }
 .toolkit-pager > .toolkit-clip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    flex: 1 1 100%;
+    position: relative;
+}
+.toolkit-pager.toolkit-left > .toolkit-clip,
+.toolkit-pager.toolkit-top > .toolkit-clip {
+    order: 2;
+}
+.toolkit-pager.toolkit-right > .toolkit-clip,
+.toolkit-pager.toolkit-bottom > .toolkit-clip {
+    order: 1;
 }
 .toolkit-pager > .toolkit-clip > .toolkit-page {
     position: absolute;
@@ -381,30 +526,91 @@ pre, code {
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 1;
+    overflow: auto;
     will-change: transform;
     transform: translate3d(0,0,0);
 }
-.toolkit-pager.toolkit-right > .toolkit-buttonarray {
-    float: right;
+.toolkit-pager > .toolkit-buttonarray {
+    flex: 0 0 auto;
 }
-
-/* BUTTONARRAY */
-
-.toolkit-pager > .toolkit-buttonarray{
-    position: absolute;
-}
+.toolkit-pager.toolkit-left > .toolkit-buttonarray,
 .toolkit-pager.toolkit-top > .toolkit-buttonarray {
-    top: 0;
+    order: 1;
 }
-.toolkit-pager.toolkit-right > .toolkit-buttonarray {
-    right: 0;
-}
+.toolkit-pager.toolkit-right > .toolkit-buttonarray,
 .toolkit-pager.toolkit-bottom > .toolkit-buttonarray {
-    bottom: 0;
+    order: 2;
 }
-.toolkit-pager.toolkit-left > .toolkit-buttonarray {
-    left: 0;
+
+
+
+.toolkit-pager.toolkit-forward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-vertical-out-forward 0.5s ease-in-out;
+    transform: translateX(-100%);
 }
+.toolkit-pager.toolkit-forward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-vertical-in-forward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-backward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-vertical-out-backward 0.5s ease-in-out;
+    transform: translateX(100%);
+}
+.toolkit-pager.toolkit-backward.toolkit-vertical  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-vertical-in-backward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-forward.toolkit-horizontal > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-horizontal-out-forward 0.5s ease-in-out;
+    transform: translateY(-100%);
+}
+.toolkit-pager.toolkit-forward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-horizontal-in-forward 0.5s ease-in-out;
+}
+
+.toolkit-pager.toolkit-backward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-hiding {
+    animation: toolkit-page-horizontal-out-backward 0.5s ease-in-out;
+    transform: translateY(100%);
+}
+.toolkit-pager.toolkit-backward.toolkit-horizontal  > .toolkit-clip > .toolkit-page.toolkit-showing {
+    animation: toolkit-page-horizontal-in-backward 0.5s ease-in-out;
+}
+
+@keyframes toolkit-page-horizontal-in-forward {
+    0%   { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+@keyframes toolkit-page-horizontal-out-forward {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+@keyframes toolkit-page-horizontal-in-backward {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(0); }
+}
+@keyframes toolkit-page-horizontal-out-backward {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+}
+
+@keyframes toolkit-page-vertical-in-forward {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes toolkit-page-vertical-out-forward {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+@keyframes toolkit-page-vertical-in-backward {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes toolkit-page-vertical-out-backward {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
 
 /* RESPONSEHANDLE */
 
@@ -441,12 +647,14 @@ pre, code {
 
 .toolkit-scale > .toolkit-label {
     position: absolute;
+    z-index: 4;
     display: block;
     float: left;
 }
 
 .toolkit-scale > .toolkit-dot {
     position: absolute;
+    z-index: 3;
 }
 
 .toolkit-scale.toolkit-vertical > .toolkit-label {
@@ -476,18 +684,79 @@ pre, code {
 .toolkit-scale.toolkit-horizontal.toolkit-reverse > .toolkit-max {
     transform: translateX(0);
 }
+.toolkit-scale > .toolkit-pointer {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 5;
+    overflow: hidden;
+    width: 12px;
+    height: 12px;
+    border-width: 6px;
+    border-color: transparent;
+    border-style: solid;
+}
+.toolkit-scale.toolkit-vertical > .toolkit-pointer {
+    margin-bottom: -6px;
+    bottom: 0px;
+}
+.toolkit-scale.toolkit-left > .toolkit-pointer {
+    left: -6px;
+}
+.toolkit-scale.toolkit-right > .toolkit-pointer {
+    right: -6px;
+}
+.toolkit-scale.toolkit-horizontal > .toolkit-pointer {
+    margin-left: -6px;
+    left: 0;
+}
+.toolkit-scale.toolkit-top > .toolkit-pointer {
+    top: -6px;
+}
+.toolkit-scale.toolkit-bottom > .toolkit-pointer {
+    bottom: -6px;
+}
+.toolkit-scale > .toolkit-bar {
+    position: absolute;
+    z-index: 0;
+}
+.toolkit-scale.toolkit-vertical > .toolkit-bar {
+    bottom: 0px;
+}
+.toolkit-scale.toolkit-left > .toolkit-bar {
+    left: 0px;
+}
+.toolkit-scale.toolkit-right > .toolkit-bar {
+    right: 0px;
+}
+.toolkit-scale.toolkit-horizontal > .toolkit-bar {
+    left: 0px;
+}
+.toolkit-scale.toolkit-top > .toolkit-bar {
+    top: 0px;
+}
+.toolkit-scale.toolkit-bottom > .toolkit-bar {
+    bottom: 0px;
+}
+
 
 /* SELECT */
 
 .toolkit-button.toolkit-select {
     flex-direction: row;
+    justify-content: flex-end;
 }
 .toolkit-button.toolkit-select > .toolkit-label {
     order: 1;
     flex: 1 1 auto;
 }
-.toolkit-button.toolkit-select > .toolkit-arrow {
-    float: right;
+.toolkit-button.toolkit-select > .toolkit-icon {
+    order: 2;
+    flex: 0 0 auto;
+    font-size: 16px;
+    line-height: 16px;
+    height: 16px;
+    width: 16px;
+    margin: 0 0 0 4px !important;
 }
 .toolkit-select-list {
     position: absolute;
@@ -505,6 +774,7 @@ pre, code {
 .toolkit-slider {
     background-position: 0 0;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 /* STATE */
@@ -551,18 +821,6 @@ pre, code {
     -moz-user-select: auto !important;
     -ms-user-select: auto !important;
     user-select: auto !important;
-}
-
-/* VALUEBUTTON */
-
-.toolkit-valuebutton {
-    position: relative;
-}
-
-/* VALUEKNOB */
-
-.toolkit-valueknob {
-    position: relative;
 }
 
 /* WINDOW */
@@ -658,10 +916,51 @@ pre, code {
 
 /* VALUEKNOB */
 
-.toolkit-valueknob > .toolkit-knob {
-    width: 100%;
-    height: 100%;
+.toolkit-valueknob {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
 }
+.toolkit-valueknob > .toolkit-label {
+    flex: 0 0 auto;
+}
+.toolkit-valueknob > .toolkit.knob {
+    width: 100px;
+    height: 100px;
+    flex: 0 0 auto;
+}
+.toolkit-valueknob > .toolkit-value {
+    flex: 0 0 auto;
+}
+
+/* VALUEBUTTON */
+
+.toolkit-valuebutton {
+    display: inline-grid;
+    
+    justify-content: stretch;
+    align-items: center;
+    
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: "icon label value"
+                         "scale scale value";
+}
+.toolkit-valuebutton > .toolkit-icon {
+    grid-area: icon;
+}
+.toolkit-valuebutton > .toolkit-label {
+    grid-area: label;
+}
+.toolkit-valuebutton > .toolkit-value {
+    grid-area: value;
+}
+.toolkit-valuebutton > .toolkit-scale {
+    grid-area: scale;
+}
+
 
 /* EXPANDER */
 

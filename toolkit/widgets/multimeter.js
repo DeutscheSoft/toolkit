@@ -86,7 +86,7 @@ TK.MultiMeter = TK.class({
     LevelMeters and MeterBases options. */
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
         count: "int",
-        title: "string",
+        title: "boolean|string",
         titles: "array",
         layout: "string",
         show_scale: "boolean",
@@ -107,21 +107,6 @@ TK.MultiMeter = TK.class({
         TK.add_class(this.element, "toolkit-multi-meter");
         this.meters = [];
         var O = this.options;
-        
-        /**
-         * @member {TK.Label} TK.MultiMeter#itle - The title of the MultiMeter.
-         *   Has class <code>toolkit-title</code>.
-         */
-        this.title = new TK.Label({
-            "class": "toolkit-title",
-            "label": O.title,
-            "container": this.element
-        });
-        /**
-         * @member {HTMLDivElement} TK.MultiMeter#_title - The DIV element of the {@link TK.Label} module.
-         */
-        this._title = this.title.element;
-        this.add_child(this.title);
     },
     
     redraw: function () {
@@ -178,18 +163,23 @@ TK.MultiMeter = TK.class({
             }
         }
         
-        if (I.title) {
-            I.title = false;
-            TK.toggle_class(E, "toolkit-has-title", typeof O.title === "string");
-        }
-        
         TK.Container.prototype.redraw.call(this);
     },
-    destroy: function () {
-        this.title.destroy();
-        TK.Container.prototype.destroy.call(this);
-    },
 });
+
+/**
+ * @member {HTMLDivElement} TK.MultiMeter#_title - The DIV element of the {@link TK.Label} module.
+ */
+TK.ChildWidget(TK.MultiMeter, "title", {
+    create: TK.Label,
+    show: false,
+    option: "title",
+    default_options: { "class" : "toolkit-title" },
+    map_options: { "title" : "label" },
+    toggle_class: true,
+});
+
+
 
 /*
  * This could be moved into TK.ChildWidgets(),

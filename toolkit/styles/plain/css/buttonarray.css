@@ -21,25 +21,7 @@
 }
 
 .toolkit-buttonarray.toolkit-vertical {
-    height: 100%;
     text-align: left;
-}
-
-.toolkit-buttonarray.toolkit-horizontal {
-    width: 100%;
-}
-
-.toolkit-buttonarray > .toolkit-previous {
-     margin: 0;
-}
-.toolkit-buttonarray > .toolkit-next {
-     margin: 0;
-}
-.toolkit-buttonarray.toolkit-vertical > .toolkit-previous {
-    
-}
-.toolkit-buttonarray.toolkit-vertical > .toolkit-next {
-    
 }
 .toolkit-buttonarray.toolkit-horizontal > .toolkit-previous {
     width: 40px;
@@ -56,14 +38,10 @@
     transition: left 0.5s ease-in-out, top 0.5s ease-in-out, right 0.5s ease-in-out, bottom 0.5s ease-in-out;
 }
 .toolkit-buttonarray.toolkit-over.toolkit-horizontal > .toolkit-clip {
-    margin-left: 43px;
-    margin-right: 43px;
-    width: calc(100% - 86px);
+    
 }
 .toolkit-buttonarray.toolkit-over.toolkit-vertical > .toolkit-clip {
-    margin-top: 32px;
-    margin-bottom: 32px;
-    height: calc(100% - 64px);
+    
 }
 
 .toolkit-buttonarray > .toolkit-clip > .toolkit-container {
@@ -85,7 +63,6 @@
 }
 .toolkit-buttonarray > .toolkit-clip > .toolkit-container > .toolkit-button > .toolkit-label {
     white-space: nowrap;
-    display: block;
     width: 100%;
     box-sizing: border-box;
 }
@@ -93,7 +70,7 @@
     height: 100%;
 }
 .toolkit-buttonarray.toolkit-vertical > .toolkit-clip > .toolkit-container > .toolkit-button {
-    display: block;
+    display: flex;
     width: 100%;
 }
 .toolkit-buttonarray.toolkit-vertical > .toolkit-clip > .toolkit-container > .toolkit-button:hover,

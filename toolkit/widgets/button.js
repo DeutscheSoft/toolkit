@@ -67,13 +67,6 @@ TK.Button = TK.class({
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-button");
         this.widgetize(E, true, true, true);
-        
-        /**
-         * @member {HTMLDivElement} TK.Button#_cell - An internal container for label and icon.
-         *  Has class <code>toolkit-cell</code>
-         */
-        this._cell  = TK.element("div","toolkit-cell");
-        E.appendChild(this._cell);
     },
     destroy: function () {
         TK.Widget.prototype.destroy.call(this);
@@ -104,9 +97,6 @@ TK.ChildWidget(TK.Button, "icon", {
     create: TK.Icon,
     option: "icon",
     inherit_options: true,
-    append: function() {
-        this._cell.appendChild(this.icon.element);
-    },
     toggle_class: true,
 });
 /**
@@ -116,9 +106,6 @@ TK.ChildWidget(TK.Button, "label", {
     create: TK.Label,
     option: "label",
     inherit_options: true,
-    append: function() {
-        this._cell.appendChild(this.label.element);
-    },
     toggle_class: true,
 });
 })(this, this.TK);

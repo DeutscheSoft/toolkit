@@ -19,8 +19,6 @@
 .toolkit-button {
     padding: 6px;
     margin: 2px;
-    display: inline-table;
-    text-align: center;
     cursor: pointer;
     border: 2px solid white;
     transition: background-color 0.25s,
@@ -28,54 +26,26 @@
                 color 0.25s;
     background-clip: padding-box;
 }
-.toolkit-button:hover {
-    
-}
-.toolkit-button:active {
-    
-}
-
-.toolkit-button.toolkit-horizontal > .toolkit-cell > * {
-    vertical-align: middle;
-}
-
-.toolkit-button > .toolkit-cell {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    position: relative;
-}
-.toolkit-button.toolkit-horizontal > .toolkit-cell {
-    white-space: nowrap;
-}
-.toolkit-button > .toolkit-cell > .toolkit-label {
+.toolkit-button > .toolkit-label {
     line-height: 1.1em;
     text-align: center;
     margin: auto;
     padding: 0 3px;
     transition: none;
 }
-.toolkit-button.toolkit-horizontal > .toolkit-cell > .toolkit-label {
+.toolkit-button.toolkit-horizontal > .toolkit-label {
     padding: 2px 4px;
 }
-.toolkit-button > .toolkit-cell > .toolkit-icon {
-    margin: auto;
-    background-position: center center;
-    -webkit-background-size: contain;
-    -moz-background-size: contain;
-    -ms-background-size: contain;
-    -o-background-size: contain;
-    background-size: contain;
-    background-repeat: no-repeat;
+.toolkit-button > .toolkit-icon {
     width: 32px;
     height: 32px;
     font-size: 32px;
     line-height: 32px;
 }
-.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-cell >  .toolkit-icon {
+.toolkit-button.toolkit-has-label.toolkit-vertical > .toolkit-icon {
     margin-bottom: 5px;
 }
-.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-cell >  .toolkit-icon {
+.toolkit-button.toolkit-has-label.toolkit-horizontal > .toolkit-icon {
     margin-right: 5px;
 }
 

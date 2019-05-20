@@ -5,8 +5,7 @@
             value: -20,
             base: 0,
             snap: 0.01,
-            label: "Value",
-            show_label: true
+            title: "Value",
         });
         root.append_child(valueknob);
     }

@@ -31,10 +31,10 @@
 (function(w, TK){
 TK.ValueButton = TK.class({
     /**
-     * This widget combines a {@link TK.Button} and a {@link TK.Value}.
+     * This widget combines a {@link TK.Button}, a {@link TK.Scale} and a {@link TK.Value}.
      * TK.ValueButton uses {@link TK.DragValue} and {@link TK.ScrollValue}
      * for setting its value.
-     * It inherits all options of {@link TK.DragValue}.
+     * It inherits all options of {@link TK.DragValue} and {@link TK.Scale}.
      *
      * @class TK.ValueButton
      * 
@@ -45,7 +45,6 @@ TK.ValueButton = TK.class({
      * @property {Number} [options.value=0] - The value of the widget.
      * @property {Number} [options.value_format=function (val) { return val.toFixed(2); }] - Callback to format the value label.
      * @property {Number} [options.value_size=5] - Amount of digits of the value input.
-     * @property {Number} [options.bar_direction="horizontal"] - Direction of the bar, either <code>horizontal</code> or <code>vertical<code>.
      * @property {String} [options.direction="polar"] - Direction for changing the value.
      *   Can be "polar", "vertical" or "horizontal".
      * @property {Number} [options.blind_angle=20] - If options.direction is "polar",
@@ -63,30 +62,23 @@ TK.ValueButton = TK.class({
         value: "number",
         value_format: "function",
         value_size: "number",
-        bar_direction: "string",
         drag_direction: "string",
         rotation: "number",
         blind_angle: "number",
         snap: "number",
         reset: "number",
-        show_marker: "boolean",
-        marker: "number",
-        show_value: "boolean",
     }),
     options:  {
-        layout: "horizontal",
+        layout: "bottom",
         value: 0,
         value_format:   function (val) { return val.toFixed(2); },
         value_size:     5,
-        bar_direction:  "horizontal",
         drag_direction: "polar",
         rotation:       45,
         blind_angle:    20,
         snap:           0.01,
-        show_marker: false,
-        marker: 0,
-        show_value: true,
         basis: 300,
+        labels: TK.FORMAT("%d"),
     },
     static_events: {
         set_drag_direction: function(value) {
@@ -107,13 +99,6 @@ TK.ValueButton = TK.class({
          *   Has class <code>toolkit-valuebutton</code>.
          */
         TK.add_class(this.element, "toolkit-valuebutton");
-        
-        this._bar     = TK.element("div","toolkit-bar");
-        this._base    = TK.element("div","toolkit-base");
-
-        this._bar.appendChild(this._base);
-        
-        this.element.appendChild(this._bar);
         
         /**
          * @member {TK.DragValue} TK.ValueButton#drag - The DragValue module.
@@ -145,44 +130,11 @@ TK.ValueButton = TK.class({
              */
             this.fire_event("doubleclick", this.options.value);
         }.bind(this));
-        this.__barsize = 0;
     },
-    resize: function () {
-        this.__barsize = TK[this.options.bar_direction=="vertical"?"inner_height":"inner_width"](this._bar);
-    },
-    redraw: function () {
-        TK.Button.prototype.redraw.call(this);
-        var I = this.invalid;
-        var O = this.options;
-
-        if (I.bar_direction) {
-            I.bar_direction = false;
-            switch (O.bar_direction) {
-                default:
-                    // TODO: warn here.
-                case "horizontal":
-                    TK.remove_class(this.element, "toolkit-vertical-bar");
-                    TK.add_class(this.element, "toolkit-horizontal-bar");
-                    break;
-                case "vertical":
-                    TK.remove_class(this.element, "toolkit-horizontal-bar");
-                    TK.add_class(this.element, "toolkit-vertical-bar");
-                    break;
-            }
-            I.value = true;
-        }
-        if (I.value) {
-            I.value = false;
-            this._base.style[O.bar_direction === "horizontal" ? "width" : "height"] = (100*this.val2coef(this.snap(O.value))).toFixed(2) + "%";
-            this._base.style[O.bar_direction === "horizontal" ? "height" : "width"] = null;
-        }
-    },
-    
     destroy: function () {
         this.drag.destroy();
         this.scroll.destroy();
-        this._base.remove();
-        this._bar.remove();
+        this.scale.destroy();
         TK.Button.prototype.destroy.call(this);
     },
     // GETTERS & SETTERS
@@ -192,9 +144,6 @@ TK.ValueButton = TK.class({
                 if (value > this.options.max || value < this.options.min)
                     this.warning(this.element);
                 value = this.snap(value);
-                break;
-            case "bar_direction":
-                this.trigger_resize();
                 break;
         }
         return TK.Button.prototype.set.call(this, key, value);
@@ -246,28 +195,23 @@ TK.ChildWidget(TK.ValueButton, "value", {
         valuedone: value_done,
     },
 });
+
 /**
- * @member {HTMLDivElement} TK.ValueButton#_marker - The DIV element of the marker. It can be used to e.g. visualize the value set in the backend.
+ * @member {TK.Scale} TK.ValueButton#scale - The scale widget showing the value.
  */
-TK.ChildElement(TK.ValueButton, "marker", {
-    show: false,
+TK.ChildWidget(TK.ValueButton, "scale", {
+    create: TK.Scale,
+    show: true,
     toggle_class: true,
-    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "marker", "basis" ]),
-    draw: function(O) {
-        if (this._marker) {
-            var tmp = (this.val2coef(this.snap(O.marker)) * this.__barsize) + "px";
-            if (O.bar_direction === "vertical") {
-                if (TK.supports_transform)
-                    this._marker.style.transform = "translateY(-"+tmp+")";
-                else
-                    this._marker.style.bottom = tmp;
-            } else {
-                if (TK.supports_transform)
-                    this._marker.style.transform = "translateX("+tmp+")";
-                else
-                    this._marker.style.left = tmp;
-            }
-        }
+    inherit_options: true,
+    map_options: {
+        value: "bar",
+    },
+    static_events: {
+        "set_layout" : function (v) {
+            if (v == "horizontal") this.scale.set("layout", "bottom");
+            if (v == "vertical") this.scale.set("layout", "left");
+        },
     },
 });
 

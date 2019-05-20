@@ -55,7 +55,7 @@
 /* VERTICAL */
 
 .toolkit-scale.toolkit-vertical {
-    width: 32px;
+    width: 40px;
 }
 .toolkit-scale.toolkit-vertical > .toolkit-label {
 }
@@ -164,7 +164,7 @@
 /* HORIZONTAL */
 
 .toolkit-scale.toolkit-horizontal {
-    height: 15px;
+    height: 24px;
 }
 .toolkit-scale.toolkit-horizontal > .toolkit-label {
 }
@@ -255,4 +255,14 @@
 }
 .toolkit-scale.toolkit-horizontal.toolkit-top > .toolkit-dot.toolkit-marker {
     
+}
+
+
+/* BAR */
+
+.toolkit-scale.toolkit-vertical > .toolkit-bar {
+    width: 4px;
+}
+.toolkit-scale.toolkit-horizontal > .toolkit-bar {
+    height: 4px;
 }

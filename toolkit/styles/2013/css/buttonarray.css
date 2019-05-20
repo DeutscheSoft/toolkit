@@ -21,35 +21,25 @@
 }
 
 .toolkit-buttonarray.toolkit-vertical {
-    height: 100%;
     text-align: left;
 }
-
-.toolkit-buttonarray.toolkit-horizontal {
-    width: 100%;
-}
-
-.toolkit-buttonarray > .toolkit-previous {
-     margin: 0;
-}
-.toolkit-buttonarray > .toolkit-next {
-     margin: 0;
-}
 .toolkit-buttonarray.toolkit-vertical > .toolkit-previous {
-    
+    margin-bottom: 5px;
 }
 .toolkit-buttonarray.toolkit-vertical > .toolkit-next {
-    
+    margin-top: 5px;
 }
 .toolkit-buttonarray.toolkit-horizontal > .toolkit-previous {
     width: 40px;
     padding-left: 4px;
     padding-right: 4px;
+    margin-right: 5px;
 }
 .toolkit-buttonarray.toolkit-horizontal > .toolkit-next {
     width: 40px;
     padding-left: 4px;
     padding-right: 4px;
+    margin-left: 5px;
 }
 
 .toolkit-buttonarray > .toolkit-clip {
@@ -64,20 +54,12 @@ s    -webkit-border-radius: 6px;
     background-size: 100% 200%;
     background-position: 50% 0;
 }
-.toolkit-buttonarray.toolkit-over.toolkit-horizontal > .toolkit-clip {
-    margin-left: 45px;
-    margin-right: 45px;
-    width: calc(100% - 90px);
-}
 .toolkit-buttonarray.toolkit-over.toolkit-vertical > .toolkit-clip {
     background-color: rgb(245,245,245);
     background-image: url(../images/gradients/grey_out.png);
     background-repeat: repeat-x;
     background-size: 100% 200%;
     background-position: 50% 0;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    height: calc(100% - 80px);
 }
 
 .toolkit-buttonarray > .toolkit-clip > .toolkit-container {
@@ -100,7 +82,6 @@ s    -webkit-border-radius: 6px;
 }
 .toolkit-buttonarray > .toolkit-clip > .toolkit-container > .toolkit-button > .toolkit-label {
     white-space: nowrap;
-    display: block;
     width: 100%;
     box-sizing: border-box;
 }
@@ -108,7 +89,7 @@ s    -webkit-border-radius: 6px;
     height: 100%;
 }
 .toolkit-buttonarray.toolkit-vertical > .toolkit-clip > .toolkit-container > .toolkit-button {
-    display: block;
+    display: flex;
     width: 100%;
     background: none;
 }

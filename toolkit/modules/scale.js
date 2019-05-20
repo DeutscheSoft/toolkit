@@ -362,6 +362,8 @@ function mark_markers(labels, dots) {
  *   fixed labels.
  * @property {Boolean} [options.show_markers=true] - If true, every dot which is located at the same
  *   position as a label has the <code>toolkit-marker</code> class set.
+ * @property {Number|Boolean} [options.pointer=false] - The value to set the pointers position to.
+ * @property {Number|Boolean} [options.bar=false] - The value to set the bars height to.
  */
 TK.Scale = TK.class({
     _class: "Scale",
@@ -385,6 +387,8 @@ TK.Scale = TK.class({
         fixed_labels: "boolean|array",
         avoid_collisions: "boolean",
         show_markers: "boolean",
+        bar: "boolean|number",
+        pointer: "boolean|number",
     }),
     options: {
         layout:           "right",
@@ -402,6 +406,8 @@ TK.Scale = TK.class({
         show_markers:     true,
         fixed_dots:       false,
         fixed_labels:     false,
+        bar:              false,
+        pointer:          false,
     },
     
     initialize: function (options) {
@@ -479,6 +485,10 @@ TK.Scale = TK.class({
                 if (base !== O.max) generate_scale.call(this, base, O.max, true, O.show_max);
                 if (base !== O.min) generate_scale.call(this, base, O.min, base === O.max, O.show_min);
             }
+            if (this._bar)
+                this.element.appendChild(this._bar);
+            if (this._pointer)
+                this.element.appendChild(this._pointer);
         }
     },
     
@@ -512,4 +522,50 @@ TK.Scale = TK.class({
         }
     }
 });
+
+/**
+ * @member {HTMLDivElement} TK.Fader#_pointer - The DIV element of the pointer. It can be used to e.g. visualize the value set in the backend.
+ */
+TK.ChildElement(TK.Scale, "pointer", {
+    show: false,
+    toggle_class: true,
+    option: "pointer",
+    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "pointer", "basis" ]),
+    draw: function(O) {
+        if (this._pointer) {
+            var tmp = this.val2px(this.snap(O.pointer)) + "px";
+            if (vert(O)) {
+                if (TK.supports_transform)
+                    this._pointer.style.transform = "translateY(-"+tmp+")";
+                else
+                    this._pointer.style.bottom = tmp;
+            } else {
+                if (TK.supports_transform)
+                    this._pointer.style.transform = "translateX("+tmp+")";
+                else
+                    this._pointer.style.left = tmp;
+            }
+        }
+    },
+});
+
+/**
+ * @member {HTMLDivElement} TK.Fader#_bar - The DIV element of the bar. It can be used to e.g. visualize the value set in the backend or to draw a simple levelmeter.
+ */
+TK.ChildElement(TK.Scale, "bar", {
+    show: false,
+    toggle_class: true,
+    option: "bar",
+    draw_options: Object.keys(TK.Ranged.prototype._options).concat([ "bar", "basis" ]),
+    draw: function(O) {
+        if (this._bar) {
+            var tmp = this.val2px(this.snap(O.bar)) + "px";
+            if (vert(O))
+                this._bar.style.height = tmp;
+            else
+                this._bar.style.width = tmp;
+        }
+    },
+});
+
 })(this, this.TK);

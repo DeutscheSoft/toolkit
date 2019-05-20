@@ -8,10 +8,8 @@
             max: 12,
             values: 18,
             scale_base: 0,
-            title: &quot;Channel 0 (mr)&quot;,
+            title: 'console: mr',
             titles: ['L', 'R', 'C', 'LFE', 'LS', 'RS'],
-            show_title: true,
-            show_titles: [true, true, true, true, true, true],
             show_label: true,
             gradient: {&quot;-60&quot;: &quot;#001f83&quot;, &quot;-0.1&quot;: &quot;#008bea&quot;, &quot;0&quot;: &quot;#ff6000&quot;, &quot;12&quot;: &quot;#ffa000&quot;},
             levels: [1, 3, 6, 12],
@@ -27,10 +25,8 @@
             max: 12,
             values: 18,
             scale_base: 0,
-            title: &quot;Channel 1 (ml)&quot;,
+            title: 'console: ml',
             titles: ['L', 'R', 'C', 'LFE', 'LS', 'RS'],
-            show_title: true,
-            show_titles: [true, true, true, true, true, true],
             show_label: true,
             gradient: {&quot;-60&quot;: &quot;#001f83&quot;, &quot;-0.1&quot;: &quot;#008bea&quot;, &quot;0&quot;: &quot;#ff6000&quot;, &quot;12&quot;: &quot;#ffa000&quot;},
             levels: [1, 3, 6, 12],
@@ -47,10 +43,8 @@
             max: 12,
             values: 18,
             scale_base: 0,
-            title: &quot;Channel 2 (mb)&quot;,
+            title: 'console: mb',
             titles: ['L', 'R', 'C', 'LFE', 'LS', 'RS'],
-            show_title: true,
-            show_titles: [true, true, true, true, true, true],
             show_label: true,
             gradient: {&quot;-60&quot;: &quot;#001f83&quot;, &quot;-0.1&quot;: &quot;#008bea&quot;, &quot;0&quot;: &quot;#ff6000&quot;, &quot;12&quot;: &quot;#ffa000&quot;},
             levels: [1, 3, 6, 12],
@@ -65,10 +59,8 @@
             max: 12,
             values: 18,
             scale_base: 0,
-            title: &quot;Channel 3 (mt)&quot;,
+            title: 'console: mt',
             titles: ['L', 'R', 'C', 'LFE', 'LS', 'RS'],
-            show_title: true,
-            show_titles: [true, true, true, true, true, true],
             show_label: true,
             gradient: {&quot;-60&quot;: &quot;#001f83&quot;, &quot;-0.1&quot;: &quot;#008bea&quot;, &quot;0&quot;: &quot;#ff6000&quot;, &quot;12&quot;: &quot;#ffa000&quot;},
             levels: [1, 3, 6, 12],
@@ -96,8 +88,10 @@
 }
 .toolkit-multi-meter.toolkit-horizontal {
     width: 320px;
-    display: block;
     margin-left: 300px;
+}
+.toolkit-multi-meter.toolkit-horizontal .toolkit-level-meter {
+    grid-template-columns: 24px 1fr auto 40px !important;
 }
 </code></pre>
 <script> prepare_example(); </script>

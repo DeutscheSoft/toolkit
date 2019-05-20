@@ -40,6 +40,12 @@
 .toolkit-chart > svg > .toolkit-grid {
     opacity: 0.5;
 }
+.toolkit-chart > svg > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
+    stroke: #00ccff;
+}
+.toolkit-chart > svg > .toolkit-grid > .toolkit-grid-label.toolkit-highlight {
+    fill: rgb(255,255,255);
+}
 .toolkit-chart > svg > .toolkit-background {
     fill: transparent;
 }
@@ -69,12 +75,6 @@
     fill: #00ccff;
 }
 
-.toolkit-dynamics > svg > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
-    stroke: #00ccff;
-}
-.toolkit-dynamics > svg > .toolkit-grid > .toolkit-grid-label.toolkit-highlight {
-    fill: rgb(255,255,255);
-}
 .toolkit-dynamics > svg > .toolkit-graphs > .toolkit-steady {
     stroke: #666;
 }
@@ -108,11 +108,11 @@
     background: white;
 }
 
-.toolkit-frequency-response > svg > .toolkit-grid > .toolkit-grid-line.toolkit-highlight {
-    stroke: #00ccff;
+.toolkit-frame {
+    border-color: white;
 }
-.toolkit-frequency-response > svg > .toolkit-grid > .toolkit-grid-label.toolkit-highlight {
-    fill: rgb(255,255,255);
+.toolkit-frame > .toolkit-frame-label {
+    background: #e3e3e3;
 }
 
 .toolkit-frame {
@@ -278,6 +278,22 @@
     background: #666;
 }
 .toolkit-scale > .toolkit-dot.toolkit-base {
+    background: #00ccff;
+}
+
+.toolkit-scale.toolkit-left > .toolkit-pointer {
+    border-right-color: #00ccff;
+}
+.toolkit-scale.toolkit-right > .toolkit-pointer {
+    border-left-color: #00ccff;
+}
+.toolkit-scale.toolkit-top > .toolkit-pointer {
+    border-bottom-color: #00ccff;
+}
+.toolkit-scale.toolkit-bottom > .toolkit-pointer {
+    border-top-color: #00ccff;
+}
+.toolkit-scale > .toolkit-bar {
     background: #00ccff;
 }
 

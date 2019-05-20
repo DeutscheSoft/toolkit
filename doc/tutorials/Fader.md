@@ -2,12 +2,15 @@
         function delay (v) {
             var t = this;
             setTimeout( function () {
-                t.set("marker", v);
-                t.set("bar", v);
+                if (parseInt(t.options.id) > 1)
+                    t.set("pointer", v);
+                else
+                    t.set("bar", v);
             }, 200);
         }
         faders = [];
         var options = {
+            id: "0",
             min: -580,
             max: 60,
             value: 0,
@@ -25,32 +28,36 @@
             scale:"decibel",
             show_label: true,
             show_value: true,
-            show_marker: true,
+            bar: 0,
             onset_value: function (v) { delay.call(this, v); },
             bind_click: true,
         }
         options.layout = "right";
         options.label = "Left";
+        options.id = "0";
         options.fixed_dots = [60, 40, 20, 0, -20, -40, -60, -80, -120, -160, -200, -280, -580];
         options.fixed_labels = [60, 40, 20, 0, -20, -40, -60, -80, -120, -160, -200, -280, -580];
         faders.push(new TK.Fader(options));
         
         options.layout = "left";
         options.label = "Right";
+        options.id = "1";
         faders.push(new TK.Fader(options));
         
         options.layout = "bottom";
         options.label = "Left";
+        options.id = "2";
         options.fixed_dots = false;
         options.fixed_labels = false;
         options.gap_labels = 20;
         options.levels = [4, 20];
-        options.show_bar = true;
-        options.show_marker = false;
+        options.bar = false;
+        options.pointer = 0;
         faders.push(new TK.Fader(options));
         
         options.layout = "top";
         options.label = "Right";
+        options.id = "3";
         faders.push(new TK.Fader(options));
         
         root.append_children(faders);

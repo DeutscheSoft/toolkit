@@ -142,6 +142,7 @@ TK.Select = TK.class({
         value: false,
         auto_size: true,
         show_list: false,
+        icon: "arrowdown",
     },
     static_events: {
         click: function(e) { this.set("show_list", !this.options.show_list); }
@@ -176,12 +177,6 @@ TK.Select = TK.class({
                 this.show_list(false);
             }
         }.bind(this);
-        /**
-         * @member {HTMLDivElement} TK.Select#_arrow - A DIV element displaaying a small arrow to click on in order to show the select list.
-         *   Has class <code>toolkit-arrow</code>.
-         */
-        this._arrow = TK.element("div", "toolkit-arrow");
-        this._cell.appendChild(this._arrow);
         var sel = this.options.selected;
         var val = this.options.value; 
         this.set("entries",  this.options.entries);

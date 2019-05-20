@@ -285,15 +285,7 @@
 
     }
 <pre class='css prettyprint source'><code>
-.toolkit-meter-base.toolkit-vertical {
-    height: 354px;
-}
 .toolkit-level-meter {
-    height: 82px;
-    float: left;
-}
-.toolkit-level-meter.toolkit-vertical {
-    width: 68px;
     float: left;
 }
 </code></pre>

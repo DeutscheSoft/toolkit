@@ -16,27 +16,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
+ 
 .toolkit-valueknob {
-    width: 100px;
-    height: 100px;
-}
 
-.toolkit-valueknob > .toolkit-label {
-    width: 80%;
-    position: absolute;
-    top: -10%;
-    left: 10%;
-    text-align: center;
-}
-
-.toolkit-valueknob > .toolkit-value {
-    width: 80%;
-    position: absolute;
-    bottom: -10%;
-    left: 10%;
-}
-
-.toolkit-valueknob > .toolkit-value > .toolkit-input {
-    border: 1px solid transparent;
-    font-size: 1em;
 }
