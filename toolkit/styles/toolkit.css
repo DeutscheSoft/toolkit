@@ -100,9 +100,7 @@ pre, code {
 }
 
 
-/* #################### WIDGETS IMPORTANT STYLES #################### */
-/* The following styles are important for the widgets functionality
- * and are not related to their appearance or design. */
+/* #################### WIDGETS DEFAULT STYLES #################### */
 
 /* ROOT */
 
@@ -128,6 +126,7 @@ pre, code {
     -ms-user-select: none;
     user-select: none;
     margin: auto;
+    pointer-events: none;
 }
 .toolkit-button > .toolkit-icon {
     background-position: center center;
@@ -221,6 +220,140 @@ pre, code {
     border-radius: 100%;
 }
 
+/* EXPANDER */
+
+.toolkit-expander {
+    position: relative;
+}
+
+.toolkit-expander.toolkit-always-expanded > .toolkit-toggle-expand {
+    display: none;
+}
+
+/* popup */
+.toolkit-expander.toolkit-popup.toolkit-expanded {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000000;
+    margin: 0;
+}
+.toolkit-expander.toolkit-popup > .toolkit-toggle-expand {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+}
+.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand {
+    opacity: 1;
+    top: 10px;
+    right: 10px;
+    left: auto;
+    bottom: auto;
+}
+
+/* drawer right */
+.toolkit-expander.toolkit-drawer-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 500ms;
+}
+
+.toolkit-expander.toolkit-drawer-right.toolkit-expanded {
+    transform: translate3d(0%, 0, 0);
+}
+
+.toolkit-expander.toolkit-drawer-right > .toolkit-toggle-expand {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(-100%, 0, 0);
+}
+
+/* drawer left */
+.toolkit-expander.toolkit-drawer-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 500ms;
+}
+
+.toolkit-expander.toolkit-drawer-left.toolkit-expanded {
+    transform: translate3d(0%, 0, 0);
+}
+
+.toolkit-expander.toolkit-drawer-left > .toolkit-toggle-expand {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate3d(100%, 0, 0);
+}
+
+/* drawer top */
+.toolkit-expander.toolkit-drawer-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, -100%, 0);
+    transition: transform 500ms;
+}
+
+.toolkit-expander.toolkit-drawer-top.toolkit-expanded {
+    transform: translate3d(0, 0, 0);
+}
+
+.toolkit-expander.toolkit-drawer-top > .toolkit-toggle-expand {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translate3d(0, 100%, 0);
+}
+
+/* drawer bottom */
+.toolkit-expander.toolkit-drawer-bottom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, 100%, 0);
+    transition: transform 500ms;
+}
+
+.toolkit-expander.toolkit-drawer-bottom.toolkit-expanded {
+    transform: translate3d(0, 0, 0);
+}
+
+.toolkit-expander.toolkit-drawer-bottom > .toolkit-toggle-expand {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate3d(0, -100%, 0);
+}
+
+/* hide */
+.toolkit-expander.toolkit-remove {
+    display: none;
+}
+
+.toolkit-expander.toolkit-remove.toolkit-expanded {
+    display: block;
+}
+
+.toolkit-expander.toolkit-remove > .toolkit-toggle-expand {
+    display: none;
+}
+
 /* FADER */
 
 .toolkit-fader {
@@ -249,6 +382,17 @@ pre, code {
     bottom: 0;
 }
 
+/* GAUGE */
+
+.toolkit-gauge {
+    position: relative;
+}
+
+.toolkit-gauge > svg {
+    width: 100%;
+    height: 100%;
+}
+
 /* ICON */
 
 .toolkit-icon {
@@ -261,10 +405,80 @@ pre, code {
     background-repeat: no-repeat;
 }
 
+/* KNOB */
+
+.toolkit-knob > svg {
+    width: 100%;
+    height: 100%;
+    transform: translate3d(0,0,0);
+    will-change: transform;
+}
+
 /* LABEL */
 
 .toolkit-button.toolkit-select > .toolkit-label {
     text-overflow: ellipsis;
+}
+
+/* LEVELMETER */
+
+.toolkit-level-meter.toolkit-vertical {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto 1fr auto;
+}
+.toolkit-level-meter.toolkit-horizontal {
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-rows: auto auto auto;
+}
+.toolkit-level-meter.toolkit-top {
+    grid-template-areas:
+        "bar bar clip"
+        "scale scale ."
+        "title label label";
+}
+.toolkit-level-meter.toolkit-bottom {
+    grid-template-areas:
+        "title label label"
+        "scale scale ."
+        "bar bar clip";
+}
+.toolkit-level-meter.toolkit-left {
+    grid-template-areas:
+        "label ."
+        "clip ."
+        "bar scale"
+        "title .";
+}
+.toolkit-level-meter.toolkit-right {
+    grid-template-areas:
+        ". label"
+        ". clip"
+        "scale bar"
+        ". title";
+}
+.toolkit-level-meter > .toolkit-clip {
+    grid-area: clip;
+}
+.toolkit-level-meter > .toolkit-bar > .toolkit-peak {
+    position: absolute;
+    z-index: 1000;
+}
+
+.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
+    float: left;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
+    float: right;
+}
+
+.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    transform: rotate(-90deg);
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    float: right;
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    float: left;
 }
 
 /* METERBASE */
@@ -394,66 +608,6 @@ pre, code {
     transform: translate3d(0, 0, 0);
 }
 
-/* LEVELMETER */
-
-.toolkit-level-meter.toolkit-vertical {
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto 1fr auto;
-}
-.toolkit-level-meter.toolkit-horizontal {
-    grid-template-columns: 1fr 1fr auto;
-    grid-template-rows: auto auto auto;
-}
-.toolkit-level-meter.toolkit-top {
-    grid-template-areas:
-        "bar bar clip"
-        "scale scale ."
-        "title label label";
-}
-.toolkit-level-meter.toolkit-bottom {
-    grid-template-areas:
-        "title label label"
-        "scale scale ."
-        "bar bar clip";
-}
-.toolkit-level-meter.toolkit-left {
-    grid-template-areas:
-        "label ."
-        "clip ."
-        "bar scale"
-        "title .";
-}
-.toolkit-level-meter.toolkit-right {
-    grid-template-areas:
-        ". label"
-        ". clip"
-        "scale bar"
-        ". title";
-}
-.toolkit-level-meter > .toolkit-clip {
-    grid-area: clip;
-}
-.toolkit-level-meter > .toolkit-bar > .toolkit-peak {
-    position: absolute;
-    z-index: 1000;
-}
-
-.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
-    float: left;
-}
-.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
-    float: right;
-}
-
-.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    transform: rotate(-90deg);
-}
-.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    float: right;
-}
-.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    float: left;
-}
 
 /* MULTIMETER */
 
@@ -826,6 +980,53 @@ pre, code {
     outline: none;
 }
 
+/* VALUEBUTTON */
+
+.toolkit-valuebutton {
+    display: inline-grid;
+    
+    justify-content: stretch;
+    align-items: center;
+    
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: "icon label value"
+                         "scale scale value";
+}
+.toolkit-valuebutton > .toolkit-icon {
+    grid-area: icon;
+}
+.toolkit-valuebutton > .toolkit-label {
+    grid-area: label;
+}
+.toolkit-valuebutton > .toolkit-value {
+    grid-area: value;
+}
+.toolkit-valuebutton > .toolkit-scale {
+    grid-area: scale;
+}
+
+/* VALUEKNOB */
+
+.toolkit-valueknob {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.toolkit-valueknob > .toolkit-label {
+    flex: 0 0 auto;
+}
+.toolkit-valueknob > .toolkit.knob {
+    width: 100px;
+    height: 100px;
+    flex: 0 0 auto;
+}
+.toolkit-valueknob > .toolkit-value {
+    flex: 0 0 auto;
+}
+
 /* WINDOW */
 
 .toolkit-window {
@@ -894,211 +1095,4 @@ pre, code {
 .toolkit-window > .toolkit-header > .toolkit-spacer,
 .toolkit-window > .toolkit-footer > .toolkit-spacer {
     flex: 1 1 auto;
-}
-
-
-/* KNOB */
-
-.toolkit-knob > svg {
-    width: 100%;
-    height: 100%;
-    transform: translate3d(0,0,0);
-    will-change: transform;
-}
-
-/* GAUGE */
-
-.toolkit-gauge {
-    position: relative;
-}
-
-.toolkit-gauge > svg {
-    width: 100%;
-    height: 100%;
-}
-
-/* VALUEKNOB */
-
-.toolkit-valueknob {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-}
-.toolkit-valueknob > .toolkit-label {
-    flex: 0 0 auto;
-}
-.toolkit-valueknob > .toolkit.knob {
-    width: 100px;
-    height: 100px;
-    flex: 0 0 auto;
-}
-.toolkit-valueknob > .toolkit-value {
-    flex: 0 0 auto;
-}
-
-/* VALUEBUTTON */
-
-.toolkit-valuebutton {
-    display: inline-grid;
-    
-    justify-content: stretch;
-    align-items: center;
-    
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: auto auto;
-    grid-template-areas: "icon label value"
-                         "scale scale value";
-}
-.toolkit-valuebutton > .toolkit-icon {
-    grid-area: icon;
-}
-.toolkit-valuebutton > .toolkit-label {
-    grid-area: label;
-}
-.toolkit-valuebutton > .toolkit-value {
-    grid-area: value;
-}
-.toolkit-valuebutton > .toolkit-scale {
-    grid-area: scale;
-}
-
-
-/* EXPANDER */
-
-.toolkit-expander {
-    position: relative;
-}
-
-.toolkit-expander.toolkit-always-expanded > .toolkit-toggle-expand {
-    display: none;
-}
-
-/* popup */
-.toolkit-expander.toolkit-popup.toolkit-expanded {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000000;
-    margin: 0;
-}
-.toolkit-expander.toolkit-popup > .toolkit-toggle-expand {
-    box-sizing: border-box;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-}
-.toolkit-expander.toolkit-popup.toolkit-expanded > .toolkit-toggle-expand {
-    opacity: 1;
-    top: 10px;
-    right: 10px;
-    left: auto;
-    bottom: auto;
-}
-
-/* drawer right */
-.toolkit-expander.toolkit-drawer-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate3d(100%, 0, 0);
-    transition: transform 500ms;
-}
-
-.toolkit-expander.toolkit-drawer-right.toolkit-expanded {
-    transform: translate3d(0%, 0, 0);
-}
-
-.toolkit-expander.toolkit-drawer-right > .toolkit-toggle-expand {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate3d(-100%, 0, 0);
-}
-
-/* drawer left */
-.toolkit-expander.toolkit-drawer-left {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate3d(-100%, 0, 0);
-    transition: transform 500ms;
-}
-
-.toolkit-expander.toolkit-drawer-left.toolkit-expanded {
-    transform: translate3d(0%, 0, 0);
-}
-
-.toolkit-expander.toolkit-drawer-left > .toolkit-toggle-expand {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate3d(100%, 0, 0);
-}
-
-/* drawer top */
-.toolkit-expander.toolkit-drawer-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate3d(0, -100%, 0);
-    transition: transform 500ms;
-}
-
-.toolkit-expander.toolkit-drawer-top.toolkit-expanded {
-    transform: translate3d(0, 0, 0);
-}
-
-.toolkit-expander.toolkit-drawer-top > .toolkit-toggle-expand {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translate3d(0, 100%, 0);
-}
-
-/* drawer bottom */
-.toolkit-expander.toolkit-drawer-bottom {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate3d(0, 100%, 0);
-    transition: transform 500ms;
-}
-
-.toolkit-expander.toolkit-drawer-bottom.toolkit-expanded {
-    transform: translate3d(0, 0, 0);
-}
-
-.toolkit-expander.toolkit-drawer-bottom > .toolkit-toggle-expand {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate3d(0, -100%, 0);
-}
-
-/* hide */
-.toolkit-expander.toolkit-remove {
-    display: none;
-}
-
-.toolkit-expander.toolkit-remove.toolkit-expanded {
-    display: block;
-}
-
-.toolkit-expander.toolkit-remove > .toolkit-toggle-expand {
-    display: none;
-}
-/* BUTTON */
-.toolkit-button > .toolkit-cell >  .toolkit-icon {
-    pointer-events: none;
 }
