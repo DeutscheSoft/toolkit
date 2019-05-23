@@ -221,7 +221,10 @@ TK.Value = TK.class({
         
         if (I.readonly) {
             I.readonly = 0;
-            E.setAttribute("readonly", O.readonly ? "readonly" : null);
+            if (O.readonly)
+                E.setAttribute("readonly", "readonly");
+            else
+                E.removeAttribute("readonly");
         }
     },
     
