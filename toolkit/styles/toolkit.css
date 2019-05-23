@@ -821,6 +821,9 @@ pre, code {
     -moz-user-select: auto !important;
     -ms-user-select: auto !important;
     user-select: auto !important;
+    text-align: center;
+    border: none;
+    outline: none;
 }
 
 /* WINDOW */
