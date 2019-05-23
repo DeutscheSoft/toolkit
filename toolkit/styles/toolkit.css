@@ -412,6 +412,7 @@ pre, code {
     height: 100%;
     transform: translate3d(0,0,0);
     will-change: transform;
+    cursor: pointer;
 }
 
 /* LABEL */
