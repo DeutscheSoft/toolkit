@@ -76,7 +76,7 @@ TK.FrequencyResponse = TK.class({
         range_y: {min:-36, max: 36, scale: "linear"}, // TK.Range y options
         range_z: {min:0.1, max:10, scale:"linear"},
         grid_x:  [
-                    {pos:    20, label: "20 Hz"},
+                    {pos:    20, label: "20Hz"},
                     {pos:    30},
                     {pos:    40},
                     {pos:    50},
@@ -84,7 +84,7 @@ TK.FrequencyResponse = TK.class({
                     {pos:    70},
                     {pos:    80},
                     {pos:    90},
-                    {pos:   100, label: "100 Hz"},
+                    {pos:   100, label: "100Hz"},
                     {pos:   200},
                     {pos:   300},
                     {pos:   400},
@@ -93,7 +93,7 @@ TK.FrequencyResponse = TK.class({
                     {pos:   700},
                     {pos:   800},
                     {pos:   900},
-                    {pos:  1000, label: "1000 Hz"},
+                    {pos:  1000, label: "1kHz"},
                     {pos:  2000},
                     {pos:  3000},
                     {pos:  4000},
@@ -102,8 +102,8 @@ TK.FrequencyResponse = TK.class({
                     {pos:  7000},
                     {pos:  8000},
                     {pos:  9000},
-                    {pos: 10000, label: "10000 Hz"},
-                    {pos: 20000, label: "20000 Hz"}],        // Frequency grid
+                    {pos: 10000, label: "10kHz"},
+                    {pos: 20000, label: "20kHz"}],        // Frequency grid
         scale:  false,                                       // the mode of the
                                                              // dB scale
         depth: 0,   // the depth of the z axis (basis of range_z)
