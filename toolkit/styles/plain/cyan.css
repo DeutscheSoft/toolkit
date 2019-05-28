@@ -82,11 +82,14 @@
 .toolkit-fader::before {
     background-color: white;
 }
-.toolkit-fader > .toolkit-handle {
+.toolkit-fader > .toolkit-track {
+    background: white;
+}
+.toolkit-fader > .toolkit-track > .toolkit-handle {
     background: #00ccff;
 }
-.toolkit-fader > .toolkit-handle::after,
-.toolkit-fader > .toolkit-handle::before {
+.toolkit-fader > .toolkit-track > .toolkit-handle::after,
+.toolkit-fader > .toolkit-track > .toolkit-handle::before {
     border-color: white;
 }
 .toolkit-fader > .toolkit-value.toolkit-active > .toolkit-input {

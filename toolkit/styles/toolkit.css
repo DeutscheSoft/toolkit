@@ -106,7 +106,6 @@ pre, code {
 
 .toolkit-root {
     display: block;
-    position: relative;
 }
 
 /* BUTTON */
@@ -203,7 +202,6 @@ pre, code {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    position:relative;
 }
 .toolkit-chart > svg {
     box-sizing: content-box;
@@ -223,7 +221,7 @@ pre, code {
 /* EXPANDER */
 
 .toolkit-expander {
-    position: relative;
+    
 }
 
 .toolkit-expander.toolkit-always-expanded > .toolkit-toggle-expand {
@@ -364,28 +362,86 @@ pre, code {
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    position: relative;
+    
+    display: inline-grid;
 }
 
-.toolkit-fader > .toolkit-handle {
+.toolkit-fader.toolkit-horizontal {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+}
+
+.toolkit-fader.toolkit-vertical {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto 1fr auto;
+}
+
+.toolkit-fader.toolkit-top {
+    grid-template-areas: "track ."
+                         "scale label"
+                         "scale value";
+}
+.toolkit-fader.toolkit-left {
+    grid-template-areas: "label ."
+                         "track scale"
+                         "value .";
+}
+.toolkit-fader.toolkit-right {
+    grid-template-areas: ". label"
+                         "scale track"
+                         ". value";
+}
+.toolkit-fader.toolkit-bottom {
+    grid-template-areas: "scale label"
+                         "scale value"
+                         "track .";
+}
+
+.toolkit-fader > .toolkit-track {
+    grid-area: track;
+    position: relative;
+}
+.toolkit-fader > .toolkit-scale {
+    grid-area: scale;
+}
+.toolkit-fader > .toolkit-label {
+    grid-area: label;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-label {
+    text-align: center;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-label {
+    text-align: left;
+}
+.toolkit-fader > .toolkit-value {
+    grid-area: value;
+}
+.toolkit-fader.toolkit-horizontal > .toolkit-value > .toolkit-input {
+    text-align: left;
+}
+.toolkit-fader.toolkit-vertical > .toolkit-value > .toolkit-input {
+    text-align: center;
+}
+
+.toolkit-fader > .toolkit-track > .toolkit-handle {
     position: absolute;
     z-index: 10;
     will-change: transform;
     transform: translate3d(0, 0, 0);
 }
 
-.toolkit-fader.toolkit-horizontal > .toolkit-handle {
+.toolkit-fader.toolkit-horizontal > .toolkit-track > .toolkit-handle {
     left: 0;
 }
 
-.toolkit-fader.toolkit-vertical > .toolkit-handle {
+.toolkit-fader.toolkit-vertical > .toolkit-track > .toolkit-handle {
     bottom: 0;
 }
 
 /* GAUGE */
 
 .toolkit-gauge {
-    position: relative;
+    
 }
 
 .toolkit-gauge > svg {
@@ -653,7 +709,6 @@ pre, code {
 /* PAGER */
 
 .toolkit-pager {
-    position: relative;
     box-sizing: border-box;
     overflow: hidden;
     width: 100%;
@@ -797,7 +852,7 @@ pre, code {
 /* SCALE */
 
 .toolkit-scale {
-    position: relative;
+    
 }
 
 .toolkit-scale > .toolkit-label {

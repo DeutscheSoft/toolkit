@@ -20,222 +20,72 @@
     margin: 4px;
     padding: 0px;
     background-repeat: no-repeat;
+    grid-row-gap: 4px;
 }
 
-.toolkit-fader.toolkit-vertical {
+/* TRACK */
+
+
+.toolkit-fader > .toolkit-track {
+    background-color: #002f42;
+    border-radius: 5px;
+}
+
+.toolkit-fader.toolkit-vertical > .toolkit-track {
     width: 46px;
 }
-.toolkit-fader.toolkit-vertical.toolkit-has-scale {
-    width: auto;
-}
-.toolkit-fader.toolkit-horizontal {
+.toolkit-fader.toolkit-horizontal > .toolkit-track {
     height: 46px;
-}
-.toolkit-fader.toolkit-horizontal.toolkit-has-scale {
-    height: auto;
-}
-
-.toolkit-fader.toolkit-vertical.toolkit-has-value {
-    /* keep and adjust this to height of value widget */
-    padding-top: 25px;
-}
-.toolkit-fader.toolkit-vertical.toolkit-has-label {
-    /* keep and adjust this to height of label widget */
-    padding-bottom: 25px;
-}
-.toolkit-fader.toolkit-horizontal.toolkit-has-value,
-.toolkit-fader.toolkit-horizontal.toolkit-has-label {
-    /* keep and adjust this to width of value/label widget */
-    padding-right: 75px;
-}
-
-/* BACKGROUNDS */
-
-.toolkit-fader.toolkit-vertical {
-    background-image: url(../images/fader/background_vertical_top.png),
-                      url(../images/fader/background_vertical_center.png),
-                      url(../images/fader/background_vertical_bottom.png);
-    background-size: 46px 7px, 46px calc(100% - 10px), 46px 7px;
-}
-.toolkit-fader.toolkit-horizontal {
-    background-image: url(../images/fader/background_horizontal_left.png),
-                      url(../images/fader/background_horizontal_center.png),
-                      url(../images/fader/background_horizontal_right.png);
-    background-size: 7px 46px, calc(100% - 10px) 46px, 7px 46px;
-}
-
-.toolkit-fader.toolkit-left {
-    background-position: 0 0, 0 5px, 0 100%;
-}
-.toolkit-fader.toolkit-right {
-    background-position: 100% 0, 100% 5px, 100% 100%;
-}
-.toolkit-fader.toolkit-top {
-    background-position: 0 0, 5px 0, 100% 0;
-}
-.toolkit-fader.toolkit-bottom {
-    background-position: 0 100%, 5px 100%, 100% 100%;
-}
-
-
-.toolkit-fader.toolkit-vertical.toolkit-has-label {
-    background-size: 46px 7px, 46px calc(100% - 10px - 25px), 46px 7px;
-}
-.toolkit-fader.toolkit-vertical.toolkit-has-value {
-    background-size: 46px 7px, 46px calc(100% - 10px - 25px), 46px 7px;
-}
-.toolkit-fader.toolkit-vertical.toolkit-has-label.toolkit-has-value {
-    background-size: 46px 7px, 46px calc(100% - 10px - 50px), 46px 7px;
-}
-
-
-.toolkit-fader.toolkit-horizontal.toolkit-has-label {
-    background-size: 7px 46px, calc(100% - 10px - 74px) 46px, 7px 46px;
-}
-.toolkit-fader.toolkit-horizontal.toolkit-has-value {
-    background-size: 7px 46px, calc(100% - 10px - 74px) 46px, 7px 46px;
-}
-.toolkit-fader.toolkit-horizontal.toolkit-has-label.toolkit-has-value {
-    background-size: 7px 46px, calc(100% - 10px - 74px) 46px, 7px 46px;
-}
-
-
-.toolkit-fader.toolkit-left.toolkit-has-label {
-    background-position: 0 0, 0 5px, 0 calc(100% - 25px);
-}
-.toolkit-fader.toolkit-left.toolkit-has-value {
-    background-position: 0 25px, 0 30px, 0 100%;
-}
-.toolkit-fader.toolkit-left.toolkit-has-label.toolkit-has-value {
-    background-position: 0 25px, 0 30px, 0 calc(100% - 25px);
-}
-
-
-.toolkit-fader.toolkit-right.toolkit-has-label {
-    background-position: 100% 0, 100% 5px, 100% calc(100% - 25px);
-}
-.toolkit-fader.toolkit-right.toolkit-has-value {
-    background-position: 100% 25px, 100% 30px, 100% 100%;
-}
-.toolkit-fader.toolkit-right.toolkit-has-label.toolkit-has-value {
-    background-position: 100% 25px, 100% 30px, 100% calc(100% - 25px);
-}
-
-
-.toolkit-fader.toolkit-top.toolkit-has-label,
-.toolkit-fader.toolkit-top.toolkit-has-value {
-    background-position: 0 0, 5px 0, calc(100% - 75px) 0;
-}
-.toolkit-fader.toolkit-bottom.toolkit-has-label,
-.toolkit-fader.toolkit-bottom.toolkit-has-value {
-    background-position: 0 100%, 5px 100%, calc(100% - 75px) 100%;
 }
 
 /* HANDLE */
 
-.toolkit-fader > .toolkit-handle {
+.toolkit-fader > .toolkit-track > .toolkit-handle {
     cursor: pointer;
     cursor: hand;
     margin: 1px;
     box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
     border-radius: 4px;
 }
-.toolkit-fader.toolkit-vertical > .toolkit-handle {
+.toolkit-fader.toolkit-vertical > .toolkit-track > .toolkit-handle {
     width: 44px;
     height: 80px;
     background: url(../images/fader/handle_vertical.png) no-repeat;
 }
-.toolkit-fader.toolkit-vertical.toolkit-warn > .toolkit-handle {
+.toolkit-fader.toolkit-vertical.toolkit-warn > .toolkit-track > .toolkit-handle {
     width: 44px;
     height: 80px;
     background: url(../images/fader/handle_vertical_warn.png) no-repeat;
 }
-.toolkit-fader.toolkit-horizontal > .toolkit-handle {
+.toolkit-fader.toolkit-horizontal > .toolkit-track > .toolkit-handle {
     height: 44px;
     width: 80px;
     background: url(../images/fader/handle_horizontal.png) no-repeat;
 }
-.toolkit-fader.toolkit-horizontal.toolkit-warn > .toolkit-handle {
+.toolkit-fader.toolkit-horizontal.toolkit-warn > .toolkit-track > .toolkit-handle {
     height: 44px;
     width: 80px;
     background: url(../images/fader/handle_horizontal_warn.png) no-repeat;
 }
-.toolkit-fader.toolkit-left > .toolkit-handle {
-    left: 0;
-}
-.toolkit-fader.toolkit-right > .toolkit-handle {
-    right: 0;
-}
-.toolkit-fader.toolkit-top > .toolkit-handle {
-    top: 0;
-}
-.toolkit-fader.toolkit-bottom > .toolkit-handle {
-    bottom: 0;
-}
 
-
-.toolkit-fader.toolkit-vertical.toolkit-has-label > .toolkit-handle {
-    bottom: 25px;
-}
 
 /* SCALE */
 
-.toolkit-fader > .toolkit-scale {
-    display: none;
-}
-.toolkit-fader.toolkit-has-scale > .toolkit-scale {
-    display: block;
-}
-
-.toolkit-fader.toolkit-vertical > .toolkit-scale {
-    height: calc(100% - 80px);
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
 .toolkit-fader.toolkit-horizontal > .toolkit-scale {
-    width: calc(100% - 80px);
-    margin-left: 40px;
+    margin: 0 40px;
 }
-.toolkit-fader.toolkit-left > .toolkit-scale {
-    margin-left: 48px;
-}
-.toolkit-fader.toolkit-right > .toolkit-scale {
-    margin-right: 48px;
-}
-.toolkit-fader.toolkit-top > .toolkit-scale {
-    margin-top: 48px;
-}
-.toolkit-fader.toolkit-bottom > .toolkit-scale {
-    margin-bottom: 48px;
+.toolkit-fader.toolkit-vertical > .toolkit-scale {
+    margin: 40px 0;
 }
 
 
 /* LABEL */
 
 .toolkit-fader > .toolkit-label {
-    width: 70px;
+    width: 48px;
     line-height: 23px;
     height: 23px;
-    position: absolute;
     text-align: center;
-}
-.toolkit-fader.toolkit-vertical > .toolkit-label {
-    bottom: 0;
-}
-.toolkit-fader.toolkit-left > .toolkit-label {
-    left: -12px;
-}
-.toolkit-fader.toolkit-right > .toolkit-label {
-    right: -12px;
-}
-.toolkit-fader.toolkit-horizontal > .toolkit-label {
-    right: 0;
-}
-.toolkit-fader.toolkit-top > .toolkit-label {
-    top: 0px;
-}
-.toolkit-fader.toolkit-bottom > .toolkit-label {
-    bottom: 23px;
 }
 
 
@@ -243,7 +93,7 @@
 
 .toolkit-fader > .toolkit-value,
 .toolkit-fader > .toolkit-value > .toolkit-input {
-    width: 70px;
+    width: 48px;
     line-height: 23px;
     height: 23px;
     font-size: 14px;
@@ -256,31 +106,4 @@
 }
 .toolkit-fader > .toolkit-value.toolkit-active > .toolkit-input {
     background: #002f42;
-}
-
-.toolkit-fader.toolkit-horizontal > .toolkit-value > .toolkit-input,
-.toolkit-fader.toolkit-horizontal > .toolkit-label {
-    text-align: left;
-}
-
-.toolkit-fader > .toolkit-value {
-    position: absolute;
-}
-.toolkit-fader.toolkit-vertical > .toolkit-value {
-    top: 0;
-}
-.toolkit-fader.toolkit-left > .toolkit-value {
-    left: -12px;
-}
-.toolkit-fader.toolkit-right > .toolkit-value {
-    right: -12px;
-}
-.toolkit-fader.toolkit-horizontal > .toolkit-value {
-    right: 0;
-}
-.toolkit-fader.toolkit-top > .toolkit-value {
-    top: 23px;
-}
-.toolkit-fader.toolkit-bottom > .toolkit-value {
-    bottom: 0px;
 }

@@ -212,11 +212,17 @@ TK.Fader = TK.class({
         this.widgetize(E, true, true, true);
 
         /**
+         * @member {HTMLDivElement} TK.Fader#_track - The track for the handle. Has class <code>toolkit-track</code>.
+         */
+        this._track = TK.element("div", "toolkit-track");
+        this.element.appendChild(this._track);
+        
+        /**
          * @member {HTMLDivElement} TK.Fader#_handle - The handle of the fader. Has class <code>toolkit-handle</code>.
          */
         this._handle = TK.element("div", "toolkit-handle");
         this._handle_size = 0;
-        this.element.appendChild(this._handle);
+        this._track.appendChild(this._handle);
 
         if (O.reset === void(0))
             O.reset = O.value;
@@ -266,7 +272,15 @@ TK.Fader = TK.class({
                             "toolkit-right", "toolkit-top", "toolkit-bottom");
             TK.add_class(E, vert(O) ? "toolkit-vertical" : "toolkit-horizontal");
             TK.add_class(E, "toolkit-"+value);
-
+            
+            if (TK.supports_transform)
+                this._handle.style.transform = null;
+            else {
+                if (vert(O))
+                    this._handle.style.left = null;
+                else
+                    this._handle.style.bottom = null;
+            }
             I.value = false;
         }
 
@@ -275,8 +289,6 @@ TK.Fader = TK.class({
             // TODO: value is snapped already in set(). This is not enough for values which are set during
             // initialization.
             tmp = this.val2px(this.snap(O.value)) + "px"
-
-            // TODO: this does not work on IE9
 
             if (vert(O)) {
                 if (TK.supports_transform)
@@ -293,19 +305,19 @@ TK.Fader = TK.class({
     },
     resize: function () {
         var O = this.options;
-        var E = this.element, H = this._handle;
+        var T = this._track, H = this._handle;
         var basis;
 
         TK.Widget.prototype.resize.call(this);
         
-        this._padding = TK.css_space(E, "padding", "border");
+        this._padding = TK.css_space(T, "padding", "border");
         
         if (vert(O)) {
             this._handle_size = TK.outer_height(H, true);
-            basis = TK.inner_height(E) - this._handle_size;
+            basis = TK.inner_height(T) - this._handle_size;
         } else {
             this._handle_size = TK.outer_width(H, true);
-            basis = TK.inner_width(E) - this._handle_size;
+            basis = TK.inner_width(T) - this._handle_size;
         }
 
         this.set("basis", basis);

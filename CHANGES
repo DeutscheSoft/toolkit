@@ -1,5 +1,11 @@
-Changes since version 1.2
+Changes since version 1.4
 --------------------------------------
+
+Style Changes
+=============
+
+* Flex-Layout: The following widgets have a changed layout based on flex-box and grid:
+  * Fader (new DOM element: _track as container for _handle)
 
 
 Changes since version 1.1
