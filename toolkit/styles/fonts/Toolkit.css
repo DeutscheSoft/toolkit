@@ -113,3 +113,10 @@
 .toolkit-icon.end::before                                  { content: 'U'; }
 .toolkit-icon.repeat::before                               { content: 'V'; }
 .toolkit-icon.random::before                               { content: 'W'; }
+.toolkit-icon.day::before                                  { content: 'X'; }
+.toolkit-icon.sun::before                                  { content: 'X'; }
+.toolkit-icon.daylight::before                             { content: 'X'; }
+.toolkit-icon.light::before                                { content: 'X'; }
+.toolkit-icon.night::before                                { content: 'Y'; }
+.toolkit-icon.moon::before                                 { content: 'Y'; }
+.toolkit-icon.dark::before                                 { content: 'Y'; }
