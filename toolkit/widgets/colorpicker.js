@@ -94,6 +94,10 @@ var cancel = function () {
     this.fire_event("cancel");
 }
 var apply = function () {
+    var O = this.options;
+    this.userset("rgb", O.rgb);
+    this.userset("hex", O.hex);
+    this.userset("hsl", O.hsl);
     fevent.call(this, "apply");
     /**
      * Is fired whenever the apply button gets clicked or return is hit on input.
