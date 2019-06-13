@@ -57,11 +57,21 @@ TK.Dialog = TK.class({
         x: "number",
         y: "number",
         autoclose: "boolean",
+        autoremove: "boolean"
     }),
+    options: {
+        visible: true,
+        anchor: "top-left",
+        x: 0,
+        y: 0,
+        autoclose: false,
+        autoremove: true,
+    },
     static_events: {
       hide: function() {
         deactivate_autoclose.call(this);
-        this.element.remove();
+        if (this.options.autoremove)
+            this.element.remove();
         this.fire_event("close");
       },
       set_display_state: function(val) {
@@ -93,6 +103,7 @@ TK.Dialog = TK.class({
           deactivate_autoclose.call(this);
           this.show();
         } else {
+          this.options.container = this.element.parentElement;
           this.hide();
         }
       }
