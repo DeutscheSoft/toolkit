@@ -139,7 +139,6 @@ TK.Dialog = TK.class({
         var I = this.invalid;
         var O = this.options;
         var E = this.element;
-        
         if (I.x || I.y || I.anchor) {
             var bodybox = document.body.getBoundingClientRect();
             var sw = bodybox.width;
@@ -157,8 +156,10 @@ TK.Dialog = TK.class({
     open: function (x, y) {
         this.fire_event("open");
         this.userset("visible", true);
-        this.set("x", x);
-        this.set("y", y);
+        if (typeof x !== "undefined")
+            this.set("x", x);
+        if (typeof y !== "undefined")
+            this.set("y", y);
     },
     close: function () {
         this.userset("visible", false);
