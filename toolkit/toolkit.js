@@ -295,7 +295,10 @@ function element(tag) {
     for (i = 1; i < arguments.length; i++) {
         v = arguments[i];
         if (typeof v === "object") {
-            set_styles(n, v);
+            for (var key in v) {
+                if (v.hasOwnProperty(key))
+                    n.setAttribute(key, v[key]);
+            }
         } else if (typeof v === "string") {
             add_class(n, v);
         } else throw("unsupported argument to TK.element");
