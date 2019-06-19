@@ -180,6 +180,8 @@ TK.Colors = TK.class({
      * Returns red, green and blue (0..255) from hue, saturation
      * and lightness (0..1)
      * 
+     * @method TK.Colors#hsl2rgb
+     * 
      * @param {number|array|object} h - hue (0..1) or object with members h, s and l or array of HSL
      * @param {number} s - saturation (0..1)
      * @param {number} l - lightness (0..1)
@@ -191,6 +193,8 @@ TK.Colors = TK.class({
      * Returns an object containing red, green and blue from a
      * hexadecimal rgb color string
      * 
+     * @method TK.Colors#hex2rgb
+     * 
      * @param {string} hex - Color string like "#FF0099"
      * 
      * @returns {object} Object with members r, g and b as numbers (0..255)
@@ -198,6 +202,8 @@ TK.Colors = TK.class({
     hex2rgb: hex2rgb,
     /**
      * Returns hexadecimal color string from r, g and b as numbers (0..255)
+     * 
+     * @method TK.Colors#rgb2hex
      * 
      * @param {number|array|object} r - red as number (0..255) or object with members r, g and b or array of RGB
      * @param {number} g - green as number (0..255)
@@ -210,6 +216,8 @@ TK.Colors = TK.class({
      * Returns an object containing hue, stauration and lightness from a
      * hexadecimal rgb color string
      * 
+     * @method TK.Colors#hex2hsl
+     * 
      * @param {string} hex - Color string like "#FF0099"
      * 
      * @returns {object} Object with members h, s and l as numbers (0..1)
@@ -217,6 +225,8 @@ TK.Colors = TK.class({
     hex2hsl: hex2hsl,
     /**
      * Returns hexadecimal color string from h, s and l as numbers (0..1)
+     * 
+     * @method TK.Colors#hsl2hex
      * 
      * @param {number|array|object} h - red as number (0..1) or object with members h, s and l or array of HSL
      * @param {number} s - green as number (0..1)
@@ -227,6 +237,8 @@ TK.Colors = TK.class({
     hsl2hex: hsl2hex,
     /**
      * Returns hexadecimal color string from color name
+     * 
+     * @method TK.Colors#name2hex
      * 
      * @param {string} colorname - name of the color, e.g. "white", "IslamicGreen" or "lightCoral"
      * 
