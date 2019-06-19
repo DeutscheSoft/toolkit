@@ -19,50 +19,6 @@
 "use strict";
 (function (w, TK) {
 
-
-/* TODO: switch to native DragCapture */
-
-function Drag (node, callback) {
-    this.node = node;
-    this.callback = callback;
-    this.active = false;
-    this.rect = null;
-    
-    node.addEventListener("mousedown", this.down.bind(this));
-    this._move = this.move.bind(this);
-    this._up = this.up.bind(this);
-}
-
-Drag.prototype = {
-    down: function (e) {
-        this.active = true;
-        this.rect = this.node.getBoundingClientRect();
-        document.addEventListener("mousemove", this._move);
-        document.addEventListener("mouseup", this._up);
-    },
-    up: function (e) {
-        if (!this.active) return;
-        this.move(e);
-        this.active = false;
-        document.removeEventListener("mousemove", this._move);
-        document.removeEventListener("mouseup", this._up);
-    },
-    move: function (e) {
-        if (!this.active) return;
-        e.preventDefault();
-        e = this.get_event(e);
-        if (this.callback)
-            this.callback(Math.max(0, Math.min(1, (e.pageX - this.rect.left) / this.rect.width)),
-                          Math.max(0, Math.min(1, (e.pageY - this.rect.top) / this.rect.height)));
-    },
-    get_event: function(e) {
-        if (e.hasOwnProperty("touches") && touches.length)
-            return e.touches[0];
-        return e;
-    }
-}
-Drag.prototype.constructor = Drag;
-
 var checkinput = function (e) {
     var I = this._color;
     if (e.keyCode && e.keyCode == 13) {
@@ -82,7 +38,7 @@ var checkinput = function (e) {
     }
     if (I.value.length == 6) {
         this.set("hex", I.value);
-        fevent.call(this, "colorset");
+        fevent.call(this, "colorset", true);
     }
 }
 var cancel = function () {
@@ -91,58 +47,60 @@ var cancel = function () {
      * 
      * @event TK.ColorPicker#cancel
      */
-    this.fire_event("cancel");
+    fevent.call(this, "cancel");
 }
 var apply = function () {
-    var O = this.options;
-    if (O.rgb) this.userset("rgb", O.rgb);
-    if (O.hex) this.userset("hex", O.hex);
-    if (O.hsl) this.userset("hsl", O.hsl);
-    fevent.call(this, "apply");
     /**
      * Is fired whenever the apply button gets clicked or return is hit on input.
      * 
-     * @event TK.ColorPicker#cancel
-     * 
-     * @param {object} rgb - Object with members r, g and b (0..255)
-     * @param {object} hsl - Object with members h, s and l (0..1)
-     * @param {string} hex - Hexadecimal representation
+     * @event TK.ColorPicker#apply
+     * @param {object} colors - Object containing all color objects: `rgb`, `hsl`, `hex`, `hue`, `saturation`, `lightness`, `red`, `green`, `blue`
      */
+    fevent.call(this, "apply", true);
 }
 
-var set_color_at = function (x, y) {
-    this.set("hsl", {h:x, s:this.options.hsl.s, l:y});
-    fevent.call(this, "colorset");
-    /**
-     * Is fired whenever the color is changed via gradient or saturation fader.
-     * 
-     * @event TK.ColorPicker#colorset
-     * 
-     * @param {object} rgb - Object with members r, g and b (0..255)
-     * @param {object} hsl - Object with members h, s and l (0..1)
-     * @param {string} hex - Hexadecimal representation
-     */
-}
-    
-var set_saturation = function (s) {
-    this.set("hsl", {h:this.options.hsl.h,
-                     s:s,
-                     l:this.options.hsl.l});
-    fevent.call(this, "colorset");
+var fevent = function (e, useraction) {
+    var O = this.options;
+    if (useraction) {
+        this.fire_event("userset", "rgb", O.rgb);
+        this.fire_event("userset", "hsl", O.hsl);
+        this.fire_event("userset", "hex", O.hex);
+        this.fire_event("userset", "hue", O.hue);
+        this.fire_event("userset", "saturation", O.saturation);
+        this.fire_event("userset", "lightness", O.lightness);
+        this.fire_event("userset", "red", O.red);
+        this.fire_event("userset", "green", O.green);
+        this.fire_event("userset", "blue", O.blue);
+    }
+    this.fire_event(e, {
+        rgb: O.rgb,
+        hsl: O.hsl,
+        hex: O.hex,
+        hue: O.hue,
+        saturation: O.saturation,
+        lightness: O.lightness,
+        red: O.red,
+        green: O.green,
+        blue: O.blue,
+    });
 }
 
-var fevent = function (e) {
-    this.fire_event(e, this.options.rgb,
-                       this.options.hsl,
-                       this.options.hex);
+function set_atoms () {
+    var O = this.options;
+    O.hue = O.hsl["h"];
+    O.saturation = O.hsl["s"];
+    O.lightness = O.hsl["l"];
+    O.red = O.rgb["r"];
+    O.green = O.rgb["g"];
+    O.blue = O.rgb["b"];
 }
+
 
 /**
  * TK.ColorPicker provides an easy way to choose a color by clicking in
  * a HSL image and selecting a saturation.
  * 
  * @mixin TK.Colors
- * 
  * 
  */
 
@@ -156,12 +114,24 @@ TK.ColorPicker = TK.class({
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
         hsl: "object",
         rgb: "object",
-        hex: "string"
+        hex: "string",
+        hue: "number",
+        saturation: "number",
+        lightness: "number",
+        red: "number",
+        green: "number",
+        blue: "number",
     }),
     options: {
         hsl: {h:0, s:0.5, l:0},
         rgb: {r:0, g:0, b:0},
         hex: "000000",
+        hue: 0,
+        saturation: 0.5,
+        lightness:  0,
+        red: 0,
+        green: 0,
+        blue: 0,
     },
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
@@ -201,14 +171,45 @@ TK.ColorPicker = TK.class({
         this._color.onpaste = checkinput.bind(this);
 
         this.saturation.add_event("useraction", (function (key, value) {
-                set_saturation.call(this, value);
+            this.set("saturation", value);
         }).bind(this));
         
         this.cancel.add_event("click", cancel.bind(this));
         this.apply.add_event("click", apply.bind(this));
         
-        this.colordrag = new Drag(
-            this._grayscale, set_color_at.bind(this));
+        this.rangeH = new TK.Range({
+            min: 0,
+            max: 1,
+            basis: 200,
+        });
+        this.rangeV = new TK.Range({
+            min: 0,
+            max: 1,
+            basis: 200,
+            reverse: true,
+        });
+        this.dragH = new TK.DragValue(this, {
+            node: this._crosshair,
+            range: (function () { return this.rangeH; }).bind(this),
+            get: function () { return this.parent.options.hue; },
+            set: function (v) { this.parent.set("hue", v); },
+            direction: "horizontal",
+            onstartcapture: function (e) {
+                var x = e.stouch.clientX - this.parent._crosshair.getBoundingClientRect().left;
+                this.parent.set("hue", this.options.range().px2val(x));
+            }
+        });
+        this.dragV = new TK.DragValue(this, {
+            node: this._crosshair,
+            range: (function () { return this.rangeV; }).bind(this),
+            get: function () { return this.parent.options.lightness; },
+            set: function (v) { this.parent.set("lightness", v); },
+            direction: "vertical",
+            onstartcapture: function (e) {
+                var y = e.stouch.clientY - this.parent._crosshair.getBoundingClientRect().top;
+                this.parent.set("lightness", 1 - this.options.range().px2val(y));
+            }
+        });
         
         if (options.rgb)
             this.set("rgb", options.rgb);
@@ -244,20 +245,41 @@ TK.ColorPicker = TK.class({
         }
     },
     set: function (key, value) {
+        var O = this.options;
         switch (key) {
             case "rgb":
-                this.options.hsl = this.rgb2hsl(value);
-                this.options.hex = this.rgb2hex(value);
+                O.hsl = this.rgb2hsl(value);
+                O.hex = this.rgb2hex(value);
+                set_atoms.call(this);
                 break;
             case "hsl":
-                this.options.rgb = this.hsl2rgb(value);
-                this.options.hex = this.rgb2hex(this.options.rgb);
+                O.rgb = this.hsl2rgb(value);
+                O.hex = this.rgb2hex(O.rgb);
+                set_atoms.call(this);
                 break;
             case "hex":
-                this.options.rgb = this.hex2rgb(value);
-                this.options.hsl = this.rgb2hsl(this.options.rgb);
+                O.rgb = this.hex2rgb(value);
+                O.hsl = this.rgb2hsl(O.rgb);
+                set_atoms.call(this);
                 break;
-                
+            case "hue":
+                this.set("hsl", {h:value, s:O.saturation, l:O.lightness});
+                break;
+            case "saturation":
+                this.set("hsl", {h:O.hue, s:value, l:O.lightness});
+                break;
+            case "lightness":
+                this.set("hsl", {h:O.hue, s:O.saturation, l:value});
+                break;
+            case "red":
+                this.set("rgb", {r:value, g:O.green, b:O.blue});
+                break;
+            case "green":
+                this.set("rgb", {r:O.red, g:value, b:O.blue});
+                break;
+            case "blue":
+                this.set("rgb", {r:O.red, g:value, b:O.blue});
+                break;
         }
         return TK.Container.prototype.set.call(this, key, value);
     }
