@@ -75,6 +75,13 @@
     fill: #00ccff;
 }
 
+.toolkit-dialog {
+    background: #e3e3e3;
+    -webkit-box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:    0px 4px 12px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:         0px 4px 12px 0px rgba(0, 0, 0, 0.5);
+}
+
 .toolkit-dynamics > svg > .toolkit-graphs > .toolkit-steady {
     stroke: #666;
 }

@@ -48,6 +48,29 @@ function deactivate_autoclose() {
 }
 
 TK.Dialog = TK.class({
+/**
+ * TK.Dialog provides a hovering area which can be closed by clicking/tapping
+ * anywhere on the screen. It can be automatically pushed to the topmost
+ * DOM position as a child of an AWML-ROOT or the BODY element. On close
+ * it can be removed from the DOM. The {@link TK.Anchor}-functionality
+ * makes positioning the dialog window straight forward.
+ *
+ * @class TK.Dialog
+ * 
+ * @extends TK.Container
+ * @mixins TK.Anchor
+ *
+ * @param {Object} [options={ }] - An object containing initial options.
+ * 
+ * @property {Boolean} [options.visible=true] - Hide or show the dialog.
+ * @property {String} [options.anchor="top-left"] - Origin of `x` and `y` coordinates.
+ * @property {Number} [options.x=0] - X-position of the dialog.
+ * @property {Number} [options.y=0] - Y-position of the dialog.
+ * @property {boolean} [options.auto_close=false] - Set dialog to `visible=false` if clicked outside in the document.
+ * @property {boolean} [options.auto_remove=false] - Remove the dialogs DOM node after setting `visible=false`.
+ * @property {boolean} [options.toplevel=false] - Add the dialog DOM node to the topmost position in DOM on `visible=true`. Topmost means either a parenting `AWML-ROOT` or the `BODY` node.
+ * 
+ */
     _class: "Dialog",
     Extends: TK.Container,
     Implements: TK.Anchor,
@@ -56,16 +79,18 @@ TK.Dialog = TK.class({
         anchor: "string",
         x: "number",
         y: "number",
-        autoclose: "boolean",
-        autoremove: "boolean"
+        auto_close: "boolean",
+        auto_remove: "boolean",
+        toplevel: "boolean",
     }),
     options: {
         visible: true,
         anchor: "top-left",
         x: 0,
         y: 0,
-        autoclose: false,
-        autoremove: true,
+        auto_close: false,
+        auto_remove: false,
+        toplevel: false,
     },
     static_events: {
       hide: function() {
@@ -98,22 +123,21 @@ TK.Dialog = TK.class({
           deactivate_autoclose.call(this);
         }
       },
-      set_visible: function(val) {
+      set_visible: function (val) {
+        var O = this.options;
         if (val) {
           deactivate_autoclose.call(this);
+          if (O.toplevel && O.container.tagName !== "AWML-ROOT" && O.container.tagName !== "BODY") {
+            var p = this.element;
+            while ((p = p.parentElement) && p.tagName !== "AWML-ROOT" && p.tagName !== "BODY") {};
+            this.set("container", p);
+          }
           this.show();
         } else {
-          this.options.container = this.element.parentElement;
+          O.container = this.element.parentElement;
           this.hide();
         }
-      }
-    },
-    options: {
-        visible: true,
-        anchor: "center",
-        x: 0,
-        y: 0,
-        autoclose: false,
+      },
     },
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
@@ -153,7 +177,16 @@ TK.Dialog = TK.class({
             E.style.top  = pos.y + "px"
         }
     },
+    /**
+     * Open the dialog. Optionally set x and y position regarding the `anchor`.
+     *
+     * @method TK.Dialog#open
+     * 
+     * @param {Number} [x] - New X-position of the dialog.
+     * @param {Number} [y] - New Y-position of the dialog.
+     */
     open: function (x, y) {
+        
         this.fire_event("open");
         this.userset("visible", true);
         if (typeof x !== "undefined")
@@ -161,9 +194,19 @@ TK.Dialog = TK.class({
         if (typeof y !== "undefined")
             this.set("y", y);
     },
+    /**
+     * Close the dialog. The DOM node is removed from DOM if `auto_remove` is set to `true`.
+     *
+     * @method TK.Dialog#close
+     */
     close: function () {
         this.userset("visible", false);
     },
+    /**
+     * Reposition the dialog to the current `x` and `y` position.
+     *
+     * @method TK.Dialog#reposition
+     */
     reposition: function () {
         var O = this.options;
         this.set("x", O.x);
