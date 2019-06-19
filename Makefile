@@ -115,6 +115,8 @@ css_input_files = \
     toolkit/styles/2013/css/notification.css \
     toolkit/styles/2013/css/notifications.css \
     toolkit/styles/2013/css/slider.css \
+    toolkit/styles/2013/css/crossover.css \
+    toolkit/styles/2013/css/dialog.css \
     toolkit/styles/plain.css \
     toolkit/styles/plain_lime.css \
     toolkit/styles/plain_raspberry.css \
@@ -156,6 +158,7 @@ css_input_files = \
     toolkit/styles/plain/css/notifications.css \
     toolkit/styles/plain/css/slider.css \
     toolkit/styles/plain/css/crossover.css \
+    toolkit/styles/plain/css/dialog.css \
 
 toolkit.min.js:	$(js_input_files) Makefile
 	closure-compiler --language_in ECMASCRIPT5_STRICT --create_source_map toolkit.min.map $(js_input_files) > $@
