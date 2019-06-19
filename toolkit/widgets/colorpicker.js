@@ -100,7 +100,7 @@ function set_atoms () {
  * TK.ColorPicker provides an easy way to choose a color by clicking in
  * a HSL image and selecting a saturation.
  * 
- * @mixin TK.Colors
+ * @implements TK.Colors
  * 
  */
 

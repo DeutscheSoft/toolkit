@@ -58,7 +58,7 @@ TK.Dialog = TK.class({
  * @class TK.Dialog
  * 
  * @extends TK.Container
- * @mixins TK.Anchor
+ * @implments TK.Anchor
  *
  * @param {Object} [options={ }] - An object containing initial options.
  * 
