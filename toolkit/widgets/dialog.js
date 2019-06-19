@@ -105,6 +105,7 @@ TK.Dialog = TK.class({
         if (val === "show") {
           if (O.autoclose)
             activate_autoclose.call(this);
+          this.trigger_resize();
         } else {
           deactivate_autoclose.call(this);
         }
