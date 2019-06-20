@@ -120,3 +120,5 @@
 .toolkit-icon.night::before                                { content: 'Y'; }
 .toolkit-icon.moon::before                                 { content: 'Y'; }
 .toolkit-icon.dark::before                                 { content: 'Y'; }
+.toolkit-icon.connected::before                            { content: 'Z'; }
+.toolkit-icon.disconnected::before                         { content: 'ö'; }
