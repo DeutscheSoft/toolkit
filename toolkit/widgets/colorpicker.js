@@ -227,14 +227,13 @@ TK.ColorPicker = TK.class({
         var E = this.element;
         if (I.rgb || I.hsl || I.hex) {
             I.rgb = I.hsl = I.hex = false;
-            this.options.hsl.s = Math.max(1e-10, Math.min(1, this.options.hsl.s));
+            this.options.hsl.s = Math.max(0, Math.min(1, this.options.hsl.s));
             var C = O.rgb;
             var S = O.hsl.s;
             var bw = this.rgb2bw(C);
-            this._color.style.backgroundColor = "rgb(" +
-                parseInt(C.r) + "," +
-                parseInt(C.g) + "," + 
-                parseInt(C.b) + ")";
+            var bg = "rgb("+parseInt(O.red)+","+parseInt(O.green)+","+parseInt(O.blue)+")";
+            this._color.style.backgroundColor = bg;
+            this._indicator.style.backgroundColor = bg;
             this._color.style.color = bw;
             this._color.value = O.hex;
             
@@ -280,7 +279,7 @@ TK.ColorPicker = TK.class({
                 this.set("rgb", {r:O.red, g:value, b:O.blue});
                 break;
             case "blue":
-                this.set("rgb", {r:O.red, g:value, b:O.blue});
+                this.set("rgb", {r:O.red, g:O.green, b:value});
                 break;
         }
         return TK.Container.prototype.set.call(this, key, value);
