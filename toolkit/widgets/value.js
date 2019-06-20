@@ -151,7 +151,8 @@ TK.Value = TK.class({
         maxlength: "int",
         set: "object|function|boolean",
         auto_select: "boolean",
-        readonly: "boolean"
+        readonly: "boolean",
+        placeholder: "string",
     }),
     options: {
         value: 0,
@@ -163,7 +164,8 @@ TK.Value = TK.class({
         // the value treated by the parent widget.
         set: function (val) { return parseFloat(val || 0); },
         auto_select: false,
-        readonly: false
+        readonly: false,
+        placeholder: "",
     },
     static_events: {
         submit: submit_cb,
@@ -212,6 +214,12 @@ TK.Value = TK.class({
             I.maxlength = 0;
             if (O.maxlength) E.setAttribute("maxlength", O.maxlength);
             else E.removeAttribute("maxlength");
+        }
+        
+        if (I.placeholder) {
+            I.placeholder = 0;
+            if (O.placeholder) E.setAttribute("placeholder", O.placeholder);
+            else E.removeAttribute("placeholder");
         }
 
         if ((I.value || I.format) && !this.__editing) {
