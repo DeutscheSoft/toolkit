@@ -195,7 +195,8 @@ TK.ColorPicker = TK.class({
             set: function (v) { this.parent.set("hue", v); },
             direction: "horizontal",
             onstartcapture: function (e) {
-                var x = e.stouch.clientX - this.parent._crosshair.getBoundingClientRect().left;
+                var cx = e.stouch ? e.stouch.clientX : e.start.clientX;
+                var x = cx - this.parent._crosshair.getBoundingClientRect().left;
                 this.parent.set("hue", this.options.range().px2val(x));
             }
         });
@@ -206,7 +207,8 @@ TK.ColorPicker = TK.class({
             set: function (v) { this.parent.set("lightness", v); },
             direction: "vertical",
             onstartcapture: function (e) {
-                var y = e.stouch.clientY - this.parent._crosshair.getBoundingClientRect().top;
+                var cy = e.stouch ? e.stouch.clientY : e.start.clientY;
+                var y = cy - this.parent._crosshair.getBoundingClientRect().top;
                 this.parent.set("lightness", 1 - this.options.range().px2val(y));
             }
         });
