@@ -95,7 +95,7 @@ TK.Dialog = TK.class({
     static_events: {
       hide: function() {
         deactivate_autoclose.call(this);
-        if (this.options.autoremove)
+        if (this.options.auto_remove)
             this.element.remove();
         this.fire_event("close");
       },
@@ -103,7 +103,7 @@ TK.Dialog = TK.class({
         var O = this.options;
 
         if (val === "show") {
-          if (O.autoclose)
+          if (O.auto_close)
             activate_autoclose.call(this);
           this.trigger_resize();
         } else {
@@ -117,7 +117,7 @@ TK.Dialog = TK.class({
         }
 
       },
-      set_autoclose: function(val) {
+      set_auto_close: function(val) {
         if (val) { 
           if (!this.hidden()) activate_autoclose.call(this);
         } else {
