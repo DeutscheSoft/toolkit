@@ -139,6 +139,8 @@ function submit_cb(e) {
  *   A function which is called to parse user input.
  * @property {boolean} [options.auto_select=false] - Select the entire text in the entry field if clicked (new in v1.3).
  * @property {boolean} [options.readonly=false] - Sets the readonly attribute (new in v1.3).
+ * @property {string} [options.placeholder=""] - Sets the placeholder attribute (new in v1.3).
+ * @property {string} [options.type="text"] - Sets the type attribute. Type can be either `text` or `password` (new in v1.3).
  * 
  */
 TK.Value = TK.class({
@@ -153,6 +155,7 @@ TK.Value = TK.class({
         auto_select: "boolean",
         readonly: "boolean",
         placeholder: "string",
+        type: "string",
     }),
     options: {
         value: 0,
@@ -166,6 +169,7 @@ TK.Value = TK.class({
         auto_select: false,
         readonly: false,
         placeholder: "",
+        type: "text",
     },
     static_events: {
         submit: submit_cb,
@@ -233,6 +237,11 @@ TK.Value = TK.class({
                 E.setAttribute("readonly", "readonly");
             else
                 E.removeAttribute("readonly");
+        }
+        
+        if (I.type) {
+            I.type = 0;
+            E.setAttribute("type", O.type);
         }
     },
     
