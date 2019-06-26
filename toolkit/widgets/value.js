@@ -60,6 +60,10 @@ function value_typing(e) {
     if (O.set === false) return;
     if (!this.__editing) return;
     switch (e.keyCode) {
+        default:
+            if (O.editmode == "immediate")
+                this.userset("value", O.set ? O.set(this._input.value) : this._input.value);
+            break;
         case 27:
             // ESC
             value_done.call(this);
@@ -141,6 +145,7 @@ function submit_cb(e) {
  * @property {boolean} [options.readonly=false] - Sets the readonly attribute (new in v1.3).
  * @property {string} [options.placeholder=""] - Sets the placeholder attribute (new in v1.3).
  * @property {string} [options.type="text"] - Sets the type attribute. Type can be either `text` or `password` (new in v1.3).
+ * @property {string} [options.editmode="onenter"] - Sets the event to trigger the userset event. Can be one out of `onenter` or `immediate`.
  * 
  */
 TK.Value = TK.class({
@@ -156,6 +161,7 @@ TK.Value = TK.class({
         readonly: "boolean",
         placeholder: "string",
         type: "string",
+        editmode: "string",
     }),
     options: {
         value: 0,
@@ -170,6 +176,7 @@ TK.Value = TK.class({
         readonly: false,
         placeholder: "",
         type: "text",
+        editmode: "onenter",
     },
     static_events: {
         submit: submit_cb,
