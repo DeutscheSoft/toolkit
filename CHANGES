@@ -21,7 +21,7 @@ Features
   * `type` sets the type attribute of the input child
   * `placeholder` sets the placeholder attribute of the input child
   * `editmode` sets whether the userset event fires on hitting enter (`onenter`) or immediately after every key press (`immediate`)
-  
+* TK.Dialog was officially added (including docs, CSS and AWML abilities)
 
 Changes since version 1.1
 --------------------------------------
