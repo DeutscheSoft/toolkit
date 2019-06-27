@@ -45,7 +45,6 @@ TK.Pager = TK.class({
      *   "label" is a string for the buttons label or an object containing options for
      *   a button and content is either a HTML string or a HTMLElement node.
      * @property {Integer} [options.show=-1] - The page to show
-     * @property {Boolean} [options.overlap=false] - If false,  pages are automatically resized so that the {@link TK.ButtonArray} does not overlap the page contents.
      *
      * @extends TK.Container
      * 
@@ -70,7 +69,6 @@ TK.Pager = TK.class({
         direction: "string",
         pages:     "array",
         show:      "int",
-        overlap:   "boolean",
         resized: "boolean",
     }),
     options: {
@@ -79,7 +77,6 @@ TK.Pager = TK.class({
         pages:     [],
         show:      -1,
         resized: false,
-        overlap:   false
     },
     static_events: {
         set_show: function(value) {
