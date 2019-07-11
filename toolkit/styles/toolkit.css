@@ -534,67 +534,6 @@ pre, code {
     text-overflow: ellipsis;
 }
 
-/* LEVELMETER */
-
-.toolkit-level-meter.toolkit-vertical {
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto 1fr auto;
-}
-.toolkit-level-meter.toolkit-horizontal {
-    grid-template-columns: 1fr 1fr auto;
-    grid-template-rows: auto auto auto;
-}
-.toolkit-level-meter.toolkit-top {
-    grid-template-areas:
-        "bar bar clip"
-        "scale scale ."
-        "title label label";
-}
-.toolkit-level-meter.toolkit-bottom {
-    grid-template-areas:
-        "title label label"
-        "scale scale ."
-        "bar bar clip";
-}
-.toolkit-level-meter.toolkit-left {
-    grid-template-areas:
-        "label ."
-        "clip ."
-        "bar scale"
-        "title .";
-}
-.toolkit-level-meter.toolkit-right {
-    grid-template-areas:
-        ". label"
-        ". clip"
-        "scale bar"
-        ". title";
-}
-.toolkit-level-meter > .toolkit-clip {
-    grid-area: clip;
-}
-.toolkit-level-meter > .toolkit-bar > .toolkit-peak {
-    position: absolute;
-    z-index: 1000;
-}
-
-.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
-    float: left;
-}
-.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
-    float: right;
-}
-
-.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    transform: rotate(-90deg);
-}
-.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    float: right;
-}
-.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
-    float: left;
-}
-
 /* METERBASE */
 
 .toolkit-meter-base {
@@ -722,6 +661,66 @@ pre, code {
     transform: translate3d(0, 0, 0);
 }
 
+/* LEVELMETER */
+/* out of order because multimeter would override properties */
+.toolkit-level-meter.toolkit-vertical {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto 1fr auto;
+}
+.toolkit-level-meter.toolkit-horizontal {
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-rows: auto auto auto;
+}
+.toolkit-level-meter.toolkit-top {
+    grid-template-areas:
+        "bar bar clip"
+        "scale scale ."
+        "title label label";
+}
+.toolkit-level-meter.toolkit-bottom {
+    grid-template-areas:
+        "title label label"
+        "scale scale ."
+        "bar bar clip";
+}
+.toolkit-level-meter.toolkit-left {
+    grid-template-areas:
+        "label ."
+        "clip ."
+        "bar scale"
+        "title .";
+}
+.toolkit-level-meter.toolkit-right {
+    grid-template-areas:
+        ". label"
+        ". clip"
+        "scale bar"
+        ". title";
+}
+.toolkit-level-meter > .toolkit-clip {
+    grid-area: clip;
+}
+.toolkit-level-meter > .toolkit-bar > .toolkit-peak {
+    position: absolute;
+    z-index: 1000;
+}
+
+.toolkit-level-meter.toolkit-vertical.toolkit-left > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
+    float: left;
+}
+.toolkit-level-meter.toolkit-vertical.toolkit-right > .toolkit-bar > .toolkit-peak .toolkit-peak-label {
+    float: right;
+}
+
+.toolkit-level-meter.toolkit-horizontal > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    transform: rotate(-90deg);
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-top > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    float: right;
+}
+.toolkit-level-meter.toolkit-horizontal.toolkit-bottom > .toolkit-bar > .toolkit-peak > .toolkit-peak-label {
+    float: left;
+}
 
 /* MULTIMETER */
 
