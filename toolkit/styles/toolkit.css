@@ -1130,7 +1130,7 @@ pre, code {
 .toolkit-valueknob > .toolkit-label {
     flex: 0 0 auto;
 }
-.toolkit-valueknob > .toolkit.knob {
+.toolkit-valueknob > .toolkit-knob {
     width: 100px;
     height: 100px;
     flex: 0 0 auto;
