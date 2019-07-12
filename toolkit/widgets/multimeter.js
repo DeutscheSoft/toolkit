@@ -194,13 +194,11 @@ var mapped_options = {
 };
 
 function map_child_option_simple(value, key) {
-    console.log("simple", key, value);
     var M = this.meters, i;
     for (i = 0; i < M.length; i++) M[i].set(key, value);
 }
 
 function map_child_option(value, key) {
-    console.log("norm", key, value);
     var M = this.meters, i;
     if (Array.isArray(value)) {
         for (i = 0; i < M.length && i < value.length; i++) M[i].set(key, value[i]);
