@@ -57,6 +57,7 @@
 .toolkit-icon.windowresize::before                         { content: 'f'; }
 .toolkit-icon.unchecked::before                            { content: 'g'; }
 .toolkit-icon.checked::before                              { content: 'h'; }
+.toolkit-icon.speaker::before                              { content: 'i'; }
 .toolkit-icon.speakeractive::before                        { content: 'i'; }
 .toolkit-icon.sound::before                                { content: 'i'; }
 .toolkit-icon.speakermute::before                          { content: 'j'; }
@@ -122,3 +123,6 @@
 .toolkit-icon.dark::before                                 { content: 'Y'; }
 .toolkit-icon.connected::before                            { content: 'Z'; }
 .toolkit-icon.disconnected::before                         { content: 'ö'; }
+.toolkit-icon.headphones::before                           { content: 'ä'; }
+.toolkit-icon.headphonesactive::before                     { content: 'ä'; }
+.toolkit-icon.headphonesmute::before                       { content: 'ü'; }
