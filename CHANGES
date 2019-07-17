@@ -22,6 +22,7 @@ Features
   * `placeholder` sets the placeholder attribute of the input child
   * `editmode` sets whether the userset event fires on hitting enter (`onenter`) or immediately after every key press (`immediate`)
 * TK.Dialog was officially added (including docs, CSS and AWML abilities)
+* TK.Color: new universal conversion functions taking any kind of color parameter or model
 
 Changes
 =======
