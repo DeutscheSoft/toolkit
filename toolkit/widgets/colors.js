@@ -19,13 +19,29 @@
 "use strict";
 (function(w, TK){
 
+/* helpers */
+
 var pad = function (n, width, z) {
     z = z || '0';
     n = n + '';
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
-var args2object = function () {
+var decode_args = function () {
+    /* decode random arguments. Expects an arguments array
+     * from another function call as first argument and a
+     * series of member names the arguments should be decoded
+     * to. E.g. decode_args(arguments, "r", "g", "b")
+     * Arguments array can consist of:
+         * A single array: member names are mapped to the array
+         * ([[50,100,150]],"r","g","b") => {"r":50,"g":100,"b":150}
+         * 
+         * An object already containing the members: object is returned
+         * ([{"r":50,"g":100,"b":150}, ...) => {"r":50,"g":100,"b":150}
+         * 
+         * Multiple values: values are mapped to member names
+         * ([50,100,150],"r","g","b") => {"r":50,"g":100,"b":150}
+     */
     var out = {};
     if (arguments[0][0] instanceof Array) {
         for (var i = 0; i < arguments.length - 1; i++)
@@ -39,16 +55,50 @@ var args2object = function () {
     return out;
 }
 
+var decode_color = function (args) {
+    /* detects type of input and disassembles it to a useful object.
+     * Only argument is an arguments array from another function.
+         * (["lightcoral"]) => {"type":"string","hex":"#F08080","string":"lightcoral","r":240,"g":128,"b":128}
+         * (["#F08080"]) => {"type":"hex","hex":"#F08080","r":240,"g":128,"b":128}
+         * ([[0,0.31,0.28]] => {"type":"hsl","h":0,"s":0.31,"l":0.28}
+         * ([240,128,128] => {"type":"rgb","r":240,"g":128,"b":128}
+         * ([{"r":240,"g":128,"b":128}] => {"type":"rgb","r":240,"g":128,"b":128}
+     */
+    if (typeof args[0] === "string" && args[0][0] === "#") {
+        // HEX string
+        var res = hex2rgb(args[0]);
+        res["type"] = "hex";
+        res["hex"] = args[0];
+        return res;
+    }
+    if (typeof args[0] === "string" && color_names[args[0]]) {
+        // color string
+        var res = hex2rgb("#" + color_names[args[0]]);
+        res["type"] = "string";
+        res["string"] = args[0];
+        res["hex"] = color_names[args[0]];
+        return res;
+    }
+    var S = decode_args(arguments, "a", "b", "c");
+    if (S.a > 0 && S.a < 1 || S.b > 0 && S.b < 1 || S.c > 0 && S.c < 1) {
+        // HSL
+        return { "h": S.a, "s": S.b, "l": S.c, "type": "hsl" };
+    }
+    // RGB
+    return { "r": S.a, "g": S.b, "b": S.c, "type": "rgb" };
+}
 
-var rgb2bw = function (r, g, b) {
-    return rgb2gray(r, g, b) > 0.5 ? "#000000" : "#ffffff";
+
+/* RGB */
+
+var rgb2hex = function () {
+    var col = decode_args(arguments, "r", "g", "b");
+    return pad(parseInt(col.r).toString(16),2) +
+           pad(parseInt(col.g).toString(16),2) +
+           pad(parseInt(col.b).toString(16),2);
 }
-var rgb2gray = function (r, g, b) {
-    var col = args2object(arguments, "r", "g", "b");
-    return (col.r * 0.2126 + col.g * 0.7152 + col.b * 0.0722) / 255;
-}
-var rgb2hsl = function (r, g, b) {
-    var col = args2object(arguments, "r", "g", "b");
+var rgb2hsl = function () {
+    var col = decode_args(arguments, "r", "g", "b");
     var r = col.r, g = col.g, b = col.b;
     
     r /= 255, g /= 255, b /= 255;
@@ -73,6 +123,20 @@ var rgb2hsl = function (r, g, b) {
 
     return { h:h, s:s, l:l };
 }
+var rgb2bw = function () {
+    return rgb2gray.apply(null, arguments) >= 0.5 ? "#000000" : "#ffffff";
+}
+var rgb2wb = function () {
+    return rgb2gray.apply(null, arguments) < 0.5 ? "#000000" : "#ffffff";
+}
+var rgb2gray = function () {
+    var col = decode_args(arguments, "r", "g", "b");
+    return (col.r * 0.2126 + col.g * 0.7152 + col.b * 0.0722) / 255;
+}
+
+
+/* HSL */
+
 function hue2rgb(p, q, t) {
     if (t < 0) t += 1;
     if (t > 1) t -= 1;
@@ -81,8 +145,8 @@ function hue2rgb(p, q, t) {
     if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
     return p;
 }
-var hsl2rgb = function (h, s, l) {
-    var col = args2object(arguments, "h", "s", "l");
+var hsl2rgb = function () {
+    var col = decode_args(arguments, "h", "s", "l");
     var h = col.h, s = col.s, l = col.l;
     
     var r, g, b;
@@ -98,8 +162,24 @@ var hsl2rgb = function (h, s, l) {
         g = hue2rgb(p, q, h);
         b = hue2rgb(p, q, h - 1/3);
     }
-    return { r:r * 255, g:g * 255, b:b * 255 };
+    return { r:r*255, g:g*255, b:b*255 };
 }
+var hsl2hex = function () {
+    return rgb2hex(hsl2rgb.apply(null, arguments));
+}
+var hsl2bw = function () {
+    return rgb2bw(hsl2rgb.apply(null, arguments));
+}
+var hsl2wb = function () {
+    return rgb2wb(hsl2rgb.apply(null, arguments));
+}
+var hsl2gray = function () {
+    return rgb2gray(hsl2rgb.apply(null, arguments));
+}
+
+
+/* HEX */
+
 var hex2rgb = function (hex) {
     hex = hex || "000000";
     if (hex[0] == "#")
@@ -112,139 +192,484 @@ var hex2rgb = function (hex) {
              g: parseInt("0x"+hex.substr(2,2)),
              b: parseInt("0x"+hex.substr(4,2)) };
 }
-var rgb2hex = function (r, g, b) {
-    var col = args2object(arguments, "r", "g", "b");
-    return pad(parseInt(col.r).toString(16),2) +
-           pad(parseInt(col.g).toString(16),2) +
-           pad(parseInt(col.b).toString(16),2);
-}
-var hsl2hex = function (h, s, l) {
-    var col = args2object(arguments, "h", "s", "l");
-    return rgb2hex(hsl2rgb(col));
-}
 var hex2hsl = function (hex) {
     return rgb2hsl(hex2rgb(hex))
 }
+var hex2bw = function (hex) {
+    return rgb2bw(hex2rgb(hex))
+}
+var hex2wb = function (hex) {
+    return rgb2wb(hex2rgb(hex))
+}
+var hex2gray = function (hex) {
+    return rgb2gray(hex2rgb(hex))
+}
+
+
+/* STRING */
 
 var name2hex = function (name) {
     return color_names[name.toLowerCase];
 }
+var name2rgb = function (name) {
+    return hex2rgb(color_names[name.toLowerCase]);
+}
+var name2hsl = function (name) {
+    return hex2hsl(color_names[name.toLowerCase]);
+}
+var name2bw = function (name) {
+    return hex2bw(color_names[name.toLowerCase]);
+}
+var name2wb = function (name) {
+    return hex2wb(color_names[name.toLowerCase]);
+}
+var name2gray = function (name) {
+    return hex2gray(color_names[name.toLowerCase]);
+}
+
+
+/* UNIVERSAL */
+
+var color2rgb = function () {
+    var C = decode_color(arguments);
+    switch (C.type) {
+        case "rgb": return C;
+        case "hex": return C;
+        case "hsl": return rgb2hsl(C);
+        case "string": return C;
+    }
+}
+var color2hsl = function () {
+    var C = decode_color(arguments);
+    switch (C.type) {
+        case "rgb": return rgb2hsl(C);
+        case "hex": return rgb2hsl(C);
+        case "hsl": return C;
+        case "string": return rgb2hsl(C);
+    }
+}
+var color2hex = function () {
+    var C = decode_color(arguments);
+    switch (C.type) {
+        case "rgb": return rgb2hex(C);
+        case "hex": return C.hex;
+        case "hsl": return hsl2hex(C);
+        case "string": return rgb2hex(C);
+    }
+}
+var color2bw = function () {
+    var C = decode_color(arguments);
+    switch (C.type) {
+        case "rgb": return rgb2bw(C);
+        case "hex": return rgb2bw(C);
+        case "hsl": return hsl2bw(C);
+        case "string": return rgb2bw(C);
+    }
+}
+var color2wb = function () {
+    var C = decode_color(arguments);
+    switch (C.type) {
+        case "rgb": return rgb2wb(C);
+        case "hex": return rgb2wb(C);
+        case "hsl": return hsl2wb(C);
+        case "string": return rgb2wb(C);
+    }
+}
+var color2gray = function () {
+    var C = decode_color(arguments);
+    switch (C.type) {
+        case "rgb": return rgb2bw(C);
+        case "hex": return rgb2bw(C);
+        case "hsl": return hsl2bw(C);
+        case "string": return rgb2bw(C);
+    }
+}
+
+
 /**
- * TK.Colors provides a couple of functions for easy color calculations
- * and conversions.
+ * TK.Colors provides a couple of functions for easy-to-use color calculations
+ * and conversions. Functions requiring RGB or HSL color definitions as
+ * argument (all `rgb2x` and `hsl2x`) can be called with different types of arguments
+ * to make using them more convenient. Examples:
+ * <ul><li>`rgb2hsl(240, 128, 128)`</li>
+ * <li>rgb2hsl({'r':240,'g':128,'b':128})</li>
+ * <li>rgb2hsl([240, 128, 128])</li></ul>
+ * The universal functions `color2x` take even more diverse arguments.
+ * The following examples all define the same color:
+ * <ul><li>("lightcoral")</li>
+ * <li>("#F08080")</li>
+ * <li>([0,0.31,0.28])</li>
+ * <li>(240,128,128)</li>
+ * <li>({"r":240,"g":128,"b":128})</li></ul>
  * 
  * @mixin TK.Colors
  */
 
 TK.Colors = TK.class({
     /**
-     * Returns the highest contrast from red, green and blue (0..255) regarding
-     * ITU-R BT.709 as hex string
+     * Returns an object containing red ('r'), green ('g') and blue ('b')
+     * from any type of valid color.
      * 
-     * @method TK.Colors#rgb2bw
+     * @method TK.Colors#color2rgb
      * 
-     * @param {number|array|object} r - red (0..255) or object with members r, g and b or array of RGB
-     * @param {number} g - green (0..255)
-     * @param {number} b - blue (0..255)
+     * @param {number|array|object|string} 1st_value - red (0..255) or hue (0..1) or object with members `r, g, b` or `h, s, l` or array of RGB or HSL or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
      * 
-     * @returns {string} color ("#000000" or "#ffffff")
+     * @returns {object} Object with members r, g and b as numbers (0..255)
      */
-    rgb2bw: rgb2bw,
+    color2rgb: color2rgb,
+    
     /**
-     * Returns gray (0..1) from red, green and blue (0..255) regarding
-     * ITU-R BT.709
+     * Returns an object containing hue ('h'), saturation ('s') and lightness ('l')
+     * from any type of valid color.
      * 
-     * @method TK.Colors#rgb2gray
+     * @method TK.Colors#color2hsl
      * 
-     * @param {number|array|object} r - red (0..255) or object with members r, g and b or array of RGB
-     * @param {number} g - green (0..255)
-     * @param {number} b - blue (0..255)
+     * @param {number|array|object|string} 1st_value - red (0..255) or hue (0..1) or object with members `r, g, b` or `h, s, l` or array of RGB or HSL or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
      * 
-     * @returns {number} gray lightness (0..1)
+     * @returns {object} Object with members h, s and l as numbers (0..1)
      */
-    rgb2gray: rgb2gray,
+    color2hsl: color2hsl,
+    
     /**
-     * Returns hue, saturation and lightness (0..1) from red, green
-     * and blue (0..255).
+     * Returns a hex color string
+     * from any type of valid color.
+     * 
+     * @method TK.Colors#color2hex
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or hue (0..1) or object with members `r, g, b` or `h, s, l` or array of RGB or HSL or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    color2hex: color2hex,
+    
+    /**
+     * Returns a hex color string either black or white at highest contrast compared to the argument
+     * from any type of valid color.
+     * 
+     * @method TK.Colors#color2bw
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or hue (0..1) or object with members `r, g, b` or `h, s, l` or array of RGB or HSL or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    color2bw: color2bw,
+    
+    /**
+     * Returns a hex color string either black or white at lowest contrast compared to the argument
+     * from any type of valid color.
+     * 
+     * @method TK.Colors#color2wb
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or hue (0..1) or object with members `r, g, b` or `h, s, l` or array of RGB or HSL or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    color2wb: color2wb,
+    
+    /**
+     * Returns a hex color string of the grayscaled argument
+     * from any type of valid color.
+     * 
+     * @method TK.Colors#color2gray
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or hue (0..1) or object with members `r, g, b` or `h, s, l` or array of RGB or HSL or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    color2gray: color2gray,
+    
+    
+    
+    /**
+     * Returns an object containing hue ('h'), saturation ('s') and lightness ('l')
+     * from a RGB color.
      * 
      * @method TK.Colors#rgb2hsl
      * 
-     * @param {number|array|object} r - red (0..255) or object with members r, g and b or array of RGB
-     * @param {number} g - green (0..255)
-     * @param {number} b - blue (0..255)
+     * @param {number|array|object|string} 1st_value - red (0..255) or object with members `r, g, b` or array of RGB or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
      * 
      * @returns {object} Object with members h, s and l as numbers (0..1)
      */
     rgb2hsl: rgb2hsl,
+    
     /**
-     * Returns red, green and blue (0..255) from hue, saturation
-     * and lightness (0..1)
+     * Returns a hex color string
+     * from a RGB color.
+     * 
+     * @method TK.Colors#rgb2hex
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or object with members `r, g, b` or array of RGB or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    rgb2hex: rgb2hex,
+    
+    /**
+     * Returns a hex color string either black or white at highest contrast compared to the argument
+     * from a RGB color.
+     * 
+     * @method TK.Colors#rgb2bw
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or object with members `r, g, b` or array of RGB or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    rgb2bw: rgb2bw,
+    
+    /**
+     * Returns a hex color string either black or white at lowest contrast compared to the argument
+     * from a RGB color.
+     * 
+     * @method TK.Colors#rgb2wb
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or object with members `r, g, b` or array of RGB or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    rgb2wb: rgb2wb,
+    
+    /**
+     * Returns a hex color string of the grayscaled argument
+     * from a RGB color.
+     * 
+     * @method TK.Colors#rgb2gray
+     * 
+     * @param {number|array|object|string} 1st_value - red (0..255) or object with members `r, g, b` or array of RGB or color name or hex string.
+     * @param {number} [2nd_value] - green (0..255) or saturation (0..1)
+     * @param {number} [3rd_value] - blue (0..255) or lightnes (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    rgb2gray: rgb2gray,
+    
+    
+    
+    /**
+     * Returns an object containing red ('r'), green ('g') and blue ('b')
+     * from a HSL color.
      * 
      * @method TK.Colors#hsl2rgb
      * 
-     * @param {number|array|object} h - hue (0..1) or object with members h, s and l or array of HSL
-     * @param {number} s - saturation (0..1)
-     * @param {number} l - lightness (0..1)
+     * @param {number|array|object} 1st_value - hue (0..1) or object with members `h, s, l` or array of HSL.
+     * @param {number} [2nd_value] - saturation (0..1)
+     * @param {number} [3rd_value] - lightness (0..1)
      * 
      * @returns {object} Object with members r, g and b as numbers (0..255)
      */
     hsl2rgb: hsl2rgb,
+    
     /**
-     * Returns an object containing red, green and blue from a
-     * hexadecimal rgb color string
+     * Returns a hex color string
+     * from a HSL color.
+     * 
+     * @method TK.Colors#hsl2hex
+     * 
+     * @param {number|array|object} 1st_value - hue (0..1) or object with members `h, s, l` or array of HSL.
+     * @param {number} [2nd_value] - saturation (0..1)
+     * @param {number} [3rd_value] - lightness (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    hsl2hex: hsl2hex,
+    
+    /**
+     * Returns a hex color string either black or white at highest contrast compared to the argument
+     * from a HSL color.
+     * 
+     * @method TK.Colors#hsl2bw
+     * 
+     * @param {number|array|object} 1st_value - hue (0..1) or object with members `h, s, l` or array of HSL.
+     * @param {number} [2nd_value] - saturation (0..1)
+     * @param {number} [3rd_value] - lightness (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    hsl2bw: hsl2bw,
+    
+    /**
+     * Returns a hex color string either black or white at lowest contrast compared to the argument
+     * from a HSL color.
+     * 
+     * @method TK.Colors#hsl2wb
+     * 
+     * @param {number|array|object} 1st_value - hue (0..1) or object with members `h, s, l` or array of HSL.
+     * @param {number} [2nd_value] - saturation (0..1)
+     * @param {number} [3rd_value] - lightness (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    hsl2wb: hsl2wb,
+    
+    /**
+     * Returns a hex color string of the grayscaled argument
+     * from a HSL color.
+     * 
+     * @method TK.Colors#hsl2gray
+     * 
+     * @param {number|array|object} 1st_value - hue (0..1) or object with members `h, s, l` or array of HSL.
+     * @param {number} [2nd_value] - saturation (0..1)
+     * @param {number} [3rd_value] - lightness (0..1)
+     * 
+     * @returns {string} Hex color string.
+     */
+    hsl2gray: hsl2gray,
+    
+    
+    
+    /**
+     * Returns an object containing red ('r'), green ('g') and blue ('b')
+     * from a hex color string.
      * 
      * @method TK.Colors#hex2rgb
      * 
-     * @param {string} hex - Color string like "#FF0099"
+     * @param {string} hex - Hex color string.
      * 
      * @returns {object} Object with members r, g and b as numbers (0..255)
      */
     hex2rgb: hex2rgb,
+    
     /**
-     * Returns hexadecimal color string from r, g and b as numbers (0..255)
-     * 
-     * @method TK.Colors#rgb2hex
-     * 
-     * @param {number|array|object} r - red as number (0..255) or object with members r, g and b or array of RGB
-     * @param {number} g - green as number (0..255)
-     * @param {number} b - blue as number (0..255)
-     * 
-     * @returns {string} hexadecimal string to be used in CSS or SVG
-     */
-    rgb2hex: rgb2hex,
-    /**
-     * Returns an object containing hue, stauration and lightness from a
-     * hexadecimal rgb color string
+     * Returns an object containing hue ('h'), saturation ('s') and lightness ('l')
+     * from a hex color string.
      * 
      * @method TK.Colors#hex2hsl
      * 
-     * @param {string} hex - Color string like "#FF0099"
+     * @param {string} hex - Hex color string.
      * 
      * @returns {object} Object with members h, s and l as numbers (0..1)
      */
     hex2hsl: hex2hsl,
+    
     /**
-     * Returns hexadecimal color string from h, s and l as numbers (0..1)
+     * Returns a hex color string either black or white at highest contrast compared to the argument
+     * from a hex color string.
      * 
-     * @method TK.Colors#hsl2hex
+     * @method TK.Colors#hex2bw
      * 
-     * @param {number|array|object} h - red as number (0..1) or object with members h, s and l or array of HSL
-     * @param {number} s - green as number (0..1)
-     * @param {number} l - blue as number (0..1)
+     * @param {string} hex - Hex color string.
      * 
-     * @returns {string} hexadecimal string to be used in CSS or SVG
+     * @returns {string} Hex color string.
      */
-    hsl2hex: hsl2hex,
+    hex2bw: hex2bw,
+    
     /**
-     * Returns hexadecimal color string from color name
+     * Returns a hex color string either black or white at lowest contrast compared to the argument
+     * from a hex color string.
+     * 
+     * @method TK.Colors#hex2wb
+     * 
+     * @param {string} hex - Hex color string.
+     * 
+     * @returns {string} Hex color string.
+     */
+    hex2wb: hex2wb,
+    
+    /**
+     * Returns a hex color string of the grayscaled argument
+     * from a hex color string.
+     * 
+     * @method TK.Colors#hex2gray
+     * 
+     * @param {string} hex - Hex color string.
+     * 
+     * @returns {string} Hex color string.
+     */
+    hex2gray: hex2gray,
+    
+    
+    
+    /**
+     * Returns an object containing red ('r'), green ('g') and blue ('b')
+     * from a color name.
+     * 
+     * @method TK.Colors#name2rgb
+     * 
+     * @param {string} color - Color name.
+     * 
+     * @returns {object} Object with members r, g and b as numbers (0..255)
+     */
+    name2rgb: name2rgb,
+    
+    /**
+     * Returns an object containing hue ('h'), saturation ('s') and lightness ('l')
+     * from a color name.
+     * 
+     * @method TK.Colors#name2hsl
+     * 
+     * @param {string} color - Color name.
+     * 
+     * @returns {object} Object with members h, s and l as numbers (0..1)
+     */
+    name2hsl: name2hsl,
+    
+    /**
+     * Returns a hex color string
+     * from a color name.
      * 
      * @method TK.Colors#name2hex
      * 
-     * @param {string} colorname - name of the color, e.g. "white", "IslamicGreen" or "lightCoral"
+     * @param {string} color - Color name.
      * 
-     * @returns {string} hexadecimal string to be used in CSS or SVG
+     * @returns {string} Hex color string.
      */
     name2hex: name2hex,
+    
+    /**
+     * Returns a hex color string either black or white at highest contrast compared to the argument
+     * from a color name.
+     * 
+     * @method TK.Colors#name2bw
+     * 
+     * @param {string} color - Color name.
+     * 
+     * @returns {string} Hex color string.
+     */
+    name2bw: name2bw,
+    
+    /**
+     * Returns a hex color string either black or white at lowest contrast compared to the argument
+     * from a color name.
+     * 
+     * @method TK.Colors#name2wb
+     * 
+     * @param {string} color - Color name.
+     * 
+     * @returns {string} Hex color string.
+     */
+    name2wb: name2wb,
+    
+    /**
+     * Returns a hex color string of the grayscaled argument
+     * from a color name.
+     * 
+     * @method TK.Colors#name2gray
+     * 
+     * @param {string} color - Color name.
+     * 
+     * @returns {string} Hex color string.
+     */
+    name2gray: name2gray,
+    
 });
 
 var color_names = {
