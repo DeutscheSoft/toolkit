@@ -666,8 +666,11 @@ function ChildWidget(widget, name, config) {
      *     parent widget also sets the same option on the child widget. If <code>false</code>,
      *     the options of the child widget can be accessed via <code>options[config.name + "." + option]</code>
      *     in the parent widget.
-     * @property {array} [config.map_options=[]] - An array containing option names to be
-     *     mapped between parent and child widget. If one of these options is set
+     * @property {array} [config.map_options=[<Object>]] - A list of options to be mapped between
+     *     parent and child. Keys are the options to be added to the parent, values the options
+     *     names in the child widget.
+     *     names in the parent to which the childrens options (defined as values) are mapped to.
+     *     If one of these options is set
      *     on the parent widget, it also gets set on the child widget. This is
      *     a fine-grained version of <code>config.inherit-options</code>.
      * @property {boolean} [config.userset_ignore=false] - Do not care about the <code>userset</code>
