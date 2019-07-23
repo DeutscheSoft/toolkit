@@ -25,9 +25,9 @@ function cancel () {
     self.close();
 }
 
-function apply (rgb, hsl, hex) {
+function apply (color) {
     var self = this.parent;
-    self.fire_event.call(self, "apply", rgb, hsl, hex);
+    self.fire_event.call(self, "apply", color);
     self.close();
 }
 

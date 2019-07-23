@@ -605,6 +605,7 @@ function get_child_options(parent, name, options, config) {
     var tmp;
 
     var inherit_options = !!config.inherit_options;
+    var blacklist_options = config.blacklist_options || [];
 
     if (tmp = config.default_options)
         Object.assign(ret, (typeof(tmp) === "function") ?  tmp.call(parent) : tmp);
@@ -614,7 +615,7 @@ function get_child_options(parent, name, options, config) {
             ret[key.substr(pref.length)] = options[key];
         }
 
-        if (inherit_options) {
+        if (inherit_options && blacklist_options.indexOf(tmp) < 0) {
             if (key in config.create.prototype._options && !(key in TK["Widget"].prototype._options)) {
                 ret[key] = options[key];
             }
@@ -685,6 +686,8 @@ function ChildWidget(widget, name, config) {
      * @property {boolean} [config.toggle_class=false] - Defines if the parent widget
      *     receives the class <code>toolkit-has-[name]</code> as soon as
      *     the child element is shown.
+     * @property {array<string>} [config.blacklist_options] - Array containing options names
+     *     which are skipped on `inherit_options`.
      * 
      * @class TK.ChildWidget
      * 
@@ -769,12 +772,14 @@ function ChildWidget(widget, name, config) {
     }
 
     /* direct option inherit */
+    var blacklist_options = config.blacklist_options || [];
     if (config.inherit_options) {
         set_cb = function(val, key) {
             if (this[name]) this[name].set(key, val);
         };
         for (tmp in child.prototype._options) {
             if (tmp in TK["Widget"].prototype._options) continue;
+            if (blacklist_options.indexOf(tmp) > -1) continue;
             add_static_event(widget, "set_"+tmp, set_cb);
             if (!p._options[tmp])
                 p._options[tmp] = child.prototype._options[tmp];

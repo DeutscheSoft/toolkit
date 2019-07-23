@@ -37,5 +37,7 @@
 @import "plain/css/crossover.css";
 @import "plain/css/frame.css";
 @import "plain/css/dialog.css";
+@import "plain/css/colorpicker.css";
+@import "plain/css/colorpickerdialog.css";
 
 @import "plain/cyan.css";
