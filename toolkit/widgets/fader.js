@@ -237,6 +237,7 @@ TK.Fader = TK.class({
             node:    this._handle,
             classes: this.element,
             direction: O.direction,
+            limit: true,
         });
         /**
          * @member {TK.ScrollValue} TK.Fader#scroll - Instance of {@link TK.ScrollValue} used for the
@@ -245,6 +246,7 @@ TK.Fader = TK.class({
         this.scroll = new TK.ScrollValue(this, {
             node:    this.element,
             classes: this.element,
+            limit: true,
         });
         
         this.set("bind_click", O.bind_click);

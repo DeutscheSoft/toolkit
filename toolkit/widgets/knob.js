@@ -153,6 +153,7 @@ TK.Knob = TK.class({
             direction: options.direction,
             rotation: options.rotation,
             blind_angle: options.blind_angle,
+            limit: true,
         });
         /**
          * @member {TK.ScrollValue} TK.Knob#scroll - Instance of {@link TK.ScrollValue} used for the
@@ -161,6 +162,7 @@ TK.Knob = TK.class({
         this.scroll = new TK.ScrollValue(this, {
             node:    S,
             range:   module_range,
+            limit: true,
         });
 
         E.appendChild(S);

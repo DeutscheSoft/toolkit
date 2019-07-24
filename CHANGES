@@ -13,6 +13,9 @@ Fixes
 * TK.element: object argument wasn't handled as attributes but as styles
   opposed to what the documentation says. This might break backward compatibility
   in some cases.
+* TK.DragValue: new option `limit` to keep value to be set between `min` and `max`.
+  added to `TK.Knob` and `TK.Fader` by default which disables `toolkit-warning`-class
+  by default in favour of less nervous lower and upper ends in those widgets.
   
 Features
 ========
@@ -23,6 +26,11 @@ Features
   * `editmode` sets whether the userset event fires on hitting enter (`onenter`) or immediately after every key press (`immediate`)
 * TK.Dialog was officially added (including docs, CSS and AWML abilities)
 * TK.Color: new universal conversion functions taking any kind of color parameter or model
+
+New
+===
+
+* TK.ColorPicker and TK.ColorPickerDialog officially went into master.
 
 Changes
 =======

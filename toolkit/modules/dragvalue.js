@@ -43,6 +43,7 @@ function movecapture_int(O, range, state) {
 
     /* movement since last event */
     var v = state.prev_distance();
+    var RO = range.options;
 
     if (!v[0] && !v[1]) return;
 
@@ -56,30 +57,32 @@ function movecapture_int(O, range, state) {
 
     if (v[0] * V[1] + v[1] * V[0] < 0) dist = -dist;
 
-    var multi = range.options.step || 1;
+    var multi = RO.step || 1;
     var e = state.current;
 
     if (e.ctrlKey || e.altKey) {
-        multi *= range.options.shift_down;
+        multi *= RO.shift_down;
     } else if (e.shiftKey) {
-        multi *= range.options.shift_up;
+        multi *= RO.shift_up;
     }
 
     dist *= multi;
     var v = this.start_pos + dist;
 
     var nval = range.px2val(v);
+    if (O.limit)
+        O.set.call(this, Math.min(RO.max, Math.max(RO.min, nval)));
+    else
+        O.set.call(this, nval);
 
-    O.set.call(this, nval);
-
-    if (!(nval > range.options.min) || !(nval < range.options.max)) return;
+    if (!(nval > RO.min) || !(nval < RO.max)) return;
 
     this.start_pos = v;
 }
 
 function movecapture_abs(O, range, state) {
     var dist;
-
+    var RO = range.options
     switch(O.direction) {
     case "vertical":
         dist = -state.vdistance()[1];
@@ -93,19 +96,23 @@ function movecapture_abs(O, range, state) {
     if (O.reverse)
         dist *= -1;
 
-    var multi = range.options.step || 1;
+    var multi = RO.step || 1;
     var e = state.current;
 
     if (e.ctrlKey && e.shiftKey) {
-        multi *= range.options.shift_down;
+        multi *= RO.shift_down;
     } else if (e.shiftKey) {
-        multi *= range.options.shift_up;
+        multi *= RO.shift_up;
     }
 
     dist *= multi;
 
     var nval = range.px2val(this.start_pos + dist);
-    O.set.call(this, nval);
+    
+    if (O.limit)
+        O.set.call(this, Math.min(RO.max, Math.max(RO.min, nval)));
+    else
+        O.set.call(this, nval);
 }
 
 function movecapture(state) {
@@ -180,6 +187,7 @@ TK.DragValue = TK.class({
      *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
      *   moving towards top and right.
      * @property {Boolean} [options.reverse=false] - If true, the difference of pointer travel is inverted.
+     * @property {Boolean} [options.limit=false] - Limit the returned value to min and max of the range.
      *
      * @extends TK.Module
      *
@@ -207,6 +215,7 @@ TK.DragValue = TK.class({
         blind_angle: "number",
         rotation: "number",
         reverse: "boolean",
+        limit: "boolean",
     },
     options: {
         range:     function () { return this.parent; },
@@ -220,6 +229,7 @@ TK.DragValue = TK.class({
         blind_angle: 20,
         rotation:  45,
         reverse:   false,
+        limit: false,
     },
     static_events: {
         set_state: start_drag,

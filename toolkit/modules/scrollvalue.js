@@ -38,6 +38,7 @@ function scrollwheel(e) {
     var d = e.deltaX * DIR[0] + e.deltaY * DIR[1] + e.deltaZ * DIR[2];
     var direction = d > 0 ? 1 : -1;
     var range = O.range.call(this);
+    var RO = range.options;
 
     var v;
 
@@ -47,7 +48,7 @@ function scrollwheel(e) {
         window.clearTimeout(this.__sto);
     } else {
         this._raw_value = v = O.get.call(this);
-        TK.add_class(this.options.classes, "toolkit-scrolling");
+        TK.add_class(O.classes, "toolkit-scrolling");
         /**
          * Is fired when scrolling starts.
          * 
@@ -61,11 +62,11 @@ function scrollwheel(e) {
     this.__sto = window.setTimeout(scroll_timeout.bind(this), 200);
     
     // calc step depending on options.step, .shift up and .shift down
-    var step = (range.options.step || 1) * direction;
+    var step = (RO.step || 1) * direction;
     if (e.ctrlKey || e.altKey) {
-        step *= range.options.shift_down;
+        step *= RO.shift_down;
     } else if (e.shiftKey) {
-        step *= range.options.shift_up;
+        step *= RO.shift_up;
     }
 
     var pos = range.val2px(v);
@@ -74,7 +75,10 @@ function scrollwheel(e) {
 
     v = range.px2val(pos);
 
-    O.set.call(this, v);
+    if (O.limit)
+        O.set.call(this, Math.min(RO.max, Math.max(RO.min, v)));
+    else
+        O.set.call(this, v);
     
     /**
      * Is fired while scrolling happens.
@@ -86,7 +90,7 @@ function scrollwheel(e) {
     fire_event.call(this, "scrolling", e);
 
     /* do not remember out of range values */
-    if (v > range.options.min && v < range.options.max)
+    if (v > RO.min && v < RO.max)
         this._raw_value = v;
     
     return false;
@@ -121,6 +125,7 @@ function fire_event(title, event) {
  * @property {Boolean} [<options.active=true] - Disable the scroll event.
  * @property {Array<Number>} [options.scroll_direction=[0, -1, 0]] - An array 
  *   containing values for x, y and z defining the direction of scrolling.
+ * @property {Boolean} [options.limit=false] - Limit the returned value to min and max of the range.
  */
 TK.ScrollValue = TK.class({
     _class: "ScrollValue",
@@ -134,6 +139,7 @@ TK.ScrollValue = TK.class({
         node: "object|boolean",
         active: "boolean",
         scroll_direction: "array",
+        limit: "boolean",
     },
     options: {
         range:     function () { return this.parent; },
@@ -143,6 +149,7 @@ TK.ScrollValue = TK.class({
         set:       function (v) { return this.parent.userset("value", v); },
         active:    true,
         scroll_direction: [0, -1, 0],
+        limit: false,
     },
     initialize: function (widget, options) {
         TK.Module.prototype.initialize.call(this, widget, options);
