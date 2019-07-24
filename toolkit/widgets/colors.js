@@ -120,8 +120,9 @@ var rgb2hsl = function () {
     
         h /= 6;
     }
-
-    return { h:h, s:s, l:l };
+    return { h:Math.min(1, Math.max(0, h)),
+             s:Math.min(1, Math.max(0, s)),
+             l:Math.min(1, Math.max(0, l)) };
 }
 var rgb2bw = function () {
     return rgb2gray.apply(null, arguments) >= 0.5 ? "#000000" : "#ffffff";
@@ -143,7 +144,7 @@ function hue2rgb(p, q, t) {
     if (t < 1/6) return p + (q - p) * 6 * t;
     if (t < 1/2) return q;
     if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-    return p;
+    return Math.min(1, Math.max(0, p));
 }
 var hsl2rgb = function () {
     var col = decode_args(arguments, "h", "s", "l");

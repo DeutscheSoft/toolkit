@@ -241,27 +241,27 @@ TK.ColorPicker = TK.class({
                     O.hsl = this.rgb2hsl(O.rgb);
                     break;
                 case "hue":
-                    O.hsl = {h:value, s:O.saturation, l:O.lightness};
+                    O.hsl = {h:Math.min(1,Math.max(0,value)), s:O.saturation, l:O.lightness};
                     O.rgb = this.hsl2rgb(O.hsl);
                     break;
                 case "saturation":
-                    O.hsl = {h:O.hue, s:value, l:O.lightness};
+                    O.hsl = {h:O.hue, s:Math.min(1,Math.max(0,value)), l:O.lightness};
                     O.rgb = this.hsl2rgb(O.hsl);
                     break;
                 case "lightness":
-                    O.hsl = {h:O.hue, s:O.saturation, l:value};
+                    O.hsl = {h:O.hue, s:O.saturation, l:Math.min(1,Math.max(0,value))};
                     O.rgb = this.hsl2rgb(O.hsl);
                     break;
                 case "red":
-                    O.rgb = {r:value, g:O.green, b:O.blue};
+                    O.rgb = {r:Math.min(255,Math.max(0,value)), g:O.green, b:O.blue};
                     O.hsl = this.rgb2hsl(O.rgb);
                     break;
                 case "green":
-                    O.rgb = {r:O.red, g:value, b:O.blue};
+                    O.rgb = {r:O.red, g:Math.min(255,Math.max(0,value)), b:O.blue};
                     O.hsl = this.rgb2hsl(O.rgb);
                     break;
                 case "blue":
-                    O.rgb = {r:O.red, g:O.green, b:value};
+                    O.rgb = {r:O.red, g:O.green, b:Math.min(255,Math.max(0,value))};
                     O.hsl = this.rgb2hsl(O.rgb);
                     break;
             }
