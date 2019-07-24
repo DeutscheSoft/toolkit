@@ -22,7 +22,7 @@
 var color_options = [ "rgb", "hsl", "hex", "hue", "saturation", "lightness", "red", "green", "blue" ];
 
 var checkinput = function (e) {
-    var I = this._color;
+    var I = this.hex._input;
     if (e.keyCode && e.keyCode == 13) {
         apply.call(this);
         return;
@@ -40,7 +40,6 @@ var checkinput = function (e) {
     }
     if (I.value.length == 6) {
         this.set("hex", I.value);
-        fevent.call(this, "colorset", true);
     }
 }
 var cancel = function () {
@@ -148,17 +147,6 @@ TK.ColorPicker = TK.class({
          * Has class <code>toolkit-color-picker-hsl</code>.
          */
         TK.add_class(E, "toolkit-color-picker");
-        
-        //this.cancel = new TK.Button({
-            //container:E, "class":"toolkit-cancel", "label":"Cancel"});
-        //this.apply = new TK.Button({
-            //container:E, "class":"toolkit-apply", "label":"Apply"});
-            
-        //this._color.onkeyup = checkinput.bind(this);
-        //this._color.onpaste = checkinput.bind(this);
-
-        //this.cancel.add_event("click", cancel.bind(this));
-        //this.apply.add_event("click", apply.bind(this));
         
         this.range_x = new TK.Range({
             min: 0,
@@ -310,13 +298,9 @@ TK.ChildWidget(TK.ColorPicker, "hex", {
             if (v[0] == "#")
                 v = v.substring(1);
             while (v.length < 6) {
-                console.log(p,v);
                 tmp = v.slice(0, p+1);
-                console.log(tmp);
                 tmp += v[p];
-                console.log(tmp);
                 tmp += v.slice(p+1);
-                console.log(tmp);
                 v = tmp;
                 p+=2;
             }
