@@ -262,11 +262,6 @@ TK.Fader = TK.class({
         var value;
         var tmp;
 
-        if (I.show_scale) {
-            I.show_scale = false;
-            TK.toggle_class(this.element, "toolkit-has-scale", O.show_scale);
-        }
-
         if (I.layout) {
             I.layout = false;
             value = O.layout;
@@ -367,6 +362,7 @@ TK.ChildWidget(TK.Fader, "scale", {
     create: TK.Scale,
     show: true,
     inherit_options: true,
+    toggle_class: true,
     static_events: {
         set: function(key, value) {
             /**
