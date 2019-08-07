@@ -820,7 +820,7 @@ pre, code {
 /* MULTIMETER */
 
 .toolkit-multi-meter {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: stretch;
