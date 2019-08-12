@@ -163,9 +163,9 @@ TK.Toggle = TK.class({
      * @property {Integer} [options.delay=0] - Delay all actions for n milliseconds. While actions are
      *   delayed, the widget has class <code>toolkit-delayed</code>.
      * @property {String|Boolean} [options.icon_active=false] - An optional icon which is only displayed
-     *   when the button toggle state is <code>true</code>.
+     *   when the button toggle state is <code>true</code>. Please note that this option only works if `icon` is also set.
      * @property {String|Boolean} [options.label_active=false] - An optional label which is only displayed
-     *   when the button toggle state is <code>true</code>.
+     *   when the button toggle state is <code>true</code>. Please note that this option only works if `label` is also set.
      */
     _class: "Toggle",
     Extends: TK.Button,
@@ -207,6 +207,7 @@ TK.Toggle = TK.class({
         var I = this.invalid;
         if (I.state) {
             var tmp = (O.state && O.label_active) || O.label;
+            console.log(tmp)
             if (tmp)
                 this.label.set("label", tmp || "");
             tmp = (O.state && O.icon_active) || O.icon;
