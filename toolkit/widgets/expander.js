@@ -25,7 +25,7 @@ function toggle(e) {
     return collapse.call(self, !self.options.expanded);
 }
 function collapse(state) {
-    this.set("expanded", state);
+    this.userset("expanded", state);
     return false;
 }
 function visible_when_expanded(widget) {
