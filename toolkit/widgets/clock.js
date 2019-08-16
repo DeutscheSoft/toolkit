@@ -18,6 +18,7 @@
  */
 "use strict";
 (function(w, TK){
+var format_viewbox = TK.FORMAT("0 0 %d %d");
 function draw_time(force) {
     var tmp, drawn;
     var O = this.options;
@@ -310,9 +311,7 @@ TK.Clock = TK.class({
         TK.Widget.prototype.redraw.call(this);
 
         if (I.size) {
-            var tmp = O.size;
-            this.svg.setAttribute("width", (typeof tmp === "number" ? tmp + "px" : tmp));
-            this.svg.setAttribute("height", (typeof tmp === "number" ? tmp + "px" : tmp));
+            this.svg.setAttribute("viewBox", format_viewbox(O.size, O.size));
         }
 
         if (I.validate("show_hours", "show_minutes", "show_seconds", "thickness", "margin") || I.size) {
