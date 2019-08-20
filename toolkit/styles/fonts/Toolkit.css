@@ -31,98 +31,104 @@
 .toolkit-icon.toolkit-128 { font-size: 128px; }
 .toolkit-icon.toolkit-256 { font-size: 256px; }
 
-.toolkit-icon.warning::before                              { content: '1'; }
-.toolkit-icon.information::before                          { content: '2'; }
-.toolkit-icon.info::before                                 { content: '2'; }
-.toolkit-icon.error::before                                { content: '3'; }
-.toolkit-icon.message::before                              { content: '4'; }
-.toolkit-icon.close::before                                { content: '5'; }
-.toolkit-icon.success::before                              { content: '6'; }
-.toolkit-icon.hourglass::before                            { content: '7'; }
-.toolkit-icon.loading::before                              { content: '7'; }
-.toolkit-icon.questionmark::before                         { content: '8'; }
-.toolkit-icon.screensize::before                           { content: '9'; }
-.toolkit-icon.windowminimize::before                       { content: 'a'; }
-.toolkit-icon.winmin::before                               { content: 'a'; }
-.toolkit-icon.windowclose::before                          { content: '0'; }
-.toolkit-icon.winclose::before                             { content: '0'; }
-.toolkit-icon.windowmaximize::before                       { content: 'b'; }
-.toolkit-icon.winmax::before                               { content: 'b'; }
-.toolkit-icon.windowmaximizevertical::before               { content: 'c'; }
-.toolkit-icon.winmaxvert::before                           { content: 'c'; }
-.toolkit-icon.windowmaximizehorizontal::before             { content: 'd'; }
-.toolkit-icon.winmaxhoriz::before                          { content: 'd'; }
-.toolkit-icon.windowshrink::before                         { content: 'e'; }
-.toolkit-icon.winshrink::before                            { content: 'e'; }
-.toolkit-icon.windowresize::before                         { content: 'f'; }
-.toolkit-icon.unchecked::before                            { content: 'g'; }
-.toolkit-icon.checked::before                              { content: 'h'; }
-.toolkit-icon.speaker::before                              { content: 'i'; }
-.toolkit-icon.speakeractive::before                        { content: 'i'; }
-.toolkit-icon.sound::before                                { content: 'i'; }
-.toolkit-icon.speakermute::before                          { content: 'j'; }
-.toolkit-icon.mute::before                                 { content: 'j'; }
-.toolkit-icon.gear::before                                 { content: 'k'; }
-.toolkit-icon.cogwheel::before                             { content: 'k'; }
-.toolkit-icon.cog::before                                  { content: 'k'; }
-.toolkit-icon.power::before                                { content: 'l'; }
-.toolkit-icon.phase::before                                { content: 'm'; }
-.toolkit-icon.phaseinvert::before                          { content: 'm'; }
-.toolkit-icon.arrowdown::before                            { content: 'n'; }
-.toolkit-icon.arrowup::before                              { content: 'o'; }
-.toolkit-icon.arrowleft::before                            { content: 'p'; }
-.toolkit-icon.arrowright::before                           { content: 'q'; }
-.toolkit-icon.hide::before                                 { content: 'r'; }
-.toolkit-icon.show::before                                 { content: 's'; }
-.toolkit-icon.highpass::before                             { content: 't'; }
-.toolkit-icon.hipass::before                               { content: 't'; }
-.toolkit-icon.lowpass::before                              { content: 'u'; }
-.toolkit-icon.lopass::before                               { content: 'u'; }
-.toolkit-icon.highshelf::before                            { content: 'v'; }
-.toolkit-icon.hishelf::before                              { content: 'v'; }
-.toolkit-icon.lowshelf::before                             { content: 'w'; }
-.toolkit-icon.loshelf::before                              { content: 'w'; }
-.toolkit-icon.bandpass::before                             { content: 'x'; }
-.toolkit-icon.bandreject::before                           { content: 'y'; }
-.toolkit-icon.notch::before                                { content: 'z'; }
-.toolkit-icon.parametric::before                           { content: 'A'; }
-.toolkit-icon.sine::before                                 { content: 'B'; }
-.toolkit-icon.pulse::before                                { content: 'C'; }
-.toolkit-icon.sawtooth::before                             { content: 'D'; }
-.toolkit-icon.triangle::before                             { content: 'E'; }
-.toolkit-icon.bypass::before                               { content: 'F'; }
-.toolkit-icon.stairs::before                               { content: 'G'; }
-.toolkit-icon.aliased::before                              { content: 'G'; }
-.toolkit-icon.stereo::before                               { content: 'H'; }
-.toolkit-icon.mono::before                                 { content: 'I'; }
-.toolkit-icon.zoom::before                                 { content: 'J'; }
-.toolkit-icon.magnifier::before                            { content: 'J'; }
-.toolkit-icon.zoomin::before                               { content: 'K'; }
-.toolkit-icon.zoomout::before                              { content: 'L'; }
-.toolkit-icon.home::before                                 { content: 'M'; }
-.toolkit-icon.start::before                                { content: 'M'; }
-.toolkit-icon.rewind::before                               { content: 'N'; }
-.toolkit-icon.rew::before                                  { content: 'N'; }
-.toolkit-icon.pause::before                                { content: 'O'; }
-.toolkit-icon.play::before                                 { content: 'P'; }
-.toolkit-icon.stop::before                                 { content: 'Q'; }
-.toolkit-icon.record::before                               { content: 'R'; }
-.toolkit-icon.rec::before                                  { content: 'R'; }
-.toolkit-icon.eject::before                                { content: 'S'; }
-.toolkit-icon.fastforward::before                          { content: 'T'; }
-.toolkit-icon.ffwd::before                                 { content: 'T'; }
-.toolkit-icon.end::before                                  { content: 'U'; }
-.toolkit-icon.repeat::before                               { content: 'V'; }
-.toolkit-icon.random::before                               { content: 'W'; }
-.toolkit-icon.day::before                                  { content: 'X'; }
-.toolkit-icon.sun::before                                  { content: 'X'; }
-.toolkit-icon.daylight::before                             { content: 'X'; }
-.toolkit-icon.light::before                                { content: 'X'; }
-.toolkit-icon.night::before                                { content: 'Y'; }
-.toolkit-icon.moon::before                                 { content: 'Y'; }
-.toolkit-icon.dark::before                                 { content: 'Y'; }
-.toolkit-icon.connected::before                            { content: 'Z'; }
-.toolkit-icon.disconnected::before                         { content: 'ö'; }
-.toolkit-icon.headphones::before                           { content: 'ä'; }
-.toolkit-icon.headphonesactive::before                     { content: 'ä'; }
-.toolkit-icon.headphonesmute::before                       { content: 'ü'; }
+.toolkit-icon.warning::before                              { font-family: 'Toolkit'; content: '1'; }
+.toolkit-icon.information::before                          { font-family: 'Toolkit'; content: '2'; }
+.toolkit-icon.info::before                                 { font-family: 'Toolkit'; content: '2'; }
+.toolkit-icon.error::before                                { font-family: 'Toolkit'; content: '3'; }
+.toolkit-icon.message::before                              { font-family: 'Toolkit'; content: '4'; }
+.toolkit-icon.close::before                                { font-family: 'Toolkit'; content: '5'; }
+.toolkit-icon.success::before                              { font-family: 'Toolkit'; content: '6'; }
+.toolkit-icon.hourglass::before                            { font-family: 'Toolkit'; content: '7'; }
+.toolkit-icon.loading::before                              { font-family: 'Toolkit'; content: '7'; }
+.toolkit-icon.questionmark::before                         { font-family: 'Toolkit'; content: '8'; }
+.toolkit-icon.screensize::before                           { font-family: 'Toolkit'; content: '9'; }
+.toolkit-icon.windowminimize::before                       { font-family: 'Toolkit'; content: 'a'; }
+.toolkit-icon.winmin::before                               { font-family: 'Toolkit'; content: 'a'; }
+.toolkit-icon.windowclose::before                          { font-family: 'Toolkit'; content: '0'; }
+.toolkit-icon.winclose::before                             { font-family: 'Toolkit'; content: '0'; }
+.toolkit-icon.windowmaximize::before                       { font-family: 'Toolkit'; content: 'b'; }
+.toolkit-icon.winmax::before                               { font-family: 'Toolkit'; content: 'b'; }
+.toolkit-icon.windowmaximizevertical::before               { font-family: 'Toolkit'; content: 'c'; }
+.toolkit-icon.winmaxvert::before                           { font-family: 'Toolkit'; content: 'c'; }
+.toolkit-icon.windowmaximizehorizontal::before             { font-family: 'Toolkit'; content: 'd'; }
+.toolkit-icon.winmaxhoriz::before                          { font-family: 'Toolkit'; content: 'd'; }
+.toolkit-icon.windowshrink::before                         { font-family: 'Toolkit'; content: 'e'; }
+.toolkit-icon.winshrink::before                            { font-family: 'Toolkit'; content: 'e'; }
+.toolkit-icon.windowresize::before                         { font-family: 'Toolkit'; content: 'f'; }
+.toolkit-icon.unchecked::before                            { font-family: 'Toolkit'; content: 'g'; }
+.toolkit-icon.checked::before                              { font-family: 'Toolkit'; content: 'h'; }
+.toolkit-icon.speaker::before                              { font-family: 'Toolkit'; content: 'i'; }
+.toolkit-icon.speakeractive::before                        { font-family: 'Toolkit'; content: 'i'; }
+.toolkit-icon.sound::before                                { font-family: 'Toolkit'; content: 'i'; }
+.toolkit-icon.speakermute::before                          { font-family: 'Toolkit'; content: 'j'; }
+.toolkit-icon.mute::before                                 { font-family: 'Toolkit'; content: 'j'; }
+.toolkit-icon.gear::before                                 { font-family: 'Toolkit'; content: 'k'; }
+.toolkit-icon.cogwheel::before                             { font-family: 'Toolkit'; content: 'k'; }
+.toolkit-icon.cog::before                                  { font-family: 'Toolkit'; content: 'k'; }
+.toolkit-icon.power::before                                { font-family: 'Toolkit'; content: 'l'; }
+.toolkit-icon.phase::before                                { font-family: 'Toolkit'; content: 'm'; }
+.toolkit-icon.phaseinvert::before                          { font-family: 'Toolkit'; content: 'm'; }
+.toolkit-icon.arrowdown::before                            { font-family: 'Toolkit'; content: 'n'; }
+.toolkit-icon.arrowup::before                              { font-family: 'Toolkit'; content: 'o'; }
+.toolkit-icon.arrowleft::before                            { font-family: 'Toolkit'; content: 'p'; }
+.toolkit-icon.arrowright::before                           { font-family: 'Toolkit'; content: 'q'; }
+.toolkit-icon.hide::before                                 { font-family: 'Toolkit'; content: 'r'; }
+.toolkit-icon.show::before                                 { font-family: 'Toolkit'; content: 's'; }
+.toolkit-icon.highpass::before                             { font-family: 'Toolkit'; content: 't'; }
+.toolkit-icon.hipass::before                               { font-family: 'Toolkit'; content: 't'; }
+.toolkit-icon.lowpass::before                              { font-family: 'Toolkit'; content: 'u'; }
+.toolkit-icon.lopass::before                               { font-family: 'Toolkit'; content: 'u'; }
+.toolkit-icon.highshelf::before                            { font-family: 'Toolkit'; content: 'v'; }
+.toolkit-icon.hishelf::before                              { font-family: 'Toolkit'; content: 'v'; }
+.toolkit-icon.lowshelf::before                             { font-family: 'Toolkit'; content: 'w'; }
+.toolkit-icon.loshelf::before                              { font-family: 'Toolkit'; content: 'w'; }
+.toolkit-icon.bandpass::before                             { font-family: 'Toolkit'; content: 'x'; }
+.toolkit-icon.bandreject::before                           { font-family: 'Toolkit'; content: 'y'; }
+.toolkit-icon.notch::before                                { font-family: 'Toolkit'; content: 'z'; }
+.toolkit-icon.parametric::before                           { font-family: 'Toolkit'; content: 'A'; }
+.toolkit-icon.sine::before                                 { font-family: 'Toolkit'; content: 'B'; }
+.toolkit-icon.pulse::before                                { font-family: 'Toolkit'; content: 'C'; }
+.toolkit-icon.sawtooth::before                             { font-family: 'Toolkit'; content: 'D'; }
+.toolkit-icon.triangle::before                             { font-family: 'Toolkit'; content: 'E'; }
+.toolkit-icon.bypass::before                               { font-family: 'Toolkit'; content: 'F'; }
+.toolkit-icon.stairs::before                               { font-family: 'Toolkit'; content: 'G'; }
+.toolkit-icon.aliased::before                              { font-family: 'Toolkit'; content: 'G'; }
+.toolkit-icon.stereo::before                               { font-family: 'Toolkit'; content: 'H'; }
+.toolkit-icon.mono::before                                 { font-family: 'Toolkit'; content: 'I'; }
+.toolkit-icon.zoom::before                                 { font-family: 'Toolkit'; content: 'J'; }
+.toolkit-icon.magnifier::before                            { font-family: 'Toolkit'; content: 'J'; }
+.toolkit-icon.zoomin::before                               { font-family: 'Toolkit'; content: 'K'; }
+.toolkit-icon.zoomout::before                              { font-family: 'Toolkit'; content: 'L'; }
+.toolkit-icon.home::before                                 { font-family: 'Toolkit'; content: 'M'; }
+.toolkit-icon.start::before                                { font-family: 'Toolkit'; content: 'M'; }
+.toolkit-icon.rewind::before                               { font-family: 'Toolkit'; content: 'N'; }
+.toolkit-icon.rew::before                                  { font-family: 'Toolkit'; content: 'N'; }
+.toolkit-icon.pause::before                                { font-family: 'Toolkit'; content: 'O'; }
+.toolkit-icon.play::before                                 { font-family: 'Toolkit'; content: 'P'; }
+.toolkit-icon.stop::before                                 { font-family: 'Toolkit'; content: 'Q'; }
+.toolkit-icon.record::before                               { font-family: 'Toolkit'; content: 'R'; }
+.toolkit-icon.rec::before                                  { font-family: 'Toolkit'; content: 'R'; }
+.toolkit-icon.eject::before                                { font-family: 'Toolkit'; content: 'S'; }
+.toolkit-icon.fastforward::before                          { font-family: 'Toolkit'; content: 'T'; }
+.toolkit-icon.ffwd::before                                 { font-family: 'Toolkit'; content: 'T'; }
+.toolkit-icon.end::before                                  { font-family: 'Toolkit'; content: 'U'; }
+.toolkit-icon.repeat::before                               { font-family: 'Toolkit'; content: 'V'; }
+.toolkit-icon.random::before                               { font-family: 'Toolkit'; content: 'W'; }
+.toolkit-icon.day::before                                  { font-family: 'Toolkit'; content: 'X'; }
+.toolkit-icon.sun::before                                  { font-family: 'Toolkit'; content: 'X'; }
+.toolkit-icon.daylight::before                             { font-family: 'Toolkit'; content: 'X'; }
+.toolkit-icon.light::before                                { font-family: 'Toolkit'; content: 'X'; }
+.toolkit-icon.night::before                                { font-family: 'Toolkit'; content: 'Y'; }
+.toolkit-icon.moon::before                                 { font-family: 'Toolkit'; content: 'Y'; }
+.toolkit-icon.dark::before                                 { font-family: 'Toolkit'; content: 'Y'; }
+.toolkit-icon.connected::before                            { font-family: 'Toolkit'; content: 'Z'; }
+.toolkit-icon.disconnected::before                         { font-family: 'Toolkit'; content: 'ö'; }
+.toolkit-icon.headphones::before                           { font-family: 'Toolkit'; content: 'ä'; }
+.toolkit-icon.headphonesactive::before                     { font-family: 'Toolkit'; content: 'ä'; }
+.toolkit-icon.headphonesmute::before                       { font-family: 'Toolkit'; content: 'ü'; }
+.toolkit-icon.microphone::before                           { font-family: 'Toolkit'; content: 'Ä'; }
+.toolkit-icon.mic::before                                  { font-family: 'Toolkit'; content: 'Ä'; }
+.toolkit-icon.micro::before                                { font-family: 'Toolkit'; content: 'Ä'; }
+.toolkit-icon.microphonemute::before                       { font-family: 'Toolkit'; content: 'Ö'; }
+.toolkit-icon.micmute::before                              { font-family: 'Toolkit'; content: 'Ö'; }
+.toolkit-icon.micromute::before                            { font-family: 'Toolkit'; content: 'Ö'; }
