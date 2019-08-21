@@ -132,3 +132,10 @@
 .toolkit-icon.microphonemute::before                       { font-family: 'Toolkit'; content: 'Ö'; }
 .toolkit-icon.micmute::before                              { font-family: 'Toolkit'; content: 'Ö'; }
 .toolkit-icon.micromute::before                            { font-family: 'Toolkit'; content: 'Ö'; }
+.toolkit-icon.trash::before                                { font-family: 'Toolkit'; content: 'Ü'; }
+.toolkit-icon.delete::before                               { font-family: 'Toolkit'; content: 'Ü'; }
+.toolkit-icon.save::before                                 { font-family: 'Toolkit'; content: '!'; }
+.toolkit-icon.diskette::before                             { font-family: 'Toolkit'; content: '!'; }
+.toolkit-icon.load::before                                 { font-family: 'Toolkit'; content: '"'; }
+.toolkit-icon.folder::before                               { font-family: 'Toolkit'; content: '"'; }
+.toolkit-icon.open::before                                 { font-family: 'Toolkit'; content: '"'; }
