@@ -107,8 +107,35 @@ function set_atoms (key, value) {
  * TK.ColorPicker provides a collection of widgets to select a color in
  * RGB or HSL color space.
  * 
+ * @class TK.ColorPicker
+ * 
+ * @extends TK.Container
+ * 
  * @implements TK.Colors
  * 
+ * @param {Object} [options={ }] - An object containing initial options.
+ * 
+ * @property {object} [hsl={h:0, s:0.5, l:0}] - An object containing members `h`ue, `s`aturation and `l`ightness as numerical values.
+ * @property {object} [rgb={r:0, r:0, b:0}] - An object containing members `r`ed, `g`reen and `b`lue as numerical values.
+ * @property {string} [hex=000000] - A HEX color value, either with or without leading `#`.
+ * @property {number} [hue=0] - A numerical value 0..1 for the hue.
+ * @property {number} [saturation=0] - A numerical value 0..1 for the saturation.
+ * @property {number} [lightness=0] - A numerical value 0..1 for the lightness.
+ * @property {number} [red=0] - A numerical value 0..255 for the amount of red.
+ * @property {number} [green=0] - A numerical value 0..255 for the amount of green.
+ * @property {number} [blue=0] - A numerical value 0..255 for the amount of blue.
+ * @property {boolean} [show_hue=true] - Set to `false` to hide the {@link TK.ValueKnob} for hue.
+ * @property {boolean} [show_saturation=true] - Set to `false` to hide the {@link TK.ValueKnob} for saturation.
+ * @property {boolean} [show_lightness=true] - Set to `false` to hide the {@link TK.ValueKnob} for lightness.
+ * @property {boolean} [show_red=true] - Set to `false` to hide the {@link TK.ValueKnob} for red.
+ * @property {boolean} [show_green=true] - Set to `false` to hide the {@link TK.ValueKnob} for green.
+ * @property {boolean} [show_blue=true] - Set to `false` to hide the {@link TK.ValueKnob} for blue.
+ * @property {boolean} [show_hex=true] - Set to `false` to hide the {@link TK.Value} for the HEX color.
+ * @property {boolean} [show_apply=true] - Set to `false` to hide the {@link TK.Button} to apply.
+ * @property {boolean} [show_cancel=true] - Set to `false` to hide the {@link TK.Button} to cancel.
+ * @property {boolean} [show_canvas=true] - Set to `false` to hide the color canvas.
+ * @property {boolean} [show_grayscale=true] - Set to `false` to hide the grayscale.
+ * @property {boolean} [show_indicator=true] - Set to `false` to hide the color indicator.
  */
 
 
@@ -143,20 +170,31 @@ TK.ColorPicker = TK.class({
     initialize: function (options) {
         TK.Container.prototype.initialize.call(this, options);
         var E = this.element;
-        /** @member {HTMLDivElement} TK.Label#element - The main DIV container.
-         * Has class <code>toolkit-color-picker-hsl</code>.
+        /** @member {HTMLDivElement} TK.ColorPicker#element - The main DIV container.
+         * Has class <code>toolkit-color-picker</code>.
          */
         TK.add_class(E, "toolkit-color-picker");
         
+        /**
+         * @member {TK.Range} TK.ColorPicker#range_x - The {@link TK.Range} for the x axis. 
+         */
         this.range_x = new TK.Range({
             min: 0,
             max: 1,
         });
+        
+        /**
+         * @member {TK.Range} TK.ColorPicker#range_y - The {@link TK.Range} for the y axis.
+         */
         this.range_y = new TK.Range({
             min: 0,
             max: 1,
             reverse: true,
         });
+        
+        /**
+         * @member {TK.Range} TK.ColorPicker#drag_x - The {@link TK.DragValue} for the x axis.
+         */
         this.drag_x = new TK.DragValue(this, {
             range: (function () { return this.range_x; }).bind(this),
             get: function () { return this.parent.options.hue; },
@@ -169,6 +207,9 @@ TK.ColorPicker = TK.class({
                 this.parent.set("hue", this.options.range().px2val(x));
             }
         });
+        /**
+         * @member {TK.Range} TK.ColorPicker#drag_y - The {@link TK.DragValue} for the y axis.
+         */
         this.drag_y = new TK.DragValue(this, {
             range: (function () { return this.range_y; }).bind(this),
             get: function () { return this.parent.options.lightness; },
@@ -259,6 +300,10 @@ TK.ColorPicker = TK.class({
     }
 });
 
+/**
+ * @member {HTMLDivElement} TK.ColorPicker#canvas - The color background.
+ *   Has class `toolkit-canvas`,
+ */
 TK.ChildElement(TK.ColorPicker, "canvas", {
     show: true,
     append: function () {
@@ -267,12 +312,20 @@ TK.ChildElement(TK.ColorPicker, "canvas", {
         this.drag_y.set("node", this._canvas);
     },
 });
+/**
+ * @member {HTMLDivElement} TK.ColorPicker#grayscale - The grayscale background.
+ *   Has class `toolkit-grayscale`,
+ */
 TK.ChildElement(TK.ColorPicker, "grayscale", {
     show: true,
     append: function () {
         this._canvas.appendChild(this._grayscale);
     },
 });
+/**
+ * @member {HTMLDivElement} TK.ColorPicker#indicator - The indicator element.
+ *   Has class `toolkit-indicator`,
+ */
 TK.ChildElement(TK.ColorPicker, "indicator", {
     show: true,
     append: function () {
@@ -280,6 +333,10 @@ TK.ChildElement(TK.ColorPicker, "indicator", {
     },
 });
 
+/**
+ * @member {TK.Value} TK.ColorPicker#hex - The {@link TK.Value} for the HEX color.
+ *   Has class `toolkit-hex`,
+ */
 TK.ChildWidget(TK.ColorPicker, "hex", {
     create: TK.Value,
     show: true,
@@ -315,6 +372,10 @@ TK.ChildWidget(TK.ColorPicker, "hex", {
     inherit_options: true,
 });
 
+/**
+ * @member {TK.ValueKnob} TK.ColorPicker#hue - The {@link TK.ValueKnob} for the hue.
+ *   Has class `toolkit-hue`,
+ */
 TK.ChildWidget(TK.ColorPicker, "hue", {
     create: TK.ValueKnob,
     option: "show_hsl",
@@ -336,6 +397,10 @@ TK.ChildWidget(TK.ColorPicker, "hue", {
     inherit_options: true,
     blacklist_options: ["x", "y", "value"],
 });
+/**
+ * @member {TK.ValueKnob} TK.ColorPicker#saturation - The {@link TK.ValueKnob} for the saturation.
+ *   Has class `toolkit-saturation`,
+ */
 TK.ChildWidget(TK.ColorPicker, "saturation", {
     create: TK.ValueKnob,
     show: true,
@@ -356,6 +421,10 @@ TK.ChildWidget(TK.ColorPicker, "saturation", {
     inherit_options: true,
     blacklist_options: ["x", "y", "value"],
 });
+/**
+ * @member {TK.ValueKnob} TK.ColorPicker#lightness - The {@link TK.ValueKnob} for the lightness.
+ *   Has class `toolkit-lightness`,
+ */
 TK.ChildWidget(TK.ColorPicker, "lightness", {
     create: TK.ValueKnob,
     option: "show_hsl",
@@ -377,7 +446,10 @@ TK.ChildWidget(TK.ColorPicker, "lightness", {
     inherit_options: true,
     blacklist_options: ["x", "y", "value"],
 });
-
+/**
+ * @member {TK.ValueKnob} TK.ColorPicker#red - The {@link TK.ValueKnob} for the red color.
+ *   Has class `toolkit-red`,
+ */
 TK.ChildWidget(TK.ColorPicker, "red", {
     create: TK.ValueKnob,
     option: "show_rgb",
@@ -402,6 +474,10 @@ TK.ChildWidget(TK.ColorPicker, "red", {
     inherit_options: true,
     blacklist_options: ["x", "y", "value"],
 });
+/**
+ * @member {TK.ValueKnob} TK.ColorPicker#green - The {@link TK.ValueKnob} for the green color.
+ *   Has class `toolkit-green`,
+ */
 TK.ChildWidget(TK.ColorPicker, "green", {
     create: TK.ValueKnob,
     option: "show_rgb",
@@ -426,6 +502,10 @@ TK.ChildWidget(TK.ColorPicker, "green", {
     inherit_options: true,
     blacklist_options: ["x", "y", "value"],
 });
+/**
+ * @member {TK.ValueKnob} TK.ColorPicker#blue - The {@link TK.ValueKnob} for the blue color.
+ *   Has class `toolkit-blue`,
+ */
 TK.ChildWidget(TK.ColorPicker, "blue", {
     create: TK.ValueKnob,
     option: "show_rgb",
@@ -450,6 +530,10 @@ TK.ChildWidget(TK.ColorPicker, "blue", {
     inherit_options: true,
     blacklist_options: ["x", "y", "value"],
 });
+/**
+ * @member {TK.Button} TK.ColorPicker#apply - The {@link TK.Button} to apply.
+ *   Has class `toolkit-apply`,
+ */
 TK.ChildWidget(TK.ColorPicker, "apply", {
     create: TK.Button,
     show: true,
@@ -461,6 +545,10 @@ TK.ChildWidget(TK.ColorPicker, "apply", {
         "class": "toolkit-apply",
     },
 });
+/**
+ * @member {TK.Button} TK.ColorPicker#cancel - The {@link TK.Button} to cancel.
+ *   Has class `toolkit-cancel`,
+ */
 TK.ChildWidget(TK.ColorPicker, "cancel", {
     create: TK.Button,
     show: true,
