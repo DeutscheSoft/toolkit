@@ -31,6 +31,18 @@ function apply (color) {
     self.close();
 }
 
+/**
+ * A {@link TK.Dialog} window containing a {@link TK.ColorPicker}. It can be opened
+ * programatically and closes automatically on the appropriate user
+ * interactions like hitting ESC or clicking `apply`.
+ * 
+ * @class TK.ColorPickerDialog
+ * 
+ * @extends TK.Dialog
+ * 
+ * @param {Object} [options={ }] options - An object containing initial options.
+ * 
+ */
 TK.ColorPickerDialog = TK.class({
     
     _class: "ColorPickerDialog",
@@ -38,12 +50,15 @@ TK.ColorPickerDialog = TK.class({
     
     initialize: function (options) {
         TK.Dialog.prototype.initialize.call(this, options);
+        /** @member {HTMLDivElement} TK.ColorPickerDialog#element - The main DIV container.
+         * Has class <code>toolkit-color-picker-dialog</code>.
+         */
         TK.add_class(this.element, "toolkit-color-picker-dialog");
     },
 });
     
 /**
- * @member {TK.ColorPicker} TK.ColorPickerDialog#colorpicker - The TK.ColorPicker widget.
+ * @member {TK.ColorPicker} TK.ColorPickerDialog#colorpicker - The {@ink TK.ColorPicker} widget.
  */
 TK.ChildWidget(TK.ColorPickerDialog, "colorpicker", {
     create: TK.ColorPicker,
