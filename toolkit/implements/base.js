@@ -635,8 +635,6 @@ function get_child_options(parent, name, options, config) {
 function ChildWidget(widget, name, config) {
     
     /**
-     * @function TK.ChildWidget
-     *
      * Defines a {@link TK.Widget} as a child for another widget. This function
      * is used internally to simplify widget definitions. E.g. the {@link TK.Icon} of a
      * {@link TK.Button} is defined as a TK.ChildWidget. TK.ChildWidgets
@@ -809,8 +807,6 @@ TK.ChildWidget = ChildWidget;
 
 function ChildElement(widget, name, config) {
     /**
-     * @function TK.ChildElement
-     *
      * Creates a HTMLElement as a child for a widget. Is used to simplify
      * widget definitions. E.g. the tiny marker used to display the back-end
      * value is a simple DIV added using TK.ChildElement. The generic element
