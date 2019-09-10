@@ -257,7 +257,7 @@ TK.Circular = TK.class({
      * TK.Circular is a SVG group element containing two paths for displaying
      * numerical values in a circular manner. TK.Circular is able to draw labels,
      * dots and markers and can show a hand. TK.Circular e.g. is implemented by
-     * {@link TK.Clock} to draw the hours, minutes and seconds.
+     * {@link TK.Clock} to draw hours, minutes and seconds.
      * 
      * @class TK.Circular
      * 
@@ -281,7 +281,7 @@ TK.Circular = TK.class({
      * @property {Number} [options.start=135] - The starting point in degrees.
      * @property {Number} [options.angle=270] - The maximum degree of the rotation when
      *   <code>options.value === options.max</code>.
-     * @property {Number|boolean} [options.base=false] - If a base value is set in degrees,
+     * @property {Number|Boolean} [options.base=false] - If a base value is set in degrees,
      *   circular starts drawing elements from this position.
      * @property {Boolean} [options.show_base=true] - Draw the base ring.
      * @property {Boolean} [options.show_value=true] - Draw the value ring.
@@ -313,9 +313,10 @@ TK.Circular = TK.class({
      *   inside or outside of the circle with radius <code>options.size/2 - margin</code>.
      * @property {Function} [options.label.format] - Optional formatting function for the label.
      *   Receives the label value as first argument.
-     * @property {Array<Object>} [options.labels=[]] - An array containing objects which describe where labels
-     *   are to be places. Members are the position <code>pos</code> in the value range and optionally
-     *   <code>color</code>, <code>class</code> and any of the properties of <code>options.label</code>.
+     * @property {Array<Object>} [options.labels=[]] - An array containing objects which describe labels
+     *   to be displayed. Either a value or an object whose members are the position <code>pos</code>
+     *   insie the value range and optionally <code>color</code>, <code>class</code> and any of the
+     *   properties of <code>options.label</code>.
      * 
      * @extends TK.Widget
      * 
@@ -517,8 +518,9 @@ TK.Circular = TK.class({
      * Adds a label.
      *
      * @method TK.Circular#add_label
-     * @param label - The label.
-     * @returns label
+     * @param {Object|Number} label - The label. Please refer to the initial options
+     *   to learn more about possible values.
+     * @returns {Object} label - The interpreted object to build the label from.
      */
     add_label: function(label) {
         var O = this.options;
@@ -541,8 +543,8 @@ TK.Circular = TK.class({
      * Removes a label.
      *
      * @method TK.Circular#remove_label
-     * @param label - The label.
-     * @returns label
+     * @param {Object} label - The label object as returned from `add_label`.
+     * @returns {Object} label - The removed label options.
      */
     remove_label: function(label) {
         var O = this.options;
@@ -586,7 +588,7 @@ TK.Circular = TK.class({
     }
 });
 /**
- * @member {SVGGroup} TK.Circular#_markers - A group containing all markers.
+ * @member {SVGGroup} TK.Circular#_markers - A SVG group containing all markers.
  *      Has class <code>toolkit-markers</code> 
  */
 TK.ChildElement(TK.Circular, "markers", {
@@ -598,7 +600,7 @@ TK.ChildElement(TK.Circular, "markers", {
     },
 });
 /** 
- * @member {SVGGroup} TK.Circular#_dots - A group containing all dots.
+ * @member {SVGGroup} TK.Circular#_dots - A SVG group containing all dots.
  *      Has class <code>toolkit-dots</code> 
  */
 TK.ChildElement(TK.Circular, "dots", {
@@ -610,7 +612,7 @@ TK.ChildElement(TK.Circular, "dots", {
     },
 });
 /**
- * @member {SVGGroup} TK.Circular#_labels - A group containing all labels.
+ * @member {SVGGroup} TK.Circular#_labels - A SVG group containing all labels.
  *      Has class <code>toolkit-labels</code> 
  */
 TK.ChildElement(TK.Circular, "labels", {
