@@ -151,7 +151,7 @@ function onhide() {
 TK.Clock = TK.class({
     /**
      * TK.Clock shows a customized clock with circulars displaying hours, minutes
-     * and seconds. It has three free formatable labels.
+     * and seconds. It additionally offers three freely formatable labels.
      *
      * @class TK.Clock
      * 
@@ -174,8 +174,9 @@ TK.Clock = TK.class({
      * @property {Function} [options.label=function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) { return ((hour < 10) ? ("0" + hour) : hour) + ":" + ((minute < 10) ? ("0" + minute) : minute) + ":" + ((second < 10) ? ("0" + second) : second);] - Callback to format the main label.
      * @property {Function} [options.label_upper=function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) { return days[day]; }] - Callback to format the upper label.
      * @property {Function} [options.label_lower=function (_date, year, month, date, day, hour, minute, second, millisecond, frame, months, days) { return ((date < 10) ? ("0" + date) : date) + ". " + months[month] + " " + year; }] - Callback to format the lower label.
-     * @property {Number} [options.label_scale=0.33] - test
-     * @property {Date} [options.time=10] - test
+     * @property {Number} [options.label_scale=0.33] - The scale of `label_upper` and `label_lower` compared to the main label.
+     * @property {Number|String|Date} [options.time] - Set a specific time and date. To avoid auto-udates, set `timeout` to 0.
+     *   For more information about the value, please refer to <a href="https://www.w3schools.com/jsref/jsref_obj_date.asp">W3Schools</a>.
      */
     _class: "Clock",
     Extends: TK.Widget,
@@ -196,7 +197,7 @@ TK.Clock = TK.class({
         label_upper:  "function",
         label_lower:  "function",
         label_scale:  "number",
-        time: "object",
+        time: "object|string|number",
     }),
     options: {
         thickness:    10,         // thickness of the rings
@@ -242,7 +243,8 @@ TK.Clock = TK.class({
         this.circulars = {};
         this._margin = -1;
         TK.Widget.prototype.initialize.call(this, options);
-        this.options.time = new Date();
+        this.set("time", this.options.time);
+        
         /**
          * @member {HTMLDivElement} TK.Clock#element - The main DIV element. Has class <code>toolkit-clock</code> 
          */
@@ -360,6 +362,17 @@ TK.Clock = TK.class({
         if (this.__to)
             window.clearTimeout(this.__to);
         TK.Widget.prototype.destroy.call(this);
+    },
+    
+    set: function (key, value) {
+        switch (key) {
+            case "time":
+                if (Object.prototype.toString.call(value) === '[object Date]')
+                    break;
+                value = new Date(value);
+                break;
+        }
+        return TK.Widget.prototype.set.call(this, key, value);
     },
 });
 })(this, this.TK);
