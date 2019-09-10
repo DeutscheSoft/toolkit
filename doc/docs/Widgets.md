@@ -14,6 +14,8 @@ a container.
 Alternatively, they can also simply be floating, which makes it easier to build grid-like layouts
 which reorganize themselves depending on window size.
 
+However, utilizing CSS features like grid and flexbox is recommended.
+
 All widgets can be given a size using CSS alone. 
 This makes it possible to build fully responsive layouts by using CSS only.
 Some widgets need to redraw parts of themselves when they are resized.
