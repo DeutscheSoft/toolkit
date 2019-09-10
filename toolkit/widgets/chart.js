@@ -230,12 +230,9 @@ function draw_title() {
 }
 
 /**
- * TK.Chart is an SVG image containing one or more Graphs. There are functions
- * to add and remove graphs. TK.Chart extends {@link TK.Widget} and contains a
- * Grid and two Ranges.
- *
- * @class TK.Chart
- * @extends TK.Widget
+ * TK.Chart is an SVG image containing one or more Graphs. TK.Chart
+ * extends {@link TK.Widget} and contains a {@link TK.Grid} and two
+ * {@link TK.Range}s.
  *
  * @param {Object} [options={ }] - An object containing initial options.
  * 
@@ -251,24 +248,39 @@ function draw_title() {
  *   will detail names and colors of the graphs inside of this chart.
  *   Possible values are <code>"top-left"</code>, <code>"top-right"</code>,
  *   <code>"bottom-left"</code> and <code>"bottom-right"</code>.
- * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored rectangles
- *   inside of the key describing individual graphs.
+ * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored
+ *   rectangles inside of the key describing individual graphs.
  * @property {Boolean} [options.show_grid=true] - Set to <code>false</code> to
  *   disable the grid.
- * @property {Array<Object>} [options.grid_x=[]] - An array containing objects with the following optional members:
+ * @property {Array<Object>} [options.grid_x=[]] - An array containing
+ *   objects with the following optional members to draw the grid:
  *   <code>{pos:x[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
- * @property {Array<Object>} [options.grid_y=[]] - An array containing objects with the following optional members:
+ * @property {Array<Object>} [options.grid_y=[]] - An array containing
+ *   objects with the following optional members to draw the grid:
  *   <code>{pos:y[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
- * @property {Function|Object} [options.range_x={}] - Either a function returning a {@link TK.Range}
- *   or an object containing options for a new {@link TK.Range}
- * @property {Function|Object} [options.range_y={}] - Either a function returning a {@link TK.Range}
- *   or an object containing options for a new {@link TK.Range}
- * @param {Number} [options.importance_label=4] - Multiplicator of square pixels on hit testing labels to gain importance.
- * @param {Number} [options.importance_handle=1] - Multiplicator of square pixels on hit testing handles to gain importance.
- * @param {Number} [options.importance_border=50] - Multiplicator of square pixels on hit testing borders to gain importance.
- * @param {Object|Function} [options.range_z={ scale: "linear", min: 0, max: 1 }] - Options for z {@link TK.Range}.
- * @param {Array} [options.handles=[]] - An array of options for creating {@link TK.ResponseHandle} on init.
- * @param {Bollean} [options.show_handles=true] - Show or hide all handles.
+ * @property {Function|Object} [options.range_x={}] - Either a function
+ *   returning a {@link TK.Range} or an object containing options for a
+ *   new {@link TK.Range}.
+ * @property {Function|Object} [options.range_y={}] - Either a function
+ *   returning a {@link TK.Range} or an object containing options for a
+ *   new {@link TK.Range}.
+ * @property {Object|Function} [options.range_z={ scale: "linear", min: 0, max: 1 }] -
+ *   Either a function returning a {@link TK.Range} or an object
+ *   containing options for a new {@link TK.Range}.
+ * @property {Number} [options.importance_label=4] - Multiplicator of
+ *   square pixels on hit testing labels to gain importance.
+ * @property {Number} [options.importance_handle=1] - Multiplicator of
+ *   square pixels on hit testing handles to gain importance.
+ * @property {Number} [options.importance_border=50] - Multiplicator of
+ *   square pixels on hit testing borders to gain importance.
+ * @property {Array} [options.handles=[]] - An array of options for
+ *   creating {@link TK.ResponseHandle} on init.
+ * @property {Boolean} [options.show_handles=true] - Show or hide all
+ *   handles.
+ * 
+ * @class TK.Chart
+ * 
+ * @extends TK.Widget
  */
 function geom_set(value, key) {
     this.set_style(key, value+"px");
@@ -375,7 +387,7 @@ TK.Chart = TK.class({
             this.options.height = this.range_y.options.basis;
         
         /** 
-         * @member {SVGGroup} TK.Chart#_graphs - The group containing all graphs.
+         * @member {SVGGroup} TK.Chart#_graphs - The SVG group containing all graphs.
          *      Has class <code>toolkit-graphs</code>.
          */
         this._graphs = TK.make_svg("g", {"class": "toolkit-graphs"});
@@ -651,25 +663,28 @@ TK.Chart = TK.class({
         }
     },
     /*
-     * Remove multiple {@link TK.ResponseHandle} from the widget. Options is an array
-     * of {@link TK.ResponseHandle} instances.
+     * Remove multiple or all {@link TK.ResponseHandle} from the widget.
      * 
      * @method TK.ResponseHandler#remove_handles
      * 
-     * @param {Array<TK.ResponseHandle>} handles - An array of {@link TK.ResponseHandle} instances.
+     * @param {Array<TK.ResponseHandle>} handles - An array of
+     *   {@link TK.ResponseHandle} instances. If the argument reveals to
+     *   `false`, all handles are removed from the widget.
      */
-    remove_handles: function () {
-        // remove all handles from the widget.
-        for (var i = 0; i < this.handles.length; i++) {
-            this.remove_handle(this.handles[i]);
+    remove_handles: function (handles) {
+        var H = handles || this.handles.slice();
+        for (var i = 0; i < H.length; i++) {
+            this.remove_handle(H[i]);
         }
-        this.handles = [];
-        /**
-         * Is fired when all handles are removed.
-         * 
-         * @event TK.ResponseHandler#emptied
-         */
-        this.fire_event("emptied")
+        if (!handles) {
+            this.handles = [];
+            /**
+             * Is fired when all handles are removed.
+             * 
+             * @event TK.ResponseHandler#emptied
+             */
+            this.fire_event("emptied");
+        }
     },
     
     intersect: function (X, handle) {
@@ -749,8 +764,8 @@ function key_hover_cb(ev) {
     TK.toggle_class(this.nextSibling, "toolkit-hover", b);
 }
 /**
- * @member {SVGRect} TK.Chart#_key_background - The rectangle of the key.
- *      Has class <code>toolkit-background</code>.
+ * @member {SVGRect} TK.Chart#_key_background - The SVG rectangle of the key.
+ *   Has class <code>toolkit-background</code>.
  */
 TK.ChildElement(TK.Chart, "key_background", {
     option: "key",
@@ -768,8 +783,8 @@ TK.ChildElement(TK.Chart, "key_background", {
     },
 });
 /**
- * @member {SVGGroup} TK.Chart#_key - The group containing all descriptions.
- *      Has class <code>toolkit-key</code>.
+ * @member {SVGGroup} TK.Chart#_key - The SVG group containing all descriptions.
+ *   Has class <code>toolkit-key</code>.
  */
 TK.ChildElement(TK.Chart, "key", {
     option: "key",
@@ -787,7 +802,7 @@ TK.ChildElement(TK.Chart, "key", {
 });
 /**
  * @member {SVGText} TK.Chart#_title - The title of the chart.
- *      Has class <code>toolkit-title</code>.
+ *   Has class <code>toolkit-title</code>.
  */
 TK.ChildElement(TK.Chart, "title", {
     option: "title",
