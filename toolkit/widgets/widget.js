@@ -788,3 +788,12 @@ TK.Module = TK.class({
     },
 });
 })(this, this.TK);
+
+/**
+ * Generic DOM events. Please refer to
+ *   <a href="https://www.w3schools.com/jsref/dom_obj_event.asp">
+ *   W3Schools
+ *   </a> for further details.
+ * 
+ * @event TK.Widget##GenericDOMEvents
+ */
