@@ -236,7 +236,8 @@ function draw_title() {
  *
  * @param {Object} [options={ }] - An object containing initial options.
  * 
- * @property {String} [options.title=""] - A title for the Chart.
+ * @property {String|Boolean} [options.title=""] - A title for the Chart.
+ *   Set to `false` to hide the title.
  * @property {String} [options.title_position="top-right"] - Position of the
  *   title inside of the chart. Possible values are
  *   <code>"top-left"</code>, <code>"top"</code>, <code>"top-right"</code>,
@@ -250,14 +251,14 @@ function draw_title() {
  *   <code>"bottom-left"</code> and <code>"bottom-right"</code>.
  * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored
  *   rectangles inside of the key describing individual graphs.
- * @property {Boolean} [options.show_grid=true] - Set to <code>false</code> to
- *   disable the grid.
  * @property {Array<Object>} [options.grid_x=[]] - An array containing
  *   objects with the following optional members to draw the grid:
  *   <code>{pos:x[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
  * @property {Array<Object>} [options.grid_y=[]] - An array containing
  *   objects with the following optional members to draw the grid:
  *   <code>{pos:y[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
+ * @property {Boolean} [options.show_grid=true] - Set to <code>false</code> to
+ *   hide the grid.
  * @property {Function|Object} [options.range_x={}] - Either a function
  *   returning a {@link TK.Range} or an object containing options for a
  *   new {@link TK.Range}.
@@ -273,7 +274,7 @@ function draw_title() {
  *   square pixels on hit testing handles to gain importance.
  * @property {Number} [options.importance_border=50] - Multiplicator of
  *   square pixels on hit testing borders to gain importance.
- * @property {Array} [options.handles=[]] - An array of options for
+ * @property {Array<Object>} [options.handles=[]] - An array of options for
  *   creating {@link TK.ResponseHandle} on init.
  * @property {Boolean} [options.show_handles=true] - Show or hide all
  *   handles.
