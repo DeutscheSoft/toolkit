@@ -22,22 +22,25 @@
 
 TK.Button = TK.class({
     /**
-     * TK.Button is a simple, clickable widget to trigger funcions. It fires a
-     * couple of click-related events and consists of a {@link TK.Label} and a {@link TK.Icon}.
-     * Buttons are used as a base to build different other widgets from, too,
-     * e.g. {@link TK.Toggle}, {@link TK.ConfirmButton} and {@link TK.Select}.
+     * TK.Button is a simple, clickable widget containing an
+     * {@link TK.Icon} and a {@link TK.Label} to trigger functions.
+     * Button serves as base for other widgets, too, e.g.
+     * {@link TK.Toggle}, {@link TK.ConfirmButton} and {@link TK.Select}.
      * 
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @property {String|Boolean} [options.label=false] - Text for the button label.
-     *   If <code>false</code>, the label is removed from DOM.
-     * @property {String|Boolean} [options.icon=false] - URL to an icon for the button OR
-     *   icon class (see styles/fonts/Toolkit.html). If <code>false</code>, the icon
-     *   is removed from DOM.
-     * @property {Boolean} [options.state=false] - State of the button, is reflected as class <code>toolkit-active</code>.
-     * @property {Integer} [options.layout="vertical"] - Define the arrangement
-     *   of label and icon. <code>vertical</code> means icon above the label,
-     *   <code>horizontal</code> places the icon left to the label.
+     * @property {String|Boolean} [options.label=false] - Text for the
+     *   button label. Set to <code>false</code> to remove the label
+     *   from DOM.
+     * @property {String|Boolean} [options.icon=false] - URL to an image
+     *   file or an icon class (see styles/fonts/Toolkit.html). If set
+     *   to <code>false</code>, the icon is removed from DOM.
+     * @property {Boolean} [options.state=false] - State of the button,
+     *   reflected as class <code>toolkit-active</code>.
+     * @property {String} [options.layout="horizontal"] - Define the
+     *   arrangement of label and icon. <code>vertical</code> means icon
+     *   above the label, <code>horizontal</code> places the icon left
+     *   to the label.
      * 
      * @extends TK.Widget
      * 
@@ -55,7 +58,7 @@ TK.Button = TK.class({
         label:            false,
         icon:            false,
         state:            false,
-        layout:           "vertical"
+        layout:           "horizontal"
     },
     initialize: function (options) {
         var E;
