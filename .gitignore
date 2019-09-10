@@ -10,3 +10,4 @@ doc/toolkit
 *toolkit.min.css
 *toolkit.all.css
 export/
+node_modules/
