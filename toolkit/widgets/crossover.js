@@ -139,6 +139,12 @@ TK.CrossoverBand = TK.class({
     /**
      * TK.CrossoverBand is a {@link TK.EqBand} with an additional filter.
      * 
+     * @param {Object} [options={ }] - An object containing additional options.
+     * 
+     * @property {String} [lower="lowpass3"] - The type of filter for the range below cutoff frequency.
+     * @property {String} [upper="highpass3"] - The type of filter for the range above cutoff frequency.
+     * @property {Function} [label=function (t, x, y, z) { return TK.sprintf("%.2f Hz", x); }] - The function formatting the handles label.
+     * 
      * @class TK.CrossoverBand
      * 
      * @extends TK.EqBand
@@ -153,8 +159,8 @@ TK.CrossoverBand = TK.class({
         lower: "lowpass3",
         upper: "highpass3",
         label: function (t, x, y, z) { return TK.sprintf("%.2f Hz", x); },
-        mode: "line-vertical",
-        preferences: [ "top-right", "right", "bottom-right", "top-left", "left", "bottom-left"],
+        mode: "line-vertical", // undocumented, just a default differing from TK.ResponseHanlde
+        preferences: [ "top-right", "right", "bottom-right", "top-left", "left", "bottom-left"], // undocumented, just a default differing from TK.ResponseHanlde
     },
     initialize: function (options) {
         /**
