@@ -47,25 +47,11 @@ function startdrag(e, drag) {
         this._ypos = O.node.offsetTop;
     }
     TK.add_class(O.node, "toolkit-dragging");
-    /** 
-     * The user started dragging this item.
-     * 
-     * @event TK.Drag#dragstart
-     * 
-     * @param {DOMEvent} event - The native DOM event.
-     */
 }
 function stopdrag(e, drag) {
     if (!this.options.active) return;
     if (e.button !== void(0) && e.button > 0) return;
     TK.remove_class(this.options.node, "toolkit-dragging");
-    /**
-     * The user stopped dragging this item.
-     * 
-     * @event TK.Drag#dragstop
-     * 
-     * @param {DOMEvent} event - The native DOM event.
-     */
 }
 function dragging(e, drag) {
     var O = this.options;
@@ -93,13 +79,6 @@ function dragging(e, drag) {
         O.node.style.top = y + "px";
         O.node.style.left = x + "px";
     }
-    /**
-     * The user is dragging this item.
-     *
-     * @event TK.Drag#dragging
-     * 
-     * @param {DOMEvent} event - The native DOM event.
-     */
 }
 function set_handle() {
     var h = this.options.handle;
@@ -114,8 +93,7 @@ function set_handle() {
     });
 }
 /**
- * TK.Drag enables dragging of absolutely positioned
- * elements on the screen.
+ * TK.Drag enables dragging of elements on the screen positioned absolutely or by CSS transformation.
  * 
  * @param {Object} [options={ }] - An object containing initial options.
  * 
@@ -152,6 +130,27 @@ TK.Drag = TK.class({
         initial   : 2,
         transform : false,
     },
+    /**
+     * The user is dragging this item.
+     *
+     * @event TK.Drag#dragging
+     * 
+     * @param {DOMEvent} event - The native DOM event.
+     */
+    /** 
+     * The user started dragging this item.
+     * 
+     * @event TK.Drag#startdrag
+     * 
+     * @param {DOMEvent} event - The native DOM event.
+     */
+    /**
+     * The user stopped dragging this item.
+     * 
+     * @event TK.Drag#stopdrag
+     * 
+     * @param {DOMEvent} event - The native DOM event.
+     */
     static_events: {
         startdrag: startdrag,
         dragging: dragging,

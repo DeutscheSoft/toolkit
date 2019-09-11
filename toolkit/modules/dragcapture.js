@@ -56,7 +56,7 @@ function startcapture(state) {
     /**
      * Capturing started.
      * 
-     * @event TK.Drag#startcapture
+     * @event TK.DragCapture#startcapture
      * 
      * @param {object} state - An internal state object.
      * @param {DOMEvent} start - The event object of the initial event.
@@ -78,7 +78,7 @@ function movecapture(ev) {
     /**
      * A movement was captured.
      * 
-     * @event TK.Drag#movecapture
+     * @event TK.DragCapture#movecapture
      * 
      * @param {DOMEvent} event - The event object of the current move event.
      */
@@ -95,7 +95,7 @@ function stopcapture(ev) {
     /**
      * Capturing stopped..
      * 
-     * @event TK.Drag#stopcapture
+     * @event TK.DragCapture#stopcapture
      * 
      * @param {object} state - An internal state object.
      * @param {DOMEvent} event - The event object of the current event.
