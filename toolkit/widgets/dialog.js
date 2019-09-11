@@ -179,7 +179,7 @@ TK.Dialog = TK.class({
         }
     },
     /**
-     * Open the dialog. Optionally set x and y position regarding the `anchor`.
+     * Open the dialog. Optionally set x and y position regarding `anchor`.
      *
      * @method TK.Dialog#open
      * 
@@ -196,7 +196,7 @@ TK.Dialog = TK.class({
             this.set("y", y);
     },
     /**
-     * Close the dialog. The DOM node is removed from DOM if `auto_remove` is set to `true`.
+     * Close the dialog. The node is removed from DOM if `auto_remove` is set to `true`.
      *
      * @method TK.Dialog#close
      */
