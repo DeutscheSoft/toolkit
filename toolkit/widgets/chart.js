@@ -398,7 +398,11 @@ TK.Chart = TK.class({
         if (this.options.width) this.set("width", this.options.width);
         if (this.options.height) this.set("height", this.options.height);
         
-        this._handles = TK.make_svg("g", {"class": "toolkit-response-handles toolkit-handles"});
+        /** 
+         * @member {SVGGroup} TK.Chart#_handles - The SVG group containing all handles.
+         *      Has class <code>toolkit-handles</code>.
+         */
+        this._handles = TK.make_svg("g", {"class": "toolkit-handles"});
         this.svg.appendChild(this._handles);
         this.svg.onselectstart = function () { return false; };
         this.add_handles(this.options.handles);

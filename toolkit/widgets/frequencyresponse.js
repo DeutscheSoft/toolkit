@@ -125,6 +125,12 @@ TK.FrequencyResponse = TK.class({
          *   Has class <code>toolkit-frequency-response</code>.
          */
         TK.add_class(this.element, "toolkit-frequency-response");
+        /** 
+         * @member {SVGGroup} TK.Chart#_handles - The SVG group containing all handles.
+         *      Has class <code>toolkit-response-handles</code>.
+         */
+        TK.add_class(this._handles, "toolkit-response-handles");
+        
         // do not overwrite custom grids, please
         if (this.options.db_grid && !this.options.grid_y.length)
             this.set("db_grid", this.options.db_grid);

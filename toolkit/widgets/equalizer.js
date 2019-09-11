@@ -167,11 +167,12 @@ TK.Equalizer = TK.class({
     },
     
     initialize: function (options) {
+        TK.ResponseHandler.prototype.initialize.call(this, options);
         /**
          * @member {Array} TK.Equalizer#bands - Array of {@link TK.EqBand} instances.
          */
-        this.bands = [];
-        TK.ResponseHandler.prototype.initialize.call(this, options);
+        this.bands = this.handles;
+        
         /**
          * @member {HTMLDivElement} TK.Equalizer#element - The main DIV container.
          *   Has class <code>toolkit-equalizer</code>.
@@ -182,8 +183,8 @@ TK.Equalizer = TK.class({
          * @member {SVGGroup} TK.Equalizer#_bands - The SVG group containing all the bands SVG elements.
          *   Has class <code>toolkit-eqbands</code>.
          */
-        this._bands = TK.make_svg("g", {"class": "toolkit-eqbands"});
-        this.svg.appendChild(this._bands);
+        this._bands = this._handles;
+        TK.add_class(this._bands, "toolkit-eqbands");
         
         /**
          * @member {TK.Graph} TK.Equalizer#baseline - The graph drawing the zero line.
