@@ -93,7 +93,7 @@ function stopcapture(ev) {
     if (s === null) return;
     
     /**
-     * Capturing stopped..
+     * Capturing stopped.
      * 
      * @event TK.DragCapture#stopcapture
      * 
@@ -306,7 +306,7 @@ TK.DragCapture = TK.class({
      * @param {Object} widget - The parent widget making use of DragValue.
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @param {HTMLElement} [options.node] - The DOM element receiving the drag events. If not set the widgets element is used.
+     * @property {HTMLElement} [options.node] - The DOM element receiving the drag events. If not set the widgets element is used.
      * 
      * @class TK.DragCapture
      */
