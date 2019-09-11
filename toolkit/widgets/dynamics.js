@@ -50,7 +50,7 @@ TK.Dynamics = TK.class({
     _class: "Dynamics",
     Extends: TK.Chart,
     _options: Object.assign(Object.create(TK.Chart.prototype._options), {
-        size: "number",
+        size: "number", // deprecated, undocumented. Is set via CSS.
         min:  "number",
         max:  "number",
         scale: "string",
@@ -69,10 +69,7 @@ TK.Dynamics = TK.class({
         min:     -96,
         max:     24,
         scale:   "linear",
-        type:    false,          // type of dynamics display. can be
-                                 // "compressor", "limiter",
-                                 // "gate", "expander"
-                                 // or false to draw your own curve
+        type:    false, 
         threshold: 0,
         ratio:     1,
         makeup:    0,
@@ -83,7 +80,7 @@ TK.Dynamics = TK.class({
     },
     static_events: {
         set_size: function(value) {
-            TK.error("using deprecated 'size' option");
+            TK.warn("using deprecated 'size' option");
             this.set("width", value);
             this.set("height", value);
         },
@@ -213,7 +210,7 @@ TK.Dynamics = TK.class({
         {
           s = (1 / (Math.max(ratio, 1.001) - 1)) * ratio * ref;
         }
-        var l = 5; // estimated with of line. dirty workaround for
+        var l = 5; // estimated width of line. dirty workaround for
                    // keeping the line end out of sight in case
                    // salient point is outside the visible are
         switch (O.type) {
