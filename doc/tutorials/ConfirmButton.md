@@ -8,9 +8,4 @@
         });
         root.append_child(confirm);
     }
-<pre class='css prettyprint source'><code>
-.toolkit-button {
-    width: 180px;
-}
-</code></pre>
 <script> prepare_example(); </script>
