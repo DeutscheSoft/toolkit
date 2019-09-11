@@ -101,11 +101,12 @@ var clicked = function (e) {
   
 TK.ConfirmButton = TK.class({
   /**
-   * ConfirmButton needs to clicks/taps until the <code>confirmed</code>
-   * event is fired. After the first click/tap dedicated label and icon
-   * can be displayed and the button gets the class <code>toolkit-active</code>.
-   * After the first click a timeout set via <code>timeout</code> the
-   * button resets to its default settings if no second click/tap happens.
+   * ConfirmButton is a {@link TK.Button} firing the `confirmed` event
+   * after it was hit a second time. While waiting for the confirmation, a
+   * dedicated label and icon can be displayed. The button is reset to
+   * default if no second click appears. A click outside of the button
+   * resets it, too. It gets class `toolkit-active` while waiting for
+   * the confirmation.
    *
    * @class TK.ConfirmButton
    * 
