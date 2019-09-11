@@ -115,9 +115,9 @@ TK.ConfirmButton = TK.class({
    * 
    * @property {Boolean} [options.confirm=true] - Defines if the button acts as <code>ConfirmButton</code> or normal <code>Button</code>.
    * @property {Number} [options.timeout=2000] - Defines a time in milliseconds after the button resets to defaults if no second click happens.
-   * @property {Number} [options.interrupt=0] - This is the minimum time in milliseconds between two clicks to fire the <code>confirmed</code> event.
+   * @property {Number} [options.interrupt=0] - Defines a duration in milliseconds within further clicks are ignored. Set to avoid double-clicks being recognized as confirmation.
    * @property {String} [options.label_confirm] - The label to be used while in active state.
-   * @property {String} [options.label_confirm] - The icon to be used while in active state.
+   * @property {String} [options.icon_confirm] - The icon to be used while in active state.
    */
   _class: "ConfirmButton",
   Extends: TK.Button,
@@ -125,7 +125,7 @@ TK.ConfirmButton = TK.class({
   _options: Object.assign(Object.create(TK.Button.prototype._options), {
     confirm: "boolean",
     timeout: "number",
-    interupt: "number",
+    interrupt: "number",
     label_confirm : "string",
     icon_confirm: "string",
   }),
