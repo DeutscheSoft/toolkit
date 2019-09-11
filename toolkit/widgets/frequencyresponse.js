@@ -42,8 +42,8 @@ function calculate_grid(range, step) {
 }
 TK.FrequencyResponse = TK.class({
     /**
-     * TK.FrequencyResponse is a TK.Chart drawing frequencies on the x axis and dB
-     * values on the y axis. This widget automatically draws a TK.Grid depending
+     * TK.FrequencyResponse is a {@link TK.Chart} drawing frequencies on the x axis and dB
+     * values on the y axis. This widget automatically draws a {@link TK.Grid} depending
      * on the ranges.
      *
      * @class TK.FrequencyResponse

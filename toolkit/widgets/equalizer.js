@@ -122,8 +122,8 @@ function hide_bands() {
 }
 TK.Equalizer = TK.class({
     /**
-     * TK.Equalizer is a TK.ResponseHandler, utilizing EqBands instead of
-     * simple ResponseHandles.
+     * TK.Equalizer is a {@link TK.ResponseHandler}, utilizing {@link TK.EqBand}s instead of
+     * simple {@link TK.ResponseHandle}s.
      *
      * @property {Object} options
      * 

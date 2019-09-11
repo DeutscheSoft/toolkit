@@ -24,8 +24,8 @@ function range_set(value, key) {
 }
 TK.Dynamics = TK.class({
     /**
-     * TK.Dynamics are based on Charts and display the characteristics of dynamic
-     * processors. They are square widgets drawing a TK.Grid automatically based on
+     * TK.Dynamics are based on {@link Chart} and display the characteristics of dynamic
+     * processors. They are square widgets drawing a {@link TK.Grid} automatically based on
      * the range.
      *
      * @class TK.Dynamics
