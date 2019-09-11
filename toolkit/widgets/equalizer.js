@@ -122,16 +122,17 @@ function hide_bands() {
 }
 TK.Equalizer = TK.class({
     /**
-     * TK.Equalizer is a TK.ResponseHandler adding some EqBands instead of
+     * TK.Equalizer is a TK.ResponseHandler, utilizing EqBands instead of
      * simple ResponseHandles.
      *
      * @property {Object} options
      * 
-     * @param {Number} [options.accuracy=1] - The distance between points on the x axis.
+     * @param {Number} [options.accuracy=1] - The distance between points on
+     *   the x axis. Reduces CPU load in favour of accuracy and smoothness.
      * @param {Array} [options.bands=[]] - A list of bands to add on init.
      * @param {Boolean} [options.show_bands=true] - Show or hide all bands.
      * @param {Number} [options.oversampling=5] - If slope of the curve is too
-     *   steep, oversample n times in order to not miss a notch filter.
+     *   steep, oversample n times in order to not miss e.g. notch filters.
      * @param {Number} [options.threshold=5] - Steepness of slope to oversample,
      *   i.e. y pixels difference per x pixel
      * @class TK.Equalizer
@@ -238,7 +239,7 @@ TK.Equalizer = TK.class({
      * 
      * @method TK.Equalizer#add_band
      * 
-     * @param {Object} [options={ }] - An object containing initial options. - The options for the {@link TK.EqBand}.
+     * @param {Object} [options={ }] - An object containing initial options for the {@link TK.EqBand}.
      * @param {Object} [type=TK.EqBand] - A widget class to be used for the new band.
      * 
      * @emits TK.Equalizer#bandadded
@@ -277,7 +278,7 @@ TK.Equalizer = TK.class({
         return b;
     },
     /*
-     * Add multiple new {@link TK.EqBand} to the equalizer. Options is an array
+     * Add multiple new {@link TK.EqBand}s to the equalizer. Options is an array
      * of objects containing options for the new instances of {@link TK.EqBand}
      * 
      * @method TK.Equalizer#add_bands
