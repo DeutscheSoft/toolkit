@@ -67,15 +67,16 @@ function disable_draw_children() {
 }
 TK.Container = TK.class({
     /**
-     * TK.Container represents a <code>&lt;DIV></code> element.
+     * TK.Container represents a <code>&lt;DIV></code> element contining various
+     *   other widgets or DOMNodes.
      *
-     * Container have four different display states: <code>show</code>, <code>hide</code>,
+     * Containers have four different display states: <code>show</code>, <code>hide</code>,
      * <code>showing</code> and <code>hiding</code>. Each of these states has a corresponding
      * CSS class called <code>toolkit-show</code>, <code>toolkit-hide</code>, <code>toolkit-showing</code>
      * and <code>toolkit-hiding</code>, respectively. The display state can be controlled using
      * the methods {@link TK.Container#show}, {@link TK.Container#hide} and {@link TK.Widget#toggle_hidden}.
      *
-     * A container can keep track of the display states of its children.
+     * A container can keep track of the display states of its child widgets.
      * The display state of a child can be changed using {@link TK.Container#hide_child},
      * {@link TK.Container#show_child} and {@link TK.Container#toggle_child}.
      *
@@ -86,7 +87,7 @@ TK.Container = TK.class({
      * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String|HTMLElement} [options.content] - The content of the container. It can either be
-     *   a string which is interpreted as Text or a DOM node. Note that this options will remove all
+     *   a string which is interpreted as Text or a DOM node. Note that this option will remove all
      *   child nodes from the container element including those added via append_child.
      * @property {Number} [options.hiding_duration] - The duration in ms of the hiding CSS
      *   transition/animation of this container. If this option is not set, the transition duration
@@ -101,10 +102,10 @@ TK.Container = TK.class({
     _class: "Container",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
-        content: "string",
+        content: "string|DOMNode",
         display_state: "string",
-        hiding_duration: "int",
-        showing_duration: "int",
+        hiding_duration: "number",
+        showing_duration: "number",
         children: "array",
     }),
     options: {
@@ -402,8 +403,8 @@ TK.Container = TK.class({
         if (I.content) {
             I.content = false;
             TK.empty(E);
-
-            if (O.content) TK.set_content(E, O.content);
+            if (typeof O.content === "string") TK.set_content(E, O.content);
+            else E.appendChild(O.content);
         }
     },
 });
