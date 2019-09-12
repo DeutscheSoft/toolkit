@@ -113,9 +113,11 @@ function subtract_intervals(a, b) {
 }
 TK.MeterBase = TK.class({
     /**
-     * TK.MeterBase is a base class to build different meters such as TK.LevelMeter.
-     * TK.MeterBase uses TK.Gradient and has a TK.Scale widget. TK.MeterBase inherits all
-     * options from TK.Scale. Note that the two options <code>format_labels</code> and
+     * TK.MeterBase is a base class to build different meters such as {@link TK.LevelMeter} from.
+     * TK.MeterBase uses {@link TK.Gradient} and contains a {@link TK.Scale} widget.
+     * TK.MeterBase inherits all options from TK.Scale.
+     * 
+     * Note that the two options <code>format_labels</code> and
      * <code>scale_base</code> have different names here.
      *
      * Note that level meters with high update frequencies can be very demanding when it comes
@@ -143,10 +145,10 @@ TK.MeterBase = TK.class({
      *   the base will coincide with the minimum value <code>options.min</code>. The meter level is drawn
      *   starting from the base to the value.
      * @property {Number} [options.label=false] - Value of the label position. 
-     * @property {Number} [options.title=false] - The title.
+     * @property {Number} [options.title=false] - The title of the TK.MeterBase. Set to `false` to hide it.
      * @property {Boolean} [options.show_title=false] - If set to <code>true</code> a title is displayed.
      * @property {Boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
-     * @property {Boolean} [options.show_scale=true] - If set to <code>true</code> the scale is displayed.
+     * @property {Boolean} [options.show_scale=true] - Set to <code>false</code> to hide the scale.
      * @property {Function} [options.format_label=TK.FORMAT("%.2f")] - Function for formatting the 
      *   label.
      * @property {Number} [options.scale_base=false] - Base of the meter scale, see {@link TK.Scale}.
@@ -269,7 +271,7 @@ TK.MeterBase = TK.class({
         TK.add_class(E, "toolkit-meter-base");
         this.widgetize(E, false, true, true);
         
-        this._bar    = TK.element("div", "toolkit-bar");
+        this._bar = TK.element("div", "toolkit-bar");
         /**
          * @member {HTMLCanvas} TK.MeterBase#_canvas - The canvas element drawing the mask.
          *   Has class <code>toolkit-mask</code>.
@@ -480,7 +482,7 @@ TK.MeterBase = TK.class({
     
 });
 /**
- * @member {TK.Scale} TK.MeterBase#scale - The {@link TK.Scale} module of the meter.
+ * @member {TK.Scale} TK.MeterBase#scale - The {@link TK.Scale} of the meter.
  */
 TK.ChildWidget(TK.MeterBase, "scale", {
     create: TK.Scale,
@@ -500,7 +502,7 @@ TK.ChildWidget(TK.MeterBase, "scale", {
     },
 });
 /**
- * @member {TK.Label} TK.MeterBase#title - The DIV element displaying the title.
+ * @member {TK.Label} TK.MeterBase#title - The {@link TK.Label} displaying the title.
  *   Has class <code>toolkit-title</code>.
  */
 TK.ChildWidget(TK.MeterBase, "title", {
@@ -512,7 +514,7 @@ TK.ChildWidget(TK.MeterBase, "title", {
     toggle_class: true,
 });
 /**
- * @member {TK.Label} TK.MeterBase#label - The DIV element of the label.
+ * @member {TK.Label} TK.MeterBase#label - The {@link TK.Label} displaying the label.
  */
 TK.ChildWidget(TK.MeterBase, "label", {
     create: TK.Label,
