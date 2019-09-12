@@ -291,7 +291,11 @@ TK.Clock = TK.class({
             angle: 360,
             min: 0
         };
-
+        
+        /**
+         * @member {Object} TK.Clock#circulars - An object containing the {@link TK.Circular}
+         * widgets. Members are `seconds`, `minutes` and `hours`.
+         */
         this.circulars.seconds = new TK.Circular(Object.assign({}, circ_options,
             {max: 60, "class": "toolkit-seconds"}));
         this.circulars.minutes = new TK.Circular(Object.assign({}, circ_options,
