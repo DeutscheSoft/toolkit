@@ -34,7 +34,8 @@ function apply (color) {
 /**
  * A {@link TK.Dialog} window containing a {@link TK.ColorPicker}. It can be opened
  * programatically and closes automatically on the appropriate user
- * interactions like hitting ESC or clicking `apply`.
+ * interactions like hitting ESC or clicking `apply`. TK.ColorPickerDialog
+ * inherits all options of TK.ColorPicker.
  * 
  * @class TK.ColorPickerDialog
  * 
