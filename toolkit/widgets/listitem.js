@@ -24,7 +24,7 @@ TK.ListItem = TK.class({
      * TK.ListItem is a member {@link TK.Container} of {@TK.List}s. The
      * element is a LI instead of a DIV.
      * 
-     * @class TK.List
+     * @class TK.ListItem
      * 
      * @extends TK.Container
      */
