@@ -45,11 +45,12 @@ function module_range() {
     return this.parent.circular;
 }
 /**
- * TK.Knob is a {@link TK.Circular} inside of an SVG and which can be
- * modified both by dragging and scrolling.
- * TK.Knob uses {@link TK.DragValue} and {@link TK.ScrollValue}
- * for setting its value.
+ * TK.Knob is a {@link TK.Circular} inside of an SVG which can be
+ * modified both by dragging and scrolling utilizing {@link TK.DragValue}
+ * and {@link TK.ScrollValue}.
  * It inherits all options of {@link TK.Circular} and {@link TK.DragValue}.
+ * The options listed below consist of options from the contained widgets,
+ * only showing the default values.
  *
  * @class TK.Knob
  * 
@@ -66,14 +67,6 @@ function module_range() {
  * @property {Object} [options.dot={length: 6, margin: 13, width: 2}]
  * @property {Object} [options.marker={thickness: 6, margin: 13}]
  * @property {Object} [options.label={margin: 10, align: "outer", format: function(val){return val;}}]
- * @property {Number} [options.bar_direction="horizontal"] - Direction of the bar, either <code>horizontal</code> or <code>vertical<code>.
- * @property {String} [options.direction="polar"] - Direction for changing the value.
- *   Can be "polar", "vertical" or "horizontal".
- * @property {Number} [options.blind_angle=20] - If options.direction is "polar",
- *   this is the angle of separation between positive and negative value changes
- * @property {Number} [options.rotation=45] - Defines the angle of the center of the positive value
- *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
- *   moving towards top and right.
  * @property {Number} [options.basis=300] - Distance to drag between <code>min</code> and <code>max</code>.
 
  */
@@ -83,18 +76,6 @@ TK.Knob = TK.class({
     _options: Object.assign(Object.create(TK.Widget.prototype._options), TK.Circular.prototype._options,
                             TK.DragValue.prototype._options, {
         size: "number",
-        hand: "object",
-        margin: "number",
-        thickness: "number",
-        step: "number",
-        shift_up: "number",
-        shift_down: "number",
-        dot: "object",
-        marker: "object",
-        label: "object",
-        direction: "int",
-        rotation: "number",
-        blind_angle: "number",
         reset: "number",
     }),
     options: Object.assign({}, TK.Circular.prototype.options, {
