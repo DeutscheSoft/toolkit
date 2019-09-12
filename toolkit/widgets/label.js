@@ -29,17 +29,17 @@ TK.Label = TK.class({
      * @property {Object} options
      * 
      * @param {String} [options.label=""] - The text of the label.
-     * @param {Function|null} [options.format=null] - Optional format function.
+     * @param {Function|Boolean} [options.format=false] - Optional format function.
      */
     _class: "Label",
     Extends: TK.Widget,
     _options: Object.assign(Object.create(TK.Widget.prototype._options), {
         label: "string",
-        format: "function|object"
+        format: "function|boolean"
     }),
     options: {
         label: "",
-        format: null
+        format: false,
     },
     initialize: function (options) {
         var E;
