@@ -237,7 +237,7 @@ function draw_title() {
  * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {String|Boolean} [options.title=""] - A title for the Chart.
- *   Set to `false` to hide the title.
+ *   Set to `false` to remove the title from the DOM.
  * @property {String} [options.title_position="top-right"] - Position of the
  *   title inside of the chart. Possible values are
  *   <code>"top-left"</code>, <code>"top"</code>, <code>"top-right"</code>,
@@ -248,7 +248,8 @@ function draw_title() {
  *   a key is rendered into the chart at the given position. The key
  *   will detail names and colors of the graphs inside of this chart.
  *   Possible values are <code>"top-left"</code>, <code>"top-right"</code>,
- *   <code>"bottom-left"</code> and <code>"bottom-right"</code>.
+ *   <code>"bottom-left"</code> and <code>"bottom-right"</code>. Set to `false`
+ *   to remove the key from the DOM.
  * @property {Object} [options.key_size={x:20,y:10}] - Size of the colored
  *   rectangles inside of the key describing individual graphs.
  * @property {Array<Object>} [options.grid_x=[]] - An array containing
@@ -745,6 +746,10 @@ TK.Chart = TK.class({
         return {intersect: a, count: c};
     },
 });
+/**
+ * @member {TK.Grid} TK.Chart#grid - The grid element of the chart.
+ *   Has class <code>toolkit-grid</code>.
+ */
 TK.ChildWidget(TK.Chart, "grid", {
     create: TK.Grid,
     show: true,
