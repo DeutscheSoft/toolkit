@@ -121,11 +121,9 @@ function deactivate_tooltip() {
     this.scroll.remove_event("scrolling", this.__scrolling);
 }
 /**
- * TK.Fader is a fader widget. It is implemented as a slidable control which
+ * TK.Fader is a slidable control with a {@link TK.Scale} next to it which
  * can be both dragged and scrolled. TK.Fader implements {@link TK.Ranged},
- * {@link TK.Warning} and {@link TL.GlobalCursor} and inherits its options.
- * Additionally it contains an instance of {@link TK.Scale} whose options
- * it inherits, aswell.
+ * {@link TK.Warning} and {@link TK.GlobalCursor} and inherits their options.
  *
  * @class TK.Fader
  * 
@@ -136,7 +134,7 @@ function deactivate_tooltip() {
  * @property {Number} [options.value] - The fader position. This options is
  *   modified by user interaction.
  * @property {Function} [options.tooltip=false] - An optional formatting function for
- *   the tooltip value. The tooltip will show that value the mouse cursor is
+ *   the tooltip value. The tooltip will show the value the mouse cursor is
  *   currently hovering over. If this option is not set, no tooltip will be shown.
  * @property {Boolean} [options.bind_click=false] - If true, a <code>click</code>
  *   on the fader will move the handle to the pointed position.
@@ -144,7 +142,9 @@ function deactivate_tooltip() {
  *   on the fader will reset the fader value to <code>options.reset</code>.
  * @property {Number} [options.reset=options.value] - The reset value, which is used by
  *   the <code>dblclick</code> event and the {@link TK.Fader#reset} method.
- * @property {Boolean} [options.show_scale=true] - If true, a scale is drawn.
+ * @property {Boolean} [options.show_scale=true] - If true, a {@link TK.Scale} is added to the fader.
+ * @property {Boolean} [options.show_value=false] - If true, a {@link TK.Value} widget is added to the fader.
+ * @property {String|Boolean} [options.label=false] - Add a label to the fader. Set to `false` to remove the label from the DOM.
  */
 TK.Fader = TK.class({
     _class: "Fader",
@@ -178,6 +178,7 @@ TK.Fader = TK.class({
         layout: "left",
         bind_click: false,
         bind_dblclick: true,
+        label: false,
     },
     static_events: {
         set_bind_click: function(value) {
@@ -355,8 +356,7 @@ TK.Fader = TK.class({
     }
 });
 /**
- * @member {TK.Scale} TK.Fader#scale - If <code>option.show_scale</code> is true,
- *   <code>scale</code> will be the corresponding instance of {@link TK.Scale}.
+ * @member {TK.Scale} TK.Fader#scale - A {@link TK.Scale} to display a scale next to the fader.
  */
 TK.ChildWidget(TK.Fader, "scale", {
     create: TK.Scale,
@@ -379,8 +379,7 @@ TK.ChildWidget(TK.Fader, "scale", {
     },
 });
 /**
- * @member {TK.Label} TK.Fader#label - If <code>option.show_label</code> is true,
- *   <code>label</code> will be the corresponding instance of {@link TK.Scale}.
+ * @member {TK.Label} TK.Fader#label - A {@link TK.label} to display a title.
  */
 TK.ChildWidget(TK.Fader, "label", {
     create: TK.Label,
@@ -391,6 +390,9 @@ TK.ChildWidget(TK.Fader, "label", {
         label: "label",
     },
 });
+/**
+ * @member {TK.Label} TK.Fader#value - A {@link TK.Value} to display the current value, offering a way to enter a value via keyboard.
+ */
 TK.ChildWidget(TK.Fader, "value", {
     create: TK.Value,
     show: false,
