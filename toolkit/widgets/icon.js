@@ -23,7 +23,7 @@
 TK.Icon = TK.class({
     /**
      * TK.Icon represents a <code>&lt;DIV></code> element showing either
-     * icons from the toolkit font or dedicated image files.
+     * icons from the toolkit font or dedicated image files as CSS background.
      *
      * @class TK.Icon
      * 
@@ -32,7 +32,7 @@ TK.Icon = TK.class({
      * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {String} [options.icon] - The icon to show. It can either be
-     *   a string which is interpreted as class name (if <code>[A-Za-z0-9_\-]</code>) or URI.
+     *   a string which is interpreted as class name (if <code>[A-Za-z0-9_\-]</code>) or as URI.
      */
     _class: "Icon",
     Extends: TK.Widget,
@@ -46,7 +46,7 @@ TK.Icon = TK.class({
         var E;
         TK.Widget.prototype.initialize.call(this, options);
         /** 
-         * @member {HTMLDivElement} TK.Container#element - The main DIV element. Has class <code>toolkit-container</code> 
+         * @member {HTMLDivElement} TK.Icon#element - The main DIV element. Has class <code>toolkit-icon</code> 
          */
         if (!(E = this.element)) this.element = E = TK.element("div");
         TK.add_class(E, "toolkit-icon"); 
