@@ -20,6 +20,22 @@
 (function (w, TK) {
 
 TK.List = TK.class({
+    /**
+     * TK.List is a sortable {@link TK.Container} for {@TK.ListItems}s.
+     *   the element is a UL instead of a DIV.
+     * 
+     * @param {Object} [options={ }] - An object containing initial options.
+     * 
+     * @property {Function|Boolean} [options.sort=false] - A function
+     *   expecting arguments A and B, returning a number <0, if A comes first and >0,
+     *   if B comes first. 0 keeps both elements in place. Please refer to the
+     *   compareFunction at <a href="https://www.w3schools.com/jsref/jsref_sort.asp">W3Schools</a>
+     *   for any further information.
+     * 
+     * @class TK.List
+     * 
+     * @extends TK.Container
+     */
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
       sort: "function",
     }),
