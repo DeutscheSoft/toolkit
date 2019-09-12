@@ -76,10 +76,11 @@ function bottom_timeout() {
     
 TK.LevelMeter = TK.class({
     /**
-     * TK.LevelMeter is a fully functional display of numerical values. They are
-     * enhanced {@link TK.MeterBase}'s containing a clip LED, a peak pin with value label
-     * and hold markers. In addition, LevelMeter has an optional falling animation,
-     * top and bottom peak values and more.
+     * TK.LevelMeter is a fully functional meter bar displaying numerical values.
+     * TK.LevelMeter is an enhanced {@link TK.MeterBase}'s containing a clip LED,
+     * a peak pin with value label and hold markers.
+     * In addition, LevelMeter has an optional falling animation, top and bottom peak
+     * values and more.
      *
      * @class TK.LevelMeter
      * 
