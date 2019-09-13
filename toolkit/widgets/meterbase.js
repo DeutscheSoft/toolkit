@@ -170,7 +170,7 @@ TK.MeterBase = TK.class({
         base: "number|boolean",
         min: "number",
         max: "number",
-        label: "string|boolean",
+        label: "number",
         title: "string|boolean",
         show_labels: "boolean",
         format_label: "function",
@@ -184,7 +184,7 @@ TK.MeterBase = TK.class({
         segment:         1,
         value:           0,
         base:            false,
-        label:           false,
+        label:           0,
         title:           false,
         show_labels:     true,
         format_label:    TK.FORMAT("%.2f"),
@@ -311,6 +311,7 @@ TK.MeterBase = TK.class({
             TK.S.add(function() {
                 this._fillstyle = TK.get_style(this._canvas, "background-color");
                 TK.S.add(function() {
+                    this._canvas.getContext("2d").fillStyle = this._fillstyle;
                     this._canvas.style.setProperty("background-color", "transparent", "important");
                     this.trigger_draw();
                 }.bind(this), 3);
@@ -365,6 +366,11 @@ TK.MeterBase = TK.class({
             /* FIXME: I am not sure why this is even necessary */
             this._canvas.style.width = O._width + "px";
             this._canvas.style.height = O._height + "px";
+            this._canvas.getContext("2d").fillStyle = this._fillstyle;
+        }
+        
+        if (I.value && O.show_label) {
+            this.label.set("label", O.format_label(O.value));
         }
         
         if (I.value || I.basis || I.min || I.max) {
