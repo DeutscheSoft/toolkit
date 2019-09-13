@@ -87,8 +87,8 @@ TK.ButtonArray = TK.class({
      * @property {String} [options.direction="horizontal"] - The layout
      *   of the button list, either "horizontal" or "vertical".
      * @property {Integer|TK.Button} [options.show=-1] - The {@link TK.Button}
-     *   to scroll to and highlight, either the button index starting
-     *   from zero or the button object itself.
+     *   to scroll to and highlight, expects either the button index starting
+     *   from zero or the {@link TK.Button} instance itself.
      * @property {Number} [options.scroll=0] - Offer scrollbars and "real"
      *   scrolling. This reduces performance because movement is done in JS
      *   instead of (pesumably accelerated) CSS transitions. 0 for standard
