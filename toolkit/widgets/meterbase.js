@@ -146,11 +146,11 @@ TK.MeterBase = TK.class({
      *   the base will coincide with the minimum value <code>options.min</code>. The meter level is drawn
      *   starting from the base to the value.
      * @property {Number} [options.label=0] - Value to be displayed on the label. 
-     * @property {Number} [options.title=false] - The title of the TK.MeterBase. Set to `false` to hide it.
-     * @property {Boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
-     * @property {Boolean} [options.show_scale=true] - Set to <code>false</code> to hide the scale.
      * @property {Function} [options.format_label=TK.FORMAT("%.2f")] - Function for formatting the 
      *   label.
+     * @property {Boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
+     * @property {Number} [options.title=false] - The title of the TK.MeterBase. Set to `false` to hide it.
+     * @property {Boolean} [options.show_scale=true] - Set to <code>false</code> to hide the scale.
      * @property {Number|Boolean} [options.scale_base=false] - Base of the meter scale, see {@link TK.Scale} for more information.
      * @property {Boolean} [options.show_labels=true] - If <code>true</code>, display labels on the
      *   scale.
