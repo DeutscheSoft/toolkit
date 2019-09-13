@@ -20,6 +20,11 @@
 (function (w, TK) {
 
 function close_clicked (e) {
+  /**
+   * Is fired when the user clicks on the close button.
+   * 
+   * @event TK.Notification#closeclicked
+   */
   this.fire_event("closeclicked");
   close.call(this.parent);
 }
@@ -34,6 +39,11 @@ function after_hide() {
 function close () {
   this.add_event("hide", after_hide);
   this.hide();
+  /**
+   * Is fired when the notification was removed from the DOM after the hiding animation.
+   * 
+   * @event TK.Notification#closed
+   */
   this.fire_event("closed");
 }
 
@@ -52,8 +62,10 @@ function timeout() {
  * @param {Object} [options={ }] - An object containing initial options.
  * 
  * @property {Number} [options.timeout=5000] - Time in milliseconds
- * after the notification disappears. Set to 0 for permanent notification.
- * @property {String} [options.icon=false] - Show an icon, <code>false</code> for no icon.
+ *   after the notification disappears automatically.
+ *   Set to 0 for permanent notification.
+ * @property {String} [options.icon=false] - Show an icon. Set to
+ *   <code>false</code> to hide it from the DOM.
  * @property {Boolean} [options.show_close=false] - Show a close button.
  */
  
@@ -76,6 +88,10 @@ TK.Notification = TK.class({
   initialize: function (options) {
     TK.Container.prototype.initialize.call(this, options);
     var O = this.options;
+    /**
+     * @member {HTMLDivElement} TK.Notification#element - The main DIV container.
+     *   Has class <code>toolkit-notification</code>.
+     */
     TK.add_class(this.element, "toolkit-notification");
     this._timeout = void(0);
     this.set("timeout", O.timeout);

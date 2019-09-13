@@ -20,8 +20,8 @@
 (function (w, TK) {
 
 /**
- * TK.Notifications is a {@link TK.Container} for displaying {@link TK.Notification}
- * popups.
+ * TK.Notifications is a {@link TK.Container} displaying {@link TK.Notification}
+ *   popups.
  * 
  * @class TK.Notifications
  * 
@@ -29,7 +29,8 @@
  * 
  * @param {Object} [options={ }] - An object containing initial options.
  * 
- * @property {String} [options.stack="end"] - Where does a new {@link TK.Notification} appear - "end" or "start"
+ * @property {String} [options.stack="end"] - Define the position a new {@link TK.Notification}
+ *   is appended to the container, either `end` or `start`.
  */
 
 TK.Notifications = TK.class({
@@ -51,9 +52,9 @@ TK.Notifications = TK.class({
     
     notify: function (options) {
     /**
-     * Resets the peak label.
+     * Create and show a new notification.
      * 
-     * @method TK.Notification#notify
+     * @method TK.Notifications#notify
      * 
      * @param {Object} [options={ }] - An object containing initial options. - Options for the {@link TK.Notification} to add
      * 
