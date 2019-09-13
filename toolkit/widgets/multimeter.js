@@ -59,7 +59,7 @@ function remove_meter (meter) {
     
 TK.MultiMeter = TK.class({
     /**
-     * TK.MultiMeter is a collection of {@link TK.LevelMeter}s to show levels of full channels
+     * TK.MultiMeter is a collection of {@link TK.LevelMeter}s to show levels of channels
      * containing multiple audio streams. It offers all options of {@link TK.LevelMeter} and
      * {@link TK.MeterBase} which are passed to all instantiated level meters.
      *
@@ -69,8 +69,8 @@ TK.MultiMeter = TK.class({
      * 
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @property {Number} [options.count=2] - The amount of level meters
-     * @property {String} [options.title=""] - The title of the multi meter
+     * @property {Number} [options.count=2] - The amount of level meters.
+     * @property {String} [options.title=""] - The title of the multi meter. Set to `false` to hide the title from the DOM.
      * @property {Array<String>} [options.titles=["L", "R"]] - An Array containing titles for the level meters. Their order is the same as the meters.
      * @property {Array<Number>} [options.values=[]] - An Array containing values for the level meters. Their order is the same as the meters.
      * @property {Array<Number>} [options.labels=[]] - An Array containing label values for the level meters. Their order is the same as the meters.
@@ -168,7 +168,7 @@ TK.MultiMeter = TK.class({
 });
 
 /**
- * @member {HTMLDivElement} TK.MultiMeter#_title - The DIV element of the {@link TK.Label} module.
+ * @member {HTMLDivElement} TK.MultiMeter#title - The {@link TK.Label} widget displaying the meters title.
  */
 TK.ChildWidget(TK.MultiMeter, "title", {
     create: TK.Label,
