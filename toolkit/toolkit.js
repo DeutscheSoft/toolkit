@@ -343,7 +343,7 @@ function set_content(element, content) {
     /**
      * Sets the (exclusive) content of an HTMLElement.
      * @param {HTMLElement} element - The element receiving the content
-     * @param{string|HTMLElement} content - A string or HTMLElement to set as content
+     * @param {String|HTMLElement} content - A string or HTMLElement to set as content
      * @function TK.set_content
      */
     if (is_dom_node(content)) {
