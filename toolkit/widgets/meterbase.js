@@ -115,7 +115,7 @@ TK.MeterBase = TK.class({
     /**
      * TK.MeterBase is a base class to build different meters such as {@link TK.LevelMeter} from.
      * TK.MeterBase uses {@link TK.Gradient} and contains a {@link TK.Scale} widget.
-     * TK.MeterBase inherits all options from TK.Scale.
+     * TK.MeterBase inherits all options from {@link TK.Scale}.
      * 
      * Note that the two options <code>format_labels</code> and
      * <code>scale_base</code> have different names here.
@@ -123,7 +123,7 @@ TK.MeterBase = TK.class({
      * Note that level meters with high update frequencies can be very demanding when it comes
      * to rendering performance. These performance requirements can be reduced by increasing the
      * segment size using the <code>segment</code> option. Using a segment, the different level
-     * meter positions are reduced. This widget will take advantage of that and avoid rendering those
+     * meter positions are reduced. This widget will take advantage of that by avoiding rendering those
      * changes to the meter level, which fall into the same segment.
      *
      * @class TK.MeterBase
@@ -139,23 +139,23 @@ TK.MeterBase = TK.class({
      *   <code>"top"</code> and <code>"bottom"</code> are horizontal layouts in which the meter
      *   is at the top or the bottom, respectively.
      * @property {Integer} [options.segment=1] - Segment size. Pixel positions of the meter level are
-     *   rounded to multiples of this size. This can be used to give the level meter a LED effect.
+     *   rounded to multiples of this size. This can be used to give the level meter a LED effect and to
+     *   reduce processor load.
      * @property {Number} [options.value=0] - Level value.
      * @property {Number} [options.base=false] - The base value of the meter. If set to <code>false</code>,
      *   the base will coincide with the minimum value <code>options.min</code>. The meter level is drawn
      *   starting from the base to the value.
-     * @property {Number} [options.label=false] - Value of the label position. 
+     * @property {Number} [options.label=0] - Value to be displayed on the label. 
      * @property {Number} [options.title=false] - The title of the TK.MeterBase. Set to `false` to hide it.
-     * @property {Boolean} [options.show_title=false] - If set to <code>true</code> a title is displayed.
      * @property {Boolean} [options.show_label=false] - If set to <code>true</code> a label is displayed.
      * @property {Boolean} [options.show_scale=true] - Set to <code>false</code> to hide the scale.
      * @property {Function} [options.format_label=TK.FORMAT("%.2f")] - Function for formatting the 
      *   label.
-     * @property {Number} [options.scale_base=false] - Base of the meter scale, see {@link TK.Scale}.
-     * @property {Boolean} [options.show_labels=true] - If <code>true</code>, display labels in the
+     * @property {Number|Boolean} [options.scale_base=false] - Base of the meter scale, see {@link TK.Scale} for more information.
+     * @property {Boolean} [options.show_labels=true] - If <code>true</code>, display labels on the
      *   scale.
      * @property {Function} [options.format_labels=TK.FORMAT("%.2f")] - Function for formatting the 
-     *   scale labels. This is passed to the Scale as option <code>labels</code>.
+     *   scale labels. This is passed to TK.Scale as option <code>labels</code>.
      *
      */
     
@@ -174,7 +174,7 @@ TK.MeterBase = TK.class({
         title: "string|boolean",
         show_labels: "boolean",
         format_label: "function",
-        scale_base: "number",
+        scale_base: "number|boolean",
         format_labels: "function",
         background: "string|boolean",
         gradient: "object|boolean"
