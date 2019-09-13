@@ -16,7 +16,7 @@
                 icon: "images/toolkit_win_icon.png",
                 header: ["icon", "title", "maximizehorizontal", "maximizevertical", "maximize",
                                "minimize", "shrink", "close"],
-                footer: ["status", "resize"],
+                footer: ["status", "size"],
                 fixed: true,
                 content: TK.html("<div style='margin: 6px; text-align: left;'><img src=images/toolkit.png "
                        + "style=\"float: left; margin-right: 20px; width:128px;height:auto\">"

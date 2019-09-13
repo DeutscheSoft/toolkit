@@ -111,7 +111,7 @@
 .toolkit-window.toolkit-shrinked {
     height: 32px !important;
 }
-.toolkit-window > .toolkit-header > .toolkit-resize,
-.toolkit-window > .toolkit-footer > .toolkit-resize {
+.toolkit-window > .toolkit-header > .toolkit-size,
+.toolkit-window > .toolkit-footer > .toolkit-size {
     color: #ccc;
 }

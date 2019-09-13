@@ -662,7 +662,16 @@ TK.Window = TK.class({
         }
         if (I.content) {
             I.content = false;
-            if (O.content) TK.set_content(this.content.element, O.content);
+            if (O.content) {
+                if (TK.Container.prototype.isPrototypeOf(O.content)) {
+                    TK.set_content(this.content.element, "");
+                    this.append_child(O.content);
+                } else {
+                    TK.set_content(this.content.element, O.content);
+                }
+            }
+            setD = true;
+            setP = true;
         }
         
         if (setD) set_dimensions.call(this);
