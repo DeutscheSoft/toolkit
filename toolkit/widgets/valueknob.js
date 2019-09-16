@@ -98,7 +98,7 @@ TK.ValueKnob = TK.class({
     },
 });
 /**
- * @member {TK.Label} TK.ValueKnob#label - The TK.Label widget.
+ * @member {TK.Label} TK.ValueKnob#label - The {@link TK.Label} widget.
  */
 TK.ChildWidget(TK.ValueKnob, "label", {
     create: TK.Label,
@@ -109,7 +109,7 @@ TK.ChildWidget(TK.ValueKnob, "label", {
     },
 });
 /**
- * @member {TK.Knob} TK.ValueKnob#knob - The TK.Knob widget.
+ * @member {TK.Knob} TK.ValueKnob#knob - The {@link TK.Knob} widget.
  */
 TK.ChildWidget(TK.ValueKnob, "knob", {
     create: TK.Knob,
@@ -118,7 +118,7 @@ TK.ChildWidget(TK.ValueKnob, "knob", {
     toggle_class: true,
 });
 /**
- * @member {TK.Value} TK.ValueKnob#value - The TK.Value widget.
+ * @member {TK.Value} TK.ValueKnob#value - The {@link TK.Value} widget.
  */
 TK.ChildWidget(TK.ValueKnob, "value", {
     create: TK.Value,
