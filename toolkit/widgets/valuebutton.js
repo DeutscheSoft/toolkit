@@ -101,7 +101,7 @@ TK.ValueButton = TK.class({
         TK.add_class(this.element, "toolkit-valuebutton");
         
         /**
-         * @member {TK.DragValue} TK.ValueButton#drag - The DragValue module.
+         * @member {TK.DragValue} TK.ValueButton#drag - The {@link TK.DragValue} module.
          */
         this.drag = new TK.DragValue(this, {
             node:      this.element,
@@ -110,7 +110,7 @@ TK.ValueButton = TK.class({
             blind_angle: this.options.blind_angle,
         });
         /**
-         * @member {TK.ScrollValue} TK.ValueButton#scroll - The ScrollValue module.
+         * @member {TK.ScrollValue} TK.ValueButton#scroll - The {@link ScrollValue} module.
          */
         this.scroll = new TK.ScrollValue(this, {
             node: this.element,
@@ -197,7 +197,7 @@ TK.ChildWidget(TK.ValueButton, "value", {
 });
 
 /**
- * @member {TK.Scale} TK.ValueButton#scale - The scale widget showing the value.
+ * @member {TK.Scale} TK.ValueButton#scale - The {@link TK.Scale} showing the value.
  */
 TK.ChildWidget(TK.ValueButton, "scale", {
     create: TK.Scale,
