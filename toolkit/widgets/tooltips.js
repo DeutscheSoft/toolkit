@@ -25,7 +25,9 @@ function get_event(event) {
           ? event.touches[0] : event;
 }
 /**
- * TK.Tooltip and GlobalTooltip is a small text field following the mouse.
+ * TK.GlobalTooltip is a small text field following the mouse.
+ *   Due to optimization it is implemented as a table with a single cell
+ *   containing the content.
  * 
  * @class TK.Tooltip
  */
