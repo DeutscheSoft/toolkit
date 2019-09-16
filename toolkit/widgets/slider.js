@@ -75,8 +75,9 @@ function set_background(horiz, vert, size) {
  * @property {Integer} [options.frames=1] - The amount of frames contained
  * in the background image
  * @property {String} [options.alignment="horizontal"] - The direction
- * of the frames in the image, next to ("horizontal") or among each other ("vertical")
- * @property {String} options.image - The image containing all frames for the slider.
+ * of the frames in the image, next to (`horizontal`) or among each other (`"vertical`)
+ * @property {String|Booelan} options.image - The image containing all frames for the slider.
+ *   Set to `false` to set the background image via external CSS.
  * 
  */
 TK.Slider = TK.class({
@@ -89,7 +90,7 @@ TK.Slider = TK.class({
         value: "number",
         frames: "int",
         alignment: "string",
-        image: "string",
+        image: "string|boolean",
         _width: "number",
         _height: "number",
         
@@ -98,7 +99,7 @@ TK.Slider = TK.class({
         value: 0,
         frames: 1,
         alignment: "horizontal",
-        image: "",
+        image: false,
         
         direction: "polar",
         rotation:       45,
@@ -155,7 +156,10 @@ TK.Slider = TK.class({
         
         if (I.image) {
             I.image = false;
-            this.element.style["background-image"] = "url('" + O.image + "')";
+            if (O.image)
+                this.element.style["background-image"] = "url('" + O.image + "')";
+            else
+                this.element.style["background-image"] = void 0;
             I.value = true;
         }
         
