@@ -123,11 +123,39 @@ TK.Pager = TK.class({
          *
          * @member TK.Pager#element
          */
+        /**
+         * @member {HTMLDivElement} TK.Pager#_buttonarray_wrapper - An internal container for layout purposes containing the #TK.ButtonArray.
+         *   Has classes <code>toolkit-buttonarray-wrapper</code> and <code>toolkit-wrapper</code>.
+         */
+        /**
+         * @member {HTMLDivElement} TK.Pager#_container_wrapper - An internal container for layout purposes containing the _clip element.
+         *   Has classes <code>toolkit-wrapper</code> and <code>toolkit-container-wrapper</code>.
+         */
+        /**
+         * @member {HTMLDivElement} TK.Pager#_clip - The clipping area containing the pages.
+         *   Has class <code>toolkit-clip</code>.
+         */
         TK.add_class(this.element, "toolkit-pager");
-    },
-    
-    initialized: function () {
-        TK.Container.prototype.initialized.call(this);
+        /**
+         * The {@link TK.ButtonArray} instance acting as the menu.
+         *
+         * @member TK.Pager#buttonarray
+         */
+        this.buttonarray = new TK.ButtonArray({
+            container: this.element,
+        });
+        this.buttonarray.add_event("userset", function(key, value) {
+            this.parent.userset(key, value);
+            return false;
+        });
+        /**
+         * @member {HTMLDivElement} TK.Pager#_clip - The clipping of the pages.
+         *   Has class <code>toolkit-clip</code>.
+         */
+        this._clip = TK.element("div", "toolkit-clip");
+        this.element.appendChild(this._clip);
+        
+        this.add_child(this.buttonarray);
         this.add_pages(this.options.pages);
         this.set("position", this.options.position);
         this.set("show", this.options.show);
@@ -139,6 +167,9 @@ TK.Pager = TK.class({
         var I = this.invalid;
         var E = this.element;
 
+        if (I.overlap)
+            TK[(O.overlap ? "add_" : "remove_") + "class"](E, "toolkit-overlap");
+        
         if (I.direction) {
             I.direction = false;
             TK.remove_class(E, "toolkit-forward", "toolkit-backward");
@@ -409,32 +440,4 @@ TK.Pager = TK.class({
         return TK.Container.prototype.get.call(this, key);
     }
 });
-
-/**
- * The {@link TK.ButtonArray} instance acting as the menu.
- *
- * @member TK.Pager#buttonarray
- */
-TK.ChildWidget(TK.Pager, "buttonarray", {
-    create: TK.ButtonArray,
-    show: true,
-    map_options: {
-        show: "show",
-    },
-    static_events: {
-        userset: function(key, value) {
-            this.parent.userset(key, value);
-            return false;
-        }
-    },
-});
-
-/**
- * @member {HTMLDivElement} TK.Pager#_clip - The clipping area containing the pages.
- *   Has class <code>toolkit-clip</code>.
- */
-TK.ChildElement(TK.Pager, "clip", {
-    show: true,
-});
-    
 })(this, this.TK);
