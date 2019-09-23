@@ -199,31 +199,6 @@ TK.Pager = TK.class({
             I.layout = true;
         }
         
-        if (I.validate("layout", "resized")) {
-            // the following code will fire after the buttonarray.element
-            // has been added to the dom. We are sure that is the case because it happens
-            // with priority 0 and the following code is executed in priority 1.
-            TK.S.add(function() {
-                var size;
-                if (O.position === "top" || O.position === "bottom") {
-                    size = TK.outer_height(this.buttonarray.element) + "px";
-                } else {
-                    size = TK.outer_width(this.buttonarray.element) + "px";
-                }
-                TK.S.add(function() {
-                    var style = this._clip.style;
-                    style.top = null;
-                    style.bottom = null;
-                    style.left = null;
-                    style.right = null;
-                    style[O.position] = size;
-                    /* we essentially resize the pages container, so we need to call
-                     * resize() on all children */
-                    this.trigger_resize_children();
-                }.bind(this), 1);
-            }.bind(this));
-        }
-        
         if (I.show) {
             I.show = false;
             for (var i = 0; i < this.pages.length; i ++) {
