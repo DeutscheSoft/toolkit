@@ -893,6 +893,7 @@ pre, code {
     transform: translate3d(0,0,0);
 }
 .toolkit-pager > .toolkit-buttonarray {
+    display: flex;
     flex: 0 0 auto;
 }
 .toolkit-pager.toolkit-left > .toolkit-buttonarray,
