@@ -184,7 +184,7 @@ TK.Expander = TK.class({
         }
     },
     Extends: TK.Container,
-    /*
+    /**
      * Toggles the collapsed state of the widget.
      * 
      * @method TK.Expander#toggle
