@@ -591,16 +591,16 @@ TK.Chart = TK.class({
         this.fire_event("emptied");
     },
     
-    /*
+    /**
      * Add a new handle to the widget. Options is an object containing
      * options for the {@link TK.ResponseHandle}.
      * 
-     * @method TK.ResponseHandler#add_handle
+     * @method TK.Chart#add_handle
      * 
      * @param {Object} [options={ }] - An object containing initial options. - The options for the {@link TK.ResponseHandle}.
      * @param {Object} [type=TK.ResponseHandle] - A widget class to be used as the new handle.
      * 
-     * @emits TK.ResponseHandler#handleadded
+     * @emits TK.Chart#handleadded
      */
     add_handle: function (options, type) {
         type = type || TK.ResponseHandle;
@@ -623,16 +623,16 @@ TK.Chart = TK.class({
          * 
          * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} which was added.
          * 
-         * @event TK.ResponseHandler#handleadded
+         * @event TK.Chart#handleadded
          */
         this.fire_event("handleadded", h);
         return h;
     },
-    /*
+    /**
      * Add multiple new {@link TK.ResponseHandle} to the widget. Options is an array
      * of objects containing options for the new instances of {@link TK.ResponseHandle}.
      * 
-     * @method TK.ResponseHandler#add_handles
+     * @method TK.Chart#add_handles
      * 
      * @param {Array<Object>} options - An array of options objects for the {@link TK.ResponseHandle}.
      * @param {Object} [type=TK.ResponseHandle] - A widget class to be used for the new handles.
@@ -641,14 +641,14 @@ TK.Chart = TK.class({
         for (var i = 0; i < handles.length; i++)
             this.add_handle(handles[i], type);
     },
-    /*
+    /**
      * Remove a handle from the widget.
      * 
-     * @method TK.ResponseHandler#remove_handle
+     * @method TK.Chart#remove_handle
      * 
      * @param {TK.ResponseHandle} handle - The {@link TK.ResponseHandle} to remove.
      * 
-     * @emits TK.ResponseHandler#handleremoved
+     * @emits TK.Chart#handleremoved
      */
     remove_handle: function (handle) {
         // remove a handle from the widget.
@@ -661,17 +661,17 @@ TK.Chart = TK.class({
                 /**
                  * Is fired when a handle was removed.
                  * 
-                 * @event TK.ResponseHandler#handleremoved
+                 * @event TK.Chart#handleremoved
                  */
                 this.fire_event("handleremoved");
                 break;
             }
         }
     },
-    /*
+    /**
      * Remove multiple or all {@link TK.ResponseHandle} from the widget.
      * 
-     * @method TK.ResponseHandler#remove_handles
+     * @method TK.Chart#remove_handles
      * 
      * @param {Array<TK.ResponseHandle>} handles - An array of
      *   {@link TK.ResponseHandle} instances. If the argument reveals to
@@ -687,7 +687,7 @@ TK.Chart = TK.class({
             /**
              * Is fired when all handles are removed.
              * 
-             * @event TK.ResponseHandler#emptied
+             * @event TK.Chart#emptied
              */
             this.fire_event("emptied");
         }
