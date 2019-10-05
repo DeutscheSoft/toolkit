@@ -437,7 +437,7 @@ TK.Window = TK.class({
      * @property {Integer} [options.hide_status=0] - If set to !0 status message hides after [n] milliseconds.
      */
      
-    /*
+    /**
      * @member {TK.Drag} TK.Window#Drag - The {TK.Drag} module.
      */
     /**
