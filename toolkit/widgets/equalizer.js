@@ -234,7 +234,7 @@ TK.Equalizer = TK.class({
         invalidate_bands.call(this);
         TK.ResponseHandler.prototype.resize.call(this);
     },
-    /*
+    /**
      * Add a new band to the equalizer. Options is an object containing
      * options for the {@link TK.EqBand}
      * 
@@ -278,7 +278,7 @@ TK.Equalizer = TK.class({
         invalidate_bands.call(this);
         return b;
     },
-    /*
+    /**
      * Add multiple new {@link TK.EqBand}s to the equalizer. Options is an array
      * of objects containing options for the new instances of {@link TK.EqBand}
      * 
@@ -291,7 +291,7 @@ TK.Equalizer = TK.class({
         for (var i = 0; i < bands.length; i++)
             this.add_band(bands[i], type);
     },
-    /*
+    /**
      * Remove a band from the widget.
      * 
      * @method TK.Equalizer#remove_handle
@@ -320,7 +320,7 @@ TK.Equalizer = TK.class({
             }
         }
     },
-    /*
+    /**
      * Remove multiple {@link TK.EqBand} from the equalizer. Options is an array
      * of {@link TK.EqBand} instances.
      * 
