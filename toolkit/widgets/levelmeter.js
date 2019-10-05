@@ -317,7 +317,7 @@ TK.LevelMeter = TK.class({
          */
         this.fire_event("resettop");
     },
-    /*
+    /**
      * Resets the bottom hold.
      * 
      * @method TK.LevelMeter#reset_bottom
@@ -333,7 +333,7 @@ TK.LevelMeter = TK.class({
          */
         this.fire_event("resetbottom");
     },
-    /*
+    /**
      * Resets all hold features.
      * 
      * @method TK.LevelMeter#reset_all
