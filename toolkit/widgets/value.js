@@ -121,8 +121,8 @@ function submit_cb(e) {
     return false;
 }
 /**
- * TK.Value is a formatted text field displaying numbers and providing
- * a input field for editing the value.
+ * TK.Value is a formatted text field displaying values and providing
+ * an input field for editing the value.
  *
  * @class TK.Value
  * 
