@@ -254,10 +254,16 @@ function draw_title() {
  *   rectangles inside of the key describing individual graphs.
  * @property {Array<Object>} [options.grid_x=[]] - An array containing
  *   objects with the following optional members to draw the grid:
- *   <code>{pos:x[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
+ * @property {Number} [options.grid_x.pos] - The value where to draw  grid line and correspon ding label.
+ * @property {String} [options.grid_x.color] - A valid CSS color string to colorize the elements.
+ * @property {String} [options.grid_x.class] - A class name for the elements.
+ * @property {String} [options.grid_x.label] - A label string.
  * @property {Array<Object>} [options.grid_y=[]] - An array containing
  *   objects with the following optional members to draw the grid:
- *   <code>{pos:y[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
+ * @property {Number} [options.grid_y.pos] - The value where to draw  grid line and correspon ding label.
+ * @property {String} [options.grid_y.color] - A valid CSS color string to colorize the elements.
+ * @property {String} [options.grid_y.class] - A class name for the elements.
+     * @property {String} [options.grid_y.label] - A label string.
  * @property {Boolean} [options.show_grid=true] - Set to <code>false</code> to
  *   hide the grid.
  * @property {Function|Object} [options.range_x={}] - Either a function
