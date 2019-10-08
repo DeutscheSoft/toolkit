@@ -158,10 +158,16 @@ TK.Grid = TK.class({
      * 
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @property {Array<Number>} [options.grid_x=[]] - Array for vertical grid lines
-     *   containing <code>{pos:x[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</code>.
-     * @property {Array<Number>} [options.grid_y=[]] - Array for horizontal grid lines
-     *   containing <code>{pos:y[, color: "colorstring"[, class: "classname"[, label:"labeltext"]]]}</code>.
+     * @property {Array<Number>} [options.grid_x=[]] - Array for vertical grid line definitions with the members:
+     * @property {Number} [options.grid_x.pos] - The value where to draw grid line and correspon ding label.
+     * @property {String} [options.grid_x.color] - A valid CSS color string to colorize the elements.
+     * @property {String} [options.grid_x.class] - A class name for the elements.
+     * @property {String} [options.grid_x.label] - A label string.
+     * @property {Array<Number>} [options.grid_y=[]] - Array for horizontal grid lines with the members:
+     * @property {Number} [options.grid_y.pos] - The value where to draw grid line and corresponding label.
+     * @property {String} [options.grid_y.color] - A valid CSS color string to colorize the elements.
+     * @property {String} [options.grid_y.class] - A class name for the elements.
+     * @property {String} [options.grid_y.label] - A label string.
      * @property {Function|Object} [options.range_x={}] - A function returning
      *   a {@link TK.Range} instance for vertical grid lines or an object
      *   containing options. for a new {@link Range}.
