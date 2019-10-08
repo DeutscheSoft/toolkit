@@ -156,9 +156,9 @@ TK.Expander = TK.class({
      *   can be open at one time.
      * @property {Boolean} [options.group_default=false] - If set, this expander is expanded
      *   if all other group members are collapsed.
-     * @param {String} [options.icon=""] - Icon of the {@link TK.Button} which toggles expanded state.
-     * @param {String} [options.label=""] - Label of the {@link TK.Button} which toggles expanded state.
-     * @param {Boolean} [options.show_button=true] - Set to `false` to hide the {@link TK.Button} toggling expanded state.
+     * @property {String} [options.icon=""] - Icon of the {@link TK.Button} which toggles expanded state.
+     * @property {String} [options.label=""] - Label of the {@link TK.Button} which toggles expanded state.
+     * @property {Boolean} [options.show_button=true] - Set to `false` to hide the {@link TK.Button} toggling expanded state.
      */
     _class: "Expander",
     _options: Object.assign(Object.create(TK.Container.prototype._options), {
