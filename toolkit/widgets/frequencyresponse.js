@@ -58,7 +58,10 @@ TK.FrequencyResponse = TK.class({
      * @property {Object} [options.range_y={min:-36, max: 36, scale: "linear"}] - Either a function returning a {@link TK.Range}
      *   or an object containing options for a new {@link TK.Range}
      * @property {Array<Object>} [options.grid_x=[{pos:    20, label: "20 Hz"}, {pos:    30}, {pos:    40}, {pos:    50}, {pos:    60}, {pos:    70}, {pos:    80}, {pos:    90}, {pos:   100, label: "100 Hz"}, {pos:   200}, {pos:   300}, {pos:   400}, {pos:   500}, {pos:   600}, {pos:   700}, {pos:   800}, {pos:   900}, {pos:  1000, label: "1000 Hz"}, {pos:  2000}, {pos:  3000}, {pos:  4000}, {pos:  5000}, {pos:  6000}, {pos:  7000}, {pos:  8000}, {pos:  9000}, {pos: 10000, label: "10000 Hz"}, {pos: 20000, label: "20000 Hz"}]] - An array containing objects with the following optional members:
-     *   <code>{pos:y[, color: "colorstring"[,class: "classname"[, label:"labeltext"]]]}</code>
+     * @property {Number} [options.grid_x.pos] - The value where to draw grid line and corresponding label.
+     * @property {String} [options.grid_x.color] - A valid CSS color string to colorize the elements.
+     * @property {String} [options.grid_x.class] - A class name for the elements.
+     * @property {String} [options.grid_x.label] - A label string.
      * @property {String} [options.scale="linear"] - The type of the decibels scale. See {@link TK.Range} for more details.
      * @property {Number} [options.depth=0] - The depth of the z axis (<code>basis</code> of options.range_z)
      */
