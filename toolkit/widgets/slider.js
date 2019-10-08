@@ -56,9 +56,9 @@ function set_background(horiz, vert, size) {
  * according to its value. It can be used to show strips of
  * e.g. 3D-rendered faders or knobs. It's important to set the
  * width and height of the widget in CSS according to the frames in
- * the background file. If alignment is "horizontal" the background image
+ * the background file. If alignment is `horizontal` the background image
  * is as height as the widget, the width keeps the ratio intact. Overall
- * width of the image should be frames * width. If alignment is "vertical"
+ * width of the image should be frames * width. If alignment is `vertical`
  * the background image is as wide as the widget and the height of the
  * image keeps the ratio intact. The height should be height of widget
  * times the amount of frames.
@@ -76,8 +76,8 @@ function set_background(horiz, vert, size) {
  * @property {Integer} [options.frames=1] - The amount of frames contained
  *     in the background image.
  * @property {String} [options.alignment="horizontal"] - The direction
- *     of the frames in the image, next to (`horizontal`) or among each other (`"vertical`).
- * @property {String|Booelan} options.image - The image containing all frames for the slider.
+ *     of the frames in the image, next to (`horizontal`) or among each other (`vertical`).
+ * @property {String|Booelan} [options.image=false] - The image containing all frames for the slider.
  *     Set to `false` to set the background image via external CSS.
  * 
  */
