@@ -22,11 +22,11 @@
     
 TK.ResponseHandler = TK.class({
     /**
-     * TK.ResponseHandler is a TK.FrequencyResponse adding some ResponseHandles. It is
+     * TK.ResponseHandler is a {@link TK.FrequencyResponse} adding some {@link TK.ResponseHandle}s. It is
      * meant as a universal user interface for equalizers and the like.
      * 
      * This class is deprecated since all relevant functionality went into
-     * the base class TK.Graph. Use TK.FrequencyResponse instead.
+     * the base class TK.Graph. Use {@link TK.FrequencyResponse} instead.
      *
      * @class TK.ResponseHandler
      * 
