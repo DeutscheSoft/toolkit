@@ -124,6 +124,7 @@ function deactivate_tooltip() {
  * TK.Fader is a slidable control with a {@link TK.Scale} next to it which
  * can be both dragged and scrolled. TK.Fader implements {@link TK.Ranged},
  * {@link TK.Warning} and {@link TK.GlobalCursor} and inherits their options.
+ * A {@link TK.Label} and a {@link TK.Value} are available optionally.
  *
  * @class TK.Fader
  * 
@@ -131,7 +132,7 @@ function deactivate_tooltip() {
  *
  * @param {Object} [options={ }] - An object containing initial options.
  * 
- * @property {Number} [options.value] - The fader position. This options is
+ * @property {Number} [options.value] - The faders position. This options is
  *   modified by user interaction.
  * @property {Function} [options.tooltip=false] - An optional formatting function for
  *   the tooltip value. The tooltip will show the value the mouse cursor is
