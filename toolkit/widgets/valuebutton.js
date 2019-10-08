@@ -46,14 +46,14 @@ TK.ValueButton = TK.class({
      * @property {Number} [options.value_format=function (val) { return val.toFixed(2); }] - Callback to format the value label.
      * @property {Number} [options.value_size=5] - Amount of digits of the value input.
      * @property {String} [options.direction="polar"] - Direction for changing the value.
-     *   Can be "polar", "vertical" or "horizontal".
-     * @property {Number} [options.blind_angle=20] - If options.direction is "polar",
-     *   this is the angle of separation between positive and negative value changes
+     *   Can be "polar", "vertical" or "horizontal". See {@link TK.DragValue} for more details.
+     * @property {Number} [options.blind_angle=20] - If `options.direction` is "polar",
+     *   this is the angle of separation between positive and negative value changes.  See {@link TK.DragValue} for more details.
      * @property {Number} [options.rotation=45] - Defines the angle of the center of the positive value
      *   changes. 0 means straight upward. For instance, a value of 45 leads to increasing value when
-     *   moving towards top and right.
+     *   moving towards top and right. See {@link TK.DragValue} for more details.
      * @property {Number} [options.snap=0.01] - Snap value while dragging.
-     * @property {Number} [options.basis=300] - Distance to drag between <code>min</code> and <code>max</code>.
+     * @property {Number} [options.basis=300] - Distance to drag between <code>min</code> and <code>max</code> in pixels.
      */
     _class: "ValueButton",
     Extends: TK.Button,
