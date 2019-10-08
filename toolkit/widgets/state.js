@@ -25,9 +25,8 @@
  * different styles. TK.State extends {@link TK.Widget}.
  *
  * The LED effect is implemented as a DIV element, which is overlayed by
- * a DIV element with class <code>toolkit-mask</code>. When switching
- * the state, the opacity of the mask is toggled between zero and
- * <code>options.opactity</code>.
+ * a DIV element with class <code>toolkit-mask</code>. `options.state`
+ * changes the opacity of the mask element.
  *
  * @class TK.State
  * 
