@@ -639,12 +639,12 @@ function ChildWidget(widget, name, config) {
      * is used internally to simplify widget definitions. E.g. the {@link TK.Icon} of a
      * {@link TK.Button} is defined as a TK.ChildWidget. TK.ChildWidgets
      * are created/added after the initialization of the parent widget.
-     * If not configured otherwise, all options of the child widget can
+     * If not configured explicitly, all options of the child widget can
      * be accessed via <code>TK.Widget.options[config.name + "." + option]</code>
      * on the parent widget.
      * 
      * @param {TK.Widget} widget - The {@link TK.Widget} to add the TK.ChildWidget to.
-     * @param {string} name - The identifier of the element, <code>TK.Widget[config.name]</code>.
+     * @param {string} name - The identifier of the element inside the parent Element, <code>TK.Widget[config.name]</code>.
      * @param {object} config - The configuration of the child element.
      * 
      * @property {TK.Widget} config.create - A TK.Widget class derivate to be used as child widget.
