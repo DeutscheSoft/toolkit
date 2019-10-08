@@ -97,7 +97,7 @@ TK.Container = TK.class({
      *   transition/animation of this container.
      * @property {String} [options.display_state="show"] - The current display state of this container.
      *   Do not modify, manually.
-     * @property {Array<Object>} [options.children=[]] - Add child widgets on init. Will not be maintained on runtime! Just for convenience purposes on init.
+     * @property {Array<TK.Widget>} [options.children=[]] - Add child widgets on init. Will not be maintained on runtime! Just for convenience purposes on init.
      */
     _class: "Container",
     Extends: TK.Widget,
