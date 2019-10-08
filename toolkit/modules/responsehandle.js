@@ -841,7 +841,7 @@ function enddrag() {
  *   the <code>y_range</code> of the parent chart.
  * @property {Function|Object} options.range_z - Callback returning a {@link TK.Range}
  *   for the z-axis or an object with options for a {@link TK.Range}.
- * @property {String} [options.mode="circular"] - Type of the handle. Can be one of
+ * @property {String} [options.mode="circular"] - Type of the handle. Can be one out of
  *   <code>circular</code>, <code>line-vertical</code>, <code>line-horizontal</code>,
  *   <code>block-left</code>, <code>block-right</code>, <code>block-top</code> or
  *   <code>block-right</code>.
@@ -851,28 +851,26 @@ function enddrag() {
  * @property {Number} [options.min_size=24] - Minimum size of the handle in px.
  * @property {Number} [options.max_size=100] - Maximum size of the handle in px.
  * @property {Function|Boolean} options.label - Label formatting function. Arguments are
- *   <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>. If this options is
- *   <code>false</code>, no label is displayed.
+ *   <code>title</code>, <code>x</code>, <code>y</code>, <code>z</code>. If set to <code>false</code>, no label is displayed.
  * @property {Array<String>}  [options.preferences=["left", "top", "right", "bottom"]] - Possible label
- *   positions by order of preference. Depending on the selected <code>mode</code> is can
+ *   positions by order of preference. Depending on the selected <code>mode</code> this can
  *   be a subset of <code>top</code>, <code>top-right</code>, <code>right</code>,
  *   <code>bottom-right</code>, <code>bottom</code>, <code>bottom-left</code>,
  *   <code>left</code>, <code>top-left</code> and <code>center</code>.
  * @property {Number} [options.margin=3] - Margin in px between the handle and the label.
- * @property {Boolean|String} [options.z_handle=false] - If not false, a small handle is drawn at the position (top, top-left, top.right, left, center, right, bottom-left, bottom, bottom-right), which can
+ * @property {Boolean|String} [options.z_handle=false] - If not false, a small handle is drawn at the given position (`top`, `top-left`, `top-right`, `left`, `center`, `right`, `bottom-left`, `bottom`, `bottom-right`), which can
  *   be dragged to change the value of the z-coordinate.
  * @property {Number} [options.z_handle_size=6] - Size in px of the z-handle.
  * @property {Number} [options.z_handle_centered=0.1] - Size of the z-handle in center positions.
  *   If this options is between 0 and 1, it is interpreted as a ratio, otherwise as a px size.
- * @property {Number} [options.z_handle_below=false] - Render the z-handle below the normal handle in the DOM. SVG doesn't know CSS attribute z-index, so this workaround is needed some times.
+ * @property {Number} [options.z_handle_below=false] - Render the z-handle below the normal handle in the DOM. SVG doesn't know CSS attribute z-index, so this workaround is needed from time to time.
  * @property {Number} [options.x_min] - Minimum value of the x-coordinate.
  * @property {Number} [options.x_max] - Maximum value of the x-coordinate.
  * @property {Number} [options.y_min] - Minimum value of the y-coordinate.
  * @property {Number} [options.y_max] - Maximum value of the y-coordinate.
  * @property {Number} [options.z_min] - Minimum value of the z-coordinate.
  * @property {Number} [options.z_max] - Maximum value of the z-coordinate.
- * @property {Boolean} [options.show_axis=false] - If set to true, draws additional lines at
- *   the coordinate values.
+ * @property {Boolean} [options.show_axis=false] - If set to true,  additional lines are drawn at the coordinate values.
  *
  * @mixes TK.Ranges
  * @mixes TK.Warning
@@ -886,7 +884,7 @@ function enddrag() {
  * @member {SVGPath} TK.ResponseHandle#_line1 - The first line. Has class <code>toolkit-line toolkit-line-1</code>.
  */
 /**
- * @member {SVGPath} TK.ResponseHandle#_line2 - The first line. Has class <code>toolkit-line toolkit-line-2</code>.
+ * @member {SVGPath} TK.ResponseHandle#_line2 - The second line. Has class <code>toolkit-line toolkit-line-2</code>.
  */
 
 function set_min(value, key) {
