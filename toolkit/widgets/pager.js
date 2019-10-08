@@ -39,11 +39,14 @@ TK.Pager = TK.class({
      * 
      * @param {Object} [options={ }] - An object containing initial options.
      * 
-     * @property {String} [options.position="top"] - The position of the ButtonArray
+     * @property {String} [options.position="top"] - The position of the ButtonArray. Can either be `top`, `right`, `left` or `bottom`.
      * @property {Array<Object>} [options.pages=[]] -
-     *   An array of mappings (objects) containing the members `label` and `content`.
-     *   `label` is a string used as the buttons label or an object containing options for
-     *   a {@link TK.Button}. `content` is the content of the page, which can be
+     *   An array of objects with the following members:
+     * @property {String|Object} [options.pages.label=""] - A string
+     *   used as the buttons label or an object containing options for
+     *   a {@link TK.Button}.
+     * @property {TK.Container|DOMNode|String} [options.pages.content]
+     *  - The content of the page. Can be
      *   either an instance of {@link TK.Container} (or derivate),
      *   a DOMNode or a string which gets wrapped in a new {@link TK.Container}.
      * @property {Integer} [options.show=-1] - The page to show.
