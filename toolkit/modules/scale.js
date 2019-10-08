@@ -362,8 +362,8 @@ function mark_markers(labels, dots) {
  *   fixed labels.
  * @property {Boolean} [options.show_markers=true] - If true, every dot which is located at the same
  *   position as a label has the <code>toolkit-marker</code> class set.
- * @property {Number|Boolean} [options.pointer=false] - The value to set the pointers position to.
- * @property {Number|Boolean} [options.bar=false] - The value to set the bars height to.
+ * @property {Number|Boolean} [options.pointer=false] - The value to set the pointers position to. Set to `false` to hide the pointer.
+ * @property {Number|Boolean} [options.bar=false] - The value to set the bars height to. Set to `false` to hide the bar.
  */
 TK.Scale = TK.class({
     _class: "Scale",
