@@ -122,7 +122,7 @@ function fire_event(title, event) {
  *   an element receiving events or <code>false</code> to fire events on the main element.
  * @property {HTMLElement|Boolean} [options.classes=false] - Element receiving
  *   classes or <code>false</code> to set classes on the main element.
- * @property {Boolean} [<options.active=true] - Disable the scroll event.
+ * @property {Boolean} [options.active=true] - Disable the scroll event.
  * @property {Array<Number>} [options.scroll_direction=[0, -1, 0]] - An array 
  *   containing values for x, y and z defining the direction of scrolling.
  * @property {Boolean} [options.limit=false] - Limit the returned value to min and max of the range.
