@@ -59,7 +59,7 @@ function value_done() {
 TK.ValueKnob = TK.class({
     /**
      * This widget combines a {@link TK.Knob}, a {@link TK.Label}  and a {@link TK.Value} whose
-     * value is synchronized.
+     * value is synchronized. It inherits all options from {@link TK.Knob} and {@link TK.Value}.
      *
      * @class TK.ValueKnob
      * 
@@ -67,8 +67,11 @@ TK.ValueKnob = TK.class({
      * 
      * @param {Object} [options={ }] - An object containing initial options.
      * 
+     * @property {String} [options.title=false] - Title of the knob. Set to `false` to hide the element from the DOM.
      * @property {Function} [options.value_format=TK.FORMAT("%.2f")] - Callback to format the value.
      * @property {Number} [options.value_size=5] - Amount of digits for the value input.
+     * @property {Number} [options.show_value=true] - Set to `false` to hide the {@link TK.Value}.
+     * @property {Number} [options.show_knob=true] - Set to `false` to hide the {@link TK.Knob}.
      */
     _class: "ValueKnob",
     Extends: TK.Widget,
