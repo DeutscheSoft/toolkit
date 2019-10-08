@@ -73,23 +73,24 @@ TK.ButtonArray = TK.class({
     /**
      * TK.ButtonArray is a list of ({@link TK.Button})s, arranged
      * either vertically or horizontally. TK.ButtonArray is able to
-     * adds arrow buttons automatically if the overal size is smaller
-     * than the buttons list.
+     * add arrow buttons automatically if the overal size is less
+     * than the width/height of the buttons list.
      *
      * @param {Object} [options={ }] - An object containing initial options.
      * 
      * @property {Array<Object|String>} [options.buttons=[]] - A list of
      *   button options objects or label strings which is converted to
-     *   button instances on init. If get is called, a converted list
+     *   button instances on init. If `get` is called, a converted list
      *   of button instances is returned.
      * @property {Boolean} [options.auto_arrows=true] - Set to `false`
-     *   to disable auto-generated arrow buttons.
+     *   to disable auto-generated arrow buttons on overflow.
      * @property {String} [options.direction="horizontal"] - The layout
      *   of the button list, either "horizontal" or "vertical".
      * @property {Integer|TK.Button} [options.show=-1] - The {@link TK.Button}
      *   to scroll to and highlight, expects either the button index starting
-     *   from zero or the {@link TK.Button} instance itself.
-     * @property {Number} [options.scroll=0] - Offer scrollbars and "real"
+     *   from zero or the {@link TK.Button} instance itself. Set to `-1` to
+     *   de-select any selected button.
+     * @property {Integer} [options.scroll=0] - Offer scrollbars for generic
      *   scrolling. This reduces performance because movement is done in JS
      *   instead of (pesumably accelerated) CSS transitions. 0 for standard
      *   behavior, n > 0 is handled as milliseconds for transitions.
@@ -108,8 +109,8 @@ TK.ButtonArray = TK.class({
         direction: "string",
         show: "int",
         resized: "boolean",
-        scroll: "number",
-        button_class: "object",
+        scroll: "int",
+        button_class: "TK.Button",
     }),
     options: {
         buttons: [],
@@ -253,7 +254,7 @@ TK.ButtonArray = TK.class({
      * @param {Object|string} options - An object containing options for the
      *   {@link TK.Button} to add or a string for the label.
      * @param {integer} [position] - The position to add the {@link TK.Button}
-     *   to. If avoided the {@link TK.Button} is added to the end of the list.
+     *   to. If `undefined`, the {@link TK.Button} is added to the end of the list.
      * 
      * @returns {TK.Button} The {@link TK.Button} instance.
      */
