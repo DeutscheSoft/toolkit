@@ -245,7 +245,7 @@ TK.ColorPicker = TK.class({
             var bg = "rgb("+parseInt(O.red)+","+parseInt(O.green)+","+parseInt(O.blue)+")";
             this.hex._input.style.backgroundColor = bg;
             this.hex._input.style.color = bw;
-            this.hex._input.value = O.hex;
+            this.hex.set("value", O.hex);
             
             this._indicator.style.left = (O.hue * 100) + "%";
             this._indicator.style.top  = (O.lightness * 100) + "%";
