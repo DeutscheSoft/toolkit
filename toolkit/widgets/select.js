@@ -720,8 +720,7 @@ TK.SelectEntry = TK.class({
         this.set("title", this.options.title);
     },
     static_events: {
-      touchstart: on_select,
-      mousedown: on_select,
+      click: on_select,
     },
     set: function (key, value) {
         switch (key) {
