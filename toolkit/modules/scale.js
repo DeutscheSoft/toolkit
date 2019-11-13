@@ -161,9 +161,9 @@ function create_label(value, position) {
 
     if (get_base(O) === value)
         TK.add_class(elem, "toolkit-base");
-    else if (O.max === value)
+    if (O.max === value)
         TK.add_class(elem, "toolkit-max");
-    else if (O.min === value)
+    if (O.min === value)
         TK.add_class(elem, "toolkit-min");
 
     return elem;
