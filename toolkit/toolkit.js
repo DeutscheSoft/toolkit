@@ -620,6 +620,17 @@ function css_space(element) {
     }
     return o;
 }
+
+var number_attributes = [
+    "animation-iteration-count",
+    "column-count",
+    "flex-grow",
+    "flex-shrink",
+    "opacity",
+    "order",
+    "z-index"
+]
+    
 function set_styles(elem, styles) {
     /**
      * Set multiple CSS styles onto an HTMLElement.
@@ -636,7 +647,7 @@ function set_styles(elem, styles) {
         if (typeof v !== "number" && !v) {
             delete s[key];
         } else {
-            if (typeof v === "number") {
+            if (typeof v === "number" && number_attributes.indexOf(key) == -1) {
                 TK.warn("TK.set_styles: use of implicit px conversion is _deprecated_ and will be removed in the future.");
                 v = v.toFixed(3) + "px";
             }
