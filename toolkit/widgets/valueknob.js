@@ -69,6 +69,7 @@ TK.ValueKnob = TK.class({
      * 
      * @property {String} [options.title=false] - Title of the knob. Set to `false` to hide the element from the DOM.
      * @property {Function} [options.value_format=TK.FORMAT("%.2f")] - Callback to format the value.
+     * @property {Number} [options.value_set=function (val) { return parseFloat(val || 0); }] - A function which is called to parse user input in the {@link TK.Value}
      * @property {Number} [options.value_size=5] - Amount of digits for the value input.
      * @property {Number} [options.show_value=true] - Set to `false` to hide the {@link TK.Value}.
      * @property {Number} [options.show_knob=true] - Set to `false` to hide the {@link TK.Knob}.
