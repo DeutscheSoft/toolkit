@@ -405,6 +405,7 @@ TK.ChildWidget(TK.Fader, "value", {
         format: "format",
     },
     toggle_class: true,
+    userset_delegate: true,
 });
 
 })(this, this.TK);

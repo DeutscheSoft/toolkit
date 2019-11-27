@@ -120,6 +120,7 @@ TK.ChildWidget(TK.ValueKnob, "knob", {
     show: true,
     inherit_options: true,
     toggle_class: true,
+    userset_delegate: true,
 });
 /**
  * @member {TK.Value} TK.ValueKnob#value - The {@link TK.Value} widget.
@@ -138,5 +139,6 @@ TK.ChildWidget(TK.ValueKnob, "value", {
         valuedone: value_done,
     },
     toggle_class: true,
+    userset_delegate: true,
 });
 })(this, this.TK);
