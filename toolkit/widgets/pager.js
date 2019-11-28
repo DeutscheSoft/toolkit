@@ -179,10 +179,6 @@ TK.Pager = TK.class({
         this.set("show", this.options.show);
     },
     
-    initialized: function () {
-        console.log(this.test);
-    },
-    
     redraw: function () {
         TK.Container.prototype.redraw.call(this);
         var O = this.options;
