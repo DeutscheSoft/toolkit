@@ -151,6 +151,21 @@ TK.Pager = TK.class({
             this.parent.userset(key, value);
             return false;
         });
+        
+        var b_o = this.buttonarray._options;
+        var _o = this._options;
+        for (var k in b_o) {
+            if (!b_o.hasOwnProperty(k)) continue;
+            var o = "buttonarray." + k;
+            _o[o] =  b_o[k];
+            this.add_event("set_" + o, (function (t,k) {
+                return function (v) {
+                    t.buttonarray.set(k, v);
+                }
+            })(this, k));
+            if (typeof this.options[o] !== "undefined")
+                this.set(o, this.options[o]);
+        }
         /**
          * @member {HTMLDivElement} TK.Pager#_clip - The clipping of the pages.
          *   Has class <code>toolkit-clip</code>.
@@ -162,6 +177,10 @@ TK.Pager = TK.class({
         this.add_pages(this.options.pages);
         this.set("position", this.options.position);
         this.set("show", this.options.show);
+    },
+    
+    initialized: function () {
+        console.log(this.test);
     },
     
     redraw: function () {
@@ -443,4 +462,21 @@ TK.Pager = TK.class({
         return TK.Container.prototype.get.call(this, key);
     }
 });
+
+TK.ChildWidget(TK.Pager, "test", {
+    create: TK.ButtonArray,
+    show: true,
+    //toggle_class: true,
+    //inherit_options: true,
+    //map_options: {
+        //value: "bar",
+    //},
+    //static_events: {
+        //"set_layout" : function (v) {
+            //if (v == "horizontal") this.scale.set("layout", "bottom");
+            //if (v == "vertical") this.scale.set("layout", "left");
+        //},
+    //},
+});
+
 })(this, this.TK);
