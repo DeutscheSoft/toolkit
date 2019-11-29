@@ -458,21 +458,4 @@ TK.Pager = TK.class({
         return TK.Container.prototype.get.call(this, key);
     }
 });
-
-TK.ChildWidget(TK.Pager, "test", {
-    create: TK.ButtonArray,
-    show: true,
-    //toggle_class: true,
-    //inherit_options: true,
-    //map_options: {
-        //value: "bar",
-    //},
-    //static_events: {
-        //"set_layout" : function (v) {
-            //if (v == "horizontal") this.scale.set("layout", "bottom");
-            //if (v == "vertical") this.scale.set("layout", "left");
-        //},
-    //},
-});
-
 })(this, this.TK);
