@@ -63,9 +63,9 @@ function mouseenter (ev) {
 function clicked(ev) {
     var value;
     if (this._handle.contains(ev.target)) return;
-    if (this.value.element.contains(ev.target)) return;
-    if (this.label.element.contains(ev.target)) return;
-    if (this.scale.element.contains(ev.target)) return;
+    if (this.value && this.value.element.contains(ev.target)) return;
+    if (this.label && this.label.element.contains(ev.target)) return;
+    if (this.scale && this.scale.element.contains(ev.target)) return;
     value = this.userset("value", get_value.call(this, ev));
     if (this.options.tooltip && TK.tooltip._entry)
         TK.set_text(TK.tooltip._entry, this.options.tooltip(this.options.value));
