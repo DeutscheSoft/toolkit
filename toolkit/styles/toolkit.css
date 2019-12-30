@@ -529,9 +529,8 @@ pre, code {
 }
 
 .toolkit-fader.toolkit-top {
-    grid-template-areas: "track ."
-                         "scale label"
-                         "scale value";
+    grid-template-areas: "track value"
+                         "scale label";
 }
 .toolkit-fader.toolkit-left {
     grid-template-areas: "label ."
@@ -545,8 +544,7 @@ pre, code {
 }
 .toolkit-fader.toolkit-bottom {
     grid-template-areas: "scale label"
-                         "scale value"
-                         "track .";
+                         "track value";
 }
 
 .toolkit-fader > .toolkit-track {

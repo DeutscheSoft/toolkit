@@ -76,7 +76,6 @@
 <pre class='css prettyprint source'><code>
 .toolkit-fader {
     vertical-align: top;
-    display: block;
     float: left;
     margin: 8px;
 }

@@ -20,6 +20,14 @@
     margin: 4px;
     padding: 0px;
     background-repeat: no-repeat;
+}
+
+.toolkit-fader.toolkit-horizontal {
+    grid-column-gap: 4px;
+    grid-row-gap: 2px;
+}
+.toolkit-fader.toolkit-vertical {
+    grid-column-gap: 2px;
     grid-row-gap: 4px;
 }
 
@@ -36,6 +44,19 @@
 }
 .toolkit-fader.toolkit-horizontal > .toolkit-track {
     height: 46px;
+}
+
+.toolkit-fader.toolkit-top > .toolkit-track {
+    align-self: end;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-track {
+    align-self: start;
+}
+.toolkit-fader.toolkit-left > .toolkit-track {
+    justify-self: end;
+}
+.toolkit-fader.toolkit-right > .toolkit-track {
+    justify-self: start;
 }
 
 /* HANDLE */
@@ -78,11 +99,22 @@
     margin: 40px 0;
 }
 
+.toolkit-fader.toolkit-top > .toolkit-scale {
+    align-self: start;
+}
+.toolkit-fader.toolkit-bottom > .toolkit-scale {
+    align-self: end;
+}
+.toolkit-fader.toolkit-left > .toolkit-scale {
+    justify-self: start;
+}
+.toolkit-fader.toolkit-right > .toolkit-scale {
+    justify-self: end;
+}
 
 /* LABEL */
 
 .toolkit-fader > .toolkit-label {
-    width: 48px;
     line-height: 23px;
     height: 23px;
     text-align: center;
@@ -93,7 +125,6 @@
 
 .toolkit-fader > .toolkit-value,
 .toolkit-fader > .toolkit-value > .toolkit-input {
-    width: 48px;
     line-height: 23px;
     height: 23px;
     font-size: 14px;
