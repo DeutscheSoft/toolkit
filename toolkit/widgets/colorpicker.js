@@ -95,7 +95,8 @@ function set_atoms (key, value) {
         var atom = atoms[i];
         if (key !== atom) {
             O[atom] = O[color_atoms[atom]][atom.substr(0,1)]
-            this[atom].set("value", O[atom]);
+            if (this[atom])
+                this[atom].set("value", O[atom]);
         }
     }
     if (key !== "hex")
