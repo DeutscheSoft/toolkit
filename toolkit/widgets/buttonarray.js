@@ -438,8 +438,8 @@ TK.ButtonArray = TK.class({
     set: function (key, value) {
         var button;
         if (key === "show") {
-            if (value < 0) value = 0;
-            if (value >= this.buttons.length) value = this.buttons.length - 1;
+            //if (value < 0) value = 0;
+            //if (value >= this.buttons.length) value = this.buttons.length - 1;
             if (value === this.options.show) return value;
 
             button = this.current();
