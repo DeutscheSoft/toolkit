@@ -638,7 +638,7 @@ TK.Select = TK.class({
     set: function (key, value) {
         if (key === "value") {
             this.set("selected", this.index_by_value.call(this, value));
-            return;
+            return this.current_value();
         }
         
         value = TK.Button.prototype.set.call(this, key, value);
