@@ -906,7 +906,9 @@ function ChildElement(widget, name, config) {
 
         for (var i = 0; i < m.length; i++) {
             add_static_event(widget, "set_"+m[i], function() {
-                if (this.options[show_option] !== false)
+                var show = this.options[show_option];
+
+                if (display_check ? display_check(show) : (show !== false))
                     this.draw_once(config.draw);
             });
         }
