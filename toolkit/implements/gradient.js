@@ -22,6 +22,8 @@ TK.Gradient = TK.class({
     /**
      * TK.Gradient provides a function to set the background of a
      * DOM element to a CSS gradient according on the users browser and version.
+     * If the element to draw on is `CANVAS`, the gradient is drawn using
+     * the canvas API.
      * TK.Gradient needs a {@link TK.Range} to be implemented on.
      *
      * @mixin TK.Gradient
@@ -82,12 +84,45 @@ TK.Gradient = TK.class({
 //         background: linear-gradient(to bottom, rgb(30,87,153) 0%,rgb(41,137,216) 50%,rgb(32,124,202) 51%,rgb(125,185,232) 100%);
 //         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 );
         
+        var O = this.options;
         var bg = "";
         range = range || this;
-        if (!gradient && !this.options.gradient)
-            bg = fallback || this.options.background;
-        else {
-            gradient = gradient || this.options.gradient;
+        if (!gradient && !O.gradient) {
+            bg = fallback || O.background;
+            if (element.tagName === "CANVAS") {
+                var ctx = element.getContext("2d");
+                ctx.fillStyle = bg;
+                ctx.fillRect(0, 0, O._width, O._height); 
+                this.fire_event("backgroundchanged", element, bg);
+                return;
+            }
+        } else {
+            gradient = gradient || O.gradient;
+            
+            var keys = Object.keys(gradient);
+            for (var i = 0; i < keys.length; i++) {
+                keys[i] = parseFloat(keys[i]);
+            }
+            keys = keys.sort(O.reverse ?
+                function (a,b) { return b-a } : function (a,b) { return a-b });
+            
+            if (element.tagName === "CANVAS") {
+                var vert = O.layout == "left" || O.layout == "right";
+                var ctx = element.getContext("2d");
+                var grd = ctx.createLinearGradient(0, 0,
+                    vert ? 0 : O._width,
+                    vert ? O._height : 0
+                );
+                for (var i = 0; i < keys.length; i++) {
+                    var pos = range.val2coef(range.snap(keys[i]));
+                    if (vert) pos = 1 - pos;
+                    grd.addColorStop(pos, gradient[keys[i] + ""]);
+                }
+                ctx.fillStyle = grd;
+                ctx.fillRect(0, 0, O._width, O._height); 
+                this.fire_event("backgroundchanged", element, gradient);
+                return;
+            }
             
             var ms_first   = "";
             var ms_last    = "";
@@ -134,13 +169,6 @@ TK.Gradient = TK.class({
             d_ms["s"+"top"]      = 'x1="100%" y1="0%" x2="0%" y2="0%"';
             d_ms["s"+"bottom"]   = 'x1="100%" y1="0%" x2="0%" y2="0%"';
             
-            var keys = Object.keys(gradient);
-            for (var i = 0; i < keys.length; i++) {
-                keys[i] = parseFloat(keys[i]);
-            }
-            keys = keys.sort(this.options.reverse ?
-                function (a,b) { return b-a } : function (a,b) { return a-b });
-            
             for (var i = 0; i < keys.length; i++) {
                 var ps = (100*range.val2coef(range.snap(keys[i]))).toFixed(2);
                 if (!ms_first) ms_first = gradient[i];
@@ -157,39 +185,39 @@ TK.Gradient = TK.class({
                     bg = (TK.sprintf(s_ms, ms_last, ms_first, this._vert() ? 0:1));
                 
             else if (TK.browser.name === "IE" && TK.browser.version === 9)
-                bg = (TK.sprintf(s_svg, this.options.id,
-                      d_ms["s"+this.options.layout],
-                      m_svg, this.options.id));
+                bg = (TK.sprintf(s_svg, O.id,
+                      d_ms["s"+O.layout],
+                      m_svg, O.id));
             
             else if (TK.browser.name === "IE" && TK.browser.version >= 10)
                 bg = (TK.sprintf(s_regular, "-ms-",
-                      d_regular["s" + this.options.layout],
+                      d_regular["s" + O.layout],
                       m_regular));
             
             else if (TK.browser.name=="Firefox")
                 bg = (TK.sprintf(s_regular, "-moz-",
-                      d_regular["s"+this.options.layout],
+                      d_regular["s"+O.layout],
                       m_regular));
             
             else if (TK.browser.name === "Opera" && TK.browser.version >= 11)
                 bg = (TK.sprintf(s_regular, "-o-",
-                      d_regular["s"+this.options.layout],
+                      d_regular["s"+O.layout],
                       m_regular));
             
             else if (TK.browser.name === "Chrome" && TK.browser.version < 10
                   || TK.browser.name === "Safari" && TK.browser.version < 5.1)
                 bg = (TK.sprintf(s_webkit,
-                      d_webkit["s"+this.options.layout],
+                      d_webkit["s"+O.layout],
                       m_regular));
             
             else if (TK.browser.name === "Chrome" || TK.browser.name === "Safari")
                 bg = (TK.sprintf(s_regular, "-webkit-",
-                      d_regular["s"+this.options.layout],
+                      d_regular["s"+O.layout],
                       m_regular));
             
             else
                 bg = (TK.sprintf(s_regular, "",
-                      d_w3c["s"+this.options.layout],
+                      d_w3c["s"+O.layout],
                       m_regular));
         }
         
