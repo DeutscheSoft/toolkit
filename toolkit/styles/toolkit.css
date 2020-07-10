@@ -744,6 +744,7 @@ pre, code {
     justify-self: start;
     align-self: center;
 }
+.toolkit-meter-base > .toolkit-bar > .toolkit-backdrop,
 .toolkit-meter-base > .toolkit-bar > .toolkit-mask {
     position: absolute;
     left: 0;

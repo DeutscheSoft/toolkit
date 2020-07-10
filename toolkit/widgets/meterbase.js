@@ -276,6 +276,12 @@ TK.MeterBase = TK.class({
         
         this._bar = TK.element("div", "toolkit-bar");
         /**
+         * @member {HTMLCanvas} TK.MeterBase#_backdrop - The canvas element drawing the background.
+         *   Has class <code>toolkit-backdrop</code>.
+         */
+        this._backdrop = document.createElement("canvas");
+        TK.add_class(this._backdrop, "toolkit-backdrop");
+        /**
          * @member {HTMLCanvas} TK.MeterBase#_canvas - The canvas element drawing the mask.
          *   Has class <code>toolkit-mask</code>.
          */
@@ -286,6 +292,7 @@ TK.MeterBase = TK.class({
         
         E.appendChild(this._bar);
 
+        this._bar.appendChild(this._backdrop);
         this._bar.appendChild(this._canvas);
         
         /**
@@ -324,10 +331,6 @@ TK.MeterBase = TK.class({
         if (I.reverse) {
             I.reverse = false;
             TK.toggle_class(E, "toolkit-reverse", O.reverse);
-        }
-        if (I.gradient || I.background) {
-            I.gradient = I.background = false;
-            this.draw_gradient(this._bar, O.gradient, O.background);
         }
 
         TK.Widget.prototype.redraw.call(this);
@@ -370,6 +373,17 @@ TK.MeterBase = TK.class({
             this._canvas.style.width = O._width + "px";
             this._canvas.style.height = O._height + "px";
             this._canvas.getContext("2d").fillStyle = this._fillstyle;
+            
+            this._backdrop.setAttribute("height", Math.round(O._height));
+            this._backdrop.setAttribute("width", Math.round(O._width));
+            /* FIXME: I am not sure why this is even necessary */
+            this._backdrop.style.width = O._width + "px";
+            this._backdrop.style.height = O._height + "px";
+        }
+        
+        if (I.gradient || I.background) {
+            I.gradient = I.background = false;
+            this.draw_gradient(this._backdrop, O.gradient, O.background);
         }
         
         if (I.value && O.show_label) {
@@ -393,6 +407,7 @@ TK.MeterBase = TK.class({
         this.set("basis", i);
         this._last_meters.length = 0;
         this._fillstyle = false;
+        this.set("gradient", this.options.gradient);
     },
 
     calculate_meter: function(to, value, i) {
