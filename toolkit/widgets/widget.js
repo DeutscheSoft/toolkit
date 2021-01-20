@@ -276,6 +276,8 @@ TK.Widget = TK.class({
     },
 
     schedule_resize: function() {
+        if (this.is_destructed())
+            return;
         TK.S.add(this.__resize, 0);
     },
 
