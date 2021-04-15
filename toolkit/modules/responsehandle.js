@@ -805,7 +805,7 @@ function startdrag() {
 
         this.global_cursor("move");
 
-        if (p.lastChild !== e)
+        if (!this.options.keep_below && p.lastChild !== e)
             p.appendChild(e);
     });
 }
@@ -871,7 +871,8 @@ function enddrag() {
  * @property {Number} [options.z_min] - Minimum value of the z-coordinate.
  * @property {Number} [options.z_max] - Maximum value of the z-coordinate.
  * @property {Boolean} [options.show_axis=false] - If set to true,  additional lines are drawn at the coordinate values.
- *
+ * @property {Boolean} [options.keep_below=false] - Keep the handle below all others on startdrag.
+ * 
  * @mixes TK.Ranges
  * @mixes TK.Warning
  * @mixes TK.GlobalCursor
@@ -943,6 +944,7 @@ TK.ResponseHandle = TK.class({
         hover: "boolean",
         dragging: "boolean",
         show_handle: "boolean"
+        keep_below: 'boolean',
     }),
     options: {
         range_x:          {},
@@ -982,6 +984,7 @@ TK.ResponseHandle = TK.class({
         hover:            false,
         dragging:         false,
         show_handle:      true
+        keep_below:       false,
     },
     static_events: {
         set_show_axis: function(value) {
