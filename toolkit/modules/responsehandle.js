@@ -943,7 +943,7 @@ TK.ResponseHandle = TK.class({
         title: "string",
         hover: "boolean",
         dragging: "boolean",
-        show_handle: "boolean"
+        show_handle: "boolean",
         keep_below: 'boolean',
     }),
     options: {
@@ -983,7 +983,7 @@ TK.ResponseHandle = TK.class({
         show_axis:        false,
         hover:            false,
         dragging:         false,
-        show_handle:      true
+        show_handle:      true,
         keep_below:       false,
     },
     static_events: {
