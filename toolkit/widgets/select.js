@@ -249,9 +249,10 @@ TK.Select = TK.class({
      */
     set_entries: function (entries) {
         // Replace all entries with a new options list
+        var current_value = this.current_value();
         this.clear();
         this.add_entries(entries);
-        this.select(this.index_by_value.call(this, this.options.value));
+        this.select_value(current_value);
     },
     /**
      * Adds new {@link TK.SelectEntry} to the end of the list to select from.
