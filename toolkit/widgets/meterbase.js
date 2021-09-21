@@ -467,7 +467,10 @@ TK.MeterBase = TK.class({
         if (!diff) return;
 
         // FIXME: this is currently broken for some reason
-        if (diff == 1)
+        
+        // this was commented because of a rendering bug in current Safari
+        // on MacOS X
+        //if (diff == 1)
           diff = 4;
 
         var ctx = this._canvas.getContext("2d");
