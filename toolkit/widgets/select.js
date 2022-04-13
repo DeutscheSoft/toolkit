@@ -609,8 +609,9 @@ TK.Select = TK.class({
      * @returns {TK.SelectEntry|Boolean} The currently selected {@link TK.SelectEntry} or `false`.
      */
     current: function() {
-        if (this.options.selected !== false)
-            return this.entries[this.options.selected];
+        const selected = this.options.selected;
+        if (selected !== false && selected < this.entries.length)
+            return this.entries[selected];
         return false;
     },
     /**
