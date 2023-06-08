@@ -577,7 +577,6 @@ pre, code {
     position: absolute;
     z-index: 10;
     will-change: transform;
-    transform: translate3d(0, 0, 0);
 }
 
 .toolkit-fader.toolkit-horizontal > .toolkit-track > .toolkit-handle {
@@ -616,7 +615,6 @@ pre, code {
 .toolkit-knob > svg {
     width: 100%;
     height: 100%;
-    transform: translate3d(0,0,0);
     will-change: transform;
     cursor: pointer;
 }
@@ -752,7 +750,6 @@ pre, code {
     width: 100%;
     height: 100%;
     will-change: transform;
-    transform: translate3d(0, 0, 0);
 }
 
 /* LEVELMETER */
@@ -889,7 +886,6 @@ pre, code {
     opacity: 1;
     overflow: auto;
     will-change: transform;
-    transform: translate3d(0,0,0);
 }
 .toolkit-pager > .toolkit-buttonarray {
     display: flex;
